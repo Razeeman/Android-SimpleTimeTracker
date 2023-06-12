@@ -33,8 +33,10 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.getMillis
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.nestedScrollTo
+import com.example.util.simpletimetracker.utils.recyclerItemCount
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withPluralText
@@ -106,6 +108,222 @@ class SettingsTest : BaseUiTest() {
             allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed())
         )
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun ignoreShortUntracked() {
+        fun getTime(
+            hour: Int,
+            minutes: Int,
+            seconds: Int = 0,
+        ): Long {
+            return calendar.apply {
+                timeInMillis = System.currentTimeMillis()
+                add(Calendar.DATE, -1)
+                setToStartOfDay()
+                set(Calendar.HOUR_OF_DAY, hour)
+                set(Calendar.MINUTE, minutes)
+                set(Calendar.SECOND, seconds)
+            }.timeInMillis
+        }
+
+        fun checkItemCount(
+            count: Int,
+        ) {
+            onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
+                .check(recyclerItemCount(count))
+        }
+
+        fun checkRecordDuration(
+            interval: Long,
+            displayed: Boolean,
+        ) {
+            val duration = timeMapper.formatInterval(
+                interval = interval,
+                forceSeconds = true,
+                useProportionalMinutes = false
+            )
+            val matcher = allOf(
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+                hasDescendant(allOf(withId(changeRecordTypeR.id.tvRecordItemDuration), withText(duration))),
+                isCompletelyDisplayed()
+            )
+            if (displayed) {
+                checkViewIsDisplayed(matcher)
+            } else {
+                checkViewDoesNotExist(matcher)
+            }
+        }
+
+        // Add data
+        runBlocking {
+            prefsInteractor.setShowSeconds(true)
+            prefsInteractor.setShowUntrackedInRecords(true)
+        }
+        val name = "name"
+        testUtils.addActivity(name)
+        val before = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(10)
+        testUtils.addRecord(name, timeStarted = before, timeEnded = before)
+
+        // Add records
+        testUtils.addRecord(name, timeStarted = getTime(0, 0), timeEnded = getTime(1, 0))
+        testUtils.addRecord(name, timeStarted = getTime(1, 30), timeEnded = getTime(2, 0))
+        testUtils.addRecord(name, timeStarted = getTime(2, 1), timeEnded = getTime(3, 0))
+        testUtils.addRecord(name, timeStarted = getTime(3, 0, seconds = 1), timeEnded = getTime(4, 0))
+
+        // Check disabled
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
+        onView(withId(settingsR.id.groupSettingsIgnoreShortUntracked)).perform(nestedScrollTo())
+        clickOnViewWithId(settingsR.id.groupSettingsIgnoreShortUntracked)
+        clickOnViewWithText(coreR.string.duration_dialog_disable)
+        checkViewIsDisplayed(
+            allOf(
+                withId(settingsR.id.tvSettingsIgnoreShortUntrackedTime),
+                withText(coreR.string.settings_inactivity_reminder_disabled)
+            )
+        )
+
+        NavUtils.openRecordsScreen()
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
+        checkItemCount(9)
+        checkRecordDuration(TimeUnit.HOURS.toMillis(20), displayed = true)
+        checkRecordDuration(TimeUnit.MINUTES.toMillis(30), displayed = true)
+        checkRecordDuration(TimeUnit.MINUTES.toMillis(1), displayed = true)
+        checkRecordDuration(TimeUnit.SECONDS.toMillis(1), displayed = true)
+
+        // Check 30 minutes
+        NavUtils.openSettingsScreen()
+        onView(withId(settingsR.id.groupSettingsIgnoreShortUntracked)).perform(nestedScrollTo())
+        clickOnViewWithId(settingsR.id.groupSettingsIgnoreShortUntracked)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard3)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
+        clickOnViewWithText(coreR.string.duration_dialog_save)
+
+        NavUtils.openRecordsScreen()
+        checkItemCount(6)
+        checkRecordDuration(TimeUnit.HOURS.toMillis(20), displayed = true)
+        checkRecordDuration(TimeUnit.MINUTES.toMillis(30), displayed = false)
+        checkRecordDuration(TimeUnit.MINUTES.toMillis(1), displayed = false)
+        checkRecordDuration(TimeUnit.SECONDS.toMillis(1), displayed = false)
+
+        // Check 1 minutes
+        NavUtils.openSettingsScreen()
+        onView(withId(settingsR.id.groupSettingsIgnoreShortUntracked)).perform(nestedScrollTo())
+        clickOnViewWithId(settingsR.id.groupSettingsIgnoreShortUntracked)
+        repeat(4) { clickOnViewWithId(dialogsR.id.ivDurationPickerDelete) }
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
+        clickOnViewWithText(coreR.string.duration_dialog_save)
+
+        NavUtils.openRecordsScreen()
+        checkItemCount(7)
+        checkRecordDuration(TimeUnit.HOURS.toMillis(20), displayed = true)
+        checkRecordDuration(TimeUnit.MINUTES.toMillis(30), displayed = true)
+        checkRecordDuration(TimeUnit.MINUTES.toMillis(1), displayed = false)
+        checkRecordDuration(TimeUnit.SECONDS.toMillis(1), displayed = false)
+    }
+
+    @Test
+    fun untrackedRange() {
+        val name = "name"
+        val startOfDay = calendar.apply { setToStartOfDay() }.getMillis(0, 0)
+
+        // Add data
+        runBlocking {
+            prefsInteractor.setShowUntrackedInRecords(true)
+        }
+        testUtils.addActivity(name)
+        val before = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(10)
+        testUtils.addRecord(name, timeStarted = before, timeEnded = before)
+
+        // Check disabled
+        NavUtils.openRecordsScreen()
+        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
+        checkRecord(
+            nameResId = coreR.string.untracked_time_name,
+            timeStart = startOfDay.toTimePreview(),
+            timeEnd = startOfDay.toTimePreview(),
+        )
+
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
+        onView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar)).perform(nestedScrollTo())
+        tryAction { onView(withId(settingsR.id.checkboxSettingsUntrackedRange)).check(matches(isNotChecked())) }
+        checkViewIsNotDisplayed(withId(settingsR.id.tvSettingsUntrackedRangeStart))
+        checkViewIsNotDisplayed(withId(settingsR.id.tvSettingsUntrackedRangeEnd))
+        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsUntrackedRange))
+        tryAction { onView(withId(settingsR.id.checkboxSettingsUntrackedRange)).check(matches(isChecked())) }
+        checkViewIsDisplayed(withId(settingsR.id.tvSettingsUntrackedRangeStart))
+        checkViewIsDisplayed(withId(settingsR.id.tvSettingsUntrackedRangeEnd))
+
+        // Check range
+        var startPreview = (startOfDay + TimeUnit.HOURS.toMillis(8)).toTimePreview()
+        clickOnViewWithId(settingsR.id.tvSettingsUntrackedRangeStart)
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(8, 0))
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
+        checkViewIsDisplayed(
+            allOf(
+                withId(settingsR.id.tvSettingsUntrackedRangeStart),
+                withText(startPreview),
+            )
+        )
+        var endPreview = (startOfDay + TimeUnit.HOURS.toMillis(17)).toTimePreview()
+        clickOnViewWithId(settingsR.id.tvSettingsUntrackedRangeEnd)
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(17, 0))
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
+        checkViewIsDisplayed(
+            allOf(
+                withId(settingsR.id.tvSettingsUntrackedRangeEnd),
+                withText(endPreview),
+            )
+        )
+
+        NavUtils.openRecordsScreen()
+        checkRecord(
+            nameResId = coreR.string.untracked_time_name,
+            timeStart = startPreview,
+            timeEnd = endPreview,
+        )
+
+        // Check other range
+        NavUtils.openSettingsScreen()
+        startPreview = (startOfDay + TimeUnit.HOURS.toMillis(17)).toTimePreview()
+        clickOnViewWithId(settingsR.id.tvSettingsUntrackedRangeStart)
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(17, 0))
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
+        checkViewIsDisplayed(
+            allOf(
+                withId(settingsR.id.tvSettingsUntrackedRangeStart),
+                withText(startPreview),
+            )
+        )
+        endPreview = (startOfDay + TimeUnit.HOURS.toMillis(8)).toTimePreview()
+        clickOnViewWithId(settingsR.id.tvSettingsUntrackedRangeEnd)
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(8, 0))
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
+        checkViewIsDisplayed(
+            allOf(
+                withId(settingsR.id.tvSettingsUntrackedRangeEnd),
+                withText(endPreview),
+            )
+        )
+
+        NavUtils.openRecordsScreen()
+        checkRecord(
+            nameResId = coreR.string.untracked_time_name,
+            timeStart = startOfDay.toTimePreview(),
+            timeEnd = endPreview,
+        )
+        checkRecord(
+            nameResId = coreR.string.untracked_time_name,
+            timeStart = startPreview,
+            timeEnd = startOfDay.toTimePreview(),
+        )
     }
 
     @Test
@@ -813,8 +1031,6 @@ class SettingsTest : BaseUiTest() {
 
     @Test
     fun startOfDay() {
-        fun Long.toTimePreview() = timeMapper.formatTime(time = this, useMilitaryTime = true, showSeconds = false)
-
         val name = "Test"
 
         // Add data
@@ -1587,5 +1803,9 @@ class SettingsTest : BaseUiTest() {
                 isCompletelyDisplayed()
             )
         )
+    }
+
+    private fun Long.toTimePreview(): String {
+        return timeMapper.formatTime(time = this, useMilitaryTime = true, showSeconds = false)
     }
 }

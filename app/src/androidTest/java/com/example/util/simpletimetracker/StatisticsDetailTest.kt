@@ -10,6 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -1072,6 +1073,39 @@ class StatisticsDetailTest : BaseUiTest() {
                 isDescendantOfA(withId(statisticsDetailR.id.buttonsStatisticsDetailStreaksType))
             )
         )
+    }
+
+    @Test
+    fun untracked() {
+        val name = "name"
+
+        // Add data
+        testUtils.addActivity(name)
+        val before = Calendar.getInstance().apply {
+            setToStartOfDay()
+            add(Calendar.DATE, -2)
+            set(Calendar.HOUR_OF_DAY, 21)
+        }.timeInMillis
+
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = before - TimeUnit.DAYS.toMillis(1),
+            timeEnded = before,
+        )
+
+        // Check
+        NavUtils.openStatisticsScreen()
+        tryAction { clickOnView(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed())) }
+
+        clickOnViewWithId(statisticsDetailR.id.btnStatisticsDetailPrevious)
+        checkCard(coreR.string.statistics_detail_total_duration, "24$hourString 0$minuteString")
+        checkRecordsCard(1)
+        checkCard(coreR.string.statistics_detail_average_record, "24$hourString 0$minuteString")
+
+        clickOnViewWithId(statisticsDetailR.id.btnStatisticsDetailPrevious)
+        checkCard(coreR.string.statistics_detail_total_duration, "3$hourString 0$minuteString")
+        checkRecordsCard(1)
+        checkCard(coreR.string.statistics_detail_average_record, "3$hourString 0$minuteString")
     }
 
     private fun checkPreview(color: Int, icon: Int, name: String) {
