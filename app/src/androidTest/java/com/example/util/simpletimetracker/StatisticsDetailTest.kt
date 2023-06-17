@@ -1108,6 +1108,105 @@ class StatisticsDetailTest : BaseUiTest() {
         checkCard(coreR.string.statistics_detail_average_record, "3$hourString 0$minuteString")
     }
 
+    @Test
+    fun multitask() {
+        val name1 = "name1"
+        val name2 = "name2"
+
+        // Add data
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
+        val time = calendar.apply {
+            timeInMillis = System.currentTimeMillis()
+            setToStartOfDay()
+            set(Calendar.HOUR_OF_DAY, 12)
+        }.timeInMillis
+
+        testUtils.addRecord(
+            typeName = name1,
+            timeStarted = time,
+            timeEnded = time + TimeUnit.HOURS.toMillis(2),
+        )
+        testUtils.addRecord(
+            typeName = name2,
+            timeStarted = time + TimeUnit.HOURS.toMillis(1),
+            timeEnded = time + TimeUnit.HOURS.toMillis(3),
+        )
+
+        // Check
+        NavUtils.openStatisticsScreen()
+        tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
+        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        clickOnView(withText(coreR.string.multitask_time_name))
+        pressBack()
+
+        checkRecordsCard(1)
+        checkCard(coreR.string.statistics_detail_total_duration, "1$hourString 0$minuteString")
+
+        // Check record
+        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        val started = timeMapper.formatTime(
+            time = time + TimeUnit.HOURS.toMillis(1),
+            useMilitaryTime = true,
+            showSeconds = false
+        )
+        val ended = timeMapper.formatTime(
+            time = time + TimeUnit.HOURS.toMillis(2),
+            useMilitaryTime = true,
+            showSeconds = false
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewMultitaskRecordItem),
+                hasDescendant(withText(name1)),
+                hasDescendant(withText(name2)),
+                hasDescendant(withText("1$hourString 0$minuteString")),
+                hasDescendant(withText(started)),
+                hasDescendant(withText(ended)),
+                isCompletelyDisplayed()
+            )
+        )
+    }
+
+    @Test
+    fun runningRecord() {
+        val name = "name"
+
+        // Add data
+        testUtils.addActivity(name)
+        val time = calendar.apply {
+            timeInMillis = System.currentTimeMillis()
+            setToStartOfDay()
+            set(Calendar.HOUR_OF_DAY, 12)
+        }.timeInMillis
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = time,
+            timeEnded = time + TimeUnit.HOURS.toMillis(1),
+        )
+        testUtils.addRunningRecord(
+            typeName = name,
+            timeStarted = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1),
+        )
+
+        // Check statistics
+        NavUtils.openStatisticsScreen()
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewStatisticsItem),
+                hasDescendant(withText(name)),
+                hasDescendant(withText("2$hourString 0$minuteString")),
+                isCompletelyDisplayed()
+            )
+        )
+
+        // Check detailed statistics
+        tryAction { clickOnView(allOf(withText(name), isCompletelyDisplayed())) }
+        onView(withId(statisticsDetailR.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
+        checkCard(coreR.string.statistics_detail_total_duration, "2$hourString 0$minuteString")
+        checkRecordsCard(2)
+    }
+
     private fun checkPreview(color: Int, icon: Int, name: String) {
         checkViewIsDisplayed(
             allOf(

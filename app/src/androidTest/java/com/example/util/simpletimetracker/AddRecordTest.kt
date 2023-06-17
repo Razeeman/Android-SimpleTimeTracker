@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
+import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.tryAction
@@ -287,6 +288,113 @@ class AddRecordTest : BaseUiTest() {
         tryAction { checkPreviewUpdated(hasDescendant(withText(comment2))) }
         clickOnViewWithText(comment3)
         tryAction { checkPreviewUpdated(hasDescendant(withText(comment3))) }
+    }
+
+    @Test
+    fun favouriteComments() {
+        val name = "name"
+        val comment = "comment"
+        val comment1 = "favourite comment1"
+        val comment2 = "favourite comment2"
+
+        // Add data
+        testUtils.addActivity(name)
+        testUtils.addRecord(typeName = name, comment = comment)
+
+        // Check
+        NavUtils.openRecordsScreen()
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
+
+        // No favourites
+        clickOnViewWithText(coreR.string.change_record_comment_field)
+        closeSoftKeyboard()
+        checkViewDoesNotExist(withText(coreR.string.change_record_last_comments_hint))
+        checkViewDoesNotExist(withText(coreR.string.change_record_favourite_comments_hint))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.btnChangeRecordFavouriteComment))
+
+        // Add favourite
+        typeTextIntoView(changeRecordR.id.etChangeRecordComment, comment1)
+        tryAction { checkPreviewUpdated(hasDescendant(withText(comment1))) }
+        checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordFavouriteComment))
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordFavouriteComment)
+        checkViewIsDisplayed(withText(coreR.string.change_record_favourite_comments_hint))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordItemComment), withText(comment1)))
+
+        // Add another
+        typeTextIntoView(changeRecordR.id.etChangeRecordComment, comment2)
+        tryAction { checkPreviewUpdated(hasDescendant(withText(comment2))) }
+        checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordFavouriteComment))
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordFavouriteComment)
+        checkViewIsDisplayed(withText(coreR.string.change_record_favourite_comments_hint))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordItemComment), withText(comment1)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordItemComment), withText(comment2)))
+
+        // Favourite click
+        clickOnViewWithText(comment1)
+        tryAction { checkPreviewUpdated(hasDescendant(withText(comment1))) }
+
+        // Remove favourite
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordFavouriteComment)
+        checkViewIsDisplayed(withText(coreR.string.change_record_favourite_comments_hint))
+        checkViewDoesNotExist(allOf(withId(changeRecordR.id.tvChangeRecordItemComment), withText(comment1)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordItemComment), withText(comment2)))
+
+        // Favourites and last
+        typeTextIntoView(changeRecordR.id.etChangeRecordComment, "")
+        clickOnViewWithText(coreR.string.change_record_comment_field)
+        clickOnViewWithText(coreR.string.change_record_type_field)
+        clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
+        clickOnViewWithText(coreR.string.change_record_comment_field)
+        closeSoftKeyboard()
+        checkViewIsDisplayed(withText(coreR.string.change_record_last_comments_hint))
+        checkViewIsDisplayed(withText(comment))
+        checkViewIsDisplayed(withText(coreR.string.change_record_favourite_comments_hint))
+        checkViewIsDisplayed(withText(comment2))
+    }
+
+    @Test
+    fun searchComments() {
+        val name = "name"
+        val comment1 = "comment"
+        val comment2 = "another comment"
+
+        // Add data
+        testUtils.addActivity(name)
+        testUtils.addRecord(name, comment = comment1)
+        testUtils.addRecord(name, comment = comment2)
+
+        // Check
+        NavUtils.openRecordsScreen()
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
+        clickOnViewWithText(coreR.string.change_record_comment_field)
+        closeSoftKeyboard()
+
+        checkViewIsDisplayed(withId(changeRecordR.id.etChangeRecordComment))
+        checkViewDoesNotExist(withId(changeRecordR.id.etChangeRecordCommentField))
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordSearchComment)
+        checkViewIsNotDisplayed(withId(changeRecordR.id.etChangeRecordComment))
+        checkViewIsDisplayed(withId(changeRecordR.id.etChangeRecordCommentField))
+
+        typeTextIntoView(changeRecordR.id.etChangeRecordCommentField, "comment")
+        tryAction {
+            checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordItemComment), withText(comment1)))
+        }
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordItemComment), withText(comment2)))
+
+        typeTextIntoView(changeRecordR.id.etChangeRecordCommentField, "another")
+        tryAction {
+            checkViewDoesNotExist(allOf(withId(changeRecordR.id.tvChangeRecordItemComment), withText(comment1)))
+        }
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordItemComment), withText(comment2)))
+
+        // Click on search result
+        clickOnView(allOf(withId(changeRecordR.id.tvChangeRecordItemComment), withText(comment2)))
+        tryAction { checkPreviewUpdated(hasDescendant(withText(comment2))) }
+
+        // Go back
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordSearchCommentField)
+        checkViewIsDisplayed(withId(changeRecordR.id.etChangeRecordComment))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.etChangeRecordCommentField))
     }
 
     @Test

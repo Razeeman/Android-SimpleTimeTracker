@@ -34,7 +34,6 @@ class RecordsFilterViewDataMapper @Inject constructor(
                 }
             }
             ?.let { mapToViewData(it::class.java) }
-
     }
 
     fun mapRecordsCount(

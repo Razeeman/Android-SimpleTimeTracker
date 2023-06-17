@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.FavouriteComment
 import com.example.util.simpletimetracker.domain.repo.FavouriteCommentRepo
-import java.util.Locale
 import javax.inject.Inject
 
 class FavouriteCommentInteractor @Inject constructor(
