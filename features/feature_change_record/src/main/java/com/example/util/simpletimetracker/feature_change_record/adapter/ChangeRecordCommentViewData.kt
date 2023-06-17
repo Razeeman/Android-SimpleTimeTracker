@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_change_record.viewData
+package com.example.util.simpletimetracker.feature_change_record.adapter
 
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 

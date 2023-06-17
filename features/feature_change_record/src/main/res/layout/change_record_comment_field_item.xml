@@ -1,0 +1,55 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="6dp">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputChangeRecordCommentField"
+        style="@style/ChangeItemInputField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        app:layout_constraintEnd_toStartOf="@id/btnChangeRecordSearchCommentField"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etChangeRecordCommentField"
+            style="@style/EditTextMultiLine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/records_all_search_comment" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnChangeRecordSearchCommentField"
+        style="@style/InputFieldCard"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintDimensionRatio="h,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/ButtonTimeAdjust"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivChangeRecordSearchCommentField"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:background="@drawable/search"
+            android:backgroundTint="?colorSecondary"
+            android:scaleType="center" />
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

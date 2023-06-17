@@ -13,10 +13,13 @@ import com.example.util.simpletimetracker.domain.interactor.RunningRecordInterac
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
+import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_change_record.R
+import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordCommentFieldViewData
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
+import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordCommentViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordFavCommentState
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSearchCommentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import java.util.Locale
 import javax.inject.Inject
@@ -106,6 +109,33 @@ class ChangeRecordViewDataInteractor @Inject constructor(
                 colorMapper.toInactiveColor(isDarkTheme)
             },
             isVisible = comment.isNotEmpty(),
+        )
+    }
+
+    suspend fun getSearchCommentViewData(
+        isEnabled: Boolean,
+        isLoading: Boolean,
+        search: String,
+    ): ChangeRecordSearchCommentState {
+        val items = mutableListOf<ViewHolderType>()
+
+        ChangeRecordCommentFieldViewData(
+            id = 1L, // Only one at the time.
+            text = search,
+        ).let(items::add)
+
+        when {
+            isLoading -> LoaderViewData().let(::listOf)
+            search.isEmpty() -> emptyList()
+            else -> {
+                recordInteractor.searchComment(search)
+                    .map { ChangeRecordCommentViewData.Last(it.comment) }
+            }
+        }.let(items::addAll)
+
+        return ChangeRecordSearchCommentState(
+            enabled = isEnabled,
+            items = items,
         )
     }
 

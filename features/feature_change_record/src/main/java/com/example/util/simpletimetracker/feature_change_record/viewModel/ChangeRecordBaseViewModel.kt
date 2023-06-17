@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInter
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -24,8 +25,9 @@ import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
+import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordCommentViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordFavCommentState
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSearchCommentState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromScreen
@@ -35,6 +37,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.Job
 
 abstract class ChangeRecordBaseViewModel(
     private val router: Router,
@@ -87,6 +90,14 @@ abstract class ChangeRecordBaseViewModel(
             previous = ChangeRecordChooserState.State.Closed,
         )
     )
+    val searchCommentViewData: LiveData<ChangeRecordSearchCommentState> by lazy {
+        return@lazy MutableLiveData<ChangeRecordSearchCommentState>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadSearchCommentViewData(isLoading = false, isEnabled = false)
+            }
+            initial
+        }
+    }
     val timeAdjustmentState: LiveData<TimeAdjustmentState> = MutableLiveData(TimeAdjustmentState.TIME_STARTED)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -115,6 +126,8 @@ abstract class ChangeRecordBaseViewModel(
 
     private var prevRecord: Record? = null
     private var nextRecord: Record? = null
+    private var searchComment: String = ""
+    private var searchLoadJob: Job? = null
 
     protected open suspend fun initializePreviewViewData() {
         // Don't wait for the completion.
@@ -329,6 +342,19 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
+    fun onSearchCommentChange(search: String) {
+        val isEnabled = searchCommentViewData.value?.enabled ?: return
+
+        if (search != searchComment && isEnabled) {
+            searchComment = search
+            searchLoadJob?.cancel()
+            searchLoadJob = viewModelScope.launch {
+                updateSearchCommentViewData(isLoading = true, isEnabled = true)
+                updateSearchCommentViewData(isLoading = false, isEnabled = true)
+            }
+        }
+    }
+
     fun onFavouriteCommentClick() {
         if (newComment.isEmpty()) return
 
@@ -341,6 +367,18 @@ abstract class ChangeRecordBaseViewModel(
                 }
             updateLastCommentsViewData()
             updateFavCommentViewData()
+        }
+    }
+
+    fun onSearchCommentClick() {
+        val currentlyEnabled = searchCommentViewData.value?.enabled.orFalse()
+
+        keyboardVisibility.set(false)
+        viewModelScope.launch {
+            updateSearchCommentViewData(
+                isEnabled = !currentlyEnabled,
+                isLoading = false
+            )
         }
     }
 
@@ -450,7 +488,10 @@ abstract class ChangeRecordBaseViewModel(
         }
 
         // Show keyboard on comment chooser opened, hide otherwise.
-        keyboardVisibility.set(newState is ChangeRecordChooserState.State.Comment)
+        val showKeyboard = newState is ChangeRecordChooserState.State.Comment &&
+            !searchCommentViewData.value?.enabled.orFalse()
+        keyboardVisibility.set(showKeyboard)
+
         chooserState.set(
             ChangeRecordChooserState(
                 current = newState,
@@ -600,6 +641,28 @@ abstract class ChangeRecordBaseViewModel(
 
     private suspend fun loadFavCommentViewData(): ChangeRecordFavCommentState {
         return changeRecordViewDataInteractor.getFavCommentViewData(newComment)
+    }
+
+    private suspend fun updateSearchCommentViewData(
+        isLoading: Boolean,
+        isEnabled: Boolean,
+    ) {
+        val data = loadSearchCommentViewData(
+            isLoading = isLoading,
+            isEnabled = isEnabled
+        )
+        searchCommentViewData.set(data)
+    }
+
+    private suspend fun loadSearchCommentViewData(
+        isLoading: Boolean,
+        isEnabled: Boolean,
+    ): ChangeRecordSearchCommentState {
+        return changeRecordViewDataInteractor.getSearchCommentViewData(
+            isEnabled = isEnabled,
+            isLoading = isLoading,
+            search = searchComment,
+        )
     }
 
     companion object {

@@ -19,8 +19,10 @@ import com.example.util.simpletimetracker.feature_base_adapter.divider.createDiv
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordCommentAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordCommentFieldAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordCoreLayoutBinding
 import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordPreviewLayoutBinding
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
@@ -33,6 +35,7 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSimpleViewData
 import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordFavCommentState
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSearchCommentState
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
 import com.example.util.simpletimetracker.feature_views.RecordSimpleView
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
@@ -73,6 +76,16 @@ class ChangeRecordCore(
             createChangeRecordCommentAdapterDelegate(viewModel::onCommentClick),
         )
     }
+    private val searchCommentsAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createLoaderAdapterDelegate(),
+            createChangeRecordCommentFieldAdapterDelegate(
+                afterTextChange = viewModel::onSearchCommentChange,
+                onSearchClick = viewModel::onSearchCommentClick,
+            ),
+            createChangeRecordCommentAdapterDelegate(viewModel::onCommentClick),
+        )
+    }
 
     fun initUi(
         binding: ChangeRecordCoreLayoutBinding,
@@ -103,6 +116,14 @@ class ChangeRecordCore(
             }
             adapter = commentsAdapter
         }
+        rvChangeRecordSearchComments.apply {
+            layoutManager = FlexboxLayoutManager(context).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = searchCommentsAdapter
+        }
     }
 
     fun initUx(
@@ -110,6 +131,7 @@ class ChangeRecordCore(
     ) = with(binding) {
         etChangeRecordComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         btnChangeRecordFavouriteComment.setOnClick(viewModel::onFavouriteCommentClick)
+        btnChangeRecordSearchComment.setOnClick(viewModel::onSearchCommentClick)
         fieldChangeRecordType.setOnClick(viewModel::onTypeChooserClick)
         fieldChangeRecordCategory.setOnClick(viewModel::onCategoryChooserClick)
         fieldChangeRecordComment.setOnClick(viewModel::onCommentChooserClick)
@@ -164,6 +186,7 @@ class ChangeRecordCore(
             lastComments.observe(commentsAdapter::replace)
             comment.observe { updateUi(binding, it) }
             favCommentViewData.observe { setFavCommentState(it, binding) }
+            searchCommentViewData.observe { setSearchCommentState(it, binding) }
             mergePreview.observe { setMergePreview(it, binding) }
             splitPreview.observe { setSplitPreview(it, binding) }
             adjustPreview.observe { setAdjustPreview(it, binding) }
@@ -267,6 +290,20 @@ class ChangeRecordCore(
             ColorStateList.valueOf(data.iconColor)
         )
         binding.btnChangeRecordFavouriteComment.visible = data.isVisible
+    }
+
+    private fun setSearchCommentState(
+        data: ChangeRecordSearchCommentState,
+        binding: ChangeRecordCoreLayoutBinding,
+    ) {
+        if (data.enabled) {
+            binding.containerChangeRecordCommentField.visible = false
+            binding.rvChangeRecordSearchComments.visible = true
+        } else {
+            binding.containerChangeRecordCommentField.visible = true
+            binding.rvChangeRecordSearchComments.visible = false
+        }
+        searchCommentsAdapter.replaceAsNew(data.items)
     }
 
     private fun ChangeRecordPreviewLayoutBinding.setData(data: ChangeRecordPreview) {

@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.feature_change_record.adapter
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordCommentItemBinding as Binding
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData as ViewData
+import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordCommentViewData as ViewData
 
 fun createChangeRecordCommentAdapterDelegate(
     onItemClick: ((ViewData) -> Unit),
