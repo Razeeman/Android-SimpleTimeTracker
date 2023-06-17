@@ -165,7 +165,7 @@ class RecordFilterInteractor @Inject constructor(
         // TODO multitask filters.
 
         fun RecordBase.selectedByActivity(): Boolean {
-            return typeIds.isEmpty() || typeIds.firstOrNull().orZero() in typeIds
+            return typeIds.isEmpty() || this.typeIds.firstOrNull().orZero() in typeIds
         }
 
         fun RecordBase.selectedByComment(): Boolean {

@@ -174,10 +174,17 @@
         <item name="errorTextAppearance">@style/ChangeItemErrorStyle</item>
         <item name="hintTextAppearance">@style/ChangeItemHintStyle</item>
         <item name="hintTextColor">@color/blue_grey_300</item>
+        <item name="endIconDrawable">@drawable/clear</item>
+        <item name="endIconMode">clear_text</item>
     </style>
 
     <style name="ChangeItemInputFieldDialog" parent="ChangeItemInputField">
         <item name="boxStrokeColor">@color/states_input_field_border_dialog_color</item>
+    </style>
+
+    <style name="ChangeItemInputFieldColorDialog" parent="ChangeItemInputFieldDialog">
+        <item name="endIconDrawable">@null</item>
+        <item name="endIconMode">none</item>
     </style>
 
     <style name="ChangeItemInputFieldTimeDialog" parent="ChangeItemInputField">
