@@ -97,6 +97,7 @@
     <string name="change_record_comment_hint">नई टिप्पणी दर्ज करें</string>
     <string name="change_record_actions_hint">कार्रवाई</string>
     <string name="change_record_last_comments_hint">अंतिम टिप्पणियाँ</string>
+    <string name="change_record_favourite_comments_hint">पसंदीदा</string>
     <string name="change_record_categories_empty">कोई रिकॉर्ड टैग नहीं जोड़ा गया</string>
     <string name="change_record_save">बचाना</string>
     <string name="change_record_untagged">टैग नहीं किए गए</string>

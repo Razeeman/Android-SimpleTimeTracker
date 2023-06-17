@@ -1,8 +1,10 @@
 package com.example.util.simpletimetracker.feature_change_record.interactor
 
+import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
+import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
@@ -14,7 +16,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordFavCommentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
+import java.util.Locale
 import javax.inject.Inject
 
 class ChangeRecordViewDataInteractor @Inject constructor(
@@ -23,9 +27,11 @@ class ChangeRecordViewDataInteractor @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val favouriteCommentInteractor: FavouriteCommentInteractor,
     private val changeRecordViewDataMapper: ChangeRecordViewDataMapper,
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper,
+    private val colorMapper: ColorMapper,
 ) {
 
     suspend fun getPreviewViewData(
@@ -54,25 +60,53 @@ class ChangeRecordViewDataInteractor @Inject constructor(
     ): List<ViewHolderType> {
         data class Data(val timeStarted: Long, val comment: String)
 
+        val favouriteComments = favouriteCommentInteractor.getAll()
+            .sortedBy { it.comment.lowercase(Locale.getDefault()) }
+            .map { ChangeRecordCommentViewData.Favourite(it.comment) }
+            .takeUnless { it.isEmpty() }
+            ?.let {
+                HintViewData(
+                    text = resourceRepo.getString(R.string.change_record_favourite_comments_hint)
+                ).let(::listOf) + it
+            }.orEmpty()
+
         val records = recordInteractor.getByTypeWithAnyComment(listOf(typeId))
             .map { Data(it.timeStarted, it.comment) }
         val runningRecords = runningRecordInteractor.getAll()
             .filter { it.id == typeId && it.comment.isNotEmpty() }
             .map { Data(it.timeStarted, it.comment) }
 
-        return (records + runningRecords)
+        val lastComments = (records + runningRecords)
             .asSequence()
             .sortedByDescending { it.timeStarted }
             .map { it.comment }
             .toSet()
             .take(LAST_COMMENTS_TO_SHOW)
-            .map { ChangeRecordCommentViewData(it) }
+            .map { ChangeRecordCommentViewData.Last(it) }
             .takeUnless { it.isEmpty() }
             ?.let {
                 HintViewData(
                     text = resourceRepo.getString(R.string.change_record_last_comments_hint)
                 ).let(::listOf) + it
             }.orEmpty()
+
+        return favouriteComments + lastComments
+    }
+
+    suspend fun getFavCommentViewData(
+        comment: String
+    ): ChangeRecordFavCommentState {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        val isFavourite = favouriteCommentInteractor.get(comment) != null
+
+        return ChangeRecordFavCommentState(
+            iconColor = if (isFavourite) {
+                resourceRepo.getColor(R.color.colorSecondary)
+            } else {
+                colorMapper.toInactiveColor(isDarkTheme)
+            },
+            isVisible = comment.isNotEmpty(),
+        )
     }
 
     fun getTimeAdjustmentItems(): List<ViewHolderType> {

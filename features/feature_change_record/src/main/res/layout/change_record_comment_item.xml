@@ -6,10 +6,11 @@
     android:layout_height="wrap_content"
     android:layout_margin="1dp"
     android:background="?appInputFieldBorder"
+    android:foreground="?selectableItemBackground"
     android:gravity="center_vertical"
     android:minHeight="40dp"
     android:paddingHorizontal="8dp"
     android:paddingVertical="4dp"
-    android:textColor="?appTextHintColor"
+    android:textColor="?appTextPrimaryColor"
     tools:text="Item name" />
 

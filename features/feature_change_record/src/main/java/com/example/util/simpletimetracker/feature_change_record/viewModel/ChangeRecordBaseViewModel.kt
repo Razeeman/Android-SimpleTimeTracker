@@ -11,9 +11,11 @@ import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInter
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
+import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.model.FavouriteComment
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
@@ -23,6 +25,7 @@ import com.example.util.simpletimetracker.feature_change_record.interactor.Chang
 import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordCommentViewData
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordFavCommentState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromScreen
@@ -42,6 +45,7 @@ abstract class ChangeRecordBaseViewModel(
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val recordInteractor: RecordInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val favouriteCommentInteractor: FavouriteCommentInteractor,
     private val changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
     private val changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
     private val changeRecordAdjustDelegate: ChangeRecordAdjustDelegateImpl,
@@ -87,6 +91,7 @@ abstract class ChangeRecordBaseViewModel(
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
     val comment: LiveData<String> = MutableLiveData()
+    val favCommentViewData: LiveData<ChangeRecordFavCommentState> = MutableLiveData()
 
     protected var newTypeId: Long = 0
     protected var newTimeEnded: Long = 0
@@ -114,6 +119,7 @@ abstract class ChangeRecordBaseViewModel(
     protected open suspend fun initializePreviewViewData() {
         // Don't wait for the completion.
         viewModelScope.launch { initializeActions() }
+        viewModelScope.launch { updateFavCommentViewData() }
     }
 
     protected open suspend fun onTimeStartedChanged() {
@@ -309,6 +315,7 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     fun onCommentClick(item: ChangeRecordCommentViewData) {
+        // View update through text change listener.
         comment.set(item.text)
     }
 
@@ -317,7 +324,23 @@ abstract class ChangeRecordBaseViewModel(
             if (comment != newComment) {
                 newComment = comment
                 updatePreview()
+                updateFavCommentViewData()
             }
+        }
+    }
+
+    fun onFavouriteCommentClick() {
+        if (newComment.isEmpty()) return
+
+        viewModelScope.launch {
+            favouriteCommentInteractor.get(newComment)
+                ?.let { favouriteCommentInteractor.remove(it.id) }
+                ?: run {
+                    val new = FavouriteComment(comment = newComment)
+                    favouriteCommentInteractor.add(new)
+                }
+            updateLastCommentsViewData()
+            updateFavCommentViewData()
         }
     }
 
@@ -564,12 +587,19 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     private suspend fun updateLastCommentsViewData() {
-        val data = loadLastCommentsViewData()
-        lastComments.set(data)
+        lastComments.set(loadLastCommentsViewData())
     }
 
     private suspend fun loadLastCommentsViewData(): List<ViewHolderType> {
         return changeRecordViewDataInteractor.getLastCommentsViewData(newTypeId)
+    }
+
+    private suspend fun updateFavCommentViewData() {
+        favCommentViewData.set(loadFavCommentViewData())
+    }
+
+    private suspend fun loadFavCommentViewData(): ChangeRecordFavCommentState {
+        return changeRecordViewDataInteractor.getFavCommentViewData(newComment)
     }
 
     companion object {

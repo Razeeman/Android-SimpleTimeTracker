@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -41,6 +42,7 @@ class ChangeRecordViewModel @Inject constructor(
     changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
     changeRecordAdjustDelegate: ChangeRecordAdjustDelegateImpl,
     recordTagInteractor: RecordTagInteractor,
+    favouriteCommentInteractor: FavouriteCommentInteractor,
     private val router: Router,
     private val recordInteractor: RecordInteractor,
     private val addRecordMediator: AddRecordMediator,
@@ -61,6 +63,7 @@ class ChangeRecordViewModel @Inject constructor(
     changeRecordViewDataInteractor,
     recordInteractor,
     recordTagInteractor,
+    favouriteCommentInteractor,
     changeRecordMergeDelegate,
     changeRecordSplitDelegate,
     changeRecordAdjustDelegate,

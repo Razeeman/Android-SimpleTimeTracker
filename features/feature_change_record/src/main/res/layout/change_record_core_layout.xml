@@ -312,9 +312,9 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
         app:layout_constraintTop_toBottomOf="@id/barrierChangeRecord"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -322,9 +322,14 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputChangeRecordComment"
                 style="@style/ChangeItemInputField"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp">
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="2dp"
+                app:layout_constraintEnd_toStartOf="@id/btnChangeRecordFavouriteComment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_goneMarginEnd="20dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etChangeRecordComment"
@@ -335,16 +340,47 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnChangeRecordFavouriteComment"
+                style="@style/InputFieldCard"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="18dp"
+                app:layout_constraintDimensionRatio="h,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/ButtonTimeAdjust"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivChangeRecordFavouriteComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/star"
+                    android:backgroundTint="?appInactiveColor"
+                    android:scaleType="center" />
+
+            </androidx.cardview.widget.CardView>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChangeRecordLastComments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
+                android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inputChangeRecordComment"
                 tools:itemCount="3"
                 tools:listitem="@layout/change_record_comment_item" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 

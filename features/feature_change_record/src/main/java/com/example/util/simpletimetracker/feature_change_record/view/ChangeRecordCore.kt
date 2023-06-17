@@ -1,7 +1,9 @@
 package com.example.util.simpletimetracker.feature_change_record.view
 
+import android.content.res.ColorStateList
 import android.view.View
 import androidx.cardview.widget.CardView
+import androidx.core.view.ViewCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
@@ -30,6 +32,7 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSimpleViewData
 import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjustmentState
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordFavCommentState
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
 import com.example.util.simpletimetracker.feature_views.RecordSimpleView
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
@@ -106,6 +109,7 @@ class ChangeRecordCore(
         binding: ChangeRecordCoreLayoutBinding,
     ) = with(binding) {
         etChangeRecordComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
+        btnChangeRecordFavouriteComment.setOnClick(viewModel::onFavouriteCommentClick)
         fieldChangeRecordType.setOnClick(viewModel::onTypeChooserClick)
         fieldChangeRecordCategory.setOnClick(viewModel::onCategoryChooserClick)
         fieldChangeRecordComment.setOnClick(viewModel::onCommentChooserClick)
@@ -159,6 +163,7 @@ class ChangeRecordCore(
             timeSplitText.observe(tvChangeRecordTimeSplit::setText)
             lastComments.observe(commentsAdapter::replace)
             comment.observe { updateUi(binding, it) }
+            favCommentViewData.observe { setFavCommentState(it, binding) }
             mergePreview.observe { setMergePreview(it, binding) }
             splitPreview.observe { setSplitPreview(it, binding) }
             adjustPreview.observe { setAdjustPreview(it, binding) }
@@ -251,6 +256,17 @@ class ChangeRecordCore(
             next is ChangeRecordPreview.Available
         containerChangeRecordAdjustPrevPreview.setData(prev)
         containerChangeRecordAdjustNextPreview.setData(next)
+    }
+
+    private fun setFavCommentState(
+        data: ChangeRecordFavCommentState,
+        binding: ChangeRecordCoreLayoutBinding,
+    ) {
+        ViewCompat.setBackgroundTintList(
+            binding.ivChangeRecordFavouriteComment,
+            ColorStateList.valueOf(data.iconColor)
+        )
+        binding.btnChangeRecordFavouriteComment.visible = data.isVisible
     }
 
     private fun ChangeRecordPreviewLayoutBinding.setData(data: ChangeRecordPreview) {

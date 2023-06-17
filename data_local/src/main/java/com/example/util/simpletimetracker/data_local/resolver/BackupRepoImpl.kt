@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.domain.interactor.ClearDataInteractor
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.FavouriteComment
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordToRecordTag
@@ -17,6 +18,7 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
+import com.example.util.simpletimetracker.domain.repo.FavouriteCommentRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
@@ -49,6 +51,7 @@ class BackupRepoImpl @Inject constructor(
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val recordTagRepo: RecordTagRepo,
     private val activityFilterRepo: ActivityFilterRepo,
+    private val favouriteCommentRepo: FavouriteCommentRepo,
     private val clearDataInteractor: ClearDataInteractor,
     private val resourceRepo: ResourceRepo,
 ) : BackupRepo {
@@ -100,6 +103,11 @@ class BackupRepoImpl @Inject constructor(
                 )
             }
             activityFilterRepo.getAll().forEach {
+                fileOutputStream?.write(
+                    it.let(::toBackupString).toByteArray()
+                )
+            }
+            favouriteCommentRepo.getAll().forEach {
                 fileOutputStream?.write(
                     it.let(::toBackupString).toByteArray()
                 )
@@ -182,6 +190,11 @@ class BackupRepoImpl @Inject constructor(
                     ROW_ACTIVITY_FILTER -> {
                         activityFilterFromBackupString(parts).let {
                             activityFilterRepo.add(it)
+                        }
+                    }
+                    ROW_FAVOURITE_COMMENT -> {
+                        favouriteCommentFromBackupString(parts).let {
+                            favouriteCommentRepo.add(it)
                         }
                     }
                 }
@@ -284,6 +297,14 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
+    private fun toBackupString(favouriteComment: FavouriteComment): String {
+        return String.format(
+            "$ROW_FAVOURITE_COMMENT\t%s\t%s\n",
+            favouriteComment.id.toString(),
+            favouriteComment.comment.cleanTabs().replaceNewline(),
+        )
+    }
+
     private fun recordTypeFromBackupString(parts: List<String>): RecordType {
         return RecordType(
             id = parts.getOrNull(1)?.toLongOrNull().orZero(),
@@ -308,7 +329,7 @@ class BackupRepoImpl @Inject constructor(
         // replaces all return symbols to newlines by creating a temporary mutable list to replace return symbols from
         val mutableComment = parts.toMutableList()
         for (i in mutableComment.indices) {
-            mutableComment[i] = mutableComment[i].replace("␤", "\n")
+            mutableComment[i] = mutableComment[i].restoreNewline()
         }
 
         return Record(
@@ -383,6 +404,13 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
+    private fun favouriteCommentFromBackupString(parts: List<String>): FavouriteComment {
+        return FavouriteComment(
+            id = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            comment = parts.getOrNull(5)?.restoreNewline().orEmpty(),
+        )
+    }
+
     private fun String.clean() =
         cleanTabs().cleanNewline()
 
@@ -395,6 +423,9 @@ class BackupRepoImpl @Inject constructor(
     private fun String.replaceNewline() =
         replace("\n", "␤")
 
+    private fun String.restoreNewline() =
+        replace("␤", "\n")
+
     companion object {
         private const val BACKUP_IDENTIFICATION = "app simple time tracker"
         private const val ROW_RECORD_TYPE = "recordType"
@@ -404,5 +435,6 @@ class BackupRepoImpl @Inject constructor(
         private const val ROW_RECORD_TAG = "recordTag"
         private const val ROW_RECORD_TO_RECORD_TAG = "recordToRecordTag"
         private const val ROW_ACTIVITY_FILTER = "activityFilter"
+        private const val ROW_FAVOURITE_COMMENT = "favouriteComment"
     }
 }

@@ -97,6 +97,7 @@
     <string name="change_record_comment_hint">Neuen Kommentar eingeben</string>
     <string name="change_record_actions_hint">Aktionen</string>
     <string name="change_record_last_comments_hint">Letzte Kommentare</string>
+    <string name="change_record_favourite_comments_hint">Favorit</string>
     <string name="change_record_categories_empty">Keine Datensatz-Tags hinzugefügt</string>
     <string name="change_record_save">Speichern</string>
     <string name="change_record_untagged">Nicht markiert</string>

@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.data_local.database.ActivityFilterDao
 import com.example.util.simpletimetracker.data_local.database.AppDatabase
 import com.example.util.simpletimetracker.data_local.database.AppDatabaseMigrations
 import com.example.util.simpletimetracker.data_local.database.CategoryDao
+import com.example.util.simpletimetracker.data_local.database.FavouriteCommentDao
 import com.example.util.simpletimetracker.data_local.database.RecordDao
 import com.example.util.simpletimetracker.data_local.database.RecordTagDao
 import com.example.util.simpletimetracker.data_local.database.RecordToRecordTagDao
@@ -49,6 +50,7 @@ class DataLocalModule {
                 AppDatabaseMigrations.migration_8_9,
                 AppDatabaseMigrations.migration_9_10,
                 AppDatabaseMigrations.migration_10_11,
+                AppDatabaseMigrations.migration_11_12,
             )
             .build()
     }
@@ -113,5 +115,11 @@ class DataLocalModule {
     @Singleton
     fun getActivityFilterDao(database: AppDatabase): ActivityFilterDao {
         return database.activityFilterDao()
+    }
+
+    @Provides
+    @Singleton
+    fun getFavouriteCommentDao(database: AppDatabase): FavouriteCommentDao {
+        return database.favouriteCommentDao()
     }
 }

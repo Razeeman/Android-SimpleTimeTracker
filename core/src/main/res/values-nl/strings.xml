@@ -97,6 +97,7 @@
     <string name="change_record_comment_hint">Voer een nieuwe opmerking in</string>
     <string name="change_record_actions_hint">Acties</string>
     <string name="change_record_last_comments_hint">Laatste opmerkingen</string>
+    <string name="change_record_favourite_comments_hint">Favoriet</string>
     <string name="change_record_categories_empty">Geen opname labels toegevoegd</string>
     <string name="change_record_save">Opslaan</string>
     <string name="change_record_untagged">Niet gelabeld</string>
