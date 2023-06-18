@@ -1,0 +1,10 @@
+- Add detailed statistics for untracked and multitasking time
+- Add day total on main tab and timer notification
+- Add current timers to statistics tab
+- Add time to universal widget
+- Add favourite comments and comment search on edit record screen
+- Add percent change for average range in detailed statistics
+- Add csv import
+- Add untracked time range setting
+- Add ignore short untracked time setting
+- General bug fixes and improvements
