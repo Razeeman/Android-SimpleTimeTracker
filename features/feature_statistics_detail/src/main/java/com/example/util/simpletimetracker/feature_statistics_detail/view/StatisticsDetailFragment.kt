@@ -192,6 +192,7 @@ class StatisticsDetailFragment :
                 chartStatisticsDetailComparisonSplit.setBarColor(it.color)
                 chartStatisticsDetailDurationSplitCompare.setBarColor(it.color)
                 chartStatisticsComparisonStreaks.setBarColor(it.color)
+                chartStatisticsComparisonStreaksCalendar.setCellColor(it.color)
             }
 
         previewAdapter.replace(rest)
@@ -221,7 +222,8 @@ class StatisticsDetailFragment :
 
         chartStatisticsStreaksCalendar.isVisible = viewData.showCalendar
         chartStatisticsStreaksCalendar.setData(viewData.calendarData)
-        // TODO add compare calendar
+        chartStatisticsComparisonStreaksCalendar.isVisible = viewData.showComparisonCalendar
+        chartStatisticsComparisonStreaksCalendar.setData(viewData.compareCalendarData)
     }
 
     private fun updateChartViewData(
