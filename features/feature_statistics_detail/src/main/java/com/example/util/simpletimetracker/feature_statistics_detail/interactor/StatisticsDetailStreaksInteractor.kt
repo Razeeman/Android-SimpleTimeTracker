@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.extension.rotateLeft
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
@@ -12,6 +13,7 @@ import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
+import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesView
 import com.example.util.simpletimetracker.feature_statistics_detail.model.StreaksType
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
@@ -35,8 +37,8 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
     fun getEmptyStreaksViewData(): StatisticsDetailStreaksViewData {
         return StatisticsDetailStreaksViewData(
             streaks = mapToStatsViewData(
-                maxStreak = "",
-                compareMaxStreak = "",
+                longestStreak = "",
+                compareLongestStreak = "",
                 currentStreak = "",
                 compareCurrentStreak = "",
             ),
@@ -44,6 +46,10 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             data = emptyList(),
             showComparison = false,
             compareData = emptyList(),
+            showCalendar = false,
+            calendarData = emptyList(),
+            showComparisonCalendar = false,
+            compareCalendarData = emptyList(),
         )
     }
 
@@ -65,7 +71,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             startOfDayShift = startOfDayShift
         )
 
-        val (maxStreak, currentStreak, data) = mapStatsData(
+        val statsData = mapStatsData(
             range = range,
             records = records,
             rangeLength = rangeLength,
@@ -73,7 +79,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             startOfDayShift = startOfDayShift,
             streaksType = streaksType,
         )
-        val (compareMaxStreak, compareCurrentStreak, compareData) = if (showComparison) {
+        val compareStatsData = if (showComparison) {
             mapStatsData(
                 range = range,
                 records = compareRecords,
@@ -83,10 +89,10 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 streaksType = streaksType,
             )
         } else {
-            Triple(null, null, emptyList())
+            null
         }
 
-        fun processMaxStreak(value: Long): String {
+        fun processLongestStreak(value: Long): String {
             // No point count streak of one day.
             return value.takeUnless { rangeLength is RangeLength.Day }
                 ?.toString()
@@ -100,24 +106,42 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         }
 
         val streaks = mapToStatsViewData(
-            maxStreak = maxStreak
-                .let(::processMaxStreak),
-            compareMaxStreak = compareMaxStreak
-                ?.let(::processMaxStreak)
+            longestStreak = statsData.longestStreak
+                .let(::processLongestStreak),
+            compareLongestStreak = compareStatsData?.longestStreak
+                ?.let(::processLongestStreak)
                 .let(::processComparisonString),
-            currentStreak = currentStreak
+            currentStreak = statsData.currentStreak
                 .toString(),
-            compareCurrentStreak = compareCurrentStreak
+            compareCurrentStreak = compareStatsData?.currentStreak
                 ?.toString()
                 .let(::processComparisonString),
         )
 
+        val streaksCalendarCanBeShown = when (rangeLength) {
+            is RangeLength.Month,
+            is RangeLength.Year,
+            is RangeLength.All -> true
+
+            else -> false
+        }
+        val streaksCanBeShown = rangeLength !is RangeLength.Day // No point count streak of one day.
+        val hasDataToShow = streaksCanBeShown &&
+            statsData.rangeCurrentData.size > 1 // one data point would be the same as Longest streak card.
+        val hasComparisonDataToShow = streaksCanBeShown &&
+            compareStatsData?.rangeCurrentData.orEmpty().size > 1
+        val hasData = hasDataToShow || hasComparisonDataToShow
+
         return@withContext StatisticsDetailStreaksViewData(
             streaks = streaks,
-            showData = rangeLength !is RangeLength.Day, // No point count streak of one day.
-            data = data,
-            showComparison = showComparison,
-            compareData = compareData,
+            showData = hasData,
+            data = statsData.rangeCurrentData,
+            showComparison = showComparison && hasData,
+            compareData = compareStatsData?.rangeCurrentData.orEmpty(),
+            showCalendar = streaksCalendarCanBeShown,
+            calendarData = statsData.calendarData,
+            showComparisonCalendar = showComparison && streaksCalendarCanBeShown,
+            compareCalendarData = compareStatsData?.calendarData.orEmpty(),
         )
     }
 
@@ -152,8 +176,8 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
         streaksType: StreaksType,
-    ): Triple<Long, Long, List<SeriesView.ViewData>> {
-        val (maxStreak, rangeCurrentStreak, rangeCurrentData) = calculate(
+    ): IntermediateData {
+        val stats = calculate(
             range = range,
             records = records,
             firstDayOfWeek = firstDayOfWeek,
@@ -161,19 +185,19 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             streaksType = streaksType,
         )
 
-        val currentStreak = if (rangeLength is RangeLength.All) {
-            rangeCurrentStreak
+        // If range is not all data - calculate current streak on all data.
+        return if (rangeLength is RangeLength.All) {
+            stats
         } else {
-            calculate(
+            val currentStreak = calculate(
                 range = Range(timeStarted = 0, timeEnded = 0),
                 records = records,
                 firstDayOfWeek = firstDayOfWeek,
                 startOfDayShift = startOfDayShift,
                 streaksType = streaksType,
-            ).second
+            ).currentStreak
+            stats.copy(currentStreak = currentStreak)
         }
-
-        return Triple(maxStreak, currentStreak, rangeCurrentData)
     }
 
     private fun calculate(
@@ -182,7 +206,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
         streaksType: StreaksType,
-    ): Triple<Long, Long, List<SeriesView.ViewData>> {
+    ): IntermediateData {
         val durations = getRanges(
             range = if (range.timeStarted == 0L && range.timeEnded == 0L) {
                 Range(
@@ -212,7 +236,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         }
 
         val data: MutableList<Triple<Long, Long, Long>> = mutableListOf()
-        var maxStreak: Long = 0
+        var longestStreak: Long = 0
         var counter: Long = 0
         var streakStart: Long = 0
         var streakEnd: Long = 0
@@ -232,7 +256,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                         streakEnd,
                     ).let(data::add)
                 }
-                if (counter > maxStreak) maxStreak = counter
+                if (counter > longestStreak) longestStreak = counter
             }
             if (duration.second <= 0) {
                 counter = 0
@@ -245,31 +269,35 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             StreaksType.LATEST -> data.sortByDescending { it.third }
         }
 
-        return Triple(
-            // Series of one day makes no sense.
-            maxStreak.takeIf { it > 1 }.orZero(),
-            counter.takeIf { it > 1 }.orZero(),
-            data.take(MAX_STREAKS_IN_CHART).map {
+        return IntermediateData(
+            longestStreak = longestStreak.takeIf { it > 1 }.orZero(), // Series of one day makes no sense.
+            currentStreak = counter.takeIf { it > 1 }.orZero(),
+            rangeCurrentData = data.take(MAX_STREAKS_IN_CHART).map {
                 SeriesView.ViewData(
                     value = it.first,
                     legendStart = timeMapper.formatDateYear(it.second),
                     legendEnd = timeMapper.formatDateYear(it.third),
                 )
-            }
+            },
+            calendarData = mapDurationsToCalendarData(
+                data = durations,
+                firstDayOfWeek = firstDayOfWeek,
+                startOfDayShift = startOfDayShift,
+            ),
         )
     }
 
     private fun mapToStatsViewData(
-        maxStreak: String,
-        compareMaxStreak: String,
+        longestStreak: String,
+        compareLongestStreak: String,
         currentStreak: String,
         compareCurrentStreak: String,
     ): List<StatisticsDetailCardViewData> {
         return listOf(
             StatisticsDetailCardViewData(
-                value = maxStreak,
+                value = longestStreak,
                 valueChange = StatisticsDetailCardViewData.ValueChange.None,
-                secondValue = compareMaxStreak,
+                secondValue = compareLongestStreak,
                 description = resourceRepo.getString(R.string.statistics_detail_streaks_longest)
             ),
             StatisticsDetailCardViewData(
@@ -323,7 +351,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
     private fun getDailyGroupings(
         startDate: Long,
         numberOfDays: Int,
-        startOfDayShift: Long,
+        startOfDayShift: Long, // TODO setting +2 shows 32 streak in a 31 day month. Seems wrong.
     ): List<Range> {
         val calendar = Calendar.getInstance()
 
@@ -343,6 +371,59 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             )
         }
     }
+
+    // Data is in format timeStarted to duration.
+    private fun mapDurationsToCalendarData(
+        data: List<Pair<Long, Long>>,
+        firstDayOfWeek: DayOfWeek,
+        startOfDayShift: Long,
+    ): List<SeriesCalendarView.ViewData> {
+        val days = listOf(
+            DayOfWeek.MONDAY,
+            DayOfWeek.TUESDAY,
+            DayOfWeek.WEDNESDAY,
+            DayOfWeek.THURSDAY,
+            DayOfWeek.FRIDAY,
+            DayOfWeek.SATURDAY,
+            DayOfWeek.SUNDAY,
+        ).let { list ->
+            list.indexOf(firstDayOfWeek)
+                .takeUnless { it == -1 }.orZero()
+                .let(list::rotateLeft)
+        }.reversed()
+
+        val calendar = Calendar.getInstance()
+        // Take last because data is from range start to range end.
+        val endDayOfWeek: DayOfWeek? = data.lastOrNull()?.first?.let {
+            calendar
+                .apply {
+                    timeInMillis = it
+                    timeInMillis -= startOfDayShift
+                }
+                .get(Calendar.DAY_OF_WEEK)
+                .let(timeMapper::toDayOfWeek)
+        }
+        // If for example today is wednesday - need to add 4 dummy days to show correct position on view.
+        val daysToAdd = days.indexOfFirst { it == endDayOfWeek }.takeUnless { it == -1 }.orZero()
+        val dummyDays = List(daysToAdd) { SeriesCalendarView.ViewData.Dummy }
+
+        return dummyDays + data
+            .map {
+                if (it.second > 0) {
+                    SeriesCalendarView.ViewData.Present
+                } else {
+                    SeriesCalendarView.ViewData.NotPresent
+                }
+            }
+            .reversed()
+    }
+
+    private data class IntermediateData(
+        val longestStreak: Long,
+        val currentStreak: Long,
+        val rangeCurrentData: List<SeriesView.ViewData>,
+        val calendarData: List<SeriesCalendarView.ViewData>,
+    )
 
     companion object {
         private const val MAX_STREAKS_IN_CHART = 10

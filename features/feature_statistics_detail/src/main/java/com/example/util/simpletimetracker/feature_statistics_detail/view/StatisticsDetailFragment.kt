@@ -182,6 +182,7 @@ class StatisticsDetailFragment :
         chartStatisticsDetailSplit.setBarColor(first.color)
         chartStatisticsDetailDurationSplit.setBarColor(first.color)
         chartStatisticsStreaks.setBarColor(first.color)
+        chartStatisticsStreaksCalendar.setCellColor(first.color)
 
         viewData.comparisonData
             .filterIsInstance<StatisticsDetailPreviewViewData>()
@@ -211,10 +212,16 @@ class StatisticsDetailFragment :
         viewData: StatisticsDetailStreaksViewData,
     ) = with(binding) {
         cardStatisticsDetailStreaks.items = viewData.streaks
+
         chartStatisticsStreaks.setData(viewData.data)
         chartStatisticsStreaks.isVisible = viewData.showData
         chartStatisticsComparisonStreaks.setData(viewData.compareData)
         chartStatisticsComparisonStreaks.isVisible = viewData.showComparison
+        buttonsStatisticsDetailStreaksType.isVisible = viewData.showData
+
+        chartStatisticsStreaksCalendar.isVisible = viewData.showCalendar
+        chartStatisticsStreaksCalendar.setData(viewData.calendarData)
+        // TODO add compare calendar
     }
 
     private fun updateChartViewData(
