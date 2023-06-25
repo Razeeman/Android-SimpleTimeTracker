@@ -127,7 +127,7 @@ class SwipeDetector(
                         startSliding()
                         initialDirection = Direction.LEFT
                     }
-                    onSlide(e2.rawY - e1.rawY, initialDirection, e2)
+                    onSlide(e2.rawX - e1.rawX, initialDirection, e2)
                     return true
                 }
 
@@ -147,7 +147,7 @@ class SwipeDetector(
                         startSliding()
                         initialDirection = Direction.RIGHT
                     }
-                    onSlide(e2.rawY - e1.rawY, initialDirection, e2)
+                    onSlide(e2.rawX - e1.rawX, initialDirection, e2)
                     return true
                 }
 

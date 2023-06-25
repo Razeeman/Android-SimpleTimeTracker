@@ -1,15 +1,22 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.customView
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.os.Parcelable
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.ColorInt
+import com.example.util.simpletimetracker.core.utils.SwipeDetector
+import com.example.util.simpletimetracker.core.utils.isHorizontal
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import kotlin.math.ceil
 import kotlin.math.roundToInt
+import kotlinx.parcelize.Parcelize
 
 class SeriesCalendarView @JvmOverloads constructor(
     context: Context,
@@ -28,12 +35,38 @@ class SeriesCalendarView @JvmOverloads constructor(
     private var cellSize: Float = 0f
     private var cellColor: Int = Color.BLACK
     private var data: List<ViewData> = emptyList()
+    private var dataColumnCount: Int = 0
+    private var panFactor: Float = 0f
+    private var lastPanFactor: Float = 0f
+    private var chartFullWidth: Float = 0f
 
     private val cellPresentPaint: Paint = Paint()
     private val cellNotPresentPaint: Paint = Paint()
 
+    private val swipeDetector = SwipeDetector(
+        context = context,
+        onSlide = ::onSwipe,
+        onSlideStop = ::onSwipeStop
+    )
+
     init {
         initPaint()
+    }
+
+    override fun onSaveInstanceState(): Parcelable {
+        val superState = super.onSaveInstanceState()
+        return SavedState(
+            superSavedState = superState,
+            panFactor = panFactor,
+            lastPanFactor = lastPanFactor,
+        )
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val savedState = state as? SavedState
+        super.onRestoreInstanceState(savedState?.superSavedState ?: state)
+        panFactor = savedState?.panFactor.orZero()
+        lastPanFactor = savedState?.lastPanFactor.orZero()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -48,10 +81,29 @@ class SeriesCalendarView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         if (canvas == null) return
 
-        drawCells(canvas, width.toFloat(), height.toFloat())
+        val w = width.toFloat()
+        val h = height.toFloat()
+
+        calculateDimensions()
+        drawCells(canvas, w, h)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        var handled = false
+
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> handled = true
+        }
+
+        return handled or swipeDetector.onTouchEvent(event)
     }
 
     fun setData(data: List<ViewData>) {
+        if (this.data.size != data.size) {
+            panFactor = 0f
+            lastPanFactor = 0f
+        }
         this.data = data
         invalidate()
     }
@@ -76,17 +128,21 @@ class SeriesCalendarView @JvmOverloads constructor(
         }
     }
 
+    private fun calculateDimensions() {
+        dataColumnCount = ceil(data.size.toFloat() / rowsCount).toInt()
+        chartFullWidth = dataColumnCount * cellSize
+    }
+
     private fun drawCells(canvas: Canvas, w: Float, h: Float) {
-        val dataColumnCount = ceil(data.size.toFloat() / rowsCount).toInt()
-        val finalWidth = if (dataColumnCount < columnsCount) {
-            (w + dataColumnCount * cellSize) / 2
+        val finalWidth = if (chartFullWidth < w) {
+            (w + chartFullWidth) / 2
         } else {
             w
         }
 
         // Draw from bottom right corner so that current day would be in there.
         canvas.save()
-        canvas.translate(finalWidth, h)
+        canvas.translate(finalWidth + panFactor, h)
 
         data.forEachIndexed { index, point ->
             if (point is ViewData.Dummy) return@forEachIndexed
@@ -95,8 +151,8 @@ class SeriesCalendarView @JvmOverloads constructor(
             val row = index % rowsCount
             canvas.save()
             canvas.translate(
-                - (column + 1) * cellSize,
-                - (row + 1) * cellSize,
+                -(column + 1) * cellSize,
+                -(row + 1) * cellSize,
             )
             canvas.drawRoundRect(
                 cellPadding,
@@ -113,9 +169,35 @@ class SeriesCalendarView @JvmOverloads constructor(
         canvas.restore()
     }
 
+    @Suppress("UNUSED_PARAMETER")
+    private fun onSwipe(offset: Float, direction: SwipeDetector.Direction, event: MotionEvent) {
+        if (direction.isHorizontal()) {
+            parent.requestDisallowInterceptTouchEvent(true)
+            panFactor = lastPanFactor + offset
+            coercePan()
+            invalidate()
+        }
+    }
+
+    private fun onSwipeStop() {
+        parent.requestDisallowInterceptTouchEvent(false)
+        lastPanFactor = panFactor
+    }
+
+    private fun coercePan() {
+        panFactor = panFactor.coerceIn(0f, (chartFullWidth - width).coerceAtLeast(0f))
+    }
+
     sealed interface ViewData {
         object Present : ViewData
         object NotPresent : ViewData
         object Dummy : ViewData
     }
+
+    @Parcelize
+    private class SavedState(
+        val superSavedState: Parcelable?,
+        val panFactor: Float,
+        val lastPanFactor: Float,
+    ) : BaseSavedState(superSavedState)
 }
