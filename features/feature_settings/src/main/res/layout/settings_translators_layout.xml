@@ -278,6 +278,48 @@
             app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsUkrainian" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSettingsTranslatorsFarsi"
+            style="@style/SettingsTranslatorsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_translators_farsi"
+            app:layout_constraintEnd_toStartOf="@id/tvSettingsTranslatorsFarsiLanguage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsUkrainian" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSettingsTranslatorsFarsiLanguage"
+            style="@style/SettingsTranslatorsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/settings_translators_farsi_language"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvSettingsTranslatorsFarsi"
+            app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsFarsi" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSettingsTranslatorsHindi"
+            style="@style/SettingsTranslatorsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_translators_hindi"
+            app:layout_constraintEnd_toStartOf="@id/tvSettingsTranslatorsHindiLanguage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsFarsi" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSettingsTranslatorsHindiLanguage"
+            style="@style/SettingsTranslatorsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/settings_translators_hindi_language"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvSettingsTranslatorsHindi"
+            app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsHindi" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSettingsTranslatorsChinese"
             style="@style/SettingsTranslatorsText"
             android:layout_width="0dp"
@@ -285,7 +327,7 @@
             android:text="@string/settings_translators_chinese"
             app:layout_constraintEnd_toStartOf="@id/tvSettingsTranslatorsChineseLanguage"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsUkrainian" />
+            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsHindi" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSettingsTranslatorsChineseLanguage"
@@ -318,27 +360,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvSettingsTranslatorsJapanese"
             app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsJapanese" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSettingsTranslatorsHindi"
-            style="@style/SettingsTranslatorsText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_translators_hindi"
-            app:layout_constraintEnd_toStartOf="@id/tvSettingsTranslatorsHindiLanguage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsJapanese" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSettingsTranslatorsHindiLanguage"
-            style="@style/SettingsTranslatorsText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:text="@string/settings_translators_hindi_language"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvSettingsTranslatorsHindi"
-            app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsHindi" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -37,13 +37,16 @@
     <string name="settings_translators_ukrainian" translatable="false">Божен Новак</string>
     <string name="settings_translators_ukrainian_language" translatable="false">Українська</string>
 
+    <string name="settings_translators_farsi" translatable="false">Alireza Rahmani</string>
+    <string name="settings_translators_farsi_language" translatable="false">فارسی</string>
+
+    <string name="settings_translators_hindi" translatable="false">Hx</string>
+    <string name="settings_translators_hindi_language" translatable="false">हिन्दी</string>
+
     <string name="settings_translators_chinese" translatable="false">超级大咸鱼, KenXRan</string>
     <string name="settings_translators_chinese_language" translatable="false">中文</string>
 
     <string name="settings_translators_japanese" translatable="false">kyusuke</string>
     <string name="settings_translators_japanese_language" translatable="false">日本語</string>
-
-    <string name="settings_translators_hindi" translatable="false">Hx</string>
-    <string name="settings_translators_hindi_language" translatable="false">हिन्दी</string>
 
 </resources>
