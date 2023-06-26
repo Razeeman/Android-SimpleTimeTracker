@@ -14,7 +14,7 @@
     <string name="record_tag_hint">Étiquettes d\'enregistrement</string>
     <string name="record_tag_hint_short">Étiquettes</string>
     <string name="nothing_selected">Rien de sélectionné</string>
-    <string name="something_selected">Choisie:</string>
+    <string name="something_selected">Sélection :</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Hier</string>
@@ -97,17 +97,17 @@
     <string name="change_record_comment_hint">Saisir un nouveau commentaire</string>
     <string name="change_record_actions_hint">Actions</string>
     <string name="change_record_last_comments_hint">Derniers commentaires</string>
-    <string name="change_record_favourite_comments_hint">Préféré</string>
+    <string name="change_record_favourite_comments_hint">Commentaires favoris</string>
     <string name="change_record_categories_empty">Aucune étiquette d\'enregistrement ajoutée</string>
     <string name="change_record_save">Sauvegarder</string>
     <string name="change_record_untagged">Non étiqueté</string>
     <string name="change_running_record_removed">Activité en cours d\'exécution supprimée</string>
     <string name="change_record_split">Diviser</string>
-    <string name="change_record_split_hint">Coupera l\'enregistrement actuel en deux au moment spécifié</string>
+    <string name="change_record_split_hint">Couper l\'enregistrement actuel en deux au moment spécifié</string>
     <string name="change_record_continue">Continuer</string>
-    <string name="change_record_continue_hint">Supprime l\'enregistrement actuel et continue de suivre cette activité</string>
+    <string name="change_record_continue_hint">Supprimer l\'enregistrement actuel et reprendre le suivi de cette activité</string>
     <string name="change_record_duplicate">Dupliquer</string>
-    <string name="change_record_duplicate_hint">Créera une copie de cet enregistrement</string>
+    <string name="change_record_duplicate_hint">Créer une copie de cet enregistrement</string>
     <string name="change_record_merge">Fusionner</string>
     <string name="change_record_merge_hint">Ajoutera cette fois à l\'enregistrement précédent</string>
     <string name="change_record_adjust">Changement</string>
@@ -248,25 +248,25 @@
     <string name="settings_automated_tracking_text"><![CDATA[
 Le suivi automatique est possible grâce à l\'intégration avec des applications tierces qui permettent d\'automatiser les actions en fonction de certains événements. Ces applications, lorsqu\'un certain événement se produit, peuvent envoyer un message à l\'application pour démarrer ou arrêter le chronomètre d\'activité.<br/>
 <br/>
-Quelques exemples d\'événements:<br/>
+Quelques exemples d\'événements :<br/>
 - Lancement d\'une certaine application.<br/>
 - Numérisation du tag NFC.<br/>
 - Aller à un certain endroit.<br/>
 - Certaines heures de la journée.<br/>
 - Connexion Bluetooth ou Wifi.<br/>
 <br/>
-Pour activer ce comportement, ces applications doivent prendre en charge l\'envoi de \"intent\" ou \"broadcast intent\" avec ces paramètres:<br/>
+Pour activer ce comportement, ces applications doivent prendre en charge l\'envoi de \"intent\" ou \"broadcast intent\" avec ces paramètres :<br/>
 <br/>
 <b>Action</b> - \"%s\" ou \"%s\".<br/>
 <b>Extra</b> - \"%s\" avec le nom de l\'activité qui doit être démarrée ou arrêtée.<br/>
 <b>Package</b> - \"%s\".<br/>
 <br/>
-Paramètres facultatifs pour le démarrage de l\'activité:<br/>
+Paramètres facultatifs pour le démarrage de l\'activité :<br/>
 <br/>
 <b>Extra</b> - \"%s\" avec commentaire d\'enregistrement.<br/>
 <b>Extra</b> - \"%s\" avec le nom d\'une balise d\'enregistrement.<br/>
 <br/>
-Supplémentaire:<br/>
+Supplémentaire :<br/>
 <br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
@@ -275,7 +275,7 @@ Supplémentaire:<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Envoyer des événements</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
-Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra des événements sur l\'activité démarrée ou arrêtée à des applications tierces pour un suivi automatisé avec ces paramètres:<br/>
+Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra automatiquement des événements au démarrage ou à l'arrêt d'une activité à des applications tierces pour un suivi automatisé avec ces paramètres:<br/>
 <br/>
 <b>Action</b> - \"%s\" ou \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
@@ -297,7 +297,7 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra des événeme
     <string name="settings_import_csv">Importation de feuille de calcul</string>
     <string name="settings_import_csv_description">Importez des enregistrements d\'activité à partir d\'un fichier csv. Les données actuelles ne seront pas perdues.</string>
     <string name="settings_import_csv_help"><![CDATA[
-Le fichier CSV doit contenir ces colonnes séparées par des virgules:<br/>
+Le fichier CSV doit contenir ces colonnes séparées par des virgules :<br/>
 <br/>
 - Nom de l\'activité entre guillemets.<br/>
 - Heure de début de l\'enregistrement au format \"aaaa-MM-jj HH:mm:ss\"<br/>
@@ -321,7 +321,7 @@ Exemple:<br/>
     <string name="message_export_complete">Exportation terminée</string>
     <string name="message_export_error">Erreur d\'exportation</string>
     <string name="message_import_complete">Importation terminée</string>
-    <string name="message_import_complete_hint">Enregistrements ajoutés: %s</string>
+    <string name="message_import_complete_hint">Enregistrements ajoutés : %s</string>
     <string name="message_import_error">Erreur d\'importation</string>
     <string name="message_automatic_backup_error">Une erreur s\'est produite lors de la sauvegarde automatique.</string>
     <string name="message_automatic_export_error">Une erreur s\'est produite lors de l\'exportation automatique.</string>
@@ -352,8 +352,8 @@ Exemple:<br/>
     <string name="statistics_detail_first_record">Premier</string>
     <string name="statistics_detail_last_record">Dernier</string>
     <string name="statistics_detail_streaks">Série</string>
-    <string name="statistics_detail_streaks_longest">Le plus long</string>
-    <string name="statistics_detail_streaks_current">Courante</string>
+    <string name="statistics_detail_streaks_longest">La plus longue</string>
+    <string name="statistics_detail_streaks_current">Série en cours</string>
     <string name="statistics_detail_streaks_latest">Dernière</string>
     <string name="statistics_detail_activity_split_hint">Répartition des activités</string>
     <string name="statistics_detail_tag_split_hint">Répartition des étiquettes</string>
@@ -380,7 +380,7 @@ Exemple:<br/>
     <string name="notification_inactivity_title">Rappel d\'inactivité</string>
     <string name="notification_inactivity_text">N\'oubliez pas de suivre votre temps</string>
     <string name="notification_activity_title">Rappel d\'activité</string>
-    <string name="notification_activity_text">Faites-vous toujours: %s?</string>
+    <string name="notification_activity_text">Faites-vous toujours : %s ?</string>
     <string name="notification_goal_time_description">%s : objectif de durée atteint</string>
     <string name="notification_time_started">Commencé à %s</string>
     <string name="notification_record_type_goal_time">objectif %s</string>
@@ -423,7 +423,7 @@ Exemple:<br/>
     <string name="records_filter_invert_selection">Inverser la sélection</string>
 
     <!--  Icon emoji category  -->
-    <string name="emojiGroupSmileys">Smileys &amp; Émotion</string>
+    <string name="emojiGroupSmileys">Smileys &amp; Émotions</string>
     <string name="emojiGroupPeople">Personnes &amp; Corps</string>
     <string name="emojiGroupAnimals">Animaux et Nature</string>
     <string name="emojiGroupFood">Nourriture et Boisson</string>
