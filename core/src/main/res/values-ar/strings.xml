@@ -244,183 +244,183 @@
     <string name="settings_version">اﻹصدار</string>
     <string name="settings_email_chooser_title">إرسال عبر...</string>
     <string name="settings_translators">المترجمين</string>
-    <string name="settings_automated_tracking">التتبع الآلي</string>
+    <string name="settings_automated_tracking">التتبع التلقائي</string>
     <string name="settings_automated_tracking_text"><![CDATA[
-Automatic tracking is possible through integration with third-party applications that allow to automate actions based on certain events. These applications, when a certain event occurs, can send a message to the app to start or stop the activity timer.<br/>
+يمكن تفعيل التتبع التلقائي من خلال التكامل مع تطبيقات الطرف الثالث التي تسمح بأتمتة الإجراءات بناءً على أحداث معينة. كما يمكن لهذه التطبيقات، عند حدوث حدث معين إرسال رسالة إلى تطبيقنا لبدء أو إيقاف مؤقت تتبع النشاط.<br/>
 <br/>
-Some examples of events:<br/>
-- Launching a certain app.<br/>
-- Scanning NFC tag.<br/>
-- Going to certain location.<br/>
-- Certain times of day.<br/>
-- Connecting to Bluetooth or Wifi.<br/>
+بعض الأمثلة على الأحداث:<br/>
+- تشغيل تطبيق معين.<br/>
+- مسح علامة NFC.<br/>
+- الذهاب إلى موقع معين.<br/>
+- أوقات معينة من اليوم.<br/>
+- الاتصال بالبلوتوث أو واي فاي.<br/>
 <br/>
-To enable this behaviour these applications should support sending \"intent\" or \"broadcast intent\" with these parameters:<br/>
+لتمكين هذا السلوك، يجب أن تدعم هذه التطبيقات إرسال \"intent\" أو \"broadcast intent\" مع هذه المعلمات:<br/>
 <br/>
-<b>Action</b> - \"%s\" or \"%s\".<br/>
-<b>Extra</b> - \"%s\" with activity name that should be started or stopped.<br/>
+<b>Action</b> - \"%s\" أو \"%s\".<br/>
+<b>Extra</b> - \"%s\" مع اسم النشاط الذي ينبغي أن يبدأ أو يتوقف.<br/>
 <b>Package</b> - \"%s\".<br/>
 <br/>
-Optional parameters for starting activity:<br/>
+معلمات اختيارية لبدء النشاط:<br/>
 <br/>
-<b>Extra</b> - \"%s\" with record comment.<br/>
-<b>Extra</b> - \"%s\" with the name of a record tag.<br/>
+<b>Extra</b> - \"%s\" مع تعليقات التتبع.<br/>
+<b>Extra</b> - \"%s\" مع اسم تصنيف التتبع<br/>
 <br/>
-Additional:<br/>
+إضافات<br/>
 <br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
     ]]></string>
-    <string name="settings_automated_tracking_send_events">Send events</string>
+    <string name="settings_automated_tracking_send_events">إرسال اﻷحداث</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
-If <b>\"%s\"</b> setting is enabled, app will send events on activity started or stopped to third-party applications for automated tracking with these parameters:<br/>
+إذا إعداد <b>\"%s\"</b> مفعل، فسيرسل التطبيق اﻷحداث المتعلقة بالنشاط الذي بدأ أو توقف إلى تطبيقات الطرف الثالث للتتبع التلقائي باستخدام هذه المعلمات:<br/>
 <br/>
-<b>Action</b> - \"%s\" or \"%s\".<br/>
+<b>Action</b> - \"%s\" أو \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
     ]]></string>
 
-    <string name="settings_save_backup">Save backup</string>
-    <string name="settings_save_description">Before saving, make sure that you have the latest version of the app installed to avoid conflicts.</string>
-    <string name="settings_automatic_backup">Enable automatic backup</string>
-    <string name="settings_automatic_export">Enable automatic spreadsheet export</string>
-    <string name="settings_automatic_description">File will be saved in the selected location overriding previously saved file every day at midnight.</string>
-    <string name="settings_automatic_last_save">Last save:</string>
-    <string name="settings_restore_backup">Restore backup</string>
-    <string name="settings_restore_description">Current data will be lost.</string>
-    <string name="settings_dialog_message">Restore backup?</string>
-    <string name="settings_export_csv">Spreadsheet export</string>
-    <string name="settings_export_csv_description">Export activity records as a csv file to view in a preferred spreadsheet application.</string>
-    <string name="settings_import_csv">Spreadsheet import</string>
-    <string name="settings_import_csv_description">Import activity records from a csv file. Current data will not be lost.</string>
+    <string name="settings_save_backup">حفظ نسخة احتياطية</string>
+    <string name="settings_save_description">قبل الحفظ، تأكد من تثبيت أحدث إصدار من التطبيق لتجنب التعارضات.</string>
+    <string name="settings_automatic_backup">تفعيل الحفظ الاحتياطي التلقائي</string>
+    <string name="settings_automatic_export">تفعيل التصدير التلقائي لجدول البيانات</string>
+    <string name="settings_automatic_description">سيحفظ الملف في المكان المحدد كل يوم عند منتصف الليل متجاوزاً الملف المحفوظ مسبقًا.</string>
+    <string name="settings_automatic_last_save">آخر المحفوظات:</string>
+    <string name="settings_restore_backup">استيراد نسخة الاحتياطية</string>
+    <string name="settings_restore_description">ستفقد البيانات الحالية.</string>
+    <string name="settings_dialog_message">استرداد النسخة الاحتياطية؟</string>
+    <string name="settings_export_csv">تصدير جدول البيانات</string>
+    <string name="settings_export_csv_description">تصدير تتبعات النشاط كملف csv لعرضها في تطبيقات جداول البيانات المفضل.</string>
+    <string name="settings_import_csv">استيراد جدول البيانات</string>
+    <string name="settings_import_csv_description">استيراد سجلات النشاط من ملف csv، لن يفقد البيانات الحالية.</string>
     <string name="settings_import_csv_help"><![CDATA[
-The csv file must contain these columns separated by commas:<br/>
+يجب أن يحتوي ملف csv على هذه الأعمدة مفصولة بفاصلة:<br/>
 <br/>
-- Activity name in quotes.<br/>
-- Start time of record in the format \"yyyy-MM-dd HH:mm:ss\"<br/>
-- End time of record in the format \"yyyy-MM-dd HH:mm:ss\"<br/>
-- Comment in quotes.<br/>
+- اسم النشاط في الاقتباسات.<br/>
+- تنسيق توقيت بدء التتبع بـ \"yyyy-MM-dd HH:mm:ss\"<br/>
+- تنسيق توقيت نهاية التتبع بـ \"yyyy-MM-dd HH:mm:ss\"<br/>
+- التعليق في الاقتباسات.<br/>
 <br/>
-Example:<br/>
+مثال:<br/>
 <br/>
 \"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
     ]]></string>
-    <string name="settings_export_ics">ICS export</string>
-    <string name="settings_export_warning">This file cannot be used as a backup.</string>
-    <string name="settings_file_open_error">Error opening file</string>
-    <string name="settings_file_create_error">Error creating file</string>
+    <string name="settings_export_ics">تصدير ICS</string>
+    <string name="settings_export_warning">لا يمكن استخدام هذا الملف كنسخة احتياطية.</string>
+    <string name="settings_file_open_error">خطأ في فتح الملف</string>
+    <string name="settings_file_create_error">خطأ في إنشاء الملف</string>
 
-    <string name="message_backup_saved">Backup saved</string>
-    <string name="message_backup_restored">Backup restored</string>
-    <string name="message_save_error">Error saving backup</string>
-    <string name="message_restore_error">Error restoring backup</string>
-    <string name="message_app_not_found">Application not found</string>
-    <string name="message_export_complete">Export completed</string>
-    <string name="message_export_error">Export error</string>
-    <string name="message_import_complete">Import completed</string>
-    <string name="message_import_complete_hint">Records added: %s</string>
-    <string name="message_import_error">Import error</string>
-    <string name="message_automatic_backup_error">There was an error with automatic backup.</string>
-    <string name="message_automatic_export_error">There was an error with automatic export.</string>
-    <string name="message_automatic_error_hint">Try to select different location</string>
+    <string name="message_backup_saved">تم حفظ النسخة الاحتياطية</string>
+    <string name="message_backup_restored">تم استرجاع النسخة الاحتياطية</string>
+    <string name="message_save_error">خطأ في حفظ النسخة الاحتياطية</string>
+    <string name="message_restore_error">خطأ في استرجاع النسخة الاحتياطية</string>
+    <string name="message_app_not_found">التطبيق غير موجود</string>
+    <string name="message_export_complete">اكتمل التصدير</string>
+    <string name="message_export_error">خطأ في التصدير</string>
+    <string name="message_import_complete">اكتمل الاستيراد</string>
+    <string name="message_import_complete_hint">التتبعات المضافة: %s</string>
+    <string name="message_import_error">خطأ في الاستيراد</string>
+    <string name="message_automatic_backup_error">حدث خطأ في النسخ الاحتياطي التلقائي.</string>
+    <string name="message_automatic_export_error">حدث خطأ في التصدير التلقائي.</string>
+    <string name="message_automatic_error_hint">حاول تحديد مكان مختلف</string>
 
     <!--  Statistics detail  -->
-    <string name="statistics_detail_chart_hourly">hourly</string>
-    <string name="statistics_detail_chart_daily">daily</string>
-    <string name="statistics_detail_chart_weekly">weekly</string>
-    <string name="statistics_detail_chart_monthly">monthly</string>
-    <string name="statistics_detail_chart_yearly">yearly</string>
+    <string name="statistics_detail_chart_hourly">ساعيّ</string>
+    <string name="statistics_detail_chart_daily">يومي</string>
+    <string name="statistics_detail_chart_weekly">أسبوعي</string>
+    <string name="statistics_detail_chart_monthly">شهري</string>
+    <string name="statistics_detail_chart_yearly">سنوي</string>
     <string name="statistics_detail_length_ten">10</string>
     <string name="statistics_detail_length_fifty">50</string>
     <string name="statistics_detail_length_hundred">100</string>
-    <string name="statistics_detail_legend_minute_suffix">m</string>
-    <string name="statistics_detail_legend_hour_suffix">h</string>
+    <string name="statistics_detail_legend_minute_suffix">د</string>
+    <string name="statistics_detail_legend_hour_suffix">س</string>
 
-    <string name="statistics_detail_range_averages_title">Average for period: %s</string>
-    <string name="statistics_detail_range_averages">For the whole range</string>
-    <string name="statistics_detail_range_averages_non_empty">Without empty periods</string>
+    <string name="statistics_detail_range_averages_title">متوسط الفترة الزمنية: %s</string>
+    <string name="statistics_detail_range_averages">كامل النطاق</string>
+    <string name="statistics_detail_range_averages_non_empty">بدون فترات فارغة</string>
 
-    <string name="statistics_detail_total_duration">Total</string>
-    <string name="statistics_detail_record_length">Record length</string>
-    <string name="statistics_detail_shortest_record">Shortest</string>
-    <string name="statistics_detail_average_record">Average</string>
-    <string name="statistics_detail_longest_record">Longest</string>
-    <string name="statistics_detail_record_time">Record time</string>
-    <string name="statistics_detail_first_record">First</string>
-    <string name="statistics_detail_last_record">Last</string>
-    <string name="statistics_detail_streaks">Series</string>
-    <string name="statistics_detail_streaks_longest">Longest</string>
-    <string name="statistics_detail_streaks_current">Current</string>
-    <string name="statistics_detail_streaks_latest">Latest</string>
-    <string name="statistics_detail_activity_split_hint">Activity distribution</string>
-    <string name="statistics_detail_tag_split_hint">Tag distribution</string>
-    <string name="statistics_detail_day_split_hint">Daily distribution</string>
-    <string name="statistics_detail_duration_split_hint">Record duration distribution</string>
+    <string name="statistics_detail_total_duration">المجموع</string>
+    <string name="statistics_detail_record_length">مقدار التتبعات</string>
+    <string name="statistics_detail_shortest_record">أقصر</string>
+    <string name="statistics_detail_average_record">متوسط</string>
+    <string name="statistics_detail_longest_record">أطول</string>
+    <string name="statistics_detail_record_time">وقت التتبع</string>
+    <string name="statistics_detail_first_record">أول</string>
+    <string name="statistics_detail_last_record">آخر</string>
+    <string name="statistics_detail_streaks">السللة</string>
+    <string name="statistics_detail_streaks_longest">أطول</string>
+    <string name="statistics_detail_streaks_current">حالي</string>
+    <string name="statistics_detail_streaks_latest">آخر</string>
+    <string name="statistics_detail_activity_split_hint">تحصيص النشاط</string>
+    <string name="statistics_detail_tag_split_hint">تحصيص الوسوم</string>
+    <string name="statistics_detail_day_split_hint">تحصيص يومي</string>
+    <string name="statistics_detail_duration_split_hint">تحصيص مدة التتبع</string>
 
     <plurals name="statistics_detail_times_tracked">
-        <item quantity="zero">Records</item>
-        <item quantity="one">Record</item>
-        <item quantity="two">Records</item>
-        <item quantity="few">Records</item>
-        <item quantity="many">Records</item>
-        <item quantity="other">Records</item>
+        <item quantity="zero">صفر تتبع</item>
+        <item quantity="one">تتبع واحد</item>
+        <item quantity="two">تتبعان إثنان</item>
+        <item quantity="few">تتبعات قليلة</item>
+        <item quantity="many">تتبعات كثيرة</item>
+        <item quantity="other">تتبعات أخرى</item>
     </plurals>
 
     <!--  Widget  -->
-    <string name="widget_name">Single Activity</string>
-    <string name="widget_universal_name">Universal</string>
-    <string name="widget_statistics_chart_name">Statistics Chart</string>
-    <string name="widget_quick_settings_name">Quick settings</string>
-    <string name="widget_load_error">Not found</string>
+    <string name="widget_name">نشاط فردي</string>
+    <string name="widget_universal_name">شامل</string>
+    <string name="widget_statistics_chart_name">مخطط إحصائي</string>
+    <string name="widget_quick_settings_name">إعدادات سريعة</string>
+    <string name="widget_load_error">غير موجود</string>
 
     <!--  Notification  -->
-    <string name="notification_inactivity_title">Inactivity reminder</string>
-    <string name="notification_inactivity_text">Don\'t forget to track your time</string>
-    <string name="notification_activity_title">Activity reminder</string>
-    <string name="notification_activity_text">Are you still doing: %s?</string>
-    <string name="notification_goal_time_description">%s goal time reached</string>
-    <string name="notification_time_started">Started at %s</string>
-    <string name="notification_record_type_goal_time">goal %s</string>
-    <string name="notification_record_type_stop">Stop</string>
+    <string name="notification_inactivity_title">مذكر الخمول</string>
+    <string name="notification_inactivity_text">لا تنس تتبع وقتك</string>
+    <string name="notification_activity_title">مذكر النشاط</string>
+    <string name="notification_activity_text">هل مازلت تنشط: %s?</string>
+    <string name="notification_goal_time_description">%s تم بلوغ الهدف</string>
+    <string name="notification_time_started">بُدء في %s</string>
+    <string name="notification_record_type_goal_time">الهدف %s</string>
+    <string name="notification_record_type_stop">أوقف</string>
 
     <!--  Archive  -->
-    <string name="archive_hint">Click on card to view details</string>
-    <string name="archive_dialog_delete">Delete</string>
-    <string name="archive_dialog_restore">Restore</string>
-    <string name="archive_empty">Archive is empty</string>
-    <string name="archive_activity_restored">Activity restored</string>
-    <string name="archive_tag_restored">Tag restored</string>
-    <string name="archive_activity_deleted">Activity deleted</string>
-    <string name="archive_tag_deleted">Tag deleted</string>
-    <string name="archive_activity_deletion_message">All records of this activity and record tags will also be deleted.</string>
-    <string name="archive_tag_deletion_message">All records tagged with this tag will become untagged.</string>
-    <string name="archive_deletion_alert">Are you sure? This action cannot be undone.</string>
-    <string name="archive_records_count">Records</string>
-    <string name="archive_record_tags_count">Record tags</string>
-    <string name="archive_tagged_records_count">Tagged records</string>
+    <string name="archive_hint">اضغط على البطاقة لعرض التفاصيل</string>
+    <string name="archive_dialog_delete">حذف</string>
+    <string name="archive_dialog_restore">استرجاع</string>
+    <string name="archive_empty">اﻷرشيف فارغ</string>
+    <string name="archive_activity_restored">تم استرجاع النشاط</string>
+    <string name="archive_tag_restored">استرجاع الوسم</string>
+    <string name="archive_activity_deleted">تم حذف النشاط</string>
+    <string name="archive_tag_deleted">تم حذف الوسم</string>
+    <string name="archive_activity_deletion_message">ستحذف جميع تتبعات ووسوم هذا النشاط.</string>
+    <string name="archive_tag_deletion_message">ستصبح جميع التتبعات الموسومة بهذا الوسم بدون وسم.</string>
+    <string name="archive_deletion_alert">هل أنت متأكد؟ لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="archive_records_count">التتبعات</string>
+    <string name="archive_record_tags_count">استرجاع الوسوم</string>
+    <string name="archive_tagged_records_count">التتبعات الموسومة</string>
 
     <!--  Data edit  -->
-    <string name="data_edit_hint">These changes cannot be undone. Make sure to create a backup file before doing anything.</string>
-    <string name="data_edit_select_records">Select records</string>
-    <string name="data_edit_change_activity">Change activity</string>
-    <string name="data_edit_change_activity_hint">Tags of current activity will be removed.</string>
-    <string name="data_edit_change_comment">Change comment</string>
-    <string name="data_edit_change_add_tag">Add tags</string>
-    <string name="data_edit_change_remove_tag">Remove tags</string>
-    <string name="data_edit_button_change">Change</string>
-    <string name="data_edit_success_message">Data changed</string>
+    <string name="data_edit_hint">لا يمكن التراجع عن هذه التغييرات. تأكد من إنشاء ملف نسخ احتياطي قبل القيام بأي شيء.</string>
+    <string name="data_edit_select_records">اختيار التتبعات</string>
+    <string name="data_edit_change_activity">تغيير النشاط</string>
+    <string name="data_edit_change_activity_hint">ستزال وسوم النشاط الحالي.</string>
+    <string name="data_edit_change_comment">تغيير التعليق</string>
+    <string name="data_edit_change_add_tag">إضافة وسوم</string>
+    <string name="data_edit_change_remove_tag">حذف الوسوم</string>
+    <string name="data_edit_button_change">تغيير</string>
+    <string name="data_edit_success_message">تم تغيير البيانات</string>
 
     <!--  Records filter  -->
-    <string name="records_filter_select_tags">Select tags</string>
-    <string name="records_filter_filter_tags">Filter tags</string>
-    <string name="records_filter_manually_filtered">Filtered</string>
-    <string name="records_filter_no_comment">No comment</string>
-    <string name="records_filter_any_comment">Any comment</string>
-    <string name="records_filter_select">Select</string>
-    <string name="records_filter_invert_selection">Invert selection</string>
+    <string name="records_filter_select_tags">اختيار الوسوم</string>
+    <string name="records_filter_filter_tags">مُرشّح الوسوم</string>
+    <string name="records_filter_manually_filtered">تمت التصفية</string>
+    <string name="records_filter_no_comment">لا تعليق</string>
+    <string name="records_filter_any_comment">أي تعليق</string>
+    <string name="records_filter_select">اختيار</string>
+    <string name="records_filter_invert_selection">عكس الاختيار</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">ابتسامات &amp; مشاعر</string>
