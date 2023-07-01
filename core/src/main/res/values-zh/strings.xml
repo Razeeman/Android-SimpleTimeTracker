@@ -224,6 +224,8 @@
     <string name="settings_ignore_short_records_hint">不要跟踪短于指定时间的活动。</string>
     <string name="settings_inactivity_reminder_disabled">不启用</string>
     <string name="settings_dark_mode">深色模式</string>
+    <string name="settings_dark_mode_system">系统</string>
+    <string name="settings_dark_mode_enabled">启用</string>
     <string name="settings_use_military_time">使用24小时格式</string>
     <string name="settings_use_proportional_minutes">使用比例分钟格式</string>
     <string name="settings_show_seconds">显示秒数</string>

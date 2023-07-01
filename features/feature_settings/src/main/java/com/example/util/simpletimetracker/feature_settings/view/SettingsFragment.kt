@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
@@ -56,6 +57,9 @@ class SettingsFragment :
     )
 
     override fun initUi() = with(binding) {
+        with(layoutSettingsMain) {
+            spinnerSettingsDarkMode.setProcessSameItemSelection(false)
+        }
         with(layoutSettingsDisplay) {
             spinnerSettingsDaysInCalendar.setProcessSameItemSelection(false)
             spinnerSettingsRecordTypeSort.setProcessSameItemSelection(false)
@@ -68,7 +72,7 @@ class SettingsFragment :
     override fun initUx() = with(binding) {
         with(layoutSettingsMain) {
             checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
-            checkboxSettingsDarkMode.setOnClick(viewModel::onDarkModeClicked)
+            spinnerSettingsDarkMode.onPositionSelected = viewModel::onDarkModeSelected
             layoutSettingsEditCategories.setOnClick(throttle(viewModel::onEditCategoriesClick))
             tvSettingsArchive.setOnClick(throttle(viewModel::onArchiveClick))
             tvSettingsDataEdit.setOnClick(throttle(viewModel::onDataEditClick))
@@ -139,7 +143,7 @@ class SettingsFragment :
         with(viewModel) {
             with(layoutSettingsMain) {
                 allowMultitaskingCheckbox.observe(checkboxSettingsAllowMultitasking::setChecked)
-                darkModeCheckbox.observe(checkboxSettingsDarkMode::setChecked)
+                darkModeViewData.observe(::updateDarkModeViewData)
             }
             with(layoutSettingsNotifications) {
                 settingsNotificationsVisibility.observe { opened ->
@@ -167,6 +171,7 @@ class SettingsFragment :
                 ignoreShortUntrackedViewData.observe(tvSettingsIgnoreShortUntrackedTime::setText)
                 untrackedRangeViewData.observe(::setUntrackedRangeViewData)
                 showRecordsCalendarCheckbox.observe(::updateShowRecordCalendarChecked)
+                daysInCalendarViewData.observe(::updateDaysInCalendarViewData)
                 reverseOrderInCalendarCheckbox.observe(checkboxSettingsReverseOrderInCalendar::setChecked)
                 showActivityFiltersCheckbox.observe(checkboxSettingsShowActivityFilters::setChecked)
                 useMilitaryTimeCheckbox.observe(checkboxSettingsUseMilitaryTime::setChecked)
@@ -174,6 +179,8 @@ class SettingsFragment :
                 showSecondsCheckbox.observe(checkboxSettingsShowSeconds::setChecked)
                 useMilitaryTimeHint.observe(tvSettingsUseMilitaryTimeHint::setText)
                 useProportionalMinutesHint.observe(tvSettingsUseProportionalMinutesHint::setText)
+                cardOrderViewData.observe(::updateCardOrderViewData)
+                keepScreenOnCheckbox.observe(::setKeepScreenOn)
             }
             with(layoutSettingsAdditional) {
                 settingsAdditionalVisibility.observe { opened ->
@@ -185,16 +192,13 @@ class SettingsFragment :
                 recordTagSelectionCloseCheckbox.observe(checkboxSettingsRecordTagSelectionClose::setChecked)
                 recordTagSelectionForGeneralTagsCheckbox.observe(checkboxSettingsRecordTagSelectionGeneral::setChecked)
                 automatedTrackingSendEventsCheckbox.observe(checkboxSettingsAutomatedTrackingSend::setChecked)
+                firstDayOfWeekViewData.observe(::updateFirstDayOfWeekViewData)
+                startOfDayViewData.observe(::updateStartOfDayViewData)
+                showRecordTagSelectionCheckbox.observe(::updateShowRecordTagSelectionChecked)
             }
             with(layoutSettingsRating) {
                 versionName.observe(tvSettingsVersionName::setText)
             }
-            cardOrderViewData.observe(::updateCardOrderViewData)
-            daysInCalendarViewData.observe(::updateDaysInCalendarViewData)
-            firstDayOfWeekViewData.observe(::updateFirstDayOfWeekViewData)
-            startOfDayViewData.observe(::updateStartOfDayViewData)
-            keepScreenOnCheckbox.observe(::setKeepScreenOn)
-            showRecordTagSelectionCheckbox.observe(::updateShowRecordTagSelectionChecked)
             themeChanged.observe(::changeTheme)
             resetScreen.observe {
                 containerSettings.smoothScrollTo(0, 0)
@@ -228,7 +232,7 @@ class SettingsFragment :
         super.onResume()
         with(layoutSettingsMain) {
             checkboxSettingsAllowMultitasking.jumpDrawablesToCurrentState()
-            checkboxSettingsDarkMode.jumpDrawablesToCurrentState()
+            spinnerSettingsDarkMode.jumpDrawablesToCurrentState()
         }
         with(layoutSettingsNotifications) {
             checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
@@ -309,6 +313,14 @@ class SettingsFragment :
             .getOrNull(viewData.selectedPosition)?.text.orEmpty()
     }
 
+    private fun updateDarkModeViewData(
+        viewData: DarkModeViewData,
+    ) = with(binding.layoutSettingsMain) {
+        spinnerSettingsDarkMode.setData(viewData.items, viewData.selectedPosition)
+        tvSettingsDarkModeValue.text = viewData.items
+            .getOrNull(viewData.selectedPosition)?.text.orEmpty()
+    }
+
     private fun updateShowRecordTagSelectionChecked(
         isChecked: Boolean,
     ) = with(binding.layoutSettingsAdditional) {
@@ -375,7 +387,6 @@ class SettingsFragment :
 
     private fun changeTheme(themeChanged: Boolean) {
         if (themeChanged) {
-            viewModel.onThemeChanged()
             activity?.recreate()
             // TODO fix fade and save scroll
             activity?.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)

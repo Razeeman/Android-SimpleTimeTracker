@@ -224,6 +224,8 @@
     <string name="settings_ignore_short_records_hint">فعالیت هایی که از زمان معین شده کوتاه تر هستند را اندازه گیری نکن</string>
     <string name="settings_inactivity_reminder_disabled">غیر فعال</string>
     <string name="settings_dark_mode">تم تیره</string>
+    <string name="settings_dark_mode_system">سیستم</string>
+    <string name="settings_dark_mode_enabled">فعال شد</string>
     <string name="settings_use_military_time">استفاده از فرمت 24 ساعته</string>
     <string name="settings_use_proportional_minutes">از زمان  دقایق نسبی استفاده کن</string>
     <string name="settings_show_seconds">نمایش ثانیه ها</string>

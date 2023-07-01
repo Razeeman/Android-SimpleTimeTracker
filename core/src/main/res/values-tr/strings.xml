@@ -224,6 +224,8 @@
     <string name="settings_ignore_short_records_hint">Belirtilen süreden daha kısa olan kayıtları yoksay.</string>
     <string name="settings_inactivity_reminder_disabled">Devre dışı</string>
     <string name="settings_dark_mode">Karanlık mod</string>
+    <string name="settings_dark_mode_system">Sistem</string>
+    <string name="settings_dark_mode_enabled">Etkinleştirilmiş</string>
     <string name="settings_use_military_time">24-saat formatını kullan</string>
     <string name="settings_use_proportional_minutes">Oransal dakika formatını kullan</string>
     <string name="settings_show_seconds">Saniye göster</string>

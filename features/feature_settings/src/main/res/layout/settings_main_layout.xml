@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/SettingsCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -62,14 +63,29 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_dark_mode"
-                app:layout_constraintEnd_toStartOf="@id/checkboxSettingsDarkMode"
+                app:layout_constraintEnd_toStartOf="@id/tvSettingsDarkModeValue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkboxSettingsDarkMode"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSettingsDarkModeValue"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_marginEnd="32dp"
+                android:gravity="end|center_vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:textColor="?appTextPrimaryColor"
+                app:layout_constraintBottom_toBottomOf="@id/spinnerSettingsDarkMode"
+                app:layout_constraintEnd_toEndOf="@id/spinnerSettingsDarkMode"
+                app:layout_constraintTop_toTopOf="@id/spinnerSettingsDarkMode"
+                tools:text="@string/settings_dark_mode_system" />
+
+            <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+                android:id="@+id/spinnerSettingsDarkMode"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="@id/tvSettingsDarkMode"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvSettingsDarkMode" />

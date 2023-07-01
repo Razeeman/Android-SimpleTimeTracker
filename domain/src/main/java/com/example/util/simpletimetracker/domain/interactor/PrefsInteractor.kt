@@ -15,6 +15,7 @@ import javax.inject.Inject
 
 class PrefsInteractor @Inject constructor(
     private val prefsRepo: PrefsRepo,
+    private val isSystemInDarkModeInteractor: IsSystemInDarkModeInteractor,
 ) {
 
     suspend fun getFilteredTypes(): List<Long> = withContext(Dispatchers.IO) {
@@ -329,12 +330,29 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.untrackedRangeEnd = end
     }
 
-    suspend fun getDarkMode(): Boolean = withContext(Dispatchers.IO) {
-        prefsRepo.darkMode
+    suspend fun getSelectedDarkMode(): DarkMode = withContext(Dispatchers.IO) {
+        when (prefsRepo.darkMode) {
+            0 -> DarkMode.System
+            1 -> DarkMode.Enabled
+            2 -> DarkMode.Disabled
+            else -> DarkMode.System
+        }
     }
 
-    suspend fun setDarkMode(isEnabled: Boolean) = withContext(Dispatchers.IO) {
-        prefsRepo.darkMode = isEnabled
+    suspend fun getDarkMode(): Boolean = withContext(Dispatchers.IO) {
+        when (getSelectedDarkMode()) {
+            DarkMode.Enabled -> true
+            DarkMode.Disabled -> false
+            DarkMode.System -> isSystemInDarkModeInteractor.execute()
+        }
+    }
+
+    suspend fun setDarkMode(mode: DarkMode) = withContext(Dispatchers.IO) {
+        prefsRepo.darkMode = when (mode) {
+            DarkMode.System -> 0
+            DarkMode.Enabled -> 1
+            DarkMode.Disabled -> 2
+        }
     }
 
     suspend fun getNumberOfCards(): Int = withContext(Dispatchers.IO) {

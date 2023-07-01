@@ -224,6 +224,8 @@
     <string name="settings_ignore_short_records_hint">Ne pas enregistrer les activités qui sont plus courtes que la durée spécifiée.</string>
     <string name="settings_inactivity_reminder_disabled">Désactivé</string>
     <string name="settings_dark_mode">Mode sombre</string>
+    <string name="settings_dark_mode_system">Système</string>
+    <string name="settings_dark_mode_enabled">Activé</string>
     <string name="settings_use_military_time">Utiliser le format 24 heures</string>
     <string name="settings_use_proportional_minutes">Utiliser le format décimal</string>
     <string name="settings_show_seconds">Afficher les secondes</string>

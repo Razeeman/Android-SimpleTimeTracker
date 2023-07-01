@@ -15,12 +15,14 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.DarkMode
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.DaysInCalendar
 import com.example.util.simpletimetracker.domain.model.count
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
@@ -58,6 +60,12 @@ class SettingsMapper @Inject constructor(
         DayOfWeek.FRIDAY,
         DayOfWeek.SATURDAY,
         DayOfWeek.SUNDAY
+    )
+
+    private val darkModeList: List<DarkMode> = listOf(
+        DarkMode.System,
+        DarkMode.Enabled,
+        DarkMode.Disabled,
     )
 
     fun toAutomatedTrackingHelpDialog(): HelpDialogParams {
@@ -127,6 +135,25 @@ class SettingsMapper @Inject constructor(
 
     fun toDayOfWeek(position: Int): DayOfWeek {
         return dayOfWeekList.getOrElse(position) { dayOfWeekList.first() }
+    }
+
+    fun toDarkModeViewData(currentMode: DarkMode): DarkModeViewData {
+        return DarkModeViewData(
+            items = darkModeList
+                .map {
+                    when (it) {
+                        DarkMode.System -> resourceRepo.getString(R.string.settings_dark_mode_system)
+                        DarkMode.Enabled -> resourceRepo.getString(R.string.settings_dark_mode_enabled)
+                        DarkMode.Disabled -> resourceRepo.getString(R.string.settings_inactivity_reminder_disabled)
+                    }
+                }
+                .map(CustomSpinner::CustomSpinnerTextItem),
+            selectedPosition = toPosition(currentMode)
+        )
+    }
+
+    fun toDarkMode(position: Int): DarkMode {
+        return darkModeList.getOrNull(position) ?: darkModeList.first()
     }
 
     fun toDurationViewData(duration: Long): SettingsDurationViewData {
@@ -223,5 +250,9 @@ class SettingsMapper @Inject constructor(
 
     private fun toPosition(dayOfWeek: DayOfWeek): Int {
         return dayOfWeekList.indexOf(dayOfWeek).takeUnless { it == -1 }.orZero()
+    }
+
+    private fun toPosition(darkMode: DarkMode): Int {
+        return darkModeList.indexOf(darkMode).takeUnless { it == -1 }.orZero()
     }
 }

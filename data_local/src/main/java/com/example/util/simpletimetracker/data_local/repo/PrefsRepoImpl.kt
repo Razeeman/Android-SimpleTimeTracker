@@ -161,8 +161,8 @@ class PrefsRepoImpl @Inject constructor(
         KEY_UNTRACKED_RANGE_END, 0
     )
 
-    override var darkMode: Boolean by prefs.delegate(
-        KEY_DARK_MODE, false
+    override var darkMode: Int by prefs.delegate(
+        KEY_DARK_MODE_2, 0
     )
 
     override var numberOfCards: Int by prefs.delegate(
@@ -357,6 +357,7 @@ class PrefsRepoImpl @Inject constructor(
         prefs.edit().clear().apply()
     }
 
+    @Suppress("unused")
     companion object {
         private const val DO_NOT_DISTURB_PERIOD_START: Long = 0 // midnight
         private const val DO_NOT_DISTURB_PERIOD_END: Long = 1000 * 60 * 60 * 8 // 8 hours in the morning
@@ -397,7 +398,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_UNTRACKED_RANGE_ENABLED = "untrackedRangeEnabled"
         private const val KEY_UNTRACKED_RANGE_START = "untrackedRangeStart"
         private const val KEY_UNTRACKED_RANGE_END = "untrackedRangeEnd"
-        private const val KEY_DARK_MODE = "darkMode"
+        private const val KEY_DARK_MODE_2 = "darkMode2"
         private const val KEY_NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
         private const val KEY_USE_MILITARY_TIME_FORMAT = "useMilitaryTimeFormat"
         private const val KEY_USE_PROPORTIONAL_MINUTES = "useProportionalMinutes"
@@ -423,7 +424,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"
 
         // Removed
-        @Suppress("unused")
         private const val KEY_SORT_RECORD_TYPES_BY_COLOR = "sortRecordTypesByColor" // Boolean
+        private const val KEY_DARK_MODE = "darkMode"
     }
 }

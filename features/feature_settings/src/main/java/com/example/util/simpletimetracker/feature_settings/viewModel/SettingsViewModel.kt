@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
@@ -276,10 +277,10 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    val darkModeCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
+    val darkModeViewData: LiveData<DarkModeViewData> by lazy {
+        MutableLiveData<DarkModeViewData>().let { initial ->
             viewModelScope.launch {
-                initial.value = prefsInteractor.getDarkMode()
+                initial.value = loadDarkModeViewData()
             }
             initial
         }
@@ -379,7 +380,7 @@ class SettingsViewModel @Inject constructor(
         MutableLiveData(loadVersionName())
     }
 
-    val themeChanged: LiveData<Boolean> = MutableLiveData(false)
+    val themeChanged: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val settingsNotificationsVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsDisplayVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsAdditionalVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -684,12 +685,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun onDarkModeClicked() {
+    fun onDarkModeSelected(position: Int) {
         viewModelScope.launch {
-            val newValue = !prefsInteractor.getDarkMode()
-            prefsInteractor.setDarkMode(newValue)
-            (darkModeCheckbox as MutableLiveData).value = newValue
-            (themeChanged as MutableLiveData).value = true
+            val currentMode = prefsInteractor.getSelectedDarkMode()
+            val newMode = settingsMapper.toDarkMode(position)
+            if (newMode == currentMode) return@launch
+
+            prefsInteractor.setDarkMode(newMode)
+            updateDarkModeViewData()
+            themeChanged.set(true)
         }
     }
 
@@ -890,10 +894,6 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun onThemeChanged() {
-        (themeChanged as MutableLiveData).value = false
-    }
-
     fun onAutomatedTrackingHelpClick() {
         router.navigate(
             settingsMapper.toAutomatedTrackingHelpDialog()
@@ -958,6 +958,15 @@ class SettingsViewModel @Inject constructor(
     private suspend fun loadFirstDayOfWeekViewData(): FirstDayOfWeekViewData {
         return prefsInteractor.getFirstDayOfWeek()
             .let(settingsMapper::toFirstDayOfWeekViewData)
+    }
+
+    private suspend fun updateDarkModeViewData() {
+        darkModeViewData.set(loadDarkModeViewData())
+    }
+
+    private suspend fun loadDarkModeViewData(): DarkModeViewData {
+        return prefsInteractor.getSelectedDarkMode()
+            .let(settingsMapper::toDarkModeViewData)
     }
 
     private suspend fun updateStartOfDayViewData() {

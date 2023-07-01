@@ -224,6 +224,8 @@
     <string name="settings_ignore_short_records_hint">短於指定時間，不要追蹤活動</string>
     <string name="settings_inactivity_reminder_disabled">已關閉</string>
     <string name="settings_dark_mode">暗黑模式</string>
+    <string name="settings_dark_mode_system">系統</string>
+    <string name="settings_dark_mode_enabled">啟用</string>
     <string name="settings_use_military_time">使用 24 小時格式</string>
     <string name="settings_use_proportional_minutes">使用比例分鐘格式</string>
     <string name="settings_show_seconds">顯示秒數</string>

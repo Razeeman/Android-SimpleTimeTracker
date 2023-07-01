@@ -224,6 +224,8 @@
     <string name="settings_ignore_short_records_hint">Не отслеживать активности, которые короче указанного времени.</string>
     <string name="settings_inactivity_reminder_disabled">Выкл.</string>
     <string name="settings_dark_mode">Темный режим</string>
+    <string name="settings_dark_mode_system">Система</string>
+    <string name="settings_dark_mode_enabled">Вкл.</string>
     <string name="settings_use_military_time">24-часовой формат</string>
     <string name="settings_use_proportional_minutes">Использовать пропорциональный минутный формат</string>
     <string name="settings_show_seconds">Показать секунды</string>

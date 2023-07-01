@@ -224,6 +224,8 @@
     <string name="settings_ignore_short_records_hint">उन गतिविधियों को ट्रैक न करें जो निर्दिष्ट समय से कम हैं।</string>
     <string name="settings_inactivity_reminder_disabled">अक्षम</string>
     <string name="settings_dark_mode">रात्रि मोड</string>
+    <string name="settings_dark_mode_system">प्रणाली</string>
+    <string name="settings_dark_mode_enabled">सक्रिय</string>
     <string name="settings_use_military_time">24-घंटे के प्रारूप का उपयोग करें</string>
     <string name="settings_use_proportional_minutes">आनुपातिक मिनट प्रारूप का उपयोग करें</string>
     <string name="settings_show_seconds">सेकंड दिखाएँ</string>
