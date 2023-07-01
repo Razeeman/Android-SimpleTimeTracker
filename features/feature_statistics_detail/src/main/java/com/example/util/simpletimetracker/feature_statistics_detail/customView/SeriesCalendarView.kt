@@ -5,14 +5,17 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.ColorInt
+import com.example.util.simpletimetracker.core.utils.SingleTapDetector
 import com.example.util.simpletimetracker.core.utils.SwipeDetector
 import com.example.util.simpletimetracker.core.utils.isHorizontal
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.model.Coordinates
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import kotlin.math.ceil
 import kotlin.math.roundToInt
@@ -34,19 +37,24 @@ class SeriesCalendarView @JvmOverloads constructor(
     private val cellRadius: Float = 4f.dpToPx().toFloat()
     private var cellSize: Float = 0f
     private var cellColor: Int = Color.BLACK
-    private var data: List<ViewData> = emptyList()
+    private var data: List<Data> = emptyList()
     private var dataColumnCount: Int = 0
     private var panFactor: Float = 0f
     private var lastPanFactor: Float = 0f
     private var chartFullWidth: Float = 0f
+    private var listener: (ViewData, Coordinates) -> Unit = { _, _ -> }
 
     private val cellPresentPaint: Paint = Paint()
     private val cellNotPresentPaint: Paint = Paint()
 
+    private val singleTapDetector = SingleTapDetector(
+        context = context,
+        onSingleTap = ::onClick,
+    )
     private val swipeDetector = SwipeDetector(
         context = context,
         onSlide = ::onSwipe,
-        onSlideStop = ::onSwipeStop
+        onSlideStop = ::onSwipeStop,
     )
 
     init {
@@ -96,15 +104,21 @@ class SeriesCalendarView @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> handled = true
         }
 
-        return handled or swipeDetector.onTouchEvent(event)
+        return handled or
+            singleTapDetector.onTouchEvent(event) or
+            swipeDetector.onTouchEvent(event)
     }
 
-    fun setData(data: List<ViewData>) {
+    fun setClickListener(listener: (ViewData, Coordinates) -> Unit) {
+        this.listener = listener
+    }
+
+    fun setData(viewData: List<ViewData>) {
         if (this.data.size != data.size) {
             panFactor = 0f
             lastPanFactor = 0f
         }
-        this.data = data
+        this.data = viewData.map { Data(cell = it) }
         invalidate()
     }
 
@@ -134,39 +148,50 @@ class SeriesCalendarView @JvmOverloads constructor(
     }
 
     private fun drawCells(canvas: Canvas, w: Float, h: Float) {
+        var boxLeft: Float
+        var boxRight: Float
+        var boxTop: Float
+        var boxBottom: Float
+
+        // If chart width is less than screen - center in screen.
         val finalWidth = if (chartFullWidth < w) {
             (w + chartFullWidth) / 2
         } else {
             w
         }
 
-        // Draw from bottom right corner so that current day would be in there.
-        canvas.save()
-        canvas.translate(finalWidth + panFactor, h)
-
         data.forEachIndexed { index, point ->
-            if (point is ViewData.Dummy) return@forEachIndexed
+            if (point.cell is ViewData.Dummy) return@forEachIndexed
 
             val column = index / rowsCount
             val row = index % rowsCount
-            canvas.save()
-            canvas.translate(
-                -(column + 1) * cellSize,
-                -(row + 1) * cellSize,
-            )
-            canvas.drawRoundRect(
-                cellPadding,
-                cellPadding,
-                cellSize - cellPadding,
-                cellSize - cellPadding,
-                cellRadius,
-                cellRadius,
-                if (point is ViewData.Present) cellPresentPaint else cellNotPresentPaint,
-            )
-            canvas.restore()
-        }
 
-        canvas.restore()
+            // Draw from bottom right corner so that current day would be in there.
+            boxLeft = finalWidth + panFactor - (column + 1) * cellSize
+            boxTop = h - (row + 1) * cellSize
+            boxRight = boxLeft + cellSize
+            boxBottom = boxTop + cellSize
+
+            // Save coordinates for click event.
+            point.boxLeft = boxLeft
+            point.boxTop = boxTop
+            point.boxRight = boxRight
+            point.boxBottom = boxBottom
+
+            canvas.drawRoundRect(
+                boxLeft + cellPadding,
+                boxTop + cellPadding,
+                boxRight - cellPadding,
+                boxBottom - cellPadding,
+                cellRadius,
+                cellRadius,
+                if (point.cell is ViewData.Present) {
+                    cellPresentPaint
+                } else {
+                    cellNotPresentPaint
+                },
+            )
+        }
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -179,6 +204,27 @@ class SeriesCalendarView @JvmOverloads constructor(
         }
     }
 
+    private fun onClick(event: MotionEvent) {
+        val x = event.x
+        val y = event.y
+
+        data.firstOrNull {
+            it.boxLeft < x && it.boxTop < y && it.boxRight > x && it.boxBottom > y
+        }?.let {
+            val globalRect = Rect()
+            getGlobalVisibleRect(globalRect)
+            listener(
+                it.cell,
+                Coordinates(
+                    left = globalRect.left + it.boxLeft.toInt(),
+                    top = globalRect.top + it.boxTop.toInt(),
+                    right = globalRect.left + it.boxRight.toInt(),
+                    bottom = globalRect.top + it.boxBottom.toInt(),
+                )
+            )
+        }
+    }
+
     private fun onSwipeStop() {
         parent.requestDisallowInterceptTouchEvent(false)
         lastPanFactor = panFactor
@@ -188,10 +234,28 @@ class SeriesCalendarView @JvmOverloads constructor(
         panFactor = panFactor.coerceIn(0f, (chartFullWidth - width).coerceAtLeast(0f))
     }
 
+    private inner class Data(
+        val cell: ViewData,
+        var boxLeft: Float = 0f,
+        var boxTop: Float = 0f,
+        var boxRight: Float = 0f,
+        var boxBottom: Float = 0f,
+    )
+
     sealed interface ViewData {
-        object Present : ViewData
-        object NotPresent : ViewData
-        object Dummy : ViewData
+        val rangeStart: Long
+
+        data class Present(
+            override val rangeStart: Long,
+        ) : ViewData
+
+        data class NotPresent(
+            override val rangeStart: Long,
+        ) : ViewData
+
+        object Dummy : ViewData {
+            override val rangeStart: Long = 0L // Not needed for dummy view.
+        }
     }
 
     @Parcelize

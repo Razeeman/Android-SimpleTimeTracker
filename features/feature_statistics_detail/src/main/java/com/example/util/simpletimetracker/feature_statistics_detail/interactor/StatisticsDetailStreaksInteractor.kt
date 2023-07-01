@@ -410,9 +410,9 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         return dummyDays + data
             .map {
                 if (it.second > 0) {
-                    SeriesCalendarView.ViewData.Present
+                    SeriesCalendarView.ViewData.Present(it.first)
                 } else {
-                    SeriesCalendarView.ViewData.NotPresent
+                    SeriesCalendarView.ViewData.NotPresent(it.first)
                 }
             }
             .reversed()

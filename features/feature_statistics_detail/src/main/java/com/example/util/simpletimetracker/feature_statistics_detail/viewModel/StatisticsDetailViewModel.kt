@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
+import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailSplitChartInteractor
@@ -297,6 +298,26 @@ class StatisticsDetailViewModel @Inject constructor(
     fun onCustomRangeSelected(range: Range) {
         rangeLength = RangeLength.Custom(range)
         onRangeChanged()
+    }
+
+    fun onStreaksCalendarClick(
+        viewData: SeriesCalendarView.ViewData,
+        coordinates: Coordinates,
+    ) {
+        PopupParams(
+            timeMapper.formatDateYear(viewData.rangeStart),
+            coordinates,
+        ).let(router::show)
+    }
+
+    fun onComparisonStreaksCalendarClick(
+        viewData: SeriesCalendarView.ViewData,
+        coordinates: Coordinates,
+    ) {
+        PopupParams(
+            timeMapper.formatDateYear(viewData.rangeStart),
+            coordinates,
+        ).let(router::show)
     }
 
     private fun onRecordsClick() {
