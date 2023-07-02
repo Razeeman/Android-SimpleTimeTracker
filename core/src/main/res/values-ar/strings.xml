@@ -87,7 +87,7 @@
     <string name="change_record_tag_type_general">General</string>
     <string name="change_record_tag_type_general_hint">يمكن تعيينه إلى متتبعات أي نشاط</string>
     <string name="change_record_tag_type_typed">النشاط</string>
-    <string name="change_record_tag_type_typed_hint">لا يمكن تعيينه إلا لمتتبعات نشاط معين/string>
+    <string name="change_record_tag_type_typed_hint">لا يمكن تعيينه إلا لمتتبعات نشاط معين</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">اختيار النشاط</string>
@@ -242,7 +242,7 @@
     <string name="settings_feedback">انطباعات ومراجعة</string>
     <string name="settings_feedback_description">هل لديك اقتراح؟ هل وجدت خطأ؟ هل تريد التحدث؟ اكتب لنا!</string>
     <string name="settings_version">اﻹصدار</string>
-    <string name="settings_email_chooser_title">إرسال عبر...</string>
+    <string name="settings_email_chooser_title">إرسال عبر…</string>
     <string name="settings_translators">المترجمين</string>
     <string name="settings_automated_tracking">التتبع التلقائي</string>
     <string name="settings_automated_tracking_text"><![CDATA[

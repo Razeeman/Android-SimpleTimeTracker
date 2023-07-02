@@ -1,10 +1,13 @@
 package com.example.util.simpletimetracker.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.extension.allowDiskWrite
 import com.example.util.simpletimetracker.core.manager.ThemeManager
+import com.example.util.simpletimetracker.core.provider.ContextProvider
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.databinding.MainActivityBinding
 import com.example.util.simpletimetracker.feature_views.extension.visible
@@ -22,6 +25,9 @@ class MainActivity : BaseActivity() {
     lateinit var themeManager: ThemeManager
 
     @Inject
+    lateinit var contextProvider: ContextProvider
+
+    @Inject
     lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
 
     private val backupViewModel: BackupViewModel by viewModels(
@@ -29,8 +35,15 @@ class MainActivity : BaseActivity() {
     )
     private lateinit var binding: MainActivityBinding
 
+    override fun attachBaseContext(newBase: Context?) {
+        // Suppress strictMode for per app language prefs read for stored locale (see autoStoreLocales).
+        // Only for api lower than 33.
+        allowDiskWrite { super.attachBaseContext(newBase) }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        contextProvider.attach(this)
         initUi()
         initViewModel()
     }

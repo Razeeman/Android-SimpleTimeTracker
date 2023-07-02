@@ -17,7 +17,7 @@ class LanguageInteractor @Inject constructor(
             resourceRepo.getString(R.string.settings_dark_mode_system)
         } else {
             val locale = locales[0] ?: return ""
-            locale.displayLanguage.capitalize(locale)
+            locale.getDisplayLanguage(locale).capitalize(locale)
         }
     }
 

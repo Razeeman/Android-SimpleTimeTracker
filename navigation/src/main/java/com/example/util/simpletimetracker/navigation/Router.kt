@@ -33,6 +33,8 @@ interface Router {
 
     fun back()
 
+    fun restartApp()
+
     fun getMainStartIntent(): Intent
 
     fun getActivitySelectionIntent(): Intent

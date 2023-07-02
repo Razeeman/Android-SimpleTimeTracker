@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.core.mapper
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.provider.CurrentTimestampProvider
+import com.example.util.simpletimetracker.core.provider.LocaleProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
@@ -15,32 +16,35 @@ import javax.inject.Inject
 
 class TimeMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
+    private val localeProvider: LocaleProvider,
     private val currentTimestampProvider: CurrentTimestampProvider,
 ) {
 
-    private val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
-    private val timeFormatWithSeconds = SimpleDateFormat("h:mm:ss a", Locale.getDefault())
-    private val timeFormatMilitary = SimpleDateFormat("HH:mm", Locale.getDefault())
-    private val timeFormatMilitaryWithSeconds = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+    private val locale: Locale get() = localeProvider.get()
 
-    private val dateTimeFormat = SimpleDateFormat("MMM d h:mm a", Locale.getDefault())
-    private val dateTimeFormatWithSeconds = SimpleDateFormat("MMM d h:mm:ss a", Locale.getDefault())
-    private val dateTimeFormatMilitary = SimpleDateFormat("MMM d HH:mm", Locale.getDefault())
-    private val dateTimeFormatMilitaryWithSeconds = SimpleDateFormat("MMM d HH:mm:ss", Locale.getDefault())
+    private val timeFormat = SimpleDateFormat("h:mm a", locale)
+    private val timeFormatWithSeconds = SimpleDateFormat("h:mm:ss a", locale)
+    private val timeFormatMilitary = SimpleDateFormat("HH:mm", locale)
+    private val timeFormatMilitaryWithSeconds = SimpleDateFormat("HH:mm:ss", locale)
 
-    private val dateTimeYearFormat = SimpleDateFormat("MMM d yyyy h:mm a", Locale.getDefault())
-    private val dateTimeYearFormatMilitary = SimpleDateFormat("MMM d yyyy HH:mm", Locale.getDefault())
+    private val dateTimeFormat = SimpleDateFormat("MMM d h:mm a", locale)
+    private val dateTimeFormatWithSeconds = SimpleDateFormat("MMM d h:mm:ss a", locale)
+    private val dateTimeFormatMilitary = SimpleDateFormat("MMM d HH:mm", locale)
+    private val dateTimeFormatMilitaryWithSeconds = SimpleDateFormat("MMM d HH:mm:ss", locale)
 
-    private val dayDateYearFormat = SimpleDateFormat("E, MMM d yyyy", Locale.getDefault())
-    private val dateYearFormat = SimpleDateFormat("MMM d yyyy", Locale.getDefault())
-    private val shortDayFormat = SimpleDateFormat("dd.MM", Locale.getDefault())
-    private val shortMonthFormat = SimpleDateFormat("MMM", Locale.getDefault())
-    private val shortYearFormat = SimpleDateFormat("yy", Locale.getDefault())
+    private val dateTimeYearFormat = SimpleDateFormat("MMM d yyyy h:mm a", locale)
+    private val dateTimeYearFormatMilitary = SimpleDateFormat("MMM d yyyy HH:mm", locale)
 
-    private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.getDefault())
-    private val weekTitleFormat = SimpleDateFormat("MMM d", Locale.getDefault())
-    private val monthTitleFormat = SimpleDateFormat("MMMM", Locale.getDefault())
-    private val yearTitleFormat = SimpleDateFormat("yyyy", Locale.getDefault())
+    private val dayDateYearFormat = SimpleDateFormat("E, MMM d yyyy", locale)
+    private val dateYearFormat = SimpleDateFormat("MMM d yyyy", locale)
+    private val shortDayFormat = SimpleDateFormat("dd.MM", locale)
+    private val shortMonthFormat = SimpleDateFormat("MMM", locale)
+    private val shortYearFormat = SimpleDateFormat("yy", locale)
+
+    private val dayTitleFormat = SimpleDateFormat("E, MMM d", locale)
+    private val weekTitleFormat = SimpleDateFormat("MMM d", locale)
+    private val monthTitleFormat = SimpleDateFormat("MMMM", locale)
+    private val yearTitleFormat = SimpleDateFormat("yyyy", locale)
 
     private val lock = Any()
 
@@ -368,11 +372,13 @@ class TimeMapper @Inject constructor(
                 rangeStart = calendar.timeInMillis
                 rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
             }
+
             is RangeLength.Week -> {
                 calendar.add(Calendar.DATE, shift * 7)
                 rangeStart = calendar.timeInMillis
                 rangeEnd = calendar.apply { add(Calendar.DATE, 7) }.timeInMillis
             }
+
             is RangeLength.Month -> {
                 calendar.timeInMillis -= startOfDayShift
                 calendar.add(Calendar.MONTH, shift)
@@ -384,6 +390,7 @@ class TimeMapper @Inject constructor(
                     calendar.timeInMillis += startOfDayShift
                 }.timeInMillis
             }
+
             is RangeLength.Year -> {
                 calendar.timeInMillis -= startOfDayShift
                 calendar.add(Calendar.YEAR, shift)
@@ -395,14 +402,17 @@ class TimeMapper @Inject constructor(
                     calendar.timeInMillis += startOfDayShift
                 }.timeInMillis
             }
+
             is RangeLength.All -> {
                 rangeStart = 0L
                 rangeEnd = 0L
             }
+
             is RangeLength.Custom -> {
                 rangeStart = rangeLength.range.timeStarted
                 rangeEnd = rangeLength.range.timeEnded
             }
+
             is RangeLength.Last -> {
                 rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
                 rangeStart = calendar.apply { add(Calendar.DATE, -rangeLength.days) }.timeInMillis

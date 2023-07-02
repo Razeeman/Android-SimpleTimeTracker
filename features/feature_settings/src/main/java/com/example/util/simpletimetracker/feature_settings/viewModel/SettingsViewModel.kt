@@ -746,6 +746,7 @@ class SettingsViewModel @Inject constructor(
         val newLanguage = settingsMapper.toLanguage(position)
         languageInteractor.setLanguage(newLanguage)
         updateLanguageViewData()
+        router.restartApp()
     }
 
     fun onUseMilitaryTimeClicked() {

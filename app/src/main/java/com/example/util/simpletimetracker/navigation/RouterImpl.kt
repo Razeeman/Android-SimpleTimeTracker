@@ -60,6 +60,11 @@ class RouterImpl @Inject constructor(
         navController?.navigateUp()
     }
 
+    override fun restartApp() {
+        activity?.finish()
+        activity?.startActivity(getMainStartIntent())
+    }
+
     override fun getMainStartIntent(): Intent {
         return Intent(context, MainActivity::class.java)
     }
