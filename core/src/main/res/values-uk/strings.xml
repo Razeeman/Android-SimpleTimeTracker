@@ -167,6 +167,7 @@
     <string name="csv_export_settings_hint">Виберіть діапазон часу або експортуйте всі записи</string>
 
     <string name="schedule_exact_alarms">Для цього додатка потрібно ввімкнути налаштування системи, щоб запланувати точні будильники</string>
+    <string name="post_notifications">Щоб відображати сповіщення, для цієї програми потрібно ввімкнути системні налаштування</string>
     <string name="schedule_exact_alarms_open_settings">Відкрити</string>
 
     <string name="default_types_selection_title">Виберіть дії для додавання</string>

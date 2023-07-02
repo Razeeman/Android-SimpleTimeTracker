@@ -167,6 +167,7 @@
     <string name="csv_export_settings_hint">محدوده زمانی را انتخاب کنید یا از تمام تاریخچه ها خروجی بگیرید</string>
 
     <string name="schedule_exact_alarms">برای تنظیم دقیق آلارم تنظیمات سیستم باید برای این برنامه فعال شده باشند</string>
+    <string name="post_notifications">تنظیمات سیستم باید برای این برنامه فعال باشد تا اعلان‌ها نشان داده شود</string>
     <string name="schedule_exact_alarms_open_settings">باز کردن</string>
 
     <string name="default_types_selection_title">انتخاب فعالیت ها برای اضافه کردن</string>

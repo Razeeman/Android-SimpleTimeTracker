@@ -167,6 +167,7 @@
     <string name="csv_export_settings_hint">選擇時間範圍 或 匯出所有紀錄</string>
 
     <string name="schedule_exact_alarms">為了排程更多鬧鐘，系統設定應開啟給此應用程式</string>
+    <string name="post_notifications">應為此應用程序啟用系統設置才能顯示通知</string>
     <string name="schedule_exact_alarms_open_settings">開啟</string>
 
     <string name="default_types_selection_title">選擇要添加的活動</string>

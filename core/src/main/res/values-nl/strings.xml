@@ -167,6 +167,7 @@
     <string name="csv_export_settings_hint">Selecteer tijdbereik of exporteer alle records</string>
 
     <string name="schedule_exact_alarms">Systeeminstellingen moeten voor deze app zijn ingeschakeld om exacte alarmen in te plannen</string>
+    <string name="post_notifications">Systeeminstellingen moeten zijn ingeschakeld voor deze app om meldingen weer te geven</string>
     <string name="schedule_exact_alarms_open_settings">Open</string>
 
     <string name="default_types_selection_title">Selecteer activiteiten om toe te voegen</string>

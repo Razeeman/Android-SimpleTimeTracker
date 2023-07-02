@@ -167,6 +167,7 @@
     <string name="csv_export_settings_hint">Выберите временной диапазон или экспортируйте все записи</string>
 
     <string name="schedule_exact_alarms">Системные настройки должны быть изменены для этого приложения, чтобы планировать точные оповещения.</string>
+    <string name="post_notifications">Системные настройки должны быть включены для этого приложения, чтобы показывать уведомления.</string>
     <string name="schedule_exact_alarms_open_settings">Открыть</string>
 
     <string name="default_types_selection_title">Выберите активности для добавления</string>

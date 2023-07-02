@@ -167,6 +167,7 @@
     <string name="csv_export_settings_hint">Tarih aralığı seçin veya tüm kayıtları dışa aktarın</string>
 
     <string name="schedule_exact_alarms">Kesin alarmları programlamak için bu uygulama için sistem ayarı etkinleştirilmelidir</string>
+    <string name="post_notifications">Bildirimlerin gösterilebilmesi için bu uygulama için sistem ayarı etkinleştirilmelidir</string>
     <string name="schedule_exact_alarms_open_settings">Açık</string>
 
     <string name="default_types_selection_title">Eklenecek etkinlikleri seçin</string>

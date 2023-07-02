@@ -167,6 +167,7 @@
     <string name="csv_export_settings_hint">Seleccioneu un interval de temps o exporteu tots els enregistraments</string>
 
     <string name="schedule_exact_alarms">La configuració del sistema ha de ser habilitada per a aquesta aplicació per programar alarmes exactes</string>
+    <string name="post_notifications">La configuració del sistema hauria d\'estar activada per a aquesta aplicació per mostrar les notificacions</string>
     <string name="schedule_exact_alarms_open_settings">Obre</string>
 
     <string name="default_types_selection_title">Seleccioneu activitats per afegir</string>

@@ -167,6 +167,7 @@
     <string name="csv_export_settings_hint">समय सीमा का चयन करें या सभी रिकॉर्ड निर्यात करें</string>
 
     <string name="schedule_exact_alarms">सटीक अलार्म शेड्यूल करने के लिए इस ऐप के लिए सिस्टम सेटिंग सक्षम होनी चाहिए</string>
+    <string name="post_notifications">सूचनाएं दिखाने के लिए इस ऐप के लिए सिस्टम सेटिंग सक्षम होनी चाहिए</string>
     <string name="schedule_exact_alarms_open_settings">खुला</string>
 
     <string name="default_types_selection_title">जोड़ने के लिए गतिविधियों का चयन करें</string>

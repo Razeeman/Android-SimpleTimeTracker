@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import androidx.core.app.NotificationManagerCompat
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -16,6 +17,10 @@ class PermissionRepo @Inject constructor(
 ) {
 
     private val alarmManager get() = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
+
+    fun areNotificationsEnabled(): Boolean {
+        return NotificationManagerCompat.from(context).areNotificationsEnabled()
+    }
 
     fun canScheduleExactAlarms(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

@@ -8,26 +8,32 @@ import android.os.Build
 import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.navigation.params.action.ActionParams
 import com.example.util.simpletimetracker.navigation.params.action.CreateFileParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenFileParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenSystemSettings
+import com.example.util.simpletimetracker.navigation.params.action.RequestPermissionParams
 import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
 import com.example.util.simpletimetracker.navigation.params.action.ShareImageParams
 import javax.inject.Inject
 
 class ActionResolverImpl @Inject constructor(
     private val resultContainer: ResultContainer,
+    private val applicationDataProvider: ApplicationDataProvider,
 ) : ActionResolver {
 
     private var createFileResultLauncher: ActivityResultLauncher<Intent>? = null
     private var openFileResultLauncher: ActivityResultLauncher<Intent>? = null
+    private var requestPermissionLauncher: ActivityResultLauncher<String>? = null
 
     override fun registerResultListeners(activity: ComponentActivity) {
         createFileResultLauncher = activity.registerForActivityResult(RequestCode.REQUEST_CODE_CREATE_FILE)
         openFileResultLauncher = activity.registerForActivityResult(RequestCode.REQUEST_CODE_OPEN_FILE)
+        requestPermissionLauncher = activity.registerForRequestPermission(RequestCode.REQUEST_PERMISSION)
     }
 
     override fun execute(activity: Activity?, data: ActionParams) {
@@ -38,6 +44,7 @@ class ActionResolverImpl @Inject constructor(
             is OpenFileParams -> openFile(activity, data)
             is OpenSystemSettings -> openSystemSettings(activity, data)
             is ShareImageParams -> shareImage(activity, data)
+            is RequestPermissionParams -> requestPermission(data)
         }
     }
 
@@ -100,12 +107,24 @@ class ActionResolverImpl @Inject constructor(
     }
 
     private fun openSystemSettings(activity: Activity?, data: OpenSystemSettings) {
+        val packageName by lazy { applicationDataProvider.getPackageName() }
+
+        // TODO refactor
         when (data) {
             is OpenSystemSettings.ExactAlarms -> runCatching {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    intent.data = Uri.parse("package:$packageName")
                     activity?.startActivity(intent)
                 }
+            }
+
+            is OpenSystemSettings.Notifications -> runCatching {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent.data = Uri.parse("package:$packageName")
+                activity?.startActivity(intent)
             }
         }
     }
@@ -124,12 +143,22 @@ class ActionResolverImpl @Inject constructor(
         }
     }
 
+    private fun requestPermission(data: RequestPermissionParams) {
+        requestPermissionLauncher?.launch(data.permissionId)
+    }
+
     private fun ComponentActivity.registerForActivityResult(key: String): ActivityResultLauncher<Intent> {
         return registerForActivityResult(StartActivityForResult()) { result ->
             val intent = result.data
             val uri = intent?.data?.toString().takeIf { result.resultCode == Activity.RESULT_OK }
 
             resultContainer.sendResult(key, uri)
+        }
+    }
+
+    private fun ComponentActivity.registerForRequestPermission(key: String): ActivityResultLauncher<String> {
+        return registerForActivityResult(RequestPermission()) { result ->
+            resultContainer.sendResult(key, result)
         }
     }
 

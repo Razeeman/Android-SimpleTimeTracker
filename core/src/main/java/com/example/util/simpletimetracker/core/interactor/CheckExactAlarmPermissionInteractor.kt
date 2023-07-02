@@ -16,9 +16,8 @@ class CheckExactAlarmPermissionInteractor @Inject constructor(
 
     fun execute(anchor: Any? = null) {
         if (!permissionRepo.canScheduleExactAlarms()) {
-            val message = resourceRepo.getString(R.string.schedule_exact_alarms)
             SnackBarParams(
-                message = message,
+                message = resourceRepo.getString(R.string.schedule_exact_alarms),
                 duration = SnackBarParams.Duration.Long,
                 actionText = resourceRepo.getString(R.string.schedule_exact_alarms_open_settings),
                 actionListener = {

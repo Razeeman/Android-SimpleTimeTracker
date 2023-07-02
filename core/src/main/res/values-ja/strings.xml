@@ -167,6 +167,7 @@
     <string name="csv_export_settings_hint">時間範囲を選択、または全計測記録をエクスポート</string>
 
     <string name="schedule_exact_alarms">正確なアラームをスケジュールするには、このアプリのシステム設定を有効にする必要があります</string>
+    <string name="post_notifications">通知を表示するには、このアプリのシステム設定を有効にする必要があります</string>
     <string name="schedule_exact_alarms_open_settings">開ける</string>
 
     <string name="default_types_selection_title">追加するアクティビティを選択</string>

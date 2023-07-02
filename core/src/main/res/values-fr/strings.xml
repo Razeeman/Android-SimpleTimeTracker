@@ -167,6 +167,7 @@
     <string name="csv_export_settings_hint">Sélectionnez la plage de temps ou exportez tous les enregistrements</string>
 
     <string name="schedule_exact_alarms">Le paramètre système doit être activé pour cette application afin de programmer des alarmes exactes</string>
+    <string name="post_notifications">Le paramètre système doit être activé pour cette application afin d\'afficher les notifications</string>
     <string name="schedule_exact_alarms_open_settings">Ouvrir</string>
 
     <string name="default_types_selection_title">Sélectionnez les activités à ajouter</string>

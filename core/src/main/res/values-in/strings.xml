@@ -167,6 +167,7 @@
     <string name="csv_export_settings_hint">Pilih rentang waktu atau ekspor semua rekor</string>
 
     <string name="schedule_exact_alarms">Setelan sistem harus diaktifkan untuk aplikasi ini agar dapat menjadwalkan alarm yang tepat</string>
+    <string name="post_notifications">Setelan sistem harus diaktifkan untuk aplikasi ini agar dapat menampilkan notifikasi</string>
     <string name="schedule_exact_alarms_open_settings">Membuka</string>
 
     <string name="default_types_selection_title">Pilih aktivitas untuk ditambahkan</string>

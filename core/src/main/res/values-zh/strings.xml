@@ -167,6 +167,7 @@
     <string name="csv_export_settings_hint">選擇時間範圍或導出所有記錄</string>
 
     <string name="schedule_exact_alarms">应为此应用启用系统设置，以便安排准确的警报</string>
+    <string name="post_notifications">应为此应用程序启用系统设置才能显示通知</string>
     <string name="schedule_exact_alarms_open_settings">打开</string>
 
     <string name="default_types_selection_title">选择要添加的活动</string>

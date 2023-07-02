@@ -167,6 +167,7 @@
     <string name="csv_export_settings_hint">Zeitbereich auswählen oder alle Datensätze exportieren</string>
 
     <string name="schedule_exact_alarms">Die Systemeinstellung sollte für diese App aktiviert werden, um genaue Alarme zu planen</string>
+    <string name="post_notifications">Die Systemeinstellung sollte für diese App aktiviert sein, damit Benachrichtigungen angezeigt werden</string>
     <string name="schedule_exact_alarms_open_settings">Offen</string>
 
     <string name="default_types_selection_title">Wählen Sie die hinzuzufügenden Aktivitäten aus</string>

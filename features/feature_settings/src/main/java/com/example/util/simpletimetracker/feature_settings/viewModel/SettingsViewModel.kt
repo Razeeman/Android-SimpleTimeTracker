@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.BuildConfig
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermissionInteractor
+import com.example.util.simpletimetracker.core.interactor.CheckNotificationsPermissionInteractor
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -59,6 +60,7 @@ class SettingsViewModel @Inject constructor(
     private val notificationActivityInteractor: NotificationActivityInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val checkExactAlarmPermissionInteractor: CheckExactAlarmPermissionInteractor,
+    private val checkNotificationsPermissionInteractor: CheckNotificationsPermissionInteractor,
 ) : ViewModel() {
 
     val daysInCalendarViewData: LiveData<DaysInCalendarViewData> by lazy {
@@ -564,11 +566,21 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onShowNotificationsClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getShowNotifications()
+        fun updateValue(newValue: Boolean) = viewModelScope.launch {
             prefsInteractor.setShowNotifications(newValue)
             showNotificationsCheckbox.set(newValue)
             notificationTypeInteractor.updateNotifications()
+        }
+
+        viewModelScope.launch {
+            if (prefsInteractor.getShowNotifications()) {
+                updateValue(false)
+            } else {
+                checkNotificationsPermissionInteractor.execute(
+                    onEnabled = { updateValue(true) },
+                    onDisabled = { updateValue(false) }
+                )
+            }
         }
     }
 
@@ -589,12 +601,22 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun onInactivityReminderClicked() {
-        viewModelScope.launch {
+    fun onInactivityReminderClicked() = viewModelScope.launch {
+        val duration = prefsInteractor.getInactivityReminderDuration()
+
+        fun openDialog() {
             DurationDialogParams(
                 tag = INACTIVITY_DURATION_DIALOG_TAG,
-                duration = prefsInteractor.getInactivityReminderDuration()
+                duration = duration
             ).let(router::navigate)
+        }
+
+        if (duration > 0) {
+            openDialog()
+        } else {
+            checkNotificationsPermissionInteractor.execute(
+                onEnabled = ::openDialog
+            )
         }
     }
 
@@ -628,12 +650,20 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun onActivityReminderClicked() {
-        viewModelScope.launch {
+    fun onActivityReminderClicked() = viewModelScope.launch {
+        val duration = prefsInteractor.getActivityReminderDuration()
+
+        fun openDialog() {
             DurationDialogParams(
                 tag = ACTIVITY_DURATION_DIALOG_TAG,
-                duration = prefsInteractor.getActivityReminderDuration()
+                duration = duration
             ).let(router::navigate)
+        }
+
+        if (duration > 0) {
+            openDialog()
+        } else {
+            checkNotificationsPermissionInteractor.execute(onEnabled = ::openDialog)
         }
     }
 
@@ -801,6 +831,7 @@ class SettingsViewModel @Inject constructor(
                 notificationInactivityInteractor.checkAndSchedule()
                 checkExactAlarmPermissionInteractor.execute()
             }
+
             ACTIVITY_DURATION_DIALOG_TAG -> viewModelScope.launch {
                 prefsInteractor.setActivityReminderDuration(duration)
                 updateActivityReminderViewData()
@@ -808,10 +839,12 @@ class SettingsViewModel @Inject constructor(
                 notificationActivityInteractor.checkAndSchedule()
                 checkExactAlarmPermissionInteractor.execute()
             }
+
             IGNORE_SHORT_RECORDS_DIALOG_TAG -> viewModelScope.launch {
                 prefsInteractor.setIgnoreShortRecordsDuration(duration)
                 updateIgnoreShortRecordsViewData()
             }
+
             IGNORE_SHORT_UNTRACKED_DIALOG_TAG -> viewModelScope.launch {
                 prefsInteractor.setIgnoreShortUntrackedDuration(duration)
                 updateIgnoreShortUntrackedViewData()
@@ -826,15 +859,18 @@ class SettingsViewModel @Inject constructor(
                 updateInactivityReminderViewData()
                 notificationInactivityInteractor.cancel()
             }
+
             ACTIVITY_DURATION_DIALOG_TAG -> viewModelScope.launch {
                 prefsInteractor.setActivityReminderDuration(0)
                 updateActivityReminderViewData()
                 notificationActivityInteractor.cancel()
             }
+
             IGNORE_SHORT_RECORDS_DIALOG_TAG -> viewModelScope.launch {
                 prefsInteractor.setIgnoreShortRecordsDuration(0)
                 updateIgnoreShortRecordsViewData()
             }
+
             IGNORE_SHORT_UNTRACKED_DIALOG_TAG -> viewModelScope.launch {
                 prefsInteractor.setIgnoreShortUntrackedDuration(0)
                 updateIgnoreShortUntrackedViewData()
@@ -853,6 +889,7 @@ class SettingsViewModel @Inject constructor(
                 notificationGoalTimeInteractor.checkAndReschedule()
                 updateStartOfDayViewData()
             }
+
             INACTIVITY_REMINDER_DND_START_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setInactivityReminderDoNotDisturbStart(newValue)
@@ -860,6 +897,7 @@ class SettingsViewModel @Inject constructor(
                 notificationInactivityInteractor.cancel()
                 notificationInactivityInteractor.checkAndSchedule()
             }
+
             INACTIVITY_REMINDER_DND_END_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setInactivityReminderDoNotDisturbEnd(newValue)
@@ -867,6 +905,7 @@ class SettingsViewModel @Inject constructor(
                 notificationInactivityInteractor.cancel()
                 notificationInactivityInteractor.checkAndSchedule()
             }
+
             ACTIVITY_REMINDER_DND_START_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setActivityReminderDoNotDisturbStart(newValue)
@@ -874,6 +913,7 @@ class SettingsViewModel @Inject constructor(
                 notificationActivityInteractor.cancel()
                 notificationActivityInteractor.checkAndSchedule()
             }
+
             ACTIVITY_REMINDER_DND_END_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setActivityReminderDoNotDisturbEnd(newValue)
@@ -881,11 +921,13 @@ class SettingsViewModel @Inject constructor(
                 notificationActivityInteractor.cancel()
                 notificationActivityInteractor.checkAndSchedule()
             }
+
             UNTRACKED_RANGE_START_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setUntrackedRangeStart(newValue)
                 updateUntrackedRangeViewData()
             }
+
             UNTRACKED_RANGE_END_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setUntrackedRangeEnd(newValue)
