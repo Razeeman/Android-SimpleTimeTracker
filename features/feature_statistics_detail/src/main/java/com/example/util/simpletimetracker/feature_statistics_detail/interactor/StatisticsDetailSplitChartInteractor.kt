@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
+import com.example.util.simpletimetracker.core.extension.shift
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -53,6 +54,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         return@withContext when (splitChartGrouping) {
             SplitChartGrouping.HOURLY ->
                 mapper.mapToHourlyChartViewData(data, isVisible)
+
             SplitChartGrouping.DAILY ->
                 mapper.mapToDailyChartViewData(data, firstDayOfWeek, isVisible)
         }
@@ -189,7 +191,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         val processedRecords: MutableList<Range> = mutableListOf()
 
         records.forEach { record ->
-            splitIntoRecords(calendar, record, splitChartGrouping, startOfDayShift).forEach { processedRecords.add(it) }
+            splitIntoRecords(calendar, record, splitChartGrouping, startOfDayShift).forEach(processedRecords::add)
         }
 
         return processedRecords
@@ -201,19 +203,19 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         splitChartGrouping: SplitChartGrouping,
         startOfDayShift: Long,
     ): Int {
-        return calendar
-            .apply { timeInMillis = record.timeStarted }
-            .let {
-                when (splitChartGrouping) {
-                    SplitChartGrouping.HOURLY -> {
-                        it.get(Calendar.HOUR_OF_DAY)
-                    }
-                    SplitChartGrouping.DAILY -> {
-                        it.timeInMillis -= startOfDayShift
-                        it.get(Calendar.DAY_OF_WEEK)
-                    }
+        return calendar.run {
+            timeInMillis = record.timeStarted
+            when (splitChartGrouping) {
+                SplitChartGrouping.HOURLY -> {
+                    get(Calendar.HOUR_OF_DAY)
+                }
+
+                SplitChartGrouping.DAILY -> {
+                    shift(-startOfDayShift)
+                    get(Calendar.DAY_OF_WEEK)
                 }
             }
+        }
     }
 
     // TODO splitting all records hourly probably is super expensive memory wise, find a better way?
@@ -233,9 +235,12 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
                 date2 = record.timeEnded,
                 calendar = calendar
             )
+
             SplitChartGrouping.DAILY -> timeMapper.sameDay(
-                date1 = record.timeStarted - startOfDayShift,
-                date2 = record.timeEnded - startOfDayShift,
+                date1 = calendar.apply { timeInMillis = record.timeStarted }
+                    .shift(-startOfDayShift).timeInMillis,
+                date2 = calendar.apply { timeInMillis = record.timeEnded }
+                    .shift(-startOfDayShift).timeInMillis,
                 calendar = calendar
             )
         }
@@ -250,12 +255,12 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
 
         val adjustedCalendar = calendar.apply {
             timeInMillis = record.timeStarted
-            if (splitChartGrouping == SplitChartGrouping.DAILY) timeInMillis -= startOfDayShift
+            if (splitChartGrouping == SplitChartGrouping.DAILY) shift(-startOfDayShift)
             if (splitChartGrouping == SplitChartGrouping.DAILY) set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
-            if (splitChartGrouping == SplitChartGrouping.DAILY) timeInMillis += startOfDayShift
+            if (splitChartGrouping == SplitChartGrouping.DAILY) shift(startOfDayShift)
         }
         val rangeEnd = adjustedCalendar.apply { add(rangeStep, 1) }.timeInMillis
 

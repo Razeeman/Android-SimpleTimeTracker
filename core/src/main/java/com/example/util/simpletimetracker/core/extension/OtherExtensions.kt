@@ -46,6 +46,19 @@ fun Calendar.setToStartOfDay() {
     set(Calendar.MILLISECOND, 0)
 }
 
+fun Calendar.shift(shift: Long): Calendar {
+    // Example
+    // shift 6h
+    // before 2023-03-26T00:00+01:00[Europe/Amsterdam] DST_OFFSET = 0
+    // after 2023-03-26T07:00+02:00[Europe/Amsterdam] DST_OFFSET = 3600000
+    // need to compensate one hour.
+    val dstOffsetBefore = get(Calendar.DST_OFFSET)
+    timeInMillis += shift
+    val dstOffsetAfter = get(Calendar.DST_OFFSET)
+    timeInMillis += (dstOffsetBefore - dstOffsetAfter)
+    return this
+}
+
 @OptIn(DelicateCoroutinesApi::class)
 fun BroadcastReceiver.goAsync(
     coroutineScope: CoroutineScope = GlobalScope,
