@@ -67,7 +67,7 @@ class ScaleDetector(
     private val detector = ScaleGestureDetector(
         context,
         object : SimpleOnScaleGestureListener() {
-            override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean {
+            override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
                 onScaleStart()
                 return true
             }
@@ -77,7 +77,7 @@ class ScaleDetector(
                 return true
             }
 
-            override fun onScaleEnd(detector: ScaleGestureDetector?) {
+            override fun onScaleEnd(detector: ScaleGestureDetector) {
                 onScaleStop()
             }
         }
