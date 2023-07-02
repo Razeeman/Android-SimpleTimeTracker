@@ -16,12 +16,14 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.AppLanguage
 import com.example.util.simpletimetracker.domain.interactor.DarkMode
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.DaysInCalendar
 import com.example.util.simpletimetracker.domain.model.count
 import com.example.util.simpletimetracker.feature_settings.R
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTranslatorViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
@@ -69,28 +71,6 @@ class SettingsMapper @Inject constructor(
         DarkMode.System,
         DarkMode.Enabled,
         DarkMode.Disabled,
-    )
-
-    private val languageList: List<String> = listOf(
-        "",
-        "en",
-        "ca",
-        "de",
-        "es",
-        "fa",
-        "fr",
-        "hi",
-        "in",
-        "it",
-        "ja",
-        "nl",
-        "pt",
-        "ru",
-        "sv",
-        "tr",
-        "uk",
-        "zh",
-        "zh-TW",
     )
 
     fun toAutomatedTrackingHelpDialog(): HelpDialogParams {
@@ -184,20 +164,16 @@ class SettingsMapper @Inject constructor(
     fun toLanguageViewData(currentLanguage: String): LanguageViewData {
         return LanguageViewData(
             currentLanguageName = currentLanguage,
-            items = languageList
-                .map {
-                    if (it.isEmpty()) {
-                        resourceRepo.getString(R.string.settings_dark_mode_system)
-                    } else {
-                        languageInteractor.getDisplayName(it)
-                    }
-                }
+            items = LanguageInteractor.languageList
+                .map(languageInteractor::getDisplayName)
                 .map(CustomSpinner::CustomSpinnerTextItem),
         )
     }
 
     fun toLanguage(position: Int): String {
-        return languageList.getOrNull(position) ?: languageList.first()
+        val languageList = LanguageInteractor.languageList
+        val language = languageList.getOrNull(position) ?: languageList.first()
+        return languageInteractor.getTag(language)
     }
 
     fun toDurationViewData(duration: Long): SettingsDurationViewData {
@@ -270,6 +246,19 @@ class SettingsMapper @Inject constructor(
             forceSeconds = false,
             useProportionalMinutes = useProportionalMinutes
         )
+    }
+
+    fun mapTranslatorsViewData(): List<SettingsTranslatorViewData> {
+        val nonTranslatable = listOf(AppLanguage.System, AppLanguage.English)
+
+        return LanguageInteractor.languageList
+            .filter { it !in nonTranslatable }
+            .map {
+                SettingsTranslatorViewData(
+                    translator = languageInteractor.getTranslators(it),
+                    language = languageInteractor.getDisplayName(it)
+                )
+            }
     }
 
     private fun toPosition(cardOrder: CardOrder): Int {

@@ -35,7 +35,9 @@
             android:id="@+id/layoutSettingsBackup"
             layout="@layout/settings_backup_layout" />
 
-        <include layout="@layout/settings_translators_layout" />
+        <include
+            android:id="@+id/layoutSettingsTranslators"
+            layout="@layout/settings_translators_layout" />
 
     </LinearLayout>
 

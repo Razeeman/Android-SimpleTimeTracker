@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_settings.R
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTranslatorViewData
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
@@ -388,6 +389,10 @@ class SettingsViewModel @Inject constructor(
             }
             initial
         }
+    }
+
+    val translatorsViewData: LiveData<List<SettingsTranslatorViewData>> by lazy {
+        MutableLiveData(loadTranslatorsViewData())
     }
 
     val versionName: LiveData<String> by lazy {
@@ -1181,6 +1186,10 @@ class SettingsViewModel @Inject constructor(
     private suspend fun loadUseProportionalMinutesViewData(): String {
         return prefsInteractor.getUseProportionalMinutes()
             .let(settingsMapper::toUseProportionalMinutesHint)
+    }
+
+    private fun loadTranslatorsViewData(): List<SettingsTranslatorViewData> {
+        return settingsMapper.mapTranslatorsViewData()
     }
 
     private fun loadVersionName(): String {

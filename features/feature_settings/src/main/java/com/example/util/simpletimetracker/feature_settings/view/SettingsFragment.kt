@@ -14,6 +14,8 @@ import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTranslatorAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
@@ -57,7 +59,14 @@ class SettingsFragment :
         factoryProducer = { mainTabsViewModelFactory }
     )
 
+    private val translatorsAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createSettingsTranslatorAdapterDelegate()
+        )
+    }
+
     override fun initUi() = with(binding) {
+        layoutSettingsTranslators.rvSettingsTranslators.adapter = translatorsAdapter
         with(layoutSettingsMain) {
             spinnerSettingsDarkMode.setProcessSameItemSelection(false)
         }
@@ -202,6 +211,7 @@ class SettingsFragment :
             with(layoutSettingsRating) {
                 versionName.observe(tvSettingsVersionName::setText)
             }
+            translatorsViewData.observe(translatorsAdapter::replaceAsNew)
             themeChanged.observe(::changeTheme)
             resetScreen.observe {
                 containerSettings.smoothScrollTo(0, 0)

@@ -1,57 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="settings_translators_english_language" translatable="false">English</string>
+    <string name="settings_english_language" translatable="false">English</string>
+    <string name="settings_english_tag" translatable="false">en</string>
 
-    <string name="settings_translators_indonesian" translatable="false">Mecymyse</string>
-    <string name="settings_translators_indonesian_language" translatable="false">Bahasa Indonesia</string>
+    <string name="settings_indonesian_translators" translatable="false">Mecymyse</string>
+    <string name="settings_indonesian_language" translatable="false">Indonesia</string>
+    <string name="settings_indonesian_tag" translatable="false">in</string>
 
-    <string name="settings_translators_catalan" translatable="false">Ander Romero Aldana</string>
-    <string name="settings_translators_catalan_language" translatable="false">Català</string>
+    <string name="settings_catalan_translators" translatable="false">Ander Romero Aldana</string>
+    <string name="settings_catalan_language" translatable="false">Català</string>
+    <string name="settings_catalan_tag" translatable="false">ca</string>
 
-    <string name="settings_translators_german" translatable="false">mondstern</string>
-    <string name="settings_translators_german_language" translatable="false">Deutsch</string>
+    <string name="settings_german_translators" translatable="false">mondstern</string>
+    <string name="settings_german_language" translatable="false">Deutsch</string>
+    <string name="settings_german_tag" translatable="false">de</string>
 
-    <string name="settings_translators_spanish" translatable="false">Manuel Morante</string>
-    <string name="settings_translators_spanish_language" translatable="false">Español</string>
+    <string name="settings_spanish_translators" translatable="false">Manuel Morante</string>
+    <string name="settings_spanish_language" translatable="false">Español</string>
+    <string name="settings_spanish_tag" translatable="false">es</string>
 
-    <string name="settings_translators_french" translatable="false">R3da, Corentin\u00A0Forler</string>
-    <string name="settings_translators_french_language" translatable="false">Français</string>
+    <string name="settings_french_translators" translatable="false">R3da, Corentin\u00A0Forler</string>
+    <string name="settings_french_language" translatable="false">Français</string>
+    <string name="settings_french_tag" translatable="false">fr</string>
 
-    <string name="settings_translators_italian" translatable="false">Pyr0x1</string>
-    <string name="settings_translators_italian_language" translatable="false">Italiano</string>
+    <string name="settings_italian_translators" translatable="false">Pyr0x1</string>
+    <string name="settings_italian_language" translatable="false">Italiano</string>
+    <string name="settings_italian_tag" translatable="false">it</string>
 
-    <string name="settings_translators_dutch" translatable="false">Erik Paelman</string>
-    <string name="settings_translators_dutch_language" translatable="false">Nederlands</string>
+    <string name="settings_dutch_translators" translatable="false">Erik Paelman</string>
+    <string name="settings_dutch_language" translatable="false">Nederlands</string>
+    <string name="settings_dutch_tag" translatable="false">nl</string>
 
-    <string name="settings_translators_portuguese" translatable="false">Hingrid Correia</string>
-    <string name="settings_translators_portuguese_language" translatable="false">Português</string>
+    <string name="settings_portuguese_translators" translatable="false">Hingrid Correia</string>
+    <string name="settings_portuguese_language" translatable="false">Português</string>
+    <string name="settings_portuguese_tag" translatable="false">pt</string>
 
-    <string name="settings_translators_russian" translatable="false">Геннадий Щерба</string>
-    <string name="settings_translators_russian_language" translatable="false">Русский</string>
+    <string name="settings_russian_translators" translatable="false">Геннадий Щерба</string>
+    <string name="settings_russian_language" translatable="false">Русский</string>
+    <string name="settings_russian_tag" translatable="false">ru</string>
 
-    <string name="settings_translators_swedish" translatable="false">Rasmus Sehlin</string>
-    <string name="settings_translators_swedish_language" translatable="false">Svenska</string>
+    <string name="settings_swedish_translators" translatable="false">Rasmus Sehlin</string>
+    <string name="settings_swedish_language" translatable="false">Svenska</string>
+    <string name="settings_swedish_tag" translatable="false">sv</string>
 
-    <string name="settings_translators_turkish" translatable="false">Evren Çakan</string>
-    <string name="settings_translators_turkish_language" translatable="false">Türkçe</string>
+    <string name="settings_turkish_translators" translatable="false">Evren Çakan</string>
+    <string name="settings_turkish_language" translatable="false">Türkçe</string>
+    <string name="settings_turkish_tag" translatable="false">tr</string>
 
-    <string name="settings_translators_ukrainian" translatable="false">Божен Новак</string>
-    <string name="settings_translators_ukrainian_language" translatable="false">Українська</string>
+    <string name="settings_ukrainian_translators" translatable="false">Божен Новак</string>
+    <string name="settings_ukrainian_language" translatable="false">Українська</string>
+    <string name="settings_ukrainian_tag" translatable="false">uk</string>
 
-    <string name="settings_translators_farsi" translatable="false">Alireza Rahmani</string>
-    <string name="settings_translators_farsi_language" translatable="false">فارسی</string>
+    <string name="settings_farsi_translators" translatable="false">Alireza Rahmani</string>
+    <string name="settings_farsi_language" translatable="false">فارسی</string>
+    <string name="settings_farsi_tag" translatable="false">fa</string>
 
-    <string name="settings_translators_hindi" translatable="false">Hx</string>
-    <string name="settings_translators_hindi_language" translatable="false">हिन्दी</string>
+    <string name="settings_hindi_translators" translatable="false">Hx</string>
+    <string name="settings_hindi_language" translatable="false">हिन्दी</string>
+    <string name="settings_hindi_tag" translatable="false">hi</string>
 
-    <string name="settings_translators_chinese_simplified" translatable="false">超级大咸鱼</string>
-    <string name="settings_translators_chinese_simplified_language" translatable="false">简体中文</string>
+    <string name="settings_chinese_simplified_translators" translatable="false">超级大咸鱼</string>
+    <string name="settings_chinese_simplified_language" translatable="false">简体中文</string>
+    <string name="settings_chinese_simplified_tag" translatable="false">zh</string>
 
-    <string name="settings_translators_chinese_traditional" translatable="false">KenXRan</string>
-    <string name="settings_translators_chinese_traditional_language" translatable="false">繁體中文</string>
+    <string name="settings_chinese_traditional_translators" translatable="false">KenXRan</string>
+    <string name="settings_chinese_traditional_language" translatable="false">繁體中文</string>
+    <string name="settings_chinese_traditional_tag" translatable="false">zh-TW</string>
 
-    <string name="settings_translators_japanese" translatable="false">kyusuke</string>
-    <string name="settings_translators_japanese_language" translatable="false">日本語</string>
+    <string name="settings_japanese_translators" translatable="false">kyusuke</string>
+    <string name="settings_japanese_language" translatable="false">日本語</string>
+    <string name="settings_japanese_tag" translatable="false">ja</string>
 
 </resources>
