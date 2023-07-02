@@ -227,6 +227,7 @@
     <string name="settings_dark_mode">Темний режим</string>
     <string name="settings_dark_mode_system">Система</string>
     <string name="settings_dark_mode_enabled">Увімкнено</string>
+    <string name="settings_language">Мова</string>
     <string name="settings_use_military_time">Використовувати 24-годинний формат</string>
     <string name="settings_use_proportional_minutes">Використовуйте пропорційний хвилинний формат</string>
     <string name="settings_show_seconds">Показати секунди</string>

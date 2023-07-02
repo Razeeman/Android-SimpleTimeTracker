@@ -227,6 +227,7 @@
     <string name="settings_dark_mode">Karanlık mod</string>
     <string name="settings_dark_mode_system">Sistem</string>
     <string name="settings_dark_mode_enabled">Etkinleştirilmiş</string>
+    <string name="settings_language">Dil</string>
     <string name="settings_use_military_time">24-saat formatını kullan</string>
     <string name="settings_use_proportional_minutes">Oransal dakika formatını kullan</string>
     <string name="settings_show_seconds">Saniye göster</string>

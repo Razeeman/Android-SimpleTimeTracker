@@ -320,25 +320,46 @@
             app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsHindi" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSettingsTranslatorsChinese"
+            android:id="@+id/tvSettingsTranslatorsChineseSimplified"
             style="@style/SettingsTranslatorsText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/settings_translators_chinese"
-            app:layout_constraintEnd_toStartOf="@id/tvSettingsTranslatorsChineseLanguage"
+            android:text="@string/settings_translators_chinese_simplified"
+            app:layout_constraintEnd_toStartOf="@id/tvSettingsTranslatorsChineseSimplifiedLanguage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsHindi" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSettingsTranslatorsChineseLanguage"
+            android:id="@+id/tvSettingsTranslatorsChineseSimplifiedLanguage"
             style="@style/SettingsTranslatorsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@string/settings_translators_chinese_language"
+            android:text="@string/settings_translators_chinese_simplified_language"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvSettingsTranslatorsChinese"
-            app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsChinese" />
+            app:layout_constraintStart_toEndOf="@id/tvSettingsTranslatorsChineseSimplified"
+            app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsChineseSimplified" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSettingsTranslatorsChineseTraditional"
+            style="@style/SettingsTranslatorsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_translators_chinese_traditional"
+            app:layout_constraintEnd_toStartOf="@id/tvSettingsTranslatorsChineseTraditionalLanguage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsChineseSimplified" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSettingsTranslatorsChineseTraditionalLanguage"
+            style="@style/SettingsTranslatorsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/settings_translators_chinese_traditional_language"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvSettingsTranslatorsChineseTraditional"
+            app:layout_constraintTop_toTopOf="@id/tvSettingsTranslatorsChineseTraditional" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSettingsTranslatorsJapanese"
@@ -348,7 +369,7 @@
             android:text="@string/settings_translators_japanese"
             app:layout_constraintEnd_toStartOf="@id/tvSettingsTranslatorsJapaneseLanguage"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsChinese" />
+            app:layout_constraintTop_toBottomOf="@id/tvSettingsTranslatorsChineseTraditional" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSettingsTranslatorsJapaneseLanguage"

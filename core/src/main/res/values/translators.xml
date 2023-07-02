@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="settings_translators_english_language" translatable="false">English</string>
+
     <string name="settings_translators_indonesian" translatable="false">Mecymyse</string>
     <string name="settings_translators_indonesian_language" translatable="false">Bahasa Indonesia</string>
 
@@ -43,8 +45,11 @@
     <string name="settings_translators_hindi" translatable="false">Hx</string>
     <string name="settings_translators_hindi_language" translatable="false">हिन्दी</string>
 
-    <string name="settings_translators_chinese" translatable="false">超级大咸鱼, KenXRan</string>
-    <string name="settings_translators_chinese_language" translatable="false">中文</string>
+    <string name="settings_translators_chinese_simplified" translatable="false">超级大咸鱼</string>
+    <string name="settings_translators_chinese_simplified_language" translatable="false">简体中文</string>
+
+    <string name="settings_translators_chinese_traditional" translatable="false">KenXRan</string>
+    <string name="settings_translators_chinese_traditional_language" translatable="false">繁體中文</string>
 
     <string name="settings_translators_japanese" translatable="false">kyusuke</string>
     <string name="settings_translators_japanese_language" translatable="false">日本語</string>

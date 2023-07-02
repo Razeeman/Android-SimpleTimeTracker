@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermissionInteractor
 import com.example.util.simpletimetracker.core.interactor.CheckNotificationsPermissionInteractor
+import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -28,6 +29,7 @@ import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderVie
 import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.LanguageViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsUntrackedRangeViewData
@@ -52,6 +54,7 @@ class SettingsViewModel @Inject constructor(
     private val router: Router,
     private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor,
+    private val languageInteractor: LanguageInteractor,
     private val settingsMapper: SettingsMapper,
     private val applicationDataProvider: ApplicationDataProvider,
     private val notificationTypeInteractor: NotificationTypeInteractor,
@@ -288,6 +291,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val languageViewData: LiveData<LanguageViewData> by lazy {
+        MutableLiveData<LanguageViewData>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadLanguageViewData()
+            }
+            initial
+        }
+    }
+
     val showRecordTagSelectionCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -397,6 +409,9 @@ class SettingsViewModel @Inject constructor(
             // Update can come from quick settings widget
             allowMultitaskingCheckbox.set(prefsInteractor.getAllowMultitasking())
             showRecordTagSelectionCheckbox.set(prefsInteractor.getShowRecordTagSelection())
+
+            // Update can come from system settings
+            updateLanguageViewData()
         }
     }
 
@@ -727,6 +742,12 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onLanguageSelected(position: Int) {
+        val newLanguage = settingsMapper.toLanguage(position)
+        languageInteractor.setLanguage(newLanguage)
+        updateLanguageViewData()
+    }
+
     fun onUseMilitaryTimeClicked() {
         viewModelScope.launch {
             val newValue = !prefsInteractor.getUseMilitaryTimeFormat()
@@ -1009,6 +1030,15 @@ class SettingsViewModel @Inject constructor(
     private suspend fun loadDarkModeViewData(): DarkModeViewData {
         return prefsInteractor.getSelectedDarkMode()
             .let(settingsMapper::toDarkModeViewData)
+    }
+
+    private fun updateLanguageViewData() {
+        languageViewData.set(loadLanguageViewData())
+    }
+
+    private fun loadLanguageViewData(): LanguageViewData {
+        return languageInteractor.getCurrentLanguage()
+            .let(settingsMapper::toLanguageViewData)
     }
 
     private suspend fun updateStartOfDayViewData() {

@@ -227,6 +227,7 @@
     <string name="settings_dark_mode">Dunkler Modus</string>
     <string name="settings_dark_mode_system">System</string>
     <string name="settings_dark_mode_enabled">Ermöglicht</string>
+    <string name="settings_language">Sprache</string>
     <string name="settings_use_military_time">24-Stunden-Format benutzen</string>
     <string name="settings_use_proportional_minutes">Proportionales Minutenformat verwenden</string>
     <string name="settings_show_seconds">Sekunden anzeigen</string>

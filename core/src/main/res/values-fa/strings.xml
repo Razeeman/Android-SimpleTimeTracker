@@ -227,6 +227,7 @@
     <string name="settings_dark_mode">تم تیره</string>
     <string name="settings_dark_mode_system">سیستم</string>
     <string name="settings_dark_mode_enabled">فعال شد</string>
+    <string name="settings_language">زبان</string>
     <string name="settings_use_military_time">استفاده از فرمت 24 ساعته</string>
     <string name="settings_use_proportional_minutes">از زمان  دقایق نسبی استفاده کن</string>
     <string name="settings_show_seconds">نمایش ثانیه ها</string>

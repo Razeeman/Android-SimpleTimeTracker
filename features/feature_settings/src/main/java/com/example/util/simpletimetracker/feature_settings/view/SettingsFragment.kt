@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderVie
 import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.LanguageViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsUntrackedRangeViewData
@@ -73,6 +74,7 @@ class SettingsFragment :
         with(layoutSettingsMain) {
             checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
             spinnerSettingsDarkMode.onPositionSelected = viewModel::onDarkModeSelected
+            spinnerSettingsLanguage.onPositionSelected = viewModel::onLanguageSelected
             layoutSettingsEditCategories.setOnClick(throttle(viewModel::onEditCategoriesClick))
             tvSettingsArchive.setOnClick(throttle(viewModel::onArchiveClick))
             tvSettingsDataEdit.setOnClick(throttle(viewModel::onDataEditClick))
@@ -144,6 +146,7 @@ class SettingsFragment :
             with(layoutSettingsMain) {
                 allowMultitaskingCheckbox.observe(checkboxSettingsAllowMultitasking::setChecked)
                 darkModeViewData.observe(::updateDarkModeViewData)
+                languageViewData.observe(::updateLanguageViewData)
             }
             with(layoutSettingsNotifications) {
                 settingsNotificationsVisibility.observe { opened ->
@@ -233,6 +236,7 @@ class SettingsFragment :
         with(layoutSettingsMain) {
             checkboxSettingsAllowMultitasking.jumpDrawablesToCurrentState()
             spinnerSettingsDarkMode.jumpDrawablesToCurrentState()
+            spinnerSettingsLanguage.jumpDrawablesToCurrentState()
         }
         with(layoutSettingsNotifications) {
             checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
@@ -319,6 +323,13 @@ class SettingsFragment :
         spinnerSettingsDarkMode.setData(viewData.items, viewData.selectedPosition)
         tvSettingsDarkModeValue.text = viewData.items
             .getOrNull(viewData.selectedPosition)?.text.orEmpty()
+    }
+
+    private fun updateLanguageViewData(
+        viewData: LanguageViewData,
+    ) = with(binding.layoutSettingsMain) {
+        spinnerSettingsLanguage.setData(viewData.items, -1)
+        tvSettingsLanguageValue.text = viewData.currentLanguageName
     }
 
     private fun updateShowRecordTagSelectionChecked(

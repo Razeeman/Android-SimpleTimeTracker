@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="0dp"
+    android:background="?appPopupItemBackground"
+    android:checkMark="@drawable/states_spinner_check_mark"
     android:checked="false"
     android:gravity="center"
     android:minHeight="40dp"

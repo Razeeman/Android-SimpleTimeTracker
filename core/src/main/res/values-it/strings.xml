@@ -227,6 +227,7 @@
     <string name="settings_dark_mode">Modalità notte</string>
     <string name="settings_dark_mode_system">Sistema</string>
     <string name="settings_dark_mode_enabled">Abilitato</string>
+    <string name="settings_language">Lingua</string>
     <string name="settings_use_military_time">Use il formato a 24 ore</string>
     <string name="settings_use_proportional_minutes">Usa il formato a minuti proporzionali</string>
     <string name="settings_show_seconds">Mostra secondi</string>

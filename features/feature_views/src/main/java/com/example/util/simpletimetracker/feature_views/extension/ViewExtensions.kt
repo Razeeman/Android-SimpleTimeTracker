@@ -71,10 +71,13 @@ fun TabLayout.onTabSelected(func: (TabLayout.Tab) -> Unit) {
     })
 }
 
-fun AppCompatSpinner.onItemSelected(func: (Int) -> Unit) {
+fun AppCompatSpinner.onItemSelected(
+    onNothingSelected: () -> Unit,
+    onPositionSelected: (Int) -> Unit,
+) {
     onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) {
-            // Do nothing
+            onNothingSelected()
         }
 
         override fun onItemSelected(
@@ -83,7 +86,7 @@ fun AppCompatSpinner.onItemSelected(func: (Int) -> Unit) {
             position: Int,
             id: Long,
         ) {
-            func(position)
+            onPositionSelected(position)
         }
     }
 }

@@ -227,6 +227,7 @@
     <string name="settings_dark_mode">ダークモード</string>
     <string name="settings_dark_mode_system">システム</string>
     <string name="settings_dark_mode_enabled">有効</string>
+    <string name="settings_language">言語</string>
     <string name="settings_use_military_time">24時間制で表示</string>
     <string name="settings_use_proportional_minutes">時間表示の変更</string>
     <string name="settings_show_seconds">秒を表示</string>

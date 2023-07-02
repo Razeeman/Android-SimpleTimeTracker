@@ -126,6 +126,10 @@
         <attr name="popupUnderMarginTop" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="CustomSpinner">
+        <attr name="customSpinnerCheckable" format="boolean" />
+    </declare-styleable>
+
     <declare-styleable name="PieChartView">
         <!-- Used for layout preview -->
         <attr name="segmentCount" format="integer" />

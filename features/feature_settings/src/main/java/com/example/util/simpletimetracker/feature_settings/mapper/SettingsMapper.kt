@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_settings.mapper
 
+import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -25,6 +26,7 @@ import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderVie
 import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.LanguageViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
@@ -36,6 +38,7 @@ import kotlin.math.absoluteValue
 class SettingsMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper,
+    private val languageInteractor: LanguageInteractor,
     private val applicationDataProvider: ApplicationDataProvider,
 ) {
 
@@ -66,6 +69,28 @@ class SettingsMapper @Inject constructor(
         DarkMode.System,
         DarkMode.Enabled,
         DarkMode.Disabled,
+    )
+
+    private val languageList: List<String> = listOf(
+        "",
+        "en",
+        "ca",
+        "de",
+        "es",
+        "fa",
+        "fr",
+        "hi",
+        "in",
+        "it",
+        "ja",
+        "nl",
+        "pt",
+        "ru",
+        "sv",
+        "tr",
+        "uk",
+        "zh",
+        "zh-TW",
     )
 
     fun toAutomatedTrackingHelpDialog(): HelpDialogParams {
@@ -142,10 +167,10 @@ class SettingsMapper @Inject constructor(
             items = darkModeList
                 .map {
                     when (it) {
-                        DarkMode.System -> resourceRepo.getString(R.string.settings_dark_mode_system)
-                        DarkMode.Enabled -> resourceRepo.getString(R.string.settings_dark_mode_enabled)
-                        DarkMode.Disabled -> resourceRepo.getString(R.string.settings_inactivity_reminder_disabled)
-                    }
+                        DarkMode.System -> R.string.settings_dark_mode_system
+                        DarkMode.Enabled -> R.string.settings_dark_mode_enabled
+                        DarkMode.Disabled -> R.string.settings_inactivity_reminder_disabled
+                    }.let(resourceRepo::getString)
                 }
                 .map(CustomSpinner::CustomSpinnerTextItem),
             selectedPosition = toPosition(currentMode)
@@ -154,6 +179,25 @@ class SettingsMapper @Inject constructor(
 
     fun toDarkMode(position: Int): DarkMode {
         return darkModeList.getOrNull(position) ?: darkModeList.first()
+    }
+
+    fun toLanguageViewData(currentLanguage: String): LanguageViewData {
+        return LanguageViewData(
+            currentLanguageName = currentLanguage,
+            items = languageList
+                .map {
+                    if (it.isEmpty()) {
+                        resourceRepo.getString(R.string.settings_dark_mode_system)
+                    } else {
+                        languageInteractor.getDisplayName(it)
+                    }
+                }
+                .map(CustomSpinner::CustomSpinnerTextItem),
+        )
+    }
+
+    fun toLanguage(position: Int): String {
+        return languageList.getOrNull(position) ?: languageList.first()
     }
 
     fun toDurationViewData(duration: Long): SettingsDurationViewData {

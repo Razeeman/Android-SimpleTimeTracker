@@ -227,6 +227,7 @@
     <string name="settings_dark_mode">Mode fosc</string>
     <string name="settings_dark_mode_system">Sistema</string>
     <string name="settings_dark_mode_enabled">Habilitat</string>
+    <string name="settings_language">Llenguatge</string>
     <string name="settings_use_military_time">Utilitza el format 24-hores</string>
     <string name="settings_use_proportional_minutes">Utilitza formar de minut proporcional</string>
     <string name="settings_show_seconds">Mostra segons</string>

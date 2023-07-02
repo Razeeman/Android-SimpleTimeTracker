@@ -227,6 +227,7 @@
     <string name="settings_dark_mode">Mörkt läge</string>
     <string name="settings_dark_mode_system">Systemet</string>
     <string name="settings_dark_mode_enabled">Aktiverad</string>
+    <string name="settings_language">Språk</string>
     <string name="settings_use_military_time">Använd 24-timmarsklocka</string>
     <string name="settings_use_proportional_minutes">Använd decimaltal för tid</string>
     <string name="settings_show_seconds">Visa sekunder</string>

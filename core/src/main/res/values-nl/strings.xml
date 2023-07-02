@@ -227,6 +227,7 @@
     <string name="settings_dark_mode">Donkere modus</string>
     <string name="settings_dark_mode_system">Systeem</string>
     <string name="settings_dark_mode_enabled">Ingeschakeld</string>
+    <string name="settings_language">Taal</string>
     <string name="settings_use_military_time">Gebruik 24-uurs formaat</string>
     <string name="settings_use_proportional_minutes">Gebruik proportioneel minutenformaat</string>
     <string name="settings_show_seconds">Toon seconden</string>

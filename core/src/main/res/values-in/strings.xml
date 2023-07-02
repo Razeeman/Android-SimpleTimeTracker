@@ -227,6 +227,7 @@
     <string name="settings_dark_mode">Mode gelap</string>
     <string name="settings_dark_mode_system">Sistem</string>
     <string name="settings_dark_mode_enabled">Diaktifkan</string>
+    <string name="settings_language">Bahasa</string>
     <string name="settings_use_military_time">Pakai format 24-jam</string>
     <string name="settings_use_proportional_minutes">Gunakan format minit berkadar</string>
     <string name="settings_show_seconds">Tampilkan detik</string>
