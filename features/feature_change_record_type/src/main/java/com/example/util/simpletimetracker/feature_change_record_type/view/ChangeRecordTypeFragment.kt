@@ -59,6 +59,7 @@ import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setSpanSizeLookup
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.google.android.flexbox.FlexDirection
@@ -181,6 +182,7 @@ class ChangeRecordTypeFragment :
         groupChangeRecordTypeDailyGoalTime.setOnClick(viewModel::onDailyGoalTimeClick)
         groupChangeRecordTypeWeeklyGoalTime.setOnClick(viewModel::onWeeklyGoalTimeClick)
         groupChangeRecordTypeMonthlyGoalTime.setOnClick(viewModel::onMonthlyGoalTimeClick)
+        btnChangeRecordTypeGoalNotificationsHint.setOnClick(viewModel::onNotificationsHintClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
         btnChangeRecordTypeIconSwitch.listener = {
@@ -216,6 +218,7 @@ class ChangeRecordTypeFragment :
             dailyGoalTimeViewData.observe(tvChangeRecordTypeDailyGoalTime::setText)
             weeklyGoalTimeViewData.observe(tvChangeRecordTypeWeeklyGoalTime::setText)
             monthlyGoalTimeViewData.observe(tvChangeRecordTypeMonthlyGoalTime::setText)
+            notificationsHintVisible.observe(containerChangeRecordTypeGoalNotificationsHint::visible::set)
             chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()

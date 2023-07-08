@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermiss
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.core.repo.PermissionRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -40,6 +41,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.action.OpenSystemSettings
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromChangeActivityParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
@@ -53,6 +55,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangeRecordTypeViewModel @Inject constructor(
     private val router: Router,
+    private val permissionRepo: PermissionRepo,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
@@ -143,6 +146,9 @@ class ChangeRecordTypeViewModel @Inject constructor(
             initial
         }
     }
+    val notificationsHintVisible: LiveData<Boolean> by lazy {
+        MutableLiveData(false)
+    }
     val chooserState: LiveData<ChangeRecordTypeChooserState> = MutableLiveData(
         ChangeRecordTypeChooserState(
             current = ChangeRecordTypeChooserState.State.Closed,
@@ -171,6 +177,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     fun onVisible() = viewModelScope.launch {
         initializeSelectedCategories()
         updateCategoriesViewData()
+        updateNotificationsHintVisible()
         // TODO think about how it can affect "newCategories" that was already selected.
         //  Or how to add tag already assigned to activity.
     }
@@ -398,6 +405,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 updateMonthlyGoalTimeViewData()
             }
         }
+    }
+
+    fun onNotificationsHintClick() {
+        router.execute(OpenSystemSettings.Notifications)
     }
 
     fun onCategoryClick(item: CategoryViewData) {
@@ -652,6 +663,14 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private fun loadMonthlyGoalTimeViewData(): String {
         return newMonthlyGoalTime.let(changeRecordTypeMapper::toGoalTimeViewData)
+    }
+
+    private fun updateNotificationsHintVisible() {
+        notificationsHintVisible.set(loadNotificationsHintVisible())
+    }
+
+    private fun loadNotificationsHintVisible(): Boolean {
+        return !permissionRepo.areNotificationsEnabled()
     }
 
     private fun updateIconScrollPosition(position: Int) {
