@@ -3,8 +3,10 @@ package com.example.util.simpletimetracker.core.mapper
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTitleTest.Subject.currentTimestampProvider
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTitleTest.Subject.hourInMs
+import com.example.util.simpletimetracker.core.mapper.TimeMapperTitleTest.Subject.localeProvider
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTitleTest.Subject.resourceRepo
 import com.example.util.simpletimetracker.core.provider.CurrentTimestampProvider
+import com.example.util.simpletimetracker.core.provider.LocaleProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import org.junit.AfterClass
@@ -27,6 +29,7 @@ class TimeMapperTitleTest {
     private object Subject {
         val resourceRepo: ResourceRepo = Mockito.mock(ResourceRepo::class.java)
         val currentTimestampProvider: CurrentTimestampProvider = Mockito.mock(CurrentTimestampProvider::class.java)
+        val localeProvider: LocaleProvider = Mockito.mock(LocaleProvider::class.java)
         val hourInMs = TimeUnit.HOURS.toMillis(1)
     }
 
@@ -45,9 +48,10 @@ class TimeMapperTitleTest {
 
         @Test
         fun toDayTitle() {
-            val subject = TimeMapper(resourceRepo, currentTimestampProvider)
-
             `when`(currentTimestampProvider.get()).thenReturn(input[2] as Long)
+            `when`(localeProvider.get()).thenReturn(Locale.getDefault())
+
+            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -120,9 +124,10 @@ class TimeMapperTitleTest {
 
         @Test
         fun toWeekTitle() {
-            val subject = TimeMapper(resourceRepo, currentTimestampProvider)
-
             `when`(currentTimestampProvider.get()).thenReturn(input[3] as Long)
+            `when`(localeProvider.get()).thenReturn(Locale.getDefault())
+
+            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -252,9 +257,10 @@ class TimeMapperTitleTest {
 
         @Test
         fun toMonthTitle() {
-            val subject = TimeMapper(resourceRepo, currentTimestampProvider)
-
             `when`(currentTimestampProvider.get()).thenReturn(input[2] as Long)
+            `when`(localeProvider.get()).thenReturn(Locale.getDefault())
+
+            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -345,9 +351,10 @@ class TimeMapperTitleTest {
 
         @Test
         fun toYearTitle() {
-            val subject = TimeMapper(resourceRepo, currentTimestampProvider)
-
             `when`(currentTimestampProvider.get()).thenReturn(input[2] as Long)
+            `when`(localeProvider.get()).thenReturn(Locale.getDefault())
+
+            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",

@@ -1,12 +1,14 @@
 package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.currentTimestampProvider
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.hourInMs
+import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.localeProvider
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.minuteInMs
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.resourceRepo
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.secondInMs
-import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.subject
 import com.example.util.simpletimetracker.core.provider.CurrentTimestampProvider
+import com.example.util.simpletimetracker.core.provider.LocaleProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import org.junit.AfterClass
 import org.junit.Assert.assertEquals
@@ -27,7 +29,7 @@ class TimeMapperTest {
     private object Subject {
         val resourceRepo: ResourceRepo = Mockito.mock(ResourceRepo::class.java)
         val currentTimestampProvider: CurrentTimestampProvider = Mockito.mock(CurrentTimestampProvider::class.java)
-        val subject = TimeMapper(resourceRepo, currentTimestampProvider)
+        val localeProvider: LocaleProvider = Mockito.mock(LocaleProvider::class.java)
 
         val secondInMs = TimeUnit.SECONDS.toMillis(1)
         val minuteInMs = TimeUnit.MINUTES.toMillis(1)
@@ -49,6 +51,10 @@ class TimeMapperTest {
 
         @Test
         fun formatInterval() {
+            `when`(localeProvider.get()).thenReturn(Locale.getDefault())
+
+            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+
             assertEquals(
                 "Test failed for params $input",
                 output,
@@ -95,6 +101,10 @@ class TimeMapperTest {
 
         @Test
         fun formatInterval() {
+            `when`(localeProvider.get()).thenReturn(Locale.getDefault())
+
+            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+
             assertEquals(
                 "Test failed for params $input",
                 output,
@@ -155,6 +165,10 @@ class TimeMapperTest {
 
         @Test
         fun formatInterval() {
+            `when`(localeProvider.get()).thenReturn(Locale.getDefault())
+
+            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+
             assertEquals(
                 "Test failed for params $input",
                 output,

@@ -2,12 +2,15 @@ package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.mapper.TimeMapperGetRangeStartAndEndTest.Subject.currentTimestampProvider
 import com.example.util.simpletimetracker.core.mapper.TimeMapperGetRangeStartAndEndTest.Subject.hourInMs
+import com.example.util.simpletimetracker.core.mapper.TimeMapperGetRangeStartAndEndTest.Subject.localeProvider
 import com.example.util.simpletimetracker.core.mapper.TimeMapperGetRangeStartAndEndTest.Subject.resourceRepo
 import com.example.util.simpletimetracker.core.provider.CurrentTimestampProvider
+import com.example.util.simpletimetracker.core.provider.LocaleProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import java.util.Locale
 import org.junit.AfterClass
 import org.junit.Assert.assertEquals
 import org.junit.BeforeClass
@@ -26,6 +29,7 @@ class TimeMapperGetRangeStartAndEndTest {
     private object Subject {
         val resourceRepo: ResourceRepo = Mockito.mock(ResourceRepo::class.java)
         val currentTimestampProvider: CurrentTimestampProvider = Mockito.mock(CurrentTimestampProvider::class.java)
+        val localeProvider: LocaleProvider = Mockito.mock(LocaleProvider::class.java)
         val hourInMs = TimeUnit.HOURS.toMillis(1)
     }
 
@@ -37,9 +41,10 @@ class TimeMapperGetRangeStartAndEndTest {
 
         @Test
         fun test() {
-            val subject = TimeMapper(resourceRepo, currentTimestampProvider)
-
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
+            `when`(localeProvider.get()).thenReturn(Locale.getDefault())
+
+            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -124,9 +129,10 @@ class TimeMapperGetRangeStartAndEndTest {
 
         @Test
         fun test() {
-            val subject = TimeMapper(resourceRepo, currentTimestampProvider)
-
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
+            `when`(localeProvider.get()).thenReturn(Locale.getDefault())
+
+            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -295,9 +301,10 @@ class TimeMapperGetRangeStartAndEndTest {
 
         @Test
         fun test() {
-            val subject = TimeMapper(resourceRepo, currentTimestampProvider)
-
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
+            `when`(localeProvider.get()).thenReturn(Locale.getDefault())
+
+            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -436,9 +443,10 @@ class TimeMapperGetRangeStartAndEndTest {
 
         @Test
         fun test() {
-            val subject = TimeMapper(resourceRepo, currentTimestampProvider)
-
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
+            `when`(localeProvider.get()).thenReturn(Locale.getDefault())
+
+            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -577,9 +585,10 @@ class TimeMapperGetRangeStartAndEndTest {
 
         @Test
         fun test() {
-            val subject = TimeMapper(resourceRepo, currentTimestampProvider)
-
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
+            `when`(localeProvider.get()).thenReturn(Locale.getDefault())
+
+            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
