@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <locale-config xmlns:android="http://schemas.android.com/apk/res/android">
     <locale android:name="@string/settings_english_tag"/>
+    <locale android:name="@string/settings_arabic_tag"/>
     <locale android:name="@string/settings_catalan_tag"/>
     <locale android:name="@string/settings_german_tag"/>
     <locale android:name="@string/settings_spanish_tag"/>

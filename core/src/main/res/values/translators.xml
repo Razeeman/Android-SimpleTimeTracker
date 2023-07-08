@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- TODO When adding new language, also add language tag to locale_config  -->
+
     <string name="settings_english_language" translatable="false">English</string>
     <string name="settings_english_tag" translatable="false">en</string>
 
     <string name="settings_indonesian_translators" translatable="false">Mecymyse</string>
     <string name="settings_indonesian_language" translatable="false">Indonesia</string>
     <string name="settings_indonesian_tag" translatable="false">in</string>
+
+    <string name="settings_arabic_translators" translatable="false">Ahmad أحمد</string>
+    <string name="settings_arabic_language" translatable="false">العربية</string>
+    <string name="settings_arabic_tag" translatable="false">ar</string>
 
     <string name="settings_catalan_translators" translatable="false">Ander Romero Aldana</string>
     <string name="settings_catalan_language" translatable="false">Català</string>

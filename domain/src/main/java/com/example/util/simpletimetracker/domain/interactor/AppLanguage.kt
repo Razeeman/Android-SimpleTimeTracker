@@ -4,6 +4,7 @@ sealed interface AppLanguage {
 
     object System : AppLanguage
     object English : AppLanguage
+    object Arabic: AppLanguage
     object Catalan : AppLanguage
     object German : AppLanguage
     object Spanish : AppLanguage

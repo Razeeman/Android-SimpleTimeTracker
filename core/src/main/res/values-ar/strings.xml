@@ -83,8 +83,8 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">تم أرشفة الوسم</string>
     <string name="change_record_tag_type_hint">النشاط</string>
-    <string name="change_record_tag_type">Tag type</string>
-    <string name="change_record_tag_type_general">General</string>
+    <string name="change_record_tag_type">نوع العلامة</string>
+    <string name="change_record_tag_type_general">عام</string>
     <string name="change_record_tag_type_general_hint">يمكن تعيينه إلى متتبعات أي نشاط</string>
     <string name="change_record_tag_type_typed">النشاط</string>
     <string name="change_record_tag_type_typed_hint">لا يمكن تعيينه إلا لمتتبعات نشاط معين</string>
@@ -166,25 +166,26 @@
     <string name="csv_export_settings_all">الكل</string>
     <string name="csv_export_settings_hint">حدد النطاق الزمني أو قم بتصدير كافة التتبعات</string>
 
-    <string name="schedule_exact_alarms">System setting should be enabled for this app in order to schedule exact alarms</string>
-    <string name="schedule_exact_alarms_open_settings">Open</string>
+    <string name="schedule_exact_alarms">يجب تمكين إعداد النظام لهذا التطبيق لجدولة الإنذارات الدقيقة</string>
+    <string name="post_notifications">يجب تمكين إعداد النظام لهذا التطبيق لإظهار الإشعارات</string>
+    <string name="schedule_exact_alarms_open_settings">يفتح</string>
 
     <string name="default_types_selection_title">حدد الأنشطة المراد إضافتها</string>
 
     <!--  Records all  -->
     <string name="records_all_sort_order">فرز التتبعات</string>
-    <string name="records_all_sort_time_started">Time started</string>
-    <string name="records_all_sort_duration">Duration</string>
-    <string name="records_all_search_comment">Search comment</string>
+    <string name="records_all_sort_time_started">بدأ الوقت</string>
+    <string name="records_all_sort_duration">مدة</string>
+    <string name="records_all_search_comment">تعليق البحث</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">Add activities to start tracking</string>
-    <string name="running_records_empty">Click on activity to start tracking</string>
-    <string name="running_records_has_timers">Click on card to stop tracking</string>
-    <string name="running_records_empty_hint">Long click to edit</string>
-    <string name="running_records_add_type">Add</string>
-    <string name="running_records_add_filter">Add filter</string>
-    <string name="running_records_add_default">Default</string>
+    <string name="running_records_types_empty">أضف أنشطة لبدء التتبع</string>
+    <string name="running_records_empty">انقر على النشاط لبدء التتبع</string>
+    <string name="running_records_has_timers">انقر على البطاقة لإيقاف التتبع</string>
+    <string name="running_records_empty_hint">انقر طويلا للتعديل</string>
+    <string name="running_records_add_type">يضيف</string>
+    <string name="running_records_add_filter">أضف عامل تصفية</string>
+    <string name="running_records_add_default">تقصير</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">إعدادات العرض</string>
@@ -224,6 +225,9 @@
     <string name="settings_ignore_short_records_hint">لا تتبع الأنشطة اﻷقصر من الوقت المحدد.</string>
     <string name="settings_inactivity_reminder_disabled">غير مفعل</string>
     <string name="settings_dark_mode">الوضع الداكن</string>
+    <string name="settings_dark_mode_system">نظام</string>
+    <string name="settings_dark_mode_enabled">ممكن</string>
+    <string name="settings_language">لغة</string>
     <string name="settings_use_military_time">استخدام تنسيق 24 ساعة</string>
     <string name="settings_use_proportional_minutes">استخدم صيغة الدقيقة النسبية</string>
     <string name="settings_show_seconds">إظهار الثواني</string>
@@ -361,12 +365,12 @@
     <string name="statistics_detail_duration_split_hint">تحصيص مدة التتبع</string>
 
     <plurals name="statistics_detail_times_tracked">
-        <item quantity="zero">صفر تتبع</item>
-        <item quantity="one">تتبع واحد</item>
-        <item quantity="two">تتبعان إثنان</item>
-        <item quantity="few">تتبعات قليلة</item>
-        <item quantity="many">تتبعات كثيرة</item>
-        <item quantity="other">تتبعات أخرى</item>
+        <item quantity="zero">تتبع</item>
+        <item quantity="one">تتبع</item>
+        <item quantity="two">تتبع</item>
+        <item quantity="few">تتبع</item>
+        <item quantity="many">تتبع</item>
+        <item quantity="other">تتبع</item>
     </plurals>
 
     <!--  Widget  -->

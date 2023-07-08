@@ -26,6 +26,7 @@ class LanguageInteractor @Inject constructor(
         return when (language) {
             is AppLanguage.System -> R.string.settings_dark_mode_system
             is AppLanguage.English -> R.string.settings_english_language
+            is AppLanguage.Arabic -> R.string.settings_arabic_language
             is AppLanguage.Catalan -> R.string.settings_catalan_language
             is AppLanguage.German -> R.string.settings_german_language
             is AppLanguage.Spanish -> R.string.settings_spanish_language
@@ -50,6 +51,7 @@ class LanguageInteractor @Inject constructor(
         return when (language) {
             is AppLanguage.System -> return ""
             is AppLanguage.English -> R.string.settings_english_tag
+            is AppLanguage.Arabic -> R.string.settings_arabic_tag
             is AppLanguage.Catalan -> R.string.settings_catalan_tag
             is AppLanguage.German -> R.string.settings_german_tag
             is AppLanguage.Spanish -> R.string.settings_spanish_tag
@@ -75,6 +77,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.System,
             is AppLanguage.English -> return ""
 
+            is AppLanguage.Arabic -> R.string.settings_arabic_translators
             is AppLanguage.Catalan -> R.string.settings_catalan_translators
             is AppLanguage.German -> R.string.settings_german_translators
             is AppLanguage.Spanish -> R.string.settings_spanish_translators
@@ -108,6 +111,7 @@ class LanguageInteractor @Inject constructor(
         val languageList: List<AppLanguage> = listOf(
             AppLanguage.System,
             AppLanguage.English,
+            AppLanguage.Arabic,
             AppLanguage.Catalan,
             AppLanguage.German,
             AppLanguage.Spanish,
