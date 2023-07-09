@@ -46,4 +46,27 @@
         android:layout_height="match_parent"
         android:background="@drawable/bg_widget_button" />
 
+    <ImageView
+        android:id="@+id/ivRefresh"
+        android:layout_width="@dimen/widget_statistics_refresh_button_size"
+        android:layout_height="@dimen/widget_statistics_refresh_button_size"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="4dp"
+        android:alpha="0.5"
+        android:background="@drawable/bg_widget_timer"
+        android:visibility="gone"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/refresh"
+        tools:tint="@color/white"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/btnRefresh"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/bg_widget_button"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
 </RelativeLayout>

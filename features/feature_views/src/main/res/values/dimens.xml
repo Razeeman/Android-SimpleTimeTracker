@@ -22,4 +22,6 @@
     <dimen name="button_corner_radius">8dp</dimen>
 
     <dimen name="widget_universal_corner_radius">16dp</dimen>
+
+    <dimen name="widget_statistics_refresh_button_size">20dp</dimen>
 </resources>

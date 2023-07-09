@@ -3,7 +3,9 @@ package com.example.util.simpletimetracker.feature_widget.statistics
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
@@ -19,10 +21,12 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.feature_views.IconView
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.extension.pxToDp
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.statistics.customView.WidgetStatisticsChartView
 import com.example.util.simpletimetracker.navigation.Router
@@ -91,10 +95,16 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
         measureView(context, options, view)
         val bitmap = view.getBitmapFromView()
+        val refreshButtonBitmap = prepareRefreshButtonView(context).getBitmapFromView()
 
         val views = RemoteViews(context.packageName, R.layout.widget_layout)
         views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
         views.setOnClickPendingIntent(R.id.btnWidget, getPendingSelfIntent(context))
+
+        views.setImageViewBitmap(R.id.ivRefresh, refreshButtonBitmap)
+        views.setOnClickPendingIntent(R.id.btnRefresh, getRefreshIntent(context, appWidgetId))
+        views.setViewVisibility(R.id.ivRefresh, View.VISIBLE)
+        views.setViewVisibility(R.id.btnRefresh, View.VISIBLE)
 
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
@@ -150,6 +160,16 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         }
     }
 
+    private fun prepareRefreshButtonView(
+        context: Context,
+    ): View {
+        return IconView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
+            itemIcon = RecordTypeIcon.Image(R.drawable.refresh)
+            itemIconColor = resourceRepo.getColor(R.color.white)
+            measureExactly(resourceRepo.getDimenInDp(R.dimen.widget_statistics_refresh_button_size))
+        }
+    }
+
     private fun measureView(
         context: Context,
         options: Bundle,
@@ -180,5 +200,18 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
             putExtra(SHORTCUT_NAVIGATION_KEY, SHORTCUT_NAVIGATION_STATISTICS)
         }
         return PendingIntent.getActivity(context, 0, intent, PendingIntents.getFlags())
+    }
+
+    private fun getRefreshIntent(
+        context: Context,
+        widgetId: Int,
+    ): PendingIntent {
+        val intent = Intent(context, javaClass)
+        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        val ids = AppWidgetManager.getInstance(context)
+            ?.getAppWidgetIds(ComponentName(context, javaClass))
+            ?: intArrayOf()
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+        return PendingIntent.getBroadcast(context, widgetId, intent, PendingIntents.getFlags())
     }
 }
