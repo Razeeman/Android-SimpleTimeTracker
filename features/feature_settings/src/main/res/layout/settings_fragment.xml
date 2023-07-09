@@ -16,6 +16,10 @@
             layout="@layout/settings_main_layout" />
 
         <include
+            android:id="@+id/layoutSettingsRating"
+            layout="@layout/settings_rate_layout" />
+
+        <include
             android:id="@+id/layoutSettingsNotifications"
             layout="@layout/settings_notifications_layout"/>
 
@@ -26,10 +30,6 @@
         <include
             android:id="@+id/layoutSettingsAdditional"
             layout="@layout/settings_additional_layout" />
-
-        <include
-            android:id="@+id/layoutSettingsRating"
-            layout="@layout/settings_rate_layout" />
 
         <include
             android:id="@+id/layoutSettingsBackup"
