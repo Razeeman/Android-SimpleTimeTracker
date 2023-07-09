@@ -305,7 +305,7 @@ class StatisticsDetailViewModel @Inject constructor(
         coordinates: Coordinates,
     ) {
         PopupParams(
-            timeMapper.formatDateYear(viewData.rangeStart),
+            timeMapper.formatDayDateYear(viewData.rangeStart),
             coordinates,
         ).let(router::show)
     }
@@ -315,7 +315,7 @@ class StatisticsDetailViewModel @Inject constructor(
         coordinates: Coordinates,
     ) {
         PopupParams(
-            timeMapper.formatDateYear(viewData.rangeStart),
+            timeMapper.formatDayDateYear(viewData.rangeStart),
             coordinates,
         ).let(router::show)
     }

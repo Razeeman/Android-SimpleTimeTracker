@@ -114,11 +114,11 @@ class SeriesCalendarView @JvmOverloads constructor(
     }
 
     fun setData(viewData: List<ViewData>) {
-        if (this.data.size != data.size) {
+        if (data.size != viewData.size) {
             panFactor = 0f
             lastPanFactor = 0f
         }
-        this.data = viewData.map { Data(cell = it) }
+        data = viewData.map { Data(cell = it) }
         invalidate()
     }
 

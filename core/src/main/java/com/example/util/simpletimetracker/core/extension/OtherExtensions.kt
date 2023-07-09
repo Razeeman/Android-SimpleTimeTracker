@@ -59,6 +59,12 @@ fun Calendar.shift(shift: Long): Calendar {
     return this
 }
 
+fun Calendar.shiftTimeStamp(timestamp: Long, shift: Long): Long {
+    timeInMillis = timestamp
+    shift(shift)
+    return timeInMillis
+}
+
 @OptIn(DelicateCoroutinesApi::class)
 fun BroadcastReceiver.goAsync(
     coroutineScope: CoroutineScope = GlobalScope,

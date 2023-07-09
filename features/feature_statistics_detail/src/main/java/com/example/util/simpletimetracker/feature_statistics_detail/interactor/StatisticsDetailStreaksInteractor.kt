@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
+import com.example.util.simpletimetracker.core.extension.shift
+import com.example.util.simpletimetracker.core.extension.shiftTimeStamp
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -68,7 +70,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             rangeLength = rangeLength,
             shift = rangePosition,
             firstDayOfWeek = firstDayOfWeek,
-            startOfDayShift = startOfDayShift
+            startOfDayShift = 0, // ignore start of day shift, add later.
         )
 
         val statsData = mapStatsData(
@@ -207,6 +209,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         startOfDayShift: Long,
         streaksType: StreaksType,
     ): IntermediateData {
+        val calendar = Calendar.getInstance()
         val durations = getRanges(
             range = if (range.timeStarted == 0L && range.timeEnded == 0L) {
                 Range(
@@ -230,11 +233,10 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                         timeEnded = day.timeEnded,
                     )
                 )
-            }.sumOf {
-                it.duration
-            }
+            }.sumOf(Range::duration)
         }
 
+        // Format: days, range start, range end.
         val data: MutableList<Triple<Long, Long, Long>> = mutableListOf()
         var longestStreak: Long = 0
         var counter: Long = 0
@@ -275,8 +277,10 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             rangeCurrentData = data.take(MAX_STREAKS_IN_CHART).map {
                 SeriesView.ViewData(
                     value = it.first,
-                    legendStart = timeMapper.formatDateYear(it.second),
-                    legendEnd = timeMapper.formatDateYear(it.third),
+                    legendStart = calendar.shiftTimeStamp(it.second, -startOfDayShift)
+                        .let(timeMapper::formatDateYear),
+                    legendEnd = calendar.shiftTimeStamp(it.third, -startOfDayShift)
+                        .let(timeMapper::formatDateYear),
                 )
             },
             calendarData = mapDurationsToCalendarData(
@@ -351,7 +355,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
     private fun getDailyGroupings(
         startDate: Long,
         numberOfDays: Int,
-        startOfDayShift: Long, // TODO setting +2 shows 32 streak in a 31 day month. Seems wrong.
+        startOfDayShift: Long,
     ): List<Range> {
         val calendar = Calendar.getInstance()
 
@@ -366,8 +370,8 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             val rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
 
             Range(
-                timeStarted = rangeStart + startOfDayShift,
-                timeEnded = rangeEnd + startOfDayShift
+                timeStarted = calendar.shiftTimeStamp(rangeStart, startOfDayShift),
+                timeEnded = calendar.shiftTimeStamp(rangeEnd, startOfDayShift),
             )
         }
     }
@@ -398,7 +402,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             calendar
                 .apply {
                     timeInMillis = it
-                    timeInMillis -= startOfDayShift
+                    shift(-startOfDayShift)
                 }
                 .get(Calendar.DAY_OF_WEEK)
                 .let(timeMapper::toDayOfWeek)
@@ -409,10 +413,11 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
 
         return dummyDays + data
             .map {
+                val rangeStart = calendar.shiftTimeStamp(it.first, -startOfDayShift)
                 if (it.second > 0) {
-                    SeriesCalendarView.ViewData.Present(it.first)
+                    SeriesCalendarView.ViewData.Present(rangeStart)
                 } else {
-                    SeriesCalendarView.ViewData.NotPresent(it.first)
+                    SeriesCalendarView.ViewData.NotPresent(rangeStart)
                 }
             }
             .reversed()

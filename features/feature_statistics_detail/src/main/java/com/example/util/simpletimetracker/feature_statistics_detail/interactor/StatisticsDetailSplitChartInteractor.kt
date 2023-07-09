@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.core.extension.shift
+import com.example.util.simpletimetracker.core.extension.shiftTimeStamp
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -237,10 +238,8 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             )
 
             SplitChartGrouping.DAILY -> timeMapper.sameDay(
-                date1 = calendar.apply { timeInMillis = record.timeStarted }
-                    .shift(-startOfDayShift).timeInMillis,
-                date2 = calendar.apply { timeInMillis = record.timeEnded }
-                    .shift(-startOfDayShift).timeInMillis,
+                date1 = calendar.shiftTimeStamp(record.timeStarted, -startOfDayShift),
+                date2 = calendar.shiftTimeStamp(record.timeEnded, -startOfDayShift),
                 calendar = calendar
             )
         }
