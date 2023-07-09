@@ -123,7 +123,12 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         val streaksCalendarCanBeShown = when (rangeLength) {
             is RangeLength.Month,
             is RangeLength.Year,
-            is RangeLength.All -> true
+            -> true
+
+            is RangeLength.All -> {
+                statsData.calendarData.size > RANGE_ALL_STREAKS_CALENDAR_CUTOFF ||
+                    compareStatsData?.calendarData?.size.orZero() > RANGE_ALL_STREAKS_CALENDAR_CUTOFF
+            }
 
             else -> false
         }
@@ -159,7 +164,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             StatisticsDetailStreaksTypeViewData(
                 type = it,
                 name = mapToStreakTypeName(it),
-                isSelected = it == streaksType
+                isSelected = it == streaksType,
             )
         }
     }
@@ -231,7 +236,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                     range = Range(
                         timeStarted = day.timeStarted,
                         timeEnded = day.timeEnded,
-                    )
+                    ),
                 )
             }.sumOf(Range::duration)
         }
@@ -302,13 +307,13 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 value = longestStreak,
                 valueChange = StatisticsDetailCardViewData.ValueChange.None,
                 secondValue = compareLongestStreak,
-                description = resourceRepo.getString(R.string.statistics_detail_streaks_longest)
+                description = resourceRepo.getString(R.string.statistics_detail_streaks_longest),
             ),
             StatisticsDetailCardViewData(
                 value = currentStreak,
                 valueChange = StatisticsDetailCardViewData.ValueChange.None,
                 secondValue = compareCurrentStreak,
-                description = resourceRepo.getString(R.string.statistics_detail_streaks_current)
+                description = resourceRepo.getString(R.string.statistics_detail_streaks_current),
             ),
         )
     }
@@ -324,13 +329,13 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         val numberOfDays = calculateCustomRangeGropings(
             rangeStart = start,
             rangeEnd = end,
-            firstDayOfWeek = firstDayOfWeek
+            firstDayOfWeek = firstDayOfWeek,
         )
 
         return getDailyGroupings(
             startDate = end,
             numberOfDays = numberOfDays,
-            startOfDayShift = startOfDayShift
+            startOfDayShift = startOfDayShift,
         )
     }
 
@@ -343,7 +348,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             fromTime = rangeStart,
             toTime = rangeEnd,
             range = RangeLength.Day,
-            firstDayOfWeek = firstDayOfWeek
+            firstDayOfWeek = firstDayOfWeek,
         )
 
         return when {
@@ -433,5 +438,6 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
 
     companion object {
         private const val MAX_STREAKS_IN_CHART = 10
+        private const val RANGE_ALL_STREAKS_CALENDAR_CUTOFF = 21
     }
 }
