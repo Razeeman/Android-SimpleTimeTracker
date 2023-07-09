@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
+import com.example.util.simpletimetracker.core.extension.shift
 import com.example.util.simpletimetracker.core.provider.CurrentTimestampProvider
 import com.example.util.simpletimetracker.core.provider.LocaleProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -310,13 +311,13 @@ class TimeMapper @Inject constructor(
         val secondString = resourceRepo.getString(R.string.time_second)
 
         val hr: Long = TimeUnit.SECONDS.toHours(
-            interval
+            interval,
         )
         val min: Long = TimeUnit.SECONDS.toMinutes(
-            interval - TimeUnit.HOURS.toSeconds(hr)
+            interval - TimeUnit.HOURS.toSeconds(hr),
         )
         val sec: Long = TimeUnit.SECONDS.toSeconds(
-            interval - TimeUnit.HOURS.toSeconds(hr) - TimeUnit.MINUTES.toSeconds(min)
+            interval - TimeUnit.HOURS.toSeconds(hr) - TimeUnit.MINUTES.toSeconds(min),
         )
 
         val hrString = "$hr$hourString"
@@ -444,13 +445,13 @@ class TimeMapper @Inject constructor(
         val secondString = resourceRepo.getString(R.string.time_second)
 
         val hr: Long = TimeUnit.MILLISECONDS.toHours(
-            interval
+            interval,
         )
         val min: Long = TimeUnit.MILLISECONDS.toMinutes(
-            interval - TimeUnit.HOURS.toMillis(hr)
+            interval - TimeUnit.HOURS.toMillis(hr),
         )
         val sec: Long = TimeUnit.MILLISECONDS.toSeconds(
-            interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
+            interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min),
         )
 
         if (useProportionalMinutes)
@@ -534,7 +535,8 @@ class TimeMapper @Inject constructor(
         val calendar = Calendar.getInstance()
 
         calendar.apply {
-            timeInMillis = currentTimestampProvider.get() - startOfDayShift
+            timeInMillis = currentTimestampProvider.get()
+            shift(-startOfDayShift)
             add(Calendar.MONTH, monthsFromToday)
         }
 

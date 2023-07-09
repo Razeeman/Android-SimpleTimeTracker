@@ -414,10 +414,11 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         return dummyDays + data
             .map {
                 val rangeStart = calendar.shiftTimeStamp(it.first, -startOfDayShift)
+                val monthLegend = timeMapper.formatShortMonth(rangeStart)
                 if (it.second > 0) {
-                    SeriesCalendarView.ViewData.Present(rangeStart)
+                    SeriesCalendarView.ViewData.Present(rangeStart, monthLegend)
                 } else {
-                    SeriesCalendarView.ViewData.NotPresent(rangeStart)
+                    SeriesCalendarView.ViewData.NotPresent(rangeStart, monthLegend)
                 }
             }
             .reversed()

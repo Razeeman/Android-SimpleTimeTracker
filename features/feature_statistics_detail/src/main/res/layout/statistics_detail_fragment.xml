@@ -271,7 +271,9 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintTop_toBottomOf="@id/buttonsStatisticsDetailStreaksType" />
+                app:layout_constraintTop_toBottomOf="@id/buttonsStatisticsDetailStreaksType"
+                app:seriesLegendTextColor="@color/textSecondary"
+                app:seriesLegendTextSize="14sp" />
 
             <com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
                 android:id="@+id/chartStatisticsComparisonStreaksCalendar"
@@ -281,7 +283,9 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/chartStatisticsStreaksCalendar" />
+                app:layout_constraintTop_toBottomOf="@id/chartStatisticsStreaksCalendar"
+                app:seriesLegendTextColor="@color/textSecondary"
+                app:seriesLegendTextSize="14sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvStatisticsDetailSplitHint"

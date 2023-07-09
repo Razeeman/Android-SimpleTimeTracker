@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.core.utils.SwipeDetector
 import com.example.util.simpletimetracker.core.utils.isHorizontal
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.Coordinates
+import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import kotlin.math.ceil
 import kotlin.math.roundToInt
@@ -30,6 +31,11 @@ class SeriesCalendarView @JvmOverloads constructor(
     attrs,
     defStyleAttr
 ) {
+
+    // Attrs
+    private var legendTextSize: Float = 0f
+    private var legendTextColor: Int = 0
+    // Attrs
 
     private val columnsCount: Int = 26
     private val rowsCount: Int = 7
@@ -46,6 +52,7 @@ class SeriesCalendarView @JvmOverloads constructor(
 
     private val cellPresentPaint: Paint = Paint()
     private val cellNotPresentPaint: Paint = Paint()
+    private val legendTextPaint: Paint = Paint()
 
     private val singleTapDetector = SingleTapDetector(
         context = context,
@@ -58,6 +65,7 @@ class SeriesCalendarView @JvmOverloads constructor(
     )
 
     init {
+        initArgs(context, attrs, defStyleAttr)
         initPaint()
     }
 
@@ -80,7 +88,8 @@ class SeriesCalendarView @JvmOverloads constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val w = resolveSize(0, widthMeasureSpec)
         cellSize = w / columnsCount.toFloat()
-        val height: Float = cellSize * rowsCount
+        val legendTextHeight = legendTextPaint.fontMetrics.let { it.descent - it.ascent }
+        val height: Float = legendTextHeight + cellSize * rowsCount
         val h = resolveSize(height.roundToInt(), heightMeasureSpec)
 
         setMeasuredDimension(w, h)
@@ -128,6 +137,25 @@ class SeriesCalendarView @JvmOverloads constructor(
         invalidate()
     }
 
+    private fun initArgs(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0
+    ) {
+        context
+            .obtainStyledAttributes(
+                attrs,
+                R.styleable.SeriesCalendarView, defStyleAttr, 0
+            )
+            .run {
+                legendTextSize =
+                    getDimensionPixelSize(R.styleable.SeriesCalendarView_seriesLegendTextSize, 14).toFloat()
+                legendTextColor =
+                    getColor(R.styleable.SeriesCalendarView_seriesLegendTextColor, Color.BLACK)
+                recycle()
+            }
+    }
+
     private fun initPaint() {
         cellPresentPaint.apply {
             isAntiAlias = true
@@ -139,6 +167,11 @@ class SeriesCalendarView @JvmOverloads constructor(
             color = cellColor
             style = Paint.Style.FILL
             alpha = (255 * 0.3f).toInt()
+        }
+        legendTextPaint.apply {
+            isAntiAlias = true
+            color = legendTextColor
+            textSize = legendTextSize
         }
     }
 
@@ -160,6 +193,7 @@ class SeriesCalendarView @JvmOverloads constructor(
             w
         }
 
+        var currentLegend = ""
         data.forEachIndexed { index, point ->
             if (point.cell is ViewData.Dummy) return@forEachIndexed
 
@@ -178,6 +212,19 @@ class SeriesCalendarView @JvmOverloads constructor(
             point.boxRight = boxRight
             point.boxBottom = boxBottom
 
+            // Draw legend
+            val legend = point.cell.monthLegend
+            if (legend != currentLegend) {
+                canvas.drawText(
+                    currentLegend,
+                    boxLeft,
+                    legendTextSize,
+                    legendTextPaint
+                )
+                currentLegend = legend
+            }
+
+            // Draw cell
             canvas.drawRoundRect(
                 boxLeft + cellPadding,
                 boxTop + cellPadding,
@@ -244,17 +291,22 @@ class SeriesCalendarView @JvmOverloads constructor(
 
     sealed interface ViewData {
         val rangeStart: Long
+        val monthLegend: String
 
         data class Present(
             override val rangeStart: Long,
+            override val monthLegend: String,
         ) : ViewData
 
         data class NotPresent(
             override val rangeStart: Long,
+            override val monthLegend: String,
         ) : ViewData
 
         object Dummy : ViewData {
-            override val rangeStart: Long = 0L // Not needed for dummy view.
+            // Not needed for dummy view.
+            override val rangeStart: Long = 0L
+            override val monthLegend: String = ""
         }
     }
 

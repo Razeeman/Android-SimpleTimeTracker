@@ -75,7 +75,7 @@ class SettingsTest : BaseUiTest() {
         // Untracked is not shown
         NavUtils.openRecordsScreen()
         checkViewDoesNotExist(
-            allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed())
+            allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()),
         )
 
         // Change setting
@@ -105,7 +105,7 @@ class SettingsTest : BaseUiTest() {
         // Untracked is not shown
         NavUtils.openRecordsScreen()
         checkViewDoesNotExist(
-            allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed())
+            allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
     }
@@ -141,13 +141,13 @@ class SettingsTest : BaseUiTest() {
             val duration = timeMapper.formatInterval(
                 interval = interval,
                 forceSeconds = true,
-                useProportionalMinutes = false
+                useProportionalMinutes = false,
             )
             val matcher = allOf(
                 withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(coreR.string.untracked_time_name)),
                 hasDescendant(allOf(withId(changeRecordTypeR.id.tvRecordItemDuration), withText(duration))),
-                isCompletelyDisplayed()
+                isCompletelyDisplayed(),
             )
             if (displayed) {
                 checkViewIsDisplayed(matcher)
@@ -181,8 +181,8 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(settingsR.id.tvSettingsIgnoreShortUntrackedTime),
-                withText(coreR.string.settings_inactivity_reminder_disabled)
-            )
+                withText(coreR.string.settings_inactivity_reminder_disabled),
+            ),
         )
 
         NavUtils.openRecordsScreen()
@@ -270,7 +270,7 @@ class SettingsTest : BaseUiTest() {
             allOf(
                 withId(settingsR.id.tvSettingsUntrackedRangeStart),
                 withText(startPreview),
-            )
+            ),
         )
         var endPreview = (startOfDay + TimeUnit.HOURS.toMillis(17)).toTimePreview()
         clickOnViewWithId(settingsR.id.tvSettingsUntrackedRangeEnd)
@@ -280,7 +280,7 @@ class SettingsTest : BaseUiTest() {
             allOf(
                 withId(settingsR.id.tvSettingsUntrackedRangeEnd),
                 withText(endPreview),
-            )
+            ),
         )
 
         NavUtils.openRecordsScreen()
@@ -300,7 +300,7 @@ class SettingsTest : BaseUiTest() {
             allOf(
                 withId(settingsR.id.tvSettingsUntrackedRangeStart),
                 withText(startPreview),
-            )
+            ),
         )
         endPreview = (startOfDay + TimeUnit.HOURS.toMillis(8)).toTimePreview()
         clickOnViewWithId(settingsR.id.tvSettingsUntrackedRangeEnd)
@@ -310,7 +310,7 @@ class SettingsTest : BaseUiTest() {
             allOf(
                 withId(settingsR.id.tvSettingsUntrackedRangeEnd),
                 withText(endPreview),
-            )
+            ),
         )
 
         NavUtils.openRecordsScreen()
@@ -349,13 +349,13 @@ class SettingsTest : BaseUiTest() {
 
         NavUtils.openRecordsScreen()
         checkViewDoesNotExist(
-            allOf(withText(name1), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed())
+            allOf(withText(name1), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withText(name2), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed())
+            allOf(withText(name2), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withText(name3), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed())
+            allOf(withText(name3), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed()),
         )
 
         // Change setting
@@ -370,23 +370,23 @@ class SettingsTest : BaseUiTest() {
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name1)))
         tryAction {
             checkViewIsDisplayed(
-                allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name1)), isCompletelyDisplayed())
+                allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name1)), isCompletelyDisplayed()),
             )
         }
         checkViewDoesNotExist(
-            allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name2)), isCompletelyDisplayed())
+            allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name2)), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name3)), isCompletelyDisplayed())
+            allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name3)), isCompletelyDisplayed()),
         )
 
         // Records added
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
-            allOf(withText(name2), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed())
+            allOf(withText(name2), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
-            allOf(withText(name3), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed())
+            allOf(withText(name3), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed()),
         )
 
         // Click another
@@ -394,17 +394,17 @@ class SettingsTest : BaseUiTest() {
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name2)))
         tryAction {
             checkViewIsDisplayed(
-                allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name2)), isCompletelyDisplayed())
+                allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name2)), isCompletelyDisplayed()),
             )
         }
         checkViewDoesNotExist(
-            allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name1)), isCompletelyDisplayed())
+            allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name1)), isCompletelyDisplayed()),
         )
 
         // Record added
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
-            allOf(withText(name1), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed())
+            allOf(withText(name1), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed()),
         )
 
         // Change setting back
@@ -419,23 +419,23 @@ class SettingsTest : BaseUiTest() {
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name3)))
         tryAction {
             checkViewIsDisplayed(
-                allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name2)), isCompletelyDisplayed())
+                allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name2)), isCompletelyDisplayed()),
             )
         }
         checkViewIsDisplayed(
-            allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name3)), isCompletelyDisplayed())
+            allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name3)), isCompletelyDisplayed()),
         )
 
         // No new records added
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
-            allOf(withText(name1), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed())
+            allOf(withText(name1), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
-            allOf(withText(name2), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed())
+            allOf(withText(name2), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
-            allOf(withText(name3), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed())
+            allOf(withText(name3), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed()),
         )
     }
 
@@ -516,12 +516,23 @@ class SettingsTest : BaseUiTest() {
         testUtils.addRecord(name1)
         testUtils.addRecord(name2)
 
-        // Change settings
+        // Check settings
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsDarkMode)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsDarkMode)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsDarkMode))
-        onView(withId(settingsR.id.checkboxSettingsDarkMode)).check(matches(isChecked()))
+        onView(withId(settingsR.id.spinnerSettingsDarkMode)).perform(nestedScrollTo())
+        checkViewIsDisplayed(
+            allOf(
+                withId(settingsR.id.tvSettingsDarkModeValue),
+                withText(coreR.string.settings_dark_mode_system),
+            ),
+        )
+        clickOnSpinnerWithId(settingsR.id.spinnerSettingsDarkMode)
+        clickOnViewWithText(coreR.string.settings_dark_mode_enabled)
+        checkViewIsDisplayed(
+            allOf(
+                withId(settingsR.id.tvSettingsDarkModeValue),
+                withText(coreR.string.settings_dark_mode_enabled),
+            ),
+        )
 
         // Check screens
         NavUtils.openRunningRecordsScreen()
@@ -530,10 +541,21 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsDarkMode)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsDarkMode)).check(matches(isChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsDarkMode))
-        onView(withId(settingsR.id.checkboxSettingsDarkMode)).check(matches(isNotChecked()))
+        onView(withId(settingsR.id.spinnerSettingsDarkMode)).perform(nestedScrollTo())
+        checkViewIsDisplayed(
+            allOf(
+                withId(settingsR.id.tvSettingsDarkModeValue),
+                withText(coreR.string.settings_dark_mode_enabled),
+            ),
+        )
+        clickOnSpinnerWithId(settingsR.id.spinnerSettingsDarkMode)
+        clickOnViewWithText(coreR.string.settings_inactivity_reminder_disabled)
+        checkViewIsDisplayed(
+            allOf(
+                withId(settingsR.id.tvSettingsDarkModeValue),
+                withText(coreR.string.settings_inactivity_reminder_disabled),
+            ),
+        )
 
         // Check screens
         NavUtils.openRunningRecordsScreen()
@@ -551,8 +573,8 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(settingsR.id.tvSettingsInactivityReminderTime),
-                withText(coreR.string.settings_inactivity_reminder_disabled)
-            )
+                withText(coreR.string.settings_inactivity_reminder_disabled),
+            ),
         )
         checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent))
 
@@ -575,7 +597,7 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(
-            allOf(withText("1$minuteString"), withId(settingsR.id.tvSettingsInactivityReminderTime))
+            allOf(withText("1$minuteString"), withId(settingsR.id.tvSettingsInactivityReminderTime)),
         )
         onView(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
         checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent))
@@ -636,8 +658,8 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(settingsR.id.tvSettingsInactivityReminderTime),
-                withText(coreR.string.settings_inactivity_reminder_disabled)
-            )
+                withText(coreR.string.settings_inactivity_reminder_disabled),
+            ),
         )
         checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent))
     }
@@ -651,8 +673,8 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(settingsR.id.tvSettingsActivityReminderTime),
-                withText(coreR.string.settings_inactivity_reminder_disabled)
-            )
+                withText(coreR.string.settings_inactivity_reminder_disabled),
+            ),
         )
         checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent))
 
@@ -675,7 +697,7 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(
-            allOf(withText("1$minuteString"), withId(settingsR.id.tvSettingsActivityReminderTime))
+            allOf(withText("1$minuteString"), withId(settingsR.id.tvSettingsActivityReminderTime)),
         )
         onView(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
         checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent))
@@ -736,8 +758,8 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(settingsR.id.tvSettingsActivityReminderTime),
-                withText(coreR.string.settings_inactivity_reminder_disabled)
-            )
+                withText(coreR.string.settings_inactivity_reminder_disabled),
+            ),
         )
         checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent))
     }
@@ -756,8 +778,8 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(settingsR.id.tvSettingsIgnoreShortRecordsTime),
-                withText(coreR.string.settings_inactivity_reminder_disabled)
-            )
+                withText(coreR.string.settings_inactivity_reminder_disabled),
+            ),
         )
 
         clickOnViewWithId(settingsR.id.groupSettingsIgnoreShortRecords)
@@ -780,8 +802,8 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(settingsR.id.tvSettingsIgnoreShortRecordsTime),
-                withText(coreR.string.settings_inactivity_reminder_disabled)
-            )
+                withText(coreR.string.settings_inactivity_reminder_disabled),
+            ),
         )
 
         // Check record not ignored
@@ -847,14 +869,14 @@ class SettingsTest : BaseUiTest() {
         onView(withId(settingsR.id.tvSettingsUseProportionalMinutesHint)).perform(nestedScrollTo())
         onView(withId(settingsR.id.checkboxSettingsUseProportionalMinutes)).check(matches(isNotChecked()))
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.tvSettingsUseProportionalMinutesHint), withText(timeFormat1))
+            allOf(withId(settingsR.id.tvSettingsUseProportionalMinutesHint), withText(timeFormat1)),
         )
 
         // Change settings
         clickOnViewWithId(settingsR.id.checkboxSettingsUseProportionalMinutes)
         onView(withId(settingsR.id.checkboxSettingsUseProportionalMinutes)).check(matches(isChecked()))
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.tvSettingsUseProportionalMinutesHint), withSubstring(timeFormat2))
+            allOf(withId(settingsR.id.tvSettingsUseProportionalMinutesHint), withSubstring(timeFormat2)),
         )
 
         // Check format after setting change
@@ -866,7 +888,7 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(settingsR.id.checkboxSettingsUseProportionalMinutes)
         onView(withId(settingsR.id.checkboxSettingsUseProportionalMinutes)).check(matches(isNotChecked()))
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.tvSettingsUseProportionalMinutesHint), withText(timeFormat1))
+            allOf(withId(settingsR.id.tvSettingsUseProportionalMinutesHint), withText(timeFormat1)),
         )
 
         // Check format again
@@ -916,7 +938,7 @@ class SettingsTest : BaseUiTest() {
         testUtils.addRecord(
             typeName = name,
             timeStarted = calendar.timeInMillis,
-            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1),
         )
 
         // Change setting
@@ -937,8 +959,8 @@ class SettingsTest : BaseUiTest() {
             allOf(
                 withId(baseR.id.viewStatisticsItem),
                 hasDescendant(withText(name)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
 
         // Check detailed statistics
@@ -948,15 +970,15 @@ class SettingsTest : BaseUiTest() {
             allOf(
                 withPluralText(coreR.plurals.statistics_detail_times_tracked, 1),
                 hasSibling(withText("1")),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
 
         // Check range titles
         var titlePrev = timeMapper.toWeekTitle(
             weeksFromToday = -1,
             startOfDayShift = 0,
-            firstDayOfWeek = if (isTodaySunday) DayOfWeek.MONDAY else DayOfWeek.SUNDAY
+            firstDayOfWeek = if (isTodaySunday) DayOfWeek.MONDAY else DayOfWeek.SUNDAY,
         )
         longClickOnViewWithId(statisticsDetailR.id.btnStatisticsDetailToday)
         clickOnViewWithId(statisticsDetailR.id.btnStatisticsDetailPrevious)
@@ -982,16 +1004,16 @@ class SettingsTest : BaseUiTest() {
             allOf(
                 withId(baseR.id.viewStatisticsItem),
                 hasDescendant(withText(name)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
         clickOnView(
             allOf(
                 withId(baseR.id.viewStatisticsItem),
                 hasDescendant(withText(name)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
 
         // Check detailed statistics
@@ -1001,23 +1023,23 @@ class SettingsTest : BaseUiTest() {
             allOf(
                 withPluralText(coreR.plurals.statistics_detail_times_tracked, 0),
                 hasSibling(withText("0")),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
         clickOnViewWithId(statisticsDetailR.id.btnStatisticsDetailPrevious)
         checkViewIsDisplayed(
             allOf(
                 withPluralText(coreR.plurals.statistics_detail_times_tracked, 1),
                 hasSibling(withText("1")),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
 
         // Check range titles
         titlePrev = timeMapper.toWeekTitle(
             weeksFromToday = -1,
             startOfDayShift = 0,
-            firstDayOfWeek = if (isTodaySunday) DayOfWeek.SUNDAY else DayOfWeek.MONDAY
+            firstDayOfWeek = if (isTodaySunday) DayOfWeek.SUNDAY else DayOfWeek.MONDAY,
         )
         longClickOnViewWithId(statisticsDetailR.id.btnStatisticsDetailToday)
         clickOnViewWithId(statisticsDetailR.id.btnStatisticsDetailPrevious)
@@ -1049,7 +1071,7 @@ class SettingsTest : BaseUiTest() {
         testUtils.addRecord(
             typeName = name,
             timeStarted = timeStartedTimeStamp,
-            timeEnded = timeEndedTimeStamp
+            timeEnded = timeEndedTimeStamp,
         )
 
         // Check records
@@ -1102,7 +1124,7 @@ class SettingsTest : BaseUiTest() {
         // Check new setting
         checkViewIsDisplayed(allOf(withId(settingsR.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.btnSettingsStartOfDaySign), hasDescendant(withText(coreR.string.plus_sign)))
+            allOf(withId(settingsR.id.btnSettingsStartOfDaySign), hasDescendant(withText(coreR.string.plus_sign))),
         )
 
         // Check records
@@ -1147,7 +1169,7 @@ class SettingsTest : BaseUiTest() {
         // Check new setting
         checkViewIsDisplayed(allOf(withId(settingsR.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.btnSettingsStartOfDaySign), hasDescendant(withText(coreR.string.minus_sign)))
+            allOf(withId(settingsR.id.btnSettingsStartOfDaySign), hasDescendant(withText(coreR.string.minus_sign))),
         )
 
         startOfDayTimeStamp = calendar.timeInMillis - TimeUnit.HOURS.toMillis(1)
@@ -1198,7 +1220,7 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
         checkViewIsDisplayed(allOf(withId(settingsR.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.btnSettingsStartOfDaySign), hasDescendant(withText(coreR.string.minus_sign)))
+            allOf(withId(settingsR.id.btnSettingsStartOfDaySign), hasDescendant(withText(coreR.string.minus_sign))),
         )
         onView(withId(settingsR.id.btnSettingsStartOfDaySign)).perform(nestedScrollTo(), click())
         checkViewIsDisplayed(allOf(withId(settingsR.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
@@ -1440,10 +1462,10 @@ class SettingsTest : BaseUiTest() {
         // View is set up
         val currentTime = System.currentTimeMillis()
         var timeStarted = timeMapper.formatDateTime(
-            time = currentTime - TimeUnit.DAYS.toMillis(7), useMilitaryTime = true, showSeconds = false
+            time = currentTime - TimeUnit.DAYS.toMillis(7), useMilitaryTime = true, showSeconds = false,
         )
         var timeEnded = timeMapper.formatDateTime(
-            time = currentTime, useMilitaryTime = true, showSeconds = false
+            time = currentTime, useMilitaryTime = true, showSeconds = false,
         )
         checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeEnded), withText(timeEnded)))
@@ -1465,8 +1487,8 @@ class SettingsTest : BaseUiTest() {
             .perform(setDate(year, month + 1, day))
         clickOnView(
             allOf(
-                isDescendantOfA(withId(dialogsR.id.tabsDateTimeDialog)), withText(coreR.string.date_time_dialog_time)
-            )
+                isDescendantOfA(withId(dialogsR.id.tabsDateTimeDialog)), withText(coreR.string.date_time_dialog_time),
+            ),
         )
         onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourStarted, minutesStarted))
@@ -1492,8 +1514,8 @@ class SettingsTest : BaseUiTest() {
             .perform(setDate(year, month + 1, day))
         clickOnView(
             allOf(
-                isDescendantOfA(withId(dialogsR.id.tabsDateTimeDialog)), withText(coreR.string.date_time_dialog_time)
-            )
+                isDescendantOfA(withId(dialogsR.id.tabsDateTimeDialog)), withText(coreR.string.date_time_dialog_time),
+            ),
         )
         onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourEnded, minutesEnded))
@@ -1692,7 +1714,7 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openSettingsAdditional()
         onView(withId(settingsR.id.btnSettingsAutomatedTracking)).perform(nestedScrollTo(), click())
         checkViewIsDisplayed(
-            allOf(withId(dialogsR.id.tvHelpDialogTitle), withText(coreR.string.settings_automated_tracking))
+            allOf(withId(dialogsR.id.tvHelpDialogTitle), withText(coreR.string.settings_automated_tracking)),
         )
     }
 
@@ -1775,8 +1797,8 @@ class SettingsTest : BaseUiTest() {
                 hasDescendant(if (nameResId != null) withText(nameResId) else withText(name)),
                 hasDescendant(allOf(withId(changeRecordTypeR.id.tvRecordItemTimeStarted), withText(timeStart))),
                 hasDescendant(allOf(withId(changeRecordTypeR.id.tvRecordItemTimeFinished), withText(timeEnd))),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 
@@ -1790,8 +1812,8 @@ class SettingsTest : BaseUiTest() {
                 withId(baseR.id.viewStatisticsItem),
                 hasDescendant(if (nameResId != null) withText(nameResId) else withText(name)),
                 hasDescendant(withSubstring("$hours$hourString 0$minuteString")),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 
@@ -1800,8 +1822,8 @@ class SettingsTest : BaseUiTest() {
             allOf(
                 withPluralText(coreR.plurals.statistics_detail_times_tracked, count),
                 hasSibling(withText(count.toString())),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 

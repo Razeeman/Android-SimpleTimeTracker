@@ -39,4 +39,9 @@
         <attr name="seriesValueTextSize" format="dimension" />
         <attr name="seriesValueTextColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="SeriesCalendarView">
+        <attr name="seriesLegendTextSize" />
+        <attr name="seriesLegendTextColor" />
+    </declare-styleable>
 </resources>
