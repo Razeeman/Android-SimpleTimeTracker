@@ -1,0 +1,5 @@
+- Add streaks calendar to detailed statistics
+- Add system dark mode setting
+- Add language setting
+- Add some translations
+- General bug fixes and improvements
