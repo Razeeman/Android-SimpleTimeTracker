@@ -25,20 +25,4 @@ data class RecordTypeDBO(
 
     @ColumnInfo(name = "hidden")
     val hidden: Boolean,
-
-    // Seconds.
-    @ColumnInfo(name = "goal_time")
-    val goalTime: Long,
-
-    // Seconds.
-    @ColumnInfo(name = "daily_goal_time")
-    val dailyGoalTime: Long,
-
-    // Seconds.
-    @ColumnInfo(name = "weekly_goal_time")
-    val weeklyGoalTime: Long,
-
-    // Seconds.
-    @ColumnInfo(name = "monthly_goal_time")
-    val monthlyGoalTime: Long,
 )

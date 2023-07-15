@@ -17,10 +17,10 @@ class RecordTypeDataLocalMapper @Inject constructor() {
                 colorInt = dbo.colorInt
             ),
             hidden = dbo.hidden,
-            goalTime = dbo.goalTime,
-            dailyGoalTime = dbo.dailyGoalTime,
-            weeklyGoalTime = dbo.weeklyGoalTime,
-            monthlyGoalTime = dbo.monthlyGoalTime,
+            goalTime = 0,
+            dailyGoalTime = 0,
+            weeklyGoalTime = 0,
+            monthlyGoalTime = 0,
         )
     }
 
@@ -32,10 +32,6 @@ class RecordTypeDataLocalMapper @Inject constructor() {
             color = domain.color.colorId,
             colorInt = domain.color.colorInt,
             hidden = domain.hidden,
-            goalTime = domain.goalTime,
-            dailyGoalTime = domain.dailyGoalTime,
-            weeklyGoalTime = domain.weeklyGoalTime,
-            monthlyGoalTime = domain.monthlyGoalTime,
         )
     }
 }

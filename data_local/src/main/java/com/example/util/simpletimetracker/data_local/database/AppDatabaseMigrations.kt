@@ -19,6 +19,7 @@ class AppDatabaseMigrations {
                 migration_9_10,
                 migration_10_11,
                 migration_11_12,
+                migration_12_13,
             )
 
         private val migration_1_2 = object : Migration(1, 2) {
@@ -27,15 +28,12 @@ class AppDatabaseMigrations {
                 database.execSQL(
                     "CREATE TABLE recordTypes_new (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, icon TEXT NOT NULL, color INTEGER NOT NULL, hidden INTEGER NOT NULL)",
                 )
-
                 // Copy the data
                 database.execSQL(
                     "INSERT INTO recordTypes_new (id, name, icon, color, hidden) SELECT id, name, '', color, hidden FROM recordTypes",
                 )
-
                 // Remove the old table
                 database.execSQL("DROP TABLE recordTypes")
-
                 // Change the table name to the correct one
                 database.execSQL("ALTER TABLE recordTypes_new RENAME TO recordTypes")
             }
@@ -148,6 +146,41 @@ class AppDatabaseMigrations {
                 database.execSQL(
                     "CREATE TABLE IF NOT EXISTS `favouriteComments` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `comment` TEXT NOT NULL)",
                 )
+            }
+        }
+
+        private val migration_12_13 = object : Migration(12, 13) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // Create new table for goals
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `recordTypeGoals` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `type_id` INTEGER NOT NULL, `range` INTEGER NOT NULL, `type` INTEGER NOT NULL, `value` INTEGER NOT NULL)",
+                )
+                // Migrate goals
+                // session range = 0, daily range = 1, weekly range = 2, monthly range = 3
+                database.execSQL(
+                    "INSERT INTO recordTypeGoals (type_id, range, type, value) SELECT id, 0, 0, goal_time FROM recordTypes WHERE goal_time != 0",
+                )
+                database.execSQL(
+                    "INSERT INTO recordTypeGoals (type_id, range, type, value) SELECT id, 1, 0, daily_goal_time FROM recordTypes WHERE daily_goal_time != 0",
+                )
+                database.execSQL(
+                    "INSERT INTO recordTypeGoals (type_id, range, type, value) SELECT id, 2, 0, weekly_goal_time FROM recordTypes WHERE weekly_goal_time != 0",
+                )
+                database.execSQL(
+                    "INSERT INTO recordTypeGoals (type_id, range, type, value) SELECT id, 3, 0, monthly_goal_time FROM recordTypes WHERE monthly_goal_time != 0",
+                )
+                // Create the new table
+                database.execSQL(
+                    "CREATE TABLE `recordTypes_new` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `icon` TEXT NOT NULL, `color` INTEGER NOT NULL, `color_int` TEXT NOT NULL, `hidden` INTEGER NOT NULL)",
+                )
+                // Copy the data
+                database.execSQL(
+                    "INSERT INTO recordTypes_new (id, name, icon, color, color_int, hidden) SELECT id, name, icon, color, color_int, hidden FROM recordTypes",
+                )
+                // Remove the old table
+                database.execSQL("DROP TABLE recordTypes")
+                // Change the table name to the correct one
+                database.execSQL("ALTER TABLE recordTypes_new RENAME TO recordTypes")
             }
         }
     }

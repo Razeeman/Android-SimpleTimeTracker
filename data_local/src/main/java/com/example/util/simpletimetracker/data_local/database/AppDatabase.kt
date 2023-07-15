@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.data_local.model.RecordTagDBO
 import com.example.util.simpletimetracker.data_local.model.RecordToRecordTagDBO
 import com.example.util.simpletimetracker.data_local.model.RecordTypeCategoryDBO
 import com.example.util.simpletimetracker.data_local.model.RecordTypeDBO
+import com.example.util.simpletimetracker.data_local.model.RecordTypeGoalDBO
 import com.example.util.simpletimetracker.data_local.model.RunningRecordDBO
 import com.example.util.simpletimetracker.data_local.model.RunningRecordToRecordTagDBO
 
@@ -25,8 +26,9 @@ import com.example.util.simpletimetracker.data_local.model.RunningRecordToRecord
         RunningRecordToRecordTagDBO::class,
         ActivityFilterDBO::class,
         FavouriteCommentDBO::class,
+        RecordTypeGoalDBO::class,
     ],
-    version = 12,
+    version = 13,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
