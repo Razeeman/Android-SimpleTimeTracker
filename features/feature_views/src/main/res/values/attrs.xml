@@ -101,8 +101,6 @@
         <attr name="itemTimer" format="string" />
         <attr name="itemTimerDay" format="string" />
         <attr name="itemGoalTime" />
-        <attr name="itemGoalTime2" format="string" />
-        <attr name="itemGoalTime3" format="string" />
         <attr name="itemNowIconVisible" format="boolean" />
     </declare-styleable>
 

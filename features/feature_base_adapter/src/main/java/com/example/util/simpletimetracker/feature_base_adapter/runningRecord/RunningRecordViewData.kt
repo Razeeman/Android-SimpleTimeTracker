@@ -12,9 +12,6 @@ data class RunningRecordViewData(
     val timer: String,
     val timerTotal: String,
     val goalTime: GoalTimeViewData,
-    val goalTime2: GoalTimeViewData,
-    val goalTime3: GoalTimeViewData,
-    val goalTime4: GoalTimeViewData,
     val iconId: RecordTypeIcon,
     @ColorInt val color: Int,
     val comment: String,
@@ -36,9 +33,6 @@ data class RunningRecordViewData(
         if (this.iconId != other.iconId) updates.add(UPDATE_ICON)
         if (this.color != other.color) updates.add(UPDATE_COLOR)
         if (this.goalTime != other.goalTime) updates.add(UPDATE_GOAL_TIME)
-        if (this.goalTime2 != other.goalTime2) updates.add(UPDATE_GOAL_TIME2)
-        if (this.goalTime3 != other.goalTime3) updates.add(UPDATE_GOAL_TIME3)
-        if (this.goalTime4 != other.goalTime4) updates.add(UPDATE_GOAL_TIME4)
         if (this.comment != other.comment) updates.add(UPDATE_COMMENT)
         if (this.nowIconVisible != other.nowIconVisible) updates.add(UPDATE_NOW_ICON)
 
@@ -53,11 +47,8 @@ data class RunningRecordViewData(
         const val UPDATE_ICON = 5
         const val UPDATE_COLOR = 6
         const val UPDATE_GOAL_TIME = 7
-        const val UPDATE_GOAL_TIME2 = 8
-        const val UPDATE_GOAL_TIME3 = 9
-        const val UPDATE_GOAL_TIME4 = 10
-        const val UPDATE_COMMENT = 11
-        const val UPDATE_TAG_NAME = 12
-        const val UPDATE_NOW_ICON = 13
+        const val UPDATE_COMMENT = 8
+        const val UPDATE_TAG_NAME = 9
+        const val UPDATE_NOW_ICON = 10
     }
 }

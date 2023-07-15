@@ -5,9 +5,8 @@ import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurat
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.getDailyDuration
 import com.example.util.simpletimetracker.domain.extension.getFullName
-import com.example.util.simpletimetracker.domain.extension.getMonthlyDuration
 import com.example.util.simpletimetracker.domain.extension.getSessionDuration
-import com.example.util.simpletimetracker.domain.extension.getWeeklyDuration
+import com.example.util.simpletimetracker.domain.extension.hasDailyDuration
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.model.GoalTimeType
@@ -15,6 +14,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RunningRecord
+import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.GoalTimeViewData
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import javax.inject.Inject
 
@@ -29,8 +29,6 @@ class RunningRecordViewDataMapper @Inject constructor(
     fun map(
         runningRecord: RunningRecord,
         dailyCurrent: GetCurrentRecordsDurationInteractor.Result?,
-        weeklyCurrent: Long,
-        monthlyCurrent: Long,
         recordType: RecordType,
         recordTags: List<RecordTag>,
         goals: List<RecordTypeGoal>,
@@ -65,28 +63,10 @@ class RunningRecordViewDataMapper @Inject constructor(
                 showSeconds = showSeconds,
                 useProportionalMinutes = useProportionalMinutes,
             ),
-            goalTime = goalTimeMapper.map(
-                goalTime = goals.getSessionDuration().value,
-                current = currentDuration,
-                type = GoalTimeType.Session,
-                goalsVisible = goalsVisible,
-            ),
-            goalTime2 = goalTimeMapper.map(
-                goalTime = goals.getDailyDuration().value,
-                current = dailyCurrent?.duration.orZero(),
-                type = GoalTimeType.Day,
-                goalsVisible = goalsVisible,
-            ),
-            goalTime3 = goalTimeMapper.map(
-                goalTime = goals.getWeeklyDuration().value,
-                current = weeklyCurrent,
-                type = GoalTimeType.Week,
-                goalsVisible = goalsVisible,
-            ),
-            goalTime4 = goalTimeMapper.map(
-                goalTime = goals.getMonthlyDuration().value,
-                current = monthlyCurrent,
-                type = GoalTimeType.Month,
+            goalTime = mapGoalTime(
+                currentDuration = currentDuration,
+                goals = goals,
+                dailyCurrent = dailyCurrent,
                 goalsVisible = goalsVisible,
             ),
             iconId = recordType.icon
@@ -115,5 +95,30 @@ class RunningRecordViewDataMapper @Inject constructor(
         )
 
         return "$hint $duration"
+    }
+
+    private fun mapGoalTime(
+        currentDuration: Long,
+        goals: List<RecordTypeGoal>,
+        dailyCurrent: GetCurrentRecordsDurationInteractor.Result?,
+        goalsVisible: Boolean,
+    ): GoalTimeViewData {
+        fun getSessionGoal() = goalTimeMapper.map(
+            goalTime = goals.getSessionDuration().value,
+            current = currentDuration,
+            type = GoalTimeType.Session,
+            goalsVisible = goalsVisible,
+        )
+        fun getDailyGoal() = goalTimeMapper.map(
+            goalTime = goals.getDailyDuration().value,
+            current = dailyCurrent?.duration.orZero(),
+            type = GoalTimeType.Day,
+            goalsVisible = goalsVisible,
+        )
+
+        return when {
+            goals.hasDailyDuration() -> getDailyGoal()
+            else -> getSessionGoal()
+        }
     }
 }

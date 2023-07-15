@@ -93,45 +93,6 @@ class RunningRecordView @JvmOverloads constructor(
             field = value
         }
 
-    var itemGoalTime2: String = ""
-        set(value) {
-            binding.tvRunningRecordItemGoalTime2.text = value
-            binding.tvRunningRecordItemGoalTime2.visible = value.isNotEmpty()
-            field = value
-        }
-
-    var itemGoalTime2Complete: Boolean = false
-        set(value) {
-            binding.ivRunningRecordItemGoalTimeCheck2.visible = value
-            field = value
-        }
-
-    var itemGoalTime3: String = ""
-        set(value) {
-            binding.tvRunningRecordItemGoalTime3.text = value
-            binding.tvRunningRecordItemGoalTime3.visible = value.isNotEmpty()
-            field = value
-        }
-
-    var itemGoalTime3Complete: Boolean = false
-        set(value) {
-            binding.ivRunningRecordItemGoalTimeCheck3.visible = value
-            field = value
-        }
-
-    var itemGoalTime4: String = ""
-        set(value) {
-            binding.tvRunningRecordItemGoalTime4.text = value
-            binding.tvRunningRecordItemGoalTime4.visible = value.isNotEmpty()
-            field = value
-        }
-
-    var itemGoalTime4Complete: Boolean = false
-        set(value) {
-            binding.ivRunningRecordItemGoalTimeCheck4.visible = value
-            field = value
-        }
-
     var itemComment: String = ""
         set(value) {
             binding.tvRunningRecordItemComment.text = value
@@ -197,12 +158,6 @@ class RunningRecordView @JvmOverloads constructor(
 
                 if (hasValue(R.styleable.RunningRecordView_itemGoalTime)) itemGoalTime =
                     getString(R.styleable.RunningRecordView_itemGoalTime).orEmpty()
-
-                if (hasValue(R.styleable.RunningRecordView_itemGoalTime2)) itemGoalTime2 =
-                    getString(R.styleable.RunningRecordView_itemGoalTime2).orEmpty()
-
-                if (hasValue(R.styleable.RunningRecordView_itemGoalTime3)) itemGoalTime3 =
-                    getString(R.styleable.RunningRecordView_itemGoalTime3).orEmpty()
 
                 if (hasValue(R.styleable.RunningRecordView_itemComment)) itemComment =
                     getString(R.styleable.RunningRecordView_itemComment).orEmpty()

@@ -5,8 +5,10 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.getDailyDuration
 import com.example.util.simpletimetracker.domain.extension.getFullName
 import com.example.util.simpletimetracker.domain.extension.getSessionDuration
+import com.example.util.simpletimetracker.domain.extension.hasDailyDuration
 import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -55,6 +57,11 @@ class NotificationTypeInteractorImpl @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
         val showControls = prefsInteractor.getShowNotificationsControls()
+        val goalTime = if (goals.hasDailyDuration()) {
+            goals.getDailyDuration()
+        } else {
+            goals.getSessionDuration()
+        }
         val viewedTags = if (selectedTypeId != 0L) {
             val typedTags = recordTags.filter { it.typeId == selectedTypeId }
             val generalTags = recordTags.filter { it.typeId == 0L }
@@ -77,7 +84,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
         show(
             recordType = recordType,
-            goalTime = goals.getSessionDuration(),
+            goalTime = goalTime,
             runningRecord = runningRecord ?: return,
             recordTags = recordTags.filter { it.id in runningRecord.tagIds },
             dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord),

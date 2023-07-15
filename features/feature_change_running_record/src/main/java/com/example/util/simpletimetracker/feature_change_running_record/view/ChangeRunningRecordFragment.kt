@@ -106,9 +106,6 @@ class ChangeRunningRecordFragment :
                 timer = duration,
                 timerTotal = durationTotal,
                 goalTime = goalTime.toViewData(),
-                goalTime2 = goalTime2.toViewData(),
-                goalTime3 = goalTime3.toViewData(),
-                goalTime4 = goalTime4.toViewData(),
                 iconId = iconId.toViewData(),
                 color = color,
                 comment = comment,
@@ -132,12 +129,6 @@ class ChangeRunningRecordFragment :
             itemTimerTotal = item.recordPreview.timerTotal
             itemGoalTime = item.recordPreview.goalTime.text
             itemGoalTimeComplete = item.recordPreview.goalTime.complete
-            itemGoalTime2 = item.recordPreview.goalTime2.text
-            itemGoalTime2Complete = item.recordPreview.goalTime2.complete
-            itemGoalTime3 = item.recordPreview.goalTime3.text
-            itemGoalTime3Complete = item.recordPreview.goalTime3.complete
-            itemGoalTime4 = item.recordPreview.goalTime4.text
-            itemGoalTime4Complete = item.recordPreview.goalTime4.complete
             itemComment = item.recordPreview.comment
             itemNowIconVisible = item.recordPreview.nowIconVisible
         }

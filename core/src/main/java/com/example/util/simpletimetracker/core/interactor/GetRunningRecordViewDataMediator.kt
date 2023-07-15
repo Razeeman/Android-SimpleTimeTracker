@@ -1,8 +1,7 @@
 package com.example.util.simpletimetracker.core.interactor
 
 import com.example.util.simpletimetracker.core.mapper.RunningRecordViewDataMapper
-import com.example.util.simpletimetracker.domain.extension.hasMonthlyDuration
-import com.example.util.simpletimetracker.domain.extension.hasWeeklyDuration
+import com.example.util.simpletimetracker.domain.extension.hasDailyDuration
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
@@ -28,27 +27,15 @@ class GetRunningRecordViewDataMediator @Inject constructor(
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
     ): RunningRecordViewData {
-        val dailyCurrent = if (goalsVisible || totalDurationVisible) {
+        val dailyCurrent = if ((goals.hasDailyDuration() && goalsVisible) || totalDurationVisible) {
             getCurrentRecordsDurationInteractor.getDailyCurrent(record)
         } else {
             null
-        }
-        val weeklyCurrent = if (goals.hasWeeklyDuration() && goalsVisible) {
-            getCurrentRecordsDurationInteractor.getWeeklyCurrent(record).duration
-        } else {
-            0L
-        }
-        val monthlyCurrent = if (goals.hasMonthlyDuration() && goalsVisible) {
-            getCurrentRecordsDurationInteractor.getMonthlyCurrent(record).duration
-        } else {
-            0L
         }
 
         return runningRecordViewDataMapper.map(
             runningRecord = record,
             dailyCurrent = dailyCurrent,
-            weeklyCurrent = weeklyCurrent,
-            monthlyCurrent = monthlyCurrent,
             recordType = type,
             recordTags = tags,
             goals = goals,

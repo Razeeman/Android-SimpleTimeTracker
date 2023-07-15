@@ -69,9 +69,6 @@ class RecordsAllViewModel @Inject constructor(
                 duration = item.timer,
                 durationTotal = item.timerTotal,
                 goalTime = item.goalTime.toParams(),
-                goalTime2 = item.goalTime2.toParams(),
-                goalTime3 = item.goalTime3.toParams(),
-                goalTime4 = item.goalTime4.toParams(),
                 iconId = item.iconId.toParams(),
                 color = item.color,
                 comment = item.comment

@@ -28,6 +28,10 @@ fun List<RecordTypeGoal>.getMonthlyDuration(): RecordTypeGoal? {
     }
 }
 
+fun List<RecordTypeGoal>.hasSessionDuration(): Boolean {
+    return getSessionDuration() != null
+}
+
 fun List<RecordTypeGoal>.hasDailyDuration(): Boolean {
     return getDailyDuration() != null
 }
