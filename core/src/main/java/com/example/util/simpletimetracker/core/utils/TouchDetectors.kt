@@ -22,6 +22,7 @@ class HoldDetector(
                 onDown()
                 return true
             }
+
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 onUp()
                 return true
@@ -46,7 +47,7 @@ class SingleTapDetector(
                 onSingleTap(e)
                 return super.onSingleTapUp(e)
             }
-        }
+        },
     )
 
     fun onTouchEvent(event: MotionEvent): Boolean {
@@ -80,7 +81,7 @@ class ScaleDetector(
             override fun onScaleEnd(detector: ScaleGestureDetector) {
                 onScaleStop()
             }
-        }
+        },
     )
 
     fun onTouchEvent(event: MotionEvent): Boolean {
@@ -117,7 +118,7 @@ class SwipeDetector(
                         startSliding()
                         initialDirection = Direction.DOWN
                     }
-                    onSlide(e2.rawY - e1.rawY, initialDirection, e2)
+                    doSlide(e1, e2)
                     return true
                 }
 
@@ -127,7 +128,7 @@ class SwipeDetector(
                         startSliding()
                         initialDirection = Direction.LEFT
                     }
-                    onSlide(e2.rawX - e1.rawX, initialDirection, e2)
+                    doSlide(e1, e2)
                     return true
                 }
 
@@ -137,7 +138,7 @@ class SwipeDetector(
                         startSliding()
                         initialDirection = Direction.UP
                     }
-                    onSlide(e2.rawY - e1.rawY, initialDirection, e2)
+                    doSlide(e1, e2)
                     return true
                 }
 
@@ -147,13 +148,26 @@ class SwipeDetector(
                         startSliding()
                         initialDirection = Direction.RIGHT
                     }
-                    onSlide(e2.rawX - e1.rawX, initialDirection, e2)
+                    doSlide(e1, e2)
                     return true
                 }
 
                 return false
             }
-        }
+
+            private fun doSlide(e1: MotionEvent, e2: MotionEvent) {
+                val offset = when (initialDirection) {
+                    Direction.LEFT,
+                    Direction.RIGHT,
+                    -> e2.rawX - e1.rawX
+
+                    Direction.UP,
+                    Direction.DOWN,
+                    -> e2.rawY - e1.rawY
+                }
+                onSlide(offset, initialDirection, e2)
+            }
+        },
     )
 
     fun onTouchEvent(event: MotionEvent): Boolean {
