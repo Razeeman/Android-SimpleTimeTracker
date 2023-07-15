@@ -30,6 +30,7 @@ import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
@@ -37,6 +38,7 @@ import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
@@ -73,6 +75,7 @@ class RecordsFilterViewModel @Inject constructor(
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
     private val router: Router,
@@ -127,6 +130,7 @@ class RecordsFilterViewModel @Inject constructor(
     private var recordTypeCategories: List<RecordTypeCategory>? = null
     private var categories: List<Category>? = null
     private var recordTags: List<RecordTag>? = null
+    private var goals: List<RecordTypeGoal>? = null
 
     fun init(extra: RecordsFilterParams) {
         this.extra = extra
@@ -256,7 +260,7 @@ class RecordsFilterViewModel @Inject constructor(
 
     fun onRecordClick(
         item: RecordViewData,
-        @Suppress("UNUSED_PARAMETER") sharedElements: Pair<Any, String>
+        @Suppress("UNUSED_PARAMETER") sharedElements: Pair<Any, String>,
     ) {
         if (item is RecordViewData.Untracked) return // TODO manually filter untracked records?
 
@@ -291,7 +295,7 @@ class RecordsFilterViewModel @Inject constructor(
         val currentIds = filters.getTypeIds().toMutableList()
         val currentIdsFromCategories = filters.getTypeIdsFromCategories(
             recordTypes = getTypesCache(),
-            recordTypeCategories = getRecordTypeCategoriesCache()
+            recordTypeCategories = getRecordTypeCategoriesCache(),
         )
 
         filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.ACTIVITY)
@@ -445,7 +449,7 @@ class RecordsFilterViewModel @Inject constructor(
         // Update tags according to selected activities
         val newTypeIds: List<Long> = filters.getAllTypeIds(
             recordTypes = getTypesCache(),
-            recordTypeCategories = getRecordTypeCategoriesCache()
+            recordTypeCategories = getRecordTypeCategoriesCache(),
         )
 
         suspend fun update(tags: List<RecordsFilter.TagItem>): List<RecordsFilter.TagItem> {
@@ -649,6 +653,12 @@ class RecordsFilterViewModel @Inject constructor(
         }
     }
 
+    private suspend fun getGoalsCache(): List<RecordTypeGoal> {
+        return goals ?: run {
+            recordTypeGoalInteractor.getAll().also { goals = it }
+        }
+    }
+
     private fun updateFilterSelectionVisibility() {
         val data = loadFilterSelectionVisibility()
         filterSelectionVisibility.set(data)
@@ -663,7 +673,7 @@ class RecordsFilterViewModel @Inject constructor(
             RecordsFilterResultParams(
                 tag = extra.tag,
                 filters = filters,
-            )
+            ),
         )
         val data = loadFiltersViewData()
         filtersViewData.set(data)
@@ -673,7 +683,7 @@ class RecordsFilterViewModel @Inject constructor(
         return viewDataInteractor.getFiltersViewData(
             extra = extra,
             selectionState = filterSelectionState,
-            filters = filters
+            filters = filters,
         )
     }
 
@@ -692,6 +702,7 @@ class RecordsFilterViewModel @Inject constructor(
             filters = filters,
             recordTypes = getTypesCache().associateBy(RecordType::id),
             recordTags = getTagsCache(),
+            goals = getGoalsCache().groupBy(RecordTypeGoal::typeId),
         )
     }
 
@@ -707,7 +718,8 @@ class RecordsFilterViewModel @Inject constructor(
             RecordFilterViewData.Type.UNTRACKED,
             RecordFilterViewData.Type.MULTITASK,
             RecordFilterViewData.Type.ACTIVITY,
-            RecordFilterViewData.Type.CATEGORY -> {
+            RecordFilterViewData.Type.CATEGORY,
+            -> {
                 viewDataInteractor.getActivityFilterSelectionViewData(
                     extra = extra,
                     filters = filters,
@@ -722,7 +734,8 @@ class RecordsFilterViewModel @Inject constructor(
                 )
             }
             RecordFilterViewData.Type.SELECTED_TAGS,
-            RecordFilterViewData.Type.FILTERED_TAGS -> {
+            RecordFilterViewData.Type.FILTERED_TAGS,
+            -> {
                 viewDataInteractor.getTagsFilterSelectionViewData(
                     type = type,
                     filters = filters,

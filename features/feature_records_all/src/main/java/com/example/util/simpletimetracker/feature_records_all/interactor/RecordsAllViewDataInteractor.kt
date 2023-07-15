@@ -8,9 +8,12 @@ import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.MultitaskRecord
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -22,6 +25,7 @@ import kotlinx.coroutines.withContext
 class RecordsAllViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordFilterInteractor: RecordFilterInteractor,
     private val recordViewDataMapper: RecordViewDataMapper,
@@ -38,8 +42,9 @@ class RecordsAllViewDataInteractor @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
-        val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
+        val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val recordTags = recordTagInteractor.getAll()
+        val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
 
         // Show empty records if no filters other than date.
         val records = filter
@@ -75,6 +80,7 @@ class RecordsAllViewDataInteractor @Inject constructor(
                     is RunningRecord -> getRunningRecordViewDataMediator.execute(
                         type = recordTypes[record.id] ?: return@mapNotNull null,
                         tags = recordTags.filter { it.id in record.tagIds },
+                        goals = goals[record.id].orEmpty(),
                         record = record,
                         nowIconVisible = true,
                         goalsVisible = false,

@@ -53,6 +53,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun favouriteCommentDao(): FavouriteCommentDao
 
+    abstract fun recordTypeGoalDao(): RecordTypeGoalDao
+
     companion object {
         const val DATABASE_NAME = "simpleTimeTrackerDB"
     }

@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.data_local.database.RecordTagDao
 import com.example.util.simpletimetracker.data_local.database.RecordToRecordTagDao
 import com.example.util.simpletimetracker.data_local.database.RecordTypeCategoryDao
 import com.example.util.simpletimetracker.data_local.database.RecordTypeDao
+import com.example.util.simpletimetracker.data_local.database.RecordTypeGoalDao
 import com.example.util.simpletimetracker.data_local.database.RunningRecordDao
 import com.example.util.simpletimetracker.data_local.database.RunningRecordToRecordTagDao
 import dagger.Module
@@ -111,5 +112,11 @@ class DataLocalModule {
     @Singleton
     fun getFavouriteCommentDao(database: AppDatabase): FavouriteCommentDao {
         return database.favouriteCommentDao()
+    }
+
+    @Provides
+    @Singleton
+    fun getRecordTypeGoalDao(database: AppDatabase): RecordTypeGoalDao {
+        return database.recordTypeGoalDao()
     }
 }

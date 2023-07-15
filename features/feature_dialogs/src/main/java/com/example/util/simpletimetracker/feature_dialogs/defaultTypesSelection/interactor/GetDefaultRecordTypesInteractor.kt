@@ -20,10 +20,6 @@ class GetDefaultRecordTypesInteractor @Inject constructor(
                     name = type.name,
                     icon = type.icon,
                     color = AppColor(colorId = type.colorId, colorInt = ""),
-                    goalTime = 0,
-                    dailyGoalTime = 0,
-                    weeklyGoalTime = 0,
-                    monthlyGoalTime = 0,
                 )
             }
     }

@@ -145,10 +145,6 @@ class CsvRepoImpl @Inject constructor(
                                     colorInt = "",
                                 ),
                                 hidden = false,
-                                goalTime = 0,
-                                dailyGoalTime = 0,
-                                weeklyGoalTime = 0,
-                                monthlyGoalTime = 0,
                             )
                             val newTypeId = recordTypeRepo.add(newType)
                             newType.copy(id = newTypeId).let(newAddedTypes::add)

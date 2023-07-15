@@ -3,10 +3,14 @@ package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.domain.extension.getDailyDuration
+import com.example.util.simpletimetracker.domain.extension.getMonthlyDuration
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
+import com.example.util.simpletimetracker.domain.extension.getWeeklyDuration
 import com.example.util.simpletimetracker.domain.extension.hasActivityFilter
+import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
@@ -31,7 +35,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
     private val rangeMapper: RangeMapper,
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
     private val prefsInteractor: PrefsInteractor,
-    private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
 ) {
 
     suspend fun getChartViewData(
@@ -114,12 +118,12 @@ class StatisticsDetailChartInteractor @Inject constructor(
         val typeIds = filter.getTypeIds()
         if (typeIds.size != 1) return 0
         val typeId = typeIds.firstOrNull() ?: return 0
-        val type = recordTypeInteractor.get(typeId) ?: return 0
+        val goals = recordTypeGoalInteractor.getByType(typeId)
 
         return when (appliedChartGrouping) {
-            ChartGrouping.DAILY -> type.dailyGoalTime
-            ChartGrouping.WEEKLY -> type.weeklyGoalTime
-            ChartGrouping.MONTHLY -> type.monthlyGoalTime
+            ChartGrouping.DAILY -> goals.getDailyDuration().value
+            ChartGrouping.WEEKLY -> goals.getWeeklyDuration().value
+            ChartGrouping.MONTHLY -> goals.getMonthlyDuration().value
             ChartGrouping.YEARLY -> 0
         } * 1000
     }

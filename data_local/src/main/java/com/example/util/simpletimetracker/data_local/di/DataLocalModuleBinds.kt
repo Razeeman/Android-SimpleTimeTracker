@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.data_local.repo.RecordRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTagRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordToRecordTagRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeCategoryRepoImpl
+import com.example.util.simpletimetracker.data_local.repo.RecordTypeGoalRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RunningRecordRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RunningRecordToRecordTagRepoImpl
@@ -25,6 +26,7 @@ import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTypeGoalRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.repo.RunningRecordRepo
 import com.example.util.simpletimetracker.domain.repo.RunningRecordToRecordTagRepo
@@ -101,6 +103,10 @@ interface DataLocalModuleBinds {
     @Binds
     @Singleton
     fun FavouriteCommentRepoImpl.bindFavouriteCommentRepo(): FavouriteCommentRepo
+
+    @Binds
+    @Singleton
+    fun RecordTypeGoalRepoImpl.bindRecordTypeGoalRepo(): RecordTypeGoalRepo
 
     @Binds
     @Singleton

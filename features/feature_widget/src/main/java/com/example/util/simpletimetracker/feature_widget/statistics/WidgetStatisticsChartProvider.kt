@@ -31,11 +31,11 @@ import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.statistics.customView.WidgetStatisticsChartView
 import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class WidgetStatisticsChartProvider : AppWidgetProvider() {
@@ -130,13 +130,14 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
 
         val dataHolders = statisticsMediator.getDataHolders(
             filterType = filterType,
-            types = types
+            types = types,
+            goals = emptyMap(), // Not used on pie chart.
         )
         val statistics = statisticsMediator.getStatistics(
             filterType = filterType,
             filteredIds = filteredIds,
             rangeLength = rangeLength,
-            shift = 0
+            shift = 0,
         )
         val chart = statisticsChartViewDataInteractor.getChart(
             filterType = filterType,
@@ -144,7 +145,7 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
             statistics = statistics,
             dataHolders = dataHolders,
             types = types,
-            isDarkTheme = isDarkTheme
+            isDarkTheme = isDarkTheme,
         )
         val total: String = statisticsMediator.getStatisticsTotalTracked(
             statistics = statistics,

@@ -15,7 +15,9 @@ data class RecordTypeGoal(
     }
 
     sealed interface Type {
-        data class Duration(val seconds: Long) : Type
-        data class Count(val times: Long) : Type
+        val value: Long
+
+        data class Duration(override val value: Long) : Type
+        data class Count(override val value: Long) : Type
     }
 }

@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.domain.interactor.GetUntrackedRecordsI
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
@@ -16,6 +17,7 @@ import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.domain.model.count
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -37,6 +39,7 @@ class RecordsViewDataInteractor @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val getUntrackedRecordsInteractor: GetUntrackedRecordsInteractor,
     private val recordsViewDataMapper: RecordsViewDataMapper,
@@ -54,8 +57,9 @@ class RecordsViewDataInteractor @Inject constructor(
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val showUntrackedInRecords = prefsInteractor.getShowUntrackedInRecords()
         val reverseOrder = prefsInteractor.getReverseOrderInCalendar()
-        val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
+        val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val recordTags = recordTagInteractor.getAll()
+        val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
         val runningRecords = runningRecordInteractor.getAll()
         val isCalendarView = prefsInteractor.getShowRecordsCalendar()
         val calendarDayCount = prefsInteractor.getDaysInCalendar().count
@@ -77,6 +81,7 @@ class RecordsViewDataInteractor @Inject constructor(
                 runningRecords = runningRecords,
                 recordTypes = recordTypes,
                 recordTags = recordTags,
+                goals = goals,
                 range = range,
                 isDarkTheme = isDarkTheme,
                 useMilitaryTime = useMilitaryTime,
@@ -168,6 +173,7 @@ class RecordsViewDataInteractor @Inject constructor(
         runningRecords: List<RunningRecord>,
         recordTypes: Map<Long, RecordType>,
         recordTags: List<RecordTag>,
+        goals: Map<Long, List<RecordTypeGoal>>,
         range: Range,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
@@ -202,6 +208,7 @@ class RecordsViewDataInteractor @Inject constructor(
                 getRunningRecordViewDataMediator.execute(
                     type = recordTypes[runningRecord.id] ?: return@mapNotNull null,
                     tags = recordTags.filter { it.id in runningRecord.tagIds },
+                    goals = goals[runningRecord.id].orEmpty(),
                     record = runningRecord,
                     nowIconVisible = true,
                     goalsVisible = false,

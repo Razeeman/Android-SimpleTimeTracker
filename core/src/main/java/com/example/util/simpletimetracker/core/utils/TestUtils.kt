@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
@@ -19,6 +20,7 @@ import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -32,6 +34,7 @@ class TestUtils @Inject constructor(
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val activityFilterInteractor: ActivityFilterInteractor,
+    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val iconImageMapper: IconImageMapper,
     private val clearDataInteractor: ClearDataInteractor,
@@ -56,9 +59,7 @@ class TestUtils @Inject constructor(
         icon: Int? = null,
         text: String? = null,
         goalTime: Long? = null,
-        dailyGoalTime: Long? = null,
-        weeklyGoalTime: Long? = null,
-        monthlyGoalTime: Long? = null,
+        goalRange: RecordTypeGoal.Range? = null,
         archived: Boolean = false,
         categories: List<String> = emptyList(),
     ) = runBlocking {
@@ -79,10 +80,6 @@ class TestUtils @Inject constructor(
             color = AppColor(colorId = colorId, colorInt = colorInt?.toString().orEmpty()),
             icon = iconId,
             hidden = archived,
-            goalTime = goalTime.orZero(),
-            dailyGoalTime = dailyGoalTime.orZero(),
-            weeklyGoalTime = weeklyGoalTime.orZero(),
-            monthlyGoalTime = monthlyGoalTime.orZero(),
         )
 
         val typeId = recordTypeInteractor.add(data)
@@ -97,6 +94,16 @@ class TestUtils @Inject constructor(
             ?.let { categoryIds ->
                 recordTypeCategoryInteractor.addCategories(typeId, categoryIds)
             }
+
+        if (goalTime != null && goalRange != null) {
+            RecordTypeGoal(
+                typeId = typeId,
+                range = goalRange,
+                type = RecordTypeGoal.Type.Duration(goalTime),
+            ).let {
+                recordTypeGoalInteractor.add(it)
+            }
+        }
     }
 
     fun addRecord(
@@ -192,6 +199,7 @@ class TestUtils @Inject constructor(
                     is ActivityFilter.Type.Activity -> {
                         availableTypes.firstOrNull { it.name == name }?.id
                     }
+
                     is ActivityFilter.Type.Category -> {
                         availableCategories.firstOrNull { it.name == name }?.id
                     }

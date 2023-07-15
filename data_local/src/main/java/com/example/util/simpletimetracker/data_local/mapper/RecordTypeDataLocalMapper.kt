@@ -17,10 +17,6 @@ class RecordTypeDataLocalMapper @Inject constructor() {
                 colorInt = dbo.colorInt
             ),
             hidden = dbo.hidden,
-            goalTime = 0,
-            dailyGoalTime = 0,
-            weeklyGoalTime = 0,
-            monthlyGoalTime = 0,
         )
     }
 

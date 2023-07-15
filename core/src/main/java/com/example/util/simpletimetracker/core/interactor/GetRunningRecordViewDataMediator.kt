@@ -1,8 +1,11 @@
 package com.example.util.simpletimetracker.core.interactor
 
 import com.example.util.simpletimetracker.core.mapper.RunningRecordViewDataMapper
+import com.example.util.simpletimetracker.domain.extension.hasMonthlyDuration
+import com.example.util.simpletimetracker.domain.extension.hasWeeklyDuration
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import javax.inject.Inject
@@ -15,6 +18,7 @@ class GetRunningRecordViewDataMediator @Inject constructor(
     suspend fun execute(
         type: RecordType,
         tags: List<RecordTag>,
+        goals: List<RecordTypeGoal>,
         record: RunningRecord,
         nowIconVisible: Boolean,
         goalsVisible: Boolean,
@@ -29,12 +33,12 @@ class GetRunningRecordViewDataMediator @Inject constructor(
         } else {
             null
         }
-        val weeklyCurrent = if (type.weeklyGoalTime > 0L && goalsVisible) {
+        val weeklyCurrent = if (goals.hasWeeklyDuration() && goalsVisible) {
             getCurrentRecordsDurationInteractor.getWeeklyCurrent(record).duration
         } else {
             0L
         }
-        val monthlyCurrent = if (type.monthlyGoalTime > 0L && goalsVisible) {
+        val monthlyCurrent = if (goals.hasMonthlyDuration() && goalsVisible) {
             getCurrentRecordsDurationInteractor.getMonthlyCurrent(record).duration
         } else {
             0L
@@ -47,6 +51,7 @@ class GetRunningRecordViewDataMediator @Inject constructor(
             monthlyCurrent = monthlyCurrent,
             recordType = type,
             recordTags = tags,
+            goals = goals,
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime,
             showSeconds = showSeconds,

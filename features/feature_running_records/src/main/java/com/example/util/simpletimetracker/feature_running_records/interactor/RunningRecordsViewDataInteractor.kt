@@ -4,8 +4,11 @@ import com.example.util.simpletimetracker.core.interactor.ActivityFilterViewData
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
@@ -16,6 +19,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val activityFilterViewDataInteractor: ActivityFilterViewDataInteractor,
     private val mapper: RunningRecordsViewDataMapper,
@@ -24,10 +28,11 @@ class RunningRecordsViewDataInteractor @Inject constructor(
 
     suspend fun getViewData(): List<ViewHolderType> {
         val recordTypes = recordTypeInteractor.getAll()
-        val recordTypesMap = recordTypes.associateBy { it.id }
+        val recordTypesMap = recordTypes.associateBy(RecordType::id)
+        val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
         val recordTags = recordTagInteractor.getAll()
         val runningRecords = runningRecordInteractor.getAll()
-        val recordTypesRunning = runningRecords.map { it.id }
+        val recordTypesRunning = runningRecords.map(RunningRecord::id)
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
@@ -46,6 +51,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                         getRunningRecordViewDataMediator.execute(
                             type = recordTypesMap[runningRecord.id] ?: return@mapNotNull null,
                             tags = recordTags.filter { it.id in runningRecord.tagIds },
+                            goals = goals[runningRecord.id].orEmpty(),
                             record = runningRecord,
                             nowIconVisible = false,
                             goalsVisible = true,

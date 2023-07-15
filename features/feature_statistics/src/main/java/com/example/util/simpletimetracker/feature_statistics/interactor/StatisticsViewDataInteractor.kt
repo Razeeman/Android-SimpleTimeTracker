@@ -7,10 +7,12 @@ import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
@@ -24,6 +26,7 @@ import kotlinx.coroutines.withContext
 
 class StatisticsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val statisticsMediator: StatisticsMediator,
     private val statisticsChartViewDataInteractor: StatisticsChartViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -82,6 +85,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         val showSeconds = prefsInteractor.getShowSeconds()
         val showDuration = rangeLength !is RangeLength.All
         val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
+        val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
 
         val filteredIds = when (filterType) {
             ChartFilterType.ACTIVITY -> prefsInteractor.getFilteredTypes()
@@ -92,7 +96,8 @@ class StatisticsViewDataInteractor @Inject constructor(
         // Get data.
         val dataHolders = statisticsMediator.getDataHolders(
             filterType = filterType,
-            types = types
+            types = types,
+            goals = goals,
         )
         val statistics = statisticsMediator.getStatistics(
             filterType = filterType,

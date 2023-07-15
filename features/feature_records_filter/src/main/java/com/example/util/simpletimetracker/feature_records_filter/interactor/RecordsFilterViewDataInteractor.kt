@@ -41,6 +41,7 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -129,6 +130,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         filters: List<RecordsFilter>,
         recordTypes: Map<Long, RecordType>,
         recordTags: List<RecordTag>,
+        goals: Map<Long, List<RecordTypeGoal>>,
     ): RecordsFilterSelectedRecordsViewData = withContext(Dispatchers.Default) {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
@@ -189,6 +191,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                     is RunningRecord -> getRunningRecordViewDataMediator.execute(
                         type = recordTypes[record.id] ?: return@mapNotNull null,
                         tags = recordTags.filter { it.id in record.tagIds },
+                        goals = goals[record.id].orEmpty(),
                         record = record,
                         nowIconVisible = true,
                         goalsVisible = false,

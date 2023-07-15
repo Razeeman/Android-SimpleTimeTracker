@@ -2,8 +2,10 @@ package com.example.util.simpletimetracker.feature_change_running_record.interac
 
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
@@ -14,6 +16,7 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val timeMapper: TimeMapper,
     private val getRunningRecordViewDataMediator: GetRunningRecordViewDataMediator,
 ) {
@@ -23,6 +26,7 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
         params: ChangeRunningRecordParams,
     ): ChangeRunningRecordViewData {
         val type = recordTypeInteractor.get(record.id)
+        val goals = recordTypeGoalInteractor.getByType(type?.id.orZero())
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
@@ -33,6 +37,7 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
             getRunningRecordViewDataMediator.execute(
                 type = type,
                 tags = recordTagInteractor.getAll().filter { it.id in record.tagIds },
+                goals = goals,
                 record = record,
                 nowIconVisible = fromRecords,
                 goalsVisible = !fromRecords,

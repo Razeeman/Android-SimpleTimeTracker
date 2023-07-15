@@ -6,13 +6,17 @@ import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.getFullName
+import com.example.util.simpletimetracker.domain.extension.getSessionDuration
+import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager
@@ -23,6 +27,7 @@ import javax.inject.Inject
 class NotificationTypeInteractorImpl @Inject constructor(
     private val notificationTypeManager: NotificationTypeManager,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
@@ -42,6 +47,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
         if (!prefsInteractor.getShowNotifications()) return
 
         val recordType = recordTypeInteractor.get(typeId)
+        val goals = recordTypeGoalInteractor.getByType(typeId)
         val recordTypes = recordTypeInteractor.getAll()
         val runningRecord = runningRecordInteractor.get(typeId)
         val recordTags = recordTagInteractor.getAll()
@@ -71,6 +77,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
         show(
             recordType = recordType,
+            goalTime = goals.getSessionDuration(),
             runningRecord = runningRecord ?: return,
             recordTags = recordTags.filter { it.id in runningRecord.tagIds },
             dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord),
@@ -96,7 +103,8 @@ class NotificationTypeInteractorImpl @Inject constructor(
     }
 
     private suspend fun showAll() {
-        val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
+        val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
+        val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
         val recordTags = recordTagInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
@@ -115,6 +123,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
             .forEach { runningRecord ->
                 show(
                     recordType = recordTypes[runningRecord.id],
+                    goalTime = goals[runningRecord.id]?.getSessionDuration(),
                     runningRecord = runningRecord,
                     recordTags = recordTags.filter { it.id in runningRecord.tagIds },
                     dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord),
@@ -134,6 +143,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
     private fun show(
         recordType: RecordType?,
+        goalTime: RecordTypeGoal?,
         runningRecord: RunningRecord,
         recordTags: List<RecordTag>,
         dailyCurrent: GetCurrentRecordsDurationInteractor.Result,
@@ -159,7 +169,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
             totalDuration = dailyCurrent.let {
                 if (it.durationDiffersFromCurrent) it.duration else null
             },
-            goalTime = recordType.goalTime
+            goalTime = goalTime.value
                 .takeIf { it > 0 }
                 ?.let(timeMapper::formatDuration)
                 ?.let { resourceRepo.getString(R.string.notification_record_type_goal_time, it) }

@@ -13,11 +13,17 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.PermissionRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
+import com.example.util.simpletimetracker.domain.extension.getDailyDuration
+import com.example.util.simpletimetracker.domain.extension.getMonthlyDuration
+import com.example.util.simpletimetracker.domain.extension.getSessionDuration
+import com.example.util.simpletimetracker.domain.extension.getWeeklyDuration
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -25,6 +31,7 @@ import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
@@ -58,6 +65,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val permissionRepo: PermissionRepo,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val viewDataInteractor: ChangeRecordTypeViewDataInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
@@ -469,6 +477,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         viewModelScope.launch {
             val addedId = saveRecordType()
             saveCategories(addedId)
+            saveGoals(addedId)
             notificationTypeInteractor.updateNotifications()
             notificationGoalTimeInteractor.checkAndReschedule(recordTypeId)
             widgetInteractor.updateWidgets()
@@ -518,10 +527,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
             name = newName,
             icon = newIconName,
             color = newColor,
-            goalTime = newGoalTime,
-            dailyGoalTime = newDailyGoalTime,
-            weeklyGoalTime = newWeeklyGoalTime,
-            monthlyGoalTime = newMonthlyGoalTime,
         )
 
         return recordTypeInteractor.add(recordType)
@@ -535,16 +540,61 @@ class ChangeRecordTypeViewModel @Inject constructor(
         recordTypeCategoryInteractor.removeCategories(typeId, removedCategories)
     }
 
+    private suspend fun saveGoals(typeId: Long) {
+        val goals = recordTypeGoalInteractor.getByType(typeId)
+
+        suspend fun processGoal(
+            goalId: Long,
+            goalTime: Long,
+            range: RecordTypeGoal.Range,
+        ) {
+            if (goalTime == 0L) {
+                recordTypeGoalInteractor.remove(goalId)
+            } else {
+                RecordTypeGoal(
+                    id = goalId,
+                    typeId = typeId,
+                    range = range,
+                    type = RecordTypeGoal.Type.Duration(goalTime)
+                ).let {
+                    recordTypeGoalInteractor.add(it)
+                }
+            }
+        }
+
+        processGoal(
+            goalId = goals.getSessionDuration()?.id.orZero(),
+            goalTime = newGoalTime,
+            range = RecordTypeGoal.Range.Session,
+        )
+        processGoal(
+            goalId = goals.getDailyDuration()?.id.orZero(),
+            goalTime = newDailyGoalTime,
+            range = RecordTypeGoal.Range.Daily,
+        )
+        processGoal(
+            goalId = goals.getWeeklyDuration()?.id.orZero(),
+            goalTime = newWeeklyGoalTime,
+            range = RecordTypeGoal.Range.Weekly,
+        )
+        processGoal(
+            goalId = goals.getMonthlyDuration()?.id.orZero(),
+            goalTime = newMonthlyGoalTime,
+            range = RecordTypeGoal.Range.Monthly,
+        )
+    }
+
     private suspend fun initializeRecordTypeData() {
         recordTypeInteractor.get(recordTypeId)
             ?.let {
+                val goals = recordTypeGoalInteractor.getByType(it.id)
                 newName = it.name
                 newIconName = it.icon
                 newColor = it.color
-                newGoalTime = it.goalTime
-                newDailyGoalTime = it.dailyGoalTime
-                newWeeklyGoalTime = it.weeklyGoalTime
-                newMonthlyGoalTime = it.monthlyGoalTime
+                newGoalTime = goals.getSessionDuration().value
+                newDailyGoalTime = goals.getDailyDuration().value
+                newWeeklyGoalTime = goals.getWeeklyDuration().value
+                newMonthlyGoalTime = goals.getMonthlyDuration().value
                 updateIcons()
                 updateColors()
                 updateSessionGoalTimeViewData()
@@ -574,10 +624,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
             name = newName,
             icon = newIconName,
             color = newColor,
-            goalTime = 0,
-            dailyGoalTime = 0,
-            weeklyGoalTime = 0,
-            monthlyGoalTime = 0,
         ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
     }
 

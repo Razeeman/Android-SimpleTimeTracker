@@ -3,11 +3,17 @@ package com.example.util.simpletimetracker.core.mapper
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.getDailyDuration
 import com.example.util.simpletimetracker.domain.extension.getFullName
+import com.example.util.simpletimetracker.domain.extension.getMonthlyDuration
+import com.example.util.simpletimetracker.domain.extension.getSessionDuration
+import com.example.util.simpletimetracker.domain.extension.getWeeklyDuration
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.model.GoalTimeType
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import javax.inject.Inject
@@ -27,6 +33,7 @@ class RunningRecordViewDataMapper @Inject constructor(
         monthlyCurrent: Long,
         recordType: RecordType,
         recordTags: List<RecordTag>,
+        goals: List<RecordTypeGoal>,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         showSeconds: Boolean,
@@ -59,25 +66,25 @@ class RunningRecordViewDataMapper @Inject constructor(
                 useProportionalMinutes = useProportionalMinutes,
             ),
             goalTime = goalTimeMapper.map(
-                goalTime = recordType.goalTime,
+                goalTime = goals.getSessionDuration().value,
                 current = currentDuration,
                 type = GoalTimeType.Session,
                 goalsVisible = goalsVisible,
             ),
             goalTime2 = goalTimeMapper.map(
-                goalTime = recordType.dailyGoalTime,
+                goalTime = goals.getDailyDuration().value,
                 current = dailyCurrent?.duration.orZero(),
                 type = GoalTimeType.Day,
                 goalsVisible = goalsVisible,
             ),
             goalTime3 = goalTimeMapper.map(
-                goalTime = recordType.weeklyGoalTime,
+                goalTime = goals.getWeeklyDuration().value,
                 current = weeklyCurrent,
                 type = GoalTimeType.Week,
                 goalsVisible = goalsVisible,
             ),
             goalTime4 = goalTimeMapper.map(
-                goalTime = recordType.monthlyGoalTime,
+                goalTime = goals.getMonthlyDuration().value,
                 current = monthlyCurrent,
                 type = GoalTimeType.Month,
                 goalsVisible = goalsVisible,

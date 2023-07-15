@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordToRecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.FavouriteCommentRepo
@@ -23,6 +24,7 @@ import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTypeGoalRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.ResultCode
@@ -52,12 +54,13 @@ class BackupRepoImpl @Inject constructor(
     private val recordTagRepo: RecordTagRepo,
     private val activityFilterRepo: ActivityFilterRepo,
     private val favouriteCommentRepo: FavouriteCommentRepo,
+    private val recordTypeGoalRepo: RecordTypeGoalRepo,
     private val clearDataInteractor: ClearDataInteractor,
     private val resourceRepo: ResourceRepo,
 ) : BackupRepo {
 
     override suspend fun saveBackupFile(
-        uriString: String
+        uriString: String,
     ): ResultCode = withContext(Dispatchers.IO) {
         var fileDescriptor: ParcelFileDescriptor? = null
         var fileOutputStream: FileOutputStream? = null
@@ -74,42 +77,47 @@ class BackupRepoImpl @Inject constructor(
             // Write data
             recordTypeRepo.getAll().forEach {
                 fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray()
+                    it.let(::toBackupString).toByteArray(),
                 )
             }
             recordRepo.getAll().forEach {
                 fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray()
+                    it.let(::toBackupString).toByteArray(),
                 )
             }
             categoryRepo.getAll().forEach {
                 fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray()
+                    it.let(::toBackupString).toByteArray(),
                 )
             }
             recordTypeCategoryRepo.getAll().forEach {
                 fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray()
+                    it.let(::toBackupString).toByteArray(),
                 )
             }
             recordTagRepo.getAll().forEach {
                 fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray()
+                    it.let(::toBackupString).toByteArray(),
                 )
             }
             recordToRecordTagRepo.getAll().forEach {
                 fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray()
+                    it.let(::toBackupString).toByteArray(),
                 )
             }
             activityFilterRepo.getAll().forEach {
                 fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray()
+                    it.let(::toBackupString).toByteArray(),
                 )
             }
             favouriteCommentRepo.getAll().forEach {
                 fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray()
+                    it.let(::toBackupString).toByteArray(),
+                )
+            }
+            recordTypeGoalRepo.getAll().forEach {
+                fileOutputStream?.write(
+                    it.let(::toBackupString).toByteArray(),
                 )
             }
 
@@ -130,7 +138,7 @@ class BackupRepoImpl @Inject constructor(
     }
 
     override suspend fun restoreBackupFile(
-        uriString: String
+        uriString: String,
     ): ResultCode = withContext(Dispatchers.IO) {
         var inputStream: InputStream? = null
         var reader: BufferedReader? = null
@@ -155,10 +163,14 @@ class BackupRepoImpl @Inject constructor(
                 parts = line.split("\t")
                 when (parts[0]) {
                     ROW_RECORD_TYPE -> {
-                        recordTypeFromBackupString(parts).let {
-                            recordTypeRepo.add(it)
+                        recordTypeFromBackupString(parts).let { (type, goals) ->
+                            recordTypeRepo.add(type)
+                            goals.forEach {
+                                recordTypeGoalRepo.add(it)
+                            }
                         }
                     }
+
                     ROW_RECORD -> {
                         recordFromBackupString(parts).let { (record, recordToRecordTag) ->
                             recordRepo.add(record)
@@ -167,34 +179,46 @@ class BackupRepoImpl @Inject constructor(
                             }
                         }
                     }
+
                     ROW_CATEGORY -> {
                         categoryFromBackupString(parts).let {
                             categoryRepo.add(it)
                         }
                     }
+
                     ROW_TYPE_CATEGORY -> {
                         typeCategoryFromBackupString(parts).let {
                             recordTypeCategoryRepo.add(it)
                         }
                     }
+
                     ROW_RECORD_TAG -> {
                         recordTagFromBackupString(parts).let {
                             recordTagRepo.add(it)
                         }
                     }
+
                     ROW_RECORD_TO_RECORD_TAG -> {
                         recordToRecordTagFromBackupString(parts).let {
                             recordToRecordTagRepo.add(it)
                         }
                     }
+
                     ROW_ACTIVITY_FILTER -> {
                         activityFilterFromBackupString(parts).let {
                             activityFilterRepo.add(it)
                         }
                     }
+
                     ROW_FAVOURITE_COMMENT -> {
                         favouriteCommentFromBackupString(parts).let {
                             favouriteCommentRepo.add(it)
+                        }
+                    }
+
+                    ROW_RECORD_TYPE_GOAL -> {
+                        recordTypeGoalFromBackupString(parts).let {
+                            recordTypeGoalRepo.add(it)
                         }
                     }
                 }
@@ -221,11 +245,11 @@ class BackupRepoImpl @Inject constructor(
             recordType.icon,
             recordType.color.colorId.toString(),
             (if (recordType.hidden) 1 else 0).toString(),
-            recordType.goalTime.toString(),
+            "", // goal time is moved to separate table
             recordType.color.colorInt,
-            recordType.dailyGoalTime.toString(),
-            recordType.weeklyGoalTime.toString(),
-            recordType.monthlyGoalTime.toString(),
+            "", // daily goal time is moved to separate table
+            "", // weekly goal time is moved to separate table
+            "", // monthly goal time is moved to separate table
         )
     }
 
@@ -255,7 +279,7 @@ class BackupRepoImpl @Inject constructor(
         return String.format(
             "$ROW_TYPE_CATEGORY\t%s\t%s\n",
             recordTypeCategory.recordTypeId.toString(),
-            recordTypeCategory.categoryId.toString()
+            recordTypeCategory.categoryId.toString(),
         )
     }
 
@@ -275,7 +299,7 @@ class BackupRepoImpl @Inject constructor(
         return String.format(
             "$ROW_RECORD_TO_RECORD_TAG\t%s\t%s\n",
             recordToRecordTag.recordId.toString(),
-            recordToRecordTag.recordTagId.toString()
+            recordToRecordTag.recordTagId.toString(),
         )
     }
 
@@ -305,9 +329,70 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
-    private fun recordTypeFromBackupString(parts: List<String>): RecordType {
+    private fun toBackupString(recordTypeGoal: RecordTypeGoal): String {
+        val rangeString = when (recordTypeGoal.range) {
+            is RecordTypeGoal.Range.Session -> 0L
+            is RecordTypeGoal.Range.Daily -> 1L
+            is RecordTypeGoal.Range.Weekly -> 2L
+            is RecordTypeGoal.Range.Monthly -> 3L
+        }.toString()
+        val typeString = when (recordTypeGoal.type) {
+            is RecordTypeGoal.Type.Duration -> 0L
+            is RecordTypeGoal.Type.Count -> 1L
+        }.toString()
+
+        return String.format(
+            "$ROW_RECORD_TYPE_GOAL\t%s\t%s\t%s\t%s\t%s\n",
+            recordTypeGoal.id.toString(),
+            recordTypeGoal.typeId.toString(),
+            rangeString,
+            typeString,
+            recordTypeGoal.type.value.toString(),
+        )
+    }
+
+    private fun recordTypeFromBackupString(parts: List<String>): Pair<RecordType, List<RecordTypeGoal>> {
+        val typeId = parts.getOrNull(1)?.toLongOrNull().orZero()
+
+        // goal times are moved to separate database, need to support old backup files.
+        val goalTime = parts.getOrNull(6)?.toLongOrNull().orZero()
+        val dailyGoalTime = parts.getOrNull(8)?.toLongOrNull().orZero()
+        val weeklyGoalTime = parts.getOrNull(9)?.toLongOrNull().orZero()
+        val monthlyGoalTime = parts.getOrNull(10)?.toLongOrNull().orZero()
+
+        val goalTimes = mutableListOf<RecordTypeGoal>().apply {
+            if (goalTime != 0L) {
+                RecordTypeGoal(
+                    typeId = typeId,
+                    range = RecordTypeGoal.Range.Session,
+                    type = RecordTypeGoal.Type.Duration(goalTime),
+                ).let(::add)
+            }
+            if (dailyGoalTime != 0L) {
+                RecordTypeGoal(
+                    typeId = typeId,
+                    range = RecordTypeGoal.Range.Daily,
+                    type = RecordTypeGoal.Type.Duration(dailyGoalTime),
+                ).let(::add)
+            }
+            if (weeklyGoalTime != 0L) {
+                RecordTypeGoal(
+                    typeId = typeId,
+                    range = RecordTypeGoal.Range.Weekly,
+                    type = RecordTypeGoal.Type.Duration(weeklyGoalTime),
+                ).let(::add)
+            }
+            if (monthlyGoalTime != 0L) {
+                RecordTypeGoal(
+                    typeId = typeId,
+                    range = RecordTypeGoal.Range.Monthly,
+                    type = RecordTypeGoal.Type.Duration(monthlyGoalTime),
+                ).let(::add)
+            }
+        }
+
         return RecordType(
-            id = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            id = typeId,
             name = parts.getOrNull(2).orEmpty(),
             icon = parts.getOrNull(3).orEmpty(),
             color = AppColor(
@@ -315,11 +400,11 @@ class BackupRepoImpl @Inject constructor(
                 colorInt = parts.getOrNull(7).orEmpty(),
             ),
             hidden = parts.getOrNull(5)?.toIntOrNull() == 1,
-            goalTime = parts.getOrNull(6)?.toLongOrNull().orZero(),
-            dailyGoalTime = parts.getOrNull(8)?.toLongOrNull().orZero(),
-            weeklyGoalTime = parts.getOrNull(9)?.toLongOrNull().orZero(),
-            monthlyGoalTime = parts.getOrNull(10)?.toLongOrNull().orZero(),
-        )
+            // parts[6] - goal time is moved to separate table
+            // parts[8] - daily time is moved to separate table
+            // parts[9] - weekly time is moved to separate table
+            // parts[10] - monthly time is moved to separate table
+        ) to goalTimes
     }
 
     private fun recordFromBackupString(parts: List<String>): Pair<Record, RecordToRecordTag?> {
@@ -341,7 +426,7 @@ class BackupRepoImpl @Inject constructor(
             // parts[6] - tag id is removed from record dbo.
         ) to RecordToRecordTag(
             recordId = recordId,
-            recordTagId = tagId
+            recordTagId = tagId,
         ).takeUnless { tagId == 0L }
     }
 
@@ -352,14 +437,14 @@ class BackupRepoImpl @Inject constructor(
             color = AppColor(
                 colorId = parts.getOrNull(3)?.toIntOrNull().orZero(),
                 colorInt = parts.getOrNull(4).orEmpty(),
-            )
+            ),
         )
     }
 
     private fun typeCategoryFromBackupString(parts: List<String>): RecordTypeCategory {
         return RecordTypeCategory(
             recordTypeId = parts.getOrNull(1)?.toLongOrNull().orZero(),
-            categoryId = parts.getOrNull(2)?.toLongOrNull().orZero()
+            categoryId = parts.getOrNull(2)?.toLongOrNull().orZero(),
         )
     }
 
@@ -372,14 +457,14 @@ class BackupRepoImpl @Inject constructor(
             color = AppColor(
                 colorId = parts.getOrNull(5)?.toIntOrNull().orZero(),
                 colorInt = parts.getOrNull(6).orEmpty(),
-            )
+            ),
         )
     }
 
     private fun recordToRecordTagFromBackupString(parts: List<String>): RecordToRecordTag {
         return RecordToRecordTag(
             recordId = parts.getOrNull(1)?.toLongOrNull().orZero(),
-            recordTagId = parts.getOrNull(2)?.toLongOrNull().orZero()
+            recordTagId = parts.getOrNull(2)?.toLongOrNull().orZero(),
         )
     }
 
@@ -411,6 +496,28 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
+    private fun recordTypeGoalFromBackupString(parts: List<String>): RecordTypeGoal {
+        return RecordTypeGoal(
+            id = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            typeId = parts.getOrNull(2)?.toLongOrNull() ?: 1L,
+            range = when (parts.getOrNull(3)?.toLongOrNull()) {
+                0L -> RecordTypeGoal.Range.Session
+                1L -> RecordTypeGoal.Range.Daily
+                2L -> RecordTypeGoal.Range.Weekly
+                3L -> RecordTypeGoal.Range.Monthly
+                else -> RecordTypeGoal.Range.Session
+            },
+            type = run {
+                val value = parts.getOrNull(5)?.toLongOrNull().orZero()
+                when (parts.getOrNull(4)?.toLongOrNull()) {
+                    0L -> RecordTypeGoal.Type.Duration(value)
+                    1L -> RecordTypeGoal.Type.Count(value)
+                    else -> RecordTypeGoal.Type.Duration(value)
+                }
+            },
+        )
+    }
+
     private fun String.clean() =
         cleanTabs().cleanNewline()
 
@@ -436,5 +543,6 @@ class BackupRepoImpl @Inject constructor(
         private const val ROW_RECORD_TO_RECORD_TAG = "recordToRecordTag"
         private const val ROW_ACTIVITY_FILTER = "activityFilter"
         private const val ROW_FAVOURITE_COMMENT = "favouriteComment"
+        private const val ROW_RECORD_TYPE_GOAL = "recordTypeGoal"
     }
 }
