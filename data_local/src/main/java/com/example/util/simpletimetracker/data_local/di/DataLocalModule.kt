@@ -40,17 +40,7 @@ class DataLocalModule {
                 AppDatabase::class.java, AppDatabase.DATABASE_NAME
             )
             .addMigrations(
-                AppDatabaseMigrations.migration_1_2,
-                AppDatabaseMigrations.migration_2_3,
-                AppDatabaseMigrations.migration_3_4,
-                AppDatabaseMigrations.migration_4_5,
-                AppDatabaseMigrations.migration_5_6,
-                AppDatabaseMigrations.migration_6_7,
-                AppDatabaseMigrations.migration_7_8,
-                AppDatabaseMigrations.migration_8_9,
-                AppDatabaseMigrations.migration_9_10,
-                AppDatabaseMigrations.migration_10_11,
-                AppDatabaseMigrations.migration_11_12,
+                *AppDatabaseMigrations.migrations.toTypedArray()
             )
             .build()
     }

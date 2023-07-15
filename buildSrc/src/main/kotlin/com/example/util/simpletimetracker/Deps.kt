@@ -87,5 +87,7 @@ object Deps {
             "androidx.test.espresso:espresso-idling-resource:${Versions.espresso}"
         const val dagger =
             "com.google.dagger:hilt-android-testing:${Versions.dagger}"
+        const val room =
+            "androidx.room:room-testing:${Versions.room}"
     }
 }

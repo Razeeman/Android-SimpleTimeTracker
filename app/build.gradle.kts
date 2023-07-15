@@ -49,6 +49,11 @@ android {
     testOptions {
         animationsDisabled = true
     }
+
+    sourceSets {
+        // Adds exported schema location as test app assets.
+        getByName("androidTest").assets.srcDir("$projectDir/../data_local/schemas")
+    }
 }
 
 dependencies {
@@ -88,4 +93,5 @@ dependencies {
     androidTestImplementation(Deps.UiTest.espresso)
     androidTestImplementation(Deps.UiTest.espressoContrib)
     androidTestImplementation(Deps.UiTest.dagger)
+    androidTestImplementation(Deps.UiTest.room)
 }
