@@ -163,10 +163,14 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
     private fun prepareRefreshButtonView(
         context: Context,
     ): View {
+        val size = resourceRepo
+            .getDimenInDp(R.dimen.widget_statistics_refresh_button_size)
+            .dpToPx()
+
         return IconView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
             itemIcon = RecordTypeIcon.Image(R.drawable.refresh)
             itemIconColor = resourceRepo.getColor(R.color.white)
-            measureExactly(resourceRepo.getDimenInDp(R.dimen.widget_statistics_refresh_button_size))
+            measureExactly(size)
         }
     }
 
