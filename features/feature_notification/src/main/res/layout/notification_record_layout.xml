@@ -97,8 +97,8 @@
         android:layout_below="@id/containerNotificationMainContent"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="@string/running_records_empty"
-        android:textSize="11sp" />
+        android:textSize="11sp"
+        tools:text="@string/running_records_empty" />
 
     <RelativeLayout
         android:id="@+id/containerNotificationTypesPrev"

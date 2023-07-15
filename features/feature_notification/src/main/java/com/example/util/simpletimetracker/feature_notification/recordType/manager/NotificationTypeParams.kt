@@ -13,6 +13,7 @@ data class NotificationTypeParams(
     val goalTime: String,
     val stopButton: String,
     val controls: Controls,
+    val controlsHint: String,
 ) {
 
     data class Type(

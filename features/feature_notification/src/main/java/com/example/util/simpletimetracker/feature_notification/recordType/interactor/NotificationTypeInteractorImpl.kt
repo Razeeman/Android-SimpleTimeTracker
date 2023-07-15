@@ -166,6 +166,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 .orEmpty(),
             stopButton = resourceRepo.getString(R.string.notification_record_type_stop),
             controls = controls,
+            controlsHint = resourceRepo.getString(R.string.running_records_empty)
         ).let(notificationTypeManager::show)
     }
 

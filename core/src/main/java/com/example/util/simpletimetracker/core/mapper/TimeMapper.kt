@@ -16,36 +16,36 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class TimeMapper @Inject constructor(
+    localeProvider: LocaleProvider,
     private val resourceRepo: ResourceRepo,
-    private val localeProvider: LocaleProvider,
     private val currentTimestampProvider: CurrentTimestampProvider,
 ) {
 
-    private val locale: Locale get() = localeProvider.get()
+    private val locale: Locale by lazy { localeProvider.get() }
 
-    private val timeFormat = SimpleDateFormat("h:mm a", locale)
-    private val timeFormatWithSeconds = SimpleDateFormat("h:mm:ss a", locale)
-    private val timeFormatMilitary = SimpleDateFormat("HH:mm", locale)
-    private val timeFormatMilitaryWithSeconds = SimpleDateFormat("HH:mm:ss", locale)
+    private val timeFormat by lazy { SimpleDateFormat("h:mm a", locale) }
+    private val timeFormatWithSeconds by lazy { SimpleDateFormat("h:mm:ss a", locale) }
+    private val timeFormatMilitary by lazy { SimpleDateFormat("HH:mm", locale) }
+    private val timeFormatMilitaryWithSeconds by lazy { SimpleDateFormat("HH:mm:ss", locale) }
 
-    private val dateTimeFormat = SimpleDateFormat("MMM d h:mm a", locale)
-    private val dateTimeFormatWithSeconds = SimpleDateFormat("MMM d h:mm:ss a", locale)
-    private val dateTimeFormatMilitary = SimpleDateFormat("MMM d HH:mm", locale)
-    private val dateTimeFormatMilitaryWithSeconds = SimpleDateFormat("MMM d HH:mm:ss", locale)
+    private val dateTimeFormat by lazy { SimpleDateFormat("MMM d h:mm a", locale) }
+    private val dateTimeFormatWithSeconds by lazy { SimpleDateFormat("MMM d h:mm:ss a", locale) }
+    private val dateTimeFormatMilitary by lazy { SimpleDateFormat("MMM d HH:mm", locale) }
+    private val dateTimeFormatMilitaryWithSeconds by lazy { SimpleDateFormat("MMM d HH:mm:ss", locale) }
 
-    private val dateTimeYearFormat = SimpleDateFormat("MMM d yyyy h:mm a", locale)
-    private val dateTimeYearFormatMilitary = SimpleDateFormat("MMM d yyyy HH:mm", locale)
+    private val dateTimeYearFormat by lazy { SimpleDateFormat("MMM d yyyy h:mm a", locale) }
+    private val dateTimeYearFormatMilitary by lazy { SimpleDateFormat("MMM d yyyy HH:mm", locale) }
 
-    private val dayDateYearFormat = SimpleDateFormat("E, MMM d yyyy", locale)
-    private val dateYearFormat = SimpleDateFormat("MMM d yyyy", locale)
-    private val shortDayFormat = SimpleDateFormat("dd.MM", locale)
-    private val shortMonthFormat = SimpleDateFormat("MMM", locale)
-    private val shortYearFormat = SimpleDateFormat("yy", locale)
+    private val dayDateYearFormat by lazy { SimpleDateFormat("E, MMM d yyyy", locale) }
+    private val dateYearFormat by lazy { SimpleDateFormat("MMM d yyyy", locale) }
+    private val shortDayFormat by lazy { SimpleDateFormat("dd.MM", locale) }
+    private val shortMonthFormat by lazy { SimpleDateFormat("MMM", locale) }
+    private val shortYearFormat by lazy { SimpleDateFormat("yy", locale) }
 
-    private val dayTitleFormat = SimpleDateFormat("E, MMM d", locale)
-    private val weekTitleFormat = SimpleDateFormat("MMM d", locale)
-    private val monthTitleFormat = SimpleDateFormat("MMMM", locale)
-    private val yearTitleFormat = SimpleDateFormat("yyyy", locale)
+    private val dayTitleFormat by lazy { SimpleDateFormat("E, MMM d", locale) }
+    private val weekTitleFormat by lazy { SimpleDateFormat("MMM d", locale) }
+    private val monthTitleFormat by lazy { SimpleDateFormat("MMMM", locale) }
+    private val yearTitleFormat by lazy { SimpleDateFormat("yyyy", locale) }
 
     private val lock = Any()
 

@@ -115,6 +115,7 @@ class NotificationTypeManager @Inject constructor(
             val typesControlsVisibility = if (typesControlsVisible) View.VISIBLE else View.GONE
             setViewVisibility(R.id.containerNotificationTypes, typesControlsVisibility)
             setViewVisibility(R.id.tvNotificationControlsHint, typesControlsVisibility)
+            setTextViewText(R.id.tvNotificationControlsHint, params.controlsHint)
             setViewVisibility(R.id.containerNotificationTypesPrev, typesControlsVisibility)
             setViewVisibility(R.id.containerNotificationTypesNext, typesControlsVisibility)
 
