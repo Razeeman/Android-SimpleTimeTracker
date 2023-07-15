@@ -127,7 +127,7 @@
     <string name="change_record_type_categories_empty">未添加任何类别</string>
     <string name="change_record_type_goal_time_disabled">不启用</string>
     <string name="change_record_type_goal_time_hint">目标时间</string>
-    <string name="change_record_type_goal_time_description">追踪此活动经过指定时间后显示通知。</string>
+    <string name="change_record_type_goal_time_description">达到目标后将显示通知</string>
     <string name="change_record_type_session_goal_time">会议</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>

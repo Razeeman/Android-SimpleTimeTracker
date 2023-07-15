@@ -127,7 +127,7 @@
     <string name="change_record_type_categories_empty">No s\'han afegit categories</string>
     <string name="change_record_type_goal_time_disabled">Desactivat</string>
     <string name="change_record_type_goal_time_hint">Objectiu</string>
-    <string name="change_record_type_goal_time_description">Mostra una notificació després d\'un temps d\'enregistrament especificat d\'aquesta activitat.</string>
+    <string name="change_record_type_goal_time_description">La notificació es mostrarà després d\'arribar a l\'objectiu</string>
     <string name="change_record_type_session_goal_time">Sessió</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>

@@ -127,7 +127,7 @@
     <string name="change_record_type_categories_empty">カテゴリが追加されていません</string>
     <string name="change_record_type_goal_time_disabled">未設定</string>
     <string name="change_record_type_goal_time_hint">目標時間</string>
-    <string name="change_record_type_goal_time_description">このアクティビティを追跡して指定時間後に通知を表示します。</string>
+    <string name="change_record_type_goal_time_description">目標達成後に通知が表示されます</string>
     <string name="change_record_type_session_goal_time">セッション</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>

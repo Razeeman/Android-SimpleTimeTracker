@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_change_record_type.view
 
-import com.example.util.simpletimetracker.feature_change_record_type.databinding.ChangeRecordTypeFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +46,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Color
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.GoalTime
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Icon
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeGoalsViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconStateViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
@@ -70,6 +70,7 @@ import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.max
+import com.example.util.simpletimetracker.feature_change_record_type.databinding.ChangeRecordTypeFragmentBinding as Binding
 
 @AndroidEntryPoint
 class ChangeRecordTypeFragment :
@@ -96,7 +97,7 @@ class ChangeRecordTypeFragment :
         BaseRecyclerAdapter(
             createChangeRecordTypeIconAdapterDelegate(viewModel::onIconClick),
             createEmojiAdapterDelegate(viewModel::onEmojiClick),
-            createChangeRecordTypeIconCategoryInfoAdapterDelegate()
+            createChangeRecordTypeIconCategoryInfoAdapterDelegate(),
         )
     }
     private val iconCategoriesAdapter: BaseRecyclerAdapter by lazy {
@@ -104,26 +105,26 @@ class ChangeRecordTypeFragment :
             createChangeRecordTypeIconCategoryAdapterDelegate {
                 viewModel.onIconCategoryClick(it)
                 binding.rvChangeRecordTypeIcon.stopScroll()
-            }
+            },
         )
     }
     private val categoriesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createCategoryAdapterDelegate(
                 onClick = viewModel::onCategoryClick,
-                onLongClickWithTransition = viewModel::onCategoryLongClick
+                onLongClickWithTransition = viewModel::onCategoryLongClick,
             ),
             createCategoryAddAdapterDelegate { throttle(viewModel::onAddCategoryClick).invoke() },
             createDividerAdapterDelegate(),
             createInfoAdapterDelegate(),
             createHintAdapterDelegate(),
-            createEmptyAdapterDelegate()
+            createEmptyAdapterDelegate(),
         )
     }
     private var iconsLayoutManager: GridLayoutManager? = null
     private val params: ChangeRecordTypeParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS,
-        default = ChangeRecordTypeParams.New(ChangeRecordTypeParams.SizePreview())
+        default = ChangeRecordTypeParams.New(ChangeRecordTypeParams.SizePreview()),
     )
 
     override fun initUi(): Unit = with(binding) {
@@ -178,10 +179,14 @@ class ChangeRecordTypeFragment :
         fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
         fieldChangeRecordTypeCategory.setOnClick(viewModel::onCategoryChooserClick)
         fieldChangeRecordTypeGoalTime.setOnClick(viewModel::onGoalTimeChooserClick)
-        groupChangeRecordTypeSessionGoalTime.setOnClick(viewModel::onSessionGoalTimeClick)
-        groupChangeRecordTypeDailyGoalTime.setOnClick(viewModel::onDailyGoalTimeClick)
-        groupChangeRecordTypeWeeklyGoalTime.setOnClick(viewModel::onWeeklyGoalTimeClick)
-        groupChangeRecordTypeMonthlyGoalTime.setOnClick(viewModel::onMonthlyGoalTimeClick)
+        layoutChangeRecordTypeGoalSession.groupChangeRecordTypeGoalValue
+            .setOnClick(viewModel::onSessionGoalTimeClick)
+        layoutChangeRecordTypeGoalDaily.groupChangeRecordTypeGoalValue
+            .setOnClick(viewModel::onDailyGoalTimeClick)
+        layoutChangeRecordTypeGoalWeekly.groupChangeRecordTypeGoalValue
+            .setOnClick(viewModel::onWeeklyGoalTimeClick)
+        layoutChangeRecordTypeGoalMonthly.groupChangeRecordTypeGoalValue
+            .setOnClick(viewModel::onMonthlyGoalTimeClick)
         btnChangeRecordTypeGoalNotificationsHint.setOnClick(viewModel::onNotificationsHintClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
@@ -197,7 +202,7 @@ class ChangeRecordTypeFragment :
                         lastVisiblePosition = it.findLastCompletelyVisibleItemPosition(),
                     )
                 }
-            }
+            },
         )
     }
 
@@ -214,10 +219,7 @@ class ChangeRecordTypeFragment :
             iconCategories.observe(iconCategoriesAdapter::replace)
             iconsTypeViewData.observe(btnChangeRecordTypeIconSwitch.adapter::replace)
             categories.observe(categoriesAdapter::replace)
-            sessionGoalTimeViewData.observe(tvChangeRecordTypeSessionGoalTime::setText)
-            dailyGoalTimeViewData.observe(tvChangeRecordTypeDailyGoalTime::setText)
-            weeklyGoalTimeViewData.observe(tvChangeRecordTypeWeeklyGoalTime::setText)
-            monthlyGoalTimeViewData.observe(tvChangeRecordTypeMonthlyGoalTime::setText)
+            goalsViewData.observe(::updateGoalsState)
             notificationsHintVisible.observe(containerChangeRecordTypeGoalNotificationsHint::visible::set)
             chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->
@@ -242,7 +244,7 @@ class ChangeRecordTypeFragment :
         viewModel.onDurationSet(
             tag = tag,
             duration = duration,
-            anchor = binding.btnChangeRecordTypeSave
+            anchor = binding.btnChangeRecordTypeSave,
         )
     }
 
@@ -299,25 +301,25 @@ class ChangeRecordTypeFragment :
             state = state,
             chooserData = rvChangeRecordTypeColor,
             chooserView = fieldChangeRecordTypeColor,
-            chooserArrow = arrowChangeRecordTypeColor
+            chooserArrow = arrowChangeRecordTypeColor,
         )
         updateChooser<Icon>(
             state = state,
             chooserData = containerChangeRecordTypeIcon,
             chooserView = fieldChangeRecordTypeIcon,
-            chooserArrow = arrowChangeRecordTypeIcon
+            chooserArrow = arrowChangeRecordTypeIcon,
         )
         updateChooser<Category>(
             state = state,
             chooserData = rvChangeRecordTypeCategories,
             chooserView = fieldChangeRecordTypeCategory,
-            chooserArrow = arrowChangeRecordTypeCategory
+            chooserArrow = arrowChangeRecordTypeCategory,
         )
         updateChooser<GoalTime>(
             state = state,
             chooserData = containerChangeRecordTypeGoalTime,
             chooserView = fieldChangeRecordTypeGoalTime,
-            chooserArrow = arrowChangeRecordTypeGoalTime
+            chooserArrow = arrowChangeRecordTypeGoalTime,
         )
 
         val isClosed = state.current is Closed
@@ -328,6 +330,25 @@ class ChangeRecordTypeFragment :
         fieldChangeRecordTypeIcon.isVisible = isClosed || state.current is Icon
         fieldChangeRecordTypeCategory.isVisible = isClosed || state.current is Category
         fieldChangeRecordTypeGoalTime.isVisible = isClosed || state.current is GoalTime
+    }
+
+    private fun updateGoalsState(state: ChangeRecordTypeGoalsViewData) = with(binding) {
+        layoutChangeRecordTypeGoalSession.apply {
+            tvChangeRecordTypeGoalTitle.text = state.sessionTitle
+            tvChangeRecordTypeGoalValue.text = state.sessionText
+        }
+        layoutChangeRecordTypeGoalDaily.apply {
+            tvChangeRecordTypeGoalTitle.text = state.dailyTitle
+            tvChangeRecordTypeGoalValue.text = state.dailyText
+        }
+        layoutChangeRecordTypeGoalWeekly.apply {
+            tvChangeRecordTypeGoalTitle.text = state.weeklyTitle
+            tvChangeRecordTypeGoalValue.text = state.weeklyText
+        }
+        layoutChangeRecordTypeGoalMonthly.apply {
+            tvChangeRecordTypeGoalTitle.text = state.monthlyTitle
+            tvChangeRecordTypeGoalValue.text = state.monthlyText
+        }
     }
 
     private inline fun <reified T : ChangeRecordTypeChooserState.State> updateChooser(

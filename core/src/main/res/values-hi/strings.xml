@@ -127,7 +127,7 @@
     <string name="change_record_type_categories_empty">कोई श्रेणियां नहीं जोड़ी</string>
     <string name="change_record_type_goal_time_disabled">अक्षम</string>
     <string name="change_record_type_goal_time_hint">लक्ष्य काल</string>
-    <string name="change_record_type_goal_time_description">इस गतिविधि को ट्रैक करने के निर्सधारित समय के बाद सूचना दिखाएं।</string>
+    <string name="change_record_type_goal_time_description">लक्ष्य तक पहुंचने के बाद अधिसूचना दिखाई जाएगी</string>
     <string name="change_record_type_session_goal_time">सत्र</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>

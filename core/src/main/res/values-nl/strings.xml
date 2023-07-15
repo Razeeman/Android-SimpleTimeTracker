@@ -127,7 +127,7 @@
     <string name="change_record_type_categories_empty">Geen categorieën toegevoegd</string>
     <string name="change_record_type_goal_time_disabled">Uitgeschakeld</string>
     <string name="change_record_type_goal_time_hint">Doeltijd</string>
-    <string name="change_record_type_goal_time_description">Melding weergeven na het opgegeven tijdstip waarop deze activiteit is gevolgd.</string>
+    <string name="change_record_type_goal_time_description">Melding wordt getoond na het bereiken van het doel</string>
     <string name="change_record_type_session_goal_time">Sessie</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>

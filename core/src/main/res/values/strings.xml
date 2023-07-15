@@ -127,7 +127,7 @@
     <string name="change_record_type_categories_empty">No categories added</string>
     <string name="change_record_type_goal_time_disabled">Disabled</string>
     <string name="change_record_type_goal_time_hint">Goal time</string>
-    <string name="change_record_type_goal_time_description">Show notification after specified time of tracking this activity.</string>
+    <string name="change_record_type_goal_time_description">Notification will be shown after reaching the goal</string>
     <string name="change_record_type_session_goal_time">Session</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>

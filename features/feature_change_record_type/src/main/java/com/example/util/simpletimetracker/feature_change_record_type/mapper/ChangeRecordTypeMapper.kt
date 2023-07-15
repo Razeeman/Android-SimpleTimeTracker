@@ -5,11 +5,15 @@ import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.IconType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeGoalsState
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeGoalsViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
@@ -26,12 +30,23 @@ class ChangeRecordTypeMapper @Inject constructor(
     private val colorMapper: ColorMapper,
 ) {
 
-    fun toGoalTimeViewData(duration: Long): String {
-        return if (duration > 0) {
-            timeMapper.formatDuration(duration)
-        } else {
-            resourceRepo.getString(R.string.change_record_type_goal_time_disabled)
+    fun mapGoalsState(
+        goalsState: ChangeRecordTypeGoalsState,
+    ): ChangeRecordTypeGoalsViewData {
+        fun getGoalText(goal: RecordTypeGoal.Type?): String {
+            return toGoalTimeViewData(goal?.value.orZero())
         }
+
+        return ChangeRecordTypeGoalsViewData(
+            sessionTitle = resourceRepo.getString(R.string.change_record_type_session_goal_time),
+            sessionText = goalsState.session.let(::getGoalText),
+            dailyTitle = resourceRepo.getString(R.string.change_record_type_daily_goal_time),
+            dailyText = goalsState.daily.let(::getGoalText),
+            weeklyTitle = resourceRepo.getString(R.string.change_record_type_weekly_goal_time),
+            weeklyText = goalsState.weekly.let(::getGoalText),
+            monthlyTitle = resourceRepo.getString(R.string.change_record_type_monthly_goal_time),
+            monthlyText = goalsState.monthly.let(::getGoalText),
+        )
     }
 
     fun mapIconImageData(
@@ -119,6 +134,14 @@ class ChangeRecordTypeMapper @Inject constructor(
             ),
             emojiCodes = listOf(emojiCodes) + iconEmojiMapper.toSkinToneVariations(emojiCodes)
         )
+    }
+
+    private fun toGoalTimeViewData(duration: Long): String {
+        return if (duration > 0) {
+            timeMapper.formatDuration(duration)
+        } else {
+            resourceRepo.getString(R.string.change_record_type_goal_time_disabled)
+        }
     }
 
     private fun mapToFilterTypeName(iconType: IconType): String {
