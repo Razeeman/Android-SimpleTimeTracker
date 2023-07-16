@@ -387,9 +387,8 @@
     <string name="notification_inactivity_text">لا تنس تتبع وقتك</string>
     <string name="notification_activity_title">مذكر النشاط</string>
     <string name="notification_activity_text">هل مازلت تنشط: %s?</string>
-    <string name="notification_goal_time_description">%s تم بلوغ الهدف</string>
+    <string name="notification_goal_time_description">تم الوصول للهدف</string>
     <string name="notification_time_started">بُدء في %s</string>
-    <string name="notification_record_type_goal_time">الهدف %s</string>
     <string name="notification_record_type_stop">أوقف</string>
 
     <!--  Archive  -->

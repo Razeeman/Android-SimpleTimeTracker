@@ -44,6 +44,30 @@ fun List<RecordTypeGoal>.getMonthlyDuration(): RecordTypeGoal? {
     }
 }
 
+fun List<RecordTypeGoal>.getSessionCount(): RecordTypeGoal? {
+    return firstOrNull {
+        it.range is Range.Session && it.type is Type.Count
+    }
+}
+
+fun List<RecordTypeGoal>.getDailyCount(): RecordTypeGoal? {
+    return firstOrNull {
+        it.range is Range.Daily && it.type is Type.Count
+    }
+}
+
+fun List<RecordTypeGoal>.getWeeklyCount(): RecordTypeGoal? {
+    return firstOrNull {
+        it.range is Range.Weekly && it.type is Type.Count
+    }
+}
+
+fun List<RecordTypeGoal>.getMonthlyCount(): RecordTypeGoal? {
+    return firstOrNull {
+        it.range is Range.Monthly && it.type is Type.Count
+    }
+}
+
 fun List<RecordTypeGoal>.hasSessionDuration(): Boolean {
     return getSessionDuration() != null
 }

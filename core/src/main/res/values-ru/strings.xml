@@ -387,9 +387,8 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="notification_inactivity_text">Не забывайте отслеживать свое время</string>
     <string name="notification_activity_title">Напоминание об активности</string>
     <string name="notification_activity_text">Вы все еще делаете: %s?</string>
-    <string name="notification_goal_time_description">%s целевое время достигнуто</string>
+    <string name="notification_goal_time_description">цель достигнута</string>
     <string name="notification_time_started">Начато в %s</string>
-    <string name="notification_record_type_goal_time">цель %s</string>
     <string name="notification_record_type_stop">Стоп</string>
 
     <!--  Archive  -->

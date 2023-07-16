@@ -11,6 +11,7 @@ class RemoveRunningRecordMediator @Inject constructor(
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val notificationActivityInteractor: NotificationActivityInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val notificationGoalCountInteractor: NotificationGoalCountInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
@@ -45,6 +46,7 @@ class RemoveRunningRecordMediator @Inject constructor(
         // Cancel if no activity tracked.
         if (runningRecordInteractor.getAll().isEmpty()) notificationActivityInteractor.cancel()
         notificationGoalTimeInteractor.cancel(typeId)
+        notificationGoalCountInteractor.cancel(typeId)
         widgetInteractor.updateWidgets()
     }
 }

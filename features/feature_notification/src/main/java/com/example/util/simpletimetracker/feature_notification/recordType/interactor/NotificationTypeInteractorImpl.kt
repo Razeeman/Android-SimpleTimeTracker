@@ -128,9 +128,15 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
         runningRecordInteractor.getAll()
             .forEach { runningRecord ->
+                val thisGoals = goals[runningRecord.id].orEmpty()
+                val goalTime = if (thisGoals.hasDailyDuration()) {
+                    thisGoals.getDailyDuration()
+                } else {
+                    thisGoals.getSessionDuration()
+                }
                 show(
                     recordType = recordTypes[runningRecord.id],
-                    goalTime = goals[runningRecord.id]?.getSessionDuration(),
+                    goalTime = goalTime,
                     runningRecord = runningRecord,
                     recordTags = recordTags.filter { it.id in runningRecord.tagIds },
                     dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord),
@@ -179,7 +185,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
             goalTime = goalTime.value
                 .takeIf { it > 0 }
                 ?.let(timeMapper::formatDuration)
-                ?.let { resourceRepo.getString(R.string.notification_record_type_goal_time, it) }
+                ?.let { resourceRepo.getString(R.string.running_record_goal_time, it) }
                 .orEmpty(),
             stopButton = resourceRepo.getString(R.string.notification_record_type_stop),
             controls = controls,

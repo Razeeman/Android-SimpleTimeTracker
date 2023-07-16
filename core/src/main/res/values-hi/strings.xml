@@ -387,9 +387,8 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="notification_inactivity_text">अपना समय ट्रैक करना न भूलें</string>
     <string name="notification_activity_title">गतिविधि अनुस्मारक</string>
     <string name="notification_activity_text">क्या आप अब भी कर रहे हैं: %s?</string>
-    <string name="notification_goal_time_description">%s लक्ष्य समय तक पहुंच गया</string>
+    <string name="notification_goal_time_description">लक्ष्य तक पहुंच गया</string>
     <string name="notification_time_started">%s पर शुरू किया</string>
-    <string name="notification_record_type_goal_time">लक्ष्य %s</string>
     <string name="notification_record_type_stop">रुकना</string>
 
     <!--  Archive  -->

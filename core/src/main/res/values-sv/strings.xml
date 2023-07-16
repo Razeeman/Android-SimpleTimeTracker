@@ -387,9 +387,8 @@ Exempel:<br/>
     <string name="notification_inactivity_text">Glöm inte att registrera din tid</string>
     <string name="notification_activity_title">Aktivitetspåminnelse</string>
     <string name="notification_activity_text">Gör du fortfarande: %s?</string>
-    <string name="notification_goal_time_description">Tidsmål för %s uppnått</string>
+    <string name="notification_goal_time_description">mål uppnått</string>
     <string name="notification_time_started">Påbörjade %s</string>
-    <string name="notification_record_type_goal_time">tidsmål %s</string>
     <string name="notification_record_type_stop">Sluta</string>
 
     <!--  Archive  -->

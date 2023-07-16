@@ -387,9 +387,8 @@ Voorbeeld:<br/>
     <string name="notification_inactivity_text">Vergeet niet uw tijd bij te houden</string>
     <string name="notification_activity_title">Activiteitsherinnering</string>
     <string name="notification_activity_text">Ben je nog steeds bezig met: %s?</string>
-    <string name="notification_goal_time_description">%s doeltijd bereikt</string>
+    <string name="notification_goal_time_description">doel bereikt</string>
     <string name="notification_time_started">Gestart om %s</string>
-    <string name="notification_record_type_goal_time">doelstelling %s</string>
     <string name="notification_record_type_stop">Beëindigen</string>
 
     <!--  Archive  -->

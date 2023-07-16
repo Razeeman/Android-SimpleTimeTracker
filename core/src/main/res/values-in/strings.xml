@@ -387,9 +387,8 @@ Contoh:<br/>
     <string name="notification_inactivity_text">Jangan lupa untuk lacak waktu Anda</string>
     <string name="notification_activity_title">Pengingat aktivitas</string>
     <string name="notification_activity_text">Apakah Anda masih melakukan: %s?</string>
-    <string name="notification_goal_time_description">%s waktu tujuan tercapai</string>
+    <string name="notification_goal_time_description">tujuan tercapai</string>
     <string name="notification_time_started">Dimulai pada %s</string>
-    <string name="notification_record_type_goal_time">tujuan %s</string>
     <string name="notification_record_type_stop">Berhenti</string>
 
     <!--  Archive  -->

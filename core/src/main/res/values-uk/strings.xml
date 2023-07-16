@@ -387,9 +387,8 @@
     <string name="notification_inactivity_text">Не забувайте відстежувати свій час</string>
     <string name="notification_activity_title">Нагадування про діяльність</string>
     <string name="notification_activity_text">Ви все ще робите: %s?</string>
-    <string name="notification_goal_time_description">Досягнутий цільовий час активності %s</string>
+    <string name="notification_goal_time_description">ціль досягнута</string>
     <string name="notification_time_started">Початок в %s</string>
-    <string name="notification_record_type_goal_time">ціль %s</string>
     <string name="notification_record_type_stop">Стій</string>
 
     <!--  Archive  -->

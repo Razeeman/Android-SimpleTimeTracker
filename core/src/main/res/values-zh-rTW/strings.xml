@@ -387,9 +387,8 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="notification_inactivity_text">無藥忘記追蹤你的時間</string>
     <string name="notification_activity_title">活動提醒</string>
     <string name="notification_activity_text">你還在做：%s？</string>
-    <string name="notification_goal_time_description">%s 目標時間達成</string>
+    <string name="notification_goal_time_description">目標時達成</string>
     <string name="notification_time_started">開始於 %s</string>
-    <string name="notification_record_type_goal_time">目標 %s</string>
     <string name="notification_record_type_stop">停止</string>
 
     <!--  Archive  -->

@@ -7,6 +7,7 @@ data class RecordTypeGoal(
     val type: Type,
 ) {
 
+    // TODO switch to GoalTimeType
     sealed interface Range {
         object Session : Range
         object Daily : Range

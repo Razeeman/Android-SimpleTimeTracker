@@ -387,9 +387,8 @@
     <string name="notification_inactivity_text">اندازه گیری زمانت رو فراموش نکن</string>
     <string name="notification_activity_title">یادآور فعالیت</string>
     <string name="notification_activity_text">آیا هنوز درحال انجام: %s ?</string>
-    <string name="notification_goal_time_description">%s به هدف خود رسیدید</string>
+    <string name="notification_goal_time_description">به هدف خود رسیدید</string>
     <string name="notification_time_started">شروع شده در %s</string>
-    <string name="notification_record_type_goal_time">هدف %s</string>
     <string name="notification_record_type_stop">توقف</string>
 
     <!--  Archive  -->

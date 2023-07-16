@@ -1,43 +1,32 @@
 package com.example.util.simpletimetracker.feature_notification.goalTime.interactor
 
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
-import com.example.util.simpletimetracker.core.mapper.TimeMapper
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.getDailyDuration
 import com.example.util.simpletimetracker.domain.extension.getMonthlyDuration
 import com.example.util.simpletimetracker.domain.extension.getSessionDuration
 import com.example.util.simpletimetracker.domain.extension.getWeeklyDuration
 import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
-import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.GoalTimeType
-import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeManager
-import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeParams
 import com.example.util.simpletimetracker.feature_notification.goalTime.scheduler.NotificationGoalTimeScheduler
 import com.example.util.simpletimetracker.feature_notification.goalTime.scheduler.NotificationRangeEndScheduler
-import javax.inject.Inject
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class NotificationGoalTimeInteractorImpl @Inject constructor(
-    private val resourceRepo: ResourceRepo,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
-    private val prefsInteractor: PrefsInteractor,
     private val manager: NotificationGoalTimeManager,
     private val scheduler: NotificationGoalTimeScheduler,
     private val rangeEndScheduler: NotificationRangeEndScheduler,
-    private val timeMapper: TimeMapper,
-    private val colorMapper: ColorMapper,
-    private val iconMapper: IconMapper,
+    private val notificationGoalParamsInteractor: NotificationGoalParamsInteractor,
 ) : NotificationGoalTimeInteractor {
 
     override suspend fun checkAndReschedule() {
@@ -77,7 +66,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                 scheduler.schedule(
                     durationMillisFromNow = dailyGoalTime - dailyCurrent.duration,
                     typeId = typeId,
-                    goalTimeType = GoalTimeType.Day
+                    goalTimeType = GoalTimeType.Day,
                 )
                 rangeEndScheduler.schedule(dailyCurrent.range.timeEnded, GoalTimeType.Day)
             }
@@ -91,7 +80,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                 scheduler.schedule(
                     durationMillisFromNow = weeklyGoalTime - weeklyCurrent.duration,
                     typeId = typeId,
-                    goalTimeType = GoalTimeType.Week
+                    goalTimeType = GoalTimeType.Week,
                 )
                 rangeEndScheduler.schedule(weeklyCurrent.range.timeEnded, GoalTimeType.Week)
             }
@@ -105,7 +94,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                 scheduler.schedule(
                     durationMillisFromNow = monthlyGoalTime - monthlyCurrent.duration,
                     typeId = typeId,
-                    goalTimeType = GoalTimeType.Month
+                    goalTimeType = GoalTimeType.Month,
                 )
                 rangeEndScheduler.schedule(monthlyCurrent.range.timeEnded, GoalTimeType.Month)
             }
@@ -126,36 +115,11 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
 
     override fun show(typeId: Long, goalTimeType: GoalTimeType) {
         GlobalScope.launch {
-            val recordType = recordTypeInteractor.get(typeId) ?: return@launch
-            val goals = recordTypeGoalInteractor.getByType(typeId)
-            val isDarkTheme = prefsInteractor.getDarkMode()
-
-            val goalTimeString = when (goalTimeType) {
-                is GoalTimeType.Session -> goals.getSessionDuration().value
-                is GoalTimeType.Day -> goals.getDailyDuration().value
-                is GoalTimeType.Week -> goals.getWeeklyDuration().value
-                is GoalTimeType.Month -> goals.getMonthlyDuration().value
-            }.let(timeMapper::formatDuration)
-            val goalTimeTypeString = when (goalTimeType) {
-                is GoalTimeType.Session -> R.string.change_record_type_session_goal_time
-                is GoalTimeType.Day -> R.string.change_record_type_daily_goal_time
-                is GoalTimeType.Week -> R.string.change_record_type_weekly_goal_time
-                is GoalTimeType.Month -> R.string.change_record_type_monthly_goal_time
-            }.let(resourceRepo::getString).let { " ($it)" }
-
-            NotificationGoalTimeParams(
-                typeId = recordType.id,
-                goalTimeType = goalTimeType,
-                icon = recordType.icon
-                    .let(iconMapper::mapIcon),
-                color = recordType.color
-                    .let { colorMapper.mapToColorInt(it, isDarkTheme) },
-                text = recordType.name,
-                description = resourceRepo.getString(
-                    R.string.notification_goal_time_description,
-                    goalTimeString
-                ) + goalTimeTypeString
-            ).let(manager::show)
+            notificationGoalParamsInteractor.execute(
+                typeId = typeId,
+                range = goalTimeType,
+                type = NotificationGoalParamsInteractor.Type.Duration,
+            )?.let(manager::show)
         }
     }
 }

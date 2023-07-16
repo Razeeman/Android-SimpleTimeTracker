@@ -383,9 +383,8 @@ Exemplo:<br/>
     <string name="notification_inactivity_text">Não esqueça de monitorar seu tempo</string>
     <string name="notification_activity_title">Lembrete de atividade</string>
     <string name="notification_activity_text">Você ainda está fazendo: %s?</string>
-    <string name="notification_goal_time_description">%s meta atingida</string>
+    <string name="notification_goal_time_description">meta atingida</string>
     <string name="notification_time_started">Iniciado às %s</string>
-    <string name="notification_record_type_goal_time">meta %s</string>
     <string name="notification_record_type_stop">Parar</string>
 
     <!--  Archive  -->

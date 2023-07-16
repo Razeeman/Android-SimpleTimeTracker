@@ -12,6 +12,7 @@ class AddRunningRecordMediator @Inject constructor(
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val notificationActivityInteractor: NotificationActivityInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val notificationGoalCountInteractor: NotificationGoalCountInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
 ) {
@@ -71,6 +72,8 @@ class AddRunningRecordMediator @Inject constructor(
             tagIds = tagIds,
             timeStarted = timeStarted,
         )
+        // Show goal count only on timer start, otherwise it would show on change also.
+        notificationGoalCountInteractor.checkAndShow(typeId)
     }
 
     suspend fun add(

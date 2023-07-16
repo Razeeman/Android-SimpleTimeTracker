@@ -37,14 +37,17 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         val currentRunning = current - runningRecord.timeStarted
         val currentRunningClamped = current - max(runningRecord.timeStarted, range.timeStarted)
 
-        val duration = recordInteractor.getFromRange(range)
+        val records = recordInteractor.getFromRange(range)
             .filter { it.typeId == runningRecord.id }
             .map { rangeMapper.clampToRange(it, range) }
+        val duration = records
             .let(rangeMapper::mapToDuration)
+        val count = records.size.toLong()
 
         return Result(
             range = range,
             duration = duration + currentRunningClamped,
+            count = count + 1, // 1 is for current running record.
             durationDiffersFromCurrent = duration != 0L || currentRunning != currentRunningClamped
         )
     }
@@ -64,6 +67,7 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
     data class Result(
         val range: Range,
         val duration: Long,
+        val count: Long,
         val durationDiffersFromCurrent: Boolean,
     )
 }
