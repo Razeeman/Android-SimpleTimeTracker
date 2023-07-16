@@ -211,7 +211,7 @@ class BackupRepoImpl @Inject constructor(
                     }
 
                     ROW_FAVOURITE_COMMENT -> {
-                        favouriteCommentFromBackupString(parts).let {
+                        favouriteCommentFromBackupString(parts)?.let {
                             favouriteCommentRepo.add(it)
                         }
                     }
@@ -489,10 +489,11 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
-    private fun favouriteCommentFromBackupString(parts: List<String>): FavouriteComment {
+    private fun favouriteCommentFromBackupString(parts: List<String>): FavouriteComment? {
         return FavouriteComment(
             id = parts.getOrNull(1)?.toLongOrNull().orZero(),
-            comment = parts.getOrNull(5)?.restoreNewline().orEmpty(),
+            comment = parts.getOrNull(2)?.restoreNewline()
+                ?.takeUnless(String::isEmpty) ?: return null,
         )
     }
 
