@@ -126,12 +126,14 @@
     <string name="change_record_message_choose_name">Ange ett namn</string>
     <string name="change_record_type_categories_empty">Inga kategorier har lagts till</string>
     <string name="change_record_type_goal_time_disabled">Inaktiverad</string>
-    <string name="change_record_type_goal_time_hint">Tidsmål</string>
+    <string name="change_record_type_goal_time_hint">Mål</string>
     <string name="change_record_type_goal_time_description">Avisering kommer att visas efter att du har nått målet</string>
     <string name="change_record_type_session_goal_time">Session</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_goal_duration">Varaktighet</string>
+    <string name="change_record_type_goal_count">Räkna</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filter borttaget</string>

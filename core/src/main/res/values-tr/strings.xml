@@ -126,12 +126,14 @@
     <string name="change_record_message_choose_name">İsim seçin</string>
     <string name="change_record_type_categories_empty">Kategori eklenmedi</string>
     <string name="change_record_type_goal_time_disabled">Devre dışı</string>
-    <string name="change_record_type_goal_time_hint">Hedef süre</string>
+    <string name="change_record_type_goal_time_hint">Hedef</string>
     <string name="change_record_type_goal_time_description">Hedefe ulaştıktan sonra bildirim gösterilecek</string>
     <string name="change_record_type_session_goal_time">Dönem</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_goal_duration">Süre</string>
+    <string name="change_record_type_goal_count">Saymak</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filtre kaldırıldı</string>

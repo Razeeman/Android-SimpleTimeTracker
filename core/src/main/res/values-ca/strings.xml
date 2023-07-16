@@ -132,6 +132,8 @@
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_goal_duration">Durada</string>
+    <string name="change_record_type_goal_count">Compte</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filtre suprimit</string>

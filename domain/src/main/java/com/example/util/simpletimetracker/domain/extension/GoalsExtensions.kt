@@ -4,6 +4,22 @@ import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal.Range
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal.Type
 
+fun List<RecordTypeGoal>.getSession(): RecordTypeGoal? {
+    return firstOrNull { it.range is Range.Session }
+}
+
+fun List<RecordTypeGoal>.getDaily(): RecordTypeGoal? {
+    return firstOrNull { it.range is Range.Daily }
+}
+
+fun List<RecordTypeGoal>.getWeekly(): RecordTypeGoal? {
+    return firstOrNull { it.range is Range.Weekly }
+}
+
+fun List<RecordTypeGoal>.getMonthly(): RecordTypeGoal? {
+    return firstOrNull { it.range is Range.Monthly }
+}
+
 fun List<RecordTypeGoal>.getSessionDuration(): RecordTypeGoal? {
     return firstOrNull {
         it.range is Range.Session && it.type is Type.Duration

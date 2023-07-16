@@ -126,12 +126,14 @@
     <string name="change_record_message_choose_name">名称を入力してください</string>
     <string name="change_record_type_categories_empty">カテゴリが追加されていません</string>
     <string name="change_record_type_goal_time_disabled">未設定</string>
-    <string name="change_record_type_goal_time_hint">目標時間</string>
+    <string name="change_record_type_goal_time_hint">目標</string>
     <string name="change_record_type_goal_time_description">目標達成後に通知が表示されます</string>
     <string name="change_record_type_session_goal_time">セッション</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_goal_duration">間隔</string>
+    <string name="change_record_type_goal_count">カウント</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">フィルタを取り外しました</string>

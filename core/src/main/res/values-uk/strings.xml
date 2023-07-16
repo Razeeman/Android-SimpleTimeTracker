@@ -126,12 +126,14 @@
     <string name="change_record_message_choose_name">Оберіть ім\'я</string>
     <string name="change_record_type_categories_empty">Категорії не додано</string>
     <string name="change_record_type_goal_time_disabled">Відключено</string>
-    <string name="change_record_type_goal_time_hint">Час цілі</string>
+    <string name="change_record_type_goal_time_hint">Цільова</string>
     <string name="change_record_type_goal_time_description">Повідомлення буде показано після досягнення мети</string>
     <string name="change_record_type_session_goal_time">Сесія</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_goal_duration">Тривалість</string>
+    <string name="change_record_type_goal_count">Рахувати</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Фільтр видалений</string>

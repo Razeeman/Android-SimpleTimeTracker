@@ -126,12 +126,14 @@
     <string name="change_record_message_choose_name">एक नाम चुनो</string>
     <string name="change_record_type_categories_empty">कोई श्रेणियां नहीं जोड़ी</string>
     <string name="change_record_type_goal_time_disabled">अक्षम</string>
-    <string name="change_record_type_goal_time_hint">लक्ष्य काल</string>
+    <string name="change_record_type_goal_time_hint">लक्ष्य</string>
     <string name="change_record_type_goal_time_description">लक्ष्य तक पहुंचने के बाद अधिसूचना दिखाई जाएगी</string>
     <string name="change_record_type_session_goal_time">सत्र</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_goal_duration">अवधि</string>
+    <string name="change_record_type_goal_count">गिनती करना</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">फ़िल्टर हटा दिया गया</string>

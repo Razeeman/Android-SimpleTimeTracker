@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
+import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import javax.inject.Inject
 
@@ -30,22 +31,55 @@ class ChangeRecordTypeMapper @Inject constructor(
     private val colorMapper: ColorMapper,
 ) {
 
+    private val goalTypeList: List<ChangeRecordTypeGoalsViewData.Type> = listOf(
+        ChangeRecordTypeGoalsViewData.Type.Duration,
+        ChangeRecordTypeGoalsViewData.Type.Count,
+    )
+
     fun mapGoalsState(
         goalsState: ChangeRecordTypeGoalsState,
     ): ChangeRecordTypeGoalsViewData {
-        fun getGoalText(goal: RecordTypeGoal.Type?): String {
-            return toGoalTimeViewData(goal?.value.orZero())
-        }
-
         return ChangeRecordTypeGoalsViewData(
-            sessionTitle = resourceRepo.getString(R.string.change_record_type_session_goal_time),
-            sessionText = goalsState.session.let(::getGoalText),
-            dailyTitle = resourceRepo.getString(R.string.change_record_type_daily_goal_time),
-            dailyText = goalsState.daily.let(::getGoalText),
-            weeklyTitle = resourceRepo.getString(R.string.change_record_type_weekly_goal_time),
-            weeklyText = goalsState.weekly.let(::getGoalText),
-            monthlyTitle = resourceRepo.getString(R.string.change_record_type_monthly_goal_time),
-            monthlyText = goalsState.monthly.let(::getGoalText),
+            session = mapGoalViewData(
+                title = resourceRepo.getString(R.string.change_record_type_session_goal_time),
+                goal = goalsState.session,
+            ),
+            daily = mapGoalViewData(
+                title = resourceRepo.getString(R.string.change_record_type_daily_goal_time),
+                goal = goalsState.daily,
+            ),
+            weekly = mapGoalViewData(
+                title = resourceRepo.getString(R.string.change_record_type_weekly_goal_time),
+                goal = goalsState.weekly,
+            ),
+            monthly = mapGoalViewData(
+                title = resourceRepo.getString(R.string.change_record_type_monthly_goal_time),
+                goal = goalsState.monthly,
+            ),
+        )
+    }
+
+    fun toGoalType(position: Int): RecordTypeGoal.Type {
+        return when (goalTypeList.getOrNull(position) ?: goalTypeList.first()) {
+            is ChangeRecordTypeGoalsViewData.Type.Duration -> {
+                RecordTypeGoal.Type.Duration(0)
+            }
+            is ChangeRecordTypeGoalsViewData.Type.Count -> {
+                RecordTypeGoal.Type.Count(0)
+            }
+        }
+    }
+
+    fun getDefaultGoal(): RecordTypeGoal.Type {
+        return RecordTypeGoal.Type.Duration(0)
+    }
+
+    fun getDefaultGoalState(): ChangeRecordTypeGoalsState {
+        return ChangeRecordTypeGoalsState(
+            session = getDefaultGoal(),
+            daily = getDefaultGoal(),
+            weekly = getDefaultGoal(),
+            monthly = getDefaultGoal(),
         )
     }
 
@@ -60,7 +94,7 @@ class ChangeRecordTypeMapper @Inject constructor(
                     type = ChangeRecordTypeIconTypeViewData.Image(category.type, index.toLong()),
                     text = category.name,
                     isLast = index == iconCategories.size - 1,
-                )
+                ),
             ) + images.map { (iconName, iconResId) ->
                 mapImageViewData(iconName, iconResId, newColor, isDarkTheme)
             }
@@ -78,7 +112,7 @@ class ChangeRecordTypeMapper @Inject constructor(
                     type = ChangeRecordTypeIconTypeViewData.Emoji(category.type, index.toLong()),
                     text = category.name,
                     isLast = index == iconCategories.size - 1,
-                )
+                ),
             ) + codes.map { code ->
                 mapEmojiViewData(code, newColor, isDarkTheme)
             }
@@ -113,12 +147,12 @@ class ChangeRecordTypeMapper @Inject constructor(
         return listOf(
             IconType.IMAGE,
             IconType.TEXT,
-            IconType.EMOJI
+            IconType.EMOJI,
         ).map {
             ChangeRecordTypeIconSwitchViewData(
                 iconType = it,
                 name = mapToFilterTypeName(it),
-                isSelected = it == iconType
+                isSelected = it == iconType,
             )
         }
     }
@@ -132,11 +166,45 @@ class ChangeRecordTypeMapper @Inject constructor(
                 colorId = color.colorId,
                 colorInt = color.colorInt,
             ),
-            emojiCodes = listOf(emojiCodes) + iconEmojiMapper.toSkinToneVariations(emojiCodes)
+            emojiCodes = listOf(emojiCodes) + iconEmojiMapper.toSkinToneVariations(emojiCodes),
         )
     }
 
-    private fun toGoalTimeViewData(duration: Long): String {
+    private fun mapGoalViewData(
+        title: String,
+        goal: RecordTypeGoal.Type,
+    ): ChangeRecordTypeGoalsViewData.GoalViewData {
+        val goalViewData = when (goal) {
+            is RecordTypeGoal.Type.Duration -> ChangeRecordTypeGoalsViewData.Type.Duration
+            is RecordTypeGoal.Type.Count -> ChangeRecordTypeGoalsViewData.Type.Count
+        }
+        val position = goalTypeList.indexOf(goalViewData)
+            .takeUnless { it == -1 }.orZero()
+        val value = when (goal) {
+            is RecordTypeGoal.Type.Duration -> toDurationGoalText(goal.value.orZero())
+            is RecordTypeGoal.Type.Count -> goal.value.orZero().toString()
+        }
+        val items = goalTypeList.map {
+            when (it) {
+                is ChangeRecordTypeGoalsViewData.Type.Duration -> {
+                    resourceRepo.getString(R.string.change_record_type_goal_duration)
+                }
+                is ChangeRecordTypeGoalsViewData.Type.Count -> {
+                    resourceRepo.getString(R.string.change_record_type_goal_count)
+                }
+            }
+        }.map(CustomSpinner::CustomSpinnerTextItem)
+
+        return ChangeRecordTypeGoalsViewData.GoalViewData(
+            title = title,
+            typeItems = items,
+            typeSelectedPosition = position,
+            type = goalViewData,
+            value = value,
+        )
+    }
+
+    private fun toDurationGoalText(duration: Long): String {
         return if (duration > 0) {
             timeMapper.formatDuration(duration)
         } else {
@@ -162,7 +230,7 @@ class ChangeRecordTypeMapper @Inject constructor(
             iconName = iconName,
             iconResId = iconResId,
             colorInt = newColor
-                .let { colorMapper.mapToColorInt(it, isDarkTheme) }
+                .let { colorMapper.mapToColorInt(it, isDarkTheme) },
         )
     }
 
@@ -175,7 +243,7 @@ class ChangeRecordTypeMapper @Inject constructor(
             emojiText = iconEmojiMapper.toEmojiString(codes),
             emojiCodes = codes,
             colorInt = newColor
-                .let { colorMapper.mapToColorInt(it, isDarkTheme) }
+                .let { colorMapper.mapToColorInt(it, isDarkTheme) },
         )
     }
 }

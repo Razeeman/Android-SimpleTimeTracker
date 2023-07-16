@@ -126,12 +126,14 @@
     <string name="change_record_message_choose_name">選擇名稱</string>
     <string name="change_record_type_categories_empty">沒有新增分類</string>
     <string name="change_record_type_goal_time_disabled">關閉</string>
-    <string name="change_record_type_goal_time_hint">目標時間</string>
+    <string name="change_record_type_goal_time_hint">目標</string>
     <string name="change_record_type_goal_time_description">達到目標後將顯示通知</string>
     <string name="change_record_type_session_goal_time">節段</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_goal_duration">期間</string>
+    <string name="change_record_type_goal_count">數數</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">過濾已移除</string>

@@ -13,10 +13,10 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.PermissionRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.domain.extension.getDailyDuration
-import com.example.util.simpletimetracker.domain.extension.getMonthlyDuration
-import com.example.util.simpletimetracker.domain.extension.getSessionDuration
-import com.example.util.simpletimetracker.domain.extension.getWeeklyDuration
+import com.example.util.simpletimetracker.domain.extension.getDaily
+import com.example.util.simpletimetracker.domain.extension.getMonthly
+import com.example.util.simpletimetracker.domain.extension.getSession
+import com.example.util.simpletimetracker.domain.extension.getWeekly
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
@@ -149,7 +149,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private var newIconName: String = ""
     private var newCategories: MutableList<Long> = mutableListOf()
     private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
-    private var newGoalsState: ChangeRecordTypeGoalsState = ChangeRecordTypeGoalsState()
+    private var newGoalsState: ChangeRecordTypeGoalsState = changeRecordTypeMapper.getDefaultGoalState()
 
     fun onVisible() = viewModelScope.launch {
         initializeSelectedCategories()
@@ -302,71 +302,77 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
-    fun onSessionGoalTimeClick() {
-        openDurationDialog(
-            tag = SESSION_GOAL_TIME_DIALOG_TAG,
-            goalType = newGoalsState.session,
+    fun onGoalTypeSelected(range: RecordTypeGoal.Range, position: Int) {
+        val currentType = when (range) {
+            is RecordTypeGoal.Range.Session -> newGoalsState.session
+            is RecordTypeGoal.Range.Daily -> newGoalsState.daily
+            is RecordTypeGoal.Range.Weekly -> newGoalsState.weekly
+            is RecordTypeGoal.Range.Monthly -> newGoalsState.monthly
+        }
+        val newType = changeRecordTypeMapper.toGoalType(position)
+        if (currentType::class.java == newType::class.java) return
+
+        newGoalsState = when (range) {
+            is RecordTypeGoal.Range.Session -> newGoalsState.copy(session = newType)
+            is RecordTypeGoal.Range.Daily -> newGoalsState.copy(daily = newType)
+            is RecordTypeGoal.Range.Weekly -> newGoalsState.copy(weekly = newType)
+            is RecordTypeGoal.Range.Monthly -> newGoalsState.copy(monthly = newType)
+        }
+        updateGoalsViewData()
+    }
+
+    fun onGoalTimeClick(range: RecordTypeGoal.Range) {
+        val tag = when (range) {
+            is RecordTypeGoal.Range.Session -> SESSION_GOAL_TIME_DIALOG_TAG
+            is RecordTypeGoal.Range.Daily -> DAILY_GOAL_TIME_DIALOG_TAG
+            is RecordTypeGoal.Range.Weekly -> WEEKLY_GOAL_TIME_DIALOG_TAG
+            is RecordTypeGoal.Range.Monthly -> MONTHLY_GOAL_TIME_DIALOG_TAG
+        }
+        val goalType = when (range) {
+            is RecordTypeGoal.Range.Session -> newGoalsState.session
+            is RecordTypeGoal.Range.Daily -> newGoalsState.daily
+            is RecordTypeGoal.Range.Weekly -> newGoalsState.weekly
+            is RecordTypeGoal.Range.Monthly -> newGoalsState.monthly
+        }
+
+        router.navigate(
+            DurationDialogParams(
+                tag = tag,
+                duration = goalType.value.orZero(),
+            ),
         )
     }
 
-    fun onDailyGoalTimeClick() {
-        openDurationDialog(
-            tag = DAILY_GOAL_TIME_DIALOG_TAG,
-            goalType = newGoalsState.daily,
-        )
-    }
+    fun onGoalCountChange(range: RecordTypeGoal.Range, count: String) {
+        val currentGoal = when (range) {
+            is RecordTypeGoal.Range.Session -> newGoalsState.session
+            is RecordTypeGoal.Range.Daily -> newGoalsState.daily
+            is RecordTypeGoal.Range.Weekly -> newGoalsState.weekly
+            is RecordTypeGoal.Range.Monthly -> newGoalsState.monthly
+        }
+        val currentCount = (currentGoal as? RecordTypeGoal.Type.Count)
+            ?.value ?: return
+        val newCount = count.toLongOrNull().orZero()
 
-    fun onWeeklyGoalTimeClick() {
-        openDurationDialog(
-            tag = WEEKLY_GOAL_TIME_DIALOG_TAG,
-            goalType = newGoalsState.weekly,
-        )
-    }
-
-    fun onMonthlyGoalTimeClick() {
-        openDurationDialog(
-            tag = MONTHLY_GOAL_TIME_DIALOG_TAG,
-            goalType = newGoalsState.monthly,
-        )
+        if (currentCount != newCount) {
+            val newType = RecordTypeGoal.Type.Count(newCount)
+            newGoalsState = when (range) {
+                is RecordTypeGoal.Range.Session -> newGoalsState.copy(session = newType)
+                is RecordTypeGoal.Range.Daily -> newGoalsState.copy(daily = newType)
+                is RecordTypeGoal.Range.Weekly -> newGoalsState.copy(weekly = newType)
+                is RecordTypeGoal.Range.Monthly -> newGoalsState.copy(monthly = newType)
+            }
+            updateGoalsViewData()
+        }
     }
 
     fun onDurationSet(tag: String?, duration: Long, anchor: Any) {
-        val newType = RecordTypeGoal.Type.Duration(duration)
-
-        when (tag) {
-            SESSION_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
-                newGoalsState = newGoalsState.copy(session = newType)
-            }
-            DAILY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
-                newGoalsState = newGoalsState.copy(daily = newType)
-            }
-            WEEKLY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
-                newGoalsState = newGoalsState.copy(weekly = newType)
-            }
-            MONTHLY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
-                newGoalsState = newGoalsState.copy(monthly = newType)
-            }
-        }
-        updateGoalsViewData()
+        onNewGoalDuration(tag, duration)
         checkExactAlarmPermissionInteractor.execute(anchor)
     }
 
     fun onDurationDisabled(tag: String?) {
-        when (tag) {
-            SESSION_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
-                newGoalsState = newGoalsState.copy(session = null)
-            }
-            DAILY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
-                newGoalsState = newGoalsState.copy(daily = null)
-            }
-            WEEKLY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
-                newGoalsState = newGoalsState.copy(weekly = null)
-            }
-            MONTHLY_GOAL_TIME_DIALOG_TAG -> viewModelScope.launch {
-                newGoalsState = newGoalsState.copy(monthly = null)
-            }
-        }
-        updateGoalsViewData()
+        onNewGoalDuration(tag, 0)
     }
 
     fun onNotificationsHintClick() {
@@ -444,16 +450,25 @@ class ChangeRecordTypeViewModel @Inject constructor(
         iconsScrollPosition.set(ChangeRecordTypeScrollViewData.NoScroll)
     }
 
-    private fun openDurationDialog(
-        tag: String,
-        goalType: RecordTypeGoal.Type?,
-    ) {
-        router.navigate(
-            DurationDialogParams(
-                tag = tag,
-                duration = goalType?.value.orZero(),
-            ),
-        )
+    private fun onNewGoalDuration(tag: String?, duration: Long) {
+        val newType = RecordTypeGoal.Type.Duration(duration)
+
+        when (tag) {
+            SESSION_GOAL_TIME_DIALOG_TAG -> {
+                newGoalsState = newGoalsState.copy(session = newType)
+            }
+            DAILY_GOAL_TIME_DIALOG_TAG -> {
+                newGoalsState = newGoalsState.copy(daily = newType)
+            }
+            WEEKLY_GOAL_TIME_DIALOG_TAG -> {
+                newGoalsState = newGoalsState.copy(weekly = newType)
+            }
+            MONTHLY_GOAL_TIME_DIALOG_TAG -> {
+                newGoalsState = newGoalsState.copy(monthly = newType)
+            }
+        }
+
+        updateGoalsViewData()
     }
 
     private fun onNewChooserState(
@@ -529,44 +544,45 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
 
         processGoal(
-            goalId = goals.getSessionDuration()?.id.orZero(),
+            goalId = goals.getSession()?.id.orZero(),
             goalType = newGoalsState.session,
             goalRange = RecordTypeGoal.Range.Session,
         )
         processGoal(
-            goalId = goals.getDailyDuration()?.id.orZero(),
+            goalId = goals.getDaily()?.id.orZero(),
             goalType = newGoalsState.daily,
             goalRange = RecordTypeGoal.Range.Daily,
         )
         processGoal(
-            goalId = goals.getWeeklyDuration()?.id.orZero(),
+            goalId = goals.getWeekly()?.id.orZero(),
             goalType = newGoalsState.weekly,
             goalRange = RecordTypeGoal.Range.Weekly,
         )
         processGoal(
-            goalId = goals.getMonthlyDuration()?.id.orZero(),
+            goalId = goals.getMonthly()?.id.orZero(),
             goalType = newGoalsState.monthly,
             goalRange = RecordTypeGoal.Range.Monthly,
         )
     }
 
     private suspend fun initializeRecordTypeData() {
-        recordTypeInteractor.get(recordTypeId)
-            ?.let {
-                val goals = recordTypeGoalInteractor.getByType(it.id)
-                newName = it.name
-                newIconName = it.icon
-                newColor = it.color
-                newGoalsState = ChangeRecordTypeGoalsState(
-                    session = goals.getSessionDuration()?.type,
-                    daily = goals.getDailyDuration()?.type,
-                    weekly = goals.getWeeklyDuration()?.type,
-                    monthly = goals.getMonthlyDuration()?.type,
-                )
-                updateIcons()
-                updateColors()
-                updateGoalsViewData()
-            }
+        recordTypeInteractor.get(recordTypeId)?.let {
+            val goals = recordTypeGoalInteractor.getByType(it.id)
+            val defaultGoal = changeRecordTypeMapper.getDefaultGoal()
+
+            newName = it.name
+            newIconName = it.icon
+            newColor = it.color
+            newGoalsState = ChangeRecordTypeGoalsState(
+                session = goals.getSession()?.type ?: defaultGoal,
+                daily = goals.getDaily()?.type ?: defaultGoal,
+                weekly = goals.getWeekly()?.type ?: defaultGoal,
+                monthly = goals.getMonthly()?.type ?: defaultGoal,
+            )
+            updateIcons()
+            updateColors()
+            updateGoalsViewData()
+        }
     }
 
     private suspend fun initializeSelectedCategories() {
