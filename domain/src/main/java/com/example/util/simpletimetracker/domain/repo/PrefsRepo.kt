@@ -77,6 +77,8 @@ interface PrefsRepo {
 
     var useMilitaryTimeFormat: Boolean
 
+    var useMonthDayTimeFormat: Boolean
+
     var useProportionalMinutes: Boolean
 
     var showSeconds: Boolean

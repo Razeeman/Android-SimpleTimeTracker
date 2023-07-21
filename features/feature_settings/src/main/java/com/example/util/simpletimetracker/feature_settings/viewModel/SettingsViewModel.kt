@@ -355,6 +355,24 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val useMonthDayTimeCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getUseMonthDayTimeFormat()
+            }
+            initial
+        }
+    }
+
+    val useMonthDayTimeHint: LiveData<String> by lazy {
+        MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadUseMonthDayTimeViewData()
+            }
+            initial
+        }
+    }
+
     val useProportionalMinutesCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -771,6 +789,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onUseMonthDayTimeClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getUseMonthDayTimeFormat()
+            prefsInteractor.setUseMonthDayTimeFormat(newValue)
+            (useMonthDayTimeCheckbox as MutableLiveData).value = newValue
+            updateUseMonthDayTimeViewData()
+        }
+    }
+
     fun onUseProportionalMinutesClicked() {
         viewModelScope.launch {
             val newValue = !prefsInteractor.getUseProportionalMinutes()
@@ -1173,6 +1200,11 @@ class SettingsViewModel @Inject constructor(
         useMilitaryTimeHint.set(data)
     }
 
+    private suspend fun updateUseMonthDayTimeViewData() {
+        val data = loadUseMonthDayTimeViewData()
+        useMonthDayTimeHint.set(data)
+    }
+
     private suspend fun updateUseProportionalMinutesViewData() {
         val data = loadUseProportionalMinutesViewData()
         useProportionalMinutesHint.set(data)
@@ -1181,6 +1213,11 @@ class SettingsViewModel @Inject constructor(
     private suspend fun loadUseMilitaryTimeViewData(): String {
         return prefsInteractor.getUseMilitaryTimeFormat()
             .let(settingsMapper::toUseMilitaryTimeHint)
+    }
+
+    private suspend fun loadUseMonthDayTimeViewData(): String {
+        return prefsInteractor.getUseMonthDayTimeFormat()
+            .let(settingsMapper::toUseMonthDayTimeHint)
     }
 
     private suspend fun loadUseProportionalMinutesViewData(): String {
