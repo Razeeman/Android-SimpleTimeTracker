@@ -164,49 +164,49 @@ class RecordFilterInteractor @Inject constructor(
 
         // TODO multitask filters.
 
-        fun RecordBase.selectedByActivity(): Boolean {
-            return typeIds.isEmpty() || this.typeIds.firstOrNull().orZero() in typeIds
+        fun RecordBase.selectedByActivity(): RecordBase? {
+            return if (typeIds.isEmpty() || this.typeIds.firstOrNull().orZero() in typeIds) this else null
         }
 
-        fun RecordBase.selectedByComment(): Boolean {
-            if (selectedCommentItems.isEmpty()) return true
+        fun RecordBase.selectedByComment(): RecordBase? {
+            if (selectedCommentItems.isEmpty()) return this
             val comment = this.comment.lowercase()
-            return (selectedNoComment && comment.isEmpty()) ||
+            return if ((selectedNoComment && comment.isEmpty()) ||
                 (selectedAnyComment && comment.isNotEmpty()) ||
-                (comment.isNotEmpty() && comments.any { comment.contains(it) })
+                (comment.isNotEmpty() && comments.any { comment.contains(it) })) this else null
         }
 
-        fun RecordBase.selectedByDate(): Boolean {
-            if (ranges.isEmpty()) return true
-            return ranges.any { range -> timeStarted < range.timeEnded && timeEnded > range.timeStarted }
+        fun RecordBase.selectedByDate(): RecordBase? {
+            if (ranges.isEmpty()) return this
+            return if (ranges.any { range -> timeStarted < range.timeEnded && timeEnded > range.timeStarted }) this else null
         }
 
-        fun RecordBase.selectedByTag(): Boolean {
-            if (selectedTagItems.isEmpty()) return true
+        fun RecordBase.selectedByTag(): RecordBase? {
+            if (selectedTagItems.isEmpty()) return this
             return if (tagIds.isNotEmpty()) {
-                tagIds.any { tagId -> tagId in selectedTaggedIds }
+                if (tagIds.any { tagId -> tagId in selectedTaggedIds }) this else null
             } else {
-                selectedUntagged
+                if (selectedUntagged) this else null
             }
         }
 
-        fun RecordBase.filteredByTag(): Boolean {
-            if (filteredTagItems.isEmpty()) return false
+        fun RecordBase.filteredByTag(): RecordBase? {
+            if (filteredTagItems.isEmpty()) return this
             return if (tagIds.isNotEmpty()) {
-                tagIds.any { tagId -> tagId in filteredTaggedIds }
+                if (tagIds.any { tagId -> tagId in filteredTaggedIds }) null else this
             } else {
-                filteredUntagged
+                if (filteredUntagged) null else this
             }
         }
 
-        fun RecordBase.isManuallyFiltered(): Boolean {
-            if (manuallyFilteredIds.isEmpty()) return false
-            if (this !is Record) return false
-            return id in manuallyFilteredIds
+        fun RecordBase.isManuallyFiltered(): RecordBase? {
+            if (manuallyFilteredIds.isEmpty()) return this
+            if (this !is Record) return this
+            return if (id in manuallyFilteredIds) null else this
         }
 
-        fun RecordBase.selectedByDayOfWeek(): Boolean {
-            if (daysOfWeek.isEmpty()) return true
+        fun RecordBase.selectedByDayOfWeek(): RecordBase? {
+            if (daysOfWeek.isEmpty()) return this
 
             val daysOfRecord: MutableSet<DayOfWeek> = mutableSetOf()
             val startDay = timeMapper.getDayOfWeek(
@@ -243,51 +243,50 @@ class RecordFilterInteractor @Inject constructor(
                 }
             }
 
-            return daysOfRecord.any { it in daysOfWeek }
+            return if (daysOfRecord.any { it in daysOfWeek }) this else null
         }
 
-        fun RecordBase.selectedByTimeOfDay(): Boolean {
-            if (timeOfDay == null) return true
+        fun RecordBase.selectedByTimeOfDay(): List<RecordBase>? {
+            if (timeOfDay == null) return listOf(this)
 
             // Check empty range.
-            if (timeOfDay.duration == 0L) return false
+            if (timeOfDay.duration == 0L) return null
+
+            // probably try something like this from selectedByDayOfWeek
             // Check long records.
-            if (duration > dayInMillis) return true
+            val filteredRecords = ArrayList<RecordBase>()
 
-            val recordStart = timeStarted - timeMapper.getStartOfDayTimeStamp(timeStarted, calendar)
-            val recordEnd = timeEnded - timeMapper.getStartOfDayTimeStamp(timeEnded, calendar)
-            val recordRanges = if (recordStart <= recordEnd) {
-                listOf(Range(recordStart, recordEnd))
-            } else {
-                listOf(Range(0, recordEnd), Range(recordStart, dayInMillis))
-            }
-            val timeOfDayRanges = if (timeOfDay.timeStarted <= timeOfDay.timeEnded) {
-                listOf(Range(timeOfDay.timeStarted, timeOfDay.timeEnded))
-            } else {
-                listOf(Range(0, timeOfDay.timeEnded), Range(timeOfDay.timeStarted, dayInMillis))
+            // Continuously add one day to time start until reach time ended.
+            // For records spanning multiple days (eg. 48+ hours), we need to split it into multiple records
+            // in order to support clamping because there will be two regions that intersect with the time range.
+            calendar.timeInMillis = timeOfDay.timeStarted + timeMapper.getStartOfDayTimeStamp(timeStarted, calendar)
+            while (calendar.timeInMillis < timeEnded) {
+                val filterRange = Range(calendar.timeInMillis, calendar.timeInMillis + timeOfDay.timeEnded)
+                if (rangeMapper.isRecordInRange(this, filterRange))
+                filteredRecords.add(rangeMapper.clampRecordToRange(this, filterRange))
+                calendar.add(Calendar.DATE, 1)
             }
 
-            return recordRanges.any { recordRange ->
-                timeOfDayRanges.any { it.isOverlappingWith(recordRange) }
-            }
+            return if (filteredRecords.size > 0) filteredRecords else null
         }
 
-        fun RecordBase.selectedByDuration(): Boolean {
-            if (durations.isEmpty()) return true
-            return durations.any { duration >= it.timeStarted && duration <= it.timeEnded }
+        fun RecordBase.selectedByDuration(): RecordBase? {
+            if (durations.isEmpty()) return this
+            return if (durations.any { duration >= it.timeStarted && duration <= it.timeEnded }) this else null
         }
 
-        return@withContext records.filter { record ->
-            record.selectedByActivity() &&
-                record.selectedByComment() &&
-                record.selectedByDate() &&
-                record.selectedByTag() &&
-                !record.filteredByTag() &&
-                !record.isManuallyFiltered() &&
-                record.selectedByDayOfWeek() &&
-                record.selectedByTimeOfDay() &&
-                record.selectedByDuration()
-        }
+        return@withContext records.mapNotNull { record ->
+            record
+                .selectedByActivity()
+                ?.selectedByComment()
+                ?.selectedByDate()
+                ?.selectedByTag()
+                ?.filteredByTag()
+                ?.isManuallyFiltered()
+                ?.selectedByDayOfWeek()
+                ?.selectedByDuration()
+                ?.selectedByTimeOfDay()
+        }.flatten()
     }
 
     private suspend fun getAllRecords(
