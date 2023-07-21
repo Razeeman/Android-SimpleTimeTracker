@@ -51,6 +51,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
+        val useMonthDayTimeFormat = prefsInteractor.getUseMonthDayTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
         val isDarkTheme = prefsInteractor.getDarkMode()
 
@@ -61,6 +62,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             rangePosition = rangePosition,
             firstDayOfWeek = firstDayOfWeek,
             startOfDayShift = startOfDayShift,
+            useMonthDayTimeFormat = useMonthDayTimeFormat,
         )
         val data = getChartData(
             allRecords = records,
@@ -74,6 +76,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
                 rangePosition = rangePosition - 1,
                 firstDayOfWeek = firstDayOfWeek,
                 startOfDayShift = startOfDayShift,
+                useMonthDayTimeFormat = useMonthDayTimeFormat,
             )
             getChartData(
                 allRecords = records,
@@ -167,6 +170,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         rangePosition: Int,
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
+        useMonthDayTimeFormat: Boolean,
     ): Pair<List<ChartBarDataRange>, CompositeChartData> {
         var customRangeGroupings: List<Pair<ChartGrouping, Int>> = emptyList()
 
@@ -247,7 +251,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         }
 
         return when (appliedChartGrouping) {
-            ChartGrouping.DAILY -> getDailyGrouping(startDate, numberOfGroups, startOfDayShift)
+            ChartGrouping.DAILY -> getDailyGrouping(startDate, numberOfGroups, startOfDayShift, useMonthDayTimeFormat)
             ChartGrouping.WEEKLY -> getWeeklyGrouping(startDate, numberOfGroups, firstDayOfWeek, startOfDayShift)
             ChartGrouping.MONTHLY -> getMonthlyGrouping(startDate, numberOfGroups, startOfDayShift)
             ChartGrouping.YEARLY -> getYearlyGrouping(startDate, numberOfGroups, startOfDayShift)
@@ -263,6 +267,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         startDate: Long,
         numberOfDays: Int,
         startOfDayShift: Long,
+        useMonthDayTimeFormat: Boolean,
     ): List<ChartBarDataRange> {
         val calendar = Calendar.getInstance()
 
@@ -273,7 +278,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             }
             calendar.add(Calendar.DATE, -shift)
 
-            val legend = timeMapper.formatShortDay(calendar.timeInMillis)
+            val legend = timeMapper.formatShortDay(calendar.timeInMillis, useMonthDayTimeFormat)
             val rangeStart = calendar.timeInMillis
             val rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
 

@@ -371,6 +371,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.useMilitaryTimeFormat = isUsed
     }
 
+    suspend fun getUseMonthDayTimeFormat(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.useMonthDayTimeFormat
+    }
+
+    suspend fun setUseMonthDayTimeFormat(isUsed: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.useMonthDayTimeFormat = isUsed
+    }
+
     suspend fun getUseProportionalMinutes(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.useProportionalMinutes
     }

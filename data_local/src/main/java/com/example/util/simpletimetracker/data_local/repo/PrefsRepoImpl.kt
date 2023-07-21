@@ -173,6 +173,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_USE_MILITARY_TIME_FORMAT, true
     )
 
+    override var useMonthDayTimeFormat: Boolean by prefs.delegate(
+        KEY_USE_MONTH_DAY_TIME_FORMAT, false
+    )
+
     override var useProportionalMinutes: Boolean by prefs.delegate(
         KEY_USE_PROPORTIONAL_MINUTES, false
     )
@@ -401,6 +405,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_DARK_MODE_2 = "darkMode2"
         private const val KEY_NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
         private const val KEY_USE_MILITARY_TIME_FORMAT = "useMilitaryTimeFormat"
+        private const val KEY_USE_MONTH_DAY_TIME_FORMAT = "useMonthDayTimeFormat"
         private const val KEY_USE_PROPORTIONAL_MINUTES = "useProportionalMinutes"
         private const val KEY_SHOW_SECONDS = "showSeconds"
         private const val KEY_KEEP_SCREEN_ON = "keepScreenOn"

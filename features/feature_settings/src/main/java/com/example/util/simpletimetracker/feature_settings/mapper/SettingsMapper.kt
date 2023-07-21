@@ -240,6 +240,18 @@ class SettingsMapper @Inject constructor(
         )
     }
 
+    fun toUseMonthDayTimeHint(useMonthDay: Boolean): String {
+        val hintTime = Calendar.getInstance().apply {
+            set(Calendar.DAY_OF_MONTH, 13)
+            set(Calendar.MONTH, 6)
+        }.timeInMillis
+
+        return timeMapper.formatShortDay(
+            time = hintTime,
+            useMonthDayTimeFormat = useMonthDay,
+        )
+    }
+
     fun toUseProportionalMinutesHint(useProportionalMinutes: Boolean): String {
         return timeMapper.formatInterval(
             interval = 4500000,

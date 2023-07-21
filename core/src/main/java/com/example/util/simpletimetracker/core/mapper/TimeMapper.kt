@@ -38,7 +38,8 @@ class TimeMapper @Inject constructor(
 
     private val dayDateYearFormat by lazy { SimpleDateFormat("E, MMM d yyyy", locale) }
     private val dateYearFormat by lazy { SimpleDateFormat("MMM d yyyy", locale) }
-    private val shortDayFormat by lazy { SimpleDateFormat("dd.MM", locale) }
+    private val shortDayFormatMMDD by lazy { SimpleDateFormat("MM.dd", locale) }
+    private val shortDayFormatDDMM by lazy { SimpleDateFormat("dd.MM", locale) }
     private val shortMonthFormat by lazy { SimpleDateFormat("MMM", locale) }
     private val shortYearFormat by lazy { SimpleDateFormat("yy", locale) }
 
@@ -95,8 +96,12 @@ class TimeMapper @Inject constructor(
     }
 
     // 12.03
-    fun formatShortDay(time: Long): String = synchronized(lock) {
-        return shortDayFormat.format(time)
+    fun formatShortDay(time: Long, useMonthDayTimeFormat: Boolean): String = synchronized(lock) {
+        if (useMonthDayTimeFormat) {
+            return shortDayFormatMMDD.format(time)
+        } else {
+            return shortDayFormatDDMM.format(time)
+        }
     }
 
     // Mar
