@@ -209,6 +209,7 @@
     <string name="settings_reverse_order_in_calendar">レコードの逆順</string>
     <string name="settings_days_in_calendar">カレンダーの日数</string>
     <string name="settings_show_activity_filters">メイン画面にアクティビティ フィルタを表示する</string>
+    <string name="settings_show_goals_separately">別のタブに目標を表示する</string>
     <string name="settings_allow_multitasking">マルチタスクを可能にする</string>
     <string name="settings_allow_multitasking_hint">無効の場合、新しいタイマーを開始すると、他のアクティビティが自動的に停止します。</string>
     <string name="settings_show_notifications">タイマーの通知を表示する</string>

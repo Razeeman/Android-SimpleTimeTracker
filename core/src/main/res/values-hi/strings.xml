@@ -209,6 +209,7 @@
     <string name="settings_reverse_order_in_calendar">अभिलेखों का उल्टा क्रम</string>
     <string name="settings_days_in_calendar">कैलेंडर में दिन</string>
     <string name="settings_show_activity_filters">मुख्य स्क्रीन पर गतिविधि फ़िल्टर दिखाएं</string>
+    <string name="settings_show_goals_separately">एक अलग टैब पर लक्ष्य दिखाएँ</string>
     <string name="settings_allow_multitasking">मल्टीटास्किंग की अनुमति दें</string>
     <string name="settings_allow_multitasking_hint">यदि बंद हे तो नया टाइमर शुरू होने पर यह अन्य स्वचालित गतिविधियों को रोक देगा।</string>
     <string name="settings_show_notifications">टाइमर नोटिफिकेशन दिखाएं</string>

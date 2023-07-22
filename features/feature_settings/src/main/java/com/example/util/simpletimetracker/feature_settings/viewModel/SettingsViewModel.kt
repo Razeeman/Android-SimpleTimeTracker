@@ -148,6 +148,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    val showGoalsSeparatelyCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getShowGoalsSeparately()
+            }
+            initial
+        }
+    }
+
     val allowMultitaskingCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -591,6 +600,15 @@ class SettingsViewModel @Inject constructor(
             val newValue = !prefsInteractor.getShowActivityFilters()
             prefsInteractor.setShowActivityFilters(newValue)
             (showActivityFiltersCheckbox as MutableLiveData).value = newValue
+        }
+    }
+
+    fun onShowGoalsSeparatelyClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getShowGoalsSeparately()
+            prefsInteractor.setShowGoalsSeparately(newValue)
+            (showGoalsSeparatelyCheckbox as MutableLiveData).value = newValue
+            router.restartApp()
         }
     }
 

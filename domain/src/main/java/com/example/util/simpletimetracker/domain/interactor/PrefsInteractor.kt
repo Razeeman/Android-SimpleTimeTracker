@@ -202,6 +202,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.showActivityFilters = isEnabled
     }
 
+    suspend fun getShowGoalsSeparately(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.showGoalsSeparately
+    }
+
+    suspend fun setShowGoalsSeparately(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.showGoalsSeparately = isEnabled
+    }
+
     suspend fun getAllowMultitasking(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.allowMultitasking
     }

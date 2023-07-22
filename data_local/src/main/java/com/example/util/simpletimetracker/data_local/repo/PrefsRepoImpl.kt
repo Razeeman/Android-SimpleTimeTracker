@@ -97,6 +97,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_ACTIVITY_FILTERS, false
     )
 
+    override var showGoalsSeparately: Boolean by prefs.delegate(
+        KEY_SHOW_GOALS_SEPARATELY, false
+    )
+
     override var allowMultitasking: Boolean by prefs.delegate(
         KEY_ALLOW_MULTITASKING, true
     )
@@ -386,6 +390,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_REVERSE_ORDER_IN_CALENDAR = "reverseOrderInCalendar"
         private const val KEY_DAYS_IN_CALENDAR = "daysInCalendar"
         private const val KEY_SHOW_ACTIVITY_FILTERS = "showActivityFilters"
+        private const val KEY_SHOW_GOALS_SEPARATELY = "showGoalsSeparately"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
         private const val KEY_SHOW_NOTIFICATIONS = "showNotifications"
         private const val KEY_SHOW_NOTIFICATIONS_CONTROLS = "showNotificationsControls"

@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_statistics.interactor
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.mapper.GoalViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
@@ -33,6 +34,7 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val statisticsViewDataMapper: StatisticsViewDataMapper,
     private val rangeViewDataMapper: RangeViewDataMapper,
     private val colorMapper: ColorMapper,
+    private val goalViewDataMapper: GoalViewDataMapper,
 ) {
 
     fun mapFilter(
@@ -63,13 +65,16 @@ class StatisticsViewDataInteractor @Inject constructor(
 
         return when (filterType) {
             ChartFilterType.ACTIVITY -> {
-                listOf(selectedId).let(RecordsFilter::Activity)
+                listOf(selectedId)
+                    .let(RecordsFilter::Activity)
             }
             ChartFilterType.CATEGORY -> {
-                listOf(selectedId).map(RecordsFilter.CategoryItem::Categorized).let(RecordsFilter::Category)
+                listOf(selectedId).map(RecordsFilter.CategoryItem::Categorized)
+                    .let(RecordsFilter::Category)
             }
             ChartFilterType.RECORD_TAG -> {
-                listOf(selectedId).map(RecordsFilter.TagItem::Tagged).let(RecordsFilter::SelectedTags)
+                listOf(selectedId).map(RecordsFilter.TagItem::Tagged)
+                    .let(RecordsFilter::SelectedTags)
             }
         }
     }
@@ -86,6 +91,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         val showDuration = rangeLength !is RangeLength.All
         val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
+        val showGoalsSeparately = prefsInteractor.getShowGoalsSeparately()
 
         val filteredIds = when (filterType) {
             ChartFilterType.ACTIVITY -> prefsInteractor.getFilteredTypes()
@@ -106,7 +112,10 @@ class StatisticsViewDataInteractor @Inject constructor(
             shift = shift,
         )
         // Don't show goals in the future if there is no records there.
-        val goalsStatistics = if (shift > 0 && statistics.isEmpty()) {
+        val goalsStatistics = if (
+            (shift > 0 && statistics.isEmpty()) ||
+            showGoalsSeparately
+        ) {
             emptyList()
         } else {
             statisticsMediator.getGoals(
@@ -121,14 +130,14 @@ class StatisticsViewDataInteractor @Inject constructor(
             statistics = statistics,
             dataHolders = dataHolders,
             types = types,
-            isDarkTheme = isDarkTheme
+            isDarkTheme = isDarkTheme,
         ).let {
             // If there is no data but have goals - show empty chart.
             val data = it
                 .takeUnless { it.isEmpty() }
                 ?: PiePortion(
                     value = 0,
-                    colorInt = colorMapper.toUntrackedColor(isDarkTheme)
+                    colorInt = colorMapper.toUntrackedColor(isDarkTheme),
                 ).let(::listOf)
 
             StatisticsChartViewData(
@@ -148,11 +157,10 @@ class StatisticsViewDataInteractor @Inject constructor(
             useProportionalMinutes = useProportionalMinutes,
             showSeconds = showSeconds,
         )
-        val goalsList = statisticsViewDataMapper.mapGoalItemsList(
+        val goalsList = goalViewDataMapper.mapList(
             rangeLength = rangeLength,
-            statistics = goalsStatistics,
+            statistics = goalsStatistics.filterNot { it.id in filteredIds },
             data = dataHolders,
-            filteredIds = filteredIds,
             isDarkTheme = isDarkTheme,
             useProportionalMinutes = useProportionalMinutes,
             showSeconds = showSeconds,
@@ -179,7 +187,6 @@ class StatisticsViewDataInteractor @Inject constructor(
                 statisticsViewDataMapper.mapToHint().let(result::add)
             }
             if (goalsList.isNotEmpty()) {
-                DividerViewData(1).let(result::add)
                 statisticsViewDataMapper.mapToGoalHint().let(result::add)
                 goalsList.let(result::addAll)
             }
@@ -196,7 +203,7 @@ class StatisticsViewDataInteractor @Inject constructor(
             rangeLength = rangeLength,
             position = shift,
             startOfDayShift = prefsInteractor.getStartOfDayShift(),
-            firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+            firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
         )
         StatisticsTitleViewData(title).let(::add)
         DividerViewData(1).let(::add)

@@ -209,6 +209,7 @@
     <string name="settings_reverse_order_in_calendar">ترتیب برعکس  تاریخچه ها</string>
     <string name="settings_days_in_calendar">روزها در تقویم</string>
     <string name="settings_show_activity_filters">فیلتر فعالیت ها را در صفحه اصلی نمایش بده</string>
+    <string name="settings_show_goals_separately">نمایش اهداف در یک برگه جداگانه</string>
     <string name="settings_allow_multitasking">انجام دادن همزمان فعالیت ها</string>
     <string name="settings_allow_multitasking_hint">اگر غیر فعال باشد شروع تایمر های جدید فعالیت های دیگر را متوقف می کند</string>
     <string name="settings_show_notifications">تایمر را در اعلان ها نمایش بده</string>

@@ -209,6 +209,7 @@
     <string name="settings_reverse_order_in_calendar">Ordine inverso dei record</string>
     <string name="settings_days_in_calendar">Giorni in calendario</string>
     <string name="settings_show_activity_filters">Mostra i filtri delle attività sulla schermata principale</string>
+    <string name="settings_show_goals_separately">Mostra gli obiettivi in una scheda separata</string>
     <string name="settings_allow_multitasking">Abilita multitasking</string>
     <string name="settings_allow_multitasking_hint">Se disabilitato, avviare un nuovo timer fermerà automaticamente le altre attività.</string>
     <string name="settings_show_notifications">Mostra le notifiche relative al timer.</string>

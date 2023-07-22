@@ -209,6 +209,7 @@
     <string name="settings_reverse_order_in_calendar">Inverser l\'ordre des enregistrements</string>
     <string name="settings_days_in_calendar">Jours dans le calendrier</string>
     <string name="settings_show_activity_filters">Afficher les filtres d\'activité sur l\'écran principal</string>
+    <string name="settings_show_goals_separately">Afficher les objectifs dans un onglet séparé</string>
     <string name="settings_allow_multitasking">Autoriser le multitâche</string>
     <string name="settings_allow_multitasking_hint">Si désactivé, le démarrage d\'une nouvelle activité arrêtera automatiquement les autres activités en cours.</string>
     <string name="settings_show_notifications">Afficher les notifications d\'activité</string>

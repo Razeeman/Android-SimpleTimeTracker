@@ -209,6 +209,7 @@
     <string name="settings_reverse_order_in_calendar">Omgekeerde volgorde van records</string>
     <string name="settings_days_in_calendar">Dagen in kalender</string>
     <string name="settings_show_activity_filters">Activiteitsfilters weergeven op hoofdscherm</string>
+    <string name="settings_show_goals_separately">Toon doelen op een apart tabblad</string>
     <string name="settings_allow_multitasking">Multitasking toestaan</string>
     <string name="settings_allow_multitasking_hint">Indien uitgeschakeld, zal het starten van een nieuwe timer automatisch andere activiteiten stoppen.</string>
     <string name="settings_show_notifications">Timer-meldingen tonen</string>

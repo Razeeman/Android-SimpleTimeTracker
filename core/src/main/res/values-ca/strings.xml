@@ -209,6 +209,7 @@
     <string name="settings_reverse_order_in_calendar">Inverteix l\'ordre dels enregistraments</string>
     <string name="settings_days_in_calendar">Dies al calendari</string>
     <string name="settings_show_activity_filters">Mostra els filtres d\'activitat a la pantalla principal.</string>
+    <string name="settings_show_goals_separately">Mostra els objectius en una pestanya separada</string>
     <string name="settings_allow_multitasking">Permet la multitasca</string>
     <string name="settings_allow_multitasking_hint">Si és desactivat, en començar un nou temporitzador s\'aturaran automàticament les altres activitats.</string>
     <string name="settings_show_notifications">Mostra notificacions del temporitzador</string>

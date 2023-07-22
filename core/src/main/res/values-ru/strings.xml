@@ -209,6 +209,7 @@
     <string name="settings_reverse_order_in_calendar">Обратный порядок записей</string>
     <string name="settings_days_in_calendar">Дней в календаре</string>
     <string name="settings_show_activity_filters">Показывать фильтры активности на главном экране</string>
+    <string name="settings_show_goals_separately">Показывать цели на отдельной вкладке</string>
     <string name="settings_allow_multitasking">Разрешить многозадачность</string>
     <string name="settings_allow_multitasking_hint">Если отключено, запуск нового таймера автоматически остановит другие активности.</string>
     <string name="settings_show_notifications">Показывать уведомления таймера</string>

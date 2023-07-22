@@ -209,6 +209,7 @@
     <string name="settings_reverse_order_in_calendar">倒序记录</string>
     <string name="settings_days_in_calendar">日历中的天数</string>
     <string name="settings_show_activity_filters">在主屏幕上显示活动过滤器</string>
+    <string name="settings_show_goals_separately">在单独的选项卡上显示目标</string>
     <string name="settings_allow_multitasking">允许同时对多个活动进行追踪</string>
     <string name="settings_allow_multitasking_hint">如果不启用，启动新活动追踪时，将自动停止追踪其他活动。</string>
     <string name="settings_show_notifications">显示计时通知</string>

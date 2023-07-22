@@ -209,6 +209,7 @@
     <string name="settings_reverse_order_in_calendar">Reverse order of records</string>
     <string name="settings_days_in_calendar">Days in calendar</string>
     <string name="settings_show_activity_filters">Show activity filters on main screen</string>
+    <string name="settings_show_goals_separately">Show goals on a separate tab</string>
     <string name="settings_allow_multitasking">Allow multitasking</string>
     <string name="settings_allow_multitasking_hint">If disabled starting new timer will automatically stop other activities.</string>
     <string name="settings_show_notifications">Show timer notifications</string>

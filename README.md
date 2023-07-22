@@ -110,6 +110,7 @@ Simple app that helps track how much time you spend on all the useless activitie
     │   ├── feature_change_running_record     # Edit timer screen.
     │   ├── feature_date_edit                 # Data edit screen.
     │   ├── feature_dialogs                   # Dialogs.
+    │   ├── feature_goals                     # Separate screen for goals.
     │   ├── feature_main                      # Main screen with tabs.
     │   ├── feature_notification              # Notifications.
     │   ├── feature_records                   # One of main tabs, records list.

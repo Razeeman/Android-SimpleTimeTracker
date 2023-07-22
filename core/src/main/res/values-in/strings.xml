@@ -209,6 +209,7 @@
     <string name="settings_reverse_order_in_calendar">Urutan terbalik catatan</string>
     <string name="settings_days_in_calendar">Hari dalam kalender</string>
     <string name="settings_show_activity_filters">Tampilkan filter aktivitas di layar utama</string>
+    <string name="settings_show_goals_separately">Tampilkan sasaran di tab terpisah</string>
     <string name="settings_allow_multitasking">Izinkan tugas ganda</string>
     <string name="settings_allow_multitasking_hint">Jika dinonaktifkan memulai pewaktu baru akan secara otomatis menghentikan kegiatan-kegiatan lain.</string>
     <string name="settings_show_notifications">Tampilkan notifikasi pewaktu</string>

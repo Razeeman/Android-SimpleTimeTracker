@@ -13,7 +13,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.extension.addOnPageChangeCallback
-import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_KEY
 import com.example.util.simpletimetracker.core.view.SafeFragmentStateAdapter
@@ -21,7 +20,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.extensions.getThemedAttr
 import com.example.util.simpletimetracker.feature_main.R
 import com.example.util.simpletimetracker.feature_main.adapter.MainContentAdapter
-import com.example.util.simpletimetracker.feature_main.mapper.MainMapper
+import com.example.util.simpletimetracker.feature_main.provider.MainTabsProvider
 import com.example.util.simpletimetracker.feature_main.viewModel.MainViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -39,11 +38,11 @@ class MainFragment : BaseFragment<Binding>() {
     lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
 
     @Inject
-    lateinit var mainMapper: MainMapper
+    lateinit var mainTabsProvider: MainTabsProvider
 
     private val viewModel: MainViewModel by viewModels()
     private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
-        factoryProducer = { mainTabsViewModelFactory }
+        factoryProducer = { mainTabsViewModelFactory },
     )
 
     private val selectedColorFilter by lazy { getColorFilter(R.attr.appTabSelectedColor) }
@@ -51,7 +50,7 @@ class MainFragment : BaseFragment<Binding>() {
     private val backPressedCallback: OnBackPressedCallback = getOnBackPressedCallback()
     private var shortcutNavigationHandled = false
     private val mainPagePosition by lazy {
-        NavigationTab.RunningRecords.let(mainMapper::mapTabToPosition)
+        mainTabsProvider.mainTab.let(mainTabsProvider::mapTabToPosition)
     }
 
     override fun initUi() {
@@ -65,20 +64,21 @@ class MainFragment : BaseFragment<Binding>() {
     }
 
     private fun setupPager() = with(binding) {
-        mainPager.adapter = SafeFragmentStateAdapter(MainContentAdapter(this@MainFragment))
+        mainPager.adapter = SafeFragmentStateAdapter(
+            MainContentAdapter(
+                fragment = this@MainFragment,
+                tabs = mainTabsProvider.tabsList,
+            ),
+        )
         mainPager.offscreenPageLimit = 3 // Same as number of pages to avoid recreating.
         mainPager.addOnPageChangeCallback(lifecycleOwner = this@MainFragment) { state ->
             mainTabsViewModel.onScrollStateChanged(
-                isScrolling = state != ViewPager2.SCROLL_STATE_IDLE
+                isScrolling = state != ViewPager2.SCROLL_STATE_IDLE,
             )
         }
 
         TabLayoutMediator(mainTabs, mainPager) { tab, position ->
-            position
-                .let(mainMapper::mapPositionToTab)
-                .let(mainMapper::mapToIcon)
-                .let(tab::setIcon)
-
+            position.let(mainTabsProvider::mapPositionToIcon).let(tab::setIcon)
             tab.icon?.colorFilter = if (position == mainPagePosition) {
                 selectedColorFilter
             } else {
@@ -86,22 +86,24 @@ class MainFragment : BaseFragment<Binding>() {
             }
         }.attach()
 
-        mainTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                tab?.position
-                    ?.let(mainMapper::mapPositionToTab)
-                    ?.let(mainTabsViewModel::onTabReselected)
-            }
+        mainTabs.addOnTabSelectedListener(
+            object : TabLayout.OnTabSelectedListener {
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                    tab?.position
+                        ?.let(mainTabsProvider::mapPositionToTab)
+                        ?.let(mainTabsViewModel::onTabReselected)
+                }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                tab?.icon?.colorFilter = unselectedColorFilter
-            }
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                    tab?.icon?.colorFilter = unselectedColorFilter
+                }
 
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                tab?.icon?.colorFilter = selectedColorFilter
-                backPressedCallback.isEnabled = tab?.position.orZero() != mainPagePosition
-            }
-        })
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    tab?.icon?.colorFilter = selectedColorFilter
+                    backPressedCallback.isEnabled = tab?.position.orZero() != mainPagePosition
+                }
+            },
+        )
     }
 
     private fun getOnBackPressedCallback(): OnBackPressedCallback {
@@ -117,8 +119,7 @@ class MainFragment : BaseFragment<Binding>() {
 
         activity?.intent?.extras
             ?.getString(SHORTCUT_NAVIGATION_KEY)
-            ?.let(mainMapper::mapNavigationToTab)
-            ?.let(mainMapper::mapTabToPosition)
+            ?.let(mainTabsProvider::mapNavigationToPosition)
             ?.let {
                 mainPager.setCurrentItem(it, true)
                 shortcutNavigationHandled = true
@@ -128,7 +129,7 @@ class MainFragment : BaseFragment<Binding>() {
     private fun getColorFilter(@AttrRes attrRes: Int): ColorFilter? {
         return BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
             requireContext().getThemedAttr(attrRes),
-            BlendModeCompat.SRC_IN
+            BlendModeCompat.SRC_IN,
         )
     }
 }
