@@ -5,6 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
 fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, observer: (T) -> Unit) {
     observe(
@@ -14,7 +17,7 @@ fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, observer: (T) -> Unit) {
                 removeObserver(this)
                 observer(value)
             }
-        }
+        },
     )
 }
 
@@ -58,5 +61,16 @@ private fun <T : Any?> MutableLiveData<T>.setValueIfNotEqual(arg: T) {
     val value = value
     if (!objectsEquals(value, arg)) {
         this.value = arg
+    }
+}
+
+fun <T> ViewModel.lazySuspend(
+    initializer: suspend () -> T,
+): Lazy<MutableLiveData<T>> = lazy {
+    MutableLiveData<T>().let { initial ->
+        viewModelScope.launch {
+            initial.value = initializer()
+        }
+        initial
     }
 }

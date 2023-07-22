@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.BuildConfig
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
+import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermissionInteractor
 import com.example.util.simpletimetracker.core.interactor.CheckNotificationsPermissionInteractor
@@ -67,312 +68,74 @@ class SettingsViewModel @Inject constructor(
     private val checkNotificationsPermissionInteractor: CheckNotificationsPermissionInteractor,
 ) : ViewModel() {
 
-    val daysInCalendarViewData: LiveData<DaysInCalendarViewData> by lazy {
-        MutableLiveData<DaysInCalendarViewData>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadDaysInCalendarViewData()
-            }
-            initial
-        }
-    }
-
-    val cardOrderViewData: LiveData<CardOrderViewData> by lazy {
-        MutableLiveData<CardOrderViewData>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadCardOrderViewData()
-            }
-            initial
-        }
-    }
-
-    val btnCardOrderManualVisibility: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getCardOrder() == CardOrder.MANUAL
-            }
-            initial
-        }
-    }
-
-    val firstDayOfWeekViewData: LiveData<FirstDayOfWeekViewData> by lazy {
-        MutableLiveData<FirstDayOfWeekViewData>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadFirstDayOfWeekViewData()
-            }
-            initial
-        }
-    }
-
-    val showUntrackedInRecordsCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getShowUntrackedInRecords()
-            }
-            initial
-        }
-    }
-
-    val showUntrackedInStatisticsCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getShowUntrackedInStatistics()
-            }
-            initial
-        }
-    }
-
-    val untrackedRangeViewData: LiveData<SettingsUntrackedRangeViewData> by lazy {
-        MutableLiveData<SettingsUntrackedRangeViewData>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadUntrackedRangeViewData()
-            }
-            initial
-        }
-    }
-
-    val showRecordsCalendarCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getShowRecordsCalendar()
-            }
-            initial
-        }
-    }
-
-    val reverseOrderInCalendarCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getReverseOrderInCalendar()
-            }
-            initial
-        }
-    }
-
-    val showActivityFiltersCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getShowActivityFilters()
-            }
-            initial
-        }
-    }
-
-    val showGoalsSeparatelyCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getShowGoalsSeparately()
-            }
-            initial
-        }
-    }
-
-    val allowMultitaskingCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getAllowMultitasking()
-            }
-            initial
-        }
-    }
-
-    val showNotificationsCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getShowNotifications()
-            }
-            initial
-        }
-    }
-
-    val showNotificationsControlsCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getShowNotificationsControls()
-            }
-            initial
-        }
-    }
-
-    val keepStatisticsRangeCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getKeepStatisticsRange()
-            }
-            initial
-        }
-    }
-
-    val startOfDayViewData: LiveData<SettingsStartOfDayViewData> by lazy {
-        MutableLiveData<SettingsStartOfDayViewData>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadStartOfDayViewData()
-            }
-            initial
-        }
-    }
-
-    val inactivityReminderViewData: LiveData<SettingsDurationViewData> by lazy {
-        MutableLiveData<SettingsDurationViewData>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadInactivityReminderViewData()
-            }
-            initial
-        }
-    }
-
-    val inactivityReminderRecurrentCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getInactivityReminderRecurrent()
-            }
-            initial
-        }
-    }
-
-    val inactivityReminderDndStartViewData: LiveData<String> by lazy {
-        MutableLiveData<String>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadInactivityReminderDndStartViewData()
-            }
-            initial
-        }
-    }
-
-    val inactivityReminderDndEndViewData: LiveData<String> by lazy {
-        MutableLiveData<String>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadInactivityReminderDndEndViewData()
-            }
-            initial
-        }
-    }
-
-    val activityReminderViewData: LiveData<SettingsDurationViewData> by lazy {
-        MutableLiveData<SettingsDurationViewData>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadActivityReminderViewData()
-            }
-            initial
-        }
-    }
-
-    val activityReminderRecurrentCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getActivityReminderRecurrent()
-            }
-            initial
-        }
-    }
-
-    val activityReminderDndStartViewData: LiveData<String> by lazy {
-        MutableLiveData<String>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadActivityReminderDndStartViewData()
-            }
-            initial
-        }
-    }
-
-    val activityReminderDndEndViewData: LiveData<String> by lazy {
-        MutableLiveData<String>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadActivityReminderDndEndViewData()
-            }
-            initial
-        }
-    }
-
-    val ignoreShortRecordsViewData: LiveData<String> by lazy {
-        MutableLiveData<String>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadIgnoreShortRecordsViewData()
-            }
-            initial
-        }
-    }
-
-    val ignoreShortUntrackedViewData: LiveData<String> by lazy {
-        MutableLiveData<String>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadIgnoreShortUntrackedViewData()
-            }
-            initial
-        }
-    }
-
-    val darkModeViewData: LiveData<DarkModeViewData> by lazy {
-        MutableLiveData<DarkModeViewData>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadDarkModeViewData()
-            }
-            initial
-        }
-    }
-
-    val languageViewData: LiveData<LanguageViewData> by lazy {
-        MutableLiveData<LanguageViewData>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadLanguageViewData()
-            }
-            initial
-        }
-    }
-
-    val showRecordTagSelectionCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getShowRecordTagSelection()
-            }
-            initial
-        }
-    }
-
-    val recordTagSelectionCloseCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getRecordTagSelectionCloseAfterOne()
-            }
-            initial
-        }
-    }
-
-    val recordTagSelectionForGeneralTagsCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getRecordTagSelectionEvenForGeneralTags()
-            }
-            initial
-        }
-    }
-
-    val automatedTrackingSendEventsCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getAutomatedTrackingSendEvents()
-            }
-            initial
-        }
-    }
-
-    val useMilitaryTimeCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getUseMilitaryTimeFormat()
-            }
-            initial
-        }
-    }
-
-    val useMilitaryTimeHint: LiveData<String> by lazy {
-        MutableLiveData<String>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadUseMilitaryTimeViewData()
-            }
-            initial
-        }
-    }
-
+    val daysInCalendarViewData: LiveData<DaysInCalendarViewData>
+        by lazySuspend { loadDaysInCalendarViewData() }
+    val cardOrderViewData: LiveData<CardOrderViewData>
+        by lazySuspend { loadCardOrderViewData() }
+    val btnCardOrderManualVisibility: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getCardOrder() == CardOrder.MANUAL }
+    val firstDayOfWeekViewData: LiveData<FirstDayOfWeekViewData>
+        by lazySuspend { loadFirstDayOfWeekViewData() }
+    val showUntrackedInRecordsCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getShowUntrackedInRecords() }
+    val showUntrackedInStatisticsCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getShowUntrackedInStatistics() }
+    val untrackedRangeViewData: LiveData<SettingsUntrackedRangeViewData>
+        by lazySuspend { loadUntrackedRangeViewData() }
+    val showRecordsCalendarCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getShowRecordsCalendar() }
+    val reverseOrderInCalendarCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getReverseOrderInCalendar() }
+    val showActivityFiltersCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getShowActivityFilters() }
+    val showGoalsSeparatelyCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getShowGoalsSeparately() }
+    val allowMultitaskingCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getAllowMultitasking() }
+    val showNotificationsCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getShowNotifications() }
+    val showNotificationsControlsCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getShowNotificationsControls() }
+    val keepStatisticsRangeCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getKeepStatisticsRange() }
+    val startOfDayViewData: LiveData<SettingsStartOfDayViewData>
+        by lazySuspend { loadStartOfDayViewData() }
+    val inactivityReminderViewData: LiveData<SettingsDurationViewData>
+        by lazySuspend { loadInactivityReminderViewData() }
+    val inactivityReminderRecurrentCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getInactivityReminderRecurrent() }
+    val inactivityReminderDndStartViewData: LiveData<String>
+        by lazySuspend { loadInactivityReminderDndStartViewData() }
+    val inactivityReminderDndEndViewData: LiveData<String>
+        by lazySuspend { loadInactivityReminderDndEndViewData() }
+    val activityReminderViewData: LiveData<SettingsDurationViewData>
+        by lazySuspend { loadActivityReminderViewData() }
+    val activityReminderRecurrentCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getActivityReminderRecurrent() }
+    val activityReminderDndStartViewData: LiveData<String>
+        by lazySuspend { loadActivityReminderDndStartViewData() }
+    val activityReminderDndEndViewData: LiveData<String>
+        by lazySuspend { loadActivityReminderDndEndViewData() }
+    val ignoreShortRecordsViewData: LiveData<String>
+        by lazySuspend { loadIgnoreShortRecordsViewData() }
+    val ignoreShortUntrackedViewData: LiveData<String>
+        by lazySuspend { loadIgnoreShortUntrackedViewData() }
+    val darkModeViewData: LiveData<DarkModeViewData>
+        by lazySuspend { loadDarkModeViewData() }
+    val languageViewData: LiveData<LanguageViewData>
+        by lazySuspend { loadLanguageViewData() }
+    val showRecordTagSelectionCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getShowRecordTagSelection() }
+    val recordTagSelectionCloseCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getRecordTagSelectionCloseAfterOne() }
+    val recordTagSelectionForGeneralTagsCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getRecordTagSelectionEvenForGeneralTags() }
+    val automatedTrackingSendEventsCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getAutomatedTrackingSendEvents() }
+    val useMilitaryTimeCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getUseMilitaryTimeFormat() }
+    val useMilitaryTimeHint: LiveData<String>
+        by lazySuspend { loadUseMilitaryTimeViewData() }
     val useMonthDayTimeCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
@@ -391,49 +154,18 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    val useProportionalMinutesCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getUseProportionalMinutes()
-            }
-            initial
-        }
-    }
-
-    val showSecondsCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getShowSeconds()
-            }
-            initial
-        }
-    }
-
-    val keepScreenOnCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getKeepScreenOn()
-            }
-            initial
-        }
-    }
-
-    val useProportionalMinutesHint: LiveData<String> by lazy {
-        MutableLiveData<String>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadUseProportionalMinutesViewData()
-            }
-            initial
-        }
-    }
-
-    val translatorsViewData: LiveData<List<SettingsTranslatorViewData>> by lazy {
-        MutableLiveData(loadTranslatorsViewData())
-    }
-
-    val versionName: LiveData<String> by lazy {
-        MutableLiveData(loadVersionName())
-    }
+    val useProportionalMinutesCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getUseProportionalMinutes() }
+    val showSecondsCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getShowSeconds() }
+    val keepScreenOnCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getKeepScreenOn() }
+    val useProportionalMinutesHint: LiveData<String>
+        by lazySuspend { loadUseProportionalMinutesViewData() }
+    val translatorsViewData: LiveData<List<SettingsTranslatorViewData>>
+        by lazy { MutableLiveData(loadTranslatorsViewData()) }
+    val versionName: LiveData<String>
+        by lazy { MutableLiveData(loadVersionName()) }
 
     val themeChanged: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val settingsNotificationsVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -486,8 +218,8 @@ class SettingsViewModel @Inject constructor(
                 email = resourceRepo.getString(R.string.support_email),
                 subject = resourceRepo.getString(R.string.support_email_subject),
                 chooserTitle = resourceRepo.getString(R.string.settings_email_chooser_title),
-                notHandledCallback = { R.string.message_app_not_found.let(::showMessage) }
-            )
+                notHandledCallback = { R.string.message_app_not_found.let(::showMessage) },
+            ),
         )
     }
 
@@ -652,7 +384,7 @@ class SettingsViewModel @Inject constructor(
             } else {
                 checkNotificationsPermissionInteractor.execute(
                     onEnabled = { updateValue(true) },
-                    onDisabled = { updateValue(false) }
+                    onDisabled = { updateValue(false) },
                 )
             }
         }
@@ -681,7 +413,7 @@ class SettingsViewModel @Inject constructor(
         fun openDialog() {
             DurationDialogParams(
                 tag = INACTIVITY_DURATION_DIALOG_TAG,
-                duration = duration
+                duration = duration,
             ).let(router::navigate)
         }
 
@@ -689,7 +421,7 @@ class SettingsViewModel @Inject constructor(
             openDialog()
         } else {
             checkNotificationsPermissionInteractor.execute(
-                onEnabled = ::openDialog
+                onEnabled = ::openDialog,
             )
         }
     }
@@ -730,7 +462,7 @@ class SettingsViewModel @Inject constructor(
         fun openDialog() {
             DurationDialogParams(
                 tag = ACTIVITY_DURATION_DIALOG_TAG,
-                duration = duration
+                duration = duration,
             ).let(router::navigate)
         }
 
@@ -775,7 +507,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             DurationDialogParams(
                 tag = IGNORE_SHORT_RECORDS_DIALOG_TAG,
-                duration = prefsInteractor.getIgnoreShortRecordsDuration()
+                duration = prefsInteractor.getIgnoreShortRecordsDuration(),
             ).let(router::navigate)
         }
     }
@@ -784,7 +516,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             DurationDialogParams(
                 tag = IGNORE_SHORT_UNTRACKED_DIALOG_TAG,
-                duration = prefsInteractor.getIgnoreShortUntrackedDuration()
+                duration = prefsInteractor.getIgnoreShortUntrackedDuration(),
             ).let(router::navigate)
         }
     }
@@ -1028,7 +760,7 @@ class SettingsViewModel @Inject constructor(
 
     fun onAutomatedTrackingHelpClick() {
         router.navigate(
-            settingsMapper.toAutomatedTrackingHelpDialog()
+            settingsMapper.toAutomatedTrackingHelpDialog(),
         )
     }
 
@@ -1053,7 +785,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun openCardOrderDialog(cardOrder: CardOrder) {
         router.navigate(
-            CardOrderDialogParams(cardOrder)
+            CardOrderDialogParams(cardOrder),
         )
     }
 
@@ -1120,7 +852,7 @@ class SettingsViewModel @Inject constructor(
 
         return SettingsStartOfDayViewData(
             startOfDayValue = settingsMapper.toStartOfDayText(shift, useMilitaryTime = true),
-            startOfDaySign = settingsMapper.toStartOfDaySign(shift)
+            startOfDaySign = settingsMapper.toStartOfDaySign(shift),
         )
     }
 
@@ -1276,12 +1008,18 @@ class SettingsViewModel @Inject constructor(
     }
 
     companion object {
-        private const val INACTIVITY_DURATION_DIALOG_TAG = "inactivity_duration_dialog_tag"
-        private const val INACTIVITY_REMINDER_DND_START_DIALOG_TAG = "inactivity_reminder_dnd_start_dialog_tag"
-        private const val INACTIVITY_REMINDER_DND_END_DIALOG_TAG = "inactivity_reminder_dnd_end_dialog_tag"
-        private const val ACTIVITY_DURATION_DIALOG_TAG = "activity_duration_dialog_tag"
-        private const val ACTIVITY_REMINDER_DND_START_DIALOG_TAG = "activity_reminder_dnd_start_dialog_tag"
-        private const val ACTIVITY_REMINDER_DND_END_DIALOG_TAG = "activity_reminder_dnd_end_dialog_tag"
+        private const val INACTIVITY_DURATION_DIALOG_TAG =
+            "inactivity_duration_dialog_tag"
+        private const val INACTIVITY_REMINDER_DND_START_DIALOG_TAG =
+            "inactivity_reminder_dnd_start_dialog_tag"
+        private const val INACTIVITY_REMINDER_DND_END_DIALOG_TAG =
+            "inactivity_reminder_dnd_end_dialog_tag"
+        private const val ACTIVITY_DURATION_DIALOG_TAG =
+            "activity_duration_dialog_tag"
+        private const val ACTIVITY_REMINDER_DND_START_DIALOG_TAG =
+            "activity_reminder_dnd_start_dialog_tag"
+        private const val ACTIVITY_REMINDER_DND_END_DIALOG_TAG =
+            "activity_reminder_dnd_end_dialog_tag"
         private const val IGNORE_SHORT_RECORDS_DIALOG_TAG = "ignore_short_records_dialog_tag"
         private const val IGNORE_SHORT_UNTRACKED_DIALOG_TAG = "ignore_short_untracked_dialog_tag"
         private const val UNTRACKED_RANGE_START_DIALOG_TAG = "untracked_range_start_dialog_tag"
