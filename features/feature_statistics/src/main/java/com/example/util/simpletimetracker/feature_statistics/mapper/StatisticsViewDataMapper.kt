@@ -40,7 +40,7 @@ class StatisticsViewDataMapper @Inject constructor(
         showSeconds: Boolean,
     ): List<StatisticsViewData> {
         val statisticsFiltered = statistics.filterNot { it.id in filteredIds }
-        val sumDuration = statisticsFiltered.map(Statistics::duration).sum()
+        val sumDuration = statisticsFiltered.sumOf { it.data.duration }
         val statisticsSize = statisticsFiltered.size
 
         return statisticsFiltered
@@ -58,7 +58,7 @@ class StatisticsViewDataMapper @Inject constructor(
                     showSeconds = showSeconds,
                 ) ?: return@mapNotNull null
 
-                item to statistic.duration
+                item to statistic.data.duration
             }
             .sortedByDescending { (_, duration) -> duration }
             .map { (statistics, _) -> statistics }
@@ -103,7 +103,7 @@ class StatisticsViewDataMapper @Inject constructor(
     ): StatisticsViewData? {
         val durationPercent = statisticsMapper.getDurationPercentString(
             sumDuration = sumDuration,
-            duration = statistics.duration,
+            duration = statistics.data.duration,
             statisticsSize = statisticsSize
         )
         val transitionName = "${TransitionNames.STATISTICS_DETAIL}_shift${shift}_id${statistics.id}"
@@ -178,7 +178,7 @@ class StatisticsViewDataMapper @Inject constructor(
     ): String {
         return if (showDuration) {
             timeMapper.formatInterval(
-                interval = statistics.duration,
+                interval = statistics.data.duration,
                 forceSeconds = showSeconds,
                 useProportionalMinutes = useProportionalMinutes,
             )

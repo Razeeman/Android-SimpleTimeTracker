@@ -350,7 +350,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
 
         val durations = activities
             .takeUnless { it.isEmpty() }
-            ?.mapValues { (_, records) -> records.let(statisticsMapper::mapToDuration) }
+            ?.mapValues { (_, records) -> records.let(rangeMapper::mapRecordsToDuration) }
             ?: return emptyList()
         val activitiesSize = activities.size
         val sumDuration = durations.map { (_, duration) -> duration }.sum()
@@ -401,7 +401,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
 
         val durations = tags
             .takeUnless { it.isEmpty() }
-            ?.mapValues { (_, records) -> records.let(statisticsMapper::mapToDuration) }
+            ?.mapValues { (_, records) -> records.let(rangeMapper::mapRecordsToDuration) }
             ?: return emptyList()
         val tagsSize = tags.size
         val sumDuration = durations.map { (_, duration) -> duration }.sum()

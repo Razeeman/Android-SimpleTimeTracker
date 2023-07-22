@@ -3,19 +3,17 @@ package com.example.util.simpletimetracker.domain.interactor
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.mapper.RangeMapper
-import com.example.util.simpletimetracker.domain.mapper.StatisticsMapper
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.domain.model.Statistics
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 class StatisticsInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val getUntrackedRecordsInteractor: GetUntrackedRecordsInteractor,
-    private val statisticsMapper: StatisticsMapper,
     private val rangeMapper: RangeMapper,
 ) {
 
@@ -26,12 +24,14 @@ class StatisticsInteractor @Inject constructor(
         val records = getRecords(range)
 
         records
-            .groupBy { it.typeIds.firstOrNull().orZero() } // Multitask is not available in statistics.
+            .groupBy {
+                it.typeIds.firstOrNull().orZero() // Multitask is not available in statistics.
+            }
             .let {
                 getStatistics(range, it)
             }
             .plus(
-                getUntracked(range, records, addUntracked)
+                getUntracked(range, records, addUntracked),
             )
     }
 
@@ -51,19 +51,33 @@ class StatisticsInteractor @Inject constructor(
         records: Map<Long, List<RecordBase>>,
     ): List<Statistics> {
         return records.map { (id, records) ->
-            Statistics(id, getDuration(range, records))
+            Statistics(
+                id = id,
+                data = getStatisticsData(range, records),
+            )
         }
     }
 
-    fun getDuration(
+    fun getStatisticsData(
         range: Range,
         records: List<RecordBase>,
-    ): Long {
+    ): Statistics.Data {
         // If range is all records - do not clamp to range.
         return if (rangeIsAllRecords(range)) {
-            statisticsMapper.mapToDuration(records)
+            Statistics.Data(
+                duration = records.sumOf(RecordBase::duration),
+                count = records.size.toLong(),
+            )
         } else {
-            statisticsMapper.mapToDurationFromRange(records, range)
+            // Remove parts of the record that is not in the range
+            rangeMapper.getRecordsFromRange(records, range)
+                .map { rangeMapper.clampToRange(it, range) }
+                .let {
+                    Statistics.Data(
+                        duration = it.sumOf(Range::duration),
+                        count = it.size.toLong(),
+                    )
+                }
         }
     }
 
@@ -73,15 +87,20 @@ class StatisticsInteractor @Inject constructor(
         addUntracked: Boolean,
     ): List<Statistics> {
         if (addUntracked) {
-            val untrackedTime = getUntrackedRecordsInteractor.get(
+            val untrackedRanges = getUntrackedRecordsInteractor.get(
                 range = range,
-                records = records.map { Range(it.timeStarted, it.timeEnded) }
-            ).sumOf { it.duration }
+                records = records.map { Range(it.timeStarted, it.timeEnded) },
+            )
+            val untrackedTime = untrackedRanges.sumOf { it.duration }
+            val untrackedCount = untrackedRanges.size
 
             if (untrackedTime > 0L) {
                 return Statistics(
                     id = UNTRACKED_ITEM_ID,
-                    duration = untrackedTime
+                    data = Statistics.Data(
+                        duration = untrackedTime,
+                        count = untrackedCount.toLong(),
+                    ),
                 ).let(::listOf)
             }
         }

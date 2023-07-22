@@ -50,7 +50,7 @@ class StatisticsChartViewDataInteractor @Inject constructor(
             statistics = statistics,
             data = chartDataHolders,
             recordTypesFiltered = filteredIds,
-            isDarkTheme = isDarkTheme
+            isDarkTheme = isDarkTheme,
         )
     }
 
@@ -63,13 +63,12 @@ class StatisticsChartViewDataInteractor @Inject constructor(
         return statistics
             .filterNot { it.id in recordTypesFiltered }
             .mapNotNull { statistic ->
-                (
-                    mapChart(
-                        statistics = statistic,
-                        dataHolder = data[statistic.id],
-                        isDarkTheme = isDarkTheme
-                    ) ?: return@mapNotNull null
-                    ) to statistic.duration
+                val chart = mapChart(
+                    statistics = statistic,
+                    dataHolder = data[statistic.id],
+                    isDarkTheme = isDarkTheme,
+                ) ?: return@mapNotNull null
+                chart to statistic.data.duration
             }
             .sortedByDescending { (_, duration) -> duration }
             .map { (statistics, _) -> statistics }
@@ -83,25 +82,25 @@ class StatisticsChartViewDataInteractor @Inject constructor(
         return when {
             statistics.id == UNTRACKED_ITEM_ID -> {
                 PiePortion(
-                    value = statistics.duration,
+                    value = statistics.data.duration,
                     colorInt = colorMapper.toUntrackedColor(isDarkTheme),
-                    iconId = RecordTypeIcon.Image(R.drawable.unknown)
+                    iconId = RecordTypeIcon.Image(R.drawable.unknown),
                 )
             }
             statistics.id == UNCATEGORIZED_ITEM_ID -> {
                 PiePortion(
-                    value = statistics.duration,
+                    value = statistics.data.duration,
                     colorInt = colorMapper.toUntrackedColor(isDarkTheme),
                     iconId = RecordTypeIcon.Image(R.drawable.untagged),
                 )
             }
             dataHolder != null -> {
                 PiePortion(
-                    value = statistics.duration,
+                    value = statistics.data.duration,
                     colorInt = dataHolder.color
                         .let { colorMapper.mapToColorInt(it, isDarkTheme) },
                     iconId = dataHolder.icon
-                        ?.let(iconMapper::mapIcon)
+                        ?.let(iconMapper::mapIcon),
                 )
             }
             else -> {

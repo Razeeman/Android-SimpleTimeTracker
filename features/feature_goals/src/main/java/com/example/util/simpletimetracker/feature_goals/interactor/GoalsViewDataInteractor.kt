@@ -35,12 +35,10 @@ class GoalsViewDataInteractor @Inject constructor(
         val showSeconds = prefsInteractor.getShowSeconds()
         val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val goals = recordTypeGoalInteractor.getAll()
-        val goalsMap = goals.groupBy(RecordTypeGoal::typeId)
 
         val dataHolders = statisticsMediator.getDataHolders(
             filterType = filterType,
             types = types,
-            goals = goalsMap,
         )
 
         val items = goals
@@ -66,6 +64,8 @@ class GoalsViewDataInteractor @Inject constructor(
             }
             .map { rangeLength ->
                 getViewDataForRange(
+                    goals = goals,
+                    types = types,
                     filterType = filterType,
                     rangeLength = rangeLength,
                     dataHolders = dataHolders,
@@ -84,6 +84,8 @@ class GoalsViewDataInteractor @Inject constructor(
     }
 
     private suspend fun getViewDataForRange(
+        goals: List<RecordTypeGoal>,
+        types: Map<Long, RecordType>,
         filterType: ChartFilterType,
         rangeLength: RangeLength,
         dataHolders: Map<Long, StatisticsDataHolder>,
@@ -97,15 +99,13 @@ class GoalsViewDataInteractor @Inject constructor(
             rangeLength = rangeLength,
             shift = 0,
         )
-        val goalsStatistics = statisticsMediator.getGoals(
-            statistics = statistics,
-            rangeLength = rangeLength,
-            filterType = filterType,
-        )
         val result = mutableListOf<ViewHolderType>()
         val items = goalViewDataMapper.mapList(
+            goals = goals,
+            types = types,
+            filterType = filterType,
             rangeLength = rangeLength,
-            statistics = goalsStatistics,
+            statistics = statistics,
             data = dataHolders,
             isDarkTheme = isDarkTheme,
             useProportionalMinutes = useProportionalMinutes,

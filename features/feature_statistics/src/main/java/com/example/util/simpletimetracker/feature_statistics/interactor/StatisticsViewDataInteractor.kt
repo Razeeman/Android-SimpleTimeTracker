@@ -13,7 +13,6 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
@@ -21,9 +20,9 @@ import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsVi
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsTitleViewData
 import com.example.util.simpletimetracker.feature_views.pieChart.PiePortion
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 class StatisticsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
@@ -90,7 +89,6 @@ class StatisticsViewDataInteractor @Inject constructor(
         val showSeconds = prefsInteractor.getShowSeconds()
         val showDuration = rangeLength !is RangeLength.All
         val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
-        val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
         val showGoalsSeparately = prefsInteractor.getShowGoalsSeparately()
 
         val filteredIds = when (filterType) {
@@ -103,7 +101,6 @@ class StatisticsViewDataInteractor @Inject constructor(
         val dataHolders = statisticsMediator.getDataHolders(
             filterType = filterType,
             types = types,
-            goals = goals,
         )
         val statistics = statisticsMediator.getStatistics(
             filterType = filterType,
@@ -111,19 +108,6 @@ class StatisticsViewDataInteractor @Inject constructor(
             rangeLength = rangeLength,
             shift = shift,
         )
-        // Don't show goals in the future if there is no records there.
-        val goalsStatistics = if (
-            (shift > 0 && statistics.isEmpty()) ||
-            showGoalsSeparately
-        ) {
-            emptyList()
-        } else {
-            statisticsMediator.getGoals(
-                statistics = statistics,
-                rangeLength = rangeLength,
-                filterType = filterType,
-            )
-        }
         val chart = statisticsChartViewDataInteractor.getChart(
             filterType = filterType,
             filteredIds = filteredIds,
@@ -157,14 +141,26 @@ class StatisticsViewDataInteractor @Inject constructor(
             useProportionalMinutes = useProportionalMinutes,
             showSeconds = showSeconds,
         )
-        val goalsList = goalViewDataMapper.mapList(
-            rangeLength = rangeLength,
-            statistics = goalsStatistics.filterNot { it.id in filteredIds },
-            data = dataHolders,
-            isDarkTheme = isDarkTheme,
-            useProportionalMinutes = useProportionalMinutes,
-            showSeconds = showSeconds,
-        )
+        // Don't show goals in the future if there is no records there.
+        val goalsList = if (
+            (shift > 0 && statistics.isEmpty()) ||
+            showGoalsSeparately
+        ) {
+            emptyList()
+        } else {
+            val goals = recordTypeGoalInteractor.getAll()
+            goalViewDataMapper.mapList(
+                goals = goals,
+                types = types,
+                filterType = filterType,
+                rangeLength = rangeLength,
+                statistics = statistics.filterNot { it.id in filteredIds },
+                data = dataHolders,
+                isDarkTheme = isDarkTheme,
+                useProportionalMinutes = useProportionalMinutes,
+                showSeconds = showSeconds,
+            )
+        }
         val totalTracked: ViewHolderType = statisticsMediator.getStatisticsTotalTracked(
             statistics = statistics,
             filteredIds = filteredIds,
@@ -187,6 +183,7 @@ class StatisticsViewDataInteractor @Inject constructor(
                 statisticsViewDataMapper.mapToHint().let(result::add)
             }
             if (goalsList.isNotEmpty()) {
+                DividerViewData(1).let(result::add)
                 statisticsViewDataMapper.mapToGoalHint().let(result::add)
                 goalsList.let(result::addAll)
             }

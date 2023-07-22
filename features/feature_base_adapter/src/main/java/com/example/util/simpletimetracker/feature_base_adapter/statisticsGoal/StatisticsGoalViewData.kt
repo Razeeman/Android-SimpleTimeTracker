@@ -21,15 +21,5 @@ data class StatisticsGoalViewData(
         val goalPercent: String,
         val goalComplete: Boolean,
         val percent: Long,
-    ) {
-
-        companion object {
-            fun empty(): Goal = Goal(
-                goalTime = "",
-                goalPercent = "",
-                goalComplete = false,
-                percent = 0,
-            )
-        }
-    }
+    )
 }

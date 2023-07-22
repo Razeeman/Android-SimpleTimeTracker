@@ -131,7 +131,6 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         val dataHolders = statisticsMediator.getDataHolders(
             filterType = filterType,
             types = types,
-            goals = emptyMap(), // Not used on pie chart.
         )
         val statistics = statisticsMediator.getStatistics(
             filterType = filterType,

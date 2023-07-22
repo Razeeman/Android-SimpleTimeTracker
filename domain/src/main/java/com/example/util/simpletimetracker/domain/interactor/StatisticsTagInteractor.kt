@@ -39,14 +39,14 @@ class StatisticsTagInteractor @Inject constructor(
         addUncategorized: Boolean,
     ): List<Statistics> {
         if (addUncategorized) {
-            val uncategorizedTime = statisticsInteractor.getDuration(
+            val uncategorizedTime = statisticsInteractor.getStatisticsData(
                 range = range,
                 records = getUntagged(records),
             )
-            if (uncategorizedTime > 0L) {
+            if (uncategorizedTime.duration > 0L) {
                 return Statistics(
                     id = UNCATEGORIZED_ITEM_ID,
-                    duration = uncategorizedTime,
+                    data = uncategorizedTime,
                 ).let(::listOf)
             }
         }

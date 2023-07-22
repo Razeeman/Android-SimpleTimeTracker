@@ -104,6 +104,7 @@ class MainFragment : BaseFragment<Binding>() {
                 }
             },
         )
+        mainPager.setCurrentItem(mainPagePosition, false)
     }
 
     private fun getOnBackPressedCallback(): OnBackPressedCallback {
