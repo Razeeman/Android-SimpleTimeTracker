@@ -35,6 +35,7 @@ class StatisticsMediator @Inject constructor(
     ): List<Statistics> {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
+        val showUntracked = prefsInteractor.getShowUntrackedInStatistics()
 
         val range = timeMapper.getRangeStartAndEnd(
             rangeLength = rangeLength,
@@ -46,7 +47,7 @@ class StatisticsMediator @Inject constructor(
         return getFromRange(
             filterType = filterType,
             range = range,
-            addUntracked = !filteredIds.contains(UNTRACKED_ITEM_ID),
+            addUntracked = !filteredIds.contains(UNTRACKED_ITEM_ID) && showUntracked,
             addUncategorized = !filteredIds.contains(UNCATEGORIZED_ITEM_ID),
         )
     }

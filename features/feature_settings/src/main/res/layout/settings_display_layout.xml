@@ -57,37 +57,51 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="12dp">
+                android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSettingsShowUntracked"
                     style="@style/SettingsText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingTop="0dp"
-                    android:paddingBottom="0dp"
                     android:text="@string/settings_show_untracked_time"
-                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowUntracked"
+                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowUntrackedInRecords"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/SettingsSecondaryText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settings_show_untracked_time_hint"
-                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowUntracked"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvSettingsShowUntracked" />
-
                 <androidx.appcompat.widget.AppCompatCheckBox
-                    android:id="@+id/checkboxSettingsShowUntracked"
+                    android:id="@+id/checkboxSettingsShowUntrackedInRecords"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="@id/tvSettingsShowUntracked"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvSettingsShowUntracked" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsShowUntrackedInStatistics"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="0dp"
+                    android:text="@string/settings_show_untracked_time_statistics"
+                    app:layout_constraintEnd_toStartOf="@id/checkboxSettingsShowUntrackedInStatistics"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkboxSettingsShowUntrackedInStatistics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="12dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsShowUntrackedInStatistics"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsShowUntrackedInStatistics" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -209,7 +223,8 @@
                     android:textColor="?appTextPrimaryColor"
                     app:layout_constraintBottom_toBottomOf="@id/tvSettingsUntrackedRangeStart"
                     app:layout_constraintEnd_toStartOf="@id/tvSettingsUntrackedRangeEnd"
-                    app:layout_constraintTop_toTopOf="@id/tvSettingsUntrackedRangeStart" />
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsUntrackedRangeStart"
+                    tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSettingsUntrackedRangeEnd"

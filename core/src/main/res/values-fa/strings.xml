@@ -200,7 +200,7 @@
     <string name="settings_sort_manually">دستی</string>
     <string name="settings_first_day_of_week">اولین روز هفته</string>
     <string name="settings_show_untracked_time">زمان اندازه گیری نشده را در تاریخچه نمایش بده</string>
-    <string name="settings_show_untracked_time_hint">زمان اندازه گیری نشده در آمارها توسط گزینه فیلتر ها در صفحه آمار ها میتواند مخفی شود</string>
+    <string name="settings_show_untracked_time_statistics">نمایش زمان پیگیری نشده در آمار</string>
     <string name="settings_ignore_short_untracked">چشم پوشی از زمان کوتاه اندازه گیری نشده</string>
     <string name="settings_ignore_short_untracked_hint">زمان اندازه گیری نشده که از زمان معین کوتاه تر است را نمایش نده</string>
     <string name="settings_untracked_range">محدوده اندازه گیری نشده</string>

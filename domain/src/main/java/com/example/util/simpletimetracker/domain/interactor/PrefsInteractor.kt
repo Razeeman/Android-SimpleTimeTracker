@@ -159,6 +159,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.showUntrackedInRecords = isEnabled
     }
 
+    suspend fun getShowUntrackedInStatistics(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.showUntrackedInStatistics
+    }
+
+    suspend fun setShowUntrackedInStatistics(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.showUntrackedInStatistics = isEnabled
+    }
+
     suspend fun getShowRecordsCalendar(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.showRecordsCalendar
     }

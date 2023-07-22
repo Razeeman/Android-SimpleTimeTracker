@@ -53,7 +53,11 @@ class TimeMapperTest {
         fun formatInterval() {
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+            val subject = TimeMapper(
+                localeProvider = localeProvider,
+                resourceRepo = resourceRepo,
+                currentTimestampProvider = currentTimestampProvider
+            )
 
             assertEquals(
                 "Test failed for params $input",
@@ -103,7 +107,11 @@ class TimeMapperTest {
         fun formatInterval() {
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+            val subject = TimeMapper(
+                localeProvider = localeProvider,
+                resourceRepo = resourceRepo,
+                currentTimestampProvider = currentTimestampProvider
+            )
 
             assertEquals(
                 "Test failed for params $input",
@@ -167,7 +175,11 @@ class TimeMapperTest {
         fun formatInterval() {
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+            val subject = TimeMapper(
+                localeProvider = localeProvider,
+                resourceRepo = resourceRepo,
+                currentTimestampProvider = currentTimestampProvider
+            )
 
             assertEquals(
                 "Test failed for params $input",

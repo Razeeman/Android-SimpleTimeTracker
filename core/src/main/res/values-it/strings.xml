@@ -200,7 +200,7 @@
     <string name="settings_sort_manually">Manualmente</string>
     <string name="settings_first_day_of_week">Primo giorno della settimana</string>
     <string name="settings_show_untracked_time">Mostra tempo non tracciato nelle registrazioni</string>
-    <string name="settings_show_untracked_time_hint">Il tempo non tracciato nelle statistiche può essere nascosto utilizzando i filtri nella schermata delle statistiche.</string>
+    <string name="settings_show_untracked_time_statistics">Mostra tempo non tracciato nelle statistiche</string>
     <string name="settings_ignore_short_untracked">Ignora il breve tempo non tracciato</string>
     <string name="settings_ignore_short_untracked_hint">Non mostrare il tempo non tracciato che è più breve del tempo specificato.</string>
     <string name="settings_untracked_range">Gamma non tracciata</string>

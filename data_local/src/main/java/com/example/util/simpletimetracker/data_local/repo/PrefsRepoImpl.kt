@@ -78,7 +78,11 @@ class PrefsRepoImpl @Inject constructor(
     )
 
     override var showUntrackedInRecords: Boolean by prefs.delegate(
-        KEY_SHOW_UNTRACKED_IN_RECORDS, false
+        KEY_SHOW_UNTRACKED_IN_RECORDS, true
+    )
+
+    override var showUntrackedInStatistics: Boolean by prefs.delegate(
+        KEY_SHOW_UNTRACKED_IN_STATISTICS, true
     )
 
     override var showRecordsCalendar: Boolean by prefs.delegate(
@@ -386,6 +390,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_FIRST_DAY_OF_WEEK = "firstDayOfWeek"
         private const val KEY_START_OF_DAY_SHIFT = "startOfDayShift"
         private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
+        private const val KEY_SHOW_UNTRACKED_IN_STATISTICS = "showUntrackedInStatistics"
         private const val KEY_SHOW_RECORDS_CALENDAR = "showRecordsCalendar"
         private const val KEY_REVERSE_ORDER_IN_CALENDAR = "reverseOrderInCalendar"
         private const val KEY_DAYS_IN_CALENDAR = "daysInCalendar"

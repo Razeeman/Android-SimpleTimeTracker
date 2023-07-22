@@ -103,10 +103,19 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    val showUntrackedCheckbox: LiveData<Boolean> by lazy {
+    val showUntrackedInRecordsCheckbox: LiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().let { initial ->
             viewModelScope.launch {
                 initial.value = prefsInteractor.getShowUntrackedInRecords()
+            }
+            initial
+        }
+    }
+
+    val showUntrackedInStatisticsCheckbox: LiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = prefsInteractor.getShowUntrackedInStatistics()
             }
             initial
         }
@@ -543,11 +552,20 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun onShowUntrackedClicked() {
+    fun onShowUntrackedInRecordsClicked() {
         viewModelScope.launch {
             val newValue = !prefsInteractor.getShowUntrackedInRecords()
             prefsInteractor.setShowUntrackedInRecords(newValue)
-            (showUntrackedCheckbox as MutableLiveData).value = newValue
+            showUntrackedInRecordsCheckbox.set(newValue)
+        }
+    }
+
+    fun onShowUntrackedInStatisticsClicked() {
+        viewModelScope.launch {
+            val newValue = !prefsInteractor.getShowUntrackedInStatistics()
+            prefsInteractor.setShowUntrackedInStatistics(newValue)
+            showUntrackedInStatisticsCheckbox.set(newValue)
+            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
         }
     }
 

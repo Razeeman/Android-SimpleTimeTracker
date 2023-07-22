@@ -200,7 +200,7 @@
     <string name="settings_sort_manually">Manuellt</string>
     <string name="settings_first_day_of_week">Första veckodagen</string>
     <string name="settings_show_untracked_time">Visa okategoriserad tid i händelselistan</string>
-    <string name="settings_show_untracked_time_hint">I statistikvyn kan okategoriserad tid döljas med hjälp av filtrering.</string>
+    <string name="settings_show_untracked_time_statistics">Visa okategoriserad tid i statistiken</string>
     <string name="settings_ignore_short_untracked">Ignorera kort ospårad tid</string>
     <string name="settings_ignore_short_untracked_hint">Visa inte ospårad tid som är kortare än den angivna tiden.</string>
     <string name="settings_untracked_range">Ospårad räckvidd</string>

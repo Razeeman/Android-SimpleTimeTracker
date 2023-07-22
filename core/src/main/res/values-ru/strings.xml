@@ -200,7 +200,7 @@
     <string name="settings_sort_manually">Вручную</string>
     <string name="settings_first_day_of_week">Первый день недели</string>
     <string name="settings_show_untracked_time">Показывать неотслеженное время в записях</string>
-    <string name="settings_show_untracked_time_hint">Неотслеженное время в статистике можно скрыть с помощью фильтров на экране статистики.</string>
+    <string name="settings_show_untracked_time_statistics">Показывать неотслеженное время в статистике</string>
     <string name="settings_ignore_short_untracked">Игнорировать короткое неотслеживаемое время</string>
     <string name="settings_ignore_short_untracked_hint">Не показывать неотслеживаемое время, которое короче указанного времени.</string>
     <string name="settings_untracked_range">Неотслеживаемый диапазон</string>

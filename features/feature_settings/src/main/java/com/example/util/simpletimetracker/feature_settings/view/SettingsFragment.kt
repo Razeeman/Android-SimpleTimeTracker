@@ -106,7 +106,8 @@ class SettingsFragment :
             spinnerSettingsDaysInCalendar.onPositionSelected = viewModel::onDaysInCalendarSelected
             spinnerSettingsRecordTypeSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
             btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
-            checkboxSettingsShowUntracked.setOnClick(viewModel::onShowUntrackedClicked)
+            checkboxSettingsShowUntrackedInRecords.setOnClick(viewModel::onShowUntrackedInRecordsClicked)
+            checkboxSettingsShowUntrackedInStatistics.setOnClick(viewModel::onShowUntrackedInStatisticsClicked)
             groupSettingsIgnoreShortUntracked.setOnClick(viewModel::onIgnoreShortUntrackedClicked)
             checkboxSettingsUntrackedRange.setOnClick(viewModel::onUntrackedRangeClicked)
             tvSettingsUntrackedRangeStart.setOnClick(viewModel::onUntrackedRangeStartClicked)
@@ -181,7 +182,8 @@ class SettingsFragment :
                     arrowSettingsDisplay.apply { if (opened) rotateDown() else rotateUp() }
                 }
                 btnCardOrderManualVisibility.observe(btnCardOrderManual::visible::set)
-                showUntrackedCheckbox.observe(checkboxSettingsShowUntracked::setChecked)
+                showUntrackedInRecordsCheckbox.observe(checkboxSettingsShowUntrackedInRecords::setChecked)
+                showUntrackedInStatisticsCheckbox.observe(checkboxSettingsShowUntrackedInStatistics::setChecked)
                 ignoreShortUntrackedViewData.observe(tvSettingsIgnoreShortUntrackedTime::setText)
                 untrackedRangeViewData.observe(::setUntrackedRangeViewData)
                 showRecordsCalendarCheckbox.observe(::updateShowRecordCalendarChecked)
@@ -262,7 +264,8 @@ class SettingsFragment :
         with(layoutSettingsDisplay) {
             spinnerSettingsDaysInCalendar.jumpDrawablesToCurrentState()
             spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
-            checkboxSettingsShowUntracked.jumpDrawablesToCurrentState()
+            checkboxSettingsShowUntrackedInRecords.jumpDrawablesToCurrentState()
+            checkboxSettingsShowUntrackedInStatistics.jumpDrawablesToCurrentState()
             checkboxSettingsUntrackedRange.jumpDrawablesToCurrentState()
             checkboxSettingsShowRecordsCalendar.jumpDrawablesToCurrentState()
             checkboxSettingsReverseOrderInCalendar.jumpDrawablesToCurrentState()

@@ -200,7 +200,7 @@
     <string name="settings_sort_manually">Handmatig</string>
     <string name="settings_first_day_of_week">Eerste dag van de week</string>
     <string name="settings_show_untracked_time">Toon niet-gevolgde tijd in records</string>
-    <string name="settings_show_untracked_time_hint">Niet-bijgehouden tijd in statistieken kan worden verborgen met behulp van filters op het statistiekenscherm.</string>
+    <string name="settings_show_untracked_time_statistics">Toon niet-gevolgde tijd in statistieken</string>
     <string name="settings_ignore_short_untracked">Negeer korte niet-gevolgde tijd</string>
     <string name="settings_ignore_short_untracked_hint">Laat geen niet-gevolgde tijd zien die korter is dan de opgegeven tijd.</string>
     <string name="settings_untracked_range">Ongevolgd bereik</string>

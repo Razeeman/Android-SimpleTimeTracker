@@ -31,6 +31,8 @@ interface PrefsRepo {
 
     var showUntrackedInRecords: Boolean
 
+    var showUntrackedInStatistics: Boolean
+
     var showRecordsCalendar: Boolean
 
     var reverseOrderInCalendar: Boolean

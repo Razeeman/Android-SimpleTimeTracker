@@ -200,7 +200,7 @@
     <string name="settings_sort_manually">Elle</string>
     <string name="settings_first_day_of_week">Haftanın ilk günü</string>
     <string name="settings_show_untracked_time">Kayıtlarda takipsiz zamanı göster</string>
-    <string name="settings_show_untracked_time_hint">İstatistiklerde izlenmeyen zaman, istatistik ekranındaki filtreler kullanılarak gizlenebilir.</string>
+    <string name="settings_show_untracked_time_statistics">İstatistiklerde takipsiz zamanı göster</string>
     <string name="settings_ignore_short_untracked">Takip edilmeyen kısa süreyi yoksay</string>
     <string name="settings_ignore_short_untracked_hint">Belirtilen süreden daha kısa olan izlenmeyen süreyi gösterme.</string>
     <string name="settings_untracked_range">Izlenmeyen aralık</string>

@@ -200,7 +200,7 @@
     <string name="settings_sort_manually">手动</string>
     <string name="settings_first_day_of_week">一周的第一天</string>
     <string name="settings_show_untracked_time">在记录中显示未追踪的时间</string>
-    <string name="settings_show_untracked_time_hint">可以使用统计屏幕上的过滤器隐藏统计中未跟踪的时间。</string>
+    <string name="settings_show_untracked_time_statistics">在统计中显示未跟踪的时间</string>
     <string name="settings_ignore_short_untracked">忽略短的未跟踪时间</string>
     <string name="settings_ignore_short_untracked_hint">不要显示比指定时间短的未跟踪时间。</string>
     <string name="settings_untracked_range">未追踪范围</string>
