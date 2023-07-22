@@ -12,7 +12,11 @@
         tools:layout="@layout/main_fragment">
         <action
             android:id="@+id/action_mainFragment_to_changeRecordTypeFragment"
-            app:destination="@id/changeRecordTypeFragment" />
+            app:destination="@id/changeRecordTypeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainFragment_to_changeRecordFragment"
             app:destination="@id/changeRecordFragment"
@@ -25,7 +29,11 @@
             app:destination="@id/changeRunningRecordFragment" />
         <action
             android:id="@+id/action_mainFragment_to_changeActivityFilterFragment"
-            app:destination="@+id/changeActivityFilterFragment" />
+            app:destination="@+id/changeActivityFilterFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainFragment_to_statisticsDetailFragment"
             app:destination="@id/statisticsDetailFragment" />
@@ -58,7 +66,11 @@
         tools:layout="@layout/change_record_type_fragment">
         <action
             android:id="@+id/action_changeRecordTypeFragment_to_changeCategoryFragment"
-            app:destination="@id/changeCategoryFragment" />
+            app:destination="@id/changeCategoryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/changeRecordFragment"
@@ -67,7 +79,11 @@
         tools:layout="@layout/change_record_fragment">
         <action
             android:id="@+id/action_changeRecordFragment_to_changeRecordTagFragment"
-            app:destination="@id/changeRecordTagFragment" />
+            app:destination="@id/changeRecordTagFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/changeRunningRecordFragment"
@@ -76,7 +92,11 @@
         tools:layout="@layout/change_running_record_fragment">
         <action
             android:id="@+id/action_changeRunningRecordFragment_to_changeRecordTagFragment"
-            app:destination="@id/changeRecordTagFragment" />
+            app:destination="@id/changeRecordTagFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/statisticsDetailFragment"
@@ -110,10 +130,18 @@
         tools:layout="@layout/categories_fragment">
         <action
             android:id="@+id/action_categoriesFragment_to_changeCategoryFragment"
-            app:destination="@id/changeCategoryFragment" />
+            app:destination="@id/changeCategoryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_categoriesFragment_to_changeRecordTagFragment"
-            app:destination="@id/changeRecordTagFragment" />
+            app:destination="@id/changeRecordTagFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/changeCategoryFragment"

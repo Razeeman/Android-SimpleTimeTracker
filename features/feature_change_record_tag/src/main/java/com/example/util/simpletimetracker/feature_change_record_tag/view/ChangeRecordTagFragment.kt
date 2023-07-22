@@ -66,6 +66,7 @@ class ChangeRecordTagFragment :
         setPreview()
 
         setSharedTransitions(
+            additionalCondition = { params !is ChangeTagData.New },
             transitionName = (params as? ChangeTagData.Change)?.transitionName.orEmpty(),
             sharedView = previewChangeRecordTag,
         )
