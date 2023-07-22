@@ -84,7 +84,8 @@
         <attr name="itemIcon" />
         <attr name="itemIconText" />
         <attr name="itemColor" />
-        <attr name="itemGoalTime" format="string" />
+        <attr name="itemGoalCurrent" format="string" />
+        <attr name="itemGoal" format="string" />
         <attr name="itemGoalPercent" format="string" />
         <attr name="itemGoalTimeComplete" format="boolean" />
     </declare-styleable>
@@ -100,7 +101,7 @@
         <attr name="itemComment" />
         <attr name="itemTimer" format="string" />
         <attr name="itemTimerDay" format="string" />
-        <attr name="itemGoalTime" />
+        <attr name="itemGoalTime" format="string" />
         <attr name="itemNowIconVisible" format="boolean" />
     </declare-styleable>
 

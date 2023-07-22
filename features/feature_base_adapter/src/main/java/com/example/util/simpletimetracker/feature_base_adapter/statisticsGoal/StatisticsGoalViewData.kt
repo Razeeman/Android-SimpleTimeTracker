@@ -17,7 +17,8 @@ data class StatisticsGoalViewData(
     override fun isValidType(other: ViewHolderType): Boolean = other is StatisticsGoalViewData
 
     data class Goal(
-        val goalTime: String,
+        val goalCurrent: String,
+        val goal: String,
         val goalPercent: String,
         val goalComplete: Boolean,
         val percent: Long,

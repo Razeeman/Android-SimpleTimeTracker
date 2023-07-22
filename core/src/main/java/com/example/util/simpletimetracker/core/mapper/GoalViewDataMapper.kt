@@ -126,7 +126,9 @@ class GoalViewDataMapper @Inject constructor(
                 mapCount(current) to mapCount(goalValue)
             }
         }
-        val goalString = "$currentValueString\n($goalValueString)"
+        val goalHint = resourceRepo.getString(R.string.change_record_type_goal_time_hint)
+            .lowercase()
+        val goalString = "$goalHint - $goalValueString"
         val goalPercent = if (goalValue == 0L) {
             0
         } else {
@@ -134,7 +136,8 @@ class GoalViewDataMapper @Inject constructor(
         }
 
         return StatisticsGoalViewData.Goal(
-            goalTime = goalString,
+            goalCurrent = currentValueString,
+            goal = goalString,
             goalPercent = goalPercent.let { "$it%" },
             goalComplete = goalComplete,
             percent = goalPercent,

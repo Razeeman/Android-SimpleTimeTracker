@@ -44,9 +44,15 @@ class StatisticsGoalView @JvmOverloads constructor(
             field = value
         }
 
-    var itemGoalTime: String = ""
+    var itemGoalCurrent: String = ""
         set(value) {
-            binding.tvStatisticsGoalItemDuration.text = value
+            binding.tvStatisticsGoalItemCurrent.text = value
+            field = value
+        }
+
+    var itemGoal: String = ""
+        set(value) {
+            binding.tvStatisticsGoalItemGoal.text = value
             field = value
         }
 
@@ -99,8 +105,11 @@ class StatisticsGoalView @JvmOverloads constructor(
                     getString(R.styleable.StatisticsGoalView_itemIconText).orEmpty()
                         .let(RecordTypeIcon::Text)
 
-                if (hasValue(R.styleable.StatisticsGoalView_itemGoalTime)) itemGoalTime =
-                    getString(R.styleable.StatisticsGoalView_itemGoalTime).orEmpty()
+                if (hasValue(R.styleable.StatisticsGoalView_itemGoalCurrent)) itemGoalCurrent =
+                    getString(R.styleable.StatisticsGoalView_itemGoalCurrent).orEmpty()
+
+                if (hasValue(R.styleable.StatisticsGoalView_itemGoal)) itemGoal =
+                    getString(R.styleable.StatisticsGoalView_itemGoal).orEmpty()
 
                 if (hasValue(R.styleable.StatisticsGoalView_itemGoalPercent)) itemGoalPercent =
                     getString(R.styleable.StatisticsGoalView_itemGoalPercent).orEmpty()

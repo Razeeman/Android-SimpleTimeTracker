@@ -37,7 +37,7 @@
             android:textColor="?appLightTextColor"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvStatisticsGoalItemDuration"
+            app:layout_constraintEnd_toStartOf="@id/barrierStatisticsGoalItemGoal"
             app:layout_constraintStart_toEndOf="@id/ivStatisticsGoalItemIcon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Item name" />
@@ -52,8 +52,15 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:background="@color/white" />
 
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierStatisticsGoalItemGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="tvStatisticsGoalItemCurrent, tvStatisticsGoalItemGoal" />
+
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvStatisticsGoalItemDuration"
+            android:id="@+id/tvStatisticsGoalItemCurrent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
@@ -61,10 +68,23 @@
             android:textColor="?appLightTextColor"
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/barrierStatisticsGoalItemGoal"
             app:layout_constraintEnd_toStartOf="@id/dividerStatisticsGoalPercent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="1h 30m\n(8h 30m)" />
+            tools:text="1h 30m" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStatisticsGoalItemGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:textColor="?appLightTextColor"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/dividerStatisticsGoalPercent"
+            app:layout_constraintTop_toBottomOf="@id/tvStatisticsGoalItemCurrent"
+            tools:text="goal 8h 30m" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvStatisticsGoalItemPercent"
