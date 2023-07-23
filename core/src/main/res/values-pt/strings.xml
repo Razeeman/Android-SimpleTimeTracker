@@ -15,6 +15,7 @@
     <string name="record_tag_hint_short">Tags</string>
     <string name="nothing_selected">Nada selecionado</string>
     <string name="something_selected">Selecionada:</string>
+    <string name="no_data">Sem dados</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Ontem</string>
@@ -55,12 +56,10 @@
     <!--  Records  -->
     <string name="record_removed">Registro %s removido</string>
     <string name="record_removed_undo">Desfazer</string>
-    <string name="records_empty">Nada para mostrar</string>
     <string name="records_hint">Clique no registro para editar</string>
     <string name="no_records_exist">Os registros serão mostrados aqui</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">Nada para mostrar</string>
     <string name="statistics_total_tracked">Total monitorado</string>
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Clique no cartão para ver estatísticas detalhadas</string>

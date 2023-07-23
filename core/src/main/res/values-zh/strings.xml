@@ -15,6 +15,7 @@
     <string name="record_tag_hint_short">标签</string>
     <string name="nothing_selected">未选择任何内容</string>
     <string name="something_selected">已选择：</string>
+    <string name="no_data">没有数据</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">昨天</string>
@@ -55,12 +56,10 @@
     <!--  Records  -->
     <string name="record_removed">记录 %s 已删除</string>
     <string name="record_removed_undo">撤消</string>
-    <string name="records_empty">这里什么都没有</string>
     <string name="records_hint">点击记录来编辑</string>
     <string name="no_records_exist">记录将显示在这里</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">这里什么都没有</string>
     <string name="statistics_total_tracked">追踪总数</string>
     <string name="statistics_total_tracked_short">全部的</string>
     <string name="statistics_hint">点击卡片查看详细统计</string>

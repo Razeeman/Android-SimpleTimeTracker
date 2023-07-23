@@ -114,7 +114,7 @@ class RecordViewDataMapper @Inject constructor(
 
     fun mapToEmpty(): ViewHolderType {
         return EmptyViewData(
-            message = R.string.records_empty.let(resourceRepo::getString),
+            message = R.string.no_data.let(resourceRepo::getString),
         )
     }
 

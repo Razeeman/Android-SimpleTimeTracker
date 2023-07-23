@@ -15,6 +15,7 @@
     <string name="record_tag_hint_short">टैग</string>
     <string name="nothing_selected">कुछ भी चयनित नहीं</string>
     <string name="something_selected">चयनित:</string>
+    <string name="no_data">कोई डेटा नहीं</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">कल</string>
@@ -55,12 +56,10 @@
     <!--  Records  -->
     <string name="record_removed">रिकॉर्ड %s हटा दिया गया</string>
     <string name="record_removed_undo">पूर्ववत</string>
-    <string name="records_empty">दिखाने के लिए कुछ भी नहीं</string>
     <string name="records_hint">एडिट करने के लिए रिकॉर्ड पर क्लिक करें</string>
     <string name="no_records_exist">यहां रिकॉर्ड दिखाए जाएंगे</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">दिखाने के लिए कुछ भी नहीं</string>
     <string name="statistics_total_tracked">कुल ट्रैक किया हुआ</string>
     <string name="statistics_total_tracked_short">कुल</string>
     <string name="statistics_hint">विस्तृत आँकड़े देखने के लिए कार्ड पर क्लिक करें</string>

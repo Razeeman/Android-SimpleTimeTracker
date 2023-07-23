@@ -15,6 +15,7 @@
     <string name="record_tag_hint_short">Теги</string>
     <string name="nothing_selected">Ничего не выбрано</string>
     <string name="something_selected">Выбрано:</string>
+    <string name="no_data">Нет данных</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Вчера</string>
@@ -55,12 +56,10 @@
     <!--  Records  -->
     <string name="record_removed">Запись %s удалена</string>
     <string name="record_removed_undo">Отменить</string>
-    <string name="records_empty">Нечего показать</string>
     <string name="records_hint">Нажмите на запись для редактирования</string>
     <string name="no_records_exist">Записи будут отображаться здесь</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">Нечего показать</string>
     <string name="statistics_total_tracked">Всего отслежено</string>
     <string name="statistics_total_tracked_short">Всего</string>
     <string name="statistics_hint">Нажмите на карточку для просмотра детальной статистики</string>

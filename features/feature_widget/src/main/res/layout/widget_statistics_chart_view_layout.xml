@@ -42,7 +42,7 @@
             android:layout_margin="4dp"
             android:gravity="center"
             android:maxLines="2"
-            android:text="@string/statistics_empty"
+            android:text="@string/no_data"
             android:textColor="@color/textPrimaryDark"
             android:textStyle="bold"
             app:autoSizeMaxTextSize="14sp"

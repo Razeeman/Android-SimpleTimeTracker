@@ -15,6 +15,7 @@
     <string name="record_tag_hint_short">タグ</string>
     <string name="nothing_selected">何も選択されていません</string>
     <string name="something_selected">選択済み:</string>
+    <string name="no_data">データなし</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">昨日</string>
@@ -55,12 +56,10 @@
     <!--  Records  -->
     <string name="record_removed">レコードの %s を削除しました</string>
     <string name="record_removed_undo">戻す</string>
-    <string name="records_empty">記録がありません</string>
     <string name="records_hint">タップで記録を更新する</string>
     <string name="no_records_exist">ここに記録が表示されます</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">記録がありません</string>
     <string name="statistics_total_tracked">記録合計</string>
     <string name="statistics_total_tracked_short">合計</string>
     <string name="statistics_hint">カードをタップすると詳細な統計情報が表示されます。</string>

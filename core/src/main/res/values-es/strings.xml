@@ -15,6 +15,7 @@
     <string name="record_tag_hint_short">Etiquetas</string>
     <string name="nothing_selected">Nada seleccionado</string>
     <string name="something_selected">Seleccionada:</string>
+    <string name="no_data">Sin datos</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Ayer</string>
@@ -55,12 +56,10 @@
     <!--  Records  -->
     <string name="record_removed">Registro %s eliminado</string>
     <string name="record_removed_undo">Deshacer</string>
-    <string name="records_empty">Nada que mostrar</string>
     <string name="records_hint">Haz clic en el la entrada para editarla</string>
     <string name="no_records_exist">Los registros se mostrarán aquí</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">Nada que mostrar</string>
     <string name="statistics_total_tracked">Total registrado</string>
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Haz clic en la tarjeta para ver las estadísticas detalladas</string>

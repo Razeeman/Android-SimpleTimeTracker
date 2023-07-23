@@ -15,6 +15,7 @@
     <string name="record_tag_hint_short">Labels</string>
     <string name="nothing_selected">Niets geselecteerd</string>
     <string name="something_selected">Geselecteerd:</string>
+    <string name="no_data">Geen gegevens</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Gisteren</string>
@@ -55,12 +56,10 @@
     <!--  Records  -->
     <string name="record_removed">Record %s verwijderd</string>
     <string name="record_removed_undo">Ongedaan maken</string>
-    <string name="records_empty">Niets om te laten zien</string>
     <string name="records_hint">Klik op record om te bewerken</string>
     <string name="no_records_exist">Records worden hier weergegeven</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">Niets te tonen</string>
     <string name="statistics_total_tracked">Totaal bijgehouden</string>
     <string name="statistics_total_tracked_short">Totaal</string>
     <string name="statistics_hint">Klik op een kaart voor gedetailleerde statistieken</string>

@@ -15,6 +15,7 @@
     <string name="record_tag_hint_short">Etiketler</string>
     <string name="nothing_selected">Hiçbir şey seçilmedi</string>
     <string name="something_selected">Seçildi:</string>
+    <string name="no_data">Veri yok</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Dün</string>
@@ -55,12 +56,10 @@
     <!--  Records  -->
     <string name="record_removed">Kayıt silindi: %s</string>
     <string name="record_removed_undo">Geri al</string>
-    <string name="records_empty">Gösterilecek kayıt yok</string>
     <string name="records_hint">Düzenlemek için bir kayda tıklayın</string>
     <string name="no_records_exist">Kayıtlar burada gösterilecek</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">Gösterilecek istatistik yok</string>
     <string name="statistics_total_tracked">Toplam takip süresi</string>
     <string name="statistics_total_tracked_short">Toplam</string>
     <string name="statistics_hint">Detaylı istatistikler için bir karta tıklayın</string>

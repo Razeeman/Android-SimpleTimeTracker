@@ -15,6 +15,7 @@
     <string name="record_tag_hint_short">標籤</string>
     <string name="nothing_selected">未選取</string>
     <string name="something_selected">已選取:</string>
+    <string name="no_data">沒有數據</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">昨天</string>
@@ -55,12 +56,10 @@
     <!--  Records  -->
     <string name="record_removed">紀錄 %s 已移除</string>
     <string name="record_removed_undo">撤銷</string>
-    <string name="records_empty">沒有什麼可顯示</string>
     <string name="records_hint">點擊紀錄來編輯</string>
     <string name="no_records_exist">記錄將顯示在這裡</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">沒有什麼可顯示</string>
     <string name="statistics_total_tracked">總計已追蹤</string>
     <string name="statistics_total_tracked_short">總計</string>
     <string name="statistics_hint">點擊於卡片上來檢視詳細統計</string>

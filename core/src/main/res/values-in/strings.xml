@@ -15,6 +15,7 @@
     <string name="record_tag_hint_short">Label</string>
     <string name="nothing_selected">Tidak ada yang dipilih</string>
     <string name="something_selected">Terpilih:</string>
+    <string name="no_data">Tidak ada data</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Kemarin</string>
@@ -55,12 +56,10 @@
     <!--  Records  -->
     <string name="record_removed">Rekor %s dihapuskan</string>
     <string name="record_removed_undo">Balikkan</string>
-    <string name="records_empty">Tidak ada yang dapat ditampilkan</string>
     <string name="records_hint">Ketuk pada rekor untuk menyunting</string>
     <string name="no_records_exist">Rekaman akan ditampilkan di sini</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">Tidak ada yang dapat ditampilkan</string>
     <string name="statistics_total_tracked">Jumlah yang dilacak</string>
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Ketuk pada kartu untuk melihat statistik secara detil</string>

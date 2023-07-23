@@ -15,6 +15,7 @@
     <string name="record_tag_hint_short">Etiquetes</string>
     <string name="nothing_selected">Res seleccionat</string>
     <string name="something_selected">Seleccionat:</string>
+    <string name="no_data">No hi ha dades</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Ahir</string>
@@ -55,12 +56,10 @@
     <!--  Records  -->
     <string name="record_removed">Enregistrament %s eliminat</string>
     <string name="record_removed_undo">Desfés</string>
-    <string name="records_empty">Res a mostrar</string>
     <string name="records_hint">Feu clic en un enregistrament per editar-lo</string>
     <string name="no_records_exist">Els registres es mostraran aquí</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">Res a mostrar</string>
     <string name="statistics_total_tracked">Total enregistrat</string>
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Feu clic en una targeta per veure\'n les estadístiques detallades</string>

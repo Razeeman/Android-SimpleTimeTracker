@@ -15,6 +15,7 @@
     <string name="record_tag_hint_short">Taggar</string>
     <string name="nothing_selected">Inget valt</string>
     <string name="something_selected">Vald:</string>
+    <string name="no_data">Inga data</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Igår</string>
@@ -55,12 +56,10 @@
     <!--  Records  -->
     <string name="record_removed">Händelse %s borttagen</string>
     <string name="record_removed_undo">Ångra</string>
-    <string name="records_empty">Inget att visa</string>
     <string name="records_hint">Tryck på händelsen för att redigera</string>
     <string name="no_records_exist">Rekord kommer att visas här</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">Inget att visa</string>
     <string name="statistics_total_tracked">Totalt</string>
     <string name="statistics_total_tracked_short">Totalt</string>
     <string name="statistics_hint">Tryck på kort för att se detaljerad statistik</string>

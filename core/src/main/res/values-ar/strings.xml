@@ -15,6 +15,7 @@
     <string name="record_tag_hint_short">الوسوم</string>
     <string name="nothing_selected">لم يحدد شيء</string>
     <string name="something_selected">المحدد:</string>
+    <string name="no_data">لايوجد بيانات</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">اﻷمس</string>
@@ -55,12 +56,10 @@
     <!--  Records  -->
     <string name="record_removed">متتبع %s أزيل</string>
     <string name="record_removed_undo">تراجع</string>
-    <string name="records_empty">لا شيء لعرضه</string>
     <string name="records_hint">للتعديل، اضغط على ما تبع</string>
     <string name="no_records_exist">سيتم عرض السجلات هنا</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">لا شيء لعرضه</string>
     <string name="statistics_total_tracked">إجمالي الوقت المتتبع</string>
     <string name="statistics_total_tracked_short">اﻹجمالي</string>
     <string name="statistics_hint">اضغط على البطاقة لعرض إحصائيات مفصلة</string>

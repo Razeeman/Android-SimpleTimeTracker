@@ -15,6 +15,7 @@
     <string name="record_tag_hint_short">Tags</string>
     <string name="nothing_selected">Nothing selected</string>
     <string name="something_selected">Selected:</string>
+    <string name="no_data">No data</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Yesterday</string>
@@ -55,12 +56,10 @@
     <!--  Records  -->
     <string name="record_removed">Record %s removed</string>
     <string name="record_removed_undo">Undo</string>
-    <string name="records_empty">Nothing to show</string>
     <string name="records_hint">Click on record to edit</string>
     <string name="no_records_exist">Records will be shown here</string>
 
     <!--  Statistics  -->
-    <string name="statistics_empty">Nothing to show</string>
     <string name="statistics_total_tracked">Total tracked</string>
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Click on card to view detailed statistics</string>
