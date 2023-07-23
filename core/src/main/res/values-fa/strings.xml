@@ -57,12 +57,14 @@
     <string name="record_removed_undo">ابطال</string>
     <string name="records_empty">موردی برای نمایش نیست</string>
     <string name="records_hint">تاریخچه را برای ویرایش لمس کنید</string>
+    <string name="no_records_exist">سوابق در اینجا نشان داده خواهد شد</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">موردی برای نمایش نیست</string>
     <string name="statistics_total_tracked">مجموع اندازه گیری</string>
     <string name="statistics_total_tracked_short">مجموع</string>
     <string name="statistics_hint">برای مشاهده آمار با جزئیات کارت را لمس کنید</string>
+    <string name="no_statistics_exist">آمار در اینجا نشان داده خواهد شد</string>
 
     <!--  Categories  -->
     <string name="categories_title">دسته بندی ها و برچسب ها</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">جستجوی نظر</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">فعالیت ها را برای شروع اندازه گیری اضافه کنید</string>
+    <string name="running_records_types_empty">برای شروع ردیابی، با کلیک بر روی دکمه %s فعالیت ها را اضافه کنید یا با کلیک بر روی دکمه %s از تنظیمات پیش فرض استفاده کنید</string>
     <string name="running_records_empty">فعالیت را برای شروع اندازه گیری لمس کنید</string>
     <string name="running_records_has_timers">برای توقف اندازه گیری  کارت را لمس کنید</string>
     <string name="running_records_empty_hint">برای ویرایش لمس کنید و نگه دارید</string>

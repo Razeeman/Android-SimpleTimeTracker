@@ -57,12 +57,14 @@
     <string name="record_removed_undo">Desfés</string>
     <string name="records_empty">Res a mostrar</string>
     <string name="records_hint">Feu clic en un enregistrament per editar-lo</string>
+    <string name="no_records_exist">Els registres es mostraran aquí</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">Res a mostrar</string>
     <string name="statistics_total_tracked">Total enregistrat</string>
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Feu clic en una targeta per veure\'n les estadístiques detallades</string>
+    <string name="no_statistics_exist">Les estadístiques es mostraran aquí</string>
 
     <!--  Categories  -->
     <string name="categories_title">Categories i etiquetes</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">Cerca un comentari</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">Afegiu activitats per a començar a enregistrar</string>
+    <string name="running_records_types_empty">Per començar el seguiment, afegiu activitats fent clic al botó %s o utilitzeu els valors predeterminats fent clic al botó %s</string>
     <string name="running_records_empty">Feu clic en una activitat per a començar a enregistrar</string>
     <string name="running_records_has_timers">Feu clic en una targeta per aturar l\'enregistrament</string>
     <string name="running_records_empty_hint">Mantingueu premut per editar</string>

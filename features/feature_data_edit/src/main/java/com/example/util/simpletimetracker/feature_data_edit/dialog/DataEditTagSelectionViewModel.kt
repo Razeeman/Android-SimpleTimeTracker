@@ -66,7 +66,6 @@ class DataEditTagSelectionViewModel @Inject constructor(
             selectedTags = selectedIds,
             typeId = extra.typeId,
             multipleChoiceAvailable = true,
-            showHint = false,
             showAddButton = false,
             showArchived = true,
             showUntaggedButton = false,

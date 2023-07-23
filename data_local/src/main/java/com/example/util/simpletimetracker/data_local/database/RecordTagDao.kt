@@ -4,10 +4,15 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.example.util.simpletimetracker.data_local.model.RecordTagDBO
 
 @Dao
 interface RecordTagDao {
+
+    @Transaction
+    @Query("select exists(select 1 from recordTags)")
+    suspend fun isEmpty(): Long
 
     @Query("SELECT * FROM recordTags")
     suspend fun getAll(): List<RecordTagDBO>

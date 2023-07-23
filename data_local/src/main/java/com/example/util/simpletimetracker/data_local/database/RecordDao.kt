@@ -12,6 +12,10 @@ import com.example.util.simpletimetracker.data_local.model.RecordWithRecordTagsD
 interface RecordDao {
 
     @Transaction
+    @Query("select exists(select 1 from records)")
+    suspend fun isEmpty(): Long
+
+    @Transaction
     @Query("SELECT * FROM records")
     suspend fun getAll(): List<RecordWithRecordTagsDBO>
 

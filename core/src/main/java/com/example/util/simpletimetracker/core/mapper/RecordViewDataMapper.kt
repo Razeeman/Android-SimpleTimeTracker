@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
+import com.example.util.simpletimetracker.feature_base_adapter.hintBig.HintBigViewData
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
@@ -65,7 +66,7 @@ class RecordViewDataMapper @Inject constructor(
                 .let(iconMapper::mapIcon),
             color = recordType.color
                 .let { colorMapper.mapToColorInt(it, isDarkTheme) },
-            comment = record.comment
+            comment = record.comment,
         )
     }
 
@@ -113,7 +114,13 @@ class RecordViewDataMapper @Inject constructor(
 
     fun mapToEmpty(): ViewHolderType {
         return EmptyViewData(
-            message = R.string.records_empty.let(resourceRepo::getString)
+            message = R.string.records_empty.let(resourceRepo::getString),
+        )
+    }
+
+    fun mapToNoRecords(): ViewHolderType {
+        return HintBigViewData(
+            text = resourceRepo.getString(R.string.no_records_exist),
         )
     }
 }

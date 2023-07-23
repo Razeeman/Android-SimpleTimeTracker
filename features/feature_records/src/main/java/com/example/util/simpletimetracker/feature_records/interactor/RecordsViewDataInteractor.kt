@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.feature_records.interactor
 
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
-import com.example.util.simpletimetracker.domain.mapper.RangeMapper
+import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.GetUntrackedRecordsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
@@ -26,13 +27,13 @@ import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.Run
 import com.example.util.simpletimetracker.feature_records.customView.RecordsCalendarViewData
 import com.example.util.simpletimetracker.feature_records.mapper.RecordsViewDataMapper
 import com.example.util.simpletimetracker.feature_records.model.RecordsState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.lang.Long.min
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.max
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class RecordsViewDataInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
@@ -43,6 +44,7 @@ class RecordsViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val getUntrackedRecordsInteractor: GetUntrackedRecordsInteractor,
     private val recordsViewDataMapper: RecordsViewDataMapper,
+    private val recordViewDataMapper: RecordViewDataMapper,
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper,
     private val getRunningRecordViewDataMediator: GetRunningRecordViewDataMediator,
@@ -102,10 +104,10 @@ class RecordsViewDataInteractor @Inject constructor(
                     calendar = calendar,
                     startOfDayShift = startOfDayShift,
                     shift = shift,
-                    reverseOrder = reverseOrder
+                    reverseOrder = reverseOrder,
                 )
             } else {
-                mapRecordsData(data)
+                mapRecordsData(data, shift)
             }
         }
     }
@@ -115,12 +117,12 @@ class RecordsViewDataInteractor @Inject constructor(
         calendar: Calendar,
         startOfDayShift: Long,
         shift: Int,
-        reverseOrder: Boolean
+        reverseOrder: Boolean,
     ): RecordsState.CalendarData {
         val currentTime = if (shift == 0) {
             mapFromStartOfDay(
                 timeStamp = System.currentTimeMillis(),
-                calendar = calendar
+                calendar = calendar,
             ) - startOfDayShift
         } else {
             null
@@ -149,20 +151,29 @@ class RecordsViewDataInteractor @Inject constructor(
             .let(RecordsState::CalendarData)
     }
 
-    private fun mapRecordsData(
+    private suspend fun mapRecordsData(
         data: List<ViewDataIntermediate>,
+        shift: Int,
     ): RecordsState.RecordsData {
-        return data
-            .firstOrNull()
-            ?.records
-            .orEmpty()
+        val records = data.firstOrNull()?.records.orEmpty()
+
+        val showFirstEnterHint = when {
+            // Show hint only on current date.
+            shift != 0 -> false
+            // Check all records only if there is no records for this day.
+            records.isNotEmpty() -> false
+            // Try to find if any record exists.
+            else -> recordInteractor.isEmpty() && runningRecordInteractor.isEmpty()
+        }
+
+        return records
             .sortedByDescending { it.timeStartedTimestamp }
             .map { it.data.value }
             .let {
-                if (it.isEmpty()) {
-                    listOf(recordsViewDataMapper.mapToEmpty())
-                } else {
-                    it + recordsViewDataMapper.mapToHint()
+                when {
+                    showFirstEnterHint -> listOf(recordViewDataMapper.mapToNoRecords())
+                    it.isEmpty() -> listOf(recordViewDataMapper.mapToEmpty())
+                    else -> it + recordsViewDataMapper.mapToHint()
                 }
             }
             .let(RecordsState::RecordsData)
@@ -202,7 +213,7 @@ class RecordsViewDataInteractor @Inject constructor(
 
         val runningRecordsData = runningRecords
             .let {
-                rangeMapper.getRunningRecordsFromRange(it, range,)
+                rangeMapper.getRunningRecordsFromRange(it, range)
             }
             .mapNotNull { runningRecord ->
                 getRunningRecordViewDataMediator.execute(
@@ -229,7 +240,7 @@ class RecordsViewDataInteractor @Inject constructor(
             val recordRanges = records.map {
                 Range(
                     timeStarted = it.timeStarted,
-                    timeEnded = it.timeEnded
+                    timeEnded = it.timeEnded,
                 )
             }
             val runningRecordRanges = runningRecords.map {
@@ -302,7 +313,7 @@ class RecordsViewDataInteractor @Inject constructor(
                 is RecordHolder.Data.RunningRecordData -> {
                     RecordsCalendarViewData.Point.Data.RunningRecordData(holder.data.value)
                 }
-            }
+            },
         )
     }
 

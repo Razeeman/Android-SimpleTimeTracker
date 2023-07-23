@@ -42,6 +42,7 @@
         <item name="appLegendSecondaryColor">@color/colorLegendSecondary</item>
         <item name="appPositiveColor">@color/colorPositive</item>
         <item name="appNegativeColor">@color/colorNegative</item>
+        <item name="appInfoColor">@color/colorInfo</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
@@ -85,6 +86,7 @@
         <item name="appLegendSecondaryColor">@color/colorLegendSecondaryDark</item>
         <item name="appPositiveColor">@color/colorPositiveDark</item>
         <item name="appNegativeColor">@color/colorNegativeDark</item>
+        <item name="appInfoColor">@color/colorInfoDark</item>
     </style>
 
     <style name="AppTheme.Dialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">

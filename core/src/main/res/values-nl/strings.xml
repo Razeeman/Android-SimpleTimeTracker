@@ -57,12 +57,14 @@
     <string name="record_removed_undo">Ongedaan maken</string>
     <string name="records_empty">Niets om te laten zien</string>
     <string name="records_hint">Klik op record om te bewerken</string>
+    <string name="no_records_exist">Records worden hier weergegeven</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">Niets te tonen</string>
     <string name="statistics_total_tracked">Totaal bijgehouden</string>
     <string name="statistics_total_tracked_short">Totaal</string>
     <string name="statistics_hint">Klik op een kaart voor gedetailleerde statistieken</string>
+    <string name="no_statistics_exist">Hier worden statistieken weergegeven</string>
 
     <!--  Categories  -->
     <string name="categories_title">Categorieën en tags</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">Opmerking zoeken</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">Voeg activiteiten toe om het volgen te starten</string>
+    <string name="running_records_types_empty">Om het volgen te starten, voegt u activiteiten toe door op de %s-knop te klikken of gebruikt u standaardinstellingen door op de %s-knop te klikken</string>
     <string name="running_records_empty">Klik op activiteit om het volgen te starten</string>
     <string name="running_records_has_timers">Klik op de kaart om het volgen te stoppen</string>
     <string name="running_records_empty_hint">Lang klikken om te bewerken</string>

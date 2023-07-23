@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.core.interactor
 
-import com.example.util.simpletimetracker.core.mapper.CategoriesViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
@@ -14,14 +13,12 @@ class RecordTagViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
-    private val categoriesViewDataMapper: CategoriesViewDataMapper,
 ) {
 
     suspend fun getViewData(
         selectedTags: List<Long>,
         typeId: Long,
         multipleChoiceAvailable: Boolean,
-        showHint: Boolean,
         showAddButton: Boolean,
         showArchived: Boolean,
         showUntaggedButton: Boolean,
@@ -45,22 +42,24 @@ class RecordTagViewDataInteractor @Inject constructor(
             ?.let { (selected, available) ->
                 val viewData = mutableListOf<ViewHolderType>()
 
-                categoriesViewDataMapper.mapToRecordTagHint()
-                    .takeIf { showHint }?.let(viewData::add)
+                listOf(
+                    categoryViewDataMapper.mapToRecordTagHint(),
+                    DividerViewData(1)
+                ).takeIf { showAddButton }?.let(viewData::addAll)
 
                 categoryViewDataMapper.mapSelectedCategoriesHint(
-                    isEmpty = selected.isEmpty()
+                    isEmpty = selected.isEmpty(),
                 ).takeIf { multipleChoiceAvailable }?.let(viewData::add)
 
                 selected.map {
                     categoryViewDataMapper.mapRecordTag(
                         tag = it,
                         type = type,
-                        isDarkTheme = isDarkTheme
+                        isDarkTheme = isDarkTheme,
                     )
                 }.let(viewData::addAll)
 
-                DividerViewData(1)
+                DividerViewData(2)
                     .takeUnless { available.isEmpty() }
                     .takeIf { multipleChoiceAvailable }
                     ?.let(viewData::add)
@@ -69,13 +68,13 @@ class RecordTagViewDataInteractor @Inject constructor(
                     categoryViewDataMapper.mapRecordTag(
                         tag = it,
                         type = type,
-                        isDarkTheme = isDarkTheme
+                        isDarkTheme = isDarkTheme,
                     )
                 }.let(viewData::addAll)
 
                 if (showUntaggedButton) {
                     if (selected.isNotEmpty() || available.isNotEmpty()) {
-                        DividerViewData(2)
+                        DividerViewData(3)
                             .takeIf { multipleChoiceAvailable }
                             ?.let(viewData::add)
                         categoryViewDataMapper.mapToUntaggedItem(
@@ -85,16 +84,20 @@ class RecordTagViewDataInteractor @Inject constructor(
                     }
                 }
 
-                categoriesViewDataMapper.mapToRecordTagAddItem(isDarkTheme)
+                categoryViewDataMapper.mapToRecordTagAddItem(isDarkTheme)
                     .takeIf { showAddButton }
                     ?.let(viewData::add)
 
                 viewData
             }
             ?: listOfNotNull(
-                categoryViewDataMapper.mapToRecordTagsEmpty(),
-                categoriesViewDataMapper.mapToRecordTagAddItem(isDarkTheme)
-                    .takeIf { showAddButton }
+                if (showAddButton && recordTagInteractor.isEmpty()) {
+                    categoryViewDataMapper.mapToTagsFirstHint()
+                } else {
+                    categoryViewDataMapper.mapToRecordTagsEmpty()
+                },
+                categoryViewDataMapper.mapToRecordTagAddItem(isDarkTheme)
+                    .takeIf { showAddButton },
             )
     }
 }

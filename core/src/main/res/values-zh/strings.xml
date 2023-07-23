@@ -57,12 +57,14 @@
     <string name="record_removed_undo">撤消</string>
     <string name="records_empty">这里什么都没有</string>
     <string name="records_hint">点击记录来编辑</string>
+    <string name="no_records_exist">记录将显示在这里</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">这里什么都没有</string>
     <string name="statistics_total_tracked">追踪总数</string>
     <string name="statistics_total_tracked_short">全部的</string>
     <string name="statistics_hint">点击卡片查看详细统计</string>
+    <string name="no_statistics_exist">统计数据将显示在这里</string>
 
     <!--  Categories  -->
     <string name="categories_title">类别和标签</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">搜索评论</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">添加要开始追踪的活动</string>
+    <string name="running_records_types_empty">要开始跟踪，请单击 %s 按钮添加活动，或单击 %s 按钮使用默认预设</string>
     <string name="running_records_empty">单击“活动”开始追踪</string>
     <string name="running_records_has_timers">单击卡片以停止跟踪</string>
     <string name="running_records_empty_hint">长按以编辑</string>

@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.cr
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.createRunningRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordTypeAdapterDelegate
@@ -49,6 +50,7 @@ class RunningRecordsFragment :
             createLoaderAdapterDelegate(),
             createEmptyAdapterDelegate(),
             createHintAdapterDelegate(),
+            createHintBigAdapterDelegate(),
             createDividerAdapterDelegate(),
             createRunningRecordAdapterDelegate(
                 transitionNamePrefix = TransitionNames.RUNNING_RECORD_FROM_MAIN,

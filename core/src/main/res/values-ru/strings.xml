@@ -57,12 +57,14 @@
     <string name="record_removed_undo">Отменить</string>
     <string name="records_empty">Нечего показать</string>
     <string name="records_hint">Нажмите на запись для редактирования</string>
+    <string name="no_records_exist">Записи будут отображаться здесь</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">Нечего показать</string>
     <string name="statistics_total_tracked">Всего отслежено</string>
     <string name="statistics_total_tracked_short">Всего</string>
     <string name="statistics_hint">Нажмите на карточку для просмотра детальной статистики</string>
+    <string name="no_statistics_exist">Здесь будет отображаться статистика</string>
 
     <!--  Categories  -->
     <string name="categories_title">Категории и теги</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">Поиск комментария</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">Добавьте активности, чтобы начать отслеживание</string>
+    <string name="running_records_types_empty">Чтобы начать отслеживание, добавьте активности нажав кнопку %s, или используйте предустановки по умолчанию нажав кнопку %s</string>
     <string name="running_records_empty">Нажмите на активность, чтобы начать отслеживание</string>
     <string name="running_records_has_timers">Нажмите на карточку, чтобы прекратить отслеживание</string>
     <string name="running_records_empty_hint">Нажмите и удерживайте для редактирования</string>

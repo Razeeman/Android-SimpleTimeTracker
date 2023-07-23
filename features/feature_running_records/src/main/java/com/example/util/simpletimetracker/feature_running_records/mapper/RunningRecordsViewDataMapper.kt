@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
+import com.example.util.simpletimetracker.feature_base_adapter.hintBig.HintBigViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_running_records.R
 import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeAddViewData
@@ -37,8 +38,12 @@ class RunningRecordsViewDataMapper @Inject constructor(
     }
 
     fun mapToTypesEmpty(): ViewHolderType {
-        return EmptyViewData(
-            message = R.string.running_records_types_empty.let(resourceRepo::getString)
+        return HintBigViewData(
+            text = resourceRepo.getString(
+                R.string.running_records_types_empty,
+                resourceRepo.getString(R.string.running_records_add_type),
+                resourceRepo.getString(R.string.running_records_add_default),
+            )
         )
     }
 

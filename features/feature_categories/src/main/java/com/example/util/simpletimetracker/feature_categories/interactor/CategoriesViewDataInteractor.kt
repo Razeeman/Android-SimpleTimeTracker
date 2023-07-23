@@ -7,7 +7,6 @@ import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.core.mapper.CategoriesViewDataMapper
 import com.example.util.simpletimetracker.feature_categories.viewData.CategoriesViewData
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -19,7 +18,6 @@ class CategoriesViewDataInteractor @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
-    private val categoriesViewDataMapper: CategoriesViewDataMapper,
 ) {
 
     suspend fun getViewData(): CategoriesViewData = coroutineScope {
@@ -43,7 +41,7 @@ class CategoriesViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val result: MutableList<ViewHolderType> = mutableListOf()
 
-        categoriesViewDataMapper.mapToTypeTagHint().let(result::add)
+        categoryViewDataMapper.mapToCategoryHint().let(result::add)
 
         categories.map { category ->
             categoryViewDataMapper.mapCategory(
@@ -52,7 +50,7 @@ class CategoriesViewDataInteractor @Inject constructor(
             )
         }.let(result::addAll)
 
-        categoriesViewDataMapper.mapToTypeTagAddItem(isDarkTheme).let(result::add)
+        categoryViewDataMapper.mapToTypeTagAddItem(isDarkTheme).let(result::add)
 
         return CategoriesViewData(
             items = result,
@@ -66,7 +64,7 @@ class CategoriesViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val result: MutableList<ViewHolderType> = mutableListOf()
 
-        categoriesViewDataMapper.mapToRecordTagHint().let(result::add)
+        categoryViewDataMapper.mapToRecordTagHint().let(result::add)
 
         tags.sortedBy { tag ->
             val type = types.firstOrNull { it.id == tag.typeId } ?: 0
@@ -79,7 +77,7 @@ class CategoriesViewDataInteractor @Inject constructor(
             )
         }.let(result::addAll)
 
-        categoriesViewDataMapper.mapToRecordTagAddItem(isDarkTheme).let(result::add)
+        categoryViewDataMapper.mapToRecordTagAddItem(isDarkTheme).let(result::add)
 
         return CategoriesViewData(
             items = result,

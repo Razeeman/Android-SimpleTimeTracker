@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.extensions.getThemedAttr
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.createStatisticsAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsGoal.createStatisticsGoalAdapterDelegate
@@ -150,6 +151,7 @@ class StatisticsFragment :
             createStatisticsGoalAdapterDelegate(),
             createStatisticsTitleAdapterDelegate(),
             createHintAdapterDelegate(),
+            createHintBigAdapterDelegate(),
             createLoaderAdapterDelegate(),
             createDividerAdapterDelegate(),
         )

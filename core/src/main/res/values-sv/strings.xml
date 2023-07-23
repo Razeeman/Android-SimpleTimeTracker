@@ -57,12 +57,14 @@
     <string name="record_removed_undo">Ångra</string>
     <string name="records_empty">Inget att visa</string>
     <string name="records_hint">Tryck på händelsen för att redigera</string>
+    <string name="no_records_exist">Rekord kommer att visas här</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">Inget att visa</string>
     <string name="statistics_total_tracked">Totalt</string>
     <string name="statistics_total_tracked_short">Totalt</string>
     <string name="statistics_hint">Tryck på kort för att se detaljerad statistik</string>
+    <string name="no_statistics_exist">Statistik kommer att visas här</string>
 
     <!--  Categories  -->
     <string name="categories_title">Kategorier och taggar</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">Sök kommentar</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">Börja med att lägga till några aktiviteter nedan</string>
+    <string name="running_records_types_empty">För att börja spåra, lägg till aktiviteter genom att klicka på %s-knappen eller använd standardförinställningar genom att klicka på %s-knappen</string>
     <string name="running_records_empty">Tryck på en aktivitet för att påbörja tidtagning</string>
     <string name="running_records_has_timers">Klicka på kortet för att sluta spåra</string>
     <string name="running_records_empty_hint">Håll intryckt för att redigera</string>

@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
@@ -43,6 +44,7 @@ class DataEditTagSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
             createDividerAdapterDelegate(),
             createInfoAdapterDelegate(),
             createCategoryAdapterDelegate(viewModel::onTagClick),
+            createEmptyAdapterDelegate(),
         )
     }
     private val params: DataEditTagSelectionDialogParams by fragmentArgumentDelegate(

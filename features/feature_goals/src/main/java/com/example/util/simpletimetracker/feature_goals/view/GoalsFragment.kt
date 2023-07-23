@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsGoal.createStatisticsGoalAdapterDelegate
@@ -35,6 +36,7 @@ class GoalsFragment : BaseFragment<Binding>() {
         BaseRecyclerAdapter(
             createLoaderAdapterDelegate(),
             createHintAdapterDelegate(),
+            createEmptyAdapterDelegate(),
             createStatisticsGoalAdapterDelegate(),
         )
     }

@@ -57,12 +57,14 @@
     <string name="record_removed_undo">撤銷</string>
     <string name="records_empty">沒有什麼可顯示</string>
     <string name="records_hint">點擊紀錄來編輯</string>
+    <string name="no_records_exist">記錄將顯示在這裡</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">沒有什麼可顯示</string>
     <string name="statistics_total_tracked">總計已追蹤</string>
     <string name="statistics_total_tracked_short">總計</string>
     <string name="statistics_hint">點擊於卡片上來檢視詳細統計</string>
+    <string name="no_statistics_exist">統計數據將顯示在這裡</string>
 
     <!--  Categories  -->
     <string name="categories_title">分類與標記</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">搜尋註解</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">新增活動給開始追蹤</string>
+    <string name="running_records_types_empty">要開始跟踪，請單擊 %s 按鈕添加活動，或單擊 %s 按鈕使用默認預設</string>
     <string name="running_records_empty">點擊於活動來開始追蹤</string>
     <string name="running_records_has_timers">單擊卡片以停止跟踪</string>
     <string name="running_records_empty_hint">長按編輯</string>

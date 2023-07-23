@@ -57,12 +57,14 @@
     <string name="record_removed_undo">Скасувати</string>
     <string name="records_empty">Записів немає</string>
     <string name="records_hint">Натисніть на запис для редагування</string>
+    <string name="no_records_exist">Тут будуть показані записи</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">Немає даних для показу</string>
     <string name="statistics_total_tracked">Всього відстежено</string>
     <string name="statistics_total_tracked_short">Всього</string>
     <string name="statistics_hint">Натисніть на картку для перегляду детальної статистики</string>
+    <string name="no_statistics_exist">Тут буде показана статистика</string>
 
     <!--  Categories  -->
     <string name="categories_title">Категорії та теги</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">Шукати коментар</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">Додайте активності для початку відстеження</string>
+    <string name="running_records_types_empty">Щоб розпочати відстеження, додайте дії, натиснувши кнопку %s, або використайте стандартні налаштування, натиснувши кнопку %s</string>
     <string name="running_records_empty">Натисніть на активність, щоб почати відстеження</string>
     <string name="running_records_has_timers">Натисніть картку, щоб припинити відстеження</string>
     <string name="running_records_empty_hint">Натисність та утримуйте для редагування</string>

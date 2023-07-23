@@ -16,6 +16,11 @@ class RunningRecordRepoImpl @Inject constructor(
     private val runningRunningRecordLocalMapper: RunningRecordDataLocalMapper
 ) : RunningRecordRepo {
 
+    override suspend fun isEmpty(): Boolean = withContext(Dispatchers.IO) {
+        Timber.d("isEmpty")
+        return@withContext runningRecordDao.isEmpty() == 0L
+    }
+
     override suspend fun getAll(): List<RunningRecord> = withContext(Dispatchers.IO) {
         Timber.d("getAll")
         runningRecordDao.getAll().map(runningRunningRecordLocalMapper::map)

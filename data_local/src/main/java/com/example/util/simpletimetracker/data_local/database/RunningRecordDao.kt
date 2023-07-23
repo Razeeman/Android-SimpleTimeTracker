@@ -12,6 +12,10 @@ import com.example.util.simpletimetracker.data_local.model.RunningRecordWithReco
 interface RunningRecordDao {
 
     @Transaction
+    @Query("select exists(select 1 from runningRecords)")
+    suspend fun isEmpty(): Long
+
+    @Transaction
     @Query("SELECT * FROM runningRecords")
     suspend fun getAll(): List<RunningRecordWithRecordTagsDBO>
 

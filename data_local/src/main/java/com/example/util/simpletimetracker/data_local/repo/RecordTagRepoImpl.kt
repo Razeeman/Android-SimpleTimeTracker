@@ -16,6 +16,11 @@ class RecordTagRepoImpl @Inject constructor(
     private val mapper: RecordTagDataLocalMapper
 ) : RecordTagRepo {
 
+    override suspend fun isEmpty(): Boolean = withContext(Dispatchers.IO) {
+        Timber.d("isEmpty")
+        return@withContext dao.isEmpty() == 0L
+    }
+
     override suspend fun getAll(): List<RecordTag> = withContext(Dispatchers.IO) {
         Timber.d("getAll")
         dao.getAll().map(mapper::map)

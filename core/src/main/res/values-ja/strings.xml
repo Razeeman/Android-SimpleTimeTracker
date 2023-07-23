@@ -57,12 +57,14 @@
     <string name="record_removed_undo">戻す</string>
     <string name="records_empty">記録がありません</string>
     <string name="records_hint">タップで記録を更新する</string>
+    <string name="no_records_exist">ここに記録が表示されます</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">記録がありません</string>
     <string name="statistics_total_tracked">記録合計</string>
     <string name="statistics_total_tracked_short">合計</string>
     <string name="statistics_hint">カードをタップすると詳細な統計情報が表示されます。</string>
+    <string name="no_statistics_exist">ここに統計が表示されます</string>
 
     <!--  Categories  -->
     <string name="categories_title">カテゴリとタグ</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">検索コメント</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">アクティビティを追加して計測を開始</string>
+    <string name="running_records_types_empty">追跡を開始するには、%s ボタンをクリックしてアクティビティを追加するか、%s ボタンをクリックしてデフォルトのプリセットを使用します。</string>
     <string name="running_records_empty">計測を開始するアクティビティをタップ</string>
     <string name="running_records_has_timers">カードをクリックして追跡を停止します</string>
     <string name="running_records_empty_hint">長押しで編集</string>

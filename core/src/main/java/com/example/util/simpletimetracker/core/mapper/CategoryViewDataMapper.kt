@@ -10,8 +10,12 @@ import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryAddViewData
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.category.TagType
 import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
+import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
+import com.example.util.simpletimetracker.feature_base_adapter.hintBig.HintBigViewData
 import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
@@ -135,6 +139,14 @@ class CategoryViewDataMapper @Inject constructor(
         )
     }
 
+    fun mapToTypeTagAddItem(isDarkTheme: Boolean): CategoryAddViewData {
+        return map(type = TagType.RECORD_TYPE, isDarkTheme = isDarkTheme)
+    }
+
+    fun mapToRecordTagAddItem(isDarkTheme: Boolean): CategoryAddViewData {
+        return map(type = TagType.RECORD, isDarkTheme = isDarkTheme)
+    }
+
     fun mapToMultitaskItem(
         isFiltered: Boolean,
         isDarkTheme: Boolean
@@ -165,6 +177,28 @@ class CategoryViewDataMapper @Inject constructor(
     fun mapToCategoriesEmpty(): ViewHolderType {
         return EmptyViewData(
             message = resourceRepo.getString(R.string.change_record_type_categories_empty)
+        )
+    }
+
+    fun mapToCategoryHint(): ViewHolderType = HintViewData(
+        text = R.string.categories_record_type_hint
+            .let(resourceRepo::getString)
+    )
+
+    fun mapToRecordTagHint(): ViewHolderType = HintViewData(
+        text = R.string.categories_record_hint
+            .let(resourceRepo::getString)
+    )
+
+    fun mapToCategoriesFirstHint(): ViewHolderType {
+        return HintBigViewData(
+            text = resourceRepo.getString(R.string.categories_record_type_hint)
+        )
+    }
+
+    fun mapToTagsFirstHint(): ViewHolderType {
+        return HintBigViewData(
+            text = resourceRepo.getString(R.string.categories_record_hint)
         )
     }
 
@@ -199,5 +233,18 @@ class CategoryViewDataMapper @Inject constructor(
         } else {
             color.let { colorMapper.mapToColorInt(it, isDarkTheme) }
         }
+    }
+
+    private fun map(type: TagType, isDarkTheme: Boolean): CategoryAddViewData {
+        val name = when (type) {
+            TagType.RECORD_TYPE -> R.string.categories_add_category
+            TagType.RECORD -> R.string.categories_add_record_tag
+        }.let(resourceRepo::getString)
+
+        return CategoryAddViewData(
+            type = type,
+            name = name,
+            color = colorMapper.toInactiveColor(isDarkTheme)
+        )
     }
 }

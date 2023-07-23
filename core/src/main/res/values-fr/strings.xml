@@ -57,12 +57,14 @@
     <string name="record_removed_undo">Annuler</string>
     <string name="records_empty">Rien à montrer</string>
     <string name="records_hint">Cliquez un enregistrement pour le modifier</string>
+    <string name="no_records_exist">Les enregistrements seront affichés ici</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">Rien à montrer</string>
     <string name="statistics_total_tracked">Total suivi</string>
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Cliquez une carte pour afficher les statistiques détaillées</string>
+    <string name="no_statistics_exist">Les statistiques seront affichées ici</string>
 
     <!--  Categories  -->
     <string name="categories_title">Catégories et étiquettes</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">Rechercher un commentaire</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">Ajouter des activités pour commencer le suivi</string>
+    <string name="running_records_types_empty">Pour commencer le suivi, ajoutez des activités en cliquant sur le bouton %s ou utilisez les préréglages par défaut en cliquant sur le bouton %s</string>
     <string name="running_records_empty">Cliquez longuement pour éditer</string>
     <string name="running_records_has_timers">Cliquez sur la carte pour arrêter le suivi</string>
     <string name="running_records_empty_hint">Cliquez longuement pour éditer</string>

@@ -4,6 +4,8 @@ import com.example.util.simpletimetracker.domain.model.RunningRecord
 
 interface RunningRecordRepo {
 
+    suspend fun isEmpty(): Boolean
+
     suspend fun getAll(): List<RunningRecord>
 
     suspend fun get(id: Long): RunningRecord?

@@ -57,12 +57,14 @@
     <string name="record_removed_undo">Geri al</string>
     <string name="records_empty">Gösterilecek kayıt yok</string>
     <string name="records_hint">Düzenlemek için bir kayda tıklayın</string>
+    <string name="no_records_exist">Kayıtlar burada gösterilecek</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">Gösterilecek istatistik yok</string>
     <string name="statistics_total_tracked">Toplam takip süresi</string>
     <string name="statistics_total_tracked_short">Toplam</string>
     <string name="statistics_hint">Detaylı istatistikler için bir karta tıklayın</string>
+    <string name="no_statistics_exist">İstatistikler burada gösterilecek</string>
 
     <!--  Categories  -->
     <string name="categories_title">Kategoriler ve etiketler</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">Yorum ara</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">Takip etmeye başlamak için aktivite ekleyin</string>
+    <string name="running_records_types_empty">İzlemeye başlamak için %s düğmesine tıklayarak etkinlikler ekleyin veya %s düğmesine tıklayarak varsayılan ön ayarları kullanın</string>
     <string name="running_records_empty">Takip etmeye başlamak için bir aktiviteye tıklayın</string>
     <string name="running_records_has_timers">İzlemeyi durdurmak için karta tıklayın</string>
     <string name="running_records_empty_hint">Düzenlemek için uzun dokunun</string>

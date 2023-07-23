@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.model.Statistics
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
+import com.example.util.simpletimetracker.feature_base_adapter.hintBig.HintBigViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsInfoViewData
@@ -74,6 +75,12 @@ class StatisticsViewDataMapper @Inject constructor(
     fun mapToEmpty(): ViewHolderType {
         return EmptyViewData(
             message = R.string.statistics_empty.let(resourceRepo::getString)
+        )
+    }
+
+    fun mapToNoStatistics(): ViewHolderType {
+        return HintBigViewData(
+            text = resourceRepo.getString(R.string.no_statistics_exist),
         )
     }
 

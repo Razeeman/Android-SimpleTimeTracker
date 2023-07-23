@@ -4,6 +4,8 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 
 interface RecordTagRepo {
 
+    suspend fun isEmpty(): Boolean
+
     suspend fun getAll(): List<RecordTag>
 
     suspend fun get(id: Long): RecordTag?

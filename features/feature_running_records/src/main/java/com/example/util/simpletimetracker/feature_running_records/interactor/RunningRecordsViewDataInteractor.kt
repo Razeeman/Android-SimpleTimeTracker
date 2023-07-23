@@ -38,9 +38,10 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
+        val showFirstEnterHint = recordTypes.filterNot(RecordType::hidden).isEmpty()
 
         val runningRecordsViewData = when {
-            recordTypes.filterNot { it.hidden }.isEmpty() ->
+            showFirstEnterHint ->
                 listOf(mapper.mapToTypesEmpty())
             runningRecords.isEmpty() ->
                 listOf(mapper.mapToEmpty())
@@ -63,7 +64,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                         )
                     }
                     .plus(
-                        mapper.mapToHasRunningRecords()
+                        mapper.mapToHasRunningRecords(),
                     )
             }
         }
@@ -89,20 +90,20 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                     recordType = it,
                     isFiltered = it.id in recordTypesRunning,
                     numberOfCards = numberOfCards,
-                    isDarkTheme = isDarkTheme
+                    isDarkTheme = isDarkTheme,
                 )
             }
             .plus(
                 mapper.mapToAddItem(
                     numberOfCards = numberOfCards,
-                    isDarkTheme = isDarkTheme
-                )
+                    isDarkTheme = isDarkTheme,
+                ),
             )
             .let {
-                if (recordTypes.isEmpty()) {
+                if (showFirstEnterHint) {
                     it + mapper.mapToAddDefaultItem(
                         numberOfCards = numberOfCards,
-                        isDarkTheme = isDarkTheme
+                        isDarkTheme = isDarkTheme,
                     )
                 } else {
                     it

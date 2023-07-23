@@ -10,6 +10,10 @@ class RunningRecordInteractor @Inject constructor(
     private val runningRecordToRecordTagRepo: RunningRecordToRecordTagRepo,
 ) {
 
+    suspend fun isEmpty(): Boolean {
+        return runningRecordRepo.isEmpty()
+    }
+
     suspend fun getAll(): List<RunningRecord> {
         return runningRecordRepo.getAll()
     }

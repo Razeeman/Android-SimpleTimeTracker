@@ -57,12 +57,14 @@
     <string name="record_removed_undo">पूर्ववत</string>
     <string name="records_empty">दिखाने के लिए कुछ भी नहीं</string>
     <string name="records_hint">एडिट करने के लिए रिकॉर्ड पर क्लिक करें</string>
+    <string name="no_records_exist">यहां रिकॉर्ड दिखाए जाएंगे</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">दिखाने के लिए कुछ भी नहीं</string>
     <string name="statistics_total_tracked">कुल ट्रैक किया हुआ</string>
     <string name="statistics_total_tracked_short">कुल</string>
     <string name="statistics_hint">विस्तृत आँकड़े देखने के लिए कार्ड पर क्लिक करें</string>
+    <string name="no_statistics_exist">आंकड़े यहां दिखाए जाएंगे</string>
 
     <!--  Categories  -->
     <string name="categories_title">श्रेणियां और टैग</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">खोज टिप्पणी</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">ट्रैकिंग शुरू करने के लिए गतिविधियों को जोड़ें</string>
+    <string name="running_records_types_empty">ट्रैकिंग शुरू करने के लिए, %s बटन पर क्लिक करके गतिविधियाँ जोड़ें या %s बटन पर क्लिक करके डिफ़ॉल्ट प्रीसेट का उपयोग करें</string>
     <string name="running_records_empty">ट्रैकिंग शुरू करने के लिए गतिविधि पर क्लिक करें</string>
     <string name="running_records_has_timers">ट्रैकिंग बंद करने के लिए कार्ड पर क्लिक करें</string>
     <string name="running_records_empty_hint">संपादित करने के लिए लंबी क्लिक करें</string>

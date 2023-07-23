@@ -11,6 +11,10 @@ class RecordInteractor @Inject constructor(
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
 ) {
 
+    suspend fun isEmpty(): Boolean {
+        return recordRepo.isEmpty()
+    }
+
     suspend fun getAll(): List<Record> {
         return recordRepo.getAll()
     }

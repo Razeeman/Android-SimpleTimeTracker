@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_type.interactor
 
 import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
-import com.example.util.simpletimetracker.core.mapper.CategoriesViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -22,7 +21,6 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
     private val categoryInteractor: CategoryInteractor,
     private val colorViewDataInteractor: ColorViewDataInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
-    private val categoriesViewDataMapper: CategoriesViewDataMapper,
 ) {
 
     suspend fun getCategoriesViewData(selectedCategories: List<Long>): List<ViewHolderType> {
@@ -38,7 +36,9 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
             ?.let { (selected, available) ->
                 val viewData = mutableListOf<ViewHolderType>()
 
-                categoriesViewDataMapper.mapToTypeTagHint().let(viewData::add)
+                categoryViewDataMapper.mapToCategoryHint().let(viewData::add)
+
+                DividerViewData(1).let(viewData::add)
 
                 categoryViewDataMapper.mapSelectedCategoriesHint(
                     isEmpty = selected.isEmpty()
@@ -51,7 +51,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                     )
                 }.let(viewData::addAll)
 
-                DividerViewData(1).let(viewData::add)
+                DividerViewData(2).let(viewData::add)
 
                 available.map {
                     categoryViewDataMapper.mapCategory(
@@ -60,13 +60,13 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                     )
                 }.let(viewData::addAll)
 
-                categoriesViewDataMapper.mapToTypeTagAddItem(isDarkTheme).let(viewData::add)
+                categoryViewDataMapper.mapToTypeTagAddItem(isDarkTheme).let(viewData::add)
 
                 viewData
             }
             ?: listOf(
-                categoryViewDataMapper.mapToCategoriesEmpty(),
-                categoriesViewDataMapper.mapToTypeTagAddItem(isDarkTheme)
+                categoryViewDataMapper.mapToCategoriesFirstHint(),
+                categoryViewDataMapper.mapToTypeTagAddItem(isDarkTheme)
             )
     }
 

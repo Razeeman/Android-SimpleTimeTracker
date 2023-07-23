@@ -8,8 +8,10 @@ import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -34,6 +36,8 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val rangeViewDataMapper: RangeViewDataMapper,
     private val colorMapper: ColorMapper,
     private val goalViewDataMapper: GoalViewDataMapper,
+    private val recordInteractor: RecordInteractor,
+    private val runningRecordInteractor: RunningRecordInteractor,
 ) {
 
     fun mapFilter(
@@ -167,11 +171,21 @@ class StatisticsViewDataInteractor @Inject constructor(
             useProportionalMinutes = useProportionalMinutes,
             showSeconds = showSeconds,
         ).let(statisticsViewDataMapper::mapStatisticsTotalTracked)
+        val showFirstEnterHint = when {
+            // Show hint ony on current date.
+            shift != 0 -> false
+            // Check all records only if there is no records for this day.
+            list.isNotEmpty() -> false
+            // Try to find if any record exists.
+            else -> recordInteractor.isEmpty() && runningRecordInteractor.isEmpty()
+        }
 
         // Assemble data.
         val result: MutableList<ViewHolderType> = mutableListOf()
 
-        if (list.isEmpty() && goalsList.isEmpty()) {
+        if (showFirstEnterHint) {
+            statisticsViewDataMapper.mapToNoStatistics().let(result::add)
+        } else if (list.isEmpty() && goalsList.isEmpty()) {
             statisticsViewDataMapper.mapToEmpty().let(result::add)
         } else {
             if (forSharing) getSharingTitle(rangeLength, shift).let(result::addAll)

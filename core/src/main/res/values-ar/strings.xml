@@ -57,12 +57,14 @@
     <string name="record_removed_undo">تراجع</string>
     <string name="records_empty">لا شيء لعرضه</string>
     <string name="records_hint">للتعديل، اضغط على ما تبع</string>
+    <string name="no_records_exist">سيتم عرض السجلات هنا</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">لا شيء لعرضه</string>
     <string name="statistics_total_tracked">إجمالي الوقت المتتبع</string>
     <string name="statistics_total_tracked_short">اﻹجمالي</string>
     <string name="statistics_hint">اضغط على البطاقة لعرض إحصائيات مفصلة</string>
+    <string name="no_statistics_exist">سيتم عرض الإحصائيات هنا</string>
 
     <!--  Categories  -->
     <string name="categories_title">التصنيفات والوسوم</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">تعليق البحث</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">أضف أنشطة لبدء التتبع</string>
+    <string name="running_records_types_empty">لبدء التتبع ، أضف الأنشطة بالنقر فوق الزر %s أو استخدم الإعدادات المسبقة الافتراضية بالنقر فوق الزر %s</string>
     <string name="running_records_empty">انقر على النشاط لبدء التتبع</string>
     <string name="running_records_has_timers">انقر على البطاقة لإيقاف التتبع</string>
     <string name="running_records_empty_hint">انقر طويلا للتعديل</string>

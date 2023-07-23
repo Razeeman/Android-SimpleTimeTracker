@@ -13,6 +13,10 @@ class RecordTagInteractor @Inject constructor(
     private val runningRecordToRecordTagRepo: RunningRecordToRecordTagRepo,
 ) {
 
+    suspend fun isEmpty(): Boolean {
+        return repo.isEmpty()
+    }
+
     suspend fun getAll(): List<RecordTag> {
         return repo.getAll().let(::sort)
     }

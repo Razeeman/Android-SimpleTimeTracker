@@ -67,12 +67,6 @@ class RecordsViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToEmpty(): ViewHolderType {
-        return EmptyViewData(
-            message = R.string.records_empty.let(resourceRepo::getString)
-        )
-    }
-
     fun mapToHint(): ViewHolderType {
         return HintViewData(
             text = R.string.records_hint.let(resourceRepo::getString)

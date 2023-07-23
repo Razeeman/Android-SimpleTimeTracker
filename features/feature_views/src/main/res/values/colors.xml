@@ -78,5 +78,7 @@
     <color name="colorPositiveDark">@color/green_700</color>
     <color name="colorNegative">@color/red_600</color>
     <color name="colorNegativeDark">@color/red_700</color>
+    <color name="colorInfo">@color/blue_600</color>
+    <color name="colorInfoDark">@color/blue_700</color>
 
 </resources>

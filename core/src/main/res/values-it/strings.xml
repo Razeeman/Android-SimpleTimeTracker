@@ -57,12 +57,14 @@
     <string name="record_removed_undo">Annulla</string>
     <string name="records_empty">Niente da mostrare</string>
     <string name="records_hint">Clicca su una registrazione per modificare</string>
+    <string name="no_records_exist">I record verranno mostrati qui</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">Niente da mostrare</string>
     <string name="statistics_total_tracked">Totali tracciati</string>
     <string name="statistics_total_tracked_short">Totale</string>
     <string name="statistics_hint">Clicca sulla carta per mostrare le statistiche dettagliate</string>
+    <string name="no_statistics_exist">Le statistiche verranno mostrate qui</string>
 
     <!--  Categories  -->
     <string name="categories_title">Categorie e tag</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">Cerca commento</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">Aggiungi le attività per inziare il tracciamento</string>
+    <string name="running_records_types_empty">Per avviare il tracciamento, aggiungi attività facendo clic sul pulsante %s o utilizza i preset predefiniti facendo clic sul pulsante %s</string>
     <string name="running_records_empty">Clicca sull\'attività per iniziare il tracciamento</string>
     <string name="running_records_has_timers">Fare clic sulla carta per interrompere il tracciamento</string>
     <string name="running_records_empty_hint">Tieni premuto per modificare</string>

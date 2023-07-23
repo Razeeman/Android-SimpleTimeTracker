@@ -57,12 +57,14 @@
     <string name="record_removed_undo">Rückgängig</string>
     <string name="records_empty">Nichts zu zeigen</string>
     <string name="records_hint">Klicke auf den Eintrag zum Bearbeiten</string>
+    <string name="no_records_exist">Datensätze werden hier angezeigt</string>
 
     <!--  Statistics  -->
     <string name="statistics_empty">Nichts zu zeigen</string>
     <string name="statistics_total_tracked">Insgesamt erfasst</string>
     <string name="statistics_total_tracked_short">Gesamt</string>
     <string name="statistics_hint">Klicke auf die Karte, um detaillierte Statistiken anzuzeigen</string>
+    <string name="no_statistics_exist">Statistiken werden hier angezeigt</string>
 
     <!--  Categories  -->
     <string name="categories_title">Kategorien und Tags</string>
@@ -181,7 +183,7 @@
     <string name="records_all_search_comment">Kommentar suchen</string>
 
     <!--  Running records  -->
-    <string name="running_records_types_empty">Aktivitäten hinzufügen, um mit der Erfassung zu beginnen</string>
+    <string name="running_records_types_empty">Um mit der Verfolgung zu beginnen, fügen Sie Aktivitäten hinzu, indem Sie auf die Schaltfläche %s klicken, oder verwenden Sie Standardvoreinstellungen, indem Sie auf die Schaltfläche %s klicken</string>
     <string name="running_records_empty">Klicke auf Aktivität, um die Erfassung zu starten</string>
     <string name="running_records_has_timers">Klicken Sie auf die Karte, um die Verfolgung zu beenden</string>
     <string name="running_records_empty_hint">Zum Bearbeiten lange klicken</string>

@@ -5,6 +5,8 @@ import com.example.util.simpletimetracker.domain.model.Record
 
 interface RecordRepo {
 
+    suspend fun isEmpty(): Boolean
+
     suspend fun getAll(): List<Record>
 
     suspend fun getByType(typeIds: List<Long>): List<Record>
