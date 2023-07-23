@@ -100,7 +100,7 @@ class GoalsViewDataInteractor @Inject constructor(
             shift = 0,
         )
         val result = mutableListOf<ViewHolderType>()
-        val items = goalViewDataMapper.mapList(
+        val items = goalViewDataMapper.mapStatisticsList(
             goals = goals,
             types = types,
             filterType = filterType,

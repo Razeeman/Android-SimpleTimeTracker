@@ -14,7 +14,7 @@ import com.example.util.simpletimetracker.core.utils.ACTION_STOP_SHORTEST_ACTIVI
 import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
-import com.example.util.simpletimetracker.domain.model.GoalTimeType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.activity.controller.NotificationActivityBroadcastController
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.controller.AutomaticBackupBroadcastController
 import com.example.util.simpletimetracker.feature_notification.automaticExport.controller.AutomaticExportBroadcastController
@@ -75,11 +75,11 @@ class NotificationReceiver : BroadcastReceiver() {
             -> {
                 val typeId = intent.getLongExtra(EXTRA_GOAL_TIME_TYPE_ID, 0)
                 val goalTimeType = when (action) {
-                    ACTION_GOAL_TIME_REMINDER_SESSION -> GoalTimeType.Session
-                    ACTION_GOAL_TIME_REMINDER_DAILY -> GoalTimeType.Day
-                    ACTION_GOAL_TIME_REMINDER_WEEKLY -> GoalTimeType.Week
-                    ACTION_GOAL_TIME_REMINDER_MONTHLY -> GoalTimeType.Month
-                    else -> GoalTimeType.Session
+                    ACTION_GOAL_TIME_REMINDER_SESSION -> RecordTypeGoal.Range.Session
+                    ACTION_GOAL_TIME_REMINDER_DAILY -> RecordTypeGoal.Range.Daily
+                    ACTION_GOAL_TIME_REMINDER_WEEKLY -> RecordTypeGoal.Range.Weekly
+                    ACTION_GOAL_TIME_REMINDER_MONTHLY -> RecordTypeGoal.Range.Monthly
+                    else -> RecordTypeGoal.Range.Session
                 }
                 goalTimeController.onGoalTimeReminder(typeId, goalTimeType)
             }

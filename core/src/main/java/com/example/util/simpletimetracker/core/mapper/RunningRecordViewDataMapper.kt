@@ -3,13 +3,9 @@ package com.example.util.simpletimetracker.core.mapper
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.extension.getDailyDuration
+import com.example.util.simpletimetracker.domain.extension.getDaily
 import com.example.util.simpletimetracker.domain.extension.getFullName
-import com.example.util.simpletimetracker.domain.extension.getSessionDuration
-import com.example.util.simpletimetracker.domain.extension.hasDailyDuration
-import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.domain.extension.value
-import com.example.util.simpletimetracker.domain.model.GoalTimeType
+import com.example.util.simpletimetracker.domain.extension.getSession
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
@@ -23,7 +19,7 @@ class RunningRecordViewDataMapper @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
-    private val goalTimeMapper: GoalTimeMapper,
+    private val goalViewDataMapper: GoalViewDataMapper,
 ) {
 
     fun map(
@@ -103,21 +99,22 @@ class RunningRecordViewDataMapper @Inject constructor(
         dailyCurrent: GetCurrentRecordsDurationInteractor.Result?,
         goalsVisible: Boolean,
     ): GoalTimeViewData {
-        fun getSessionGoal() = goalTimeMapper.map(
-            goalTime = goals.getSessionDuration().value,
-            current = currentDuration,
-            type = GoalTimeType.Session,
+        fun getSessionGoal() = goalViewDataMapper.mapForTimer(
+            goal = goals.getSession(),
+            currentDuration = currentDuration,
+            dailyCurrent = dailyCurrent,
             goalsVisible = goalsVisible,
         )
-        fun getDailyGoal() = goalTimeMapper.map(
-            goalTime = goals.getDailyDuration().value,
-            current = dailyCurrent?.duration.orZero(),
-            type = GoalTimeType.Day,
+
+        fun getDailyGoal() = goalViewDataMapper.mapForTimer(
+            goal = goals.getDaily(),
+            currentDuration = currentDuration,
+            dailyCurrent = dailyCurrent,
             goalsVisible = goalsVisible,
         )
 
         return when {
-            goals.hasDailyDuration() -> getDailyGoal()
+            goals.getDaily() != null -> getDailyGoal()
             else -> getSessionGoal()
         }
     }

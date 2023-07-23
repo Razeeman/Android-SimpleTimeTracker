@@ -149,7 +149,7 @@ class StatisticsViewDataInteractor @Inject constructor(
             emptyList()
         } else {
             val goals = recordTypeGoalInteractor.getAll()
-            goalViewDataMapper.mapList(
+            goalViewDataMapper.mapStatisticsList(
                 goals = goals,
                 types = types,
                 filterType = filterType,

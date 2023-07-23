@@ -15,7 +15,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.util.simpletimetracker.core.utils.PendingIntents
-import com.example.util.simpletimetracker.domain.model.GoalTimeType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
@@ -39,7 +39,7 @@ class NotificationGoalTimeManager @Inject constructor(
         context.resources.getDimensionPixelSize(R.dimen.notification_icon_size)
     }
     private val checkView = AppCompatImageView(
-        ContextThemeWrapper(context, R.style.AppTheme)
+        ContextThemeWrapper(context, R.style.AppTheme),
     ).apply {
         val size = context.resources.getDimensionPixelSize(R.dimen.notification_icon_half_size)
         val specWidth = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
@@ -51,19 +51,23 @@ class NotificationGoalTimeManager @Inject constructor(
     fun show(params: NotificationGoalTimeParams) {
         val notification: Notification = buildNotification(params)
         createAndroidNotificationChannel()
-        notificationManager.notify(getNotificationTag(params.goalTimeType), params.typeId.toInt(), notification)
+        notificationManager.notify(
+            getNotificationTag(params.goalRange),
+            params.typeId.toInt(),
+            notification,
+        )
     }
 
-    fun hide(typeId: Long, goalTimeType: GoalTimeType) {
-        notificationManager.cancel(getNotificationTag(goalTimeType), typeId.toInt())
+    fun hide(typeId: Long, goalRange: RecordTypeGoal.Range) {
+        notificationManager.cancel(getNotificationTag(goalRange), typeId.toInt())
     }
 
-    private fun getNotificationTag(goalTimeType: GoalTimeType): String {
-        return NOTIFICATION_TAG + when (goalTimeType) {
-            is GoalTimeType.Session -> "" // back support for previous versions, keep same tag
-            is GoalTimeType.Day -> "day"
-            is GoalTimeType.Week -> "week"
-            is GoalTimeType.Month -> "month"
+    private fun getNotificationTag(goalRange: RecordTypeGoal.Range): String {
+        return NOTIFICATION_TAG + when (goalRange) {
+            is RecordTypeGoal.Range.Session -> "" // back support for previous versions, keep same tag
+            is RecordTypeGoal.Range.Daily -> "day"
+            is RecordTypeGoal.Range.Weekly -> "week"
+            is RecordTypeGoal.Range.Monthly -> "month"
         }
     }
 
@@ -96,7 +100,7 @@ class NotificationGoalTimeManager @Inject constructor(
             val channel = NotificationChannel(
                 NOTIFICATIONS_CHANNEL_ID,
                 NOTIFICATIONS_CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_DEFAULT,
             )
             notificationManager.createNotificationChannel(channel)
         }

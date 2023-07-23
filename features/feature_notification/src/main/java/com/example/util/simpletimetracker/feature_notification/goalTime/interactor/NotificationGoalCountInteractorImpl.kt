@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationGoalCoun
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.model.GoalTimeType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeManager
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,51 +35,51 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
 
         // Daily
         val dailyGoalCount = goals.getDailyCount().value
-        if (dailyGoalCount > 0) {
+        if (dailyGoalCount > 1) {
             val dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord)
 
             if (dailyGoalCount == dailyCurrent.count) {
-                show(typeId, GoalTimeType.Day)
+                show(typeId, RecordTypeGoal.Range.Daily)
             }
         }
 
         // Weekly
         val weeklyGoalCount = goals.getWeeklyCount().value
-        if (weeklyGoalCount > 0) {
+        if (weeklyGoalCount > 1) {
             val weeklyCurrent = getCurrentRecordsDurationInteractor.getWeeklyCurrent(runningRecord)
 
             if (weeklyGoalCount == weeklyCurrent.count) {
-                show(typeId, GoalTimeType.Week)
+                show(typeId, RecordTypeGoal.Range.Weekly)
             }
         }
 
         // Monthly
         val monthlyGoalCount = goals.getMonthlyCount().value
-        if (monthlyGoalCount > 0) {
+        if (monthlyGoalCount > 1) {
             val monthlyCurrent = getCurrentRecordsDurationInteractor.getMonthlyCurrent(runningRecord)
 
             if (monthlyGoalCount == monthlyCurrent.count) {
-                show(typeId, GoalTimeType.Month)
+                show(typeId, RecordTypeGoal.Range.Monthly)
             }
         }
     }
 
     override fun cancel(typeId: Long) {
         listOf(
-            GoalTimeType.Session,
-            GoalTimeType.Day,
-            GoalTimeType.Week,
-            GoalTimeType.Month,
+            RecordTypeGoal.Range.Session,
+            RecordTypeGoal.Range.Daily,
+            RecordTypeGoal.Range.Weekly,
+            RecordTypeGoal.Range.Monthly,
         ).forEach {
             manager.hide(typeId, it)
         }
     }
 
-    private fun show(typeId: Long, goalTimeType: GoalTimeType) {
+    private fun show(typeId: Long, goalRange: RecordTypeGoal.Range) {
         GlobalScope.launch {
             notificationGoalParamsInteractor.execute(
                 typeId = typeId,
-                range = goalTimeType,
+                range = goalRange,
                 type = NotificationGoalParamsInteractor.Type.Count,
             )?.let(manager::show)
         }

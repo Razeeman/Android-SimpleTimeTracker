@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.domain.interactor
 
-import com.example.util.simpletimetracker.domain.model.GoalTimeType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 
 interface NotificationGoalTimeInteractor {
 
@@ -10,5 +10,5 @@ interface NotificationGoalTimeInteractor {
 
     fun cancel(typeId: Long)
 
-    fun show(typeId: Long, goalTimeType: GoalTimeType)
+    fun show(typeId: Long, goalRange: RecordTypeGoal.Range)
 }

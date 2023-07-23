@@ -16,7 +16,7 @@ import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.model.GoalTimeType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeParams
 import javax.inject.Inject
@@ -33,7 +33,7 @@ class NotificationGoalParamsInteractor @Inject constructor(
 
     suspend fun execute(
         typeId: Long,
-        range: GoalTimeType,
+        range: RecordTypeGoal.Range,
         type: Type,
     ): NotificationGoalTimeParams? {
         val recordType = recordTypeInteractor.get(typeId) ?: return null
@@ -44,19 +44,19 @@ class NotificationGoalParamsInteractor @Inject constructor(
             // ex. 5h 30m
             is Type.Duration -> {
                 when (range) {
-                    is GoalTimeType.Session -> goals.getSessionDuration()
-                    is GoalTimeType.Day -> goals.getDailyDuration()
-                    is GoalTimeType.Week -> goals.getWeeklyDuration()
-                    is GoalTimeType.Month -> goals.getMonthlyDuration()
+                    is RecordTypeGoal.Range.Session -> goals.getSessionDuration()
+                    is RecordTypeGoal.Range.Daily -> goals.getDailyDuration()
+                    is RecordTypeGoal.Range.Weekly -> goals.getWeeklyDuration()
+                    is RecordTypeGoal.Range.Monthly -> goals.getMonthlyDuration()
                 }.value.let(timeMapper::formatDuration)
             }
             // ex. 3 Records
             is Type.Count -> {
                 when (range) {
-                    is GoalTimeType.Session -> goals.getSessionCount()
-                    is GoalTimeType.Day -> goals.getDailyCount()
-                    is GoalTimeType.Week -> goals.getWeeklyCount()
-                    is GoalTimeType.Month -> goals.getMonthlyCount()
+                    is RecordTypeGoal.Range.Session -> goals.getSessionCount()
+                    is RecordTypeGoal.Range.Daily -> goals.getDailyCount()
+                    is RecordTypeGoal.Range.Weekly -> goals.getWeeklyCount()
+                    is RecordTypeGoal.Range.Monthly -> goals.getMonthlyCount()
                 }.value.let {
                     "$it " + resourceRepo.getQuantityString(
                         stringResId = R.plurals.statistics_detail_times_tracked,
@@ -67,10 +67,10 @@ class NotificationGoalParamsInteractor @Inject constructor(
         }
 
         val goalTypeString = when (range) {
-            is GoalTimeType.Session -> R.string.change_record_type_session_goal_time
-            is GoalTimeType.Day -> R.string.change_record_type_daily_goal_time
-            is GoalTimeType.Week -> R.string.change_record_type_weekly_goal_time
-            is GoalTimeType.Month -> R.string.change_record_type_monthly_goal_time
+            is RecordTypeGoal.Range.Session -> R.string.change_record_type_session_goal_time
+            is RecordTypeGoal.Range.Daily -> R.string.change_record_type_daily_goal_time
+            is RecordTypeGoal.Range.Weekly -> R.string.change_record_type_weekly_goal_time
+            is RecordTypeGoal.Range.Monthly -> R.string.change_record_type_monthly_goal_time
         }.let(resourceRepo::getString).let { "($it)" }
 
         val description = resourceRepo.getString(R.string.notification_goal_time_description) +
@@ -81,7 +81,7 @@ class NotificationGoalParamsInteractor @Inject constructor(
 
         return NotificationGoalTimeParams(
             typeId = recordType.id,
-            goalTimeType = range,
+            goalRange = range,
             icon = recordType.icon
                 .let(iconMapper::mapIcon),
             color = recordType.color

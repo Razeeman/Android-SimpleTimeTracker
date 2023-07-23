@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -10,6 +11,7 @@ import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.Statistics
+import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.GoalTimeViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsGoal.StatisticsGoalViewData
 import javax.inject.Inject
 import kotlin.math.roundToLong
@@ -21,7 +23,67 @@ class GoalViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
 ) {
 
-    fun mapList(
+    fun mapForTimer(
+        goal: RecordTypeGoal?,
+        currentDuration: Long,
+        dailyCurrent: GetCurrentRecordsDurationInteractor.Result?,
+        goalsVisible: Boolean,
+    ): GoalTimeViewData {
+        val noGoal = GoalTimeViewData(
+            text = "",
+            complete = false,
+        )
+        if (goal == null || goal.value <= 0L || !goalsVisible) {
+            return noGoal
+        }
+
+        val typeString = when (goal.range) {
+            is RecordTypeGoal.Range.Session -> R.string.change_record_type_session_goal_time
+            is RecordTypeGoal.Range.Daily -> R.string.change_record_type_daily_goal_time
+            is RecordTypeGoal.Range.Weekly -> R.string.change_record_type_weekly_goal_time
+            is RecordTypeGoal.Range.Monthly -> R.string.change_record_type_monthly_goal_time
+        }.let(resourceRepo::getString).lowercase()
+        val goalValue = when (goal.type) {
+            is RecordTypeGoal.Type.Duration -> goal.value * 1000
+            is RecordTypeGoal.Type.Count -> goal.value
+        }
+        val current = when (goal.type) {
+            is RecordTypeGoal.Type.Duration -> when (goal.range) {
+                is RecordTypeGoal.Range.Session -> currentDuration
+                is RecordTypeGoal.Range.Daily -> dailyCurrent?.duration.orZero()
+                is RecordTypeGoal.Range.Weekly,
+                is RecordTypeGoal.Range.Monthly,
+                -> return noGoal
+            }
+            is RecordTypeGoal.Type.Count -> dailyCurrent?.count.orZero()
+        }
+
+        val valueLeft = goalValue - current
+        val complete = valueLeft <= 0L
+        val durationLeftString = if (complete) {
+            typeString
+        } else {
+            val formatted = when (goal.type) {
+                is RecordTypeGoal.Type.Duration -> mapDuration(
+                    goalValue = valueLeft,
+                    showSeconds = true,
+                    useProportionalMinutes = false,
+                )
+                is RecordTypeGoal.Type.Count -> mapCount(
+                    goalValue = goalValue,
+                )
+            }
+
+            "$typeString $formatted"
+        }
+
+        return GoalTimeViewData(
+            text = durationLeftString,
+            complete = complete,
+        )
+    }
+
+    fun mapStatisticsList(
         goals: List<RecordTypeGoal>,
         types: Map<Long, RecordType>,
         filterType: ChartFilterType,
@@ -95,16 +157,10 @@ class GoalViewDataMapper @Inject constructor(
         showSeconds: Boolean,
     ): StatisticsGoalViewData.Goal {
         fun mapDuration(goalValue: Long): String {
-            return timeMapper.formatInterval(
-                interval = goalValue,
-                forceSeconds = showSeconds,
+            return mapDuration(
+                goalValue = goalValue,
+                showSeconds = showSeconds,
                 useProportionalMinutes = useProportionalMinutes,
-            )
-        }
-        fun mapCount(goalValue: Long): String {
-            return "$goalValue " + resourceRepo.getQuantityString(
-                stringResId = R.plurals.statistics_detail_times_tracked,
-                quantity = goalValue.toInt(),
             )
         }
 
@@ -141,6 +197,27 @@ class GoalViewDataMapper @Inject constructor(
             goalPercent = goalPercent.let { "$it%" },
             goalComplete = goalComplete,
             percent = goalPercent,
+        )
+    }
+
+    private fun mapDuration(
+        goalValue: Long,
+        showSeconds: Boolean,
+        useProportionalMinutes: Boolean,
+    ): String {
+        return timeMapper.formatInterval(
+            interval = goalValue,
+            forceSeconds = showSeconds,
+            useProportionalMinutes = useProportionalMinutes,
+        )
+    }
+
+    private fun mapCount(
+        goalValue: Long,
+    ): String {
+        return "$goalValue " + resourceRepo.getQuantityString(
+            stringResId = R.plurals.statistics_detail_times_tracked,
+            quantity = goalValue.toInt(),
         )
     }
 }
