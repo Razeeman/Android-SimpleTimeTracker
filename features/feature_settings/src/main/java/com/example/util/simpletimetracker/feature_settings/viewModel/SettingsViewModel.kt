@@ -2,195 +2,74 @@ package com.example.util.simpletimetracker.feature_settings.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.core.BuildConfig
+import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
-import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermissionInteractor
-import com.example.util.simpletimetracker.core.interactor.CheckNotificationsPermissionInteractor
-import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
-import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.model.NavigationTab
-import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orFalse
-import com.example.util.simpletimetracker.domain.interactor.NotificationActivityInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationInactivityInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
-import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
-import com.example.util.simpletimetracker.domain.model.CardOrder
-import com.example.util.simpletimetracker.domain.model.WidgetType
-import com.example.util.simpletimetracker.feature_settings.R
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTranslatorViewData
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
-import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.LanguageViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.SettingsUntrackedRangeViewData
+import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsAdditionalViewModelDelegate
+import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsDisplayViewModelDelegate
+import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsMainViewModelDelegate
+import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsNotificationsViewModelDelegate
+import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsParent
+import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsRatingViewModelDelegate
+import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsTranslatorsViewModelDelegate
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
-import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
-import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
-import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
-import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
-import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
+    val mainDelegate: SettingsMainViewModelDelegate,
+    val notificationsDelegate: SettingsNotificationsViewModelDelegate,
+    val displayDelegate: SettingsDisplayViewModelDelegate,
+    val additionalDelegate: SettingsAdditionalViewModelDelegate,
+    val ratingDelegate: SettingsRatingViewModelDelegate,
+    val translatorsDelegate: SettingsTranslatorsViewModelDelegate,
     private val router: Router,
-    private val timeMapper: TimeMapper,
-    private val resourceRepo: ResourceRepo,
-    private val prefsInteractor: PrefsInteractor,
-    private val languageInteractor: LanguageInteractor,
     private val settingsMapper: SettingsMapper,
-    private val applicationDataProvider: ApplicationDataProvider,
-    private val notificationTypeInteractor: NotificationTypeInteractor,
-    private val widgetInteractor: WidgetInteractor,
-    private val notificationInactivityInteractor: NotificationInactivityInteractor,
-    private val notificationActivityInteractor: NotificationActivityInteractor,
-    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
-    private val checkExactAlarmPermissionInteractor: CheckExactAlarmPermissionInteractor,
-    private val checkNotificationsPermissionInteractor: CheckNotificationsPermissionInteractor,
-) : ViewModel() {
+) : BaseViewModel(), SettingsParent {
 
-    val daysInCalendarViewData: LiveData<DaysInCalendarViewData>
-        by lazySuspend { loadDaysInCalendarViewData() }
-    val cardOrderViewData: LiveData<CardOrderViewData>
-        by lazySuspend { loadCardOrderViewData() }
-    val btnCardOrderManualVisibility: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getCardOrder() == CardOrder.MANUAL }
-    val firstDayOfWeekViewData: LiveData<FirstDayOfWeekViewData>
-        by lazySuspend { loadFirstDayOfWeekViewData() }
-    val showUntrackedInRecordsCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getShowUntrackedInRecords() }
-    val showUntrackedInStatisticsCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getShowUntrackedInStatistics() }
-    val untrackedRangeViewData: LiveData<SettingsUntrackedRangeViewData>
-        by lazySuspend { loadUntrackedRangeViewData() }
-    val showRecordsCalendarCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getShowRecordsCalendar() }
-    val reverseOrderInCalendarCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getReverseOrderInCalendar() }
-    val showActivityFiltersCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getShowActivityFilters() }
-    val showGoalsSeparatelyCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getShowGoalsSeparately() }
-    val allowMultitaskingCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getAllowMultitasking() }
-    val showNotificationsCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getShowNotifications() }
-    val showNotificationsControlsCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getShowNotificationsControls() }
-    val keepStatisticsRangeCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getKeepStatisticsRange() }
-    val startOfDayViewData: LiveData<SettingsStartOfDayViewData>
-        by lazySuspend { loadStartOfDayViewData() }
-    val inactivityReminderViewData: LiveData<SettingsDurationViewData>
-        by lazySuspend { loadInactivityReminderViewData() }
-    val inactivityReminderRecurrentCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getInactivityReminderRecurrent() }
-    val inactivityReminderDndStartViewData: LiveData<String>
-        by lazySuspend { loadInactivityReminderDndStartViewData() }
-    val inactivityReminderDndEndViewData: LiveData<String>
-        by lazySuspend { loadInactivityReminderDndEndViewData() }
-    val activityReminderViewData: LiveData<SettingsDurationViewData>
-        by lazySuspend { loadActivityReminderViewData() }
-    val activityReminderRecurrentCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getActivityReminderRecurrent() }
-    val activityReminderDndStartViewData: LiveData<String>
-        by lazySuspend { loadActivityReminderDndStartViewData() }
-    val activityReminderDndEndViewData: LiveData<String>
-        by lazySuspend { loadActivityReminderDndEndViewData() }
-    val ignoreShortRecordsViewData: LiveData<String>
-        by lazySuspend { loadIgnoreShortRecordsViewData() }
-    val ignoreShortUntrackedViewData: LiveData<String>
-        by lazySuspend { loadIgnoreShortUntrackedViewData() }
-    val darkModeViewData: LiveData<DarkModeViewData>
-        by lazySuspend { loadDarkModeViewData() }
-    val languageViewData: LiveData<LanguageViewData>
-        by lazySuspend { loadLanguageViewData() }
-    val showRecordTagSelectionCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getShowRecordTagSelection() }
-    val recordTagSelectionCloseCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getRecordTagSelectionCloseAfterOne() }
-    val recordTagSelectionForGeneralTagsCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getRecordTagSelectionEvenForGeneralTags() }
-    val automatedTrackingSendEventsCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getAutomatedTrackingSendEvents() }
-    val useMilitaryTimeCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getUseMilitaryTimeFormat() }
-    val useMilitaryTimeHint: LiveData<String>
-        by lazySuspend { loadUseMilitaryTimeViewData() }
-    val useMonthDayTimeCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = prefsInteractor.getUseMonthDayTimeFormat()
-            }
-            initial
-        }
-    }
-
-    val useMonthDayTimeHint: LiveData<String> by lazy {
-        MutableLiveData<String>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadUseMonthDayTimeViewData()
-            }
-            initial
-        }
-    }
-
-    val useProportionalMinutesCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getUseProportionalMinutes() }
-    val showSecondsCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getShowSeconds() }
-    val keepScreenOnCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getKeepScreenOn() }
-    val useProportionalMinutesHint: LiveData<String>
-        by lazySuspend { loadUseProportionalMinutesViewData() }
-    val translatorsViewData: LiveData<List<SettingsTranslatorViewData>>
-        by lazy { MutableLiveData(loadTranslatorsViewData()) }
-    val versionName: LiveData<String>
-        by lazy { MutableLiveData(loadVersionName()) }
-
-    val themeChanged: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val settingsNotificationsVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsDisplayVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsAdditionalVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsBackupVisibility: LiveData<Boolean> = MutableLiveData(false)
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
 
+    init {
+        notificationsDelegate.init(this)
+        displayDelegate.init(this)
+        additionalDelegate.init(this)
+    }
+
+    override fun onCleared() {
+        mainDelegate.clear()
+        notificationsDelegate.clear()
+        displayDelegate.clear()
+        additionalDelegate.clear()
+        ratingDelegate.clear()
+        translatorsDelegate.clear()
+        super.onCleared()
+    }
+
+    override suspend fun onUseMilitaryTimeClicked() {
+        additionalDelegate.onUseMilitaryTimeClicked()
+        notificationsDelegate.onUseMilitaryTimeClicked()
+    }
+
     fun onVisible() {
-        viewModelScope.launch {
-            // Need to update card order because it changes on card order dialog
-            updateCardOrderViewData()
-
-            // Update can come from quick settings widget
-            allowMultitaskingCheckbox.set(prefsInteractor.getAllowMultitasking())
-            showRecordTagSelectionCheckbox.set(prefsInteractor.getShowRecordTagSelection())
-
-            // Update can come from system settings
-            updateLanguageViewData()
-
-            // Update after day changes
-            updateStartOfDayViewData()
-        }
+        mainDelegate.onVisible()
+        displayDelegate.onVisible()
+        additionalDelegate.onVisible()
     }
 
     fun onSettingsNotificationsClick() {
@@ -213,560 +92,43 @@ class SettingsViewModel @Inject constructor(
         settingsBackupVisibility.set(newValue)
     }
 
-    fun onRateClick() {
-        router.execute(OpenMarketParams(packageName = applicationDataProvider.getPackageName()))
-    }
-
-    fun onFeedbackClick() {
-        router.execute(
-            data = SendEmailParams(
-                email = resourceRepo.getString(R.string.support_email),
-                subject = resourceRepo.getString(R.string.support_email_subject),
-                chooserTitle = resourceRepo.getString(R.string.settings_email_chooser_title),
-                notHandledCallback = { R.string.message_app_not_found.let(::showMessage) },
-            ),
-        )
-    }
-
-    fun onDaysInCalendarSelected(position: Int) {
-        viewModelScope.launch {
-            val currentValue = prefsInteractor.getDaysInCalendar()
-            val newValue = settingsMapper.toDaysInCalendar(position)
-            if (newValue == currentValue) return@launch
-            prefsInteractor.setDaysInCalendar(newValue)
-            updateDaysInCalendarViewData()
-        }
-    }
-
-    fun onRecordTypeOrderSelected(position: Int) {
-        viewModelScope.launch {
-            val currentOrder = prefsInteractor.getCardOrder()
-            val newOrder = settingsMapper.toCardOrder(position)
-            if (newOrder == currentOrder) return@launch
-
-            btnCardOrderManualVisibility.set(newOrder == CardOrder.MANUAL)
-            if (newOrder == CardOrder.MANUAL) {
-                openCardOrderDialog(currentOrder)
-            }
-            prefsInteractor.setCardOrder(newOrder)
-            updateCardOrderViewData()
-        }
-    }
-
-    fun onCardOrderManualClick() {
-        openCardOrderDialog(CardOrder.MANUAL)
-    }
-
-    fun onFirstDayOfWeekSelected(position: Int) {
-        val newDayOfWeek = settingsMapper.toDayOfWeek(position)
-
-        viewModelScope.launch {
-            prefsInteractor.setFirstDayOfWeek(newDayOfWeek)
-            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
-            notificationGoalTimeInteractor.checkAndReschedule()
-            updateFirstDayOfWeekViewData()
-        }
-    }
-
-    fun onStartOfDayClicked() {
-        viewModelScope.launch {
-            openDateTimeDialog(
-                tag = START_OF_DAY_DIALOG_TAG,
-                timestamp = prefsInteractor.getStartOfDayShift(),
-                useMilitaryTime = true,
-            )
-        }
-    }
-
-    fun onStartOfDaySignClicked() {
-        viewModelScope.launch {
-            val newValue = prefsInteractor.getStartOfDayShift() * -1
-            prefsInteractor.setStartOfDayShift(newValue)
-            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
-            notificationTypeInteractor.updateNotifications()
-            notificationGoalTimeInteractor.checkAndReschedule()
-            updateStartOfDayViewData()
-        }
-    }
-
-    fun onShowUntrackedInRecordsClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getShowUntrackedInRecords()
-            prefsInteractor.setShowUntrackedInRecords(newValue)
-            showUntrackedInRecordsCheckbox.set(newValue)
-        }
-    }
-
-    fun onShowUntrackedInStatisticsClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getShowUntrackedInStatistics()
-            prefsInteractor.setShowUntrackedInStatistics(newValue)
-            showUntrackedInStatisticsCheckbox.set(newValue)
-            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
-        }
-    }
-
-    fun onUntrackedRangeClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getUntrackedRangeEnabled()
-            prefsInteractor.setUntrackedRangeEnabled(newValue)
-            updateUntrackedRangeViewData()
-        }
-    }
-
-    fun onUntrackedRangeStartClicked() {
-        viewModelScope.launch {
-            openDateTimeDialog(
-                tag = UNTRACKED_RANGE_START_DIALOG_TAG,
-                timestamp = prefsInteractor.getUntrackedRangeStart(),
-                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
-            )
-        }
-    }
-
-    fun onUntrackedRangeEndClicked() {
-        viewModelScope.launch {
-            openDateTimeDialog(
-                tag = UNTRACKED_RANGE_END_DIALOG_TAG,
-                timestamp = prefsInteractor.getUntrackedRangeEnd(),
-                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
-            )
-        }
-    }
-
-    fun onShowRecordsCalendarClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getShowRecordsCalendar()
-            prefsInteractor.setShowRecordsCalendar(newValue)
-            (showRecordsCalendarCheckbox as MutableLiveData).value = newValue
-        }
-    }
-
-    fun onReverseOrderInCalendarClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getReverseOrderInCalendar()
-            prefsInteractor.setReverseOrderInCalendar(newValue)
-            (reverseOrderInCalendarCheckbox as MutableLiveData).value = newValue
-        }
-    }
-
-    fun onShowActivityFiltersClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getShowActivityFilters()
-            prefsInteractor.setShowActivityFilters(newValue)
-            (showActivityFiltersCheckbox as MutableLiveData).value = newValue
-        }
-    }
-
-    fun onShowGoalsSeparatelyClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getShowGoalsSeparately()
-            prefsInteractor.setShowGoalsSeparately(newValue)
-            (showGoalsSeparatelyCheckbox as MutableLiveData).value = newValue
-            router.restartApp()
-        }
-    }
-
-    fun onAllowMultitaskingClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getAllowMultitasking()
-            prefsInteractor.setAllowMultitasking(newValue)
-            widgetInteractor.updateWidgets(listOf(WidgetType.QUICK_SETTINGS))
-            allowMultitaskingCheckbox.set(newValue)
-        }
-    }
-
-    fun onShowNotificationsClicked() {
-        fun updateValue(newValue: Boolean) = viewModelScope.launch {
-            prefsInteractor.setShowNotifications(newValue)
-            showNotificationsCheckbox.set(newValue)
-            notificationTypeInteractor.updateNotifications()
-        }
-
-        viewModelScope.launch {
-            if (prefsInteractor.getShowNotifications()) {
-                updateValue(false)
-            } else {
-                checkNotificationsPermissionInteractor.execute(
-                    onEnabled = { updateValue(true) },
-                    onDisabled = { updateValue(false) },
-                )
-            }
-        }
-    }
-
-    fun onShowNotificationsControlsClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getShowNotificationsControls()
-            prefsInteractor.setShowNotificationsControls(newValue)
-            showNotificationsControlsCheckbox.set(newValue)
-            notificationTypeInteractor.updateNotifications()
-        }
-    }
-
-    fun onKeepStatisticsRangeClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getKeepStatisticsRange()
-            prefsInteractor.setKeepStatisticsRange(newValue)
-            keepStatisticsRangeCheckbox.set(newValue)
-        }
-    }
-
-    fun onInactivityReminderClicked() = viewModelScope.launch {
-        val duration = prefsInteractor.getInactivityReminderDuration()
-
-        fun openDialog() {
-            DurationDialogParams(
-                tag = INACTIVITY_DURATION_DIALOG_TAG,
-                duration = duration,
-            ).let(router::navigate)
-        }
-
-        if (duration > 0) {
-            openDialog()
-        } else {
-            checkNotificationsPermissionInteractor.execute(
-                onEnabled = ::openDialog,
-            )
-        }
-    }
-
-    fun onInactivityReminderRecurrentClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getInactivityReminderRecurrent()
-            prefsInteractor.setInactivityReminderRecurrent(newValue)
-            inactivityReminderRecurrentCheckbox.set(newValue)
-            notificationInactivityInteractor.cancel()
-            notificationInactivityInteractor.checkAndSchedule()
-        }
-    }
-
-    fun onInactivityReminderDoNotDisturbStartClicked() {
-        viewModelScope.launch {
-            openDateTimeDialog(
-                tag = INACTIVITY_REMINDER_DND_START_DIALOG_TAG,
-                timestamp = prefsInteractor.getInactivityReminderDoNotDisturbStart(),
-                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
-            )
-        }
-    }
-
-    fun onInactivityReminderDoNotDisturbEndClicked() {
-        viewModelScope.launch {
-            openDateTimeDialog(
-                tag = INACTIVITY_REMINDER_DND_END_DIALOG_TAG,
-                timestamp = prefsInteractor.getInactivityReminderDoNotDisturbEnd(),
-                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
-            )
-        }
-    }
-
-    fun onActivityReminderClicked() = viewModelScope.launch {
-        val duration = prefsInteractor.getActivityReminderDuration()
-
-        fun openDialog() {
-            DurationDialogParams(
-                tag = ACTIVITY_DURATION_DIALOG_TAG,
-                duration = duration,
-            ).let(router::navigate)
-        }
-
-        if (duration > 0) {
-            openDialog()
-        } else {
-            checkNotificationsPermissionInteractor.execute(onEnabled = ::openDialog)
-        }
-    }
-
-    fun onActivityReminderRecurrentClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getActivityReminderRecurrent()
-            prefsInteractor.setActivityReminderRecurrent(newValue)
-            activityReminderRecurrentCheckbox.set(newValue)
-            notificationActivityInteractor.cancel()
-            notificationActivityInteractor.checkAndSchedule()
-        }
-    }
-
-    fun onActivityReminderDoNotDisturbStartClicked() {
-        viewModelScope.launch {
-            openDateTimeDialog(
-                tag = ACTIVITY_REMINDER_DND_START_DIALOG_TAG,
-                timestamp = prefsInteractor.getActivityReminderDoNotDisturbStart(),
-                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
-            )
-        }
-    }
-
-    fun onActivityReminderDoNotDisturbEndClicked() {
-        viewModelScope.launch {
-            openDateTimeDialog(
-                tag = ACTIVITY_REMINDER_DND_END_DIALOG_TAG,
-                timestamp = prefsInteractor.getActivityReminderDoNotDisturbEnd(),
-                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
-            )
-        }
-    }
-
-    fun onIgnoreShortRecordsClicked() {
-        viewModelScope.launch {
-            DurationDialogParams(
-                tag = IGNORE_SHORT_RECORDS_DIALOG_TAG,
-                duration = prefsInteractor.getIgnoreShortRecordsDuration(),
-            ).let(router::navigate)
-        }
-    }
-
-    fun onIgnoreShortUntrackedClicked() {
-        viewModelScope.launch {
-            DurationDialogParams(
-                tag = IGNORE_SHORT_UNTRACKED_DIALOG_TAG,
-                duration = prefsInteractor.getIgnoreShortUntrackedDuration(),
-            ).let(router::navigate)
-        }
-    }
-
-    fun onDarkModeSelected(position: Int) {
-        viewModelScope.launch {
-            val currentMode = prefsInteractor.getSelectedDarkMode()
-            val newMode = settingsMapper.toDarkMode(position)
-            if (newMode == currentMode) return@launch
-
-            prefsInteractor.setDarkMode(newMode)
-            updateDarkModeViewData()
-            themeChanged.set(true)
-        }
-    }
-
-    fun onLanguageSelected(position: Int) {
-        val newLanguage = settingsMapper.toLanguage(position)
-        languageInteractor.setLanguage(newLanguage)
-        updateLanguageViewData()
-        router.restartApp()
-    }
-
-    fun onUseMilitaryTimeClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getUseMilitaryTimeFormat()
-            prefsInteractor.setUseMilitaryTimeFormat(newValue)
-            (useMilitaryTimeCheckbox as MutableLiveData).value = newValue
-            notificationTypeInteractor.updateNotifications()
-            updateUseMilitaryTimeViewData()
-
-            updateStartOfDayViewData()
-            updateActivityReminderDndStartViewData()
-            updateActivityReminderDndEndViewData()
-            updateInactivityReminderDndStartViewData()
-            updateInactivityReminderDndEndViewData()
-            updateUntrackedRangeViewData()
-        }
-    }
-
-    fun onUseMonthDayTimeClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getUseMonthDayTimeFormat()
-            prefsInteractor.setUseMonthDayTimeFormat(newValue)
-            (useMonthDayTimeCheckbox as MutableLiveData).value = newValue
-            updateUseMonthDayTimeViewData()
-        }
-    }
-
-    fun onUseProportionalMinutesClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getUseProportionalMinutes()
-            prefsInteractor.setUseProportionalMinutes(newValue)
-            (useProportionalMinutesCheckbox as MutableLiveData).value = newValue
-            notificationTypeInteractor.updateNotifications()
-            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
-            updateUseProportionalMinutesViewData()
-        }
-    }
-
-    fun onShowSecondsClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getShowSeconds()
-            prefsInteractor.setShowSeconds(newValue)
-            showSecondsCheckbox.set(newValue)
-            notificationTypeInteractor.updateNotifications()
-            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
-        }
-    }
-
-    fun onKeepScreenOnClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getKeepScreenOn()
-            prefsInteractor.setKeepScreenOn(newValue)
-            (keepScreenOnCheckbox as MutableLiveData).value = newValue
-        }
-    }
-
-    fun onShowRecordTagSelectionClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getShowRecordTagSelection()
-            prefsInteractor.setShowRecordTagSelection(newValue)
-            widgetInteractor.updateWidgets(listOf(WidgetType.QUICK_SETTINGS))
-            showRecordTagSelectionCheckbox.set(newValue)
-        }
-    }
-
-    fun onRecordTagSelectionCloseClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getRecordTagSelectionCloseAfterOne()
-            prefsInteractor.setRecordTagSelectionCloseAfterOne(newValue)
-            recordTagSelectionCloseCheckbox.set(newValue)
-        }
-    }
-
-    fun onRecordTagSelectionGeneralClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getRecordTagSelectionEvenForGeneralTags()
-            prefsInteractor.setRecordTagSelectionEvenForGeneralTags(newValue)
-            recordTagSelectionForGeneralTagsCheckbox.set(newValue)
-        }
-    }
-
-    fun onAutomatedTrackingSendEventsClicked() {
-        viewModelScope.launch {
-            val newValue = !prefsInteractor.getAutomatedTrackingSendEvents()
-            prefsInteractor.setAutomatedTrackingSendEvents(newValue)
-            automatedTrackingSendEventsCheckbox.set(newValue)
-        }
-    }
-
-    fun onChangeCardSizeClick() {
-        router.navigate(CardSizeDialogParams)
-    }
-
-    fun onEditCategoriesClick() {
-        router.navigate(CategoriesParams)
-    }
-
-    fun onArchiveClick() {
-        router.navigate(ArchiveParams)
-    }
-
-    fun onDataEditClick() {
-        router.navigate(DataEditParams)
-    }
-
     fun onDurationSet(tag: String?, duration: Long) {
         when (tag) {
-            INACTIVITY_DURATION_DIALOG_TAG -> viewModelScope.launch {
-                prefsInteractor.setInactivityReminderDuration(duration)
-                updateInactivityReminderViewData()
-                notificationInactivityInteractor.cancel()
-                notificationInactivityInteractor.checkAndSchedule()
-                checkExactAlarmPermissionInteractor.execute()
-            }
-
-            ACTIVITY_DURATION_DIALOG_TAG -> viewModelScope.launch {
-                prefsInteractor.setActivityReminderDuration(duration)
-                updateActivityReminderViewData()
-                notificationActivityInteractor.cancel()
-                notificationActivityInteractor.checkAndSchedule()
-                checkExactAlarmPermissionInteractor.execute()
-            }
-
-            IGNORE_SHORT_RECORDS_DIALOG_TAG -> viewModelScope.launch {
-                prefsInteractor.setIgnoreShortRecordsDuration(duration)
-                updateIgnoreShortRecordsViewData()
-            }
-
-            IGNORE_SHORT_UNTRACKED_DIALOG_TAG -> viewModelScope.launch {
-                prefsInteractor.setIgnoreShortUntrackedDuration(duration)
-                updateIgnoreShortUntrackedViewData()
-            }
+            INACTIVITY_DURATION_DIALOG_TAG,
+            ACTIVITY_DURATION_DIALOG_TAG,
+            -> notificationsDelegate.onDurationSet(tag, duration)
+            IGNORE_SHORT_RECORDS_DIALOG_TAG,
+            -> additionalDelegate.onDurationSet(tag, duration)
+            IGNORE_SHORT_UNTRACKED_DIALOG_TAG,
+            -> displayDelegate.onDurationSet(tag, duration)
         }
     }
 
     fun onDurationDisabled(tag: String?) {
         when (tag) {
-            INACTIVITY_DURATION_DIALOG_TAG -> viewModelScope.launch {
-                prefsInteractor.setInactivityReminderDuration(0)
-                updateInactivityReminderViewData()
-                notificationInactivityInteractor.cancel()
-            }
-
-            ACTIVITY_DURATION_DIALOG_TAG -> viewModelScope.launch {
-                prefsInteractor.setActivityReminderDuration(0)
-                updateActivityReminderViewData()
-                notificationActivityInteractor.cancel()
-            }
-
-            IGNORE_SHORT_RECORDS_DIALOG_TAG -> viewModelScope.launch {
-                prefsInteractor.setIgnoreShortRecordsDuration(0)
-                updateIgnoreShortRecordsViewData()
-            }
-
-            IGNORE_SHORT_UNTRACKED_DIALOG_TAG -> viewModelScope.launch {
-                prefsInteractor.setIgnoreShortUntrackedDuration(0)
-                updateIgnoreShortUntrackedViewData()
-            }
+            INACTIVITY_DURATION_DIALOG_TAG,
+            ACTIVITY_DURATION_DIALOG_TAG,
+            -> notificationsDelegate.onDurationDisabled(tag)
+            IGNORE_SHORT_RECORDS_DIALOG_TAG,
+            -> additionalDelegate.onDurationDisabled(tag)
+            IGNORE_SHORT_UNTRACKED_DIALOG_TAG,
+            -> displayDelegate.onDurationDisabled(tag)
         }
     }
 
     fun onDateTimeSet(timestamp: Long, tag: String?) = viewModelScope.launch {
         when (tag) {
-            START_OF_DAY_DIALOG_TAG -> {
-                val wasPositive = prefsInteractor.getStartOfDayShift() >= 0
-                val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive)
-                prefsInteractor.setStartOfDayShift(newValue)
-                widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
-                notificationTypeInteractor.updateNotifications()
-                notificationGoalTimeInteractor.checkAndReschedule()
-                updateStartOfDayViewData()
-            }
-
-            INACTIVITY_REMINDER_DND_START_DIALOG_TAG -> {
-                val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
-                prefsInteractor.setInactivityReminderDoNotDisturbStart(newValue)
-                updateInactivityReminderDndStartViewData()
-                notificationInactivityInteractor.cancel()
-                notificationInactivityInteractor.checkAndSchedule()
-            }
-
-            INACTIVITY_REMINDER_DND_END_DIALOG_TAG -> {
-                val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
-                prefsInteractor.setInactivityReminderDoNotDisturbEnd(newValue)
-                updateInactivityReminderDndEndViewData()
-                notificationInactivityInteractor.cancel()
-                notificationInactivityInteractor.checkAndSchedule()
-            }
-
-            ACTIVITY_REMINDER_DND_START_DIALOG_TAG -> {
-                val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
-                prefsInteractor.setActivityReminderDoNotDisturbStart(newValue)
-                updateActivityReminderDndStartViewData()
-                notificationActivityInteractor.cancel()
-                notificationActivityInteractor.checkAndSchedule()
-            }
-
-            ACTIVITY_REMINDER_DND_END_DIALOG_TAG -> {
-                val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
-                prefsInteractor.setActivityReminderDoNotDisturbEnd(newValue)
-                updateActivityReminderDndEndViewData()
-                notificationActivityInteractor.cancel()
-                notificationActivityInteractor.checkAndSchedule()
-            }
-
-            UNTRACKED_RANGE_START_DIALOG_TAG -> {
-                val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
-                prefsInteractor.setUntrackedRangeStart(newValue)
-                updateUntrackedRangeViewData()
-            }
-
-            UNTRACKED_RANGE_END_DIALOG_TAG -> {
-                val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
-                prefsInteractor.setUntrackedRangeEnd(newValue)
-                updateUntrackedRangeViewData()
-            }
+            START_OF_DAY_DIALOG_TAG,
+            -> additionalDelegate.onDateTimeSet(timestamp, tag)
+            INACTIVITY_REMINDER_DND_START_DIALOG_TAG,
+            INACTIVITY_REMINDER_DND_END_DIALOG_TAG,
+            ACTIVITY_REMINDER_DND_START_DIALOG_TAG,
+            ACTIVITY_REMINDER_DND_END_DIALOG_TAG,
+            -> notificationsDelegate.onDateTimeSet(timestamp, tag)
+            UNTRACKED_RANGE_START_DIALOG_TAG,
+            UNTRACKED_RANGE_END_DIALOG_TAG,
+            -> displayDelegate.onDateTimeSet(timestamp, tag)
         }
-    }
-
-    fun onAutomatedTrackingHelpClick() {
-        router.navigate(
-            settingsMapper.toAutomatedTrackingHelpDialog(),
-        )
     }
 
     fun onTabReselected(tab: NavigationTab?) {
@@ -775,7 +137,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    private fun openDateTimeDialog(
+    override fun openDateTimeDialog(
         tag: String,
         timestamp: Long,
         useMilitaryTime: Boolean,
@@ -788,258 +150,17 @@ class SettingsViewModel @Inject constructor(
         ).let(router::navigate)
     }
 
-    private fun openCardOrderDialog(cardOrder: CardOrder) {
-        router.navigate(
-            CardOrderDialogParams(cardOrder),
-        )
-    }
-
-    private fun showMessage(stringResId: Int) {
-        val params = SnackBarParams(message = resourceRepo.getString(stringResId))
-        router.show(params)
-    }
-
-    private suspend fun updateDaysInCalendarViewData() {
-        val data = loadDaysInCalendarViewData()
-        daysInCalendarViewData.set(data)
-    }
-
-    private suspend fun loadDaysInCalendarViewData(): DaysInCalendarViewData {
-        return prefsInteractor.getDaysInCalendar()
-            .let(settingsMapper::toDaysInCalendarViewData)
-    }
-
-    private suspend fun updateCardOrderViewData() {
-        val data = loadCardOrderViewData()
-        (cardOrderViewData as MutableLiveData).value = data
-    }
-
-    private suspend fun loadCardOrderViewData(): CardOrderViewData {
-        return prefsInteractor.getCardOrder()
-            .let(settingsMapper::toCardOrderViewData)
-    }
-
-    private suspend fun updateFirstDayOfWeekViewData() {
-        val data = loadFirstDayOfWeekViewData()
-        (firstDayOfWeekViewData as MutableLiveData).value = data
-    }
-
-    private suspend fun loadFirstDayOfWeekViewData(): FirstDayOfWeekViewData {
-        return prefsInteractor.getFirstDayOfWeek()
-            .let(settingsMapper::toFirstDayOfWeekViewData)
-    }
-
-    private suspend fun updateDarkModeViewData() {
-        darkModeViewData.set(loadDarkModeViewData())
-    }
-
-    private suspend fun loadDarkModeViewData(): DarkModeViewData {
-        return prefsInteractor.getSelectedDarkMode()
-            .let(settingsMapper::toDarkModeViewData)
-    }
-
-    private fun updateLanguageViewData() {
-        languageViewData.set(loadLanguageViewData())
-    }
-
-    private fun loadLanguageViewData(): LanguageViewData {
-        return languageInteractor.getCurrentLanguage()
-            .let(settingsMapper::toLanguageViewData)
-    }
-
-    private suspend fun updateStartOfDayViewData() {
-        val data = loadStartOfDayViewData()
-        startOfDayViewData.set(data)
-    }
-
-    private suspend fun loadStartOfDayViewData(): SettingsStartOfDayViewData {
-        val shift = prefsInteractor.getStartOfDayShift()
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-
-        val hint = resourceRepo.getString(
-            R.string.settings_start_of_day_hint_value,
-            timeMapper.formatDateTime(
-                time = timeMapper.getStartOfDayTimeStamp() + shift,
-                useMilitaryTime = useMilitaryTime,
-                showSeconds = false,
-            ),
-        )
-
-        return SettingsStartOfDayViewData(
-            startOfDayValue = settingsMapper.toStartOfDayText(shift, useMilitaryTime = true),
-            startOfDaySign = settingsMapper.toStartOfDaySign(shift),
-            hint = hint,
-        )
-    }
-
-    private suspend fun updateInactivityReminderViewData() {
-        val data = loadInactivityReminderViewData()
-        inactivityReminderViewData.set(data)
-    }
-
-    private suspend fun loadInactivityReminderViewData(): SettingsDurationViewData {
-        return prefsInteractor.getInactivityReminderDuration()
-            .let(settingsMapper::toDurationViewData)
-    }
-
-    private suspend fun updateInactivityReminderDndStartViewData() {
-        val data = loadInactivityReminderDndStartViewData()
-        inactivityReminderDndStartViewData.set(data)
-    }
-
-    private suspend fun loadInactivityReminderDndStartViewData(): String {
-        val shift = prefsInteractor.getInactivityReminderDoNotDisturbStart()
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
-    }
-
-    private suspend fun updateInactivityReminderDndEndViewData() {
-        val data = loadInactivityReminderDndEndViewData()
-        inactivityReminderDndEndViewData.set(data)
-    }
-
-    private suspend fun loadInactivityReminderDndEndViewData(): String {
-        val shift = prefsInteractor.getInactivityReminderDoNotDisturbEnd()
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
-    }
-
-    private suspend fun updateActivityReminderViewData() {
-        val data = loadActivityReminderViewData()
-        activityReminderViewData.set(data)
-    }
-
-    private suspend fun loadActivityReminderViewData(): SettingsDurationViewData {
-        return prefsInteractor.getActivityReminderDuration()
-            .let(settingsMapper::toDurationViewData)
-    }
-
-    private suspend fun updateActivityReminderDndStartViewData() {
-        val data = loadActivityReminderDndStartViewData()
-        activityReminderDndStartViewData.set(data)
-    }
-
-    private suspend fun loadActivityReminderDndStartViewData(): String {
-        val shift = prefsInteractor.getActivityReminderDoNotDisturbStart()
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
-    }
-
-    private suspend fun updateActivityReminderDndEndViewData() {
-        val data = loadActivityReminderDndEndViewData()
-        activityReminderDndEndViewData.set(data)
-    }
-
-    private suspend fun loadActivityReminderDndEndViewData(): String {
-        val shift = prefsInteractor.getActivityReminderDoNotDisturbEnd()
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
-    }
-
-    private suspend fun updateIgnoreShortRecordsViewData() {
-        val data = loadIgnoreShortRecordsViewData()
-        ignoreShortRecordsViewData.set(data)
-    }
-
-    private suspend fun loadIgnoreShortRecordsViewData(): String {
-        return prefsInteractor.getIgnoreShortRecordsDuration()
-            .let(settingsMapper::toDurationViewData)
-            .text
-    }
-
-    private suspend fun updateIgnoreShortUntrackedViewData() {
-        val data = loadIgnoreShortUntrackedViewData()
-        ignoreShortUntrackedViewData.set(data)
-    }
-
-    private suspend fun loadIgnoreShortUntrackedViewData(): String {
-        return prefsInteractor.getIgnoreShortUntrackedDuration()
-            .let(settingsMapper::toDurationViewData)
-            .text
-    }
-
-    private suspend fun updateUntrackedRangeViewData() {
-        val data = loadUntrackedRangeViewData()
-        untrackedRangeViewData.set(data)
-    }
-
-    private suspend fun loadUntrackedRangeViewData(): SettingsUntrackedRangeViewData {
-        val enabled = prefsInteractor.getUntrackedRangeEnabled()
-
-        return if (enabled) {
-            val start = prefsInteractor.getUntrackedRangeStart()
-            val end = prefsInteractor.getUntrackedRangeEnd()
-            val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-            SettingsUntrackedRangeViewData.Enabled(
-                settingsMapper.toStartOfDayText(start, useMilitaryTime),
-                settingsMapper.toStartOfDayText(end, useMilitaryTime),
-            )
-        } else {
-            SettingsUntrackedRangeViewData.Disabled
-        }
-    }
-
-    private suspend fun updateUseMilitaryTimeViewData() {
-        val data = loadUseMilitaryTimeViewData()
-        useMilitaryTimeHint.set(data)
-    }
-
-    private suspend fun updateUseMonthDayTimeViewData() {
-        val data = loadUseMonthDayTimeViewData()
-        useMonthDayTimeHint.set(data)
-    }
-
-    private suspend fun updateUseProportionalMinutesViewData() {
-        val data = loadUseProportionalMinutesViewData()
-        useProportionalMinutesHint.set(data)
-    }
-
-    private suspend fun loadUseMilitaryTimeViewData(): String {
-        return prefsInteractor.getUseMilitaryTimeFormat()
-            .let(settingsMapper::toUseMilitaryTimeHint)
-    }
-
-    private suspend fun loadUseMonthDayTimeViewData(): String {
-        return prefsInteractor.getUseMonthDayTimeFormat()
-            .let(settingsMapper::toUseMonthDayTimeHint)
-    }
-
-    private suspend fun loadUseProportionalMinutesViewData(): String {
-        return prefsInteractor.getUseProportionalMinutes()
-            .let(settingsMapper::toUseProportionalMinutesHint)
-    }
-
-    private fun loadTranslatorsViewData(): List<SettingsTranslatorViewData> {
-        return settingsMapper.mapTranslatorsViewData()
-    }
-
-    private fun loadVersionName(): String {
-        return applicationDataProvider.getAppVersion().let {
-            if (BuildConfig.DEBUG) {
-                "$it ${BuildConfig.BUILD_TYPE}"
-            } else {
-                it
-            }
-        }
-    }
-
     companion object {
-        private const val INACTIVITY_DURATION_DIALOG_TAG =
-            "inactivity_duration_dialog_tag"
-        private const val INACTIVITY_REMINDER_DND_START_DIALOG_TAG =
-            "inactivity_reminder_dnd_start_dialog_tag"
-        private const val INACTIVITY_REMINDER_DND_END_DIALOG_TAG =
-            "inactivity_reminder_dnd_end_dialog_tag"
-        private const val ACTIVITY_DURATION_DIALOG_TAG =
-            "activity_duration_dialog_tag"
-        private const val ACTIVITY_REMINDER_DND_START_DIALOG_TAG =
-            "activity_reminder_dnd_start_dialog_tag"
-        private const val ACTIVITY_REMINDER_DND_END_DIALOG_TAG =
-            "activity_reminder_dnd_end_dialog_tag"
-        private const val IGNORE_SHORT_RECORDS_DIALOG_TAG = "ignore_short_records_dialog_tag"
-        private const val IGNORE_SHORT_UNTRACKED_DIALOG_TAG = "ignore_short_untracked_dialog_tag"
-        private const val UNTRACKED_RANGE_START_DIALOG_TAG = "untracked_range_start_dialog_tag"
-        private const val UNTRACKED_RANGE_END_DIALOG_TAG = "untracked_range_end_dialog_tag"
-        private const val START_OF_DAY_DIALOG_TAG = "start_of_day_dialog_tag"
+        const val INACTIVITY_DURATION_DIALOG_TAG = "inactivity_duration_dialog_tag"
+        const val INACTIVITY_REMINDER_DND_START_DIALOG_TAG = "inactivity_reminder_dnd_start_dialog_tag"
+        const val INACTIVITY_REMINDER_DND_END_DIALOG_TAG = "inactivity_reminder_dnd_end_dialog_tag"
+        const val ACTIVITY_DURATION_DIALOG_TAG = "activity_duration_dialog_tag"
+        const val ACTIVITY_REMINDER_DND_START_DIALOG_TAG = "activity_reminder_dnd_start_dialog_tag"
+        const val ACTIVITY_REMINDER_DND_END_DIALOG_TAG = "activity_reminder_dnd_end_dialog_tag"
+        const val IGNORE_SHORT_RECORDS_DIALOG_TAG = "ignore_short_records_dialog_tag"
+        const val IGNORE_SHORT_UNTRACKED_DIALOG_TAG = "ignore_short_untracked_dialog_tag"
+        const val UNTRACKED_RANGE_START_DIALOG_TAG = "untracked_range_start_dialog_tag"
+        const val UNTRACKED_RANGE_END_DIALOG_TAG = "untracked_range_end_dialog_tag"
+        const val START_OF_DAY_DIALOG_TAG = "start_of_day_dialog_tag"
     }
 }

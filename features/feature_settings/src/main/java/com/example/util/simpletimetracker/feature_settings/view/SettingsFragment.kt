@@ -52,94 +52,99 @@ class SettingsFragment :
     lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
 
     private val viewModel: SettingsViewModel by viewModels()
-    private val backupViewModel: BackupViewModel by activityViewModels(
-        factoryProducer = { backupViewModelFactory }
-    )
-    private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
-        factoryProducer = { mainTabsViewModelFactory }
-    )
+    private val backupViewModel: BackupViewModel by activityViewModels { backupViewModelFactory }
+    private val mainTabsViewModel: MainTabsViewModel by activityViewModels { mainTabsViewModelFactory }
 
     private val translatorsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createSettingsTranslatorAdapterDelegate()
+            createSettingsTranslatorAdapterDelegate(),
         )
     }
 
     override fun initUi() = with(binding) {
         layoutSettingsTranslators.rvSettingsTranslators.adapter = translatorsAdapter
-        with(layoutSettingsMain) {
-            spinnerSettingsDarkMode.setProcessSameItemSelection(false)
-        }
-        with(layoutSettingsDisplay) {
-            spinnerSettingsDaysInCalendar.setProcessSameItemSelection(false)
-            spinnerSettingsRecordTypeSort.setProcessSameItemSelection(false)
-        }
-        with(layoutSettingsAdditional) {
-            spinnerSettingsFirstDayOfWeek.setProcessSameItemSelection(false)
-        }
+        layoutSettingsMain.spinnerSettingsDarkMode.setProcessSameItemSelection(false)
+        layoutSettingsDisplay.spinnerSettingsDaysInCalendar.setProcessSameItemSelection(false)
+        layoutSettingsDisplay.spinnerSettingsRecordTypeSort.setProcessSameItemSelection(false)
+        layoutSettingsAdditional.spinnerSettingsFirstDayOfWeek.setProcessSameItemSelection(false)
     }
 
     override fun initUx() = with(binding) {
         with(layoutSettingsMain) {
-            checkboxSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
-            spinnerSettingsDarkMode.onPositionSelected = viewModel::onDarkModeSelected
-            spinnerSettingsLanguage.onPositionSelected = viewModel::onLanguageSelected
-            layoutSettingsEditCategories.setOnClick(throttle(viewModel::onEditCategoriesClick))
-            tvSettingsArchive.setOnClick(throttle(viewModel::onArchiveClick))
-            tvSettingsDataEdit.setOnClick(throttle(viewModel::onDataEditClick))
+            with(viewModel.mainDelegate) {
+                checkboxSettingsAllowMultitasking.setOnClick(::onAllowMultitaskingClicked)
+                spinnerSettingsDarkMode.onPositionSelected = ::onDarkModeSelected
+                spinnerSettingsLanguage.onPositionSelected = ::onLanguageSelected
+                layoutSettingsEditCategories.setOnClick(throttle(::onEditCategoriesClick))
+                tvSettingsArchive.setOnClick(throttle(::onArchiveClick))
+                tvSettingsDataEdit.setOnClick(throttle(::onDataEditClick))
+            }
         }
+
         with(layoutSettingsNotifications) {
-            layoutSettingsNotificationsTitle.setOnClick(viewModel::onSettingsNotificationsClick)
-            checkboxSettingsShowNotifications.setOnClick(viewModel::onShowNotificationsClicked)
-            checkboxSettingsShowNotificationsControls.setOnClick(viewModel::onShowNotificationsControlsClicked)
-            groupSettingsInactivityReminder.setOnClick(viewModel::onInactivityReminderClicked)
-            checkboxSettingsInactivityReminderRecurrent.setOnClick(viewModel::onInactivityReminderRecurrentClicked)
-            tvSettingsInactivityReminderDndStart.setOnClick(viewModel::onInactivityReminderDoNotDisturbStartClicked)
-            tvSettingsInactivityReminderDndEnd.setOnClick(viewModel::onInactivityReminderDoNotDisturbEndClicked)
-            groupSettingsActivityReminder.setOnClick(viewModel::onActivityReminderClicked)
-            checkboxSettingsActivityReminderRecurrent.setOnClick(viewModel::onActivityReminderRecurrentClicked)
-            tvSettingsActivityReminderDndStart.setOnClick(viewModel::onActivityReminderDoNotDisturbStartClicked)
-            tvSettingsActivityReminderDndEnd.setOnClick(viewModel::onActivityReminderDoNotDisturbEndClicked)
+            with(viewModel.notificationsDelegate) {
+                layoutSettingsNotificationsTitle.setOnClick(viewModel::onSettingsNotificationsClick)
+                checkboxSettingsShowNotifications.setOnClick(::onShowNotificationsClicked)
+                checkboxSettingsShowNotificationsControls.setOnClick(::onShowNotificationsControlsClicked)
+                groupSettingsInactivityReminder.setOnClick(::onInactivityReminderClicked)
+                checkboxSettingsInactivityReminderRecurrent.setOnClick(::onInactivityReminderRecurrentClicked)
+                tvSettingsInactivityReminderDndStart.setOnClick(::onInactivityReminderDoNotDisturbStartClicked)
+                tvSettingsInactivityReminderDndEnd.setOnClick(::onInactivityReminderDoNotDisturbEndClicked)
+                groupSettingsActivityReminder.setOnClick(::onActivityReminderClicked)
+                checkboxSettingsActivityReminderRecurrent.setOnClick(::onActivityReminderRecurrentClicked)
+                tvSettingsActivityReminderDndStart.setOnClick(::onActivityReminderDoNotDisturbStartClicked)
+                tvSettingsActivityReminderDndEnd.setOnClick(::onActivityReminderDoNotDisturbEndClicked)
+            }
         }
+
         with(layoutSettingsDisplay) {
-            layoutSettingsDisplayTitle.setOnClick(viewModel::onSettingsDisplayClick)
-            spinnerSettingsDaysInCalendar.onPositionSelected = viewModel::onDaysInCalendarSelected
-            spinnerSettingsRecordTypeSort.onPositionSelected = viewModel::onRecordTypeOrderSelected
-            btnCardOrderManual.setOnClick(viewModel::onCardOrderManualClick)
-            checkboxSettingsShowUntrackedInRecords.setOnClick(viewModel::onShowUntrackedInRecordsClicked)
-            checkboxSettingsShowUntrackedInStatistics.setOnClick(viewModel::onShowUntrackedInStatisticsClicked)
-            groupSettingsIgnoreShortUntracked.setOnClick(viewModel::onIgnoreShortUntrackedClicked)
-            checkboxSettingsUntrackedRange.setOnClick(viewModel::onUntrackedRangeClicked)
-            tvSettingsUntrackedRangeStart.setOnClick(viewModel::onUntrackedRangeStartClicked)
-            tvSettingsUntrackedRangeEnd.setOnClick(viewModel::onUntrackedRangeEndClicked)
-            checkboxSettingsShowRecordsCalendar.setOnClick(viewModel::onShowRecordsCalendarClicked)
-            checkboxSettingsReverseOrderInCalendar.setOnClick(viewModel::onReverseOrderInCalendarClicked)
-            checkboxSettingsShowActivityFilters.setOnClick(viewModel::onShowActivityFiltersClicked)
-            checkboxSettingsShowGoalsSeparately.setOnClick(viewModel::onShowGoalsSeparatelyClicked)
-            checkboxSettingsUseMilitaryTime.setOnClick(viewModel::onUseMilitaryTimeClicked)
-            checkboxSettingsUseMonthDayTime.setOnClick(viewModel::onUseMonthDayTimeClicked)
-            checkboxSettingsUseProportionalMinutes.setOnClick(viewModel::onUseProportionalMinutesClicked)
-            checkboxSettingsShowSeconds.setOnClick(viewModel::onShowSecondsClicked)
-            checkboxSettingsKeepScreenOn.setOnClick(viewModel::onKeepScreenOnClicked)
-            tvSettingsChangeCardSize.setOnClick(viewModel::onChangeCardSizeClick)
+            with(viewModel.displayDelegate) {
+                layoutSettingsDisplayTitle.setOnClick(viewModel::onSettingsDisplayClick)
+                spinnerSettingsDaysInCalendar.onPositionSelected = ::onDaysInCalendarSelected
+                spinnerSettingsRecordTypeSort.onPositionSelected = ::onRecordTypeOrderSelected
+                btnCardOrderManual.setOnClick(::onCardOrderManualClick)
+                checkboxSettingsShowUntrackedInRecords.setOnClick(::onShowUntrackedInRecordsClicked)
+                checkboxSettingsShowUntrackedInStatistics.setOnClick(::onShowUntrackedInStatisticsClicked)
+                groupSettingsIgnoreShortUntracked.setOnClick(::onIgnoreShortUntrackedClicked)
+                checkboxSettingsUntrackedRange.setOnClick(::onUntrackedRangeClicked)
+                tvSettingsUntrackedRangeStart.setOnClick(::onUntrackedRangeStartClicked)
+                tvSettingsUntrackedRangeEnd.setOnClick(::onUntrackedRangeEndClicked)
+                checkboxSettingsShowRecordsCalendar.setOnClick(::onShowRecordsCalendarClicked)
+                checkboxSettingsReverseOrderInCalendar.setOnClick(::onReverseOrderInCalendarClicked)
+                checkboxSettingsShowActivityFilters.setOnClick(::onShowActivityFiltersClicked)
+                checkboxSettingsShowGoalsSeparately.setOnClick(::onShowGoalsSeparatelyClicked)
+                checkboxSettingsUseMilitaryTime.setOnClick(::onUseMilitaryTimeClicked)
+                checkboxSettingsUseMonthDayTime.setOnClick(::onUseMonthDayTimeClicked)
+                checkboxSettingsUseProportionalMinutes.setOnClick(::onUseProportionalMinutesClicked)
+                checkboxSettingsShowSeconds.setOnClick(::onShowSecondsClicked)
+                checkboxSettingsKeepScreenOn.setOnClick(::onKeepScreenOnClicked)
+                tvSettingsChangeCardSize.setOnClick(::onChangeCardSizeClick)
+            }
         }
+
         with(layoutSettingsAdditional) {
-            layoutSettingsAdditionalTitle.setOnClick(viewModel::onSettingsAdditionalClick)
-            spinnerSettingsFirstDayOfWeek.onPositionSelected = viewModel::onFirstDayOfWeekSelected
-            groupSettingsStartOfDay.setOnClick(viewModel::onStartOfDayClicked)
-            btnSettingsStartOfDaySign.setOnClick(viewModel::onStartOfDaySignClicked)
-            checkboxSettingsKeepStatisticsRange.setOnClick(viewModel::onKeepStatisticsRangeClicked)
-            groupSettingsIgnoreShortRecords.setOnClick(viewModel::onIgnoreShortRecordsClicked)
-            checkboxSettingsShowRecordTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
-            checkboxSettingsRecordTagSelectionClose.setOnClick(viewModel::onRecordTagSelectionCloseClicked)
-            checkboxSettingsRecordTagSelectionGeneral.setOnClick(viewModel::onRecordTagSelectionGeneralClicked)
-            checkboxSettingsAutomatedTrackingSend.setOnClick(viewModel::onAutomatedTrackingSendEventsClicked)
-            btnSettingsAutomatedTracking.setOnClick(viewModel::onAutomatedTrackingHelpClick)
+            with(viewModel.additionalDelegate) {
+                layoutSettingsAdditionalTitle.setOnClick(viewModel::onSettingsAdditionalClick)
+                spinnerSettingsFirstDayOfWeek.onPositionSelected = ::onFirstDayOfWeekSelected
+                groupSettingsStartOfDay.setOnClick(::onStartOfDayClicked)
+                btnSettingsStartOfDaySign.setOnClick(::onStartOfDaySignClicked)
+                checkboxSettingsKeepStatisticsRange.setOnClick(::onKeepStatisticsRangeClicked)
+                groupSettingsIgnoreShortRecords.setOnClick(::onIgnoreShortRecordsClicked)
+                checkboxSettingsShowRecordTagSelection.setOnClick(::onShowRecordTagSelectionClicked)
+                checkboxSettingsRecordTagSelectionClose.setOnClick(::onRecordTagSelectionCloseClicked)
+                checkboxSettingsRecordTagSelectionGeneral.setOnClick(::onRecordTagSelectionGeneralClicked)
+                checkboxSettingsAutomatedTrackingSend.setOnClick(::onAutomatedTrackingSendEventsClicked)
+                btnSettingsAutomatedTracking.setOnClick(::onAutomatedTrackingHelpClick)
+            }
         }
+
         with(layoutSettingsRating) {
-            layoutSettingsRate.setOnClick(viewModel::onRateClick)
-            layoutSettingsFeedback.setOnClick(viewModel::onFeedbackClick)
+            with(viewModel.ratingDelegate) {
+                layoutSettingsRate.setOnClick(::onRateClick)
+                layoutSettingsFeedback.setOnClick(::onFeedbackClick)
+            }
         }
+
         with(layoutSettingsBackup) {
             layoutSettingsBackupTitle.setOnClick(viewModel::onSettingsBackupClick)
             layoutSettingsSaveBackup.setOnClick(backupViewModel::onSaveClick)
@@ -155,16 +160,43 @@ class SettingsFragment :
 
     override fun initViewModel(): Unit = with(binding) {
         with(viewModel) {
+            settingsNotificationsVisibility.observe { opened ->
+                layoutSettingsNotifications.layoutSettingsNotificationsContent.visible = opened
+                layoutSettingsNotifications.arrowSettingsNotifications
+                    .apply { if (opened) rotateDown() else rotateUp() }
+            }
+            viewModel.settingsDisplayVisibility.observe { opened ->
+                layoutSettingsDisplay.layoutSettingsDisplayContent.visible = opened
+                layoutSettingsDisplay.arrowSettingsDisplay
+                    .apply { if (opened) rotateDown() else rotateUp() }
+            }
+            viewModel.settingsAdditionalVisibility.observe { opened ->
+                layoutSettingsAdditional.layoutSettingsAdditionalContent.visible = opened
+                layoutSettingsAdditional.arrowSettingsAdditional
+                    .apply { if (opened) rotateDown() else rotateUp() }
+            }
+            viewModel.settingsBackupVisibility.observe { opened ->
+                layoutSettingsBackup.layoutSettingsBackupContent.visible = opened
+                layoutSettingsBackup.arrowSettingsBackup
+                    .apply { if (opened) rotateDown() else rotateUp() }
+            }
+            resetScreen.observe {
+                containerSettings.smoothScrollTo(0, 0)
+                mainTabsViewModel.onHandled()
+            }
+        }
+
+        with(viewModel.mainDelegate) {
             with(layoutSettingsMain) {
                 allowMultitaskingCheckbox.observe(checkboxSettingsAllowMultitasking::setChecked)
                 darkModeViewData.observe(::updateDarkModeViewData)
                 languageViewData.observe(::updateLanguageViewData)
+                themeChanged.observe(::changeTheme)
             }
+        }
+
+        with(viewModel.notificationsDelegate) {
             with(layoutSettingsNotifications) {
-                settingsNotificationsVisibility.observe { opened ->
-                    layoutSettingsNotificationsContent.visible = opened
-                    arrowSettingsNotifications.apply { if (opened) rotateDown() else rotateUp() }
-                }
                 showNotificationsCheckbox.observe(::updateShowNotifications)
                 showNotificationsControlsCheckbox.observe(checkboxSettingsShowNotificationsControls::setChecked)
                 inactivityReminderViewData.observe(::updateInactivityReminder)
@@ -176,11 +208,10 @@ class SettingsFragment :
                 activityReminderDndStartViewData.observe(tvSettingsActivityReminderDndStart::setText)
                 activityReminderDndEndViewData.observe(tvSettingsActivityReminderDndEnd::setText)
             }
+        }
+
+        with(viewModel.displayDelegate) {
             with(layoutSettingsDisplay) {
-                settingsDisplayVisibility.observe { opened ->
-                    layoutSettingsDisplayContent.visible = opened
-                    arrowSettingsDisplay.apply { if (opened) rotateDown() else rotateUp() }
-                }
                 btnCardOrderManualVisibility.observe(btnCardOrderManual::visible::set)
                 showUntrackedInRecordsCheckbox.observe(checkboxSettingsShowUntrackedInRecords::setChecked)
                 showUntrackedInStatisticsCheckbox.observe(checkboxSettingsShowUntrackedInStatistics::setChecked)
@@ -201,11 +232,10 @@ class SettingsFragment :
                 cardOrderViewData.observe(::updateCardOrderViewData)
                 keepScreenOnCheckbox.observe(::setKeepScreenOn)
             }
+        }
+
+        with(viewModel.additionalDelegate) {
             with(layoutSettingsAdditional) {
-                settingsAdditionalVisibility.observe { opened ->
-                    layoutSettingsAdditionalContent.visible = opened
-                    arrowSettingsAdditional.apply { if (opened) rotateDown() else rotateUp() }
-                }
                 keepStatisticsRangeCheckbox.observe(checkboxSettingsKeepStatisticsRange::setChecked)
                 ignoreShortRecordsViewData.observe(tvSettingsIgnoreShortRecordsTime::setText)
                 recordTagSelectionCloseCheckbox.observe(checkboxSettingsRecordTagSelectionClose::setChecked)
@@ -215,22 +245,20 @@ class SettingsFragment :
                 startOfDayViewData.observe(::updateStartOfDayViewData)
                 showRecordTagSelectionCheckbox.observe(::updateShowRecordTagSelectionChecked)
             }
+        }
+
+        with(viewModel.ratingDelegate) {
             with(layoutSettingsRating) {
                 versionName.observe(tvSettingsVersionName::setText)
             }
-            translatorsViewData.observe(translatorsAdapter::replaceAsNew)
-            themeChanged.observe(::changeTheme)
-            resetScreen.observe {
-                containerSettings.smoothScrollTo(0, 0)
-                mainTabsViewModel.onHandled()
-            }
         }
+
+        with(viewModel.translatorsDelegate) {
+            translatorsViewData.observe(translatorsAdapter::replaceAsNew)
+        }
+
         with(backupViewModel) {
             with(layoutSettingsBackup) {
-                viewModel.settingsBackupVisibility.observe { opened ->
-                    layoutSettingsBackupContent.visible = opened
-                    arrowSettingsBackup.apply { if (opened) rotateDown() else rotateUp() }
-                }
                 automaticBackupCheckbox.observe(checkboxSettingsAutomaticBackup::setChecked)
                 automaticBackupLastSaveTime.observe {
                     tvSettingsAutomaticBackupLastSaveTime.visible = it.isNotEmpty()
@@ -243,6 +271,7 @@ class SettingsFragment :
                 }
             }
         }
+
         with(mainTabsViewModel) {
             tabReselected.observe(viewModel::onTabReselected)
         }

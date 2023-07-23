@@ -5,8 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.ScopeHolder
 import kotlinx.coroutines.launch
 
 fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, observer: (T) -> Unit) {
@@ -64,11 +63,11 @@ private fun <T : Any?> MutableLiveData<T>.setValueIfNotEqual(arg: T) {
     }
 }
 
-fun <T> ViewModel.lazySuspend(
+fun <T> ScopeHolder.lazySuspend(
     initializer: suspend () -> T,
 ): Lazy<MutableLiveData<T>> = lazy {
     MutableLiveData<T>().let { initial ->
-        viewModelScope.launch {
+        getScope().launch {
             initial.value = initializer()
         }
         initial
