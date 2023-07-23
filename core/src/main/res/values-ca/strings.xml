@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">Mantingues el rang d\'estadístiques</string>
     <string name="settings_keep_statistics_range_hint">Si és habilitat, les estadístiques detallades s\'obriran amb el mateix rang de temps seleccionat a les estadístiques</string>
     <string name="settings_start_of_day">Canvia l\'inici del dia</string>
+    <string name="settings_start_of_day_hint">L\'inici del dia es desplaçarà per la quantitat de temps especificada, cap endavant o cap enrere segons el signe.</string>
+    <string name="settings_start_of_day_hint_value">Avui comença a %s</string>
     <string name="settings_inactivity_reminder">Mostra recordatori d\'inactivitat</string>
     <string name="settings_inactivity_reminder_hint">Mostra una notificació després d\'un cert temps sense cap activitat.</string>
     <string name="settings_inactivity_reminder_recurrent">Recurrent</string>

@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermissionInteractor
 import com.example.util.simpletimetracker.core.interactor.CheckNotificationsPermissionInteractor
 import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -54,6 +55,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val router: Router,
+    private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor,
     private val languageInteractor: LanguageInteractor,
@@ -185,6 +187,9 @@ class SettingsViewModel @Inject constructor(
 
             // Update can come from system settings
             updateLanguageViewData()
+
+            // Update after day changes
+            updateStartOfDayViewData()
         }
     }
 
@@ -849,10 +854,21 @@ class SettingsViewModel @Inject constructor(
 
     private suspend fun loadStartOfDayViewData(): SettingsStartOfDayViewData {
         val shift = prefsInteractor.getStartOfDayShift()
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+
+        val hint = resourceRepo.getString(
+            R.string.settings_start_of_day_hint_value,
+            timeMapper.formatDateTime(
+                time = timeMapper.getStartOfDayTimeStamp() + shift,
+                useMilitaryTime = useMilitaryTime,
+                showSeconds = false,
+            ),
+        )
 
         return SettingsStartOfDayViewData(
             startOfDayValue = settingsMapper.toStartOfDayText(shift, useMilitaryTime = true),
             startOfDaySign = settingsMapper.toStartOfDaySign(shift),
+            hint = hint,
         )
     }
 

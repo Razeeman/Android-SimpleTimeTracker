@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">सांख्यिकी सीमा रखें</string>
     <string name="settings_keep_statistics_range_hint">यदि चालू किए गए विस्तृत आँकड़े सांख्यिकी में चयनित एक ही समय सीमा के साथ खोले जाएंगे।</string>
     <string name="settings_start_of_day">दिन की शिफ्ट शुरुआत</string>
+    <string name="settings_start_of_day_hint">दिन की शुरुआत संकेत के आधार पर निर्दिष्ट समय, आगे या पीछे की ओर स्थानांतरित की जाएगी।</string>
+    <string name="settings_start_of_day_hint_value">आज %s से प्रारंभ हो रहा है</string>
     <string name="settings_inactivity_reminder">निष्क्रिय गतिविधिया दिखाएं</string>
     <string name="settings_inactivity_reminder_hint">निर्दिष्ट समय के बाद अधिसूचना दिखाएं यदि कोई टाइमर नहीं चल रहा है।</string>
     <string name="settings_inactivity_reminder_recurrent">आवर्तक</string>

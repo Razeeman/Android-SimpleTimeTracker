@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">İstatistik aralığını koru</string>
     <string name="settings_keep_statistics_range_hint">Etkinleştirilirse, istatistiklerde seçilen aynı zaman aralığı ile ayrıntılı istatistikler açılır.</string>
     <string name="settings_start_of_day">Gün başlangıcı</string>
+    <string name="settings_start_of_day_hint">Günün başlangıcı, işarete bağlı olarak belirtilen süre kadar ileri veya geri kaydırılacaktır.</string>
+    <string name="settings_start_of_day_hint_value">Bugün %s\'de başlıyor</string>
     <string name="settings_inactivity_reminder">İnaktivite hatırlatıcısı göster</string>
     <string name="settings_inactivity_reminder_hint">Eğer herhangi bir zamanlayıcı çalışmıyorsa belirtilen süre sonunda bildirim göster.</string>
     <string name="settings_inactivity_reminder_recurrent">Tekrarlayan</string>

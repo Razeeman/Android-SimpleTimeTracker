@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">حافظ على نطاق الإحصائيات</string>
     <string name="settings_keep_statistics_range_hint">في حال التفعيل، ستفتح الإحصائيات التفصيلية بنفس النطاق الزمني المحدد في الإحصائيات.</string>
     <string name="settings_start_of_day">توقيت بداية اليوم</string>
+    <string name="settings_start_of_day_hint">سيتم تحويل بداية اليوم بمقدار الوقت المحدد ، للأمام أو للخلف حسب العلامة.</string>
+    <string name="settings_start_of_day_hint_value">يبدأ اليوم في %s</string>
     <string name="settings_inactivity_reminder">إظهار تذكير الخمول</string>
     <string name="settings_inactivity_reminder_hint">أظهر اﻹشعار بعد الوقت المحدد في حال عدم تشغيل نشاط للتتبع.</string>
     <string name="settings_inactivity_reminder_recurrent">تكرار</string>

@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">Conserver la plage de statistiques</string>
     <string name="settings_keep_statistics_range_hint">Si activé, les statistiques détaillées seront ouvertes avec la même plage de temps que celle sélectionnée dans les statistiques.</string>
     <string name="settings_start_of_day">Décalage du début de journée</string>
+    <string name="settings_start_of_day_hint">Le début de la journée sera décalé de la durée spécifiée, en avant ou en arrière selon le signe.</string>
+    <string name="settings_start_of_day_hint_value">Aujourd\'hui commence à %s</string>
     <string name="settings_inactivity_reminder">Afficher le rappel d\'inactivité</string>
     <string name="settings_inactivity_reminder_hint">Afficher une notification après la durée spécifiée s\'il n\'y a aucune activité en cours.</string>
     <string name="settings_inactivity_reminder_recurrent">Récurrente</string>

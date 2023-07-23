@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">Зберігайте діапазон статистики</string>
     <string name="settings_keep_statistics_range_hint">Якщо ввімкнено, буде відкрита детальна статистика з тим самим діапазоном часу, вибраним у статистиці.</string>
     <string name="settings_start_of_day">Зміщення початку доби</string>
+    <string name="settings_start_of_day_hint">Початок доби буде зміщено на вказану кількість часу вперед або назад залежно від знака.</string>
+    <string name="settings_start_of_day_hint_value">Сьогодні починається о %s</string>
     <string name="settings_inactivity_reminder">Показувати нагадування про бездіяльність</string>
     <string name="settings_inactivity_reminder_hint">Показувати сповіщення через вказаний час, якщо таймери не запущені.</string>
     <string name="settings_inactivity_reminder_recurrent">Рецидивуючий</string>

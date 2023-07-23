@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">Manter intervalo de estatísticas</string>
     <string name="settings_keep_statistics_range_hint">Se ativado, as estatísticas detalhadas serão abertas com o mesmo intervalo de tempo selecionado nas estatísticas.</string>
     <string name="settings_start_of_day">Mudar início do dia</string>
+    <string name="settings_start_of_day_hint">O início do dia será deslocado pela quantidade de tempo especificada, para frente ou para trás, dependendo do sinal.</string>
+    <string name="settings_start_of_day_hint_value">Hoje começa no %s</string>
     <string name="settings_inactivity_reminder">Mostrar lembrete de inatividade</string>
     <string name="settings_inactivity_reminder_hint">Mostrar notificação após o tempo especificado se nenhum timer estiver em execução.</string>
     <string name="settings_inactivity_reminder_recurrent">Recorrente</string>

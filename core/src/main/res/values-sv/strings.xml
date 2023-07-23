@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">Kom ihåg valt intervall för statistik</string>
     <string name="settings_keep_statistics_range_hint">Om aktiverat så öppnas detaljerad statistik med samma tidsintervall som valts i statistikvyn.</string>
     <string name="settings_start_of_day">Tid för dagens skiftstart</string>
+    <string name="settings_start_of_day_hint">Dagens början kommer att förskjutas med den angivna tidsperioden, framåt eller bakåt beroende på tecken.</string>
+    <string name="settings_start_of_day_hint_value">Idag börjar på %s</string>
     <string name="settings_inactivity_reminder">Visa inaktivitetspåminnelse</string>
     <string name="settings_inactivity_reminder_hint">Visa avisering efter angiven tid av inaktivitet.</string>
     <string name="settings_inactivity_reminder_recurrent">Återkommande</string>

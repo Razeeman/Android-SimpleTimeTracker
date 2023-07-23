@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">Statistiekbereik behouden</string>
     <string name="settings_keep_statistics_range_hint">Indien ingeschakeld worden gedetailleerde statistieken geopend met hetzelfde tijdbereik geselecteerd in statistieken.</string>
     <string name="settings_start_of_day">Shift begin van de dag</string>
+    <string name="settings_start_of_day_hint">Het begin van de dag wordt verschoven met de opgegeven hoeveelheid tijd, vooruit of achteruit, afhankelijk van het teken.</string>
+    <string name="settings_start_of_day_hint_value">Vandaag begint bij %s</string>
     <string name="settings_inactivity_reminder">Herinnering voor inactiviteit weergeven</string>
     <string name="settings_inactivity_reminder_hint">Toon melding na gespecificeerde tijd als er geen timers lopen.</string>
     <string name="settings_inactivity_reminder_recurrent">Terugkerend</string>

@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">統計値を保持する範囲</string>
     <string name="settings_keep_statistics_range_hint">有効にすると、統計で選択された同じ時間範囲で詳細な統計が開かれます。</string>
     <string name="settings_start_of_day">1日の開始時間</string>
+    <string name="settings_start_of_day_hint">一日の始まりは、標識に応じて、指定した時間だけ前後に移動します。</string>
+    <string name="settings_start_of_day_hint_value">今日は %s から始まります</string>
     <string name="settings_inactivity_reminder">非アクティブ時のリマインダーを表示</string>
     <string name="settings_inactivity_reminder_hint">タイマーが作動していない場合、指定時間後に通知を表示する。</string>
     <string name="settings_inactivity_reminder_recurrent">繰り返す</string>

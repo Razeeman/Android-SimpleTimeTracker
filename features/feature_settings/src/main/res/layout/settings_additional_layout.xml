@@ -176,8 +176,8 @@
                     android:id="@+id/tvSettingsRecordTagSelectionGeneralHint"
                     style="@style/SettingsText"
                     android:layout_width="0dp"
-                    android:paddingTop="0dp"
                     android:layout_height="wrap_content"
+                    android:paddingTop="0dp"
                     android:text="@string/settings_show_record_tag_general_hint"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/checkboxSettingsRecordTagSelectionGeneral"
@@ -292,17 +292,42 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingTop="12dp">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSettingsStartOfDay"
                     style="@style/SettingsText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
                     android:text="@string/settings_start_of_day"
                     app:layout_constraintEnd_toStartOf="@id/btnSettingsStartOfDaySign"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsStartOfDayHint"
+                    style="@style/SettingsSecondaryText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_start_of_day_hint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsStartOfDayHintValue" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsStartOfDayHintValue"
+                    style="@style/SettingsSecondaryText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="0dp"
+                    app:layout_constraintEnd_toStartOf="@id/btnSettingsStartOfDaySign"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSettingsStartOfDay"
+                    tools:text="Today starts at Jul 20 02:00" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/btnSettingsStartOfDaySign"
@@ -334,9 +359,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/btnSettingsStartOfDaySign"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="@id/btnSettingsStartOfDaySign">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvSettingsStartOfDayTime"

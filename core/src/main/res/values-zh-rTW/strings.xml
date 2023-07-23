@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">保持統計範圍</string>
     <string name="settings_keep_statistics_range_hint">如果啟用，詳細統計訊息，將以在統計訊息中，選擇相同時間範圍打開</string>
     <string name="settings_start_of_day">推移開始</string>
+    <string name="settings_start_of_day_hint">一天的開始將根據標誌向前或向後移動指定的時間量。</string>
+    <string name="settings_start_of_day_hint_value">今天開始於 %s</string>
     <string name="settings_inactivity_reminder">顯示未活動提醒器</string>
     <string name="settings_inactivity_reminder_hint">如果沒有計時器在運行，則在指定時間後顯示通知</string>
     <string name="settings_inactivity_reminder_recurrent">經常性的</string>

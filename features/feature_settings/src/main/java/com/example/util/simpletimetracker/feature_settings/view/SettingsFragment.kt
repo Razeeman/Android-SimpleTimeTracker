@@ -405,6 +405,7 @@ class SettingsFragment :
         tvSettingsStartOfDayTime.text = viewData.startOfDayValue
         btnSettingsStartOfDaySign.visible = viewData.startOfDaySign.isNotEmpty()
         tvSettingsStartOfDaySign.text = viewData.startOfDaySign
+        tvSettingsStartOfDayHintValue.text = viewData.hint
     }
 
     private fun setKeepScreenOn(keepScreenOn: Boolean) {

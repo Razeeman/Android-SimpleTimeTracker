@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">Mantener rango de estadísticas</string>
     <string name="settings_keep_statistics_range_hint">Si está habilitado, se abrirán estadísticas detalladas con el mismo rango de tiempo seleccionado en estadísticas.</string>
     <string name="settings_start_of_day">Cambio de inicio del día</string>
+    <string name="settings_start_of_day_hint">El inicio del día se desplazará la cantidad de tiempo especificada, hacia adelante o hacia atrás, según la señal.</string>
+    <string name="settings_start_of_day_hint_value">Hoy empieza en %s</string>
     <string name="settings_inactivity_reminder">Mostrar recordatorio de inactividad</string>
     <string name="settings_inactivity_reminder_hint">Mostrar una notificación si no se ha iniciado ningún temporizador tras el tiempo especificado.</string>
     <string name="settings_inactivity_reminder_recurrent">Recurrente</string>

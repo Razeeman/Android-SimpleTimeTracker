@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">保持统计范围</string>
     <string name="settings_keep_statistics_range_hint">如果启用，详细统计信息将在统计信息中选择的相同时间范围内打开。</string>
     <string name="settings_start_of_day">改变一天的开始</string>
+    <string name="settings_start_of_day_hint">一天的开始将根据标志向前或向后移动指定的时间量。</string>
+    <string name="settings_start_of_day_hint_value">今天开始于 %s</string>
     <string name="settings_inactivity_reminder">显示无活动提醒</string>
     <string name="settings_inactivity_reminder_hint">如果没有追踪中的活动，则在指定时间后显示通知。</string>
     <string name="settings_inactivity_reminder_recurrent">复发性</string>

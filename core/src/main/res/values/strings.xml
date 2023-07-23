@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">Keep statistics range</string>
     <string name="settings_keep_statistics_range_hint">If enabled detailed statistics will be opened with the same time range selected in statistics.</string>
     <string name="settings_start_of_day">Shift start of the day</string>
+    <string name="settings_start_of_day_hint">Start of day will be shifted by the specified amount of time, forward or backward depending on the sign.</string>
+    <string name="settings_start_of_day_hint_value">Today starts at %s</string>
     <string name="settings_inactivity_reminder">Show inactivity reminder</string>
     <string name="settings_inactivity_reminder_hint">Show notification after specified time if no timers are running.</string>
     <string name="settings_inactivity_reminder_recurrent">Recurrent</string>

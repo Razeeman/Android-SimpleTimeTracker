@@ -219,6 +219,8 @@
     <string name="settings_keep_statistics_range">Pertahankan rentang statistik</string>
     <string name="settings_keep_statistics_range_hint">Jika diaktifkan, statistik terperinci akan dibuka dengan rentang waktu yang sama yang dipilih dalam statistik.</string>
     <string name="settings_start_of_day">Pergeseran awal hari</string>
+    <string name="settings_start_of_day_hint">Permulaan hari akan digeser dengan jumlah waktu yang ditentukan, maju atau mundur tergantung pada tandanya.</string>
+    <string name="settings_start_of_day_hint_value">Hari ini mulai di %s</string>
     <string name="settings_inactivity_reminder">Tampilkan pengingat tidak berkegiatan</string>
     <string name="settings_inactivity_reminder_hint">Tampilkan notifikasi setelah waktu yang ditentukan jika tidak ada pewaktu yang berjalan.</string>
     <string name="settings_inactivity_reminder_recurrent">Berulang</string>
