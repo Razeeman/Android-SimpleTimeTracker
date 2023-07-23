@@ -235,6 +235,7 @@
     <string name="settings_dark_mode_enabled">Увімкнено</string>
     <string name="settings_language">Мова</string>
     <string name="settings_use_military_time">Використовувати 24-годинний формат</string>
+    <string name="settings_use_monthday_time">Використовуйте формат дати місяць/день</string>
     <string name="settings_use_proportional_minutes">Використовуйте пропорційний хвилинний формат</string>
     <string name="settings_show_seconds">Показати секунди</string>
     <string name="settings_keep_screen_on">Тримайте екран увімкненим</string>

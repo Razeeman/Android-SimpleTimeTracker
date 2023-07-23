@@ -31,7 +31,17 @@ class AddDefaultRecordTypeTest : BaseUiTest() {
         val name2 = "Work"
         val color2 = ColorMapper.getAvailableColors()[10]
 
-        tryAction { checkViewIsDisplayed(withText(coreR.string.running_records_types_empty)) }
+        tryAction {
+            checkViewIsDisplayed(
+                withText(
+                    getString(
+                        coreR.string.running_records_types_empty,
+                        getString(coreR.string.running_records_add_type),
+                        getString(coreR.string.running_records_add_default),
+                    ),
+                ),
+            )
+        }
         checkViewIsDisplayed(withText(coreR.string.running_records_add_type))
         checkViewIsDisplayed(withText(coreR.string.running_records_add_default))
 
@@ -92,8 +102,8 @@ class AddDefaultRecordTypeTest : BaseUiTest() {
             allOf(
                 withId(baseR.id.viewRecordTypeItem),
                 withCardColor(color),
-                hasDescendant(withText(name))
-            )
+                hasDescendant(withText(name)),
+            ),
         )
     }
 }

@@ -51,7 +51,7 @@ class TimeMapperTitleTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[2] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -127,7 +127,7 @@ class TimeMapperTitleTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[3] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -260,7 +260,7 @@ class TimeMapperTitleTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[2] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -354,7 +354,7 @@ class TimeMapperTitleTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[2] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",

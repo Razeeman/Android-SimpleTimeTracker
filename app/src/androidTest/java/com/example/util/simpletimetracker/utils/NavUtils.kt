@@ -84,7 +84,6 @@ object NavUtils {
         icon: Int? = null,
         text: String? = null,
         categories: List<String> = emptyList(),
-        goalTime: String? = null,
     ) {
         tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
 
@@ -123,17 +122,6 @@ object NavUtils {
                 clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName))
             }
             clickOnViewWithText(coreR.string.category_hint)
-        }
-
-        // Goal time
-        if (!goalTime.isNullOrEmpty()) {
-            clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
-            clickOnViewWithId(changeRecordTypeR.id.groupChangeRecordTypeSessionGoalTime)
-            goalTime.forEach { char ->
-                clickOnViewWithText(char.toString())
-            }
-            clickOnViewWithText(coreR.string.duration_dialog_save)
-            clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
         }
 
         closeSoftKeyboard()

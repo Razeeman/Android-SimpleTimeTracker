@@ -62,9 +62,9 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
         longClickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
 
         // Switch to week range
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
@@ -75,9 +75,9 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
         longClickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
 
         // Switch to month range
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
@@ -88,9 +88,9 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
         longClickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
 
         // Switch to year range
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
@@ -101,9 +101,9 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
         longClickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
 
         // Switch to overall range
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)

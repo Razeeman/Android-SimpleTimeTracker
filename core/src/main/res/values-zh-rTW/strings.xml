@@ -235,6 +235,7 @@
     <string name="settings_dark_mode_enabled">啟用</string>
     <string name="settings_language">語言</string>
     <string name="settings_use_military_time">使用 24 小時格式</string>
+    <string name="settings_use_monthday_time">使用月/日日期格式</string>
     <string name="settings_use_proportional_minutes">使用比例分鐘格式</string>
     <string name="settings_show_seconds">顯示秒數</string>
     <string name="settings_keep_screen_on">保持螢幕長開</string>

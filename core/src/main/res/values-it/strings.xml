@@ -235,6 +235,7 @@
     <string name="settings_dark_mode_enabled">Abilitato</string>
     <string name="settings_language">Lingua</string>
     <string name="settings_use_military_time">Use il formato a 24 ore</string>
+    <string name="settings_use_monthday_time">Usa il formato data Mese/Giorno</string>
     <string name="settings_use_proportional_minutes">Usa il formato a minuti proporzionali</string>
     <string name="settings_show_seconds">Mostra secondi</string>
     <string name="settings_keep_screen_on">Tieni lo schermo acceso</string>

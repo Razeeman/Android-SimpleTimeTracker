@@ -235,6 +235,7 @@
     <string name="settings_dark_mode_enabled">Etkinleştirilmiş</string>
     <string name="settings_language">Dil</string>
     <string name="settings_use_military_time">24-saat formatını kullan</string>
+    <string name="settings_use_monthday_time">Ay/Gün tarih biçimini kullan</string>
     <string name="settings_use_proportional_minutes">Oransal dakika formatını kullan</string>
     <string name="settings_show_seconds">Saniye göster</string>
     <string name="settings_keep_screen_on">Ekranı açık tut</string>

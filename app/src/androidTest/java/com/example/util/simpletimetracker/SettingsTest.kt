@@ -62,7 +62,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.R as statist
 class SettingsTest : BaseUiTest() {
 
     @Test
-    fun showUntrackedSetting() {
+    fun showUntrackedInRecords() {
         val name = "Test"
         val color = firstColor
         val icon = firstIcon
@@ -72,41 +72,92 @@ class SettingsTest : BaseUiTest() {
         val before = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)
         testUtils.addRecord(name, timeStarted = before, timeEnded = before)
 
-        // Untracked is not shown
-        NavUtils.openRecordsScreen()
-        checkViewDoesNotExist(
-            allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()),
-        )
-
-        // Change setting
-        NavUtils.openSettingsScreen()
-        NavUtils.openSettingsDisplay()
-        onView(withId(settingsR.id.checkboxSettingsShowUntracked)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsShowUntracked)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowUntracked))
-        onView(withId(settingsR.id.checkboxSettingsShowUntracked)).check(matches(isChecked()))
-
         // Untracked is shown
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
 
-        // Add record
-        NavUtils.addRecord(name)
-        checkViewIsDisplayed(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
-
         // Change setting
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsShowUntracked)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsShowUntracked)).check(matches(isChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowUntracked))
-        onView(withId(settingsR.id.checkboxSettingsShowUntracked)).check(matches(isNotChecked()))
+        NavUtils.openSettingsDisplay()
+        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords)).perform(nestedScrollTo())
+        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords)).check(matches(isChecked()))
+        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords))
+        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords)).check(matches(isNotChecked()))
 
         // Untracked is not shown
         NavUtils.openRecordsScreen()
         checkViewDoesNotExist(
             allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()),
         )
+
+        // Add record
+        NavUtils.addRecord(name)
+        checkViewDoesNotExist(
+            allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()),
+        )
+        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords)).perform(nestedScrollTo())
+        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords))
+        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords)).check(matches(isChecked()))
+
+        // Untracked is shown
+        NavUtils.openRecordsScreen()
+        checkViewIsDisplayed(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun showUntrackedInStatistics() {
+        val name = "Test"
+        val color = firstColor
+        val icon = firstIcon
+
+        // Add activity
+        testUtils.addActivity(name = name, color = color, icon = icon)
+        val before = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)
+        testUtils.addRecord(name, timeStarted = before, timeEnded = before)
+
+        // Untracked is shown
+        NavUtils.openStatisticsScreen()
+        checkViewIsDisplayed(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
+        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics)).perform(nestedScrollTo())
+        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics)).check(matches(isChecked()))
+        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics))
+        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics)).check(matches(isNotChecked()))
+
+        // Untracked is not shown
+        NavUtils.openStatisticsScreen()
+        checkViewDoesNotExist(
+            allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()),
+        )
+
+        // Add record
+        NavUtils.openRecordsScreen()
+        NavUtils.addRecord(name)
+        NavUtils.openStatisticsScreen()
+        checkViewDoesNotExist(
+            allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()),
+        )
+        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics)).perform(nestedScrollTo())
+        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics)).check(matches(isNotChecked()))
+        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics))
+        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics)).check(matches(isChecked()))
+
+        // Untracked is shown
+        NavUtils.openStatisticsScreen()
+        checkViewIsDisplayed(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
     }
 

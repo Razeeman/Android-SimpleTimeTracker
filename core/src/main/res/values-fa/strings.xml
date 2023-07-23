@@ -235,6 +235,7 @@
     <string name="settings_dark_mode_enabled">فعال شد</string>
     <string name="settings_language">زبان</string>
     <string name="settings_use_military_time">استفاده از فرمت 24 ساعته</string>
+    <string name="settings_use_monthday_time">از قالب تاریخ ماه/روز استفاده کنید</string>
     <string name="settings_use_proportional_minutes">از زمان  دقایق نسبی استفاده کن</string>
     <string name="settings_show_seconds">نمایش ثانیه ها</string>
     <string name="settings_keep_screen_on">صفحه را روشن نگه دار</string>

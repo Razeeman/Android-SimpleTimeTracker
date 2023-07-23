@@ -235,6 +235,7 @@
     <string name="settings_dark_mode_enabled">Diaktifkan</string>
     <string name="settings_language">Bahasa</string>
     <string name="settings_use_military_time">Pakai format 24-jam</string>
+    <string name="settings_use_monthday_time">Gunakan format tanggal Bulan/Hari</string>
     <string name="settings_use_proportional_minutes">Gunakan format minit berkadar</string>
     <string name="settings_show_seconds">Tampilkan detik</string>
     <string name="settings_keep_screen_on">Biarkan layarnya menyala</string>

@@ -76,9 +76,9 @@ class RecordsRangesTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
 
         clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
-        checkViewIsDisplayed(allOf(withText(coreR.string.records_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
         clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
-        checkViewIsDisplayed(allOf(withText(coreR.string.records_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
     }
 
     @Test

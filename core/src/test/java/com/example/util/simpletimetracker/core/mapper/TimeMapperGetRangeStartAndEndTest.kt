@@ -44,7 +44,7 @@ class TimeMapperGetRangeStartAndEndTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -132,7 +132,7 @@ class TimeMapperGetRangeStartAndEndTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -304,7 +304,7 @@ class TimeMapperGetRangeStartAndEndTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -446,7 +446,7 @@ class TimeMapperGetRangeStartAndEndTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -588,7 +588,7 @@ class TimeMapperGetRangeStartAndEndTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(resourceRepo, localeProvider, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
 
             assertEquals(
                 "Test failed for params $input",

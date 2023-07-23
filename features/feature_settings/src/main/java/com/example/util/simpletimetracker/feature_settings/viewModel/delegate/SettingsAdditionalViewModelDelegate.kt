@@ -119,7 +119,6 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-
     fun onShowRecordTagSelectionClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowRecordTagSelection()

@@ -65,13 +65,13 @@ class ChangeRecordTypeTest : BaseUiTest() {
 
         clickOnViewWithText(coreR.string.change_record_type_color_hint)
         checkViewIsDisplayed(
-            allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(firstColor)))
+            allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(firstColor))),
         )
         scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(lastColor))
         clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
         checkViewIsDisplayed(
-            allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(lastColor)))
+            allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(lastColor))),
         )
         clickOnViewWithText(coreR.string.change_record_type_color_hint)
 
@@ -94,8 +94,8 @@ class ChangeRecordTypeTest : BaseUiTest() {
         clickOnView(
             allOf(
                 isDescendantOfA(withId(changeRecordTypeR.id.btnChangeRecordTypeIconSwitch)),
-                withText(coreR.string.change_record_type_icon_emoji_hint)
-            )
+                withText(coreR.string.change_record_type_icon_emoji_hint),
+            ),
         )
         clickOnViewWithText(firstEmoji)
 
@@ -123,14 +123,14 @@ class ChangeRecordTypeTest : BaseUiTest() {
                 withId(changeRecordTypeR.id.viewRunningRecordItem),
                 withCardColor(firstColor),
                 hasDescendant(withText(name)),
-                hasDescendant(withTag(firstIcon))
-            )
+                hasDescendant(withTag(firstIcon)),
+            ),
         )
         checkViewDoesNotExist(withSubstring(getString(coreR.string.change_record_type_session_goal_time).lowercase()))
 
         // Change activity
         longClickOnView(
-            allOf(isDescendantOfA(withId(changeRecordTypeR.id.viewRecordTypeItem)), withText(name))
+            allOf(isDescendantOfA(withId(changeRecordTypeR.id.viewRecordTypeItem)), withText(name)),
         )
 
         typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeName, newName)
@@ -147,7 +147,12 @@ class ChangeRecordTypeTest : BaseUiTest() {
         clickOnViewWithId(changeRecordTypeR.id.fieldChangeRecordTypeIcon)
 
         clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
-        clickOnViewWithId(changeRecordTypeR.id.groupChangeRecordTypeSessionGoalTime)
+        clickOnView(
+            allOf(
+                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalSession)),
+                withId(changeRecordTypeR.id.fieldChangeRecordTypeGoalDuration),
+            ),
+        )
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
@@ -161,14 +166,14 @@ class ChangeRecordTypeTest : BaseUiTest() {
         // Record running record updated
         tryAction {
             checkViewIsDisplayed(
-                allOf(isDescendantOfA(withId(changeRecordTypeR.id.viewRunningRecordItem)), withText(newName))
+                allOf(isDescendantOfA(withId(changeRecordTypeR.id.viewRunningRecordItem)), withText(newName)),
             )
         }
         checkViewIsDisplayed(
-            allOf(withId(changeRecordTypeR.id.viewRunningRecordItem), withCardColor(lastColor))
+            allOf(withId(changeRecordTypeR.id.viewRunningRecordItem), withCardColor(lastColor)),
         )
         checkViewIsDisplayed(
-            allOf(isDescendantOfA(withId(changeRecordTypeR.id.viewRunningRecordItem)), withTag(lastIcon))
+            allOf(isDescendantOfA(withId(changeRecordTypeR.id.viewRunningRecordItem)), withTag(lastIcon)),
         )
         checkViewIsDisplayed(withSubstring(getString(coreR.string.change_record_type_session_goal_time).lowercase()))
     }

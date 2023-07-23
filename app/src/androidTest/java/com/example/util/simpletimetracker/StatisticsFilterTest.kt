@@ -85,7 +85,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(statisticsR.id.tvStatisticsInfoText), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
 
         // Show all
         clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsEmptyFilter)
@@ -106,7 +106,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(statisticsR.id.tvStatisticsInfoText), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
     }
 
     @Test
@@ -202,7 +202,7 @@ class StatisticsFilterTest : BaseUiTest() {
         tryAction { checkViewDoesNotExist(allOf(withText(tag1), isCompletelyDisplayed())) }
         checkViewDoesNotExist(allOf(withText(tag2), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(statisticsR.id.tvStatisticsInfoText), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
 
         // Show all
         clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsEmptyFilter)
@@ -225,7 +225,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(coreR.string.uncategorized_time_name), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(statisticsR.id.tvStatisticsInfoText), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
     }
 
     @Test
@@ -321,7 +321,7 @@ class StatisticsFilterTest : BaseUiTest() {
         tryAction { checkViewDoesNotExist(allOf(withText(tag1), isCompletelyDisplayed())) }
         checkViewDoesNotExist(allOf(withText(tag2), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(statisticsR.id.tvStatisticsInfoText), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
 
         // Show all
         clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsEmptyFilter)
@@ -344,6 +344,6 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(coreR.string.change_record_untagged), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(statisticsR.id.tvStatisticsInfoText), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
     }
 }

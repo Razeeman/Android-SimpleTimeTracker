@@ -76,7 +76,6 @@ class GoalsViewDataInteractor @Inject constructor(
             }
             .toList()
 
-
         return@withContext items
             .takeUnless { it.isEmpty() }
             ?.flatten()

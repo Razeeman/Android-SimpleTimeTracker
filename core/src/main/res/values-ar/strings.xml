@@ -235,6 +235,7 @@
     <string name="settings_dark_mode_enabled">ممكن</string>
     <string name="settings_language">لغة</string>
     <string name="settings_use_military_time">استخدام تنسيق 24 ساعة</string>
+    <string name="settings_use_monthday_time">استخدم تنسيق تاريخ الشهر / اليوم</string>
     <string name="settings_use_proportional_minutes">استخدم صيغة الدقيقة النسبية</string>
     <string name="settings_show_seconds">إظهار الثواني</string>
     <string name="settings_keep_screen_on">أبق الشاشة قيد التشغيل</string>

@@ -7,6 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -39,7 +40,18 @@ class StartRecordTest : BaseUiTest() {
         val firstGoalTime = TimeUnit.MINUTES.toSeconds(10)
 
         // Add activities
-        testUtils.addActivity(name = name, color = firstColor, icon = firstIcon, goalTime = firstGoalTime)
+        testUtils.addActivity(
+            name = name,
+            color = firstColor,
+            icon = firstIcon,
+            goals = listOf(
+                RecordTypeGoal(
+                    typeId = 0,
+                    range = RecordTypeGoal.Range.Session,
+                    type = RecordTypeGoal.Type.Duration(firstGoalTime),
+                ),
+            ),
+        )
         testUtils.addActivity(name = newName, color = lastColor, icon = lastIcon)
         Thread.sleep(1000)
 
@@ -56,8 +68,8 @@ class StartRecordTest : BaseUiTest() {
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(firstIcon)),
                 hasDescendant(withText(timeStarted)),
-                hasDescendant(withSubstring(goalString))
-            )
+                hasDescendant(withSubstring(goalString)),
+            ),
         )
 
         // Start timer
@@ -70,57 +82,57 @@ class StartRecordTest : BaseUiTest() {
                 withCardColor(lastColor),
                 hasDescendant(withText(newName)),
                 hasDescendant(withTag(lastIcon)),
-                hasDescendant(withText(timeStarted))
-            )
+                hasDescendant(withText(timeStarted)),
+            ),
         )
         checkViewDoesNotExist(
             allOf(
                 withId(baseR.id.viewRunningRecordItem),
                 hasDescendant(withText(newName)),
-                hasDescendant(withSubstring(getString(coreR.string.change_record_type_session_goal_time)))
-            )
+                hasDescendant(withSubstring(getString(coreR.string.change_record_type_session_goal_time))),
+            ),
         )
 
         // Stop timer by clicking on running record
         NavUtils.openRunningRecordsScreen()
         clickOnView(
             allOf(
-                isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name), isCompletelyDisplayed()
-            )
+                isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name), isCompletelyDisplayed(),
+            ),
         )
         checkViewDoesNotExist(
             allOf(
-                isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name), isCompletelyDisplayed()
-            )
+                isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name), isCompletelyDisplayed(),
+            ),
         )
 
         // Record is added
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
             allOf(
-                withText(name), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed()
-            )
+                withText(name), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed(),
+            ),
         )
 
         // Stop timer by clicking on record type
         NavUtils.openRunningRecordsScreen()
         clickOnView(
             allOf(
-                isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(newName), isCompletelyDisplayed()
-            )
+                isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(newName), isCompletelyDisplayed(),
+            ),
         )
         checkViewDoesNotExist(
             allOf(
-                isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(newName), isCompletelyDisplayed()
-            )
+                isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(newName), isCompletelyDisplayed(),
+            ),
         )
 
         // Record is added
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(
             allOf(
-                withText(newName), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed()
-            )
+                withText(newName), isDescendantOfA(withId(baseR.id.viewRecordItem)), isCompletelyDisplayed(),
+            ),
         )
     }
 
@@ -152,8 +164,8 @@ class StartRecordTest : BaseUiTest() {
                 withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(name)),
                 hasDescendant(withText(comment)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithText(coreR.string.change_record_comment_field)
@@ -192,8 +204,8 @@ class StartRecordTest : BaseUiTest() {
             allOf(
                 withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(fullName)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
         clickOnView(allOf(withText(fullName), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withId(changeRecordR.id.previewChangeRecord), hasDescendant(withText(fullName))))

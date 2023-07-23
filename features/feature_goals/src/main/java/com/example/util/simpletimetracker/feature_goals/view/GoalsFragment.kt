@@ -77,7 +77,6 @@ class GoalsFragment : BaseFragment<Binding>() {
         viewModel.onHidden()
     }
 
-
     companion object {
         fun newInstance(): GoalsFragment = GoalsFragment()
     }

@@ -358,6 +358,6 @@ class RecordsAllTest : BaseUiTest() {
         checkViewDoesNotExist(record1)
         checkViewDoesNotExist(record2)
         checkViewDoesNotExist(record3)
-        checkViewIsDisplayed(withText(coreR.string.records_empty))
+        checkViewIsDisplayed(withText(coreR.string.no_data))
     }
 }

@@ -4,9 +4,10 @@ import android.view.View
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
-import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
+import androidx.test.espresso.assertion.PositionAssertions.isTopAlignedWith
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -17,6 +18,7 @@ import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
+import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.collapseToolbar
@@ -78,7 +80,7 @@ class AddRecordTypeTest : BaseUiTest() {
         clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(firstColor))
         checkPreviewUpdated(withCardColor(firstColor))
         checkViewIsDisplayed(
-            allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(firstColor)))
+            allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(firstColor))),
         )
 
         // Selecting color
@@ -86,7 +88,7 @@ class AddRecordTypeTest : BaseUiTest() {
         clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
         checkViewIsDisplayed(
-            allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(lastColor)))
+            allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(lastColor))),
         )
 
         // Open icon chooser
@@ -113,36 +115,38 @@ class AddRecordTypeTest : BaseUiTest() {
         checkViewIsDisplayed(withText(categoryName1))
         checkViewIsDisplayed(withText(categoryName2))
         checkViewIsDisplayed(withText(coreR.string.nothing_selected))
-        checkViewIsDisplayed(withId(changeRecordTypeR.id.viewDividerItem))
-        onView(withText(categoryName1)).check(isCompletelyBelow(withId(changeRecordTypeR.id.viewDividerItem)))
-        onView(withText(categoryName2)).check(isCompletelyBelow(withId(changeRecordTypeR.id.viewDividerItem)))
+        onView(withText(categoryName1)).check(isCompletelyBelow(withText(coreR.string.nothing_selected)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withText(coreR.string.nothing_selected)))
+        onView(withText(categoryName2)).check(isTopAlignedWith(withText(categoryName1)))
 
         // Selecting category
         clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName1))
         checkViewIsDisplayed(withText(coreR.string.something_selected))
-        checkViewIsDisplayed(withId(changeRecordTypeR.id.viewDividerItem))
-        onView(withText(categoryName1)).check(isCompletelyAbove(withId(changeRecordTypeR.id.viewDividerItem)))
-        onView(withText(categoryName2)).check(isCompletelyBelow(withId(changeRecordTypeR.id.viewDividerItem)))
+        onView(withText(categoryName1)).check(isCompletelyBelow(withText(coreR.string.something_selected)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withText(categoryName1)))
 
         clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName2))
         checkViewIsDisplayed(withText(coreR.string.something_selected))
-        checkViewIsDisplayed(withId(changeRecordTypeR.id.viewDividerItem))
-        checkViewIsDisplayed(withText(categoryName1))
-        checkViewIsDisplayed(withText(categoryName2))
+        onView(withText(categoryName2)).check(isTopAlignedWith(withText(categoryName1)))
 
         clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName1))
         clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName2))
         checkViewIsDisplayed(withText(coreR.string.nothing_selected))
-        checkViewIsDisplayed(withId(changeRecordTypeR.id.viewDividerItem))
-        onView(withText(categoryName1)).check(isCompletelyBelow(withId(changeRecordTypeR.id.viewDividerItem)))
-        onView(withText(categoryName2)).check(isCompletelyBelow(withId(changeRecordTypeR.id.viewDividerItem)))
+        onView(withText(categoryName1)).check(isCompletelyBelow(withText(coreR.string.nothing_selected)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withText(coreR.string.nothing_selected)))
+        onView(withText(categoryName2)).check(isTopAlignedWith(withText(categoryName1)))
 
         clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName1))
         clickOnViewWithText(coreR.string.category_hint)
 
         // Selecting goal time
         clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
-        clickOnViewWithId(changeRecordTypeR.id.groupChangeRecordTypeSessionGoalTime)
+        clickOnView(
+            allOf(
+                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalSession)),
+                withId(changeRecordTypeR.id.fieldChangeRecordTypeGoalDuration),
+            ),
+        )
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
@@ -163,9 +167,8 @@ class AddRecordTypeTest : BaseUiTest() {
         longClickOnView(withText(name))
         clickOnViewWithText(coreR.string.category_hint)
         checkViewIsDisplayed(withText(coreR.string.something_selected))
-        checkViewIsDisplayed(withId(changeRecordTypeR.id.viewDividerItem))
-        onView(withText(categoryName1)).check(isCompletelyAbove(withId(changeRecordTypeR.id.viewDividerItem)))
-        onView(withText(categoryName2)).check(isCompletelyBelow(withId(changeRecordTypeR.id.viewDividerItem)))
+        onView(withText(categoryName1)).check(isCompletelyBelow(withText(coreR.string.something_selected)))
+        onView(withText(categoryName2)).check(isCompletelyBelow(withText(categoryName1)))
     }
 
     @Test
@@ -176,15 +179,16 @@ class AddRecordTypeTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
         checkViewIsDisplayed(
             allOf(
-                withId(changeRecordTypeR.id.tvChangeRecordTypeSessionGoalTime),
-                withText(coreR.string.change_record_type_goal_time_disabled)
-            )
+                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalSession)),
+                withId(changeRecordTypeR.id.tvChangeRecordTypeGoalDurationValue),
+                withText(coreR.string.change_record_type_goal_time_disabled),
+            ),
         )
         clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
 
         // Open category chooser
         clickOnViewWithText(coreR.string.category_hint)
-        checkViewIsDisplayed(withText(coreR.string.change_record_type_categories_empty))
+        checkViewIsDisplayed(withText(coreR.string.categories_record_type_hint))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

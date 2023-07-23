@@ -206,7 +206,7 @@ class AddRecordTest : BaseUiTest() {
 
         // Open tag chooser
         clickOnViewWithId(changeRecordR.id.fieldChangeRecordCategory)
-        checkViewIsDisplayed(withText(coreR.string.change_record_categories_empty))
+        checkViewIsDisplayed(withText(coreR.string.categories_record_hint))
     }
 
     @Test

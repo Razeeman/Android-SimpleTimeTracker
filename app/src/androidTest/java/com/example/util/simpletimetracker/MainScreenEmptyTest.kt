@@ -40,7 +40,17 @@ class MainScreenEmptyTest : BaseUiTest() {
     fun mainScreenEmpty() {
         val name = "Test"
 
-        tryAction { checkViewIsDisplayed(withText(coreR.string.running_records_types_empty)) }
+        tryAction {
+            checkViewIsDisplayed(
+                withText(
+                    getString(
+                        coreR.string.running_records_types_empty,
+                        getString(coreR.string.running_records_add_type),
+                        getString(coreR.string.running_records_add_default),
+                    ),
+                ),
+            )
+        }
         checkViewDoesNotExist(withText(coreR.string.running_records_empty))
 
         // Add activity
@@ -73,8 +83,8 @@ class MainScreenEmptyTest : BaseUiTest() {
             allOf(
                 withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(coreR.string.untracked_time_name)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
         checkViewIsDisplayed(allOf(withText(coreR.string.records_hint), isCompletelyDisplayed()))
         clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
@@ -83,13 +93,13 @@ class MainScreenEmptyTest : BaseUiTest() {
                 withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(coreR.string.untracked_time_name)),
                 hasDescendant(withSubstring("24$hourString 0$minuteString")),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
         checkViewIsDisplayed(allOf(withText(coreR.string.records_hint), isCompletelyDisplayed()))
         clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
         clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
-        checkViewIsDisplayed(allOf(withText(coreR.string.records_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(coreR.string.records_hint), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
     }
@@ -127,8 +137,8 @@ class MainScreenEmptyTest : BaseUiTest() {
                 withId(baseR.id.viewStatisticsItem),
                 hasDescendant(withText(coreR.string.untracked_time_name)),
                 hasDescendant(withSubstring("100%")),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
 
         // Back to day range
@@ -170,8 +180,8 @@ class MainScreenEmptyTest : BaseUiTest() {
                 withId(baseR.id.viewStatisticsItem),
                 hasDescendant(withText(coreR.string.untracked_time_name)),
                 hasDescendant(withSubstring("100%")),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
 
         // Back to day range
@@ -213,8 +223,8 @@ class MainScreenEmptyTest : BaseUiTest() {
                 withId(baseR.id.viewStatisticsItem),
                 hasDescendant(withText(coreR.string.untracked_time_name)),
                 hasDescendant(withSubstring("100%")),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
 
         // Back to day range
@@ -229,10 +239,10 @@ class MainScreenEmptyTest : BaseUiTest() {
                 withId(baseR.id.viewStatisticsItem),
                 hasDescendant(withText(coreR.string.untracked_time_name)),
                 hasDescendant(withSubstring("100%")),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
-        checkViewIsDisplayed(allOf(withText(coreR.string.statistics_empty), isCompletelyDisplayed()))
+        checkViewIsDisplayed(allOf(withText(coreR.string.no_data), isCompletelyDisplayed()))
     }
 }

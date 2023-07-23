@@ -58,8 +58,7 @@ class TestUtils @Inject constructor(
         colorInt: Int? = null,
         icon: Int? = null,
         text: String? = null,
-        goalTime: Long? = null,
-        goalRange: RecordTypeGoal.Range? = null,
+        goals: List<RecordTypeGoal> = emptyList(),
         archived: Boolean = false,
         categories: List<String> = emptyList(),
     ) = runBlocking {
@@ -95,14 +94,8 @@ class TestUtils @Inject constructor(
                 recordTypeCategoryInteractor.addCategories(typeId, categoryIds)
             }
 
-        if (goalTime != null && goalRange != null) {
-            RecordTypeGoal(
-                typeId = typeId,
-                range = goalRange,
-                type = RecordTypeGoal.Type.Duration(goalTime),
-            ).let {
-                recordTypeGoalInteractor.add(it)
-            }
+        goals.forEach {
+            recordTypeGoalInteractor.add(it.copy(typeId = typeId))
         }
     }
 
