@@ -70,6 +70,9 @@ fun scrollRecyclerToPosition(id: Int, position: Int): ViewInteraction =
 fun scrollRecyclerToView(id: Int, matcher: Matcher<View>): ViewInteraction =
     onView(withId(id)).perform(scrollTo<BaseRecyclerViewHolder>(matcher))
 
+fun scrollRecyclerInPagerToView(id: Int, matcher: Matcher<View>): ViewInteraction =
+    onView(allOf(withId(id), isCompletelyDisplayed())).perform(scrollTo<BaseRecyclerViewHolder>(matcher))
+
 fun toastTextShowing(textId: Int): ViewInteraction =
     onView(withText(textId)).inRoot(isToast()).check(matches(isDisplayed()))
 

@@ -348,6 +348,7 @@ class ChangeRecordTypeFragment :
 
         // No count goal for session.
         layoutChangeRecordTypeGoalSession.arrowChangeRecordTypeGoalType.visible = false
+        layoutChangeRecordTypeGoalSession.fieldRecordTypeGoalType.isEnabled = false
     }
 
     private fun initGoalUx() = with(binding) {
@@ -371,9 +372,6 @@ class ChangeRecordTypeFragment :
         initUx(RecordTypeGoal.Range.Daily, layoutChangeRecordTypeGoalDaily)
         initUx(RecordTypeGoal.Range.Weekly, layoutChangeRecordTypeGoalWeekly)
         initUx(RecordTypeGoal.Range.Monthly, layoutChangeRecordTypeGoalMonthly)
-
-        // No count goal for session.
-        layoutChangeRecordTypeGoalSession.fieldRecordTypeGoalType.isEnabled = false
     }
 
     private fun updateGoalsState(state: ChangeRecordTypeGoalsViewData) = with(binding) {

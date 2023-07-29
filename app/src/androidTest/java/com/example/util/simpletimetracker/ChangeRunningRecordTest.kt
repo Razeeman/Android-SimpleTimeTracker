@@ -2,13 +2,11 @@ package com.example.util.simpletimetracker
 
 import android.view.View
 import android.widget.DatePicker
-import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -26,25 +24,23 @@ import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
-import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
 import com.example.util.simpletimetracker.feature_change_running_record.R as changeRunningRecordR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
-import com.example.util.simpletimetracker.feature_running_records.R as runningRecordsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -382,227 +378,6 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkViewDoesNotExist(withText(comment2))
         checkViewDoesNotExist(withText(comment3))
         clickOnViewWithText(coreR.string.change_record_comment_field)
-    }
-
-    @Test
-    fun goalTimes() {
-        fun checkGoal(typeName: String, @IdRes goalTextId: Int, goal: String) {
-            allOf(
-                isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)),
-                hasSibling(withText(typeName)),
-                withId(goalTextId),
-                withSubstring(goal),
-            ).let(::checkViewIsDisplayed)
-        }
-
-        fun checkNoGoal(typeName: String, @IdRes goalTextId: Int) {
-            allOf(
-                isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)),
-                hasSibling(withText(typeName)),
-                withId(goalTextId),
-            ).let(::checkViewIsNotDisplayed)
-        }
-
-        fun checkGoalMark(typeName: String, @IdRes checkId: Int, isVisible: Boolean) {
-            allOf(
-                isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)),
-                hasSibling(withText(typeName)),
-                withId(checkId),
-            ).let {
-                if (isVisible) checkViewIsDisplayed(it) else checkViewIsNotDisplayed(it)
-            }
-        }
-
-        fun scrollTo(typeName: String) {
-            tryAction {
-                scrollRecyclerToView(
-                    runningRecordsR.id.rvRunningRecordsList,
-                    allOf(withId(changeRecordR.id.viewRunningRecordItem), hasDescendant(withText(typeName))),
-                )
-            }
-        }
-
-        val sessionGoal = getString(coreR.string.change_record_type_session_goal_time).lowercase()
-        val dailyGoal = getString(coreR.string.change_record_type_daily_goal_time).lowercase()
-        val currentTime = Calendar.getInstance().timeInMillis
-
-        val noGoals = "noGoals"
-        val sessionGoalNotFinished = "sessionGoalNotFinished"
-        val sessionGoalFinished = "sessionGoalFinished"
-        val dailyGoalNotFinished = "dailyGoalNotFinished"
-        val dailyGoalFinished = "dailyGoalFinished"
-        val weeklyGoalPresent = "weeklyGoalPresent"
-        val monthlyGoalPresent = "monthlyGoalPresent"
-        val allGoalsPresent = "allGoalsPresent"
-
-        // Add data
-        testUtils.addActivity(noGoals)
-        testUtils.addRunningRecord(noGoals)
-
-        testUtils.addActivity(
-            sessionGoalNotFinished,
-            goals = listOf(
-                RecordTypeGoal(
-                    typeId = 0,
-                    range = RecordTypeGoal.Range.Session,
-                    type = RecordTypeGoal.Type.Duration(TimeUnit.MINUTES.toSeconds(10)),
-                ),
-            ),
-        )
-        testUtils.addRecord(sessionGoalNotFinished)
-        testUtils.addRunningRecord(sessionGoalNotFinished)
-
-        testUtils.addActivity(
-            sessionGoalFinished,
-            goals = listOf(
-                RecordTypeGoal(
-                    typeId = 0,
-                    range = RecordTypeGoal.Range.Session,
-                    type = RecordTypeGoal.Type.Duration(TimeUnit.MINUTES.toSeconds(10)),
-                ),
-            ),
-        )
-        testUtils.addRunningRecord(
-            typeName = sessionGoalFinished,
-            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(10),
-        )
-
-        testUtils.addActivity(
-            dailyGoalNotFinished,
-            goals = listOf(
-                RecordTypeGoal(
-                    typeId = 0,
-                    range = RecordTypeGoal.Range.Daily,
-                    type = RecordTypeGoal.Type.Duration(TimeUnit.MINUTES.toSeconds(10)),
-                ),
-            ),
-        )
-        testUtils.addRecord(
-            typeName = dailyGoalNotFinished,
-            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(5),
-            timeEnded = currentTime,
-        )
-        testUtils.addRunningRecord(dailyGoalNotFinished)
-
-        testUtils.addActivity(
-            dailyGoalFinished,
-            goals = listOf(
-                RecordTypeGoal(
-                    typeId = 0,
-                    range = RecordTypeGoal.Range.Daily,
-                    type = RecordTypeGoal.Type.Duration(TimeUnit.MINUTES.toSeconds(10)),
-                ),
-            ),
-        )
-        testUtils.addRecord(
-            typeName = dailyGoalFinished,
-            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(10),
-            timeEnded = currentTime,
-        )
-        testUtils.addRunningRecord(dailyGoalFinished)
-
-        testUtils.addActivity(
-            weeklyGoalPresent,
-            goals = listOf(
-                RecordTypeGoal(
-                    typeId = 0,
-                    range = RecordTypeGoal.Range.Weekly,
-                    type = RecordTypeGoal.Type.Duration(TimeUnit.MINUTES.toSeconds(10)),
-                ),
-            ),
-        )
-        testUtils.addRunningRecord(weeklyGoalPresent)
-
-        testUtils.addActivity(
-            monthlyGoalPresent,
-            goals = listOf(
-                RecordTypeGoal(
-                    typeId = 0,
-                    range = RecordTypeGoal.Range.Monthly,
-                    type = RecordTypeGoal.Type.Duration(TimeUnit.MINUTES.toSeconds(10)),
-                ),
-            ),
-        )
-        testUtils.addRunningRecord(monthlyGoalPresent)
-
-        testUtils.addActivity(
-            name = allGoalsPresent,
-            goals = listOf(
-                RecordTypeGoal(
-                    typeId = 0,
-                    range = RecordTypeGoal.Range.Session,
-                    type = RecordTypeGoal.Type.Duration(TimeUnit.MINUTES.toSeconds(10)),
-                ),
-                RecordTypeGoal(
-                    typeId = 0,
-                    range = RecordTypeGoal.Range.Daily,
-                    type = RecordTypeGoal.Type.Duration(TimeUnit.MINUTES.toSeconds(20)),
-                ),
-                RecordTypeGoal(
-                    typeId = 0,
-                    range = RecordTypeGoal.Range.Weekly,
-                    type = RecordTypeGoal.Type.Duration(TimeUnit.MINUTES.toSeconds(30)),
-                ),
-                RecordTypeGoal(
-                    typeId = 0,
-                    range = RecordTypeGoal.Range.Monthly,
-                    type = RecordTypeGoal.Type.Duration(TimeUnit.MINUTES.toSeconds(40)),
-                ),
-            ),
-        )
-        testUtils.addRecord(
-            typeName = allGoalsPresent,
-            timeStarted = currentTime - TimeUnit.MINUTES.toMillis(5),
-            timeEnded = currentTime,
-        )
-        testUtils.addRunningRecord(allGoalsPresent)
-
-        // No goals
-        Thread.sleep(1000)
-        scrollTo(noGoals)
-        checkNoGoal(noGoals, changeRecordR.id.tvRunningRecordItemGoalTime)
-        checkGoalMark(noGoals, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
-
-        // Session goal not finished
-        scrollTo(sessionGoalNotFinished)
-        checkGoal(
-            sessionGoalNotFinished, changeRecordR.id.tvRunningRecordItemGoalTime, "$sessionGoal 9$minuteString",
-        )
-        checkGoalMark(sessionGoalNotFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
-
-        // Session goal finished
-        scrollTo(sessionGoalFinished)
-        checkGoal(sessionGoalFinished, changeRecordR.id.tvRunningRecordItemGoalTime, sessionGoal)
-        checkGoalMark(sessionGoalFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = true)
-
-        // Daily goal not finished
-        scrollTo(dailyGoalNotFinished)
-        checkGoal(
-            dailyGoalNotFinished, changeRecordR.id.tvRunningRecordItemGoalTime, "$dailyGoal 4$minuteString",
-        )
-        checkGoalMark(dailyGoalNotFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
-
-        // Daily goal finished
-        scrollTo(dailyGoalFinished)
-        checkGoal(dailyGoalFinished, changeRecordR.id.tvRunningRecordItemGoalTime, dailyGoal)
-        checkGoalMark(dailyGoalFinished, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = true)
-
-        // Weekly goal present
-        scrollTo(weeklyGoalPresent)
-        checkNoGoal(weeklyGoalPresent, changeRecordR.id.tvRunningRecordItemGoalTime)
-        checkGoalMark(weeklyGoalPresent, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
-
-        // Monthly goal present
-        scrollTo(monthlyGoalPresent)
-        checkNoGoal(monthlyGoalPresent, changeRecordR.id.tvRunningRecordItemGoalTime)
-        checkGoalMark(monthlyGoalPresent, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
-
-        // All goals, all not finished
-        scrollTo(allGoalsPresent)
-        checkGoal(
-            allGoalsPresent, changeRecordR.id.tvRunningRecordItemGoalTime, "$dailyGoal 14$minuteString",
-        )
-        checkGoalMark(allGoalsPresent, changeRecordR.id.ivRunningRecordItemGoalTimeCheck, isVisible = false)
     }
 
     @Test

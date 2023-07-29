@@ -4,6 +4,7 @@ import android.widget.DatePicker
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.contrib.PickerActions.setDate
 import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -11,6 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
@@ -33,6 +35,11 @@ object NavUtils {
 
     fun openRecordsScreen() {
         onView(withId(mainR.id.mainTabs)).perform(selectTabAtPosition(1))
+        Thread.sleep(1000)
+    }
+
+    fun openGoalsScreen() {
+        onView(withId(mainR.id.mainTabs)).perform(selectTabAtPosition(2))
         Thread.sleep(1000)
     }
 
@@ -117,7 +124,7 @@ object NavUtils {
             clickOnViewWithText(coreR.string.category_hint)
             categories.forEach { categoryName ->
                 scrollRecyclerToView(
-                    changeRecordTypeR.id.rvChangeRecordTypeCategories, hasDescendant(withText(categoryName))
+                    changeRecordTypeR.id.rvChangeRecordTypeCategories, hasDescendant(withText(categoryName)),
                 )
                 clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeCategories, withText(categoryName))
             }
@@ -126,6 +133,68 @@ object NavUtils {
 
         closeSoftKeyboard()
         clickOnViewWithText(coreR.string.change_record_type_save)
+    }
+
+    fun addGoalToActivity(
+        goal: RecordTypeGoal,
+    ) {
+        val layout = when (goal.range) {
+            is RecordTypeGoal.Range.Session -> changeRecordTypeR.id.layoutChangeRecordTypeGoalSession
+            is RecordTypeGoal.Range.Daily -> changeRecordTypeR.id.layoutChangeRecordTypeGoalDaily
+            is RecordTypeGoal.Range.Weekly -> changeRecordTypeR.id.layoutChangeRecordTypeGoalWeekly
+            is RecordTypeGoal.Range.Monthly -> changeRecordTypeR.id.layoutChangeRecordTypeGoalMonthly
+        }
+        onView(withId(layout)).perform(nestedScrollTo())
+
+        // Select type
+        layout.takeUnless { goal.range is RecordTypeGoal.Range.Session }?.let {
+            clickOnView(
+                allOf(
+                    isDescendantOfA(withId(it)),
+                    withId(changeRecordTypeR.id.fieldRecordTypeGoalType),
+                ),
+            )
+            val typeToSelect = when (goal.type) {
+                is RecordTypeGoal.Type.Duration -> coreR.string.change_record_type_goal_duration
+                is RecordTypeGoal.Type.Count -> coreR.string.change_record_type_goal_count
+            }
+            clickOnViewWithText(typeToSelect)
+        }
+
+        // Enter value
+        when (goal.type) {
+            is RecordTypeGoal.Type.Duration -> {
+                clickOnView(
+                    allOf(
+                        isDescendantOfA(withId(layout)),
+                        withId(changeRecordTypeR.id.fieldChangeRecordTypeGoalDuration),
+                    ),
+                )
+                if (goal.type.value == 0L) disableDuration() else enterDuration(goal.type.value)
+            }
+            is RecordTypeGoal.Type.Count -> {
+                onView(
+                    allOf(
+                        isDescendantOfA(withId(layout)),
+                        withId(changeRecordTypeR.id.etChangeRecordTypeGoalCountValue),
+                    ),
+                ).perform(replaceText(goal.type.value.toString()))
+            }
+        }
+
+        closeSoftKeyboard()
+    }
+
+    fun disableGoalOnActivity(
+        goal: RecordTypeGoal
+    ) {
+        val newGoal = goal.copy(
+            type = when (val type = goal.type) {
+                is RecordTypeGoal.Type.Duration -> RecordTypeGoal.Type.Duration(0)
+                is RecordTypeGoal.Type.Count -> RecordTypeGoal.Type.Count(0)
+            }
+        )
+        addGoalToActivity(newGoal)
     }
 
     fun addCategory(
@@ -170,8 +239,8 @@ object NavUtils {
             clickOnView(
                 allOf(
                     isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
-                    withText(coreR.string.change_record_tag_type_general)
-                )
+                    withText(coreR.string.change_record_tag_type_general),
+                ),
             )
             clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagColor)
             scrollRecyclerToView(changeRecordTagR.id.rvChangeRecordTagColor, withCardColor(color))
@@ -183,8 +252,8 @@ object NavUtils {
             clickOnView(
                 allOf(
                     isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
-                    withText(coreR.string.change_record_tag_type_typed)
-                )
+                    withText(coreR.string.change_record_tag_type_typed),
+                ),
             )
             clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
             scrollRecyclerToView(changeRecordTagR.id.rvChangeRecordTagType, hasDescendant(withText(activity)))
@@ -272,8 +341,8 @@ object NavUtils {
             clickOnView(
                 allOf(
                     isDescendantOfA(withId(changeActivityFilterR.id.buttonsChangeActivityFilterType)),
-                    withText(coreR.string.activity_hint)
-                )
+                    withText(coreR.string.activity_hint),
+                ),
             )
             activities.forEach {
                 scrollRecyclerToView(changeActivityFilterR.id.rvChangeActivityFilterType, hasDescendant(withText(it)))
@@ -288,8 +357,8 @@ object NavUtils {
             clickOnView(
                 allOf(
                     isDescendantOfA(withId(changeActivityFilterR.id.buttonsChangeActivityFilterType)),
-                    withText(coreR.string.category_hint)
-                )
+                    withText(coreR.string.category_hint),
+                ),
             )
             categories.forEach {
                 scrollRecyclerToView(changeActivityFilterR.id.rvChangeActivityFilterType, hasDescendant(withText(it)))
@@ -322,5 +391,37 @@ object NavUtils {
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         clickOnViewWithId(dialogsR.id.btnCustomRangeSelection)
+    }
+
+    private fun disableDuration() {
+        clickOnViewWithText(coreR.string.duration_dialog_disable)
+    }
+
+    private fun enterDuration(
+        value: Long,
+    ) {
+        fun Long.padWithZeroes() = this.toString().padStart(2, '0')
+
+        val hr = value / 3600
+        val min = (value - hr * 3600) / 60
+        val sec = (value - hr * 3600 - min * 60)
+        val reformattedValue = "${hr.padWithZeroes()}${min.padWithZeroes()}${sec.padWithZeroes()}"
+
+        reformattedValue.forEach {
+            when (it) {
+                '0' -> dialogsR.id.tvNumberKeyboard0
+                '1' -> dialogsR.id.tvNumberKeyboard1
+                '2' -> dialogsR.id.tvNumberKeyboard2
+                '3' -> dialogsR.id.tvNumberKeyboard3
+                '4' -> dialogsR.id.tvNumberKeyboard4
+                '5' -> dialogsR.id.tvNumberKeyboard5
+                '6' -> dialogsR.id.tvNumberKeyboard6
+                '7' -> dialogsR.id.tvNumberKeyboard7
+                '8' -> dialogsR.id.tvNumberKeyboard8
+                '9' -> dialogsR.id.tvNumberKeyboard9
+                else -> return
+            }.let(::clickOnViewWithId)
+        }
+        clickOnViewWithText(coreR.string.duration_dialog_save)
     }
 }

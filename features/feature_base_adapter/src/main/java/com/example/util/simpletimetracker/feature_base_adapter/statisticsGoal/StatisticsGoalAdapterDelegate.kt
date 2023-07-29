@@ -8,7 +8,7 @@ fun createStatisticsGoalAdapterDelegate() = createRecyclerBindingAdapterDelegate
     Binding::inflate
 ) { binding, item, _ ->
 
-    with(binding.viewStatisticsItem) {
+    with(binding.viewStatisticsGoalItem) {
         item as ViewData
 
         itemColor = item.color

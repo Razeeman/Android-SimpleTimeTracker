@@ -70,7 +70,7 @@ class GoalViewDataMapper @Inject constructor(
                     useProportionalMinutes = false,
                 )
                 is RecordTypeGoal.Type.Count -> mapCount(
-                    goalValue = goalValue,
+                    goalValue = valueLeft,
                 )
             }
 
@@ -215,7 +215,7 @@ class GoalViewDataMapper @Inject constructor(
     private fun mapCount(
         goalValue: Long,
     ): String {
-        return "$goalValue " + resourceRepo.getQuantityString(
+        return "$goalValue " + resourceRepo.getQuantityString(
             stringResId = R.plurals.statistics_detail_times_tracked,
             quantity = goalValue.toInt(),
         )
