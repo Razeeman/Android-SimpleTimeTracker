@@ -13,7 +13,6 @@ import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.scrollRecyclerInPagerToView
-import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.scrollToBottom
 import com.example.util.simpletimetracker.utils.tryAction
 import dagger.hilt.android.testing.HiltAndroidTest

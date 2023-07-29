@@ -44,15 +44,15 @@ object GoalsTestUtils {
 
     fun addRecords(testUtils: TestUtils, typeName: String) {
         val currentTime = Calendar.getInstance().apply {
-            set(Calendar.HOUR, 15)
+            set(Calendar.HOUR_OF_DAY, 15)
         }.timeInMillis
         val thisWeek = Calendar.getInstance().apply {
-            set(Calendar.HOUR, 15)
+            set(Calendar.HOUR_OF_DAY, 15)
             val dateShift = if (get(Calendar.DAY_OF_WEEK) == firstDayOfWeek) +1 else -1
             add(Calendar.DATE, dateShift)
         }.timeInMillis
         val thisMonth = Calendar.getInstance().apply {
-            set(Calendar.HOUR, 15)
+            set(Calendar.HOUR_OF_DAY, 15)
             val dateShift = if (get(Calendar.DAY_OF_MONTH) < 15) +7 else -7
             add(Calendar.DATE, dateShift)
         }.timeInMillis

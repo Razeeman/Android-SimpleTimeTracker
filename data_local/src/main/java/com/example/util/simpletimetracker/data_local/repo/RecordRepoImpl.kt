@@ -99,8 +99,13 @@ class RecordRepoImpl @Inject constructor(
 
     override suspend fun add(record: Record): Long = withContext(Dispatchers.IO) {
         Timber.d("add")
+        // Drop milliseconds.
+        val adjustedRecord = record.copy(
+            timeStarted = record.timeStarted / 1000 * 1000,
+            timeEnded = record.timeEnded / 1000 * 1000,
+        )
         return@withContext recordDao.insert(
-            record.let(recordDataLocalMapper::map)
+            adjustedRecord.let(recordDataLocalMapper::map)
         )
     }
 
