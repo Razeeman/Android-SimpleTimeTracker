@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
@@ -395,8 +396,11 @@ class ChangeRecordTypeFragment :
                     view.inputChangeRecordTypeGoalCount.isInvisible = true
                 }
                 is ChangeRecordTypeGoalsViewData.Type.Count -> {
-                    if (view.etChangeRecordTypeGoalCountValue.text.toString() != value) {
+                    val current = view.etChangeRecordTypeGoalCountValue.text.toString().toLongOrNull()
+                    val new = value.toLongOrNull()
+                    if (current != new) {
                         view.etChangeRecordTypeGoalCountValue.setText(value)
+                        view.etChangeRecordTypeGoalCountValue.setSelection(value.length)
                     }
                     view.fieldChangeRecordTypeGoalDuration.isInvisible = true
                     view.inputChangeRecordTypeGoalCount.isVisible = true

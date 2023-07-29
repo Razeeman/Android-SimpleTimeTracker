@@ -352,10 +352,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
         val currentCount = (currentGoal as? RecordTypeGoal.Type.Count)
             ?.value ?: return
-        val newCount = count.toLongOrNull().orZero()
+        val newCount = count.toLongOrNull()
 
         if (currentCount != newCount) {
-            val newType = RecordTypeGoal.Type.Count(newCount)
+            val newType = RecordTypeGoal.Type.Count(newCount.orZero())
             newGoalsState = when (range) {
                 is RecordTypeGoal.Range.Session -> newGoalsState.copy(session = newType)
                 is RecordTypeGoal.Range.Daily -> newGoalsState.copy(daily = newType)
