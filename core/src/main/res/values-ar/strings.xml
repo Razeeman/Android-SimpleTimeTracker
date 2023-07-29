@@ -189,6 +189,9 @@
     <string name="running_records_add_type">يضيف</string>
     <string name="running_records_add_filter">أضف عامل تصفية</string>
     <string name="running_records_add_default">تقصير</string>
+    <string name="running_records_restart">يكرر</string>
+    <string name="running_records_restart_no_prev_record">لا يوجد سجل سابق لإعادة التشغيل</string>
+    <string name="running_records_restart_already_tracking">تتبع بالفعل هذا النشاط</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">إعدادات العرض</string>

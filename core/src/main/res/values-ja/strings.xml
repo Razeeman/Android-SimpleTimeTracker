@@ -189,6 +189,9 @@
     <string name="running_records_add_type">追加</string>
     <string name="running_records_add_filter">フィルタを追加</string>
     <string name="running_records_add_default">デフォルト</string>
+    <string name="running_records_restart">繰り返す</string>
+    <string name="running_records_restart_no_prev_record">再開する以前のレコードがありません</string>
+    <string name="running_records_restart_already_tracking">すでにこのアクティビティを追跡しています</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">設定を表示</string>

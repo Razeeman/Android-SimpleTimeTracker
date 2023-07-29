@@ -189,6 +189,9 @@
     <string name="running_records_add_type">Tambah</string>
     <string name="running_records_add_filter">Tambahkan filter</string>
     <string name="running_records_add_default">Bawaan</string>
+    <string name="running_records_restart">Mengulang</string>
+    <string name="running_records_restart_no_prev_record">Tidak ada catatan sebelumnya untuk memulai kembali</string>
+    <string name="running_records_restart_already_tracking">Sudah melacak aktivitas ini</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Pengaturan tampilan</string>

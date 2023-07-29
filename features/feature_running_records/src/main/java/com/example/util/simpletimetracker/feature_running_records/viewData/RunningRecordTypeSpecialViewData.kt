@@ -4,7 +4,7 @@ import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
-class RunningRecordTypeAddViewData(
+class RunningRecordTypeSpecialViewData(
     val type: Type,
     val name: String,
     val iconId: RecordTypeIcon,
@@ -16,10 +16,11 @@ class RunningRecordTypeAddViewData(
 
     override fun getUniqueId(): Long = type.hashCode().toLong()
 
-    override fun isValidType(other: ViewHolderType): Boolean = other is RunningRecordTypeAddViewData
+    override fun isValidType(other: ViewHolderType): Boolean = other is RunningRecordTypeSpecialViewData
 
     sealed interface Type {
         object Add : Type
         object Default : Type
+        object Restart : Type
     }
 }

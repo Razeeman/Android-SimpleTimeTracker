@@ -19,7 +19,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHin
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.createRunningRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordTypeAddAdapterDelegate
+import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordTypeSpecialAdapterDelegate
 import com.example.util.simpletimetracker.feature_running_records.viewModel.RunningRecordsViewModel
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.google.android.flexbox.FlexDirection
@@ -58,7 +58,7 @@ class RunningRecordsFragment :
                 onItemLongClick = viewModel::onRunningRecordLongClick
             ),
             createRunningRecordTypeAdapterDelegate(viewModel::onRecordTypeClick, viewModel::onRecordTypeLongClick),
-            createRunningRecordTypeAddAdapterDelegate(throttle(viewModel::onAddRecordTypeClick)),
+            createRunningRecordTypeSpecialAdapterDelegate(throttle(viewModel::onSpecialRecordTypeClick)),
             createActivityFilterAdapterDelegate(viewModel::onActivityFilterClick, viewModel::onActivityFilterLongClick),
             createActivityFilterAddAdapterDelegate(throttle(viewModel::onAddActivityFilterClick)),
         )

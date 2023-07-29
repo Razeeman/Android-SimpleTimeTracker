@@ -22,7 +22,7 @@ class AddRunningRecordMediator @Inject constructor(
      */
     suspend fun tryStartTimer(
         typeId: Long,
-        onNeedToShowTagSelection: suspend () -> Unit
+        onNeedToShowTagSelection: suspend () -> Unit,
     ): Boolean {
         // Already running
         if (runningRecordInteractor.get(typeId) != null) return false
@@ -80,14 +80,14 @@ class AddRunningRecordMediator @Inject constructor(
         typeId: Long,
         timeStarted: Long? = null,
         comment: String = "",
-        tagIds: List<Long> = emptyList()
+        tagIds: List<Long> = emptyList(),
     ) {
         if (runningRecordInteractor.get(typeId) == null) {
             RunningRecord(
                 id = typeId,
                 timeStarted = timeStarted ?: System.currentTimeMillis(),
                 comment = comment,
-                tagIds = tagIds
+                tagIds = tagIds,
             ).let {
                 runningRecordInteractor.add(it)
                 notificationTypeInteractor.checkAndShow(typeId)

@@ -189,6 +189,9 @@
     <string name="running_records_add_type">Додати</string>
     <string name="running_records_add_filter">Додайте фільтр</string>
     <string name="running_records_add_default">За замовчуванням</string>
+    <string name="running_records_restart">Повторіть</string>
+    <string name="running_records_restart_no_prev_record">Немає попереднього запису для повторного запуску</string>
+    <string name="running_records_restart_already_tracking">Уже відстежуєте цю діяльність</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Налаштування дисплея</string>

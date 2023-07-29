@@ -189,6 +189,9 @@
     <string name="running_records_add_type">新增</string>
     <string name="running_records_add_filter">新增過濾</string>
     <string name="running_records_add_default">默認</string>
+    <string name="running_records_restart">重複</string>
+    <string name="running_records_restart_no_prev_record">沒有之前的記錄可以重新啟動</string>
+    <string name="running_records_restart_already_tracking">已經在追踪此活動</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">顯示設定</string>

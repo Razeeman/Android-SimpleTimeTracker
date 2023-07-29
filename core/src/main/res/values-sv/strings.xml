@@ -189,6 +189,9 @@
     <string name="running_records_add_type">Lägg till</string>
     <string name="running_records_add_filter">Lägg till filter</string>
     <string name="running_records_add_default">Standard</string>
+    <string name="running_records_restart">Upprepa</string>
+    <string name="running_records_restart_no_prev_record">Inget tidigare rekord att starta om</string>
+    <string name="running_records_restart_already_tracking">Spårar redan denna aktivitet</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Bildskärmsinställningar</string>

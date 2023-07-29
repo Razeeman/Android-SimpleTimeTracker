@@ -4,9 +4,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBin
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_running_records.databinding.ItemRunningRecordTypeLayoutBinding as Binding
-import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeAddViewData as ViewData
+import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeSpecialViewData as ViewData
 
-fun createRunningRecordTypeAddAdapterDelegate(
+fun createRunningRecordTypeSpecialAdapterDelegate(
     onItemClick: ((ViewData) -> Unit)
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate

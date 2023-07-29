@@ -189,6 +189,9 @@
     <string name="running_records_add_type">Добав.</string>
     <string name="running_records_add_filter">Добавить фильтр</string>
     <string name="running_records_add_default">По умолч.</string>
+    <string name="running_records_restart">Повтор</string>
+    <string name="running_records_restart_no_prev_record">Нет предыдущей записи для перезапуска</string>
+    <string name="running_records_restart_already_tracking">Эта активность уже отслеживается</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Настройки отображения</string>

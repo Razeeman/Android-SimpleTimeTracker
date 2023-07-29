@@ -189,6 +189,9 @@
     <string name="running_records_add_type">Ajouter</string>
     <string name="running_records_add_filter">Ajouter un filtre</string>
     <string name="running_records_add_default">Défaut</string>
+    <string name="running_records_restart">Répéter</string>
+    <string name="running_records_restart_no_prev_record">Aucun enregistrement précédent à redémarrer</string>
+    <string name="running_records_restart_already_tracking">Suivi déjà de cette activité</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Paramètres d\'affichage</string>

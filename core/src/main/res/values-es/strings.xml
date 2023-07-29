@@ -189,6 +189,9 @@
     <string name="running_records_add_type">Añadir</string>
     <string name="running_records_add_filter">Añadir filtro</string>
     <string name="running_records_add_default">Por defecto</string>
+    <string name="running_records_restart">Repetir</string>
+    <string name="running_records_restart_no_prev_record">Sin registro previo para reiniciar</string>
+    <string name="running_records_restart_already_tracking">Ya estoy rastreando esta actividad</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Configuración de pantalla</string>

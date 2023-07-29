@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
+import com.example.util.simpletimetracker.core.interactor.RecordRestartInteractor
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
@@ -18,7 +19,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderView
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import com.example.util.simpletimetracker.feature_running_records.interactor.RunningRecordsViewDataInteractor
-import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeAddViewData
+import com.example.util.simpletimetracker.feature_running_records.viewData.RunningRecordTypeSpecialViewData
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityFilterParams
@@ -41,6 +42,7 @@ class RunningRecordsViewModel @Inject constructor(
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val recordRestartInteractor: RecordRestartInteractor,
     private val runningRecordsViewDataInteractor: RunningRecordsViewDataInteractor,
     private val activityFilterInteractor: ActivityFilterInteractor,
 ) : ViewModel() {
@@ -63,7 +65,7 @@ class RunningRecordsViewModel @Inject constructor(
                 // Start running record
                 addRunningRecordMediator.tryStartTimer(
                     typeId = item.id,
-                    onNeedToShowTagSelection = { showTagSelection(item.id) }
+                    onNeedToShowTagSelection = { showTagSelection(item.id) },
                 )
             }
             updateRunningRecords()
@@ -78,35 +80,38 @@ class RunningRecordsViewModel @Inject constructor(
                 sizePreview = ChangeRecordTypeParams.SizePreview(
                     width = item.width,
                     height = item.height,
-                    asRow = item.asRow
+                    asRow = item.asRow,
                 ),
                 preview = ChangeRecordTypeParams.Change.Preview(
                     name = item.name,
                     iconId = item.iconId.toParams(),
-                    color = item.color
-                )
+                    color = item.color,
+                ),
             ),
-            sharedElements = sharedElements
+            sharedElements = sharedElements,
         )
     }
 
-    fun onAddRecordTypeClick(item: RunningRecordTypeAddViewData) {
+    fun onSpecialRecordTypeClick(item: RunningRecordTypeSpecialViewData) {
         when (item.type) {
-            is RunningRecordTypeAddViewData.Type.Add -> {
+            is RunningRecordTypeSpecialViewData.Type.Add -> {
                 router.navigate(
                     data = ChangeRecordTypeParams.New(
                         sizePreview = ChangeRecordTypeParams.SizePreview(
                             width = item.width,
                             height = item.height,
-                            asRow = item.asRow
-                        )
-                    )
+                            asRow = item.asRow,
+                        ),
+                    ),
                 )
             }
-            is RunningRecordTypeAddViewData.Type.Default -> {
+            is RunningRecordTypeSpecialViewData.Type.Default -> {
                 router.navigate(
                     data = DefaultTypesSelectionDialogParams,
                 )
+            }
+            is RunningRecordTypeSpecialViewData.Type.Restart -> viewModelScope.launch {
+                recordRestartInteractor.execute()
             }
         }
     }
@@ -134,12 +139,12 @@ class RunningRecordsViewModel @Inject constructor(
                 goalTime = item.goalTime.toParams(),
                 iconId = item.iconId.toParams(),
                 color = item.color,
-                comment = item.comment
-            )
+                comment = item.comment,
+            ),
         )
         router.navigate(
             ChangeRunningRecordFromMainParams(params = params),
-            sharedElements = sharedElements.let(::mapOf)
+            sharedElements = sharedElements.let(::mapOf),
         )
     }
 
@@ -155,10 +160,10 @@ class RunningRecordsViewModel @Inject constructor(
                 id = item.id,
                 preview = ChangeActivityFilterParams.Change.Preview(
                     name = item.name,
-                    color = item.color
-                )
+                    color = item.color,
+                ),
             ),
-            sharedElements = sharedElements.let(::mapOf)
+            sharedElements = sharedElements.let(::mapOf),
         )
     }
 

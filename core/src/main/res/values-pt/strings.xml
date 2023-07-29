@@ -189,6 +189,9 @@
     <string name="running_records_add_type">Adicionar</string>
     <string name="running_records_add_filter">Adicionar filtro</string>
     <string name="running_records_add_default">Padrão</string>
+    <string name="running_records_restart">Repita</string>
+    <string name="running_records_restart_no_prev_record">Nenhum registro anterior para reiniciar</string>
+    <string name="running_records_restart_already_tracking">Já está acompanhando esta atividade</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Configurações do visor</string>

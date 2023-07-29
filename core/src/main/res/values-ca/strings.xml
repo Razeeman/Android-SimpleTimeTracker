@@ -189,6 +189,9 @@
     <string name="running_records_add_type">Afegeix</string>
     <string name="running_records_add_filter">Afegeix filtre</string>
     <string name="running_records_add_default">Per defecte</string>
+    <string name="running_records_restart">Repetiu</string>
+    <string name="running_records_restart_no_prev_record">No hi ha registre anterior per reiniciar</string>
+    <string name="running_records_restart_already_tracking">Ja s\'està fent el seguiment d\'aquesta activitat</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Configuració de visualització</string>

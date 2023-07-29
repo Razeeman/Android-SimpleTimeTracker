@@ -189,6 +189,9 @@
     <string name="running_records_add_type">Ekle</string>
     <string name="running_records_add_filter">Filtre ekle</string>
     <string name="running_records_add_default">Varsayılan</string>
+    <string name="running_records_restart">Tekrarlamak</string>
+    <string name="running_records_restart_no_prev_record">Yeniden başlatılacak önceki kayıt yok</string>
+    <string name="running_records_restart_already_tracking">Bu etkinliği zaten izliyorum</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Görüntü ayarları</string>

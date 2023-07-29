@@ -189,6 +189,9 @@
     <string name="running_records_add_type">Hinz.</string>
     <string name="running_records_add_filter">Filter hinzufügen</string>
     <string name="running_records_add_default">Standard</string>
+    <string name="running_records_restart">Wiederholen</string>
+    <string name="running_records_restart_no_prev_record">Kein vorheriger Datensatz zum Neustart vorhanden</string>
+    <string name="running_records_restart_already_tracking">Verfolgen Sie diese Aktivität bereits</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Bildschirmeinstellungen</string>
