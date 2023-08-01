@@ -260,8 +260,9 @@ class RecordFilterInteractor @Inject constructor(
             // For records spanning multiple days (eg. 48+ hours), we need to split it into multiple records
             // in order to support clamping because there will be two regions that intersect with the time range.
             calendar.timeInMillis = timeOfDay.timeStarted + timeMapper.getStartOfDayTimeStamp(timeStarted, calendar)
+            val timeRangeLength = timeOfDay.timeEnded - timeOfDay.timeStarted
             while (calendar.timeInMillis < timeEnded) {
-                val filterRange = Range(calendar.timeInMillis, calendar.timeInMillis + timeOfDay.timeEnded)
+                val filterRange = Range(calendar.timeInMillis, calendar.timeInMillis + timeRangeLength)
                 if (rangeMapper.isRecordInRange(this, filterRange))
                 filteredRecords.add(rangeMapper.clampRecordToRange(this, filterRange))
                 calendar.add(Calendar.DATE, 1)
