@@ -87,14 +87,14 @@ class RunningRecordsViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToRestartItem(
+    fun mapToRepeatItem(
         numberOfCards: Int,
         isDarkTheme: Boolean,
     ): RunningRecordTypeSpecialViewData {
         return mapToSpecial(
-            type = RunningRecordTypeSpecialViewData.Type.Restart,
-            name = R.string.running_records_restart,
-            icon = RecordTypeIcon.Image(R.drawable.restart),
+            type = RunningRecordTypeSpecialViewData.Type.Repeat,
+            name = R.string.running_records_repeat,
+            icon = RecordTypeIcon.Image(R.drawable.repeat),
             numberOfCards = numberOfCards,
             isDarkTheme = isDarkTheme,
         )

@@ -189,9 +189,9 @@
     <string name="running_records_add_type">追加</string>
     <string name="running_records_add_filter">フィルタを追加</string>
     <string name="running_records_add_default">デフォルト</string>
-    <string name="running_records_restart">繰り返す</string>
-    <string name="running_records_restart_no_prev_record">再開する以前のレコードがありません</string>
-    <string name="running_records_restart_already_tracking">すでにこのアクティビティを追跡しています</string>
+    <string name="running_records_repeat">繰り返す</string>
+    <string name="running_records_repeat_no_prev_record">再開する以前のレコードがありません</string>
+    <string name="running_records_repeat_already_tracking">すでにこのアクティビティを追跡しています</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">設定を表示</string>
@@ -203,6 +203,9 @@
     <string name="settings_sort_by_color">色</string>
     <string name="settings_sort_manually">手動</string>
     <string name="settings_first_day_of_week">週の始まり</string>
+    <string name="settings_repeat_button_type">リピートボタン</string>
+    <string name="settings_repeat_last_record">最後のレコードを繰り返す</string>
+    <string name="settings_repeat_one_before_last">最後の前のレコードを繰り返します</string>
     <string name="settings_show_untracked_time">記録中の未追跡時間の表示</string>
     <string name="settings_show_untracked_time_statistics">追跡されていない時間を統計で表示する</string>
     <string name="settings_ignore_short_untracked">追跡されていない短い時間を無視する</string>

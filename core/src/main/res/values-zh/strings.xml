@@ -189,9 +189,9 @@
     <string name="running_records_add_type">添加</string>
     <string name="running_records_add_filter">添加过滤器</string>
     <string name="running_records_add_default">默认</string>
-    <string name="running_records_restart">重复</string>
-    <string name="running_records_restart_no_prev_record">没有之前的记录可以重新启动</string>
-    <string name="running_records_restart_already_tracking">已经在追踪此活动</string>
+    <string name="running_records_repeat">重复</string>
+    <string name="running_records_repeat_no_prev_record">没有之前的记录可以重新启动</string>
+    <string name="running_records_repeat_already_tracking">已经在追踪此活动</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">显示设置</string>
@@ -203,6 +203,9 @@
     <string name="settings_sort_by_color">颜色</string>
     <string name="settings_sort_manually">手动</string>
     <string name="settings_first_day_of_week">一周的第一天</string>
+    <string name="settings_repeat_button_type">重复按钮</string>
+    <string name="settings_repeat_last_record">重复上次记录</string>
+    <string name="settings_repeat_one_before_last">重复上次之前的记录</string>
     <string name="settings_show_untracked_time">在记录中显示未追踪的时间</string>
     <string name="settings_show_untracked_time_statistics">在统计中显示未跟踪的时间</string>
     <string name="settings_ignore_short_untracked">忽略短的未跟踪时间</string>

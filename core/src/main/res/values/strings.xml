@@ -189,9 +189,9 @@
     <string name="running_records_add_type">Add</string>
     <string name="running_records_add_filter">Add filter</string>
     <string name="running_records_add_default">Default</string>
-    <string name="running_records_restart">Repeat</string>
-    <string name="running_records_restart_no_prev_record">No previous record to restart</string>
-    <string name="running_records_restart_already_tracking">Already tracking this activity</string>
+    <string name="running_records_repeat">Repeat</string>
+    <string name="running_records_repeat_no_prev_record">No previous record to restart</string>
+    <string name="running_records_repeat_already_tracking">Already tracking this activity</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Display settings</string>
@@ -203,6 +203,9 @@
     <string name="settings_sort_by_color">Color</string>
     <string name="settings_sort_manually">Manually</string>
     <string name="settings_first_day_of_week">First day of week</string>
+    <string name="settings_repeat_button_type">Repeat button</string>
+    <string name="settings_repeat_last_record">Repeat last record</string>
+    <string name="settings_repeat_one_before_last">Repeat record before last</string>
     <string name="settings_show_untracked_time">Show untracked time in records</string>
     <string name="settings_show_untracked_time_statistics">Show untracked time in statistics</string>
     <string name="settings_ignore_short_untracked">Ignore short untracked time</string>

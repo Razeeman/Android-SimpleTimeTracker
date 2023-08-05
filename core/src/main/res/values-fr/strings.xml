@@ -189,9 +189,9 @@
     <string name="running_records_add_type">Ajouter</string>
     <string name="running_records_add_filter">Ajouter un filtre</string>
     <string name="running_records_add_default">Défaut</string>
-    <string name="running_records_restart">Répéter</string>
-    <string name="running_records_restart_no_prev_record">Aucun enregistrement précédent à redémarrer</string>
-    <string name="running_records_restart_already_tracking">Suivi déjà de cette activité</string>
+    <string name="running_records_repeat">Répéter</string>
+    <string name="running_records_repeat_no_prev_record">Aucun enregistrement précédent à redémarrer</string>
+    <string name="running_records_repeat_already_tracking">Suivi déjà de cette activité</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Paramètres d\'affichage</string>
@@ -203,6 +203,9 @@
     <string name="settings_sort_by_color">Par couleur</string>
     <string name="settings_sort_manually">Manuellement</string>
     <string name="settings_first_day_of_week">Premier jour de la semaine</string>
+    <string name="settings_repeat_button_type">Bouton de répétition</string>
+    <string name="settings_repeat_last_record">Répéter le dernier enregistrement</string>
+    <string name="settings_repeat_one_before_last">Répéter l\'enregistrement avant le dernier</string>
     <string name="settings_show_untracked_time">Afficher le temps non suivi dans la liste des enregistrements</string>
     <string name="settings_show_untracked_time_statistics">Afficher le temps non suivi dans les statistiques</string>
     <string name="settings_ignore_short_untracked">Ignorer le temps court non suivi</string>

@@ -598,7 +598,7 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     private suspend fun initializePrevNextRecords() {
-        prevRecord = recordInteractor.getPrev(timeStarted = originalTimeStarted)
+        prevRecord = recordInteractor.getPrev(timeStarted = originalTimeStarted, limit = 1).firstOrNull()
         nextRecord = recordInteractor.getNext(timeEnded = originalTimeEnded)
     }
 

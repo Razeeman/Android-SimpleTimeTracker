@@ -189,9 +189,9 @@
     <string name="running_records_add_type">Toevoegen</string>
     <string name="running_records_add_filter">Filter toevoegen</string>
     <string name="running_records_add_default">Standaard</string>
-    <string name="running_records_restart">Herhalen</string>
-    <string name="running_records_restart_no_prev_record">Geen vorig record om opnieuw te starten</string>
-    <string name="running_records_restart_already_tracking">Volgt deze activiteit al</string>
+    <string name="running_records_repeat">Herhalen</string>
+    <string name="running_records_repeat_no_prev_record">Geen vorig record om opnieuw te starten</string>
+    <string name="running_records_repeat_already_tracking">Volgt deze activiteit al</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Scherminstellingen</string>
@@ -203,6 +203,9 @@
     <string name="settings_sort_by_color">Kleur</string>
     <string name="settings_sort_manually">Handmatig</string>
     <string name="settings_first_day_of_week">Eerste dag van de week</string>
+    <string name="settings_repeat_button_type">Herhaal knop</string>
+    <string name="settings_repeat_last_record">Herhaal de laatste opname</string>
+    <string name="settings_repeat_one_before_last">Herhaal record voor het laatst</string>
     <string name="settings_show_untracked_time">Toon niet-gevolgde tijd in records</string>
     <string name="settings_show_untracked_time_statistics">Toon niet-gevolgde tijd in statistieken</string>
     <string name="settings_ignore_short_untracked">Negeer korte niet-gevolgde tijd</string>

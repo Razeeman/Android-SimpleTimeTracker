@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.domain.model.DaysInCalendar
 import com.example.util.simpletimetracker.domain.model.QuickSettingsWidgetType
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.RepeatButtonType
 import com.example.util.simpletimetracker.domain.model.StatisticsWidgetData
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
 import kotlinx.coroutines.Dispatchers
@@ -541,6 +542,21 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun getAutomaticExportLastSaveTime(): Long = withContext(Dispatchers.IO) {
         prefsRepo.automaticExportLastSaveTime
+    }
+
+    suspend fun getRepeatButtonType(): RepeatButtonType = withContext(Dispatchers.IO) {
+        when (prefsRepo.repeatButtonType) {
+            0 -> RepeatButtonType.RepeatLast
+            1 -> RepeatButtonType.RepeatBeforeLast
+            else -> RepeatButtonType.RepeatLast
+        }
+    }
+
+    suspend fun setRepeatButtonType(mode: RepeatButtonType) = withContext(Dispatchers.IO) {
+        prefsRepo.repeatButtonType = when (mode) {
+            RepeatButtonType.RepeatLast -> 0
+            RepeatButtonType.RepeatBeforeLast -> 1
+        }
     }
 
     suspend fun clear() = withContext(Dispatchers.IO) {

@@ -109,6 +109,8 @@ interface PrefsRepo {
 
     var automaticExportLastSaveTime: Long
 
+    var repeatButtonType: Int
+
     fun setWidget(widgetId: Int, recordType: Long)
 
     fun getWidget(widgetId: Int): Long

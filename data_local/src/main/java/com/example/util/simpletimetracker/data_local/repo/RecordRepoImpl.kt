@@ -83,11 +83,11 @@ class RecordRepoImpl @Inject constructor(
                 .map(recordDataLocalMapper::map)
         }
 
-    override suspend fun getPrev(timeStarted: Long): Record? =
+    override suspend fun getPrev(timeStarted: Long, limit: Long): List<Record> =
         withContext(Dispatchers.IO) {
             Timber.d("getPrev")
-            recordDao.getPrev(timeStarted)
-                ?.let(recordDataLocalMapper::map)
+            recordDao.getPrev(timeStarted, limit)
+                .map(recordDataLocalMapper::map)
         }
 
     override suspend fun getNext(timeEnded: Long): Record? =

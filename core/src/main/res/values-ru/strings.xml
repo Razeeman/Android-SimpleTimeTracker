@@ -189,9 +189,9 @@
     <string name="running_records_add_type">Добав.</string>
     <string name="running_records_add_filter">Добавить фильтр</string>
     <string name="running_records_add_default">По умолч.</string>
-    <string name="running_records_restart">Повтор</string>
-    <string name="running_records_restart_no_prev_record">Нет предыдущей записи для перезапуска</string>
-    <string name="running_records_restart_already_tracking">Эта активность уже отслеживается</string>
+    <string name="running_records_repeat">Повтор</string>
+    <string name="running_records_repeat_no_prev_record">Нет предыдущей записи для перезапуска</string>
+    <string name="running_records_repeat_already_tracking">Эта активность уже отслеживается</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Настройки отображения</string>
@@ -203,6 +203,9 @@
     <string name="settings_sort_by_color">Цвет</string>
     <string name="settings_sort_manually">Вручную</string>
     <string name="settings_first_day_of_week">Первый день недели</string>
+    <string name="settings_repeat_button_type">Кнопка повтора</string>
+    <string name="settings_repeat_last_record">Повторить последнюю запись</string>
+    <string name="settings_repeat_one_before_last">Повторить запись перед последней</string>
     <string name="settings_show_untracked_time">Показывать неотслеженное время в записях</string>
     <string name="settings_show_untracked_time_statistics">Показывать неотслеженное время в статистике</string>
     <string name="settings_ignore_short_untracked">Игнорировать короткое неотслеживаемое время</string>

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
-import com.example.util.simpletimetracker.core.interactor.RecordRestartInteractor
+import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
@@ -42,7 +42,7 @@ class RunningRecordsViewModel @Inject constructor(
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val recordRestartInteractor: RecordRestartInteractor,
+    private val recordRepeatInteractor: RecordRepeatInteractor,
     private val runningRecordsViewDataInteractor: RunningRecordsViewDataInteractor,
     private val activityFilterInteractor: ActivityFilterInteractor,
 ) : ViewModel() {
@@ -110,8 +110,8 @@ class RunningRecordsViewModel @Inject constructor(
                     data = DefaultTypesSelectionDialogParams,
                 )
             }
-            is RunningRecordTypeSpecialViewData.Type.Restart -> viewModelScope.launch {
-                recordRestartInteractor.execute()
+            is RunningRecordTypeSpecialViewData.Type.Repeat -> viewModelScope.launch {
+                recordRepeatInteractor.execute()
             }
         }
     }

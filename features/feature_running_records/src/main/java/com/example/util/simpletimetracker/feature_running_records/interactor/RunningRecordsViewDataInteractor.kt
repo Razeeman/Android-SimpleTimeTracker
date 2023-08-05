@@ -2,8 +2,8 @@ package com.example.util.simpletimetracker.feature_running_records.interactor
 
 import com.example.util.simpletimetracker.core.interactor.ActivityFilterViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
+import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -21,7 +21,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
-    private val recordInteractor: RecordInteractor,
+    private val recordRepeatInteractor: RecordRepeatInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val activityFilterViewDataInteractor: ActivityFilterViewDataInteractor,
     private val mapper: RunningRecordsViewDataMapper,
@@ -41,7 +41,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val showSeconds = prefsInteractor.getShowSeconds()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showFirstEnterHint = recordTypes.filterNot(RecordType::hidden).isEmpty()
-        val hasPreviousRecord = recordInteractor.getPrev(System.currentTimeMillis()) != null
+        val showRepeatButton = recordRepeatInteractor.shouldShowButton()
 
         val runningRecordsViewData = when {
             showFirstEnterHint ->
@@ -99,8 +99,8 @@ class RunningRecordsViewDataInteractor @Inject constructor(
             .let { data ->
                 mutableListOf<ViewHolderType>().apply {
                     data.let(::addAll)
-                    if (hasPreviousRecord) {
-                        mapper.mapToRestartItem(
+                    if (showRepeatButton) {
+                        mapper.mapToRepeatItem(
                             numberOfCards = numberOfCards,
                             isDarkTheme = isDarkTheme,
                         ).let(::add)

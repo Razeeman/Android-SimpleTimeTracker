@@ -189,9 +189,9 @@
     <string name="running_records_add_type">Hinz.</string>
     <string name="running_records_add_filter">Filter hinzufügen</string>
     <string name="running_records_add_default">Standard</string>
-    <string name="running_records_restart">Wiederholen</string>
-    <string name="running_records_restart_no_prev_record">Kein vorheriger Datensatz zum Neustart vorhanden</string>
-    <string name="running_records_restart_already_tracking">Verfolgen Sie diese Aktivität bereits</string>
+    <string name="running_records_repeat">Wiederholen</string>
+    <string name="running_records_repeat_no_prev_record">Kein vorheriger Datensatz zum Neustart vorhanden</string>
+    <string name="running_records_repeat_already_tracking">Verfolgen Sie diese Aktivität bereits</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Bildschirmeinstellungen</string>
@@ -203,6 +203,9 @@
     <string name="settings_sort_by_color">Farbe</string>
     <string name="settings_sort_manually">Manuell</string>
     <string name="settings_first_day_of_week">Erster Tag der Woche</string>
+    <string name="settings_repeat_button_type">Wiederholen-Taste</string>
+    <string name="settings_repeat_last_record">Letzte Aufnahme wiederholen</string>
+    <string name="settings_repeat_one_before_last">Vorletzte Aufnahme wiederholen</string>
     <string name="settings_show_untracked_time">Nicht verfolgte Zeit in Datensätzen anzeigen</string>
     <string name="settings_show_untracked_time_statistics">Nicht verfolgte Zeit in Statistik anzeigen</string>
     <string name="settings_ignore_short_untracked">Ignorieren Sie kurze, nicht verfolgte Zeit</string>

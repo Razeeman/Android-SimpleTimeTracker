@@ -189,9 +189,9 @@
     <string name="running_records_add_type">Añadir</string>
     <string name="running_records_add_filter">Añadir filtro</string>
     <string name="running_records_add_default">Por defecto</string>
-    <string name="running_records_restart">Repetir</string>
-    <string name="running_records_restart_no_prev_record">Sin registro previo para reiniciar</string>
-    <string name="running_records_restart_already_tracking">Ya estoy rastreando esta actividad</string>
+    <string name="running_records_repeat">Repetir</string>
+    <string name="running_records_repeat_no_prev_record">Sin registro previo para reiniciar</string>
+    <string name="running_records_repeat_already_tracking">Ya estoy rastreando esta actividad</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Configuración de pantalla</string>
@@ -203,6 +203,9 @@
     <string name="settings_sort_by_color">Color</string>
     <string name="settings_sort_manually">Manual</string>
     <string name="settings_first_day_of_week">Primer día de la semana</string>
+    <string name="settings_repeat_button_type">Botón de repetición</string>
+    <string name="settings_repeat_last_record">Repetir último registro</string>
+    <string name="settings_repeat_one_before_last">Repetir el registro anterior al último</string>
     <string name="settings_show_untracked_time">Mostrar el tiempo no registrado en los registros</string>
     <string name="settings_show_untracked_time_statistics">Mostrar el tiempo no registrado en las estadísticas</string>
     <string name="settings_ignore_short_untracked">Ignorar tiempo corto sin seguimiento</string>

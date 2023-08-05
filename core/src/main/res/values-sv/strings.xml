@@ -189,9 +189,9 @@
     <string name="running_records_add_type">Lägg till</string>
     <string name="running_records_add_filter">Lägg till filter</string>
     <string name="running_records_add_default">Standard</string>
-    <string name="running_records_restart">Upprepa</string>
-    <string name="running_records_restart_no_prev_record">Inget tidigare rekord att starta om</string>
-    <string name="running_records_restart_already_tracking">Spårar redan denna aktivitet</string>
+    <string name="running_records_repeat">Upprepa</string>
+    <string name="running_records_repeat_no_prev_record">Inget tidigare rekord att starta om</string>
+    <string name="running_records_repeat_already_tracking">Spårar redan denna aktivitet</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Bildskärmsinställningar</string>
@@ -203,6 +203,9 @@
     <string name="settings_sort_by_color">Färg</string>
     <string name="settings_sort_manually">Manuellt</string>
     <string name="settings_first_day_of_week">Första veckodagen</string>
+    <string name="settings_repeat_button_type">Upprepa knapp</string>
+    <string name="settings_repeat_last_record">Upprepa senaste posten</string>
+    <string name="settings_repeat_one_before_last">Upprepa posten innan sist</string>
     <string name="settings_show_untracked_time">Visa okategoriserad tid i händelselistan</string>
     <string name="settings_show_untracked_time_statistics">Visa okategoriserad tid i statistiken</string>
     <string name="settings_ignore_short_untracked">Ignorera kort ospårad tid</string>

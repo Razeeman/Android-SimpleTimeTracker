@@ -189,9 +189,9 @@
     <string name="running_records_add_type">اضافه کردن</string>
     <string name="running_records_add_filter">اضافه کردن فیلتر</string>
     <string name="running_records_add_default">پیش فرض</string>
-    <string name="running_records_restart">تکرار</string>
-    <string name="running_records_restart_no_prev_record">رکورد قبلی برای راه اندازی مجدد وجود ندارد</string>
-    <string name="running_records_restart_already_tracking">در حال حاضر این فعالیت را دنبال می کنم</string>
+    <string name="running_records_repeat">تکرار</string>
+    <string name="running_records_repeat_no_prev_record">رکورد قبلی برای راه اندازی مجدد وجود ندارد</string>
+    <string name="running_records_repeat_already_tracking">در حال حاضر این فعالیت را دنبال می کنم</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">نمایش تنظیمات</string>
@@ -203,6 +203,9 @@
     <string name="settings_sort_by_color">رنگ</string>
     <string name="settings_sort_manually">دستی</string>
     <string name="settings_first_day_of_week">اولین روز هفته</string>
+    <string name="settings_repeat_button_type">دکمه تکرار</string>
+    <string name="settings_repeat_last_record">آخرین رکورد را تکرار کنید</string>
+    <string name="settings_repeat_one_before_last">تکرار رکورد قبل از آخرین</string>
     <string name="settings_show_untracked_time">زمان اندازه گیری نشده را در تاریخچه نمایش بده</string>
     <string name="settings_show_untracked_time_statistics">نمایش زمان پیگیری نشده در آمار</string>
     <string name="settings_ignore_short_untracked">چشم پوشی از زمان کوتاه اندازه گیری نشده</string>

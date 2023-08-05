@@ -189,9 +189,9 @@
     <string name="running_records_add_type">يضيف</string>
     <string name="running_records_add_filter">أضف عامل تصفية</string>
     <string name="running_records_add_default">تقصير</string>
-    <string name="running_records_restart">يكرر</string>
-    <string name="running_records_restart_no_prev_record">لا يوجد سجل سابق لإعادة التشغيل</string>
-    <string name="running_records_restart_already_tracking">تتبع بالفعل هذا النشاط</string>
+    <string name="running_records_repeat">يكرر</string>
+    <string name="running_records_repeat_no_prev_record">لا يوجد سجل سابق لإعادة التشغيل</string>
+    <string name="running_records_repeat_already_tracking">تتبع بالفعل هذا النشاط</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">إعدادات العرض</string>
@@ -203,6 +203,9 @@
     <string name="settings_sort_by_color">اللون</string>
     <string name="settings_sort_manually">يدويا</string>
     <string name="settings_first_day_of_week">اليوم الأول من الأسبوع</string>
+    <string name="settings_repeat_button_type">زر التكرار</string>
+    <string name="settings_repeat_last_record">كرر السجل الأخير</string>
+    <string name="settings_repeat_one_before_last">كرر التسجيل قبل الماضي</string>
     <string name="settings_show_untracked_time">إظهار الوقت غير المتعقب في التتبعات</string>
     <string name="settings_show_untracked_time_statistics">إظهار الوقت الذي لم يتم تعقبه في الإحصائيات</string>
     <string name="settings_ignore_short_untracked">تجاهل الوقت القصير غير المتعقب</string>

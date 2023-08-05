@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.domain.interactor.DarkMode
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.DaysInCalendar
+import com.example.util.simpletimetracker.domain.model.RepeatButtonType
 import com.example.util.simpletimetracker.domain.model.count
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTranslatorViewData
@@ -29,6 +30,7 @@ import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeView
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.LanguageViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButtonViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
@@ -47,7 +49,7 @@ class SettingsMapper @Inject constructor(
     private val cardOrderList: List<CardOrder> = listOf(
         CardOrder.NAME,
         CardOrder.COLOR,
-        CardOrder.MANUAL
+        CardOrder.MANUAL,
     )
 
     private val daysInCalendarList: List<DaysInCalendar> = listOf(
@@ -64,7 +66,12 @@ class SettingsMapper @Inject constructor(
         DayOfWeek.THURSDAY,
         DayOfWeek.FRIDAY,
         DayOfWeek.SATURDAY,
-        DayOfWeek.SUNDAY
+        DayOfWeek.SUNDAY,
+    )
+
+    private val repeatButtonList: List<RepeatButtonType> = listOf(
+        RepeatButtonType.RepeatLast,
+        RepeatButtonType.RepeatBeforeLast,
     )
 
     private val darkModeList: List<DarkMode> = listOf(
@@ -77,7 +84,7 @@ class SettingsMapper @Inject constructor(
         return HelpDialogParams(
             title = resourceRepo.getString(R.string.settings_automated_tracking),
             text = resourceRepo.getString(
-                R.string.settings_automated_tracking_text
+                R.string.settings_automated_tracking_text,
             ).format(
                 ACTION_START_ACTIVITY,
                 ACTION_STOP_ACTIVITY,
@@ -90,7 +97,7 @@ class SettingsMapper @Inject constructor(
                 ACTION_STOP_LONGEST_ACTIVITY,
                 ACTION_RESTART_ACTIVITY,
             ) + "<br/>" + resourceRepo.getString(
-                R.string.settings_automated_tracking_send_events_text
+                R.string.settings_automated_tracking_send_events_text,
             ).format(
                 resourceRepo.getString(R.string.settings_automated_tracking_send_events),
                 EVENT_STARTED_ACTIVITY,
@@ -108,7 +115,7 @@ class SettingsMapper @Inject constructor(
                 .map(::toCardOrderName)
                 .map(CustomSpinner::CustomSpinnerTextItem),
             selectedPosition = toPosition(currentOrder),
-            isManualConfigButtonVisible = currentOrder == CardOrder.MANUAL
+            isManualConfigButtonVisible = currentOrder == CardOrder.MANUAL,
         )
     }
 
@@ -134,12 +141,30 @@ class SettingsMapper @Inject constructor(
             items = dayOfWeekList
                 .map(timeMapper::toShortDayOfWeekName)
                 .map(CustomSpinner::CustomSpinnerTextItem),
-            selectedPosition = toPosition(currentOrder)
+            selectedPosition = toPosition(currentOrder),
         )
     }
 
     fun toDayOfWeek(position: Int): DayOfWeek {
         return dayOfWeekList.getOrElse(position) { dayOfWeekList.first() }
+    }
+
+    fun toRepeatButtonViewData(currentType: RepeatButtonType): RepeatButtonViewData {
+        return RepeatButtonViewData(
+            items = repeatButtonList
+                .map {
+                    when (it) {
+                        is RepeatButtonType.RepeatLast -> R.string.settings_repeat_last_record
+                        is RepeatButtonType.RepeatBeforeLast -> R.string.settings_repeat_one_before_last
+                    }.let(resourceRepo::getString)
+                }
+                .map(CustomSpinner::CustomSpinnerTextItem),
+            selectedPosition = toPosition(currentType),
+        )
+    }
+
+    fun toRepeatButtonType(position: Int): RepeatButtonType {
+        return repeatButtonList.getOrElse(position) { repeatButtonList.first() }
     }
 
     fun toDarkModeViewData(currentMode: DarkMode): DarkModeViewData {
@@ -153,7 +178,7 @@ class SettingsMapper @Inject constructor(
                     }.let(resourceRepo::getString)
                 }
                 .map(CustomSpinner::CustomSpinnerTextItem),
-            selectedPosition = toPosition(currentMode)
+            selectedPosition = toPosition(currentMode),
         )
     }
 
@@ -256,7 +281,7 @@ class SettingsMapper @Inject constructor(
         return timeMapper.formatInterval(
             interval = 4500000,
             forceSeconds = false,
-            useProportionalMinutes = useProportionalMinutes
+            useProportionalMinutes = useProportionalMinutes,
         )
     }
 
@@ -268,7 +293,7 @@ class SettingsMapper @Inject constructor(
             .map {
                 SettingsTranslatorViewData(
                     translator = languageInteractor.getTranslators(it),
-                    language = languageInteractor.getDisplayName(it)
+                    language = languageInteractor.getDisplayName(it),
                 )
             }
     }
@@ -295,6 +320,10 @@ class SettingsMapper @Inject constructor(
 
     private fun toPosition(dayOfWeek: DayOfWeek): Int {
         return dayOfWeekList.indexOf(dayOfWeek).takeUnless { it == -1 }.orZero()
+    }
+
+    private fun toPosition(repeatButtonType: RepeatButtonType): Int {
+        return repeatButtonList.indexOf(repeatButtonType).takeUnless { it == -1 }.orZero()
     }
 
     private fun toPosition(darkMode: DarkMode): Int {

@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
@@ -15,6 +14,7 @@ import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButtonViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.Router
@@ -35,6 +35,8 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
 
     val firstDayOfWeekViewData: LiveData<FirstDayOfWeekViewData>
         by lazySuspend { loadFirstDayOfWeekViewData() }
+    val repeatButtonViewData: LiveData<RepeatButtonViewData>
+        by lazySuspend { loadRepeatButtonViewData() }
     val keepStatisticsRangeCheckbox: LiveData<Boolean>
         by lazySuspend { prefsInteractor.getKeepStatisticsRange() }
     val startOfDayViewData: LiveData<SettingsStartOfDayViewData>
@@ -78,6 +80,15 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
             notificationGoalTimeInteractor.checkAndReschedule()
             updateFirstDayOfWeekViewData()
+        }
+    }
+
+    fun onRepeatButtonSelected(position: Int) {
+        val newType = settingsMapper.toRepeatButtonType(position)
+
+        delegateScope.launch {
+            prefsInteractor.setRepeatButtonType(newType)
+            updateRepeatButtonViewData()
         }
     }
 
@@ -191,13 +202,21 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
     }
 
     private suspend fun updateFirstDayOfWeekViewData() {
-        val data = loadFirstDayOfWeekViewData()
-        (firstDayOfWeekViewData as MutableLiveData).value = data
+        firstDayOfWeekViewData.set(loadFirstDayOfWeekViewData())
     }
 
     private suspend fun loadFirstDayOfWeekViewData(): FirstDayOfWeekViewData {
         return prefsInteractor.getFirstDayOfWeek()
             .let(settingsMapper::toFirstDayOfWeekViewData)
+    }
+
+    private suspend fun updateRepeatButtonViewData() {
+        repeatButtonViewData.set(loadRepeatButtonViewData())
+    }
+
+    private suspend fun loadRepeatButtonViewData(): RepeatButtonViewData {
+        return prefsInteractor.getRepeatButtonType()
+            .let(settingsMapper::toRepeatButtonViewData)
     }
 
     private suspend fun updateStartOfDayViewData() {

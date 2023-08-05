@@ -1,12 +1,12 @@
 package com.example.util.simpletimetracker.feature_notification.recordType.interactor
 
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import javax.inject.Inject
 
 class ActivityStartStopFromBroadcastInteractor @Inject constructor(
@@ -50,7 +50,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
             ?: return // Not running.
 
         removeRunningRecordMediator.removeWithRecordAdd(
-            runningRecord = runningRecord
+            runningRecord = runningRecord,
         )
     }
 
@@ -75,8 +75,10 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         comment: String?,
         tagName: String?,
     ) {
-        val previousRecord = recordInteractor.getPrev(System.currentTimeMillis())
-            ?: return
+        val previousRecord = recordInteractor.getPrev(
+            timeStarted = System.currentTimeMillis(),
+            limit = 1,
+        ).firstOrNull() ?: return
         val typeId = previousRecord.typeId
         val tagId = findTagIdByName(tagName, typeId)
 
@@ -105,7 +107,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         if (started) {
             notificationTypeInteractor.checkAndShow(
                 typeId = typeId,
-                typesShift = typesShift
+                typesShift = typesShift,
             )
         }
     }
@@ -123,7 +125,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         )
         notificationTypeInteractor.checkAndShow(
             typeId = typeId,
-            typesShift = typesShift
+            typesShift = typesShift,
         )
     }
 

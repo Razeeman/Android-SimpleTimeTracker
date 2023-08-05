@@ -21,6 +21,6 @@ class RunningRecordTypeSpecialViewData(
     sealed interface Type {
         object Add : Type
         object Default : Type
-        object Restart : Type
+        object Repeat : Type
     }
 }

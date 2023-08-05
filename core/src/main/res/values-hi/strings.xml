@@ -189,9 +189,9 @@
     <string name="running_records_add_type">जोड़ें</string>
     <string name="running_records_add_filter">फ़िल्टर जोड़ें</string>
     <string name="running_records_add_default">गलती करना</string>
-    <string name="running_records_restart">दोहराना</string>
-    <string name="running_records_restart_no_prev_record">पुनः आरंभ करने के लिए कोई पिछला रिकॉर्ड नहीं</string>
-    <string name="running_records_restart_already_tracking">इस गतिविधि पर पहले से ही नज़र रखी जा रही है</string>
+    <string name="running_records_repeat">दोहराना</string>
+    <string name="running_records_repeat_no_prev_record">पुनः आरंभ करने के लिए कोई पिछला रिकॉर्ड नहीं</string>
+    <string name="running_records_repeat_already_tracking">इस गतिविधि पर पहले से ही नज़र रखी जा रही है</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">प्रदर्शन सेटिंग्स</string>
@@ -203,6 +203,9 @@
     <string name="settings_sort_by_color">रंग</string>
     <string name="settings_sort_manually">हस्तचालन से</string>
     <string name="settings_first_day_of_week">सप्ताह का पहला दिन</string>
+    <string name="settings_repeat_button_type">दोहराएँ बटन</string>
+    <string name="settings_repeat_last_record">पिछला रिकॉर्ड दोहराएँ</string>
+    <string name="settings_repeat_one_before_last">पिछले से पहले रिकॉर्ड दोहराएँ</string>
     <string name="settings_show_untracked_time">रिकॉर्ड में अनट्रैक समय दिखाएं</string>
     <string name="settings_show_untracked_time_statistics">आँकड़ों में ट्रैक न किया गया समय दिखाएँ</string>
     <string name="settings_ignore_short_untracked">कम अनट्रैक समय पर ध्यान न दें</string>

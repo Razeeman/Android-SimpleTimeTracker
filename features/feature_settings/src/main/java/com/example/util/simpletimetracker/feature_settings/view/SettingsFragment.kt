@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeView
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.LanguageViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButtonViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsUntrackedRangeViewData
@@ -67,6 +68,7 @@ class SettingsFragment :
         layoutSettingsDisplay.spinnerSettingsDaysInCalendar.setProcessSameItemSelection(false)
         layoutSettingsDisplay.spinnerSettingsRecordTypeSort.setProcessSameItemSelection(false)
         layoutSettingsAdditional.spinnerSettingsFirstDayOfWeek.setProcessSameItemSelection(false)
+        layoutSettingsAdditional.spinnerSettingsRepeatButtonType.setProcessSameItemSelection(false)
     }
 
     override fun initUx() = with(binding) {
@@ -126,6 +128,7 @@ class SettingsFragment :
             with(viewModel.additionalDelegate) {
                 layoutSettingsAdditionalTitle.setOnClick(viewModel::onSettingsAdditionalClick)
                 spinnerSettingsFirstDayOfWeek.onPositionSelected = ::onFirstDayOfWeekSelected
+                spinnerSettingsRepeatButtonType.onPositionSelected = ::onRepeatButtonSelected
                 groupSettingsStartOfDay.setOnClick(::onStartOfDayClicked)
                 btnSettingsStartOfDaySign.setOnClick(::onStartOfDaySignClicked)
                 checkboxSettingsKeepStatisticsRange.setOnClick(::onKeepStatisticsRangeClicked)
@@ -242,6 +245,7 @@ class SettingsFragment :
                 recordTagSelectionForGeneralTagsCheckbox.observe(checkboxSettingsRecordTagSelectionGeneral::setChecked)
                 automatedTrackingSendEventsCheckbox.observe(checkboxSettingsAutomatedTrackingSend::setChecked)
                 firstDayOfWeekViewData.observe(::updateFirstDayOfWeekViewData)
+                repeatButtonViewData.observe(::updateRepeatButtonViewData)
                 startOfDayViewData.observe(::updateStartOfDayViewData)
                 showRecordTagSelectionCheckbox.observe(::updateShowRecordTagSelectionChecked)
             }
@@ -308,6 +312,7 @@ class SettingsFragment :
         }
         with(layoutSettingsAdditional) {
             spinnerSettingsFirstDayOfWeek.jumpDrawablesToCurrentState()
+            spinnerSettingsRepeatButtonType.jumpDrawablesToCurrentState()
             checkboxSettingsKeepStatisticsRange.jumpDrawablesToCurrentState()
             checkboxSettingsShowRecordTagSelection.jumpDrawablesToCurrentState()
             checkboxSettingsRecordTagSelectionClose.jumpDrawablesToCurrentState()
@@ -363,6 +368,14 @@ class SettingsFragment :
     ) = with(binding.layoutSettingsAdditional) {
         spinnerSettingsFirstDayOfWeek.setData(viewData.items, viewData.selectedPosition)
         tvSettingsFirstDayOfWeekValue.text = viewData.items
+            .getOrNull(viewData.selectedPosition)?.text.orEmpty()
+    }
+
+    private fun updateRepeatButtonViewData(
+        viewData: RepeatButtonViewData,
+    ) = with(binding.layoutSettingsAdditional) {
+        spinnerSettingsRepeatButtonType.setData(viewData.items, viewData.selectedPosition)
+        tvSettingsRepeatButtonTypeValue.text = viewData.items
             .getOrNull(viewData.selectedPosition)?.text.orEmpty()
     }
 

@@ -43,8 +43,8 @@ class RecordInteractor @Inject constructor(
         return recordRepo.get(id)
     }
 
-    suspend fun getPrev(timeStarted: Long): Record? {
-        return recordRepo.getPrev(timeStarted)
+    suspend fun getPrev(timeStarted: Long, limit: Long): List<Record> {
+        return recordRepo.getPrev(timeStarted, limit)
     }
 
     suspend fun getNext(timeEnded: Long): Record? {
