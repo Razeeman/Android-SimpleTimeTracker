@@ -139,7 +139,7 @@ class NotificationTypeManager @Inject constructor(
                 setViewVisibility(R.id.timerNotificationTotal, View.GONE)
             }
 
-            if (params.goalTime.isNotEmpty()) {
+            if (params.goalTime.isNotEmpty() && isBig) {
                 // TODO show only closest goal time, count down to it?
                 setTextViewText(R.id.tvNotificationGoalTime, params.goalTime)
                 setViewVisibility(R.id.tvNotificationGoalTime, View.VISIBLE)
