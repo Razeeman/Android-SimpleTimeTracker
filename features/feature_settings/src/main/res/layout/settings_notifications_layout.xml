@@ -333,7 +333,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="0dp"
                     android:text="@string/settings_inactivity_reminder_recurrent"
-                    app:layout_constraintBottom_toTopOf="@+id/tvSettingsInactivityReminderDoNotDisturb"
+                    app:layout_constraintBottom_toTopOf="@+id/tvSettingsActivityReminderDoNotDisturb"
                     app:layout_constraintEnd_toStartOf="@id/checkboxSettingsActivityReminderRecurrent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvSettingsActivityReminderHint" />
