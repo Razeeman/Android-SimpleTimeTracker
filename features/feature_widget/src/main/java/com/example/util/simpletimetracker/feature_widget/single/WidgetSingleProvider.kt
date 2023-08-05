@@ -12,11 +12,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.RemoteViews
+import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.PendingIntents
+import com.example.util.simpletimetracker.domain.REPEAT_BUTTON_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -26,7 +28,6 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
-import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_views.RecordTypeView
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
@@ -80,6 +81,9 @@ class WidgetSingleProvider : AppWidgetProvider() {
     @Inject
     lateinit var prefsInteractor: PrefsInteractor
 
+    @Inject
+    lateinit var recordRepeatInteractor: RecordRepeatInteractor
+
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
         if (intent?.action == ON_CLICK_ACTION) {
@@ -90,7 +94,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
     override fun onUpdate(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
-        appWidgetIds: IntArray?
+        appWidgetIds: IntArray?,
     ) {
         appWidgetIds?.forEach { widgetId ->
             updateAppWidget(context, appWidgetManager, widgetId)
@@ -106,21 +110,45 @@ class WidgetSingleProvider : AppWidgetProvider() {
     private fun updateAppWidget(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
-        appWidgetId: Int
+        appWidgetId: Int,
     ) {
         if (context == null || appWidgetManager == null) return
 
-        var recordType: RecordType?
         var runningRecord: RunningRecord?
         var isDarkTheme: Boolean
+        val view: View
         runBlocking {
             val recordTypeId = prefsInteractor.getWidget(appWidgetId)
-            recordType = recordTypeInteractor.get(recordTypeId)?.takeUnless { it.hidden }
             runningRecord = runningRecordInteractor.get(recordTypeId)
             isDarkTheme = prefsInteractor.getDarkMode()
+
+            if (recordTypeId == REPEAT_BUTTON_ITEM_ID) {
+                val viewData = recordTypeViewDataMapper.mapToRepeatItem(
+                    numberOfCards = 0,
+                    isDarkTheme = isDarkTheme,
+                )
+                view = prepareView(
+                    context = context,
+                    recordTypeIcon = viewData.iconId,
+                    recordTypeName = viewData.name,
+                    recordTypeColor = viewData.color,
+                    isRunning = false,
+                )
+            } else {
+                val recordType = recordTypeInteractor.get(recordTypeId)
+                    ?.takeUnless { it.hidden }
+                view = prepareView(
+                    context = context,
+                    recordTypeIcon = recordType?.icon
+                        ?.let(iconMapper::mapIcon),
+                    recordTypeName = recordType?.name,
+                    recordTypeColor = recordType?.color
+                        ?.let { colorMapper.mapToColorInt(it, isDarkTheme) },
+                    isRunning = runningRecord != null && recordType != null,
+                )
+            }
         }
 
-        val view = prepareView(context, recordType, runningRecord, isDarkTheme)
         measureView(context, view)
         val bitmap = view.getBitmapFromView()
 
@@ -141,24 +169,24 @@ class WidgetSingleProvider : AppWidgetProvider() {
 
     private fun prepareView(
         context: Context,
-        recordType: RecordType?,
-        runningRecord: RunningRecord?,
-        isDarkTheme: Boolean,
+        recordTypeIcon: RecordTypeIcon?,
+        recordTypeName: String?,
+        recordTypeColor: Int?,
+        isRunning: Boolean,
     ): View {
-        val icon = recordType?.icon
-            ?.let(iconMapper::mapIcon)
+        val icon = recordTypeIcon
             ?: RecordTypeIcon.Image(R.drawable.unknown)
 
-        val name = recordType?.name
+        val name = recordTypeName
             ?: R.string.widget_load_error.let(resourceRepo::getString)
 
-        val color = if (runningRecord != null && recordType != null) {
-            colorMapper.mapToColorInt(recordType.color, isDarkTheme)
+        val color = if (isRunning && recordTypeColor != null) {
+            recordTypeColor
         } else {
             Color.BLACK
         }
 
-        val viewAlpha = if (runningRecord != null && recordType != null) {
+        val viewAlpha = if (isRunning) {
             ENABLED_ALPHA
         } else {
             DISABLED_ALPHA
@@ -195,10 +223,15 @@ class WidgetSingleProvider : AppWidgetProvider() {
 
     private fun onClick(
         context: Context?,
-        widgetId: Int
+        widgetId: Int,
     ) {
         CoroutineScope(Dispatchers.Main).launch {
             val recordTypeId = prefsInteractor.getWidget(widgetId)
+
+            if (recordTypeId == REPEAT_BUTTON_ITEM_ID) {
+                recordRepeatInteractor.repeatExternal()
+                return@launch
+            }
 
             // If recordType removed - update widget and exit
             recordTypeInteractor.get(recordTypeId)
@@ -216,7 +249,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
                 // Start running record
                 addRunningRecordMediator.tryStartTimer(
                     typeId = recordTypeId,
-                    onNeedToShowTagSelection = { showTagSelection(context, recordTypeId) }
+                    onNeedToShowTagSelection = { showTagSelection(context, recordTypeId) },
                 )
             }
         }
@@ -227,13 +260,13 @@ class WidgetSingleProvider : AppWidgetProvider() {
 
         WidgetSingleTagSelectionActivity.getStartIntent(
             context = context,
-            data = RecordTagSelectionParams(typeId)
+            data = RecordTagSelectionParams(typeId),
         ).let(context::startActivity)
     }
 
     private fun getPendingSelfIntent(
         context: Context,
-        widgetId: Int
+        widgetId: Int,
     ): PendingIntent {
         val intent = Intent(context, javaClass)
         intent.action = ON_CLICK_ACTION

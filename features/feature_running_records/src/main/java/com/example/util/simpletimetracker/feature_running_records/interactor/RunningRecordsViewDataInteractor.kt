@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_running_records.interactor
 import com.example.util.simpletimetracker.core.interactor.ActivityFilterViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
+import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
@@ -25,6 +26,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val activityFilterViewDataInteractor: ActivityFilterViewDataInteractor,
     private val mapper: RunningRecordsViewDataMapper,
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val getRunningRecordViewDataMediator: GetRunningRecordViewDataMediator,
 ) {
 
@@ -100,17 +102,17 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                 mutableListOf<ViewHolderType>().apply {
                     data.let(::addAll)
                     if (showRepeatButton) {
-                        mapper.mapToRepeatItem(
+                        recordTypeViewDataMapper.mapToRepeatItem(
                             numberOfCards = numberOfCards,
                             isDarkTheme = isDarkTheme,
                         ).let(::add)
                     }
-                    mapper.mapToAddItem(
+                    recordTypeViewDataMapper.mapToAddItem(
                         numberOfCards = numberOfCards,
                         isDarkTheme = isDarkTheme,
                     ).let(::add)
                     if (showFirstEnterHint) {
-                        mapper.mapToAddDefaultItem(
+                        recordTypeViewDataMapper.mapToAddDefaultItem(
                             numberOfCards = numberOfCards,
                             isDarkTheme = isDarkTheme,
                         ).let(::add)

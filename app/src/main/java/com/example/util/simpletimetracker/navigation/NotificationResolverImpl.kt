@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.navigation
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
 import android.view.View
@@ -19,26 +20,30 @@ import com.example.util.simpletimetracker.navigation.params.notification.SnackBa
 import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.lang.Integer.max
 import javax.inject.Inject
 
-class NotificationResolverImpl @Inject constructor() : NotificationResolver {
+class NotificationResolverImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
+) : NotificationResolver {
 
     override fun show(activity: Activity?, data: NotificationParams, anchor: Any?) {
-        if (activity == null) return
         when (data) {
-            is ToastParams -> showSystemMessage(activity, data)
+            is ToastParams -> showSystemMessage(data)
             is SnackBarParams -> showSnackBar(activity, data, anchor)
             is PopupParams -> showPopup(activity, data)
         }
     }
 
-    private fun showSystemMessage(activity: Activity, data: ToastParams) {
-        Toast.makeText(activity.applicationContext, data.message, Toast.LENGTH_LONG).show()
+    private fun showSystemMessage(data: ToastParams) {
+        Toast.makeText(context, data.message, Toast.LENGTH_LONG).show()
     }
 
     @SuppressLint("WrongConstant")
-    private fun showSnackBar(activity: Activity, data: SnackBarParams, anchor: Any?) {
+    private fun showSnackBar(activity: Activity?, data: SnackBarParams, anchor: Any?) {
+        if (activity == null) return
+
         val snackBar = Snackbar.make(
             activity.findViewById(android.R.id.content),
             data.message,
@@ -93,7 +98,9 @@ class NotificationResolverImpl @Inject constructor() : NotificationResolver {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun showPopup(activity: Activity, data: PopupParams) {
+    private fun showPopup(activity: Activity?, data: PopupParams) {
+        if (activity == null) return
+
         val parent = activity.window.decorView
 
         val view = ViewPopupLayoutBinding.inflate(activity.layoutInflater)

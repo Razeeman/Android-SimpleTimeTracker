@@ -10,8 +10,9 @@ import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.recordTypeSpecial.createRunningRecordTypeSpecialAdapterDelegate
 import com.example.util.simpletimetracker.feature_widget.databinding.WidgetSingleConfigureActivityBinding
-import com.example.util.simpletimetracker.feature_widget.single.settings.adapter.createWidgetSingleSettingsAdapterDelegate
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -29,7 +30,8 @@ class WidgetSingleSettingsActivity : BaseActivity() {
 
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createWidgetSingleSettingsAdapterDelegate(viewModel::onRecordTypeClick),
+            createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
+            createRunningRecordTypeSpecialAdapterDelegate(viewModel::onSpecialRecordTypeClick),
             createEmptyAdapterDelegate(),
             createLoaderAdapterDelegate()
         )

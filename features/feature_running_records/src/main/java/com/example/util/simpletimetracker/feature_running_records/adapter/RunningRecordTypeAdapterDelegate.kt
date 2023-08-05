@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData as ViewData
-import com.example.util.simpletimetracker.feature_running_records.databinding.ItemRunningRecordTypeLayoutBinding as Binding
+import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemRecordTypeLayoutBinding as Binding
 
 // TODO use RecordTypeAdapterDelegate from base
 fun createRunningRecordTypeAdapterDelegate(

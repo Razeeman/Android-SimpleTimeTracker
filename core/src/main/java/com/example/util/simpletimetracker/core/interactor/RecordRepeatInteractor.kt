@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.domain.interactor.RunningRecordInterac
 import com.example.util.simpletimetracker.domain.model.RepeatButtonType
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
+import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import javax.inject.Inject
 
 class RecordRepeatInteractor @Inject constructor(
@@ -24,7 +25,27 @@ class RecordRepeatInteractor @Inject constructor(
         return !recordInteractor.isEmpty()
     }
 
-    suspend fun execute() {
+    suspend fun repeat() {
+        execute { messageResId ->
+            SnackBarParams(
+                message = resourceRepo.getString(messageResId),
+                duration = SnackBarParams.Duration.Short,
+            ).let(router::show)
+        }
+    }
+
+    // Can be used than app is closed (ex. from widget).
+    suspend fun repeatExternal() {
+        execute { messageResId ->
+            ToastParams(
+                message = resourceRepo.getString(messageResId),
+            ).let(router::show)
+        }
+    }
+
+    private suspend fun execute(
+        messageShower: (messageResId: Int) -> Unit,
+    ) {
         val type = prefsInteractor.getRepeatButtonType()
 
         val prevRecord = recordInteractor.getPrev(
@@ -36,17 +57,11 @@ class RecordRepeatInteractor @Inject constructor(
                 is RepeatButtonType.RepeatBeforeLast -> it.getOrNull(1)
             }
         } ?: run {
-            SnackBarParams(
-                message = resourceRepo.getString(R.string.running_records_repeat_no_prev_record),
-                duration = SnackBarParams.Duration.Short,
-            ).let(router::show)
+            messageShower(R.string.running_records_repeat_no_prev_record)
             return
         }
         if (runningRecordInteractor.get(prevRecord.typeId) != null) {
-            SnackBarParams(
-                message = resourceRepo.getString(R.string.running_records_repeat_already_tracking),
-                duration = SnackBarParams.Duration.Short,
-            ).let(router::show)
+            messageShower(R.string.running_records_repeat_already_tracking)
             return
         }
 
