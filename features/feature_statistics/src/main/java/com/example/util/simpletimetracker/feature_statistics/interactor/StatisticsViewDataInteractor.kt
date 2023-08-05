@@ -157,6 +157,7 @@ class StatisticsViewDataInteractor @Inject constructor(
                 goals = goals,
                 types = types,
                 filterType = filterType,
+                filteredIds = filteredIds,
                 rangeLength = rangeLength,
                 statistics = statistics.filterNot { it.id in filteredIds },
                 data = dataHolders,

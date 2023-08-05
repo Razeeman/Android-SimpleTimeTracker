@@ -103,6 +103,7 @@ class GoalsViewDataInteractor @Inject constructor(
             goals = goals,
             types = types,
             filterType = filterType,
+            filteredIds = emptyList(),
             rangeLength = rangeLength,
             statistics = statistics,
             data = dataHolders,

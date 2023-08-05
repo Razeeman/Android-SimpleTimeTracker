@@ -87,6 +87,7 @@ class GoalViewDataMapper @Inject constructor(
         goals: List<RecordTypeGoal>,
         types: Map<Long, RecordType>,
         filterType: ChartFilterType,
+        filteredIds: List<Long>,
         rangeLength: RangeLength,
         statistics: List<Statistics>,
         data: Map<Long, StatisticsDataHolder>,
@@ -107,6 +108,7 @@ class GoalViewDataMapper @Inject constructor(
                 when {
                     type == null -> false
                     type.hidden -> false
+                    type.id in filteredIds -> false
                     rangeLength is RangeLength.Day -> it.range is RecordTypeGoal.Range.Daily
                     rangeLength is RangeLength.Week -> it.range is RecordTypeGoal.Range.Weekly
                     rangeLength is RangeLength.Month -> it.range is RecordTypeGoal.Range.Monthly
