@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.feature_base_adapter.R
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
@@ -1830,6 +1831,53 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openRunningRecordsScreen()
         checkViewIsDisplayed(withText(coreR.string.running_records_add_filter))
         checkViewIsDisplayed(withText(name))
+    }
+
+    @Test
+    fun repeatType() {
+        val type1 = "type1"
+        val type2 = "type2"
+        val current = System.currentTimeMillis()
+
+        // Add data
+        testUtils.addActivity(type1)
+        testUtils.addActivity(type2)
+        testUtils.addRecord(
+            typeName = type1,
+            timeStarted = current,
+            timeEnded = current,
+        )
+        testUtils.addRecord(
+            typeName = type2,
+            timeStarted = current - TimeUnit.HOURS.toMillis(1),
+            timeEnded = current - TimeUnit.HOURS.toMillis(1),
+        )
+
+        // Check
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
+        onView(withId(settingsR.id.spinnerSettingsRepeatButtonType)).perform(nestedScrollTo())
+        checkViewIsDisplayed(
+            allOf(
+                withId(settingsR.id.tvSettingsRepeatButtonTypeValue),
+                withText(coreR.string.settings_repeat_last_record),
+            ),
+        )
+        NavUtils.openRunningRecordsScreen()
+        clickOnView(allOf(withText(type1), isCompletelyDisplayed()))
+        tryAction {
+            checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(type1))))
+        }
+
+        // Change
+        NavUtils.openSettingsScreen()
+        clickOnSpinnerWithId(settingsR.id.spinnerSettingsRepeatButtonType)
+        clickOnViewWithText(coreR.string.settings_repeat_one_before_last)
+        NavUtils.openRunningRecordsScreen()
+        clickOnView(allOf(withText(type2), isCompletelyDisplayed()))
+        tryAction {
+            checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(type2))))
+        }
     }
 
     private fun clearDuration() {

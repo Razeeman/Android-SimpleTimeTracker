@@ -15,6 +15,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.example.util.simpletimetracker.R as coreR
 import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
 
 @HiltAndroidTest
@@ -45,6 +46,7 @@ class Widget : BaseUiTest() {
         checkType(firstColor, name1)
         checkType(lastColor, name2)
         checkViewDoesNotExist(withText(name3))
+        checkViewIsDisplayed(withText(coreR.string.running_records_repeat))
     }
 
     private fun checkType(color: Int, name: String) {

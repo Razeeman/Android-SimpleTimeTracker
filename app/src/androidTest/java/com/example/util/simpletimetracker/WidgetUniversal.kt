@@ -16,7 +16,7 @@ import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.Matchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
 import com.example.util.simpletimetracker.core.R as coreR
@@ -173,6 +173,29 @@ class WidgetUniversal : BaseUiTest() {
         checkViewIsDisplayed(withText(name1))
         checkViewIsDisplayed(withText(name2))
         checkViewIsDisplayed(allOf(withCardColor(viewsR.color.colorFiltered), hasDescendant(withText(filter))))
+    }
+
+    @Test
+    fun repeat() {
+        val name = "TypeName"
+
+        // Add data
+        testUtils.addActivity(name)
+        scenarioRule = ActivityScenario.launch(WidgetUniversalActivity::class.java)
+
+        // No records
+        clickOnViewWithText(coreR.string.running_records_repeat)
+        checkViewIsDisplayed(
+            allOf(
+                withText(R.string.running_records_repeat_no_prev_record),
+                withId(com.google.android.material.R.id.snackbar_text)
+            )
+        )
+
+        // Check
+        testUtils.addRecord(name)
+        clickOnViewWithText(coreR.string.running_records_repeat)
+        checkType(viewsR.color.colorFiltered, name)
     }
 
     private fun checkType(color: Int, name: String) {
