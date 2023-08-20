@@ -152,11 +152,15 @@ class SettingsFragment :
             layoutSettingsBackupTitle.setOnClick(viewModel::onSettingsBackupClick)
             layoutSettingsSaveBackup.setOnClick(backupViewModel::onSaveClick)
             layoutSettingsRestoreBackup.setOnClick(backupViewModel::onRestoreClick)
+            checkboxSettingsAutomaticBackup.setOnClick(backupViewModel::onAutomaticBackupClick)
+        }
+
+        with(layoutSettingsExportImport) {
+            layoutSettingsExportImportTitle.setOnClick(viewModel::onSettingsExportImportClick)
             layoutSettingsExportCsv.setOnClick(backupViewModel::onExportCsvClick)
             layoutSettingsImportCsv.setOnClick(backupViewModel::onImportCsvClick)
             btnSettingsImportCsvHelp.setOnClick(backupViewModel::onImportCsvHelpClick)
             layoutSettingsExportIcs.setOnClick(backupViewModel::onExportIcsClick)
-            checkboxSettingsAutomaticBackup.setOnClick(backupViewModel::onAutomaticBackupClick)
             checkboxSettingsAutomaticExport.setOnClick(backupViewModel::onAutomaticExportClick)
         }
     }
@@ -181,6 +185,11 @@ class SettingsFragment :
             viewModel.settingsBackupVisibility.observe { opened ->
                 layoutSettingsBackup.layoutSettingsBackupContent.visible = opened
                 layoutSettingsBackup.arrowSettingsBackup
+                    .apply { if (opened) rotateDown() else rotateUp() }
+            }
+            viewModel.settingsExportImportVisibility.observe { opened ->
+                layoutSettingsExportImport.layoutSettingsExportImportContent.visible = opened
+                layoutSettingsExportImport.arrowSettingsExportImport
                     .apply { if (opened) rotateDown() else rotateUp() }
             }
             resetScreen.observe {
@@ -268,6 +277,8 @@ class SettingsFragment :
                     tvSettingsAutomaticBackupLastSaveTime.visible = it.isNotEmpty()
                     tvSettingsAutomaticBackupLastSaveTime.text = it
                 }
+            }
+            with(layoutSettingsExportImport) {
                 automaticExportCheckbox.observe(checkboxSettingsAutomaticExport::setChecked)
                 automaticExportLastSaveTime.observe {
                     tvSettingsAutomaticExportLastSaveTime.visible = it.isNotEmpty()
@@ -321,6 +332,8 @@ class SettingsFragment :
         }
         with(layoutSettingsBackup) {
             checkboxSettingsAutomaticBackup.jumpDrawablesToCurrentState()
+        }
+        with(layoutSettingsExportImport) {
             checkboxSettingsAutomaticExport.jumpDrawablesToCurrentState()
         }
         viewModel.onVisible()

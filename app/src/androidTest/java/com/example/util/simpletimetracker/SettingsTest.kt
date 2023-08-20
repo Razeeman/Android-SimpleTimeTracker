@@ -1508,7 +1508,7 @@ class SettingsTest : BaseUiTest() {
     @Test
     fun csvExportSettings() {
         NavUtils.openSettingsScreen()
-        NavUtils.openSettingsBackup()
+        NavUtils.openSettingsExportImport()
         onView(withId(settingsR.id.layoutSettingsExportCsv)).perform(nestedScrollTo(), click())
 
         // View is set up

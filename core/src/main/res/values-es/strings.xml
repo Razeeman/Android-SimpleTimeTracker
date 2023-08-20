@@ -198,6 +198,7 @@
     <string name="settings_additional_title">Ajustes adicionales</string>
     <string name="settings_notification_title">Configuración de las notificaciones</string>
     <string name="settings_backup_title">Configuración de copia de seguridad</string>
+    <string name="settings_export_title">Exportar e importar</string>
     <string name="settings_sort_order">Ordenar actividades</string>
     <string name="settings_sort_by_name">Nombre</string>
     <string name="settings_sort_by_color">Color</string>

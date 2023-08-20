@@ -198,6 +198,7 @@
     <string name="settings_additional_title">Ytterligare inställningar</string>
     <string name="settings_notification_title">Aviseringsinställningar</string>
     <string name="settings_backup_title">Säkerhetskopieringsinställningar</string>
+    <string name="settings_export_title">Exportera och importera</string>
     <string name="settings_sort_order">Sortera aktiviteter efter</string>
     <string name="settings_sort_by_name">Namn</string>
     <string name="settings_sort_by_color">Färg</string>

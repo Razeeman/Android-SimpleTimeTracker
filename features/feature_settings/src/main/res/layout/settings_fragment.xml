@@ -36,6 +36,10 @@
             layout="@layout/settings_backup_layout" />
 
         <include
+            android:id="@+id/layoutSettingsExportImport"
+            layout="@layout/settings_export_import_layout" />
+
+        <include
             android:id="@+id/layoutSettingsTranslators"
             layout="@layout/settings_translators_layout" />
 

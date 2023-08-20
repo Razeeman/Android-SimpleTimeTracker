@@ -198,6 +198,7 @@
     <string name="settings_additional_title">إعدادات إضافية</string>
     <string name="settings_notification_title">إعدادات الإشعار</string>
     <string name="settings_backup_title">إعدادات النسخ الاحتياطي</string>
+    <string name="settings_export_title">التصدير والاستيراد</string>
     <string name="settings_sort_order">فرز الأنشطة</string>
     <string name="settings_sort_by_name">الاسم</string>
     <string name="settings_sort_by_color">اللون</string>

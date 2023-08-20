@@ -198,6 +198,7 @@
     <string name="settings_additional_title">追加設定</string>
     <string name="settings_notification_title">通知設定</string>
     <string name="settings_backup_title">バックアップ設定</string>
+    <string name="settings_export_title">エクスポートとインポート</string>
     <string name="settings_sort_order">アクティビティをソート</string>
     <string name="settings_sort_by_name">名前</string>
     <string name="settings_sort_by_color">色</string>

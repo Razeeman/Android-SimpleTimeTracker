@@ -40,6 +40,7 @@ class SettingsViewModel @Inject constructor(
     val settingsDisplayVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsAdditionalVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsBackupVisibility: LiveData<Boolean> = MutableLiveData(false)
+    val settingsExportImportVisibility: LiveData<Boolean> = MutableLiveData(false)
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     init {
@@ -87,6 +88,11 @@ class SettingsViewModel @Inject constructor(
     fun onSettingsBackupClick() {
         val newValue = settingsBackupVisibility.value?.flip().orFalse()
         settingsBackupVisibility.set(newValue)
+    }
+
+    fun onSettingsExportImportClick() {
+        val newValue = settingsExportImportVisibility.value?.flip().orFalse()
+        settingsExportImportVisibility.set(newValue)
     }
 
     fun onDurationSet(tag: String?, duration: Long) {
