@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmpty
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.recordTypeSpecial.createRunningRecordTypeSpecialAdapterDelegate
 import com.example.util.simpletimetracker.feature_widget.universal.activity.viewModel.WidgetUniversalViewModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -36,6 +37,7 @@ class WidgetUniversalFragment :
         BaseRecyclerAdapter(
             createActivityFilterAdapterDelegate(viewModel::onActivityFilterClick),
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
+            createRunningRecordTypeSpecialAdapterDelegate(viewModel::onSpecialRecordTypeClick),
             createDividerAdapterDelegate(),
             createEmptyAdapterDelegate(),
             createLoaderAdapterDelegate(),

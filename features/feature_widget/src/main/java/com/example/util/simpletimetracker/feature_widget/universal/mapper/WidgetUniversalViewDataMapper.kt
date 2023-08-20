@@ -3,14 +3,12 @@ package com.example.util.simpletimetracker.feature_widget.universal.mapper
 import android.graphics.Color
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
-import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
-import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.universal.customView.IconStackData
 import com.example.util.simpletimetracker.feature_widget.universal.customView.WidgetUniversalViewData
@@ -20,27 +18,12 @@ class WidgetUniversalViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
     private val iconMapper: IconMapper,
     private val resourceRepo: ResourceRepo,
-    private val recordTypeViewDataMapper: RecordTypeViewDataMapper
 ) {
-
-    fun map(
-        recordType: RecordType,
-        isFiltered: Boolean,
-        numberOfCards: Int,
-        isDarkTheme: Boolean
-    ): RecordTypeViewData {
-        return recordTypeViewDataMapper.mapFiltered(
-            recordType,
-            numberOfCards,
-            isDarkTheme,
-            isFiltered
-        )
-    }
 
     fun mapToWidgetViewData(
         runningRecords: List<RunningRecord>,
         recordTypes: Map<Long, RecordType>,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
     ): WidgetUniversalViewData {
         val data = runningRecords.map { runningRecord ->
             val recordType = recordTypes[runningRecord.id]
@@ -57,7 +40,7 @@ class WidgetUniversalViewDataMapper @Inject constructor(
 
         return WidgetUniversalViewData(
             data = data,
-            iconColor = R.color.white.let(resourceRepo::getColor)
+            iconColor = R.color.white.let(resourceRepo::getColor),
         )
     }
 
@@ -68,13 +51,13 @@ class WidgetUniversalViewDataMapper @Inject constructor(
 
         return WidgetUniversalViewData(
             data = listOf(data),
-            iconColor = R.color.widget_universal_empty_color.let(resourceRepo::getColor)
+            iconColor = R.color.widget_universal_empty_color.let(resourceRepo::getColor),
         )
     }
 
     fun mapToHint(): ViewHolderType {
         return HintViewData(
-            text = R.string.running_records_empty.let(resourceRepo::getString)
+            text = R.string.running_records_empty.let(resourceRepo::getString),
         )
     }
 }

@@ -25,8 +25,8 @@ class RecordRepeatInteractor @Inject constructor(
         return !recordInteractor.isEmpty()
     }
 
-    suspend fun repeat() {
-        execute { messageResId ->
+    suspend fun repeat(): Boolean {
+        return execute { messageResId ->
             SnackBarParams(
                 message = resourceRepo.getString(messageResId),
                 duration = SnackBarParams.Duration.Short,
@@ -45,7 +45,7 @@ class RecordRepeatInteractor @Inject constructor(
 
     private suspend fun execute(
         messageShower: (messageResId: Int) -> Unit,
-    ) {
+    ): Boolean {
         val type = prefsInteractor.getRepeatButtonType()
 
         val prevRecord = recordInteractor.getPrev(
@@ -58,11 +58,11 @@ class RecordRepeatInteractor @Inject constructor(
             }
         } ?: run {
             messageShower(R.string.running_records_repeat_no_prev_record)
-            return
+            return false
         }
         if (runningRecordInteractor.get(prevRecord.typeId) != null) {
             messageShower(R.string.running_records_repeat_already_tracking)
-            return
+            return false
         }
 
         addRunningRecordMediator.startTimer(
@@ -70,5 +70,6 @@ class RecordRepeatInteractor @Inject constructor(
             tagIds = prevRecord.tagIds,
             comment = prevRecord.comment,
         )
+        return true
     }
 }
