@@ -7,6 +7,7 @@ import androidx.fragment.app.commit
 import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.manager.ThemeManager
+import com.example.util.simpletimetracker.core.provider.ContextProvider
 import com.example.util.simpletimetracker.core.utils.activityArgumentDelegate
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.navigation.ScreenFactory
@@ -23,6 +24,9 @@ class WidgetSingleTagSelectionActivity :
     lateinit var themeManager: ThemeManager
 
     @Inject
+    lateinit var contextProvider: ContextProvider
+
+    @Inject
     lateinit var screenFactory: ScreenFactory
 
     private val params: RecordTagSelectionParams by activityArgumentDelegate(
@@ -31,6 +35,7 @@ class WidgetSingleTagSelectionActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        contextProvider.attach(this)
 
         themeManager.setTheme(this)
         setContentView(R.layout.widget_tag_selection_activity)

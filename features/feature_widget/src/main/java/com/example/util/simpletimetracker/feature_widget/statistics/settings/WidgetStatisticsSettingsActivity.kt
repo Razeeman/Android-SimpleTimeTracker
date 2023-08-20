@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.manager.ThemeManager
+import com.example.util.simpletimetracker.core.provider.ContextProvider
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
@@ -27,6 +28,9 @@ class WidgetStatisticsSettingsActivity : BaseActivity() {
     @Inject
     lateinit var themeManager: ThemeManager
 
+    @Inject
+    lateinit var contextProvider: ContextProvider
+
     private val viewModel: WidgetStatisticsSettingsViewModel by viewModels()
 
     private val recordTypesAdapter: BaseRecyclerAdapter by lazy {
@@ -40,6 +44,8 @@ class WidgetStatisticsSettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        contextProvider.attach(this)
+
         // Set the result to CANCELED.  This will cause the widget host to cancel
         // out of the widget placement if they press the back button.
         setResult(RESULT_CANCELED)
