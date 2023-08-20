@@ -112,21 +112,21 @@ class SwipeDetector(
             override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
                 val angle = Math.toDegrees(atan2(e1.y - e2.y, e2.x - e1.x).toDouble())
 
-                // Down
-                if (angle < -45 && angle >= -135) {
+                // Right
+                if (angle > -45 && angle <= 45) {
                     if (!isSliding) {
                         startSliding()
-                        initialDirection = Direction.DOWN
+                        initialDirection = Direction.RIGHT
                     }
                     doSlide(e1, e2)
                     return true
                 }
 
-                // Left
-                if (angle > 135 && angle <= 225) {
+                // Down
+                if (angle > -135 && angle <= -45) {
                     if (!isSliding) {
                         startSliding()
-                        initialDirection = Direction.LEFT
+                        initialDirection = Direction.DOWN
                     }
                     doSlide(e1, e2)
                     return true
@@ -142,11 +142,11 @@ class SwipeDetector(
                     return true
                 }
 
-                // Right
-                if (angle > -45 && angle <= 45) {
+                // Left
+                if (angle > 135 || angle <= -135) {
                     if (!isSliding) {
                         startSliding()
-                        initialDirection = Direction.RIGHT
+                        initialDirection = Direction.LEFT
                     }
                     doSlide(e1, e2)
                     return true
