@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.feature_notification.recordType.interactor
 
+import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
+import com.example.util.simpletimetracker.domain.REPEAT_BUTTON_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -17,6 +19,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val recordRepeatInteractor: RecordRepeatInteractor,
 ) {
 
     suspend fun onActionActivityStart(
@@ -97,6 +100,10 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         selectedTypeId: Long,
         typesShift: Int,
     ) {
+        if (selectedTypeId == REPEAT_BUTTON_ITEM_ID) {
+            recordRepeatInteractor.repeat()
+            return
+        }
         val started = addRunningRecordMediator.tryStartTimer(selectedTypeId) {
             notificationTypeInteractor.checkAndShow(
                 typeId = typeId,

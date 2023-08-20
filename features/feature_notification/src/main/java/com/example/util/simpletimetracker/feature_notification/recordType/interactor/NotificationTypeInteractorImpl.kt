@@ -3,8 +3,10 @@ package com.example.util.simpletimetracker.feature_notification.recordType.inter
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.REPEAT_BUTTON_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.getDailyDuration
 import com.example.util.simpletimetracker.domain.extension.getFullName
 import com.example.util.simpletimetracker.domain.extension.getSessionDuration
@@ -37,6 +39,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val resourceRepo: ResourceRepo,
 ) : NotificationTypeInteractor {
 
@@ -120,7 +123,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
         val controls = if (showControls) {
             getControls(
                 isDarkTheme = isDarkTheme,
-                types = recordTypes.values.toList()
+                types = recordTypes.values.toList(),
             )
         } else {
             NotificationTypeParams.Controls.Disabled
@@ -189,7 +192,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 .orEmpty(),
             stopButton = resourceRepo.getString(R.string.notification_record_type_stop),
             controls = controls,
-            controlsHint = resourceRepo.getString(R.string.running_records_empty)
+            controlsHint = resourceRepo.getString(R.string.running_records_empty),
         ).let(notificationTypeManager::show)
     }
 
@@ -201,7 +204,17 @@ class NotificationTypeInteractorImpl @Inject constructor(
         tagsShift: Int = 0,
         selectedTypeId: Long? = null,
     ): NotificationTypeParams.Controls = NotificationTypeParams.Controls.Enabled(
-        types = types
+        types = run {
+            val viewData = recordTypeViewDataMapper.mapToRepeatItem(
+                numberOfCards = 0,
+                isDarkTheme = isDarkTheme,
+            )
+            NotificationTypeParams.Type(
+                id = REPEAT_BUTTON_ITEM_ID,
+                icon = viewData.iconId,
+                color = viewData.color,
+            ).let(::listOf)
+        } + types
             .filter { !it.hidden }
             .map { type ->
                 NotificationTypeParams.Type(

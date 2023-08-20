@@ -82,7 +82,7 @@ class AddRunningRecordMediator @Inject constructor(
         comment: String = "",
         tagIds: List<Long> = emptyList(),
     ) {
-        if (runningRecordInteractor.get(typeId) == null) {
+        if (runningRecordInteractor.get(typeId) == null && typeId > 0L) {
             RunningRecord(
                 id = typeId,
                 timeStarted = timeStarted ?: System.currentTimeMillis(),
