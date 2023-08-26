@@ -29,7 +29,7 @@ class GoalsViewDataInteractor @Inject constructor(
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> = withContext(Dispatchers.Default) {
-        val filterType = prefsInteractor.getChartFilterType()
+        val filterType = ChartFilterType.ACTIVITY
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
