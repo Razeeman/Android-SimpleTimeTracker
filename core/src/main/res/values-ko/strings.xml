@@ -37,7 +37,7 @@
     <string name="range_select_month">월 선택</string>
     <string name="range_select_year">연 선택</string>
 
-    <string name="ok"확인</string>
+    <string name="ok">확인</string>
     <string name="cancel">취소</string>
 
     <string name="time_hour">시</string>
@@ -198,6 +198,7 @@
     <string name="settings_additional_title">추가 설정</string>
     <string name="settings_notification_title">알림 설정</string>
     <string name="settings_backup_title">백업 설정</string>
+    <string name="settings_export_title">내보내기 및 가져오기</string>
     <string name="settings_sort_order">활동 정렬</string>
     <string name="settings_sort_by_name">이름</string>
     <string name="settings_sort_by_color">색상</string>
@@ -259,7 +260,7 @@
     <string name="settings_feedback">피드백</string>
     <string name="settings_feedback_description">제안 사항이 있으신가요? 버그를 발견했나요? 대화를 나누고 싶으신가요? 글을 남겨주세요!</string>
     <string name="settings_version">버전</string>
-    <string name="settings_email_chooser_title">...로 보내기</string>
+    <string name="settings_email_chooser_title">…로 보내기</string>
     <string name="settings_translators">번역가</string>
     <string name="settings_automated_tracking">자동 기록</string>
     <string name="settings_automated_tracking_text"><![CDATA[
@@ -323,7 +324,7 @@ csv 파일은 다음과 같은 열(column)들을 가져야합니다:<br/>
 <br/>
 예시:<br/>
 <br/>
-\"독서\",2023-05-30 14:45:21,2023-05-30 15:45:21,\코멘트, 코멘트\"
+\"독서\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"코멘트, 코멘트\"
     ]]></string>
     <string name="settings_export_ics">ICS 내보내기</string>
     <string name="settings_export_warning">이 파일은 백업으로 사용할 수 없습니다.</string>
@@ -377,13 +378,12 @@ csv 파일은 다음과 같은 열(column)들을 가져야합니다:<br/>
     <string name="statistics_detail_day_split_hint">일별 분포</string>
     <string name="statistics_detail_duration_split_hint">기록 기간 분포</string>
 
-
     <plurals name="statistics_detail_times_tracked">
-        <item quantity="zero">기록</item>
-        <item quantity="one">기록</item>
-        <item quantity="two">기록</item>
-        <item quantity="few">기록</item>
-        <item quantity="many">기록</item>
+<!--        <item quantity="zero">기록</item>-->
+<!--        <item quantity="one">기록</item>-->
+<!--        <item quantity="two">기록</item>-->
+<!--        <item quantity="few">기록</item>-->
+<!--        <item quantity="many">기록</item>-->
         <item quantity="other">기록</item>
     </plurals>
 

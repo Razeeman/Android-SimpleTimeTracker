@@ -78,4 +78,8 @@
     <string name="settings_japanese_language" translatable="false">日本語</string>
     <string name="settings_japanese_tag" translatable="false">ja</string>
 
+    <string name="settings_korean_translators" translatable="false">lewisleedev</string>
+    <string name="settings_korean_language" translatable="false">한국어</string>
+    <string name="settings_korean_tag" translatable="false">ko</string>
+
 </resources>

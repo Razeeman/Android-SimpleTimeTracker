@@ -36,6 +36,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Indonesian -> R.string.settings_indonesian_language
             is AppLanguage.Italian -> R.string.settings_italian_language
             is AppLanguage.Japanese -> R.string.settings_japanese_language
+            is AppLanguage.Korean -> R.string.settings_korean_language
             is AppLanguage.Dutch -> R.string.settings_dutch_language
             is AppLanguage.Portuguese -> R.string.settings_portuguese_language
             is AppLanguage.Russian -> R.string.settings_russian_language
@@ -61,6 +62,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Indonesian -> R.string.settings_indonesian_tag
             is AppLanguage.Italian -> R.string.settings_italian_tag
             is AppLanguage.Japanese -> R.string.settings_japanese_tag
+            is AppLanguage.Korean -> R.string.settings_korean_tag
             is AppLanguage.Dutch -> R.string.settings_dutch_tag
             is AppLanguage.Portuguese -> R.string.settings_portuguese_tag
             is AppLanguage.Russian -> R.string.settings_russian_tag
@@ -87,6 +89,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Indonesian -> R.string.settings_indonesian_translators
             is AppLanguage.Italian -> R.string.settings_italian_translators
             is AppLanguage.Japanese -> R.string.settings_japanese_translators
+            is AppLanguage.Korean -> R.string.settings_korean_translators
             is AppLanguage.Dutch -> R.string.settings_dutch_translators
             is AppLanguage.Portuguese -> R.string.settings_portuguese_translators
             is AppLanguage.Russian -> R.string.settings_russian_translators
@@ -121,6 +124,7 @@ class LanguageInteractor @Inject constructor(
             AppLanguage.Indonesian,
             AppLanguage.Italian,
             AppLanguage.Japanese,
+            AppLanguage.Korean,
             AppLanguage.Dutch,
             AppLanguage.Portuguese,
             AppLanguage.Russian,

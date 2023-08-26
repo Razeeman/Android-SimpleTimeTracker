@@ -11,6 +11,7 @@
     <locale android:name="@string/settings_indonesian_tag"/>
     <locale android:name="@string/settings_italian_tag"/>
     <locale android:name="@string/settings_japanese_tag"/>
+    <locale android:name="@string/settings_korean_tag"/>
     <locale android:name="@string/settings_dutch_tag"/>
     <locale android:name="@string/settings_portuguese_tag"/>
     <locale android:name="@string/settings_russian_tag"/>
