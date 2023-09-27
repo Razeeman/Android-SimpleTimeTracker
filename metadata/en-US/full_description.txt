@@ -10,4 +10,4 @@ Track your activities directly from your home screen.
 App doesn't require an Internet connection or account registration. Your data never leaves your phone. Neither the developers nor any third-parties have access to it.
 
 <b>Free and open source</b>
-There are no advertisements, inapp purchases or intrusive permissions. The complete source code is also available.
+There are no advertisements, in-app purchases or intrusive permissions. The complete source code is also available.
