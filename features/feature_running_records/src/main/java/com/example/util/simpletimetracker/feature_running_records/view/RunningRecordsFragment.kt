@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_running_records.view
 
-import com.example.util.simpletimetracker.feature_running_records.databinding.RunningRecordsFragmentBinding as Binding
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
@@ -17,9 +16,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmpty
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.createRunningRecordAdapterDelegate
-import com.example.util.simpletimetracker.feature_running_records.adapter.createRunningRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordTypeSpecial.createRunningRecordTypeSpecialAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.createRunningRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_running_records.viewModel.RunningRecordsViewModel
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.google.android.flexbox.FlexDirection
@@ -28,6 +27,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_running_records.databinding.RunningRecordsFragmentBinding as Binding
 
 @AndroidEntryPoint
 class RunningRecordsFragment :
@@ -42,7 +42,7 @@ class RunningRecordsFragment :
 
     private val viewModel: RunningRecordsViewModel by viewModels()
     private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
-        factoryProducer = { mainTabsViewModelFactory }
+        factoryProducer = { mainTabsViewModelFactory },
     )
 
     private val runningRecordsAdapter: BaseRecyclerAdapter by lazy {
@@ -55,9 +55,13 @@ class RunningRecordsFragment :
             createRunningRecordAdapterDelegate(
                 transitionNamePrefix = TransitionNames.RUNNING_RECORD_FROM_MAIN,
                 onItemClick = viewModel::onRunningRecordClick,
-                onItemLongClick = viewModel::onRunningRecordLongClick
+                onItemLongClick = viewModel::onRunningRecordLongClick,
             ),
-            createRunningRecordTypeAdapterDelegate(viewModel::onRecordTypeClick, viewModel::onRecordTypeLongClick),
+            createRecordTypeAdapterDelegate(
+                onItemClick = viewModel::onRecordTypeClick,
+                onItemLongClick = viewModel::onRecordTypeLongClick,
+                withTransition = true,
+            ),
             createRunningRecordTypeSpecialAdapterDelegate(throttle(viewModel::onSpecialRecordTypeClick)),
             createActivityFilterAdapterDelegate(viewModel::onActivityFilterClick, viewModel::onActivityFilterLongClick),
             createActivityFilterAddAdapterDelegate(throttle(viewModel::onAddActivityFilterClick)),
