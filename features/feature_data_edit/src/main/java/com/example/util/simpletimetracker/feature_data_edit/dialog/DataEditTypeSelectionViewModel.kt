@@ -45,6 +45,7 @@ class DataEditTypeSelectionViewModel @Inject constructor(
                 recordType = type,
                 numberOfCards = numberOfCards,
                 isDarkTheme = isDarkTheme,
+                isChecked = null,
             )
         }
 

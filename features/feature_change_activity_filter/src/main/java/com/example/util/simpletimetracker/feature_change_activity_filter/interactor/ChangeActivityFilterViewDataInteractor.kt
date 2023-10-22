@@ -37,7 +37,8 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
                         it.id to recordTypeViewDataMapper.map(
                             recordType = it,
                             numberOfCards = numberOfCards,
-                            isDarkTheme = isDarkTheme
+                            isDarkTheme = isDarkTheme,
+                            isChecked = null,
                         )
                     }
             }

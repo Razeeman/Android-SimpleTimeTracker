@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_views.databinding.RecordTypeViewLayoutBinding
 import com.example.util.simpletimetracker.feature_views.extension.setMargins
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
@@ -69,6 +70,14 @@ class RecordTypeView @JvmOverloads constructor(
                     itemIsRow = getBoolean(R.styleable.RecordTypeView_itemIsRow, false)
                 }
 
+                if (hasValue(R.styleable.RecordTypeView_itemWithCheck)) {
+                    itemWithCheck = getBoolean(R.styleable.RecordTypeView_itemWithCheck, false)
+                }
+
+                if (hasValue(R.styleable.RecordTypeView_itemIsChecked)) {
+                    itemIsChecked = getBoolean(R.styleable.RecordTypeView_itemIsChecked, false)
+                }
+
                 recycle()
             }
     }
@@ -107,6 +116,23 @@ class RecordTypeView @JvmOverloads constructor(
     var itemIsRow: Boolean = false
         set(value) {
             changeConstraints(value)
+            field = value
+        }
+
+    var itemWithCheck: Boolean = false
+        set(value) {
+            binding.container.ivRecordTypeItemCheck.isVisible = value
+            field = value
+        }
+
+    var itemIsChecked: Boolean = false
+        set(value) {
+            val iconResId = if (value) {
+                R.drawable.spinner_check_mark
+            } else {
+                R.drawable.spinner_check_unmarked
+            }
+            binding.container.ivRecordTypeItemCheck.setImageResource(iconResId)
             field = value
         }
 

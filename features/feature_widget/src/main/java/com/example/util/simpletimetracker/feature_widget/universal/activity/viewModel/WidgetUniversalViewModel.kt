@@ -6,14 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ActivityFilterViewDataInteractor
+import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
@@ -40,6 +44,8 @@ class WidgetUniversalViewModel @Inject constructor(
     private val widgetUniversalViewDataMapper: WidgetUniversalViewDataMapper,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val recordRepeatInteractor: RecordRepeatInteractor,
+    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
+    private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
 ) : ViewModel() {
 
     val recordTypes: LiveData<List<ViewHolderType>> by lazy {
@@ -115,9 +121,20 @@ class WidgetUniversalViewModel @Inject constructor(
     private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypes = recordTypeInteractor.getAll()
+        val recordTypesMap = recordTypes.associateBy(RecordType::id)
+        val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
         val recordTypesRunning = runningRecords.map { it.id }
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
+        val allDailyCurrents = if (goals.isNotEmpty()) {
+            getCurrentRecordsDurationInteractor.getAllDailyCurrents(
+                typesMap = recordTypesMap,
+                runningRecords = runningRecords,
+            )
+        } else {
+            // No goals - no need to calculate durations.
+            emptyMap()
+        }
 
         val filter = activityFilterViewDataInteractor.getFilter()
         val filtersViewData = activityFilterViewDataInteractor.getFilterViewData(
@@ -137,6 +154,11 @@ class WidgetUniversalViewModel @Inject constructor(
                     isFiltered = it.id in recordTypesRunning,
                     numberOfCards = numberOfCards,
                     isDarkTheme = isDarkTheme,
+                    isChecked = recordTypeViewDataMapper.mapGoalCheckmark(
+                        type = it,
+                        goals = goals,
+                        allDailyCurrents = allDailyCurrents,
+                    ),
                 )
             }
         val repeatViewData = recordTypeViewDataMapper.mapToRepeatItem(

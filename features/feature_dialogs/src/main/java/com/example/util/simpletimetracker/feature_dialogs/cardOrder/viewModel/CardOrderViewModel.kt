@@ -21,7 +21,7 @@ import javax.inject.Inject
 class CardOrderViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val recordTypeViewDataMapper: RecordTypeViewDataMapper
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
 ) : ViewModel() {
 
     lateinit var extra: CardOrderDialogParams
@@ -58,7 +58,14 @@ class CardOrderViewModel @Inject constructor(
         return recordTypeInteractor.getAll(extra.initialOrder)
             .filter { !it.hidden }
             .takeUnless { it.isEmpty() }
-            ?.map { type -> recordTypeViewDataMapper.map(type, numberOfCards, isDarkTheme) }
+            ?.map { type ->
+                recordTypeViewDataMapper.map(
+                    recordType = type,
+                    numberOfCards = numberOfCards,
+                    isDarkTheme = isDarkTheme,
+                    isChecked = null,
+                )
+            }
             ?: recordTypeViewDataMapper.mapToEmpty()
     }
 }

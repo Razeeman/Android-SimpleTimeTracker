@@ -13,7 +13,8 @@ data class RecordTypeViewData(
     @ColorInt val color: Int,
     val width: Int? = null,
     val height: Int? = null,
-    val asRow: Boolean = false
+    val asRow: Boolean = false,
+    val isChecked: Boolean? = null,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = id

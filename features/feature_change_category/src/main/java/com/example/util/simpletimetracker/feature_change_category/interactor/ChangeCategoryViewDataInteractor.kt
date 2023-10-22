@@ -39,7 +39,8 @@ class ChangeCategoryViewDataInteractor @Inject constructor(
                     recordTypeViewDataMapper.map(
                         recordType = it,
                         numberOfCards = numberOfCards,
-                        isDarkTheme = isDarkTheme
+                        isDarkTheme = isDarkTheme,
+                        isChecked = null,
                     )
                 }.let(viewData::addAll)
 
@@ -51,7 +52,8 @@ class ChangeCategoryViewDataInteractor @Inject constructor(
                     recordTypeViewDataMapper.map(
                         recordType = it,
                         numberOfCards = numberOfCards,
-                        isDarkTheme = isDarkTheme
+                        isDarkTheme = isDarkTheme,
+                        isChecked = null,
                     )
                 }.let(viewData::addAll)
 

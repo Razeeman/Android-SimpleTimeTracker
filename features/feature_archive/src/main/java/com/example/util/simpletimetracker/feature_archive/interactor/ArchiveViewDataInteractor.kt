@@ -38,7 +38,8 @@ class ArchiveViewDataInteractor @Inject constructor(
                 recordType = type,
                 numberOfCards = numberOfCards,
                 isDarkTheme = isDarkTheme,
-                isFiltered = false
+                isFiltered = false,
+                isChecked = null,
             )
         }
 

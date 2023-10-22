@@ -3,9 +3,14 @@ package com.example.util.simpletimetracker.core.mapper
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.getDaily
+import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
@@ -17,32 +22,33 @@ class RecordTypeViewDataMapper @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
-    private val recordTypeCardSizeMapper: RecordTypeCardSizeMapper
+    private val recordTypeCardSizeMapper: RecordTypeCardSizeMapper,
 ) {
 
     fun mapToEmpty(): List<ViewHolderType> {
         return EmptyViewData(
-            message = resourceRepo.getString(R.string.record_types_empty)
+            message = resourceRepo.getString(R.string.record_types_empty),
         ).let(::listOf)
     }
 
     fun map(
         recordType: RecordType,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
     ): RecordTypeViewData {
         return RecordTypeViewData(
             id = recordType.id,
             name = recordType.name,
             iconId = iconMapper.mapIcon(recordType.icon),
             iconColor = colorMapper.toIconColor(isDarkTheme),
-            color = mapColor(recordType.color, isDarkTheme)
+            color = mapColor(recordType.color, isDarkTheme),
         )
     }
 
     fun map(
         recordType: RecordType,
         numberOfCards: Int,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
+        isChecked: Boolean?,
     ): RecordTypeViewData {
         return RecordTypeViewData(
             id = recordType.id,
@@ -52,7 +58,8 @@ class RecordTypeViewDataMapper @Inject constructor(
             color = mapColor(recordType.color, isDarkTheme),
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
-            asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards)
+            asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards),
+            isChecked = isChecked,
         )
     }
 
@@ -60,9 +67,15 @@ class RecordTypeViewDataMapper @Inject constructor(
         recordType: RecordType,
         numberOfCards: Int,
         isDarkTheme: Boolean,
-        isFiltered: Boolean
+        isFiltered: Boolean,
+        isChecked: Boolean?,
     ): RecordTypeViewData {
-        val default = map(recordType, numberOfCards, isDarkTheme)
+        val default = map(
+            recordType = recordType,
+            numberOfCards = numberOfCards,
+            isDarkTheme = isDarkTheme,
+            isChecked = isChecked,
+        )
 
         return if (isFiltered) {
             default.copy(
@@ -114,6 +127,28 @@ class RecordTypeViewDataMapper @Inject constructor(
         )
     }
 
+    fun mapGoalCheckmark(
+        type: RecordType,
+        goals: Map<Long, List<RecordTypeGoal>>,
+        allDailyCurrents: Map<Long, GetCurrentRecordsDurationInteractor.Result>,
+    ): Boolean? {
+        val goal = goals[type.id].orEmpty().getDaily()
+        val goalValue = when (goal?.type) {
+            is RecordTypeGoal.Type.Duration -> goal.value * 1000
+            is RecordTypeGoal.Type.Count -> goal.value
+            else -> 0
+        }
+        val dailyCurrent = allDailyCurrents[type.id]
+        val current = when (goal?.type) {
+            is RecordTypeGoal.Type.Duration -> dailyCurrent?.duration.orZero()
+            is RecordTypeGoal.Type.Count -> dailyCurrent?.count.orZero()
+            else -> 0
+        }
+        val valueLeft = goalValue - current
+
+        return if (goal != null) valueLeft <= 0L else null
+    }
+
     private fun mapToSpecial(
         type: RunningRecordTypeSpecialViewData.Type,
         @StringRes name: Int,
@@ -132,7 +167,8 @@ class RecordTypeViewDataMapper @Inject constructor(
         )
     }
 
-    @ColorInt private fun mapColor(color: AppColor, isDarkTheme: Boolean): Int {
+    @ColorInt
+    private fun mapColor(color: AppColor, isDarkTheme: Boolean): Int {
         return colorMapper.mapToColorInt(color, isDarkTheme)
     }
 }

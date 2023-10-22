@@ -9,7 +9,7 @@ import javax.inject.Inject
 class RecordTypesViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
-    private val recordTypeViewDataMapper: RecordTypeViewDataMapper
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
 ) {
 
     suspend fun getTypesViewData(): List<ViewHolderType> {
@@ -19,7 +19,14 @@ class RecordTypesViewDataInteractor @Inject constructor(
         return recordTypeInteractor.getAll()
             .filter { !it.hidden }
             .takeUnless { it.isEmpty() }
-            ?.map { recordTypeViewDataMapper.map(it, numberOfCards, isDarkTheme) }
+            ?.map {
+                recordTypeViewDataMapper.map(
+                    recordType = it,
+                    numberOfCards = numberOfCards,
+                    isDarkTheme = isDarkTheme,
+                    isChecked = null,
+                )
+            }
             ?: recordTypeViewDataMapper.mapToEmpty()
     }
 }

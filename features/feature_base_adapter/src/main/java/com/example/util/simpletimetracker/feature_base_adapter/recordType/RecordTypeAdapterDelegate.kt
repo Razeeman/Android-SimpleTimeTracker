@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_base_adapter.recordType
 
 import androidx.core.view.ViewCompat
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
@@ -32,6 +33,8 @@ fun createRecordTypeAdapterDelegate(
         itemIconColor = item.iconColor
         itemIconAlpha = item.iconAlpha
         itemName = item.name
+        itemWithCheck = item.isChecked != null
+        itemIsChecked = item.isChecked.orFalse()
         onItemClick?.let { setOnClickWith(item, it) }
         onItemLongClick?.let { setOnLongClick { it(item, mapOf(this to transitionName)) } }
         if (withTransition) ViewCompat.setTransitionName(this, transitionName)

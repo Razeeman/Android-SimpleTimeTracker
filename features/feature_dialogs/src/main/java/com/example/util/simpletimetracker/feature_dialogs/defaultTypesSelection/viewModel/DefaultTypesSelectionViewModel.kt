@@ -94,7 +94,8 @@ class DefaultTypesSelectionViewModel @Inject constructor(
                 recordType = recordType,
                 numberOfCards = numberOfCards,
                 isDarkTheme = isDarkTheme,
-                isFiltered = recordType.id in typeIdsFiltered
+                isFiltered = recordType.id in typeIdsFiltered,
+                isChecked = null,
             )
         }
     }

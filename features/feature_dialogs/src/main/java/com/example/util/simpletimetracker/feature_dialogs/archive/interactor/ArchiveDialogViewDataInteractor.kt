@@ -34,7 +34,8 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
         val item = recordTypeViewDataMapper.map(
             recordType = type,
             numberOfCards = numberOfCards,
-            isDarkTheme = isDarkTheme
+            isDarkTheme = isDarkTheme,
+            isChecked = null,
         )
         val recordsCount = recordInteractor.getByType(listOf(typeId)).size
         val recordTagCount = recordTagInteractor.getByType(typeId).size

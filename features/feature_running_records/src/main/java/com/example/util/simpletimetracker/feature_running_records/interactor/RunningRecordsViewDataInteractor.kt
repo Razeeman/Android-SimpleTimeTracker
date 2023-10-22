@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_running_records.interactor
 
 import com.example.util.simpletimetracker.core.interactor.ActivityFilterViewDataInteractor
+import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
@@ -28,6 +29,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val mapper: RunningRecordsViewDataMapper,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val getRunningRecordViewDataMediator: GetRunningRecordViewDataMediator,
+    private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> {
@@ -44,6 +46,15 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showFirstEnterHint = recordTypes.filterNot(RecordType::hidden).isEmpty()
         val showRepeatButton = recordRepeatInteractor.shouldShowButton()
+        val allDailyCurrents = if (goals.isNotEmpty()) {
+            getCurrentRecordsDurationInteractor.getAllDailyCurrents(
+                typesMap = recordTypesMap,
+                runningRecords = runningRecords,
+            )
+        } else {
+            // No goals - no need to calculate durations.
+            emptyMap()
+        }
 
         val runningRecordsViewData = when {
             showFirstEnterHint ->
@@ -91,11 +102,16 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                 activityFilterViewDataInteractor.applyFilter(list, filter)
             }
             .map {
-                mapper.map(
+                recordTypeViewDataMapper.mapFiltered(
                     recordType = it,
                     isFiltered = it.id in recordTypesRunning,
                     numberOfCards = numberOfCards,
                     isDarkTheme = isDarkTheme,
+                    isChecked = recordTypeViewDataMapper.mapGoalCheckmark(
+                        type = it,
+                        goals = goals,
+                        allDailyCurrents = allDailyCurrents,
+                    ),
                 )
             }
             .let { data ->

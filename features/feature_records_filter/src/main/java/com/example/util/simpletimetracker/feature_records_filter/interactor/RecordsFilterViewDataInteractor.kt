@@ -307,7 +307,8 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 recordType = type,
                 numberOfCards = numberOfCards,
                 isDarkTheme = isDarkTheme,
-                isFiltered = type.id !in allSelectedTypeIds
+                isFiltered = type.id !in allSelectedTypeIds,
+                isChecked = null,
             )
         }
 

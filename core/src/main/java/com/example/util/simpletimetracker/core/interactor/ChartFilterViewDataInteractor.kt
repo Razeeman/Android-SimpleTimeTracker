@@ -43,6 +43,7 @@ class ChartFilterViewDataInteractor @Inject constructor(
                     isFiltered = type.id in typeIdsFiltered,
                     numberOfCards = numberOfCards,
                     isDarkTheme = isDarkTheme,
+                    isChecked = null,
                 )
             }
             .takeUnless { it.isEmpty() }
