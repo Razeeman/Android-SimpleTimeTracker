@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
@@ -123,6 +124,10 @@ class RecordTypeView @JvmOverloads constructor(
 
     fun getContainer(): CardView {
         return binding.containerRecordTypeItem
+    }
+
+    fun getCheckmarkOutline(): AppCompatImageView {
+        return binding.ivRecordTypeItemCheckOutline
     }
 
     private fun changeConstraints(isRow: Boolean) = with(binding.container) {

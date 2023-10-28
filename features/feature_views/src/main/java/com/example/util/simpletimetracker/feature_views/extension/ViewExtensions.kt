@@ -107,6 +107,12 @@ fun SeekBar.onProgressChanged(func: (Int) -> Unit) {
     })
 }
 
+fun View.setAllMargins(
+    all: Int?
+) {
+    setMargins(all, all, all, all)
+}
+
 fun View.setMargins(
     top: Int? = null,
     bottom: Int? = null,

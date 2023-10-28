@@ -19,6 +19,13 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
     private val timeMapper: TimeMapper,
 ) {
 
+    suspend fun getDailyCurrent(
+        typeId: Long,
+        runningRecord: RunningRecord?,
+    ): Result {
+        return getRangeCurrent(typeId, runningRecord, getRange(RangeLength.Day))
+    }
+
     suspend fun getDailyCurrent(runningRecord: RunningRecord): Result {
         return getRangeCurrent(runningRecord.id, runningRecord, getRange(RangeLength.Day))
     }
@@ -57,7 +64,10 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
             typeId = typeId,
             runningRecord = runningRecord,
             range = range,
-            rangeRecords = recordInteractor.getFromRange(range),
+            rangeRecords = recordInteractor.getFromRangeByType(
+                typeIds = listOf(typeId),
+                range = range,
+            ),
         )
     }
 

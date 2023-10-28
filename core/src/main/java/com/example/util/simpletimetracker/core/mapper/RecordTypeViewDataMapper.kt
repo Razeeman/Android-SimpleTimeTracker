@@ -132,13 +132,21 @@ class RecordTypeViewDataMapper @Inject constructor(
         goals: Map<Long, List<RecordTypeGoal>>,
         allDailyCurrents: Map<Long, GetCurrentRecordsDurationInteractor.Result>,
     ): Boolean? {
-        val goal = goals[type.id].orEmpty().getDaily()
+        return mapGoalCheckmark(
+            goal = goals[type.id].orEmpty().getDaily(),
+            dailyCurrent = allDailyCurrents[type.id],
+        )
+    }
+
+    fun mapGoalCheckmark(
+        goal: RecordTypeGoal?,
+        dailyCurrent: GetCurrentRecordsDurationInteractor.Result?,
+    ): Boolean? {
         val goalValue = when (goal?.type) {
             is RecordTypeGoal.Type.Duration -> goal.value * 1000
             is RecordTypeGoal.Type.Count -> goal.value
             else -> 0
         }
-        val dailyCurrent = allDailyCurrents[type.id]
         val current = when (goal?.type) {
             is RecordTypeGoal.Type.Duration -> dailyCurrent?.duration.orZero()
             is RecordTypeGoal.Type.Count -> dailyCurrent?.count.orZero()

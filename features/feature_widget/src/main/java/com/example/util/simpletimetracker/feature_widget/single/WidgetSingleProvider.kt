@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.RemoteViews
+import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
@@ -19,11 +20,14 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.domain.REPEAT_BUTTON_ITEM_ID
+import com.example.util.simpletimetracker.domain.extension.getDaily
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -32,6 +36,7 @@ import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_views.RecordTypeView
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
+import com.example.util.simpletimetracker.feature_views.extension.setAllMargins
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
@@ -56,6 +61,9 @@ class WidgetSingleProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var recordTypeInteractor: RecordTypeInteractor
+
+    @Inject
+    lateinit var recordTypeGoalInteractor: RecordTypeGoalInteractor
 
     @Inject
     lateinit var recordInteractor: RecordInteractor
@@ -83,6 +91,9 @@ class WidgetSingleProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var recordRepeatInteractor: RecordRepeatInteractor
+
+    @Inject
+    lateinit var getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor
 
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
@@ -133,10 +144,24 @@ class WidgetSingleProvider : AppWidgetProvider() {
                     recordTypeName = viewData.name,
                     recordTypeColor = viewData.color,
                     isRunning = false,
+                    isChecked = false,
                 )
             } else {
                 val recordType = recordTypeInteractor.get(recordTypeId)
                     ?.takeUnless { it.hidden }
+                val goal = recordTypeGoalInteractor.getByType(recordTypeId).getDaily()
+                val dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(
+                    typeId = recordTypeId,
+                    runningRecord = runningRecord,
+                )
+                val isChecked = if (recordType != null) {
+                    recordTypeViewDataMapper.mapGoalCheckmark(
+                        goal = goal,
+                        dailyCurrent = dailyCurrent,
+                    )
+                } else {
+                    null
+                }
                 view = prepareView(
                     context = context,
                     recordTypeIcon = recordType?.icon
@@ -145,6 +170,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
                     recordTypeColor = recordType?.color
                         ?.let { colorMapper.mapToColorInt(it, isDarkTheme) },
                     isRunning = runningRecord != null && recordType != null,
+                    isChecked = isChecked,
                 )
             }
         }
@@ -173,6 +199,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
         recordTypeName: String?,
         recordTypeColor: Int?,
         isRunning: Boolean,
+        isChecked: Boolean?,
     ): View {
         val icon = recordTypeIcon
             ?: RecordTypeIcon.Image(R.drawable.unknown)
@@ -198,9 +225,12 @@ class WidgetSingleProvider : AppWidgetProvider() {
             getContainer().radius = resources.getDimensionPixelOffset(R.dimen.widget_universal_corner_radius).toFloat()
             getContainer().cardElevation = 0f
             getContainer().useCompatPadding = false
+            getCheckmarkOutline().setAllMargins(4)
             itemIcon = icon
             itemName = name
             itemColor = color
+            itemWithCheck = isChecked != null
+            itemIsChecked = isChecked.orFalse()
             alpha = viewAlpha
         }.let(container::addView)
 
