@@ -21,6 +21,11 @@ class AddRecordMediator @Inject constructor(
     suspend fun doAfterAdd(typeId: Long) {
         notificationTypeInteractor.checkAndShow(typeId)
         notificationGoalTimeInteractor.checkAndReschedule(typeId)
-        widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+        widgetInteractor.updateWidgets(
+            listOf(
+                WidgetType.STATISTICS_CHART,
+                WidgetType.RECORD_TYPE,
+            ),
+        )
     }
 }

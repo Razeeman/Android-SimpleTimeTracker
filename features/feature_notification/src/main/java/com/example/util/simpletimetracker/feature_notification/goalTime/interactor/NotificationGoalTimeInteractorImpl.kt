@@ -10,7 +10,9 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTime
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeManager
 import com.example.util.simpletimetracker.feature_notification.goalTime.scheduler.NotificationGoalTimeScheduler
 import com.example.util.simpletimetracker.feature_notification.goalTime.scheduler.NotificationRangeEndScheduler
@@ -27,6 +29,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
     private val scheduler: NotificationGoalTimeScheduler,
     private val rangeEndScheduler: NotificationRangeEndScheduler,
     private val notificationGoalParamsInteractor: NotificationGoalParamsInteractor,
+    private val widgetInteractor: WidgetInteractor,
 ) : NotificationGoalTimeInteractor {
 
     override suspend fun checkAndReschedule() {
@@ -134,6 +137,8 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                 range = goalRange,
                 type = NotificationGoalParamsInteractor.Type.Duration,
             )?.let(manager::show)
+            // TODO update only by typeId, not all widgets.
+            widgetInteractor.updateWidgets(listOf(WidgetType.RECORD_TYPE))
         }
     }
 }

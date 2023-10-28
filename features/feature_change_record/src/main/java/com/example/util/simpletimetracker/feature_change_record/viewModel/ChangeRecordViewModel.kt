@@ -107,11 +107,11 @@ class ChangeRecordViewModel @Inject constructor(
             comment = newComment,
             tagIds = newCategoryIds
         ).let {
+            addRecordMediator.add(it)
             if (newTypeId != originalTypeId) {
                 notificationTypeInteractor.checkAndShow(originalTypeId)
                 notificationGoalTimeInteractor.checkAndReschedule(originalTypeId)
             }
-            addRecordMediator.add(it)
             router.back()
         }
     }
