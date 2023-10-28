@@ -247,7 +247,6 @@
     <style name="RecordTypeItem">
         <item name="android:layout_width">@dimen/record_type_card_width</item>
         <item name="android:layout_height">@dimen/record_type_card_height</item>
-        <item name="cardElevation">@dimen/record_type_card_elevation</item>
     </style>
 
     <style name="SettingsDivider">

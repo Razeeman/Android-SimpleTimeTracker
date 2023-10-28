@@ -1,13 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/RecordTypeCard"
     tools:layout_height="@dimen/record_type_card_height"
     tools:layout_width="@dimen/record_type_card_width"
-    tools:parentTag="androidx.cardview.widget.CardView">
+    tools:parentTag="android.widget.RelativeLayout">
 
-    <include
-        android:id="@+id/container"
-        layout="@layout/record_type_view_vertical" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/containerRecordTypeItem"
+        style="@style/RecordTypeCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/black">
+
+        <include
+            android:id="@+id/container"
+            layout="@layout/record_type_view_vertical" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivRecordTypeItemCheckOutline"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:tint="?colorSecondary"
+        android:elevation="@dimen/record_type_card_elevation"
+        android:visibility="gone"
+        app:srcCompat="@drawable/record_type_check_unmarked"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivRecordTypeItemCheck"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:tint="@color/white"
+        android:elevation="@dimen/record_type_card_elevation"
+        android:visibility="gone"
+        app:srcCompat="@drawable/record_type_check_mark"
+        tools:visibility="visible" />
 
 </merge>

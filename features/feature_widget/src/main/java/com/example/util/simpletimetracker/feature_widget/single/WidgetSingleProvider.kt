@@ -195,9 +195,9 @@ class WidgetSingleProvider : AppWidgetProvider() {
         // TODO setting alpha on cardView doesn't work for some reason, wrap in layout before setting
         val container = FrameLayout(ContextThemeWrapper(context, R.style.AppTheme))
         RecordTypeView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
-            radius = resources.getDimensionPixelOffset(R.dimen.widget_universal_corner_radius).toFloat()
-            cardElevation = 0f
-            useCompatPadding = false
+            getContainer().radius = resources.getDimensionPixelOffset(R.dimen.widget_universal_corner_radius).toFloat()
+            getContainer().cardElevation = 0f
+            getContainer().useCompatPadding = false
             itemIcon = icon
             itemName = name
             itemColor = color
