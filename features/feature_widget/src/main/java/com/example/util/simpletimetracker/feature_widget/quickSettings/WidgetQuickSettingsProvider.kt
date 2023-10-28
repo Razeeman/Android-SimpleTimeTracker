@@ -21,11 +21,10 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.quickSettings.customView.WidgetQuickSettingsView
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class WidgetQuickSettingsProvider : AppWidgetProvider() {
@@ -57,7 +56,7 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
     }
 
     override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
-        CoroutineScope(Dispatchers.Main).launch {
+        GlobalScope.launch(Dispatchers.Main) {
             appWidgetIds?.forEach { prefsInteractor.removeQuickSettingsWidget(it) }
         }
     }
@@ -69,12 +68,10 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
     ) {
         if (context == null || appWidgetManager == null) return
 
-        var type: QuickSettingsWidgetType
-        var name: String
-        var isChecked: Boolean
-        runBlocking {
-            type = prefsInteractor.getQuickSettingsWidget(appWidgetId)
-            when (type) {
+        GlobalScope.launch(Dispatchers.Main) {
+            val name: String
+            val isChecked: Boolean
+            when (prefsInteractor.getQuickSettingsWidget(appWidgetId)) {
                 is QuickSettingsWidgetType.AllowMultitasking -> {
                     name = resourceRepo.getString(R.string.settings_allow_multitasking)
                     isChecked = prefsInteractor.getAllowMultitasking()
@@ -84,17 +81,17 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
                     isChecked = prefsInteractor.getShowRecordTagSelection()
                 }
             }
+
+            val view = prepareView(context, name, isChecked)
+            measureView(context, view)
+            val bitmap = view.getBitmapFromView()
+
+            val views = RemoteViews(context.packageName, R.layout.widget_layout)
+            views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
+            views.setOnClickPendingIntent(R.id.btnWidget, getPendingSelfIntent(context, appWidgetId))
+
+            appWidgetManager.updateAppWidget(appWidgetId, views)
         }
-
-        val view = prepareView(context, name, isChecked)
-        measureView(context, view)
-        val bitmap = view.getBitmapFromView()
-
-        val views = RemoteViews(context.packageName, R.layout.widget_layout)
-        views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
-        views.setOnClickPendingIntent(R.id.btnWidget, getPendingSelfIntent(context, appWidgetId))
-
-        appWidgetManager.updateAppWidget(appWidgetId, views)
     }
 
     private fun prepareView(
@@ -143,7 +140,7 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
     private fun onClick(
         widgetId: Int
     ) {
-        CoroutineScope(Dispatchers.Main).launch {
+        GlobalScope.launch(Dispatchers.Main) {
             when (prefsInteractor.getQuickSettingsWidget(widgetId)) {
                 is QuickSettingsWidgetType.AllowMultitasking -> {
                     val newValue = !prefsInteractor.getAllowMultitasking()

@@ -31,11 +31,10 @@ import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.statistics.customView.WidgetStatisticsChartView
 import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class WidgetStatisticsChartProvider : AppWidgetProvider() {
@@ -69,7 +68,7 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
     }
 
     override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
-        CoroutineScope(Dispatchers.Main).launch {
+        GlobalScope.launch(Dispatchers.Main) {
             appWidgetIds?.forEach { prefsInteractor.removeStatisticsWidget(it) }
         }
     }
@@ -91,28 +90,30 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
     ) {
         if (context == null || appWidgetManager == null) return
 
-        val view = prepareView(context, appWidgetId)
-        val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
-        measureView(context, options, view)
-        val bitmap = view.getBitmapFromView()
-        val refreshButtonBitmap = prepareRefreshButtonView(context).getBitmapFromView()
+        GlobalScope.launch(Dispatchers.Main) {
+            val view = prepareView(context, appWidgetId)
+            val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
+            measureView(context, options, view)
+            val bitmap = view.getBitmapFromView()
+            val refreshButtonBitmap = prepareRefreshButtonView(context).getBitmapFromView()
 
-        val views = RemoteViews(context.packageName, R.layout.widget_layout)
-        views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
-        views.setOnClickPendingIntent(R.id.btnWidget, getPendingSelfIntent(context))
+            val views = RemoteViews(context.packageName, R.layout.widget_layout)
+            views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
+            views.setOnClickPendingIntent(R.id.btnWidget, getPendingSelfIntent(context))
 
-        views.setImageViewBitmap(R.id.ivRefresh, refreshButtonBitmap)
-        views.setOnClickPendingIntent(R.id.btnRefresh, getRefreshIntent(context, appWidgetId))
-        views.setViewVisibility(R.id.ivRefresh, View.VISIBLE)
-        views.setViewVisibility(R.id.btnRefresh, View.VISIBLE)
+            views.setImageViewBitmap(R.id.ivRefresh, refreshButtonBitmap)
+            views.setOnClickPendingIntent(R.id.btnRefresh, getRefreshIntent(context, appWidgetId))
+            views.setViewVisibility(R.id.ivRefresh, View.VISIBLE)
+            views.setViewVisibility(R.id.btnRefresh, View.VISIBLE)
 
-        appWidgetManager.updateAppWidget(appWidgetId, views)
+            appWidgetManager.updateAppWidget(appWidgetId, views)
+        }
     }
 
-    private fun prepareView(
+    private suspend fun prepareView(
         context: Context,
         appWidgetId: Int,
-    ): View = runBlocking {
+    ): View {
         // TODO remove blocking
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
@@ -155,7 +156,7 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         val totalTracked = resourceRepo.getString(R.string.statistics_total_tracked_short) +
             "\n" + total
 
-        WidgetStatisticsChartView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
+        return WidgetStatisticsChartView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
             setSegments(chart, totalTracked)
         }
     }

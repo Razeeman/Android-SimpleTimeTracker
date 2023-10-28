@@ -22,7 +22,6 @@ import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.domain.REPEAT_BUTTON_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.getDaily
 import com.example.util.simpletimetracker.domain.extension.orFalse
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -32,7 +31,6 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
-import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_views.RecordTypeView
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
@@ -41,10 +39,9 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -113,7 +110,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
     }
 
     override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
-        CoroutineScope(Dispatchers.Main).launch {
+        GlobalScope.launch(Dispatchers.Main) {
             appWidgetIds?.forEach { prefsInteractor.removeWidget(it) }
         }
     }
@@ -125,13 +122,11 @@ class WidgetSingleProvider : AppWidgetProvider() {
     ) {
         if (context == null || appWidgetManager == null) return
 
-        var runningRecord: RunningRecord?
-        var isDarkTheme: Boolean
-        val view: View
-        runBlocking {
+        GlobalScope.launch(Dispatchers.Main) {
+            val view: View
             val recordTypeId = prefsInteractor.getWidget(appWidgetId)
-            runningRecord = runningRecordInteractor.get(recordTypeId)
-            isDarkTheme = prefsInteractor.getDarkMode()
+            val runningRecord = runningRecordInteractor.get(recordTypeId)
+            val isDarkTheme: Boolean = prefsInteractor.getDarkMode()
 
             if (recordTypeId == REPEAT_BUTTON_ITEM_ID) {
                 val viewData = recordTypeViewDataMapper.mapToRepeatItem(
@@ -173,24 +168,24 @@ class WidgetSingleProvider : AppWidgetProvider() {
                     isChecked = isChecked,
                 )
             }
+
+            measureView(context, view)
+            val bitmap = view.getBitmapFromView()
+
+            val views = RemoteViews(context.packageName, R.layout.widget_layout)
+            if (runningRecord != null) {
+                val timeStarted = runningRecord.timeStarted
+                val base = SystemClock.elapsedRealtime() - (System.currentTimeMillis() - timeStarted)
+                views.setChronometer(R.id.timerWidget, base, null, true)
+                views.setViewVisibility(R.id.timerWidget, View.VISIBLE)
+            } else {
+                views.setViewVisibility(R.id.timerWidget, View.GONE)
+            }
+            views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
+            views.setOnClickPendingIntent(R.id.btnWidget, getPendingSelfIntent(context, appWidgetId))
+
+            appWidgetManager.updateAppWidget(appWidgetId, views)
         }
-
-        measureView(context, view)
-        val bitmap = view.getBitmapFromView()
-
-        val views = RemoteViews(context.packageName, R.layout.widget_layout)
-        if (runningRecord != null) {
-            val timeStarted = runningRecord?.timeStarted.orZero()
-            val base = SystemClock.elapsedRealtime() - (System.currentTimeMillis() - timeStarted)
-            views.setChronometer(R.id.timerWidget, base, null, true)
-            views.setViewVisibility(R.id.timerWidget, View.VISIBLE)
-        } else {
-            views.setViewVisibility(R.id.timerWidget, View.GONE)
-        }
-        views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
-        views.setOnClickPendingIntent(R.id.btnWidget, getPendingSelfIntent(context, appWidgetId))
-
-        appWidgetManager.updateAppWidget(appWidgetId, views)
     }
 
     private fun prepareView(
@@ -255,7 +250,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
         context: Context?,
         widgetId: Int,
     ) {
-        CoroutineScope(Dispatchers.Main).launch {
+        GlobalScope.launch(Dispatchers.Main) {
             val recordTypeId = prefsInteractor.getWidget(widgetId)
 
             if (recordTypeId == REPEAT_BUTTON_ITEM_ID) {

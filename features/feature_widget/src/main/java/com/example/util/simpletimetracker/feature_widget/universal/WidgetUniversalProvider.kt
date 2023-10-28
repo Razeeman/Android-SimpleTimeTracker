@@ -24,7 +24,9 @@ import com.example.util.simpletimetracker.feature_widget.universal.customView.Wi
 import com.example.util.simpletimetracker.feature_widget.universal.customView.WidgetUniversalViewData
 import com.example.util.simpletimetracker.feature_widget.universal.mapper.WidgetUniversalViewDataMapper
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -59,35 +61,33 @@ class WidgetUniversalProvider : AppWidgetProvider() {
     ) {
         if (context == null || appWidgetManager == null) return
 
-        val runningRecords: List<RunningRecord>
-        val data: WidgetUniversalViewData
-        runBlocking {
-            runningRecords = runningRecordInteractor.getAll()
+        GlobalScope.launch(Dispatchers.Main) {
+            val runningRecords: List<RunningRecord> = runningRecordInteractor.getAll()
             val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
             val isDarkTheme = prefsInteractor.getDarkMode()
 
-            data = runningRecords
+            val data = runningRecords
                 .let { widgetUniversalViewDataMapper.mapToWidgetViewData(it, recordTypes, isDarkTheme) }
                 .takeUnless { it.data.isEmpty() }
                 ?: widgetUniversalViewDataMapper.mapToEmptyWidgetViewData()
+
+            val view = prepareView(context, data)
+            measureView(context, view)
+            val bitmap = view.getBitmapFromView()
+
+            val views = RemoteViews(context.packageName, R.layout.widget_layout)
+            if (data.data.size > 2) {
+                views.setViewVisibility(R.id.timerWidget, View.GONE)
+                views.setViewVisibility(R.id.timerWidget2, View.GONE)
+            } else {
+                setChronometer(runningRecords.getOrNull(0), R.id.timerWidget, views)
+                setChronometer(runningRecords.getOrNull(1), R.id.timerWidget2, views)
+            }
+            views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
+            views.setOnClickPendingIntent(R.id.btnWidget, getPendingIntent(context))
+
+            appWidgetManager.updateAppWidget(appWidgetId, views)
         }
-
-        val view = prepareView(context, data)
-        measureView(context, view)
-        val bitmap = view.getBitmapFromView()
-
-        val views = RemoteViews(context.packageName, R.layout.widget_layout)
-        if (data.data.size > 2) {
-            views.setViewVisibility(R.id.timerWidget, View.GONE)
-            views.setViewVisibility(R.id.timerWidget2, View.GONE)
-        } else {
-            setChronometer(runningRecords.getOrNull(0), R.id.timerWidget, views)
-            setChronometer(runningRecords.getOrNull(1), R.id.timerWidget2, views)
-        }
-        views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
-        views.setOnClickPendingIntent(R.id.btnWidget, getPendingIntent(context))
-
-        appWidgetManager.updateAppWidget(appWidgetId, views)
     }
 
     private fun prepareView(
