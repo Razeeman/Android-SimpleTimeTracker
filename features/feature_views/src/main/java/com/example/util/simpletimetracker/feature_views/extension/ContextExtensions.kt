@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_base_adapter.extensions
+package com.example.util.simpletimetracker.feature_views.extension
 
 import android.content.Context
 import android.util.TypedValue

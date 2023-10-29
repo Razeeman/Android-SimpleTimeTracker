@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemMultitaskDataLayoutBinding
 import com.example.util.simpletimetracker.feature_base_adapter.databinding.MultitaskRecordViewLayoutBinding
-import com.example.util.simpletimetracker.feature_base_adapter.extensions.getThemedAttr
+import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.example.util.simpletimetracker.feature_views.R
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 

@@ -7,7 +7,7 @@ import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.core.extension.getCoordinates
 import com.example.util.simpletimetracker.domain.model.Coordinates
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.extensions.getThemedAttr
+import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible

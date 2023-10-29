@@ -10,6 +10,7 @@
         android:id="@+id/ivGoalCheckmarkItemCheckOutline"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="0.1dp"
         android:tint="?colorSecondary"
         android:visibility="gone"
         app:srcCompat="@drawable/record_type_check_unmarked"
@@ -19,9 +20,18 @@
         android:id="@+id/ivGoalCheckmarkItemCheck"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:tint="@color/white"
+        android:tint="@color/colorPrimaryDark"
         android:visibility="gone"
         app:srcCompat="@drawable/record_type_check_mark"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivGoalCheckmarkItemCheckBorder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tint="?appIconColor"
+        android:visibility="gone"
+        app:srcCompat="@drawable/record_type_check_border"
         tools:visibility="visible" />
 
 </merge>

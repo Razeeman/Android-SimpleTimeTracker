@@ -1,11 +1,13 @@
 package com.example.util.simpletimetracker.feature_views
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_views.databinding.GoalCheckmarkViewLayoutBinding
+import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 
 class GoalCheckmarkView @JvmOverloads constructor(
     context: Context,
@@ -51,9 +53,14 @@ class GoalCheckmarkView @JvmOverloads constructor(
     private fun setCheckmark() = with(binding) {
         if (itemWithCheck) {
             ivGoalCheckmarkItemCheckOutline.isVisible = true
+            val colorAttr = if (itemIsChecked) R.attr.appIconColor else R.attr.colorSecondary
+            val color = ColorStateList.valueOf(context.getThemedAttr(colorAttr))
+            ivGoalCheckmarkItemCheckOutline.imageTintList = color
+            ivGoalCheckmarkItemCheckBorder.isVisible = !itemIsChecked
             ivGoalCheckmarkItemCheck.isVisible = itemIsChecked
         } else {
             ivGoalCheckmarkItemCheckOutline.isVisible = false
+            ivGoalCheckmarkItemCheckBorder.isVisible = false
             ivGoalCheckmarkItemCheck.isVisible = false
         }
     }
