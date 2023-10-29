@@ -19,9 +19,25 @@ class RecordTypeGoalRepoImpl @Inject constructor(
         dao.getAll().map(mapper::map)
     }
 
+    override suspend fun getAllTypeGoals(): List<RecordTypeGoal> = withContext(Dispatchers.IO) {
+        Timber.d("getAllTypeGoals")
+        dao.getAllTypeGoals().map(mapper::map)
+    }
+
+    override suspend fun getAllCategoryGoals(): List<RecordTypeGoal> = withContext(Dispatchers.IO) {
+        Timber.d("getAllCategoryGoals")
+        dao.getAllCategoryGoals().map(mapper::map)
+    }
+
     override suspend fun getByType(typeId: Long): List<RecordTypeGoal> = withContext(Dispatchers.IO) {
         Timber.d("getByType")
         dao.getByType(typeId)
+            .map(mapper::map)
+    }
+
+    override suspend fun getByCategory(categoryId: Long): List<RecordTypeGoal> = withContext(Dispatchers.IO) {
+        Timber.d("getByCategory")
+        dao.getByCategory(categoryId)
             .map(mapper::map)
     }
 
@@ -40,6 +56,11 @@ class RecordTypeGoalRepoImpl @Inject constructor(
     override suspend fun removeByType(typeId: Long) = withContext(Dispatchers.IO) {
         Timber.d("removeByType")
         dao.deleteByType(typeId)
+    }
+
+    override suspend fun removeByCategory(categoryId: Long) = withContext(Dispatchers.IO) {
+        Timber.d("removeByCategory")
+        dao.deleteByCategory(categoryId)
     }
 
     override suspend fun clear() = withContext(Dispatchers.IO) {

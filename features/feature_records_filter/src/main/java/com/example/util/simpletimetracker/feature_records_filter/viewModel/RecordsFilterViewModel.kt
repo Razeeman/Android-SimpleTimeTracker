@@ -655,7 +655,7 @@ class RecordsFilterViewModel @Inject constructor(
 
     private suspend fun getGoalsCache(): List<RecordTypeGoal> {
         return goals ?: run {
-            recordTypeGoalInteractor.getAll().also { goals = it }
+            recordTypeGoalInteractor.getAllTypeGoals().also { goals = it }
         }
     }
 

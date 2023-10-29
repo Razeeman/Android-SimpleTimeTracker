@@ -61,7 +61,7 @@ class RecordsViewDataInteractor @Inject constructor(
         val reverseOrder = prefsInteractor.getReverseOrderInCalendar()
         val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val recordTags = recordTagInteractor.getAll()
-        val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
+        val goals = recordTypeGoalInteractor.getAllTypeGoals().groupBy(RecordTypeGoal::typeId)
         val runningRecords = runningRecordInteractor.getAll()
         val isCalendarView = prefsInteractor.getShowRecordsCalendar()
         val calendarDayCount = prefsInteractor.getDaysInCalendar().count

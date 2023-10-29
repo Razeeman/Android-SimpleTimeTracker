@@ -3,12 +3,14 @@ package com.example.util.simpletimetracker.domain.interactor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTypeGoalRepo
 import java.util.Locale
 import javax.inject.Inject
 
 class CategoryInteractor @Inject constructor(
     private val categoryRepo: CategoryRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
+    private val recordTypeGoalRepo: RecordTypeGoalRepo,
 ) {
 
     suspend fun getAll(): List<Category> {
@@ -27,5 +29,6 @@ class CategoryInteractor @Inject constructor(
     suspend fun remove(id: Long) {
         categoryRepo.remove(id)
         recordTypeCategoryRepo.removeAll(id)
+        recordTypeGoalRepo.removeByCategory(id)
     }
 }

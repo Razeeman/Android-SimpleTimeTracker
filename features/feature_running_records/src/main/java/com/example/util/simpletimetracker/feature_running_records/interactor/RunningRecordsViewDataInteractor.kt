@@ -35,7 +35,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     suspend fun getViewData(): List<ViewHolderType> {
         val recordTypes = recordTypeInteractor.getAll()
         val recordTypesMap = recordTypes.associateBy(RecordType::id)
-        val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
+        val goals = recordTypeGoalInteractor.getAllTypeGoals().groupBy(RecordTypeGoal::typeId)
         val recordTags = recordTagInteractor.getAll()
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypesRunning = runningRecords.map(RunningRecord::id)

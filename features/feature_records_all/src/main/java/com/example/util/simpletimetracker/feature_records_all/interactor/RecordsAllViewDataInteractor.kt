@@ -44,7 +44,7 @@ class RecordsAllViewDataInteractor @Inject constructor(
         val showSeconds = prefsInteractor.getShowSeconds()
         val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val recordTags = recordTagInteractor.getAll()
-        val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
+        val goals = recordTypeGoalInteractor.getAllTypeGoals().groupBy(RecordTypeGoal::typeId)
 
         // Show empty records if no filters other than date.
         val records = filter

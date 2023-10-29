@@ -34,7 +34,7 @@ class GoalsViewDataInteractor @Inject constructor(
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
         val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
-        val goals = recordTypeGoalInteractor.getAll()
+        val goals = recordTypeGoalInteractor.getAllTypeGoals()
 
         val dataHolders = statisticsMediator.getDataHolders(
             filterType = filterType,

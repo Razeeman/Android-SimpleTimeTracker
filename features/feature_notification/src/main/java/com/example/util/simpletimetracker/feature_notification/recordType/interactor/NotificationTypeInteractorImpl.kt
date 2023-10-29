@@ -74,7 +74,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
         }
         val controls = if (showControls) {
             val runningRecords = runningRecordInteractor.getAll()
-            val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
+            val goals = recordTypeGoalInteractor.getAllTypeGoals().groupBy(RecordTypeGoal::typeId)
             val allDailyCurrents = if (goals.isNotEmpty()) {
                 getCurrentRecordsDurationInteractor.getAllDailyCurrents(
                     typesMap = recordTypes,
@@ -127,7 +127,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
     private suspend fun showAll() {
         val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
-        val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
+        val goals = recordTypeGoalInteractor.getAllTypeGoals().groupBy(RecordTypeGoal::typeId)
         val recordTags = recordTagInteractor.getAll()
         val runningRecords = runningRecordInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()

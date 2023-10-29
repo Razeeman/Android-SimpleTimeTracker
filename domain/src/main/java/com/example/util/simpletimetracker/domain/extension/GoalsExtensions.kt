@@ -68,20 +68,8 @@ fun List<RecordTypeGoal>.getMonthlyCount(): RecordTypeGoal? {
     }
 }
 
-fun List<RecordTypeGoal>.hasSessionDuration(): Boolean {
-    return getSessionDuration() != null
-}
-
 fun List<RecordTypeGoal>.hasDailyDuration(): Boolean {
     return getDailyDuration() != null
-}
-
-fun List<RecordTypeGoal>.hasWeeklyDuration(): Boolean {
-    return getWeeklyDuration() != null
-}
-
-fun List<RecordTypeGoal>.hasMonthlyDuration(): Boolean {
-    return getMonthlyDuration() != null
 }
 
 val RecordTypeGoal?.value: Long get() = this?.type?.value.orZero()

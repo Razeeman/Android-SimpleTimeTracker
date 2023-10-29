@@ -122,7 +122,7 @@ class WidgetUniversalViewModel @Inject constructor(
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypes = recordTypeInteractor.getAll()
         val recordTypesMap = recordTypes.associateBy(RecordType::id)
-        val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
+        val goals = recordTypeGoalInteractor.getAllTypeGoals().groupBy(RecordTypeGoal::typeId)
         val recordTypesRunning = runningRecords.map { it.id }
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
