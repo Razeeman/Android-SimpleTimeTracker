@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalIntera
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeManager
 import com.example.util.simpletimetracker.feature_notification.goalTime.scheduler.NotificationGoalTimeScheduler
 import javax.inject.Inject
@@ -28,13 +29,37 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
 ) : NotificationGoalTimeInteractor {
 
     override suspend fun checkAndReschedule() {
-        runningRecordInteractor.getAll().forEach {
-            checkAndReschedule(it.id)
-        }
-        notificationGoalRangeEndInteractor.checkAndRescheduleDaily()
+        runningRecordInteractor.getAll()
+            .map(RunningRecord::id)
+            .let { checkAndReschedule(it) }
     }
 
-    override suspend fun checkAndReschedule(typeId: Long) {
+    override suspend fun checkAndReschedule(typeIds: List<Long>) {
+        typeIds.forEach { checkAndReschedule(it) }
+        notificationGoalRangeEndInteractor.checkAndReschedule()
+    }
+
+    override fun cancel(typeId: Long) {
+        listOf(
+            RecordTypeGoal.Range.Session,
+            RecordTypeGoal.Range.Daily,
+            RecordTypeGoal.Range.Weekly,
+            RecordTypeGoal.Range.Monthly,
+        ).forEach {
+            scheduler.cancelSchedule(typeId, it)
+            manager.hide(typeId, it)
+        }
+    }
+
+    override suspend fun show(typeId: Long, goalRange: RecordTypeGoal.Range) {
+        notificationGoalParamsInteractor.execute(
+            typeId = typeId,
+            range = goalRange,
+            type = NotificationGoalParamsInteractor.Type.Duration,
+        )?.let(manager::show)
+    }
+
+    private suspend fun checkAndReschedule(typeId: Long) {
         val recordType = recordTypeInteractor.get(typeId)
         val runningRecord = runningRecordInteractor.get(typeId)
         val goals = recordTypeGoalInteractor.getByType(typeId)
@@ -42,11 +67,6 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         if (recordType == null || runningRecord == null) return
 
         cancel(typeId)
-
-        listOf(
-            RecordTypeGoal.Range.Weekly,
-            RecordTypeGoal.Range.Monthly,
-        ).forEach { notificationGoalRangeEndInteractor.cancel(it) }
 
         // Session
         val sessionCurrent = System.currentTimeMillis() - runningRecord.timeStarted
@@ -70,7 +90,6 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                     typeId = typeId,
                     goalRange = RecordTypeGoal.Range.Daily,
                 )
-                // Daily range end scheduled separately
             }
         }
 
@@ -83,9 +102,6 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                     durationMillisFromNow = weeklyGoalTime - weeklyCurrent.duration,
                     typeId = typeId,
                     goalRange = RecordTypeGoal.Range.Weekly,
-                )
-                notificationGoalRangeEndInteractor.schedule(
-                    range = RecordTypeGoal.Range.Weekly,
                 )
             }
         }
@@ -101,30 +117,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                     typeId = typeId,
                     goalRange = RecordTypeGoal.Range.Monthly,
                 )
-                notificationGoalRangeEndInteractor.schedule(
-                    range = RecordTypeGoal.Range.Monthly,
-                )
             }
         }
-    }
-
-    override fun cancel(typeId: Long) {
-        listOf(
-            RecordTypeGoal.Range.Session,
-            RecordTypeGoal.Range.Daily,
-            RecordTypeGoal.Range.Weekly,
-            RecordTypeGoal.Range.Monthly,
-        ).forEach {
-            scheduler.cancelSchedule(typeId, it)
-            manager.hide(typeId, it)
-        }
-    }
-
-    override suspend fun show(typeId: Long, goalRange: RecordTypeGoal.Range) {
-        notificationGoalParamsInteractor.execute(
-            typeId = typeId,
-            range = goalRange,
-            type = NotificationGoalParamsInteractor.Type.Duration,
-        )?.let(manager::show)
     }
 }

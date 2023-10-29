@@ -110,7 +110,7 @@ class ChangeRecordViewModel @Inject constructor(
             addRecordMediator.add(it)
             if (newTypeId != originalTypeId) {
                 notificationTypeInteractor.checkAndShow(originalTypeId)
-                notificationGoalTimeInteractor.checkAndReschedule(originalTypeId)
+                notificationGoalTimeInteractor.checkAndReschedule(listOf(originalTypeId))
             }
             router.back()
         }

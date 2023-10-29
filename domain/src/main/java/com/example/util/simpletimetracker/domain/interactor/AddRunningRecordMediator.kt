@@ -94,7 +94,7 @@ class AddRunningRecordMediator @Inject constructor(
                 notificationInactivityInteractor.cancel()
                 // Schedule only on first activity start.
                 if (runningRecordInteractor.getAll().size == 1) notificationActivityInteractor.checkAndSchedule()
-                notificationGoalTimeInteractor.checkAndReschedule(typeId)
+                notificationGoalTimeInteractor.checkAndReschedule(listOf(typeId))
                 widgetInteractor.updateWidgets()
             }
         }

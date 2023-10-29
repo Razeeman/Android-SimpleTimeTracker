@@ -17,7 +17,7 @@ class RemoveRecordMediator @Inject constructor(
 
     suspend fun doAfterRemove(typeId: Long) {
         notificationTypeInteractor.checkAndShow(typeId)
-        notificationGoalTimeInteractor.checkAndReschedule(typeId)
+        notificationGoalTimeInteractor.checkAndReschedule(listOf(typeId))
         widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
         widgetInteractor.updateSingleWidgets(typeIds = listOf(typeId))
     }

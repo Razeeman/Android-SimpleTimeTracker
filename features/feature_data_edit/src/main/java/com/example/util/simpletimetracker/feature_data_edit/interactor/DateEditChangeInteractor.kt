@@ -99,7 +99,7 @@ class DateEditChangeInteractor @Inject constructor(
         // Check goal time and statistics widget consistency.
         if (newTypeId != null) {
             oldTypeIds.forEach { typeId ->
-                notificationGoalTimeInteractor.checkAndReschedule(typeId)
+                notificationGoalTimeInteractor.checkAndReschedule(listOf(typeId))
             }
             addRecordMediator.doAfterAdd(newTypeId)
         }

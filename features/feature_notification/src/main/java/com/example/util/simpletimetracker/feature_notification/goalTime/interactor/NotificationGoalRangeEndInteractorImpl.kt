@@ -14,20 +14,38 @@ class NotificationGoalRangeEndInteractorImpl @Inject constructor(
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
 ) : NotificationGoalRangeEndInteractor {
 
-    override suspend fun checkAndRescheduleDaily() {
-        val hasDailyGoals = recordTypeGoalInteractor.getAll()
-            .any { it.range is RecordTypeGoal.Range.Daily }
+    override suspend fun checkAndReschedule() {
+        cancel()
 
+        val goals = recordTypeGoalInteractor.getAll()
+
+        val hasDailyGoals = goals.any { it.range is RecordTypeGoal.Range.Daily }
         if (hasDailyGoals) {
             schedule(RecordTypeGoal.Range.Daily)
-        } else {
-            cancel(RecordTypeGoal.Range.Daily)
+        }
+
+        val hasWeeklyGoals = goals.any { it.range is RecordTypeGoal.Range.Weekly }
+        if (hasWeeklyGoals) {
+            schedule(RecordTypeGoal.Range.Weekly)
+        }
+
+        val hasMonthlyGoals = goals.any { it.range is RecordTypeGoal.Range.Monthly }
+        if (hasMonthlyGoals) {
+            schedule(RecordTypeGoal.Range.Monthly)
         }
     }
 
-    override suspend fun schedule(range: RecordTypeGoal.Range) {
-        cancel(range)
+    override fun cancel() {
+        listOf(
+            RecordTypeGoal.Range.Daily,
+            RecordTypeGoal.Range.Weekly,
+            RecordTypeGoal.Range.Monthly,
+        ).forEach {
+            rangeEndScheduler.cancelSchedule(it)
+        }
+    }
 
+    private suspend fun schedule(range: RecordTypeGoal.Range) {
         val forRange = when (range) {
             is RecordTypeGoal.Range.Session -> return
             is RecordTypeGoal.Range.Daily -> RangeLength.Day
@@ -39,9 +57,5 @@ class NotificationGoalRangeEndInteractorImpl @Inject constructor(
             timestamp = forRange.timeEnded,
             goalRange = RecordTypeGoal.Range.Daily,
         )
-    }
-
-    override fun cancel(range: RecordTypeGoal.Range) {
-        rangeEndScheduler.cancelSchedule(range)
     }
 }

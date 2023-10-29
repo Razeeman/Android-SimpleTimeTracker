@@ -6,7 +6,7 @@ interface NotificationGoalTimeInteractor {
 
     suspend fun checkAndReschedule()
 
-    suspend fun checkAndReschedule(typeId: Long)
+    suspend fun checkAndReschedule(typeIds: List<Long>)
 
     fun cancel(typeId: Long)
 
