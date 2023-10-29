@@ -47,6 +47,7 @@ class StartRecordTest : BaseUiTest() {
             goals = listOf(
                 RecordTypeGoal(
                     typeId = 0,
+                    categoryId = 0,
                     range = RecordTypeGoal.Range.Session,
                     type = RecordTypeGoal.Type.Duration(firstGoalTime),
                 ),

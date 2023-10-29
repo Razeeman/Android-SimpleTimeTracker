@@ -10,6 +10,7 @@ class RecordTypeGoalDataLocalMapper @Inject constructor() {
         return RecordTypeGoal(
             id = dbo.id,
             typeId = dbo.typeId,
+            categoryId = dbo.categoryId,
             range = when (dbo.range) {
                 0L -> RecordTypeGoal.Range.Session
                 1L -> RecordTypeGoal.Range.Daily
@@ -40,6 +41,7 @@ class RecordTypeGoalDataLocalMapper @Inject constructor() {
                 is RecordTypeGoal.Type.Count -> 1L
             },
             value = domain.type.value,
+            categoryId = domain.categoryId,
         )
     }
 }

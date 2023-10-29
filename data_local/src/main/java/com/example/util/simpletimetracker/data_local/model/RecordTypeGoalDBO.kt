@@ -29,4 +29,8 @@ data class RecordTypeGoalDBO(
     // count if goal count
     @ColumnInfo(name = "value")
     val value: Long,
+
+    // Only one of typeId or categoryId should be present, other should be 0.
+    @ColumnInfo(name = "category_id")
+    val categoryId: Long,
 )

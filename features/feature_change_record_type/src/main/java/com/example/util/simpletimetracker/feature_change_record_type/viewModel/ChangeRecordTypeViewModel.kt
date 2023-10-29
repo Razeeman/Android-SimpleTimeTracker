@@ -526,15 +526,16 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
         suspend fun processGoal(
             goalId: Long,
-            goalType: RecordTypeGoal.Type?,
+            goalType: RecordTypeGoal.Type,
             goalRange: RecordTypeGoal.Range,
         ) {
-            if (goalType == null || goalType.value == 0L) {
+            if (goalType.value == 0L) {
                 recordTypeGoalInteractor.remove(goalId)
             } else {
                 RecordTypeGoal(
                     id = goalId,
                     typeId = typeId,
+                    categoryId = 0,
                     range = goalRange,
                     type = goalType,
                 ).let {

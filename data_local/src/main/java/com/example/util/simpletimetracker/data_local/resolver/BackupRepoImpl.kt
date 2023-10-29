@@ -342,12 +342,13 @@ class BackupRepoImpl @Inject constructor(
         }.toString()
 
         return String.format(
-            "$ROW_RECORD_TYPE_GOAL\t%s\t%s\t%s\t%s\t%s\n",
+            "$ROW_RECORD_TYPE_GOAL\t%s\t%s\t%s\t%s\t%s\t%s\n",
             recordTypeGoal.id.toString(),
             recordTypeGoal.typeId.toString(),
             rangeString,
             typeString,
             recordTypeGoal.type.value.toString(),
+            recordTypeGoal.categoryId.toString(),
         )
     }
 
@@ -364,6 +365,7 @@ class BackupRepoImpl @Inject constructor(
             if (goalTime != 0L) {
                 RecordTypeGoal(
                     typeId = typeId,
+                    categoryId = 0, // Didn't exist when goal time was in type db, no need to migrate.
                     range = RecordTypeGoal.Range.Session,
                     type = RecordTypeGoal.Type.Duration(goalTime),
                 ).let(::add)
@@ -371,6 +373,7 @@ class BackupRepoImpl @Inject constructor(
             if (dailyGoalTime != 0L) {
                 RecordTypeGoal(
                     typeId = typeId,
+                    categoryId = 0,
                     range = RecordTypeGoal.Range.Daily,
                     type = RecordTypeGoal.Type.Duration(dailyGoalTime),
                 ).let(::add)
@@ -378,6 +381,7 @@ class BackupRepoImpl @Inject constructor(
             if (weeklyGoalTime != 0L) {
                 RecordTypeGoal(
                     typeId = typeId,
+                    categoryId = 0,
                     range = RecordTypeGoal.Range.Weekly,
                     type = RecordTypeGoal.Type.Duration(weeklyGoalTime),
                 ).let(::add)
@@ -385,6 +389,7 @@ class BackupRepoImpl @Inject constructor(
             if (monthlyGoalTime != 0L) {
                 RecordTypeGoal(
                     typeId = typeId,
+                    categoryId = 0,
                     range = RecordTypeGoal.Range.Monthly,
                     type = RecordTypeGoal.Type.Duration(monthlyGoalTime),
                 ).let(::add)
@@ -516,6 +521,7 @@ class BackupRepoImpl @Inject constructor(
                     else -> RecordTypeGoal.Type.Duration(value)
                 }
             },
+            categoryId = parts.getOrNull(6)?.toLongOrNull().orZero(),
         )
     }
 

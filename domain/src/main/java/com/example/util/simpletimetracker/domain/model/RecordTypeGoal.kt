@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.domain.model
 data class RecordTypeGoal(
     val id: Long = 0,
     val typeId: Long,
+    val categoryId: Long,
     val range: Range,
     val type: Type,
 ) {

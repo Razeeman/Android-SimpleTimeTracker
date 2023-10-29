@@ -130,6 +130,7 @@ object GoalsTestUtils {
     ): RecordTypeGoal {
         return RecordTypeGoal(
             typeId = 0,
+            categoryId = 0,
             range = range,
             type = RecordTypeGoal.Type.Duration(duration),
         )
@@ -141,6 +142,7 @@ object GoalsTestUtils {
     ): RecordTypeGoal {
         return RecordTypeGoal(
             typeId = 0,
+            categoryId = 0,
             range = range,
             type = RecordTypeGoal.Type.Count(count),
         )
