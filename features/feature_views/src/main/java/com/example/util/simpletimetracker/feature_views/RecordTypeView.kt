@@ -6,10 +6,8 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_views.databinding.RecordTypeViewLayoutBinding
 import com.example.util.simpletimetracker.feature_views.extension.setMargins
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
@@ -112,22 +110,22 @@ class RecordTypeView @JvmOverloads constructor(
 
     var itemWithCheck: Boolean = false
         set(value) {
+            binding.viewRecordTypeItemCheckmark.itemWithCheck = value
             field = value
-            setCheckmark()
         }
 
     var itemIsChecked: Boolean = false
         set(value) {
+            binding.viewRecordTypeItemCheckmark.itemIsChecked = value
             field = value
-            setCheckmark()
         }
 
     fun getContainer(): CardView {
         return binding.containerRecordTypeItem
     }
 
-    fun getCheckmarkOutline(): AppCompatImageView {
-        return binding.ivRecordTypeItemCheckOutline
+    fun getCheckmarkOutline(): GoalCheckmarkView {
+        return binding.viewRecordTypeItemCheckmark
     }
 
     private fun changeConstraints(isRow: Boolean) = with(binding.container) {
@@ -147,16 +145,6 @@ class RecordTypeView @JvmOverloads constructor(
             ivRecordTypeItemIcon.setMargins(start = 0)
             tvRecordTypeItemName.gravity = Gravity.CENTER
             tvRecordTypeItemName.setMargins(top = 4, start = 0)
-        }
-    }
-
-    private fun setCheckmark() = with(binding) {
-        if (itemWithCheck) {
-            ivRecordTypeItemCheckOutline.isVisible = true
-            ivRecordTypeItemCheck.isVisible = itemIsChecked
-        } else {
-            ivRecordTypeItemCheckOutline.isVisible = false
-            ivRecordTypeItemCheck.isVisible = false
         }
     }
 }

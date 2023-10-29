@@ -15,6 +15,7 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.util.simpletimetracker.core.utils.PendingIntents
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recevier.NotificationReceiver
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
@@ -175,6 +176,7 @@ class NotificationTypeManager @Inject constructor(
             getTypeControlView(
                 icon = it.icon,
                 color = it.color,
+                isChecked = it.isChecked,
                 intent = getPendingSelfIntent(
                     context = context,
                     action = if (it.id == recordTypeId) {
@@ -197,6 +199,7 @@ class NotificationTypeManager @Inject constructor(
             getTypeControlView(
                 icon = null,
                 color = null,
+                isChecked = null,
                 intent = null
             ).let {
                 addView(R.id.containerNotificationTypes, it)
@@ -297,13 +300,14 @@ class NotificationTypeManager @Inject constructor(
     private fun getTypeControlView(
         icon: RecordTypeIcon?,
         color: Int?,
+        isChecked: Boolean?,
         intent: PendingIntent?,
     ): RemoteViews {
         return RemoteViews(context.packageName, R.layout.notification_type_layout)
             .apply {
                 if (icon != null && color != null) {
                     setViewVisibility(R.id.containerNotificationType, View.VISIBLE)
-                    setImageViewBitmap(R.id.ivNotificationType, getIconBitmap(icon, color))
+                    setImageViewBitmap(R.id.ivNotificationType, getIconBitmap(icon, color, isChecked))
                 } else {
                     setViewVisibility(R.id.containerNotificationType, View.INVISIBLE)
                 }
@@ -360,11 +364,14 @@ class NotificationTypeManager @Inject constructor(
 
     private fun getIconBitmap(
         icon: RecordTypeIcon,
-        color: Int
+        color: Int,
+        isChecked: Boolean? = null,
     ): Bitmap {
         return iconView.apply {
             itemIcon = icon
             itemColor = color
+            itemWithCheck = isChecked != null
+            itemIsChecked = isChecked.orFalse()
             measureExactly(iconSize)
         }.getBitmapFromView()
     }

@@ -20,6 +20,7 @@ data class NotificationTypeParams(
         val id: Long,
         val icon: RecordTypeIcon,
         val color: Int,
+        val isChecked: Boolean?,
     )
 
     data class Tag(

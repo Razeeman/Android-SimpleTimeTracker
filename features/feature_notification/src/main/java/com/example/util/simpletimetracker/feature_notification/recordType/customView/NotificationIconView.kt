@@ -6,16 +6,16 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.FrameLayout
-import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
+import android.widget.RelativeLayout
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.databinding.NotificationIconViewLayoutBinding
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 class NotificationIconView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : FrameLayout(
+) : RelativeLayout(
     context,
     attrs,
     defStyleAttr
@@ -35,6 +35,14 @@ class NotificationIconView @JvmOverloads constructor(
                 getResourceId(R.styleable.NotificationIconView_itemIcon, R.drawable.unknown)
                     .let(RecordTypeIcon::Image)
 
+            if (hasValue(R.styleable.NotificationIconView_itemWithCheck)) {
+                itemWithCheck = getBoolean(R.styleable.NotificationIconView_itemWithCheck, false)
+            }
+
+            if (hasValue(R.styleable.NotificationIconView_itemIsChecked)) {
+                itemIsChecked = getBoolean(R.styleable.NotificationIconView_itemIsChecked, false)
+            }
+
             recycle()
         }
     }
@@ -49,6 +57,18 @@ class NotificationIconView @JvmOverloads constructor(
     var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)
         set(value) {
             binding.ivNotificationIcon.itemIcon = value
+            field = value
+        }
+
+    var itemWithCheck: Boolean = false
+        set(value) {
+            binding.viewNotificationIconCheckmark.itemWithCheck = value
+            field = value
+        }
+
+    var itemIsChecked: Boolean = false
+        set(value) {
+            binding.viewNotificationIconCheckmark.itemIsChecked = value
             field = value
         }
 }

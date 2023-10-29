@@ -19,30 +19,14 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivRecordTypeItemCheckOutline"
+    <com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
+        android:id="@+id/viewRecordTypeItemCheckmark"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:elevation="@dimen/record_type_card_elevation"
-        android:tint="?colorSecondary"
-        android:visibility="gone"
-        app:srcCompat="@drawable/record_type_check_unmarked"
-        tools:visibility="visible" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivRecordTypeItemCheck"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignStart="@id/ivRecordTypeItemCheckOutline"
-        android:layout_alignTop="@id/ivRecordTypeItemCheckOutline"
-        android:layout_alignEnd="@id/ivRecordTypeItemCheckOutline"
-        android:layout_alignBottom="@id/ivRecordTypeItemCheckOutline"
-        android:elevation="@dimen/record_type_card_elevation"
-        android:tint="@color/white"
-        android:visibility="gone"
-        app:srcCompat="@drawable/record_type_check_mark"
-        tools:visibility="visible" />
+        tools:itemIsChecked="true"
+        tools:itemWithCheck="true" />
 
 </merge>

@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_notification.goalTime.controller
 
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.WidgetType
@@ -13,12 +14,14 @@ import javax.inject.Inject
 class NotificationGoalTimeBroadcastController @Inject constructor(
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val widgetInteractor: WidgetInteractor,
+    private val notificationTypeInteractor: NotificationTypeInteractor,
 ) {
 
     fun onGoalTimeReminder(typeId: Long, goalRange: RecordTypeGoal.Range) {
         GlobalScope.launch {
             notificationGoalTimeInteractor.show(typeId, goalRange)
             widgetInteractor.updateSingleWidgets(typeIds = listOf(typeId))
+            notificationTypeInteractor.checkAndShow(typeId = typeId)
         }
     }
 
@@ -26,6 +29,7 @@ class NotificationGoalTimeBroadcastController @Inject constructor(
         GlobalScope.launch {
             reschedule()
             widgetInteractor.updateWidgets(listOf(WidgetType.RECORD_TYPE))
+            notificationTypeInteractor.updateNotifications()
         }
     }
 

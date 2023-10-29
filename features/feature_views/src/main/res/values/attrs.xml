@@ -38,6 +38,11 @@
         <attr name="itemIconAlpha" format="float" />
     </declare-styleable>
 
+    <declare-styleable name="GoalCheckmarkView">
+        <attr name="itemWithCheck" format="boolean" />
+        <attr name="itemIsChecked" format="boolean" />
+    </declare-styleable>
+
     <declare-styleable name="RecordTypeView">
         <attr name="itemIcon" />
         <attr name="itemIconText" />
@@ -46,8 +51,8 @@
         <attr name="itemName" format="string" />
         <attr name="itemColor" format="color" />
         <attr name="itemIsRow" format="boolean" />
-        <attr name="itemWithCheck" format="boolean" />
-        <attr name="itemIsChecked" format="boolean" />
+        <attr name="itemWithCheck" />
+        <attr name="itemIsChecked" />
     </declare-styleable>
 
     <declare-styleable name="RecordView">

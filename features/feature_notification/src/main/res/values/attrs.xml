@@ -4,6 +4,8 @@
     <declare-styleable name="NotificationIconView">
         <attr name="itemColor" format="color" />
         <attr name="itemIcon" format="reference" />
+        <attr name="itemWithCheck" />
+        <attr name="itemIsChecked" />
     </declare-styleable>
 
 </resources>

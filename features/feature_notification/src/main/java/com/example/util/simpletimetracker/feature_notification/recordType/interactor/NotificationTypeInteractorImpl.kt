@@ -52,18 +52,18 @@ class NotificationTypeInteractorImpl @Inject constructor(
         if (!prefsInteractor.getShowNotifications()) return
 
         val recordType = recordTypeInteractor.get(typeId)
-        val goals = recordTypeGoalInteractor.getByType(typeId)
-        val recordTypes = recordTypeInteractor.getAll()
+        val thisGoals = recordTypeGoalInteractor.getByType(typeId)
+        val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val runningRecord = runningRecordInteractor.get(typeId)
         val recordTags = recordTagInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
         val showControls = prefsInteractor.getShowNotificationsControls()
-        val goalTime = if (goals.hasDailyDuration()) {
-            goals.getDailyDuration()
+        val goalTime = if (thisGoals.hasDailyDuration()) {
+            thisGoals.getDailyDuration()
         } else {
-            goals.getSessionDuration()
+            thisGoals.getSessionDuration()
         }
         val viewedTags = if (selectedTypeId != 0L) {
             val typedTags = recordTags.filter { it.typeId == selectedTypeId }
@@ -73,13 +73,26 @@ class NotificationTypeInteractorImpl @Inject constructor(
             emptyList()
         }
         val controls = if (showControls) {
+            val runningRecords = runningRecordInteractor.getAll()
+            val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
+            val allDailyCurrents = if (goals.isNotEmpty()) {
+                getCurrentRecordsDurationInteractor.getAllDailyCurrents(
+                    typesMap = recordTypes,
+                    runningRecords = runningRecords,
+                )
+            } else {
+                // No goals - no need to calculate durations.
+                emptyMap()
+            }
             getControls(
                 isDarkTheme = isDarkTheme,
-                types = recordTypes,
+                types = recordTypes.values.toList(),
                 typesShift = typesShift,
                 tags = viewedTags,
                 tagsShift = tagsShift,
                 selectedTypeId = selectedTypeId,
+                goals = goals,
+                allDailyCurrents = allDailyCurrents,
             )
         } else {
             NotificationTypeParams.Controls.Disabled
@@ -116,20 +129,32 @@ class NotificationTypeInteractorImpl @Inject constructor(
         val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val goals = recordTypeGoalInteractor.getAll().groupBy(RecordTypeGoal::typeId)
         val recordTags = recordTagInteractor.getAll()
+        val runningRecords = runningRecordInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
         val showControls = prefsInteractor.getShowNotificationsControls()
         val controls = if (showControls) {
+            val allDailyCurrents = if (goals.isNotEmpty()) {
+                getCurrentRecordsDurationInteractor.getAllDailyCurrents(
+                    typesMap = recordTypes,
+                    runningRecords = runningRecords,
+                )
+            } else {
+                // No goals - no need to calculate durations.
+                emptyMap()
+            }
             getControls(
                 isDarkTheme = isDarkTheme,
                 types = recordTypes.values.toList(),
+                goals = goals,
+                allDailyCurrents = allDailyCurrents,
             )
         } else {
             NotificationTypeParams.Controls.Disabled
         }
 
-        runningRecordInteractor.getAll()
+        runningRecords
             .forEach { runningRecord ->
                 val thisGoals = goals[runningRecord.id].orEmpty()
                 val goalTime = if (thisGoals.hasDailyDuration()) {
@@ -203,6 +228,8 @@ class NotificationTypeInteractorImpl @Inject constructor(
         tags: List<RecordTag> = emptyList(),
         tagsShift: Int = 0,
         selectedTypeId: Long? = null,
+        goals: Map<Long, List<RecordTypeGoal>>,
+        allDailyCurrents: Map<Long, GetCurrentRecordsDurationInteractor.Result>,
     ): NotificationTypeParams.Controls = NotificationTypeParams.Controls.Enabled(
         types = run {
             val viewData = recordTypeViewDataMapper.mapToRepeatItem(
@@ -213,6 +240,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 id = REPEAT_BUTTON_ITEM_ID,
                 icon = viewData.iconId,
                 color = viewData.color,
+                isChecked = null,
             ).let(::listOf)
         } + types
             .filter { !it.hidden }
@@ -221,6 +249,11 @@ class NotificationTypeInteractorImpl @Inject constructor(
                     id = type.id,
                     icon = type.icon.let(iconMapper::mapIcon),
                     color = type.color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
+                    isChecked = recordTypeViewDataMapper.mapGoalCheckmark(
+                        type = type,
+                        goals = goals,
+                        allDailyCurrents = allDailyCurrents,
+                    ),
                 )
             },
         typesShift = typesShift,

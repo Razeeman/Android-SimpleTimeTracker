@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:layout_height="@dimen/notification_icon_size"
     tools:layout_width="@dimen/notification_icon_size"
-    tools:parentTag="android.widget.FrameLayout">
+    tools:parentTag="android.widget.RelativeLayout">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivNotificationIconBackground"
@@ -19,5 +19,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp" />
+
+    <com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
+        android:id="@+id/viewNotificationIconCheckmark"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_alignParentEnd="true"
+        android:elevation="@dimen/record_type_card_elevation"
+        tools:itemIsChecked="true"
+        tools:itemWithCheck="true" />
 
 </merge>
