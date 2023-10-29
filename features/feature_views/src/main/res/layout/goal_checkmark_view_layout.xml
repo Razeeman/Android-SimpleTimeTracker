@@ -34,4 +34,14 @@
         app:srcCompat="@drawable/record_type_check_border"
         tools:visibility="visible" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivGoalCheckmarkItemCheckFiltered"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tint="?appBackgroundColor"
+        android:alpha="0.5"
+        android:visibility="gone"
+        app:srcCompat="@drawable/record_type_check_unmarked"
+        tools:visibility="visible" />
+
 </merge>

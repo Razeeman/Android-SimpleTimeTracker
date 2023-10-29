@@ -41,6 +41,7 @@
     <declare-styleable name="GoalCheckmarkView">
         <attr name="itemWithCheck" format="boolean" />
         <attr name="itemIsChecked" format="boolean" />
+        <attr name="itemIsFiltered" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="RecordTypeView">

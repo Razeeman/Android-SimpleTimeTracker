@@ -82,6 +82,7 @@ class RecordTypeViewDataMapper @Inject constructor(
                 color = colorMapper.toFilteredColor(isDarkTheme),
                 iconColor = colorMapper.toFilteredIconColor(isDarkTheme),
                 iconAlpha = colorMapper.toIconAlpha(default.iconId, true),
+                itemIsFiltered = true,
             )
         } else {
             default

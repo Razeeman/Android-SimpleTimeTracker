@@ -34,6 +34,10 @@ class GoalCheckmarkView @JvmOverloads constructor(
                     itemIsChecked = getBoolean(R.styleable.GoalCheckmarkView_itemIsChecked, false)
                 }
 
+                if (hasValue(R.styleable.GoalCheckmarkView_itemIsFiltered)) {
+                    itemIsFiltered = getBoolean(R.styleable.GoalCheckmarkView_itemIsFiltered, false)
+                }
+
                 recycle()
             }
     }
@@ -50,6 +54,12 @@ class GoalCheckmarkView @JvmOverloads constructor(
             setCheckmark()
         }
 
+    var itemIsFiltered: Boolean = false
+        set(value) {
+            field = value
+            setCheckmark()
+        }
+
     private fun setCheckmark() = with(binding) {
         if (itemWithCheck) {
             ivGoalCheckmarkItemCheckOutline.isVisible = true
@@ -58,10 +68,12 @@ class GoalCheckmarkView @JvmOverloads constructor(
             ivGoalCheckmarkItemCheckOutline.imageTintList = color
             ivGoalCheckmarkItemCheckBorder.isVisible = !itemIsChecked
             ivGoalCheckmarkItemCheck.isVisible = itemIsChecked
+            ivGoalCheckmarkItemCheckFiltered.isVisible = itemIsFiltered
         } else {
             ivGoalCheckmarkItemCheckOutline.isVisible = false
             ivGoalCheckmarkItemCheckBorder.isVisible = false
             ivGoalCheckmarkItemCheck.isVisible = false
+            ivGoalCheckmarkItemCheckFiltered.isVisible = false
         }
     }
 }

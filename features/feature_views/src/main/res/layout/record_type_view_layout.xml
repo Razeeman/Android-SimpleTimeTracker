@@ -21,8 +21,8 @@
 
     <com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
         android:id="@+id/viewRecordTypeItemCheckmark"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:elevation="@dimen/record_type_card_elevation"
