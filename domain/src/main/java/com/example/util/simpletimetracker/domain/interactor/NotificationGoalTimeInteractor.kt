@@ -10,5 +10,5 @@ interface NotificationGoalTimeInteractor {
 
     fun cancel(typeId: Long)
 
-    fun show(typeId: Long, goalRange: RecordTypeGoal.Range)
+    suspend fun show(typeId: Long, goalRange: RecordTypeGoal.Range)
 }

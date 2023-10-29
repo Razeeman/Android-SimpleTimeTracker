@@ -106,12 +106,8 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         delegateScope.launch {
             val newValue = prefsInteractor.getStartOfDayShift() * -1
             prefsInteractor.setStartOfDayShift(newValue)
-            widgetInteractor.updateWidgets(
-                listOf(
-                    WidgetType.STATISTICS_CHART,
-                    WidgetType.RECORD_TYPE,
-                ),
-            )
+            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+            widgetInteractor.updateWidgets(listOf(WidgetType.RECORD_TYPE))
             notificationTypeInteractor.updateNotifications()
             notificationGoalTimeInteractor.checkAndReschedule()
             updateStartOfDayViewData()
@@ -198,12 +194,8 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
                 val wasPositive = prefsInteractor.getStartOfDayShift() >= 0
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive)
                 prefsInteractor.setStartOfDayShift(newValue)
-                widgetInteractor.updateWidgets(
-                    listOf(
-                        WidgetType.STATISTICS_CHART,
-                        WidgetType.RECORD_TYPE,
-                    ),
-                )
+                widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+                widgetInteractor.updateWidgets(listOf(WidgetType.RECORD_TYPE))
                 notificationTypeInteractor.updateNotifications()
                 notificationGoalTimeInteractor.checkAndReschedule()
                 updateStartOfDayViewData()

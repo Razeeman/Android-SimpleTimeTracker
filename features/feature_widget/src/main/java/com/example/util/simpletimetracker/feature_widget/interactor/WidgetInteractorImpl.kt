@@ -5,10 +5,12 @@ import com.example.util.simpletimetracker.domain.model.WidgetType
 import javax.inject.Inject
 
 class WidgetInteractorImpl @Inject constructor(
-    private val widgetManager: WidgetManager
+    private val widgetManager: WidgetManager,
 ) : WidgetInteractor {
 
-    override fun updateWidget(widgetId: Int) = widgetManager.updateWidget(widgetId)
+    override fun updateSingleWidget(widgetId: Int) = widgetManager.updateSingleWidget(widgetId)
+
+    override fun updateSingleWidgets(typeIds: List<Long>) = widgetManager.updateSingleWidgets(typeIds)
 
     override fun updateStatisticsWidget(widgetId: Int) = widgetManager.updateStatisticsWidget(widgetId)
 

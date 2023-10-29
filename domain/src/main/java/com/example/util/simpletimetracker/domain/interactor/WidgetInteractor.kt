@@ -4,7 +4,9 @@ import com.example.util.simpletimetracker.domain.model.WidgetType
 
 interface WidgetInteractor {
 
-    fun updateWidget(widgetId: Int)
+    fun updateSingleWidget(widgetId: Int)
+
+    fun updateSingleWidgets(typeIds: List<Long>)
 
     fun updateStatisticsWidget(widgetId: Int)
 

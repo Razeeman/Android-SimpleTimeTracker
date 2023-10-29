@@ -6,9 +6,9 @@ import android.content.Context
 import android.content.Intent
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_widget.quickSettings.WidgetQuickSettingsProvider
+import com.example.util.simpletimetracker.feature_widget.single.WidgetSingleProvider
 import com.example.util.simpletimetracker.feature_widget.statistics.WidgetStatisticsChartProvider
 import com.example.util.simpletimetracker.feature_widget.universal.WidgetUniversalProvider
-import com.example.util.simpletimetracker.feature_widget.single.WidgetSingleProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,10 +18,21 @@ class WidgetManager @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
 
-    fun updateWidget(widgetId: Int) {
+    fun updateSingleWidget(widgetId: Int) {
         val intent = Intent(context, WidgetSingleProvider::class.java)
         intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, intArrayOf(widgetId))
+        context.sendBroadcast(intent)
+    }
+
+    fun updateSingleWidgets(typeIds: List<Long>) {
+        val provider = WidgetSingleProvider::class.java
+        val intent = Intent(context, provider)
+        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        val ids = AppWidgetManager.getInstance(context)
+            ?.getAppWidgetIds(ComponentName(context, provider)) ?: intArrayOf()
+        intent.putExtra(WidgetSingleProvider.TYPE_IDS_EXTRA, typeIds.toLongArray())
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
         context.sendBroadcast(intent)
     }
 

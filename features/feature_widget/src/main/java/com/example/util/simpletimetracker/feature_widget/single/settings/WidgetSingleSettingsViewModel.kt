@@ -47,7 +47,7 @@ class WidgetSingleSettingsViewModel @Inject constructor(
     private fun onClick(typeId: Long) {
         viewModelScope.launch {
             prefsInteractor.setWidget(extra.widgetId, typeId)
-            widgetInteractor.updateWidget(extra.widgetId)
+            widgetInteractor.updateSingleWidget(extra.widgetId)
             handled.set(extra.widgetId)
         }
     }

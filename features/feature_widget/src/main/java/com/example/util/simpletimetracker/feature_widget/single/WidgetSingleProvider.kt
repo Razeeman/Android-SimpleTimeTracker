@@ -92,7 +92,10 @@ class WidgetSingleProvider : AppWidgetProvider() {
     @Inject
     lateinit var getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor
 
+    private var typeIdsToUpdate: List<Long> = emptyList()
+
     override fun onReceive(context: Context?, intent: Intent?) {
+        typeIdsToUpdate = intent?.getLongArrayExtra(TYPE_IDS_EXTRA)?.toList().orEmpty()
         super.onReceive(context, intent)
         if (intent?.action == ON_CLICK_ACTION) {
             onClick(context, intent.getIntExtra(ARGS_WIDGET_ID, 0))
@@ -125,6 +128,8 @@ class WidgetSingleProvider : AppWidgetProvider() {
         GlobalScope.launch(Dispatchers.Main) {
             val view: View
             val recordTypeId = prefsInteractor.getWidget(appWidgetId)
+            val typeIds = typeIdsToUpdate
+            if (typeIds.isNotEmpty() && recordTypeId !in typeIds) return@launch
             val runningRecord = runningRecordInteractor.get(recordTypeId)
             val isDarkTheme: Boolean = prefsInteractor.getDarkMode()
 
@@ -145,10 +150,14 @@ class WidgetSingleProvider : AppWidgetProvider() {
                 val recordType = recordTypeInteractor.get(recordTypeId)
                     ?.takeUnless { it.hidden }
                 val goal = recordTypeGoalInteractor.getByType(recordTypeId).getDaily()
-                val dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(
-                    typeId = recordTypeId,
-                    runningRecord = runningRecord,
-                )
+                val dailyCurrent = if (goal != null) {
+                    getCurrentRecordsDurationInteractor.getDailyCurrent(
+                        typeId = recordTypeId,
+                        runningRecord = runningRecord,
+                    )
+                } else {
+                    null
+                }
                 val isChecked = if (recordType != null) {
                     recordTypeViewDataMapper.mapGoalCheckmark(
                         goal = goal,
@@ -262,7 +271,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
             recordTypeInteractor.get(recordTypeId)
                 ?.takeUnless { it.hidden }
                 ?: run {
-                    widgetInteractor.updateWidget(widgetId)
+                    widgetInteractor.updateSingleWidget(widgetId)
                     return@launch
                 }
 
@@ -300,6 +309,8 @@ class WidgetSingleProvider : AppWidgetProvider() {
     }
 
     companion object {
+        const val TYPE_IDS_EXTRA =
+            "com.example.util.simpletimetracker.feature_widget.widget.typeIdsExtra"
         private const val ON_CLICK_ACTION =
             "com.example.util.simpletimetracker.feature_widget.widget.onclick"
         private const val ARGS_WIDGET_ID = "widgetId"
