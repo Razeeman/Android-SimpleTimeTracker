@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.domain.extension.getMonthly
 import com.example.util.simpletimetracker.domain.extension.getSession
 import com.example.util.simpletimetracker.domain.extension.getWeekly
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.NotificationGoalRangeEndInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -80,6 +81,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val iconEmojiMapper: IconEmojiMapper,
     private val colorMapper: ColorMapper,
     private val checkExactAlarmPermissionInteractor: CheckExactAlarmPermissionInteractor,
+    private val notificationGoalRangeEndInteractor: NotificationGoalRangeEndInteractor,
 ) : ViewModel() {
 
     lateinit var extra: ChangeRecordTypeParams
@@ -563,6 +565,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
             goalType = newGoalsState.monthly,
             goalRange = RecordTypeGoal.Range.Monthly,
         )
+
+        notificationGoalRangeEndInteractor.checkAndRescheduleDaily()
     }
 
     private suspend fun initializeRecordTypeData() {

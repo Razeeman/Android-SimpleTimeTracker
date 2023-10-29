@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.domain.extension.getMonthlyDuration
 import com.example.util.simpletimetracker.domain.extension.getSessionDuration
 import com.example.util.simpletimetracker.domain.extension.getWeeklyDuration
 import com.example.util.simpletimetracker.domain.extension.value
+import com.example.util.simpletimetracker.domain.interactor.NotificationGoalRangeEndInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -13,7 +14,6 @@ import com.example.util.simpletimetracker.domain.interactor.RunningRecordInterac
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeManager
 import com.example.util.simpletimetracker.feature_notification.goalTime.scheduler.NotificationGoalTimeScheduler
-import com.example.util.simpletimetracker.feature_notification.goalTime.scheduler.NotificationRangeEndScheduler
 import javax.inject.Inject
 
 class NotificationGoalTimeInteractorImpl @Inject constructor(
@@ -23,7 +23,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
     private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
     private val manager: NotificationGoalTimeManager,
     private val scheduler: NotificationGoalTimeScheduler,
-    private val rangeEndScheduler: NotificationRangeEndScheduler,
+    private val notificationGoalRangeEndInteractor: NotificationGoalRangeEndInteractor,
     private val notificationGoalParamsInteractor: NotificationGoalParamsInteractor,
 ) : NotificationGoalTimeInteractor {
 
@@ -31,6 +31,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         runningRecordInteractor.getAll().forEach {
             checkAndReschedule(it.id)
         }
+        notificationGoalRangeEndInteractor.checkAndRescheduleDaily()
     }
 
     override suspend fun checkAndReschedule(typeId: Long) {
@@ -43,10 +44,9 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         cancel(typeId)
 
         listOf(
-            RecordTypeGoal.Range.Daily,
             RecordTypeGoal.Range.Weekly,
             RecordTypeGoal.Range.Monthly,
-        ).forEach { rangeEndScheduler.cancelSchedule(it) }
+        ).forEach { notificationGoalRangeEndInteractor.cancel(it) }
 
         // Session
         val sessionCurrent = System.currentTimeMillis() - runningRecord.timeStarted
@@ -70,10 +70,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                     typeId = typeId,
                     goalRange = RecordTypeGoal.Range.Daily,
                 )
-                rangeEndScheduler.schedule(
-                    timestamp = dailyCurrent.range.timeEnded,
-                    goalRange = RecordTypeGoal.Range.Daily,
-                )
+                // Daily range end scheduled separately
             }
         }
 
@@ -87,9 +84,8 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                     typeId = typeId,
                     goalRange = RecordTypeGoal.Range.Weekly,
                 )
-                rangeEndScheduler.schedule(
-                    timestamp = weeklyCurrent.range.timeEnded,
-                    goalRange = RecordTypeGoal.Range.Weekly,
+                notificationGoalRangeEndInteractor.schedule(
+                    range = RecordTypeGoal.Range.Weekly,
                 )
             }
         }
@@ -105,9 +101,8 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                     typeId = typeId,
                     goalRange = RecordTypeGoal.Range.Monthly,
                 )
-                rangeEndScheduler.schedule(
-                    monthlyCurrent.range.timeEnded,
-                    RecordTypeGoal.Range.Monthly,
+                notificationGoalRangeEndInteractor.schedule(
+                    range = RecordTypeGoal.Range.Monthly,
                 )
             }
         }

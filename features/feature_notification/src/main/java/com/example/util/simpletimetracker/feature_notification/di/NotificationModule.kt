@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTime
 import com.example.util.simpletimetracker.domain.interactor.NotificationInactivityInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationActivityInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalCountInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationGoalRangeEndInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.interactor.AutomaticBackupInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.repo.AutomaticBackupRepoImpl
@@ -18,6 +19,7 @@ import com.example.util.simpletimetracker.feature_notification.goalTime.interact
 import com.example.util.simpletimetracker.feature_notification.inactivity.interactor.NotificationInactivityInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.activity.interactor.NotificationActivityInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.goalTime.interactor.NotificationGoalCountInteractorImpl
+import com.example.util.simpletimetracker.feature_notification.goalTime.interactor.NotificationGoalRangeEndInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.recordType.interactor.ActivityStartedStoppedBroadcastInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.recordType.interactor.NotificationTypeInteractorImpl
 import dagger.Binds
@@ -44,6 +46,9 @@ interface NotificationModule {
 
     @Binds
     fun NotificationGoalCountInteractorImpl.bindNotificationGoalCountInteractor(): NotificationGoalCountInteractor
+
+    @Binds
+    fun NotificationGoalRangeEndInteractorImpl.bindNotificationGoalRangeEndInteractor(): NotificationGoalRangeEndInteractor
 
     @Binds
     fun ActivityStartedStoppedBroadcastInteractorImpl.bindActivityStartedStoppedBroadcastInteractorImpl(): ActivityStartedStoppedBroadcastInteractor

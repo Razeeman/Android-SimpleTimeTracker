@@ -3,10 +3,13 @@ package com.example.util.simpletimetracker.feature_notification.goalTime.control
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.domain.model.WidgetType
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(DelicateCoroutinesApi::class)
 class NotificationGoalTimeBroadcastController @Inject constructor(
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val widgetInteractor: WidgetInteractor,
@@ -20,21 +23,25 @@ class NotificationGoalTimeBroadcastController @Inject constructor(
     }
 
     fun onRangeEndReminder() {
-        // TODO reschedule only from this range (day, week, etc)
-        reschedule()
+        GlobalScope.launch {
+            reschedule()
+            widgetInteractor.updateWidgets(listOf(WidgetType.RECORD_TYPE))
+        }
     }
 
     fun onBootCompleted() {
-        reschedule()
+        GlobalScope.launch {
+            reschedule()
+        }
     }
 
     fun onExactAlarmPermissionStateChanged() {
-        reschedule()
+        GlobalScope.launch {
+            reschedule()
+        }
     }
 
-    private fun reschedule() {
-        GlobalScope.launch {
-            notificationGoalTimeInteractor.checkAndReschedule()
-        }
+    private suspend fun reschedule() {
+        notificationGoalTimeInteractor.checkAndReschedule()
     }
 }
