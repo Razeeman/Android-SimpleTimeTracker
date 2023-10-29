@@ -432,7 +432,7 @@ Example:<br/>
 
     <!--  Records filter  -->
     <string name="records_filter_select_tags">Select tags</string>
-    <string name="records_filter_filter_tags">Filter tags</string>
+    <string name="records_filter_filter_tags">Exclude tags</string>
     <string name="records_filter_manually_filtered">Filtered</string>
     <string name="records_filter_no_comment">No comment</string>
     <string name="records_filter_any_comment">Any comment</string>

@@ -432,7 +432,7 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
 
     <!--  Records filter  -->
     <string name="records_filter_select_tags">タグを選択</string>
-    <string name="records_filter_filter_tags">タグのフィルター</string>
+    <string name="records_filter_filter_tags">タグを除外する</string>
     <string name="records_filter_manually_filtered">フィルタリングされた</string>
     <string name="records_filter_no_comment">コメント無し</string>
     <string name="records_filter_any_comment">任意のコメント</string>

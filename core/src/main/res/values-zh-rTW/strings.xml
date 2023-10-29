@@ -432,7 +432,7 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
 
     <!--  Records filter  -->
     <string name="records_filter_select_tags">選擇標籤</string>
-    <string name="records_filter_filter_tags">過濾標籤</string>
+    <string name="records_filter_filter_tags">排除標籤</string>
     <string name="records_filter_manually_filtered">已過濾</string>
     <string name="records_filter_no_comment">沒有意見</string>
     <string name="records_filter_any_comment">任何意見</string>

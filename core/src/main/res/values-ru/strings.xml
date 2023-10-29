@@ -432,7 +432,7 @@ CSV-файл должен содержать следующие столбцы, 
 
     <!--  Records filter  -->
     <string name="records_filter_select_tags">Выбрать теги</string>
-    <string name="records_filter_filter_tags">Отфильтровать теги</string>
+    <string name="records_filter_filter_tags">Исключить теги</string>
     <string name="records_filter_manually_filtered">Отфильтровано</string>
     <string name="records_filter_no_comment">Без комментариев</string>
     <string name="records_filter_any_comment">Любой комментарий</string>

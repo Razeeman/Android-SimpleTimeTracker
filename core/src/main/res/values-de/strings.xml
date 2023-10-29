@@ -432,7 +432,7 @@ Beispiel:<br/>
 
     <!--  Records filter  -->
     <string name="records_filter_select_tags">Tags auswählen</string>
-    <string name="records_filter_filter_tags">Tags filtern</string>
+    <string name="records_filter_filter_tags">Tags ausschließen</string>
     <string name="records_filter_manually_filtered">Gefiltert</string>
     <string name="records_filter_no_comment">Kein Kommentar</string>
     <string name="records_filter_any_comment">Jeglicher Kommentar</string>

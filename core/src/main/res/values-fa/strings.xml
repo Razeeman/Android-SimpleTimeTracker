@@ -432,7 +432,7 @@
 
     <!--  Records filter  -->
     <string name="records_filter_select_tags">انتخاب برچسب ها</string>
-    <string name="records_filter_filter_tags">فیلتر برچسب ها</string>
+    <string name="records_filter_filter_tags">حذف برچسب ها</string>
     <string name="records_filter_manually_filtered">فیلتر شده</string>
     <string name="records_filter_no_comment">بدون نظر</string>
     <string name="records_filter_any_comment">هر نظری</string>

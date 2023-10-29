@@ -432,7 +432,7 @@
 
     <!--  Records filter  -->
     <string name="records_filter_select_tags">اختيار الوسوم</string>
-    <string name="records_filter_filter_tags">مُرشّح الوسوم</string>
+    <string name="records_filter_filter_tags">استبعاد العلامات</string>
     <string name="records_filter_manually_filtered">تمت التصفية</string>
     <string name="records_filter_no_comment">لا تعليق</string>
     <string name="records_filter_any_comment">أي تعليق</string>
