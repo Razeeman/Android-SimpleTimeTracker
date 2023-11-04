@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
@@ -95,20 +96,31 @@ class GoalViewDataMapper @Inject constructor(
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
     ): List<StatisticsGoalViewData> {
-        if (filterType != ChartFilterType.ACTIVITY) {
-            return emptyList()
+        val currentGoals: List<RecordTypeGoal>
+        val idProvider: (RecordTypeGoal) -> Long
+
+        when (filterType) {
+            ChartFilterType.ACTIVITY -> {
+                currentGoals = goals.filter { it.typeId != 0L }
+                idProvider = { it.typeId }
+            }
+            ChartFilterType.CATEGORY -> {
+                currentGoals = goals.filter { it.categoryId != 0L }
+                idProvider = { it.categoryId }
+            }
+            else -> return emptyList()
         }
         if (rangeLength !in listOf(RangeLength.Day, RangeLength.Week, RangeLength.Month)) {
             return emptyList()
         }
 
-        return goals
+        return currentGoals
             .filter {
                 val type = types[it.typeId]
                 when {
-                    type == null -> false
-                    type.hidden -> false
-                    type.id in filteredIds -> false
+                    it.typeId != 0L && type == null -> false
+                    it.typeId != 0L && type?.hidden.orFalse() -> false
+                    idProvider(it) in filteredIds -> false
                     rangeLength is RangeLength.Day -> it.range is RecordTypeGoal.Range.Daily
                     rangeLength is RangeLength.Week -> it.range is RecordTypeGoal.Range.Weekly
                     rangeLength is RangeLength.Month -> it.range is RecordTypeGoal.Range.Monthly
@@ -116,10 +128,11 @@ class GoalViewDataMapper @Inject constructor(
                 }
             }
             .mapNotNull { goal ->
+                val id = idProvider(goal)
                 mapItem(
                     goal = goal,
-                    statistics = statistics.firstOrNull { it.id == goal.typeId },
-                    dataHolder = data[goal.typeId] ?: return@mapNotNull null,
+                    statistics = statistics.firstOrNull { it.id == id },
+                    dataHolder = data[id] ?: return@mapNotNull null,
                     isDarkTheme = isDarkTheme,
                     useProportionalMinutes = useProportionalMinutes,
                     showSeconds = showSeconds,
