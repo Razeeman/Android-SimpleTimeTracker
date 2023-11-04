@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
@@ -26,7 +25,6 @@ import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.domain.model.IconType
-import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
@@ -43,7 +41,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryInfoAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record_type.databinding.ChangeRecordTypeGoalLayoutBinding
+import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Category
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Closed
@@ -173,7 +171,7 @@ class ChangeRecordTypeFragment :
             adapter = categoriesAdapter
         }
 
-        initGoalUi()
+        GoalsViewDelegate.initGoalUi(binding.layoutChangeRecordTypeGoals)
 
         setOnPreDrawListener {
             startPostponedEnterTransition()
@@ -186,14 +184,16 @@ class ChangeRecordTypeFragment :
         fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
         fieldChangeRecordTypeCategory.setOnClick(viewModel::onCategoryChooserClick)
         fieldChangeRecordTypeGoalTime.setOnClick(viewModel::onGoalTimeChooserClick)
-        btnChangeRecordTypeGoalNotificationsHint.setOnClick(viewModel::onNotificationsHintClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
         btnChangeRecordTypeIconSwitch.listener = {
             updateIconContainerScroll(it)
             viewModel.onIconTypeClick(it)
         }
-        initGoalUx()
+        GoalsViewDelegate.initGoalUx(
+            viewModel = viewModel,
+            layout = layoutChangeRecordTypeGoals,
+        )
         rvChangeRecordTypeIcon.addOnScrollListenerAdapter(
             onScrolled = { _, _, _ ->
                 iconsLayoutManager?.let {
@@ -220,7 +220,9 @@ class ChangeRecordTypeFragment :
             iconsTypeViewData.observe(btnChangeRecordTypeIconSwitch.adapter::replace)
             categories.observe(categoriesAdapter::replace)
             goalsViewData.observe(::updateGoalsState)
-            notificationsHintVisible.observe(containerChangeRecordTypeGoalNotificationsHint::visible::set)
+            notificationsHintVisible.observe(
+                layoutChangeRecordTypeGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set
+            )
             chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
@@ -238,10 +240,7 @@ class ChangeRecordTypeFragment :
     override fun onResume() {
         super.onResume()
         viewModel.onVisible()
-        with(binding) {
-            layoutChangeRecordTypeGoalSession.spinnerRecordTypeGoalType
-                .jumpDrawablesToCurrentState()
-        }
+        GoalsViewDelegate.onResume(binding.layoutChangeRecordTypeGoals)
     }
 
     override fun onDurationSet(duration: Long, tag: String?) {
@@ -301,25 +300,25 @@ class ChangeRecordTypeFragment :
     }
 
     private fun updateChooserState(state: ChangeRecordTypeChooserState) = with(binding) {
-        updateChooser<Color>(
+        GoalsViewDelegate.updateChooser<Color>(
             state = state,
             chooserData = rvChangeRecordTypeColor,
             chooserView = fieldChangeRecordTypeColor,
             chooserArrow = arrowChangeRecordTypeColor,
         )
-        updateChooser<Icon>(
+        GoalsViewDelegate.updateChooser<Icon>(
             state = state,
             chooserData = containerChangeRecordTypeIcon,
             chooserView = fieldChangeRecordTypeIcon,
             chooserArrow = arrowChangeRecordTypeIcon,
         )
-        updateChooser<Category>(
+        GoalsViewDelegate.updateChooser<Category>(
             state = state,
             chooserData = rvChangeRecordTypeCategories,
             chooserView = fieldChangeRecordTypeCategory,
             chooserArrow = arrowChangeRecordTypeCategory,
         )
-        updateChooser<GoalTime>(
+        GoalsViewDelegate.updateChooser<GoalTime>(
             state = state,
             chooserData = containerChangeRecordTypeGoalTime,
             chooserView = fieldChangeRecordTypeGoalTime,
@@ -336,99 +335,11 @@ class ChangeRecordTypeFragment :
         fieldChangeRecordTypeGoalTime.isVisible = isClosed || state.current is GoalTime
     }
 
-    private fun initGoalUi() = with(binding) {
-        listOf(
-            layoutChangeRecordTypeGoalSession,
-            layoutChangeRecordTypeGoalDaily,
-            layoutChangeRecordTypeGoalWeekly,
-            layoutChangeRecordTypeGoalMonthly,
-        ).forEach {
-            it.spinnerRecordTypeGoalType.setProcessSameItemSelection(false)
-        }
-
-        // No count goal for session.
-        layoutChangeRecordTypeGoalSession.arrowChangeRecordTypeGoalType.visible = false
-        layoutChangeRecordTypeGoalSession.fieldRecordTypeGoalType.isEnabled = false
-    }
-
-    private fun initGoalUx() = with(binding) {
-        fun initUx(
-            range: RecordTypeGoal.Range,
-            view: ChangeRecordTypeGoalLayoutBinding,
-        ) {
-            view.fieldRecordTypeGoalType.setOnClick(view.spinnerRecordTypeGoalType::performClick)
-            view.spinnerRecordTypeGoalType.onPositionSelected = { position ->
-                viewModel.onGoalTypeSelected(range, position)
-            }
-            view.fieldChangeRecordTypeGoalDuration.setOnClick {
-                viewModel.onGoalTimeClick(range)
-            }
-            view.etChangeRecordTypeGoalCountValue.doAfterTextChanged {
-                viewModel.onGoalCountChange(range, it.toString())
-            }
-        }
-
-        initUx(RecordTypeGoal.Range.Session, layoutChangeRecordTypeGoalSession)
-        initUx(RecordTypeGoal.Range.Daily, layoutChangeRecordTypeGoalDaily)
-        initUx(RecordTypeGoal.Range.Weekly, layoutChangeRecordTypeGoalWeekly)
-        initUx(RecordTypeGoal.Range.Monthly, layoutChangeRecordTypeGoalMonthly)
-    }
-
     private fun updateGoalsState(state: ChangeRecordTypeGoalsViewData) = with(binding) {
-        fun applyGoalToView(
-            goal: ChangeRecordTypeGoalsViewData.GoalViewData,
-            view: ChangeRecordTypeGoalLayoutBinding,
-        ) {
-            view.tvChangeRecordTypeGoalTitle.text = goal.title
-            view.spinnerRecordTypeGoalType.setData(
-                items = goal.typeItems,
-                selectedPosition = goal.typeSelectedPosition,
-            )
-            view.tvChangeRecordTypeGoalType.text = goal.typeItems
-                .getOrNull(goal.typeSelectedPosition)?.text.orEmpty()
-
-            val value = goal.value
-            when (goal.type) {
-                is ChangeRecordTypeGoalsViewData.Type.Duration -> {
-                    view.tvChangeRecordTypeGoalDurationValue.text = value
-                    view.fieldChangeRecordTypeGoalDuration.isVisible = true
-                    view.inputChangeRecordTypeGoalCount.isInvisible = true
-                }
-                is ChangeRecordTypeGoalsViewData.Type.Count -> {
-                    val current = view.etChangeRecordTypeGoalCountValue.text.toString().toLongOrNull()
-                    val new = value.toLongOrNull()
-                    if (current != new) {
-                        view.etChangeRecordTypeGoalCountValue.setText(value)
-                        view.etChangeRecordTypeGoalCountValue.setSelection(value.length)
-                    }
-                    view.fieldChangeRecordTypeGoalDuration.isInvisible = true
-                    view.inputChangeRecordTypeGoalCount.isVisible = true
-                }
-            }
-        }
-
-        applyGoalToView(state.session, layoutChangeRecordTypeGoalSession)
-        applyGoalToView(state.daily, layoutChangeRecordTypeGoalDaily)
-        applyGoalToView(state.weekly, layoutChangeRecordTypeGoalWeekly)
-        applyGoalToView(state.monthly, layoutChangeRecordTypeGoalMonthly)
-    }
-
-    private inline fun <reified T : ChangeRecordTypeChooserState.State> updateChooser(
-        state: ChangeRecordTypeChooserState,
-        chooserData: View,
-        chooserView: CardView,
-        chooserArrow: View,
-    ) {
-        val opened = state.current is T
-        val opening = state.previous is Closed && state.current is T
-        val closing = state.previous is T && state.current is Closed
-
-        chooserData.isVisible = opened
-        chooserView.setChooserColor(opened)
-        chooserArrow.apply {
-            if (opening) rotateDown()
-            if (closing) rotateUp()
-        }
+        GoalsViewDelegate.updateGoalsState(
+            state = state,
+            layout = layoutChangeRecordTypeGoals,
+        )
     }
 
     private fun updateIconsState(state: ChangeRecordTypeIconStateViewData) = with(binding) {

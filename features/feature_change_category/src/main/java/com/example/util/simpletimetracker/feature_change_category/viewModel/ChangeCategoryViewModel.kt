@@ -9,8 +9,6 @@ import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteracto
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.extension.flip
-import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -23,6 +21,10 @@ import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewDa
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_category.R
 import com.example.util.simpletimetracker.feature_change_category.interactor.ChangeCategoryViewDataInteractor
+import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegate
+import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegateImpl
+import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegateImpl.IdData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
@@ -42,7 +44,9 @@ class ChangeCategoryViewModel @Inject constructor(
     private val categoryViewDataMapper: CategoryViewDataMapper,
     private val resourceRepo: ResourceRepo,
     private val colorMapper: ColorMapper,
-) : ViewModel() {
+    private val goalsViewModelDelegate: GoalsViewModelDelegateImpl,
+) : ViewModel(),
+    GoalsViewModelDelegate by goalsViewModelDelegate {
 
     lateinit var extra: ChangeTagData
 
@@ -67,8 +71,12 @@ class ChangeCategoryViewModel @Inject constructor(
             initial
         }
     }
-    val flipColorChooser: LiveData<Boolean> = MutableLiveData()
-    val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
+    val chooserState: LiveData<ChangeRecordTypeChooserState> = MutableLiveData(
+        ChangeRecordTypeChooserState(
+            current = ChangeRecordTypeChooserState.State.Closed,
+            previous = ChangeRecordTypeChooserState.State.Closed,
+        ),
+    )
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(categoryId != 0L) }
@@ -80,6 +88,10 @@ class ChangeCategoryViewModel @Inject constructor(
     private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
     private var newTypes: MutableList<Long> = mutableListOf()
 
+    fun onVisible() = viewModelScope.launch {
+        goalsViewModelDelegate.onVisible()
+    }
+
     fun onNameChange(name: String) {
         viewModelScope.launch {
             if (name != newName) {
@@ -90,23 +102,15 @@ class ChangeCategoryViewModel @Inject constructor(
     }
 
     fun onColorChooserClick() {
-        (keyboardVisibility as MutableLiveData).value = false
-        (flipColorChooser as MutableLiveData).value = flipColorChooser.value
-            ?.flip().orTrue()
-
-        if (flipTypesChooser.value == true) {
-            (flipTypesChooser as MutableLiveData).value = false
-        }
+        onNewChooserState(ChangeRecordTypeChooserState.State.Color)
     }
 
     fun onTypeChooserClick() {
-        (keyboardVisibility as MutableLiveData).value = false
-        (flipTypesChooser as MutableLiveData).value = flipTypesChooser.value
-            ?.flip().orTrue()
+        onNewChooserState(ChangeRecordTypeChooserState.State.Type)
+    }
 
-        if (flipColorChooser.value == true) {
-            (flipColorChooser as MutableLiveData).value = false
-        }
+    fun onGoalTimeChooserClick() {
+        onNewChooserState(ChangeRecordTypeChooserState.State.GoalTime)
     }
 
     fun onColorClick(item: ColorViewData) {
@@ -175,6 +179,7 @@ class ChangeCategoryViewModel @Inject constructor(
             ).let {
                 val addedId = saveCategory()
                 saveTypes(addedId)
+                goalsViewModelDelegate.saveGoals(IdData.Category(addedId))
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }
@@ -197,6 +202,28 @@ class ChangeCategoryViewModel @Inject constructor(
 
         recordTypeCategoryInteractor.addTypes(categoryId, addedTypes)
         recordTypeCategoryInteractor.removeTypes(categoryId, removedTypes)
+    }
+
+    private fun onNewChooserState(
+        newState: ChangeRecordTypeChooserState.State,
+    ) {
+        val current = chooserState.value?.current ?: ChangeRecordTypeChooserState.State.Closed
+        keyboardVisibility.set(false)
+        if (current == newState) {
+            chooserState.set(
+                ChangeRecordTypeChooserState(
+                    current = ChangeRecordTypeChooserState.State.Closed,
+                    previous = current,
+                ),
+            )
+        } else {
+            chooserState.set(
+                ChangeRecordTypeChooserState(
+                    current = newState,
+                    previous = current,
+                ),
+            )
+        }
     }
 
     private suspend fun initializeSelectedTypes() {
@@ -223,6 +250,7 @@ class ChangeCategoryViewModel @Inject constructor(
             ?.let {
                 newName = it.name
                 newColor = it.color
+                goalsViewModelDelegate.initialize(IdData.Category(it.id))
                 updateColors()
             }
         val isDarkTheme = prefsInteractor.getDarkMode()

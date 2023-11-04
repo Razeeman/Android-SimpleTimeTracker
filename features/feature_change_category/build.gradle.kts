@@ -12,6 +12,7 @@ applyAndroidLibrary()
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":feature_change_record_type"))
     implementation(Deps.Google.dagger)
     kapt(Deps.Kapt.dagger)
 }

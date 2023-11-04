@@ -61,10 +61,10 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/input_field_height"
         android:layout_marginStart="@dimen/input_field_margin"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@id/fieldChangeCategoryType"
+        app:layout_constraintEnd_toStartOf="@id/fieldChangeCategoryGoalTime"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputChangeCategoryName">
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryType"
+        app:layout_goneMarginEnd="@dimen/input_field_margin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -101,10 +101,10 @@
         style="@style/InputFieldCard"
         android:layout_width="0dp"
         android:layout_height="@dimen/input_field_height"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="@dimen/input_field_margin"
+        android:layout_marginHorizontal="@dimen/input_field_margin"
+        android:layout_marginTop="3dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/fieldChangeCategoryColor"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputChangeCategoryName">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -137,6 +137,49 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fieldChangeCategoryGoalTime"
+        style="@style/InputFieldCard"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/input_field_height"
+        android:layout_marginEnd="@dimen/input_field_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fieldChangeCategoryColor"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryType"
+        app:layout_goneMarginStart="@dimen/input_field_margin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?appInputFieldBorder">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/InputFieldCardText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="@string/change_record_type_goal_time_hint"
+                app:layout_constraintEnd_toStartOf="@id/arrowChangeCategoryGoalTime"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/arrowChangeCategoryGoalTime"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="?appArrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeCategoryColor"
         android:layout_width="match_parent"
@@ -144,30 +187,50 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:background="?android:colorBackground"
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryColor"
         tools:itemCount="3"
-        tools:layout_width="100dp"
         tools:listitem="@layout/item_color_layout"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeCategoryType"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:background="?android:colorBackground"
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryColor"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryType"
         tools:itemCount="3"
-        tools:layout_width="100dp"
         tools:listitem="@layout/item_record_type_layout"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/containerChangeCategoryGoalTime"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:colorBackground"
+        android:scrollbars="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryGoalTime"
+        tools:visibility="visible">
+
+        <include
+            android:id="@+id/layoutChangeCategoryGoals"
+            layout="@layout/goals_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChangeCategorySave"
