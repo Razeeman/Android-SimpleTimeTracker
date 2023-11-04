@@ -44,6 +44,12 @@ class StatisticsGoalView @JvmOverloads constructor(
             field = value
         }
 
+    var itemIconVisible: Boolean = false
+        set(value) {
+            binding.ivStatisticsGoalItemIcon.visible = value
+            field = value
+        }
+
     var itemGoalCurrent: String = ""
         set(value) {
             binding.tvStatisticsGoalItemCurrent.text = value
@@ -104,6 +110,9 @@ class StatisticsGoalView @JvmOverloads constructor(
                 if (hasValue(R.styleable.StatisticsGoalView_itemIconText)) itemIcon =
                     getString(R.styleable.StatisticsGoalView_itemIconText).orEmpty()
                         .let(RecordTypeIcon::Text)
+
+                if (hasValue(R.styleable.StatisticsGoalView_itemIconVisible)) itemIconVisible =
+                    getBoolean(R.styleable.StatisticsGoalView_itemIconVisible, false)
 
                 if (hasValue(R.styleable.StatisticsGoalView_itemGoalCurrent)) itemGoalCurrent =
                     getString(R.styleable.StatisticsGoalView_itemGoalCurrent).orEmpty()

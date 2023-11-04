@@ -8,7 +8,7 @@ data class StatisticsGoalViewData(
     val id: Long,
     val name: String,
     @ColorInt val color: Int,
-    val icon: RecordTypeIcon,
+    val icon: RecordTypeIcon?,
     val goal: Goal,
 ) : ViewHolderType {
 

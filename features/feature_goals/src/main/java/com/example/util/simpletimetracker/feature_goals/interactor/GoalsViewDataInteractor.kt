@@ -29,15 +29,18 @@ class GoalsViewDataInteractor @Inject constructor(
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> = withContext(Dispatchers.Default) {
-        val filterType = ChartFilterType.ACTIVITY
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
         val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
-        val goals = recordTypeGoalInteractor.getAllTypeGoals()
+        val goals = recordTypeGoalInteractor.getAll()
 
-        val dataHolders = statisticsMediator.getDataHolders(
-            filterType = filterType,
+        val typeDataHolders = statisticsMediator.getDataHolders(
+            filterType = ChartFilterType.ACTIVITY,
+            types = types,
+        )
+        val categoryDataHolders = statisticsMediator.getDataHolders(
+            filterType = ChartFilterType.CATEGORY,
             types = types,
         )
 
@@ -66,9 +69,9 @@ class GoalsViewDataInteractor @Inject constructor(
                 getViewDataForRange(
                     goals = goals,
                     types = types,
-                    filterType = filterType,
                     rangeLength = rangeLength,
-                    dataHolders = dataHolders,
+                    typeDataHolders = typeDataHolders,
+                    categoryDataHolders = categoryDataHolders,
                     isDarkTheme = isDarkTheme,
                     useProportionalMinutes = useProportionalMinutes,
                     showSeconds = showSeconds,
@@ -85,32 +88,52 @@ class GoalsViewDataInteractor @Inject constructor(
     private suspend fun getViewDataForRange(
         goals: List<RecordTypeGoal>,
         types: Map<Long, RecordType>,
-        filterType: ChartFilterType,
         rangeLength: RangeLength,
-        dataHolders: Map<Long, StatisticsDataHolder>,
+        typeDataHolders: Map<Long, StatisticsDataHolder>,
+        categoryDataHolders: Map<Long, StatisticsDataHolder>,
         isDarkTheme: Boolean,
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
     ): List<ViewHolderType> {
-        val statistics = statisticsMediator.getStatistics(
-            filterType = filterType,
+        val result = mutableListOf<ViewHolderType>()
+        val typeStatistics = statisticsMediator.getStatistics(
+            filterType = ChartFilterType.ACTIVITY,
             filteredIds = emptyList(),
             rangeLength = rangeLength,
             shift = 0,
         )
-        val result = mutableListOf<ViewHolderType>()
-        val items = goalViewDataMapper.mapStatisticsList(
+        val typeItems = goalViewDataMapper.mapStatisticsList(
             goals = goals,
             types = types,
-            filterType = filterType,
+            filterType = ChartFilterType.ACTIVITY,
             filteredIds = emptyList(),
             rangeLength = rangeLength,
-            statistics = statistics,
-            data = dataHolders,
+            statistics = typeStatistics,
+            data = typeDataHolders,
             isDarkTheme = isDarkTheme,
             useProportionalMinutes = useProportionalMinutes,
             showSeconds = showSeconds,
         )
+        val categoryStatistics = statisticsMediator.getStatistics(
+            filterType = ChartFilterType.CATEGORY,
+            filteredIds = emptyList(),
+            rangeLength = rangeLength,
+            shift = 0,
+        )
+        val categoryItems = goalViewDataMapper.mapStatisticsList(
+            goals = goals,
+            types = types,
+            filterType = ChartFilterType.CATEGORY,
+            filteredIds = emptyList(),
+            rangeLength = rangeLength,
+            statistics = categoryStatistics,
+            data = categoryDataHolders,
+            isDarkTheme = isDarkTheme,
+            useProportionalMinutes = useProportionalMinutes,
+            showSeconds = showSeconds,
+        )
+        val items = (typeItems + categoryItems)
+            .sortedBy { it.goal.percent }
 
         if (items.isNotEmpty()) {
             val title = when (rangeLength) {

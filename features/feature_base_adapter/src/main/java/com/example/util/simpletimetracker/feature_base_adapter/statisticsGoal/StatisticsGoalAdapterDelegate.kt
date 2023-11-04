@@ -13,10 +13,16 @@ fun createStatisticsGoalAdapterDelegate() = createRecyclerBindingAdapterDelegate
 
         itemColor = item.color
         itemName = item.name
-        itemIcon = item.icon
         itemGoalCurrent = item.goal.goalCurrent
         itemGoal = item.goal.goal
         itemGoalPercent = item.goal.goalPercent
         itemGoalTimeComplete = item.goal.goalComplete
+
+        if (item.icon != null) {
+            itemIconVisible = true
+            itemIcon = item.icon
+        } else {
+            itemIconVisible = false
+        }
     }
 }

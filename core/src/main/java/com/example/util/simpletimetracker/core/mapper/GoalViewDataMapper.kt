@@ -152,8 +152,8 @@ class GoalViewDataMapper @Inject constructor(
         return StatisticsGoalViewData(
             id = goal.id,
             name = dataHolder.name,
-            icon = dataHolder.icon.orEmpty()
-                .let(iconMapper::mapIcon),
+            icon = dataHolder.icon
+                ?.let(iconMapper::mapIcon),
             color = dataHolder.color
                 .let { colorMapper.mapToColorInt(it, isDarkTheme) },
             goal = mapGoal(

@@ -93,6 +93,7 @@
         <attr name="itemIcon" />
         <attr name="itemIconText" />
         <attr name="itemColor" />
+        <attr name="itemIconVisible" />
         <attr name="itemGoalCurrent" format="string" />
         <attr name="itemGoal" format="string" />
         <attr name="itemGoalPercent" format="string" />
