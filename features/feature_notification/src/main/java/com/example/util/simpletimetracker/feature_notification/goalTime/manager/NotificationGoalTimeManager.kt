@@ -53,7 +53,7 @@ class NotificationGoalTimeManager @Inject constructor(
         createAndroidNotificationChannel()
         notificationManager.notify(
             getNotificationTag(params.goalRange),
-            params.typeId.toInt(),
+            params.idData.value.toInt(),
             notification,
         )
     }

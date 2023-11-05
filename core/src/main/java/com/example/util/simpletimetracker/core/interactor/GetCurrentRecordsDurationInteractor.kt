@@ -42,7 +42,7 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         val range = getRange(RangeLength.Day)
         val rangeRecords = recordInteractor.getFromRange(range)
 
-        return typesMap.map { (typeId, type) ->
+        return typesMap.map { (typeId, _) ->
             typeId to getRangeCurrent(
                 typeId = typeId,
                 runningRecord = runningRecords.firstOrNull { it.id == typeId },

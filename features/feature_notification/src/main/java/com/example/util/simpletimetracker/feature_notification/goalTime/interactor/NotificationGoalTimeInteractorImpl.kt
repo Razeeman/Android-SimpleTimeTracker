@@ -53,7 +53,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
 
     override suspend fun show(typeId: Long, goalRange: RecordTypeGoal.Range) {
         notificationGoalParamsInteractor.execute(
-            typeId = typeId,
+            idData = RecordTypeGoal.IdData.Type(typeId),
             range = goalRange,
             type = NotificationGoalParamsInteractor.Type.Duration,
         )?.let(manager::show)

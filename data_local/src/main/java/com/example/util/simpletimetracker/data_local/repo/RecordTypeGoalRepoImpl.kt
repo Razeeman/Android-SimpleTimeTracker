@@ -41,6 +41,12 @@ class RecordTypeGoalRepoImpl @Inject constructor(
             .map(mapper::map)
     }
 
+    override suspend fun getByCategories(categoryIds: List<Long>): List<RecordTypeGoal> = withContext(Dispatchers.IO) {
+        Timber.d("getByCategories")
+        dao.getByCategories(categoryIds)
+            .map(mapper::map)
+    }
+
     override suspend fun add(recordTypeGoal: RecordTypeGoal): Long = withContext(Dispatchers.IO) {
         Timber.d("add")
         return@withContext dao.insert(

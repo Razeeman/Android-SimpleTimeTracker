@@ -28,6 +28,10 @@ class RecordTypeGoalInteractor @Inject constructor(
         return repo.getByCategory(categoryId)
     }
 
+    suspend fun getByCategories(categoryIds: List<Long>): List<RecordTypeGoal> {
+        return repo.getByCategories(categoryIds)
+    }
+
     suspend fun add(recordTypeGoal: RecordTypeGoal) {
         repo.add(recordTypeGoal)
     }

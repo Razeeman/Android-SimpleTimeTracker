@@ -4,7 +4,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 data class NotificationGoalTimeParams(
-    val typeId: Long,
+    val idData: RecordTypeGoal.IdData,
     val goalRange: RecordTypeGoal.Range,
     val icon: RecordTypeIcon,
     val color: Int,
