@@ -702,7 +702,7 @@ class RecordsFilterViewModel @Inject constructor(
             filters = filters,
             recordTypes = getTypesCache().associateBy(RecordType::id),
             recordTags = getTagsCache(),
-            goals = getGoalsCache().groupBy(RecordTypeGoal::typeId),
+            goals = getGoalsCache().groupBy { it.idData.value },
         )
     }
 

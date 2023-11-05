@@ -62,8 +62,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
             icon = firstIcon,
             goals = listOf(
                 RecordTypeGoal(
-                    typeId = 0,
-                    categoryId = 0,
+                    idData = RecordTypeGoal.IdData.Type(0),
                     range = RecordTypeGoal.Range.Session,
                     type = RecordTypeGoal.Type.Duration(firstGoalTime),
                 ),

@@ -2,11 +2,17 @@ package com.example.util.simpletimetracker.domain.model
 
 data class RecordTypeGoal(
     val id: Long = 0,
-    val typeId: Long,
-    val categoryId: Long,
+    val idData: IdData,
     val range: Range,
     val type: Type,
 ) {
+
+    sealed interface IdData {
+        val value: Long
+
+        data class Type(override val value: Long) : IdData
+        data class Category(override val value: Long) : IdData
+    }
 
     // TODO switch to GoalTimeType
     sealed interface Range {

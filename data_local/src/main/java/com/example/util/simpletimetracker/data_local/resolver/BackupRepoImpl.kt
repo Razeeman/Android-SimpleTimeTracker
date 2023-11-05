@@ -344,11 +344,11 @@ class BackupRepoImpl @Inject constructor(
         return String.format(
             "$ROW_RECORD_TYPE_GOAL\t%s\t%s\t%s\t%s\t%s\t%s\n",
             recordTypeGoal.id.toString(),
-            recordTypeGoal.typeId.toString(),
+            (recordTypeGoal.idData as? RecordTypeGoal.IdData.Type)?.value.orZero(),
             rangeString,
             typeString,
             recordTypeGoal.type.value.toString(),
-            recordTypeGoal.categoryId.toString(),
+            (recordTypeGoal.idData as? RecordTypeGoal.IdData.Category)?.value.orZero(),
         )
     }
 
@@ -364,32 +364,29 @@ class BackupRepoImpl @Inject constructor(
         val goalTimes = mutableListOf<RecordTypeGoal>().apply {
             if (goalTime != 0L) {
                 RecordTypeGoal(
-                    typeId = typeId,
-                    categoryId = 0, // Didn't exist when goal time was in type db, no need to migrate.
+                    // Didn't exist when goal time was in type db, no need to migrate.
+                    idData = RecordTypeGoal.IdData.Type(typeId),
                     range = RecordTypeGoal.Range.Session,
                     type = RecordTypeGoal.Type.Duration(goalTime),
                 ).let(::add)
             }
             if (dailyGoalTime != 0L) {
                 RecordTypeGoal(
-                    typeId = typeId,
-                    categoryId = 0,
+                    idData = RecordTypeGoal.IdData.Type(typeId),
                     range = RecordTypeGoal.Range.Daily,
                     type = RecordTypeGoal.Type.Duration(dailyGoalTime),
                 ).let(::add)
             }
             if (weeklyGoalTime != 0L) {
                 RecordTypeGoal(
-                    typeId = typeId,
-                    categoryId = 0,
+                    idData = RecordTypeGoal.IdData.Type(typeId),
                     range = RecordTypeGoal.Range.Weekly,
                     type = RecordTypeGoal.Type.Duration(weeklyGoalTime),
                 ).let(::add)
             }
             if (monthlyGoalTime != 0L) {
                 RecordTypeGoal(
-                    typeId = typeId,
-                    categoryId = 0,
+                    idData = RecordTypeGoal.IdData.Type(typeId),
                     range = RecordTypeGoal.Range.Monthly,
                     type = RecordTypeGoal.Type.Duration(monthlyGoalTime),
                 ).let(::add)
@@ -503,9 +500,16 @@ class BackupRepoImpl @Inject constructor(
     }
 
     private fun recordTypeGoalFromBackupString(parts: List<String>): RecordTypeGoal {
+        val typeId = parts.getOrNull(2)?.toLongOrNull().orZero()
+        val categoryId = parts.getOrNull(6)?.toLongOrNull().orZero()
+
         return RecordTypeGoal(
             id = parts.getOrNull(1)?.toLongOrNull().orZero(),
-            typeId = parts.getOrNull(2)?.toLongOrNull() ?: 1L,
+            idData = if (typeId != 0L) {
+                RecordTypeGoal.IdData.Type(typeId)
+            } else {
+                RecordTypeGoal.IdData.Category(categoryId)
+            },
             range = when (parts.getOrNull(3)?.toLongOrNull()) {
                 0L -> RecordTypeGoal.Range.Session
                 1L -> RecordTypeGoal.Range.Daily
@@ -521,7 +525,6 @@ class BackupRepoImpl @Inject constructor(
                     else -> RecordTypeGoal.Type.Duration(value)
                 }
             },
-            categoryId = parts.getOrNull(6)?.toLongOrNull().orZero(),
         )
     }
 

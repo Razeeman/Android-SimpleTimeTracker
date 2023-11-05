@@ -17,7 +17,6 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
@@ -83,7 +82,7 @@ class WidgetUniversalViewModel @Inject constructor(
 
     fun onSpecialRecordTypeClick(item: RunningRecordTypeSpecialViewData) {
         viewModelScope.launch {
-            var started = false
+            val started: Boolean
 
             when (item.type) {
                 is RunningRecordTypeSpecialViewData.Type.Repeat -> {
@@ -122,7 +121,7 @@ class WidgetUniversalViewModel @Inject constructor(
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypes = recordTypeInteractor.getAll()
         val recordTypesMap = recordTypes.associateBy(RecordType::id)
-        val goals = recordTypeGoalInteractor.getAllTypeGoals().groupBy(RecordTypeGoal::typeId)
+        val goals = recordTypeGoalInteractor.getAllTypeGoals().groupBy { it.idData.value }
         val recordTypesRunning = runningRecords.map { it.id }
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()

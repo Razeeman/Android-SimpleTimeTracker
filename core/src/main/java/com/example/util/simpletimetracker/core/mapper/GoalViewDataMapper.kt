@@ -96,17 +96,12 @@ class GoalViewDataMapper @Inject constructor(
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
     ): List<StatisticsGoalViewData> {
-        val currentGoals: List<RecordTypeGoal>
-        val idProvider: (RecordTypeGoal) -> Long
-
-        when (filterType) {
+        val currentGoals: List<RecordTypeGoal> = when (filterType) {
             ChartFilterType.ACTIVITY -> {
-                currentGoals = goals.filter { it.typeId != 0L }
-                idProvider = { it.typeId }
+                goals.filter { it.idData is RecordTypeGoal.IdData.Type }
             }
             ChartFilterType.CATEGORY -> {
-                currentGoals = goals.filter { it.categoryId != 0L }
-                idProvider = { it.categoryId }
+                goals.filter { it.idData is RecordTypeGoal.IdData.Category }
             }
             else -> return emptyList()
         }
@@ -116,11 +111,12 @@ class GoalViewDataMapper @Inject constructor(
 
         return currentGoals
             .filter {
-                val type = types[it.typeId]
+                val typeId = (it.idData as? RecordTypeGoal.IdData.Type)?.value.orZero()
+                val type = types[typeId.orZero()]
                 when {
-                    it.typeId != 0L && type == null -> false
-                    it.typeId != 0L && type?.hidden.orFalse() -> false
-                    idProvider(it) in filteredIds -> false
+                    typeId != 0L && type == null -> false
+                    typeId != 0L && type?.hidden.orFalse() -> false
+                    it.idData.value in filteredIds -> false
                     rangeLength is RangeLength.Day -> it.range is RecordTypeGoal.Range.Daily
                     rangeLength is RangeLength.Week -> it.range is RecordTypeGoal.Range.Weekly
                     rangeLength is RangeLength.Month -> it.range is RecordTypeGoal.Range.Monthly
@@ -128,7 +124,7 @@ class GoalViewDataMapper @Inject constructor(
                 }
             }
             .mapNotNull { goal ->
-                val id = idProvider(goal)
+                val id = goal.idData.value
                 mapItem(
                     goal = goal,
                     statistics = statistics.firstOrNull { it.id == id },

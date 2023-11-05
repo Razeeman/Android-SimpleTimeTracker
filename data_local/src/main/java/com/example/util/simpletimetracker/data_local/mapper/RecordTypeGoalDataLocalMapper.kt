@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.data_local.mapper
 
 import com.example.util.simpletimetracker.data_local.model.RecordTypeGoalDBO
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import javax.inject.Inject
 
@@ -9,8 +10,11 @@ class RecordTypeGoalDataLocalMapper @Inject constructor() {
     fun map(dbo: RecordTypeGoalDBO): RecordTypeGoal {
         return RecordTypeGoal(
             id = dbo.id,
-            typeId = dbo.typeId,
-            categoryId = dbo.categoryId,
+            idData = if (dbo.typeId != 0L) {
+                RecordTypeGoal.IdData.Type(dbo.typeId)
+            } else {
+                RecordTypeGoal.IdData.Category(dbo.categoryId)
+            },
             range = when (dbo.range) {
                 0L -> RecordTypeGoal.Range.Session
                 1L -> RecordTypeGoal.Range.Daily
@@ -29,7 +33,7 @@ class RecordTypeGoalDataLocalMapper @Inject constructor() {
     fun map(domain: RecordTypeGoal): RecordTypeGoalDBO {
         return RecordTypeGoalDBO(
             id = domain.id,
-            typeId = domain.typeId,
+            typeId = (domain.idData as? RecordTypeGoal.IdData.Type)?.value.orZero(),
             range = when (domain.range) {
                 is RecordTypeGoal.Range.Session -> 0L
                 is RecordTypeGoal.Range.Daily -> 1L
@@ -41,7 +45,7 @@ class RecordTypeGoalDataLocalMapper @Inject constructor() {
                 is RecordTypeGoal.Type.Count -> 1L
             },
             value = domain.type.value,
-            categoryId = domain.categoryId,
+            categoryId = (domain.idData as? RecordTypeGoal.IdData.Category)?.value.orZero(),
         )
     }
 }

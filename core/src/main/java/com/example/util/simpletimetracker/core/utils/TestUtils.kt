@@ -95,7 +95,7 @@ class TestUtils @Inject constructor(
             }
 
         goals.forEach {
-            recordTypeGoalInteractor.add(it.copy(typeId = typeId))
+            recordTypeGoalInteractor.add(it.copy(idData = RecordTypeGoal.IdData.Type(typeId)))
         }
     }
 

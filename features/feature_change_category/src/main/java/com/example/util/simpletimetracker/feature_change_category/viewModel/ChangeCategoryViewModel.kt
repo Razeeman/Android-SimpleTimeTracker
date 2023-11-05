@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
@@ -23,7 +24,6 @@ import com.example.util.simpletimetracker.feature_change_category.R
 import com.example.util.simpletimetracker.feature_change_category.interactor.ChangeCategoryViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegateImpl
-import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegateImpl.IdData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
@@ -179,7 +179,7 @@ class ChangeCategoryViewModel @Inject constructor(
             ).let {
                 val addedId = saveCategory()
                 saveTypes(addedId)
-                goalsViewModelDelegate.saveGoals(IdData.Category(addedId))
+                goalsViewModelDelegate.saveGoals(RecordTypeGoal.IdData.Category(addedId))
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }
@@ -250,7 +250,7 @@ class ChangeCategoryViewModel @Inject constructor(
             ?.let {
                 newName = it.name
                 newColor = it.color
-                goalsViewModelDelegate.initialize(IdData.Category(it.id))
+                goalsViewModelDelegate.initialize(RecordTypeGoal.IdData.Category(it.id))
                 updateColors()
             }
         val isDarkTheme = prefsInteractor.getDarkMode()

@@ -129,8 +129,7 @@ object GoalsTestUtils {
         duration: Long,
     ): RecordTypeGoal {
         return RecordTypeGoal(
-            typeId = 0,
-            categoryId = 0,
+            idData = RecordTypeGoal.IdData.Type(0),
             range = range,
             type = RecordTypeGoal.Type.Duration(duration),
         )
@@ -141,8 +140,7 @@ object GoalsTestUtils {
         count: Long,
     ): RecordTypeGoal {
         return RecordTypeGoal(
-            typeId = 0,
-            categoryId = 0,
+            idData = RecordTypeGoal.IdData.Type(0),
             range = range,
             type = RecordTypeGoal.Type.Count(count),
         )

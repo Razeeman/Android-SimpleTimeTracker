@@ -23,6 +23,7 @@ import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
@@ -31,7 +32,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordType.Record
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegateImpl
-import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegateImpl.IdData
 import com.example.util.simpletimetracker.feature_change_record_type.interactor.ChangeRecordTypeViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
@@ -343,7 +343,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         viewModelScope.launch {
             val addedId = saveRecordType()
             saveCategories(addedId)
-            goalsViewModelDelegate.saveGoals(IdData.Type(addedId))
+            goalsViewModelDelegate.saveGoals(RecordTypeGoal.IdData.Type(addedId))
             notificationTypeInteractor.updateNotifications()
             notificationGoalTimeInteractor.checkAndReschedule(listOf(recordTypeId))
             widgetInteractor.updateWidgets()
@@ -411,7 +411,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             newName = it.name
             newIconName = it.icon
             newColor = it.color
-            goalsViewModelDelegate.initialize(IdData.Type(it.id))
+            goalsViewModelDelegate.initialize(RecordTypeGoal.IdData.Type(it.id))
             updateIcons()
             updateColors()
         }

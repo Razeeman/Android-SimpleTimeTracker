@@ -130,7 +130,7 @@ class GoalsViewModelDelegateImpl @Inject constructor(
     }
 
     suspend fun saveGoals(
-        id: IdData,
+        id: RecordTypeGoal.IdData,
     ) {
         val goals = getGoals(id)
 
@@ -144,8 +144,7 @@ class GoalsViewModelDelegateImpl @Inject constructor(
             } else {
                 RecordTypeGoal(
                     id = goalId,
-                    typeId = (id as? IdData.Type)?.value.orZero(),
-                    categoryId = (id as? IdData.Category)?.value.orZero(),
+                    idData = id,
                     range = goalRange,
                     type = goalType,
                 ).let {
@@ -177,7 +176,7 @@ class GoalsViewModelDelegateImpl @Inject constructor(
     }
 
     suspend fun initialize(
-        id: IdData,
+        id: RecordTypeGoal.IdData,
     ) {
         val goals = getGoals(id)
         val defaultGoal = goalsViewDataMapper.getDefaultGoal()
@@ -213,10 +212,10 @@ class GoalsViewModelDelegateImpl @Inject constructor(
         updateGoalsViewData()
     }
 
-    private suspend fun getGoals(id: IdData): List<RecordTypeGoal> {
+    private suspend fun getGoals(id: RecordTypeGoal.IdData): List<RecordTypeGoal> {
         return when (id) {
-            is IdData.Type -> recordTypeGoalInteractor.getByType(id.value)
-            is IdData.Category -> recordTypeGoalInteractor.getByCategory(id.value)
+            is RecordTypeGoal.IdData.Type -> recordTypeGoalInteractor.getByType(id.value)
+            is RecordTypeGoal.IdData.Category -> recordTypeGoalInteractor.getByCategory(id.value)
         }
     }
 
@@ -235,13 +234,6 @@ class GoalsViewModelDelegateImpl @Inject constructor(
 
     private fun loadNotificationsHintVisible(): Boolean {
         return !permissionRepo.areNotificationsEnabled()
-    }
-
-    sealed interface IdData {
-        val value: Long
-
-        data class Type(override val value: Long) : IdData
-        data class Category(override val value: Long) : IdData
     }
 
     companion object {
