@@ -356,7 +356,7 @@ class TimeMapper @Inject constructor(
             this.firstDayOfWeek = dayOfWeek
             timeInMillis = currentTimestampProvider.get()
 
-            timeInMillis -= startOfDayShift
+            shift(-startOfDayShift)
             when (rangeLength) {
                 is RangeLength.Week -> setWeekToFirstDay()
                 is RangeLength.Month -> set(Calendar.DAY_OF_MONTH, 1)
@@ -369,7 +369,7 @@ class TimeMapper @Inject constructor(
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
-            timeInMillis += startOfDayShift
+            shift(startOfDayShift)
         }
 
         when (rangeLength) {
@@ -386,26 +386,30 @@ class TimeMapper @Inject constructor(
             }
 
             is RangeLength.Month -> {
-                calendar.timeInMillis -= startOfDayShift
-                calendar.add(Calendar.MONTH, shift)
-                calendar.timeInMillis += startOfDayShift
+                calendar.apply {
+                    shift(-startOfDayShift)
+                    add(Calendar.MONTH, shift)
+                    shift(+startOfDayShift)
+                }
                 rangeStart = calendar.timeInMillis
                 rangeEnd = calendar.apply {
-                    calendar.timeInMillis -= startOfDayShift
+                    shift(-startOfDayShift)
                     add(Calendar.MONTH, 1)
-                    calendar.timeInMillis += startOfDayShift
+                    shift(startOfDayShift)
                 }.timeInMillis
             }
 
             is RangeLength.Year -> {
-                calendar.timeInMillis -= startOfDayShift
-                calendar.add(Calendar.YEAR, shift)
-                calendar.timeInMillis += startOfDayShift
+                calendar.apply {
+                    shift(-startOfDayShift)
+                    add(Calendar.YEAR, shift)
+                    shift(startOfDayShift)
+                }
                 rangeStart = calendar.timeInMillis
                 rangeEnd = calendar.apply {
-                    calendar.timeInMillis -= startOfDayShift
+                    shift(-startOfDayShift)
                     add(Calendar.YEAR, 1)
-                    calendar.timeInMillis += startOfDayShift
+                    shift(startOfDayShift)
                 }.timeInMillis
             }
 
