@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.extension.shiftTimeStamp
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
@@ -20,6 +21,7 @@ import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsVie
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import javax.inject.Inject
 
 class SettingsAdditionalViewModelDelegate @Inject constructor(
@@ -229,11 +231,12 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
     private suspend fun loadStartOfDayViewData(): SettingsStartOfDayViewData {
         val shift = prefsInteractor.getStartOfDayShift()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val calendar = Calendar.getInstance()
 
         val hint = resourceRepo.getString(
             R.string.settings_start_of_day_hint_value,
             timeMapper.formatDateTime(
-                time = timeMapper.getStartOfDayTimeStamp() + shift,
+                time = calendar.shiftTimeStamp(timeMapper.getStartOfDayTimeStamp(), shift),
                 useMilitaryTime = useMilitaryTime,
                 showSeconds = false,
             ),

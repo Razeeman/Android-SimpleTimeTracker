@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_settings.mapper
 
+import com.example.util.simpletimetracker.core.extension.shiftTimeStamp
 import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
@@ -219,15 +220,33 @@ class SettingsMapper @Inject constructor(
         timestamp: Long,
         wasPositive: Boolean,
     ): Long {
-        val maxValue = TimeUnit.HOURS.toMillis(24) - TimeUnit.MINUTES.toMillis(1)
-        return (timestamp - timeMapper.getStartOfDayTimeStamp()).coerceIn(0..maxValue)
+        val maxValue = TimeUnit.HOURS.toMillis(24) -
+            TimeUnit.MINUTES.toMillis(1)
+
+        return Calendar.getInstance()
+            .apply { timeInMillis = timestamp }
+            .run {
+                val hours = get(Calendar.HOUR_OF_DAY).toLong()
+                val minutes = get(Calendar.MINUTE).toLong()
+                val seconds = get(Calendar.SECOND).toLong()
+                val millis = get(Calendar.MILLISECOND).toLong()
+
+                TimeUnit.HOURS.toMillis(hours) +
+                    TimeUnit.MINUTES.toMillis(minutes) +
+                    TimeUnit.SECONDS.toMillis(seconds) +
+                    TimeUnit.MILLISECONDS.toMillis(millis)
+            }
+            .coerceIn(0..maxValue)
             .let { if (wasPositive) it else it * -1 }
     }
 
     fun startOfDayShiftToTimeStamp(
         startOfDayShift: Long,
     ): Long {
-        return timeMapper.getStartOfDayTimeStamp() + startOfDayShift.absoluteValue
+        return Calendar.getInstance().shiftTimeStamp(
+            timestamp = timeMapper.getStartOfDayTimeStamp(),
+            shift = startOfDayShift.absoluteValue
+        )
     }
 
     fun toStartOfDayText(
