@@ -35,12 +35,16 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         return getRangeCurrent(runningRecord.id, runningRecord, getRange(RangeLength.Month))
     }
 
-    suspend fun getAllDailyCurrents(
+    suspend fun getAllCurrents(
         typesMap: Map<Long, RecordType>,
         runningRecords: List<RunningRecord>,
+        rangeLength: RangeLength,
     ): Map<Long, Result> {
-        val range = getRange(RangeLength.Day)
-        val rangeRecords = recordInteractor.getFromRange(range)
+        val range = getRange(rangeLength)
+        val rangeRecords = recordInteractor.getFromRangeByType(
+            typeIds = typesMap.keys.toList(),
+            range = range
+        )
 
         return typesMap.map { (typeId, _) ->
             typeId to getRangeCurrent(
@@ -50,6 +54,17 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
                 rangeRecords = rangeRecords,
             )
         }.toMap()
+    }
+
+    suspend fun getAllDailyCurrents(
+        typesMap: Map<Long, RecordType>,
+        runningRecords: List<RunningRecord>,
+    ): Map<Long, Result> {
+        return getAllCurrents(
+            typesMap = typesMap,
+            runningRecords = runningRecords,
+            rangeLength = RangeLength.Day,
+        )
     }
 
     private suspend fun getRangeCurrent(
