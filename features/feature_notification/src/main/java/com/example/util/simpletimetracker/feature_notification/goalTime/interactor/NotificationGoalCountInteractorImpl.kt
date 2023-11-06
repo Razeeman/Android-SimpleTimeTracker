@@ -1,9 +1,6 @@
 package com.example.util.simpletimetracker.feature_notification.goalTime.interactor
 
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
-import com.example.util.simpletimetracker.domain.extension.getDailyCount
-import com.example.util.simpletimetracker.domain.extension.getMonthlyCount
-import com.example.util.simpletimetracker.domain.extension.getWeeklyCount
 import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalCountInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -54,43 +51,28 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         cancel(typeId)
 
         // Daily
-        val dailyGoalCount = goals.getDailyCount().value
-        if (dailyGoalCount > 1) {
-            val dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord)
-
-            if (dailyGoalCount == dailyCurrent.count) {
-                show(
-                    idData = RecordTypeGoal.IdData.Type(typeId),
-                    goalRange = Range.Daily,
-                )
-            }
-        }
+        checkType(
+            goalRange = Range.Daily,
+            goals = goals,
+            typeId = typeId,
+            runningRecord = runningRecord,
+        )
 
         // Weekly
-        val weeklyGoalCount = goals.getWeeklyCount().value
-        if (weeklyGoalCount > 1) {
-            val weeklyCurrent = getCurrentRecordsDurationInteractor.getWeeklyCurrent(runningRecord)
-
-            if (weeklyGoalCount == weeklyCurrent.count) {
-                show(
-                    idData = RecordTypeGoal.IdData.Type(typeId),
-                    goalRange = Range.Weekly,
-                )
-            }
-        }
+        checkType(
+            goalRange = Range.Weekly,
+            goals = goals,
+            typeId = typeId,
+            runningRecord = runningRecord,
+        )
 
         // Monthly
-        val monthlyGoalCount = goals.getMonthlyCount().value
-        if (monthlyGoalCount > 1) {
-            val monthlyCurrent = getCurrentRecordsDurationInteractor.getMonthlyCurrent(runningRecord)
-
-            if (monthlyGoalCount == monthlyCurrent.count) {
-                show(
-                    idData = RecordTypeGoal.IdData.Type(typeId),
-                    goalRange = Range.Monthly,
-                )
-            }
-        }
+        checkType(
+            goalRange = Range.Monthly,
+            goals = goals,
+            typeId = typeId,
+            runningRecord = runningRecord,
+        )
     }
 
     private suspend fun checkAndShowCategory(typeId: Long) {
@@ -138,6 +120,35 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         )
     }
 
+    private suspend fun checkType(
+        goalRange: Range,
+        goals: List<RecordTypeGoal>,
+        typeId: Long,
+        runningRecord: RunningRecord,
+    ) {
+        val goal = goals.firstOrNull {
+            it.isCorrectRange(goalRange) &&
+                it.idData is RecordTypeGoal.IdData.Type &&
+                it.type is Type.Count
+        }
+
+        if (goal.value > 1) {
+            val current =  when (goalRange) {
+                is Range.Session -> return
+                is Range.Daily -> getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord)
+                is Range.Weekly -> getCurrentRecordsDurationInteractor.getWeeklyCurrent(runningRecord)
+                is Range.Monthly -> getCurrentRecordsDurationInteractor.getMonthlyCurrent(runningRecord)
+            }.count
+
+            if (current == goal.value) {
+                show(
+                    idData = RecordTypeGoal.IdData.Type(typeId),
+                    goalRange = goalRange,
+                )
+            }
+        }
+    }
+
     private suspend fun checkCategory(
         goalRange: Range,
         goals: List<RecordTypeGoal>,
@@ -146,14 +157,8 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         categoriesWithThisType: Map<Long, List<Long>>,
     ) {
         val rangeGoals = goals.filter {
-            val isCorrectRange = when (goalRange) {
-                is Range.Session -> return
-                is Range.Daily -> it.range is Range.Daily
-                is Range.Weekly -> it.range is Range.Weekly
-                is Range.Monthly -> it.range is Range.Monthly
-            }
-
-            isCorrectRange &&
+            it.isCorrectRange(goalRange) &&
+                it.idData is RecordTypeGoal.IdData.Category &&
                 it.type is Type.Count &&
                 it.value > 1
         }
@@ -168,7 +173,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
                 is Range.Daily -> RangeLength.Day
                 is Range.Weekly -> RangeLength.Week
                 is Range.Monthly -> RangeLength.Month
-            }
+            },
         )
 
         val thisRangeCurrents = categoriesWithThisType.mapNotNull { (categoryId, typeIds) ->
@@ -189,13 +194,22 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
             val categoryId = (goal.idData as? RecordTypeGoal.IdData.Category)?.value
                 ?: return@forEach
             val current = thisRangeCurrents[categoryId]?.count
-                ?: return
+                ?: return@forEach
             if (current == goal.value) {
                 show(
                     idData = RecordTypeGoal.IdData.Category(categoryId),
                     goalRange = goalRange,
                 )
             }
+        }
+    }
+
+    private fun RecordTypeGoal.isCorrectRange(range: Range): Boolean {
+        return when (range) {
+            is Range.Session -> false
+            is Range.Daily -> this.range is Range.Daily
+            is Range.Weekly -> this.range is Range.Weekly
+            is Range.Monthly -> this.range is Range.Monthly
         }
     }
 
