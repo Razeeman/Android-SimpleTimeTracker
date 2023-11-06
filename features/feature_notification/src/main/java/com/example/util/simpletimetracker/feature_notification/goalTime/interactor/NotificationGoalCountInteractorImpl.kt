@@ -46,6 +46,9 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
     private suspend fun checkAndShowType(typeId: Long) {
         val runningRecord = runningRecordInteractor.get(typeId) ?: return
         val goals = recordTypeGoalInteractor.getByType(typeId)
+            .filter { it.type is Type.Count }
+
+        // No count goals - exit.
         if (goals.isEmpty()) return
 
         cancel(typeId)
@@ -76,17 +79,25 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
     }
 
     private suspend fun checkAndShowCategory(typeId: Long) {
+        // Find all category count goals.
+        val goals = recordTypeGoalInteractor.getAllCategoryGoals()
+            .filter { it.type is Type.Count }
+        if (goals.isEmpty()) return
+
         // Find all categories that hold this type.
         val categories = recordTypeCategoryInteractor.getAll()
             .groupBy(RecordTypeCategory::categoryId)
         val categoriesWithThisType = categories
             .mapValues { it.value.map(RecordTypeCategory::recordTypeId) }
             .filterValues { typeId in it }
+
+        // If this type doesn't affect any categories - exit.
         if (categoriesWithThisType.isEmpty()) return
 
-        // Find all goals that set for these categories.
-        val goals = recordTypeGoalInteractor.getByCategories(categoriesWithThisType.keys.toList())
-        if (goals.isEmpty()) return
+        // If affected categories doesn't have goals - exit.
+        val affectedCategoryGoals = goals
+            .filter { it.idData.value in categoriesWithThisType.keys }
+        if (affectedCategoryGoals.isEmpty()) return
 
         // For each goal check current results.
         val runningRecords = runningRecordInteractor.getAll()
@@ -95,7 +106,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         // Daily
         checkCategory(
             goalRange = Range.Daily,
-            goals = goals,
+            goals = affectedCategoryGoals,
             typesMap = typesMap,
             runningRecords = runningRecords,
             categoriesWithThisType = categoriesWithThisType,
@@ -104,7 +115,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         // Weekly
         checkCategory(
             goalRange = Range.Weekly,
-            goals = goals,
+            goals = affectedCategoryGoals,
             typesMap = typesMap,
             runningRecords = runningRecords,
             categoriesWithThisType = categoriesWithThisType,
@@ -113,7 +124,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         // Monthly
         checkCategory(
             goalRange = Range.Monthly,
-            goals = goals,
+            goals = affectedCategoryGoals,
             typesMap = typesMap,
             runningRecords = runningRecords,
             categoriesWithThisType = categoriesWithThisType,

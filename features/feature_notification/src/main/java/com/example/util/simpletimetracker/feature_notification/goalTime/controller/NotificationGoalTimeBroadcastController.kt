@@ -17,11 +17,17 @@ class NotificationGoalTimeBroadcastController @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
 ) {
 
-    fun onGoalTimeReminder(typeId: Long, goalRange: RecordTypeGoal.Range) {
+    fun onGoalTimeReminder(
+        idData: RecordTypeGoal.IdData,
+        goalRange: RecordTypeGoal.Range,
+    ) {
         GlobalScope.launch {
-            notificationGoalTimeInteractor.show(typeId, goalRange)
-            widgetInteractor.updateSingleWidgets(typeIds = listOf(typeId))
-            notificationTypeInteractor.checkAndShow(typeId = typeId)
+            notificationGoalTimeInteractor.show(idData, goalRange)
+            if (idData is RecordTypeGoal.Type) {
+                val typeId = idData.value
+                widgetInteractor.updateSingleWidgets(typeIds = listOf(typeId))
+                notificationTypeInteractor.checkAndShow(typeId = typeId)
+            }
         }
     }
 

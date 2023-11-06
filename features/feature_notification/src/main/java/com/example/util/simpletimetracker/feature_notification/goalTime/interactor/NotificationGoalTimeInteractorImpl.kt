@@ -1,17 +1,15 @@
 package com.example.util.simpletimetracker.feature_notification.goalTime.interactor
 
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
-import com.example.util.simpletimetracker.domain.extension.getDailyDuration
-import com.example.util.simpletimetracker.domain.extension.getMonthlyDuration
-import com.example.util.simpletimetracker.domain.extension.getSessionDuration
-import com.example.util.simpletimetracker.domain.extension.getWeeklyDuration
 import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalRangeEndInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal.Range
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeManager
 import com.example.util.simpletimetracker.feature_notification.goalTime.scheduler.NotificationGoalTimeScheduler
@@ -26,6 +24,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
     private val scheduler: NotificationGoalTimeScheduler,
     private val notificationGoalRangeEndInteractor: NotificationGoalRangeEndInteractor,
     private val notificationGoalParamsInteractor: NotificationGoalParamsInteractor,
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
 ) : NotificationGoalTimeInteractor {
 
     override suspend fun checkAndReschedule() {
@@ -39,24 +38,32 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         notificationGoalRangeEndInteractor.checkAndReschedule()
     }
 
+    override suspend fun checkAndRescheduleCategory(categoryId: Long) {
+        val typeIds = recordTypeCategoryInteractor.getTypes(categoryId)
+        checkAndReschedule(typeIds)
+    }
+
     override fun cancel(typeId: Long) {
         listOf(
-            RecordTypeGoal.Range.Session,
-            RecordTypeGoal.Range.Daily,
-            RecordTypeGoal.Range.Weekly,
-            RecordTypeGoal.Range.Monthly,
+            Range.Session,
+            Range.Daily,
+            Range.Weekly,
+            Range.Monthly,
         ).forEach {
-            scheduler.cancelSchedule(typeId, it)
+            scheduler.cancelSchedule(RecordTypeGoal.IdData.Type(typeId), it)
             manager.hide(typeId, it)
         }
     }
 
-    override suspend fun show(typeId: Long, goalRange: RecordTypeGoal.Range) {
+    override suspend fun show(
+        idData: RecordTypeGoal.IdData,
+        goalRange: Range,
+    ) {
         notificationGoalParamsInteractor.execute(
-            idData = RecordTypeGoal.IdData.Type(typeId),
+            idData = idData,
             range = goalRange,
             type = NotificationGoalParamsInteractor.Type.Duration,
-        )?.let(manager::show)
+        ).let(manager::show)
     }
 
     private suspend fun checkAndReschedule(typeId: Long) {
@@ -69,55 +76,74 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         cancel(typeId)
 
         // Session
-        val sessionCurrent = System.currentTimeMillis() - runningRecord.timeStarted
-        val sessionGoalTime = goals.getSessionDuration().value * 1000
-        if (sessionGoalTime > 0L && sessionGoalTime > sessionCurrent) {
-            scheduler.schedule(
-                durationMillisFromNow = sessionGoalTime - sessionCurrent,
-                typeId = typeId,
-                goalRange = RecordTypeGoal.Range.Session,
-            )
-        }
+        check(
+            goalRange = Range.Session,
+            idData = RecordTypeGoal.IdData.Type(typeId),
+            goals = goals,
+            runningRecord = runningRecord,
+        )
 
         // Daily
-        val dailyGoalTime = goals.getDailyDuration().value * 1000
-        if (dailyGoalTime > 0) {
-            val dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord)
-
-            if (dailyGoalTime > dailyCurrent.duration) {
-                scheduler.schedule(
-                    durationMillisFromNow = dailyGoalTime - dailyCurrent.duration,
-                    typeId = typeId,
-                    goalRange = RecordTypeGoal.Range.Daily,
-                )
-            }
-        }
+        check(
+            goalRange = Range.Daily,
+            idData = RecordTypeGoal.IdData.Type(typeId),
+            goals = goals,
+            runningRecord = runningRecord,
+        )
 
         // Weekly
-        val weeklyGoalTime = goals.getWeeklyDuration().value * 1000
-        if (weeklyGoalTime > 0) {
-            val weeklyCurrent = getCurrentRecordsDurationInteractor.getWeeklyCurrent(runningRecord)
-            if (weeklyGoalTime > weeklyCurrent.duration) {
+        check(
+            goalRange = Range.Weekly,
+            idData = RecordTypeGoal.IdData.Type(typeId),
+            goals = goals,
+            runningRecord = runningRecord,
+        )
+
+        // Monthly
+        check(
+            goalRange = Range.Monthly,
+            idData = RecordTypeGoal.IdData.Type(typeId),
+            goals = goals,
+            runningRecord = runningRecord,
+        )
+    }
+
+    private suspend fun check(
+        goalRange: Range,
+        idData: RecordTypeGoal.IdData,
+        goals: List<RecordTypeGoal>,
+        runningRecord: RunningRecord,
+    ) {
+        val goal = goals.firstOrNull {
+            it.isCorrectRange(goalRange) &&
+                it.idData is RecordTypeGoal.IdData.Type &&
+                it.type is RecordTypeGoal.Type.Duration
+        }.value * 1000
+
+        if (goal > 0) {
+            val current = when (goalRange) {
+                is Range.Session -> System.currentTimeMillis() - runningRecord.timeStarted
+                is Range.Daily -> getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord).duration
+                is Range.Weekly -> getCurrentRecordsDurationInteractor.getWeeklyCurrent(runningRecord).duration
+                is Range.Monthly -> getCurrentRecordsDurationInteractor.getMonthlyCurrent(runningRecord).duration
+            }
+
+            if (goal > current) {
                 scheduler.schedule(
-                    durationMillisFromNow = weeklyGoalTime - weeklyCurrent.duration,
-                    typeId = typeId,
-                    goalRange = RecordTypeGoal.Range.Weekly,
+                    durationMillisFromNow = goal - current,
+                    idData = idData,
+                    goalRange = goalRange,
                 )
             }
         }
+    }
 
-        // Monthly
-        val monthlyGoalTime = goals.getMonthlyDuration().value * 1000
-        if (monthlyGoalTime > 0) {
-            val monthlyCurrent =
-                getCurrentRecordsDurationInteractor.getMonthlyCurrent(runningRecord)
-            if (monthlyGoalTime > monthlyCurrent.duration) {
-                scheduler.schedule(
-                    durationMillisFromNow = monthlyGoalTime - monthlyCurrent.duration,
-                    typeId = typeId,
-                    goalRange = RecordTypeGoal.Range.Monthly,
-                )
-            }
+    private fun RecordTypeGoal.isCorrectRange(range: Range): Boolean {
+        return when (range) {
+            is Range.Session -> this.range is Range.Session
+            is Range.Daily -> this.range is Range.Daily
+            is Range.Weekly -> this.range is Range.Weekly
+            is Range.Monthly -> this.range is Range.Monthly
         }
     }
 }

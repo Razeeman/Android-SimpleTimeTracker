@@ -11,11 +11,14 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
@@ -45,6 +48,8 @@ class ChangeCategoryViewModel @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val colorMapper: ColorMapper,
     private val goalsViewModelDelegate: GoalsViewModelDelegateImpl,
+    private val widgetInteractor: WidgetInteractor,
+    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
 ) : ViewModel(),
     GoalsViewModelDelegate by goalsViewModelDelegate {
 
@@ -180,6 +185,8 @@ class ChangeCategoryViewModel @Inject constructor(
                 val addedId = saveCategory()
                 saveTypes(addedId)
                 goalsViewModelDelegate.saveGoals(RecordTypeGoal.IdData.Category(addedId))
+                notificationGoalTimeInteractor.checkAndRescheduleCategory(addedId)
+                widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }
