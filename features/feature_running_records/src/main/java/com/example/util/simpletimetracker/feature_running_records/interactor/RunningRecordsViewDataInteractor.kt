@@ -47,7 +47,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val showRepeatButton = recordRepeatInteractor.shouldShowButton()
         val allDailyCurrents = if (goals.isNotEmpty()) {
             getCurrentRecordsDurationInteractor.getAllDailyCurrents(
-                typesMap = recordTypesMap,
+                typeIds = recordTypesMap.keys.toList(),
                 runningRecords = runningRecords,
             )
         } else {

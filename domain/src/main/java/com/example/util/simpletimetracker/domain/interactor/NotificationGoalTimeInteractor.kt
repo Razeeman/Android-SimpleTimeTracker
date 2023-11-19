@@ -4,9 +4,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 
 interface NotificationGoalTimeInteractor {
 
-    suspend fun checkAndReschedule()
-
-    suspend fun checkAndReschedule(typeIds: List<Long>)
+    suspend fun checkAndReschedule(typeIds: List<Long> = emptyList())
 
     fun cancel(idData: RecordTypeGoal.IdData)
 

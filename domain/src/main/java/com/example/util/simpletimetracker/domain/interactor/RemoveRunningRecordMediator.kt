@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.domain.interactor
 
-import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -12,7 +11,6 @@ class RemoveRunningRecordMediator @Inject constructor(
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val notificationActivityInteractor: NotificationActivityInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
-    private val notificationGoalCountInteractor: NotificationGoalCountInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
@@ -45,9 +43,9 @@ class RemoveRunningRecordMediator @Inject constructor(
         notificationTypeInteractor.checkAndHide(typeId)
         notificationInactivityInteractor.checkAndSchedule()
         // Cancel if no activity tracked.
-        if (runningRecordInteractor.getAll().isEmpty()) notificationActivityInteractor.cancel()
-        notificationGoalTimeInteractor.cancel(RecordTypeGoal.IdData.Type(typeId))
-        notificationGoalCountInteractor.cancel(RecordTypeGoal.IdData.Type(typeId))
+        val runningRecordIds = runningRecordInteractor.getAll().map { it.id }
+        if (runningRecordIds.isEmpty()) notificationActivityInteractor.cancel()
+        notificationGoalTimeInteractor.checkAndReschedule(runningRecordIds + typeId)
         widgetInteractor.updateWidgets()
     }
 }

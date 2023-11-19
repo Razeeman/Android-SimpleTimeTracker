@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -31,6 +32,7 @@ class ArchiveViewModel @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
 ) : ViewModel() {
 
     val viewData: LiveData<ArchiveViewData> by lazy {
@@ -102,6 +104,7 @@ class ArchiveViewModel @Inject constructor(
             val message = when (params) {
                 is ArchiveDialogParams.Activity -> {
                     recordTypeInteractor.remove(params.id)
+                    notificationGoalTimeInteractor.checkAndReschedule(listOf(params.id))
                     resourceRepo.getString(R.string.archive_activity_deleted)
                 }
                 is ArchiveDialogParams.RecordTag -> {

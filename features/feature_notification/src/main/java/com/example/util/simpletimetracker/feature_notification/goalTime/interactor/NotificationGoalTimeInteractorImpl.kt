@@ -7,10 +7,8 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationGoalRang
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
-import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal.Range
@@ -19,8 +17,22 @@ import com.example.util.simpletimetracker.feature_notification.goalTime.manager.
 import com.example.util.simpletimetracker.feature_notification.goalTime.scheduler.NotificationGoalTimeScheduler
 import javax.inject.Inject
 
+/**
+ * Type goal can be changed:
+ * - change / remove running record
+ * - change / remove record
+ * - change / remove type goal
+ * - remove type
+ *
+ * Category goal can be changed:
+ * - change / remove running record
+ * - change / remove record
+ * - change / remove category goal
+ * - change type categories
+ * - change category activities
+ * - remove category
+ */
 class NotificationGoalTimeInteractorImpl @Inject constructor(
-    private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
@@ -31,15 +43,13 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
 ) : NotificationGoalTimeInteractor {
 
-    override suspend fun checkAndReschedule() {
-        runningRecordInteractor.getAll()
-            .map(RunningRecord::id)
-            .let { checkAndReschedule(it) }
-    }
-
     override suspend fun checkAndReschedule(typeIds: List<Long>) {
-        typeIds.forEach { checkAndRescheduleType(it) }
-        checkAndRescheduleCategory(typeIds)
+        val typeIdsToCheck = typeIds
+            .takeUnless { it.isEmpty() }
+            ?: runningRecordInteractor.getAll().map(RunningRecord::id)
+
+        typeIdsToCheck.forEach { checkAndRescheduleType(it) }
+        checkAndRescheduleCategory(typeIdsToCheck)
         notificationGoalRangeEndInteractor.checkAndReschedule()
     }
 
@@ -63,17 +73,14 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             idData = idData,
             range = goalRange,
             type = NotificationGoalParamsInteractor.Type.Duration,
-        ).let(manager::show)
+        )?.let(manager::show)
     }
 
     private suspend fun checkAndRescheduleType(typeId: Long) {
-        val recordType = recordTypeInteractor.get(typeId)
-        val runningRecord = runningRecordInteractor.get(typeId)
-        val goals = recordTypeGoalInteractor.getByType(typeId)
-
-        if (recordType == null || runningRecord == null) return
-
         cancel(RecordTypeGoal.IdData.Type(typeId))
+
+        val runningRecord = runningRecordInteractor.get(typeId) ?: return
+        val goals = recordTypeGoalInteractor.getByType(typeId)
 
         // Session
         checkType(
@@ -131,7 +138,6 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
 
         // For each goal check current results.
         val runningRecords = runningRecordInteractor.getAll()
-        val typesMap = recordTypeInteractor.getAll().associateBy(RecordType::id)
 
         categoriesWithThisTypes.keys.forEach { categoryId ->
             cancel(RecordTypeGoal.IdData.Type(categoryId))
@@ -141,7 +147,6 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         checkCategory(
             goalRange = Range.Session,
             goals = affectedCategoryGoals,
-            typesMap = typesMap,
             runningRecords = runningRecords,
             categoriesWithThisTypes = categoriesWithThisTypes,
         )
@@ -150,7 +155,6 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         checkCategory(
             goalRange = Range.Daily,
             goals = affectedCategoryGoals,
-            typesMap = typesMap,
             runningRecords = runningRecords,
             categoriesWithThisTypes = categoriesWithThisTypes,
         )
@@ -159,7 +163,6 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         checkCategory(
             goalRange = Range.Weekly,
             goals = affectedCategoryGoals,
-            typesMap = typesMap,
             runningRecords = runningRecords,
             categoriesWithThisTypes = categoriesWithThisTypes,
         )
@@ -168,7 +171,6 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         checkCategory(
             goalRange = Range.Monthly,
             goals = affectedCategoryGoals,
-            typesMap = typesMap,
             runningRecords = runningRecords,
             categoriesWithThisTypes = categoriesWithThisTypes,
         )
@@ -207,7 +209,6 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
     private suspend fun checkCategory(
         goalRange: Range,
         goals: List<RecordTypeGoal>,
-        typesMap: Map<Long, RecordType>,
         runningRecords: List<RunningRecord>,
         categoriesWithThisTypes: Map<Long, List<Long>>,
     ) {
@@ -219,16 +220,17 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         }
         if (rangeGoals.isEmpty()) return
 
-        val allTypeIdsFromTheseCategories = categoriesWithThisTypes.values.flatten().toSet()
+        val allTypeIdsFromTheseCategories = categoriesWithThisTypes.values
+            .flatten().toSet().toList()
         val allCurrents = if (goalRange is Range.Session) {
-            typesMap.map { (typeId, _) ->
-                typeId to runningRecords
+            allTypeIdsFromTheseCategories.associateWith { typeId ->
+                runningRecords
                     .filter { it.id == typeId }
                     .sumOf { System.currentTimeMillis() - it.timeStarted }
-            }.toMap()
+            }
         } else {
             getCurrentRecordsDurationInteractor.getAllCurrents(
-                typesMap = typesMap.filterKeys { it in allTypeIdsFromTheseCategories },
+                typeIds = allTypeIdsFromTheseCategories,
                 runningRecords = runningRecords,
                 rangeLength = when (goalRange) {
                     is Range.Session -> return

@@ -40,11 +40,12 @@ class NotificationGoalParamsInteractor @Inject constructor(
         idData: RecordTypeGoal.IdData,
         range: RecordTypeGoal.Range,
         type: Type,
-    ): NotificationGoalTimeParams {
+    ): NotificationGoalTimeParams? {
         val typeId = (idData as? RecordTypeGoal.IdData.Type)?.value
         val recordType = recordTypeInteractor.get(typeId.orZero())
         val categoryId = (idData as? RecordTypeGoal.IdData.Category)?.value
         val category = categoryInteractor.get(categoryId.orZero())
+        if (recordType == null && category == null) return null
         val goals = when (idData) {
             is RecordTypeGoal.IdData.Type -> {
                 recordTypeGoalInteractor.getByType(typeId.orZero())

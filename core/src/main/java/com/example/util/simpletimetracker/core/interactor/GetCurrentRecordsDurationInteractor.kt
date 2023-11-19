@@ -5,7 +5,6 @@ import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import java.lang.Long.max
 import javax.inject.Inject
@@ -36,32 +35,32 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
     }
 
     suspend fun getAllCurrents(
-        typesMap: Map<Long, RecordType>,
+        typeIds: List<Long>,
         runningRecords: List<RunningRecord>,
         rangeLength: RangeLength,
     ): Map<Long, Result> {
         val range = getRange(rangeLength)
         val rangeRecords = recordInteractor.getFromRangeByType(
-            typeIds = typesMap.keys.toList(),
-            range = range
+            typeIds = typeIds,
+            range = range,
         )
 
-        return typesMap.map { (typeId, _) ->
-            typeId to getRangeCurrent(
+        return typeIds.associateWith { typeId ->
+            getRangeCurrent(
                 typeId = typeId,
                 runningRecord = runningRecords.firstOrNull { it.id == typeId },
                 range = range,
                 rangeRecords = rangeRecords,
             )
-        }.toMap()
+        }
     }
 
     suspend fun getAllDailyCurrents(
-        typesMap: Map<Long, RecordType>,
+        typeIds: List<Long>,
         runningRecords: List<RunningRecord>,
     ): Map<Long, Result> {
         return getAllCurrents(
-            typesMap = typesMap,
+            typeIds = typeIds,
             runningRecords = runningRecords,
             rangeLength = RangeLength.Day,
         )

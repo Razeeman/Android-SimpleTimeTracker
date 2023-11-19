@@ -27,8 +27,8 @@ class CategoryInteractor @Inject constructor(
     }
 
     suspend fun remove(id: Long) {
-        categoryRepo.remove(id)
         recordTypeCategoryRepo.removeAll(id)
         recordTypeGoalRepo.removeByCategory(id)
+        categoryRepo.remove(id)
     }
 }

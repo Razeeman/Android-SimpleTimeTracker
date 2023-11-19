@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
@@ -120,14 +121,13 @@ class WidgetUniversalViewModel @Inject constructor(
     private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypes = recordTypeInteractor.getAll()
-        val recordTypesMap = recordTypes.associateBy(RecordType::id)
         val goals = recordTypeGoalInteractor.getAllTypeGoals().groupBy { it.idData.value }
-        val recordTypesRunning = runningRecords.map { it.id }
+        val recordTypesRunning = runningRecords.map(RunningRecord::id)
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val allDailyCurrents = if (goals.isNotEmpty()) {
             getCurrentRecordsDurationInteractor.getAllDailyCurrents(
-                typesMap = recordTypesMap,
+                typeIds = recordTypes.map(RecordType::id),
                 runningRecords = runningRecords,
             )
         } else {
