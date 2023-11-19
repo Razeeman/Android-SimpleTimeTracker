@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_notification.goalTime.interactor
 
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalCountInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -32,14 +33,14 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         checkAndShowCategory(typeId)
     }
 
-    override fun cancel(typeId: Long) {
+    override fun cancel(idData: RecordTypeGoal.IdData) {
         listOf(
             Range.Session,
             Range.Daily,
             Range.Weekly,
             Range.Monthly,
         ).forEach {
-            manager.hide(typeId, it)
+            manager.hide(idData, it)
         }
     }
 
@@ -50,8 +51,6 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
 
         // No count goals - exit.
         if (goals.isEmpty()) return
-
-        cancel(typeId)
 
         // Daily
         checkType(
@@ -79,7 +78,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
     }
 
     private suspend fun checkAndShowCategory(typeId: Long) {
-        // Find all category count goals.
+        // Find all category goals.
         val goals = recordTypeGoalInteractor.getAllCategoryGoals()
             .filter { it.type is Type.Count }
         if (goals.isEmpty()) return
@@ -204,8 +203,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         rangeGoals.forEach { goal ->
             val categoryId = (goal.idData as? RecordTypeGoal.IdData.Category)?.value
                 ?: return@forEach
-            val current = thisRangeCurrents[categoryId]?.count
-                ?: return@forEach
+            val current = thisRangeCurrents[categoryId]?.count.orZero()
             if (current == goal.value) {
                 show(
                     idData = RecordTypeGoal.IdData.Category(categoryId),

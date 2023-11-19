@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_notification.goalTime.interactor
 
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalRangeEndInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
@@ -8,6 +9,9 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryIn
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal.Range
 import com.example.util.simpletimetracker.domain.model.RunningRecord
@@ -34,24 +38,20 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
     }
 
     override suspend fun checkAndReschedule(typeIds: List<Long>) {
-        typeIds.forEach { checkAndReschedule(it) }
+        typeIds.forEach { checkAndRescheduleType(it) }
+        checkAndRescheduleCategory(typeIds)
         notificationGoalRangeEndInteractor.checkAndReschedule()
     }
 
-    override suspend fun checkAndRescheduleCategory(categoryId: Long) {
-        val typeIds = recordTypeCategoryInteractor.getTypes(categoryId)
-        checkAndReschedule(typeIds)
-    }
-
-    override fun cancel(typeId: Long) {
+    override fun cancel(idData: RecordTypeGoal.IdData) {
         listOf(
             Range.Session,
             Range.Daily,
             Range.Weekly,
             Range.Monthly,
         ).forEach {
-            scheduler.cancelSchedule(RecordTypeGoal.IdData.Type(typeId), it)
-            manager.hide(typeId, it)
+            scheduler.cancelSchedule(idData, it)
+            manager.hide(idData, it)
         }
     }
 
@@ -66,17 +66,17 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         ).let(manager::show)
     }
 
-    private suspend fun checkAndReschedule(typeId: Long) {
+    private suspend fun checkAndRescheduleType(typeId: Long) {
         val recordType = recordTypeInteractor.get(typeId)
         val runningRecord = runningRecordInteractor.get(typeId)
         val goals = recordTypeGoalInteractor.getByType(typeId)
 
         if (recordType == null || runningRecord == null) return
 
-        cancel(typeId)
+        cancel(RecordTypeGoal.IdData.Type(typeId))
 
         // Session
-        check(
+        checkType(
             goalRange = Range.Session,
             idData = RecordTypeGoal.IdData.Type(typeId),
             goals = goals,
@@ -84,7 +84,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         )
 
         // Daily
-        check(
+        checkType(
             goalRange = Range.Daily,
             idData = RecordTypeGoal.IdData.Type(typeId),
             goals = goals,
@@ -92,7 +92,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         )
 
         // Weekly
-        check(
+        checkType(
             goalRange = Range.Weekly,
             idData = RecordTypeGoal.IdData.Type(typeId),
             goals = goals,
@@ -100,7 +100,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         )
 
         // Monthly
-        check(
+        checkType(
             goalRange = Range.Monthly,
             idData = RecordTypeGoal.IdData.Type(typeId),
             goals = goals,
@@ -108,7 +108,73 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         )
     }
 
-    private suspend fun check(
+    private suspend fun checkAndRescheduleCategory(typeIds: List<Long>) {
+        // Find all category goals.
+        val goals = recordTypeGoalInteractor.getAllCategoryGoals()
+            .filter { it.type is RecordTypeGoal.Type.Duration }
+        if (goals.isEmpty()) return
+
+        // Find all categories that hold this types.
+        val categories = recordTypeCategoryInteractor.getAll()
+            .groupBy(RecordTypeCategory::categoryId)
+        val categoriesWithThisTypes = categories
+            .mapValues { it.value.map(RecordTypeCategory::recordTypeId) }
+            .filterValues { it.any { typeId -> typeId in typeIds } }
+
+        // If this types doesn't affect any categories - exit.
+        if (categoriesWithThisTypes.isEmpty()) return
+
+        // If affected categories doesn't have goals - exit.
+        val affectedCategoryGoals = goals
+            .filter { it.idData.value in categoriesWithThisTypes.keys }
+        if (affectedCategoryGoals.isEmpty()) return
+
+        // For each goal check current results.
+        val runningRecords = runningRecordInteractor.getAll()
+        val typesMap = recordTypeInteractor.getAll().associateBy(RecordType::id)
+
+        categoriesWithThisTypes.keys.forEach { categoryId ->
+            cancel(RecordTypeGoal.IdData.Type(categoryId))
+        }
+
+        // Session
+        checkCategory(
+            goalRange = Range.Session,
+            goals = affectedCategoryGoals,
+            typesMap = typesMap,
+            runningRecords = runningRecords,
+            categoriesWithThisTypes = categoriesWithThisTypes,
+        )
+
+        // Daily
+        checkCategory(
+            goalRange = Range.Daily,
+            goals = affectedCategoryGoals,
+            typesMap = typesMap,
+            runningRecords = runningRecords,
+            categoriesWithThisTypes = categoriesWithThisTypes,
+        )
+
+        // Weekly
+        checkCategory(
+            goalRange = Range.Weekly,
+            goals = affectedCategoryGoals,
+            typesMap = typesMap,
+            runningRecords = runningRecords,
+            categoriesWithThisTypes = categoriesWithThisTypes,
+        )
+
+        // Monthly
+        checkCategory(
+            goalRange = Range.Monthly,
+            goals = affectedCategoryGoals,
+            typesMap = typesMap,
+            runningRecords = runningRecords,
+            categoriesWithThisTypes = categoriesWithThisTypes,
+        )
+    }
+
+    private suspend fun checkType(
         goalRange: Range,
         idData: RecordTypeGoal.IdData,
         goals: List<RecordTypeGoal>,
@@ -132,6 +198,69 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                 scheduler.schedule(
                     durationMillisFromNow = goal - current,
                     idData = idData,
+                    goalRange = goalRange,
+                )
+            }
+        }
+    }
+
+    private suspend fun checkCategory(
+        goalRange: Range,
+        goals: List<RecordTypeGoal>,
+        typesMap: Map<Long, RecordType>,
+        runningRecords: List<RunningRecord>,
+        categoriesWithThisTypes: Map<Long, List<Long>>,
+    ) {
+        val rangeGoals = goals.filter {
+            it.isCorrectRange(goalRange) &&
+                it.idData is RecordTypeGoal.IdData.Category &&
+                it.type is RecordTypeGoal.Type.Duration &&
+                it.value > 0
+        }
+        if (rangeGoals.isEmpty()) return
+
+        val allTypeIdsFromTheseCategories = categoriesWithThisTypes.values.flatten().toSet()
+        val allCurrents = if (goalRange is Range.Session) {
+            typesMap.map { (typeId, _) ->
+                typeId to runningRecords
+                    .filter { it.id == typeId }
+                    .sumOf { System.currentTimeMillis() - it.timeStarted }
+            }.toMap()
+        } else {
+            getCurrentRecordsDurationInteractor.getAllCurrents(
+                typesMap = typesMap.filterKeys { it in allTypeIdsFromTheseCategories },
+                runningRecords = runningRecords,
+                rangeLength = when (goalRange) {
+                    is Range.Session -> return
+                    is Range.Daily -> RangeLength.Day
+                    is Range.Weekly -> RangeLength.Week
+                    is Range.Monthly -> RangeLength.Month
+                },
+            ).mapValues {
+                it.value.duration
+            }
+        }
+
+        val thisRangeCurrents = categoriesWithThisTypes.mapNotNull { (categoryId, typeIds) ->
+            val currents = allCurrents
+                .filter { it.key in typeIds }
+                .values
+                .toList()
+            categoryId to currents.sum()
+        }.toMap()
+
+        rangeGoals.forEach { goal ->
+            val categoryId = (goal.idData as? RecordTypeGoal.IdData.Category)?.value
+                ?: return@forEach
+            val current = thisRangeCurrents[categoryId].orZero()
+            val goalValue = goal.value * 1000
+            if (goalValue > current) {
+                val count = categoriesWithThisTypes[categoryId]
+                    ?.sum()
+                    .takeUnless { it == 0L } ?: return@forEach
+                scheduler.schedule(
+                    durationMillisFromNow = (goalValue - current) / count,
+                    idData = RecordTypeGoal.IdData.Category(categoryId),
                     goalRange = goalRange,
                 )
             }

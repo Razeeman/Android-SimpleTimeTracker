@@ -58,8 +58,11 @@ class NotificationGoalTimeManager @Inject constructor(
         )
     }
 
-    fun hide(typeId: Long, goalRange: RecordTypeGoal.Range) {
-        notificationManager.cancel(getNotificationTag(goalRange), typeId.toInt())
+    fun hide(
+        idData: RecordTypeGoal.IdData,
+        goalRange: RecordTypeGoal.Range,
+    ) {
+        notificationManager.cancel(getNotificationTag(goalRange), idData.value.toInt())
     }
 
     private fun getNotificationTag(goalRange: RecordTypeGoal.Range): String {

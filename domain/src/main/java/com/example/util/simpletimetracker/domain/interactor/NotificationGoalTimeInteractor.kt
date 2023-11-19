@@ -8,9 +8,7 @@ interface NotificationGoalTimeInteractor {
 
     suspend fun checkAndReschedule(typeIds: List<Long>)
 
-    suspend fun checkAndRescheduleCategory(categoryId: Long)
-
-    fun cancel(typeId: Long)
+    fun cancel(idData: RecordTypeGoal.IdData)
 
     suspend fun show(
         idData: RecordTypeGoal.IdData,

@@ -163,6 +163,7 @@ class ChangeCategoryViewModel @Inject constructor(
         viewModelScope.launch {
             if (categoryId != 0L) {
                 categoryInteractor.remove(categoryId)
+                notificationGoalTimeInteractor.cancel(RecordTypeGoal.IdData.Category(categoryId))
                 showMessage(R.string.change_category_removed)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
@@ -185,7 +186,8 @@ class ChangeCategoryViewModel @Inject constructor(
                 val addedId = saveCategory()
                 saveTypes(addedId)
                 goalsViewModelDelegate.saveGoals(RecordTypeGoal.IdData.Category(addedId))
-                notificationGoalTimeInteractor.checkAndRescheduleCategory(addedId)
+                val typeIds = (initialTypes + newTypes).toSet().toList()
+                notificationGoalTimeInteractor.checkAndReschedule(typeIds)
                 widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()

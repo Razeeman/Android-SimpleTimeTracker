@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -45,8 +46,8 @@ class RemoveRunningRecordMediator @Inject constructor(
         notificationInactivityInteractor.checkAndSchedule()
         // Cancel if no activity tracked.
         if (runningRecordInteractor.getAll().isEmpty()) notificationActivityInteractor.cancel()
-        notificationGoalTimeInteractor.cancel(typeId)
-        notificationGoalCountInteractor.cancel(typeId)
+        notificationGoalTimeInteractor.cancel(RecordTypeGoal.IdData.Type(typeId))
+        notificationGoalCountInteractor.cancel(RecordTypeGoal.IdData.Type(typeId))
         widgetInteractor.updateWidgets()
     }
 }
