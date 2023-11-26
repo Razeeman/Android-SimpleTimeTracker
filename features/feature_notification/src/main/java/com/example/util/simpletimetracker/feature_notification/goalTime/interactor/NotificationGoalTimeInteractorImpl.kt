@@ -19,18 +19,18 @@ import javax.inject.Inject
 
 /**
  * Type goal can be changed:
- * - change / remove running record
- * - change / remove record
- * - change / remove type goal
+ * - add / change / remove running record
+ * - add / change / remove record
+ * - add / change / remove type goal
  * - remove type
  *
  * Category goal can be changed:
- * - change / remove running record
- * - change / remove record
- * - change / remove category goal
+ * - add / change / remove running record
+ * - add / change / remove record
+ * - add / change / remove category goal
+ * - remove category
  * - change type categories
  * - change category activities
- * - remove category
  */
 class NotificationGoalTimeInteractorImpl @Inject constructor(
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,

@@ -10,6 +10,10 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTime
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_archive.R
 import com.example.util.simpletimetracker.feature_archive.interactor.ArchiveViewDataInteractor
 import com.example.util.simpletimetracker.feature_archive.viewData.ArchiveViewData
@@ -33,6 +37,8 @@ class ArchiveViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val widgetInteractor: WidgetInteractor,
+    private val runningRecordInteractor: RunningRecordInteractor,
 ) : ViewModel() {
 
     val viewData: LiveData<ArchiveViewData> by lazy {
@@ -104,7 +110,10 @@ class ArchiveViewModel @Inject constructor(
             val message = when (params) {
                 is ArchiveDialogParams.Activity -> {
                     recordTypeInteractor.remove(params.id)
-                    notificationGoalTimeInteractor.checkAndReschedule(listOf(params.id))
+                    val runningRecordIds = runningRecordInteractor.getAll().map { it.id }
+                    notificationGoalTimeInteractor.cancel(RecordTypeGoal.IdData.Type(params.id))
+                    notificationGoalTimeInteractor.checkAndReschedule(runningRecordIds + params.id)
+                    widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
                     resourceRepo.getString(R.string.archive_activity_deleted)
                 }
                 is ArchiveDialogParams.RecordTag -> {

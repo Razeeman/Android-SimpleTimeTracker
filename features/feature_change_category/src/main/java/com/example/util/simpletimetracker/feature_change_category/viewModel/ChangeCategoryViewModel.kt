@@ -164,6 +164,7 @@ class ChangeCategoryViewModel @Inject constructor(
             if (categoryId != 0L) {
                 categoryInteractor.remove(categoryId)
                 notificationGoalTimeInteractor.cancel(RecordTypeGoal.IdData.Category(categoryId))
+                widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
                 showMessage(R.string.change_category_removed)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
