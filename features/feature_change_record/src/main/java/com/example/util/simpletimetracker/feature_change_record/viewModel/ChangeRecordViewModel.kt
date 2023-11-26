@@ -106,7 +106,7 @@ class ChangeRecordViewModel @Inject constructor(
             timeStarted = newTimeStarted,
             timeEnded = newTimeEnded,
             comment = newComment,
-            tagIds = newCategoryIds
+            tagIds = newCategoryIds,
         ).let {
             addRecordMediator.add(it)
             if (newTypeId != originalTypeId) {
@@ -143,7 +143,7 @@ class ChangeRecordViewModel @Inject constructor(
             timeStarted = newTimeStarted,
             timeEnded = newTimeEnded,
             comment = newComment,
-            tagIds = newCategoryIds
+            tagIds = newCategoryIds,
         ).let {
             addRecordMediator.add(it)
         }
@@ -166,8 +166,21 @@ class ChangeRecordViewModel @Inject constructor(
         super.onTimeStartedChanged()
     }
 
-    private fun getInitialDate(daysFromToday: Int): Long {
+    private fun getInitialTimeEnded(daysFromToday: Int): Long {
         return timeMapper.toTimestampShifted(daysFromToday, RangeLength.Day)
+    }
+
+    private suspend fun getInitialTimeStarted(daysFromToday: Int): Long {
+        val default = newTimeEnded - ONE_HOUR
+
+        return if (daysFromToday == 0) {
+            recordInteractor.getPrev(newTimeEnded, limit = 1)
+                .firstOrNull()
+                ?.timeEnded
+                ?: default
+        } else {
+            default
+        }
     }
 
     override suspend fun updatePreview() {
@@ -190,8 +203,9 @@ class ChangeRecordViewModel @Inject constructor(
                 newTimeEnded = (extra as ChangeRecordParams.Untracked).timeEnded
             }
             is ChangeRecordParams.New -> {
-                newTimeEnded = getInitialDate((extra as ChangeRecordParams.New).daysFromToday)
-                newTimeStarted = newTimeEnded - ONE_HOUR
+                val daysFromToday = (extra as ChangeRecordParams.New).daysFromToday
+                newTimeEnded = getInitialTimeEnded(daysFromToday)
+                newTimeStarted = getInitialTimeStarted(daysFromToday)
             }
         }
         newTimeSplit = newTimeStarted
@@ -207,7 +221,7 @@ class ChangeRecordViewModel @Inject constructor(
             timeStarted = newTimeStarted,
             timeEnded = newTimeEnded,
             comment = newComment,
-            tagIds = newCategoryIds
+            tagIds = newCategoryIds,
         )
 
         return changeRecordViewDataInteractor.getPreviewViewData(record)
