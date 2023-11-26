@@ -114,6 +114,7 @@
     <string name="change_record_adjust">Cambio</string>
     <string name="change_record_change_prev_record">También cambia el tiempo del registro anterior</string>
     <string name="change_record_change_adjacent_records">También cambia la hora de los registros adyacentes</string>
+    <string name="change_record_untracked_time_hint">El tiempo sin seguimiento es el momento en el que no se realizó un seguimiento de ninguna actividad. Se puede desactivar en la configuración.</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Actividad archivada</string>

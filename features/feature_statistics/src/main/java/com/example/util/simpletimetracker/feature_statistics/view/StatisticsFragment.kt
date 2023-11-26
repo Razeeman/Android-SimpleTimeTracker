@@ -151,7 +151,7 @@ class StatisticsFragment :
             createStatisticsGoalAdapterDelegate(),
             createStatisticsTitleAdapterDelegate(),
             createHintAdapterDelegate(),
-            createHintBigAdapterDelegate(),
+            createHintBigAdapterDelegate(viewModel::onUntrackedHintCloseClick),
             createLoaderAdapterDelegate(),
             createDividerAdapterDelegate(),
         )

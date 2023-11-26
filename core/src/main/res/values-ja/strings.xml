@@ -114,6 +114,7 @@
     <string name="change_record_adjust">変更する</string>
     <string name="change_record_change_prev_record">前のレコードの時刻も変更</string>
     <string name="change_record_change_adjacent_records">隣接レコードの時刻も変更</string>
+    <string name="change_record_untracked_time_hint">未追跡時間とは、アクティビティが追跡されなかった時間です。設定で無効にすることができます</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">アクティビティをアーカイブ</string>

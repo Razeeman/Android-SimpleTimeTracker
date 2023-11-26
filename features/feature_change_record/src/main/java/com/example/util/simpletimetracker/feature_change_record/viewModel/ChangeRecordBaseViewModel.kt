@@ -98,6 +98,14 @@ abstract class ChangeRecordBaseViewModel(
             initial
         }
     }
+    val untrackedTimeHintVisibility: LiveData<Boolean> by lazy {
+        return@lazy MutableLiveData<Boolean>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadUntrackedTimeHintVisibility()
+            }
+            initial
+        }
+    }
     val timeAdjustmentState: LiveData<TimeAdjustmentState> = MutableLiveData(TimeAdjustmentState.TIME_STARTED)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -123,6 +131,7 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract val splitPreviewTimeEnded: Long
     protected abstract val showTimeEndedOnSplitPreview: Boolean
     protected abstract val adjustNextRecordAvailable: Boolean
+    protected abstract val untrackedHintAvailable: Boolean
 
     private var prevRecord: Record? = null
     private var nextRecord: Record? = null
@@ -445,6 +454,13 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
+    fun onUntrackedHintCloseClick() {
+        viewModelScope.launch {
+            prefsInteractor.setUntrackedTimeHintWasHidden(wasHidden = true)
+            updateUntrackedTimeHintVisibility()
+        }
+    }
+
     private suspend fun updateMergeData() {
         changeRecordMergeDelegate.updateMergePreviewViewData(
             mergeAvailable = mergeAvailable,
@@ -662,6 +678,16 @@ abstract class ChangeRecordBaseViewModel(
             isLoading = isLoading,
             search = searchComment,
         )
+    }
+
+    private suspend fun updateUntrackedTimeHintVisibility() {
+        untrackedTimeHintVisibility.set(loadUntrackedTimeHintVisibility())
+    }
+
+    private suspend fun loadUntrackedTimeHintVisibility(): Boolean {
+        val wasHidden = prefsInteractor.getUntrackedTimeHintWasHidden()
+        val isCalendarView = prefsInteractor.getShowRecordsCalendar()
+        return untrackedHintAvailable && isCalendarView && !wasHidden
     }
 
     companion object {

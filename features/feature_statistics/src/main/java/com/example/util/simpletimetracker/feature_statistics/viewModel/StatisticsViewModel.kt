@@ -151,6 +151,13 @@ class StatisticsViewModel @Inject constructor(
         }
     }
 
+    fun onUntrackedHintCloseClick() {
+        viewModelScope.launch {
+            prefsInteractor.setUntrackedTimeHintWasHidden(wasHidden = true)
+            updateStatistics()
+        }
+    }
+
     private fun updateAnimateChartParticles() {
         val shouldAnimate = isVisible && isChartAttached && !isTabScrolling && !isChartFilterOpened
         animateChartParticles.set(shouldAnimate)

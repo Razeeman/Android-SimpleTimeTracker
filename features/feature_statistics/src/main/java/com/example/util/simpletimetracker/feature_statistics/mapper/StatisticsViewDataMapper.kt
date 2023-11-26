@@ -81,6 +81,8 @@ class StatisticsViewDataMapper @Inject constructor(
     fun mapToNoStatistics(): ViewHolderType {
         return HintBigViewData(
             text = resourceRepo.getString(R.string.no_statistics_exist),
+            infoIconVisible = true,
+            closeIconVisible = false,
         )
     }
 

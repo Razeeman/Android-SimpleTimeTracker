@@ -19,6 +19,8 @@ class RunningRecordsViewDataMapper @Inject constructor(
                 resourceRepo.getString(R.string.running_records_add_type),
                 resourceRepo.getString(R.string.running_records_add_default),
             ),
+            infoIconVisible = true,
+            closeIconVisible = false,
         )
     }
 

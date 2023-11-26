@@ -150,4 +150,10 @@
         <attr name="drawIcons" format="boolean" />
         <attr name="drawParticles" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="HintBigView">
+        <attr name="itemHintText" format="reference" />
+        <attr name="itemInfoIconVisible" format="boolean" />
+        <attr name="itemCloseIconVisible" format="boolean" />
+    </declare-styleable>
 </resources>

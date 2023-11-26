@@ -137,7 +137,14 @@ class RecordsViewModel @Inject constructor(
         }
     }
 
-    private fun updateRecords() = viewModelScope.launch() {
+    fun onUntrackedHintCloseClick() {
+        viewModelScope.launch {
+            prefsInteractor.setUntrackedTimeHintWasHidden(wasHidden = true)
+            updateRecords()
+        }
+    }
+
+    private fun updateRecords() = viewModelScope.launch {
         isCalendarView.set(prefsInteractor.getShowRecordsCalendar())
 
         when (val state = loadRecordsViewData()) {

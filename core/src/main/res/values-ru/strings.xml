@@ -114,6 +114,7 @@
     <string name="change_record_adjust">Изменить</string>
     <string name="change_record_change_prev_record">Также изменить время предыдущей записи</string>
     <string name="change_record_change_adjacent_records">Также изменить время соседних записей</string>
+    <string name="change_record_untracked_time_hint">Неотслеживаемое время - это время, когда никакая активность не отслеживалась. Его можно отключить в настройках</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Активность перемещена в архив</string>

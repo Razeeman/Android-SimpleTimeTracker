@@ -114,6 +114,7 @@
     <string name="change_record_adjust">Canvi</string>
     <string name="change_record_change_prev_record">També canvia el temps de l\'enregistrament anterior</string>
     <string name="change_record_change_adjacent_records">També canvia el temps dels enregistraments adjacents</string>
+    <string name="change_record_untracked_time_hint">El temps sense seguiment és el temps en què no s\'ha fet el seguiment de cap activitat. Es pot desactivar a la configuració</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activitat arxivada</string>

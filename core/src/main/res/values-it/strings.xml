@@ -114,6 +114,7 @@
     <string name="change_record_adjust">Modificare</string>
     <string name="change_record_change_prev_record">Cambia anche l\'ora della registrazione precedente</string>
     <string name="change_record_change_adjacent_records">Cambia anche l\'ora dei record adiacenti</string>
+    <string name="change_record_untracked_time_hint">Il tempo non tracciato è il tempo in cui non è stata tracciata alcuna attività. Può essere disabilitato nelle impostazioni</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Attività archiviata</string>

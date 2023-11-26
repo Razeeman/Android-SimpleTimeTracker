@@ -4,13 +4,18 @@ import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBin
 import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemHintBigLayoutBinding as Binding
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.HintBigViewData as ViewData
 
-fun createHintBigAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+fun createHintBigAdapterDelegate(
+    onCloseClick: () -> Unit = {},
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->
 
-    with(binding) {
+    with(binding.itemHintBig) {
         item as ViewData
 
-        tvHintItemText.text = item.text
+        itemText = item.text
+        itemInfoIconVisible = item.infoIconVisible
+        itemCloseIconVisible = item.closeIconVisible
+        setOnCloseClick(onCloseClick)
     }
 }

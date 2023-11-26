@@ -78,6 +78,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     override val splitPreviewTimeEnded: Long get() = System.currentTimeMillis()
     override val showTimeEndedOnSplitPreview: Boolean get() = false
     override val adjustNextRecordAvailable: Boolean get() = false
+    override val untrackedHintAvailable: Boolean get() = false
 
     val record: LiveData<ChangeRunningRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRunningRecordViewData>().let { initial ->

@@ -121,6 +121,16 @@ class RecordViewDataMapper @Inject constructor(
     fun mapToNoRecords(): ViewHolderType {
         return HintBigViewData(
             text = resourceRepo.getString(R.string.no_records_exist),
+            infoIconVisible = true,
+            closeIconVisible = false,
+        )
+    }
+
+    fun mapToUntrackedTimeHint(): ViewHolderType {
+        return HintBigViewData(
+            text = resourceRepo.getString(R.string.change_record_untracked_time_hint),
+            infoIconVisible = false,
+            closeIconVisible = true,
         )
     }
 }

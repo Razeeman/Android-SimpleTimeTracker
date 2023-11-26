@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.GoalViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -38,6 +39,7 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val goalViewDataMapper: GoalViewDataMapper,
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val recordViewDataMapper: RecordViewDataMapper,
 ) {
 
     fun mapFilter(
@@ -180,6 +182,8 @@ class StatisticsViewDataInteractor @Inject constructor(
             // Try to find if any record exists.
             else -> recordInteractor.isEmpty() && runningRecordInteractor.isEmpty()
         }
+        val showUntrackedTimeHint = !prefsInteractor.getUntrackedTimeHintWasHidden() &&
+            list.any { it.id == UNTRACKED_ITEM_ID }
 
         // Assemble data.
         val result: MutableList<ViewHolderType> = mutableListOf()
@@ -191,6 +195,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         } else {
             if (forSharing) getSharingTitle(rangeLength, shift).let(result::addAll)
             chart.let(result::add)
+            if (showUntrackedTimeHint) recordViewDataMapper.mapToUntrackedTimeHint().let(result::add)
             list.let(result::addAll)
             totalTracked.let(result::add)
             // If has any activity or tag other than untracked

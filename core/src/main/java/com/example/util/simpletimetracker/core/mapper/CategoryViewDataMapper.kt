@@ -192,13 +192,17 @@ class CategoryViewDataMapper @Inject constructor(
 
     fun mapToCategoriesFirstHint(): ViewHolderType {
         return HintBigViewData(
-            text = resourceRepo.getString(R.string.categories_record_type_hint)
+            text = resourceRepo.getString(R.string.categories_record_type_hint),
+            infoIconVisible = true,
+            closeIconVisible = false,
         )
     }
 
     fun mapToTagsFirstHint(): ViewHolderType {
         return HintBigViewData(
-            text = resourceRepo.getString(R.string.categories_record_hint)
+            text = resourceRepo.getString(R.string.categories_record_hint),
+            infoIconVisible = true,
+            closeIconVisible = false,
         )
     }
 
