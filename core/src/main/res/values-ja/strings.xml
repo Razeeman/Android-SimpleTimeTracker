@@ -15,6 +15,8 @@
     <string name="record_tag_hint_short">タグ</string>
     <string name="nothing_selected">何も選択されていません</string>
     <string name="something_selected">選択済み:</string>
+    <string name="select_all">すべて選択</string>
+    <string name="select_nothing">何も選択しない</string>
     <string name="no_data">データなし</string>
 
     <!--  Range selection  -->

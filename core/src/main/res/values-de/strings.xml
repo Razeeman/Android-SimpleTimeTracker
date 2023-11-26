@@ -15,6 +15,8 @@
     <string name="record_tag_hint_short">Tags</string>
     <string name="nothing_selected">Nichts ausgewählt</string>
     <string name="something_selected">Ausgewählt:</string>
+    <string name="select_all">Wählen Sie Alle</string>
+    <string name="select_nothing">Nichts auswählen</string>
     <string name="no_data">Keine Daten</string>
 
     <!--  Range selection  -->

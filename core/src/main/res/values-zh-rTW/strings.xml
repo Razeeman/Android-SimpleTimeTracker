@@ -15,6 +15,8 @@
     <string name="record_tag_hint_short">標籤</string>
     <string name="nothing_selected">未選取</string>
     <string name="something_selected">已選取:</string>
+    <string name="select_all">全選</string>
+    <string name="select_nothing">不選擇任何內容</string>
     <string name="no_data">沒有數據</string>
 
     <!--  Range selection  -->

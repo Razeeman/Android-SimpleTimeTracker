@@ -15,6 +15,8 @@
     <string name="record_tag_hint_short">Теги</string>
     <string name="nothing_selected">Нічого не вибрано</string>
     <string name="something_selected">Вибрано:</string>
+    <string name="select_all">Вибрати все</string>
+    <string name="select_nothing">Нічого не вибирайте</string>
     <string name="no_data">Немає даних</string>
 
     <!--  Range selection  -->

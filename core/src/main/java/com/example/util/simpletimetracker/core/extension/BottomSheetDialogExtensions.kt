@@ -31,7 +31,7 @@ fun BottomSheetDialogFragment.setFullScreen() {
     }
 }
 
-// Disable sheet swipe on content scroll to avoid accidentally closing payment sheet when scrolling items.
+// Disable sheet swipe on content scroll to avoid accidentally closing the sheet when scrolling items.
 fun BottomSheetDialogFragment.blockContentScroll(recyclerView: RecyclerView) {
     recyclerView.addOnScrollListenerAdapter(
         onScrolled = { _, _, dy ->

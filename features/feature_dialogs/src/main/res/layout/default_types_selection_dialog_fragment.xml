@@ -31,6 +31,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_weight="1"
+        android:overScrollMode="never"
         tools:listitem="@layout/item_record_type_layout" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,7 +47,7 @@
             android:ellipsize="marquee"
             android:paddingHorizontal="0dp"
             android:singleLine="true"
-            android:text="@string/types_filter_show_all"
+            android:text="@string/select_all"
             app:layout_constraintBottom_toTopOf="@id/btnDefaultTypesSelectionSave"
             app:layout_constraintEnd_toStartOf="@id/btnDefaultTypesSelectionHideAll"
             app:layout_constraintStart_toStartOf="parent" />
@@ -60,7 +61,7 @@
             android:ellipsize="marquee"
             android:paddingHorizontal="0dp"
             android:singleLine="true"
-            android:text="@string/types_filter_hide_all"
+            android:text="@string/select_nothing"
             app:layout_constraintBottom_toTopOf="@id/btnDefaultTypesSelectionSave"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnDefaultTypesSelectionShowAll" />

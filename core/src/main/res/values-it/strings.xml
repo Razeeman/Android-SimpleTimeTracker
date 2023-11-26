@@ -15,6 +15,8 @@
     <string name="record_tag_hint_short">Etichette</string>
     <string name="nothing_selected">Niente selezionato</string>
     <string name="something_selected">Selezionata:</string>
+    <string name="select_all">Seleziona tutto</string>
+    <string name="select_nothing">Non selezionare nulla</string>
     <string name="no_data">Nessun dato</string>
 
     <!--  Range selection  -->

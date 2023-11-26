@@ -15,6 +15,8 @@
     <string name="record_tag_hint_short">الوسوم</string>
     <string name="nothing_selected">لم يحدد شيء</string>
     <string name="something_selected">المحدد:</string>
+    <string name="select_all">اختر الكل</string>
+    <string name="select_nothing">لا تختار شيئا</string>
     <string name="no_data">لايوجد بيانات</string>
 
     <!--  Range selection  -->

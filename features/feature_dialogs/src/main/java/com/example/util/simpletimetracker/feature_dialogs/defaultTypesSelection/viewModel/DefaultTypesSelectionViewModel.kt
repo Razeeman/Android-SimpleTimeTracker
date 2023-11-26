@@ -7,13 +7,17 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
+import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.defaultTypesSelection.interactor.GetDefaultRecordTypesInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,6 +29,7 @@ class DefaultTypesSelectionViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val getDefaultRecordTypesInteractor: GetDefaultRecordTypesInteractor,
+    private val resourceRepo: ResourceRepo,
 ) : ViewModel() {
 
     val types: LiveData<List<ViewHolderType>> by lazy {
@@ -37,35 +42,35 @@ class DefaultTypesSelectionViewModel @Inject constructor(
         }
     }
     val close: LiveData<Unit> = MutableLiveData()
-    val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
+    val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(false)
 
     private var recordTypes: List<RecordType> = emptyList()
-    private var typeIdsFiltered: MutableList<Long> = mutableListOf()
+    private var typeIdsSelected: MutableList<Long> = mutableListOf()
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
-        typeIdsFiltered.addOrRemove(item.id)
+        typeIdsSelected.addOrRemove(item.id)
         updateSaveButtonEnabled()
         updateRecordTypesViewData()
     }
 
     fun onShowAllClick() {
-        typeIdsFiltered.clear()
+        typeIdsSelected.addAll(recordTypes.map { it.id })
         updateSaveButtonEnabled()
         updateRecordTypesViewData()
     }
 
     fun onHideAllClick() {
-        typeIdsFiltered.addAll(recordTypes.map { it.id })
+        typeIdsSelected.clear()
         updateSaveButtonEnabled()
         updateRecordTypesViewData()
     }
 
     fun onSaveClick() {
-        if (typeIdsFiltered.size == recordTypes.size) return
+        if (typeIdsSelected.size == 0) return
 
         saveButtonEnabled.set(false)
         viewModelScope.launch {
-            recordTypes.filter { it.id !in typeIdsFiltered }.forEach {
+            recordTypes.filter { it.id in typeIdsSelected }.forEach {
                 // Remove ids for correct adding in database.
                 recordTypeInteractor.add(it.copy(id = 0))
             }
@@ -75,7 +80,7 @@ class DefaultTypesSelectionViewModel @Inject constructor(
     }
 
     private fun updateSaveButtonEnabled() {
-        saveButtonEnabled.set(typeIdsFiltered.size != recordTypes.size)
+        saveButtonEnabled.set(typeIdsSelected.size != 0)
     }
 
     private fun updateRecordTypesViewData() = viewModelScope.launch {
@@ -89,15 +94,36 @@ class DefaultTypesSelectionViewModel @Inject constructor(
 
         if (recordTypes.isEmpty()) recordTypes = loadRecordTypes()
 
-        return recordTypes.map { recordType ->
-            recordTypeViewDataMapper.mapFiltered(
-                recordType = recordType,
+        fun map(type: RecordType): ViewHolderType {
+            return recordTypeViewDataMapper.map(
+                recordType = type,
                 numberOfCards = numberOfCards,
                 isDarkTheme = isDarkTheme,
-                isFiltered = recordType.id in typeIdsFiltered,
                 isChecked = null,
             )
         }
+
+        val selected = recordTypes
+            .filter { it.id in typeIdsSelected }
+            .map(::map)
+        val available = recordTypes
+            .filter { it.id !in typeIdsSelected }
+            .map(::map)
+
+        val result = mutableListOf<ViewHolderType>()
+
+        if (selected.isNotEmpty()) {
+            result += InfoViewData(resourceRepo.getString(R.string.something_selected))
+            result += selected
+        } else {
+            result += InfoViewData(resourceRepo.getString(R.string.nothing_selected))
+        }
+        if (available.isNotEmpty()) {
+            result += DividerViewData(0)
+        }
+        result += available
+
+        return result
     }
 
     private suspend fun loadRecordTypes(): List<RecordType> {

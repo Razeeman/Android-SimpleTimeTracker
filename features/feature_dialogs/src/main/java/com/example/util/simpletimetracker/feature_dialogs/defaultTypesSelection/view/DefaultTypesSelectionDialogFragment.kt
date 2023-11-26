@@ -10,6 +10,8 @@ import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.defaultTypesSelection.viewModel.DefaultTypesSelectionViewModel
@@ -32,6 +34,8 @@ class DefaultTypesSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
         BaseRecyclerAdapter(
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
             createLoaderAdapterDelegate(),
+            createDividerAdapterDelegate(),
+            createInfoAdapterDelegate(),
         )
     }
 

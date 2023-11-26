@@ -15,6 +15,8 @@
     <string name="record_tag_hint_short">برچسب ها</string>
     <string name="nothing_selected">موردی انتخاب نشده</string>
     <string name="something_selected">انتخاب شده:</string>
+    <string name="select_all">انتخاب همه</string>
+    <string name="select_nothing">چیزی را انتخاب نکنید</string>
     <string name="no_data">اطلاعاتی وجود ندارد</string>
 
     <!--  Range selection  -->
