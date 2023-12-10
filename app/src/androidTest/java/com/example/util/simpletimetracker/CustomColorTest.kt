@@ -190,7 +190,7 @@ class CustomColorTest : BaseUiTest() {
         // Select color
         clickOnViewWithText(coreR.string.change_record_type_color_hint)
         clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColorInt(colorInt))
-        checkPreviewUpdated(withCardColorInt(colorInt))
+        checkPreviewUpdated(hasDescendant(withCardColorInt(colorInt)))
         checkViewIsDisplayed(allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
 
         // Check selected color is preselected on color selection
@@ -211,7 +211,7 @@ class CustomColorTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.duration_dialog_save)
 
         // Check new color selected
-        checkPreviewUpdated(withCardColorInt(customColorInt))
+        checkPreviewUpdated(hasDescendant(withCardColorInt(customColorInt)))
         checkViewIsNotDisplayed(
             allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt)))
         )
@@ -231,12 +231,12 @@ class CustomColorTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(dialogsR.id.viewRecordTypeItem),
-                withCardColorInt(customColorInt),
+                hasDescendant(withCardColorInt(customColorInt)),
                 hasDescendant(withText(name)),
             )
         )
         longClickOnView(withText(name))
-        checkPreviewUpdated(withCardColorInt(customColorInt))
+        checkPreviewUpdated(hasDescendant(withCardColorInt(customColorInt)))
         clickOnViewWithText(coreR.string.change_record_type_color_hint)
         checkViewIsDisplayed(
             allOf(
@@ -343,6 +343,7 @@ class CustomColorTest : BaseUiTest() {
                 withParent(withId(dialogsR.id.layoutColorPaletteItem))
             )
         )
+        clickOnViewWithText(coreR.string.change_category_color_hint)
 
         // Save tag
         typeTextIntoView(changeCategoryR.id.etChangeCategoryName, categoryName)

@@ -86,6 +86,7 @@ class AddCategoryTest : BaseUiTest() {
         )
 
         // Open activity chooser
+        clickOnViewWithText(coreR.string.change_category_color_hint)
         clickOnViewWithText(coreR.string.change_category_types_hint)
         checkViewIsNotDisplayed(withId(changeCategoryR.id.rvChangeCategoryColor))
         checkViewIsDisplayed(withId(changeCategoryR.id.rvChangeCategoryType))

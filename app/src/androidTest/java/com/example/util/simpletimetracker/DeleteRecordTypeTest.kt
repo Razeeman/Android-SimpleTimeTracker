@@ -35,6 +35,7 @@ class DeleteRecordTypeTest : BaseUiTest() {
         val icon = firstIcon
 
         // Add item
+        Thread.sleep(1000)
         testUtils.addActivity(name = name, color = color, icon = icon)
         testUtils.addRecord(name)
 
@@ -44,7 +45,7 @@ class DeleteRecordTypeTest : BaseUiTest() {
                     withId(baseR.id.viewRecordTypeItem),
                     hasDescendant(withText(name)),
                     hasDescendant(withTag(icon)),
-                    withCardColor(color)
+                    hasDescendant(withCardColor(color))
                 )
             )
         }

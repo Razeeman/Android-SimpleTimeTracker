@@ -53,7 +53,7 @@ class Widget : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(baseR.id.viewRecordTypeItem),
-                withCardColor(color),
+                hasDescendant(withCardColor(color)),
                 hasDescendant(withText(name))
             )
         )

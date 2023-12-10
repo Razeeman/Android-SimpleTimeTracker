@@ -1,7 +1,14 @@
 package com.example.util.simpletimetracker
 
+import android.view.View
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.ViewAssertion
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyLeftOf
+import androidx.test.espresso.assertion.PositionAssertions.isTopAlignedWith
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -14,22 +21,24 @@ import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
-import com.example.util.simpletimetracker.feature_views.R as viewsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class AddDefaultRecordTypeTest : BaseUiTest() {
 
     @Test
-    fun addRecordType() {
+    fun default() {
         val name1 = "Games"
+        val name1next = "Tv"
         val color1 = ColorMapper.getAvailableColors()[1]
-        val name2 = "Work"
-        val color2 = ColorMapper.getAvailableColors()[10]
+        val name2 = "Chores"
+        val name2next = "Cleaning"
+        val color2 = ColorMapper.getAvailableColors()[5]
 
         tryAction {
             checkViewIsDisplayed(
@@ -48,8 +57,11 @@ class AddDefaultRecordTypeTest : BaseUiTest() {
         // Open dialog
         clickOnViewWithText(coreR.string.running_records_add_default)
         Thread.sleep(1000)
+        checkViewIsDisplayed(withText(coreR.string.nothing_selected))
         checkActivity(name1, color1)
         checkActivity(name2, color2)
+        checkOrder(name1, name1next, ::isCompletelyLeftOf, ::isTopAlignedWith)
+        checkOrder(name2, name2next, ::isCompletelyLeftOf, ::isTopAlignedWith)
 
         // Close without saving
         pressBack()
@@ -61,21 +73,25 @@ class AddDefaultRecordTypeTest : BaseUiTest() {
         // Check selection
         clickOnViewWithText(coreR.string.running_records_add_default)
         clickOnViewWithText(name1)
-        checkActivity(name1, viewsR.color.colorFiltered)
-        checkActivity(name2, color2)
+        checkViewIsDisplayed(withText(coreR.string.something_selected))
+        checkOrder(name1, name1next, ::isCompletelyAbove)
+        checkOrder(name2, name2next, ::isCompletelyLeftOf, ::isTopAlignedWith)
 
         clickOnViewWithText(name1)
         clickOnViewWithText(name2)
-        checkActivity(name1, color1)
-        checkActivity(name2, viewsR.color.colorFiltered)
+        checkViewIsDisplayed(withText(coreR.string.something_selected))
+        checkOrder(name1, name1next, ::isCompletelyLeftOf, ::isTopAlignedWith)
+        checkOrder(name2, name2next, ::isCompletelyAbove)
 
-        clickOnViewWithText(coreR.string.types_filter_show_all)
-        checkActivity(name1, color1)
-        checkActivity(name2, color2)
+        clickOnViewWithText(coreR.string.select_all)
+        checkViewIsDisplayed(withText(coreR.string.something_selected))
+        checkOrder(name1, name1next, ::isCompletelyLeftOf, ::isTopAlignedWith)
+        checkOrder(name2, name2next, ::isCompletelyLeftOf, ::isTopAlignedWith)
 
-        clickOnViewWithText(coreR.string.types_filter_hide_all)
-        checkActivity(name1, viewsR.color.colorFiltered)
-        checkActivity(name2, viewsR.color.colorFiltered)
+        clickOnViewWithText(coreR.string.select_nothing)
+        checkViewIsDisplayed(withText(coreR.string.nothing_selected))
+        checkOrder(name1, name1next, ::isCompletelyLeftOf, ::isTopAlignedWith)
+        checkOrder(name2, name2next, ::isCompletelyLeftOf, ::isTopAlignedWith)
 
         // Try to save when nothing selected
         clickOnViewWithText(coreR.string.duration_dialog_save)
@@ -101,9 +117,21 @@ class AddDefaultRecordTypeTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(baseR.id.viewRecordTypeItem),
-                withCardColor(color),
+                hasDescendant(withCardColor(color)),
                 hasDescendant(withText(name)),
             ),
         )
+    }
+
+    private fun checkOrder(
+        first: String,
+        second: String,
+        vararg matchers: (Matcher<View>) -> ViewAssertion,
+    ) {
+        matchers.forEach { matcher ->
+            onView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(first))).check(
+                matcher(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(second)))
+            )
+        }
     }
 }

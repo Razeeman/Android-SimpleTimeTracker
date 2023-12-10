@@ -185,7 +185,7 @@ class ArchiveTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
         clickOnViewWithId(recordsR.id.btnRecordAdd)
         clickOnViewWithText(coreR.string.change_record_type_field)
-        clickOnView(withText(name1))
+        clickOnView(allOf(withId(R.id.viewRecordTypeItem), hasDescendant(withText(name1))))
         tryAction { checkTagVisible(tag1) }
         checkTagNotVisible(tag2)
         checkTagVisible(tag3)

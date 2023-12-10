@@ -216,6 +216,7 @@ object NavUtils {
             clickOnViewWithText(coreR.string.change_category_color_hint)
             scrollRecyclerToView(changeCategoryR.id.rvChangeCategoryColor, withCardColor(color))
             clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryColor, withCardColor(color))
+            clickOnViewWithText(coreR.string.change_category_color_hint)
         }
 
         // Activities

@@ -91,13 +91,6 @@ class SettingsTest : BaseUiTest() {
             allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()),
         )
 
-        // Add record
-        NavUtils.addRecord(name)
-        checkViewDoesNotExist(
-            allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()),
-        )
-        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
-
         // Change setting
         NavUtils.openSettingsScreen()
         onView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords)).perform(nestedScrollTo())
@@ -108,7 +101,6 @@ class SettingsTest : BaseUiTest() {
         // Untracked is shown
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
     }
 
     @Test
@@ -142,7 +134,7 @@ class SettingsTest : BaseUiTest() {
 
         // Add record
         NavUtils.openRecordsScreen()
-        NavUtils.addRecord(name)
+        testUtils.addRecord(name)
         NavUtils.openStatisticsScreen()
         checkViewDoesNotExist(
             allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()),

@@ -78,7 +78,7 @@ class AddRecordTypeTest : BaseUiTest() {
 
         // Selecting color
         clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(firstColor))
-        checkPreviewUpdated(withCardColor(firstColor))
+        checkPreviewUpdated(hasDescendant(withCardColor(firstColor)))
         checkViewIsDisplayed(
             allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(firstColor))),
         )
@@ -86,7 +86,7 @@ class AddRecordTypeTest : BaseUiTest() {
         // Selecting color
         scrollRecyclerToPosition(changeRecordTypeR.id.rvChangeRecordTypeColor, lastColorPosition)
         clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(lastColor))
-        checkPreviewUpdated(withCardColor(lastColor))
+        checkPreviewUpdated(hasDescendant(withCardColor(lastColor)))
         checkViewIsDisplayed(
             allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(lastColor))),
         )

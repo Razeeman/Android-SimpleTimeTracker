@@ -56,7 +56,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(name)))
-        checkPreviewUpdated(withCardColor(firstColor))
+        checkPreviewUpdated(hasDescendant(withCardColor(firstColor)))
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
 
         // Change item
@@ -69,7 +69,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         )
         scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(lastColor))
         clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(lastColor))
-        checkPreviewUpdated(withCardColor(lastColor))
+        checkPreviewUpdated(hasDescendant(withCardColor(lastColor)))
         checkViewIsDisplayed(
             allOf(withId(changeRecordTypeR.id.viewColorItemSelected), withParent(withCardColor(lastColor))),
         )
