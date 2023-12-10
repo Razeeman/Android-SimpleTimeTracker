@@ -116,7 +116,7 @@
     <string name="change_record_adjust">बदलना</string>
     <string name="change_record_change_prev_record">पिछले रिकॉर्ड का समय भी बदलें</string>
     <string name="change_record_change_adjacent_records">पास के रिकॉर्ड का समय भी बदलें</string>
-    <string name="change_record_untracked_time_hint">अनट्रैक्ड टाइम वह समय है जब किसी भी गतिविधि को ट्रैक नहीं किया गया था। इसे सेटिंग्स में अक्षम किया जा सकता है</string>
+    <string name="change_record_untracked_time_hint">अनट्रैक्ड टाइम वह समय है जब किसी भी गतिविधि को ट्रैक नहीं किया गया था।</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">संग्रहीत गतिविधि</string>

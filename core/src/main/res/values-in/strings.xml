@@ -116,7 +116,7 @@
     <string name="change_record_adjust">Mengubah</string>
     <string name="change_record_change_prev_record">Juga ubah waktu rekaman sebelumnya</string>
     <string name="change_record_change_adjacent_records">Juga ubah waktu catatan yang berdekatan</string>
-    <string name="change_record_untracked_time_hint">Waktu yang tidak terlacak adalah waktu ketika tidak ada aktivitas yang terlacak. Itu dapat dinonaktifkan di pengaturan</string>
+    <string name="change_record_untracked_time_hint">Waktu yang tidak terlacak adalah waktu ketika tidak ada aktivitas yang terlacak.</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Kegiatan dihapuskan</string>

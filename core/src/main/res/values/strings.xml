@@ -116,7 +116,7 @@
     <string name="change_record_adjust">Change</string>
     <string name="change_record_change_prev_record">Also change time of previous record</string>
     <string name="change_record_change_adjacent_records">Also change time of adjacent records</string>
-    <string name="change_record_untracked_time_hint">Untracked time is time when no activity was tracked. It can be disabled in settings</string>
+    <string name="change_record_untracked_time_hint">Untracked time is time when no activity was tracked.</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activity archived</string>

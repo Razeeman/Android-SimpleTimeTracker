@@ -116,7 +116,7 @@
     <string name="change_record_adjust">변경</string>
     <string name="change_record_change_prev_record">이전 기록도 함께 변경</string>
     <string name="change_record_change_adjacent_records">관련 기록의 시간도 함께 변경</string>
-    <string name="change_record_untracked_time_hint">추적되지 않은 시간은 활동이 추적되지 않은 시간입니다. 설정에서 비활성화할 수 있습니다</string>
+    <string name="change_record_untracked_time_hint">추적되지 않은 시간은 활동이 추적되지 않은 시간입니다.</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">활동 보관됨</string>

@@ -125,12 +125,4 @@ class RecordViewDataMapper @Inject constructor(
             closeIconVisible = false,
         )
     }
-
-    fun mapToUntrackedTimeHint(): ViewHolderType {
-        return HintBigViewData(
-            text = resourceRepo.getString(R.string.change_record_untracked_time_hint),
-            infoIconVisible = false,
-            closeIconVisible = true,
-        )
-    }
 }

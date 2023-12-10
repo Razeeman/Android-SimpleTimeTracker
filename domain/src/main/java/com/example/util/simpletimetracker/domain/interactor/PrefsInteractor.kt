@@ -559,14 +559,6 @@ class PrefsInteractor @Inject constructor(
         }
     }
 
-    suspend fun getUntrackedTimeHintWasHidden(): Boolean = withContext(Dispatchers.IO) {
-        prefsRepo.untrackedTimeHintWasHidden
-    }
-
-    suspend fun setUntrackedTimeHintWasHidden(wasHidden: Boolean) = withContext(Dispatchers.IO) {
-        prefsRepo.untrackedTimeHintWasHidden = wasHidden
-    }
-
     suspend fun clear() = withContext(Dispatchers.IO) {
         prefsRepo.clear()
     }

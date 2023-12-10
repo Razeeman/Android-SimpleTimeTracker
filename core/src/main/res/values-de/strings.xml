@@ -116,7 +116,7 @@
     <string name="change_record_adjust">Ändern</string>
     <string name="change_record_change_prev_record">Ändern Sie auch die Zeit des vorherigen Datensatzes</string>
     <string name="change_record_change_adjacent_records">Ändern Sie auch die Zeit benachbarter Datensätze</string>
-    <string name="change_record_untracked_time_hint">Die nicht erfasste Zeit ist die Zeit, in der keine Aktivität erfasst wurde. Es kann in den Einstellungen deaktiviert werden</string>
+    <string name="change_record_untracked_time_hint">Die nicht erfasste Zeit ist die Zeit, in der keine Aktivität erfasst wurde.</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivität archiviert</string>

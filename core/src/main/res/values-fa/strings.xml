@@ -116,7 +116,7 @@
     <string name="change_record_adjust">تغییر</string>
     <string name="change_record_change_prev_record">همچنین زمان تاریخچه قبلی را تغییر دهید</string>
     <string name="change_record_change_adjacent_records">همچنین زمان تاریخچه های مجاور را تغییر دهید</string>
-    <string name="change_record_untracked_time_hint">زمان ردیابی نشده زمانی است که هیچ فعالیتی ردیابی نشده است. در تنظیمات می توان آن را غیرفعال کرد</string>
+    <string name="change_record_untracked_time_hint">زمان ردیابی نشده زمانی است که هیچ فعالیتی ردیابی نشده است.</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">فعالیت بایگانی شد</string>

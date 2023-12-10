@@ -165,8 +165,6 @@ class RecordsViewDataInteractor @Inject constructor(
             // Try to find if any record exists.
             else -> recordInteractor.isEmpty() && runningRecordInteractor.isEmpty()
         }
-        val showUntrackedTimeHint = !prefsInteractor.getUntrackedTimeHintWasHidden() &&
-            records.any { it.data.value is RecordViewData.Untracked }
 
         return records
             .sortedByDescending { it.timeStartedTimestamp }
@@ -176,13 +174,6 @@ class RecordsViewDataInteractor @Inject constructor(
                     showFirstEnterHint -> listOf(recordViewDataMapper.mapToNoRecords())
                     it.isEmpty() -> listOf(recordViewDataMapper.mapToEmpty())
                     else -> it + recordsViewDataMapper.mapToHint()
-                }
-            }
-            .let {
-                if (showUntrackedTimeHint) {
-                    listOf(recordViewDataMapper.mapToUntrackedTimeHint()) + it
-                } else {
-                    it
                 }
             }
             .let(RecordsState::RecordsData)

@@ -111,8 +111,6 @@ interface PrefsRepo {
 
     var repeatButtonType: Int
 
-    var untrackedTimeHintWasHidden: Boolean
-
     fun setWidget(widgetId: Int, recordType: Long)
 
     fun getWidget(widgetId: Int): Long

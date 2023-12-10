@@ -116,7 +116,7 @@
     <string name="change_record_adjust">改變</string>
     <string name="change_record_change_prev_record">也會改變前筆紀錄的時間</string>
     <string name="change_record_change_adjacent_records">也會改變鄰近紀錄的時間</string>
-    <string name="change_record_untracked_time_hint">未追蹤時間是指沒有追蹤任何活動的時間。可以在設定中停用它</string>
+    <string name="change_record_untracked_time_hint">未追蹤時間是指沒有追蹤任何活動的時間。</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">已備存活動</string>

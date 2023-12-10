@@ -152,7 +152,6 @@ class ChangeRecordCore(
         btnChangeRecordContinue.setOnClick(viewModel::onContinueClick)
         btnChangeRecordDuplicate.setOnClick(viewModel::onDuplicateClick)
         btnChangeRecordMerge.setOnClick(viewModel::onMergeClick)
-        containerChangeRecordUntrackedHint.setOnCloseClick(viewModel::onUntrackedHintCloseClick)
     }
 
     fun <T : ViewBinding> initViewModel(
@@ -193,7 +192,6 @@ class ChangeRecordCore(
             mergePreview.observe { setMergePreview(it, binding) }
             splitPreview.observe { setSplitPreview(it, binding) }
             adjustPreview.observe { setAdjustPreview(it, binding) }
-            untrackedTimeHintVisibility.observe(containerChangeRecordUntrackedHint::visible::set)
         }
     }
 

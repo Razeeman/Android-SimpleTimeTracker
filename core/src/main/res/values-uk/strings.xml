@@ -116,7 +116,7 @@
     <string name="change_record_adjust">Зміна</string>
     <string name="change_record_change_prev_record">Також змінити час попереднього запису</string>
     <string name="change_record_change_adjacent_records">Також змінити час суміжних записів</string>
-    <string name="change_record_untracked_time_hint">Невідстежуваний час – це час, коли жодна діяльність не відстежувалася. Його можна вимкнути в налаштуваннях</string>
+    <string name="change_record_untracked_time_hint">Невідстежуваний час – це час, коли жодна діяльність не відстежувалася.</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Активність переміщено до архіву</string>

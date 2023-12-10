@@ -116,7 +116,7 @@
     <string name="change_record_adjust">Verandering</string>
     <string name="change_record_change_prev_record">Wijzig ook de tijd van het vorige record</string>
     <string name="change_record_change_adjacent_records">Wijzig ook de tijd van aangrenzende records</string>
-    <string name="change_record_untracked_time_hint">Niet-bijgehouden tijd is de tijd waarin geen activiteit is bijgehouden. Het kan worden uitgeschakeld in de instellingen</string>
+    <string name="change_record_untracked_time_hint">Niet-bijgehouden tijd is de tijd waarin geen activiteit is bijgehouden.</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activiteit gearchiveerd</string>
