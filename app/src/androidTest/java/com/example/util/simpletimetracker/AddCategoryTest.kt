@@ -6,17 +6,21 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
+import com.example.util.simpletimetracker.utils.clickOnView
+import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
@@ -31,6 +35,7 @@ import org.junit.runner.RunWith
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
 import com.example.util.simpletimetracker.feature_change_category.R as changeCategoryR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -118,9 +123,26 @@ class AddCategoryTest : BaseUiTest() {
         onView(withText(typeName2)).check(isCompletelyBelow(withId(changeCategoryR.id.viewDividerItem)))
 
         clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryType, withText(typeName1))
-        clickOnViewWithText(coreR.string.change_record_type_save)
+        clickOnViewWithText(coreR.string.change_category_types_hint)
 
-        // Category type added
+        // Selecting goal time
+        clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
+        clickOnView(
+            allOf(
+                isDescendantOfA(withId(R.id.layoutChangeRecordTypeGoalSession)),
+                withId(R.id.fieldChangeRecordTypeGoalDuration),
+            ),
+        )
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithText(coreR.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("10$minuteString"))
+        clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
+
+        // Category added
+        clickOnViewWithText(coreR.string.change_record_type_save)
         checkViewIsDisplayed(withText(name))
         checkViewIsDisplayed(withCardColor(lastColor))
 
@@ -131,13 +153,29 @@ class AddCategoryTest : BaseUiTest() {
         checkViewIsDisplayed(withId(baseR.id.viewDividerItem))
         onView(withText(typeName1)).check(isCompletelyAbove(withId(baseR.id.viewDividerItem)))
         onView(withText(typeName2)).check(isCompletelyBelow(withId(baseR.id.viewDividerItem)))
+
+        // Check goals saved
+        clickOnViewWithText(coreR.string.change_category_types_hint)
+        clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
+        checkViewIsDisplayed(withText("10$minuteString"))
     }
 
     @Test
-    fun addCategoryTypesEmpty() {
+    fun addCategoryEmpty() {
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
         clickOnViewWithText(coreR.string.categories_add_category)
+
+        // Goal time is disabled
+        clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
+        checkViewIsDisplayed(
+            allOf(
+                isDescendantOfA(withId(R.id.layoutChangeRecordTypeGoalSession)),
+                withId(R.id.tvChangeRecordTypeGoalDurationValue),
+                withText(coreR.string.change_record_type_goal_time_disabled),
+            ),
+        )
+        clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
 
         // Open activity chooser
         clickOnViewWithText(coreR.string.change_category_types_hint)

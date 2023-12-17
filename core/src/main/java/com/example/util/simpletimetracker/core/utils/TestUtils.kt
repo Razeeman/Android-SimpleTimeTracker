@@ -147,13 +147,18 @@ class TestUtils @Inject constructor(
 
     fun addCategory(
         tagName: String,
+        goals: List<RecordTypeGoal> = emptyList(),
     ) = runBlocking {
         val data = Category(
             name = tagName,
             color = AppColor(colorId = 0, colorInt = ""),
         )
 
-        categoryInteractor.add(data)
+        val categoryId = categoryInteractor.add(data)
+
+        goals.forEach {
+            recordTypeGoalInteractor.add(it.copy(idData = RecordTypeGoal.IdData.Category(categoryId)))
+        }
     }
 
     fun addRecordTag(

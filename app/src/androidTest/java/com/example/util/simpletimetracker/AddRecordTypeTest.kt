@@ -172,7 +172,7 @@ class AddRecordTypeTest : BaseUiTest() {
     }
 
     @Test
-    fun addRecordTypeCategoriesEmpty() {
+    fun addRecordTypeEmpty() {
         tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
 
         // Goal time is disabled

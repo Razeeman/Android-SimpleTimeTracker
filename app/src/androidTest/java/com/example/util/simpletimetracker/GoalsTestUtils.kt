@@ -24,23 +24,44 @@ object GoalsTestUtils {
     fun getSessionDurationGoal(duration: Long): RecordTypeGoal =
         getDurationGoal(RecordTypeGoal.Range.Session, duration)
 
+    fun getSessionDurationGoalCategory(duration: Long): RecordTypeGoal =
+        getDurationGoalCategory(RecordTypeGoal.Range.Session, duration)
+
     fun getDailyDurationGoal(duration: Long): RecordTypeGoal =
         getDurationGoal(RecordTypeGoal.Range.Daily, duration)
+
+    fun getDailyDurationGoalCategory(duration: Long): RecordTypeGoal =
+        getDurationGoalCategory(RecordTypeGoal.Range.Daily, duration)
 
     fun getWeeklyDurationGoal(duration: Long): RecordTypeGoal =
         getDurationGoal(RecordTypeGoal.Range.Weekly, duration)
 
+    fun getWeeklyDurationGoalCategory(duration: Long): RecordTypeGoal =
+        getDurationGoalCategory(RecordTypeGoal.Range.Weekly, duration)
+
     fun getMonthlyDurationGoal(duration: Long): RecordTypeGoal =
         getDurationGoal(RecordTypeGoal.Range.Monthly, duration)
+
+    fun getMonthlyDurationGoalCategory(duration: Long): RecordTypeGoal =
+        getDurationGoalCategory(RecordTypeGoal.Range.Monthly, duration)
 
     fun getDailyCountGoal(count: Long): RecordTypeGoal =
         getCountGoal(RecordTypeGoal.Range.Daily, count)
 
+    fun getDailyCountGoalCategory(count: Long): RecordTypeGoal =
+        getCountGoalCategory(RecordTypeGoal.Range.Daily, count)
+
     fun getWeeklyCountGoal(count: Long): RecordTypeGoal =
         getCountGoal(RecordTypeGoal.Range.Weekly, count)
 
+    fun getWeeklyCountGoalCategory(count: Long): RecordTypeGoal =
+        getCountGoalCategory(RecordTypeGoal.Range.Weekly, count)
+
     fun getMonthlyCountGoal(count: Long): RecordTypeGoal =
         getCountGoal(RecordTypeGoal.Range.Monthly, count)
+
+    fun getMonthlyCountGoalCategory(count: Long): RecordTypeGoal =
+        getCountGoalCategory(RecordTypeGoal.Range.Monthly, count)
 
     fun addRecords(testUtils: TestUtils, typeName: String) {
         val currentTime = Calendar.getInstance().apply {
@@ -135,6 +156,14 @@ object GoalsTestUtils {
         )
     }
 
+    private fun getDurationGoalCategory(
+        range: RecordTypeGoal.Range,
+        duration: Long,
+    ): RecordTypeGoal {
+        return getDurationGoal(range = range, duration = duration)
+            .copy(idData = RecordTypeGoal.IdData.Category(0))
+    }
+
     private fun getCountGoal(
         range: RecordTypeGoal.Range,
         count: Long,
@@ -144,5 +173,13 @@ object GoalsTestUtils {
             range = range,
             type = RecordTypeGoal.Type.Count(count),
         )
+    }
+
+    private fun getCountGoalCategory(
+        range: RecordTypeGoal.Range,
+        count: Long,
+    ): RecordTypeGoal {
+        return getCountGoal(range = range, count = count)
+            .copy(idData = RecordTypeGoal.IdData.Category(0))
     }
 }
