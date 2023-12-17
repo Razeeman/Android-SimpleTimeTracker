@@ -109,6 +109,8 @@
     <string name="change_record_split_hint">Couper l\'enregistrement actuel en deux au moment spécifié</string>
     <string name="change_record_continue">Continuer</string>
     <string name="change_record_continue_hint">Supprimer l\'enregistrement actuel et reprendre le suivi de cette activité</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">Je vais répéter le suivi de cette activité</string>
     <string name="change_record_duplicate">Dupliquer</string>
     <string name="change_record_duplicate_hint">Créer une copie de cet enregistrement</string>
     <string name="change_record_merge">Fusionner</string>

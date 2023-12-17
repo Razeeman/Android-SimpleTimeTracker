@@ -311,7 +311,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
         app:layout_constraintTop_toBottomOf="@id/barrierChangeRecord"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/containerChangeRecordCommentField"
@@ -441,7 +441,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
         app:layout_constraintTop_toBottomOf="@id/barrierChangeRecord"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -626,6 +626,39 @@
                     android:layout_marginEnd="8dp"
                     android:text="@string/change_record_continue"
                     app:layout_constraintTop_toBottomOf="@id/tvChangeRecordContinueHint" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerChangeRecordRepeat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.example.util.simpletimetracker.feature_views.DividerView
+                    android:id="@+id/dividerChangeRecordRepeat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvChangeRecordRepeatHint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
+                    android:text="@string/change_record_repeat_hint"
+                    android:textColor="?appTextHintColor"
+                    app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordRepeat" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnChangeRecordRepeat"
+                    style="@style/AppButtonActive"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/change_record_repeat"
+                    app:layout_constraintTop_toBottomOf="@id/tvChangeRecordRepeatHint" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

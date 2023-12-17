@@ -109,6 +109,8 @@
     <string name="change_record_split_hint"> ये वर्तमान रिकॉर्ड को निर्धारित समय बिंदु पर दो भागो में काट देगा</string>
     <string name="change_record_continue">जारी रखे</string>
     <string name="change_record_continue_hint">वर्तमान रिकॉर्ड को हटा देगा और इस गतिविधि को ट्रैक करना जारी रखेगा</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">इस गतिविधि पर दोबारा नज़र रखेंगे</string>
     <string name="change_record_duplicate">डुप्लिकेट</string>
     <string name="change_record_duplicate_hint">इस रिकॉर्ड की एक कॉपी बनाएंगे</string>
     <string name="change_record_merge">जोड़े</string>

@@ -109,6 +109,8 @@
     <string name="change_record_split_hint">در زمان معین فعالیت فعلی را به دو قسمت تقسیم می کند</string>
     <string name="change_record_continue">ادامه</string>
     <string name="change_record_continue_hint">فعالیت فعلی را حذف کرده و فعالیت انتخابی را اندازه گیری می کند</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">ردیابی این فعالیت را تکرار خواهد کرد</string>
     <string name="change_record_duplicate">تکثیر</string>
     <string name="change_record_duplicate_hint">از این تاریخچه نسخه کپی می سازد</string>
     <string name="change_record_merge">تریکب</string>

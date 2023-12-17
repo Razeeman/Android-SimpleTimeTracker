@@ -118,6 +118,7 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen
     protected abstract suspend fun onSaveClickDelegate()
     protected open suspend fun onContinueClickDelegate() {}
+    protected open suspend fun onRepeatClickDelegate() {}
     protected open suspend fun onDuplicateClickDelegate() {}
     protected abstract val mergeAvailable: Boolean
     protected abstract val splitPreviewTimeEnded: Long
@@ -237,6 +238,12 @@ abstract class ChangeRecordBaseViewModel(
         }
         onRecordChangeButtonClick(
             onProceed = ::onContinueClickDelegate,
+        )
+    }
+
+    fun onRepeatClick() {
+        onRecordChangeButtonClick(
+            onProceed = ::onRepeatClickDelegate,
         )
     }
 

@@ -109,6 +109,8 @@
     <string name="change_record_split_hint">Akan memotong rekor saat ini menjadi dua pada titik waktu yang ditentukan</string>
     <string name="change_record_continue">Melanjutkan</string>
     <string name="change_record_continue_hint">Akan menghapus catatan saat ini dan terus melacak aktivitas ini</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">Akan mengulangi pelacakan aktivitas ini</string>
     <string name="change_record_duplicate">Duplikat</string>
     <string name="change_record_duplicate_hint">Akan membuat salinan rekaman ini</string>
     <string name="change_record_merge">Menggabungkan</string>

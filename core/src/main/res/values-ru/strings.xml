@@ -109,6 +109,8 @@
     <string name="change_record_split_hint">Разрежет текущую запись на две в указанный момент времени</string>
     <string name="change_record_continue">Продолжить</string>
     <string name="change_record_continue_hint">Удалит текущую запись и продолжит отслеживать эту активность</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">Повторит отслеживание этой активности</string>
     <string name="change_record_duplicate">Дублировать</string>
     <string name="change_record_duplicate_hint">Создаст копию этой записи</string>
     <string name="change_record_merge">Объединить</string>

@@ -109,6 +109,8 @@
     <string name="change_record_split_hint">現有紀錄將會切成兩個指定的時間點</string>
     <string name="change_record_continue">繼續</string>
     <string name="change_record_continue_hint">現有紀錄將會移除與繼續追總此活動</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">將重複追蹤此活動</string>
     <string name="change_record_duplicate">複製</string>
     <string name="change_record_duplicate_hint">將創建此記錄的副本</string>
     <string name="change_record_merge">合併</string>

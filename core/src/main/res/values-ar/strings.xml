@@ -109,6 +109,8 @@
     <string name="change_record_split_hint">سيقسم التتبع الحالي إلى قسمين حسب النقطة المحددة في الوقت</string>
     <string name="change_record_continue">واصَل</string>
     <string name="change_record_continue_hint">سيلغي تتبع نقطة الوقوف ويواصل تتبع النشاط</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">سوف نكرر تتبع هذا النشاط</string>
     <string name="change_record_duplicate">مضاعفة</string>
     <string name="change_record_duplicate_hint">سينشئ نسخة مكررة من هذا التتبع</string>
     <string name="change_record_merge">دمج</string>

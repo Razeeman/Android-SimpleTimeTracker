@@ -150,6 +150,7 @@ class ChangeRecordCore(
         btnChangeRecordSplit.setOnClick(viewModel::onSplitClick)
         btnChangeRecordAdjust.setOnClick(viewModel::onAdjustClick)
         btnChangeRecordContinue.setOnClick(viewModel::onContinueClick)
+        btnChangeRecordRepeat.setOnClick(viewModel::onRepeatClick)
         btnChangeRecordDuplicate.setOnClick(viewModel::onDuplicateClick)
         btnChangeRecordMerge.setOnClick(viewModel::onMergeClick)
     }
@@ -249,6 +250,7 @@ class ChangeRecordCore(
         btnChangeRecordSplit.isEnabled = isEnabled
         btnChangeRecordAdjust.isEnabled = isEnabled
         btnChangeRecordContinue.isEnabled = isEnabled
+        btnChangeRecordRepeat.isEnabled = isEnabled
         btnChangeRecordDuplicate.isEnabled = isEnabled
         btnChangeRecordMerge.isEnabled = isEnabled
     }

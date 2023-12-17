@@ -109,6 +109,8 @@
     <string name="change_record_split_hint">Taglia in due il record corrente nel momento specificato</string>
     <string name="change_record_continue">Continua</string>
     <string name="change_record_continue_hint">Rimuoverà il record corrente e continuerà a monitorare questa attività</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">Ripeteremo il monitoraggio di questa attività</string>
     <string name="change_record_duplicate">Duplicare</string>
     <string name="change_record_duplicate_hint">Creerà una copia di questo record</string>
     <string name="change_record_merge">Unisci</string>

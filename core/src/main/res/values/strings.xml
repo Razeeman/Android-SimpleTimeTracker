@@ -109,6 +109,8 @@
     <string name="change_record_split_hint">Will cut current record into two at the specified point in time</string>
     <string name="change_record_continue">Continue</string>
     <string name="change_record_continue_hint">Will remove current record and continue tracking this activity</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">Will repeat tracking this activity</string>
     <string name="change_record_duplicate">Duplicate</string>
     <string name="change_record_duplicate_hint">Will create a copy of this record</string>
     <string name="change_record_merge">Merge</string>

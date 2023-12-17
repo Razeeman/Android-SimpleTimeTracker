@@ -136,6 +136,20 @@ class ChangeRecordViewModel @Inject constructor(
         router.back()
     }
 
+    override suspend fun onRepeatClickDelegate() {
+        // Stop same type running record if exist (only one of the same type can run at once).
+        runningRecordInteractor.get(newTypeId)
+            ?.let { removeRunningRecordMediator.removeWithRecordAdd(it) }
+        // Add new running record.
+        addRunningRecordMediator.startTimer(
+            typeId = newTypeId,
+            comment = newComment,
+            tagIds = newCategoryIds,
+        )
+        // Exit.
+        onSaveClickDelegate()
+    }
+
     override suspend fun onDuplicateClickDelegate() {
         Record(
             typeId = newTypeId,

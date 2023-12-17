@@ -109,6 +109,8 @@
     <string name="change_record_split_hint">이 기록을 특정 시점을 기준으로 두개로 나눕니다</string>
     <string name="change_record_continue">이어하기</string>
     <string name="change_record_continue_hint">이 기록을 삭제하고 같은 기록을 이어서 진행합니다</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">이 활동을 반복적으로 추적합니다</string>
     <string name="change_record_duplicate">복사</string>
     <string name="change_record_duplicate_hint">이 기록의 사본을 만듭니다</string>
     <string name="change_record_merge">병합</string>

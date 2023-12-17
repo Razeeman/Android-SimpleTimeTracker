@@ -109,6 +109,8 @@
     <string name="change_record_split_hint">会在指定时间点将当前记录一分为二</string>
     <string name="change_record_continue">继续</string>
     <string name="change_record_continue_hint">将删除当前记录并继续跟踪此活动</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">将重复跟踪此活动</string>
     <string name="change_record_duplicate">复制</string>
     <string name="change_record_duplicate_hint">将创建此记录的副本</string>
     <string name="change_record_merge">合并</string>

@@ -109,6 +109,8 @@
     <string name="change_record_split_hint">Delar upp den nuvarande händelsen i två vid den angivna tidpunkten</string>
     <string name="change_record_continue">Fortsätt</string>
     <string name="change_record_continue_hint">Tar bort sluttid och återaktiverar denna aktivitet</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">Kommer att upprepa spårningen av denna aktivitet</string>
     <string name="change_record_duplicate">Duplicera</string>
     <string name="change_record_duplicate_hint">Kommer att skapa en kopia av denna post</string>
     <string name="change_record_merge">Sammanfoga</string>

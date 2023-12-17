@@ -109,6 +109,8 @@
     <string name="change_record_split_hint">Zal het huidige record in tweeën knippen op het opgegeven tijdstip</string>
     <string name="change_record_continue">Doorgaan</string>
     <string name="change_record_continue_hint">Verwijdert het huidige record en gaat door met het volgen van deze activiteit</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">Zal het volgen van deze activiteit herhalen</string>
     <string name="change_record_duplicate">Duplicaat</string>
     <string name="change_record_duplicate_hint">Zal een kopie van dit record maken</string>
     <string name="change_record_merge">Samenvoegen</string>

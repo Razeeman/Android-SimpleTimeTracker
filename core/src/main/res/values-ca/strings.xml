@@ -109,6 +109,8 @@
     <string name="change_record_split_hint">Tallarà l\'enregistrament actual en dos en el moment especificat</string>
     <string name="change_record_continue">Continua</string>
     <string name="change_record_continue_hint">Eliminarà l\'activitat actual i continuarà enregistrant aquesta activitat</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">Repetirà el seguiment d\'aquesta activitat</string>
     <string name="change_record_duplicate">Duplicat</string>
     <string name="change_record_duplicate_hint">Crearà una còpia d\'aquest registre</string>
     <string name="change_record_merge">Uneix</string>
