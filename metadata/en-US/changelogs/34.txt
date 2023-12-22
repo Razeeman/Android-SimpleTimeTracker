@@ -1,0 +1,2 @@
+- Fix category goals not working properly
+- General bug fixes and improvements
