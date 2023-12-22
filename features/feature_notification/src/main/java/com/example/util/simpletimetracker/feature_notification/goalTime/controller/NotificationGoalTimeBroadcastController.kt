@@ -23,7 +23,7 @@ class NotificationGoalTimeBroadcastController @Inject constructor(
     ) {
         GlobalScope.launch {
             notificationGoalTimeInteractor.show(idData, goalRange)
-            if (idData is RecordTypeGoal.Type) {
+            if (idData is RecordTypeGoal.IdData.Type) {
                 val typeId = idData.value
                 widgetInteractor.updateSingleWidgets(typeIds = listOf(typeId))
                 notificationTypeInteractor.checkAndShow(typeId = typeId)
