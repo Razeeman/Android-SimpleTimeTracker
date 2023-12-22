@@ -250,6 +250,12 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
                 .toList()
             categoryId to currents.sum()
         }.toMap()
+        val thisRangeRunningCounts = categoriesWithThisTypes.mapNotNull { (categoryId, typeIds) ->
+            val counts = runningRecords
+                .filter { it.id in typeIds }
+                .size
+            categoryId to counts
+        }.toMap()
 
         rangeGoals.forEach { goal ->
             val categoryId = (goal.idData as? RecordTypeGoal.IdData.Category)?.value
@@ -257,9 +263,8 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             val current = thisRangeCurrents[categoryId].orZero()
             val goalValue = goal.value * 1000
             if (goalValue > current) {
-                val count = categoriesWithThisTypes[categoryId]
-                    ?.sum()
-                    .takeUnless { it == 0L } ?: return@forEach
+                val count = thisRangeRunningCounts[categoryId].orZero()
+                    .takeUnless { it == 0 } ?: return@forEach
                 scheduler.schedule(
                     durationMillisFromNow = (goalValue - current) / count,
                     idData = RecordTypeGoal.IdData.Category(categoryId),
