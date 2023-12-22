@@ -40,7 +40,7 @@ interface RecordTypeGoalDao {
     @Query("DELETE FROM recordTypeGoals WHERE type_id = :typeId")
     suspend fun deleteByType(typeId: Long)
 
-    @Query("DELETE FROM recordTypeGoals WHERE type_id = :categoryId")
+    @Query("DELETE FROM recordTypeGoals WHERE category_id = :categoryId")
     suspend fun deleteByCategory(categoryId: Long)
 
     @Query("DELETE FROM recordTypeGoals")
