@@ -140,7 +140,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         val runningRecords = runningRecordInteractor.getAll()
 
         categoriesWithThisTypes.keys.forEach { categoryId ->
-            cancel(RecordTypeGoal.IdData.Type(categoryId))
+            cancel(RecordTypeGoal.IdData.Category(categoryId))
         }
 
         // Session
