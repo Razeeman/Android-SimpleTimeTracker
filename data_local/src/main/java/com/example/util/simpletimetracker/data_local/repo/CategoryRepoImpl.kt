@@ -1,46 +1,52 @@
 package com.example.util.simpletimetracker.data_local.repo
 
 import com.example.util.simpletimetracker.data_local.database.CategoryDao
+import com.example.util.simpletimetracker.data_local.utils.withLockedCache
 import com.example.util.simpletimetracker.data_local.mapper.CategoryDataLocalMapper
+import com.example.util.simpletimetracker.data_local.utils.removeIf
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import timber.log.Timber
+import kotlinx.coroutines.sync.Mutex
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class CategoryRepoImpl @Inject constructor(
     private val categoryDao: CategoryDao,
-    private val categoryDataLocalMapper: CategoryDataLocalMapper
+    private val categoryDataLocalMapper: CategoryDataLocalMapper,
 ) : CategoryRepo {
 
-    override suspend fun getAll(): List<Category> = withContext(Dispatchers.IO) {
-        Timber.d("getAll")
-        categoryDao.getAll()
-            .map(categoryDataLocalMapper::map)
-    }
+    private var cache: List<Category>? = null
+    private val mutex: Mutex = Mutex()
 
-    override suspend fun get(id: Long): Category? = withContext(Dispatchers.IO) {
-        Timber.d("get id")
-        categoryDao.get(id)?.let(categoryDataLocalMapper::map)
-    }
+    override suspend fun getAll(): List<Category> = mutex.withLockedCache(
+        logMessage = "getAll",
+        accessCache = { cache },
+        accessSource = { categoryDao.getAll().map(categoryDataLocalMapper::map) },
+        afterSourceAccess = { cache = it },
+    )
 
-    override suspend fun add(category: Category): Long = withContext(Dispatchers.IO) {
-        Timber.d("add")
-        return@withContext categoryDao.insert(
-            category.let(categoryDataLocalMapper::map)
-        )
-    }
+    override suspend fun get(id: Long): Category? = mutex.withLockedCache(
+        logMessage = "get id",
+        accessCache = { cache?.firstOrNull { it.id == id } },
+        accessSource = { categoryDao.get(id)?.let(categoryDataLocalMapper::map) },
+    )
 
-    override suspend fun remove(id: Long) = withContext(Dispatchers.IO) {
-        Timber.d("remove")
-        categoryDao.delete(id)
-    }
+    override suspend fun add(category: Category): Long = mutex.withLockedCache(
+        logMessage = "add",
+        accessSource = { categoryDao.insert(category.let(categoryDataLocalMapper::map)) },
+        afterSourceAccess = { cache = null },
+    )
 
-    override suspend fun clear() = withContext(Dispatchers.IO) {
-        Timber.d("clear")
-        categoryDao.clear()
-    }
+    override suspend fun remove(id: Long) = mutex.withLockedCache(
+        logMessage = "remove",
+        accessSource = { categoryDao.delete(id) },
+        afterSourceAccess = { cache = cache?.removeIf { it.id == id } },
+    )
+
+    override suspend fun clear() = mutex.withLockedCache(
+        logMessage = "clear",
+        accessSource = { categoryDao.clear() },
+        afterSourceAccess = { cache = null },
+    )
 }

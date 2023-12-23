@@ -1,14 +1,14 @@
 package com.example.util.simpletimetracker.data_local.repo
 
 import com.example.util.simpletimetracker.data_local.database.RecordTypeCategoryDao
+import com.example.util.simpletimetracker.data_local.utils.withLockedCache
 import com.example.util.simpletimetracker.data_local.mapper.CategoryDataLocalMapper
 import com.example.util.simpletimetracker.data_local.mapper.RecordTypeCategoryDataLocalMapper
+import com.example.util.simpletimetracker.data_local.utils.removeIf
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import timber.log.Timber
+import kotlinx.coroutines.sync.Mutex
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,102 +16,106 @@ import javax.inject.Singleton
 class RecordTypeCategoryRepoImpl @Inject constructor(
     private val recordTypeCategoryDao: RecordTypeCategoryDao,
     private val categoryDataLocalMapper: CategoryDataLocalMapper,
-    private val recordTypeCategoryDataLocalMapper: RecordTypeCategoryDataLocalMapper
+    private val recordTypeCategoryDataLocalMapper: RecordTypeCategoryDataLocalMapper,
 ) : RecordTypeCategoryRepo {
 
-    override suspend fun getAll(): List<RecordTypeCategory> =
-        withContext(Dispatchers.IO) {
-            Timber.d("get all")
-            recordTypeCategoryDao.getAll()
-                .map(recordTypeCategoryDataLocalMapper::map)
-        }
+    private var cache: List<RecordTypeCategory>? = null
+    private val mutex: Mutex = Mutex()
 
-    override suspend fun getCategoriesByType(typeId: Long): List<Category> =
-        withContext(Dispatchers.IO) {
-            Timber.d("get categories")
+    override suspend fun getAll(): List<RecordTypeCategory> = mutex.withLockedCache(
+        logMessage = "get all",
+        accessCache = { cache },
+        accessSource = { recordTypeCategoryDao.getAll().map(recordTypeCategoryDataLocalMapper::map) },
+        afterSourceAccess = { cache = it },
+    )
+
+    override suspend fun getCategoriesByType(typeId: Long): List<Category> = mutex.withLockedCache(
+        logMessage = "get categories",
+        accessSource = {
             recordTypeCategoryDao.getTypeWithCategories(typeId)
                 ?.categories
                 ?.map(categoryDataLocalMapper::map)
                 .orEmpty()
-        }
+        },
+    )
 
-    override suspend fun getCategoryIdsByType(typeId: Long): List<Long> =
-        withContext(Dispatchers.IO) {
-            Timber.d("get category ids")
-            recordTypeCategoryDao.getCategoryIdsByType(typeId)
-        }
+    override suspend fun getCategoryIdsByType(typeId: Long): Set<Long> = mutex.withLockedCache(
+        logMessage = "get category ids",
+        accessCache = { cache?.filter { it.recordTypeId == typeId }?.map { it.categoryId }?.toSet() },
+        accessSource = { recordTypeCategoryDao.getCategoryIdsByType(typeId).toSet() },
+    )
 
-    override suspend fun add(recordTypeCategory: RecordTypeCategory) =
-        withContext(Dispatchers.IO) {
-            Timber.d("add")
+    override suspend fun add(recordTypeCategory: RecordTypeCategory) = mutex.withLockedCache(
+        logMessage = "add",
+        accessSource = {
             recordTypeCategory
                 .let(recordTypeCategoryDataLocalMapper::map)
-                .let {
-                    recordTypeCategoryDao.insert(listOf(it))
-                }
-        }
+                .let { recordTypeCategoryDao.insert(listOf(it)) }
+        },
+        afterSourceAccess = { cache = null },
+    )
 
-    override suspend fun addCategories(typeId: Long, categoryIds: List<Long>) =
-        withContext(Dispatchers.IO) {
-            Timber.d("add categories")
+    override suspend fun addCategories(typeId: Long, categoryIds: List<Long>) = mutex.withLockedCache(
+        logMessage = "add categories",
+        accessSource = {
             categoryIds.map {
                 recordTypeCategoryDataLocalMapper.map(typeId = typeId, categoryId = it)
-            }.let {
-                recordTypeCategoryDao.insert(it)
-            }
-        }
+            }.let { recordTypeCategoryDao.insert(it) }
+        },
+        afterSourceAccess = { cache = null },
+    )
 
-    override suspend fun removeCategories(typeId: Long, categoryIds: List<Long>) =
-        withContext(Dispatchers.IO) {
-            Timber.d("remove categories")
+    override suspend fun removeCategories(typeId: Long, categoryIds: List<Long>) = mutex.withLockedCache(
+        logMessage = "remove categories",
+        accessSource = {
             categoryIds.map {
                 recordTypeCategoryDataLocalMapper.map(typeId = typeId, categoryId = it)
-            }.let {
-                recordTypeCategoryDao.delete(it)
-            }
-        }
+            }.let { recordTypeCategoryDao.delete(it) }
+        },
+        afterSourceAccess = { cache = null },
+    )
 
-    override suspend fun getTypeIdsByCategory(categoryId: Long): List<Long> =
-        withContext(Dispatchers.IO) {
-            Timber.d("get type ids")
-            recordTypeCategoryDao.getTypeIdsByCategory(categoryId)
-        }
+    override suspend fun getTypeIdsByCategory(categoryId: Long): Set<Long> = mutex.withLockedCache(
+        logMessage = "get type ids",
+        accessCache = { cache?.filter { it.categoryId == categoryId }?.map { it.recordTypeId }?.toSet() },
+        accessSource = { recordTypeCategoryDao.getTypeIdsByCategory(categoryId).toSet() },
+    )
 
-    override suspend fun addTypes(categoryId: Long, typeIds: List<Long>) =
-        withContext(Dispatchers.IO) {
-            Timber.d("add types")
+    override suspend fun addTypes(categoryId: Long, typeIds: List<Long>) = mutex.withLockedCache(
+        logMessage = "add types",
+        accessSource = {
             typeIds.map {
                 recordTypeCategoryDataLocalMapper.map(typeId = it, categoryId = categoryId)
-            }.let {
-                recordTypeCategoryDao.insert(it)
-            }
-        }
+            }.let { recordTypeCategoryDao.insert(it) }
+        },
+        afterSourceAccess = { cache = null },
+    )
 
-    override suspend fun removeTypes(categoryId: Long, typeIds: List<Long>) =
-        withContext(Dispatchers.IO) {
-            Timber.d("remove types")
+    override suspend fun removeTypes(categoryId: Long, typeIds: List<Long>) = mutex.withLockedCache(
+        logMessage = "remove types",
+        accessSource = {
             typeIds.map {
                 recordTypeCategoryDataLocalMapper.map(typeId = it, categoryId = categoryId)
-            }.let {
-                recordTypeCategoryDao.delete(it)
-            }
-        }
+            }.let { recordTypeCategoryDao.delete(it) }
+        },
+        afterSourceAccess = { cache = null },
+    )
 
-    override suspend fun removeAll(categoryId: Long) =
-        withContext(Dispatchers.IO) {
-            Timber.d("removeAll")
-            recordTypeCategoryDao.deleteAll(categoryId)
-        }
+    override suspend fun removeAll(categoryId: Long) = mutex.withLockedCache(
+        logMessage = "removeAll",
+        accessSource = { recordTypeCategoryDao.deleteAll(categoryId) },
+        afterSourceAccess = { cache = cache?.removeIf { it.categoryId == categoryId } },
+    )
 
-    override suspend fun removeAllByType(typeId: Long) =
-        withContext(Dispatchers.IO) {
-            Timber.d("removeAllByType")
-            recordTypeCategoryDao.deleteAllByType(typeId)
-        }
+    override suspend fun removeAllByType(typeId: Long) = mutex.withLockedCache(
+        logMessage = "removeAllByType",
+        accessSource = { recordTypeCategoryDao.deleteAllByType(typeId) },
+        afterSourceAccess = { cache = cache?.removeIf { it.recordTypeId == typeId } },
+    )
 
-    override suspend fun clear() =
-        withContext(Dispatchers.IO) {
-            Timber.d("clear")
-            recordTypeCategoryDao.clear()
-        }
+    override suspend fun clear() = mutex.withLockedCache(
+        logMessage = "clear",
+        accessSource = { recordTypeCategoryDao.clear() },
+        afterSourceAccess = { cache = null },
+    )
 }

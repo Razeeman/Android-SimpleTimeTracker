@@ -1,78 +1,94 @@
 package com.example.util.simpletimetracker.data_local.repo
 
 import com.example.util.simpletimetracker.data_local.database.RecordTagDao
+import com.example.util.simpletimetracker.data_local.utils.withLockedCache
 import com.example.util.simpletimetracker.data_local.mapper.RecordTagDataLocalMapper
+import com.example.util.simpletimetracker.data_local.utils.removeIf
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import timber.log.Timber
+import kotlinx.coroutines.sync.Mutex
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class RecordTagRepoImpl @Inject constructor(
     private val dao: RecordTagDao,
-    private val mapper: RecordTagDataLocalMapper
+    private val mapper: RecordTagDataLocalMapper,
 ) : RecordTagRepo {
 
-    override suspend fun isEmpty(): Boolean = withContext(Dispatchers.IO) {
-        Timber.d("isEmpty")
-        return@withContext dao.isEmpty() == 0L
-    }
+    private var cache: List<RecordTag>? = null
+    private val mutex: Mutex = Mutex()
 
-    override suspend fun getAll(): List<RecordTag> = withContext(Dispatchers.IO) {
-        Timber.d("getAll")
-        dao.getAll().map(mapper::map)
-    }
+    override suspend fun isEmpty(): Boolean = mutex.withLockedCache(
+        logMessage = "isEmpty",
+        accessCache = { cache?.isEmpty() },
+        accessSource = { dao.isEmpty() == 0L },
+    )
 
-    override suspend fun get(id: Long): RecordTag? = withContext(Dispatchers.IO) {
-        Timber.d("get")
-        dao.get(id)?.let(mapper::map)
-    }
+    override suspend fun getAll(): List<RecordTag> = mutex.withLockedCache(
+        logMessage = "getAll",
+        accessCache = { cache },
+        accessSource = { dao.getAll().map(mapper::map) },
+        afterSourceAccess = { cache = it },
+    )
 
-    override suspend fun getByType(typeId: Long): List<RecordTag> = withContext(Dispatchers.IO) {
-        Timber.d("getByType")
-        dao.getByType(typeId).map(mapper::map)
-    }
+    override suspend fun get(id: Long): RecordTag? = mutex.withLockedCache(
+        logMessage = "get",
+        accessCache = { cache?.firstOrNull { it.id == id } },
+        accessSource = { dao.get(id)?.let(mapper::map) },
+    )
 
-    override suspend fun getUntyped(): List<RecordTag> = withContext(Dispatchers.IO) {
-        Timber.d("getUntyped")
-        dao.getUntyped().map(mapper::map)
-    }
+    override suspend fun getByType(typeId: Long): List<RecordTag> = mutex.withLockedCache(
+        logMessage = "getByType",
+        accessCache = { cache?.filter { it.typeId == typeId } },
+        accessSource = { dao.getByType(typeId).map(mapper::map) },
+    )
 
-    override suspend fun getByTypeOrUntyped(typeId: Long): List<RecordTag> = withContext(Dispatchers.IO) {
-        Timber.d("getByTypeOrUntyped")
-        dao.getByTypeOrUntyped(typeId).map(mapper::map)
-    }
+    override suspend fun getUntyped(): List<RecordTag> = mutex.withLockedCache(
+        logMessage = "getUntyped",
+        accessCache = { cache?.filter { it.typeId == 0L } },
+        accessSource = { dao.getUntyped().map(mapper::map) },
+    )
 
-    override suspend fun add(tag: RecordTag): Long = withContext(Dispatchers.IO) {
-        Timber.d("add")
-        dao.insert(tag.let(mapper::map))
-    }
+    override suspend fun getByTypeOrUntyped(typeId: Long): List<RecordTag> = mutex.withLockedCache(
+        logMessage = "getByTypeOrUntyped",
+        accessCache = { cache?.filter { it.typeId == 0L || it.typeId == typeId } },
+        accessSource = { dao.getByTypeOrUntyped(typeId).map(mapper::map) },
+    )
 
-    override suspend fun archive(id: Long) = withContext(Dispatchers.IO) {
-        Timber.d("archive")
-        dao.archive(id)
-    }
+    override suspend fun add(tag: RecordTag): Long = mutex.withLockedCache(
+        logMessage = "add",
+        accessSource = { dao.insert(tag.let(mapper::map)) },
+        afterSourceAccess = { cache = null },
+    )
 
-    override suspend fun restore(id: Long) = withContext(Dispatchers.IO) {
-        Timber.d("restore")
-        dao.restore(id)
-    }
+    override suspend fun archive(id: Long) = mutex.withLockedCache(
+        logMessage = "archive",
+        accessSource = { dao.archive(id) },
+        afterSourceAccess = { cache = cache?.map { if (it.id == id) it.copy(archived = true) else it } },
+    )
 
-    override suspend fun remove(id: Long) = withContext(Dispatchers.IO) {
-        Timber.d("remove")
-        dao.delete(id)
-    }
+    override suspend fun restore(id: Long) = mutex.withLockedCache(
+        logMessage = "restore",
+        accessSource = { dao.restore(id) },
+        afterSourceAccess = { cache = cache?.map { if (it.id == id) it.copy(archived = false) else it } },
+    )
 
-    override suspend fun removeByType(typeId: Long) = withContext(Dispatchers.IO) {
-        Timber.d("removeByType")
-        dao.deleteByType(typeId)
-    }
+    override suspend fun remove(id: Long) = mutex.withLockedCache(
+        logMessage = "remove",
+        accessSource = { dao.delete(id) },
+        afterSourceAccess = { cache = cache?.removeIf { it.id == id } },
+    )
 
-    override suspend fun clear() = withContext(Dispatchers.IO) {
-        Timber.d("clear")
-        dao.clear()
-    }
+    override suspend fun removeByType(typeId: Long) = mutex.withLockedCache(
+        logMessage = "removeByType",
+        accessSource = { dao.deleteByType(typeId) },
+        afterSourceAccess = { cache = cache?.removeIf { it.typeId == typeId } },
+    )
+
+    override suspend fun clear() = mutex.withLockedCache(
+        logMessage = "clear",
+        accessSource = { dao.clear() },
+        afterSourceAccess = { cache = null },
+    )
 }

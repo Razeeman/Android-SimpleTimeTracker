@@ -1,12 +1,12 @@
 package com.example.util.simpletimetracker.data_local.repo
 
 import com.example.util.simpletimetracker.data_local.database.ActivityFilterDao
+import com.example.util.simpletimetracker.data_local.utils.withLockedCache
 import com.example.util.simpletimetracker.data_local.mapper.ActivityFilterDataLocalMapper
+import com.example.util.simpletimetracker.data_local.utils.removeIf
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import timber.log.Timber
+import kotlinx.coroutines.sync.Mutex
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,37 +16,43 @@ class ActivityFilterRepoImpl @Inject constructor(
     private val activityFilterDataLocalMapper: ActivityFilterDataLocalMapper,
 ) : ActivityFilterRepo {
 
-    override suspend fun getAll(): List<ActivityFilter> = withContext(Dispatchers.IO) {
-        Timber.d("getAll")
-        activityFilterDao.getAll()
-            .map(activityFilterDataLocalMapper::map)
-    }
+    private var cache: List<ActivityFilter>? = null
+    private val mutex: Mutex = Mutex()
 
-    override suspend fun get(id: Long): ActivityFilter? = withContext(Dispatchers.IO) {
-        Timber.d("get")
-        activityFilterDao.get(id)
-            ?.let(activityFilterDataLocalMapper::map)
-    }
+    override suspend fun getAll(): List<ActivityFilter> = mutex.withLockedCache(
+        logMessage = "getAll",
+        accessCache = { cache },
+        accessSource = { activityFilterDao.getAll().map(activityFilterDataLocalMapper::map) },
+        afterSourceAccess = { cache = it },
+    )
 
-    override suspend fun add(activityFilter: ActivityFilter): Long = withContext(Dispatchers.IO) {
-        Timber.d("add")
-        return@withContext activityFilterDao.insert(
-            activityFilter.let(activityFilterDataLocalMapper::map)
-        )
-    }
+    override suspend fun get(id: Long): ActivityFilter? = mutex.withLockedCache(
+        logMessage = "get",
+        accessCache = { cache?.firstOrNull { it.id == id } },
+        accessSource = { activityFilterDao.get(id)?.let(activityFilterDataLocalMapper::map) },
+    )
 
-    override suspend fun changeSelected(id: Long, selected: Boolean) = withContext(Dispatchers.IO) {
-        Timber.d("changeSelected")
-        activityFilterDao.changeSelected(id, if (selected) 1 else 0)
-    }
+    override suspend fun add(activityFilter: ActivityFilter): Long = mutex.withLockedCache(
+        logMessage = "add",
+        accessSource = { activityFilterDao.insert(activityFilter.let(activityFilterDataLocalMapper::map)) },
+        afterSourceAccess = { cache = null },
+    )
 
-    override suspend fun remove(id: Long) = withContext(Dispatchers.IO) {
-        Timber.d("remove")
-        activityFilterDao.delete(id)
-    }
+    override suspend fun changeSelected(id: Long, selected: Boolean) = mutex.withLockedCache(
+        logMessage = "changeSelected",
+        accessSource = { activityFilterDao.changeSelected(id, if (selected) 1 else 0) },
+        afterSourceAccess = { cache = cache?.map { if (it.id == id) it.copy(selected = selected) else it } },
+    )
 
-    override suspend fun clear() = withContext(Dispatchers.IO) {
-        Timber.d("clear")
-        activityFilterDao.clear()
-    }
+    override suspend fun remove(id: Long) = mutex.withLockedCache(
+        logMessage = "remove",
+        accessSource = { activityFilterDao.delete(id) },
+        afterSourceAccess = { cache = cache?.removeIf { it.id == id } },
+    )
+
+    override suspend fun clear() = mutex.withLockedCache(
+        logMessage = "clear",
+        accessSource = { activityFilterDao.clear() },
+        afterSourceAccess = { cache = null },
+    )
 }

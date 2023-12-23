@@ -9,9 +9,9 @@ interface RecordTypeCategoryRepo {
 
     suspend fun getCategoriesByType(typeId: Long): List<Category>
 
-    suspend fun getCategoryIdsByType(typeId: Long): List<Long>
+    suspend fun getCategoryIdsByType(typeId: Long): Set<Long>
 
-    suspend fun getTypeIdsByCategory(categoryId: Long): List<Long>
+    suspend fun getTypeIdsByCategory(categoryId: Long): Set<Long>
 
     suspend fun add(recordTypeCategory: RecordTypeCategory)
 

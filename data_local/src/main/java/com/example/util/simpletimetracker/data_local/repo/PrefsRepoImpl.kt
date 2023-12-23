@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.data_local.repo
 
 import android.content.SharedPreferences
-import com.example.util.simpletimetracker.data_local.extension.delegate
+import com.example.util.simpletimetracker.data_local.utils.delegate
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.QuickSettingsWidgetType

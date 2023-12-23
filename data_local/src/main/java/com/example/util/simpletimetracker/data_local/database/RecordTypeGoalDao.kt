@@ -27,10 +27,6 @@ interface RecordTypeGoalDao {
     @Query("SELECT * FROM recordTypeGoals WHERE category_id = :categoryId")
     suspend fun getByCategory(categoryId: Long): List<RecordTypeGoalDBO>
 
-    @Transaction
-    @Query("SELECT * FROM recordTypeGoals WHERE category_id IN (:categoryIds)")
-    suspend fun getByCategories(categoryIds: List<Long>): List<RecordTypeGoalDBO>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(recordTypeGoal: RecordTypeGoalDBO): Long
 

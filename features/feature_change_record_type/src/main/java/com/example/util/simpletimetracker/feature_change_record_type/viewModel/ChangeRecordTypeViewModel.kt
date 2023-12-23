@@ -128,7 +128,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private val recordTypeId: Long get() = (extra as? ChangeRecordTypeParams.Change)?.id.orZero()
     private var iconType: IconType = IconType.IMAGE
-    private var initialCategories: List<Long> = emptyList()
+    private var initialCategories: Set<Long> = emptySet()
     private var newName: String = ""
     private var newIconName: String = ""
     private var newCategories: MutableList<Long> = mutableListOf()

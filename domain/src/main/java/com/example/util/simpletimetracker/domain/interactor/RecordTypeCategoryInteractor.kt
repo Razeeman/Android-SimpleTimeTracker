@@ -12,7 +12,7 @@ class RecordTypeCategoryInteractor @Inject constructor(
         return recordTypeCategoryRepo.getAll()
     }
 
-    suspend fun getCategories(typeId: Long): List<Long> {
+    suspend fun getCategories(typeId: Long): Set<Long> {
         return recordTypeCategoryRepo.getCategoryIdsByType(typeId)
     }
 
@@ -24,7 +24,7 @@ class RecordTypeCategoryInteractor @Inject constructor(
         recordTypeCategoryRepo.removeCategories(typeId, categoryIds)
     }
 
-    suspend fun getTypes(categoryId: Long): List<Long> {
+    suspend fun getTypes(categoryId: Long): Set<Long> {
         return recordTypeCategoryRepo.getTypeIdsByCategory(categoryId)
     }
 

@@ -14,8 +14,6 @@ interface RecordTypeGoalRepo {
 
     suspend fun getByCategory(categoryId: Long): List<RecordTypeGoal>
 
-    suspend fun getByCategories(categoryIds: List<Long>): List<RecordTypeGoal>
-
     suspend fun add(recordTypeGoal: RecordTypeGoal): Long
 
     suspend fun remove(id: Long)

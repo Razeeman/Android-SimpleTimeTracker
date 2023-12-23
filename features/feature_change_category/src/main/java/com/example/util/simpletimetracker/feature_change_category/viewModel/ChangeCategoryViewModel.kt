@@ -88,7 +88,7 @@ class ChangeCategoryViewModel @Inject constructor(
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(categoryId == 0L) }
 
     private val categoryId: Long get() = (extra as? ChangeTagData.Change)?.id.orZero()
-    private var initialTypes: List<Long> = emptyList()
+    private var initialTypes: Set<Long> = emptySet()
     private var newName: String = ""
     private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
     private var newTypes: MutableList<Long> = mutableListOf()
