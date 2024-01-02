@@ -24,6 +24,7 @@ class WidgetUniversalViewDataMapper @Inject constructor(
         runningRecords: List<RunningRecord>,
         recordTypes: Map<Long, RecordType>,
         isDarkTheme: Boolean,
+        backgroundTransparency: Long,
     ): WidgetUniversalViewData {
         val data = runningRecords.map { runningRecord ->
             val recordType = recordTypes[runningRecord.id]
@@ -41,10 +42,13 @@ class WidgetUniversalViewDataMapper @Inject constructor(
         return WidgetUniversalViewData(
             data = data,
             iconColor = R.color.white.let(resourceRepo::getColor),
+            backgroundAlpha = 1f - backgroundTransparency / 100f,
         )
     }
 
-    fun mapToEmptyWidgetViewData(): WidgetUniversalViewData {
+    fun mapToEmptyWidgetViewData(
+        backgroundTransparency: Long,
+    ): WidgetUniversalViewData {
         val icon = RecordTypeIcon.Image(R.drawable.ic_alarm_on_24px)
         val color = R.color.transparent.let(resourceRepo::getColor)
         val data = IconStackData(icon, color)
@@ -52,6 +56,7 @@ class WidgetUniversalViewDataMapper @Inject constructor(
         return WidgetUniversalViewData(
             data = listOf(data),
             iconColor = R.color.widget_universal_empty_color.let(resourceRepo::getColor),
+            backgroundAlpha = 1f - backgroundTransparency / 100f,
         )
     }
 

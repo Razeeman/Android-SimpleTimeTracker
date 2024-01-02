@@ -25,6 +25,7 @@ import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButton
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsUntrackedRangeViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.WidgetTransparencyViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
@@ -66,6 +67,7 @@ class SettingsFragment :
         layoutSettingsTranslators.rvSettingsTranslators.adapter = translatorsAdapter
         layoutSettingsMain.spinnerSettingsDarkMode.setProcessSameItemSelection(false)
         layoutSettingsDisplay.spinnerSettingsDaysInCalendar.setProcessSameItemSelection(false)
+        layoutSettingsDisplay.spinnerSettingsWidgetTransparency.setProcessSameItemSelection(false)
         layoutSettingsDisplay.spinnerSettingsRecordTypeSort.setProcessSameItemSelection(false)
         layoutSettingsAdditional.spinnerSettingsFirstDayOfWeek.setProcessSameItemSelection(false)
         layoutSettingsAdditional.spinnerSettingsRepeatButtonType.setProcessSameItemSelection(false)
@@ -103,6 +105,7 @@ class SettingsFragment :
             with(viewModel.displayDelegate) {
                 layoutSettingsDisplayTitle.setOnClick(viewModel::onSettingsDisplayClick)
                 spinnerSettingsDaysInCalendar.onPositionSelected = ::onDaysInCalendarSelected
+                spinnerSettingsWidgetTransparency.onPositionSelected = ::onWidgetTransparencySelected
                 spinnerSettingsRecordTypeSort.onPositionSelected = ::onRecordTypeOrderSelected
                 btnCardOrderManual.setOnClick(::onCardOrderManualClick)
                 checkboxSettingsShowUntrackedInRecords.setOnClick(::onShowUntrackedInRecordsClicked)
@@ -231,6 +234,7 @@ class SettingsFragment :
                 untrackedRangeViewData.observe(::setUntrackedRangeViewData)
                 showRecordsCalendarCheckbox.observe(::updateShowRecordCalendarChecked)
                 daysInCalendarViewData.observe(::updateDaysInCalendarViewData)
+                widgetTransparencyViewData.observe(::updateWidgetTransparencyViewData)
                 reverseOrderInCalendarCheckbox.observe(checkboxSettingsReverseOrderInCalendar::setChecked)
                 showActivityFiltersCheckbox.observe(checkboxSettingsShowActivityFilters::setChecked)
                 showGoalsSeparatelyCheckbox.observe(checkboxSettingsShowGoalsSeparately::setChecked)
@@ -307,6 +311,7 @@ class SettingsFragment :
         }
         with(layoutSettingsDisplay) {
             spinnerSettingsDaysInCalendar.jumpDrawablesToCurrentState()
+            spinnerSettingsWidgetTransparency.jumpDrawablesToCurrentState()
             spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
             checkboxSettingsShowUntrackedInRecords.jumpDrawablesToCurrentState()
             checkboxSettingsShowUntrackedInStatistics.jumpDrawablesToCurrentState()
@@ -374,6 +379,13 @@ class SettingsFragment :
         spinnerSettingsDaysInCalendar.setData(viewData.items, viewData.selectedPosition)
         tvSettingsDaysInCalendarValue.text = viewData.items
             .getOrNull(viewData.selectedPosition)?.text.orEmpty()
+    }
+
+    private fun updateWidgetTransparencyViewData(
+        viewData: WidgetTransparencyViewData,
+    ) = with(binding.layoutSettingsDisplay) {
+        spinnerSettingsWidgetTransparency.setData(viewData.items, viewData.selectedPosition)
+        tvSettingsWidgetTransparencyValue.text = viewData.selectedValue
     }
 
     private fun updateFirstDayOfWeekViewData(

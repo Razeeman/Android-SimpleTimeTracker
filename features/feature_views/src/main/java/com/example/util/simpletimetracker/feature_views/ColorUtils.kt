@@ -2,6 +2,8 @@ package com.example.util.simpletimetracker.feature_views
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
+import androidx.annotation.FloatRange
+import androidx.core.graphics.ColorUtils
 
 object ColorUtils {
 
@@ -34,5 +36,13 @@ object ColorUtils {
                 this[2] += factor
             }
         }.let(Color::HSVToColor)
+    }
+
+    @ColorInt
+    fun changeAlpha(
+        @ColorInt color: Int,
+        @FloatRange(from = 0.0, to = 1.0) alpha: Float,
+    ): Int {
+        return ColorUtils.setAlphaComponent(color, (255 * alpha).toInt())
     }
 }

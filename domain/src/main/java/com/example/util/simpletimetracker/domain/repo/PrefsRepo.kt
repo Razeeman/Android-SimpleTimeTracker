@@ -111,6 +111,8 @@ interface PrefsRepo {
 
     var repeatButtonType: Int
 
+    var widgetBackgroundTransparencyPercent: Long
+
     fun setWidget(widgetId: Int, recordType: Long)
 
     fun getWidget(widgetId: Int): Long

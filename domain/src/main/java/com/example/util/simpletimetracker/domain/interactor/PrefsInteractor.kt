@@ -559,6 +559,14 @@ class PrefsInteractor @Inject constructor(
         }
     }
 
+    suspend fun setWidgetBackgroundTransparencyPercent(value: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.widgetBackgroundTransparencyPercent = value
+    }
+
+    suspend fun getWidgetBackgroundTransparencyPercent(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.widgetBackgroundTransparencyPercent
+    }
+
     suspend fun clear() = withContext(Dispatchers.IO) {
         prefsRepo.clear()
     }

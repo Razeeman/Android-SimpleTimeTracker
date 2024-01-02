@@ -114,11 +114,11 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         context: Context,
         appWidgetId: Int,
     ): View {
-        // TODO remove blocking
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
         val widgetData = prefsInteractor.getStatisticsWidget(appWidgetId)
+        val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
         val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
 
         val filterType = widgetData.chartFilterType
@@ -157,7 +157,11 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
             "\n" + total
 
         return WidgetStatisticsChartView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
-            setSegments(chart, totalTracked)
+            setSegments(
+                data = chart,
+                total = totalTracked,
+                backgroundAlpha = 1f - backgroundTransparency / 100f,
+            )
         }
     }
 

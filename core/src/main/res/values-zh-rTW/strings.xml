@@ -221,6 +221,7 @@
     <string name="settings_show_records_calendar">顯示月曆檢視紀錄</string>
     <string name="settings_reverse_order_in_calendar">反轉記錄順序</string>
     <string name="settings_days_in_calendar">日曆中的天數</string>
+    <string name="settings_widget_transparency">小部件背景透明度</string>
     <string name="settings_show_activity_filters">主視窗上顯示活動過濾器</string>
     <string name="settings_show_goals_separately">在單獨的選項卡上顯示目標</string>
     <string name="settings_allow_multitasking">允許多任務</string>

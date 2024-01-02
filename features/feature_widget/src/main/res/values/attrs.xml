@@ -11,5 +11,6 @@
         <attr name="itemIcon" />
         <attr name="itemIconColor" />
         <attr name="itemName" />
+        <attr name="itemBackgroundAlpha" format="fraction"/>
     </declare-styleable>
 </resources>

@@ -221,6 +221,7 @@
     <string name="settings_show_records_calendar">在日历视图中显示记录</string>
     <string name="settings_reverse_order_in_calendar">倒序记录</string>
     <string name="settings_days_in_calendar">日历中的天数</string>
+    <string name="settings_widget_transparency">小部件背景透明度</string>
     <string name="settings_show_activity_filters">在主屏幕上显示活动过滤器</string>
     <string name="settings_show_goals_separately">在单独的选项卡上显示目标</string>
     <string name="settings_allow_multitasking">允许同时对多个活动进行追踪</string>

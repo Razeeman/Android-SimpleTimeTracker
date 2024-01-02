@@ -221,6 +221,7 @@
     <string name="settings_show_records_calendar">Показувати записи в календарі</string>
     <string name="settings_reverse_order_in_calendar">Зворотний порядок записів</string>
     <string name="settings_days_in_calendar">Дні в календарі</string>
+    <string name="settings_widget_transparency">Прозорість фону віджета</string>
     <string name="settings_show_activity_filters">Показувати фільтри активності на головному екрані</string>
     <string name="settings_show_goals_separately">Показати цілі на окремій вкладці</string>
     <string name="settings_allow_multitasking">Дозволити багатозадачність</string>

@@ -221,6 +221,7 @@
     <string name="settings_show_records_calendar">Visa händelser i kalendervy</string>
     <string name="settings_reverse_order_in_calendar">Byt ordning på händelser</string>
     <string name="settings_days_in_calendar">Dagar i kalendern</string>
+    <string name="settings_widget_transparency">Transparens för widgetbakgrund</string>
     <string name="settings_show_activity_filters">Visa aktivitetsfilter på huvudskärmen</string>
     <string name="settings_show_goals_separately">Visa mål på en separat flik</string>
     <string name="settings_allow_multitasking">Tillåt multitasking</string>

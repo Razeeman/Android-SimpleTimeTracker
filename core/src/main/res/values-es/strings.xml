@@ -221,6 +221,7 @@
     <string name="settings_show_records_calendar">Mostrar registros en la vista de calendario</string>
     <string name="settings_reverse_order_in_calendar">Orden inverso de registros</string>
     <string name="settings_days_in_calendar">Días en el calendario</string>
+    <string name="settings_widget_transparency">Transparencia del fondo del widget</string>
     <string name="settings_show_activity_filters">Mostrar filtros de actividad en la pantalla principal</string>
     <string name="settings_show_goals_separately">Mostrar objetivos en una pestaña separada</string>
     <string name="settings_allow_multitasking">Permitir el registro multitarea</string>

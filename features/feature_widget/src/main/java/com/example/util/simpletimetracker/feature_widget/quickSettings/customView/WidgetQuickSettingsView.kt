@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import com.example.util.simpletimetracker.feature_views.ColorUtils
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.databinding.WidgetQuickSettingsViewLayoutBinding
@@ -45,6 +46,10 @@ class WidgetQuickSettingsView @JvmOverloads constructor(
                     itemIconColor = getColor(R.styleable.WidgetQuickSettingsView_itemIconColor, Color.WHITE)
                 }
 
+                if (hasValue(R.styleable.WidgetQuickSettingsView_itemBackgroundAlpha)) {
+                    itemBackgroundAlpha = getFloat(R.styleable.WidgetQuickSettingsView_itemBackgroundAlpha, 0.5f)
+                }
+
                 recycle()
             }
     }
@@ -64,6 +69,15 @@ class WidgetQuickSettingsView @JvmOverloads constructor(
     var itemIconColor: Int = 0
         set(value) {
             binding.ivWidgetQuickSettingsIcon.itemIconColor = value
+            field = value
+        }
+
+    var itemBackgroundAlpha: Float = 0.5f
+        set(value) {
+            ColorUtils.changeAlpha(
+                color = ContextCompat.getColor(context, R.color.widget_universal_background_color),
+                alpha = value,
+            ).let(::setCardBackgroundColor)
             field = value
         }
 }

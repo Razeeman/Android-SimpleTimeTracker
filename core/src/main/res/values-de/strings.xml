@@ -221,6 +221,7 @@
     <string name="settings_show_records_calendar">Datensätze in der Kalenderansicht anzeigen</string>
     <string name="settings_reverse_order_in_calendar">Umgekehrte Reihenfolge der Aufzeichnungen</string>
     <string name="settings_days_in_calendar">Tage im Kalender</string>
+    <string name="settings_widget_transparency">Widget-Hintergrundtransparenz</string>
     <string name="settings_show_activity_filters">Aktivitätsfilter auf dem Hauptbildschirm anzeigen</string>
     <string name="settings_show_goals_separately">Ziele auf einer separaten Registerkarte anzeigen</string>
     <string name="settings_allow_multitasking">Multitasking erlauben</string>

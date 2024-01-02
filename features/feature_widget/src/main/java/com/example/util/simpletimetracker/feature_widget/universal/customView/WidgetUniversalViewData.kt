@@ -4,5 +4,6 @@ import androidx.annotation.ColorInt
 
 data class WidgetUniversalViewData(
     val data: List<IconStackData>,
-    @ColorInt val iconColor: Int
+    @ColorInt val iconColor: Int,
+    val backgroundAlpha: Float,
 )

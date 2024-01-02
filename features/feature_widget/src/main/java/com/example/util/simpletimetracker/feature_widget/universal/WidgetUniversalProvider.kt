@@ -47,7 +47,7 @@ class WidgetUniversalProvider : AppWidgetProvider() {
     override fun onUpdate(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
-        appWidgetIds: IntArray?
+        appWidgetIds: IntArray?,
     ) {
         appWidgetIds?.forEach { widgetId ->
             updateAppWidget(context, appWidgetManager, widgetId)
@@ -57,7 +57,7 @@ class WidgetUniversalProvider : AppWidgetProvider() {
     private fun updateAppWidget(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
-        appWidgetId: Int
+        appWidgetId: Int,
     ) {
         if (context == null || appWidgetManager == null) return
 
@@ -65,11 +65,21 @@ class WidgetUniversalProvider : AppWidgetProvider() {
             val runningRecords: List<RunningRecord> = runningRecordInteractor.getAll()
             val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
             val isDarkTheme = prefsInteractor.getDarkMode()
+            val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
 
             val data = runningRecords
-                .let { widgetUniversalViewDataMapper.mapToWidgetViewData(it, recordTypes, isDarkTheme) }
+                .let {
+                    widgetUniversalViewDataMapper.mapToWidgetViewData(
+                        runningRecords = it,
+                        recordTypes = recordTypes,
+                        isDarkTheme = isDarkTheme,
+                        backgroundTransparency = backgroundTransparency,
+                    )
+                }
                 .takeUnless { it.data.isEmpty() }
-                ?: widgetUniversalViewDataMapper.mapToEmptyWidgetViewData()
+                ?: widgetUniversalViewDataMapper.mapToEmptyWidgetViewData(
+                    backgroundTransparency = backgroundTransparency,
+                )
 
             val view = prepareView(context, data)
             measureView(context, view)
@@ -95,7 +105,7 @@ class WidgetUniversalProvider : AppWidgetProvider() {
         data: WidgetUniversalViewData,
     ): View {
         return WidgetUniversalView(
-            ContextThemeWrapper(context, R.style.AppTheme)
+            ContextThemeWrapper(context, R.style.AppTheme),
         ).apply {
             setData(data)
         }

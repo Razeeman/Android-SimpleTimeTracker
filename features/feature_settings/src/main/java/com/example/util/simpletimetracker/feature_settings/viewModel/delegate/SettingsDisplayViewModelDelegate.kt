@@ -9,11 +9,13 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInte
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
+import com.example.util.simpletimetracker.domain.model.WidgetTransparencyPercent
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsUntrackedRangeViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.WidgetTransparencyViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
@@ -48,6 +50,8 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         by lazySuspend { prefsInteractor.getReverseOrderInCalendar() }
     val daysInCalendarViewData: LiveData<DaysInCalendarViewData>
         by lazySuspend { loadDaysInCalendarViewData() }
+    val widgetTransparencyViewData: LiveData<WidgetTransparencyViewData>
+        by lazySuspend { loadWidgetTransparencyViewData() }
     val showActivityFiltersCheckbox: LiveData<Boolean>
         by lazySuspend { prefsInteractor.getShowActivityFilters() }
     val showGoalsSeparatelyCheckbox: LiveData<Boolean>
@@ -89,6 +93,18 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             if (newValue == currentValue) return@launch
             prefsInteractor.setDaysInCalendar(newValue)
             updateDaysInCalendarViewData()
+        }
+    }
+
+    fun onWidgetTransparencySelected(position: Int) {
+        delegateScope.launch {
+            val currentValue = prefsInteractor.getWidgetBackgroundTransparencyPercent()
+                .let(::WidgetTransparencyPercent)
+            val newValue = settingsMapper.toWidgetTransparency(position)
+            if (newValue == currentValue) return@launch
+            prefsInteractor.setWidgetBackgroundTransparencyPercent(newValue.value)
+            updateWidgetTransparencyViewData()
+            widgetInteractor.updateWidgets()
         }
     }
 
@@ -300,6 +316,17 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
     private suspend fun loadDaysInCalendarViewData(): DaysInCalendarViewData {
         return prefsInteractor.getDaysInCalendar()
             .let(settingsMapper::toDaysInCalendarViewData)
+    }
+
+    private suspend fun updateWidgetTransparencyViewData() {
+        val data = loadWidgetTransparencyViewData()
+        widgetTransparencyViewData.set(data)
+    }
+
+    private suspend fun loadWidgetTransparencyViewData(): WidgetTransparencyViewData {
+        return prefsInteractor.getWidgetBackgroundTransparencyPercent()
+            .let(::WidgetTransparencyPercent)
+            .let(settingsMapper::toWidgetTransparencyViewData)
     }
 
     private suspend fun updateCardOrderViewData() {

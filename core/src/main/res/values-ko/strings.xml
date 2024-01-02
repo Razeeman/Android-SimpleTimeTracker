@@ -221,6 +221,7 @@
     <string name="settings_show_records_calendar">기록을 캘린더 형식으로 보기</string>
     <string name="settings_reverse_order_in_calendar">순서 뒤집기</string>
     <string name="settings_days_in_calendar">표시할 일 수</string>
+    <string name="settings_widget_transparency">위젯 배경 투명도</string>
     <string name="settings_show_activity_filters">메인 화면에 활동 필터 표시</string>
     <string name="settings_show_goals_separately">목표 탭 분리</string>
     <string name="settings_allow_multitasking">멀티태스킹 활성화</string>

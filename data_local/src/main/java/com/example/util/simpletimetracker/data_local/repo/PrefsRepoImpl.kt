@@ -241,6 +241,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_REPEAT_BUTTON_TYPE, 0
     )
 
+    override var widgetBackgroundTransparencyPercent: Long by prefs.delegate(
+        KEY_WIDGET_TRANSPARENCY_PERCENT, 60
+    )
+
     override fun setWidget(widgetId: Int, recordType: Long) {
         prefs.edit().putLong(KEY_WIDGET + widgetId, recordType).apply()
     }
@@ -434,6 +438,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_AUTOMATIC_EXPORT_ERROR = "automaticExportError"
         private const val KEY_AUTOMATIC_EXPORT_LAST_SAVE_TIME = "automaticExportLastSaveTime"
         private const val KEY_REPEAT_BUTTON_TYPE = "repeatButtonType"
+        private const val KEY_WIDGET_TRANSPARENCY_PERCENT = "widgetTransparencyPercent"
         private const val KEY_WIDGET = "widget_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_TYPES = "statistics_widget_filtered_types_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES = "statistics_widget_filtered_categories_"

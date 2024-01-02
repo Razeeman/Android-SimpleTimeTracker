@@ -221,6 +221,7 @@
     <string name="settings_show_records_calendar">Tampilkan rekor dalam tampilan kalender</string>
     <string name="settings_reverse_order_in_calendar">Urutan terbalik catatan</string>
     <string name="settings_days_in_calendar">Hari dalam kalender</string>
+    <string name="settings_widget_transparency">Transparansi latar belakang widget</string>
     <string name="settings_show_activity_filters">Tampilkan filter aktivitas di layar utama</string>
     <string name="settings_show_goals_separately">Tampilkan sasaran di tab terpisah</string>
     <string name="settings_allow_multitasking">Izinkan tugas ganda</string>

@@ -450,6 +450,50 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsWidgetTransparency"
+                    style="@style/SettingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_widget_transparency"
+                    app:layout_constraintEnd_toStartOf="@id/tvSettingsWidgetTransparencyValue"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSettingsWidgetTransparencyValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="32dp"
+                    android:gravity="end|center_vertical"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:textColor="?appTextPrimaryColor"
+                    app:layout_constraintBottom_toBottomOf="@id/spinnerSettingsWidgetTransparency"
+                    app:layout_constraintEnd_toEndOf="@id/spinnerSettingsWidgetTransparency"
+                    app:layout_constraintTop_toTopOf="@id/spinnerSettingsWidgetTransparency"
+                    tools:text="50%" />
+
+                <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+                    android:id="@+id/spinnerSettingsWidgetTransparency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSettingsWidgetTransparency"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSettingsWidgetTransparency" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                style="@style/SettingsDivider"
+                android:layout_width="match_parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingTop="12dp">
 
                 <androidx.appcompat.widget.AppCompatTextView

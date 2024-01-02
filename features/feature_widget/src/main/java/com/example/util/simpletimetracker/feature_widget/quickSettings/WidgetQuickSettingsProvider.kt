@@ -48,7 +48,7 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
     override fun onUpdate(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
-        appWidgetIds: IntArray?
+        appWidgetIds: IntArray?,
     ) {
         appWidgetIds?.forEach { widgetId ->
             updateAppWidget(context, appWidgetManager, widgetId)
@@ -64,11 +64,12 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
     private fun updateAppWidget(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
-        appWidgetId: Int
+        appWidgetId: Int,
     ) {
         if (context == null || appWidgetManager == null) return
 
         GlobalScope.launch(Dispatchers.Main) {
+            val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
             val name: String
             val isChecked: Boolean
             when (prefsInteractor.getQuickSettingsWidget(appWidgetId)) {
@@ -82,7 +83,12 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
                 }
             }
 
-            val view = prepareView(context, name, isChecked)
+            val view = prepareView(
+                context = context,
+                name = name,
+                isChecked = isChecked,
+                backgroundTransparency = backgroundTransparency,
+            )
             measureView(context, view)
             val bitmap = view.getBitmapFromView()
 
@@ -98,6 +104,7 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
         context: Context,
         name: String,
         isChecked: Boolean,
+        backgroundTransparency: Long,
     ): View {
         val icon = if (isChecked) {
             RecordTypeIcon.Image(R.drawable.checkbox_checked)
@@ -118,6 +125,7 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
             itemIcon = icon
             itemIconColor = iconColor
             itemName = name
+            itemBackgroundAlpha = 1f - backgroundTransparency / 100f
         }.let(container::addView)
 
         return container
@@ -138,7 +146,7 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
     }
 
     private fun onClick(
-        widgetId: Int
+        widgetId: Int,
     ) {
         GlobalScope.launch(Dispatchers.Main) {
             when (prefsInteractor.getQuickSettingsWidget(widgetId)) {
@@ -157,7 +165,7 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
 
     private fun getPendingSelfIntent(
         context: Context,
-        widgetId: Int
+        widgetId: Int,
     ): PendingIntent {
         val intent = Intent(context, javaClass)
         intent.action = ON_CLICK_ACTION

@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.SystemClock
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
@@ -31,6 +30,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.feature_views.ColorUtils
 import com.example.util.simpletimetracker.feature_views.RecordTypeView
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
@@ -128,6 +128,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
         GlobalScope.launch(Dispatchers.Main) {
             val view: View
             val recordTypeId = prefsInteractor.getWidget(appWidgetId)
+            val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
             val typeIds = typeIdsToUpdate
             if (typeIds.isNotEmpty() && recordTypeId !in typeIds) return@launch
             val runningRecord = runningRecordInteractor.get(recordTypeId)
@@ -145,6 +146,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
                     recordTypeColor = viewData.color,
                     isRunning = false,
                     isChecked = false,
+                    backgroundTransparency = backgroundTransparency,
                 )
             } else {
                 val recordType = recordTypeInteractor.get(recordTypeId)
@@ -175,6 +177,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
                         ?.let { colorMapper.mapToColorInt(it, isDarkTheme) },
                     isRunning = runningRecord != null && recordType != null,
                     isChecked = isChecked,
+                    backgroundTransparency = backgroundTransparency,
                 )
             }
 
@@ -204,6 +207,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
         recordTypeColor: Int?,
         isRunning: Boolean,
         isChecked: Boolean?,
+        backgroundTransparency: Long,
     ): View {
         val icon = recordTypeIcon
             ?: RecordTypeIcon.Image(R.drawable.unknown)
@@ -211,16 +215,19 @@ class WidgetSingleProvider : AppWidgetProvider() {
         val name = recordTypeName
             ?: R.string.widget_load_error.let(resourceRepo::getString)
 
+        val textColor = if (isRunning) {
+            resourceRepo.getColor(R.color.colorIcon)
+        } else {
+            resourceRepo.getColor(R.color.widget_universal_empty_color)
+        }
+
         val color = if (isRunning && recordTypeColor != null) {
             recordTypeColor
         } else {
-            Color.BLACK
-        }
-
-        val viewAlpha = if (isRunning) {
-            ENABLED_ALPHA
-        } else {
-            DISABLED_ALPHA
+            ColorUtils.changeAlpha(
+                color = resourceRepo.getColor(R.color.widget_universal_background_color),
+                alpha = 1f - backgroundTransparency / 100f,
+            )
         }
 
         // TODO setting alpha on cardView doesn't work for some reason, wrap in layout before setting
@@ -232,10 +239,10 @@ class WidgetSingleProvider : AppWidgetProvider() {
             getCheckmarkOutline().setAllMargins(4)
             itemIcon = icon
             itemName = name
+            itemIconColor = textColor
             itemColor = color
             itemWithCheck = isChecked != null
             itemIsChecked = isChecked.orFalse()
-            alpha = viewAlpha
         }.let(container::addView)
 
         return container
@@ -314,8 +321,5 @@ class WidgetSingleProvider : AppWidgetProvider() {
         private const val ON_CLICK_ACTION =
             "com.example.util.simpletimetracker.feature_widget.widget.onclick"
         private const val ARGS_WIDGET_ID = "widgetId"
-
-        private const val ENABLED_ALPHA = 1f
-        private const val DISABLED_ALPHA = 0.5f
     }
 }

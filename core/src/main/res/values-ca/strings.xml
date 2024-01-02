@@ -221,6 +221,7 @@
     <string name="settings_show_records_calendar">Mostra els enregistraments en vista de calendari</string>
     <string name="settings_reverse_order_in_calendar">Inverteix l\'ordre dels enregistraments</string>
     <string name="settings_days_in_calendar">Dies al calendari</string>
+    <string name="settings_widget_transparency">Transparència de fons del widget</string>
     <string name="settings_show_activity_filters">Mostra els filtres d\'activitat a la pantalla principal.</string>
     <string name="settings_show_goals_separately">Mostra els objectius en una pestanya separada</string>
     <string name="settings_allow_multitasking">Permet la multitasca</string>

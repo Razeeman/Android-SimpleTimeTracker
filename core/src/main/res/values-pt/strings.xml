@@ -221,6 +221,7 @@
     <string name="settings_show_records_calendar">Mostrar registros na visualização de calendário</string>
     <string name="settings_reverse_order_in_calendar">Ordem inversa dos registros</string>
     <string name="settings_days_in_calendar">Dias no calendário</string>
+    <string name="settings_widget_transparency">Transparência de fundo do widget</string>
     <string name="settings_show_activity_filters">Mostrar filtros de atividade na tela principal</string>
     <string name="settings_show_goals_separately">Mostrar metas em uma guia separada</string>
     <string name="settings_allow_multitasking">Permitir atividades simultâneas</string>

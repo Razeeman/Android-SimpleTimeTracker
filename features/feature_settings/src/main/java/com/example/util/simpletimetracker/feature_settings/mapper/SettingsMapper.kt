@@ -23,6 +23,7 @@ import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.DaysInCalendar
 import com.example.util.simpletimetracker.domain.model.RepeatButtonType
+import com.example.util.simpletimetracker.domain.model.WidgetTransparencyPercent
 import com.example.util.simpletimetracker.domain.model.count
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTranslatorViewData
@@ -33,6 +34,7 @@ import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWe
 import com.example.util.simpletimetracker.feature_settings.viewData.LanguageViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButtonViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.WidgetTransparencyViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
 import java.util.Calendar
@@ -58,6 +60,15 @@ class SettingsMapper @Inject constructor(
         DaysInCalendar.THREE,
         DaysInCalendar.FIVE,
         DaysInCalendar.SEVEN,
+    )
+
+    private val widgetTransparencyList: List<WidgetTransparencyPercent> = listOf(
+        WidgetTransparencyPercent(100),
+        WidgetTransparencyPercent(80),
+        WidgetTransparencyPercent(60),
+        WidgetTransparencyPercent(40),
+        WidgetTransparencyPercent(20),
+        WidgetTransparencyPercent(0),
     )
 
     private val dayOfWeekList: List<DayOfWeek> = listOf(
@@ -135,6 +146,20 @@ class SettingsMapper @Inject constructor(
 
     fun toDaysInCalendar(position: Int): DaysInCalendar {
         return daysInCalendarList.getOrElse(position) { daysInCalendarList.first() }
+    }
+
+    fun toWidgetTransparencyViewData(currentValue: WidgetTransparencyPercent): WidgetTransparencyViewData {
+        return WidgetTransparencyViewData(
+            items = widgetTransparencyList
+                .map(::toWidgetTransparencyName)
+                .map(CustomSpinner::CustomSpinnerTextItem),
+            selectedPosition = toPosition(currentValue),
+            selectedValue = toWidgetTransparencyName(currentValue),
+        )
+    }
+
+    fun toWidgetTransparency(position: Int): WidgetTransparencyPercent {
+        return widgetTransparencyList.getOrElse(position) { widgetTransparencyList.first() }
     }
 
     fun toFirstDayOfWeekViewData(currentOrder: DayOfWeek): FirstDayOfWeekViewData {
@@ -335,6 +360,14 @@ class SettingsMapper @Inject constructor(
 
     private fun toDaysInCalendarName(daysInCalendar: DaysInCalendar): String {
         return daysInCalendar.count.toString()
+    }
+
+    private fun toPosition(widgetTransparency: WidgetTransparencyPercent): Int {
+        return widgetTransparencyList.indexOf(widgetTransparency).takeUnless { it == -1 }.orZero()
+    }
+
+    private fun toWidgetTransparencyName(widgetTransparency: WidgetTransparencyPercent): String {
+        return "${widgetTransparency.value}%"
     }
 
     private fun toPosition(dayOfWeek: DayOfWeek): Int {

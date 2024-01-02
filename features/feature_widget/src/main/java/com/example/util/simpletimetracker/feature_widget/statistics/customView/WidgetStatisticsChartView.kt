@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import com.example.util.simpletimetracker.feature_views.ColorUtils
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_views.pieChart.PiePortion
 import com.example.util.simpletimetracker.feature_widget.R
@@ -31,7 +32,15 @@ class WidgetStatisticsChartView @JvmOverloads constructor(
         useCompatPadding = false
     }
 
-    fun setSegments(data: List<PiePortion>, total: String) = with(binding) {
+    fun setSegments(
+        data: List<PiePortion>,
+        total: String,
+        backgroundAlpha: Float,
+    ) = with(binding) {
+        ColorUtils.changeAlpha(
+            color = ContextCompat.getColor(context, R.color.widget_universal_background_color),
+            alpha = backgroundAlpha,
+        ).let(::setCardBackgroundColor)
         if (data.isEmpty()) {
             switchDataVisibility(hasData = false)
         } else {
