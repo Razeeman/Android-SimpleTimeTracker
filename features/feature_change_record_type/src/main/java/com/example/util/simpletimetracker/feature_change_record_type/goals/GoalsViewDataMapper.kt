@@ -1,9 +1,13 @@
 package com.example.util.simpletimetracker.feature_change_record_type.goals
 
+import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeGoalsState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeGoalsViewData
@@ -13,6 +17,7 @@ import javax.inject.Inject
 class GoalsViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper,
+    private val colorMapper: ColorMapper,
 ) {
 
     private val goalTypeList: List<ChangeRecordTypeGoalsViewData.Type> = listOf(
@@ -33,6 +38,7 @@ class GoalsViewDataMapper @Inject constructor(
 
     fun mapGoalsState(
         goalsState: ChangeRecordTypeGoalsState,
+        isDarkTheme: Boolean,
     ): ChangeRecordTypeGoalsViewData {
         return ChangeRecordTypeGoalsViewData(
             session = mapGoalViewData(
@@ -51,6 +57,11 @@ class GoalsViewDataMapper @Inject constructor(
                 title = resourceRepo.getString(R.string.change_record_type_monthly_goal_time),
                 goal = goalsState.monthly,
             ),
+            daysOfWeek = mapDaysOfWeekViewData(
+                goal = goalsState.daily,
+                selectedDaysOfWeek = goalsState.daysOfWeek,
+                isDarkTheme = isDarkTheme,
+            )
         )
     }
 
@@ -60,6 +71,7 @@ class GoalsViewDataMapper @Inject constructor(
             daily = getDefaultGoal(),
             weekly = getDefaultGoal(),
             monthly = getDefaultGoal(),
+            daysOfWeek = emptyList(),
         )
     }
 
@@ -106,6 +118,27 @@ class GoalsViewDataMapper @Inject constructor(
             timeMapper.formatDuration(duration)
         } else {
             resourceRepo.getString(R.string.change_record_type_goal_time_disabled)
+        }
+    }
+
+    private fun mapDaysOfWeekViewData(
+        goal: RecordTypeGoal.Type,
+        selectedDaysOfWeek: List<DayOfWeek>,
+        isDarkTheme: Boolean,
+    ): List<ViewHolderType> {
+        if (goal.value == 0L) return emptyList()
+
+        return DayOfWeek.values().map {
+            val selected = it in selectedDaysOfWeek
+            DayOfWeekViewData(
+                dayOfWeek = it,
+                text = timeMapper.toShortDayOfWeekName(it),
+                color = if (selected) {
+                    colorMapper.toActiveColor(isDarkTheme)
+                } else {
+                    colorMapper.toInactiveColor(isDarkTheme)
+                },
+            )
         }
     }
 }

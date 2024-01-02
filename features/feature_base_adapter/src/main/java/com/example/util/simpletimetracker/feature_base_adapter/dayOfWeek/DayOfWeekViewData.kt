@@ -1,10 +1,10 @@
-package com.example.util.simpletimetracker.feature_records_filter.adapter
+package com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek
 
 import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 
-data class RecordsFilterDayOfWeekViewData(
+data class DayOfWeekViewData(
     val dayOfWeek: DayOfWeek,
     val text: String,
     @ColorInt val color: Int,
@@ -13,5 +13,5 @@ data class RecordsFilterDayOfWeekViewData(
     override fun getUniqueId(): Long = dayOfWeek.ordinal.toLong()
 
     override fun isValidType(other: ViewHolderType): Boolean =
-        other is RecordsFilterDayOfWeekViewData
+        other is DayOfWeekViewData
 }

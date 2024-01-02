@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_change_record_type.databinding.ChangeRecordTypeGoalLayoutBinding
 import com.example.util.simpletimetracker.feature_change_record_type.databinding.GoalsLayoutBinding
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
@@ -16,6 +17,10 @@ import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 
 object GoalsViewDelegate {
 
@@ -39,6 +44,7 @@ object GoalsViewDelegate {
 
     fun initGoalUi(
         layout: GoalsLayoutBinding,
+        dayOfWeekAdapter: BaseRecyclerAdapter,
     ) = with(layout) {
         listOf(
             layoutChangeRecordTypeGoalSession,
@@ -52,6 +58,23 @@ object GoalsViewDelegate {
         // No count goal for session.
         layoutChangeRecordTypeGoalSession.arrowChangeRecordTypeGoalType.visible = false
         layoutChangeRecordTypeGoalSession.fieldRecordTypeGoalType.isEnabled = false
+
+        // Init goal days only for daily goal.
+        listOf(
+            layoutChangeRecordTypeGoalSession,
+            layoutChangeRecordTypeGoalWeekly,
+            layoutChangeRecordTypeGoalMonthly,
+        ).forEach {
+            it.rvChangeRecordTypeGoalDays.visible = false
+        }
+        layoutChangeRecordTypeGoalDaily.rvChangeRecordTypeGoalDays.apply {
+            layoutManager = FlexboxLayoutManager(context).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = dayOfWeekAdapter
+        }
     }
 
     fun initGoalUx(
@@ -130,5 +153,9 @@ object GoalsViewDelegate {
         applyGoalToView(state.daily, layoutChangeRecordTypeGoalDaily)
         applyGoalToView(state.weekly, layoutChangeRecordTypeGoalWeekly)
         applyGoalToView(state.monthly, layoutChangeRecordTypeGoalMonthly)
+
+        layoutChangeRecordTypeGoalDaily.rvChangeRecordTypeGoalDays.apply {
+            (adapter as? BaseRecyclerAdapter)?.replace(state.daysOfWeek)
+        }
     }
 }

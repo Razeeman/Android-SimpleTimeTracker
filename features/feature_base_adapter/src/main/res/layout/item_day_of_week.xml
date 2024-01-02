@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/containerRecordFilterDayOfWeekItem"
+    android:id="@+id/containerDayOfWeekItem"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/button_corner_radius"
@@ -12,7 +12,7 @@
     tools:cardBackgroundColor="?appInactiveColor">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/btnRecordsFilterDayOfWeekItem"
+        android:id="@+id/btnDayOfWeekItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
@@ -20,6 +20,6 @@
         android:paddingVertical="8dp"
         android:textColor="?appLightTextColor"
         android:textStyle="bold"
-        tools:text="@string/day_of_week_sunday" />
+        tools:text="Sun" />
 
 </androidx.cardview.widget.CardView>

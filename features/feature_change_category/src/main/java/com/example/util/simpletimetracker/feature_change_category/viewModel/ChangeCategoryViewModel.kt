@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
@@ -92,6 +93,11 @@ class ChangeCategoryViewModel @Inject constructor(
     private var newName: String = ""
     private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
     private var newTypes: MutableList<Long> = mutableListOf()
+
+    override fun onCleared() {
+        (goalsViewModelDelegate as? ViewModelDelegate)?.clear()
+        super.onCleared()
+    }
 
     fun onVisible() = viewModelScope.launch {
         goalsViewModelDelegate.onVisible()

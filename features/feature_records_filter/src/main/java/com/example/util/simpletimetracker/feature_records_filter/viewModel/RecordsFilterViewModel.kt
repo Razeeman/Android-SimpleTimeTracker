@@ -47,7 +47,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.record.RecordView
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.RecordFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterButtonViewData
-import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterDayOfWeekViewData
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterRangeViewData
 import com.example.util.simpletimetracker.feature_records_filter.interactor.RecordsFilterViewDataInteractor
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
@@ -283,7 +283,7 @@ class RecordsFilterViewModel @Inject constructor(
         updateRecords()
     }
 
-    fun onDayOfWeekClick(viewData: RecordsFilterDayOfWeekViewData) {
+    fun onDayOfWeekClick(viewData: DayOfWeekViewData) {
         handleDayOfWeekClick(viewData.dayOfWeek)
 
         updateFilters()

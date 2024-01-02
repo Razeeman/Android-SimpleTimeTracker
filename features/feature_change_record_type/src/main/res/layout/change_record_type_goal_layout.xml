@@ -19,6 +19,7 @@
         tools:text="Goal Range" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerChangeRecordTypeGoal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tvChangeRecordTypeGoalTitle">
@@ -152,5 +153,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChangeRecordTypeGoalDays"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTypeGoal"
+        tools:itemCount="1"
+        tools:listitem="@layout/item_day_of_week" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_type.viewData
 
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 
 data class ChangeRecordTypeGoalsViewData(
@@ -7,6 +8,7 @@ data class ChangeRecordTypeGoalsViewData(
     val daily: GoalViewData,
     val weekly: GoalViewData,
     val monthly: GoalViewData,
+    val daysOfWeek: List<ViewHolderType>,
 ) {
 
     data class GoalViewData(

@@ -27,6 +27,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.createCa
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorPaletteAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.createDayOfWeekAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.createEmojiAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
@@ -119,6 +120,11 @@ class ChangeRecordTypeFragment :
             createEmptyAdapterDelegate(),
         )
     }
+    private val dailyGoalDayOfWeekAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createDayOfWeekAdapterDelegate(viewModel::onDayOfWeekClick),
+        )
+    }
     private var iconsLayoutManager: GridLayoutManager? = null
     private val params: ChangeRecordTypeParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS,
@@ -166,7 +172,10 @@ class ChangeRecordTypeFragment :
             adapter = categoriesAdapter
         }
 
-        GoalsViewDelegate.initGoalUi(binding.layoutChangeRecordTypeGoals)
+        GoalsViewDelegate.initGoalUi(
+            layout = binding.layoutChangeRecordTypeGoals,
+            dayOfWeekAdapter = dailyGoalDayOfWeekAdapter,
+        )
 
         setOnPreDrawListener {
             startPostponedEnterTransition()

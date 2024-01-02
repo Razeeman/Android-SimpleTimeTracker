@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
@@ -133,6 +134,11 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private var newIconName: String = ""
     private var newCategories: MutableList<Long> = mutableListOf()
     private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
+
+    override fun onCleared() {
+        (goalsViewModelDelegate as? ViewModelDelegate)?.clear()
+        super.onCleared()
+    }
 
     fun onVisible() = viewModelScope.launch {
         initializeSelectedCategories()

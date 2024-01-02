@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapt
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorPaletteAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.createDayOfWeekAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
@@ -65,6 +66,11 @@ class ChangeCategoryFragment :
             createEmptyAdapterDelegate(),
         )
     }
+    private val dailyGoalDayOfWeekAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createDayOfWeekAdapterDelegate(viewModel::onDayOfWeekClick),
+        )
+    }
 
     private val params: ChangeTagData by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChangeTagData.New(),
@@ -97,7 +103,10 @@ class ChangeCategoryFragment :
             adapter = typesAdapter
         }
 
-        GoalsViewDelegate.initGoalUi(binding.layoutChangeCategoryGoals)
+        GoalsViewDelegate.initGoalUi(
+            layout = binding.layoutChangeCategoryGoals,
+            dayOfWeekAdapter = dailyGoalDayOfWeekAdapter
+        )
     }
 
     override fun initUx() = with(binding) {

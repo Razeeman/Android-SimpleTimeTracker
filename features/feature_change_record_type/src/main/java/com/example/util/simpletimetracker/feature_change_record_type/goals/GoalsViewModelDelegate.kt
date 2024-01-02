@@ -2,6 +2,9 @@ package com.example.util.simpletimetracker.feature_change_record_type.goals
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.util.simpletimetracker.core.base.ViewModelDelegate
+import com.example.util.simpletimetracker.core.extension.addOrRemove
+import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermissionInteractor
 import com.example.util.simpletimetracker.core.repo.PermissionRepo
@@ -10,19 +13,22 @@ import com.example.util.simpletimetracker.domain.extension.getMonthly
 import com.example.util.simpletimetracker.domain.extension.getSession
 import com.example.util.simpletimetracker.domain.extension.getWeekly
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeGoalsState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeGoalsViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.action.OpenSystemSettings
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 interface GoalsViewModelDelegate {
     val goalsViewData: LiveData<ChangeRecordTypeGoalsViewData>
     val notificationsHintVisible: LiveData<Boolean>
-    var newGoalsState: ChangeRecordTypeGoalsState
 
     fun onNotificationsHintClick()
     fun onDurationSet(tag: String?, duration: Long, anchor: Any)
@@ -30,6 +36,7 @@ interface GoalsViewModelDelegate {
     fun onGoalTypeSelected(range: RecordTypeGoal.Range, position: Int)
     fun onGoalCountChange(range: RecordTypeGoal.Range, count: String)
     fun onGoalTimeClick(range: RecordTypeGoal.Range)
+    fun onDayOfWeekClick(data: DayOfWeekViewData)
 }
 
 class GoalsViewModelDelegateImpl @Inject constructor(
@@ -38,15 +45,16 @@ class GoalsViewModelDelegateImpl @Inject constructor(
     private val goalsViewDataMapper: GoalsViewDataMapper,
     private val checkExactAlarmPermissionInteractor: CheckExactAlarmPermissionInteractor,
     private val permissionRepo: PermissionRepo,
-) : GoalsViewModelDelegate {
+    private val prefsInteractor: PrefsInteractor,
+) : GoalsViewModelDelegate, ViewModelDelegate() {
 
-    override val goalsViewData: LiveData<ChangeRecordTypeGoalsViewData> by lazy {
-        return@lazy MutableLiveData(loadGoalsViewData())
+    override val goalsViewData: LiveData<ChangeRecordTypeGoalsViewData> by lazySuspend {
+        loadGoalsViewData()
     }
     override val notificationsHintVisible: LiveData<Boolean> by lazy {
         MutableLiveData(false)
     }
-    override var newGoalsState: ChangeRecordTypeGoalsState = goalsViewDataMapper.getDefaultGoalState()
+    private var newGoalsState: ChangeRecordTypeGoalsState = goalsViewDataMapper.getDefaultGoalState()
 
     override fun onNotificationsHintClick() {
         router.execute(OpenSystemSettings.Notifications)
@@ -125,6 +133,13 @@ class GoalsViewModelDelegateImpl @Inject constructor(
         )
     }
 
+    override fun onDayOfWeekClick(data: DayOfWeekViewData) {
+        val current = newGoalsState.daysOfWeek
+        val new = current.toMutableList().apply { addOrRemove(data.dayOfWeek) }
+        newGoalsState = newGoalsState.copy(daysOfWeek = new)
+        updateGoalsViewData()
+    }
+
     fun onVisible() {
         updateNotificationsHintVisible()
     }
@@ -186,6 +201,7 @@ class GoalsViewModelDelegateImpl @Inject constructor(
             daily = goals.getDaily()?.type ?: defaultGoal,
             weekly = goals.getWeekly()?.type ?: defaultGoal,
             monthly = goals.getMonthly()?.type ?: defaultGoal,
+            daysOfWeek = listOf(DayOfWeek.MONDAY) // TODO,
         )
 
         updateGoalsViewData()
@@ -219,13 +235,16 @@ class GoalsViewModelDelegateImpl @Inject constructor(
         }
     }
 
-    private fun updateGoalsViewData() {
+    private fun updateGoalsViewData() = delegateScope.launch {
         val data = loadGoalsViewData()
         goalsViewData.set(data)
     }
 
-    private fun loadGoalsViewData(): ChangeRecordTypeGoalsViewData {
-        return goalsViewDataMapper.mapGoalsState(newGoalsState)
+    private suspend fun loadGoalsViewData(): ChangeRecordTypeGoalsViewData {
+        return goalsViewDataMapper.mapGoalsState(
+            goalsState = newGoalsState,
+            isDarkTheme = prefsInteractor.getDarkMode(),
+        )
     }
 
     private fun updateNotificationsHintVisible() {

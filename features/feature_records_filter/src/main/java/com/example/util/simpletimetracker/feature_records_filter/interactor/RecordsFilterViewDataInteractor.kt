@@ -52,7 +52,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.Reco
 import com.example.util.simpletimetracker.feature_records_filter.R
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterButtonViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterCommentViewData
-import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterDayOfWeekViewData
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterRangeViewData
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
@@ -518,7 +518,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
 
         return@withContext DayOfWeek.values().map {
             val selected = it in selectedDays
-            RecordsFilterDayOfWeekViewData(
+            DayOfWeekViewData(
                 dayOfWeek = it,
                 text = timeMapper.toShortDayOfWeekName(it),
                 color = if (selected) {
