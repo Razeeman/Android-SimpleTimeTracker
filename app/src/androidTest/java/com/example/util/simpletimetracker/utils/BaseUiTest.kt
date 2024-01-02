@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.feature_views.pieChart.PieChartView
 import com.example.util.simpletimetracker.ui.MainActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -92,6 +93,8 @@ open class BaseUiTest {
     open fun setUp() {
         if (!this::testUtils.isInitialized) hiltRule.inject()
         clearData()
+        runBlocking { prefsInteractor.setShowUntrackedInRecords(true) }
+        runBlocking { prefsInteractor.setShowUntrackedInStatistics(true) }
         disableAnimations()
         registerIdlingResource()
     }

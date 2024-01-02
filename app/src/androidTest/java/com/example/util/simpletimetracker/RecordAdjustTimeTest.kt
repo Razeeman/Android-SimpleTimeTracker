@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -87,7 +86,6 @@ class RecordAdjustTimeTest : BaseUiTest() {
         clickOnViewWithText("+30")
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         onView(withText(coreR.string.change_record_adjust)).perform(nestedScrollTo())
-        onView(withId(changeRecordR.id.containerChangeRecordAction)).perform(swipeUp())
         clickOnViewWithText(coreR.string.change_record_adjust)
 
         // Check records
@@ -174,7 +172,6 @@ class RecordAdjustTimeTest : BaseUiTest() {
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name2))
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         onView(withText(coreR.string.change_record_adjust)).perform(nestedScrollTo())
-        onView(withId(changeRecordR.id.containerChangeRecordAction)).perform(swipeUp())
         clickOnViewWithText(coreR.string.change_record_adjust)
 
         // Check records
@@ -239,7 +236,6 @@ class RecordAdjustTimeTest : BaseUiTest() {
         clickOnViewWithText("-5")
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         onView(withText(coreR.string.change_record_adjust)).perform(nestedScrollTo())
-        onView(withId(changeRecordR.id.containerChangeRecordAction)).perform(swipeUp())
         clickOnViewWithText(coreR.string.change_record_adjust)
 
         // Check records
