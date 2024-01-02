@@ -145,7 +145,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
                     recordTypeName = viewData.name,
                     recordTypeColor = viewData.color,
                     isRunning = false,
-                    isChecked = false,
+                    isChecked = null,
                     backgroundTransparency = backgroundTransparency,
                 )
             } else {
