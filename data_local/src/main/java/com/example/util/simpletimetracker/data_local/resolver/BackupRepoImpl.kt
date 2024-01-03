@@ -5,11 +5,13 @@ import android.net.Uri
 import android.os.ParcelFileDescriptor
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.data_local.mapper.RecordTypeGoalDataLocalMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.ClearDataInteractor
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.FavouriteComment
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -57,6 +59,7 @@ class BackupRepoImpl @Inject constructor(
     private val recordTypeGoalRepo: RecordTypeGoalRepo,
     private val clearDataInteractor: ClearDataInteractor,
     private val resourceRepo: ResourceRepo,
+    private val recordTypeGoalDataLocalMapper: RecordTypeGoalDataLocalMapper,
 ) : BackupRepo {
 
     override suspend fun saveBackupFile(
@@ -340,15 +343,18 @@ class BackupRepoImpl @Inject constructor(
             is RecordTypeGoal.Type.Duration -> 0L
             is RecordTypeGoal.Type.Count -> 1L
         }.toString()
+        val daysOfWeekString = recordTypeGoalDataLocalMapper
+            .mapDaysOfWeek(recordTypeGoal.daysOfWeek)
 
         return String.format(
-            "$ROW_RECORD_TYPE_GOAL\t%s\t%s\t%s\t%s\t%s\t%s\n",
+            "$ROW_RECORD_TYPE_GOAL\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
             recordTypeGoal.id.toString(),
             (recordTypeGoal.idData as? RecordTypeGoal.IdData.Type)?.value.orZero(),
             rangeString,
             typeString,
             recordTypeGoal.type.value.toString(),
             (recordTypeGoal.idData as? RecordTypeGoal.IdData.Category)?.value.orZero(),
+            daysOfWeekString,
         )
     }
 
@@ -360,6 +366,8 @@ class BackupRepoImpl @Inject constructor(
         val dailyGoalTime = parts.getOrNull(8)?.toLongOrNull().orZero()
         val weeklyGoalTime = parts.getOrNull(9)?.toLongOrNull().orZero()
         val monthlyGoalTime = parts.getOrNull(10)?.toLongOrNull().orZero()
+        // Didn't exist when goal time was in type db, no need to migrate.
+        val daysOfWeek = emptyList<DayOfWeek>()
 
         val goalTimes = mutableListOf<RecordTypeGoal>().apply {
             if (goalTime != 0L) {
@@ -368,6 +376,7 @@ class BackupRepoImpl @Inject constructor(
                     idData = RecordTypeGoal.IdData.Type(typeId),
                     range = RecordTypeGoal.Range.Session,
                     type = RecordTypeGoal.Type.Duration(goalTime),
+                    daysOfWeek = daysOfWeek,
                 ).let(::add)
             }
             if (dailyGoalTime != 0L) {
@@ -375,6 +384,7 @@ class BackupRepoImpl @Inject constructor(
                     idData = RecordTypeGoal.IdData.Type(typeId),
                     range = RecordTypeGoal.Range.Daily,
                     type = RecordTypeGoal.Type.Duration(dailyGoalTime),
+                    daysOfWeek = daysOfWeek,
                 ).let(::add)
             }
             if (weeklyGoalTime != 0L) {
@@ -382,6 +392,7 @@ class BackupRepoImpl @Inject constructor(
                     idData = RecordTypeGoal.IdData.Type(typeId),
                     range = RecordTypeGoal.Range.Weekly,
                     type = RecordTypeGoal.Type.Duration(weeklyGoalTime),
+                    daysOfWeek = daysOfWeek,
                 ).let(::add)
             }
             if (monthlyGoalTime != 0L) {
@@ -389,6 +400,7 @@ class BackupRepoImpl @Inject constructor(
                     idData = RecordTypeGoal.IdData.Type(typeId),
                     range = RecordTypeGoal.Range.Monthly,
                     type = RecordTypeGoal.Type.Duration(monthlyGoalTime),
+                    daysOfWeek = daysOfWeek,
                 ).let(::add)
             }
         }
@@ -502,6 +514,7 @@ class BackupRepoImpl @Inject constructor(
     private fun recordTypeGoalFromBackupString(parts: List<String>): RecordTypeGoal {
         val typeId = parts.getOrNull(2)?.toLongOrNull().orZero()
         val categoryId = parts.getOrNull(6)?.toLongOrNull().orZero()
+        val daysOfWeekString = parts.getOrNull(7).orEmpty()
 
         return RecordTypeGoal(
             id = parts.getOrNull(1)?.toLongOrNull().orZero(),
@@ -525,6 +538,7 @@ class BackupRepoImpl @Inject constructor(
                     else -> RecordTypeGoal.Type.Duration(value)
                 }
             },
+            daysOfWeek = recordTypeGoalDataLocalMapper.mapDaysOfWeek(daysOfWeekString),
         )
     }
 

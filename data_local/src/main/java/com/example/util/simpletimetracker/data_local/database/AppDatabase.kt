@@ -28,7 +28,7 @@ import com.example.util.simpletimetracker.data_local.model.RunningRecordToRecord
         FavouriteCommentDBO::class,
         RecordTypeGoalDBO::class,
     ],
-    version = 14,
+    version = 15,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {

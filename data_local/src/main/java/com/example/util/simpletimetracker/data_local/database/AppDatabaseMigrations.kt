@@ -21,6 +21,7 @@ class AppDatabaseMigrations {
                 migration_11_12,
                 migration_12_13,
                 migration_13_14,
+                migration_14_15,
             )
 
         private val migration_1_2 = object : Migration(1, 2) {
@@ -189,6 +190,14 @@ class AppDatabaseMigrations {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
                     "ALTER TABLE recordTypeGoals ADD COLUMN category_id INTEGER NOT NULL DEFAULT 0",
+                )
+            }
+        }
+
+        private val migration_14_15 = object : Migration(14, 15) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE recordTypeGoals ADD COLUMN days_of_week TEXT NOT NULL DEFAULT ''",
                 )
             }
         }

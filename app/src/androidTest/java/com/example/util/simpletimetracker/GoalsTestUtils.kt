@@ -153,6 +153,7 @@ object GoalsTestUtils {
             idData = RecordTypeGoal.IdData.Type(0),
             range = range,
             type = RecordTypeGoal.Type.Duration(duration),
+            daysOfWeek = emptyList(),
         )
     }
 
@@ -172,6 +173,7 @@ object GoalsTestUtils {
             idData = RecordTypeGoal.IdData.Type(0),
             range = range,
             type = RecordTypeGoal.Type.Count(count),
+            daysOfWeek = emptyList(),
         )
     }
 

@@ -153,6 +153,7 @@ class GoalsViewModelDelegateImpl @Inject constructor(
             goalId: Long,
             goalType: RecordTypeGoal.Type,
             goalRange: RecordTypeGoal.Range,
+            daysOfWeek: List<DayOfWeek>,
         ) {
             if (goalType.value == 0L) {
                 recordTypeGoalInteractor.remove(goalId)
@@ -162,6 +163,7 @@ class GoalsViewModelDelegateImpl @Inject constructor(
                     idData = id,
                     range = goalRange,
                     type = goalType,
+                    daysOfWeek = daysOfWeek,
                 ).let {
                     recordTypeGoalInteractor.add(it)
                 }
@@ -172,21 +174,25 @@ class GoalsViewModelDelegateImpl @Inject constructor(
             goalId = goals.getSession()?.id.orZero(),
             goalType = newGoalsState.session,
             goalRange = RecordTypeGoal.Range.Session,
+            daysOfWeek = emptyList(),
         )
         processGoal(
             goalId = goals.getDaily()?.id.orZero(),
             goalType = newGoalsState.daily,
             goalRange = RecordTypeGoal.Range.Daily,
+            daysOfWeek = newGoalsState.daysOfWeek,
         )
         processGoal(
             goalId = goals.getWeekly()?.id.orZero(),
             goalType = newGoalsState.weekly,
             goalRange = RecordTypeGoal.Range.Weekly,
+            daysOfWeek = emptyList(),
         )
         processGoal(
             goalId = goals.getMonthly()?.id.orZero(),
             goalType = newGoalsState.monthly,
             goalRange = RecordTypeGoal.Range.Monthly,
+            daysOfWeek = emptyList(),
         )
     }
 
@@ -201,7 +207,7 @@ class GoalsViewModelDelegateImpl @Inject constructor(
             daily = goals.getDaily()?.type ?: defaultGoal,
             weekly = goals.getWeekly()?.type ?: defaultGoal,
             monthly = goals.getMonthly()?.type ?: defaultGoal,
-            daysOfWeek = listOf(DayOfWeek.MONDAY) // TODO,
+            daysOfWeek = goals.getDaily()?.daysOfWeek ?: DayOfWeek.values().toList(),
         )
 
         updateGoalsViewData()

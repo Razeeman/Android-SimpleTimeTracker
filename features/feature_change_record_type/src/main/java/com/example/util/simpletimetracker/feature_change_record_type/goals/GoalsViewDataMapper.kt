@@ -71,7 +71,7 @@ class GoalsViewDataMapper @Inject constructor(
             daily = getDefaultGoal(),
             weekly = getDefaultGoal(),
             monthly = getDefaultGoal(),
-            daysOfWeek = emptyList(),
+            daysOfWeek = DayOfWeek.values().toList(),
         )
     }
 

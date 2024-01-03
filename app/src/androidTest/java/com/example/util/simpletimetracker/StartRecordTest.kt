@@ -49,6 +49,7 @@ class StartRecordTest : BaseUiTest() {
                     idData = RecordTypeGoal.IdData.Type(0),
                     range = RecordTypeGoal.Range.Session,
                     type = RecordTypeGoal.Type.Duration(firstGoalTime),
+                    daysOfWeek = emptyList(),
                 ),
             ),
         )

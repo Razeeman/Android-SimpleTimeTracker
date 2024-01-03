@@ -5,6 +5,7 @@ data class RecordTypeGoal(
     val idData: IdData,
     val range: Range,
     val type: Type,
+    val daysOfWeek: List<DayOfWeek>,
 ) {
 
     sealed interface IdData {
