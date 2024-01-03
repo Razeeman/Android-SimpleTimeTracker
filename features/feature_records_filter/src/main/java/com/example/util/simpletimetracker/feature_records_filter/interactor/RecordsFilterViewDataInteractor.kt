@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.DateDividerViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.DayOfWeekViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.MultitaskRecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
@@ -34,7 +35,6 @@ import com.example.util.simpletimetracker.domain.extension.hasUntrackedFilter
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Category
-import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.MultitaskRecord
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
@@ -77,6 +77,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     private val multitaskRecordViewDataMapper: MultitaskRecordViewDataMapper,
     private val getRunningRecordViewDataMediator: GetRunningRecordViewDataMediator,
     private val dateDividerViewDataMapper: DateDividerViewDataMapper,
+    private val dayOfWeekViewDataMapper: DayOfWeekViewDataMapper,
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo,
@@ -121,7 +122,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             timestamp = timestamp,
             type = DateTimeDialogType.DATETIME(initialTab = DateTimeDialogType.Tab.DATE),
             useMilitaryTime = useMilitaryTime,
-            firstDayOfWeek = firstDayOfWeek
+            firstDayOfWeek = firstDayOfWeek,
         )
     }
 
@@ -256,7 +257,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             RecordFilterViewData.Type.DURATION,
             RecordFilterViewData.Type.MANUALLY_FILTERED.takeIf {
                 filters.hasManuallyFiltered() && !hasUntracked && !hasMultitask
-            }
+            },
         )
 
         return@withContext availableFilters.mapIndexed { index, type ->
@@ -324,8 +325,8 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             ?.plus(
                 categoryViewDataMapper.mapToUncategorizedItem(
                     isFiltered = !selectedCategoryItems.hasUncategorizedItem(),
-                    isDarkTheme = isDarkTheme
-                )
+                    isDarkTheme = isDarkTheme,
+                ),
             )
             .orEmpty()
 
@@ -381,7 +382,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             mapper.mapCommentFilter(
                 type = it,
                 filters = filters,
-                isDarkTheme = isDarkTheme
+                isDarkTheme = isDarkTheme,
             ).let(result::add)
         }
 
@@ -393,7 +394,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             .firstOrNull()
         RecordsFilterCommentViewData(
             id = 1L, // Only one at the time.
-            text = comment.orEmpty()
+            text = comment.orEmpty(),
         ).let(result::add)
 
         return@withContext result
@@ -439,8 +440,8 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             ?.plus(
                 categoryViewDataMapper.mapToUntaggedItem(
                     isFiltered = !selectedTags.hasUntaggedItem(),
-                    isDarkTheme = isDarkTheme
-                )
+                    isDarkTheme = isDarkTheme,
+                ),
             )
             .orEmpty()
 
@@ -516,18 +517,12 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         val selectedDays = filters.getDaysOfWeek()
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        return@withContext DayOfWeek.values().map {
-            val selected = it in selectedDays
-            DayOfWeekViewData(
-                dayOfWeek = it,
-                text = timeMapper.toShortDayOfWeekName(it),
-                color = if (selected) {
-                    colorMapper.toActiveColor(isDarkTheme)
-                } else {
-                    colorMapper.toInactiveColor(isDarkTheme)
-                },
-            )
-        }
+        return@withContext dayOfWeekViewDataMapper.mapViewData(
+            selectedDaysOfWeek = selectedDays,
+            isDarkTheme = isDarkTheme,
+            width = DayOfWeekViewData.Width.WrapContent,
+            paddingHorizontalDp = 16,
+        )
     }
 
     suspend fun getTimeOfDayFilterSelectionViewData(
@@ -543,12 +538,12 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             timeStarted = timeMapper.formatTime(
                 time = range.timeStarted + startOfDay,
                 useMilitaryTime = useMilitaryTime,
-                showSeconds = false
+                showSeconds = false,
             ),
             timeEnded = timeMapper.formatTime(
                 time = range.timeEnded + startOfDay,
                 useMilitaryTime = useMilitaryTime,
-                showSeconds = false
+                showSeconds = false,
             ),
             gravity = RecordsFilterRangeViewData.Gravity.CENTER,
             separatorVisible = true,

@@ -71,7 +71,7 @@ object GoalsViewDelegate {
             layoutManager = FlexboxLayoutManager(context).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER
-                flexWrap = FlexWrap.WRAP
+                flexWrap = FlexWrap.NOWRAP
             }
             adapter = dayOfWeekAdapter
         }

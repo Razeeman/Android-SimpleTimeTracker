@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_type.goals
 
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.mapper.DayOfWeekViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class GoalsViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper,
-    private val colorMapper: ColorMapper,
+    private val dayOfWeekViewDataMapper: DayOfWeekViewDataMapper,
 ) {
 
     private val goalTypeList: List<ChangeRecordTypeGoalsViewData.Type> = listOf(
@@ -128,17 +128,11 @@ class GoalsViewDataMapper @Inject constructor(
     ): List<ViewHolderType> {
         if (goal.value == 0L) return emptyList()
 
-        return DayOfWeek.values().map {
-            val selected = it in selectedDaysOfWeek
-            DayOfWeekViewData(
-                dayOfWeek = it,
-                text = timeMapper.toShortDayOfWeekName(it),
-                color = if (selected) {
-                    colorMapper.toActiveColor(isDarkTheme)
-                } else {
-                    colorMapper.toInactiveColor(isDarkTheme)
-                },
-            )
-        }
+        return dayOfWeekViewDataMapper.mapViewData(
+            selectedDaysOfWeek = selectedDaysOfWeek,
+            isDarkTheme = isDarkTheme,
+            width = DayOfWeekViewData.Width.MatchParent,
+            paddingHorizontalDp = 2,
+        )
     }
 }

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clipChildren="false">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvChangeRecordTypeGoalTitle"
@@ -158,8 +159,10 @@
         android:id="@+id/rvChangeRecordTypeGoalDays"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
+        android:layout_marginHorizontal="@dimen/input_field_margin"
+        android:layout_marginBottom="2dp"
         android:overScrollMode="never"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTypeGoal"
         tools:itemCount="1"
         tools:listitem="@layout/item_day_of_week" />

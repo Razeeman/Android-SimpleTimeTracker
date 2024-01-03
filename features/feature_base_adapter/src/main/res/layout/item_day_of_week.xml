@@ -5,21 +5,22 @@
     android:id="@+id/containerDayOfWeekItem"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_margin="2dp"
     app:cardCornerRadius="@dimen/button_corner_radius"
-    app:cardElevation="@dimen/record_type_card_elevation"
-    app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true"
+    app:cardElevation="2dp"
     tools:cardBackgroundColor="?appInactiveColor">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btnDayOfWeekItem"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
-        android:paddingHorizontal="16dp"
+        android:gravity="center"
+        android:maxLines="1"
         android:paddingVertical="8dp"
         android:textColor="?appLightTextColor"
         android:textStyle="bold"
+        tools:paddingHorizontal="16dp"
         tools:text="Sun" />
 
 </androidx.cardview.widget.CardView>
