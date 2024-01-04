@@ -585,11 +585,11 @@ class TimeMapper @Inject constructor(
         startOfDayShift: Long,
     ): DayOfWeek {
         return calendar
-            .apply { timeInMillis = timestamp }
-            .let {
-                it.timeInMillis -= startOfDayShift
-                it.get(Calendar.DAY_OF_WEEK)
+            .apply {
+                timeInMillis = timestamp
+                shift(-startOfDayShift)
             }
+            .get(Calendar.DAY_OF_WEEK)
             .let(::toDayOfWeek)
     }
 

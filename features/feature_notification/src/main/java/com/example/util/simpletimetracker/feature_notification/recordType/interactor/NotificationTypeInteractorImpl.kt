@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_notification.recordType.interactor
 
+import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
@@ -18,6 +19,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
@@ -41,6 +43,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
     private val timeMapper: TimeMapper,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val resourceRepo: ResourceRepo,
+    private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
 ) : NotificationTypeInteractor {
 
     override suspend fun checkAndShow(
@@ -52,7 +55,6 @@ class NotificationTypeInteractorImpl @Inject constructor(
         if (!prefsInteractor.getShowNotifications()) return
 
         val recordType = recordTypeInteractor.get(typeId)
-        val thisGoals = recordTypeGoalInteractor.getByType(typeId)
         val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val runningRecord = runningRecordInteractor.get(typeId)
         val recordTags = recordTagInteractor.getAll()
@@ -60,6 +62,19 @@ class NotificationTypeInteractorImpl @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
         val showControls = prefsInteractor.getShowNotificationsControls()
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
+        val range = timeMapper.getRangeStartAndEnd(
+            rangeLength = RangeLength.Day,
+            shift = 0,
+            firstDayOfWeek = firstDayOfWeek,
+            startOfDayShift = startOfDayShift,
+        )
+        val thisGoals = filterGoalsByDayOfWeekInteractor.execute(
+            goals = recordTypeGoalInteractor.getByType(typeId),
+            range = range,
+            startOfDayShift = startOfDayShift
+        )
         val goalTime = if (thisGoals.hasDailyDuration()) {
             thisGoals.getDailyDuration()
         } else {
@@ -74,7 +89,11 @@ class NotificationTypeInteractorImpl @Inject constructor(
         }
         val controls = if (showControls) {
             val runningRecords = runningRecordInteractor.getAll()
-            val goals = recordTypeGoalInteractor.getAllTypeGoals().groupBy { it.idData.value }
+            val goals = filterGoalsByDayOfWeekInteractor.execute(
+                goals = recordTypeGoalInteractor.getAllTypeGoals(),
+                range = range,
+                startOfDayShift = startOfDayShift,
+            ).groupBy { it.idData.value }
             val allDailyCurrents = if (goals.isNotEmpty()) {
                 getCurrentRecordsDurationInteractor.getAllDailyCurrents(
                     typeIds = recordTypes.keys.toList(),
@@ -127,13 +146,15 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
     private suspend fun showAll() {
         val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
-        val goals = recordTypeGoalInteractor.getAllTypeGoals().groupBy { it.idData.value }
         val recordTags = recordTagInteractor.getAll()
         val runningRecords = runningRecordInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
         val showControls = prefsInteractor.getShowNotificationsControls()
+        val goals = filterGoalsByDayOfWeekInteractor
+            .execute(recordTypeGoalInteractor.getAllTypeGoals())
+            .groupBy { it.idData.value }
         val controls = if (showControls) {
             val allDailyCurrents = if (goals.isNotEmpty()) {
                 getCurrentRecordsDurationInteractor.getAllDailyCurrents(

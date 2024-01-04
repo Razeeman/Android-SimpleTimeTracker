@@ -1,13 +1,16 @@
 package com.example.util.simpletimetracker.feature_goals.interactor
 
+import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.mapper.GoalViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
@@ -26,12 +29,16 @@ class GoalsViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val goalViewDataMapper: GoalViewDataMapper,
     private val resourceRepo: ResourceRepo,
+    private val timeMapper: TimeMapper,
+    private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val goals = recordTypeGoalInteractor.getAll()
 
@@ -66,10 +73,21 @@ class GoalsViewDataInteractor @Inject constructor(
                 }
             }
             .map { rangeLength ->
+                val range = timeMapper.getRangeStartAndEnd(
+                    rangeLength = rangeLength,
+                    shift = 0,
+                    firstDayOfWeek = firstDayOfWeek,
+                    startOfDayShift = startOfDayShift,
+                )
                 getViewDataForRange(
-                    goals = goals,
+                    goals = filterGoalsByDayOfWeekInteractor.execute(
+                        goals = goals,
+                        range = range,
+                        startOfDayShift = startOfDayShift,
+                    ),
                     types = types,
                     rangeLength = rangeLength,
+                    range = range,
                     typeDataHolders = typeDataHolders,
                     categoryDataHolders = categoryDataHolders,
                     isDarkTheme = isDarkTheme,
@@ -80,8 +98,8 @@ class GoalsViewDataInteractor @Inject constructor(
             .toList()
 
         return@withContext items
+            .flatten()
             .takeUnless { it.isEmpty() }
-            ?.flatten()
             ?: mapToEmpty()
     }
 
@@ -89,6 +107,7 @@ class GoalsViewDataInteractor @Inject constructor(
         goals: List<RecordTypeGoal>,
         types: Map<Long, RecordType>,
         rangeLength: RangeLength,
+        range: Range,
         typeDataHolders: Map<Long, StatisticsDataHolder>,
         categoryDataHolders: Map<Long, StatisticsDataHolder>,
         isDarkTheme: Boolean,
@@ -99,8 +118,7 @@ class GoalsViewDataInteractor @Inject constructor(
         val typeStatistics = statisticsMediator.getStatistics(
             filterType = ChartFilterType.ACTIVITY,
             filteredIds = emptyList(),
-            rangeLength = rangeLength,
-            shift = 0,
+            range = range,
         )
         val typeItems = goalViewDataMapper.mapStatisticsList(
             goals = goals,
@@ -117,8 +135,7 @@ class GoalsViewDataInteractor @Inject constructor(
         val categoryStatistics = statisticsMediator.getStatistics(
             filterType = ChartFilterType.CATEGORY,
             filteredIds = emptyList(),
-            rangeLength = rangeLength,
-            shift = 0,
+            range = range,
         )
         val categoryItems = goalViewDataMapper.mapStatisticsList(
             goals = goals,

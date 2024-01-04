@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.extension
 
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal.Range
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal.Type
@@ -70,6 +71,12 @@ fun List<RecordTypeGoal>.getMonthlyCount(): RecordTypeGoal? {
 
 fun List<RecordTypeGoal>.hasDailyDuration(): Boolean {
     return getDailyDuration() != null
+}
+
+fun List<RecordTypeGoal>.filterDaysOfWeek(dayOfWeek: DayOfWeek): List<RecordTypeGoal> {
+    return filter {
+        if (it.range is Range.Daily) dayOfWeek in it.daysOfWeek else true
+    }
 }
 
 val RecordTypeGoal?.value: Long get() = this?.type?.value.orZero()

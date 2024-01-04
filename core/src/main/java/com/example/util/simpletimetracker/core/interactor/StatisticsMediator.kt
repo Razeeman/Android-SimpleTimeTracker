@@ -12,7 +12,6 @@ import com.example.util.simpletimetracker.domain.interactor.StatisticsInteractor
 import com.example.util.simpletimetracker.domain.interactor.StatisticsTagInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.Range
-import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.Statistics
 import javax.inject.Inject
@@ -30,19 +29,9 @@ class StatisticsMediator @Inject constructor(
     suspend fun getStatistics(
         filterType: ChartFilterType,
         filteredIds: List<Long>,
-        rangeLength: RangeLength,
-        shift: Int,
+        range: Range,
     ): List<Statistics> {
-        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-        val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val showUntracked = prefsInteractor.getShowUntrackedInStatistics()
-
-        val range = timeMapper.getRangeStartAndEnd(
-            rangeLength = rangeLength,
-            shift = shift,
-            firstDayOfWeek = firstDayOfWeek,
-            startOfDayShift = startOfDayShift,
-        )
 
         return getFromRange(
             filterType = filterType,

@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_running_record.interactor
 
+import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -19,6 +20,7 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val timeMapper: TimeMapper,
     private val getRunningRecordViewDataMediator: GetRunningRecordViewDataMediator,
+    private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
 ) {
 
     suspend fun getPreviewViewData(
@@ -26,12 +28,13 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
         params: ChangeRunningRecordParams,
     ): ChangeRunningRecordViewData {
         val type = recordTypeInteractor.get(record.id)
-        val goals = recordTypeGoalInteractor.getByType(type?.id.orZero())
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val fromRecords = params.from is ChangeRunningRecordParams.From.Records
+        val goals = filterGoalsByDayOfWeekInteractor
+            .execute(recordTypeGoalInteractor.getByType(type?.id.orZero()))
 
         val recordPreview = if (type != null) {
             getRunningRecordViewDataMediator.execute(

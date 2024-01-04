@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_running_records.interactor
 
 import com.example.util.simpletimetracker.core.interactor.ActivityFilterViewDataInteractor
+import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
@@ -29,12 +30,12 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val getRunningRecordViewDataMediator: GetRunningRecordViewDataMediator,
     private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
+    private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> {
         val recordTypes = recordTypeInteractor.getAll()
         val recordTypesMap = recordTypes.associateBy(RecordType::id)
-        val goals = recordTypeGoalInteractor.getAllTypeGoals().groupBy { it.idData.value }
         val recordTags = recordTagInteractor.getAll()
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypesRunning = runningRecords.map(RunningRecord::id)
@@ -45,6 +46,9 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showFirstEnterHint = recordTypes.filterNot(RecordType::hidden).isEmpty()
         val showRepeatButton = recordRepeatInteractor.shouldShowButton()
+        val goals = filterGoalsByDayOfWeekInteractor
+            .execute(recordTypeGoalInteractor.getAllTypeGoals())
+            .groupBy { it.idData.value }
         val allDailyCurrents = if (goals.isNotEmpty()) {
             getCurrentRecordsDurationInteractor.getAllDailyCurrents(
                 typeIds = recordTypesMap.keys.toList(),

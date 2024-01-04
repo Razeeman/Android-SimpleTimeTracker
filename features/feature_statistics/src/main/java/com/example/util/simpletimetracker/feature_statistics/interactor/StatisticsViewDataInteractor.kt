@@ -1,10 +1,12 @@
 package com.example.util.simpletimetracker.feature_statistics.interactor
 
+import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.GoalViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -35,9 +37,11 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val statisticsViewDataMapper: StatisticsViewDataMapper,
     private val rangeViewDataMapper: RangeViewDataMapper,
     private val colorMapper: ColorMapper,
+    private val timeMapper: TimeMapper,
     private val goalViewDataMapper: GoalViewDataMapper,
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
 ) {
 
     fun mapFilter(
@@ -91,6 +95,8 @@ class StatisticsViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val showDuration = rangeLength !is RangeLength.All
         val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val showGoalsSeparately = prefsInteractor.getShowGoalsSeparately()
@@ -106,11 +112,16 @@ class StatisticsViewDataInteractor @Inject constructor(
             filterType = filterType,
             types = types,
         )
+        val range = timeMapper.getRangeStartAndEnd(
+            rangeLength = rangeLength,
+            shift = shift,
+            firstDayOfWeek = firstDayOfWeek,
+            startOfDayShift = startOfDayShift,
+        )
         val statistics = statisticsMediator.getStatistics(
             filterType = filterType,
             filteredIds = filteredIds,
-            rangeLength = rangeLength,
-            shift = shift,
+            range = range,
         )
         val chart = statisticsChartViewDataInteractor.getChart(
             filterType = filterType,
@@ -152,7 +163,11 @@ class StatisticsViewDataInteractor @Inject constructor(
         ) {
             emptyList()
         } else {
-            val goals = recordTypeGoalInteractor.getAll()
+            val goals = filterGoalsByDayOfWeekInteractor.execute(
+                goals = recordTypeGoalInteractor.getAll(),
+                range = range,
+                startOfDayShift = startOfDayShift,
+            )
             goalViewDataMapper.mapStatisticsList(
                 goals = goals,
                 types = types,

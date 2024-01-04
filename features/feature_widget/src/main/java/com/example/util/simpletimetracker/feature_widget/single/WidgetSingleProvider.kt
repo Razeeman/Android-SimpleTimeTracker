@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.RemoteViews
+import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
@@ -23,8 +24,6 @@ import com.example.util.simpletimetracker.domain.extension.getDaily
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
@@ -63,12 +62,6 @@ class WidgetSingleProvider : AppWidgetProvider() {
     lateinit var recordTypeGoalInteractor: RecordTypeGoalInteractor
 
     @Inject
-    lateinit var recordInteractor: RecordInteractor
-
-    @Inject
-    lateinit var recordTagInteractor: RecordTagInteractor
-
-    @Inject
     lateinit var widgetInteractor: WidgetInteractor
 
     @Inject
@@ -91,6 +84,9 @@ class WidgetSingleProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor
+
+    @Inject
+    lateinit var filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor
 
     private var typeIdsToUpdate: List<Long> = emptyList()
 
@@ -151,7 +147,9 @@ class WidgetSingleProvider : AppWidgetProvider() {
             } else {
                 val recordType = recordTypeInteractor.get(recordTypeId)
                     ?.takeUnless { it.hidden }
-                val goal = recordTypeGoalInteractor.getByType(recordTypeId).getDaily()
+                val goal = filterGoalsByDayOfWeekInteractor
+                    .execute(recordTypeGoalInteractor.getByType(recordTypeId))
+                    .getDaily()
                 val dailyCurrent = if (goal != null) {
                     getCurrentRecordsDurationInteractor.getDailyCurrent(
                         typeId = recordTypeId,

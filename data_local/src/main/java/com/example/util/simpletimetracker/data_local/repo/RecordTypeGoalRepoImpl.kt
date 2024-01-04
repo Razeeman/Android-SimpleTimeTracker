@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.data_local.repo
 
 import com.example.util.simpletimetracker.data_local.database.RecordTypeGoalDao
 import com.example.util.simpletimetracker.data_local.mapper.RecordTypeGoalDataLocalMapper
+import com.example.util.simpletimetracker.data_local.utils.logDataAccess
 import com.example.util.simpletimetracker.data_local.utils.removeIf
 import com.example.util.simpletimetracker.data_local.utils.withLockedCache
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
@@ -84,6 +85,7 @@ class RecordTypeGoalRepoImpl @Inject constructor(
     )
 
     private suspend fun initializeCache() {
+        logDataAccess("initializeCache")
         cache = dao.getAll().map(mapper::map)
     }
 

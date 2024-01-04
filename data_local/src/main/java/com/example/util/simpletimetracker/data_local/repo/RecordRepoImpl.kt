@@ -78,8 +78,10 @@ class RecordRepoImpl @Inject constructor(
             logMessage = "getFromRange",
             accessCache = { getFromRangeCache.get(cacheKey) },
             accessSource = {
-                recordDao.getFromRange(range.timeStarted, range.timeEnded)
-                    .map(recordDataLocalMapper::map)
+                recordDao.getFromRange(
+                    start = range.timeStarted,
+                    end = range.timeEnded,
+                ).map(recordDataLocalMapper::map)
             },
             afterSourceAccess = { getFromRangeCache.put(cacheKey, it) },
         )

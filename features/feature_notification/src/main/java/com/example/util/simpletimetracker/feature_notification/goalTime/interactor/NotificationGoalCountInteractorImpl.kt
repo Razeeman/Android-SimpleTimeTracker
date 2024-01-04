@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_notification.goalTime.interactor
 
+import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.value
@@ -23,6 +24,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
     private val manager: NotificationGoalTimeManager,
     private val notificationGoalParamsInteractor: NotificationGoalParamsInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
 ) : NotificationGoalCountInteractor {
 
     override suspend fun checkAndShow(typeId: Long) {
@@ -31,9 +33,9 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
     }
 
     private suspend fun checkAndShowType(typeId: Long) {
-        val runningRecord = runningRecordInteractor.get(typeId)
-            ?: return
-        val goals = recordTypeGoalInteractor.getByType(typeId)
+        val runningRecord = runningRecordInteractor.get(typeId) ?: return
+        val goals = filterGoalsByDayOfWeekInteractor
+            .execute(recordTypeGoalInteractor.getByType(typeId))
             .filter { it.type is Type.Count }
 
         // No count goals - exit.
@@ -66,8 +68,11 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
 
     private suspend fun checkAndShowCategory(typeId: Long) {
         // Find all category goals.
-        val goals = recordTypeGoalInteractor.getAllCategoryGoals()
+        val goals = filterGoalsByDayOfWeekInteractor
+            .execute(recordTypeGoalInteractor.getAllCategoryGoals())
             .filter { it.type is Type.Count }
+
+        // No count goals - exit.
         if (goals.isEmpty()) return
 
         // Find all categories that hold this type.

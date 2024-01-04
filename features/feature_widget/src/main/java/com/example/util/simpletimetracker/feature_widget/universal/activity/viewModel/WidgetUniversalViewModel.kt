@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ActivityFilterViewDataInteractor
+import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
@@ -46,6 +47,7 @@ class WidgetUniversalViewModel @Inject constructor(
     private val recordRepeatInteractor: RecordRepeatInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
+    private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
 ) : ViewModel() {
 
     val recordTypes: LiveData<List<ViewHolderType>> by lazy {
@@ -121,10 +123,12 @@ class WidgetUniversalViewModel @Inject constructor(
     private suspend fun loadRecordTypesViewData(): List<ViewHolderType> {
         val runningRecords = runningRecordInteractor.getAll()
         val recordTypes = recordTypeInteractor.getAll()
-        val goals = recordTypeGoalInteractor.getAllTypeGoals().groupBy { it.idData.value }
         val recordTypesRunning = runningRecords.map(RunningRecord::id)
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
+        val goals = filterGoalsByDayOfWeekInteractor
+            .execute(recordTypeGoalInteractor.getAllTypeGoals())
+            .groupBy { it.idData.value }
         val allDailyCurrents = if (goals.isNotEmpty()) {
             getCurrentRecordsDurationInteractor.getAllDailyCurrents(
                 typeIds = recordTypes.map(RecordType::id),

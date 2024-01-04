@@ -12,8 +12,8 @@ import javax.inject.Singleton
 
 @Singleton
 class RunningRecordRepoImpl @Inject constructor(
-    private val runningRecordDao: RunningRecordDao,
-    private val runningRunningRecordLocalMapper: RunningRecordDataLocalMapper,
+    private val dao: RunningRecordDao,
+    private val mapper: RunningRecordDataLocalMapper,
 ) : RunningRecordRepo {
 
     private var cache: List<RunningRecord>? = null
@@ -22,37 +22,37 @@ class RunningRecordRepoImpl @Inject constructor(
     override suspend fun isEmpty(): Boolean = mutex.withLockedCache(
         logMessage = "isEmpty",
         accessCache = { cache?.isEmpty() },
-        accessSource = { runningRecordDao.isEmpty() == 0L },
+        accessSource = { dao.isEmpty() == 0L },
     )
 
     override suspend fun getAll(): List<RunningRecord> = mutex.withLockedCache(
         logMessage = "getAll",
         accessCache = { cache },
-        accessSource = { runningRecordDao.getAll().map(runningRunningRecordLocalMapper::map) },
+        accessSource = { dao.getAll().map(mapper::map) },
         afterSourceAccess = { cache = it },
     )
 
     override suspend fun get(id: Long): RunningRecord? = mutex.withLockedCache(
         logMessage = "get",
         accessCache = { cache?.firstOrNull { it.id == id } },
-        accessSource = { runningRecordDao.get(id)?.let(runningRunningRecordLocalMapper::map) },
+        accessSource = { dao.get(id)?.let(mapper::map) },
     )
 
     override suspend fun add(runningRecord: RunningRecord): Long = mutex.withLockedCache(
         logMessage = "add",
-        accessSource = { runningRecordDao.insert(runningRecord.let(runningRunningRecordLocalMapper::map)) },
+        accessSource = { dao.insert(runningRecord.let(mapper::map)) },
         afterSourceAccess = { cache = null },
     )
 
     override suspend fun remove(id: Long) = mutex.withLockedCache(
         logMessage = "remove",
-        accessSource = { runningRecordDao.delete(id) },
+        accessSource = { dao.delete(id) },
         afterSourceAccess = { cache = cache?.removeIf { it.id == id } },
     )
 
     override suspend fun clear() = mutex.withLockedCache(
         logMessage = "clear",
-        accessSource = { runningRecordDao.clear() },
+        accessSource = { dao.clear() },
         afterSourceAccess = { cache = null },
     )
 }

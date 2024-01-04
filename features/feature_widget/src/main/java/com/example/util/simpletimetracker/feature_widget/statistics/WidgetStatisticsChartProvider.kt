@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_KEY
@@ -56,6 +57,9 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var resourceRepo: ResourceRepo
+
+    @Inject
+    lateinit var timeMapper: TimeMapper
 
     override fun onUpdate(
         context: Context?,
@@ -117,6 +121,8 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showSeconds = prefsInteractor.getShowSeconds()
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val widgetData = prefsInteractor.getStatisticsWidget(appWidgetId)
         val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
         val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
@@ -133,11 +139,16 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
             filterType = filterType,
             types = types,
         )
+        val range = timeMapper.getRangeStartAndEnd(
+            rangeLength = rangeLength,
+            shift = 0,
+            firstDayOfWeek = firstDayOfWeek,
+            startOfDayShift = startOfDayShift,
+        )
         val statistics = statisticsMediator.getStatistics(
             filterType = filterType,
             filteredIds = filteredIds,
-            rangeLength = rangeLength,
-            shift = 0,
+            range = range,
         )
         val chart = statisticsChartViewDataInteractor.getChart(
             filterType = filterType,
