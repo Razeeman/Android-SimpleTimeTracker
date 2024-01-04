@@ -87,5 +87,5 @@ internal inline fun logDataAccess(logMessage: String) {
  * Produces a new list from original list by removing elements satisfying filter block.
  */
 inline fun <T> List<T>.removeIf(crossinline filter: (T) -> Boolean): List<T> {
-    return this.toMutableList().apply { removeIf { filter(it) } }
+    return this.toMutableList().apply { removeAll { filter(it) } }
 }
