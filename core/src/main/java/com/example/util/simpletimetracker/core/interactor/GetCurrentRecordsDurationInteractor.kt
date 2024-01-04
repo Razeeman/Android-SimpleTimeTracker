@@ -19,19 +19,19 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         typeId: Long,
         runningRecord: RunningRecord?,
     ): Result {
-        return getRangeCurrent(typeId, runningRecord, getRange(RangeLength.Day))
+        return getRangeCurrent(typeId, runningRecord, RangeLength.Day)
     }
 
     suspend fun getDailyCurrent(runningRecord: RunningRecord): Result {
-        return getRangeCurrent(runningRecord.id, runningRecord, getRange(RangeLength.Day))
+        return getRangeCurrent(runningRecord.id, runningRecord, RangeLength.Day)
     }
 
     suspend fun getWeeklyCurrent(runningRecord: RunningRecord): Result {
-        return getRangeCurrent(runningRecord.id, runningRecord, getRange(RangeLength.Week))
+        return getRangeCurrent(runningRecord.id, runningRecord, RangeLength.Week)
     }
 
     suspend fun getMonthlyCurrent(runningRecord: RunningRecord): Result {
-        return getRangeCurrent(runningRecord.id, runningRecord, getRange(RangeLength.Month))
+        return getRangeCurrent(runningRecord.id, runningRecord, RangeLength.Month)
     }
 
     suspend fun getAllCurrents(
@@ -40,9 +40,10 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         rangeLength: RangeLength,
     ): Map<Long, Result> {
         val range = getRange(rangeLength)
-        val rangeRecords = recordInteractor.getFromRangeByType(
-            typeIds = typeIds,
+        val rangeRecords = getRangeRecords(
+            rangeLength = rangeLength,
             range = range,
+            typeIds = typeIds,
         )
 
         return typeIds.associateWith { typeId ->
@@ -69,16 +70,20 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
     private suspend fun getRangeCurrent(
         typeId: Long,
         runningRecord: RunningRecord?,
-        range: Range,
+        rangeLength: RangeLength,
     ): Result {
+        val range = getRange(rangeLength)
+        val rangeRecords = getRangeRecords(
+            rangeLength = rangeLength,
+            range = range,
+            typeIds = listOf(typeId),
+        )
+
         return getRangeCurrent(
             typeId = typeId,
             runningRecord = runningRecord,
             range = range,
-            rangeRecords = recordInteractor.getFromRangeByType(
-                typeIds = listOf(typeId),
-                range = range,
-            ),
+            rangeRecords = rangeRecords,
         )
     }
 
@@ -118,6 +123,24 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
 
     private suspend fun getRange(rangeLength: RangeLength): Range {
         return getRangeInteractor.getRange(rangeLength)
+    }
+
+    private suspend fun getRangeRecords(
+        rangeLength: RangeLength,
+        range: Range,
+        typeIds: List<Long>,
+    ): List<Record> {
+        // Use getFromRange to hit cache.
+        return if (rangeLength is RangeLength.Day) {
+            recordInteractor.getFromRange(
+                range = range,
+            )
+        } else {
+            recordInteractor.getFromRangeByType(
+                typeIds = typeIds,
+                range = range,
+            )
+        }
     }
 
     data class Result(
