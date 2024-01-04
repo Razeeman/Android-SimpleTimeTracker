@@ -26,6 +26,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:elevation="@dimen/record_type_card_elevation"
+        android:translationZ="1dp"
         tools:itemIsChecked="true"
         tools:itemWithCheck="true" />
 
