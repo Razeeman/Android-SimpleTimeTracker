@@ -9,7 +9,7 @@ import android.os.SystemClock
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.FrameLayout
+import android.view.ViewGroup
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
@@ -89,6 +89,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
     lateinit var filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor
 
     private var typeIdsToUpdate: List<Long> = emptyList()
+    private var preparedView: RecordTypeView? = null
 
     override fun onReceive(context: Context?, intent: Intent?) {
         typeIdsToUpdate = intent?.getLongArrayExtra(TYPE_IDS_EXTRA)?.toList().orEmpty()
@@ -228,22 +229,34 @@ class WidgetSingleProvider : AppWidgetProvider() {
             )
         }
 
-        // TODO setting alpha on cardView doesn't work for some reason, wrap in layout before setting
-        val container = FrameLayout(ContextThemeWrapper(context, R.style.AppTheme))
-        RecordTypeView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
-            getContainer().radius = resources.getDimensionPixelOffset(R.dimen.widget_universal_corner_radius).toFloat()
-            getContainer().cardElevation = 0f
-            getContainer().useCompatPadding = false
-            getCheckmarkOutline().setAllMargins(4)
+        val view = getView(context).apply {
+            (parent as? ViewGroup)?.removeAllViews()
             itemIcon = icon
             itemName = name
             itemIconColor = textColor
             itemColor = color
             itemWithCheck = isChecked != null
             itemIsChecked = isChecked.orFalse()
-        }.let(container::addView)
+        }
 
-        return container
+        return view
+    }
+
+    private fun getView(context: Context): RecordTypeView {
+        preparedView?.let { return it }
+
+        val view = RecordTypeView(
+            ContextThemeWrapper(context, R.style.AppTheme),
+        ).apply {
+            getContainer().radius =
+                resources.getDimensionPixelOffset(R.dimen.widget_universal_corner_radius).toFloat()
+            getContainer().cardElevation = 0f
+            getContainer().useCompatPadding = false
+            getCheckmarkOutline().setAllMargins(4)
+        }
+        preparedView = view
+
+        return view
     }
 
     private fun measureView(context: Context, view: View) {
