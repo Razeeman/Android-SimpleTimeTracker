@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.data_local.utils
 import android.content.SharedPreferences
 import com.example.util.simpletimetracker.data_local.repo.RepoConstants.LOG_MESSAGE_CACHE
 import com.example.util.simpletimetracker.data_local.repo.RepoConstants.LOG_MESSAGE_PREFIX
+import com.example.util.simpletimetracker.data_local.repo.RepoConstants.LOG_MESSAGE_PREFS_PREFIX
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -12,12 +13,21 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 @Suppress("UNCHECKED_CAST")
-inline fun <reified T> SharedPreferences.delegate(
+internal inline fun <reified T> SharedPreferences.delegate(
     key: String,
     default: T,
 ) = object : ReadWriteProperty<Any?, T> {
-    override fun getValue(thisRef: Any?, property: KProperty<*>): T =
-        when (default) {
+
+    private val cache: MutableMap<String, T> = mutableMapOf()
+
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T {
+        val cached = cache[key]
+        if (cached != null) {
+            logPrefsDataAccess("get $key ($LOG_MESSAGE_CACHE)")
+            return cached
+        }
+        logPrefsDataAccess("get $key")
+        val data = when (default) {
             is Boolean -> (getBoolean(key, default) as? T) ?: default
             is Int -> (getInt(key, default) as? T) ?: default
             is Long -> (getLong(key, default) as? T) ?: default
@@ -27,8 +37,13 @@ inline fun <reified T> SharedPreferences.delegate(
                 "Prefs delegate not implemented for class ${(default as Any?)?.javaClass}",
             )
         }
+        cache[key] = data
+        return data
+    }
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = with(edit()) {
+        cache[key] = value
+        logPrefsDataAccess("set $key")
         when (value) {
             is Boolean -> putBoolean(key, value)
             is Int -> putInt(key, value)
@@ -81,6 +96,14 @@ internal suspend inline fun <T> Mutex.withLockedCache(
 @Suppress("NOTHING_TO_INLINE")
 internal inline fun logDataAccess(logMessage: String) {
     Timber.d("$LOG_MESSAGE_PREFIX $logMessage")
+}
+
+/**
+ * Inlined for message tag to be an actual class name at call site.
+ */
+@Suppress("NOTHING_TO_INLINE")
+internal inline fun logPrefsDataAccess(logMessage: String) {
+    logDataAccess("$LOG_MESSAGE_PREFS_PREFIX $logMessage")
 }
 
 /**
