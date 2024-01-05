@@ -90,6 +90,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
 
     private var typeIdsToUpdate: List<Long> = emptyList()
     private var preparedView: RecordTypeView? = null
+    private var entireView: View? = null
 
     override fun onReceive(context: Context?, intent: Intent?) {
         typeIdsToUpdate = intent?.getLongArrayExtra(TYPE_IDS_EXTRA)?.toList().orEmpty()
@@ -262,9 +263,14 @@ class WidgetSingleProvider : AppWidgetProvider() {
     private fun measureView(context: Context, view: View) {
         var width = context.resources.getDimensionPixelSize(R.dimen.record_type_card_width)
         var height = context.resources.getDimensionPixelSize(R.dimen.record_type_card_height)
-        val inflater = LayoutInflater.from(context)
 
-        val entireView: View = inflater.inflate(R.layout.widget_layout, null)
+        fun inflate(): View {
+            return LayoutInflater.from(context)
+                .inflate(R.layout.widget_layout, null)
+                .also { entireView = it }
+        }
+
+        val entireView: View = this.entireView ?: inflate()
         entireView.measureExactly(width = width, height = height)
 
         val imageView = entireView.findViewById<View>(R.id.ivWidgetBackground)
