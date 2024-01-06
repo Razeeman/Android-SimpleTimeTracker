@@ -13,7 +13,7 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 @Suppress("UNCHECKED_CAST")
-internal inline fun <reified T: Any> SharedPreferences.delegate(
+internal inline fun <reified T : Any> SharedPreferences.delegate(
     key: String,
     default: T,
     cache: MutableMap<String, Any>,

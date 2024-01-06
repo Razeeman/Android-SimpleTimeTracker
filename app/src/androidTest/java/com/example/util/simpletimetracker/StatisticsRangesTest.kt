@@ -619,6 +619,8 @@ class StatisticsRangesTest : BaseUiTest() {
         var calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -1)
             set(Calendar.HOUR_OF_DAY, 15)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
         }
         testUtils.addRecord(
             typeName = name1,
@@ -628,6 +630,8 @@ class StatisticsRangesTest : BaseUiTest() {
         calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -2)
             set(Calendar.HOUR_OF_DAY, 15)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
         }
         testUtils.addRecord(
             typeName = name2,
@@ -702,7 +706,7 @@ class StatisticsRangesTest : BaseUiTest() {
             dayEnded = calendar.get(Calendar.DAY_OF_MONTH),
         )
 
-        checkStatisticsItem(nameResId = coreR.string.untracked_time_name, hours = 69)
+        checkStatisticsItem(nameResId = coreR.string.untracked_time_name, hours = 30)
         checkStatisticsItem(name = name1, hours = 1)
         checkStatisticsItem(name = name2, hours = 2)
 
@@ -731,7 +735,7 @@ class StatisticsRangesTest : BaseUiTest() {
             dayEnded = calendar.get(Calendar.DAY_OF_MONTH),
         )
 
-        checkStatisticsItem(nameResId = coreR.string.untracked_time_name, hours = 240)
+        checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
 
