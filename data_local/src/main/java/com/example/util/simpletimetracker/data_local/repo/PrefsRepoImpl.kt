@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.data_local.repo
 
 import android.content.SharedPreferences
 import com.example.util.simpletimetracker.data_local.utils.delegate
+import com.example.util.simpletimetracker.data_local.utils.logPrefsDataAccess
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.QuickSettingsWidgetType
@@ -17,247 +18,256 @@ class PrefsRepoImpl @Inject constructor(
     private val prefs: SharedPreferences,
 ) : PrefsRepo {
 
+    private val cache: MutableMap<String, Any> = mutableMapOf()
+
     private val firstDayOfWeekDefault: Int by lazy {
         Calendar.getInstance().firstDayOfWeek
     }
 
     override var recordTypesFilteredOnChart: Set<String> by prefs.delegate(
-        KEY_RECORD_TYPES_FILTERED_ON_CHART, emptySet()
+        KEY_RECORD_TYPES_FILTERED_ON_CHART, emptySet(), cache,
     )
 
     override var categoriesFilteredOnChart: Set<String> by prefs.delegate(
-        KEY_CATEGORIES_TYPES_FILTERED_ON_CHART, emptySet()
+        KEY_CATEGORIES_TYPES_FILTERED_ON_CHART, emptySet(), cache,
     )
 
     override var tagsFilteredOnChart: Set<String> by prefs.delegate(
-        KEY_TAGS_FILTERED_ON_CHART, emptySet()
+        KEY_TAGS_FILTERED_ON_CHART, emptySet(), cache,
     )
 
     override var chartFilterType: Int by prefs.delegate(
-        KEY_CHART_FILTER_TYPE, 0
+        KEY_CHART_FILTER_TYPE, 0, cache,
     )
 
     override var cardOrder: Int by prefs.delegate(
-        KEY_CARD_ORDER, 0
+        KEY_CARD_ORDER, 0, cache,
     )
 
     override var statisticsRange: Int by prefs.delegate(
-        KEY_STATISTICS_RANGE, 0
+        KEY_STATISTICS_RANGE, 0, cache,
     )
 
     override var statisticsRangeCustomStart: Long by prefs.delegate(
-        KEY_STATISTICS_RANGE_CUSTOM_START, 0
+        KEY_STATISTICS_RANGE_CUSTOM_START, 0, cache,
     )
 
     override var statisticsRangeCustomEnd: Long by prefs.delegate(
-        KEY_STATISTICS_RANGE_CUSTOM_END, 0
+        KEY_STATISTICS_RANGE_CUSTOM_END, 0, cache,
     )
 
     override var statisticsDetailRange: Int by prefs.delegate(
-        KEY_STATISTICS_DETAIL_RANGE, 0
+        KEY_STATISTICS_DETAIL_RANGE, 0, cache,
     )
 
     override var statisticsDetailRangeCustomStart: Long by prefs.delegate(
-        KEY_STATISTICS_DETAIL_RANGE_CUSTOM_START, 0
+        KEY_STATISTICS_DETAIL_RANGE_CUSTOM_START, 0, cache,
     )
 
     override var statisticsDetailRangeCustomEnd: Long by prefs.delegate(
-        KEY_STATISTICS_DETAIL_RANGE_CUSTOM_END, 0
+        KEY_STATISTICS_DETAIL_RANGE_CUSTOM_END, 0, cache,
     )
 
     override var keepStatisticsRange: Boolean by prefs.delegate(
-        KEY_KEEP_STATISTICS_RANGE, false
+        KEY_KEEP_STATISTICS_RANGE, false, cache,
     )
 
     override var firstDayOfWeek: Int by prefs.delegate(
-        KEY_FIRST_DAY_OF_WEEK, firstDayOfWeekDefault
+        KEY_FIRST_DAY_OF_WEEK, firstDayOfWeekDefault, cache,
     )
 
     override var startOfDayShift: Long by prefs.delegate(
-        KEY_START_OF_DAY_SHIFT, 0
+        KEY_START_OF_DAY_SHIFT, 0, cache,
     )
 
     override var showUntrackedInRecords: Boolean by prefs.delegate(
-        KEY_SHOW_UNTRACKED_IN_RECORDS, false
+        KEY_SHOW_UNTRACKED_IN_RECORDS, false, cache,
     )
 
     override var showUntrackedInStatistics: Boolean by prefs.delegate(
-        KEY_SHOW_UNTRACKED_IN_STATISTICS, false
+        KEY_SHOW_UNTRACKED_IN_STATISTICS, false, cache,
     )
 
     override var showRecordsCalendar: Boolean by prefs.delegate(
-        KEY_SHOW_RECORDS_CALENDAR, false
+        KEY_SHOW_RECORDS_CALENDAR, false, cache,
     )
 
     override var reverseOrderInCalendar: Boolean by prefs.delegate(
-        KEY_REVERSE_ORDER_IN_CALENDAR, false
+        KEY_REVERSE_ORDER_IN_CALENDAR, false, cache,
     )
 
     override var daysInCalendar: Int by prefs.delegate(
-        KEY_DAYS_IN_CALENDAR, 0
+        KEY_DAYS_IN_CALENDAR, 0, cache,
     )
 
     override var showActivityFilters: Boolean by prefs.delegate(
-        KEY_SHOW_ACTIVITY_FILTERS, false
+        KEY_SHOW_ACTIVITY_FILTERS, false, cache,
     )
 
     override var showGoalsSeparately: Boolean by prefs.delegate(
-        KEY_SHOW_GOALS_SEPARATELY, false
+        KEY_SHOW_GOALS_SEPARATELY, false, cache,
     )
 
     override var allowMultitasking: Boolean by prefs.delegate(
-        KEY_ALLOW_MULTITASKING, true
+        KEY_ALLOW_MULTITASKING, true, cache,
     )
 
     override var showNotifications: Boolean by prefs.delegate(
-        KEY_SHOW_NOTIFICATIONS, false
+        KEY_SHOW_NOTIFICATIONS, false, cache,
     )
 
     override var showNotificationsControls: Boolean by prefs.delegate(
-        KEY_SHOW_NOTIFICATIONS_CONTROLS, true
+        KEY_SHOW_NOTIFICATIONS_CONTROLS, true, cache,
     )
 
     override var inactivityReminderDuration: Long by prefs.delegate(
-        KEY_INACTIVITY_REMINDER_DURATION, 0 // 0 is for disabled
+        KEY_INACTIVITY_REMINDER_DURATION, 0, cache, // 0 is for disabled
     )
 
     override var inactivityReminderRecurrent: Boolean by prefs.delegate(
-        KEY_INACTIVITY_REMINDER_RECURRENT, false
+        KEY_INACTIVITY_REMINDER_RECURRENT, false, cache,
     )
 
     override var inactivityReminderDoNotDisturbStart: Long by prefs.delegate(
-        KEY_INACTIVITY_REMINDER_DND_START, DO_NOT_DISTURB_PERIOD_START
+        KEY_INACTIVITY_REMINDER_DND_START, DO_NOT_DISTURB_PERIOD_START, cache,
     )
 
     override var inactivityReminderDoNotDisturbEnd: Long by prefs.delegate(
-        KEY_INACTIVITY_REMINDER_DND_END, DO_NOT_DISTURB_PERIOD_END
+        KEY_INACTIVITY_REMINDER_DND_END, DO_NOT_DISTURB_PERIOD_END, cache,
     )
 
     override var activityReminderDuration: Long by prefs.delegate(
-        KEY_ACTIVITY_REMINDER_DURATION, 0 // 0 is for disabled
+        KEY_ACTIVITY_REMINDER_DURATION, 0, cache, // 0 is for disabled
     )
 
     override var activityReminderRecurrent: Boolean by prefs.delegate(
-        KEY_ACTIVITY_REMINDER_RECURRENT, false
+        KEY_ACTIVITY_REMINDER_RECURRENT, false, cache,
     )
 
     override var activityReminderDoNotDisturbStart: Long by prefs.delegate(
-        KEY_ACTIVITY_REMINDER_DND_START, DO_NOT_DISTURB_PERIOD_START
+        KEY_ACTIVITY_REMINDER_DND_START, DO_NOT_DISTURB_PERIOD_START, cache,
     )
 
     override var activityReminderDoNotDisturbEnd: Long by prefs.delegate(
-        KEY_ACTIVITY_REMINDER_DND_END, DO_NOT_DISTURB_PERIOD_END
+        KEY_ACTIVITY_REMINDER_DND_END, DO_NOT_DISTURB_PERIOD_END, cache,
     )
 
     override var ignoreShortRecordsDuration: Long by prefs.delegate(
-        KEY_IGNORE_SHORT_RECORDS_DURATION, 0 // 0 is for disabled
+        KEY_IGNORE_SHORT_RECORDS_DURATION, 0, cache, // 0 is for disabled
     )
 
     override var ignoreShortUntrackedDuration: Long by prefs.delegate(
-        KEY_IGNORE_SHORT_UNTRACKED_DURATION, 60 // 0 is for disabled
+        KEY_IGNORE_SHORT_UNTRACKED_DURATION, 60, cache, // 0 is for disabled
     )
 
     override var untrackedRangeEnabled: Boolean by prefs.delegate(
-        KEY_UNTRACKED_RANGE_ENABLED, false
+        KEY_UNTRACKED_RANGE_ENABLED, false, cache,
     )
 
     override var untrackedRangeStart: Long by prefs.delegate(
-        KEY_UNTRACKED_RANGE_START, 0
+        KEY_UNTRACKED_RANGE_START, 0, cache,
     )
 
     override var untrackedRangeEnd: Long by prefs.delegate(
-        KEY_UNTRACKED_RANGE_END, 0
+        KEY_UNTRACKED_RANGE_END, 0, cache,
     )
 
     override var darkMode: Int by prefs.delegate(
-        KEY_DARK_MODE_2, 0
+        KEY_DARK_MODE_2, 0, cache,
     )
 
     override var numberOfCards: Int by prefs.delegate(
-        KEY_NUMBER_OF_CARDS, 0
+        KEY_NUMBER_OF_CARDS, 0, cache,
     )
 
     override var useMilitaryTimeFormat: Boolean by prefs.delegate(
-        KEY_USE_MILITARY_TIME_FORMAT, true
+        KEY_USE_MILITARY_TIME_FORMAT, true, cache,
     )
 
     override var useMonthDayTimeFormat: Boolean by prefs.delegate(
-        KEY_USE_MONTH_DAY_TIME_FORMAT, false
+        KEY_USE_MONTH_DAY_TIME_FORMAT, false, cache,
     )
 
     override var useProportionalMinutes: Boolean by prefs.delegate(
-        KEY_USE_PROPORTIONAL_MINUTES, false
+        KEY_USE_PROPORTIONAL_MINUTES, false, cache,
     )
 
     override var showSeconds: Boolean by prefs.delegate(
-        KEY_SHOW_SECONDS, false
+        KEY_SHOW_SECONDS, false, cache,
     )
 
     override var keepScreenOn: Boolean by prefs.delegate(
-        KEY_KEEP_SCREEN_ON, false
+        KEY_KEEP_SCREEN_ON, false, cache,
     )
 
     override var showRecordTagSelection: Boolean by prefs.delegate(
-        KEY_SHOW_RECORD_TAG_SELECTION, false
+        KEY_SHOW_RECORD_TAG_SELECTION, false, cache,
     )
 
     override var recordTagSelectionCloseAfterOne: Boolean by prefs.delegate(
-        KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE, false
+        KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE, false, cache,
     )
 
     override var recordTagSelectionEvenForGeneralTags: Boolean by prefs.delegate(
-        KEY_RECORD_TAG_SELECTION_EVEN_FOR_GENERAL_TAGS, false
+        KEY_RECORD_TAG_SELECTION_EVEN_FOR_GENERAL_TAGS, false, cache,
     )
 
     override var automatedTrackingSendEvents: Boolean by prefs.delegate(
-        KEY_AUTOMATED_TRACKING_SEND_EVENTS, false
+        KEY_AUTOMATED_TRACKING_SEND_EVENTS, false, cache,
     )
 
     override var automaticBackupUri: String by prefs.delegate(
-        KEY_AUTOMATIC_BACKUP_URI, ""
+        KEY_AUTOMATIC_BACKUP_URI, "", cache,
     )
 
     override var automaticBackupError: Boolean by prefs.delegate(
-        KEY_AUTOMATIC_BACKUP_ERROR, false
+        KEY_AUTOMATIC_BACKUP_ERROR, false, cache,
     )
 
     override var automaticBackupLastSaveTime: Long by prefs.delegate(
-        KEY_AUTOMATIC_BACKUP_LAST_SAVE_TIME, 0
+        KEY_AUTOMATIC_BACKUP_LAST_SAVE_TIME, 0, cache,
     )
 
     override var automaticExportUri: String by prefs.delegate(
-        KEY_AUTOMATIC_EXPORT_URI, ""
+        KEY_AUTOMATIC_EXPORT_URI, "", cache,
     )
 
     override var automaticExportError: Boolean by prefs.delegate(
-        KEY_AUTOMATIC_EXPORT_ERROR, false
+        KEY_AUTOMATIC_EXPORT_ERROR, false, cache,
     )
 
     override var automaticExportLastSaveTime: Long by prefs.delegate(
-        KEY_AUTOMATIC_EXPORT_LAST_SAVE_TIME, 0
+        KEY_AUTOMATIC_EXPORT_LAST_SAVE_TIME, 0, cache,
     )
 
     override var repeatButtonType: Int by prefs.delegate(
-        KEY_REPEAT_BUTTON_TYPE, 0
+        KEY_REPEAT_BUTTON_TYPE, 0, cache,
     )
 
     override var widgetBackgroundTransparencyPercent: Long by prefs.delegate(
-        KEY_WIDGET_TRANSPARENCY_PERCENT, 60
+        KEY_WIDGET_TRANSPARENCY_PERCENT, 60, cache,
     )
 
     override fun setWidget(widgetId: Int, recordType: Long) {
-        prefs.edit().putLong(KEY_WIDGET + widgetId, recordType).apply()
+        val key = KEY_WIDGET + widgetId
+        logPrefsDataAccess("set $key")
+        prefs.edit().putLong(key, recordType).apply()
     }
 
     override fun getWidget(widgetId: Int): Long {
-        return prefs.getLong(KEY_WIDGET + widgetId, 0)
+        val key = KEY_WIDGET + widgetId
+        logPrefsDataAccess("get $key")
+        return prefs.getLong(key, 0)
     }
 
     override fun removeWidget(widgetId: Int) {
-        prefs.edit().remove(KEY_WIDGET + widgetId).apply()
+        val key = KEY_WIDGET + widgetId
+        logPrefsDataAccess("remove $key")
+        prefs.edit().remove(key).apply()
     }
 
     override fun setStatisticsWidget(widgetId: Int, data: StatisticsWidgetData) {
+        logPrefsDataAccess("setStatisticsWidget $widgetId")
         val filterTypeData = when (data.chartFilterType) {
             ChartFilterType.ACTIVITY -> 0
             ChartFilterType.CATEGORY -> 1
@@ -286,6 +296,7 @@ class PrefsRepoImpl @Inject constructor(
     }
 
     override fun getStatisticsWidget(widgetId: Int): StatisticsWidgetData {
+        logPrefsDataAccess("getStatisticsWidget $widgetId")
         val filterType = when (prefs.getInt(KEY_STATISTICS_WIDGET_FILTER_TYPE + widgetId, 0)) {
             0 -> ChartFilterType.ACTIVITY
             1 -> ChartFilterType.CATEGORY
@@ -321,6 +332,7 @@ class PrefsRepoImpl @Inject constructor(
     }
 
     override fun removeStatisticsWidget(widgetId: Int) {
+        logPrefsDataAccess("removeStatisticsWidget $widgetId")
         prefs.edit()
             .remove(KEY_STATISTICS_WIDGET_FILTER_TYPE + widgetId)
             .remove(KEY_STATISTICS_WIDGET_RANGE + widgetId)
@@ -331,15 +343,19 @@ class PrefsRepoImpl @Inject constructor(
     }
 
     override fun setQuickSettingsWidget(widgetId: Int, data: QuickSettingsWidgetType) {
+        val key = KEY_QUICK_SETTINGS_WIDGET_TYPE + widgetId
+        logPrefsDataAccess("set $widgetId")
         val type = when (data) {
             is QuickSettingsWidgetType.AllowMultitasking -> 0L
             is QuickSettingsWidgetType.ShowRecordTagSelection -> 1L
         }
-        prefs.edit().putLong(KEY_QUICK_SETTINGS_WIDGET_TYPE + widgetId, type).apply()
+        prefs.edit().putLong(key, type).apply()
     }
 
     override fun getQuickSettingsWidget(widgetId: Int): QuickSettingsWidgetType {
-        return when (prefs.getLong(KEY_QUICK_SETTINGS_WIDGET_TYPE + widgetId, 0)) {
+        val key = KEY_QUICK_SETTINGS_WIDGET_TYPE + widgetId
+        logPrefsDataAccess("get $key")
+        return when (prefs.getLong(key, 0)) {
             0L -> QuickSettingsWidgetType.AllowMultitasking
             1L -> QuickSettingsWidgetType.ShowRecordTagSelection
             else -> QuickSettingsWidgetType.AllowMultitasking
@@ -347,19 +363,25 @@ class PrefsRepoImpl @Inject constructor(
     }
 
     override fun removeQuickSettingsWidget(widgetId: Int) {
-        prefs.edit().remove(KEY_QUICK_SETTINGS_WIDGET_TYPE + widgetId).apply()
+        val key = KEY_QUICK_SETTINGS_WIDGET_TYPE + widgetId
+        logPrefsDataAccess("remove $key")
+        prefs.edit().remove(key).apply()
     }
 
     override fun setCardOrderManual(cardOrder: Map<Long, Long>) {
+        val key = KEY_CARD_ORDER_MANUAL
+        logPrefsDataAccess("set $key")
         val set = cardOrder.map { (typeId, order) ->
             "$typeId$CARDS_ORDER_DELIMITER${order.toShort()}"
         }.toSet()
 
-        prefs.edit().putStringSet(KEY_CARD_ORDER_MANUAL, set).apply()
+        prefs.edit().putStringSet(key, set).apply()
     }
 
     override fun getCardOrderManual(): Map<Long, Long> {
-        val set = prefs.getStringSet(KEY_CARD_ORDER_MANUAL, emptySet())
+        val key = KEY_CARD_ORDER_MANUAL
+        logPrefsDataAccess("get $key")
+        val set = prefs.getStringSet(key, emptySet())
 
         return set
             ?.map { string ->
@@ -374,6 +396,7 @@ class PrefsRepoImpl @Inject constructor(
     }
 
     override fun clear() {
+        cache.clear()
         prefs.edit().clear().apply()
     }
 

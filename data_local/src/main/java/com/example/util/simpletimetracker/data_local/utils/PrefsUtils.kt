@@ -13,16 +13,15 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 @Suppress("UNCHECKED_CAST")
-internal inline fun <reified T> SharedPreferences.delegate(
+internal inline fun <reified T: Any> SharedPreferences.delegate(
     key: String,
     default: T,
+    cache: MutableMap<String, Any>,
 ) = object : ReadWriteProperty<Any?, T> {
-
-    private val cache: MutableMap<String, T> = mutableMapOf()
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
         val cached = cache[key]
-        if (cached != null) {
+        if (cached != null && cached is T) {
             logPrefsDataAccess("get $key ($LOG_MESSAGE_CACHE)")
             return cached
         }
