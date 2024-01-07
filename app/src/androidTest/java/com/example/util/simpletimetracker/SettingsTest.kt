@@ -1,9 +1,11 @@
 package com.example.util.simpletimetracker
 
 import android.widget.DatePicker
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.PickerActions.setDate
 import androidx.test.espresso.contrib.PickerActions.setTime
@@ -42,13 +44,15 @@ import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withPluralText
 import dagger.hilt.android.testing.HiltAndroidTest
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.instanceOf
+import org.hamcrest.CoreMatchers.`is`
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
 import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
@@ -606,6 +610,100 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
         NavUtils.openStatisticsScreen()
         NavUtils.openSettingsScreen()
+    }
+
+    @Test
+    fun changeLanguage() {
+        NavUtils.openSettingsScreen()
+        onView(withId(settingsR.id.spinnerSettingsLanguage)).perform(nestedScrollTo())
+        checkViewIsDisplayed(
+            allOf(
+                withId(settingsR.id.tvSettingsLanguageValue),
+                withText(coreR.string.settings_dark_mode_system),
+            ),
+        )
+        clickOnSpinnerWithId(settingsR.id.spinnerSettingsLanguage)
+        listOf(
+            coreR.string.settings_english_language,
+            coreR.string.settings_arabic_language,
+            coreR.string.settings_catalan_language,
+            coreR.string.settings_german_language,
+            coreR.string.settings_spanish_language,
+            coreR.string.settings_farsi_language,
+            coreR.string.settings_french_language,
+            coreR.string.settings_hindi_language,
+            coreR.string.settings_indonesian_language,
+            coreR.string.settings_italian_language,
+            coreR.string.settings_japanese_language,
+            coreR.string.settings_korean_language,
+            coreR.string.settings_dutch_language,
+            coreR.string.settings_portuguese_language,
+            coreR.string.settings_russian_language,
+            coreR.string.settings_swedish_language,
+            coreR.string.settings_turkish_language,
+            coreR.string.settings_ukrainian_language,
+            coreR.string.settings_chinese_simplified_language,
+            coreR.string.settings_chinese_traditional_language,
+        ).forEach {
+            onData(allOf(`is`(instanceOf(String::class.java)), `is`(getString(it)))).perform(scrollTo())
+            checkViewIsDisplayed(withText(it))
+        }
+    }
+
+    @Test
+    fun navigation() {
+        NavUtils.openSettingsScreen()
+
+        NavUtils.openCategoriesScreen()
+        checkViewIsDisplayed(withText(coreR.string.categories_record_type_hint))
+        pressBack()
+
+        NavUtils.openArchiveScreen()
+        checkViewIsDisplayed(withText(coreR.string.archive_empty))
+        pressBack()
+
+        NavUtils.openDataEditScreen()
+        checkViewIsDisplayed(withText(coreR.string.data_edit_select_records))
+    }
+
+    @Test
+    fun feedbackBlock() {
+        NavUtils.openSettingsScreen()
+
+        onView(withText(coreR.string.settings_rate)).perform(nestedScrollTo())
+        onView(withText(coreR.string.settings_feedback)).perform(nestedScrollTo())
+        onView(withText(coreR.string.settings_version)).perform(nestedScrollTo())
+    }
+
+    @Test
+    fun translators() {
+        NavUtils.openSettingsScreen()
+
+        onView(withText(coreR.string.settings_translators)).perform(nestedScrollTo())
+        listOf(
+            coreR.string.settings_arabic_translators,
+            coreR.string.settings_catalan_translators,
+            coreR.string.settings_german_translators,
+            coreR.string.settings_spanish_translators,
+            coreR.string.settings_farsi_translators,
+            coreR.string.settings_french_translators,
+            coreR.string.settings_hindi_translators,
+            coreR.string.settings_indonesian_translators,
+            coreR.string.settings_italian_translators,
+            coreR.string.settings_japanese_translators,
+            coreR.string.settings_korean_translators,
+            coreR.string.settings_dutch_translators,
+            coreR.string.settings_portuguese_translators,
+            coreR.string.settings_russian_translators,
+            coreR.string.settings_swedish_translators,
+            coreR.string.settings_turkish_translators,
+            coreR.string.settings_ukrainian_translators,
+            coreR.string.settings_chinese_simplified_translators,
+            coreR.string.settings_chinese_traditional_translators,
+        ).forEach {
+            onView(withText(it)).perform(nestedScrollTo())
+            checkViewIsDisplayed(withText(it))
+        }
     }
 
     @Test
