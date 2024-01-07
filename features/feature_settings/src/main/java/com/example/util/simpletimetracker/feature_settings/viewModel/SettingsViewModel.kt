@@ -5,10 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
+import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orFalse
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsBlock
+import com.example.util.simpletimetracker.feature_settings.interactor.SettingsMainViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsAdditionalViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsDisplayViewModelDelegate
@@ -34,8 +38,10 @@ class SettingsViewModel @Inject constructor(
     val translatorsDelegate: SettingsTranslatorsViewModelDelegate,
     private val router: Router,
     private val settingsMapper: SettingsMapper,
+    private val settingsMainViewDataInteractor: SettingsMainViewDataInteractor,
 ) : BaseViewModel(), SettingsParent {
 
+    val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
     val settingsNotificationsVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsDisplayVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsAdditionalVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -44,6 +50,7 @@ class SettingsViewModel @Inject constructor(
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     init {
+        mainDelegate.init(this)
         notificationsDelegate.init(this)
         displayDelegate.init(this)
         additionalDelegate.init(this)
@@ -65,9 +72,41 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onVisible() {
-        mainDelegate.onVisible()
         displayDelegate.onVisible()
         additionalDelegate.onVisible()
+        // Update can come from quick settings widget.
+        // Update can come from system settings.
+        viewModelScope.launch { updateContent() }
+    }
+
+    fun onTextClicked(block: SettingsBlock) {
+        when (block) {
+            SettingsBlock.Categories -> mainDelegate.onEditCategoriesClick()
+            SettingsBlock.Archive -> mainDelegate.onArchiveClick()
+            SettingsBlock.DataEdit -> mainDelegate.onDataEditClick()
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    fun onCheckboxClicked(block: SettingsBlock) {
+        when (block) {
+            SettingsBlock.AllowMultitasking -> mainDelegate.onAllowMultitaskingClicked()
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
+        when (block) {
+            SettingsBlock.DarkMode -> mainDelegate.onDarkModeSelected(position)
+            SettingsBlock.Language -> mainDelegate.onLanguageSelected(position)
+            else -> {
+                // Do nothing
+            }
+        }
     }
 
     fun onSettingsNotificationsClick() {
@@ -151,6 +190,16 @@ class SettingsViewModel @Inject constructor(
             timestamp = timestamp.let(settingsMapper::startOfDayShiftToTimeStamp),
             useMilitaryTime = useMilitaryTime,
         ).let(router::navigate)
+    }
+
+    override suspend fun updateContent() {
+        content.set(loadContent())
+    }
+
+    private suspend fun loadContent(): List<ViewHolderType> {
+        val result = mutableListOf<ViewHolderType>()
+        result += settingsMainViewDataInteractor.execute()
+        return result
     }
 
     companion object {

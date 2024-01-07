@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/SettingsCard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleY="2.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvItemSettingsTitle"
+        style="@style/SettingsText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:translationZ="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvItemSettingsValue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Title" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvItemSettingsValue"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="end|center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textColor="?appTextPrimaryColor"
+        android:translationZ="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/spinnerItemSettings"
+        app:layout_constraintEnd_toEndOf="@id/spinnerItemSettings"
+        app:layout_constraintTop_toTopOf="@id/spinnerItemSettings"
+        tools:text="@string/settings_dark_mode_system" />
+
+    <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+        android:id="@+id/spinnerItemSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="12dp"
+        android:translationZ="4dp"
+        app:customSpinnerCheckable="false"
+        app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvItemSettingsTitle" />
+
+    <View
+        android:id="@+id/viewItemSettingsDivider"
+        style="@style/SettingsDivider"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="12dp"
+        android:translationZ="4dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="settings_background_height">14dp</dimen>
+    <dimen name="settings_background_bottom_shift">-14dp</dimen>
+    <dimen name="settings_background_height_double">28dp</dimen>
+</resources>

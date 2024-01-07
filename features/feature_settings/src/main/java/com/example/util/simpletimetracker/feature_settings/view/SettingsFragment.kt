@@ -15,12 +15,16 @@ import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsBottomAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerNotCheckableAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTextAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTopAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTranslatorAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.LanguageViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButtonViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
@@ -62,10 +66,20 @@ class SettingsFragment :
             createSettingsTranslatorAdapterDelegate(),
         )
     }
+    private val contentAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createSettingsTopAdapterDelegate(),
+            createSettingsBottomAdapterDelegate(),
+            createSettingsTextAdapterDelegate(throttle(viewModel::onTextClicked)),
+            createSettingsCheckboxAdapterDelegate(viewModel::onCheckboxClicked),
+            createSettingsSpinnerAdapterDelegate(viewModel::onSpinnerPositionSelected),
+            createSettingsSpinnerNotCheckableAdapterDelegate(viewModel::onSpinnerPositionSelected),
+        )
+    }
 
     override fun initUi() = with(binding) {
+        rvSettingsContent.adapter = contentAdapter
         layoutSettingsTranslators.rvSettingsTranslators.adapter = translatorsAdapter
-        layoutSettingsMain.spinnerSettingsDarkMode.setProcessSameItemSelection(false)
         layoutSettingsDisplay.spinnerSettingsDaysInCalendar.setProcessSameItemSelection(false)
         layoutSettingsDisplay.spinnerSettingsWidgetTransparency.setProcessSameItemSelection(false)
         layoutSettingsDisplay.spinnerSettingsRecordTypeSort.setProcessSameItemSelection(false)
@@ -74,17 +88,6 @@ class SettingsFragment :
     }
 
     override fun initUx() = with(binding) {
-        with(layoutSettingsMain) {
-            with(viewModel.mainDelegate) {
-                checkboxSettingsAllowMultitasking.setOnClick(::onAllowMultitaskingClicked)
-                spinnerSettingsDarkMode.onPositionSelected = ::onDarkModeSelected
-                spinnerSettingsLanguage.onPositionSelected = ::onLanguageSelected
-                layoutSettingsEditCategories.setOnClick(throttle(::onEditCategoriesClick))
-                tvSettingsArchive.setOnClick(throttle(::onArchiveClick))
-                tvSettingsDataEdit.setOnClick(throttle(::onDataEditClick))
-            }
-        }
-
         with(layoutSettingsNotifications) {
             with(viewModel.notificationsDelegate) {
                 layoutSettingsNotificationsTitle.setOnClick(viewModel::onSettingsNotificationsClick)
@@ -170,6 +173,8 @@ class SettingsFragment :
 
     override fun initViewModel(): Unit = with(binding) {
         with(viewModel) {
+            content.observe(contentAdapter::replace)
+
             settingsNotificationsVisibility.observe { opened ->
                 layoutSettingsNotifications.layoutSettingsNotificationsContent.visible = opened
                 layoutSettingsNotifications.arrowSettingsNotifications
@@ -202,12 +207,7 @@ class SettingsFragment :
         }
 
         with(viewModel.mainDelegate) {
-            with(layoutSettingsMain) {
-                allowMultitaskingCheckbox.observe(checkboxSettingsAllowMultitasking::setChecked)
-                darkModeViewData.observe(::updateDarkModeViewData)
-                languageViewData.observe(::updateLanguageViewData)
-                themeChanged.observe(::changeTheme)
-            }
+            themeChanged.observe(::changeTheme)
         }
 
         with(viewModel.notificationsDelegate) {
@@ -298,11 +298,6 @@ class SettingsFragment :
 
     override fun onResume() = with(binding) {
         super.onResume()
-        with(layoutSettingsMain) {
-            checkboxSettingsAllowMultitasking.jumpDrawablesToCurrentState()
-            spinnerSettingsDarkMode.jumpDrawablesToCurrentState()
-            spinnerSettingsLanguage.jumpDrawablesToCurrentState()
-        }
         with(layoutSettingsNotifications) {
             checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
             checkboxSettingsShowNotificationsControls.jumpDrawablesToCurrentState()
@@ -402,21 +397,6 @@ class SettingsFragment :
         spinnerSettingsRepeatButtonType.setData(viewData.items, viewData.selectedPosition)
         tvSettingsRepeatButtonTypeValue.text = viewData.items
             .getOrNull(viewData.selectedPosition)?.text.orEmpty()
-    }
-
-    private fun updateDarkModeViewData(
-        viewData: DarkModeViewData,
-    ) = with(binding.layoutSettingsMain) {
-        spinnerSettingsDarkMode.setData(viewData.items, viewData.selectedPosition)
-        tvSettingsDarkModeValue.text = viewData.items
-            .getOrNull(viewData.selectedPosition)?.text.orEmpty()
-    }
-
-    private fun updateLanguageViewData(
-        viewData: LanguageViewData,
-    ) = with(binding.layoutSettingsMain) {
-        spinnerSettingsLanguage.setData(viewData.items, -1)
-        tvSettingsLanguageValue.text = viewData.currentLanguageName
     }
 
     private fun updateShowRecordTagSelectionChecked(

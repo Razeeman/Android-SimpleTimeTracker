@@ -9,4 +9,6 @@ interface SettingsParent {
     )
 
     suspend fun onUseMilitaryTimeClicked()
+
+    suspend fun updateContent()
 }

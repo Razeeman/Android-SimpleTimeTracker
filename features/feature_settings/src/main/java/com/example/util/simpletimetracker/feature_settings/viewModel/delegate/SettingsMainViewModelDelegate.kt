@@ -1,17 +1,13 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 
-import androidx.lifecycle.LiveData
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
-import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
-import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.LanguageViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
 import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
@@ -27,22 +23,12 @@ class SettingsMainViewModelDelegate @Inject constructor(
     private val widgetInteractor: WidgetInteractor,
 ) : ViewModelDelegate() {
 
-    val allowMultitaskingCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getAllowMultitasking() }
-    val darkModeViewData: LiveData<DarkModeViewData>
-        by lazySuspend { loadDarkModeViewData() }
-    val languageViewData: LiveData<LanguageViewData>
-        by lazySuspend { loadLanguageViewData() }
     val themeChanged: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
-    fun onVisible() {
-        delegateScope.launch {
-            // Update can come from quick settings widget
-            allowMultitaskingCheckbox.set(prefsInteractor.getAllowMultitasking())
+    private var parent: SettingsParent? = null
 
-            // Update can come from system settings
-            updateLanguageViewData()
-        }
+    fun init(parent: SettingsParent) {
+        this.parent = parent
     }
 
     fun onEditCategoriesClick() {
@@ -62,7 +48,7 @@ class SettingsMainViewModelDelegate @Inject constructor(
             val newValue = !prefsInteractor.getAllowMultitasking()
             prefsInteractor.setAllowMultitasking(newValue)
             widgetInteractor.updateWidgets(listOf(WidgetType.QUICK_SETTINGS))
-            allowMultitaskingCheckbox.set(newValue)
+            parent?.updateContent()
         }
     }
 
@@ -73,33 +59,17 @@ class SettingsMainViewModelDelegate @Inject constructor(
             if (newMode == currentMode) return@launch
 
             prefsInteractor.setDarkMode(newMode)
-            updateDarkModeViewData()
+            parent?.updateContent()
             themeChanged.set(true)
         }
     }
 
     fun onLanguageSelected(position: Int) {
-        val newLanguage = settingsMapper.toLanguage(position)
-        languageInteractor.setLanguage(newLanguage)
-        updateLanguageViewData()
-        router.restartApp()
-    }
-
-    private suspend fun updateDarkModeViewData() {
-        darkModeViewData.set(loadDarkModeViewData())
-    }
-
-    private suspend fun loadDarkModeViewData(): DarkModeViewData {
-        return prefsInteractor.getSelectedDarkMode()
-            .let(settingsMapper::toDarkModeViewData)
-    }
-
-    private fun updateLanguageViewData() {
-        languageViewData.set(loadLanguageViewData())
-    }
-
-    private fun loadLanguageViewData(): LanguageViewData {
-        return languageInteractor.getCurrentLanguage()
-            .let(settingsMapper::toLanguageViewData)
+        delegateScope.launch {
+            val newLanguage = settingsMapper.toLanguage(position)
+            languageInteractor.setLanguage(newLanguage)
+            parent?.updateContent()
+            router.restartApp()
+        }
     }
 }
