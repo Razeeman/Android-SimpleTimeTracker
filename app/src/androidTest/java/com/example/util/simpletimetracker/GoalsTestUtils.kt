@@ -1,9 +1,13 @@
 package com.example.util.simpletimetracker
 
+import android.view.View
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.example.util.simpletimetracker.core.utils.TestUtils
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
@@ -13,6 +17,7 @@ import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.Matcher
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
@@ -96,7 +101,7 @@ object GoalsTestUtils {
         )
     }
 
-    fun checkNoGoal(typeName: String) {
+    fun checkNoStatisticsGoal(typeName: String) {
         allOf(
             isDescendantOfA(withId(R.id.viewStatisticsGoalItem)),
             hasSibling(withText(typeName)),
@@ -104,7 +109,7 @@ object GoalsTestUtils {
         ).let(::checkViewDoesNotExist)
     }
 
-    fun checkGoal(
+    fun checkStatisticsGoal(
         typeName: String,
         current: String,
         goal: String,
@@ -113,7 +118,8 @@ object GoalsTestUtils {
             isDescendantOfA(withId(baseR.id.viewStatisticsGoalItem)),
             hasSibling(withText(typeName)),
             withId(R.id.tvStatisticsGoalItemCurrent),
-            withText(current),
+            withSubstring(current),
+            isCompletelyDisplayed(),
         ).let(::checkViewIsDisplayed)
 
         allOf(
@@ -121,10 +127,11 @@ object GoalsTestUtils {
             hasSibling(withText(typeName)),
             withId(R.id.tvStatisticsGoalItemGoal),
             withText(goal),
+            isCompletelyDisplayed(),
         ).let(::checkViewIsDisplayed)
     }
 
-    fun checkGoalPercent(
+    fun checkStatisticsPercent(
         typeName: String,
         percent: String,
     ) {
@@ -136,7 +143,7 @@ object GoalsTestUtils {
         ).let(::checkViewIsDisplayed)
     }
 
-    fun checkGoalMark(typeName: String, isVisible: Boolean) {
+    fun checkStatisticsMark(typeName: String, isVisible: Boolean) {
         allOf(
             isDescendantOfA(withId(baseR.id.viewStatisticsGoalItem)),
             hasSibling(withText(typeName)),
@@ -144,6 +151,60 @@ object GoalsTestUtils {
         ).let {
             if (isVisible) checkViewIsDisplayed(it) else checkViewIsNotDisplayed(it)
         }
+    }
+
+    fun checkTypeMark(typeName: String, isVisible: Boolean) {
+        allOf(withId(R.id.viewRecordTypeItem), hasDescendant(withText(typeName)), isCompletelyDisplayed())
+            .let(::checkViewIsDisplayed)
+        allOf(getTypeMatcher(typeName), withId(R.id.ivGoalCheckmarkItemCheckOutline))
+            .let(::checkViewIsDisplayed)
+        allOf(getTypeMatcher(typeName), withId(R.id.ivGoalCheckmarkItemCheck))
+            .let { if (isVisible) checkViewIsDisplayed(it) else checkViewIsNotDisplayed(it) }
+    }
+
+    fun checkNoTypeMark(typeName: String) {
+        allOf(withId(R.id.viewRecordTypeItem), hasDescendant(withText(typeName)), isCompletelyDisplayed())
+            .let(::checkViewIsDisplayed)
+        allOf(getTypeMatcher(typeName), withId(R.id.ivGoalCheckmarkItemCheckOutline))
+            .let(::checkViewIsNotDisplayed)
+        allOf(getTypeMatcher(typeName), withId(R.id.ivGoalCheckmarkItemCheck))
+            .let(::checkViewIsNotDisplayed)
+    }
+
+    fun checkRunningGoal(typeName: String, goal: String) {
+        allOf(
+            isDescendantOfA(withId(R.id.viewRunningRecordItem)),
+            hasSibling(withText(typeName)),
+            withId(R.id.tvRunningRecordItemGoalTime),
+            ViewMatchers.withSubstring(goal),
+        ).let(::checkViewIsDisplayed)
+    }
+
+    fun checkNoRunningGoal(typeName: String) {
+        allOf(
+            isDescendantOfA(withId(R.id.viewRunningRecordItem)),
+            hasSibling(withText(typeName)),
+            withId(R.id.tvRunningRecordItemGoalTime),
+        ).let(::checkViewIsNotDisplayed)
+    }
+
+    fun checkRunningMark(typeName: String, isVisible: Boolean) {
+        allOf(
+            isDescendantOfA(withId(R.id.viewRunningRecordItem)),
+            hasSibling(withText(typeName)),
+            withId(R.id.ivRunningRecordItemGoalTimeCheck),
+        ).let {
+            if (isVisible) checkViewIsDisplayed(it) else checkViewIsNotDisplayed(it)
+        }
+    }
+
+    private fun getTypeMatcher(typeName: String): Matcher<View> {
+        return isDescendantOfA(
+            allOf(
+                withId(R.id.viewRecordTypeItem),
+                hasDescendant(withText(typeName)),
+            ),
+        )
     }
 
     private fun getDurationGoal(

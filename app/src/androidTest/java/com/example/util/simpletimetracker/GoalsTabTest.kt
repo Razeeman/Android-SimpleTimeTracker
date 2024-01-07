@@ -9,6 +9,10 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.GoalsTestUtils.addRecords
+import com.example.util.simpletimetracker.GoalsTestUtils.checkNoStatisticsGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.checkStatisticsGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.checkStatisticsMark
+import com.example.util.simpletimetracker.GoalsTestUtils.checkStatisticsPercent
 import com.example.util.simpletimetracker.GoalsTestUtils.durationInSeconds
 import com.example.util.simpletimetracker.GoalsTestUtils.getDailyCountGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getDailyDurationGoal
@@ -147,12 +151,12 @@ class GoalsTabTest : BaseUiTest() {
 
         // Goals on separate tab
         NavUtils.openGoalsScreen()
-        GoalsTestUtils.checkGoal(someGoals, "0$secondString", "$goal - 10$minuteString")
+        checkStatisticsGoal(someGoals, "0$secondString", "$goal - 10$minuteString")
 
         // No goals in statistics
         onView(withId(mainR.id.mainTabs)).perform(selectTabAtPosition(3))
         Thread.sleep(1000)
-        GoalsTestUtils.checkNoGoal(someGoals)
+        checkNoStatisticsGoal(someGoals)
     }
 
     @Test
@@ -260,71 +264,71 @@ class GoalsTabTest : BaseUiTest() {
         // Daily
         // Goal time not finished
         scrollTo(goalDailyTimeNotFinished)
-        GoalsTestUtils.checkGoal(goalDailyTimeNotFinished, "10$minuteString", "$goal - 40$minuteString")
-        GoalsTestUtils.checkGoalPercent(goalDailyTimeNotFinished, "25%")
-        GoalsTestUtils.checkGoalMark(goalDailyTimeNotFinished, isVisible = false)
+        checkStatisticsGoal(goalDailyTimeNotFinished, "10$minuteString", "$goal - 40$minuteString")
+        checkStatisticsPercent(goalDailyTimeNotFinished, "25%")
+        checkStatisticsMark(goalDailyTimeNotFinished, isVisible = false)
 
         // Goal time finished
         scrollTo(goalDailyTimeFinished)
-        GoalsTestUtils.checkGoal(goalDailyTimeFinished, "10$minuteString", "$goal - 10$minuteString")
-        GoalsTestUtils.checkGoalMark(goalDailyTimeFinished, isVisible = true)
+        checkStatisticsGoal(goalDailyTimeFinished, "10$minuteString", "$goal - 10$minuteString")
+        checkStatisticsMark(goalDailyTimeFinished, isVisible = true)
 
         // Goal count not finished
         scrollTo(goalDailyCountNotFinished)
-        GoalsTestUtils.checkGoal(goalDailyCountNotFinished, "1 Record", "$goal - 4 Records")
-        GoalsTestUtils.checkGoalPercent(goalDailyCountNotFinished, "25%")
-        GoalsTestUtils.checkGoalMark(goalDailyCountNotFinished, isVisible = false)
+        checkStatisticsGoal(goalDailyCountNotFinished, "1 Record", "$goal - 4 Records")
+        checkStatisticsPercent(goalDailyCountNotFinished, "25%")
+        checkStatisticsMark(goalDailyCountNotFinished, isVisible = false)
 
         // Goal count finished
         scrollTo(goalDailyCountFinished)
-        GoalsTestUtils.checkGoal(goalDailyCountFinished, "3 Records", "$goal - 3 Records")
-        GoalsTestUtils.checkGoalMark(goalDailyCountFinished, isVisible = true)
+        checkStatisticsGoal(goalDailyCountFinished, "3 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalDailyCountFinished, isVisible = true)
 
         // Weekly
         // Goal time not finished
         scrollTo(goalWeeklyTimeNotFinished)
-        GoalsTestUtils.checkGoal(goalWeeklyTimeNotFinished, "20$minuteString", "$goal - 40$minuteString")
-        GoalsTestUtils.checkGoalPercent(goalWeeklyTimeNotFinished, "50%")
-        GoalsTestUtils.checkGoalMark(goalWeeklyTimeNotFinished, isVisible = false)
+        checkStatisticsGoal(goalWeeklyTimeNotFinished, "20$minuteString", "$goal - 40$minuteString")
+        checkStatisticsPercent(goalWeeklyTimeNotFinished, "50%")
+        checkStatisticsMark(goalWeeklyTimeNotFinished, isVisible = false)
 
         // Goal time finished
         scrollTo(goalWeeklyTimeFinished)
-        GoalsTestUtils.checkGoal(goalWeeklyTimeFinished, "20$minuteString", "$goal - 10$minuteString")
-        GoalsTestUtils.checkGoalMark(goalWeeklyTimeFinished, isVisible = true)
+        checkStatisticsGoal(goalWeeklyTimeFinished, "20$minuteString", "$goal - 10$minuteString")
+        checkStatisticsMark(goalWeeklyTimeFinished, isVisible = true)
 
         // Goal count not finished
         scrollTo(goalWeeklyCountNotFinished)
-        GoalsTestUtils.checkGoal(goalWeeklyCountNotFinished, "2 Records", "$goal - 4 Records")
-        GoalsTestUtils.checkGoalPercent(goalWeeklyCountNotFinished, "50%")
-        GoalsTestUtils.checkGoalMark(goalWeeklyCountNotFinished, isVisible = false)
+        checkStatisticsGoal(goalWeeklyCountNotFinished, "2 Records", "$goal - 4 Records")
+        checkStatisticsPercent(goalWeeklyCountNotFinished, "50%")
+        checkStatisticsMark(goalWeeklyCountNotFinished, isVisible = false)
 
         // Goal count finished
         scrollTo(goalWeeklyCountFinished)
-        GoalsTestUtils.checkGoal(goalWeeklyCountFinished, "4 Records", "$goal - 3 Records")
-        GoalsTestUtils.checkGoalMark(goalWeeklyCountFinished, isVisible = true)
+        checkStatisticsGoal(goalWeeklyCountFinished, "4 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalWeeklyCountFinished, isVisible = true)
 
         // Monthly
         // Goal time not finished
         scrollTo(goalMonthlyTimeNotFinished)
-        GoalsTestUtils.checkGoal(goalMonthlyTimeNotFinished, "30$minuteString", "$goal - 40$minuteString")
-        GoalsTestUtils.checkGoalPercent(goalMonthlyTimeNotFinished, "75%")
-        GoalsTestUtils.checkGoalMark(goalMonthlyTimeNotFinished, isVisible = false)
+        checkStatisticsGoal(goalMonthlyTimeNotFinished, "30$minuteString", "$goal - 40$minuteString")
+        checkStatisticsPercent(goalMonthlyTimeNotFinished, "75%")
+        checkStatisticsMark(goalMonthlyTimeNotFinished, isVisible = false)
 
         // Goal time finished
         scrollTo(goalMonthlyTimeFinished)
-        GoalsTestUtils.checkGoal(goalMonthlyTimeFinished, "30$minuteString", "$goal - 10$minuteString")
-        GoalsTestUtils.checkGoalMark(goalMonthlyTimeFinished, isVisible = true)
+        checkStatisticsGoal(goalMonthlyTimeFinished, "30$minuteString", "$goal - 10$minuteString")
+        checkStatisticsMark(goalMonthlyTimeFinished, isVisible = true)
 
         // Goal count not finished
         scrollTo(goalMonthlyCountNotFinished)
-        GoalsTestUtils.checkGoal(goalMonthlyCountNotFinished, "3 Records", "$goal - 4 Records")
-        GoalsTestUtils.checkGoalPercent(goalMonthlyCountNotFinished, "75%")
-        GoalsTestUtils.checkGoalMark(goalMonthlyCountNotFinished, isVisible = false)
+        checkStatisticsGoal(goalMonthlyCountNotFinished, "3 Records", "$goal - 4 Records")
+        checkStatisticsPercent(goalMonthlyCountNotFinished, "75%")
+        checkStatisticsMark(goalMonthlyCountNotFinished, isVisible = false)
 
         // Goal count finished
         scrollTo(goalMonthlyCountFinished)
-        GoalsTestUtils.checkGoal(goalMonthlyCountFinished, "5 Records", "$goal - 3 Records")
-        GoalsTestUtils.checkGoalMark(goalMonthlyCountFinished, isVisible = true)
+        checkStatisticsGoal(goalMonthlyCountFinished, "5 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalMonthlyCountFinished, isVisible = true)
     }
 
     private fun scrollTo(

@@ -8,7 +8,23 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.GoalsTestUtils.addRecords
+import com.example.util.simpletimetracker.GoalsTestUtils.checkNoStatisticsGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.checkStatisticsGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.checkStatisticsMark
+import com.example.util.simpletimetracker.GoalsTestUtils.checkStatisticsPercent
 import com.example.util.simpletimetracker.GoalsTestUtils.durationInSeconds
+import com.example.util.simpletimetracker.GoalsTestUtils.getDailyCountGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.getDailyCountGoalCategory
+import com.example.util.simpletimetracker.GoalsTestUtils.getDailyDurationGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.getDailyDurationGoalCategory
+import com.example.util.simpletimetracker.GoalsTestUtils.getMonthlyCountGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.getMonthlyCountGoalCategory
+import com.example.util.simpletimetracker.GoalsTestUtils.getMonthlyDurationGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.getMonthlyDurationGoalCategory
+import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyCountGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyCountGoalCategory
+import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyDurationGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyDurationGoalCategory
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
@@ -42,25 +58,25 @@ class GoalsStatisticsTest : BaseUiTest() {
         // Add data
         testUtils.addActivity(
             goalTimeNotFinished,
-            goals = listOf(GoalsTestUtils.getDailyDurationGoal(4 * durationInSeconds)),
+            goals = listOf(getDailyDurationGoal(4 * durationInSeconds)),
         )
         addRecords(testUtils, goalTimeNotFinished)
 
         testUtils.addActivity(
             goalTimeFinished,
-            goals = listOf(GoalsTestUtils.getDailyDurationGoal(durationInSeconds)),
+            goals = listOf(getDailyDurationGoal(durationInSeconds)),
         )
         addRecords(testUtils, goalTimeFinished)
 
         testUtils.addActivity(
             goalCountNotFinished,
-            goals = listOf(GoalsTestUtils.getDailyCountGoal(4)),
+            goals = listOf(getDailyCountGoal(4)),
         )
         addRecords(testUtils, goalCountNotFinished)
 
         testUtils.addActivity(
             goalCountFinished,
-            goals = listOf(GoalsTestUtils.getDailyCountGoal(3)),
+            goals = listOf(getDailyCountGoal(3)),
         )
         testUtils.addRecord(goalCountFinished)
         testUtils.addRecord(goalCountFinished)
@@ -69,8 +85,8 @@ class GoalsStatisticsTest : BaseUiTest() {
         testUtils.addActivity(
             otherGoals,
             goals = listOf(
-                GoalsTestUtils.getWeeklyDurationGoal(durationInSeconds),
-                GoalsTestUtils.getMonthlyCountGoal(1),
+                getWeeklyDurationGoal(durationInSeconds),
+                getMonthlyCountGoal(1),
             ),
         )
         addRecords(testUtils, otherGoals)
@@ -79,29 +95,29 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         // Goal time not finished
         scrollTo(goalTimeNotFinished)
-        GoalsTestUtils.checkGoal(goalTimeNotFinished, "10$minuteString", "$goal - 40$minuteString")
-        GoalsTestUtils.checkGoalPercent(goalTimeNotFinished, "25%")
-        GoalsTestUtils.checkGoalMark(goalTimeNotFinished, isVisible = false)
+        checkStatisticsGoal(goalTimeNotFinished, "10$minuteString", "$goal - 40$minuteString")
+        checkStatisticsPercent(goalTimeNotFinished, "25%")
+        checkStatisticsMark(goalTimeNotFinished, isVisible = false)
 
         // Goal time finished
         scrollTo(goalTimeFinished)
-        GoalsTestUtils.checkGoal(goalTimeFinished, "10$minuteString", "$goal - 10$minuteString")
-        GoalsTestUtils.checkGoalMark(goalTimeFinished, isVisible = true)
+        checkStatisticsGoal(goalTimeFinished, "10$minuteString", "$goal - 10$minuteString")
+        checkStatisticsMark(goalTimeFinished, isVisible = true)
 
         // Goal count not finished
         scrollTo(goalCountNotFinished)
-        GoalsTestUtils.checkGoal(goalCountNotFinished, "1 Record", "$goal - 4 Records")
-        GoalsTestUtils.checkGoalPercent(goalCountNotFinished, "25%")
-        GoalsTestUtils.checkGoalMark(goalCountNotFinished, isVisible = false)
+        checkStatisticsGoal(goalCountNotFinished, "1 Record", "$goal - 4 Records")
+        checkStatisticsPercent(goalCountNotFinished, "25%")
+        checkStatisticsMark(goalCountNotFinished, isVisible = false)
 
         // Goal count finished
         scrollTo(goalCountFinished)
-        GoalsTestUtils.checkGoal(goalCountFinished, "3 Records", "$goal - 3 Records")
-        GoalsTestUtils.checkGoalMark(goalCountFinished, isVisible = true)
+        checkStatisticsGoal(goalCountFinished, "3 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalCountFinished, isVisible = true)
 
         // Other goals
         scrollBottom()
-        GoalsTestUtils.checkNoGoal(otherGoals)
+        checkNoStatisticsGoal(otherGoals)
     }
 
     @Test
@@ -117,25 +133,25 @@ class GoalsStatisticsTest : BaseUiTest() {
         // Add data
         testUtils.addActivity(
             goalTimeNotFinished,
-            goals = listOf(GoalsTestUtils.getWeeklyDurationGoal(4 * durationInSeconds)),
+            goals = listOf(getWeeklyDurationGoal(4 * durationInSeconds)),
         )
         addRecords(testUtils, goalTimeNotFinished)
 
         testUtils.addActivity(
             goalTimeFinished,
-            goals = listOf(GoalsTestUtils.getWeeklyDurationGoal(durationInSeconds)),
+            goals = listOf(getWeeklyDurationGoal(durationInSeconds)),
         )
         addRecords(testUtils, goalTimeFinished)
 
         testUtils.addActivity(
             goalCountNotFinished,
-            goals = listOf(GoalsTestUtils.getWeeklyCountGoal(4)),
+            goals = listOf(getWeeklyCountGoal(4)),
         )
         addRecords(testUtils, goalCountNotFinished)
 
         testUtils.addActivity(
             goalCountFinished,
-            goals = listOf(GoalsTestUtils.getWeeklyCountGoal(3)),
+            goals = listOf(getWeeklyCountGoal(3)),
         )
         testUtils.addRecord(goalCountFinished)
         testUtils.addRecord(goalCountFinished)
@@ -144,8 +160,8 @@ class GoalsStatisticsTest : BaseUiTest() {
         testUtils.addActivity(
             otherGoals,
             goals = listOf(
-                GoalsTestUtils.getDailyDurationGoal(durationInSeconds),
-                GoalsTestUtils.getMonthlyCountGoal(1),
+                getDailyDurationGoal(durationInSeconds),
+                getMonthlyCountGoal(1),
             ),
         )
         addRecords(testUtils, otherGoals)
@@ -156,29 +172,29 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         // Goal time not finished
         scrollTo(goalTimeNotFinished)
-        GoalsTestUtils.checkGoal(goalTimeNotFinished, "20$minuteString", "$goal - 40$minuteString")
-        GoalsTestUtils.checkGoalPercent(goalTimeNotFinished, "50%")
-        GoalsTestUtils.checkGoalMark(goalTimeNotFinished, isVisible = false)
+        checkStatisticsGoal(goalTimeNotFinished, "20$minuteString", "$goal - 40$minuteString")
+        checkStatisticsPercent(goalTimeNotFinished, "50%")
+        checkStatisticsMark(goalTimeNotFinished, isVisible = false)
 
         // Goal time finished
         scrollTo(goalTimeFinished)
-        GoalsTestUtils.checkGoal(goalTimeFinished, "20$minuteString", "$goal - 10$minuteString")
-        GoalsTestUtils.checkGoalMark(goalTimeFinished, isVisible = true)
+        checkStatisticsGoal(goalTimeFinished, "20$minuteString", "$goal - 10$minuteString")
+        checkStatisticsMark(goalTimeFinished, isVisible = true)
 
         // Goal count not finished
         scrollTo(goalCountNotFinished)
-        GoalsTestUtils.checkGoal(goalCountNotFinished, "2 Records", "$goal - 4 Records")
-        GoalsTestUtils.checkGoalPercent(goalCountNotFinished, "50%")
-        GoalsTestUtils.checkGoalMark(goalCountNotFinished, isVisible = false)
+        checkStatisticsGoal(goalCountNotFinished, "2 Records", "$goal - 4 Records")
+        checkStatisticsPercent(goalCountNotFinished, "50%")
+        checkStatisticsMark(goalCountNotFinished, isVisible = false)
 
         // Goal count finished
         scrollTo(goalCountFinished)
-        GoalsTestUtils.checkGoal(goalCountFinished, "4 Records", "$goal - 3 Records")
-        GoalsTestUtils.checkGoalMark(goalCountFinished, isVisible = true)
+        checkStatisticsGoal(goalCountFinished, "4 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalCountFinished, isVisible = true)
 
         // Other goals
         scrollBottom()
-        GoalsTestUtils.checkNoGoal(otherGoals)
+        checkNoStatisticsGoal(otherGoals)
     }
 
     @Test
@@ -194,25 +210,25 @@ class GoalsStatisticsTest : BaseUiTest() {
         // Add data
         testUtils.addActivity(
             goalTimeNotFinished,
-            goals = listOf(GoalsTestUtils.getMonthlyDurationGoal(4 * durationInSeconds)),
+            goals = listOf(getMonthlyDurationGoal(4 * durationInSeconds)),
         )
         addRecords(testUtils, goalTimeNotFinished)
 
         testUtils.addActivity(
             goalTimeFinished,
-            goals = listOf(GoalsTestUtils.getMonthlyDurationGoal(durationInSeconds)),
+            goals = listOf(getMonthlyDurationGoal(durationInSeconds)),
         )
         addRecords(testUtils, goalTimeFinished)
 
         testUtils.addActivity(
             goalCountNotFinished,
-            goals = listOf(GoalsTestUtils.getMonthlyCountGoal(4)),
+            goals = listOf(getMonthlyCountGoal(4)),
         )
         addRecords(testUtils, goalCountNotFinished)
 
         testUtils.addActivity(
             goalCountFinished,
-            goals = listOf(GoalsTestUtils.getMonthlyCountGoal(3)),
+            goals = listOf(getMonthlyCountGoal(3)),
         )
         testUtils.addRecord(goalCountFinished)
         testUtils.addRecord(goalCountFinished)
@@ -221,8 +237,8 @@ class GoalsStatisticsTest : BaseUiTest() {
         testUtils.addActivity(
             otherGoals,
             goals = listOf(
-                GoalsTestUtils.getDailyDurationGoal(durationInSeconds),
-                GoalsTestUtils.getWeeklyCountGoal(1),
+                getDailyDurationGoal(durationInSeconds),
+                getWeeklyCountGoal(1),
             ),
         )
         addRecords(testUtils, otherGoals)
@@ -233,29 +249,29 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         // Goal time not finished
         scrollTo(goalTimeNotFinished)
-        GoalsTestUtils.checkGoal(goalTimeNotFinished, "30$minuteString", "$goal - 40$minuteString")
-        GoalsTestUtils.checkGoalPercent(goalTimeNotFinished, "75%")
-        GoalsTestUtils.checkGoalMark(goalTimeNotFinished, isVisible = false)
+        checkStatisticsGoal(goalTimeNotFinished, "30$minuteString", "$goal - 40$minuteString")
+        checkStatisticsPercent(goalTimeNotFinished, "75%")
+        checkStatisticsMark(goalTimeNotFinished, isVisible = false)
 
         // Goal time finished
         scrollTo(goalTimeFinished)
-        GoalsTestUtils.checkGoal(goalTimeFinished, "30$minuteString", "$goal - 10$minuteString")
-        GoalsTestUtils.checkGoalMark(goalTimeFinished, isVisible = true)
+        checkStatisticsGoal(goalTimeFinished, "30$minuteString", "$goal - 10$minuteString")
+        checkStatisticsMark(goalTimeFinished, isVisible = true)
 
         // Goal count not finished
         scrollTo(goalCountNotFinished)
-        GoalsTestUtils.checkGoal(goalCountNotFinished, "3 Records", "$goal - 4 Records")
-        GoalsTestUtils.checkGoalPercent(goalCountNotFinished, "75%")
-        GoalsTestUtils.checkGoalMark(goalCountNotFinished, isVisible = false)
+        checkStatisticsGoal(goalCountNotFinished, "3 Records", "$goal - 4 Records")
+        checkStatisticsPercent(goalCountNotFinished, "75%")
+        checkStatisticsMark(goalCountNotFinished, isVisible = false)
 
         // Goal count finished
         scrollTo(goalCountFinished)
-        GoalsTestUtils.checkGoal(goalCountFinished, "5 Records", "$goal - 3 Records")
-        GoalsTestUtils.checkGoalMark(goalCountFinished, isVisible = true)
+        checkStatisticsGoal(goalCountFinished, "5 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalCountFinished, isVisible = true)
 
         // Other goals
         scrollBottom()
-        GoalsTestUtils.checkNoGoal(otherGoals)
+        checkNoStatisticsGoal(otherGoals)
     }
 
     @Test
@@ -271,7 +287,7 @@ class GoalsStatisticsTest : BaseUiTest() {
         // Add data
         testUtils.addCategory(
             goalTimeNotFinished,
-            goals = listOf(GoalsTestUtils.getDailyDurationGoalCategory(8 * durationInSeconds)),
+            goals = listOf(getDailyDurationGoalCategory(8 * durationInSeconds)),
         )
         testUtils.addActivity(
             goalTimeNotFinished.first(),
@@ -286,7 +302,7 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         testUtils.addCategory(
             goalTimeFinished,
-            goals = listOf(GoalsTestUtils.getDailyDurationGoalCategory(2 * durationInSeconds)),
+            goals = listOf(getDailyDurationGoalCategory(2 * durationInSeconds)),
         )
         testUtils.addActivity(
             goalTimeFinished.first(),
@@ -301,7 +317,7 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         testUtils.addCategory(
             goalCountNotFinished,
-            goals = listOf(GoalsTestUtils.getDailyCountGoalCategory(8)),
+            goals = listOf(getDailyCountGoalCategory(8)),
         )
         testUtils.addActivity(
             goalCountNotFinished.first(),
@@ -316,7 +332,7 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         testUtils.addCategory(
             goalCountFinished,
-            goals = listOf(GoalsTestUtils.getDailyCountGoalCategory(3)),
+            goals = listOf(getDailyCountGoalCategory(3)),
         )
         testUtils.addActivity(
             goalCountFinished.first(),
@@ -333,8 +349,8 @@ class GoalsStatisticsTest : BaseUiTest() {
         testUtils.addCategory(
             otherGoals,
             goals = listOf(
-                GoalsTestUtils.getWeeklyDurationGoalCategory(durationInSeconds),
-                GoalsTestUtils.getMonthlyCountGoalCategory(1),
+                getWeeklyDurationGoalCategory(durationInSeconds),
+                getMonthlyCountGoalCategory(1),
             ),
         )
         testUtils.addActivity(
@@ -355,29 +371,29 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         // Goal time not finished
         scrollTo(goalTimeNotFinished)
-        GoalsTestUtils.checkGoal(goalTimeNotFinished, "20$minuteString", "$goal - 1$hourString 20$minuteString")
-        GoalsTestUtils.checkGoalPercent(goalTimeNotFinished, "25%")
-        GoalsTestUtils.checkGoalMark(goalTimeNotFinished, isVisible = false)
+        checkStatisticsGoal(goalTimeNotFinished, "20$minuteString", "$goal - 1$hourString 20$minuteString")
+        checkStatisticsPercent(goalTimeNotFinished, "25%")
+        checkStatisticsMark(goalTimeNotFinished, isVisible = false)
 
         // Goal time finished
         scrollTo(goalTimeFinished)
-        GoalsTestUtils.checkGoal(goalTimeFinished, "20$minuteString", "$goal - 20$minuteString")
-        GoalsTestUtils.checkGoalMark(goalTimeFinished, isVisible = true)
+        checkStatisticsGoal(goalTimeFinished, "20$minuteString", "$goal - 20$minuteString")
+        checkStatisticsMark(goalTimeFinished, isVisible = true)
 
         // Goal count not finished
         scrollTo(goalCountNotFinished)
-        GoalsTestUtils.checkGoal(goalCountNotFinished, "2 Records", "$goal - 8 Records")
-        GoalsTestUtils.checkGoalPercent(goalCountNotFinished, "25%")
-        GoalsTestUtils.checkGoalMark(goalCountNotFinished, isVisible = false)
+        checkStatisticsGoal(goalCountNotFinished, "2 Records", "$goal - 8 Records")
+        checkStatisticsPercent(goalCountNotFinished, "25%")
+        checkStatisticsMark(goalCountNotFinished, isVisible = false)
 
         // Goal count finished
         scrollTo(goalCountFinished)
-        GoalsTestUtils.checkGoal(goalCountFinished, "3 Records", "$goal - 3 Records")
-        GoalsTestUtils.checkGoalMark(goalCountFinished, isVisible = true)
+        checkStatisticsGoal(goalCountFinished, "3 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalCountFinished, isVisible = true)
 
         // Other goals
         scrollBottom()
-        GoalsTestUtils.checkNoGoal(otherGoals)
+        checkNoStatisticsGoal(otherGoals)
     }
 
     @Test
@@ -393,7 +409,7 @@ class GoalsStatisticsTest : BaseUiTest() {
         // Add data
         testUtils.addCategory(
             goalTimeNotFinished,
-            goals = listOf(GoalsTestUtils.getWeeklyDurationGoalCategory(8 * durationInSeconds)),
+            goals = listOf(getWeeklyDurationGoalCategory(8 * durationInSeconds)),
         )
         testUtils.addActivity(
             goalTimeNotFinished.first(),
@@ -408,7 +424,7 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         testUtils.addCategory(
             goalTimeFinished,
-            goals = listOf(GoalsTestUtils.getWeeklyDurationGoalCategory(2 * durationInSeconds)),
+            goals = listOf(getWeeklyDurationGoalCategory(2 * durationInSeconds)),
         )
         testUtils.addActivity(
             goalTimeFinished.first(),
@@ -423,7 +439,7 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         testUtils.addCategory(
             goalCountNotFinished,
-            goals = listOf(GoalsTestUtils.getWeeklyCountGoalCategory(8)),
+            goals = listOf(getWeeklyCountGoalCategory(8)),
         )
         testUtils.addActivity(
             goalCountNotFinished.first(),
@@ -438,7 +454,7 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         testUtils.addCategory(
             goalCountFinished,
-            goals = listOf(GoalsTestUtils.getWeeklyCountGoalCategory(3)),
+            goals = listOf(getWeeklyCountGoalCategory(3)),
         )
         testUtils.addActivity(
             goalCountFinished.first(),
@@ -455,8 +471,8 @@ class GoalsStatisticsTest : BaseUiTest() {
         testUtils.addCategory(
             otherGoals,
             goals = listOf(
-                GoalsTestUtils.getDailyDurationGoalCategory(durationInSeconds),
-                GoalsTestUtils.getMonthlyCountGoalCategory(1),
+                getDailyDurationGoalCategory(durationInSeconds),
+                getMonthlyCountGoalCategory(1),
             ),
         )
         testUtils.addActivity(
@@ -479,29 +495,29 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         // Goal time not finished
         scrollTo(goalTimeNotFinished)
-        GoalsTestUtils.checkGoal(goalTimeNotFinished, "40$minuteString", "$goal - 1$hourString 20$minuteString")
-        GoalsTestUtils.checkGoalPercent(goalTimeNotFinished, "50%")
-        GoalsTestUtils.checkGoalMark(goalTimeNotFinished, isVisible = false)
+        checkStatisticsGoal(goalTimeNotFinished, "40$minuteString", "$goal - 1$hourString 20$minuteString")
+        checkStatisticsPercent(goalTimeNotFinished, "50%")
+        checkStatisticsMark(goalTimeNotFinished, isVisible = false)
 
         // Goal time finished
         scrollTo(goalTimeFinished)
-        GoalsTestUtils.checkGoal(goalTimeFinished, "40$minuteString", "$goal - 20$minuteString")
-        GoalsTestUtils.checkGoalMark(goalTimeFinished, isVisible = true)
+        checkStatisticsGoal(goalTimeFinished, "40$minuteString", "$goal - 20$minuteString")
+        checkStatisticsMark(goalTimeFinished, isVisible = true)
 
         // Goal count not finished
         scrollTo(goalCountNotFinished)
-        GoalsTestUtils.checkGoal(goalCountNotFinished, "4 Records", "$goal - 8 Records")
-        GoalsTestUtils.checkGoalPercent(goalCountNotFinished, "50%")
-        GoalsTestUtils.checkGoalMark(goalCountNotFinished, isVisible = false)
+        checkStatisticsGoal(goalCountNotFinished, "4 Records", "$goal - 8 Records")
+        checkStatisticsPercent(goalCountNotFinished, "50%")
+        checkStatisticsMark(goalCountNotFinished, isVisible = false)
 
         // Goal count finished
         scrollTo(goalCountFinished)
-        GoalsTestUtils.checkGoal(goalCountFinished, "4 Records", "$goal - 3 Records")
-        GoalsTestUtils.checkGoalMark(goalCountFinished, isVisible = true)
+        checkStatisticsGoal(goalCountFinished, "4 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalCountFinished, isVisible = true)
 
         // Other goals
         scrollBottom()
-        GoalsTestUtils.checkNoGoal(otherGoals)
+        checkNoStatisticsGoal(otherGoals)
     }
 
     @Test
@@ -517,7 +533,7 @@ class GoalsStatisticsTest : BaseUiTest() {
         // Add data
         testUtils.addCategory(
             goalTimeNotFinished,
-            goals = listOf(GoalsTestUtils.getMonthlyDurationGoalCategory(8 * durationInSeconds)),
+            goals = listOf(getMonthlyDurationGoalCategory(8 * durationInSeconds)),
         )
         testUtils.addActivity(
             goalTimeNotFinished.first(),
@@ -532,7 +548,7 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         testUtils.addCategory(
             goalTimeFinished,
-            goals = listOf(GoalsTestUtils.getMonthlyDurationGoalCategory(2 * durationInSeconds)),
+            goals = listOf(getMonthlyDurationGoalCategory(2 * durationInSeconds)),
         )
         testUtils.addActivity(
             goalTimeFinished.first(),
@@ -547,7 +563,7 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         testUtils.addCategory(
             goalCountNotFinished,
-            goals = listOf(GoalsTestUtils.getMonthlyCountGoalCategory(8)),
+            goals = listOf(getMonthlyCountGoalCategory(8)),
         )
         testUtils.addActivity(
             goalCountNotFinished.first(),
@@ -562,7 +578,7 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         testUtils.addCategory(
             goalCountFinished,
-            goals = listOf(GoalsTestUtils.getMonthlyCountGoalCategory(3)),
+            goals = listOf(getMonthlyCountGoalCategory(3)),
         )
         testUtils.addActivity(
             goalCountFinished.first(),
@@ -579,8 +595,8 @@ class GoalsStatisticsTest : BaseUiTest() {
         testUtils.addCategory(
             otherGoals,
             goals = listOf(
-                GoalsTestUtils.getDailyDurationGoalCategory(durationInSeconds),
-                GoalsTestUtils.getWeeklyCountGoalCategory(1),
+                getDailyDurationGoalCategory(durationInSeconds),
+                getWeeklyCountGoalCategory(1),
             ),
         )
         testUtils.addActivity(
@@ -603,29 +619,29 @@ class GoalsStatisticsTest : BaseUiTest() {
 
         // Goal time not finished
         scrollTo(goalTimeNotFinished)
-        GoalsTestUtils.checkGoal(goalTimeNotFinished, "1$hourString 0$minuteString", "$goal - 1$hourString 20$minuteString")
-        GoalsTestUtils.checkGoalPercent(goalTimeNotFinished, "75%")
-        GoalsTestUtils.checkGoalMark(goalTimeNotFinished, isVisible = false)
+        checkStatisticsGoal(goalTimeNotFinished, "1$hourString 0$minuteString", "$goal - 1$hourString 20$minuteString")
+        checkStatisticsPercent(goalTimeNotFinished, "75%")
+        checkStatisticsMark(goalTimeNotFinished, isVisible = false)
 
         // Goal time finished
         scrollTo(goalTimeFinished)
-        GoalsTestUtils.checkGoal(goalTimeFinished, "1$hourString 0$minuteString", "$goal - 20$minuteString")
-        GoalsTestUtils.checkGoalMark(goalTimeFinished, isVisible = true)
+        checkStatisticsGoal(goalTimeFinished, "1$hourString 0$minuteString", "$goal - 20$minuteString")
+        checkStatisticsMark(goalTimeFinished, isVisible = true)
 
         // Goal count not finished
         scrollTo(goalCountNotFinished)
-        GoalsTestUtils.checkGoal(goalCountNotFinished, "6 Records", "$goal - 8 Records")
-        GoalsTestUtils.checkGoalPercent(goalCountNotFinished, "75%")
-        GoalsTestUtils.checkGoalMark(goalCountNotFinished, isVisible = false)
+        checkStatisticsGoal(goalCountNotFinished, "6 Records", "$goal - 8 Records")
+        checkStatisticsPercent(goalCountNotFinished, "75%")
+        checkStatisticsMark(goalCountNotFinished, isVisible = false)
 
         // Goal count finished
         scrollTo(goalCountFinished)
-        GoalsTestUtils.checkGoal(goalCountFinished, "5 Records", "$goal - 3 Records")
-        GoalsTestUtils.checkGoalMark(goalCountFinished, isVisible = true)
+        checkStatisticsGoal(goalCountFinished, "5 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalCountFinished, isVisible = true)
 
         // Other goals
         scrollBottom()
-        GoalsTestUtils.checkNoGoal(otherGoals)
+        checkNoStatisticsGoal(otherGoals)
     }
 
     private fun scrollTo(typeName: String) {

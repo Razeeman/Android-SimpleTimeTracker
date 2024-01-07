@@ -1,20 +1,11 @@
 package com.example.util.simpletimetracker
 
-import android.view.View
-import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.util.simpletimetracker.feature_change_record.R
+import com.example.util.simpletimetracker.GoalsTestUtils.checkTypeMark
+import com.example.util.simpletimetracker.GoalsTestUtils.checkNoTypeMark
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
-import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
-import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
@@ -43,8 +34,8 @@ class GoalsOnCardsTest : BaseUiTest() {
         Thread.sleep(1000)
 
         // Check
-        checkNoGoal(noGoals)
-        checkNoGoal(otherGoals)
+        checkNoTypeMark(noGoals)
+        checkNoTypeMark(otherGoals)
     }
 
     @Test
@@ -64,8 +55,8 @@ class GoalsOnCardsTest : BaseUiTest() {
         Thread.sleep(1000)
 
         // Not reached
-        checkCheckmark(durationGoal, isVisible = false)
-        checkCheckmark(countGoal, isVisible = false)
+        checkTypeMark(durationGoal, isVisible = false)
+        checkTypeMark(countGoal, isVisible = false)
 
         // Add records
         NavUtils.openRecordsScreen()
@@ -81,8 +72,8 @@ class GoalsOnCardsTest : BaseUiTest() {
 
         // Not reached
         NavUtils.openRunningRecordsScreen()
-        checkCheckmark(durationGoal, isVisible = false)
-        checkCheckmark(countGoal, isVisible = false)
+        checkTypeMark(durationGoal, isVisible = false)
+        checkTypeMark(countGoal, isVisible = false)
 
         // Add more records
         NavUtils.openRecordsScreen()
@@ -97,34 +88,7 @@ class GoalsOnCardsTest : BaseUiTest() {
 
         // Reached
         NavUtils.openRunningRecordsScreen()
-        checkCheckmark(durationGoal, isVisible = true)
-        checkCheckmark(countGoal, isVisible = true)
-    }
-
-    private fun checkNoGoal(typeName: String) {
-        allOf(withId(R.id.viewRecordTypeItem), hasDescendant(withText(typeName)), isCompletelyDisplayed())
-            .let(::checkViewIsDisplayed)
-        allOf(getTypeMatcher(typeName), withId(R.id.ivGoalCheckmarkItemCheckOutline))
-            .let(::checkViewIsNotDisplayed)
-        allOf(getTypeMatcher(typeName), withId(R.id.ivGoalCheckmarkItemCheck))
-            .let(::checkViewIsNotDisplayed)
-    }
-
-    private fun checkCheckmark(typeName: String, isVisible: Boolean) {
-        allOf(withId(R.id.viewRecordTypeItem), hasDescendant(withText(typeName)), isCompletelyDisplayed())
-            .let(::checkViewIsDisplayed)
-        allOf(getTypeMatcher(typeName), withId(R.id.ivGoalCheckmarkItemCheckOutline))
-            .let(::checkViewIsDisplayed)
-        allOf(getTypeMatcher(typeName), withId(R.id.ivGoalCheckmarkItemCheck))
-            .let { if (isVisible) checkViewIsDisplayed(it) else checkViewIsNotDisplayed(it) }
-    }
-
-    private fun getTypeMatcher(typeName: String): Matcher<View> {
-        return isDescendantOfA(
-            allOf(
-                withId(R.id.viewRecordTypeItem),
-                hasDescendant(withText(typeName)),
-            ),
-        )
+        checkTypeMark(durationGoal, isVisible = true)
+        checkTypeMark(countGoal, isVisible = true)
     }
 }

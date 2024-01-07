@@ -1,17 +1,15 @@
 package com.example.util.simpletimetracker
 
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.matcher.ViewMatchers.hasSibling
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.util.simpletimetracker.GoalsTestUtils.checkRunningGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.checkRunningMark
+import com.example.util.simpletimetracker.GoalsTestUtils.checkNoRunningGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.durationInSeconds
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.utils.BaseUiTest
-import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
-import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -37,8 +35,8 @@ class GoalsRunningTest : BaseUiTest() {
 
         // No goals
         scrollTo(noGoals)
-        checkNoGoal(noGoals)
-        checkGoalMark(noGoals, isVisible = false)
+        checkNoRunningGoal(noGoals)
+        checkRunningMark(noGoals, isVisible = false)
     }
 
     @Test
@@ -68,13 +66,13 @@ class GoalsRunningTest : BaseUiTest() {
 
         // Session goal not finished
         scrollTo(sessionGoalNotFinished)
-        checkGoal(sessionGoalNotFinished, "$sessionGoal 9$minuteString")
-        checkGoalMark(sessionGoalNotFinished, isVisible = false)
+        checkRunningGoal(sessionGoalNotFinished, "$sessionGoal 9$minuteString")
+        checkRunningMark(sessionGoalNotFinished, isVisible = false)
 
         // Session goal finished
         scrollTo(sessionGoalFinished)
-        checkGoal(sessionGoalFinished, sessionGoal)
-        checkGoalMark(sessionGoalFinished, isVisible = true)
+        checkRunningGoal(sessionGoalFinished, sessionGoal)
+        checkRunningMark(sessionGoalFinished, isVisible = true)
     }
 
     @Test
@@ -127,23 +125,23 @@ class GoalsRunningTest : BaseUiTest() {
 
         // Goal time not finished
         scrollTo(goalTimeNotFinished)
-        checkGoal(goalTimeNotFinished, "$dailyGoal 4$minuteString")
-        checkGoalMark(goalTimeNotFinished, isVisible = false)
+        checkRunningGoal(goalTimeNotFinished, "$dailyGoal 4$minuteString")
+        checkRunningMark(goalTimeNotFinished, isVisible = false)
 
         // Goal time finished
         scrollTo(goalTimeFinished)
-        checkGoal(goalTimeFinished, dailyGoal)
-        checkGoalMark(goalTimeFinished, isVisible = true)
+        checkRunningGoal(goalTimeFinished, dailyGoal)
+        checkRunningMark(goalTimeFinished, isVisible = true)
 
         // Goal count not finished
         scrollTo(goalCountNotFinished)
-        checkGoal(goalCountNotFinished, "$dailyGoal 3")
-        checkGoalMark(goalCountNotFinished, isVisible = false)
+        checkRunningGoal(goalCountNotFinished, "$dailyGoal 3")
+        checkRunningMark(goalCountNotFinished, isVisible = false)
 
         // Goal count finished
         scrollTo(goalCountFinished)
-        checkGoal(goalCountFinished, dailyGoal)
-        checkGoalMark(goalCountFinished, isVisible = true)
+        checkRunningGoal(goalCountFinished, dailyGoal)
+        checkRunningMark(goalCountFinished, isVisible = true)
     }
 
     @Test
@@ -185,13 +183,13 @@ class GoalsRunningTest : BaseUiTest() {
 
         // All goal times
         scrollTo(allGoalTimesPresent)
-        checkGoal(allGoalTimesPresent, "$dailyGoal 14$minuteString")
-        checkGoalMark(allGoalTimesPresent, isVisible = false)
+        checkRunningGoal(allGoalTimesPresent, "$dailyGoal 14$minuteString")
+        checkRunningMark(allGoalTimesPresent, isVisible = false)
 
         // All goal counts
         scrollTo(allGoalCountsPresent)
-        checkGoal(allGoalCountsPresent, "$dailyGoal 7")
-        checkGoalMark(allGoalCountsPresent, isVisible = false)
+        checkRunningGoal(allGoalCountsPresent, "$dailyGoal 7")
+        checkRunningMark(allGoalCountsPresent, isVisible = false)
     }
 
     @Test
@@ -220,39 +218,12 @@ class GoalsRunningTest : BaseUiTest() {
 
         // Weekly and monthly goals are not present
         scrollTo(goalTime)
-        checkNoGoal(goalTime)
-        checkGoalMark(goalTime, isVisible = false)
+        checkNoRunningGoal(goalTime)
+        checkRunningMark(goalTime, isVisible = false)
 
         scrollTo(goalCount)
-        checkNoGoal(goalCount)
-        checkGoalMark(goalCount, isVisible = false)
-    }
-
-    private fun checkGoal(typeName: String, goal: String) {
-        allOf(
-            isDescendantOfA(withId(R.id.viewRunningRecordItem)),
-            hasSibling(withText(typeName)),
-            withId(R.id.tvRunningRecordItemGoalTime),
-            withSubstring(goal),
-        ).let(::checkViewIsDisplayed)
-    }
-
-    private fun checkNoGoal(typeName: String) {
-        allOf(
-            isDescendantOfA(withId(R.id.viewRunningRecordItem)),
-            hasSibling(withText(typeName)),
-            withId(R.id.tvRunningRecordItemGoalTime),
-        ).let(::checkViewIsNotDisplayed)
-    }
-
-    private fun checkGoalMark(typeName: String, isVisible: Boolean) {
-        allOf(
-            isDescendantOfA(withId(R.id.viewRunningRecordItem)),
-            hasSibling(withText(typeName)),
-            withId(R.id.ivRunningRecordItemGoalTimeCheck),
-        ).let {
-            if (isVisible) checkViewIsDisplayed(it) else checkViewIsNotDisplayed(it)
-        }
+        checkNoRunningGoal(goalCount)
+        checkRunningMark(goalCount, isVisible = false)
     }
 
     private fun scrollTo(typeName: String) {
