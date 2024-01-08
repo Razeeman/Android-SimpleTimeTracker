@@ -29,6 +29,8 @@ fun createSettingsCheckboxAdapterDelegate(
             checkboxItemSettings.isChecked = item.isChecked
         }
 
+        spaceItemSettingsBottom.visible = item.bottomSpaceIsVisible
+
         viewItemSettingsDivider.visible = item.dividerIsVisible
 
         checkboxItemSettings.setOnClick { onClick(item.block) }
@@ -40,6 +42,7 @@ data class SettingsCheckboxViewData(
     val title: String,
     val subtitle: String,
     val isChecked: Boolean,
+    val bottomSpaceIsVisible: Boolean = true,
     val dividerIsVisible: Boolean = true,
 ) : ViewHolderType {
 

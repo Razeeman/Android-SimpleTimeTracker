@@ -29,9 +29,8 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
     private val settingsNotificationsViewDataInteractor: SettingsNotificationsViewDataInteractor,
 ) : ViewModelDelegate() {
 
-    private var isCollapsed: Boolean = true
-
     private var parent: SettingsParent? = null
+    private var isCollapsed: Boolean = true
 
     fun init(parent: SettingsParent) {
         this.parent = parent

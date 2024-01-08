@@ -16,21 +16,20 @@ import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsBottomAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxWithRangeAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCollapseAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsRangeAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSelectorAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerNotCheckableAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerWithButtonAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTextAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTopAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTranslatorAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButtonViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.SettingsUntrackedRangeViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.WidgetTransparencyViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
@@ -77,47 +76,32 @@ class SettingsFragment :
             createSettingsSpinnerNotCheckableAdapterDelegate(viewModel::onSpinnerPositionSelected),
             createSettingsCollapseAdapterDelegate(viewModel::onCollapseClicked),
             createSettingsSelectorAdapterDelegate(viewModel::onSelectorClicked),
-            createSettingsRangeAdapterDelegate(viewModel::onRangeStartClicked, viewModel::onRangeEndClicked)
+            createSettingsHintAdapterDelegate(),
+            createSettingsRangeAdapterDelegate(
+                onStartClick = viewModel::onRangeStartClicked,
+                onEndClick = viewModel::onRangeEndClicked,
+            ),
+            createSettingsSpinnerWithButtonAdapterDelegate(
+                viewModel::onSpinnerPositionSelected,
+                viewModel::onButtonClicked,
+            ),
+            createSettingsCheckboxWithRangeAdapterDelegate(
+                onClick = viewModel::onCheckboxClicked,
+                onStartClick = viewModel::onRangeStartClicked,
+                onEndClick = viewModel::onRangeEndClicked,
+            ),
         )
     }
 
     override fun initUi() = with(binding) {
         rvSettingsContent.adapter = contentAdapter
+        rvSettingsContent.itemAnimator = null
         layoutSettingsTranslators.rvSettingsTranslators.adapter = translatorsAdapter
-        layoutSettingsDisplay.spinnerSettingsDaysInCalendar.setProcessSameItemSelection(false)
-        layoutSettingsDisplay.spinnerSettingsWidgetTransparency.setProcessSameItemSelection(false)
-        layoutSettingsDisplay.spinnerSettingsRecordTypeSort.setProcessSameItemSelection(false)
         layoutSettingsAdditional.spinnerSettingsFirstDayOfWeek.setProcessSameItemSelection(false)
         layoutSettingsAdditional.spinnerSettingsRepeatButtonType.setProcessSameItemSelection(false)
     }
 
     override fun initUx() = with(binding) {
-        with(layoutSettingsDisplay) {
-            with(viewModel.displayDelegate) {
-                layoutSettingsDisplayTitle.setOnClick(viewModel::onSettingsDisplayClick)
-                spinnerSettingsDaysInCalendar.onPositionSelected = ::onDaysInCalendarSelected
-                spinnerSettingsWidgetTransparency.onPositionSelected = ::onWidgetTransparencySelected
-                spinnerSettingsRecordTypeSort.onPositionSelected = ::onRecordTypeOrderSelected
-                btnCardOrderManual.setOnClick(::onCardOrderManualClick)
-                checkboxSettingsShowUntrackedInRecords.setOnClick(::onShowUntrackedInRecordsClicked)
-                checkboxSettingsShowUntrackedInStatistics.setOnClick(::onShowUntrackedInStatisticsClicked)
-                groupSettingsIgnoreShortUntracked.setOnClick(::onIgnoreShortUntrackedClicked)
-                checkboxSettingsUntrackedRange.setOnClick(::onUntrackedRangeClicked)
-                tvSettingsUntrackedRangeStart.setOnClick(::onUntrackedRangeStartClicked)
-                tvSettingsUntrackedRangeEnd.setOnClick(::onUntrackedRangeEndClicked)
-                checkboxSettingsShowRecordsCalendar.setOnClick(::onShowRecordsCalendarClicked)
-                checkboxSettingsReverseOrderInCalendar.setOnClick(::onReverseOrderInCalendarClicked)
-                checkboxSettingsShowActivityFilters.setOnClick(::onShowActivityFiltersClicked)
-                checkboxSettingsShowGoalsSeparately.setOnClick(::onShowGoalsSeparatelyClicked)
-                checkboxSettingsUseMilitaryTime.setOnClick(::onUseMilitaryTimeClicked)
-                checkboxSettingsUseMonthDayTime.setOnClick(::onUseMonthDayTimeClicked)
-                checkboxSettingsUseProportionalMinutes.setOnClick(::onUseProportionalMinutesClicked)
-                checkboxSettingsShowSeconds.setOnClick(::onShowSecondsClicked)
-                checkboxSettingsKeepScreenOn.setOnClick(::onKeepScreenOnClicked)
-                tvSettingsChangeCardSize.setOnClick(::onChangeCardSizeClick)
-            }
-        }
-
         with(layoutSettingsAdditional) {
             with(viewModel.additionalDelegate) {
                 layoutSettingsAdditionalTitle.setOnClick(viewModel::onSettingsAdditionalClick)
@@ -156,11 +140,6 @@ class SettingsFragment :
         with(viewModel) {
             content.observe(contentAdapter::replace)
 
-            viewModel.settingsDisplayVisibility.observe { opened ->
-                layoutSettingsDisplay.layoutSettingsDisplayContent.visible = opened
-                layoutSettingsDisplay.arrowSettingsDisplay
-                    .apply { if (opened) rotateDown() else rotateUp() }
-            }
             viewModel.settingsAdditionalVisibility.observe { opened ->
                 layoutSettingsAdditional.layoutSettingsAdditionalContent.visible = opened
                 layoutSettingsAdditional.arrowSettingsAdditional
@@ -187,28 +166,7 @@ class SettingsFragment :
         }
 
         with(viewModel.displayDelegate) {
-            with(layoutSettingsDisplay) {
-                btnCardOrderManualVisibility.observe(btnCardOrderManual::visible::set)
-                showUntrackedInRecordsCheckbox.observe(checkboxSettingsShowUntrackedInRecords::setChecked)
-                showUntrackedInStatisticsCheckbox.observe(checkboxSettingsShowUntrackedInStatistics::setChecked)
-                ignoreShortUntrackedViewData.observe(tvSettingsIgnoreShortUntrackedTime::setText)
-                untrackedRangeViewData.observe(::setUntrackedRangeViewData)
-                showRecordsCalendarCheckbox.observe(::updateShowRecordCalendarChecked)
-                daysInCalendarViewData.observe(::updateDaysInCalendarViewData)
-                widgetTransparencyViewData.observe(::updateWidgetTransparencyViewData)
-                reverseOrderInCalendarCheckbox.observe(checkboxSettingsReverseOrderInCalendar::setChecked)
-                showActivityFiltersCheckbox.observe(checkboxSettingsShowActivityFilters::setChecked)
-                showGoalsSeparatelyCheckbox.observe(checkboxSettingsShowGoalsSeparately::setChecked)
-                useMilitaryTimeCheckbox.observe(checkboxSettingsUseMilitaryTime::setChecked)
-                useMonthDayTimeCheckbox.observe(checkboxSettingsUseMonthDayTime::setChecked)
-                useProportionalMinutesCheckbox.observe(checkboxSettingsUseProportionalMinutes::setChecked)
-                showSecondsCheckbox.observe(checkboxSettingsShowSeconds::setChecked)
-                useMilitaryTimeHint.observe(tvSettingsUseMilitaryTimeHint::setText)
-                useMonthDayTimeHint.observe(tvSettingsUseMonthDayTimeHint::setText)
-                useProportionalMinutesHint.observe(tvSettingsUseProportionalMinutesHint::setText)
-                cardOrderViewData.observe(::updateCardOrderViewData)
-                keepScreenOnCheckbox.observe(::setKeepScreenOn)
-            }
+            keepScreenOnCheckbox.observe(::setKeepScreenOn)
         }
 
         with(viewModel.additionalDelegate) {
@@ -253,23 +211,6 @@ class SettingsFragment :
 
     override fun onResume() = with(binding) {
         super.onResume()
-        with(layoutSettingsDisplay) {
-            spinnerSettingsDaysInCalendar.jumpDrawablesToCurrentState()
-            spinnerSettingsWidgetTransparency.jumpDrawablesToCurrentState()
-            spinnerSettingsRecordTypeSort.jumpDrawablesToCurrentState()
-            checkboxSettingsShowUntrackedInRecords.jumpDrawablesToCurrentState()
-            checkboxSettingsShowUntrackedInStatistics.jumpDrawablesToCurrentState()
-            checkboxSettingsUntrackedRange.jumpDrawablesToCurrentState()
-            checkboxSettingsShowRecordsCalendar.jumpDrawablesToCurrentState()
-            checkboxSettingsReverseOrderInCalendar.jumpDrawablesToCurrentState()
-            checkboxSettingsShowActivityFilters.jumpDrawablesToCurrentState()
-            checkboxSettingsShowGoalsSeparately.jumpDrawablesToCurrentState()
-            checkboxSettingsUseMilitaryTime.jumpDrawablesToCurrentState()
-            checkboxSettingsUseMonthDayTime.jumpDrawablesToCurrentState()
-            checkboxSettingsUseProportionalMinutes.jumpDrawablesToCurrentState()
-            checkboxSettingsShowSeconds.jumpDrawablesToCurrentState()
-            checkboxSettingsKeepScreenOn.jumpDrawablesToCurrentState()
-        }
         with(layoutSettingsAdditional) {
             spinnerSettingsFirstDayOfWeek.jumpDrawablesToCurrentState()
             spinnerSettingsRepeatButtonType.jumpDrawablesToCurrentState()
@@ -308,30 +249,6 @@ class SettingsFragment :
         backupViewModel.onDataExportSettingsSelected(data)
     }
 
-    private fun updateCardOrderViewData(
-        viewData: CardOrderViewData,
-    ) = with(binding.layoutSettingsDisplay) {
-        btnCardOrderManual.visible = viewData.isManualConfigButtonVisible
-        spinnerSettingsRecordTypeSort.setData(viewData.items, viewData.selectedPosition)
-        tvSettingsRecordTypeSortValue.text = viewData.items
-            .getOrNull(viewData.selectedPosition)?.text.orEmpty()
-    }
-
-    private fun updateDaysInCalendarViewData(
-        viewData: DaysInCalendarViewData,
-    ) = with(binding.layoutSettingsDisplay) {
-        spinnerSettingsDaysInCalendar.setData(viewData.items, viewData.selectedPosition)
-        tvSettingsDaysInCalendarValue.text = viewData.items
-            .getOrNull(viewData.selectedPosition)?.text.orEmpty()
-    }
-
-    private fun updateWidgetTransparencyViewData(
-        viewData: WidgetTransparencyViewData,
-    ) = with(binding.layoutSettingsDisplay) {
-        spinnerSettingsWidgetTransparency.setData(viewData.items, viewData.selectedPosition)
-        tvSettingsWidgetTransparencyValue.text = viewData.selectedValue
-    }
-
     private fun updateFirstDayOfWeekViewData(
         viewData: FirstDayOfWeekViewData,
     ) = with(binding.layoutSettingsAdditional) {
@@ -355,25 +272,6 @@ class SettingsFragment :
         groupSettingsRecordTagSelectionClose.visible = isChecked
     }
 
-    private fun updateShowRecordCalendarChecked(
-        isChecked: Boolean,
-    ) = with(binding.layoutSettingsDisplay) {
-        checkboxSettingsShowRecordsCalendar.isChecked = isChecked
-        groupSettingsReverseOrderInCalendar.visible = isChecked
-    }
-
-    private fun setUntrackedRangeViewData(
-        viewData: SettingsUntrackedRangeViewData,
-    ) = with(binding.layoutSettingsDisplay) {
-        groupSettingsUntrackedRange.visible = viewData is SettingsUntrackedRangeViewData.Enabled
-        checkboxSettingsUntrackedRange.isChecked = viewData is SettingsUntrackedRangeViewData.Enabled
-
-        if (viewData is SettingsUntrackedRangeViewData.Enabled) {
-            tvSettingsUntrackedRangeStart.text = viewData.rangeStart
-            tvSettingsUntrackedRangeEnd.text = viewData.rangeEnd
-        }
-    }
-
     private fun updateStartOfDayViewData(
         viewData: SettingsStartOfDayViewData,
     ) = with(binding.layoutSettingsAdditional) {
@@ -384,7 +282,6 @@ class SettingsFragment :
     }
 
     private fun setKeepScreenOn(keepScreenOn: Boolean) {
-        binding.layoutSettingsDisplay.checkboxSettingsKeepScreenOn.isChecked = keepScreenOn
         if (keepScreenOn) {
             activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         } else {

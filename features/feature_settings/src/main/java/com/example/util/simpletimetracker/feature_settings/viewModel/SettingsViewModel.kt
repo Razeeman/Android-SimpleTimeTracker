@@ -68,17 +68,20 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onVisible() {
-        displayDelegate.onVisible()
         additionalDelegate.onVisible()
         // Update can come from quick settings widget.
         // Update can come from system settings.
+        // Need to update card order because it changes on card order dialog.
         viewModelScope.launch { updateContent() }
     }
 
+    // TODO merge all click functions into one, and move to delegates.
     fun onCollapseClicked(block: SettingsBlock) {
         when (block) {
             SettingsBlock.NotificationsCollapse ->
                 notificationsDelegate.onCollapseClick()
+            SettingsBlock.DisplayCollapse ->
+                displayDelegate.onCollapseClick()
             else -> {
                 // Do nothing
             }
@@ -91,6 +94,8 @@ class SettingsViewModel @Inject constructor(
                 notificationsDelegate.onInactivityReminderClicked()
             SettingsBlock.NotificationsActivity ->
                 notificationsDelegate.onActivityReminderClicked()
+            SettingsBlock.DisplayUntrackedIgnoreShort ->
+                displayDelegate.onIgnoreShortUntrackedClicked()
             else -> {
                 // Do nothing
             }
@@ -103,6 +108,8 @@ class SettingsViewModel @Inject constructor(
                 notificationsDelegate.onInactivityReminderDoNotDisturbStartClicked()
             SettingsBlock.NotificationsActivityDoNotDisturb ->
                 notificationsDelegate.onActivityReminderDoNotDisturbStartClicked()
+            SettingsBlock.DisplayUntrackedRange ->
+                displayDelegate.onUntrackedRangeStartClicked()
             else -> {
                 // Do nothing
             }
@@ -115,6 +122,8 @@ class SettingsViewModel @Inject constructor(
                 notificationsDelegate.onInactivityReminderDoNotDisturbEndClicked()
             SettingsBlock.NotificationsActivityDoNotDisturb ->
                 notificationsDelegate.onActivityReminderDoNotDisturbEndClicked()
+            SettingsBlock.DisplayUntrackedRange ->
+                displayDelegate.onUntrackedRangeEndClicked()
             else -> {
                 // Do nothing
             }
@@ -128,6 +137,17 @@ class SettingsViewModel @Inject constructor(
             SettingsBlock.DataEdit -> mainDelegate.onDataEditClick()
             SettingsBlock.RateUs -> ratingDelegate.onRateClick()
             SettingsBlock.Feedback -> ratingDelegate.onFeedbackClick()
+            SettingsBlock.DisplayCardSize -> displayDelegate.onChangeCardSizeClick()
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    fun onButtonClicked(block: SettingsBlock) {
+        when (block) {
+            SettingsBlock.DisplaySortActivities ->
+                displayDelegate.onCardOrderManualClick()
             else -> {
                 // Do nothing
             }
@@ -146,6 +166,30 @@ class SettingsViewModel @Inject constructor(
                 notificationsDelegate.onInactivityReminderRecurrentClicked()
             SettingsBlock.NotificationsActivityRecurrent ->
                 notificationsDelegate.onActivityReminderRecurrentClicked()
+            SettingsBlock.DisplayUntrackedInRecords ->
+                displayDelegate.onShowUntrackedInRecordsClicked()
+            SettingsBlock.DisplayUntrackedInStatistics ->
+                displayDelegate.onShowUntrackedInStatisticsClicked()
+            SettingsBlock.DisplayUntrackedRange ->
+                displayDelegate.onUntrackedRangeClicked()
+            SettingsBlock.DisplayCalendarView ->
+                displayDelegate.onShowRecordsCalendarClicked()
+            SettingsBlock.DisplayReverseOrder ->
+                displayDelegate.onReverseOrderInCalendarClicked()
+            SettingsBlock.DisplayShowActivityFilters ->
+                displayDelegate.onShowActivityFiltersClicked()
+            SettingsBlock.DisplayGoalsOnSeparateTabs ->
+                displayDelegate.onShowGoalsSeparatelyClicked()
+            SettingsBlock.DisplayKeepScreenOn ->
+                displayDelegate.onKeepScreenOnClicked()
+            SettingsBlock.DisplayMilitaryFormat ->
+                displayDelegate.onUseMilitaryTimeClicked()
+            SettingsBlock.DisplayMonthDayFormat ->
+                displayDelegate.onUseMonthDayTimeClicked()
+            SettingsBlock.DisplayProportionalFormat ->
+                displayDelegate.onUseProportionalMinutesClicked()
+            SettingsBlock.DisplayShowSeconds ->
+                displayDelegate.onShowSecondsClicked()
             else -> {
                 // Do nothing
             }
@@ -154,8 +198,16 @@ class SettingsViewModel @Inject constructor(
 
     fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
         when (block) {
-            SettingsBlock.DarkMode -> mainDelegate.onDarkModeSelected(position)
-            SettingsBlock.Language -> mainDelegate.onLanguageSelected(position)
+            SettingsBlock.DarkMode ->
+                mainDelegate.onDarkModeSelected(position)
+            SettingsBlock.Language ->
+                mainDelegate.onLanguageSelected(position)
+            SettingsBlock.DisplayDaysInCalendar ->
+                displayDelegate.onDaysInCalendarSelected(position)
+            SettingsBlock.DisplayWidgetBackground ->
+                displayDelegate.onWidgetTransparencySelected(position)
+            SettingsBlock.DisplaySortActivities ->
+                displayDelegate.onRecordTypeOrderSelected(position)
             else -> {
                 // Do nothing
             }
@@ -249,6 +301,7 @@ class SettingsViewModel @Inject constructor(
         result += mainDelegate.getViewData()
         result += ratingDelegate.getViewData()
         result += notificationsDelegate.getViewData()
+        result += displayDelegate.getViewData()
         return result
     }
 

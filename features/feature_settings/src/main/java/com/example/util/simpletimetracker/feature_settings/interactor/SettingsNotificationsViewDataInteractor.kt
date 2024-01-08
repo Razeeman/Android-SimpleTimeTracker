@@ -44,6 +44,7 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
                 title = resourceRepo.getString(R.string.settings_show_notifications),
                 subtitle = resourceRepo.getString(R.string.settings_show_notifications_hint),
                 isChecked = showNotifications,
+                bottomSpaceIsVisible = !showNotifications,
                 dividerIsVisible = !showNotifications,
             )
             if (showNotifications) {
@@ -70,6 +71,7 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
                     title = resourceRepo.getString(R.string.settings_inactivity_reminder_recurrent),
                     subtitle = "",
                     isChecked = prefsInteractor.getInactivityReminderRecurrent(),
+                    bottomSpaceIsVisible = false,
                     dividerIsVisible = false,
                 )
                 result += SettingsRangeViewData(
@@ -95,6 +97,7 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
                     title = resourceRepo.getString(R.string.settings_inactivity_reminder_recurrent),
                     subtitle = "",
                     isChecked = prefsInteractor.getActivityReminderRecurrent(),
+                    bottomSpaceIsVisible = false,
                     dividerIsVisible = false,
                 )
                 result += SettingsRangeViewData(
