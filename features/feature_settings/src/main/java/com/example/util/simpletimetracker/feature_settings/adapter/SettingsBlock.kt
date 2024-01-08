@@ -9,4 +9,10 @@ enum class SettingsBlock {
     Archive,
     DataEdit,
     MainBottom,
+
+    RatingTop,
+    RateUs,
+    Feedback,
+    Version,
+    RatingBottom,
 }

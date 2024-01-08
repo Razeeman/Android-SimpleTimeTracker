@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsMainViewDataInteractor
+import com.example.util.simpletimetracker.feature_settings.interactor.SettingsRatingViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsAdditionalViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsDisplayViewModelDelegate
@@ -39,6 +40,7 @@ class SettingsViewModel @Inject constructor(
     private val router: Router,
     private val settingsMapper: SettingsMapper,
     private val settingsMainViewDataInteractor: SettingsMainViewDataInteractor,
+    private val settingsRatingViewDataInteractor: SettingsRatingViewDataInteractor,
 ) : BaseViewModel(), SettingsParent {
 
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
@@ -84,6 +86,8 @@ class SettingsViewModel @Inject constructor(
             SettingsBlock.Categories -> mainDelegate.onEditCategoriesClick()
             SettingsBlock.Archive -> mainDelegate.onArchiveClick()
             SettingsBlock.DataEdit -> mainDelegate.onDataEditClick()
+            SettingsBlock.RateUs -> ratingDelegate.onRateClick()
+            SettingsBlock.Feedback -> ratingDelegate.onFeedbackClick()
             else -> {
                 // Do nothing
             }
@@ -199,6 +203,7 @@ class SettingsViewModel @Inject constructor(
     private suspend fun loadContent(): List<ViewHolderType> {
         val result = mutableListOf<ViewHolderType>()
         result += settingsMainViewDataInteractor.execute()
+        result += settingsRatingViewDataInteractor.execute()
         return result
     }
 

@@ -147,13 +147,6 @@ class SettingsFragment :
             }
         }
 
-        with(layoutSettingsRating) {
-            with(viewModel.ratingDelegate) {
-                layoutSettingsRate.setOnClick(::onRateClick)
-                layoutSettingsFeedback.setOnClick(::onFeedbackClick)
-            }
-        }
-
         with(layoutSettingsBackup) {
             layoutSettingsBackupTitle.setOnClick(viewModel::onSettingsBackupClick)
             layoutSettingsSaveBackup.setOnClick(backupViewModel::onSaveClick)
@@ -261,12 +254,6 @@ class SettingsFragment :
                 repeatButtonViewData.observe(::updateRepeatButtonViewData)
                 startOfDayViewData.observe(::updateStartOfDayViewData)
                 showRecordTagSelectionCheckbox.observe(::updateShowRecordTagSelectionChecked)
-            }
-        }
-
-        with(viewModel.ratingDelegate) {
-            with(layoutSettingsRating) {
-                versionName.observe(tvSettingsVersionName::setText)
             }
         }
 
