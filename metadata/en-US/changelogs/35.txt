@@ -1,0 +1,4 @@
+- Add day of week selection for daily goals
+- Add widget background transparency setting
+- Improve app performance
+- General bug fixes and improvements
