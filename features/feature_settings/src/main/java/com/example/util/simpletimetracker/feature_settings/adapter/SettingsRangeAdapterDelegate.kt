@@ -4,11 +4,12 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxViewData as ViewData
-import com.example.util.simpletimetracker.feature_settings.databinding.ItemSettingsCheckboxBinding as Binding
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsRangeViewData as ViewData
+import com.example.util.simpletimetracker.feature_settings.databinding.ItemSettingsRangeBinding as Binding
 
-fun createSettingsCheckboxAdapterDelegate(
-    onClick: (SettingsBlock) -> Unit,
+fun createSettingsRangeAdapterDelegate(
+    onStartClick: (SettingsBlock) -> Unit,
+    onEndClick: (SettingsBlock) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->
@@ -17,29 +18,21 @@ fun createSettingsCheckboxAdapterDelegate(
         item as ViewData
 
         tvItemSettingsTitle.text = item.title
-
-        if (item.subtitle.isEmpty()) {
-            tvItemSettingsSubtitle.visible = false
-        } else {
-            tvItemSettingsSubtitle.text = item.subtitle
-            tvItemSettingsSubtitle.visible = true
-        }
-
-        if (checkboxItemSettings.isChecked != item.isChecked) {
-            checkboxItemSettings.isChecked = item.isChecked
-        }
+        tvItemSettingsStart.text = item.start
+        tvItemSettingsEnd.text = item.end
 
         viewItemSettingsDivider.visible = item.dividerIsVisible
 
-        checkboxItemSettings.setOnClick { onClick(item.block) }
+        tvItemSettingsStart.setOnClick { onStartClick(item.block) }
+        tvItemSettingsEnd.setOnClick { onEndClick(item.block) }
     }
 }
 
-data class SettingsCheckboxViewData(
+data class SettingsRangeViewData(
     val block: SettingsBlock,
     val title: String,
-    val subtitle: String,
-    val isChecked: Boolean,
+    val start: String,
+    val end: String,
     val dividerIsVisible: Boolean = true,
 ) : ViewHolderType {
 

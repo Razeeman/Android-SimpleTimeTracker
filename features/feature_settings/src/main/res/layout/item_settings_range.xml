@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/SettingsCard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleY="2.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvItemSettingsTitle"
+        style="@style/SettingsText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:translationZ="4dp"
+        app:layout_constraintBottom_toTopOf="@id/tvItemSettingsTitle"
+        app:layout_constraintEnd_toStartOf="@id/tvItemSettingsStart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Title" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvItemSettingsStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:translationZ="4dp"
+        android:textColor="?appTextPrimaryColor"
+        app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsTitle"
+        app:layout_constraintEnd_toStartOf="@id/tvItemSettingsDivider"
+        app:layout_constraintTop_toTopOf="@id/tvItemSettingsTitle"
+        tools:text="01:23" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvItemSettingsDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end|center_vertical"
+        android:text="-"
+        android:translationZ="4dp"
+        android:textColor="?appTextPrimaryColor"
+        app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsTitle"
+        app:layout_constraintEnd_toStartOf="@id/tvItemSettingsEnd"
+        app:layout_constraintTop_toTopOf="@id/tvItemSettingsTitle" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvItemSettingsEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="20dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:translationZ="4dp"
+        android:textColor="?appTextPrimaryColor"
+        app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvItemSettingsTitle"
+        tools:text="01:23" />
+
+    <View
+        android:id="@+id/viewItemSettingsDivider"
+        style="@style/SettingsDivider"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="12dp"
+        android:translationZ="4dp"
+        app:layout_constraintTop_toBottomOf="@id/tvItemSettingsTitle" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

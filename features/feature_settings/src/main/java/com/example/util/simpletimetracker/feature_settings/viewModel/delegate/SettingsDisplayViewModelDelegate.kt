@@ -223,6 +223,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             updateUseMilitaryTimeViewData()
             updateUntrackedRangeViewData()
             parent?.onUseMilitaryTimeClicked()
+            parent?.updateContent()
         }
     }
 

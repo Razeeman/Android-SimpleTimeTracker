@@ -12,8 +12,6 @@ import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsBlock
-import com.example.util.simpletimetracker.feature_settings.interactor.SettingsMainViewDataInteractor
-import com.example.util.simpletimetracker.feature_settings.interactor.SettingsRatingViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsAdditionalViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsDisplayViewModelDelegate
@@ -32,19 +30,16 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     val mainDelegate: SettingsMainViewModelDelegate,
-    val notificationsDelegate: SettingsNotificationsViewModelDelegate,
     val displayDelegate: SettingsDisplayViewModelDelegate,
     val additionalDelegate: SettingsAdditionalViewModelDelegate,
-    val ratingDelegate: SettingsRatingViewModelDelegate,
     val translatorsDelegate: SettingsTranslatorsViewModelDelegate,
     private val router: Router,
     private val settingsMapper: SettingsMapper,
-    private val settingsMainViewDataInteractor: SettingsMainViewDataInteractor,
-    private val settingsRatingViewDataInteractor: SettingsRatingViewDataInteractor,
+    private val ratingDelegate: SettingsRatingViewModelDelegate,
+    private val notificationsDelegate: SettingsNotificationsViewModelDelegate,
 ) : BaseViewModel(), SettingsParent {
 
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
-    val settingsNotificationsVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsDisplayVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsAdditionalVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsBackupVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -70,7 +65,6 @@ class SettingsViewModel @Inject constructor(
 
     override suspend fun onUseMilitaryTimeClicked() {
         additionalDelegate.onUseMilitaryTimeClicked()
-        notificationsDelegate.onUseMilitaryTimeClicked()
     }
 
     fun onVisible() {
@@ -79,6 +73,52 @@ class SettingsViewModel @Inject constructor(
         // Update can come from quick settings widget.
         // Update can come from system settings.
         viewModelScope.launch { updateContent() }
+    }
+
+    fun onCollapseClicked(block: SettingsBlock) {
+        when (block) {
+            SettingsBlock.NotificationsCollapse ->
+                notificationsDelegate.onCollapseClick()
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    fun onSelectorClicked(block: SettingsBlock) {
+        when (block) {
+            SettingsBlock.NotificationsInactivity ->
+                notificationsDelegate.onInactivityReminderClicked()
+            SettingsBlock.NotificationsActivity ->
+                notificationsDelegate.onActivityReminderClicked()
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    fun onRangeStartClicked(block: SettingsBlock) {
+        when (block) {
+            SettingsBlock.NotificationsInactivityDoNotDisturb ->
+                notificationsDelegate.onInactivityReminderDoNotDisturbStartClicked()
+            SettingsBlock.NotificationsActivityDoNotDisturb ->
+                notificationsDelegate.onActivityReminderDoNotDisturbStartClicked()
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    fun onRangeEndClicked(block: SettingsBlock) {
+        when (block) {
+            SettingsBlock.NotificationsInactivityDoNotDisturb ->
+                notificationsDelegate.onInactivityReminderDoNotDisturbEndClicked()
+            SettingsBlock.NotificationsActivityDoNotDisturb ->
+                notificationsDelegate.onActivityReminderDoNotDisturbEndClicked()
+            else -> {
+                // Do nothing
+            }
+        }
     }
 
     fun onTextClicked(block: SettingsBlock) {
@@ -96,7 +136,16 @@ class SettingsViewModel @Inject constructor(
 
     fun onCheckboxClicked(block: SettingsBlock) {
         when (block) {
-            SettingsBlock.AllowMultitasking -> mainDelegate.onAllowMultitaskingClicked()
+            SettingsBlock.AllowMultitasking ->
+                mainDelegate.onAllowMultitaskingClicked()
+            SettingsBlock.NotificationsShow ->
+                notificationsDelegate.onShowNotificationsClicked()
+            SettingsBlock.NotificationsShowControls ->
+                notificationsDelegate.onShowNotificationsControlsClicked()
+            SettingsBlock.NotificationsInactivityRecurrent ->
+                notificationsDelegate.onInactivityReminderRecurrentClicked()
+            SettingsBlock.NotificationsActivityRecurrent ->
+                notificationsDelegate.onActivityReminderRecurrentClicked()
             else -> {
                 // Do nothing
             }
@@ -111,11 +160,6 @@ class SettingsViewModel @Inject constructor(
                 // Do nothing
             }
         }
-    }
-
-    fun onSettingsNotificationsClick() {
-        val newValue = settingsNotificationsVisibility.value?.flip().orFalse()
-        settingsNotificationsVisibility.set(newValue)
     }
 
     fun onSettingsDisplayClick() {
@@ -202,8 +246,9 @@ class SettingsViewModel @Inject constructor(
 
     private suspend fun loadContent(): List<ViewHolderType> {
         val result = mutableListOf<ViewHolderType>()
-        result += settingsMainViewDataInteractor.execute()
-        result += settingsRatingViewDataInteractor.execute()
+        result += mainDelegate.getViewData()
+        result += ratingDelegate.getViewData()
+        result += notificationsDelegate.getViewData()
         return result
     }
 

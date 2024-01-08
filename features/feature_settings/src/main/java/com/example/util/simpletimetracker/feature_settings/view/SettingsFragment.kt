@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_settings.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
@@ -17,6 +16,9 @@ import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsBottomAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCollapseAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsRangeAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSelectorAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerNotCheckableAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTextAdapterDelegate
@@ -26,7 +28,6 @@ import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderVie
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButtonViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsUntrackedRangeViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.WidgetTransparencyViewData
@@ -74,6 +75,9 @@ class SettingsFragment :
             createSettingsCheckboxAdapterDelegate(viewModel::onCheckboxClicked),
             createSettingsSpinnerAdapterDelegate(viewModel::onSpinnerPositionSelected),
             createSettingsSpinnerNotCheckableAdapterDelegate(viewModel::onSpinnerPositionSelected),
+            createSettingsCollapseAdapterDelegate(viewModel::onCollapseClicked),
+            createSettingsSelectorAdapterDelegate(viewModel::onSelectorClicked),
+            createSettingsRangeAdapterDelegate(viewModel::onRangeStartClicked, viewModel::onRangeEndClicked)
         )
     }
 
@@ -88,22 +92,6 @@ class SettingsFragment :
     }
 
     override fun initUx() = with(binding) {
-        with(layoutSettingsNotifications) {
-            with(viewModel.notificationsDelegate) {
-                layoutSettingsNotificationsTitle.setOnClick(viewModel::onSettingsNotificationsClick)
-                checkboxSettingsShowNotifications.setOnClick(::onShowNotificationsClicked)
-                checkboxSettingsShowNotificationsControls.setOnClick(::onShowNotificationsControlsClicked)
-                groupSettingsInactivityReminder.setOnClick(::onInactivityReminderClicked)
-                checkboxSettingsInactivityReminderRecurrent.setOnClick(::onInactivityReminderRecurrentClicked)
-                tvSettingsInactivityReminderDndStart.setOnClick(::onInactivityReminderDoNotDisturbStartClicked)
-                tvSettingsInactivityReminderDndEnd.setOnClick(::onInactivityReminderDoNotDisturbEndClicked)
-                groupSettingsActivityReminder.setOnClick(::onActivityReminderClicked)
-                checkboxSettingsActivityReminderRecurrent.setOnClick(::onActivityReminderRecurrentClicked)
-                tvSettingsActivityReminderDndStart.setOnClick(::onActivityReminderDoNotDisturbStartClicked)
-                tvSettingsActivityReminderDndEnd.setOnClick(::onActivityReminderDoNotDisturbEndClicked)
-            }
-        }
-
         with(layoutSettingsDisplay) {
             with(viewModel.displayDelegate) {
                 layoutSettingsDisplayTitle.setOnClick(viewModel::onSettingsDisplayClick)
@@ -168,11 +156,6 @@ class SettingsFragment :
         with(viewModel) {
             content.observe(contentAdapter::replace)
 
-            settingsNotificationsVisibility.observe { opened ->
-                layoutSettingsNotifications.layoutSettingsNotificationsContent.visible = opened
-                layoutSettingsNotifications.arrowSettingsNotifications
-                    .apply { if (opened) rotateDown() else rotateUp() }
-            }
             viewModel.settingsDisplayVisibility.observe { opened ->
                 layoutSettingsDisplay.layoutSettingsDisplayContent.visible = opened
                 layoutSettingsDisplay.arrowSettingsDisplay
@@ -201,21 +184,6 @@ class SettingsFragment :
 
         with(viewModel.mainDelegate) {
             themeChanged.observe(::changeTheme)
-        }
-
-        with(viewModel.notificationsDelegate) {
-            with(layoutSettingsNotifications) {
-                showNotificationsCheckbox.observe(::updateShowNotifications)
-                showNotificationsControlsCheckbox.observe(checkboxSettingsShowNotificationsControls::setChecked)
-                inactivityReminderViewData.observe(::updateInactivityReminder)
-                inactivityReminderRecurrentCheckbox.observe(checkboxSettingsInactivityReminderRecurrent::setChecked)
-                inactivityReminderDndStartViewData.observe(tvSettingsInactivityReminderDndStart::setText)
-                inactivityReminderDndEndViewData.observe(tvSettingsInactivityReminderDndEnd::setText)
-                activityReminderViewData.observe(::updateActivityReminder)
-                activityReminderRecurrentCheckbox.observe(checkboxSettingsActivityReminderRecurrent::setChecked)
-                activityReminderDndStartViewData.observe(tvSettingsActivityReminderDndStart::setText)
-                activityReminderDndEndViewData.observe(tvSettingsActivityReminderDndEnd::setText)
-            }
         }
 
         with(viewModel.displayDelegate) {
@@ -285,12 +253,6 @@ class SettingsFragment :
 
     override fun onResume() = with(binding) {
         super.onResume()
-        with(layoutSettingsNotifications) {
-            checkboxSettingsShowNotifications.jumpDrawablesToCurrentState()
-            checkboxSettingsShowNotificationsControls.jumpDrawablesToCurrentState()
-            checkboxSettingsInactivityReminderRecurrent.jumpDrawablesToCurrentState()
-            checkboxSettingsActivityReminderRecurrent.jumpDrawablesToCurrentState()
-        }
         with(layoutSettingsDisplay) {
             spinnerSettingsDaysInCalendar.jumpDrawablesToCurrentState()
             spinnerSettingsWidgetTransparency.jumpDrawablesToCurrentState()
@@ -391,27 +353,6 @@ class SettingsFragment :
     ) = with(binding.layoutSettingsAdditional) {
         checkboxSettingsShowRecordTagSelection.isChecked = isChecked
         groupSettingsRecordTagSelectionClose.visible = isChecked
-    }
-
-    private fun updateShowNotifications(
-        isChecked: Boolean,
-    ) = with(binding.layoutSettingsNotifications) {
-        checkboxSettingsShowNotifications.isChecked = isChecked
-        groupSettingsShowNotifications.visible = isChecked
-    }
-
-    private fun updateInactivityReminder(
-        data: SettingsDurationViewData,
-    ) = with(binding.layoutSettingsNotifications) {
-        tvSettingsInactivityReminderTime.text = data.text
-        groupSettingsInactivityReminderRecurrent.isVisible = data.enabled
-    }
-
-    private fun updateActivityReminder(
-        data: SettingsDurationViewData,
-    ) = with(binding.layoutSettingsNotifications) {
-        tvSettingsActivityReminderTime.text = data.text
-        groupSettingsActivityReminderRecurrent.isVisible = data.enabled
     }
 
     private fun updateShowRecordCalendarChecked(

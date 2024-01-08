@@ -7,6 +7,8 @@ import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.WidgetType
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_settings.interactor.SettingsMainViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
@@ -21,6 +23,7 @@ class SettingsMainViewModelDelegate @Inject constructor(
     private val languageInteractor: LanguageInteractor,
     private val settingsMapper: SettingsMapper,
     private val widgetInteractor: WidgetInteractor,
+    private val settingsMainViewDataInteractor: SettingsMainViewDataInteractor,
 ) : ViewModelDelegate() {
 
     val themeChanged: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -29,6 +32,10 @@ class SettingsMainViewModelDelegate @Inject constructor(
 
     fun init(parent: SettingsParent) {
         this.parent = parent
+    }
+
+    suspend fun getViewData(): List<ViewHolderType> {
+        return settingsMainViewDataInteractor.execute()
     }
 
     fun onEditCategoriesClick() {

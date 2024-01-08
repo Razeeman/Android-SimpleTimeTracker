@@ -1,17 +1,16 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 
-import androidx.lifecycle.LiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
-import com.example.util.simpletimetracker.core.extension.lazySuspend
-import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermissionInteractor
 import com.example.util.simpletimetracker.core.interactor.CheckNotificationsPermissionInteractor
+import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.interactor.NotificationActivityInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationInactivityInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_settings.interactor.SettingsNotificationsViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
-import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
@@ -27,28 +26,10 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
     private val notificationActivityInteractor: NotificationActivityInteractor,
     private val checkExactAlarmPermissionInteractor: CheckExactAlarmPermissionInteractor,
     private val checkNotificationsPermissionInteractor: CheckNotificationsPermissionInteractor,
+    private val settingsNotificationsViewDataInteractor: SettingsNotificationsViewDataInteractor,
 ) : ViewModelDelegate() {
 
-    val showNotificationsCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getShowNotifications() }
-    val showNotificationsControlsCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getShowNotificationsControls() }
-    val inactivityReminderViewData: LiveData<SettingsDurationViewData>
-        by lazySuspend { loadInactivityReminderViewData() }
-    val inactivityReminderRecurrentCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getInactivityReminderRecurrent() }
-    val inactivityReminderDndStartViewData: LiveData<String>
-        by lazySuspend { loadInactivityReminderDndStartViewData() }
-    val inactivityReminderDndEndViewData: LiveData<String>
-        by lazySuspend { loadInactivityReminderDndEndViewData() }
-    val activityReminderViewData: LiveData<SettingsDurationViewData>
-        by lazySuspend { loadActivityReminderViewData() }
-    val activityReminderRecurrentCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getActivityReminderRecurrent() }
-    val activityReminderDndStartViewData: LiveData<String>
-        by lazySuspend { loadActivityReminderDndStartViewData() }
-    val activityReminderDndEndViewData: LiveData<String>
-        by lazySuspend { loadActivityReminderDndEndViewData() }
+    private var isCollapsed: Boolean = true
 
     private var parent: SettingsParent? = null
 
@@ -56,17 +37,21 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         this.parent = parent
     }
 
-    suspend fun onUseMilitaryTimeClicked() {
-        updateActivityReminderDndStartViewData()
-        updateActivityReminderDndEndViewData()
-        updateInactivityReminderDndStartViewData()
-        updateInactivityReminderDndEndViewData()
+    suspend fun getViewData(): List<ViewHolderType> {
+        return settingsNotificationsViewDataInteractor.execute(
+            isCollapsed = isCollapsed,
+        )
+    }
+
+    fun onCollapseClick() = delegateScope.launch {
+        isCollapsed = isCollapsed.flip()
+        parent?.updateContent()
     }
 
     fun onShowNotificationsClicked() {
         fun updateValue(newValue: Boolean) = delegateScope.launch {
             prefsInteractor.setShowNotifications(newValue)
-            showNotificationsCheckbox.set(newValue)
+            parent?.updateContent()
             notificationTypeInteractor.updateNotifications()
         }
 
@@ -86,7 +71,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowNotificationsControls()
             prefsInteractor.setShowNotificationsControls(newValue)
-            showNotificationsControlsCheckbox.set(newValue)
+            parent?.updateContent()
             notificationTypeInteractor.updateNotifications()
         }
     }
@@ -114,7 +99,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         delegateScope.launch {
             val newValue = !prefsInteractor.getInactivityReminderRecurrent()
             prefsInteractor.setInactivityReminderRecurrent(newValue)
-            inactivityReminderRecurrentCheckbox.set(newValue)
+            parent?.updateContent()
             notificationInactivityInteractor.cancel()
             notificationInactivityInteractor.checkAndSchedule()
         }
@@ -161,7 +146,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         delegateScope.launch {
             val newValue = !prefsInteractor.getActivityReminderRecurrent()
             prefsInteractor.setActivityReminderRecurrent(newValue)
-            activityReminderRecurrentCheckbox.set(newValue)
+            parent?.updateContent()
             notificationActivityInteractor.cancel()
             notificationActivityInteractor.checkAndSchedule()
         }
@@ -191,14 +176,14 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         when (tag) {
             SettingsViewModel.INACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setInactivityReminderDuration(duration)
-                updateInactivityReminderViewData()
+                parent?.updateContent()
                 notificationInactivityInteractor.cancel()
                 notificationInactivityInteractor.checkAndSchedule()
                 checkExactAlarmPermissionInteractor.execute()
             }
             SettingsViewModel.ACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setActivityReminderDuration(duration)
-                updateActivityReminderViewData()
+                parent?.updateContent()
                 notificationActivityInteractor.cancel()
                 notificationActivityInteractor.checkAndSchedule()
                 checkExactAlarmPermissionInteractor.execute()
@@ -210,13 +195,13 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         when (tag) {
             SettingsViewModel.INACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setInactivityReminderDuration(0)
-                updateInactivityReminderViewData()
+                parent?.updateContent()
                 notificationInactivityInteractor.cancel()
             }
 
             SettingsViewModel.ACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setActivityReminderDuration(0)
-                updateActivityReminderViewData()
+                parent?.updateContent()
                 notificationActivityInteractor.cancel()
             }
         }
@@ -227,7 +212,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
             SettingsViewModel.INACTIVITY_REMINDER_DND_START_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setInactivityReminderDoNotDisturbStart(newValue)
-                updateInactivityReminderDndStartViewData()
+                parent?.updateContent()
                 notificationInactivityInteractor.cancel()
                 notificationInactivityInteractor.checkAndSchedule()
             }
@@ -235,7 +220,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
             SettingsViewModel.INACTIVITY_REMINDER_DND_END_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setInactivityReminderDoNotDisturbEnd(newValue)
-                updateInactivityReminderDndEndViewData()
+                parent?.updateContent()
                 notificationInactivityInteractor.cancel()
                 notificationInactivityInteractor.checkAndSchedule()
             }
@@ -243,7 +228,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
             SettingsViewModel.ACTIVITY_REMINDER_DND_START_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setActivityReminderDoNotDisturbStart(newValue)
-                updateActivityReminderDndStartViewData()
+                parent?.updateContent()
                 notificationActivityInteractor.cancel()
                 notificationActivityInteractor.checkAndSchedule()
             }
@@ -251,74 +236,10 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
             SettingsViewModel.ACTIVITY_REMINDER_DND_END_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setActivityReminderDoNotDisturbEnd(newValue)
-                updateActivityReminderDndEndViewData()
+                parent?.updateContent()
                 notificationActivityInteractor.cancel()
                 notificationActivityInteractor.checkAndSchedule()
             }
         }
-    }
-
-    private suspend fun updateInactivityReminderViewData() {
-        val data = loadInactivityReminderViewData()
-        inactivityReminderViewData.set(data)
-    }
-
-    private suspend fun loadInactivityReminderViewData(): SettingsDurationViewData {
-        return prefsInteractor.getInactivityReminderDuration()
-            .let(settingsMapper::toDurationViewData)
-    }
-
-    private suspend fun updateInactivityReminderDndStartViewData() {
-        val data = loadInactivityReminderDndStartViewData()
-        inactivityReminderDndStartViewData.set(data)
-    }
-
-    private suspend fun loadInactivityReminderDndStartViewData(): String {
-        val shift = prefsInteractor.getInactivityReminderDoNotDisturbStart()
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
-    }
-
-    private suspend fun updateInactivityReminderDndEndViewData() {
-        val data = loadInactivityReminderDndEndViewData()
-        inactivityReminderDndEndViewData.set(data)
-    }
-
-    private suspend fun loadInactivityReminderDndEndViewData(): String {
-        val shift = prefsInteractor.getInactivityReminderDoNotDisturbEnd()
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
-    }
-
-    private suspend fun updateActivityReminderViewData() {
-        val data = loadActivityReminderViewData()
-        activityReminderViewData.set(data)
-    }
-
-    private suspend fun loadActivityReminderViewData(): SettingsDurationViewData {
-        return prefsInteractor.getActivityReminderDuration()
-            .let(settingsMapper::toDurationViewData)
-    }
-
-    private suspend fun updateActivityReminderDndStartViewData() {
-        val data = loadActivityReminderDndStartViewData()
-        activityReminderDndStartViewData.set(data)
-    }
-
-    private suspend fun loadActivityReminderDndStartViewData(): String {
-        val shift = prefsInteractor.getActivityReminderDoNotDisturbStart()
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
-    }
-
-    private suspend fun updateActivityReminderDndEndViewData() {
-        val data = loadActivityReminderDndEndViewData()
-        activityReminderDndEndViewData.set(data)
-    }
-
-    private suspend fun loadActivityReminderDndEndViewData(): String {
-        val shift = prefsInteractor.getActivityReminderDoNotDisturbEnd()
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
     }
 }

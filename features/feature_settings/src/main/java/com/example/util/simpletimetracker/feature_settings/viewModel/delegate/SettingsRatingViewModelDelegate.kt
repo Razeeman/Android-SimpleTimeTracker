@@ -3,7 +3,9 @@ package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.R
+import com.example.util.simpletimetracker.feature_settings.interactor.SettingsRatingViewDataInteractor
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
@@ -14,7 +16,12 @@ class SettingsRatingViewModelDelegate @Inject constructor(
     private val router: Router,
     private val resourceRepo: ResourceRepo,
     private val applicationDataProvider: ApplicationDataProvider,
+    private val settingsRatingViewDataInteractor: SettingsRatingViewDataInteractor,
 ) : ViewModelDelegate() {
+
+    fun getViewData(): List<ViewHolderType> {
+        return settingsRatingViewDataInteractor.execute()
+    }
 
     fun onRateClick() {
         router.execute(

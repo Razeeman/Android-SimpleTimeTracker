@@ -15,4 +15,16 @@ enum class SettingsBlock {
     Feedback,
     Version,
     RatingBottom,
+
+    NotificationsTop,
+    NotificationsCollapse,
+    NotificationsShow,
+    NotificationsShowControls,
+    NotificationsInactivity,
+    NotificationsInactivityRecurrent,
+    NotificationsInactivityDoNotDisturb,
+    NotificationsActivity,
+    NotificationsActivityRecurrent,
+    NotificationsActivityDoNotDisturb,
+    NotificationsBottom,
 }
