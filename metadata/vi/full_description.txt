@@ -1,0 +1,13 @@
+Trình theo dõi thời gian đơn giản giúp bạn theo dõi lượng thời gian bạn dành trong ngày cho các hoạt động khác nhau. Bắt đầu các hoạt động mới chỉ bằng một cú nhấp chuột. Xem các bản ghi và số liệu thống kê trước đó theo thời gian. Ứng dụng này là miễn phí và mã nguồn mở. Ngoài ra còn có các widget, bản sao lưu, thông báo và chế độ tối.
+
+<b>Giao diện đơn giản</b>
+Ứng dụng có giao diện tối giản rất dễ sử dụng.
+
+<b>Tiện ích</b>
+Theo dõi hoạt động của bạn trực tiếp từ màn hình chính.
+
+<b>Hoạt động ngoại tuyến và tôn trọng quyền riêng tư của bạn</b>
+Ứng dụng không yêu cầu kết nối Internet hoặc đăng ký tài khoản. Dữ liệu của bạn không bao giờ rời khỏi điện thoại của bạn. Cả nhà phát triển và bất kỳ bên thứ ba nào đều không có quyền truy cập vào nó.
+
+<b>Nguồn mở và miễn phí</b>
+Không có quảng cáo, mua hàng trong ứng dụng hoặc quyền xâm nhập. Mã nguồn hoàn chỉnh cũng có sẵn.
