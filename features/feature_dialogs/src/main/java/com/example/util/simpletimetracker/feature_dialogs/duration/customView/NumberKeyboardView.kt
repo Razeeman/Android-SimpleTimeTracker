@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_dialogs.duration.customView
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -13,31 +14,31 @@ import com.example.util.simpletimetracker.feature_dialogs.databinding.NumberKeyb
 class NumberKeyboardView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : ConstraintLayout(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
-    var listener: ((Int) -> Unit)? = null
+    var listener: ((Button) -> Unit)? = null
 
     private val binding: NumberKeyboardLayoutBinding = NumberKeyboardLayoutBinding
         .inflate(LayoutInflater.from(context), this)
 
     private val textViews by lazy {
         with(binding) {
-            listOf(
-                tvNumberKeyboard0,
-                tvNumberKeyboard1,
-                tvNumberKeyboard2,
-                tvNumberKeyboard3,
-                tvNumberKeyboard4,
-                tvNumberKeyboard5,
-                tvNumberKeyboard6,
-                tvNumberKeyboard7,
-                tvNumberKeyboard8,
-                tvNumberKeyboard9
+            mapOf(
+                0 to tvNumberKeyboard0,
+                1 to tvNumberKeyboard1,
+                2 to tvNumberKeyboard2,
+                3 to tvNumberKeyboard3,
+                4 to tvNumberKeyboard4,
+                5 to tvNumberKeyboard5,
+                6 to tvNumberKeyboard6,
+                7 to tvNumberKeyboard7,
+                8 to tvNumberKeyboard8,
+                9 to tvNumberKeyboard9,
             )
         }
     }
@@ -53,16 +54,27 @@ class NumberKeyboardView @JvmOverloads constructor(
                 recycle()
             }
 
-        textViews.forEachIndexed { index, view ->
-            view.setOnClick { listener?.invoke(index) }
+        textViews.forEach { (value, view) ->
+            view.setOnClick { listener?.invoke(Button.Number(value)) }
         }
+        binding.tvNumberKeyboard00.setOnClick { listener?.invoke(Button.DoubleZero) }
+        binding.btnNumberKeyboardDelete.setOnClick { listener?.invoke(Button.Delete) }
     }
 
     private fun setTextColor(textColor: Int) {
-        textViews.forEach { it.setTextColor(textColor) }
+        textViews.values.forEach { it.setTextColor(textColor) }
+        binding.tvNumberKeyboard00.setTextColor(textColor)
+        binding.ivNumberKeyboardDelete.imageTintList = ColorStateList.valueOf(textColor)
     }
 
     private fun setTextSize(textSize: Float) {
-        textViews.forEach { it.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize) }
+        textViews.values.forEach { it.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize) }
+        binding.tvNumberKeyboard00.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
+    }
+
+    sealed interface Button {
+        data class Number(val value: Int) : Button
+        object DoubleZero : Button
+        object Delete : Button
     }
 }

@@ -21,27 +21,15 @@
         android:layout_height="0dp"
         android:layout_marginVertical="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         app:durationLegendPadding="4dp"
         app:durationLegendTextColor="?appTextHintColor"
         app:durationLegendTextSize="32sp"
         app:durationTextColor="?appTextPrimaryColor"
         app:layout_constraintBottom_toTopOf="@id/guidelineDurationPicker"
-        app:layout_constraintEnd_toStartOf="@id/ivDurationPickerDelete"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/arrowDurationPicker" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivDurationPickerDelete"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="16dp"
-        android:background="?selectableItemBackgroundBorderless"
-        android:src="@drawable/backspace"
-        android:tint="?appTextPrimaryColor"
-        app:layout_constraintBottom_toBottomOf="@id/viewDurationPickerValue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/viewDurationPickerValue" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineDurationPicker"

@@ -110,7 +110,7 @@
         android:gravity="center"
         android:text="7"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/tvNumberKeyboard0"
+        app:layout_constraintBottom_toTopOf="@id/tvNumberKeyboard00"
         app:layout_constraintEnd_toStartOf="@id/tvNumberKeyboard8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvNumberKeyboard4"
@@ -142,10 +142,26 @@
         android:gravity="center"
         android:text="9"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/tvNumberKeyboard0"
+        app:layout_constraintBottom_toTopOf="@id/btnNumberKeyboardDelete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvNumberKeyboard8"
         app:layout_constraintTop_toBottomOf="@id/tvNumberKeyboard6"
+        tools:ignore="HardcodedText"
+        tools:textColor="@color/black"
+        tools:textSize="32sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNumberKeyboard00"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:text="00"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvNumberKeyboard0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNumberKeyboard7"
         tools:ignore="HardcodedText"
         tools:textColor="@color/black"
         tools:textSize="32sp" />
@@ -159,11 +175,34 @@
         android:text="0"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tvNumberKeyboard9"
-        app:layout_constraintStart_toEndOf="@id/tvNumberKeyboard7"
+        app:layout_constraintEnd_toStartOf="@id/btnNumberKeyboardDelete"
+        app:layout_constraintStart_toEndOf="@id/tvNumberKeyboard00"
         app:layout_constraintTop_toBottomOf="@id/tvNumberKeyboard8"
         tools:ignore="HardcodedText"
         tools:textColor="@color/black"
         tools:textSize="32sp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btnNumberKeyboardDelete"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvNumberKeyboard0"
+        app:layout_constraintTop_toBottomOf="@id/tvNumberKeyboard9">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivNumberKeyboardDelete"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/backspace"
+            tools:tint="@color/black" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </merge>

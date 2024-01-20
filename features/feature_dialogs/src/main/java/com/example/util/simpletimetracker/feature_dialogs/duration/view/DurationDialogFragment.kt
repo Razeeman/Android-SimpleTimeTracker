@@ -61,8 +61,7 @@ class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
     override fun initUx(): Unit = with(binding) {
         btnDurationPickerSave.setOnClick(::onSaveClick)
         btnDurationPickerDisable.setOnClick(::onDisableClick)
-        viewDurationPickerNumberKeyboard.listener = viewModel::onNumberPressed
-        ivDurationPickerDelete.setOnClick(viewModel::onNumberDelete)
+        viewDurationPickerNumberKeyboard.listener = viewModel::onButtonPressed
     }
 
     override fun initViewModel(): Unit = with(viewModel) {

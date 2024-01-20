@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_dialogs.duration.customView.DurationView
+import com.example.util.simpletimetracker.feature_dialogs.duration.customView.NumberKeyboardView
 import com.example.util.simpletimetracker.feature_dialogs.duration.extra.DurationPickerExtra
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -30,14 +31,25 @@ class DurationPickerViewModel @Inject constructor() : ViewModel() {
 
     private var reformattedDuration: Long = 0
 
-    fun onNumberPressed(number: Int) {
+    fun onButtonPressed(button: NumberKeyboardView.Button) {
+        when (button) {
+            is NumberKeyboardView.Button.Number -> onNumberPressed(button.value)
+            is NumberKeyboardView.Button.Delete -> onNumberDelete()
+            is NumberKeyboardView.Button.DoubleZero -> {
+                onNumberPressed(0)
+                onNumberPressed(0)
+            }
+        }
+    }
+
+    private fun onNumberPressed(number: Int) {
         if (reformattedDuration <= 999_99_99) {
             reformattedDuration = reformattedDuration * 10 + number
             updateDurationViewData()
         }
     }
 
-    fun onNumberDelete() {
+    private fun onNumberDelete() {
         reformattedDuration /= 10
         updateDurationViewData()
     }
