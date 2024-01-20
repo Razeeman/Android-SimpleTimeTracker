@@ -406,6 +406,7 @@ Exemplo:<br/>
     <string name="notification_record_type_stop">Parar</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">Para remover completamente - abra o arquivo</string>
     <string name="archive_hint">Clique no cartão para ver os detalhes</string>
     <string name="archive_dialog_delete">Deletar</string>
     <string name="archive_dialog_restore">Restaurar</string>

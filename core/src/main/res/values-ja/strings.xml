@@ -410,6 +410,7 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <string name="notification_record_type_stop">ストップ</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">完全に削除するには - アーカイブを開きます</string>
     <string name="archive_hint">カードをクリックすると詳細が表示されます</string>
     <string name="archive_dialog_delete">削除</string>
     <string name="archive_dialog_restore">復元</string>

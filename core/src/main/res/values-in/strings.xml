@@ -410,6 +410,7 @@ Contoh:<br/>
     <string name="notification_record_type_stop">Berhenti</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">Untuk menghapus sepenuhnya - buka arsip</string>
     <string name="archive_hint">Klik pada kartu untuk melihat detail</string>
     <string name="archive_dialog_delete">Menghapus</string>
     <string name="archive_dialog_restore">Memulihkan</string>

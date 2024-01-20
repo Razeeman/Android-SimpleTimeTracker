@@ -410,6 +410,7 @@ Exempel:<br/>
     <string name="notification_record_type_stop">Sluta</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">För att ta bort helt - öppna arkivet</string>
     <string name="archive_hint">Klicka på kortet för att se detaljer</string>
     <string name="archive_dialog_delete">Ta bort</string>
     <string name="archive_dialog_restore">Återställ</string>

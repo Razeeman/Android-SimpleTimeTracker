@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInteractor
@@ -29,7 +29,6 @@ import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRe
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordFavCommentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSearchCommentState
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromScreen
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
@@ -41,7 +40,7 @@ import kotlinx.coroutines.Job
 
 abstract class ChangeRecordBaseViewModel(
     private val router: Router,
-    private val resourceRepo: ResourceRepo,
+    private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
     private val recordTagViewDataInteractor: RecordTagViewDataInteractor,
@@ -528,14 +527,7 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     protected fun showMessage(stringResId: Int) {
-        val params = SnackBarParams(
-            message = resourceRepo.getString(stringResId),
-            duration = SnackBarParams.Duration.Short,
-            margins = SnackBarParams.Margins(
-                bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
-            )
-        )
-        router.show(params)
+        snackBarMessageNavigationInteractor.showMessage(stringResId)
     }
 
     private suspend fun onAdjustTimeNowClick() {

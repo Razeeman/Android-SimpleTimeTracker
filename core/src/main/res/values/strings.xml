@@ -410,6 +410,7 @@ Example:<br/>
     <string name="notification_record_type_stop">Stop</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">To remove completely - open archive</string>
     <string name="archive_hint">Click on card to view details</string>
     <string name="archive_dialog_delete">Delete</string>
     <string name="archive_dialog_restore">Restore</string>

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
+import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
@@ -51,6 +52,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     recordInteractor: RecordInteractor,
     recordTagInteractor: RecordTagInteractor,
     favouriteCommentInteractor: FavouriteCommentInteractor,
+    snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     private val router: Router,
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
@@ -59,7 +61,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private val resourceRepo: ResourceRepo,
 ) : ChangeRecordBaseViewModel(
     router,
-    resourceRepo,
+    snackBarMessageNavigationInteractor,
     prefsInteractor,
     recordTypesViewDataInteractor,
     recordTagViewDataInteractor,

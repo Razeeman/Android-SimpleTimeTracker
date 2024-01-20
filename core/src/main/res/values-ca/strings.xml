@@ -410,6 +410,7 @@ Exemple:<br/>
     <string name="notification_record_type_stop">Atura</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">Per eliminar completament: obriu l\'arxiu</string>
     <string name="archive_hint">Feu clic en una targeta per veure\'n els detalls</string>
     <string name="archive_dialog_delete">Elimina</string>
     <string name="archive_dialog_restore">Restaura</string>

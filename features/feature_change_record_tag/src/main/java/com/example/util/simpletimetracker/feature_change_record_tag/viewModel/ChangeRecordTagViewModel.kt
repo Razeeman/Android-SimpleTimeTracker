@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
+import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
@@ -30,7 +30,6 @@ import com.example.util.simpletimetracker.feature_change_record_tag.viewData.Cha
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.RecordTagType
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,7 +47,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
     private val changeRecordTagMapper: ChangeRecordTagMapper,
-    private val resourceRepo: ResourceRepo,
+    private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     private val colorMapper: ColorMapper,
 ) : ViewModel() {
 
@@ -179,7 +178,7 @@ class ChangeRecordTagViewModel @Inject constructor(
             if (recordTagId != 0L) {
                 recordTagInteractor.archive(recordTagId)
                 notificationTypeInteractor.updateNotifications()
-                showMessage(R.string.change_record_tag_archived)
+                showArchivedMessage(R.string.change_record_tag_archived)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }
@@ -287,13 +286,10 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        val params = SnackBarParams(
-            message = resourceRepo.getString(stringResId),
-            duration = SnackBarParams.Duration.Short,
-            margins = SnackBarParams.Margins(
-                bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
-            )
-        )
-        router.show(params)
+        snackBarMessageNavigationInteractor.showMessage(stringResId)
+    }
+
+    private fun showArchivedMessage(stringResId: Int) {
+        snackBarMessageNavigationInteractor.showArchiveMessage(stringResId)
     }
 }

@@ -27,7 +27,7 @@
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/archive"
+                android:src="@drawable/delete"
                 android:tint="?appInactiveColor"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"

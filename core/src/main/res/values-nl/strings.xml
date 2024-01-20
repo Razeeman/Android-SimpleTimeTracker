@@ -410,6 +410,7 @@ Voorbeeld:<br/>
     <string name="notification_record_type_stop">Beëindigen</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">Om volledig te verwijderen: open het archief</string>
     <string name="archive_hint">Klik op de kaart om details te bekijken</string>
     <string name="archive_dialog_delete">Verwijderen</string>
     <string name="archive_dialog_restore">Herstellen</string>

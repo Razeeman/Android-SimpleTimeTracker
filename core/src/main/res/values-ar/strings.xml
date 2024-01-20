@@ -410,6 +410,7 @@
     <string name="notification_record_type_stop">أوقف</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">للإزالة بالكامل - افتح الأرشيف</string>
     <string name="archive_hint">اضغط على البطاقة لعرض التفاصيل</string>
     <string name="archive_dialog_delete">حذف</string>
     <string name="archive_dialog_restore">استرجاع</string>

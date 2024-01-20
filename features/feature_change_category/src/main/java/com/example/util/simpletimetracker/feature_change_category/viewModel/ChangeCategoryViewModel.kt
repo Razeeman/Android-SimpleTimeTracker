@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
+import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
@@ -30,7 +30,6 @@ import com.example.util.simpletimetracker.feature_change_record_type.goals.Goals
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegateImpl
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,7 +45,7 @@ class ChangeCategoryViewModel @Inject constructor(
     private val colorViewDataInteractor: ColorViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
-    private val resourceRepo: ResourceRepo,
+    private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     private val colorMapper: ColorMapper,
     private val goalsViewModelDelegate: GoalsViewModelDelegateImpl,
     private val widgetInteractor: WidgetInteractor,
@@ -305,13 +304,6 @@ class ChangeCategoryViewModel @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        val params = SnackBarParams(
-            message = resourceRepo.getString(stringResId),
-            duration = SnackBarParams.Duration.Short,
-            margins = SnackBarParams.Margins(
-                bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
-            )
-        )
-        router.show(params)
+        snackBarMessageNavigationInteractor.showMessage(stringResId)
     }
 }

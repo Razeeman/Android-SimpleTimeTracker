@@ -410,6 +410,7 @@ Ví dụ:<br/>
     <string name="notification_record_type_stop">Dừng lại</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">Để xóa hoàn toàn - hãy mở kho lưu trữ</string>
     <string name="archive_hint">Bấm vào thẻ để xem chi tiết</string>
     <string name="archive_dialog_delete">Xóa</string>
     <string name="archive_dialog_restore">Khôi phục</string>

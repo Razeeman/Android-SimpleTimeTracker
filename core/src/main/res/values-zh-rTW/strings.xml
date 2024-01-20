@@ -410,6 +410,7 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="notification_record_type_stop">停止</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">要完全刪除 - 開啟存檔</string>
     <string name="archive_hint">點擊卡片檢視詳細內容</string>
     <string name="archive_dialog_delete">刪除</string>
     <string name="archive_dialog_restore">還原</string>

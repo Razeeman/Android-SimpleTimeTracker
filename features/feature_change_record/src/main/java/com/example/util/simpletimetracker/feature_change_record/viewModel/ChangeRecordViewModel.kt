@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
+import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
@@ -37,7 +37,7 @@ class ChangeRecordViewModel @Inject constructor(
     recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
     recordTagViewDataInteractor: RecordTagViewDataInteractor,
     prefsInteractor: PrefsInteractor,
-    resourceRepo: ResourceRepo,
+    snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
     changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
     changeRecordAdjustDelegate: ChangeRecordAdjustDelegateImpl,
@@ -56,7 +56,7 @@ class ChangeRecordViewModel @Inject constructor(
     private val timeMapper: TimeMapper,
 ) : ChangeRecordBaseViewModel(
     router,
-    resourceRepo,
+    snackBarMessageNavigationInteractor,
     prefsInteractor,
     recordTypesViewDataInteractor,
     recordTagViewDataInteractor,

@@ -410,6 +410,7 @@ Ejemplo:<br/>
     <string name="notification_record_type_stop">Detener</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">Para eliminar por completo: abra el archivo</string>
     <string name="archive_hint">Haga clic en la tarjeta para ver los detalles</string>
     <string name="archive_dialog_delete">Eliminar</string>
     <string name="archive_dialog_restore">Restaurar</string>

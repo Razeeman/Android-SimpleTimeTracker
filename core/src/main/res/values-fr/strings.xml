@@ -410,6 +410,7 @@ Exemple:<br/>
     <string name="notification_record_type_stop">Arrêt</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">Pour supprimer complètement - ouvrez l\'archive</string>
     <string name="archive_hint">Cliquez sur la carte pour voir les détails</string>
     <string name="archive_dialog_delete">Supprimer</string>
     <string name="archive_dialog_restore">Restaurer</string>

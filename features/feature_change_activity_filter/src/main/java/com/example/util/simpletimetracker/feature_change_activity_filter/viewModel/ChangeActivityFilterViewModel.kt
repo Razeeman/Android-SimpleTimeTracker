@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
+import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.ActivityFilterViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
@@ -28,7 +28,6 @@ import com.example.util.simpletimetracker.feature_change_activity_filter.interac
 import com.example.util.simpletimetracker.feature_change_activity_filter.mapper.ChangeActivityFilterMapper
 import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterTypeSwitchViewData
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,7 +43,7 @@ class ChangeActivityFilterViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val activityFilterViewDataMapper: ActivityFilterViewDataMapper,
     private val changeActivityFilterMapper: ChangeActivityFilterMapper,
-    private val resourceRepo: ResourceRepo,
+    private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     private val colorMapper: ColorMapper,
 ) : ViewModel() {
 
@@ -290,13 +289,6 @@ class ChangeActivityFilterViewModel @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        val params = SnackBarParams(
-            message = resourceRepo.getString(stringResId),
-            duration = SnackBarParams.Duration.Short,
-            margins = SnackBarParams.Margins(
-                bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
-            )
-        )
-        router.show(params)
+        snackBarMessageNavigationInteractor.showMessage(stringResId)
     }
 }

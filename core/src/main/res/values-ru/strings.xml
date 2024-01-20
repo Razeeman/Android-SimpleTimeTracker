@@ -410,6 +410,7 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="notification_record_type_stop">Стоп</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">Чтобы удалить полностью - откройте архив</string>
     <string name="archive_hint">Нажмите на карточку для просмотра деталей</string>
     <string name="archive_dialog_delete">Удалить</string>
     <string name="archive_dialog_restore">Восстановить</string>

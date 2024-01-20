@@ -410,6 +410,7 @@
     <string name="notification_record_type_stop">توقف</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">برای حذف کامل - بایگانی را باز کنید</string>
     <string name="archive_hint">کارت را لمس کنید تا جزئیات نمایش داده شود</string>
     <string name="archive_dialog_delete">حذف</string>
     <string name="archive_dialog_restore">بازیابی</string>

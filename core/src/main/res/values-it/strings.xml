@@ -410,6 +410,7 @@ Esempio:<br/>
     <string name="notification_record_type_stop">Fermare</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">Per rimuovere completamente: apri l\'archivio</string>
     <string name="archive_hint">Clicca sulla scheda per visualizzare i dettagli</string>
     <string name="archive_dialog_delete">Elimina</string>
     <string name="archive_dialog_restore">Ripristina</string>

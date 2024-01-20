@@ -410,6 +410,7 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="notification_record_type_stop">Durmak</string>
 
     <!--  Archive  -->
+    <string name="something_was_archived_hint">Tamamen kaldırmak için arşivi açın</string>
     <string name="archive_hint">Ayrıntıları görmek için karta tıklayın</string>
     <string name="archive_dialog_delete">Sil</string>
     <string name="archive_dialog_restore">Geri yükle</string>

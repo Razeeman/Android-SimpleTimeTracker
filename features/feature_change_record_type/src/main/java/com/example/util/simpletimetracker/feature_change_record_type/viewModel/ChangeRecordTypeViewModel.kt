@@ -7,10 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
@@ -43,7 +43,6 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromChangeActivityParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
@@ -51,6 +50,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectio
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.example.util.simpletimetracker.core.R as coreR
 
 @HiltViewModel
 class ChangeRecordTypeViewModel @Inject constructor(
@@ -66,7 +66,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val changeRecordTypeMapper: ChangeRecordTypeMapper,
-    private val resourceRepo: ResourceRepo,
+    private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     private val iconEmojiMapper: IconEmojiMapper,
     private val colorMapper: ColorMapper,
     private val goalsViewModelDelegate: GoalsViewModelDelegateImpl,
@@ -333,7 +333,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 runningRecordInteractor.get(recordTypeId)?.let { runningRecord ->
                     removeRunningRecordMediator.removeWithRecordAdd(runningRecord)
                 }
-                showMessage(R.string.change_record_type_archived)
+                showArchivedMessage(R.string.change_record_type_archived)
                 keyboardVisibility.set(false)
                 router.back()
             }
@@ -342,7 +342,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onSaveClick() {
         if (newName.isEmpty()) {
-            showMessage(R.string.change_record_message_choose_name)
+            showMessage(coreR.string.change_record_message_choose_name)
             return
         }
         saveButtonEnabled.set(false)
@@ -499,13 +499,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private fun showMessage(stringResId: Int) {
-        val params = SnackBarParams(
-            message = resourceRepo.getString(stringResId),
-            duration = SnackBarParams.Duration.Short,
-            margins = SnackBarParams.Margins(
-                bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
-            ),
-        )
-        router.show(params)
+        snackBarMessageNavigationInteractor.showMessage(stringResId)
+    }
+
+    private fun showArchivedMessage(stringResId: Int) {
+        snackBarMessageNavigationInteractor.showArchiveMessage(stringResId)
     }
 }
