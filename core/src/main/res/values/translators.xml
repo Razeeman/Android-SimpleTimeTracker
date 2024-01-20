@@ -82,4 +82,8 @@
     <string name="settings_korean_language" translatable="false">한국어</string>
     <string name="settings_korean_tag" translatable="false">ko</string>
 
+    <string name="settings_vietnamese_translators" translatable="false">ngocanhtve</string>
+    <string name="settings_vietnamese_language" translatable="false">Tiếng Việt</string>
+    <string name="settings_vietnamese_tag" translatable="false">vi</string>
+
 </resources>

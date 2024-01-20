@@ -41,6 +41,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Portuguese -> R.string.settings_portuguese_language
             is AppLanguage.Russian -> R.string.settings_russian_language
             is AppLanguage.Swedish -> R.string.settings_swedish_language
+            is AppLanguage.Vietnamese -> R.string.settings_vietnamese_language
             is AppLanguage.Turkish -> R.string.settings_turkish_language
             is AppLanguage.Ukrainian -> R.string.settings_ukrainian_language
             is AppLanguage.ChineseSimplified -> R.string.settings_chinese_simplified_language
@@ -67,6 +68,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Portuguese -> R.string.settings_portuguese_tag
             is AppLanguage.Russian -> R.string.settings_russian_tag
             is AppLanguage.Swedish -> R.string.settings_swedish_tag
+            is AppLanguage.Vietnamese -> R.string.settings_vietnamese_tag
             is AppLanguage.Turkish -> R.string.settings_turkish_tag
             is AppLanguage.Ukrainian -> R.string.settings_ukrainian_tag
             is AppLanguage.ChineseSimplified -> R.string.settings_chinese_simplified_tag
@@ -94,6 +96,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Portuguese -> R.string.settings_portuguese_translators
             is AppLanguage.Russian -> R.string.settings_russian_translators
             is AppLanguage.Swedish -> R.string.settings_swedish_translators
+            is AppLanguage.Vietnamese -> R.string.settings_vietnamese_translators
             is AppLanguage.Turkish -> R.string.settings_turkish_translators
             is AppLanguage.Ukrainian -> R.string.settings_ukrainian_translators
             is AppLanguage.ChineseSimplified -> R.string.settings_chinese_simplified_translators
@@ -129,6 +132,7 @@ class LanguageInteractor @Inject constructor(
             AppLanguage.Portuguese,
             AppLanguage.Russian,
             AppLanguage.Swedish,
+            AppLanguage.Vietnamese,
             AppLanguage.Turkish,
             AppLanguage.Ukrainian,
             AppLanguage.ChineseSimplified,

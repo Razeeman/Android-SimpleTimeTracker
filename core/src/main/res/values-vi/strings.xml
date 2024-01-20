@@ -385,11 +385,11 @@ Ví dụ:<br/>
     <string name="statistics_detail_duration_split_hint">Phân bổ thời lượng bản ghi</string>
 
     <plurals name="statistics_detail_times_tracked">
-        <item quantity="zero">Bản ghi</item>
-        <item quantity="one">Bản ghi</item>
-        <item quantity="two">Bản ghi</item>
-        <item quantity="few">Bản ghi</item>
-        <item quantity="many">Bản ghi</item>
+<!--        <item quantity="zero">Bản ghi</item>-->
+<!--        <item quantity="one">Bản ghi</item>-->
+<!--        <item quantity="two">Bản ghi</item>-->
+<!--        <item quantity="few">Bản ghi</item>-->
+<!--        <item quantity="many">Bản ghi</item>-->
         <item quantity="other">Bản ghi</item>
     </plurals>
 
