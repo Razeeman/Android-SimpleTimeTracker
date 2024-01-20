@@ -16,15 +16,9 @@ import kotlin.reflect.KProperty
 internal inline fun <reified T : Any> SharedPreferences.delegate(
     key: String,
     default: T,
-    cache: MutableMap<String, Any>,
 ) = object : ReadWriteProperty<Any?, T> {
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
-        val cached = cache[key]
-        if (cached != null && cached is T) {
-            logPrefsDataAccess("get $key ($LOG_MESSAGE_CACHE)")
-            return cached
-        }
         logPrefsDataAccess("get $key")
         val data = when (default) {
             is Boolean -> (getBoolean(key, default) as? T) ?: default
@@ -36,12 +30,10 @@ internal inline fun <reified T : Any> SharedPreferences.delegate(
                 "Prefs delegate not implemented for class ${(default as Any?)?.javaClass}",
             )
         }
-        cache[key] = data
         return data
     }
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = with(edit()) {
-        cache[key] = value
         logPrefsDataAccess("set $key")
         when (value) {
             is Boolean -> putBoolean(key, value)
