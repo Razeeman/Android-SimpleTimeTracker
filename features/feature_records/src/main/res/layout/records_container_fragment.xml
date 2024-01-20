@@ -21,6 +21,8 @@
             android:id="@+id/btnRecordAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="16dp"
             android:contentDescription="Add record"
             android:src="@drawable/add"
             app:backgroundTint="?appInactiveColor"
@@ -28,7 +30,7 @@
             app:layout_constraintBottom_toTopOf="@id/btnRecordsContainerToday"
             app:layout_constraintEnd_toEndOf="parent"
             app:tint="@color/white"
-            app:useCompatPadding="true" />
+            app:useCompatPadding="false" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRecordsContainerPrevious"
