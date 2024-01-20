@@ -8,9 +8,15 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 data class RecordsCalendarViewData(
     val currentTime: Long?,
     val startOfDayShift: Long,
-    val points: List<List<Point>>,
+    val points: List<Points>,
     val reverseOrder: Boolean,
+    val shouldDrawTopLegends: Boolean,
 ) {
+
+    data class Points(
+        val legend: String,
+        val data: List<Point>,
+    )
 
     data class Point(
         val start: Long,

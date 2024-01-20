@@ -127,25 +127,42 @@ class RecordsViewDataInteractor @Inject constructor(
         } else {
             null
         }
+        val shouldMapLegends = data.size > 1
 
         return data
-            .map {
-                it.records.map { record ->
+            .map { column ->
+                val legend = if (shouldMapLegends) {
+                    timeMapper.getDayOfWeek(
+                        timestamp = column.rangeStart,
+                        calendar = calendar,
+                        startOfDayShift = startOfDayShift,
+                    ).let(timeMapper::toShortDayOfWeekName)
+                } else {
+                    ""
+                }
+
+                val points = column.records.map { record ->
                     mapToCalendarPoint(
                         holder = record,
                         calendar = calendar,
                         startOfDayShift = startOfDayShift,
-                        rangeStart = it.rangeStart,
-                        rangeEnd = it.rangeEnd,
+                        rangeStart = column.rangeStart,
+                        rangeEnd = column.rangeEnd,
                     )
                 }
+
+                RecordsCalendarViewData.Points(
+                    legend = legend,
+                    data = points,
+                )
             }
-            .let {
+            .let { list ->
                 RecordsCalendarViewData(
                     currentTime = currentTime,
                     startOfDayShift = startOfDayShift,
-                    points = it,
+                    points = list,
                     reverseOrder = reverseOrder,
+                    shouldDrawTopLegends = shouldMapLegends,
                 )
             }
             .let(RecordsState::CalendarData)

@@ -71,14 +71,16 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var lastPanFactor: Float = 0f
     private var legendTextWidth: Float = 0f
     private var legendTextHeight: Float = 0f
+    private var legendTopTextHeight: Float = 0f
     private var legendMinutesTextHeight: Float = 0f
     private var chartLeftBound: Float = 0f
     private var chartRightBound: Float = 0f
     private var chartTopBound: Float = 0f
     private var chartBottomBound: Float = 0f
     private var chartHeight: Float = 0f
-    private var chartWidth: Float = 0f
+    private var columnWidth: Float = 0f
     private val legendTextPadding: Float = 2.dpToPx().toFloat()
+    private val legendTopTextPadding: Float = 4.dpToPx().toFloat()
     private val legendMinutesTextPadding: Float = 4.dpToPx().toFloat()
     private val recordCornerRadius: Float = 8.dpToPx().toFloat()
     private val recordVerticalPadding: Float = 2.dpToPx().toFloat()
@@ -89,6 +91,7 @@ class RecordsCalendarView @JvmOverloads constructor(
 
     private val recordPaint: Paint = Paint()
     private val legendTextPaint: Paint = Paint()
+    private val legendTopTextPaint: Paint = Paint()
     private val legendMinutesTextPaint: Paint = Paint()
     private val linePaint: Paint = Paint()
     private val lineSecondaryPaint: Paint = Paint()
@@ -97,8 +100,9 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val bounds: Rect = Rect(0, 0, 0, 0)
     private val textBounds: Rect = Rect(0, 0, 0, 0)
     private val recordBounds: RectF = RectF(0f, 0f, 0f, 0f)
-    private var data: List<List<Data>> = emptyList()
+    private var data: List<Column> = emptyList()
     private val dataSize: Int get() = data.size.takeUnless { it == 0 } ?: 1
+    private var shouldDrawTopLegends: Boolean = false
     private var currentTime: Long? = null
     private var startOfDayShift: Long = 0
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
@@ -200,12 +204,12 @@ class RecordsCalendarView @JvmOverloads constructor(
         val h = height.toFloat()
 
         calculateDimensions(w, h)
-        canvas.clipRect(0f, chartTopBound, w, chartBottomBound)
-        drawLegend(canvas, w)
-        data.forEachIndexed { index, data ->
+        drawTopLegend(canvas)
+        drawSideLegend(canvas, w)
+        data.forEachIndexed { index, column ->
             drawData(
                 canvas = canvas,
-                data = data,
+                data = column.data,
                 index = index,
                 isFirst = index == 0,
                 isLast = index == this.data.size - 1,
@@ -235,6 +239,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         currentTime = viewData.currentTime
         startOfDayShift = viewData.startOfDayShift
         reverseOrder = viewData.reverseOrder
+        shouldDrawTopLegends = viewData.shouldDrawTopLegends
         data = viewData.points.map(::processData)
         invalidate()
     }
@@ -295,6 +300,12 @@ class RecordsCalendarView @JvmOverloads constructor(
             color = legendTextColor
             textSize = legendTextSize
         }
+        legendTopTextPaint.apply {
+            isAntiAlias = true
+            color = legendTextColor
+            textSize = legendTextSize
+            typeface = Typeface.DEFAULT_BOLD
+        }
         legendMinutesTextPaint.apply {
             isAntiAlias = true
             color = legendTextColor
@@ -323,15 +334,22 @@ class RecordsCalendarView @JvmOverloads constructor(
         legendTextPaint.getTextBounds(defaultLegendText, 0, defaultLegendText.length, textBounds)
         legendTextHeight = textBounds.height().toFloat()
 
+        legendTopTextPaint.getTextBounds(defaultLegendText, 0, defaultLegendText.length, textBounds)
+        legendTopTextHeight = textBounds.height().toFloat()
+
         legendMinutesTextPaint.getTextBounds(defaultLegendText, 0, defaultLegendText.length, textBounds)
         legendMinutesTextHeight = textBounds.height().toFloat()
 
         // Chart dimensions
         chartLeftBound = legendTextWidth + 2 * legendTextPadding
         chartRightBound = w - legendTextPadding
-        chartWidth = (chartRightBound - chartLeftBound) / dataSize
+        columnWidth = (chartRightBound - chartLeftBound) / dataSize
 
-        chartTopBound = 0f
+        chartTopBound = if (shouldDrawTopLegends) {
+            legendTopTextHeight + 2 * legendTopTextPadding
+        } else {
+            0f
+        }
         chartBottomBound = h
         chartHeight = chartBottomBound - chartTopBound
     }
@@ -375,9 +393,9 @@ class RecordsCalendarView @JvmOverloads constructor(
             recordPaint.color = item.point.data.color
             boxHeight = chartHeight * (item.point.end - item.point.start) / dayInMillis
             boxShift = chartHeight * item.point.start / dayInMillis
-            boxWidth = chartWidth / item.columnCount
+            boxWidth = columnWidth / item.columnCount
             boxLeft = chartLeftBound +
-                chartWidth * index +
+                columnWidth * index +
                 boxWidth * (item.columnNumber - 1)
             boxRight = boxLeft + boxWidth
             boxBottom = if (reverseOrder) {
@@ -553,7 +571,36 @@ class RecordsCalendarView @JvmOverloads constructor(
         }
     }
 
-    private fun drawLegend(canvas: Canvas, w: Float) {
+    private fun drawTopLegend(canvas: Canvas) {
+        if (!shouldDrawTopLegends) return
+
+        var currentText: String
+        var textWidth: Float
+        var textLeft: Float
+
+        canvas.save()
+        canvas.translate(0f, panFactor)
+
+        data.forEachIndexed { index, column ->
+            currentText = column.legend
+            textWidth = legendTopTextPaint.measureText(currentText)
+            textLeft = chartLeftBound +
+                columnWidth * index +
+                columnWidth / 2 -
+                textWidth / 2
+
+            canvas.drawText(
+                currentText,
+                textLeft,
+                chartTopBound - legendTopTextPadding,
+                legendTopTextPaint,
+            )
+        }
+
+        canvas.restore()
+    }
+
+    private fun drawSideLegend(canvas: Canvas, w: Float) {
         fun Float.checkReverse(): Float {
             return if (reverseOrder) {
                 chartTopBound + chartHeight * scaleFactor - (this - chartTopBound)
@@ -698,23 +745,22 @@ class RecordsCalendarView @JvmOverloads constructor(
                     RecordsCalendarViewData(
                         currentTime = 18 * hourInMillis,
                         startOfDayShift = 0,
-                        points = listOf(it),
+                        points = listOf(RecordsCalendarViewData.Points("Sun", it)),
                         reverseOrder = reverseOrder,
+                        shouldDrawTopLegends = true,
                     )
                 }.let(::setData)
         }
     }
 
-    private fun processData(data: List<RecordsCalendarViewData.Point>): List<Data> {
+    private fun processData(data: RecordsCalendarViewData.Points): Column {
         val res = mutableListOf<Data>()
 
         // Raw data.
-        data.forEach { point ->
-            res.add(
-                Data(
-                    point = point,
-                    drawable = getIconDrawable(point.data.iconId),
-                ),
+        data.data.forEach { point ->
+            res += Data(
+                point = point,
+                drawable = getIconDrawable(point.data.iconId),
             )
         }
 
@@ -768,7 +814,10 @@ class RecordsCalendarView @JvmOverloads constructor(
             .reversed()
             .map(::calculateColumns)
 
-        return res
+        return Column(
+            legend = data.legend,
+            data = res,
+        )
     }
 
     private fun getIconDrawable(iconId: RecordTypeIcon): Drawable {
@@ -808,7 +857,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         val x = event.x
         val y = event.y
 
-        data.flatten().firstOrNull {
+        data.map(Column::data).flatten().firstOrNull {
             it.boxLeft < x && it.boxTop < y && it.boxRight > x && it.boxBottom > y
         }?.point?.data?.value?.let(listener)
     }
@@ -883,6 +932,11 @@ class RecordsCalendarView @JvmOverloads constructor(
         measure(specWidth, specHeight)
         layout(0, 0, measuredWidth, measuredHeight)
     }
+
+    private inner class Column(
+        val legend: String,
+        val data: List<Data>,
+    )
 
     private inner class Data(
         val point: RecordsCalendarViewData.Point,
