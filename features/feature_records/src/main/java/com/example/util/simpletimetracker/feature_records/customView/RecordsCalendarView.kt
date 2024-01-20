@@ -199,6 +199,7 @@ class RecordsCalendarView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         if (canvas == null) return
+        if (data.isEmpty()) return
 
         val w = width.toFloat()
         val h = height.toFloat()
