@@ -184,7 +184,6 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             val newValue = !prefsInteractor.getUseMilitaryTimeFormat()
             prefsInteractor.setUseMilitaryTimeFormat(newValue)
             notificationTypeInteractor.updateNotifications()
-            parent?.onUseMilitaryTimeClicked()
             parent?.updateContent()
         }
     }

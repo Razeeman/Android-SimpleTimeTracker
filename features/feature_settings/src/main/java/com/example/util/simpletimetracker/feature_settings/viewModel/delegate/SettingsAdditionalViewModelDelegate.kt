@@ -1,77 +1,47 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 
-import androidx.lifecycle.LiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
-import com.example.util.simpletimetracker.core.extension.lazySuspend
-import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.extension.shiftTimeStamp
-import com.example.util.simpletimetracker.core.mapper.TimeMapper
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.WidgetType
-import com.example.util.simpletimetracker.feature_settings.R
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_settings.interactor.SettingsAdditionalViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
-import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButtonViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import javax.inject.Inject
 
 class SettingsAdditionalViewModelDelegate @Inject constructor(
     private val router: Router,
-    private val timeMapper: TimeMapper,
-    private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor,
     private val settingsMapper: SettingsMapper,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val settingsAdditionalViewDataInteractor: SettingsAdditionalViewDataInteractor,
 ) : ViewModelDelegate() {
 
-    val firstDayOfWeekViewData: LiveData<FirstDayOfWeekViewData>
-        by lazySuspend { loadFirstDayOfWeekViewData() }
-    val repeatButtonViewData: LiveData<RepeatButtonViewData>
-        by lazySuspend { loadRepeatButtonViewData() }
-    val keepStatisticsRangeCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getKeepStatisticsRange() }
-    val startOfDayViewData: LiveData<SettingsStartOfDayViewData>
-        by lazySuspend { loadStartOfDayViewData() }
-    val ignoreShortRecordsViewData: LiveData<String>
-        by lazySuspend { loadIgnoreShortRecordsViewData() }
-    val showRecordTagSelectionCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getShowRecordTagSelection() }
-    val recordTagSelectionCloseCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getRecordTagSelectionCloseAfterOne() }
-    val recordTagSelectionForGeneralTagsCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getRecordTagSelectionEvenForGeneralTags() }
-    val automatedTrackingSendEventsCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getAutomatedTrackingSendEvents() }
-
     private var parent: SettingsParent? = null
+    private var isCollapsed: Boolean = true
 
     fun init(parent: SettingsParent) {
         this.parent = parent
     }
 
-    fun onVisible() {
-        delegateScope.launch {
-            // Update can come from quick settings widget
-            showRecordTagSelectionCheckbox.set(prefsInteractor.getShowRecordTagSelection())
-
-            // Update after day changes
-            updateStartOfDayViewData()
-        }
+    suspend fun getViewData(): List<ViewHolderType> {
+        return settingsAdditionalViewDataInteractor.execute(
+            isCollapsed = isCollapsed,
+        )
     }
 
-    suspend fun onUseMilitaryTimeClicked() {
-        updateStartOfDayViewData()
+    fun onCollapseClick() = delegateScope.launch {
+        isCollapsed = isCollapsed.flip()
+        parent?.updateContent()
     }
 
     fun onFirstDayOfWeekSelected(position: Int) {
@@ -81,7 +51,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             prefsInteractor.setFirstDayOfWeek(newDayOfWeek)
             widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
             notificationGoalTimeInteractor.checkAndReschedule()
-            updateFirstDayOfWeekViewData()
+            parent?.updateContent()
         }
     }
 
@@ -90,7 +60,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
 
         delegateScope.launch {
             prefsInteractor.setRepeatButtonType(newType)
-            updateRepeatButtonViewData()
+            parent?.updateContent()
         }
     }
 
@@ -112,7 +82,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             widgetInteractor.updateWidgets(listOf(WidgetType.RECORD_TYPE))
             notificationTypeInteractor.updateNotifications()
             notificationGoalTimeInteractor.checkAndReschedule()
-            updateStartOfDayViewData()
+            parent?.updateContent()
         }
     }
 
@@ -120,7 +90,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         delegateScope.launch {
             val newValue = !prefsInteractor.getKeepStatisticsRange()
             prefsInteractor.setKeepStatisticsRange(newValue)
-            keepStatisticsRangeCheckbox.set(newValue)
+            parent?.updateContent()
         }
     }
 
@@ -138,7 +108,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             val newValue = !prefsInteractor.getShowRecordTagSelection()
             prefsInteractor.setShowRecordTagSelection(newValue)
             widgetInteractor.updateWidgets(listOf(WidgetType.QUICK_SETTINGS))
-            showRecordTagSelectionCheckbox.set(newValue)
+            parent?.updateContent()
         }
     }
 
@@ -146,7 +116,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         delegateScope.launch {
             val newValue = !prefsInteractor.getRecordTagSelectionCloseAfterOne()
             prefsInteractor.setRecordTagSelectionCloseAfterOne(newValue)
-            recordTagSelectionCloseCheckbox.set(newValue)
+            parent?.updateContent()
         }
     }
 
@@ -154,7 +124,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         delegateScope.launch {
             val newValue = !prefsInteractor.getRecordTagSelectionEvenForGeneralTags()
             prefsInteractor.setRecordTagSelectionEvenForGeneralTags(newValue)
-            recordTagSelectionForGeneralTagsCheckbox.set(newValue)
+            parent?.updateContent()
         }
     }
 
@@ -162,7 +132,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         delegateScope.launch {
             val newValue = !prefsInteractor.getAutomatedTrackingSendEvents()
             prefsInteractor.setAutomatedTrackingSendEvents(newValue)
-            automatedTrackingSendEventsCheckbox.set(newValue)
+            parent?.updateContent()
         }
     }
 
@@ -176,7 +146,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         when (tag) {
             SettingsViewModel.IGNORE_SHORT_RECORDS_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setIgnoreShortRecordsDuration(duration)
-                updateIgnoreShortRecordsViewData()
+                parent?.updateContent()
             }
         }
     }
@@ -185,7 +155,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         when (tag) {
             SettingsViewModel.IGNORE_SHORT_RECORDS_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setIgnoreShortRecordsDuration(0)
-                updateIgnoreShortRecordsViewData()
+                parent?.updateContent()
             }
         }
     }
@@ -200,63 +170,8 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
                 widgetInteractor.updateWidgets(listOf(WidgetType.RECORD_TYPE))
                 notificationTypeInteractor.updateNotifications()
                 notificationGoalTimeInteractor.checkAndReschedule()
-                updateStartOfDayViewData()
+                parent?.updateContent()
             }
         }
-    }
-
-    private suspend fun updateFirstDayOfWeekViewData() {
-        firstDayOfWeekViewData.set(loadFirstDayOfWeekViewData())
-    }
-
-    private suspend fun loadFirstDayOfWeekViewData(): FirstDayOfWeekViewData {
-        return prefsInteractor.getFirstDayOfWeek()
-            .let(settingsMapper::toFirstDayOfWeekViewData)
-    }
-
-    private suspend fun updateRepeatButtonViewData() {
-        repeatButtonViewData.set(loadRepeatButtonViewData())
-    }
-
-    private suspend fun loadRepeatButtonViewData(): RepeatButtonViewData {
-        return prefsInteractor.getRepeatButtonType()
-            .let(settingsMapper::toRepeatButtonViewData)
-    }
-
-    private suspend fun updateStartOfDayViewData() {
-        val data = loadStartOfDayViewData()
-        startOfDayViewData.set(data)
-    }
-
-    private suspend fun loadStartOfDayViewData(): SettingsStartOfDayViewData {
-        val shift = prefsInteractor.getStartOfDayShift()
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        val calendar = Calendar.getInstance()
-
-        val hint = resourceRepo.getString(
-            R.string.settings_start_of_day_hint_value,
-            timeMapper.formatDateTime(
-                time = calendar.shiftTimeStamp(timeMapper.getStartOfDayTimeStamp(), shift),
-                useMilitaryTime = useMilitaryTime,
-                showSeconds = false,
-            ),
-        )
-
-        return SettingsStartOfDayViewData(
-            startOfDayValue = settingsMapper.toStartOfDayText(shift, useMilitaryTime = true),
-            startOfDaySign = settingsMapper.toStartOfDaySign(shift),
-            hint = hint,
-        )
-    }
-
-    private suspend fun updateIgnoreShortRecordsViewData() {
-        val data = loadIgnoreShortRecordsViewData()
-        ignoreShortRecordsViewData.set(data)
-    }
-
-    private suspend fun loadIgnoreShortRecordsViewData(): String {
-        return prefsInteractor.getIgnoreShortRecordsDuration()
-            .let(settingsMapper::toDurationViewData)
-            .text
     }
 }

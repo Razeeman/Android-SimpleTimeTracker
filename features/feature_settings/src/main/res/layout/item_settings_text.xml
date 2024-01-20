@@ -25,11 +25,18 @@
         android:translationZ="4dp"
         app:layout_constraintTop_toTopOf="parent">
 
+        <Space
+            android:id="@+id/spaceItemSettingsTop"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvItemSettingsTitle"
             style="@style/SettingsText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="0dp"
             android:paddingBottom="0dp"
             tools:text="Title" />
 
@@ -38,9 +45,16 @@
             style="@style/SettingsSecondaryText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="0dp"
             android:visibility="gone"
             tools:text="Subtitle"
             tools:visibility="visible" />
+
+        <Space
+            android:id="@+id/spaceItemSettingsBottom"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            app:layout_constraintTop_toBottomOf="@id/tvItemSettingsSubtitle" />
 
     </LinearLayout>
 

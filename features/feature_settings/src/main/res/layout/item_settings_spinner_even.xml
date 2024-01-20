@@ -13,57 +13,44 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Space
-        android:id="@+id/spaceItemSettingsTop"
-        android:layout_width="match_parent"
-        android:layout_height="12dp"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvItemSettingsTitle"
         style="@style/SettingsText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:paddingTop="0dp"
-        android:paddingBottom="0dp"
         android:translationZ="4dp"
-        app:layout_constraintBottom_toTopOf="@id/tvItemSettingsSubtitle"
-        app:layout_constraintEnd_toStartOf="@id/checkboxItemSettings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvItemSettingsValue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spaceItemSettingsTop"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Title" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvItemSettingsSubtitle"
-        style="@style/SettingsSecondaryText"
+        android:id="@+id/tvItemSettingsValue"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:paddingBottom="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="end|center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textColor="?appTextPrimaryColor"
         android:translationZ="4dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/checkboxItemSettings"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvItemSettingsTitle"
-        tools:text="Subtitle"
-        tools:visibility="visible" />
+        app:layout_constraintStart_toEndOf="@id/tvItemSettingsTitle"
+        app:layout_constraintBottom_toBottomOf="@id/spinnerItemSettings"
+        app:layout_constraintEnd_toEndOf="@id/spinnerItemSettings"
+        app:layout_constraintTop_toTopOf="@id/spinnerItemSettings"
+        tools:text="@string/settings_dark_mode_system" />
 
-    <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/checkboxItemSettings"
+    <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+        android:id="@+id/spinnerItemSettings"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="12dp"
         android:translationZ="4dp"
         app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvItemSettingsTitle" />
-
-    <Space
-        android:id="@+id/spaceItemSettingsBottom"
-        android:layout_width="match_parent"
-        android:layout_height="12dp"
-        app:layout_constraintTop_toBottomOf="@id/tvItemSettingsSubtitle" />
 
     <View
         android:id="@+id/viewItemSettingsDivider"
@@ -71,6 +58,6 @@
         android:layout_width="match_parent"
         android:layout_marginHorizontal="12dp"
         android:translationZ="4dp"
-        app:layout_constraintTop_toBottomOf="@id/spaceItemSettingsBottom" />
+        app:layout_constraintTop_toBottomOf="@id/tvItemSettingsTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

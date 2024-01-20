@@ -31,17 +31,15 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     val mainDelegate: SettingsMainViewModelDelegate,
     val displayDelegate: SettingsDisplayViewModelDelegate,
-    val additionalDelegate: SettingsAdditionalViewModelDelegate,
     val translatorsDelegate: SettingsTranslatorsViewModelDelegate,
     private val router: Router,
     private val settingsMapper: SettingsMapper,
     private val ratingDelegate: SettingsRatingViewModelDelegate,
     private val notificationsDelegate: SettingsNotificationsViewModelDelegate,
+    private val additionalDelegate: SettingsAdditionalViewModelDelegate,
 ) : BaseViewModel(), SettingsParent {
 
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
-    val settingsDisplayVisibility: LiveData<Boolean> = MutableLiveData(false)
-    val settingsAdditionalVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsBackupVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsExportImportVisibility: LiveData<Boolean> = MutableLiveData(false)
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
@@ -63,15 +61,11 @@ class SettingsViewModel @Inject constructor(
         super.onCleared()
     }
 
-    override suspend fun onUseMilitaryTimeClicked() {
-        additionalDelegate.onUseMilitaryTimeClicked()
-    }
-
     fun onVisible() {
-        additionalDelegate.onVisible()
         // Update can come from quick settings widget.
         // Update can come from system settings.
         // Need to update card order because it changes on card order dialog.
+        // Update after day changes.
         viewModelScope.launch { updateContent() }
     }
 
@@ -82,6 +76,8 @@ class SettingsViewModel @Inject constructor(
                 notificationsDelegate.onCollapseClick()
             SettingsBlock.DisplayCollapse ->
                 displayDelegate.onCollapseClick()
+            SettingsBlock.AdditionalCollapse ->
+                additionalDelegate.onCollapseClick()
             else -> {
                 // Do nothing
             }
@@ -96,6 +92,10 @@ class SettingsViewModel @Inject constructor(
                 notificationsDelegate.onActivityReminderClicked()
             SettingsBlock.DisplayUntrackedIgnoreShort ->
                 displayDelegate.onIgnoreShortUntrackedClicked()
+            SettingsBlock.AdditionalIgnoreShort ->
+                additionalDelegate.onIgnoreShortRecordsClicked()
+            SettingsBlock.AdditionalShiftStartOfDay ->
+                additionalDelegate.onStartOfDayClicked()
             else -> {
                 // Do nothing
             }
@@ -148,6 +148,10 @@ class SettingsViewModel @Inject constructor(
         when (block) {
             SettingsBlock.DisplaySortActivities ->
                 displayDelegate.onCardOrderManualClick()
+            SettingsBlock.AdditionalShiftStartOfDay ->
+                additionalDelegate.onStartOfDaySignClicked()
+            SettingsBlock.AdditionalAutomatedTracking ->
+                additionalDelegate.onAutomatedTrackingHelpClick()
             else -> {
                 // Do nothing
             }
@@ -190,6 +194,16 @@ class SettingsViewModel @Inject constructor(
                 displayDelegate.onUseProportionalMinutesClicked()
             SettingsBlock.DisplayShowSeconds ->
                 displayDelegate.onShowSecondsClicked()
+            SettingsBlock.AdditionalShowTagSelection ->
+                additionalDelegate.onShowRecordTagSelectionClicked()
+            SettingsBlock.AdditionalCloseAfterOneTag ->
+                additionalDelegate.onRecordTagSelectionCloseClicked()
+            SettingsBlock.AdditionalShowWithOnlyGeneral ->
+                additionalDelegate.onRecordTagSelectionGeneralClicked()
+            SettingsBlock.AdditionalKeepStatisticsRange ->
+                additionalDelegate.onKeepStatisticsRangeClicked()
+            SettingsBlock.AdditionalSendEvents ->
+                additionalDelegate.onAutomatedTrackingSendEventsClicked()
             else -> {
                 // Do nothing
             }
@@ -208,20 +222,14 @@ class SettingsViewModel @Inject constructor(
                 displayDelegate.onWidgetTransparencySelected(position)
             SettingsBlock.DisplaySortActivities ->
                 displayDelegate.onRecordTypeOrderSelected(position)
+            SettingsBlock.AdditionalFirstDayOfWeek ->
+                additionalDelegate.onFirstDayOfWeekSelected(position)
+            SettingsBlock.AdditionalRepeatButton ->
+                additionalDelegate.onRepeatButtonSelected(position)
             else -> {
                 // Do nothing
             }
         }
-    }
-
-    fun onSettingsDisplayClick() {
-        val newValue = settingsDisplayVisibility.value?.flip().orFalse()
-        settingsDisplayVisibility.set(newValue)
-    }
-
-    fun onSettingsAdditionalClick() {
-        val newValue = settingsAdditionalVisibility.value?.flip().orFalse()
-        settingsAdditionalVisibility.set(newValue)
     }
 
     fun onSettingsBackupClick() {
@@ -302,6 +310,7 @@ class SettingsViewModel @Inject constructor(
         result += ratingDelegate.getViewData()
         result += notificationsDelegate.getViewData()
         result += displayDelegate.getViewData()
+        result += additionalDelegate.getViewData()
         return result
     }
 

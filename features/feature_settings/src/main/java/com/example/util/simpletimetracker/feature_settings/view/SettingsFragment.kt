@@ -21,15 +21,15 @@ import com.example.util.simpletimetracker.feature_settings.adapter.createSetting
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsRangeAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSelectorAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSelectorWithButtonAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerEvenAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerNotCheckableAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerWithButtonAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTextAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTextWithButtonAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTopAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTranslatorAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButtonViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
@@ -71,8 +71,10 @@ class SettingsFragment :
             createSettingsTopAdapterDelegate(),
             createSettingsBottomAdapterDelegate(),
             createSettingsTextAdapterDelegate(throttle(viewModel::onTextClicked)),
+            createSettingsTextWithButtonAdapterDelegate(viewModel::onButtonClicked),
             createSettingsCheckboxAdapterDelegate(viewModel::onCheckboxClicked),
             createSettingsSpinnerAdapterDelegate(viewModel::onSpinnerPositionSelected),
+            createSettingsSpinnerEvenAdapterDelegate(viewModel::onSpinnerPositionSelected),
             createSettingsSpinnerNotCheckableAdapterDelegate(viewModel::onSpinnerPositionSelected),
             createSettingsCollapseAdapterDelegate(viewModel::onCollapseClicked),
             createSettingsSelectorAdapterDelegate(viewModel::onSelectorClicked),
@@ -83,6 +85,10 @@ class SettingsFragment :
             ),
             createSettingsSpinnerWithButtonAdapterDelegate(
                 viewModel::onSpinnerPositionSelected,
+                viewModel::onButtonClicked,
+            ),
+            createSettingsSelectorWithButtonAdapterDelegate(
+                viewModel::onSelectorClicked,
                 viewModel::onButtonClicked,
             ),
             createSettingsCheckboxWithRangeAdapterDelegate(
@@ -97,28 +103,9 @@ class SettingsFragment :
         rvSettingsContent.adapter = contentAdapter
         rvSettingsContent.itemAnimator = null
         layoutSettingsTranslators.rvSettingsTranslators.adapter = translatorsAdapter
-        layoutSettingsAdditional.spinnerSettingsFirstDayOfWeek.setProcessSameItemSelection(false)
-        layoutSettingsAdditional.spinnerSettingsRepeatButtonType.setProcessSameItemSelection(false)
     }
 
     override fun initUx() = with(binding) {
-        with(layoutSettingsAdditional) {
-            with(viewModel.additionalDelegate) {
-                layoutSettingsAdditionalTitle.setOnClick(viewModel::onSettingsAdditionalClick)
-                spinnerSettingsFirstDayOfWeek.onPositionSelected = ::onFirstDayOfWeekSelected
-                spinnerSettingsRepeatButtonType.onPositionSelected = ::onRepeatButtonSelected
-                groupSettingsStartOfDay.setOnClick(::onStartOfDayClicked)
-                btnSettingsStartOfDaySign.setOnClick(::onStartOfDaySignClicked)
-                checkboxSettingsKeepStatisticsRange.setOnClick(::onKeepStatisticsRangeClicked)
-                groupSettingsIgnoreShortRecords.setOnClick(::onIgnoreShortRecordsClicked)
-                checkboxSettingsShowRecordTagSelection.setOnClick(::onShowRecordTagSelectionClicked)
-                checkboxSettingsRecordTagSelectionClose.setOnClick(::onRecordTagSelectionCloseClicked)
-                checkboxSettingsRecordTagSelectionGeneral.setOnClick(::onRecordTagSelectionGeneralClicked)
-                checkboxSettingsAutomatedTrackingSend.setOnClick(::onAutomatedTrackingSendEventsClicked)
-                btnSettingsAutomatedTracking.setOnClick(::onAutomatedTrackingHelpClick)
-            }
-        }
-
         with(layoutSettingsBackup) {
             layoutSettingsBackupTitle.setOnClick(viewModel::onSettingsBackupClick)
             layoutSettingsSaveBackup.setOnClick(backupViewModel::onSaveClick)
@@ -140,11 +127,6 @@ class SettingsFragment :
         with(viewModel) {
             content.observe(contentAdapter::replace)
 
-            viewModel.settingsAdditionalVisibility.observe { opened ->
-                layoutSettingsAdditional.layoutSettingsAdditionalContent.visible = opened
-                layoutSettingsAdditional.arrowSettingsAdditional
-                    .apply { if (opened) rotateDown() else rotateUp() }
-            }
             viewModel.settingsBackupVisibility.observe { opened ->
                 layoutSettingsBackup.layoutSettingsBackupContent.visible = opened
                 layoutSettingsBackup.arrowSettingsBackup
@@ -167,20 +149,6 @@ class SettingsFragment :
 
         with(viewModel.displayDelegate) {
             keepScreenOnCheckbox.observe(::setKeepScreenOn)
-        }
-
-        with(viewModel.additionalDelegate) {
-            with(layoutSettingsAdditional) {
-                keepStatisticsRangeCheckbox.observe(checkboxSettingsKeepStatisticsRange::setChecked)
-                ignoreShortRecordsViewData.observe(tvSettingsIgnoreShortRecordsTime::setText)
-                recordTagSelectionCloseCheckbox.observe(checkboxSettingsRecordTagSelectionClose::setChecked)
-                recordTagSelectionForGeneralTagsCheckbox.observe(checkboxSettingsRecordTagSelectionGeneral::setChecked)
-                automatedTrackingSendEventsCheckbox.observe(checkboxSettingsAutomatedTrackingSend::setChecked)
-                firstDayOfWeekViewData.observe(::updateFirstDayOfWeekViewData)
-                repeatButtonViewData.observe(::updateRepeatButtonViewData)
-                startOfDayViewData.observe(::updateStartOfDayViewData)
-                showRecordTagSelectionCheckbox.observe(::updateShowRecordTagSelectionChecked)
-            }
         }
 
         with(viewModel.translatorsDelegate) {
@@ -211,15 +179,6 @@ class SettingsFragment :
 
     override fun onResume() = with(binding) {
         super.onResume()
-        with(layoutSettingsAdditional) {
-            spinnerSettingsFirstDayOfWeek.jumpDrawablesToCurrentState()
-            spinnerSettingsRepeatButtonType.jumpDrawablesToCurrentState()
-            checkboxSettingsKeepStatisticsRange.jumpDrawablesToCurrentState()
-            checkboxSettingsShowRecordTagSelection.jumpDrawablesToCurrentState()
-            checkboxSettingsRecordTagSelectionClose.jumpDrawablesToCurrentState()
-            checkboxSettingsRecordTagSelectionGeneral.jumpDrawablesToCurrentState()
-            checkboxSettingsAutomatedTrackingSend.jumpDrawablesToCurrentState()
-        }
         with(layoutSettingsBackup) {
             checkboxSettingsAutomaticBackup.jumpDrawablesToCurrentState()
         }
@@ -247,38 +206,6 @@ class SettingsFragment :
 
     override fun onDataExportSettingsSelected(data: DataExportSettingsResult) {
         backupViewModel.onDataExportSettingsSelected(data)
-    }
-
-    private fun updateFirstDayOfWeekViewData(
-        viewData: FirstDayOfWeekViewData,
-    ) = with(binding.layoutSettingsAdditional) {
-        spinnerSettingsFirstDayOfWeek.setData(viewData.items, viewData.selectedPosition)
-        tvSettingsFirstDayOfWeekValue.text = viewData.items
-            .getOrNull(viewData.selectedPosition)?.text.orEmpty()
-    }
-
-    private fun updateRepeatButtonViewData(
-        viewData: RepeatButtonViewData,
-    ) = with(binding.layoutSettingsAdditional) {
-        spinnerSettingsRepeatButtonType.setData(viewData.items, viewData.selectedPosition)
-        tvSettingsRepeatButtonTypeValue.text = viewData.items
-            .getOrNull(viewData.selectedPosition)?.text.orEmpty()
-    }
-
-    private fun updateShowRecordTagSelectionChecked(
-        isChecked: Boolean,
-    ) = with(binding.layoutSettingsAdditional) {
-        checkboxSettingsShowRecordTagSelection.isChecked = isChecked
-        groupSettingsRecordTagSelectionClose.visible = isChecked
-    }
-
-    private fun updateStartOfDayViewData(
-        viewData: SettingsStartOfDayViewData,
-    ) = with(binding.layoutSettingsAdditional) {
-        tvSettingsStartOfDayTime.text = viewData.startOfDayValue
-        btnSettingsStartOfDaySign.visible = viewData.startOfDaySign.isNotEmpty()
-        tvSettingsStartOfDaySign.text = viewData.startOfDaySign
-        tvSettingsStartOfDayHintValue.text = viewData.hint
     }
 
     private fun setKeepScreenOn(keepScreenOn: Boolean) {

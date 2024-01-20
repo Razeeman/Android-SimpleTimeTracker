@@ -13,18 +13,35 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Space
+        android:id="@+id/spaceItemSettingsTop"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvItemSettingsHint"
         style="@style/SettingsSecondaryText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
-        android:paddingTop="12dp"
         android:paddingBottom="0dp"
         android:translationZ="4dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Subtitle"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@id/spaceItemSettingsTop"
+        tools:text="Subtitle" />
+
+    <Space
+        android:id="@+id/spaceItemSettingsBottom"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        app:layout_constraintTop_toBottomOf="@id/tvItemSettingsHint" />
+
+    <View
+        android:id="@+id/viewItemSettingsDivider"
+        style="@style/SettingsDivider"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="12dp"
+        android:translationZ="4dp"
+        app:layout_constraintTop_toBottomOf="@id/spaceItemSettingsBottom" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

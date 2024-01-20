@@ -48,7 +48,9 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
         if (!isCollapsed) {
             result += SettingsHintViewData(
                 block = SettingsBlock.DisplayUntrackedHint,
-                text = resourceRepo.getString(R.string.change_record_untracked_time_hint)
+                text = resourceRepo.getString(R.string.change_record_untracked_time_hint),
+                dividerIsVisible = false,
+                bottomSpaceIsVisible = false,
             )
             result += SettingsCheckboxViewData(
                 block = SettingsBlock.DisplayUntrackedInRecords,

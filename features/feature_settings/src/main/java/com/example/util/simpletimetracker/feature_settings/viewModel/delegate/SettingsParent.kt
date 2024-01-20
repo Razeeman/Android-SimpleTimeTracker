@@ -8,7 +8,5 @@ interface SettingsParent {
         useMilitaryTime: Boolean,
     )
 
-    suspend fun onUseMilitaryTimeClicked()
-
     suspend fun updateContent()
 }

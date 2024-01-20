@@ -1,7 +1,12 @@
 package com.example.util.simpletimetracker.feature_settings.adapter
 
+import android.view.View
+import android.widget.Space
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSelectorViewData
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSelectorViewData as ViewData
@@ -16,23 +21,40 @@ fun createSettingsSelectorAdapterDelegate(
     with(binding) {
         item as ViewData
 
-        tvItemSettingsTitle.text = item.title
-
-        if (item.subtitle.isEmpty()) {
-            tvItemSettingsSubtitle.visible = false
-        } else {
-            tvItemSettingsSubtitle.text = item.subtitle
-            tvItemSettingsSubtitle.visible = true
-        }
-
-        tvItemSettingsSelectorValue.text = item.selectedValue
-
-        spaceItemSettingsBottom.visible = item.bottomSpaceIsVisible
-
-        viewItemSettingsDivider.visible = item.dividerIsVisible
-
-        groupItemSettingsSelector.setOnClick { onClick(item.block) }
+        selectorAdapterBindDelegate(
+            item = item,
+            title = tvItemSettingsTitle,
+            subtitle = tvItemSettingsSubtitle,
+            value = tvItemSettingsSelectorValue,
+            space = spaceItemSettingsBottom,
+            divider = viewItemSettingsDivider,
+            group = groupItemSettingsSelector,
+            onClick = onClick,
+        )
     }
+}
+
+fun selectorAdapterBindDelegate(
+    item: SettingsSelectorViewData,
+    title: AppCompatTextView,
+    subtitle: AppCompatTextView,
+    value: AppCompatTextView,
+    space: Space,
+    divider: View,
+    group: LinearLayoutCompat,
+    onClick: (SettingsBlock) -> Unit,
+) {
+    title.text = item.title
+    if (item.subtitle.isEmpty()) {
+        subtitle.visible = false
+    } else {
+        subtitle.text = item.subtitle
+        subtitle.visible = true
+    }
+    value.text = item.selectedValue
+    space.visible = item.bottomSpaceIsVisible
+    divider.visible = item.dividerIsVisible
+    group.setOnClick { onClick(item.block) }
 }
 
 data class SettingsSelectorViewData(

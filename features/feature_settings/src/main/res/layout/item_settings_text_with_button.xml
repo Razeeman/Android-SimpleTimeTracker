@@ -28,8 +28,7 @@
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
         android:translationZ="4dp"
-        app:layout_constraintBottom_toTopOf="@id/tvItemSettingsSubtitle"
-        app:layout_constraintEnd_toStartOf="@id/checkboxItemSettings"
+        app:layout_constraintEnd_toStartOf="@id/btnItemSettingsText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spaceItemSettingsTop"
         tools:text="Title" />
@@ -43,21 +42,36 @@
         android:paddingBottom="0dp"
         android:translationZ="4dp"
         android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/checkboxItemSettings"
+        app:layout_constraintEnd_toStartOf="@id/btnItemSettingsText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvItemSettingsTitle"
         tools:text="Subtitle"
         tools:visibility="visible" />
 
-    <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/checkboxItemSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginEnd="4dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnItemSettingsText"
+        style="@style/SettingsCard"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="20dp"
+        android:foreground="?selectableItemBackground"
         android:translationZ="4dp"
+        app:cardBackgroundColor="?appButtonOnCardBackgroundColor"
+        app:cardCornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsTitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvItemSettingsTitle" />
+        app:layout_constraintTop_toTopOf="@id/tvItemSettingsTitle">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="\?"
+            android:textColor="?appInactiveColor"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
 
     <Space
         android:id="@+id/spaceItemSettingsBottom"
