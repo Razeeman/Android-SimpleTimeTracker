@@ -22,10 +22,6 @@
             tools:itemCount="3"
             tools:listitem="@layout/item_settings_text" />
 
-        <include
-            android:id="@+id/layoutSettingsTranslators"
-            layout="@layout/settings_translators_layout" />
-
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

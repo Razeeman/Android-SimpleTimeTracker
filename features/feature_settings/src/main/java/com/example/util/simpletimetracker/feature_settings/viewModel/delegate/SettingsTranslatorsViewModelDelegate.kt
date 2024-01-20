@@ -1,20 +1,15 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTranslatorViewData
-import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_settings.interactor.SettingsTranslatorsViewDataInteractor
 import javax.inject.Inject
 
 class SettingsTranslatorsViewModelDelegate @Inject constructor(
-    private val settingsMapper: SettingsMapper,
+    private val settingsTranslatorsViewDataInteractor: SettingsTranslatorsViewDataInteractor,
 ) : ViewModelDelegate() {
 
-    val translatorsViewData: LiveData<List<SettingsTranslatorViewData>>
-        by lazy { MutableLiveData(loadTranslatorsViewData()) }
-
-    private fun loadTranslatorsViewData(): List<SettingsTranslatorViewData> {
-        return settingsMapper.mapTranslatorsViewData()
+    fun getViewData(): List<ViewHolderType> {
+        return settingsTranslatorsViewDataInteractor.execute()
     }
 }

@@ -30,7 +30,6 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     val mainDelegate: SettingsMainViewModelDelegate,
     val displayDelegate: SettingsDisplayViewModelDelegate,
-    val translatorsDelegate: SettingsTranslatorsViewModelDelegate,
     private val router: Router,
     private val settingsMapper: SettingsMapper,
     private val ratingDelegate: SettingsRatingViewModelDelegate,
@@ -38,6 +37,7 @@ class SettingsViewModel @Inject constructor(
     private val additionalDelegate: SettingsAdditionalViewModelDelegate,
     private val backupDelegate: SettingsBackupViewModelDelegate,
     private val exportDelegate: SettingsExportViewModelDelegate,
+    private val translatorsDelegate: SettingsTranslatorsViewModelDelegate,
 ) : BaseViewModel(), SettingsParent {
 
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
@@ -314,6 +314,7 @@ class SettingsViewModel @Inject constructor(
         result += additionalDelegate.getViewData()
         result += backupDelegate.getViewData()
         result += exportDelegate.getViewData()
+        result += translatorsDelegate.getViewData()
         return result
     }
 

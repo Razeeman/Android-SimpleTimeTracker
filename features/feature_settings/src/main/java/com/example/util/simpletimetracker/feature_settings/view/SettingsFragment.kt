@@ -58,15 +58,12 @@ class SettingsFragment :
     private val backupViewModel: BackupViewModel by activityViewModels { backupViewModelFactory }
     private val mainTabsViewModel: MainTabsViewModel by activityViewModels { mainTabsViewModelFactory }
 
-    private val translatorsAdapter: BaseRecyclerAdapter by lazy {
-        BaseRecyclerAdapter(
-            createSettingsTranslatorAdapterDelegate(),
-        )
-    }
     private val contentAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createSettingsTopAdapterDelegate(),
             createSettingsBottomAdapterDelegate(),
+            createSettingsTranslatorAdapterDelegate(),
+            createSettingsHintAdapterDelegate(),
             createSettingsTextAdapterDelegate(throttle(::onTextClicked)),
             createSettingsTextWithButtonAdapterDelegate(::onButtonClicked),
             createSettingsCheckboxAdapterDelegate(::onCheckboxClicked),
@@ -75,7 +72,6 @@ class SettingsFragment :
             createSettingsSpinnerNotCheckableAdapterDelegate(viewModel::onSpinnerPositionSelected),
             createSettingsCollapseAdapterDelegate(viewModel::onCollapseClicked),
             createSettingsSelectorAdapterDelegate(viewModel::onSelectorClicked),
-            createSettingsHintAdapterDelegate(),
             createSettingsRangeAdapterDelegate(
                 onStartClick = viewModel::onRangeStartClicked,
                 onEndClick = viewModel::onRangeEndClicked,
@@ -99,7 +95,6 @@ class SettingsFragment :
     override fun initUi() = with(binding) {
         rvSettingsContent.adapter = contentAdapter
         rvSettingsContent.itemAnimator = null
-        layoutSettingsTranslators.rvSettingsTranslators.adapter = translatorsAdapter
     }
 
     override fun initViewModel(): Unit = with(binding) {
@@ -110,7 +105,6 @@ class SettingsFragment :
         }
         viewModel.mainDelegate.themeChanged.observe(::changeTheme)
         viewModel.displayDelegate.keepScreenOnCheckbox.observe(::setKeepScreenOn)
-        viewModel.translatorsDelegate.translatorsViewData.observe(translatorsAdapter::replaceAsNew)
         backupViewModel.requestScreenUpdate.observe { viewModel.onRequestUpdate() }
         mainTabsViewModel.tabReselected.observe(viewModel::onTabReselected)
     }

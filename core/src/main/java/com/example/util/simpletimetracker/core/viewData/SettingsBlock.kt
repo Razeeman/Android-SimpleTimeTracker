@@ -82,4 +82,8 @@ enum class SettingsBlock {
     ExportSpreadsheetImportHint,
     ExportIcs,
     ExportBottom,
+
+    TranslatorsTop,
+    TranslatorsTitle,
+    TranslatorsBottom,
 }
