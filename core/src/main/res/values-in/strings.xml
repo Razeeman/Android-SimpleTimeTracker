@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">Tampilkan pengingat aktivitas</string>
     <string name="settings_activity_reminder_hint">Tampilkan pemberitahuan setelah waktu yang ditentukan jika penghitung waktu sedang berjalan.</string>
     <string name="settings_do_not_disturb">Jangan jangan ganggu</string>
+    <string name="settings_notifications_system_settings">Pengaturan sistem</string>
+    <string name="settings_notifications_system_settings_hint">Suara, getaran, flash dan lainnya</string>
     <string name="settings_ignore_short_records">Abaikan rekor pendek</string>
     <string name="settings_ignore_short_records_hint">Jangan melacak aktivitas yang lebih pendek dari waktu yang ditentukan.</string>
     <string name="settings_inactivity_reminder_disabled">Dinonaktifkan</string>

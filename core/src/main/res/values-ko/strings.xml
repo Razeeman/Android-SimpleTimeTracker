@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">활동 알림 활성화</string>
     <string name="settings_activity_reminder_hint">일정 시간 이상 특정 활동이 이어지면 알림을 보냅니다.</string>
     <string name="settings_do_not_disturb">방해 금지 시간</string>
+    <string name="settings_notifications_system_settings">환경 설정</string>
+    <string name="settings_notifications_system_settings_hint">소리, 진동, 플래시 등</string>
     <string name="settings_ignore_short_records">짧은 기록 무시</string>
     <string name="settings_ignore_short_records_hint">일정 시간 아래의 기록을 무시합니다.</string>
     <string name="settings_inactivity_reminder_disabled">비활성화됨</string>

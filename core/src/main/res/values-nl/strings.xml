@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">Toon activiteitsherinnering</string>
     <string name="settings_activity_reminder_hint">Toon melding na opgegeven tijd als timers lopen.</string>
     <string name="settings_do_not_disturb">Niet storen</string>
+    <string name="settings_notifications_system_settings">Systeem instellingen</string>
+    <string name="settings_notifications_system_settings_hint">Geluid, trillingen, flits en andere</string>
     <string name="settings_ignore_short_records">Negeer korte records</string>
     <string name="settings_ignore_short_records_hint">Houd geen activiteiten bij die korter zijn dan de opgegeven tijd.</string>
     <string name="settings_inactivity_reminder_disabled">Uitgeschakeld</string>

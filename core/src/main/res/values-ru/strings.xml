@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">Показать напоминание об активности</string>
     <string name="settings_activity_reminder_hint">Показать уведомление через указанное время, если таймеры работают.</string>
     <string name="settings_do_not_disturb">Не беспокоить</string>
+    <string name="settings_notifications_system_settings">Настройки системы</string>
+    <string name="settings_notifications_system_settings_hint">Звук, вибрация, вспышка и прочее</string>
     <string name="settings_ignore_short_records">Игнорировать короткие записи</string>
     <string name="settings_ignore_short_records_hint">Не отслеживать активности, которые короче указанного времени.</string>
     <string name="settings_inactivity_reminder_disabled">Выкл.</string>

@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">Etkinlik hatırlatıcısını göster</string>
     <string name="settings_activity_reminder_hint">Zamanlayıcılar çalışıyorsa, belirtilen süreden sonra bildirim göster.</string>
     <string name="settings_do_not_disturb">Rahatsız etme</string>
+    <string name="settings_notifications_system_settings">Sistem ayarları</string>
+    <string name="settings_notifications_system_settings_hint">Ses, titreşim, flaş ve diğer</string>
     <string name="settings_ignore_short_records">Kısa kayıtları yoksay</string>
     <string name="settings_ignore_short_records_hint">Belirtilen süreden daha kısa olan kayıtları yoksay.</string>
     <string name="settings_inactivity_reminder_disabled">Devre dışı</string>

@@ -76,6 +76,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch { updateContent() }
     }
 
+    // TODO move to delegates
     fun onBlockClicked(block: SettingsBlock) {
         when (block) {
             SettingsBlock.NotificationsCollapse ->
@@ -106,6 +107,8 @@ class SettingsViewModel @Inject constructor(
                 notificationsDelegate.onActivityReminderDoNotDisturbStartClicked()
             SettingsBlock.NotificationsActivityDoNotDisturbEnd ->
                 notificationsDelegate.onActivityReminderDoNotDisturbEndClicked()
+            SettingsBlock.NotificationsSystemSettings ->
+                notificationsDelegate.onSystemSettingsClicked()
             SettingsBlock.DisplayUntrackedRangeStart ->
                 displayDelegate.onUntrackedRangeStartClicked()
             SettingsBlock.DisplayUntrackedRangeEnd ->

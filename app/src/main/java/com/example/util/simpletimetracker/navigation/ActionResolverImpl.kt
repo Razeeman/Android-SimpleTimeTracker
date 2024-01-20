@@ -59,8 +59,8 @@ class ActionResolverImpl @Inject constructor(
             activity?.startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse(MARKET_LINK + params.packageName)
-                )
+                    Uri.parse(MARKET_LINK + params.packageName),
+                ),
             )
         }
     }
@@ -121,9 +121,14 @@ class ActionResolverImpl @Inject constructor(
             }
 
             is OpenSystemSettings.Notifications -> runCatching {
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                        .apply { putExtra(Settings.EXTRA_APP_PACKAGE, packageName) }
+                } else {
+                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        .apply { this.data = Uri.parse("package:$packageName") }
+                }
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                intent.data = Uri.parse("package:$packageName")
                 activity?.startActivity(intent)
             }
         }

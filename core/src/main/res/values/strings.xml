@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">Show activity reminder</string>
     <string name="settings_activity_reminder_hint">Show notification after specified time if timers are running.</string>
     <string name="settings_do_not_disturb">Do no not disturb</string>
+    <string name="settings_notifications_system_settings">System settings</string>
+    <string name="settings_notifications_system_settings_hint">Sound, vibration, flash and other</string>
     <string name="settings_ignore_short_records">Ignore short records</string>
     <string name="settings_ignore_short_records_hint">Do not track activities that are shorter than the specified time.</string>
     <string name="settings_inactivity_reminder_disabled">Disabled</string>

@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">Hiển thị lời nhắc hoạt động</string>
     <string name="settings_activity_reminder_hint">Hiển thị thông báo sau thời gian được chỉ định nếu bộ hẹn giờ đang chạy.</string>
     <string name="settings_do_not_disturb">Đừng làm phiền</string>
+    <string name="settings_notifications_system_settings">Cài đặt hệ thống</string>
+    <string name="settings_notifications_system_settings_hint">Âm thanh, độ rung, đèn flash và các tính năng khác</string>
     <string name="settings_ignore_short_records">Bỏ qua các bản ghi ngắn</string>
     <string name="settings_ignore_short_records_hint">Không theo dõi các hoạt động ngắn hơn thời gian quy định.</string>
     <string name="settings_inactivity_reminder_disabled">Đã tắt</string>

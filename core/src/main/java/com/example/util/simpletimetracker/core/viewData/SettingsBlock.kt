@@ -28,6 +28,7 @@ enum class SettingsBlock {
     NotificationsActivityRecurrent,
     NotificationsActivityDoNotDisturbStart,
     NotificationsActivityDoNotDisturbEnd,
+    NotificationsSystemSettings,
     NotificationsBottom,
 
     DisplayTop,

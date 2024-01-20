@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">یادآور فعالیت را نمایش بده</string>
     <string name="settings_activity_reminder_hint">وقتی تایمری در حال اجراست اعلانی را بعد از زمان معین نشان بده</string>
     <string name="settings_do_not_disturb">مزاحم نشوید</string>
+    <string name="settings_notifications_system_settings">تنظیمات سیستم</string>
+    <string name="settings_notifications_system_settings_hint">صدا، لرزش، فلاش و غیره</string>
     <string name="settings_ignore_short_records">چشم پوشی از تاریخچه های کوتاه</string>
     <string name="settings_ignore_short_records_hint">فعالیت هایی که از زمان معین شده کوتاه تر هستند را اندازه گیری نکن</string>
     <string name="settings_inactivity_reminder_disabled">غیر فعال</string>

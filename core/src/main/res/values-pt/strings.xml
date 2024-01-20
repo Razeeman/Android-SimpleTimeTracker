@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">Mostrar lembrete de atividade</string>
     <string name="settings_activity_reminder_hint">Mostrar notificação após o tempo especificado se os cronômetros estiverem em execução.</string>
     <string name="settings_do_not_disturb">Não perturbe</string>
+    <string name="settings_notifications_system_settings">Configurações de sistema</string>
+    <string name="settings_notifications_system_settings_hint">Som, vibração, flash e outros</string>
     <string name="settings_ignore_short_records">Ignorar registros curtos</string>
     <string name="settings_ignore_short_records_hint">Não rastreie atividades mais curtas que o tempo especificado.</string>
     <string name="settings_inactivity_reminder_disabled">Desativado</string>

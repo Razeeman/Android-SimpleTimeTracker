@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">Afficher le rappel d\'activité</string>
     <string name="settings_activity_reminder_hint">Afficher la notification après l\'heure spécifiée si les minuteries sont en cours d\'exécution.</string>
     <string name="settings_do_not_disturb">Ne pas déranger</string>
+    <string name="settings_notifications_system_settings">Les paramètres du système</string>
+    <string name="settings_notifications_system_settings_hint">Son, vibration, flash et autres</string>
     <string name="settings_ignore_short_records">Ignorer les enregistrements courts</string>
     <string name="settings_ignore_short_records_hint">Ne pas enregistrer les activités qui sont plus courtes que la durée spécifiée.</string>
     <string name="settings_inactivity_reminder_disabled">Désactivé</string>

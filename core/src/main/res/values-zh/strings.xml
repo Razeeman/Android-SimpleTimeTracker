@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">显示活动提醒</string>
     <string name="settings_activity_reminder_hint">如果计时器正在运行，则在指定时间后显示通知。</string>
     <string name="settings_do_not_disturb">请勿打扰</string>
+    <string name="settings_notifications_system_settings">系统设置</string>
+    <string name="settings_notifications_system_settings_hint">声音、振动、闪光等</string>
     <string name="settings_ignore_short_records">忽略短记录</string>
     <string name="settings_ignore_short_records_hint">不要跟踪短于指定时间的活动。</string>
     <string name="settings_inactivity_reminder_disabled">不启用</string>

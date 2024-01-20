@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">Visa aktivitetspåminnelse</string>
     <string name="settings_activity_reminder_hint">Visa meddelande efter angiven tid om timers körs.</string>
     <string name="settings_do_not_disturb">Stör inte</string>
+    <string name="settings_notifications_system_settings">Systeminställningar</string>
+    <string name="settings_notifications_system_settings_hint">Ljud, vibrationer, blixt och annat</string>
     <string name="settings_ignore_short_records">Ignorera kortvariga händelser</string>
     <string name="settings_ignore_short_records_hint">Ignorera händelser som är kortare än den angivna tidslängden.</string>
     <string name="settings_inactivity_reminder_disabled">Inaktiverad</string>

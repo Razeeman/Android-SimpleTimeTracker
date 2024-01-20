@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">गतिविधि अनुस्मारक दिखाएं</string>
     <string name="settings_activity_reminder_hint">टाइमर चल रहे हैं तो निर्दिष्ट समय के बाद अधिसूचना दिखाएं।</string>
     <string name="settings_do_not_disturb">परेशान मत करो</string>
+    <string name="settings_notifications_system_settings">प्रणाली व्यवस्था</string>
+    <string name="settings_notifications_system_settings_hint">ध्वनि, कंपन, फ्लैश और अन्य</string>
     <string name="settings_ignore_short_records">छोटे रिकॉर्ड को अनदेखा करें</string>
     <string name="settings_ignore_short_records_hint">उन गतिविधियों को ट्रैक न करें जो निर्दिष्ट समय से कम हैं।</string>
     <string name="settings_inactivity_reminder_disabled">अक्षम</string>

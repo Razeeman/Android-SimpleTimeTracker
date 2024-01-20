@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">Показати нагадування про діяльність</string>
     <string name="settings_activity_reminder_hint">Показувати сповіщення після вказаного часу, якщо таймери запущено.</string>
     <string name="settings_do_not_disturb">Ні не турбувати</string>
+    <string name="settings_notifications_system_settings">Налаштування системи</string>
+    <string name="settings_notifications_system_settings_hint">Звук, вібрація, спалах та інше</string>
     <string name="settings_ignore_short_records">Ігноруйте короткі записи</string>
     <string name="settings_ignore_short_records_hint">Не відстежуйте дії, які коротші за вказаний час.</string>
     <string name="settings_inactivity_reminder_disabled">Вимкнено</string>

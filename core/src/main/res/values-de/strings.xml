@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">Aktivitätserinnerung anzeigen</string>
     <string name="settings_activity_reminder_hint">Benachrichtigung nach angegebener Zeit anzeigen, wenn Timer laufen.</string>
     <string name="settings_do_not_disturb">Bitte nicht stören</string>
+    <string name="settings_notifications_system_settings">Systemeinstellungen</string>
+    <string name="settings_notifications_system_settings_hint">Ton, Vibration, Blitz und andere</string>
     <string name="settings_ignore_short_records">Ignorieren Sie kurze Aufzeichnungen</string>
     <string name="settings_ignore_short_records_hint">Verfolgen Sie keine Aktivitäten, die kürzer als die angegebene Zeit sind.</string>
     <string name="settings_inactivity_reminder_disabled">Deaktiviert</string>

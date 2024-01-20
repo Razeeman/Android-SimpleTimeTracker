@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheck
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCollapseViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsRangeViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSelectorViewData
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTextViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTopViewData
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
@@ -90,7 +91,7 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
                 subtitle = resourceRepo.getString(R.string.settings_activity_reminder_hint),
                 selectedValue = activityViewData.text,
                 bottomSpaceIsVisible = !activityViewData.enabled,
-                dividerIsVisible = false,
+                dividerIsVisible = !activityViewData.enabled,
             )
             if (activityViewData.enabled) {
                 result += SettingsCheckboxViewData(
@@ -107,9 +108,15 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
                     title = resourceRepo.getString(R.string.settings_do_not_disturb),
                     start = loadActivityReminderDndStartViewData(),
                     end = loadActivityReminderDndEndViewData(),
-                    dividerIsVisible = false,
                 )
             }
+
+            result += SettingsTextViewData(
+                block = SettingsBlock.NotificationsSystemSettings,
+                title = resourceRepo.getString(R.string.settings_notifications_system_settings),
+                subtitle = resourceRepo.getString(R.string.settings_notifications_system_settings_hint),
+                dividerIsVisible = false,
+            )
         }
 
         result += SettingsBottomViewData(

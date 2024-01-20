@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">Mostrar recordatorio de actividad</string>
     <string name="settings_activity_reminder_hint">Mostrar notificación después del tiempo especificado si los temporizadores se están ejecutando.</string>
     <string name="settings_do_not_disturb">No molestar</string>
+    <string name="settings_notifications_system_settings">Ajustes del sistema</string>
+    <string name="settings_notifications_system_settings_hint">Sonido, vibración, flash y otros</string>
     <string name="settings_ignore_short_records">Ignorar registros cortos</string>
     <string name="settings_ignore_short_records_hint">No rastree actividades que sean más cortas que el tiempo especificado.</string>
     <string name="settings_inactivity_reminder_disabled">Deshabilitado</string>

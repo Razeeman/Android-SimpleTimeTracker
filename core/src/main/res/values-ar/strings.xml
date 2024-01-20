@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">إظهار تذكير النشاط</string>
     <string name="settings_activity_reminder_hint">أظهر اﻹشعار بعد الوقت المحدد إذا كان نشاط التتبع مفعل.</string>
     <string name="settings_do_not_disturb">عدم اﻹزعاج</string>
+    <string name="settings_notifications_system_settings">اعدادات النظام</string>
+    <string name="settings_notifications_system_settings_hint">الصوت والاهتزاز والفلاش وغيرها</string>
     <string name="settings_ignore_short_records">تجاهل التتبعات القصيرة</string>
     <string name="settings_ignore_short_records_hint">لا تتبع الأنشطة اﻷقصر من الوقت المحدد.</string>
     <string name="settings_inactivity_reminder_disabled">غير مفعل</string>

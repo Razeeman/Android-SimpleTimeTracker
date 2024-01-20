@@ -240,6 +240,8 @@
     <string name="settings_activity_reminder">アクティビティリマインダーを表示</string>
     <string name="settings_activity_reminder_hint">タイマーが実行されている場合、指定した時間後に通知を表示します。</string>
     <string name="settings_do_not_disturb">邪魔しないでください</string>
+    <string name="settings_notifications_system_settings">システム設定</string>
+    <string name="settings_notifications_system_settings_hint">音、振動、フラッシュなど</string>
     <string name="settings_ignore_short_records">短い記録は無視</string>
     <string name="settings_ignore_short_records_hint">指定された時間より短いアクティビティは計測しません。</string>
     <string name="settings_inactivity_reminder_disabled">未設定</string>
