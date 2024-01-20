@@ -42,7 +42,9 @@ class RunningRecordRepoImpl @Inject constructor(
     override suspend fun add(runningRecord: RunningRecord): Long = mutex.withLockedCache(
         logMessage = "add",
         accessSource = { dao.insert(runningRecord.let(mapper::map)) },
-        afterSourceAccess = { cache = cache?.replaceWith(runningRecord) { it.id == runningRecord.id } },
+        afterSourceAccess = { id ->
+            cache = cache?.replaceWith(runningRecord.copy(id = id)) { it.id == id }
+        },
     )
 
     override suspend fun remove(id: Long) = mutex.withLockedCache(

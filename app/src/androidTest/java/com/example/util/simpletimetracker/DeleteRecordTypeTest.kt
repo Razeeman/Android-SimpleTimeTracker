@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.utils.BaseUiTest
@@ -56,7 +57,7 @@ class DeleteRecordTypeTest : BaseUiTest() {
         clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeDelete)
         checkViewIsDisplayed(
             allOf(
-                withText(coreR.string.change_record_type_archived),
+                withSubstring(getString(coreR.string.change_record_type_archived)),
                 withId(R.id.snackbar_text)
             )
         )

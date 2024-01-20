@@ -58,7 +58,9 @@ class RecordTypeGoalRepoImpl @Inject constructor(
     override suspend fun add(recordTypeGoal: RecordTypeGoal): Long = mutex.withLockedCache(
         logMessage = "add",
         accessSource = { dao.insert(recordTypeGoal.let(mapper::map)) },
-        afterSourceAccess = { cache = cache?.replaceWith(recordTypeGoal) { it.id == recordTypeGoal.id } },
+        afterSourceAccess = { id ->
+            cache = cache?.replaceWith(recordTypeGoal.copy(id = id)) { it.id == id }
+        },
     )
 
     override suspend fun remove(id: Long) = mutex.withLockedCache(
