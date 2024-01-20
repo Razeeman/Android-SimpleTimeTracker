@@ -13,8 +13,8 @@ import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
-import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.core.viewData.SettingsBlock
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsBottomAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxWithRangeAdapterDelegate
@@ -64,30 +64,20 @@ class SettingsFragment :
             createSettingsBottomAdapterDelegate(),
             createSettingsTranslatorAdapterDelegate(),
             createSettingsHintAdapterDelegate(),
-            createSettingsTextAdapterDelegate(throttle(::onTextClicked)),
-            createSettingsTextWithButtonAdapterDelegate(::onButtonClicked),
-            createSettingsCheckboxAdapterDelegate(::onCheckboxClicked),
+            createSettingsTextAdapterDelegate(throttle(::onBlockClicked)),
+            createSettingsTextWithButtonAdapterDelegate(::onBlockClicked),
+            createSettingsCheckboxAdapterDelegate(::onBlockClicked),
+            createSettingsCheckboxWithRangeAdapterDelegate(::onBlockClicked),
+            createSettingsCollapseAdapterDelegate(::onBlockClicked),
+            createSettingsSelectorAdapterDelegate(::onBlockClicked),
+            createSettingsSelectorWithButtonAdapterDelegate(::onBlockClicked),
+            createSettingsRangeAdapterDelegate(::onBlockClicked),
             createSettingsSpinnerAdapterDelegate(viewModel::onSpinnerPositionSelected),
             createSettingsSpinnerEvenAdapterDelegate(viewModel::onSpinnerPositionSelected),
             createSettingsSpinnerNotCheckableAdapterDelegate(viewModel::onSpinnerPositionSelected),
-            createSettingsCollapseAdapterDelegate(viewModel::onCollapseClicked),
-            createSettingsSelectorAdapterDelegate(viewModel::onSelectorClicked),
-            createSettingsRangeAdapterDelegate(
-                onStartClick = viewModel::onRangeStartClicked,
-                onEndClick = viewModel::onRangeEndClicked,
-            ),
             createSettingsSpinnerWithButtonAdapterDelegate(
-                viewModel::onSpinnerPositionSelected,
-                viewModel::onButtonClicked,
-            ),
-            createSettingsSelectorWithButtonAdapterDelegate(
-                viewModel::onSelectorClicked,
-                viewModel::onButtonClicked,
-            ),
-            createSettingsCheckboxWithRangeAdapterDelegate(
-                onClick = ::onCheckboxClicked,
-                onStartClick = viewModel::onRangeStartClicked,
-                onEndClick = viewModel::onRangeEndClicked,
+                onPositionSelected = viewModel::onSpinnerPositionSelected,
+                onButtonClicked = ::onBlockClicked,
             ),
         )
     }
@@ -100,7 +90,7 @@ class SettingsFragment :
     override fun initViewModel(): Unit = with(binding) {
         viewModel.content.observe(contentAdapter::replaceAsNew)
         viewModel.resetScreen.observe {
-            containerSettings.smoothScrollTo(0, 0)
+            rvSettingsContent.smoothScrollToPosition(0)
             mainTabsViewModel.onHandled()
         }
         viewModel.mainDelegate.themeChanged.observe(::changeTheme)
@@ -134,18 +124,8 @@ class SettingsFragment :
         backupViewModel.onDataExportSettingsSelected(data)
     }
 
-    private fun onTextClicked(block: SettingsBlock) {
-        viewModel.onTextClicked(block)
-        backupViewModel.onBlockClicked(block)
-    }
-
-    private fun onCheckboxClicked(block: SettingsBlock) {
-        viewModel.onCheckboxClicked(block)
-        backupViewModel.onBlockClicked(block)
-    }
-
-    private fun onButtonClicked(block: SettingsBlock) {
-        viewModel.onButtonClicked(block)
+    private fun onBlockClicked(block: SettingsBlock) {
+        viewModel.onBlockClicked(block)
         backupViewModel.onBlockClicked(block)
     }
 

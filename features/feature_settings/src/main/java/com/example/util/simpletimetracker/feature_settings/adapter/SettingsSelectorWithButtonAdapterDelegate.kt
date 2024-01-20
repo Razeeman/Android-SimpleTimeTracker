@@ -10,7 +10,6 @@ import com.example.util.simpletimetracker.feature_settings.databinding.ItemSetti
 
 fun createSettingsSelectorWithButtonAdapterDelegate(
     onClick: (SettingsBlock) -> Unit,
-    onButtonClick: (SettingsBlock) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->
@@ -31,12 +30,13 @@ fun createSettingsSelectorWithButtonAdapterDelegate(
 
         btnItemSettingsSelector.visible = item.isButtonVisible
         tvItemSettingsSelectorButton.text = item.buttonText
-        btnItemSettingsSelector.setOnClick { onButtonClick(item.data.block) }
+        btnItemSettingsSelector.setOnClick { onClick(item.buttonBlock) }
     }
 }
 
 data class SettingsSelectorWithButtonViewData(
     val data: SettingsSelectorViewData,
+    val buttonBlock: SettingsBlock,
     val isButtonVisible: Boolean,
     val buttonText: String,
 ) : ViewHolderType {

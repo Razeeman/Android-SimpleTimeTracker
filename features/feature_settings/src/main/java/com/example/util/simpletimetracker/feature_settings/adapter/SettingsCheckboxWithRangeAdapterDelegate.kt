@@ -11,8 +11,6 @@ import com.example.util.simpletimetracker.feature_settings.databinding.ItemSetti
 
 fun createSettingsCheckboxWithRangeAdapterDelegate(
     onClick: (SettingsBlock) -> Unit,
-    onStartClick: (SettingsBlock) -> Unit,
-    onEndClick: (SettingsBlock) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->
@@ -36,21 +34,23 @@ fun createSettingsCheckboxWithRangeAdapterDelegate(
             tvItemSettingsCheckboxWithRangeEnd.text = item.range.rangeEnd
         }
 
-        checkboxItemSettingsCheckboxWithRange.setOnClick { onClick(item.block) }
-        tvItemSettingsCheckboxWithRangeStart.setOnClick { onStartClick(item.block) }
-        tvItemSettingsCheckboxWithRangeEnd.setOnClick { onEndClick(item.block) }
+        checkboxItemSettingsCheckboxWithRange.setOnClick { onClick(item.blockCheckbox) }
+        tvItemSettingsCheckboxWithRangeStart.setOnClick { onClick(item.blockStart) }
+        tvItemSettingsCheckboxWithRangeEnd.setOnClick { onClick(item.blockEnd) }
     }
 }
 
 data class SettingsCheckboxWithRangeViewData(
-    val block: SettingsBlock,
+    val blockCheckbox: SettingsBlock,
+    val blockStart: SettingsBlock,
+    val blockEnd: SettingsBlock,
     val title: String,
     val subtitle: String,
     val isChecked: Boolean,
     val range: RangeViewData,
 ) : ViewHolderType {
 
-    override fun getUniqueId(): Long = block.ordinal.toLong()
+    override fun getUniqueId(): Long = blockCheckbox.ordinal.toLong()
 
     override fun isValidType(other: ViewHolderType): Boolean = other is ViewData
 

@@ -9,8 +9,7 @@ import com.example.util.simpletimetracker.feature_settings.adapter.SettingsRange
 import com.example.util.simpletimetracker.feature_settings.databinding.ItemSettingsRangeBinding as Binding
 
 fun createSettingsRangeAdapterDelegate(
-    onStartClick: (SettingsBlock) -> Unit,
-    onEndClick: (SettingsBlock) -> Unit,
+    onClick: (SettingsBlock) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->
@@ -24,20 +23,21 @@ fun createSettingsRangeAdapterDelegate(
 
         viewItemSettingsDivider.visible = item.dividerIsVisible
 
-        tvItemSettingsStart.setOnClick { onStartClick(item.block) }
-        tvItemSettingsEnd.setOnClick { onEndClick(item.block) }
+        tvItemSettingsStart.setOnClick { onClick(item.blockStart) }
+        tvItemSettingsEnd.setOnClick { onClick(item.blockEnd) }
     }
 }
 
 data class SettingsRangeViewData(
-    val block: SettingsBlock,
+    val blockStart: SettingsBlock,
+    val blockEnd: SettingsBlock,
     val title: String,
     val start: String,
     val end: String,
     val dividerIsVisible: Boolean = true,
 ) : ViewHolderType {
 
-    override fun getUniqueId(): Long = block.ordinal.toLong()
+    override fun getUniqueId(): Long = blockStart.ordinal.toLong()
 
     override fun isValidType(other: ViewHolderType): Boolean = other is ViewData
 }

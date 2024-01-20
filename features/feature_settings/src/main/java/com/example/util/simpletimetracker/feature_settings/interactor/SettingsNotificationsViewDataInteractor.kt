@@ -75,7 +75,8 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
                     dividerIsVisible = false,
                 )
                 result += SettingsRangeViewData(
-                    block = SettingsBlock.NotificationsInactivityDoNotDisturb,
+                    blockStart = SettingsBlock.NotificationsInactivityDoNotDisturbStart,
+                    blockEnd = SettingsBlock.NotificationsInactivityDoNotDisturbEnd,
                     title = resourceRepo.getString(R.string.settings_do_not_disturb),
                     start = loadInactivityReminderDndStartViewData(),
                     end = loadInactivityReminderDndEndViewData(),
@@ -101,7 +102,8 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
                     dividerIsVisible = false,
                 )
                 result += SettingsRangeViewData(
-                    block = SettingsBlock.NotificationsActivityDoNotDisturb,
+                    blockStart = SettingsBlock.NotificationsActivityDoNotDisturbStart,
+                    blockEnd = SettingsBlock.NotificationsActivityDoNotDisturbEnd,
                     title = resourceRepo.getString(R.string.settings_do_not_disturb),
                     start = loadActivityReminderDndStartViewData(),
                     end = loadActivityReminderDndEndViewData(),

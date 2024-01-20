@@ -78,7 +78,9 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
             )
             val untrackedRangeViewData = loadUntrackedRangeViewData()
             result += SettingsCheckboxWithRangeViewData(
-                block = SettingsBlock.DisplayUntrackedRange,
+                blockCheckbox = SettingsBlock.DisplayUntrackedRangeCheckbox,
+                blockStart = SettingsBlock.DisplayUntrackedRangeStart,
+                blockEnd = SettingsBlock.DisplayUntrackedRangeEnd,
                 title = resourceRepo.getString(R.string.settings_untracked_range),
                 subtitle = resourceRepo.getString(R.string.settings_untracked_range_hint),
                 isChecked = untrackedRangeViewData is RangeViewData.Enabled,

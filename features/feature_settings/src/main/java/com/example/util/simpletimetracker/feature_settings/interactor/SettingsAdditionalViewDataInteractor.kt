@@ -127,6 +127,7 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
                     bottomSpaceIsVisible = false,
                     dividerIsVisible = false,
                 ),
+                buttonBlock = SettingsBlock.AdditionalShiftStartOfDayButton,
                 isButtonVisible = startOfDayViewData.startOfDaySign.isNotEmpty(),
                 buttonText = startOfDayViewData.startOfDaySign,
             )

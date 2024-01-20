@@ -76,8 +76,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch { updateContent() }
     }
 
-    // TODO merge all click functions into one, and move to delegates.
-    fun onCollapseClicked(block: SettingsBlock) {
+    fun onBlockClicked(block: SettingsBlock) {
         when (block) {
             SettingsBlock.NotificationsCollapse ->
                 notificationsDelegate.onCollapseClick()
@@ -89,14 +88,6 @@ class SettingsViewModel @Inject constructor(
                 backupDelegate.onCollapseClick()
             SettingsBlock.ExportCollapse ->
                 exportDelegate.onCollapseClick()
-            else -> {
-                // Do nothing
-            }
-        }
-    }
-
-    fun onSelectorClicked(block: SettingsBlock) {
-        when (block) {
             SettingsBlock.NotificationsInactivity ->
                 notificationsDelegate.onInactivityReminderClicked()
             SettingsBlock.NotificationsActivity ->
@@ -107,70 +98,36 @@ class SettingsViewModel @Inject constructor(
                 additionalDelegate.onIgnoreShortRecordsClicked()
             SettingsBlock.AdditionalShiftStartOfDay ->
                 additionalDelegate.onStartOfDayClicked()
-            else -> {
-                // Do nothing
-            }
-        }
-    }
-
-    fun onRangeStartClicked(block: SettingsBlock) {
-        when (block) {
-            SettingsBlock.NotificationsInactivityDoNotDisturb ->
+            SettingsBlock.NotificationsInactivityDoNotDisturbStart ->
                 notificationsDelegate.onInactivityReminderDoNotDisturbStartClicked()
-            SettingsBlock.NotificationsActivityDoNotDisturb ->
-                notificationsDelegate.onActivityReminderDoNotDisturbStartClicked()
-            SettingsBlock.DisplayUntrackedRange ->
-                displayDelegate.onUntrackedRangeStartClicked()
-            else -> {
-                // Do nothing
-            }
-        }
-    }
-
-    fun onRangeEndClicked(block: SettingsBlock) {
-        when (block) {
-            SettingsBlock.NotificationsInactivityDoNotDisturb ->
+            SettingsBlock.NotificationsInactivityDoNotDisturbEnd ->
                 notificationsDelegate.onInactivityReminderDoNotDisturbEndClicked()
-            SettingsBlock.NotificationsActivityDoNotDisturb ->
+            SettingsBlock.NotificationsActivityDoNotDisturbStart ->
+                notificationsDelegate.onActivityReminderDoNotDisturbStartClicked()
+            SettingsBlock.NotificationsActivityDoNotDisturbEnd ->
                 notificationsDelegate.onActivityReminderDoNotDisturbEndClicked()
-            SettingsBlock.DisplayUntrackedRange ->
+            SettingsBlock.DisplayUntrackedRangeStart ->
+                displayDelegate.onUntrackedRangeStartClicked()
+            SettingsBlock.DisplayUntrackedRangeEnd ->
                 displayDelegate.onUntrackedRangeEndClicked()
-            else -> {
-                // Do nothing
-            }
-        }
-    }
-
-    fun onTextClicked(block: SettingsBlock) {
-        when (block) {
-            SettingsBlock.Categories -> mainDelegate.onEditCategoriesClick()
-            SettingsBlock.Archive -> mainDelegate.onArchiveClick()
-            SettingsBlock.DataEdit -> mainDelegate.onDataEditClick()
-            SettingsBlock.RateUs -> ratingDelegate.onRateClick()
-            SettingsBlock.Feedback -> ratingDelegate.onFeedbackClick()
-            SettingsBlock.DisplayCardSize -> displayDelegate.onChangeCardSizeClick()
-            else -> {
-                // Do nothing
-            }
-        }
-    }
-
-    fun onButtonClicked(block: SettingsBlock) {
-        when (block) {
+            SettingsBlock.Categories ->
+                mainDelegate.onEditCategoriesClick()
+            SettingsBlock.Archive ->
+                mainDelegate.onArchiveClick()
+            SettingsBlock.DataEdit ->
+                mainDelegate.onDataEditClick()
+            SettingsBlock.RateUs ->
+                ratingDelegate.onRateClick()
+            SettingsBlock.Feedback ->
+                ratingDelegate.onFeedbackClick()
+            SettingsBlock.DisplayCardSize ->
+                displayDelegate.onChangeCardSizeClick()
             SettingsBlock.DisplaySortActivities ->
                 displayDelegate.onCardOrderManualClick()
-            SettingsBlock.AdditionalShiftStartOfDay ->
+            SettingsBlock.AdditionalShiftStartOfDayButton ->
                 additionalDelegate.onStartOfDaySignClicked()
             SettingsBlock.AdditionalAutomatedTracking ->
                 additionalDelegate.onAutomatedTrackingHelpClick()
-            else -> {
-                // Do nothing
-            }
-        }
-    }
-
-    fun onCheckboxClicked(block: SettingsBlock) {
-        when (block) {
             SettingsBlock.AllowMultitasking ->
                 mainDelegate.onAllowMultitaskingClicked()
             SettingsBlock.NotificationsShow ->
@@ -185,7 +142,7 @@ class SettingsViewModel @Inject constructor(
                 displayDelegate.onShowUntrackedInRecordsClicked()
             SettingsBlock.DisplayUntrackedInStatistics ->
                 displayDelegate.onShowUntrackedInStatisticsClicked()
-            SettingsBlock.DisplayUntrackedRange ->
+            SettingsBlock.DisplayUntrackedRangeCheckbox ->
                 displayDelegate.onUntrackedRangeClicked()
             SettingsBlock.DisplayCalendarView ->
                 displayDelegate.onShowRecordsCalendarClicked()
