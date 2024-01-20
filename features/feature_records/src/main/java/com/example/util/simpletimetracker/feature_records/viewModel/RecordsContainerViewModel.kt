@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.ceil
 
 @HiltViewModel
 class RecordsContainerViewModel @Inject constructor(
@@ -106,7 +107,7 @@ class RecordsContainerViewModel @Inject constructor(
                     .toInt()
                     .let { shift ->
                         if (prefsInteractor.getShowRecordsCalendar()) {
-                            shift / prefsInteractor.getDaysInCalendar().count
+                            ceil(shift.toFloat() / prefsInteractor.getDaysInCalendar().count).toInt()
                         } else {
                             shift
                         }
