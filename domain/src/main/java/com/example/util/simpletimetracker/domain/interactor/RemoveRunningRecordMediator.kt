@@ -16,7 +16,10 @@ class RemoveRunningRecordMediator @Inject constructor(
     private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
 ) {
 
-    suspend fun removeWithRecordAdd(runningRecord: RunningRecord) {
+    suspend fun removeWithRecordAdd(
+        runningRecord: RunningRecord,
+        updateWidgets: Boolean = true,
+    ) {
         val durationToIgnore = prefsInteractor.getIgnoreShortRecordsDuration()
         val duration = TimeUnit.MILLISECONDS
             .toSeconds(System.currentTimeMillis() - runningRecord.timeStarted)
@@ -35,10 +38,13 @@ class RemoveRunningRecordMediator @Inject constructor(
             tagIds = runningRecord.tagIds,
             comment = runningRecord.comment,
         )
-        remove(runningRecord.id)
+        remove(runningRecord.id, updateWidgets)
     }
 
-    suspend fun remove(typeId: Long) {
+    suspend fun remove(
+        typeId: Long,
+        updateWidgets: Boolean,
+    ) {
         runningRecordInteractor.remove(typeId)
         notificationTypeInteractor.checkAndHide(typeId)
         notificationInactivityInteractor.checkAndSchedule()
@@ -46,6 +52,6 @@ class RemoveRunningRecordMediator @Inject constructor(
         val runningRecordIds = runningRecordInteractor.getAll().map { it.id }
         if (runningRecordIds.isEmpty()) notificationActivityInteractor.cancel()
         notificationGoalTimeInteractor.checkAndReschedule(runningRecordIds + typeId)
-        widgetInteractor.updateWidgets()
+        if (updateWidgets) widgetInteractor.updateWidgets()
     }
 }

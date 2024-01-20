@@ -123,8 +123,9 @@ class ChangeRecordViewModel @Inject constructor(
             removeRecordMediator.remove(it, typeId)
         }
         // Stop same type running record if exist (only one of the same type can run at once).
+        // Widgets will update on adding.
         runningRecordInteractor.get(newTypeId)
-            ?.let { removeRunningRecordMediator.removeWithRecordAdd(it) }
+            ?.let { removeRunningRecordMediator.removeWithRecordAdd(it, updateWidgets = false) }
         // Add new running record.
         addRunningRecordMediator.startTimer(
             typeId = newTypeId,
@@ -138,8 +139,9 @@ class ChangeRecordViewModel @Inject constructor(
 
     override suspend fun onRepeatClickDelegate() {
         // Stop same type running record if exist (only one of the same type can run at once).
+        // Widgets will update on adding.
         runningRecordInteractor.get(newTypeId)
-            ?.let { removeRunningRecordMediator.removeWithRecordAdd(it) }
+            ?.let { removeRunningRecordMediator.removeWithRecordAdd(it, updateWidgets = false) }
         // Add new running record.
         addRunningRecordMediator.startTimer(
             typeId = newTypeId,

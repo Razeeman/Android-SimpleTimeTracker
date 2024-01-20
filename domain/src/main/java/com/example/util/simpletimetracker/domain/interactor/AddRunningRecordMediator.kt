@@ -57,9 +57,10 @@ class AddRunningRecordMediator @Inject constructor(
     ) {
         // Check if multitasking disabled
         if (!prefsInteractor.getAllowMultitasking()) {
+            // Widgets will update on adding.
             runningRecordInteractor.getAll()
                 .filter { it.id != typeId }
-                .forEach { removeRunningRecordMediator.removeWithRecordAdd(it) }
+                .forEach { removeRunningRecordMediator.removeWithRecordAdd(it, updateWidgets = false) }
         }
         activityStartedStoppedBroadcastInteractor.onActionActivityStarted(
             typeId = typeId,
