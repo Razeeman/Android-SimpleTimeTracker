@@ -50,6 +50,16 @@
             tools:text="Subtitle"
             tools:visibility="visible" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvItemSettingsHint"
+            style="@style/SettingsSecondaryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="0dp"
+            android:visibility="gone"
+            tools:text="Hint"
+            tools:visibility="visible" />
+
         <Space
             android:id="@+id/spaceItemSettingsBottom"
             android:layout_width="match_parent"

@@ -40,6 +40,7 @@ class SettingsRatingViewDataInteractor @Inject constructor(
             title = resourceRepo.getString(R.string.settings_version),
             subtitle = loadVersionName(),
             dividerIsVisible = false,
+            layoutIsClickable = false,
         )
 
         result += SettingsBottomViewData(

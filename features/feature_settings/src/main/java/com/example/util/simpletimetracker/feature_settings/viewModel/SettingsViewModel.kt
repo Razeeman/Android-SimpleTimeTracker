@@ -1,21 +1,19 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.model.NavigationTab
-import com.example.util.simpletimetracker.domain.extension.flip
-import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsAdditionalViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsBackupViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsDisplayViewModelDelegate
+import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsExportViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsMainViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsNotificationsViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsParent
@@ -39,10 +37,10 @@ class SettingsViewModel @Inject constructor(
     private val notificationsDelegate: SettingsNotificationsViewModelDelegate,
     private val additionalDelegate: SettingsAdditionalViewModelDelegate,
     private val backupDelegate: SettingsBackupViewModelDelegate,
+    private val exportDelegate: SettingsExportViewModelDelegate,
 ) : BaseViewModel(), SettingsParent {
 
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
-    val settingsExportImportVisibility: LiveData<Boolean> = MutableLiveData(false)
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     init {
@@ -51,6 +49,7 @@ class SettingsViewModel @Inject constructor(
         displayDelegate.init(this)
         additionalDelegate.init(this)
         backupDelegate.init(this)
+        exportDelegate.init(this)
     }
 
     override fun onCleared() {
@@ -61,6 +60,7 @@ class SettingsViewModel @Inject constructor(
         ratingDelegate.clear()
         translatorsDelegate.clear()
         backupDelegate.clear()
+        exportDelegate.clear()
         super.onCleared()
     }
 
@@ -87,6 +87,8 @@ class SettingsViewModel @Inject constructor(
                 additionalDelegate.onCollapseClick()
             SettingsBlock.BackupCollapse ->
                 backupDelegate.onCollapseClick()
+            SettingsBlock.ExportCollapse ->
+                exportDelegate.onCollapseClick()
             else -> {
                 // Do nothing
             }
@@ -241,11 +243,6 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun onSettingsExportImportClick() {
-        val newValue = settingsExportImportVisibility.value?.flip().orFalse()
-        settingsExportImportVisibility.set(newValue)
-    }
-
     fun onDurationSet(tag: String?, duration: Long) {
         when (tag) {
             INACTIVITY_DURATION_DIALOG_TAG,
@@ -316,6 +313,7 @@ class SettingsViewModel @Inject constructor(
         result += displayDelegate.getViewData()
         result += additionalDelegate.getViewData()
         result += backupDelegate.getViewData()
+        result += exportDelegate.getViewData()
         return result
     }
 

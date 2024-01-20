@@ -1,0 +1,109 @@
+package com.example.util.simpletimetracker.feature_settings.interactor
+
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_settings.R
+import com.example.util.simpletimetracker.core.viewData.SettingsBlock
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsBottomViewData
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxViewData
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCollapseViewData
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsHintViewData
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTextViewData
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTextWithButtonViewData
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTopViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.SettingsTextColor
+import javax.inject.Inject
+
+class SettingsExportViewDataInteractor @Inject constructor(
+    private val resourceRepo: ResourceRepo,
+    private val prefsInteractor: PrefsInteractor,
+    private val settingsCommonInteractor: SettingsCommonInteractor,
+) {
+
+    suspend fun execute(
+        isCollapsed: Boolean,
+    ): List<ViewHolderType> {
+        val result = mutableListOf<ViewHolderType>()
+
+        result += SettingsTopViewData(
+            block = SettingsBlock.ExportTop,
+        )
+
+        result += SettingsCollapseViewData(
+            block = SettingsBlock.ExportCollapse,
+            title = resourceRepo.getString(R.string.settings_export_title),
+            opened = !isCollapsed,
+            dividerIsVisible = !isCollapsed,
+        )
+
+        if (!isCollapsed) {
+            result += SettingsTextViewData(
+                block = SettingsBlock.ExportSpreadsheet,
+                title = resourceRepo.getString(R.string.settings_export_csv),
+                subtitle = resourceRepo.getString(R.string.settings_export_csv_description),
+                hint = resourceRepo.getString(R.string.settings_export_warning),
+                hintColor = SettingsTextColor.Attention,
+            )
+
+            val automaticExportLastSaveTime = loadAutomaticExportLastSaveTime()
+            val automaticExportLastSaveTimeVisible = automaticExportLastSaveTime.isNotEmpty()
+            result += SettingsCheckboxViewData(
+                block = SettingsBlock.ExportSpreadsheetAutomatic,
+                title = resourceRepo.getString(R.string.settings_automatic_export),
+                subtitle = resourceRepo.getString(R.string.settings_automatic_description),
+                isChecked = loadAutomaticExportEnabled(),
+                bottomSpaceIsVisible = !automaticExportLastSaveTimeVisible,
+                dividerIsVisible = !automaticExportLastSaveTimeVisible,
+                forceBind = true,
+            )
+            if (automaticExportLastSaveTimeVisible) {
+                result += SettingsHintViewData(
+                    block = SettingsBlock.ExportSpreadsheetAutomaticHint,
+                    text = automaticExportLastSaveTime,
+                    textColor = SettingsTextColor.Success,
+                    topSpaceIsVisible = false,
+                )
+            }
+
+            result += SettingsTextWithButtonViewData(
+                buttonBlock = SettingsBlock.ExportSpreadsheetImportHint,
+                data = SettingsTextViewData(
+                    block = SettingsBlock.ExportSpreadsheetImport,
+                    title = resourceRepo.getString(R.string.settings_import_csv),
+                    subtitle = resourceRepo.getString(R.string.settings_import_csv_description),
+                    hint = resourceRepo.getString(R.string.data_edit_hint),
+                    hintColor = SettingsTextColor.Attention,
+                )
+            )
+
+            result += SettingsTextViewData(
+                block = SettingsBlock.ExportIcs,
+                title = resourceRepo.getString(R.string.settings_export_ics),
+                subtitle = resourceRepo.getString(R.string.settings_export_warning),
+                subtitleColor = SettingsTextColor.Attention,
+                dividerIsVisible = false,
+            )
+        }
+
+        result += SettingsBottomViewData(
+            block = SettingsBlock.ExportBottom,
+        )
+
+        return result
+    }
+
+    private suspend fun loadAutomaticExportEnabled(): Boolean {
+        return prefsInteractor.getAutomaticExportUri().isNotEmpty()
+    }
+
+    private suspend fun loadAutomaticExportLastSaveTime(): String {
+        return if (loadAutomaticExportEnabled()) {
+            settingsCommonInteractor.getLastSaveString(
+                prefsInteractor.getAutomaticExportLastSaveTime()
+            )
+        } else {
+            ""
+        }
+    }
+}

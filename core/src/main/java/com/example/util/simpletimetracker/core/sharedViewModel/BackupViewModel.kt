@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.core.sharedViewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.R
@@ -56,22 +55,6 @@ class BackupViewModel @Inject constructor(
     private val timeMapper: TimeMapper,
 ) : ViewModel() {
 
-    val automaticExportCheckbox: LiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadAutomaticExportEnabled()
-            }
-            initial
-        }
-    }
-    val automaticExportLastSaveTime: LiveData<String> by lazy {
-        MutableLiveData<String>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadAutomaticExportLastSaveTime()
-            }
-            initial
-        }
-    }
     val requestScreenUpdate: LiveData<Unit> = SingleLiveEvent()
     val progressVisibility: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         addSource(automaticBackupRepo.inProgress) { updateProgress() }
@@ -92,91 +75,15 @@ class BackupViewModel @Inject constructor(
             SettingsBlock.BackupSave -> onSaveClick()
             SettingsBlock.BackupAutomatic -> onAutomaticBackupClick()
             SettingsBlock.BackupRestore -> onRestoreClick()
+            SettingsBlock.ExportSpreadsheet -> onExportCsvClick()
+            SettingsBlock.ExportSpreadsheetAutomatic -> onAutomaticExportClick()
+            SettingsBlock.ExportSpreadsheetImport -> onImportCsvClick()
+            SettingsBlock.ExportSpreadsheetImportHint -> onImportCsvHelpClick()
+            SettingsBlock.ExportIcs -> onExportIcsClick()
             else -> {
                 // Do nothing
             }
         }
-    }
-
-    private fun onSaveClick() {
-        requestFileWork(
-            requestCode = RequestCode.REQUEST_CODE_CREATE_FILE,
-            work = ::onSaveBackup,
-            params = CreateFileParams(
-                fileName = "stt_${getFileNameTimeStamp()}.backup",
-                type = FILE_TYPE_BIN,
-                notHandledCallback = ::onFileCreateError,
-            ),
-        )
-    }
-
-    private fun onAutomaticBackupClick() = viewModelScope.launch {
-        if (loadAutomaticBackupEnabled()) {
-            disableAutomaticBackup()
-        } else {
-            requestFileWork(
-                requestCode = RequestCode.REQUEST_CODE_CREATE_FILE,
-                work = ::onAutomaticBackup,
-                params = CreateFileParams(
-                    fileName = "stt_automatic.backup",
-                    type = FILE_TYPE_BIN,
-                    notHandledCallback = ::onFileCreateError,
-                ),
-            )
-        }
-    }
-
-    fun onAutomaticExportClick() = viewModelScope.launch {
-        if (loadAutomaticExportEnabled()) {
-            disableAutomaticExport()
-        } else {
-            requestFileWork(
-                requestCode = RequestCode.REQUEST_CODE_CREATE_FILE,
-                work = ::onAutomaticExport,
-                params = CreateFileParams(
-                    fileName = "stt_records_automatic.csv",
-                    type = FILE_TYPE_CSV,
-                    notHandledCallback = ::onFileCreateError,
-                ),
-            )
-        }
-    }
-
-    private fun onRestoreClick() {
-        router.navigate(
-            StandardDialogParams(
-                tag = ALERT_DIALOG_TAG,
-                message = resourceRepo.getString(R.string.settings_dialog_message),
-                btnPositive = resourceRepo.getString(R.string.ok),
-                btnNegative = resourceRepo.getString(R.string.cancel),
-            ),
-        )
-    }
-
-    fun onExportCsvClick() {
-        router.navigate(DataExportSettingDialogParams(CSV_EXPORT_DIALOG_TAG))
-    }
-
-    fun onImportCsvClick() {
-        router.navigate(
-            StandardDialogParams(
-                tag = CSV_IMPORT_ALERT_DIALOG_TAG,
-                message = resourceRepo.getString(R.string.archive_deletion_alert),
-                btnPositive = resourceRepo.getString(R.string.ok),
-                btnNegative = resourceRepo.getString(R.string.cancel),
-            ),
-        )
-    }
-
-    fun onImportCsvHelpClick() {
-        HelpDialogParams(
-            title = resourceRepo.getString(R.string.settings_import_csv),
-            text = resourceRepo.getString(R.string.settings_import_csv_help),
-        ).let(router::navigate)
-    }
-
-    fun onExportIcsClick() {
-        router.navigate(DataExportSettingDialogParams(ICS_EXPORT_DIALOG_TAG))
     }
 
     fun onPositiveDialogClick(tag: String?) {
@@ -231,10 +138,89 @@ class BackupViewModel @Inject constructor(
     fun onFileWork() {
         viewModelScope.launch {
             checkForAutomaticBackupError()
-            updateAutomaticExportEnabled()
-            updateAutomaticExportLastSaveTime()
             requestScreenUpdate.set(Unit)
         }
+    }
+
+    private fun onSaveClick() {
+        requestFileWork(
+            requestCode = RequestCode.REQUEST_CODE_CREATE_FILE,
+            work = ::onSaveBackup,
+            params = CreateFileParams(
+                fileName = "stt_${getFileNameTimeStamp()}.backup",
+                type = FILE_TYPE_BIN,
+                notHandledCallback = ::onFileCreateError,
+            ),
+        )
+    }
+
+    private fun onAutomaticBackupClick() = viewModelScope.launch {
+        if (loadAutomaticBackupEnabled()) {
+            disableAutomaticBackup()
+        } else {
+            requestFileWork(
+                requestCode = RequestCode.REQUEST_CODE_CREATE_FILE,
+                work = ::onAutomaticBackup,
+                params = CreateFileParams(
+                    fileName = "stt_automatic.backup",
+                    type = FILE_TYPE_BIN,
+                    notHandledCallback = ::onFileCreateError,
+                ),
+            )
+        }
+    }
+
+    private fun onAutomaticExportClick() = viewModelScope.launch {
+        if (loadAutomaticExportEnabled()) {
+            disableAutomaticExport()
+        } else {
+            requestFileWork(
+                requestCode = RequestCode.REQUEST_CODE_CREATE_FILE,
+                work = ::onAutomaticExport,
+                params = CreateFileParams(
+                    fileName = "stt_records_automatic.csv",
+                    type = FILE_TYPE_CSV,
+                    notHandledCallback = ::onFileCreateError,
+                ),
+            )
+        }
+    }
+
+    private fun onRestoreClick() {
+        router.navigate(
+            StandardDialogParams(
+                tag = ALERT_DIALOG_TAG,
+                message = resourceRepo.getString(R.string.settings_dialog_message),
+                btnPositive = resourceRepo.getString(R.string.ok),
+                btnNegative = resourceRepo.getString(R.string.cancel),
+            ),
+        )
+    }
+
+    private fun onExportCsvClick() {
+        router.navigate(DataExportSettingDialogParams(CSV_EXPORT_DIALOG_TAG))
+    }
+
+    private fun onImportCsvClick() {
+        router.navigate(
+            StandardDialogParams(
+                tag = CSV_IMPORT_ALERT_DIALOG_TAG,
+                message = resourceRepo.getString(R.string.archive_deletion_alert),
+                btnPositive = resourceRepo.getString(R.string.ok),
+                btnNegative = resourceRepo.getString(R.string.cancel),
+            ),
+        )
+    }
+
+    private fun onImportCsvHelpClick() {
+        HelpDialogParams(
+            title = resourceRepo.getString(R.string.settings_import_csv),
+            text = resourceRepo.getString(R.string.settings_import_csv_help),
+        ).let(router::navigate)
+    }
+
+    private fun onExportIcsClick() {
+        router.navigate(DataExportSettingDialogParams(ICS_EXPORT_DIALOG_TAG))
     }
 
     private suspend fun checkForAutomaticBackupError() {
@@ -294,7 +280,6 @@ class BackupViewModel @Inject constructor(
     private fun onAutomaticExport(uriString: String?) {
         viewModelScope.launch {
             if (uriString == null) {
-                updateAutomaticExportEnabled()
                 requestScreenUpdate.set(Unit)
                 return@launch
             }
@@ -310,8 +295,6 @@ class BackupViewModel @Inject constructor(
                 onFileCreateError()
             }
 
-            updateAutomaticExportEnabled()
-            updateAutomaticExportLastSaveTime()
             requestScreenUpdate.set(Unit)
         }
     }
@@ -330,8 +313,6 @@ class BackupViewModel @Inject constructor(
             prefsInteractor.setAutomaticExportUri("")
             prefsInteractor.setAutomaticExportError(false)
             automaticExportInteractor.cancel()
-            updateAutomaticExportEnabled()
-            updateAutomaticExportLastSaveTime()
             requestScreenUpdate.set(Unit)
         }
     }
@@ -440,26 +421,8 @@ class BackupViewModel @Inject constructor(
         return prefsInteractor.getAutomaticBackupUri().isNotEmpty()
     }
 
-    private suspend fun updateAutomaticExportEnabled() {
-        val data = loadAutomaticExportEnabled()
-        automaticExportCheckbox.set(data)
-    }
-
     private suspend fun loadAutomaticExportEnabled(): Boolean {
         return prefsInteractor.getAutomaticExportUri().isNotEmpty()
-    }
-
-    private suspend fun updateAutomaticExportLastSaveTime() {
-        val data = loadAutomaticExportLastSaveTime()
-        automaticExportLastSaveTime.set(data)
-    }
-
-    private suspend fun loadAutomaticExportLastSaveTime(): String {
-        return if (loadAutomaticExportEnabled()) {
-            getLastSaveString(prefsInteractor.getAutomaticExportLastSaveTime())
-        } else {
-            ""
-        }
     }
 
     companion object {

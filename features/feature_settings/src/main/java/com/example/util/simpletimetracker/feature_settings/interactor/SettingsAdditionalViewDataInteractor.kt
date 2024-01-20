@@ -136,11 +136,13 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
                 topSpaceIsVisible = false,
             )
             result += SettingsTextWithButtonViewData(
+                buttonBlock = SettingsBlock.AdditionalAutomatedTracking,
                 data = SettingsTextViewData(
                     block = SettingsBlock.AdditionalAutomatedTracking,
                     title = resourceRepo.getString(R.string.settings_automated_tracking),
                     subtitle = "",
                     dividerIsVisible = false,
+                    layoutIsClickable = false,
                 )
             )
             result += SettingsCheckboxViewData(

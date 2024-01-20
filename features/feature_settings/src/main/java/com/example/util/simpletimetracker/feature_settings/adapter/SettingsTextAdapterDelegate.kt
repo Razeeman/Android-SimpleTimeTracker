@@ -26,12 +26,13 @@ fun createSettingsTextAdapterDelegate(
             item = item,
             title = tvItemSettingsTitle,
             subtitle = tvItemSettingsSubtitle,
+            hint = tvItemSettingsHint,
             spaceTop = spaceItemSettingsTop,
             spaceBottom = spaceItemSettingsBottom,
             divider = viewItemSettingsDivider,
+            layout = layoutItemSettingsText,
+            onClick = onClick,
         )
-
-        layoutItemSettingsText.setOnClick { onClick(item.block) }
     }
 }
 
@@ -39,9 +40,12 @@ fun textAdapterBindDelegate(
     item: SettingsTextViewData,
     title: AppCompatTextView,
     subtitle: AppCompatTextView,
+    hint: AppCompatTextView,
     spaceTop: Space,
     spaceBottom: Space,
     divider: View,
+    layout: View,
+    onClick: (block: SettingsBlock) -> Unit,
 ) {
     title.text = item.title
     if (item.subtitle.isEmpty()) {
@@ -51,9 +55,22 @@ fun textAdapterBindDelegate(
         item.subtitleColor.getColor(subtitle.context).let(subtitle::setTextColor)
         subtitle.visible = true
     }
+    if (item.hint.isEmpty()) {
+        hint.visible = false
+    } else {
+        hint.text = item.hint
+        item.hintColor.getColor(hint.context).let(hint::setTextColor)
+        hint.visible = true
+    }
     spaceTop.visible = item.topSpaceIsVisible
     spaceBottom.visible = item.bottomSpaceIsVisible
     divider.visible = item.dividerIsVisible
+
+    if (item.layoutIsClickable) {
+        layout.setOnClick { onClick(item.block) }
+    } else {
+        layout.isClickable = false
+    }
 }
 
 data class SettingsTextViewData(
@@ -61,9 +78,12 @@ data class SettingsTextViewData(
     val title: String,
     val subtitle: String,
     val subtitleColor: SettingsTextColor = SettingsTextColor.Default,
+    val hint: String = "",
+    val hintColor: SettingsTextColor = SettingsTextColor.Default,
     val topSpaceIsVisible: Boolean = true,
     val dividerIsVisible: Boolean = true,
     val bottomSpaceIsVisible: Boolean = true,
+    val layoutIsClickable: Boolean = true,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = block.ordinal.toLong()

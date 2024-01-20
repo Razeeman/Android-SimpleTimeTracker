@@ -72,4 +72,14 @@ enum class SettingsBlock {
     BackupAutomaticHint,
     BackupRestore,
     BackupBottom,
+
+    ExportTop,
+    ExportCollapse,
+    ExportSpreadsheet,
+    ExportSpreadsheetAutomatic,
+    ExportSpreadsheetAutomaticHint,
+    ExportSpreadsheetImport,
+    ExportSpreadsheetImportHint,
+    ExportIcs,
+    ExportBottom,
 }

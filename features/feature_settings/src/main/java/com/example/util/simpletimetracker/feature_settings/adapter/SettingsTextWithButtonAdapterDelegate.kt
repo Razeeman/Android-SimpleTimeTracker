@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTextW
 import com.example.util.simpletimetracker.feature_settings.databinding.ItemSettingsTextWithButtonBinding as Binding
 
 fun createSettingsTextWithButtonAdapterDelegate(
-    onButtonClick: (block: SettingsBlock) -> Unit,
+    onClick: (block: SettingsBlock) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->
@@ -20,16 +20,20 @@ fun createSettingsTextWithButtonAdapterDelegate(
             item = item.data,
             title = tvItemSettingsTitle,
             subtitle = tvItemSettingsSubtitle,
+            hint = tvItemSettingsHint,
             spaceTop = spaceItemSettingsTop,
             spaceBottom = spaceItemSettingsBottom,
             divider = viewItemSettingsDivider,
+            layout = layoutItemSettingsText,
+            onClick = onClick,
         )
 
-        btnItemSettingsText.setOnClick { onButtonClick(item.data.block) }
+        btnItemSettingsText.setOnClick { onClick(item.buttonBlock) }
     }
 }
 
 data class SettingsTextWithButtonViewData(
+    val buttonBlock: SettingsBlock,
     val data: SettingsTextViewData,
 ) : ViewHolderType {
 

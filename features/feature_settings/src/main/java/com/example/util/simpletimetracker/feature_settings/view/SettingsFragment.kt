@@ -32,10 +32,6 @@ import com.example.util.simpletimetracker.feature_settings.adapter.createSetting
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTopAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTranslatorAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
-import com.example.util.simpletimetracker.feature_views.extension.rotateDown
-import com.example.util.simpletimetracker.feature_views.extension.rotateUp
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -72,7 +68,7 @@ class SettingsFragment :
             createSettingsTopAdapterDelegate(),
             createSettingsBottomAdapterDelegate(),
             createSettingsTextAdapterDelegate(throttle(::onTextClicked)),
-            createSettingsTextWithButtonAdapterDelegate(viewModel::onButtonClicked),
+            createSettingsTextWithButtonAdapterDelegate(::onButtonClicked),
             createSettingsCheckboxAdapterDelegate(::onCheckboxClicked),
             createSettingsSpinnerAdapterDelegate(viewModel::onSpinnerPositionSelected),
             createSettingsSpinnerEvenAdapterDelegate(viewModel::onSpinnerPositionSelected),
@@ -106,65 +102,21 @@ class SettingsFragment :
         layoutSettingsTranslators.rvSettingsTranslators.adapter = translatorsAdapter
     }
 
-    override fun initUx() = with(binding) {
-        with(layoutSettingsExportImport) {
-            layoutSettingsExportImportTitle.setOnClick(viewModel::onSettingsExportImportClick)
-            layoutSettingsExportCsv.setOnClick(backupViewModel::onExportCsvClick)
-            layoutSettingsImportCsv.setOnClick(backupViewModel::onImportCsvClick)
-            btnSettingsImportCsvHelp.setOnClick(backupViewModel::onImportCsvHelpClick)
-            layoutSettingsExportIcs.setOnClick(backupViewModel::onExportIcsClick)
-            checkboxSettingsAutomaticExport.setOnClick(backupViewModel::onAutomaticExportClick)
-        }
-    }
-
     override fun initViewModel(): Unit = with(binding) {
-        with(viewModel) {
-            content.observe(contentAdapter::replaceAsNew)
-
-            viewModel.settingsExportImportVisibility.observe { opened ->
-                layoutSettingsExportImport.layoutSettingsExportImportContent.visible = opened
-                layoutSettingsExportImport.arrowSettingsExportImport
-                    .apply { if (opened) rotateDown() else rotateUp() }
-            }
-            resetScreen.observe {
-                containerSettings.smoothScrollTo(0, 0)
-                mainTabsViewModel.onHandled()
-            }
+        viewModel.content.observe(contentAdapter::replaceAsNew)
+        viewModel.resetScreen.observe {
+            containerSettings.smoothScrollTo(0, 0)
+            mainTabsViewModel.onHandled()
         }
-
-        with(viewModel.mainDelegate) {
-            themeChanged.observe(::changeTheme)
-        }
-
-        with(viewModel.displayDelegate) {
-            keepScreenOnCheckbox.observe(::setKeepScreenOn)
-        }
-
-        with(viewModel.translatorsDelegate) {
-            translatorsViewData.observe(translatorsAdapter::replaceAsNew)
-        }
-
-        with(backupViewModel) {
-            requestScreenUpdate.observe { viewModel.onRequestUpdate() }
-            with(layoutSettingsExportImport) {
-                automaticExportCheckbox.observe(checkboxSettingsAutomaticExport::setChecked)
-                automaticExportLastSaveTime.observe {
-                    tvSettingsAutomaticExportLastSaveTime.visible = it.isNotEmpty()
-                    tvSettingsAutomaticExportLastSaveTime.text = it
-                }
-            }
-        }
-
-        with(mainTabsViewModel) {
-            tabReselected.observe(viewModel::onTabReselected)
-        }
+        viewModel.mainDelegate.themeChanged.observe(::changeTheme)
+        viewModel.displayDelegate.keepScreenOnCheckbox.observe(::setKeepScreenOn)
+        viewModel.translatorsDelegate.translatorsViewData.observe(translatorsAdapter::replaceAsNew)
+        backupViewModel.requestScreenUpdate.observe { viewModel.onRequestUpdate() }
+        mainTabsViewModel.tabReselected.observe(viewModel::onTabReselected)
     }
 
     override fun onResume() = with(binding) {
         super.onResume()
-        with(layoutSettingsExportImport) {
-            checkboxSettingsAutomaticExport.jumpDrawablesToCurrentState()
-        }
         viewModel.onVisible()
     }
 
@@ -195,6 +147,11 @@ class SettingsFragment :
 
     private fun onCheckboxClicked(block: SettingsBlock) {
         viewModel.onCheckboxClicked(block)
+        backupViewModel.onBlockClicked(block)
+    }
+
+    private fun onButtonClicked(block: SettingsBlock) {
+        viewModel.onButtonClicked(block)
         backupViewModel.onBlockClicked(block)
     }
 
