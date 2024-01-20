@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.data_local.repo
 import com.example.util.simpletimetracker.data_local.database.RunningRecordDao
 import com.example.util.simpletimetracker.data_local.mapper.RunningRecordDataLocalMapper
 import com.example.util.simpletimetracker.data_local.utils.removeIf
+import com.example.util.simpletimetracker.data_local.utils.replaceWith
 import com.example.util.simpletimetracker.data_local.utils.withLockedCache
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.domain.repo.RunningRecordRepo
@@ -41,7 +42,7 @@ class RunningRecordRepoImpl @Inject constructor(
     override suspend fun add(runningRecord: RunningRecord): Long = mutex.withLockedCache(
         logMessage = "add",
         accessSource = { dao.insert(runningRecord.let(mapper::map)) },
-        afterSourceAccess = { cache = null },
+        afterSourceAccess = { cache = cache?.replaceWith(runningRecord) { it.id == runningRecord.id } },
     )
 
     override suspend fun remove(id: Long) = mutex.withLockedCache(

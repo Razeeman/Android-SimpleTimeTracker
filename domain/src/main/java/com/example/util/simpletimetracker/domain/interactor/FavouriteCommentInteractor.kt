@@ -27,8 +27,4 @@ class FavouriteCommentInteractor @Inject constructor(
     suspend fun remove(id: Long) {
         favouriteCommentRepo.remove(id)
     }
-
-    private fun sortByName(favouriteComment: List<FavouriteComment>): List<FavouriteComment> {
-        return favouriteComment
-    }
 }

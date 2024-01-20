@@ -1,11 +1,9 @@
 package com.example.util.simpletimetracker.data_local.repo
 
 import com.example.util.simpletimetracker.data_local.database.RecordTypeCategoryDao
-import com.example.util.simpletimetracker.data_local.utils.withLockedCache
-import com.example.util.simpletimetracker.data_local.mapper.CategoryDataLocalMapper
 import com.example.util.simpletimetracker.data_local.mapper.RecordTypeCategoryDataLocalMapper
 import com.example.util.simpletimetracker.data_local.utils.removeIf
-import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.data_local.utils.withLockedCache
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import kotlinx.coroutines.sync.Mutex
@@ -15,7 +13,6 @@ import javax.inject.Singleton
 @Singleton
 class RecordTypeCategoryRepoImpl @Inject constructor(
     private val recordTypeCategoryDao: RecordTypeCategoryDao,
-    private val categoryDataLocalMapper: CategoryDataLocalMapper,
     private val recordTypeCategoryDataLocalMapper: RecordTypeCategoryDataLocalMapper,
 ) : RecordTypeCategoryRepo {
 
@@ -27,16 +24,6 @@ class RecordTypeCategoryRepoImpl @Inject constructor(
         accessCache = { cache },
         accessSource = { recordTypeCategoryDao.getAll().map(recordTypeCategoryDataLocalMapper::map) },
         afterSourceAccess = { cache = it },
-    )
-
-    override suspend fun getCategoriesByType(typeId: Long): List<Category> = mutex.withLockedCache(
-        logMessage = "get categories",
-        accessSource = {
-            recordTypeCategoryDao.getTypeWithCategories(typeId)
-                ?.categories
-                ?.map(categoryDataLocalMapper::map)
-                .orEmpty()
-        },
     )
 
     override suspend fun getCategoryIdsByType(typeId: Long): Set<Long> = mutex.withLockedCache(

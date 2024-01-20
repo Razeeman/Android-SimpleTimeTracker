@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.data_local.database.RecordTypeGoalDao
 import com.example.util.simpletimetracker.data_local.mapper.RecordTypeGoalDataLocalMapper
 import com.example.util.simpletimetracker.data_local.utils.logDataAccess
 import com.example.util.simpletimetracker.data_local.utils.removeIf
+import com.example.util.simpletimetracker.data_local.utils.replaceWith
 import com.example.util.simpletimetracker.data_local.utils.withLockedCache
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal.IdData
@@ -57,7 +58,7 @@ class RecordTypeGoalRepoImpl @Inject constructor(
     override suspend fun add(recordTypeGoal: RecordTypeGoal): Long = mutex.withLockedCache(
         logMessage = "add",
         accessSource = { dao.insert(recordTypeGoal.let(mapper::map)) },
-        afterSourceAccess = { cache = null },
+        afterSourceAccess = { cache = cache?.replaceWith(recordTypeGoal) { it.id == recordTypeGoal.id } },
     )
 
     override suspend fun remove(id: Long) = mutex.withLockedCache(

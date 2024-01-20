@@ -5,9 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import com.example.util.simpletimetracker.data_local.model.RecordTypeCategoryDBO
-import com.example.util.simpletimetracker.data_local.model.RecordTypeWithCategoriesDBO
 
 @Dao
 interface RecordTypeCategoryDao {
@@ -20,10 +18,6 @@ interface RecordTypeCategoryDao {
 
     @Query("SELECT record_type_id FROM recordTypeCategory WHERE category_id = :categoryId")
     suspend fun getTypeIdsByCategory(categoryId: Long): List<Long>
-
-    @Transaction
-    @Query("SELECT * FROM recordTypes WHERE id = :typeId LIMIT 1")
-    suspend fun getTypeWithCategories(typeId: Long): RecordTypeWithCategoriesDBO?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(recordTypeCategoryDBO: List<RecordTypeCategoryDBO>)

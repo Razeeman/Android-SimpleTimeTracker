@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.util.simpletimetracker.data_local.model.RecordToRecordTagDBO
 
+@Suppress("unused")
 @Dao
 interface RecordToRecordTagDao {
 

@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
@@ -34,6 +35,7 @@ import timber.log.Timber
 class CsvRepoImpl @Inject constructor(
     private val contentResolver: ContentResolver,
     private val recordTypeRepo: RecordTypeRepo,
+    private val categoryRepo: CategoryRepo,
     private val recordRepo: RecordRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
     private val recordTagRepo: RecordTagRepo,
@@ -56,9 +58,10 @@ class CsvRepoImpl @Inject constructor(
             fileOutputStream?.write(CSV_HEADER.toByteArray())
 
             val recordTypes = recordTypeRepo.getAll().associateBy { it.id }
+            val categories = categoryRepo.getAll().associateBy { it.id }
             val recordTags = recordTagRepo.getAll()
-            val categories = recordTypes.map { (id, _) ->
-                id to recordTypeCategoryRepo.getCategoriesByType(id)
+            val typeToCategories = recordTypes.map { (id, _) ->
+                id to recordTypeCategoryRepo.getCategoryIdsByType(id).mapNotNull { categories[it] }
             }.toMap()
 
             // Write data
@@ -73,7 +76,7 @@ class CsvRepoImpl @Inject constructor(
                     toCsvString(
                         record = record,
                         recordType = recordTypes[record.typeId],
-                        categories = categories[record.typeId].orEmpty(),
+                        categories = typeToCategories[record.typeId].orEmpty(),
                         recordTags = recordTags.filter { it.id in record.tagIds }
                     )
                         ?.toByteArray()

@@ -6,15 +6,11 @@ interface RecordToRecordTagRepo {
 
     suspend fun getAll(): List<RecordToRecordTag>
 
-    suspend fun getTagIdsByRecordId(recordId: Long): List<Long>
-
     suspend fun getRecordIdsByTagId(tagId: Long): List<Long>
 
     suspend fun add(recordToRecordTag: RecordToRecordTag)
 
     suspend fun addRecordTags(recordId: Long, tagIds: List<Long>)
-
-    suspend fun removeRecordTags(recordId: Long, tagIds: List<Long>)
 
     suspend fun removeAllByTagId(tagId: Long)
 

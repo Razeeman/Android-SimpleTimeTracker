@@ -22,12 +22,6 @@ class RecordToRecordTagRepoImpl @Inject constructor(
             dao.getAll().map(mapper::map)
         }
 
-    override suspend fun getTagIdsByRecordId(recordId: Long): List<Long> =
-        withContext(Dispatchers.IO) {
-            logDataAccess("get tag ids")
-            dao.getTagIdsByRecordId(recordId)
-        }
-
     override suspend fun getRecordIdsByTagId(tagId: Long): List<Long> =
         withContext(Dispatchers.IO) {
             logDataAccess("get record ids")
@@ -51,16 +45,6 @@ class RecordToRecordTagRepoImpl @Inject constructor(
                 mapper.map(recordId = recordId, recordTagId = it)
             }.let {
                 dao.insert(it)
-            }
-        }
-
-    override suspend fun removeRecordTags(recordId: Long, tagIds: List<Long>) =
-        withContext(Dispatchers.IO) {
-            logDataAccess("remove record tags")
-            tagIds.map {
-                mapper.map(recordId = recordId, recordTagId = it)
-            }.let {
-                dao.delete(it)
             }
         }
 
