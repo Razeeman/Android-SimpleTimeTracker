@@ -16,6 +16,7 @@
         android:id="@+id/ivRecordTypeItemIcon"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="4dp"
         android:layout_marginStart="0dp"
         app:layout_constraintBottom_toTopOf="@id/guideRecordTypeItem"
         app:layout_constraintDimensionRatio="1:1"
