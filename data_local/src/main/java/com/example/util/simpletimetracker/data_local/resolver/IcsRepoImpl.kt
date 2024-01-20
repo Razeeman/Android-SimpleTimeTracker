@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.domain.resolver.ResultCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.io.BufferedOutputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -53,12 +54,13 @@ class IcsRepoImpl @Inject constructor(
         range: Range?,
     ): ResultCode = withContext(Dispatchers.IO) {
         var fileDescriptor: ParcelFileDescriptor? = null
-        var fileOutputStream: FileOutputStream? = null
+        var fileOutputStream: BufferedOutputStream? = null
 
         try {
             val uri = Uri.parse(uriString)
             fileDescriptor = contentResolver.openFileDescriptor(uri, "w")
-            fileOutputStream = fileDescriptor?.fileDescriptor?.let(::FileOutputStream)
+            fileOutputStream = fileDescriptor?.fileDescriptor
+                ?.let(::FileOutputStream)?.buffered()
 
             // Write ics header
             fileOutputStream?.write(ICS_HEADER.toByteArray())

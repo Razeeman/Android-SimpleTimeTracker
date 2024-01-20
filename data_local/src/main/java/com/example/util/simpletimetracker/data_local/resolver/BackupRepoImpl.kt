@@ -40,6 +40,7 @@ import javax.inject.Singleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.io.BufferedOutputStream
 
 /**
  * Do not change backup parts order, always add new to the end.
@@ -66,12 +67,13 @@ class BackupRepoImpl @Inject constructor(
         uriString: String,
     ): ResultCode = withContext(Dispatchers.IO) {
         var fileDescriptor: ParcelFileDescriptor? = null
-        var fileOutputStream: FileOutputStream? = null
+        var fileOutputStream: BufferedOutputStream? = null
 
         try {
             val uri = Uri.parse(uriString)
             fileDescriptor = contentResolver.openFileDescriptor(uri, "wt")
-            fileOutputStream = fileDescriptor?.fileDescriptor?.let(::FileOutputStream)
+            fileOutputStream = fileDescriptor?.fileDescriptor
+                ?.let(::FileOutputStream)?.buffered()
 
             // Write file identification
             val identificationBackupRow: String = BACKUP_IDENTIFICATION + "\n"

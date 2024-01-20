@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_settings.adapter
 import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxWithRangeViewData
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxWithRangeViewData as ViewData
@@ -27,9 +26,9 @@ fun createSettingsCheckboxWithRangeAdapterDelegate(
         }
 
         groupItemSettingsCheckboxWithRange.visible =
-            item.range is SettingsCheckboxWithRangeViewData.RangeViewData.Enabled
+            item.range is ViewData.RangeViewData.Enabled
 
-        if (item.range is SettingsCheckboxWithRangeViewData.RangeViewData.Enabled) {
+        if (item.range is ViewData.RangeViewData.Enabled) {
             tvItemSettingsStart.text = item.range.rangeStart
             tvItemSettingsEnd.text = item.range.rangeEnd
         }

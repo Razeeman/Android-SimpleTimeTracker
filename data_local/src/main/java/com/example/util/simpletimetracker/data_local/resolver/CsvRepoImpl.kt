@@ -31,6 +31,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.io.BufferedOutputStream
 
 class CsvRepoImpl @Inject constructor(
     private val contentResolver: ContentResolver,
@@ -47,12 +48,13 @@ class CsvRepoImpl @Inject constructor(
         range: Range?,
     ): ResultCode = withContext(Dispatchers.IO) {
         var fileDescriptor: ParcelFileDescriptor? = null
-        var fileOutputStream: FileOutputStream? = null
+        var fileOutputStream: BufferedOutputStream? = null
 
         try {
             val uri = Uri.parse(uriString)
             fileDescriptor = contentResolver.openFileDescriptor(uri, "wt")
-            fileOutputStream = fileDescriptor?.fileDescriptor?.let(::FileOutputStream)
+            fileOutputStream = fileDescriptor?.fileDescriptor
+                ?.let(::FileOutputStream)?.buffered()
 
             // Write csv header
             fileOutputStream?.write(CSV_HEADER.toByteArray())

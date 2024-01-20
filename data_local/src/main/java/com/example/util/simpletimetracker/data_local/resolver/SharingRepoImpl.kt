@@ -9,6 +9,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -25,10 +26,10 @@ class SharingRepoImpl @Inject constructor(
     ): SharingRepo.Result = withContext(Dispatchers.IO) {
         if (bitmap !is Bitmap) return@withContext SharingRepo.Result.Error
 
-        var outputStream: FileOutputStream? = null
+        var outputStream: BufferedOutputStream? = null
         try {
             val file = File(context.cacheDir, "$filename.png")
-            outputStream = FileOutputStream(file)
+            outputStream = FileOutputStream(file).buffered()
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
             val uri = FileProvider.getUriForFile(
                 context,
