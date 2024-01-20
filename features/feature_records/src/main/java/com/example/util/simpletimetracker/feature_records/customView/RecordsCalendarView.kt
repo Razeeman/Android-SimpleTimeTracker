@@ -46,7 +46,7 @@ class RecordsCalendarView @JvmOverloads constructor(
 ) : View(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     // Attrs
@@ -72,9 +72,11 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var legendTextWidth: Float = 0f
     private var legendTextHeight: Float = 0f
     private var legendMinutesTextHeight: Float = 0f
-    private var pixelLeftBound: Float = 0f
-    private var pixelRightBound: Float = 0f
-    private var canvasHeight: Float = 0f
+    private var chartLeftBound: Float = 0f
+    private var chartRightBound: Float = 0f
+    private var chartTopBound: Float = 0f
+    private var chartBottomBound: Float = 0f
+    private var chartHeight: Float = 0f
     private var chartWidth: Float = 0f
     private val legendTextPadding: Float = 2.dpToPx().toFloat()
     private val legendMinutesTextPadding: Float = 4.dpToPx().toFloat()
@@ -144,18 +146,18 @@ class RecordsCalendarView @JvmOverloads constructor(
 
     private val singleTapDetector = SingleTapDetector(
         context = context,
-        onSingleTap = ::onTouch
+        onSingleTap = ::onTouch,
     )
     private val scaleDetector = ScaleDetector(
         context = context,
         onScaleStart = ::onScaleStart,
         onScaleChanged = ::onScaleChanged,
-        onScaleStop = ::onScaleStop
+        onScaleStop = ::onScaleStop,
     )
     private val swipeDetector = SwipeDetector(
         context = context,
         onSlide = ::onSwipe,
-        onSlideStop = ::onSwipeStop
+        onSlideStop = ::onSwipeStop,
     )
 
     init {
@@ -198,15 +200,15 @@ class RecordsCalendarView @JvmOverloads constructor(
         val h = height.toFloat()
 
         calculateDimensions(w, h)
-        drawLegend(canvas, w, h)
+        canvas.clipRect(0f, chartTopBound, w, chartBottomBound)
+        drawLegend(canvas, w)
         data.forEachIndexed { index, data ->
             drawData(
                 canvas = canvas,
-                h = h,
                 data = data,
                 index = index,
                 isFirst = index == 0,
-                isLast = index == this.data.size - 1
+                isLast = index == this.data.size - 1,
             )
         }
     }
@@ -315,8 +317,6 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     private fun calculateDimensions(w: Float, h: Float) {
-        canvasHeight = h
-
         val defaultLegendText = "00:00"
         legendTextWidth = legendTextPaint.measureText(defaultLegendText)
 
@@ -327,14 +327,17 @@ class RecordsCalendarView @JvmOverloads constructor(
         legendMinutesTextHeight = textBounds.height().toFloat()
 
         // Chart dimensions
-        pixelLeftBound = legendTextWidth + 2 * legendTextPadding
-        pixelRightBound = w - legendTextPadding
-        chartWidth = (pixelRightBound - pixelLeftBound) / dataSize
+        chartLeftBound = legendTextWidth + 2 * legendTextPadding
+        chartRightBound = w - legendTextPadding
+        chartWidth = (chartRightBound - chartLeftBound) / dataSize
+
+        chartTopBound = 0f
+        chartBottomBound = h
+        chartHeight = chartBottomBound - chartTopBound
     }
 
     private fun drawData(
         canvas: Canvas,
-        h: Float,
         data: List<Data>,
         index: Int,
         isFirst: Boolean,
@@ -370,16 +373,18 @@ class RecordsCalendarView @JvmOverloads constructor(
              * Draw box *
              ************/
             recordPaint.color = item.point.data.color
-            boxHeight = h * (item.point.end - item.point.start) / dayInMillis
-            boxShift = h * item.point.start / dayInMillis
+            boxHeight = chartHeight * (item.point.end - item.point.start) / dayInMillis
+            boxShift = chartHeight * item.point.start / dayInMillis
             boxWidth = chartWidth / item.columnCount
-            boxLeft = pixelLeftBound +
+            boxLeft = chartLeftBound +
                 chartWidth * index +
                 boxWidth * (item.columnNumber - 1)
             boxRight = boxLeft + boxWidth
-            boxBottom = ((h - boxShift) * scaleFactor)
-                .let { if (reverseOrder) (h * scaleFactor - it + boxHeight * scaleFactor) else it }
-                .let { it + panFactor }
+            boxBottom = if (reverseOrder) {
+                chartTopBound + (boxShift + boxHeight) * scaleFactor
+            } else {
+                chartTopBound + (chartHeight - boxShift) * scaleFactor
+            }.let { it + panFactor }
             boxTop = boxBottom - boxHeight * scaleFactor
 
             // Save coordinates for click event.
@@ -398,7 +403,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                 recordBounds,
                 recordCornerRadius,
                 recordCornerRadius,
-                recordPaint
+                recordPaint,
             )
 
             availableHeight = recordBounds.height() - 2 * recordVerticalPadding
@@ -416,7 +421,7 @@ class RecordsCalendarView @JvmOverloads constructor(
 
                 bounds.set(
                     iconLeft, iconTop,
-                    iconRight, iconBottom
+                    iconRight, iconBottom,
                 )
                 item.drawable?.bounds = bounds
                 item.drawable?.draw(canvas)
@@ -432,7 +437,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             durationTextView.text = item.point.data.duration
             durationTextView.measureText(
                 width = 0,
-                widthSpec = MeasureSpec.UNSPECIFIED
+                widthSpec = MeasureSpec.UNSPECIFIED,
             )
             textHeight = durationTextView.measuredHeight
             // If can fit into box.
@@ -459,7 +464,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             nameTextView.text = getItemName(item.point.data)
             nameTextView.measureText(
                 width = availableWidth.toInt(),
-                widthSpec = MeasureSpec.EXACTLY
+                widthSpec = MeasureSpec.EXACTLY,
             )
             textHeight = nameTextView.measuredHeight
             // If can fit into box.
@@ -488,7 +493,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             timeTextView.text = getItemTimes(item.point.data)
             timeTextView.measureText(
                 width = 0,
-                widthSpec = MeasureSpec.UNSPECIFIED
+                widthSpec = MeasureSpec.UNSPECIFIED,
             )
             timesTextHeight = timeTextView.measuredHeight
             // If can fit into box.
@@ -520,14 +525,14 @@ class RecordsCalendarView @JvmOverloads constructor(
                     width = textWidth.toInt(),
                     widthSpec = MeasureSpec.EXACTLY,
                     height = 0,
-                    heightSpec = MeasureSpec.UNSPECIFIED
+                    heightSpec = MeasureSpec.UNSPECIFIED,
                 )
                 newMaxLines = (availableHeight / commentTextView.measuredHeight).toInt()
                 commentTextView.apply { maxLines = newMaxLines }.measureText(
                     width = textWidth.toInt(),
                     widthSpec = MeasureSpec.EXACTLY,
                     height = availableHeight.toInt(),
-                    heightSpec = MeasureSpec.AT_MOST
+                    heightSpec = MeasureSpec.AT_MOST,
                 )
                 // If can fit into box.
                 if (
@@ -548,69 +553,83 @@ class RecordsCalendarView @JvmOverloads constructor(
         }
     }
 
-    private fun drawLegend(canvas: Canvas, w: Float, h: Float) {
+    private fun drawLegend(canvas: Canvas, w: Float) {
         fun Float.checkReverse(): Float {
-            return if (reverseOrder) (h * scaleFactor - this) else this
+            return if (reverseOrder) {
+                chartTopBound + chartHeight * scaleFactor - (this - chartTopBound)
+            } else {
+                this
+            }
         }
 
         fun Float.checkOverdraw(): Float {
             // If goes over the end - draw on top, and otherwise.
             return when {
-                this > h * scaleFactor -> this - h * scaleFactor
-                this < 0 -> this + h * scaleFactor
+                this > chartTopBound + chartHeight * scaleFactor -> this - chartHeight * scaleFactor
+                this < chartTopBound -> this + chartHeight * scaleFactor
                 else -> this
             }
         }
 
         val hours = (24 downTo 0)
             .map { if (it == 24 && startOfDayShift != 0L) 0 else it }
-        val lineStep = h / (hours.size - 1)
+        val lineStep = chartHeight / (hours.size - 1)
 
         val selectedMinutesRange = availableMinutesRanges.firstOrNull {
             (lineStep * scaleFactor / (it.size + 1)) > (legendMinutesTextHeight + 2 * legendMinutesTextPadding)
         }.orEmpty()
         val minuteLineStep = lineStep / (selectedMinutesRange.size + 1)
 
-        val shift: Float = h * startOfDayShift / dayInMillis
+        val shift: Float = chartHeight * startOfDayShift / dayInMillis
 
         canvas.save()
         canvas.translate(0f, panFactor)
 
         // Draw current time
         currentTime?.let { currentTime ->
-            val currentTimeY = (h * scaleFactor * (dayInMillis - currentTime) / dayInMillis).checkOverdraw()
+            val currentTimeY = (
+                chartTopBound +
+                    chartHeight * scaleFactor * (dayInMillis - currentTime) / dayInMillis
+                ).checkOverdraw()
 
             canvas.drawLine(
-                pixelLeftBound - legendTextPadding,
+                chartLeftBound - legendTextPadding,
                 currentTimeY.checkReverse(),
                 w,
                 currentTimeY.checkReverse(),
-                currentTimelinePaint
+                currentTimelinePaint,
             )
         }
 
         hours.forEachIndexed { index, hour ->
-            val currentY = (index * lineStep * scaleFactor + shift * scaleFactor).checkOverdraw()
+            val currentY = (
+                chartTopBound +
+                    index * lineStep * scaleFactor +
+                    shift * scaleFactor
+                ).checkOverdraw()
 
             // Draw hour line
             canvas.drawLine(
-                pixelLeftBound,
+                chartLeftBound,
                 currentY.checkReverse(),
                 w,
                 currentY.checkReverse(),
-                linePaint
+                linePaint,
             )
 
             // Draw hour text
             val textCenterY: Float = (currentY.checkReverse() + legendTextHeight / 2)
-                .coerceIn(legendTextHeight, h * scaleFactor)
+                .coerceIn(
+                    chartTopBound + legendTextHeight,
+                    chartTopBound + chartHeight * scaleFactor,
+                )
             val hourText = hour.toString()
                 .padStart(2, '0')
             canvas.drawText(
                 hourText.let { "$it:00" },
                 legendTextPadding,
                 textCenterY,
-                legendTextPaint
+                legendTextPaint,
             )
 
             if (index == 0) return@forEachIndexed
@@ -620,24 +639,27 @@ class RecordsCalendarView @JvmOverloads constructor(
 
                 // Draw minute line
                 canvas.drawLine(
-                    pixelLeftBound,
+                    chartLeftBound,
                     minuteCurrentY.checkReverse(),
                     w,
                     minuteCurrentY.checkReverse(),
-                    lineSecondaryPaint
+                    lineSecondaryPaint,
                 )
 
                 // Draw minute text
                 val minuteTextCenterY: Float = (minuteCurrentY.checkReverse() + legendMinutesTextHeight / 2)
-                    .coerceIn(legendMinutesTextHeight, h * scaleFactor)
+                    .coerceIn(
+                        chartTopBound + legendMinutesTextHeight,
+                        chartTopBound + chartHeight * scaleFactor,
+                    )
                 val minuteText = minute.toString()
                     .padStart(2, '0')
                 val fullText = "$hourText:$minuteText"
                 canvas.drawText(
                     fullText,
-                    pixelLeftBound - legendTextPadding,
+                    chartLeftBound - legendTextPadding,
                     minuteTextCenterY,
-                    legendMinutesTextPaint
+                    legendMinutesTextPaint,
                 )
             }
         }
@@ -665,7 +687,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                         duration = "5h 23m 3s",
                         iconId = RecordTypeIcon.Image(R.drawable.unknown),
                         color = Color.RED,
-                        comment = "Comment $it"
+                        comment = "Comment $it",
                     )
                     RecordsCalendarViewData.Point(
                         start = start,
@@ -692,7 +714,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                 Data(
                     point = point,
                     drawable = getIconDrawable(point.data.iconId),
-                )
+                ),
             )
         }
 
@@ -768,7 +790,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             spannable.setSpan(
                 ForegroundColorSpan(itemTagColor),
                 item.name.length, name.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
             )
             spannable
         }
@@ -800,7 +822,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         scaleFactor *= newScale
         scaleFactor = scaleFactor.coerceAtLeast(1f)
         val currentScale = scaleFactor / lastScaleFactor
-        panFactor = lastPanFactor * currentScale - (canvasHeight * currentScale - canvasHeight) / 2
+        panFactor = lastPanFactor * currentScale - (chartHeight * currentScale - chartHeight) / 2
         coercePan()
         invalidate()
     }
@@ -829,7 +851,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     private fun coercePan() {
-        val maxPanAvailable = canvasHeight * scaleFactor - canvasHeight
+        val maxPanAvailable = chartHeight * scaleFactor - chartHeight
         panFactor = panFactor.coerceIn(-maxPanAvailable, 0f)
     }
 
@@ -845,7 +867,7 @@ class RecordsCalendarView @JvmOverloads constructor(
             ellipsize = TextUtils.TruncateAt.END
             this.typeface = typeface
             layoutParams = ViewGroup.LayoutParams(
-                widthLayoutParams, ViewGroup.LayoutParams.WRAP_CONTENT
+                widthLayoutParams, ViewGroup.LayoutParams.WRAP_CONTENT,
             )
         }
     }
