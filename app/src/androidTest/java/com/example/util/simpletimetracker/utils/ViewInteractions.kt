@@ -12,9 +12,11 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollTo
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
+import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -90,3 +92,9 @@ fun checkSliderValue(id: Int, expectedValue: Int): ViewInteraction =
 fun setPickerTime(hour: Int, minute: Int) {
     onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(hour, minute))
 }
+
+fun checkCheckboxIsChecked(matcher: Matcher<View>): ViewInteraction =
+    onView(matcher).check(matches(isChecked()))
+
+fun checkCheckboxIsNotChecked(matcher: Matcher<View>): ViewInteraction =
+    onView(matcher).check(matches(isNotChecked()))

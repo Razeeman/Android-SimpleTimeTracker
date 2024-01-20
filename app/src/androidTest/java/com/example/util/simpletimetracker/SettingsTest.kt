@@ -4,17 +4,13 @@ import android.widget.DatePicker
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.PickerActions.setDate
 import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.hasSibling
-import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
-import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
@@ -22,26 +18,26 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
+import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
+import com.example.util.simpletimetracker.domain.interactor.AppLanguage
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
-import com.example.util.simpletimetracker.feature_base_adapter.R
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
+import com.example.util.simpletimetracker.utils.checkCheckboxIsChecked
+import com.example.util.simpletimetracker.utils.checkCheckboxIsNotChecked
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
-import com.example.util.simpletimetracker.utils.clickOnSpinnerWithId
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.getMillis
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
-import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.recyclerItemCount
 import com.example.util.simpletimetracker.utils.tryAction
-import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withPluralText
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
@@ -58,7 +54,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
 import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 import com.example.util.simpletimetracker.feature_records.R as recordsR
-import com.example.util.simpletimetracker.feature_settings.R as settingsR
 import com.example.util.simpletimetracker.feature_statistics.R as statisticsR
 import com.example.util.simpletimetracker.feature_statistics_detail.R as statisticsDetailR
 
@@ -84,10 +79,10 @@ class SettingsTest : BaseUiTest() {
         // Change setting
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords)).check(matches(isChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords))
-        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords)).check(matches(isNotChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_untracked_time)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_untracked_time))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_untracked_time)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_untracked_time))
 
         // Untracked is not shown
         NavUtils.openRecordsScreen()
@@ -97,10 +92,10 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords))
-        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInRecords)).check(matches(isChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_untracked_time)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_untracked_time))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_untracked_time)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_untracked_time))
 
         // Untracked is shown
         NavUtils.openRecordsScreen()
@@ -125,32 +120,28 @@ class SettingsTest : BaseUiTest() {
         // Change setting
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics)).check(matches(isChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics))
-        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics)).check(matches(isNotChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_untracked_time_statistics)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_untracked_time_statistics))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_untracked_time_statistics)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_untracked_time_statistics))
 
         // Untracked is not shown
         NavUtils.openStatisticsScreen()
-        checkViewDoesNotExist(
-            allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()),
-        )
+        checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
 
         // Add record
         NavUtils.openRecordsScreen()
         testUtils.addRecord(name)
         NavUtils.openStatisticsScreen()
-        checkViewDoesNotExist(
-            allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()),
-        )
+        checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
 
         // Change setting
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics))
-        onView(withId(settingsR.id.checkboxSettingsShowUntrackedInStatistics)).check(matches(isChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_untracked_time_statistics)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_untracked_time_statistics))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_untracked_time_statistics)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_untracked_time_statistics))
 
         // Untracked is shown
         NavUtils.openStatisticsScreen()
@@ -223,12 +214,13 @@ class SettingsTest : BaseUiTest() {
         // Check disabled
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        onView(withId(settingsR.id.groupSettingsIgnoreShortUntracked)).perform(nestedScrollTo())
-        clickOnViewWithId(settingsR.id.groupSettingsIgnoreShortUntracked)
+        scrollSettingsRecyclerToText(coreR.string.settings_ignore_short_untracked)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_ignore_short_untracked)
         clickOnViewWithText(coreR.string.duration_dialog_disable)
+        scrollSettingsRecyclerToText(coreR.string.settings_ignore_short_untracked)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsIgnoreShortUntrackedTime),
+            settingsSelectorValueBesideText(
+                coreR.string.settings_ignore_short_untracked,
                 withText(coreR.string.settings_inactivity_reminder_disabled),
             ),
         )
@@ -243,8 +235,8 @@ class SettingsTest : BaseUiTest() {
 
         // Check 30 minutes
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.groupSettingsIgnoreShortUntracked)).perform(nestedScrollTo())
-        clickOnViewWithId(settingsR.id.groupSettingsIgnoreShortUntracked)
+        scrollSettingsRecyclerToText(coreR.string.settings_ignore_short_untracked)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_ignore_short_untracked)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard3)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
@@ -260,9 +252,9 @@ class SettingsTest : BaseUiTest() {
 
         // Check 1 minutes
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.groupSettingsIgnoreShortUntracked)).perform(nestedScrollTo())
-        clickOnViewWithId(settingsR.id.groupSettingsIgnoreShortUntracked)
-        repeat(4) { clickOnViewWithId(dialogsR.id.ivDurationPickerDelete) }
+        scrollSettingsRecyclerToText(coreR.string.settings_ignore_short_untracked)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_ignore_short_untracked)
+        repeat(4) { clickOnViewWithId(dialogsR.id.btnNumberKeyboardDelete) }
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
@@ -300,33 +292,33 @@ class SettingsTest : BaseUiTest() {
 
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        onView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar)).perform(nestedScrollTo())
-        tryAction { onView(withId(settingsR.id.checkboxSettingsUntrackedRange)).check(matches(isNotChecked())) }
-        checkViewIsNotDisplayed(withId(settingsR.id.tvSettingsUntrackedRangeStart))
-        checkViewIsNotDisplayed(withId(settingsR.id.tvSettingsUntrackedRangeEnd))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsUntrackedRange))
-        tryAction { onView(withId(settingsR.id.checkboxSettingsUntrackedRange)).check(matches(isChecked())) }
-        checkViewIsDisplayed(withId(settingsR.id.tvSettingsUntrackedRangeStart))
-        checkViewIsDisplayed(withId(settingsR.id.tvSettingsUntrackedRangeEnd))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_records_calendar)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_untracked_range))
+        checkViewIsNotDisplayed(settingsRangeStartBesideText(coreR.string.settings_untracked_range))
+        checkViewIsNotDisplayed(settingsRangeEndBesideText(coreR.string.settings_untracked_range))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_untracked_range)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_untracked_range))
+        checkViewIsDisplayed(settingsRangeStartBesideText(coreR.string.settings_untracked_range))
+        checkViewIsDisplayed(settingsRangeEndBesideText(coreR.string.settings_untracked_range))
 
         // Check range
         var startPreview = (startOfDay + TimeUnit.HOURS.toMillis(8)).toTimePreview()
-        clickOnViewWithId(settingsR.id.tvSettingsUntrackedRangeStart)
+        clickOnSettingsRangeStartBesideText(coreR.string.settings_untracked_range)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(8, 0))
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsUntrackedRangeStart),
+            settingsRangeStartBesideText(
+                coreR.string.settings_untracked_range,
                 withText(startPreview),
             ),
         )
         var endPreview = (startOfDay + TimeUnit.HOURS.toMillis(17)).toTimePreview()
-        clickOnViewWithId(settingsR.id.tvSettingsUntrackedRangeEnd)
+        clickOnSettingsRangeEndBesideText(coreR.string.settings_untracked_range)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(17, 0))
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsUntrackedRangeEnd),
+            settingsRangeEndBesideText(
+                coreR.string.settings_untracked_range,
                 withText(endPreview),
             ),
         )
@@ -341,22 +333,22 @@ class SettingsTest : BaseUiTest() {
         // Check other range
         NavUtils.openSettingsScreen()
         startPreview = (startOfDay + TimeUnit.HOURS.toMillis(17)).toTimePreview()
-        clickOnViewWithId(settingsR.id.tvSettingsUntrackedRangeStart)
+        clickOnSettingsRangeStartBesideText(coreR.string.settings_untracked_range)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(17, 0))
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsUntrackedRangeStart),
+            settingsRangeStartBesideText(
+                coreR.string.settings_untracked_range,
                 withText(startPreview),
             ),
         )
         endPreview = (startOfDay + TimeUnit.HOURS.toMillis(8)).toTimePreview()
-        clickOnViewWithId(settingsR.id.tvSettingsUntrackedRangeEnd)
+        clickOnSettingsRangeEndBesideText(coreR.string.settings_untracked_range)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(8, 0))
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsUntrackedRangeEnd),
+            settingsRangeEndBesideText(
+                coreR.string.settings_untracked_range,
                 withText(endPreview),
             ),
         )
@@ -408,10 +400,10 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsAllowMultitasking)).perform(nestedScrollTo())
-        tryAction { onView(withId(settingsR.id.checkboxSettingsAllowMultitasking)).check(matches(isChecked())) }
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsAllowMultitasking))
-        onView(withId(settingsR.id.checkboxSettingsAllowMultitasking)).check(matches(isNotChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_allow_multitasking)
+        tryAction { checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_allow_multitasking)) }
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_allow_multitasking)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_allow_multitasking))
 
         // Click on one not running
         NavUtils.openRunningRecordsScreen()
@@ -457,10 +449,10 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting back
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsAllowMultitasking)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsAllowMultitasking)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsAllowMultitasking))
-        onView(withId(settingsR.id.checkboxSettingsAllowMultitasking)).check(matches(isChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_allow_multitasking)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_allow_multitasking))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_allow_multitasking)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_allow_multitasking))
 
         // Start another timer
         NavUtils.openRunningRecordsScreen()
@@ -497,15 +489,16 @@ class SettingsTest : BaseUiTest() {
         testUtils.addActivity(name2)
 
         // Start one timer
+        Thread.sleep(1000)
         tryAction { clickOnViewWithText(name1) }
 
         // Change settings
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsNotifications()
-        onView(withId(settingsR.id.checkboxSettingsShowNotifications)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsShowNotifications)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowNotifications))
-        onView(withId(settingsR.id.checkboxSettingsShowNotifications)).check(matches(isChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_notifications)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_notifications))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_notifications)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_notifications))
 
         // Stop first timer
         NavUtils.openRunningRecordsScreen()
@@ -516,10 +509,10 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsShowNotifications)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsShowNotifications)).check(matches(isChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowNotifications))
-        onView(withId(settingsR.id.checkboxSettingsShowNotifications)).check(matches(isNotChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_notifications)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_notifications))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_notifications)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_notifications))
     }
 
     @Test
@@ -528,24 +521,22 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openSettingsNotifications()
 
         // Check settings
-        onView(withId(settingsR.id.checkboxSettingsShowNotifications)).perform(nestedScrollTo())
-        checkViewIsNotDisplayed(withText(coreR.string.settings_show_notifications_controls))
-        checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsShowNotificationsControls))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_notifications)
+        checkViewDoesNotExist(withText(coreR.string.settings_show_notifications_controls))
 
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowNotifications))
-        onView(withId(settingsR.id.checkboxSettingsShowNotificationsControls)).perform(nestedScrollTo())
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_notifications)
+        scrollSettingsRecyclerToText(coreR.string.settings_show_notifications_controls)
         checkViewIsDisplayed(withText(coreR.string.settings_show_notifications_controls))
-        onView(withId(settingsR.id.checkboxSettingsShowNotificationsControls)).check(matches(isChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowNotificationsControls))
-        onView(withId(settingsR.id.checkboxSettingsShowNotificationsControls)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowNotificationsControls))
-        onView(withId(settingsR.id.checkboxSettingsShowNotificationsControls)).check(matches(isChecked()))
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_notifications_controls))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_notifications_controls)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_notifications_controls))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_notifications_controls)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_notifications_controls))
 
         // Change settings
-        onView(withId(settingsR.id.checkboxSettingsShowNotifications)).perform(nestedScrollTo())
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowNotifications))
-        checkViewIsNotDisplayed(withText(coreR.string.settings_show_notifications_controls))
-        checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsShowNotificationsControls))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_notifications)
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_notifications)
+        checkViewDoesNotExist(withText(coreR.string.settings_show_notifications_controls))
     }
 
     @Test
@@ -556,6 +547,7 @@ class SettingsTest : BaseUiTest() {
         // Add activities
         testUtils.addActivity(name1)
         testUtils.addActivity(name2)
+        Thread.sleep(1000)
 
         // Start one timer
         tryAction { clickOnViewWithText(name1) }
@@ -566,18 +558,18 @@ class SettingsTest : BaseUiTest() {
 
         // Check settings
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.spinnerSettingsDarkMode)).perform(nestedScrollTo())
+        scrollSettingsRecyclerToText(coreR.string.settings_dark_mode)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsDarkModeValue),
+            settingsSpinnerValueBesideText(
+                coreR.string.settings_dark_mode,
                 withText(coreR.string.settings_dark_mode_system),
             ),
         )
-        clickOnSpinnerWithId(settingsR.id.spinnerSettingsDarkMode)
+        clickOnSettingsSpinnerBesideText(coreR.string.settings_dark_mode)
         clickOnViewWithText(coreR.string.settings_dark_mode_enabled)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsDarkModeValue),
+            settingsSpinnerValueBesideText(
+                coreR.string.settings_dark_mode,
                 withText(coreR.string.settings_dark_mode_enabled),
             ),
         )
@@ -589,18 +581,18 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.spinnerSettingsDarkMode)).perform(nestedScrollTo())
+        scrollSettingsRecyclerToText(coreR.string.settings_dark_mode)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsDarkModeValue),
+            settingsSpinnerValueBesideText(
+                coreR.string.settings_dark_mode,
                 withText(coreR.string.settings_dark_mode_enabled),
             ),
         )
-        clickOnSpinnerWithId(settingsR.id.spinnerSettingsDarkMode)
+        clickOnSettingsSpinnerBesideText(coreR.string.settings_dark_mode)
         clickOnViewWithText(coreR.string.settings_inactivity_reminder_disabled)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsDarkModeValue),
+            settingsSpinnerValueBesideText(
+                coreR.string.settings_dark_mode,
                 withText(coreR.string.settings_inactivity_reminder_disabled),
             ),
         )
@@ -615,39 +607,20 @@ class SettingsTest : BaseUiTest() {
     @Test
     fun changeLanguage() {
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.spinnerSettingsLanguage)).perform(nestedScrollTo())
+        scrollSettingsRecyclerToText(coreR.string.settings_language)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsLanguageValue),
+            settingsSpinnerValueBesideText(
+                coreR.string.settings_dark_mode,
                 withText(coreR.string.settings_dark_mode_system),
             ),
         )
-        clickOnSpinnerWithId(settingsR.id.spinnerSettingsLanguage)
-        listOf(
-            coreR.string.settings_english_language,
-            coreR.string.settings_arabic_language,
-            coreR.string.settings_catalan_language,
-            coreR.string.settings_german_language,
-            coreR.string.settings_spanish_language,
-            coreR.string.settings_farsi_language,
-            coreR.string.settings_french_language,
-            coreR.string.settings_hindi_language,
-            coreR.string.settings_indonesian_language,
-            coreR.string.settings_italian_language,
-            coreR.string.settings_japanese_language,
-            coreR.string.settings_korean_language,
-            coreR.string.settings_dutch_language,
-            coreR.string.settings_portuguese_language,
-            coreR.string.settings_russian_language,
-            coreR.string.settings_swedish_language,
-            coreR.string.settings_turkish_language,
-            coreR.string.settings_ukrainian_language,
-            coreR.string.settings_chinese_simplified_language,
-            coreR.string.settings_chinese_traditional_language,
-        ).forEach {
-            onData(allOf(`is`(instanceOf(String::class.java)), `is`(getString(it)))).perform(scrollTo())
-            checkViewIsDisplayed(withText(it))
-        }
+        clickOnSettingsSpinnerBesideText(coreR.string.settings_language)
+        LanguageInteractor.languageList
+            .map(languageInteractor::getDisplayName)
+            .forEach {
+                onData(allOf(`is`(instanceOf(String::class.java)), `is`(it))).perform(scrollTo())
+                checkViewIsDisplayed(withText(it))
+            }
     }
 
     @Test
@@ -670,40 +643,23 @@ class SettingsTest : BaseUiTest() {
     fun feedbackBlock() {
         NavUtils.openSettingsScreen()
 
-        onView(withText(coreR.string.settings_rate)).perform(nestedScrollTo())
-        onView(withText(coreR.string.settings_feedback)).perform(nestedScrollTo())
-        onView(withText(coreR.string.settings_version)).perform(nestedScrollTo())
+        scrollSettingsRecyclerToText(coreR.string.settings_rate)
+        scrollSettingsRecyclerToText(coreR.string.settings_feedback)
+        scrollSettingsRecyclerToText(coreR.string.settings_version)
     }
 
     @Test
     fun translators() {
         NavUtils.openSettingsScreen()
 
-        onView(withText(coreR.string.settings_translators)).perform(nestedScrollTo())
-        listOf(
-            coreR.string.settings_arabic_translators,
-            coreR.string.settings_catalan_translators,
-            coreR.string.settings_german_translators,
-            coreR.string.settings_spanish_translators,
-            coreR.string.settings_farsi_translators,
-            coreR.string.settings_french_translators,
-            coreR.string.settings_hindi_translators,
-            coreR.string.settings_indonesian_translators,
-            coreR.string.settings_italian_translators,
-            coreR.string.settings_japanese_translators,
-            coreR.string.settings_korean_translators,
-            coreR.string.settings_dutch_translators,
-            coreR.string.settings_portuguese_translators,
-            coreR.string.settings_russian_translators,
-            coreR.string.settings_swedish_translators,
-            coreR.string.settings_turkish_translators,
-            coreR.string.settings_ukrainian_translators,
-            coreR.string.settings_chinese_simplified_translators,
-            coreR.string.settings_chinese_traditional_translators,
-        ).forEach {
-            onView(withText(it)).perform(nestedScrollTo())
-            checkViewIsDisplayed(withText(it))
-        }
+        scrollSettingsRecyclerToText(coreR.string.settings_translators)
+        LanguageInteractor.languageList
+            .filter { it !in listOf(AppLanguage.System, AppLanguage.English) }
+            .map(languageInteractor::getTranslators)
+            .forEach {
+                scrollSettingsRecyclerToText(it)
+                checkViewIsDisplayed(withText(it))
+            }
     }
 
     @Test
@@ -711,70 +667,71 @@ class SettingsTest : BaseUiTest() {
         // Change settings
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsNotifications()
-        onView(withId(settingsR.id.groupSettingsInactivityReminder)).perform(nestedScrollTo())
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsInactivityReminderTime),
+            settingsSelectorValueBesideText(
+                coreR.string.settings_inactivity_reminder,
                 withText(coreR.string.settings_inactivity_reminder_disabled),
             ),
         )
-        checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent))
+        checkViewDoesNotExist(withText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // 1s
-        clickOnViewWithId(settingsR.id.groupSettingsInactivityReminder)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_inactivity_reminder)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$secondString"))
 
         // Check recurrent
-        onView(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent))
-        onView(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent))
-        onView(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent)).check(matches(isChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // 1m
-        clickOnViewWithId(settingsR.id.groupSettingsInactivityReminder)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_inactivity_reminder)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(
-            allOf(withText("1$minuteString"), withId(settingsR.id.tvSettingsInactivityReminderTime)),
+            settingsSelectorValueBesideText(
+                coreR.string.settings_inactivity_reminder,
+                withText("1$minuteString"),
+            ),
         )
-        onView(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent))
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // 1h
-        clickOnViewWithId(settingsR.id.groupSettingsInactivityReminder)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_inactivity_reminder)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$hourString"))
-        onView(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent))
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // 1m 1s
-        clickOnViewWithId(settingsR.id.groupSettingsInactivityReminder)
-        clickOnViewWithId(dialogsR.id.ivDurationPickerDelete)
-        clickOnViewWithId(dialogsR.id.ivDurationPickerDelete)
-        clickOnViewWithId(dialogsR.id.ivDurationPickerDelete)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_inactivity_reminder)
+        repeat(3) { clickOnViewWithId(dialogsR.id.btnNumberKeyboardDelete) }
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$minuteString 01$secondString"))
-        onView(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent))
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // 1h 1m 1s
-        clickOnViewWithId(settingsR.id.groupSettingsInactivityReminder)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_inactivity_reminder)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$hourString 01$minuteString 01$secondString"))
-        onView(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent))
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // 1h 30m
-        clickOnViewWithId(settingsR.id.groupSettingsInactivityReminder)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_inactivity_reminder)
         clearDuration()
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard9)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
@@ -782,28 +739,28 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$hourString 30$minuteString"))
-        onView(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent))
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // 99h 99m 99s
-        clickOnViewWithId(settingsR.id.groupSettingsInactivityReminder)
-        repeat(10) { clickOnViewWithId(dialogsR.id.ivDurationPickerDelete) }
+        clickOnSettingsSelectorBesideText(coreR.string.settings_inactivity_reminder)
+        repeat(10) { clickOnViewWithId(dialogsR.id.btnNumberKeyboardDelete) }
         repeat(6) { clickOnViewWithId(dialogsR.id.tvNumberKeyboard9) }
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(withText("100$hourString 40$minuteString 39$secondString"))
-        onView(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent))
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // Disable
-        clickOnViewWithId(settingsR.id.groupSettingsInactivityReminder)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_inactivity_reminder)
         clickOnViewWithText(coreR.string.duration_dialog_disable)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsInactivityReminderTime),
+            settingsSelectorValueBesideText(
+                coreR.string.settings_inactivity_reminder,
                 withText(coreR.string.settings_inactivity_reminder_disabled),
             ),
         )
-        checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsInactivityReminderRecurrent))
+        checkViewDoesNotExist(withText(coreR.string.settings_inactivity_reminder_recurrent))
     }
 
     @Test
@@ -811,70 +768,71 @@ class SettingsTest : BaseUiTest() {
         // Change settings
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsNotifications()
-        onView(withId(settingsR.id.groupSettingsActivityReminder)).perform(nestedScrollTo())
+        scrollSettingsRecyclerToText(coreR.string.settings_activity_reminder)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsActivityReminderTime),
+            settingsSelectorValueBesideText(
+                coreR.string.settings_activity_reminder,
                 withText(coreR.string.settings_inactivity_reminder_disabled),
             ),
         )
-        checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent))
+        checkViewDoesNotExist(withText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // 1s
-        clickOnViewWithId(settingsR.id.groupSettingsActivityReminder)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_activity_reminder)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$secondString"))
 
         // Check recurrent
-        onView(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent))
-        onView(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent))
-        onView(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent)).check(matches(isChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // 1m
-        clickOnViewWithId(settingsR.id.groupSettingsActivityReminder)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_activity_reminder)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(
-            allOf(withText("1$minuteString"), withId(settingsR.id.tvSettingsActivityReminderTime)),
+            settingsSelectorValueBesideText(
+                coreR.string.settings_activity_reminder,
+                withText("1$minuteString"),
+            ),
         )
-        onView(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent))
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // 1h
-        clickOnViewWithId(settingsR.id.groupSettingsActivityReminder)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_activity_reminder)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$hourString"))
-        onView(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent))
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // 1m 1s
-        clickOnViewWithId(settingsR.id.groupSettingsActivityReminder)
-        clickOnViewWithId(dialogsR.id.ivDurationPickerDelete)
-        clickOnViewWithId(dialogsR.id.ivDurationPickerDelete)
-        clickOnViewWithId(dialogsR.id.ivDurationPickerDelete)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_activity_reminder)
+        repeat(3) { clickOnViewWithId(dialogsR.id.btnNumberKeyboardDelete) }
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$minuteString 01$secondString"))
-        onView(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent))
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // 1h 1m 1s
-        clickOnViewWithId(settingsR.id.groupSettingsActivityReminder)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_activity_reminder)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$hourString 01$minuteString 01$secondString"))
-        onView(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent))
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // 1h 30m
-        clickOnViewWithId(settingsR.id.groupSettingsActivityReminder)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_activity_reminder)
         clearDuration()
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard9)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
@@ -882,28 +840,28 @@ class SettingsTest : BaseUiTest() {
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(withText("1$hourString 30$minuteString"))
-        onView(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent))
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // 99h 99m 99s
-        clickOnViewWithId(settingsR.id.groupSettingsActivityReminder)
-        repeat(10) { clickOnViewWithId(dialogsR.id.ivDurationPickerDelete) }
+        clickOnSettingsSelectorBesideText(coreR.string.settings_activity_reminder)
+        repeat(10) { clickOnViewWithId(dialogsR.id.btnNumberKeyboardDelete) }
         repeat(6) { clickOnViewWithId(dialogsR.id.tvNumberKeyboard9) }
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(withText("100$hourString 40$minuteString 39$secondString"))
-        onView(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent))
+        scrollSettingsRecyclerToText(coreR.string.settings_inactivity_reminder_recurrent)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_inactivity_reminder_recurrent))
 
         // Disable
-        clickOnViewWithId(settingsR.id.groupSettingsActivityReminder)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_activity_reminder)
         clickOnViewWithText(coreR.string.duration_dialog_disable)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsActivityReminderTime),
+            settingsSelectorValueBesideText(
+                coreR.string.settings_activity_reminder,
                 withText(coreR.string.settings_inactivity_reminder_disabled),
             ),
         )
-        checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsActivityReminderRecurrent))
+        checkViewDoesNotExist(withText(coreR.string.settings_inactivity_reminder_recurrent))
     }
 
     @Test
@@ -916,15 +874,15 @@ class SettingsTest : BaseUiTest() {
         // Change settings
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
-        onView(withId(settingsR.id.groupSettingsIgnoreShortRecords)).perform(nestedScrollTo())
+        scrollSettingsRecyclerToText(coreR.string.settings_ignore_short_records)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsIgnoreShortRecordsTime),
+            settingsSelectorValueBesideText(
+                coreR.string.settings_ignore_short_records,
                 withText(coreR.string.settings_inactivity_reminder_disabled),
             ),
         )
 
-        clickOnViewWithId(settingsR.id.groupSettingsIgnoreShortRecords)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_ignore_short_records)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard3)
         clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(withText("3$secondString"))
@@ -938,12 +896,12 @@ class SettingsTest : BaseUiTest() {
 
         // Disable
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.groupSettingsIgnoreShortRecords)).perform(nestedScrollTo())
-        clickOnViewWithId(settingsR.id.groupSettingsIgnoreShortRecords)
+        scrollSettingsRecyclerToText(coreR.string.settings_ignore_short_records)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_ignore_short_records)
         clickOnViewWithText(coreR.string.duration_dialog_disable)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsIgnoreShortRecordsTime),
+            settingsSelectorValueBesideText(
+                coreR.string.settings_ignore_short_records,
                 withText(coreR.string.settings_inactivity_reminder_disabled),
             ),
         )
@@ -961,19 +919,25 @@ class SettingsTest : BaseUiTest() {
         // Check settings
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        onView(withId(settingsR.id.tvSettingsUseMilitaryTimeHint)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsUseMilitaryTime)).check(matches(isChecked()))
-        checkViewIsDisplayed(allOf(withId(settingsR.id.tvSettingsUseMilitaryTimeHint), withText("13:00")))
+        scrollSettingsRecyclerToText(coreR.string.settings_use_military_time)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_use_military_time))
+        checkViewIsDisplayed(
+            settingsSubtitleBesideText(coreR.string.settings_use_military_time, withText("13:00")),
+        )
 
         // Change settings
-        clickOnViewWithId(settingsR.id.checkboxSettingsUseMilitaryTime)
-        onView(withId(settingsR.id.checkboxSettingsUseMilitaryTime)).check(matches(isNotChecked()))
-        checkViewIsDisplayed(allOf(withId(settingsR.id.tvSettingsUseMilitaryTimeHint), withSubstring("1:00")))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_use_military_time)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_use_military_time))
+        checkViewIsDisplayed(
+            settingsSubtitleBesideText(coreR.string.settings_use_military_time, withSubstring("1:00")),
+        )
 
         // Change settings
-        clickOnViewWithId(settingsR.id.checkboxSettingsUseMilitaryTime)
-        onView(withId(settingsR.id.checkboxSettingsUseMilitaryTime)).check(matches(isChecked()))
-        checkViewIsDisplayed(allOf(withId(settingsR.id.tvSettingsUseMilitaryTimeHint), withText("13:00")))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_use_military_time)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_use_military_time))
+        checkViewIsDisplayed(
+            settingsSubtitleBesideText(coreR.string.settings_use_military_time, withText("13:00")),
+        )
     }
 
     @Test
@@ -1008,17 +972,18 @@ class SettingsTest : BaseUiTest() {
         // Check settings
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        onView(withId(settingsR.id.tvSettingsUseProportionalMinutesHint)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsUseProportionalMinutes)).check(matches(isNotChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_use_proportional_minutes)
+
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_use_proportional_minutes))
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.tvSettingsUseProportionalMinutesHint), withText(timeFormat1)),
+            settingsSubtitleBesideText(coreR.string.settings_use_proportional_minutes, withText(timeFormat1)),
         )
 
         // Change settings
-        clickOnViewWithId(settingsR.id.checkboxSettingsUseProportionalMinutes)
-        onView(withId(settingsR.id.checkboxSettingsUseProportionalMinutes)).check(matches(isChecked()))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_use_proportional_minutes)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_use_proportional_minutes))
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.tvSettingsUseProportionalMinutesHint), withSubstring(timeFormat2)),
+            settingsSubtitleBesideText(coreR.string.settings_use_proportional_minutes, withText(timeFormat2)),
         )
 
         // Check format after setting change
@@ -1026,11 +991,11 @@ class SettingsTest : BaseUiTest() {
 
         // Change settings back
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.tvSettingsUseProportionalMinutesHint)).perform(nestedScrollTo())
-        clickOnViewWithId(settingsR.id.checkboxSettingsUseProportionalMinutes)
-        onView(withId(settingsR.id.checkboxSettingsUseProportionalMinutes)).check(matches(isNotChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_use_proportional_minutes)
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_use_proportional_minutes)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_use_proportional_minutes))
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.tvSettingsUseProportionalMinutesHint), withText(timeFormat1)),
+            settingsSubtitleBesideText(coreR.string.settings_use_proportional_minutes, withText(timeFormat1)),
         )
 
         // Check format again
@@ -1042,16 +1007,16 @@ class SettingsTest : BaseUiTest() {
         // Check settings
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        onView(withId(settingsR.id.tvSettingsKeepScreenOn)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsKeepScreenOn)).check(matches(isNotChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_keep_screen_on)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_keep_screen_on))
 
         // Change settings
-        clickOnViewWithId(settingsR.id.checkboxSettingsKeepScreenOn)
-        onView(withId(settingsR.id.checkboxSettingsKeepScreenOn)).check(matches(isChecked()))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_keep_screen_on)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_keep_screen_on))
 
         // Change settings
-        clickOnViewWithId(settingsR.id.checkboxSettingsKeepScreenOn)
-        onView(withId(settingsR.id.checkboxSettingsKeepScreenOn)).check(matches(isNotChecked()))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_keep_screen_on)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_keep_screen_on))
     }
 
     @Test
@@ -1086,7 +1051,8 @@ class SettingsTest : BaseUiTest() {
         // Change setting
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
-        clickOnSpinnerWithId(settingsR.id.spinnerSettingsFirstDayOfWeek)
+        scrollSettingsRecyclerToText(coreR.string.settings_first_day_of_week)
+        clickOnSettingsSpinnerBesideText(coreR.string.settings_first_day_of_week)
         if (isTodaySunday) {
             clickOnViewWithText(coreR.string.day_of_week_monday)
         } else {
@@ -1133,7 +1099,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
-        clickOnSpinnerWithId(settingsR.id.spinnerSettingsFirstDayOfWeek)
+        clickOnSettingsSpinnerBesideText(coreR.string.settings_first_day_of_week)
         if (isTodaySunday) {
             clickOnViewWithText(coreR.string.day_of_week_sunday)
         } else {
@@ -1252,21 +1218,27 @@ class SettingsTest : BaseUiTest() {
         // Check setting
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
-        onView(withId(settingsR.id.tvSettingsStartOfDayTime)).perform(nestedScrollTo())
-        checkViewIsDisplayed(allOf(withId(settingsR.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
-        checkViewIsNotDisplayed(withId(settingsR.id.btnSettingsStartOfDaySign))
+        scrollSettingsRecyclerToText(coreR.string.settings_start_of_day)
+        checkViewIsDisplayed(
+            settingsSelectorValueBesideText(coreR.string.settings_start_of_day, withText(startOfDayPreview)),
+        )
+        checkViewIsNotDisplayed(settingsButtonBesideText(coreR.string.settings_start_of_day))
 
         // Change setting to +1
-        clickOnView(withId(settingsR.id.groupSettingsStartOfDay))
+        clickOnSettingsSelectorBesideText(coreR.string.settings_start_of_day)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(1, 0))
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
         startOfDayTimeStamp = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
         startOfDayPreview = startOfDayTimeStamp.toTimePreview()
 
         // Check new setting
-        checkViewIsDisplayed(allOf(withId(settingsR.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.btnSettingsStartOfDaySign), hasDescendant(withText(coreR.string.plus_sign))),
+            settingsSelectorValueBesideText(coreR.string.settings_start_of_day, withText(startOfDayPreview)),
+        )
+        checkViewIsDisplayed(
+            settingsButtonBesideText(
+                coreR.string.settings_start_of_day, hasDescendant(withText(coreR.string.plus_sign)),
+            ),
         )
 
         // Check records
@@ -1306,12 +1278,17 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting to -1
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.btnSettingsStartOfDaySign)).perform(nestedScrollTo(), click())
+        scrollSettingsRecyclerToText(coreR.string.settings_start_of_day)
+        clickOnSettingsButtonBesideText(coreR.string.settings_start_of_day)
 
         // Check new setting
-        checkViewIsDisplayed(allOf(withId(settingsR.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.btnSettingsStartOfDaySign), hasDescendant(withText(coreR.string.minus_sign))),
+            settingsSelectorValueBesideText(coreR.string.settings_start_of_day, withText(startOfDayPreview)),
+        )
+        checkViewIsDisplayed(
+            settingsButtonBesideText(
+                coreR.string.settings_start_of_day, hasDescendant(withText(coreR.string.minus_sign)),
+            ),
         )
 
         startOfDayTimeStamp = calendar.timeInMillis - TimeUnit.HOURS.toMillis(1)
@@ -1357,15 +1334,22 @@ class SettingsTest : BaseUiTest() {
         startOfDayPreview = startOfDayTimeStamp.toTimePreview()
 
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.groupSettingsStartOfDay)).perform(nestedScrollTo(), click())
+        scrollSettingsRecyclerToText(coreR.string.settings_start_of_day)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_start_of_day)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(2, 0))
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
-        checkViewIsDisplayed(allOf(withId(settingsR.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.btnSettingsStartOfDaySign), hasDescendant(withText(coreR.string.minus_sign))),
+            settingsSelectorValueBesideText(coreR.string.settings_start_of_day, withText(startOfDayPreview)),
         )
-        onView(withId(settingsR.id.btnSettingsStartOfDaySign)).perform(nestedScrollTo(), click())
-        checkViewIsDisplayed(allOf(withId(settingsR.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
+        checkViewIsDisplayed(
+            settingsButtonBesideText(
+                coreR.string.settings_start_of_day, hasDescendant(withText(coreR.string.minus_sign)),
+            ),
+        )
+        clickOnSettingsButtonBesideText(coreR.string.settings_start_of_day)
+        checkViewIsDisplayed(
+            settingsSelectorValueBesideText(coreR.string.settings_start_of_day, withText(startOfDayPreview)),
+        )
 
         // Check records
         NavUtils.openRecordsScreen()
@@ -1406,11 +1390,14 @@ class SettingsTest : BaseUiTest() {
         startOfDayPreview = startOfDayTimeStamp.toTimePreview()
 
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.groupSettingsStartOfDay)).perform(nestedScrollTo(), click())
+        scrollSettingsRecyclerToText(coreR.string.settings_start_of_day)
+        clickOnSettingsSelectorBesideText(coreR.string.settings_start_of_day)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(0, 0))
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
-        checkViewIsDisplayed(allOf(withId(settingsR.id.tvSettingsStartOfDayTime), withText(startOfDayPreview)))
-        checkViewIsNotDisplayed(withId(settingsR.id.btnSettingsStartOfDaySign))
+        checkViewIsDisplayed(
+            settingsSelectorValueBesideText(coreR.string.settings_start_of_day, withText(startOfDayPreview)),
+        )
+        checkViewIsNotDisplayed(settingsButtonBesideText(coreR.string.settings_start_of_day))
     }
 
     @Test
@@ -1429,10 +1416,10 @@ class SettingsTest : BaseUiTest() {
         // Change setting
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
-        onView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection))
-        onView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection)).check(matches(isChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_selection)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_selection))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_record_tag_selection)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_selection))
 
         // No tags - started right away
         NavUtils.openRunningRecordsScreen()
@@ -1464,10 +1451,10 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection)).check(matches(isChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection))
-        onView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection)).check(matches(isNotChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_selection)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_selection))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_record_tag_selection)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_selection))
 
         // Start with tags - no dialog
         NavUtils.openRunningRecordsScreen()
@@ -1492,16 +1479,15 @@ class SettingsTest : BaseUiTest() {
         // Change setting
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
-        onView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
-        checkViewIsNotDisplayed(withText(coreR.string.settings_show_record_tag_close_hint))
-        checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsRecordTagSelectionClose))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_selection)
+        checkViewDoesNotExist(withText(coreR.string.settings_show_record_tag_close_hint))
 
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection))
-        onView(withId(settingsR.id.checkboxSettingsRecordTagSelectionClose)).perform(nestedScrollTo())
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_record_tag_selection)
+        scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_close_hint)
         checkViewIsDisplayed(withText(coreR.string.settings_show_record_tag_close_hint))
-        onView(withId(settingsR.id.checkboxSettingsRecordTagSelectionClose)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsRecordTagSelectionClose))
-        onView(withId(settingsR.id.checkboxSettingsRecordTagSelectionClose)).check(matches(isChecked()))
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_close_hint))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_record_tag_close_hint)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_close_hint))
 
         // No tags - started right away
         NavUtils.openRunningRecordsScreen()
@@ -1519,10 +1505,10 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsRecordTagSelectionClose)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsRecordTagSelectionClose)).check(matches(isChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsRecordTagSelectionClose))
-        onView(withId(settingsR.id.checkboxSettingsRecordTagSelectionClose)).check(matches(isNotChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_close_hint)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_close_hint))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_record_tag_close_hint)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_close_hint))
 
         // Start with several tags
         NavUtils.openRunningRecordsScreen()
@@ -1534,13 +1520,11 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
+        scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_selection)
         checkViewIsDisplayed(withText(coreR.string.settings_show_record_tag_close_hint))
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsRecordTagSelectionClose))
 
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection))
-        checkViewIsNotDisplayed(withText(coreR.string.settings_show_record_tag_close_hint))
-        checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsRecordTagSelectionClose))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_record_tag_selection)
+        checkViewDoesNotExist(withText(coreR.string.settings_show_record_tag_close_hint))
     }
 
     @Test
@@ -1557,16 +1541,15 @@ class SettingsTest : BaseUiTest() {
         // Change setting
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
-        onView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
-        checkViewIsNotDisplayed(withText(coreR.string.settings_show_record_tag_general_hint))
-        checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsRecordTagSelectionGeneral))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_selection)
+        checkViewDoesNotExist(withText(coreR.string.settings_show_record_tag_general_hint))
 
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection))
-        onView(withId(settingsR.id.checkboxSettingsRecordTagSelectionGeneral)).perform(nestedScrollTo())
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_record_tag_selection)
+        scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_general_hint)
         checkViewIsDisplayed(withText(coreR.string.settings_show_record_tag_general_hint))
-        onView(withId(settingsR.id.checkboxSettingsRecordTagSelectionGeneral)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsRecordTagSelectionGeneral))
-        onView(withId(settingsR.id.checkboxSettingsRecordTagSelectionGeneral)).check(matches(isChecked()))
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_general_hint))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_record_tag_general_hint)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_general_hint))
 
         // No tags - started right away
         NavUtils.openRunningRecordsScreen()
@@ -1584,10 +1567,10 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsRecordTagSelectionGeneral)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsRecordTagSelectionGeneral)).check(matches(isChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsRecordTagSelectionGeneral))
-        onView(withId(settingsR.id.checkboxSettingsRecordTagSelectionGeneral)).check(matches(isNotChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_general_hint)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_general_hint))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_record_tag_general_hint)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_general_hint))
 
         // Start with tags - no dialog
         NavUtils.openRunningRecordsScreen()
@@ -1599,7 +1582,8 @@ class SettingsTest : BaseUiTest() {
     fun csvExportSettings() {
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsExportImport()
-        onView(withId(settingsR.id.layoutSettingsExportCsv)).perform(nestedScrollTo(), click())
+        scrollSettingsRecyclerToText(coreR.string.settings_export_csv)
+        clickOnSettingsRecyclerText(coreR.string.settings_export_csv)
 
         // View is set up
         val currentTime = System.currentTimeMillis()
@@ -1696,12 +1680,11 @@ class SettingsTest : BaseUiTest() {
         // Change setting
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        onView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar)).check(matches(isNotChecked()))
-        checkViewIsNotDisplayed(withText(coreR.string.settings_reverse_order_in_calendar))
-        checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsReverseOrderInCalendar))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar))
-        onView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar)).check(matches(isChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_records_calendar)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_records_calendar))
+        checkViewDoesNotExist(withText(coreR.string.settings_reverse_order_in_calendar))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_records_calendar)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_records_calendar))
 
         // Record is not shown
         NavUtils.openRecordsScreen()
@@ -1712,22 +1695,20 @@ class SettingsTest : BaseUiTest() {
 
         // Check reverse order
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsReverseOrderInCalendar)).perform(nestedScrollTo())
-        checkViewIsDisplayed(withText(coreR.string.settings_reverse_order_in_calendar))
-        checkViewIsDisplayed(withId(settingsR.id.checkboxSettingsReverseOrderInCalendar))
-        onView(withId(settingsR.id.checkboxSettingsReverseOrderInCalendar)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsReverseOrderInCalendar))
-        onView(withId(settingsR.id.checkboxSettingsReverseOrderInCalendar)).check(matches(isChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_reverse_order_in_calendar)
+        checkViewIsDisplayed(settingsCheckboxBesideText(coreR.string.settings_reverse_order_in_calendar))
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_reverse_order_in_calendar))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_reverse_order_in_calendar)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_reverse_order_in_calendar))
         NavUtils.openRecordsScreen()
 
         // Change setting
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar)).check(matches(isChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar))
-        onView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar)).check(matches(isNotChecked()))
-        checkViewIsNotDisplayed(withText(coreR.string.settings_reverse_order_in_calendar))
-        checkViewIsNotDisplayed(withId(settingsR.id.checkboxSettingsReverseOrderInCalendar))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_records_calendar)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_records_calendar))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_records_calendar)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_records_calendar))
+        checkViewDoesNotExist(withText(coreR.string.settings_reverse_order_in_calendar))
 
         // Record is shown
         NavUtils.openRecordsScreen()
@@ -1754,13 +1735,12 @@ class SettingsTest : BaseUiTest() {
 
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        onView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar)).check(matches(isNotChecked()))
-        checkViewIsNotDisplayed(withText(coreR.string.settings_days_in_calendar))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_records_calendar)
+        checkViewDoesNotExist(withText(coreR.string.settings_days_in_calendar))
 
         // Change setting
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar))
-        onView(withText(coreR.string.settings_days_in_calendar)).perform(nestedScrollTo())
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_records_calendar)
+        scrollSettingsRecyclerToText(coreR.string.settings_days_in_calendar)
         checkViewIsDisplayed(withText(coreR.string.settings_days_in_calendar))
 
         // One day
@@ -1769,7 +1749,7 @@ class SettingsTest : BaseUiTest() {
 
         // Three days
         NavUtils.openSettingsScreen()
-        clickOnSpinnerWithId(settingsR.id.spinnerSettingsDaysInCalendar)
+        clickOnSettingsSpinnerBesideText(coreR.string.settings_days_in_calendar)
         clickOnViewWithText("3")
         NavUtils.openRecordsScreen()
 
@@ -1783,7 +1763,7 @@ class SettingsTest : BaseUiTest() {
 
         // Five days
         NavUtils.openSettingsScreen()
-        clickOnSpinnerWithId(settingsR.id.spinnerSettingsDaysInCalendar)
+        clickOnSettingsSpinnerBesideText(coreR.string.settings_days_in_calendar)
         clickOnViewWithText("5")
         NavUtils.openRecordsScreen()
 
@@ -1797,7 +1777,7 @@ class SettingsTest : BaseUiTest() {
 
         // Seven days
         NavUtils.openSettingsScreen()
-        clickOnSpinnerWithId(settingsR.id.spinnerSettingsDaysInCalendar)
+        clickOnSettingsSpinnerBesideText(coreR.string.settings_days_in_calendar)
         clickOnViewWithText("7")
         NavUtils.openRecordsScreen()
 
@@ -1811,8 +1791,8 @@ class SettingsTest : BaseUiTest() {
 
         // Disable
         NavUtils.openSettingsScreen()
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowRecordsCalendar))
-        checkViewIsNotDisplayed(withText(coreR.string.settings_days_in_calendar))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_records_calendar)
+        checkViewDoesNotExist(withText(coreR.string.settings_days_in_calendar))
         NavUtils.openRecordsScreen()
         checkViewIsDisplayed(allOf(withText(coreR.string.title_today), isCompletelyDisplayed()))
     }
@@ -1837,10 +1817,10 @@ class SettingsTest : BaseUiTest() {
         // Change setting
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
-        onView(withId(settingsR.id.checkboxSettingsKeepStatisticsRange)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsKeepStatisticsRange)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsKeepStatisticsRange))
-        onView(withId(settingsR.id.checkboxSettingsKeepStatisticsRange)).check(matches(isChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_keep_statistics_range)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_keep_statistics_range))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_keep_statistics_range)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_keep_statistics_range))
 
         // Check range transfer
         NavUtils.openStatisticsScreen()
@@ -1854,7 +1834,8 @@ class SettingsTest : BaseUiTest() {
     fun automatedTracking() {
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
-        onView(withId(settingsR.id.btnSettingsAutomatedTracking)).perform(nestedScrollTo(), click())
+        scrollSettingsRecyclerToText(coreR.string.settings_automated_tracking)
+        clickOnSettingsButtonBesideText(coreR.string.settings_automated_tracking)
         checkViewIsDisplayed(
             allOf(withId(dialogsR.id.tvHelpDialogTitle), withText(coreR.string.settings_automated_tracking)),
         )
@@ -1870,10 +1851,10 @@ class SettingsTest : BaseUiTest() {
         // Change setting
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
-        onView(withId(settingsR.id.checkboxSettingsAutomatedTrackingSend)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsAutomatedTrackingSend)).check(matches(isNotChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsAutomatedTrackingSend))
-        onView(withId(settingsR.id.checkboxSettingsAutomatedTrackingSend)).check(matches(isChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_automated_tracking_send_events)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_automated_tracking_send_events))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_automated_tracking_send_events)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_automated_tracking_send_events))
 
         // Start stop activity
         NavUtils.openRunningRecordsScreen()
@@ -1882,10 +1863,10 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsAutomatedTrackingSend)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsAutomatedTrackingSend)).check(matches(isChecked()))
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsAutomatedTrackingSend))
-        onView(withId(settingsR.id.checkboxSettingsAutomatedTrackingSend)).check(matches(isNotChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_automated_tracking_send_events)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_automated_tracking_send_events))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_automated_tracking_send_events)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_automated_tracking_send_events))
 
         // Start stop activity
         NavUtils.openRunningRecordsScreen()
@@ -1910,12 +1891,12 @@ class SettingsTest : BaseUiTest() {
         // Check settings
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        onView(withId(settingsR.id.checkboxSettingsShowActivityFilters)).perform(nestedScrollTo())
-        onView(withId(settingsR.id.checkboxSettingsShowActivityFilters)).check(matches(isNotChecked()))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_activity_filters)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_activity_filters))
 
         // Change setting
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowActivityFilters))
-        onView(withId(settingsR.id.checkboxSettingsShowActivityFilters)).check(matches(isChecked()))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_activity_filters)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_activity_filters))
 
         // Filters shown
         NavUtils.openRunningRecordsScreen()
@@ -1946,10 +1927,10 @@ class SettingsTest : BaseUiTest() {
         // Check
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
-        onView(withId(settingsR.id.spinnerSettingsRepeatButtonType)).perform(nestedScrollTo())
+        scrollSettingsRecyclerToText(coreR.string.settings_repeat_button_type)
         checkViewIsDisplayed(
-            allOf(
-                withId(settingsR.id.tvSettingsRepeatButtonTypeValue),
+            settingsSpinnerValueBesideText(
+                coreR.string.settings_repeat_button_type,
                 withText(coreR.string.settings_repeat_last_record),
             ),
         )
@@ -1961,7 +1942,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change
         NavUtils.openSettingsScreen()
-        clickOnSpinnerWithId(settingsR.id.spinnerSettingsRepeatButtonType)
+        clickOnSettingsSpinnerBesideText(coreR.string.settings_repeat_button_type)
         clickOnViewWithText(coreR.string.settings_repeat_one_before_last)
         NavUtils.openRunningRecordsScreen()
         clickOnView(allOf(withText(type2), isCompletelyDisplayed()))
@@ -1971,7 +1952,7 @@ class SettingsTest : BaseUiTest() {
     }
 
     private fun clearDuration() {
-        repeat(6) { clickOnViewWithId(dialogsR.id.ivDurationPickerDelete) }
+        repeat(6) { clickOnViewWithId(dialogsR.id.btnNumberKeyboardDelete) }
     }
 
     private fun checkRecord(

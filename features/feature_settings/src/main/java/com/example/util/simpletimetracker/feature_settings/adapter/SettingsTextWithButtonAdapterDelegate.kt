@@ -28,7 +28,7 @@ fun createSettingsTextWithButtonAdapterDelegate(
             onClick = onClick,
         )
 
-        btnItemSettingsText.setOnClick { onClick(item.buttonBlock) }
+        btnItemSettings.setOnClick { onClick(item.buttonBlock) }
     }
 }
 

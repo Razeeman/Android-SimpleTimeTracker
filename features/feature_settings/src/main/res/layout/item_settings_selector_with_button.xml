@@ -24,7 +24,7 @@
         android:paddingBottom="0dp"
         android:translationZ="4dp"
         app:layout_constraintBottom_toTopOf="@id/tvItemSettingsSubtitle"
-        app:layout_constraintEnd_toStartOf="@id/btnItemSettingsSelector"
+        app:layout_constraintEnd_toStartOf="@id/btnItemSettings"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Title" />
@@ -38,7 +38,7 @@
         android:paddingBottom="0dp"
         android:translationZ="4dp"
         android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/btnItemSettingsSelector"
+        app:layout_constraintEnd_toStartOf="@id/btnItemSettings"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvItemSettingsTitle"
         app:layout_goneMarginEnd="4dp"
@@ -46,7 +46,7 @@
         tools:visibility="visible" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/btnItemSettingsSelector"
+        android:id="@+id/btnItemSettings"
         style="@style/SettingsCard"
         android:layout_width="44dp"
         android:layout_height="44dp"

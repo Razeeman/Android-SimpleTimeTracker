@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker
 
 import androidx.test.espresso.Espresso.closeSoftKeyboard
-import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
@@ -13,15 +12,12 @@ import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
-import com.example.util.simpletimetracker.utils.clickOnSpinnerWithId
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
-import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.tryAction
-import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
@@ -31,7 +27,6 @@ import com.example.util.simpletimetracker.feature_change_record_tag.R as changeR
 import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 import com.example.util.simpletimetracker.feature_records.R as recordsR
-import com.example.util.simpletimetracker.feature_settings.R as settingsR
 import com.example.util.simpletimetracker.feature_statistics.R as statisticsR
 import com.example.util.simpletimetracker.feature_statistics_detail.R as statisticsDetailR
 
@@ -116,7 +111,7 @@ class ArchiveTest : BaseUiTest() {
         pressBack()
 
         // Not shown in manual order
-        clickOnSpinnerWithId(settingsR.id.spinnerSettingsRecordTypeSort)
+        clickOnSettingsSpinnerBesideText(R.string.settings_sort_order)
         clickOnViewWithText(coreR.string.settings_sort_manually)
         tryAction { checkTypeVisible(name1) }
         checkTypeNotVisible(name2)
@@ -160,8 +155,8 @@ class ArchiveTest : BaseUiTest() {
 
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
-        onView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection)).perform(nestedScrollTo())
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowRecordTagSelection))
+        scrollSettingsRecyclerToText(R.string.settings_show_record_tag_selection)
+        clickOnSettingsCheckboxBesideText(R.string.settings_show_record_tag_selection)
         NavUtils.openCategoriesScreen()
         checkTagVisible(tag1)
         checkTagVisible(tag2)

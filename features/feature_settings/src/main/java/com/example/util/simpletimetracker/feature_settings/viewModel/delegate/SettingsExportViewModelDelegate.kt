@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_settings.interactor.SettingsBackupViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsExportViewDataInteractor
 import kotlinx.coroutines.launch
 import javax.inject.Inject

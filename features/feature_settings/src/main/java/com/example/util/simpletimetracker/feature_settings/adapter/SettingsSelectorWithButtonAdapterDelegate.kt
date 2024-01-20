@@ -28,9 +28,9 @@ fun createSettingsSelectorWithButtonAdapterDelegate(
             onClick = onClick,
         )
 
-        btnItemSettingsSelector.visible = item.isButtonVisible
+        btnItemSettings.visible = item.isButtonVisible
         tvItemSettingsSelectorButton.text = item.buttonText
-        btnItemSettingsSelector.setOnClick { onClick(item.buttonBlock) }
+        btnItemSettings.setOnClick { onClick(item.buttonBlock) }
     }
 }
 

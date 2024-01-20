@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.utils
 import android.widget.DatePicker
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.contrib.PickerActions.setDate
 import androidx.test.espresso.contrib.PickerActions.setTime
@@ -12,8 +11,10 @@ import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.example.util.simpletimetracker.clickOnSettingsRecyclerText
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
+import com.example.util.simpletimetracker.scrollSettingsRecyclerToText
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import com.example.util.simpletimetracker.core.R as coreR
@@ -54,39 +55,48 @@ object NavUtils {
     }
 
     fun openSettingsNotifications() {
-        onView(withText(coreR.string.settings_notification_title)).perform(nestedScrollTo(), click())
+        scrollSettingsRecyclerToText(coreR.string.settings_notification_title)
+        clickOnSettingsRecyclerText(coreR.string.settings_notification_title)
     }
 
     fun openSettingsDisplay() {
-        onView(withText(coreR.string.settings_display_title)).perform(nestedScrollTo(), click())
+        scrollSettingsRecyclerToText(coreR.string.settings_display_title)
+        clickOnSettingsRecyclerText(coreR.string.settings_display_title)
     }
 
     fun openSettingsAdditional() {
-        onView(withText(coreR.string.settings_additional_title)).perform(nestedScrollTo(), click())
+        scrollSettingsRecyclerToText(coreR.string.settings_additional_title)
+        clickOnSettingsRecyclerText(coreR.string.settings_additional_title)
     }
 
     fun openSettingsBackup() {
-        onView(withText(coreR.string.settings_backup_title)).perform(nestedScrollTo(), click())
+        scrollSettingsRecyclerToText(coreR.string.settings_backup_title)
+        clickOnSettingsRecyclerText(coreR.string.settings_backup_title)
     }
 
     fun openSettingsExportImport() {
-        onView(withText(coreR.string.settings_export_title)).perform(nestedScrollTo(), click())
+        scrollSettingsRecyclerToText(coreR.string.settings_export_title)
+        clickOnSettingsRecyclerText(coreR.string.settings_export_title)
     }
 
     fun openCategoriesScreen() {
-        onView(withText(coreR.string.settings_edit_categories)).perform(nestedScrollTo(), click())
+        scrollSettingsRecyclerToText(coreR.string.settings_edit_categories)
+        clickOnSettingsRecyclerText(coreR.string.settings_edit_categories)
     }
 
     fun openArchiveScreen() {
-        onView(withText(coreR.string.settings_archive)).perform(nestedScrollTo(), click())
+        scrollSettingsRecyclerToText(coreR.string.settings_archive)
+        clickOnSettingsRecyclerText(coreR.string.settings_archive)
     }
 
     fun openDataEditScreen() {
-        onView(withText(coreR.string.settings_data_edit)).perform(nestedScrollTo(), click())
+        scrollSettingsRecyclerToText(coreR.string.settings_data_edit)
+        clickOnSettingsRecyclerText(coreR.string.settings_data_edit)
     }
 
     fun openCardSizeScreen() {
-        onView(withText(coreR.string.settings_change_card_size)).perform(nestedScrollTo(), click())
+        scrollSettingsRecyclerToText(coreR.string.settings_change_card_size)
+        clickOnSettingsRecyclerText(coreR.string.settings_change_card_size)
     }
 
     fun addActivity(
@@ -190,13 +200,13 @@ object NavUtils {
     }
 
     fun disableGoalOnActivity(
-        goal: RecordTypeGoal
+        goal: RecordTypeGoal,
     ) {
         val newGoal = goal.copy(
             type = when (val type = goal.type) {
                 is RecordTypeGoal.Type.Duration -> RecordTypeGoal.Type.Duration(0)
                 is RecordTypeGoal.Type.Count -> RecordTypeGoal.Type.Count(0)
-            }
+            },
         )
         addGoalToActivity(newGoal)
     }

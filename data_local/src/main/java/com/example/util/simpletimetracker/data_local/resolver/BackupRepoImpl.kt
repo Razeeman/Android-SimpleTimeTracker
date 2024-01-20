@@ -367,7 +367,7 @@ class BackupRepoImpl @Inject constructor(
         val weeklyGoalTime = parts.getOrNull(9)?.toLongOrNull().orZero()
         val monthlyGoalTime = parts.getOrNull(10)?.toLongOrNull().orZero()
         // Didn't exist when goal time was in type db, no need to migrate.
-        val daysOfWeek = emptyList<DayOfWeek>()
+        val daysOfWeek = DayOfWeek.values().toList()
 
         val goalTimes = mutableListOf<RecordTypeGoal>().apply {
             if (goalTime != 0L) {

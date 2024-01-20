@@ -612,7 +612,7 @@ class RecordsFilterTest : BaseUiTest() {
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         clickOnView(withSubstring(getString(coreR.string.records_all_sort_duration)))
         clickOnViewWithId(recordsFilterR.id.fieldRecordsFilterRangeTimeEnded)
-        repeat(6) { clickOnViewWithId(R.id.ivDurationPickerDelete) }
+        repeat(6) { clickOnViewWithId(R.id.btnNumberKeyboardDelete) }
         clickOnViewWithId(R.id.tvNumberKeyboard1)
         repeat(4) { clickOnViewWithId(R.id.tvNumberKeyboard0) }
         clickOnViewWithText(coreR.string.duration_dialog_save)
@@ -627,7 +627,7 @@ class RecordsFilterTest : BaseUiTest() {
         repeat(4) { clickOnViewWithId(R.id.tvNumberKeyboard0) }
         clickOnViewWithText(coreR.string.duration_dialog_save)
         clickOnViewWithId(recordsFilterR.id.fieldRecordsFilterRangeTimeEnded)
-        repeat(5) { clickOnViewWithId(R.id.ivDurationPickerDelete) }
+        repeat(5) { clickOnViewWithId(R.id.btnNumberKeyboardDelete) }
         clickOnViewWithId(R.id.tvNumberKeyboard2)
         repeat(4) { clickOnViewWithId(R.id.tvNumberKeyboard0) }
         clickOnViewWithText(coreR.string.duration_dialog_save)
@@ -638,7 +638,7 @@ class RecordsFilterTest : BaseUiTest() {
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         clickOnView(withSubstring(getString(coreR.string.records_all_sort_duration)))
         clickOnViewWithId(recordsFilterR.id.fieldRecordsFilterRangeTimeStarted)
-        repeat(5) { clickOnViewWithId(R.id.ivDurationPickerDelete) }
+        repeat(5) { clickOnViewWithId(R.id.btnNumberKeyboardDelete) }
         clickOnViewWithText(coreR.string.duration_dialog_save)
         pressBack()
         checkRecordsCard(3)
@@ -647,7 +647,7 @@ class RecordsFilterTest : BaseUiTest() {
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         clickOnView(withSubstring(getString(coreR.string.records_all_sort_duration)))
         clickOnViewWithId(recordsFilterR.id.fieldRecordsFilterRangeTimeEnded)
-        repeat(5) { clickOnViewWithId(R.id.ivDurationPickerDelete) }
+        repeat(5) { clickOnViewWithId(R.id.btnNumberKeyboardDelete) }
         clickOnViewWithId(R.id.tvNumberKeyboard1)
         repeat(3) { clickOnViewWithId(R.id.tvNumberKeyboard0) }
         clickOnViewWithText(coreR.string.duration_dialog_save)

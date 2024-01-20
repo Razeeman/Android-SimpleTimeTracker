@@ -9,6 +9,7 @@ import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.IconImageMapper
@@ -46,6 +47,9 @@ open class BaseUiTest {
 
     @Inject
     lateinit var prefsInteractor: PrefsInteractor
+
+    @Inject
+    lateinit var languageInteractor: LanguageInteractor
 
     @get:Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)

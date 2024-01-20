@@ -26,8 +26,8 @@ fun createSettingsSpinnerWithButtonAdapterDelegate(
             onPositionSelected = onPositionSelected,
         )
 
-        btnItemSettingsSpinner.visible = item.isButtonVisible
-        btnItemSettingsSpinner.setOnClick { onButtonClicked(item.data.block) }
+        btnItemSettings.visible = item.isButtonVisible
+        btnItemSettings.setOnClick { onButtonClicked(item.data.block) }
     }
 }
 

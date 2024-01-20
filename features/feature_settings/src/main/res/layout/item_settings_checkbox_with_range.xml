@@ -59,10 +59,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="start"
-        app:constraint_referenced_ids="tvItemSettingsCheckboxWithRangeStart, checkboxItemSettingsCheckboxWithRange" />
+        app:constraint_referenced_ids="tvItemSettingsStart, checkboxItemSettings" />
 
     <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/checkboxItemSettingsCheckboxWithRange"
+        android:id="@+id/checkboxItemSettings"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginEnd="4dp"
@@ -72,7 +72,7 @@
         app:layout_constraintTop_toTopOf="@id/tvItemSettingsCheckboxWithRangeTitle" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvItemSettingsCheckboxWithRangeStart"
+        android:id="@+id/tvItemSettingsStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -82,25 +82,25 @@
         android:paddingVertical="4dp"
         android:textColor="?appTextPrimaryColor"
         android:translationZ="4dp"
-        app:layout_constraintEnd_toStartOf="@id/tvItemSettingsCheckboxWithRangeDivider"
-        app:layout_constraintTop_toBottomOf="@id/checkboxItemSettingsCheckboxWithRange"
+        app:layout_constraintEnd_toStartOf="@id/tvItemSettingsDivider"
+        app:layout_constraintTop_toBottomOf="@id/checkboxItemSettings"
         tools:text="01:23" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvItemSettingsCheckboxWithRangeDivider"
+        android:id="@+id/tvItemSettingsDivider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end|center_vertical"
         android:text="-"
         android:textColor="?appTextPrimaryColor"
         android:translationZ="4dp"
-        app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsCheckboxWithRangeStart"
-        app:layout_constraintEnd_toStartOf="@id/tvItemSettingsCheckboxWithRangeEnd"
-        app:layout_constraintTop_toTopOf="@id/tvItemSettingsCheckboxWithRangeStart"
+        app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsStart"
+        app:layout_constraintEnd_toStartOf="@id/tvItemSettingsEnd"
+        app:layout_constraintTop_toTopOf="@id/tvItemSettingsStart"
         tools:ignore="HardcodedText" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvItemSettingsCheckboxWithRangeEnd"
+        android:id="@+id/tvItemSettingsEnd"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginEnd="20dp"
@@ -110,9 +110,9 @@
         android:paddingVertical="4dp"
         android:textColor="?appTextPrimaryColor"
         android:translationZ="4dp"
-        app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsCheckboxWithRangeStart"
+        app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsStart"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvItemSettingsCheckboxWithRangeStart"
+        app:layout_constraintTop_toTopOf="@id/tvItemSettingsStart"
         tools:text="01:23" />
 
     <androidx.constraintlayout.widget.Group
@@ -120,7 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="tvItemSettingsCheckboxWithRangeStart, tvItemSettingsCheckboxWithRangeDivider, tvItemSettingsCheckboxWithRangeEnd"
+        app:constraint_referenced_ids="tvItemSettingsStart, tvItemSettingsDivider, tvItemSettingsEnd"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

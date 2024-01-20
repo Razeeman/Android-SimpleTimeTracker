@@ -19,11 +19,8 @@ import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.Direction
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
-import com.example.util.simpletimetracker.utils.clickOnSpinnerWithId
-import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.drag
-import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.slowHalfSwipe
 import com.example.util.simpletimetracker.utils.tryAction
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -116,9 +113,9 @@ class SettingsCardOrder : BaseUiTest() {
         // Check settings
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        onView(withId(settingsR.id.spinnerSettingsRecordTypeSort)).perform(nestedScrollTo())
+        scrollSettingsRecyclerToText(R.string.settings_sort_order)
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.tvSettingsRecordTypeSortValue), withText(coreR.string.settings_sort_by_name))
+            allOf(withId(settingsR.id.tvItemSettingsValue), withText(coreR.string.settings_sort_by_name))
         )
     }
 
@@ -164,10 +161,10 @@ class SettingsCardOrder : BaseUiTest() {
         clickOnViewWithText("1")
         pressBack()
 
-        clickOnSpinnerWithId(settingsR.id.spinnerSettingsRecordTypeSort)
+        clickOnSettingsSpinnerBesideText(R.string.settings_sort_order)
         clickOnViewWithText(coreR.string.settings_sort_by_color)
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.tvSettingsRecordTypeSortValue), withText(coreR.string.settings_sort_by_color))
+            allOf(withId(settingsR.id.tvItemSettingsValue), withText(coreR.string.settings_sort_by_color))
         )
 
         // Check new order
@@ -202,7 +199,8 @@ class SettingsCardOrder : BaseUiTest() {
         // Change settings
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        clickOnSpinnerWithId(settingsR.id.spinnerSettingsRecordTypeSort)
+        scrollSettingsRecyclerToText(R.string.settings_sort_order)
+        clickOnSettingsSpinnerBesideText(R.string.settings_sort_order)
         clickOnViewWithText(coreR.string.settings_sort_manually)
         Thread.sleep(1000)
 
@@ -217,7 +215,7 @@ class SettingsCardOrder : BaseUiTest() {
         // Check new order
         pressBack()
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.tvSettingsRecordTypeSortValue), withText(coreR.string.settings_sort_manually))
+            allOf(withId(settingsR.id.tvItemSettingsValue), withText(coreR.string.settings_sort_manually))
         )
         NavUtils.openRunningRecordsScreen()
         checkOrder(name2, name1, ::isCompletelyLeftOf)
@@ -225,8 +223,8 @@ class SettingsCardOrder : BaseUiTest() {
 
         // Change order
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.btnCardOrderManual)).perform(nestedScrollTo())
-        clickOnViewWithId(settingsR.id.btnCardOrderManual)
+        scrollSettingsRecyclerToText(R.string.settings_sort_order)
+        clickOnSettingsSpinnerButtonBesideText(R.string.settings_sort_order)
         checkOrder(name2, name1, ::isCompletelyLeftOf)
         checkOrder(name1, name3, ::isCompletelyLeftOf)
         onView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name1)))
@@ -255,9 +253,10 @@ class SettingsCardOrder : BaseUiTest() {
         NavUtils.openCardSizeScreen()
         tryAction { clickOnViewWithText("4") }
         pressBack()
-        clickOnSpinnerWithId(settingsR.id.spinnerSettingsRecordTypeSort)
+        scrollSettingsRecyclerToText(R.string.settings_sort_order)
+        clickOnSettingsSpinnerBesideText(R.string.settings_sort_order)
         clickOnViewWithText(coreR.string.settings_sort_by_color)
-        clickOnSpinnerWithId(settingsR.id.spinnerSettingsRecordTypeSort)
+        clickOnSettingsSpinnerBesideText(R.string.settings_sort_order)
         clickOnViewWithText(coreR.string.settings_sort_manually)
         Thread.sleep(1000)
 

@@ -22,12 +22,10 @@ import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
-import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
-import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import com.example.util.simpletimetracker.utils.withCardColor
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
@@ -37,7 +35,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_change_activity_filter.R as changeActivityFilterR
-import com.example.util.simpletimetracker.feature_settings.R as settingsR
 import com.example.util.simpletimetracker.feature_views.R as viewsR
 
 @HiltAndroidTest
@@ -85,7 +82,7 @@ class ActivityFilterTest : BaseUiTest() {
         clickOnRecyclerItem(changeActivityFilterR.id.rvChangeActivityFilterColor, withCardColor(firstColor))
         checkPreviewUpdated(withCardColor(firstColor))
         checkViewIsDisplayed(
-            allOf(withId(changeActivityFilterR.id.viewColorItemSelected), withParent(withCardColor(firstColor)))
+            allOf(withId(changeActivityFilterR.id.viewColorItemSelected), withParent(withCardColor(firstColor))),
         )
 
         // Selecting color
@@ -93,7 +90,7 @@ class ActivityFilterTest : BaseUiTest() {
         clickOnRecyclerItem(changeActivityFilterR.id.rvChangeActivityFilterColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
         checkViewIsDisplayed(
-            allOf(withId(changeActivityFilterR.id.viewColorItemSelected), withParent(withCardColor(lastColor)))
+            allOf(withId(changeActivityFilterR.id.viewColorItemSelected), withParent(withCardColor(lastColor))),
         )
 
         // Open activity chooser
@@ -164,16 +161,16 @@ class ActivityFilterTest : BaseUiTest() {
         clickOnView(
             allOf(
                 isDescendantOfA(withId(changeActivityFilterR.id.buttonsChangeActivityFilterType)),
-                withText(coreR.string.activity_hint)
-            )
+                withText(coreR.string.activity_hint),
+            ),
         )
         onView(withText(typeName1)).check(isCompletelyAbove(withId(changeActivityFilterR.id.viewDividerItem)))
         onView(withText(typeName2)).check(isCompletelyBelow(withId(changeActivityFilterR.id.viewDividerItem)))
         clickOnView(
             allOf(
                 isDescendantOfA(withId(changeActivityFilterR.id.buttonsChangeActivityFilterType)),
-                withText(coreR.string.category_hint)
-            )
+                withText(coreR.string.category_hint),
+            ),
         )
         onView(withText(categoryName1)).check(isCompletelyAbove(withId(changeActivityFilterR.id.viewDividerItem)))
         onView(withText(categoryName2)).check(isCompletelyBelow(withId(changeActivityFilterR.id.viewDividerItem)))
@@ -182,8 +179,8 @@ class ActivityFilterTest : BaseUiTest() {
         clickOnView(
             allOf(
                 isDescendantOfA(withId(changeActivityFilterR.id.buttonsChangeActivityFilterType)),
-                withText(coreR.string.activity_hint)
-            )
+                withText(coreR.string.activity_hint),
+            ),
         )
         clickOnViewWithText(coreR.string.change_activity_filter_save)
 
@@ -239,13 +236,13 @@ class ActivityFilterTest : BaseUiTest() {
         // Change color
         clickOnViewWithText(coreR.string.change_category_color_hint)
         checkViewIsDisplayed(
-            allOf(withId(changeActivityFilterR.id.viewColorItemSelected), withParent(withCardColor(firstColor)))
+            allOf(withId(changeActivityFilterR.id.viewColorItemSelected), withParent(withCardColor(firstColor))),
         )
         scrollRecyclerToView(changeActivityFilterR.id.rvChangeActivityFilterColor, withCardColor(lastColor))
         clickOnRecyclerItem(changeActivityFilterR.id.rvChangeActivityFilterColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
         checkViewIsDisplayed(
-            allOf(withId(changeActivityFilterR.id.viewColorItemSelected), withParent(withCardColor(lastColor)))
+            allOf(withId(changeActivityFilterR.id.viewColorItemSelected), withParent(withCardColor(lastColor))),
         )
 
         // Change types
@@ -255,8 +252,8 @@ class ActivityFilterTest : BaseUiTest() {
         clickOnView(
             allOf(
                 isDescendantOfA(withId(changeActivityFilterR.id.buttonsChangeActivityFilterType)),
-                withText(coreR.string.category_hint)
-            )
+                withText(coreR.string.category_hint),
+            ),
         )
         clickOnRecyclerItem(changeActivityFilterR.id.rvChangeActivityFilterType, withText(categoryName2))
         onView(withText(categoryName1)).check(isCompletelyBelow(withId(changeActivityFilterR.id.viewDividerItem)))
@@ -285,8 +282,8 @@ class ActivityFilterTest : BaseUiTest() {
         clickOnView(
             allOf(
                 isDescendantOfA(withId(changeActivityFilterR.id.buttonsChangeActivityFilterType)),
-                withText(coreR.string.activity_hint)
-            )
+                withText(coreR.string.activity_hint),
+            ),
         )
         checkViewIsDisplayed(withText(coreR.string.record_types_empty))
 
@@ -294,8 +291,8 @@ class ActivityFilterTest : BaseUiTest() {
         clickOnView(
             allOf(
                 isDescendantOfA(withId(changeActivityFilterR.id.buttonsChangeActivityFilterType)),
-                withText(coreR.string.category_hint)
-            )
+                withText(coreR.string.category_hint),
+            ),
         )
         checkViewIsDisplayed(withText(coreR.string.change_record_type_categories_empty))
     }
@@ -341,13 +338,13 @@ class ActivityFilterTest : BaseUiTest() {
             name = filterByActivity1,
             type = ActivityFilter.Type.Activity,
             color = firstColor,
-            names = listOf(typeName1, typeName3)
+            names = listOf(typeName1, typeName3),
         )
         testUtils.addActivityFilter(
             name = filterByActivity2,
             type = ActivityFilter.Type.Activity,
             color = firstColor,
-            names = listOf(typeName5)
+            names = listOf(typeName5),
         )
 
         // Add category filters
@@ -355,19 +352,19 @@ class ActivityFilterTest : BaseUiTest() {
             name = filterByCategory1,
             type = ActivityFilter.Type.Category,
             color = firstColor,
-            names = listOf(categoryName1)
+            names = listOf(categoryName1),
         )
         testUtils.addActivityFilter(
             name = filterByCategory2,
             type = ActivityFilter.Type.Category,
             color = firstColor,
-            names = listOf(categoryName2)
+            names = listOf(categoryName2),
         )
         testUtils.addActivityFilter(
             name = filterByCategoryAll,
             type = ActivityFilter.Type.Category,
             color = firstColor,
-            names = listOf(categoryName1, categoryName2)
+            names = listOf(categoryName1, categoryName2),
         )
 
         // Check filtering
@@ -383,7 +380,7 @@ class ActivityFilterTest : BaseUiTest() {
         checkFilter(filterByActivity1, firstColor)
         checkTypes(
             displayed = listOf(typeName1, typeName3),
-            available = availableTypes
+            available = availableTypes,
         )
         clickOnViewWithText(filterByActivity1)
         checkTypes(displayed = availableTypes, available = availableTypes)
@@ -500,8 +497,8 @@ class ActivityFilterTest : BaseUiTest() {
         // Change setting
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        onView(withId(settingsR.id.checkboxSettingsShowActivityFilters)).perform(nestedScrollTo())
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowActivityFilters))
+        scrollSettingsRecyclerToText(R.string.settings_show_activity_filters)
+        clickOnSettingsCheckboxBesideText(R.string.settings_show_activity_filters)
 
         // Filtering appears
         NavUtils.openRunningRecordsScreen()
@@ -510,8 +507,8 @@ class ActivityFilterTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
-        onView(withId(settingsR.id.checkboxSettingsShowActivityFilters)).perform(nestedScrollTo())
-        unconstrainedClickOnView(withId(settingsR.id.checkboxSettingsShowActivityFilters))
+        scrollSettingsRecyclerToText(R.string.settings_show_activity_filters)
+        clickOnSettingsCheckboxBesideText(R.string.settings_show_activity_filters)
 
         // No filtering
         NavUtils.openRunningRecordsScreen()

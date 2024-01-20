@@ -22,21 +22,21 @@ fun createSettingsCheckboxWithRangeAdapterDelegate(
 
         tvItemSettingsCheckboxWithRangeSubtitle.text = item.subtitle
 
-        if (checkboxItemSettingsCheckboxWithRange.isChecked != item.isChecked) {
-            checkboxItemSettingsCheckboxWithRange.isChecked = item.isChecked
+        if (checkboxItemSettings.isChecked != item.isChecked) {
+            checkboxItemSettings.isChecked = item.isChecked
         }
 
         groupItemSettingsCheckboxWithRange.visible =
             item.range is SettingsCheckboxWithRangeViewData.RangeViewData.Enabled
 
         if (item.range is SettingsCheckboxWithRangeViewData.RangeViewData.Enabled) {
-            tvItemSettingsCheckboxWithRangeStart.text = item.range.rangeStart
-            tvItemSettingsCheckboxWithRangeEnd.text = item.range.rangeEnd
+            tvItemSettingsStart.text = item.range.rangeStart
+            tvItemSettingsEnd.text = item.range.rangeEnd
         }
 
-        checkboxItemSettingsCheckboxWithRange.setOnClick { onClick(item.blockCheckbox) }
-        tvItemSettingsCheckboxWithRangeStart.setOnClick { onClick(item.blockStart) }
-        tvItemSettingsCheckboxWithRangeEnd.setOnClick { onClick(item.blockEnd) }
+        checkboxItemSettings.setOnClick { onClick(item.blockCheckbox) }
+        tvItemSettingsStart.setOnClick { onClick(item.blockStart) }
+        tvItemSettingsEnd.setOnClick { onClick(item.blockEnd) }
     }
 }
 
