@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_settings.adapter
+package com.example.util.simpletimetracker.core.viewData
 
 enum class SettingsBlock {
     MainTop,
@@ -64,4 +64,12 @@ enum class SettingsBlock {
     AdditionalAutomatedTracking,
     AdditionalSendEvents,
     AdditionalBottom,
+
+    BackupTop,
+    BackupCollapse,
+    BackupSave,
+    BackupAutomatic,
+    BackupAutomaticHint,
+    BackupRestore,
+    BackupBottom,
 }

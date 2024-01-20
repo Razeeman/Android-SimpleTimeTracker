@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_settings.adapter
 
+import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
@@ -45,9 +46,13 @@ data class SettingsCheckboxViewData(
     val topSpaceIsVisible: Boolean = true,
     val bottomSpaceIsVisible: Boolean = true,
     val dividerIsVisible: Boolean = true,
+    val forceBind: Boolean = false,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = block.ordinal.toLong()
 
     override fun isValidType(other: ViewHolderType): Boolean = other is ViewData
+
+    override fun areContentsTheSame(other: ViewHolderType): Boolean =
+        super.areContentsTheSame(other) && !forceBind
 }

@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsBottomAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxWithRangeAdapterDelegate
@@ -70,9 +71,9 @@ class SettingsFragment :
         BaseRecyclerAdapter(
             createSettingsTopAdapterDelegate(),
             createSettingsBottomAdapterDelegate(),
-            createSettingsTextAdapterDelegate(throttle(viewModel::onTextClicked)),
+            createSettingsTextAdapterDelegate(throttle(::onTextClicked)),
             createSettingsTextWithButtonAdapterDelegate(viewModel::onButtonClicked),
-            createSettingsCheckboxAdapterDelegate(viewModel::onCheckboxClicked),
+            createSettingsCheckboxAdapterDelegate(::onCheckboxClicked),
             createSettingsSpinnerAdapterDelegate(viewModel::onSpinnerPositionSelected),
             createSettingsSpinnerEvenAdapterDelegate(viewModel::onSpinnerPositionSelected),
             createSettingsSpinnerNotCheckableAdapterDelegate(viewModel::onSpinnerPositionSelected),
@@ -92,7 +93,7 @@ class SettingsFragment :
                 viewModel::onButtonClicked,
             ),
             createSettingsCheckboxWithRangeAdapterDelegate(
-                onClick = viewModel::onCheckboxClicked,
+                onClick = ::onCheckboxClicked,
                 onStartClick = viewModel::onRangeStartClicked,
                 onEndClick = viewModel::onRangeEndClicked,
             ),
@@ -106,13 +107,6 @@ class SettingsFragment :
     }
 
     override fun initUx() = with(binding) {
-        with(layoutSettingsBackup) {
-            layoutSettingsBackupTitle.setOnClick(viewModel::onSettingsBackupClick)
-            layoutSettingsSaveBackup.setOnClick(backupViewModel::onSaveClick)
-            layoutSettingsRestoreBackup.setOnClick(backupViewModel::onRestoreClick)
-            checkboxSettingsAutomaticBackup.setOnClick(backupViewModel::onAutomaticBackupClick)
-        }
-
         with(layoutSettingsExportImport) {
             layoutSettingsExportImportTitle.setOnClick(viewModel::onSettingsExportImportClick)
             layoutSettingsExportCsv.setOnClick(backupViewModel::onExportCsvClick)
@@ -125,13 +119,8 @@ class SettingsFragment :
 
     override fun initViewModel(): Unit = with(binding) {
         with(viewModel) {
-            content.observe(contentAdapter::replace)
+            content.observe(contentAdapter::replaceAsNew)
 
-            viewModel.settingsBackupVisibility.observe { opened ->
-                layoutSettingsBackup.layoutSettingsBackupContent.visible = opened
-                layoutSettingsBackup.arrowSettingsBackup
-                    .apply { if (opened) rotateDown() else rotateUp() }
-            }
             viewModel.settingsExportImportVisibility.observe { opened ->
                 layoutSettingsExportImport.layoutSettingsExportImportContent.visible = opened
                 layoutSettingsExportImport.arrowSettingsExportImport
@@ -156,13 +145,7 @@ class SettingsFragment :
         }
 
         with(backupViewModel) {
-            with(layoutSettingsBackup) {
-                automaticBackupCheckbox.observe(checkboxSettingsAutomaticBackup::setChecked)
-                automaticBackupLastSaveTime.observe {
-                    tvSettingsAutomaticBackupLastSaveTime.visible = it.isNotEmpty()
-                    tvSettingsAutomaticBackupLastSaveTime.text = it
-                }
-            }
+            requestScreenUpdate.observe { viewModel.onRequestUpdate() }
             with(layoutSettingsExportImport) {
                 automaticExportCheckbox.observe(checkboxSettingsAutomaticExport::setChecked)
                 automaticExportLastSaveTime.observe {
@@ -179,9 +162,6 @@ class SettingsFragment :
 
     override fun onResume() = with(binding) {
         super.onResume()
-        with(layoutSettingsBackup) {
-            checkboxSettingsAutomaticBackup.jumpDrawablesToCurrentState()
-        }
         with(layoutSettingsExportImport) {
             checkboxSettingsAutomaticExport.jumpDrawablesToCurrentState()
         }
@@ -206,6 +186,16 @@ class SettingsFragment :
 
     override fun onDataExportSettingsSelected(data: DataExportSettingsResult) {
         backupViewModel.onDataExportSettingsSelected(data)
+    }
+
+    private fun onTextClicked(block: SettingsBlock) {
+        viewModel.onTextClicked(block)
+        backupViewModel.onBlockClicked(block)
+    }
+
+    private fun onCheckboxClicked(block: SettingsBlock) {
+        viewModel.onCheckboxClicked(block)
+        backupViewModel.onBlockClicked(block)
     }
 
     private fun setKeepScreenOn(keepScreenOn: Boolean) {

@@ -11,9 +11,10 @@ import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsBlock
+import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsAdditionalViewModelDelegate
+import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsBackupViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsDisplayViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsMainViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsNotificationsViewModelDelegate
@@ -37,10 +38,10 @@ class SettingsViewModel @Inject constructor(
     private val ratingDelegate: SettingsRatingViewModelDelegate,
     private val notificationsDelegate: SettingsNotificationsViewModelDelegate,
     private val additionalDelegate: SettingsAdditionalViewModelDelegate,
+    private val backupDelegate: SettingsBackupViewModelDelegate,
 ) : BaseViewModel(), SettingsParent {
 
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
-    val settingsBackupVisibility: LiveData<Boolean> = MutableLiveData(false)
     val settingsExportImportVisibility: LiveData<Boolean> = MutableLiveData(false)
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
 
@@ -49,6 +50,7 @@ class SettingsViewModel @Inject constructor(
         notificationsDelegate.init(this)
         displayDelegate.init(this)
         additionalDelegate.init(this)
+        backupDelegate.init(this)
     }
 
     override fun onCleared() {
@@ -58,6 +60,7 @@ class SettingsViewModel @Inject constructor(
         additionalDelegate.clear()
         ratingDelegate.clear()
         translatorsDelegate.clear()
+        backupDelegate.clear()
         super.onCleared()
     }
 
@@ -66,6 +69,10 @@ class SettingsViewModel @Inject constructor(
         // Update can come from system settings.
         // Need to update card order because it changes on card order dialog.
         // Update after day changes.
+        viewModelScope.launch { updateContent() }
+    }
+
+    fun onRequestUpdate() {
         viewModelScope.launch { updateContent() }
     }
 
@@ -78,6 +85,8 @@ class SettingsViewModel @Inject constructor(
                 displayDelegate.onCollapseClick()
             SettingsBlock.AdditionalCollapse ->
                 additionalDelegate.onCollapseClick()
+            SettingsBlock.BackupCollapse ->
+                backupDelegate.onCollapseClick()
             else -> {
                 // Do nothing
             }
@@ -232,11 +241,6 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun onSettingsBackupClick() {
-        val newValue = settingsBackupVisibility.value?.flip().orFalse()
-        settingsBackupVisibility.set(newValue)
-    }
-
     fun onSettingsExportImportClick() {
         val newValue = settingsExportImportVisibility.value?.flip().orFalse()
         settingsExportImportVisibility.set(newValue)
@@ -311,6 +315,7 @@ class SettingsViewModel @Inject constructor(
         result += notificationsDelegate.getViewData()
         result += displayDelegate.getViewData()
         result += additionalDelegate.getViewData()
+        result += backupDelegate.getViewData()
         return result
     }
 

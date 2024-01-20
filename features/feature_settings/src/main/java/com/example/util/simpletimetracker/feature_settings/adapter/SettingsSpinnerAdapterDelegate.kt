@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_settings.adapter
 
 import androidx.appcompat.widget.AppCompatTextView
+import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSpinnerViewData

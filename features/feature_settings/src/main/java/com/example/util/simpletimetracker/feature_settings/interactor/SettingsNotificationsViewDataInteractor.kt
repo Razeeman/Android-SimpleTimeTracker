@@ -4,7 +4,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.R
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsBlock
+import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsBottomViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCollapseViewData

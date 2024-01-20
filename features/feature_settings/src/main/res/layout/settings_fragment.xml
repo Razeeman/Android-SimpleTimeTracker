@@ -23,10 +23,6 @@
             tools:listitem="@layout/item_settings_text" />
 
         <include
-            android:id="@+id/layoutSettingsBackup"
-            layout="@layout/settings_backup_layout" />
-
-        <include
             android:id="@+id/layoutSettingsExportImport"
             layout="@layout/settings_export_import_layout" />
 

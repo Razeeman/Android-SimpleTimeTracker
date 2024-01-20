@@ -3,9 +3,11 @@ package com.example.util.simpletimetracker.feature_settings.adapter
 import android.view.View
 import android.widget.Space
 import androidx.appcompat.widget.AppCompatTextView
+import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTextViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.SettingsTextColor
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTextViewData as ViewData
@@ -46,6 +48,7 @@ fun textAdapterBindDelegate(
         subtitle.visible = false
     } else {
         subtitle.text = item.subtitle
+        item.subtitleColor.getColor(subtitle.context).let(subtitle::setTextColor)
         subtitle.visible = true
     }
     spaceTop.visible = item.topSpaceIsVisible
@@ -57,6 +60,7 @@ data class SettingsTextViewData(
     val block: SettingsBlock,
     val title: String,
     val subtitle: String,
+    val subtitleColor: SettingsTextColor = SettingsTextColor.Default,
     val topSpaceIsVisible: Boolean = true,
     val dividerIsVisible: Boolean = true,
     val bottomSpaceIsVisible: Boolean = true,
