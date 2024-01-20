@@ -21,8 +21,11 @@ fun createSettingsCollapseAdapterDelegate(
 
         tvItemSettingsCollapseTitle.text = item.title
         viewItemSettingsDivider.visible = item.dividerIsVisible
-        arrowItemSettingsCollapse.apply { if (item.opened) rotateDown() else rotateUp() }
-        layoutItemSettingsCollapseTitle.setOnClick { onClick(item.block) }
+        arrowItemSettingsCollapse.apply { rotation = if (item.opened) 180f else 0f }
+        layoutItemSettingsCollapseTitle.setOnClick {
+            arrowItemSettingsCollapse.apply { if (!item.opened) rotateDown() else rotateUp() }
+            onClick(item.block)
+        }
     }
 }
 
