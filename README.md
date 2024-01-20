@@ -125,7 +125,7 @@ Simple app that helps track how much time you spend on all the useless activitie
     │   └── feature_widget                    # Widgets.
 
 ## License
-Copyright (C) 2020-2023 Anton Razinkov devrazeeman@gmail.com
+Copyright (C) 2020-2024 Anton Razinkov devrazeeman@gmail.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
