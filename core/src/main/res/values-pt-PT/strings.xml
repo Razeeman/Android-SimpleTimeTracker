@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">Seg</string>
+    <string name="day_of_week_tuesday">Ter</string>
+    <string name="day_of_week_wednesday">Qua</string>
+    <string name="day_of_week_thursday">Qui</string>
+    <string name="day_of_week_friday">Sex</string>
+    <string name="day_of_week_saturday">Sáb</string>
+    <string name="day_of_week_sunday">Dom</string>
+
+    <string name="activity_hint">Atividades</string>
+    <string name="category_hint">Categorias</string>
+    <string name="record_tag_hint">Etiquetas dos registos</string>
+    <string name="record_tag_hint_short">Etiquetas</string>
+    <string name="nothing_selected">Nenhuma seleção</string>
+    <string name="something_selected">Seleção:</string>
+    <string name="select_all">Selecionar tudo</string>
+    <string name="select_nothing">Não selecionar nada</string>
+    <string name="no_data">Sem dados</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">Ontem</string>
+    <string name="title_today">Hoje</string>
+    <string name="title_tomorrow">Amanhã</string>
+    <string name="title_this_week">Esta semana</string>
+    <string name="title_this_month">Este mês</string>
+    <string name="title_this_year">Este ano</string>
+
+    <string name="range_day">Dia</string>
+    <string name="range_week">Semana</string>
+    <string name="range_month">Mês</string>
+    <string name="range_year">Ano</string>
+    <string name="range_overall">Total</string>
+    <string name="range_custom">Período</string>
+    <string name="range_last">Últimos 7 dias</string>
+    <string name="range_select_day">Selecionar data</string>
+    <string name="range_select_week">Selecionar semana</string>
+    <string name="range_select_month">Selecionar mês</string>
+    <string name="range_select_year">Selecionar ano</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
+
+    <string name="time_hour">h</string>
+    <string name="time_minute">m</string>
+    <string name="time_second">s</string>
+
+    <string name="untracked_time_name">Não registado</string>
+    <string name="uncategorized_time_name">Sem categoria</string>
+    <string name="multitask_time_name">Multitarefa</string>
+    <string name="running_record_goal_time">meta %s</string>
+    <string name="record_types_empty">Nenhuma atividade adicionada</string>
+    <string name="record_tag_selection_hint">Selecionar um etiqueta de registo</string>
+    <string name="time_now">Agora</string>
+    <string name="cannot_be_in_the_future">O tempo não pode ser no futuro</string>
+
+    <!--  Records  -->
+    <string name="record_removed">Registo %s removido</string>
+    <string name="record_removed_undo">Anular</string>
+    <string name="records_hint">Clicar no registo para editar</string>
+    <string name="no_records_exist">Os registos serão mostrados aqui</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_total_tracked">Total registado</string>
+    <string name="statistics_total_tracked_short">Total</string>
+    <string name="statistics_hint">Clicar no cartão para ver estatísticas detalhadas</string>
+    <string name="no_statistics_exist">As estatísticas serão mostradas aqui</string>
+
+    <!--  Categories  -->
+    <string name="categories_title">Categorias e etiquetas</string>
+    <string name="categories_edit_hint">Clicar no cartão para editar</string>
+    <string name="categories_record_type_hint">Atribuir a mesma categoria a diferentes atividades para visualizar estatísticas agrupadas</string>
+    <string name="categories_record_hint">Atribuir etiquetas diferentes aos registos para os distinguir</string>
+    <string name="categories_add_category">Adicionar categoria</string>
+    <string name="categories_add_record_tag">Adicionar etiqueta de registo</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">Categoria removida</string>
+    <string name="change_category_name_hint">Inserir nome novo</string>
+    <string name="change_category_color_hint">Cor</string>
+    <string name="change_category_types_hint">Atividades</string>
+    <string name="change_category_save">Guardar</string>
+    <string name="change_category_message_choose_name">Escolher um nome</string>
+
+    <!--  Change record tag  -->
+    <string name="change_record_tag_archived">Etiqueta arquivada</string>
+    <string name="change_record_tag_type_hint">Atividade</string>
+    <string name="change_record_tag_type">Tipo de etiqueta</string>
+    <string name="change_record_tag_type_general">Geral</string>
+    <string name="change_record_tag_type_general_hint">Pode ser atribuída a registos de qualquer atividade</string>
+    <string name="change_record_tag_type_typed">Atividade</string>
+    <string name="change_record_tag_type_typed_hint">Só pode ser atribuída a registos de uma atividade específica</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">Selecione a atividade</string>
+    <string name="change_record_type_field">Atividade</string>
+    <string name="change_record_tag_field">Etiqueta</string>
+    <string name="change_record_comment_field">Comentário</string>
+    <string name="change_record_comment_hint">Inserir novo comentário</string>
+    <string name="change_record_actions_hint">Ações</string>
+    <string name="change_record_last_comments_hint">Últimos comentários</string>
+    <string name="change_record_favourite_comments_hint">Favorito</string>
+    <string name="change_record_categories_empty">Nenhuma etiqueta de registo adicionada</string>
+    <string name="change_record_save">Guardar</string>
+    <string name="change_record_untagged">Sem etiqueta</string>
+    <string name="change_running_record_removed">Atividade em andamento removida</string>
+    <string name="change_record_split">Dividir</string>
+    <string name="change_record_split_hint">Dividir o registo atual em dois num determinado período de tempo</string>
+    <string name="change_record_continue">Continuar</string>
+    <string name="change_record_continue_hint">O registo atual será removido e a atividade continuará a ser registada</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">Repetir o registo desta atividade</string>
+    <string name="change_record_duplicate">Duplicado</string>
+    <string name="change_record_duplicate_hint">Criará uma cópia deste registo</string>
+    <string name="change_record_merge">Juntar</string>
+    <string name="change_record_merge_hint">Adicionará este tempo ao registo anterior</string>
+    <string name="change_record_adjust">Ajustar</string>
+    <string name="change_record_change_prev_record">Mudar a hora do registo anterior</string>
+    <string name="change_record_change_adjacent_records">Mudar a hora dos registos adjacentes</string>
+    <string name="change_record_untracked_time_hint">O tempo não registado é o tempo em que nenhuma atividade foi registada.</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">Atividade arquivada</string>
+    <string name="change_record_type_name_hint">Inserir um novo nome</string>
+    <string name="change_record_type_new_icon_text_hint">Inserir um novo texto</string>
+    <string name="change_record_type_color_hint">Cor</string>
+    <string name="change_record_type_icon_image_hint">Ícone</string>
+    <string name="change_record_type_icon_text_hint">Texto</string>
+    <string name="change_record_type_icon_emoji_hint">Emoji</string>
+    <string name="change_record_type_save">Guardar</string>
+    <string name="change_record_message_choose_name">Escolher um nome</string>
+    <string name="change_record_type_categories_empty">Nenhuma categoria adicionada</string>
+    <string name="change_record_type_goal_time_disabled">Desativado</string>
+    <string name="change_record_type_goal_time_hint">Meta</string>
+    <string name="change_record_type_goal_time_description">A notificação será exibida depois da meta atingida</string>
+    <string name="change_record_type_session_goal_time">Sessão</string>
+    <string name="change_record_type_daily_goal_time">@string/range_day</string>
+    <string name="change_record_type_weekly_goal_time">@string/range_week</string>
+    <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_goal_duration">Duração</string>
+    <string name="change_record_type_goal_count">Contar</string>
+
+    <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">Filtro removido</string>
+    <string name="change_activity_filter_save">Guardar</string>
+    <string name="change_activity_filter_type">Tipo de filtro</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">Data</string>
+    <string name="date_time_dialog_time">Hora</string>
+    <string name="date_time_dialog_seconds">Segundos</string>
+
+    <string name="card_size_default">Largura padrão</string>
+    <string name="card_size_hint">Número de cartões numa linha</string>
+
+    <string name="card_order_hint">Arrastar e soltar para reorganizar</string>
+
+    <string name="chart_filter_hint">Filtrar</string>
+    <string name="types_compare_hint">Comparação</string>
+    <string name="types_filter_show_all">Mostrar todos</string>
+    <string name="types_filter_hide_all">Ocultar todos</string>
+    <string name="chart_filter_type_hint">Tipo de estatísticas</string>
+    <string name="chart_filter_categories_empty">Nenhuma etiqueta adicionada</string>
+
+    <string name="duration_dialog_save">Guardar</string>
+    <string name="duration_dialog_disable">Desativar</string>
+
+    <string name="color_selection_base_color_hint">Selecionar a cor básica</string>
+    <string name="color_selection_adjust_color_hint">Ajustar cor</string>
+    <string name="color_selection_final_color_hint">Cor final</string>
+
+    <string name="csv_export_settings_range">Período</string>
+    <string name="csv_export_settings_all">Tudo</string>
+    <string name="csv_export_settings_hint">Selecionar o intervalo de tempo ou exportar todos os registos</string>
+
+    <string name="schedule_exact_alarms">Para agendar alarmes exatos, a definição do sistema deve ser ativada para esta aplicação</string>
+    <string name="post_notifications">Para mostrar notificações, a definição do sistema deve ser ativada para esta aplicação</string>
+    <string name="schedule_exact_alarms_open_settings">Abrir</string>
+
+    <string name="default_types_selection_title">Selecionar atividades para adicionar</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">Organizar registos</string>
+    <string name="records_all_sort_time_started">Hora de início</string>
+    <string name="records_all_sort_duration">Duração</string>
+    <string name="records_all_search_comment">Pesquisar comentário</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">Para iniciar o registo, adicionar atividades clicando no botão %s ou usar as definições padrão clicando no botão %s</string>
+    <string name="running_records_empty">Clicar na atividade para começar a registar</string>
+    <string name="running_records_has_timers">Clicar no cartão para parar o registo</string>
+    <string name="running_records_empty_hint">Clicar e segurar para editar</string>
+    <string name="running_records_add_type">Adicionar</string>
+    <string name="running_records_add_filter">Adicionar filtro</string>
+    <string name="running_records_add_default">Padrão</string>
+    <string name="running_records_repeat">Repetir</string>
+    <string name="running_records_repeat_no_prev_record">Nenhum registo anterior para reiniciar</string>
+    <string name="running_records_repeat_already_tracking">Esta atividade já está a ser registada</string>
+
+    <!--  Settings  -->
+    <string name="settings_display_title">Definições de visualização</string>
+    <string name="settings_additional_title">Definições adicionais</string>
+    <string name="settings_notification_title">Definições das notificações</string>
+    <string name="settings_backup_title">Definições da cópia de segurança</string>
+    <string name="settings_export_title">Exportar e importar</string>
+    <string name="settings_sort_order">Organizar atividades</string>
+    <string name="settings_sort_by_name">Nome</string>
+    <string name="settings_sort_by_color">Cor</string>
+    <string name="settings_sort_manually">Manualmente</string>
+    <string name="settings_first_day_of_week">Primeiro dia da semana</string>
+    <string name="settings_repeat_button_type">Botão de repetição</string>
+    <string name="settings_repeat_last_record">Repetir último registo</string>
+    <string name="settings_repeat_one_before_last">Repetir registo antes do último</string>
+    <string name="settings_show_untracked_time">Mostrar tempo não registado nos registos</string>
+    <string name="settings_show_untracked_time_statistics">Mostrar tempo não registado nas estatísticas</string>
+    <string name="settings_ignore_short_untracked">Ignorar tempo curto não registado</string>
+    <string name="settings_ignore_short_untracked_hint">Não mostrar o tempo não registado que seja menor que o tempo especificado.</string>
+    <string name="settings_untracked_range">Período não registado</string>
+    <string name="settings_untracked_range_hint">Ignorar o tempo não registado fora do intervalo especificado.</string>
+    <string name="settings_show_records_calendar">Mostrar registos na visualização de calendário</string>
+    <string name="settings_reverse_order_in_calendar">Ordem inversa dos registos</string>
+    <string name="settings_days_in_calendar">Dias no calendário</string>
+    <string name="settings_widget_transparency">Transparência de fundo do widget</string>
+    <string name="settings_show_activity_filters">Mostrar filtros de atividade no ecrã principal</string>
+    <string name="settings_show_goals_separately">Mostrar metas num separador à parte</string>
+    <string name="settings_allow_multitasking">Permitir atividades simultâneas</string>
+    <string name="settings_allow_multitasking_hint">Se desativado, iniciar um novo temporizador interromperá automaticamente outras atividades.</string>
+    <string name="settings_show_notifications">Mostrar notificações do temporizador</string>
+    <string name="settings_show_notifications_hint">Mostrar notificações quando temporizadores estiverem em execução.</string>
+    <string name="settings_show_notifications_controls">Ativar troca de atividade na notificação</string>
+    <string name="settings_keep_statistics_range">Manter intervalo de estatísticas</string>
+    <string name="settings_keep_statistics_range_hint">Se ativado, as estatísticas detalhadas serão abertas com o mesmo intervalo de tempo selecionado nas estatísticas.</string>
+    <string name="settings_start_of_day">Mudar início do dia</string>
+    <string name="settings_start_of_day_hint">O início do dia será deslocado pela quantidade de tempo especificada, para frente ou para trás, dependendo do sinal.</string>
+    <string name="settings_start_of_day_hint_value">Hoje começa a %s</string>
+    <string name="settings_inactivity_reminder">Mostrar lembrete de inatividade</string>
+    <string name="settings_inactivity_reminder_hint">Mostrar notificação após tempo especificado se nenhum temporizador estiver em execução.</string>
+    <string name="settings_inactivity_reminder_recurrent">Recorrente</string>
+    <string name="settings_activity_reminder">Mostrar noticação de atividade</string>
+    <string name="settings_activity_reminder_hint">Mostrar notificação após tempo especificado se cronómetros estiverem em execução.</string>
+    <string name="settings_do_not_disturb">Não perturbar</string>
+    <string name="settings_notifications_system_settings">Definições de sistema</string>
+    <string name="settings_notifications_system_settings_hint">Sons, vibração, lanterna e outros</string>
+    <string name="settings_ignore_short_records">Ignorar registos curtos</string>
+    <string name="settings_ignore_short_records_hint">Não registar atividades mais curtas que o tempo especificado.</string>
+    <string name="settings_inactivity_reminder_disabled">Desativado</string>
+    <string name="settings_dark_mode">Modo escuro</string>
+    <string name="settings_dark_mode_system">Sistema</string>
+    <string name="settings_dark_mode_enabled">Habilitado</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_use_military_time">Usar formato de 24 horas</string>
+    <string name="settings_use_monthday_time">Use o formato de data Mês/Dia</string>
+    <string name="settings_use_proportional_minutes">Usar o formato de minuto proporcional</string>
+    <string name="settings_show_seconds">Mostrar segundos</string>
+    <string name="settings_keep_screen_on">Manter o ecrã ligado</string>
+    <string name="settings_change_card_size">Alterar o tamanho do cartão de atividade</string>
+    <string name="settings_archive">Arquivo</string>
+    <string name="settings_data_edit">Edição dos dados</string>
+    <string name="settings_edit_categories">Editar categorias e etiquetas</string>
+    <string name="settings_edit_categories_hint">Atribuir categorias a atividades e etiquetas a registos.</string>
+    <string name="settings_show_record_tag_selection">Mostrar seleção da etiqueta do registo</string>
+    <string name="settings_show_record_tag_selection_hint">Ao iniciar um temporizador, se a atividade tiver alguma etiqueta, um diálogo de seleção será exibido.</string>
+    <string name="settings_show_record_tag_close_hint">Fechar após selecionar uma etiqueta.</string>
+    <string name="settings_show_record_tag_general_hint">Mostrar mesmo com etiquetas gerais.</string>
+    <string name="settings_rate">Avaliação</string>
+    <string name="settings_rate_description">Avaliação e comentários sobre a aplicação.</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_feedback_description">Sugestões? Existem erros? Queres conversar? Escreve-nos!</string>
+    <string name="settings_version">Versão</string>
+    <string name="settings_email_chooser_title">Enviar com…</string>
+    <string name="settings_translators">Tradutores</string>
+    <string name="settings_automated_tracking">Registo automático</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+O registo automático é possível através da integração com aplicações de terceiros que permitam automatizar ações com base em determinados eventos. Essas aplicações, quando ocorre um determinado evento, podem enviar uma mensagem à aplicação para iniciar ou interromper o cronómetro de atividade.<br/>
+<br/>
+Alguns exemplos de eventos:<br/>
+- Iniciar uma determinado aplicação.<br/>
+- Scan de tag NFC.<br/>
+- Indo a um determinado local.<br/>
+- Certas horas do dia.<br/>
+- Ligar o Bluetooth ou o Wi-Fi.<br/>
+<br/>
+Para ativar esta funcão, essas aplicações devem oferecer suporte ao envio de \"intent\" ou \"broadcast intent\" com estes parâmetros:<br/>
+<br/>
+<b>Action</b> - \"%s\" ou \"%s\".<br/>
+<b>Extra</b> - \"%s\" com o nome da atividade que deve ser iniciada ou interrompida.<br/>
+<b>Package</b> - \"%s\".<br/>
+<br/>
+Parâmetros opcionais para iniciar a atividade:<br/>
+<br/>
+<b>Extra</b> - \"%s\" com comentário de registo.<br/>
+<b>Extra</b> - \"%s\" com o nome da etiqueta.<br/>
+<br/>
+Adicional:<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+    ]]></string>
+    <string name="settings_automated_tracking_send_events">Enviar eventos</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+Se a definição <b>\"%s\"</b> estiver ativada, a aplicação enviará eventos na atividade iniciada ou interrompida para aplicações de terceiros para registo automatizado com estes parâmetros:<br/>
+<br/>
+<b>Action</b> - \"%s\" ou \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
+
+    <string name="settings_save_backup">Guardar cópia de segurança</string>
+    <string name="settings_save_description">Antes de guardar, verificar se a aplicação tem a versão mais recente para evitar conflitos.</string>
+    <string name="settings_automatic_backup">Ativar cópia de segurança automática</string>
+    <string name="settings_automatic_export">Ativar exportação automática da tabela</string>
+    <string name="settings_automatic_description">O ficheiro será guardado no local selecionado, substituindo o ficheiro guardado anteriormente todos os dias à meia-noite.</string>
+    <string name="settings_automatic_last_save">Última gravação:</string>
+    <string name="settings_restore_backup">Restaurar cópia de segurança</string>
+    <string name="settings_restore_description">Os dados atuais serão perdidos.</string>
+    <string name="settings_dialog_message">Restaurar cópia de segurança?</string>
+    <string name="settings_export_csv">Exportação da tabela</string>
+    <string name="settings_export_csv_description">Exportar registos de atividades em formato csv para visualizar num programa de folha de cálculo favorito.</string>
+    <string name="settings_import_csv">Importação da tabela</string>
+    <string name="settings_import_csv_description">Importar registos de atividades em formato csv. Os dados atuais não serão perdidos.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+O fichero csv deve conter estas colunas separadas por vírgulas:<br/>
+<br/>
+- Nome da atividade entre aspas.<br/>
+- Hora de início do registo no formato \"aaaa-MM-dd HH:mm:ss\"<br/>
+- Hora de fim do registo no formato \"aaaa-MM-dd HH:mm:ss\"<br/>
+- Comentário entre aspas.<br/>
+<br/>
+Exemplo:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
+    <string name="settings_export_ics">Exportação para ICS</string>
+    <string name="settings_export_warning">Este ficheiro não pode ser usado como cópia de segurança.</string>
+    <string name="settings_file_open_error">Erro ao abrir o ficheiro</string>
+    <string name="settings_file_create_error">Erro ao criar o ficheiro</string>
+
+    <string name="message_backup_saved">Cópia de segurança guardada</string>
+    <string name="message_backup_restored">Cópia de segurança restaurada</string>
+    <string name="message_save_error">Erro ao guardar a cópia de segurança</string>
+    <string name="message_restore_error">Erro ao restaurar a cópia de segurança</string>
+    <string name="message_app_not_found">Aplicação não encontrada</string>
+    <string name="message_export_complete">Exportação concluída</string>
+    <string name="message_export_error">Erro de exportação</string>
+    <string name="message_import_complete">Importação concluída</string>
+    <string name="message_import_complete_hint">Registos adicionados: %s</string>
+    <string name="message_import_error">Erro de importação</string>
+    <string name="message_automatic_backup_error">Ocorreu um erro com a cópia de segurança automática.</string>
+    <string name="message_automatic_export_error">Ocorreu um erro com a exportação automática.</string>
+    <string name="message_automatic_error_hint">Selecionar uma pasta diferente</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">por hora</string>
+    <string name="statistics_detail_chart_daily">diário</string>
+    <string name="statistics_detail_chart_weekly">semanal</string>
+    <string name="statistics_detail_chart_monthly">mensal</string>
+    <string name="statistics_detail_chart_yearly">anual</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">m</string>
+    <string name="statistics_detail_legend_hour_suffix">h</string>
+
+    <string name="statistics_detail_range_averages_title">Média por período: %s</string>
+    <string name="statistics_detail_range_averages">Para todo o período</string>
+    <string name="statistics_detail_range_averages_non_empty">Sem períodos vazios</string>
+
+    <string name="statistics_detail_total_duration">Total</string>
+    <string name="statistics_detail_record_length">Histórico da duração</string>
+    <string name="statistics_detail_shortest_record">Menor</string>
+    <string name="statistics_detail_average_record">Média</string>
+    <string name="statistics_detail_longest_record">Maior</string>
+    <string name="statistics_detail_record_time">Histórico do registo</string>
+    <string name="statistics_detail_first_record">Primeiro</string>
+    <string name="statistics_detail_last_record">Último</string>
+    <string name="statistics_detail_streaks">Rondas</string>
+    <string name="statistics_detail_streaks_longest">Maior</string>
+    <string name="statistics_detail_streaks_current">Atual</string>
+    <string name="statistics_detail_streaks_latest">Mais recentes</string>
+    <string name="statistics_detail_activity_split_hint">Distribuição de atividades</string>
+    <string name="statistics_detail_tag_split_hint">Distribuição de etiquetas</string>
+    <string name="statistics_detail_day_split_hint">Distribuição diária</string>
+    <string name="statistics_detail_duration_split_hint">Distribuição da duração do registo</string>
+
+    <plurals name="statistics_detail_times_tracked">
+        <item quantity="one">Registo</item>
+        <item quantity="other">Registos</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">Uma atividade</string>
+    <string name="widget_universal_name">Universal</string>
+    <string name="widget_statistics_chart_name">Gráfico de estatísticas</string>
+    <string name="widget_quick_settings_name">Definições rápidas</string>
+    <string name="widget_load_error">Não encontrado</string>
+
+    <!--  Notification  --> 
+    <string name="notification_inactivity_title">Notificação de inatividade</string>
+    <string name="notification_inactivity_text">Não esqueçer de registar o tempo</string>
+    <string name="notification_activity_title">Notificação de atividade</string>
+    <string name="notification_activity_text">Ainda a fazer: %s?</string>
+    <string name="notification_goal_time_description">meta atingida</string>
+    <string name="notification_time_started">Iniciado às %s</string>
+    <string name="notification_record_type_stop">Parar</string>
+
+    <!--  Archive  -->
+    <string name="something_was_archived_hint">Para remover completamente - abrir o ficheiro</string>
+    <string name="archive_hint">Clicar no cartão para ver os detalhes</string>
+    <string name="archive_dialog_delete">Apagar</string>
+    <string name="archive_dialog_restore">Restaurar</string>
+    <string name="archive_empty">O ficheiro está vazio</string>
+    <string name="archive_activity_restored">Atividade restaurada</string>
+    <string name="archive_tag_restored">Etiqueta restaurada</string>
+    <string name="archive_activity_deleted">Atividade excluída</string>
+    <string name="archive_tag_deleted">Etiqueta eliminada</string>
+    <string name="archive_activity_deletion_message">Todos os registos desta atividade e etiquetas do registo também serão eliminados.</string>
+    <string name="archive_tag_deletion_message">Todos os registos marcados com esta etiqueta ficarão sem tag.</string>
+    <string name="archive_deletion_alert">De certeza? Esta ação não pode ser desfeita.</string>
+    <string name="archive_records_count">Registos</string>
+    <string name="archive_record_tags_count">Etiquetas do registo</string>
+    <string name="archive_tagged_records_count">Registos com etiquetas</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">Certifica-te que crias uma cópia de segurança antes de fazeres qualquer coisa. Estas alterações não podem ser desfeitas.</string>
+    <string name="data_edit_select_records">Selecionar registos</string>
+    <string name="data_edit_change_activity">Alterar atividade</string>
+    <string name="data_edit_change_activity_hint">As etiquetas da atividade atual serão removidas.</string>
+    <string name="data_edit_change_comment">Alterar comentário</string>
+    <string name="data_edit_change_add_tag">Adicionar etiquetas</string>
+    <string name="data_edit_change_remove_tag">Remover etiquetas</string>
+    <string name="data_edit_button_change">Alterar</string>
+    <string name="data_edit_success_message">Dados alterados</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">Selecionar etiquetas</string>
+    <string name="records_filter_filter_tags">Excluir etiquetas</string>
+    <string name="records_filter_manually_filtered">Filtração</string>
+    <string name="records_filter_no_comment">Sem comentários</string>
+    <string name="records_filter_any_comment">Qualquer comentário</string>
+    <string name="records_filter_select">Selecionar</string>
+    <string name="records_filter_invert_selection">Seleção invertida</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">Smileys &amp; Emoções</string>
+    <string name="emojiGroupPeople">Pessoas &amp; Corpo</string>
+    <string name="emojiGroupAnimals">Animais &amp; Natureza</string>
+    <string name="emojiGroupFood">Comidas &amp; Bebidas</string>
+    <string name="emojiGroupTravel">Viagens &amp; Locais</string>
+    <string name="emojiGroupActivities">Atividades</string>
+    <string name="emojiGroupObjects">Objetos</string>
+    <string name="emojiGroupSymbols">Símbolos</string>
+    <string name="emojiGroupFlags">Bandeiras</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">Mapas</string>
+    <string name="imageGroupPlaces">Locais</string>
+    <string name="imageGroupSocial">Social</string>
+    <string name="imageGroupAction">Ações</string>
+    <string name="imageGroupHardware">Hardware</string>
+    <string name="imageGroupAlert">Alerta</string>
+    <string name="imageGroupAv">Áudio e Vídeo</string>
+    <string name="imageGroupCommunication">Comunicação</string>
+    <string name="imageGroupContent">Conteúdo</string>
+    <string name="imageGroupDevice">Dispositivo</string>
+    <string name="imageGroupEditor">Editor</string>
+    <string name="imageGroupFile">Ficheiro</string>
+    <string name="imageGroupImage">Imagem</string>
+    <string name="imageGroupNavigation">Navegação</string>
+    <string name="imageGroupNotification">Notificações</string>
+    <string name="imageGroupToggle">Comutação</string>
+
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">Registos</string>
+    <string name="shortcut_navigation_statistics">Estatisticas</string>
+    <string name="shortcut_navigation_settings">Definições</string>
+
+</resources>
