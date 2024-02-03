@@ -26,7 +26,6 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
-import java.util.UUID
 import javax.inject.Inject
 
 class IcsRepoImpl @Inject constructor(
@@ -130,7 +129,7 @@ class IcsRepoImpl @Inject constructor(
             .append("BEGIN:VEVENT\n")
             .append("DTSTART:${formatDateTime(record.timeStarted)}\n")
             .append("DTEND:${formatDateTime(record.timeEnded)}\n")
-            .append("UID:${UUID.randomUUID()}@stt\n")
+            .append("UID:recordId_${record.id}@stt\n")
             .append("SUMMARY:${recordType.name.clean()}\n")
             .append("DESCRIPTION:$description\n")
             .append("END:VEVENT\n")
