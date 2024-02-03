@@ -385,6 +385,7 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="statistics_detail_tag_split_hint">Etiket dağılımı</string>
     <string name="statistics_detail_day_split_hint">Günlük dağılım</string>
     <string name="statistics_detail_duration_split_hint">Kayıt süresi dağılımı</string>
+    <string name="statistics_detail_next_activities_hint">Sonraki en iyi aktiviteler</string>
 
     <plurals name="statistics_detail_times_tracked">
 <!--        <item quantity="zero">Kayıt</item>-->

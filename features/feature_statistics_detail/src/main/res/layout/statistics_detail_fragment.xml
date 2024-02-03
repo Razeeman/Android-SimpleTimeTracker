@@ -387,14 +387,36 @@
                 tools:barColor="@color/black"
                 tools:barCount="7" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvStatisticsDetailNextActivitiesHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:paddingTop="8dp"
+                android:text="@string/statistics_detail_next_activities_hint"
+                android:textColor="?appTextHintColor"
+                app:layout_constraintTop_toBottomOf="@id/chartStatisticsDetailDurationSplitCompare" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvStatisticsDetailNextActivities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:overScrollMode="never"
+                app:layout_constraintTop_toBottomOf="@id/tvStatisticsDetailNextActivitiesHint"
+                tools:itemCount="1"
+                tools:listitem="@layout/statistics_detail_preview_item" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvStatisticsDetailSplit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:overScrollMode="never"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/chartStatisticsDetailDurationSplitCompare"
+                app:layout_constraintTop_toBottomOf="@id/rvStatisticsDetailNextActivities"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_statistics_layout"
                 tools:visibility="visible" />

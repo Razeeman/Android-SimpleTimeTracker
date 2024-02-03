@@ -385,6 +385,7 @@ Example:<br/>
     <string name="statistics_detail_tag_split_hint">Tag distribution</string>
     <string name="statistics_detail_day_split_hint">Daily distribution</string>
     <string name="statistics_detail_duration_split_hint">Record duration distribution</string>
+    <string name="statistics_detail_next_activities_hint">Top next activities</string>
 
     <plurals name="statistics_detail_times_tracked">
         <item quantity="zero">Records</item>

@@ -385,6 +385,7 @@ Exemple:<br/>
     <string name="statistics_detail_tag_split_hint">Distribució d\'etiquetes</string>
     <string name="statistics_detail_day_split_hint">Distribució diària</string>
     <string name="statistics_detail_duration_split_hint">Distribució de la durada de l\'enregistrament</string>
+    <string name="statistics_detail_next_activities_hint">Les properes activitats principals</string>
 
     <plurals name="statistics_detail_times_tracked">
 <!--        <item quantity="zero">Enregistraments</item>-->

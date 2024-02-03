@@ -385,6 +385,7 @@ Exemplo:<br/>
     <string name="statistics_detail_tag_split_hint">Distribuição de tags</string>
     <string name="statistics_detail_day_split_hint">Distribuição diária</string>
     <string name="statistics_detail_duration_split_hint">Distribuição da duração do registro</string>
+    <string name="statistics_detail_next_activities_hint">Principais próximas atividades</string>
 
     <plurals name="statistics_detail_times_tracked">
         <item quantity="one">Registro</item>

@@ -385,6 +385,7 @@ Contoh:<br/>
     <string name="statistics_detail_tag_split_hint">Distribusi label</string>
     <string name="statistics_detail_day_split_hint">Distribusi harian</string>
     <string name="statistics_detail_duration_split_hint">Distribusi durasi rekaman</string>
+    <string name="statistics_detail_next_activities_hint">Aktivitas teratas selanjutnya</string>
 
     <plurals name="statistics_detail_times_tracked">
 <!--        <item quantity="zero">Rekor</item>-->

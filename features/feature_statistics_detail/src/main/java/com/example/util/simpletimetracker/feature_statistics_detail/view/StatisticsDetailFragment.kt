@@ -61,6 +61,11 @@ class StatisticsDetailFragment :
             createStatisticsPreviewAdapterDelegate()
         )
     }
+    private val nextActivitiesAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createStatisticsPreviewAdapterDelegate()
+        )
+    }
     private val dataSplitAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createHintAdapterDelegate(),
@@ -86,6 +91,14 @@ class StatisticsDetailFragment :
                 flexWrap = FlexWrap.WRAP
             }
             adapter = previewAdapter
+        }
+        rvStatisticsDetailNextActivities.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = nextActivitiesAdapter
         }
         rvStatisticsDetailSplit.apply {
             layoutManager = LinearLayoutManager(context)
@@ -133,6 +146,7 @@ class StatisticsDetailFragment :
         durationSplitChartViewData.observe(::updateDurationSplitChartViewData)
         comparisonDurationSplitChartViewData.observe(::updateComparisonDurationSplitChartViewData)
         splitChartGroupingViewData.observe(::updateSplitChartGroupingData)
+        nextActivitiesViewData.observe(::updateNextActivitiesViewData)
         title.observe(binding.btnStatisticsDetailToday::setText)
         rangeItems.observe(::updateRangeItems)
         rangeButtonsVisibility.observe(::updateRangeButtonsVisibility)
@@ -292,6 +306,14 @@ class StatisticsDetailFragment :
         viewData: StatisticsDetailChartViewData,
     ) {
         binding.chartStatisticsDetailDurationSplitCompare.setViewData(viewData)
+    }
+
+    private fun updateNextActivitiesViewData(
+        viewData: List<ViewHolderType>
+    ) {
+        binding.tvStatisticsDetailNextActivitiesHint.isVisible = viewData.isNotEmpty()
+        binding.rvStatisticsDetailNextActivities.isVisible = viewData.isNotEmpty()
+        nextActivitiesAdapter.replace(viewData)
     }
 
     private fun updateRangeItems(viewData: RangesViewData) = with(binding) {

@@ -25,6 +25,7 @@ import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
+import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailAdjacentActivitiesInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailSplitChartInteractor
@@ -76,6 +77,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val statsInteractor: StatisticsDetailStatsInteractor,
     private val streaksInteractor: StatisticsDetailStreaksInteractor,
     private val splitChartInteractor: StatisticsDetailSplitChartInteractor,
+    private val adjacentActivitiesInteractor: StatisticsDetailAdjacentActivitiesInteractor,
     private val mapper: StatisticsDetailViewDataMapper,
     private val rangeViewDataMapper: RangeViewDataMapper,
     private val timeMapper: TimeMapper,
@@ -104,6 +106,9 @@ class StatisticsDetailViewModel @Inject constructor(
     }
     val splitChartGroupingViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData(loadSplitChartGroupingViewData())
+    }
+    val nextActivitiesViewData: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData(emptyList())
     }
     val splitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
         return@lazy MutableLiveData()
@@ -289,7 +294,7 @@ class StatisticsDetailViewModel @Inject constructor(
                 timeMapper.toTimestampShift(
                     toTime = timestamp,
                     range = rangeLength,
-                    firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+                    firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
                 ).toInt().let(::updatePosition)
             }
         }
@@ -337,7 +342,7 @@ class StatisticsDetailViewModel @Inject constructor(
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val current = timeMapper.toTimestampShifted(
             rangesFromToday = rangePosition,
-            range = rangeLength
+            range = rangeLength,
         )
 
         router.navigate(
@@ -346,8 +351,8 @@ class StatisticsDetailViewModel @Inject constructor(
                 type = DateTimeDialogType.DATE,
                 timestamp = current,
                 useMilitaryTime = useMilitaryTime,
-                firstDayOfWeek = firstDayOfWeek
-            )
+                firstDayOfWeek = firstDayOfWeek,
+            ),
         )
     }
 
@@ -380,6 +385,7 @@ class StatisticsDetailViewModel @Inject constructor(
         updateChartViewData()
         updateSplitChartViewData()
         updateDurationSplitChartViewData()
+        updateNextActivitiesViewData()
     }
 
     private fun getRangeLength(range: StatisticsDetailParams.RangeLengthParams): RangeLength {
@@ -390,7 +396,7 @@ class StatisticsDetailViewModel @Inject constructor(
             is StatisticsDetailParams.RangeLengthParams.Year -> RangeLength.Year
             is StatisticsDetailParams.RangeLengthParams.All -> RangeLength.All
             is StatisticsDetailParams.RangeLengthParams.Custom -> Range(
-                timeStarted = range.start, timeEnded = range.end
+                timeStarted = range.start, timeEnded = range.end,
             ).let(RangeLength::Custom)
             is StatisticsDetailParams.RangeLengthParams.Last -> RangeLength.Last
         }
@@ -414,7 +420,7 @@ class StatisticsDetailViewModel @Inject constructor(
                 filters = filters
                     .plus(dateFilter)
                     .map(RecordsFilter::toParams).toList(),
-            )
+            ),
         )
     }
 
@@ -458,7 +464,7 @@ class StatisticsDetailViewModel @Inject constructor(
             compareRecords = compareRecords,
             showComparison = comparisonFilter.isNotEmpty(),
             rangeLength = rangeLength,
-            rangePosition = rangePosition
+            rangePosition = rangePosition,
         )
     }
 
@@ -529,7 +535,7 @@ class StatisticsDetailViewModel @Inject constructor(
             isForComparison = isForComparison,
             rangeLength = rangeLength,
             rangePosition = rangePosition,
-            splitChartGrouping = grouping
+            splitChartGrouping = grouping,
         )
     }
 
@@ -558,6 +564,18 @@ class StatisticsDetailViewModel @Inject constructor(
         return mapper.mapToSplitChartGroupingViewData(rangeLength, splitChartGrouping)
     }
 
+    private fun updateNextActivitiesViewData() = viewModelScope.launch {
+        nextActivitiesViewData.set(loadNextActivitiesViewData())
+    }
+
+    private suspend fun loadNextActivitiesViewData(): List<ViewHolderType> {
+        return adjacentActivitiesInteractor.getNextActivitiesViewData(
+            filter = filter,
+            rangeLength = rangeLength,
+            rangePosition = rangePosition,
+        )
+    }
+
     private fun updateTitle() = viewModelScope.launch {
         title.set(loadTitle())
     }
@@ -565,7 +583,12 @@ class StatisticsDetailViewModel @Inject constructor(
     private suspend fun loadTitle(): String {
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-        return rangeViewDataMapper.mapToTitle(rangeLength, rangePosition, startOfDayShift, firstDayOfWeek)
+        return rangeViewDataMapper.mapToTitle(
+            rangeLength = rangeLength,
+            position = rangePosition,
+            startOfDayShift = startOfDayShift,
+            firstDayOfWeek = firstDayOfWeek,
+        )
     }
 
     private fun updateRanges() {

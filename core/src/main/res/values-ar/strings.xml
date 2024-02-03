@@ -385,6 +385,7 @@
     <string name="statistics_detail_tag_split_hint">تحصيص الوسوم</string>
     <string name="statistics_detail_day_split_hint">تحصيص يومي</string>
     <string name="statistics_detail_duration_split_hint">تحصيص مدة التتبع</string>
+    <string name="statistics_detail_next_activities_hint">أهم الأنشطة القادمة</string>
 
     <plurals name="statistics_detail_times_tracked">
         <item quantity="zero">تتبع</item>

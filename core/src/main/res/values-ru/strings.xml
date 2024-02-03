@@ -385,6 +385,7 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="statistics_detail_tag_split_hint">Распределение тегов</string>
     <string name="statistics_detail_day_split_hint">Распределение в течении дня</string>
     <string name="statistics_detail_duration_split_hint">Распределение продолжительности записи</string>
+    <string name="statistics_detail_next_activities_hint">Топ следующих активностей</string>
 
     <plurals name="statistics_detail_times_tracked">
         <item quantity="zero">Записей</item>
