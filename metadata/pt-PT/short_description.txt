@@ -1,0 +1,1 @@
+Controlo do tempo gasto em diferentes atividades no dia-a-dia.
