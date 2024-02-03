@@ -42,6 +42,10 @@
     <string name="settings_portuguese_language" translatable="false">Português</string>
     <string name="settings_portuguese_tag" translatable="false">pt</string>
 
+    <string name="settings_portuguese_portugal_translators" translatable="false">Flávio Correia Marta</string>
+    <string name="settings_portuguese_portugal_language" translatable="false">Português (Portugal)</string>
+    <string name="settings_portuguese_portugal_tag" translatable="false">pt-Pt</string>
+
     <string name="settings_russian_translators" translatable="false">Геннадий Щерба</string>
     <string name="settings_russian_language" translatable="false">Русский</string>
     <string name="settings_russian_tag" translatable="false">ru</string>
