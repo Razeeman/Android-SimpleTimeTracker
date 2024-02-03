@@ -63,6 +63,7 @@ class StatisticsDetailFragment :
     }
     private val nextActivitiesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createHintAdapterDelegate(),
             createStatisticsPreviewAdapterDelegate()
         )
     }
@@ -311,7 +312,6 @@ class StatisticsDetailFragment :
     private fun updateNextActivitiesViewData(
         viewData: List<ViewHolderType>
     ) {
-        binding.tvStatisticsDetailNextActivitiesHint.isVisible = viewData.isNotEmpty()
         binding.rvStatisticsDetailNextActivities.isVisible = viewData.isNotEmpty()
         nextActivitiesAdapter.replace(viewData)
     }

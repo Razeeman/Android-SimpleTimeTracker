@@ -386,6 +386,7 @@ Ví dụ:<br/>
     <string name="statistics_detail_day_split_hint">Phân bổ hàng ngày</string>
     <string name="statistics_detail_duration_split_hint">Phân bổ thời lượng bản ghi</string>
     <string name="statistics_detail_next_activities_hint">Hoạt động tiếp theo hàng đầu</string>
+    <string name="statistics_detail_multitasking_activities_hint">Đa nhiệm hàng đầu</string>
 
     <plurals name="statistics_detail_times_tracked">
 <!--        <item quantity="zero">Bản ghi</item>-->

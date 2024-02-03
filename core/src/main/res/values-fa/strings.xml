@@ -386,6 +386,7 @@
     <string name="statistics_detail_day_split_hint">پراکندگی روزانه</string>
     <string name="statistics_detail_duration_split_hint">پراکندگی طول تاریخچه</string>
     <string name="statistics_detail_next_activities_hint">برترین فعالیت های بعدی</string>
+    <string name="statistics_detail_multitasking_activities_hint">چند کاره برتر</string>
 
     <plurals name="statistics_detail_times_tracked">
 <!--        <item quantity="zero">بدون تاریخچه</item>-->
