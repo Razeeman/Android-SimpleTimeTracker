@@ -1,0 +1,3 @@
+- Add more detailed statistics
+- Add some translations
+- General bug fixes and improvements
