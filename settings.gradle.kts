@@ -14,3 +14,4 @@ file("features").walkTopDown().maxDepth(1).forEach { dir ->
         project(":${dir.name}").projectDir = dir
     }
 }
+include(":wear")
