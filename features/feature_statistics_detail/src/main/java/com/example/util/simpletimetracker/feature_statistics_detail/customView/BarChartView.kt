@@ -113,8 +113,8 @@ class BarChartView @JvmOverloads constructor(
         setMeasuredDimension(w, h)
     }
 
-    override fun onDraw(canvas: Canvas?) {
-        if (canvas == null || bars.isEmpty()) return
+    override fun onDraw(canvas: Canvas) {
+        if (bars.isEmpty()) return
 
         val w = width.toFloat()
         val h = height.toFloat()

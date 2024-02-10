@@ -74,8 +74,8 @@ class SeriesView @JvmOverloads constructor(
     }
 
     @Suppress("UNUSED_VARIABLE")
-    override fun onDraw(canvas: Canvas?) {
-        if (canvas == null || data.isEmpty()) return
+    override fun onDraw(canvas: Canvas) {
+        if (data.isEmpty()) return
 
         val w = width.toFloat()
         val h = height.toFloat()

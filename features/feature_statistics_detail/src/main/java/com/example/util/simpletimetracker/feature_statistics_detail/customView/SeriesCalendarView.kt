@@ -95,9 +95,7 @@ class SeriesCalendarView @JvmOverloads constructor(
         setMeasuredDimension(w, h)
     }
 
-    override fun onDraw(canvas: Canvas?) {
-        if (canvas == null) return
-
+    override fun onDraw(canvas: Canvas) {
         val w = width.toFloat()
         val h = height.toFloat()
 

@@ -109,7 +109,8 @@ class SwipeDetector(
     private val detector = GestureDetectorCompat(
         context,
         object : GestureDetector.SimpleOnGestureListener() {
-            override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+            override fun onScroll(e1: MotionEvent?, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+                if (e1 == null) return false
                 val angle = Math.toDegrees(atan2(e1.y - e2.y, e2.x - e1.x).toDouble())
 
                 // Right

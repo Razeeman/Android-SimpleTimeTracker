@@ -83,8 +83,8 @@ class PieChartView @JvmOverloads constructor(
         setMeasuredDimension(w, h)
     }
 
-    override fun onDraw(canvas: Canvas?) {
-        if (canvas == null || segments.isEmpty()) return
+    override fun onDraw(canvas: Canvas) {
+        if (segments.isEmpty()) return
 
         val w = width.toFloat()
         val h = height.toFloat()

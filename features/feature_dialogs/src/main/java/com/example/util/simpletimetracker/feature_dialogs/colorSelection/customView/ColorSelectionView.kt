@@ -80,9 +80,7 @@ class ColorSelectionView @JvmOverloads constructor(
         initGradientPaint(w.toFloat(), h.toFloat())
     }
 
-    override fun onDraw(canvas: Canvas?) {
-        if (canvas == null) return
-
+    override fun onDraw(canvas: Canvas) {
         // Draw base color.
         mainPaint.color = floatArrayOf(colorHue, 1f, 1f)
             .let(Color::HSVToColor)

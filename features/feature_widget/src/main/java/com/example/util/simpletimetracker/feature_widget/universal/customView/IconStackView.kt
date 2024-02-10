@@ -53,8 +53,8 @@ class IconStackView @JvmOverloads constructor(
         setMeasuredDimension(w, h)
     }
 
-    override fun onDraw(canvas: Canvas?) {
-        if (canvas == null || data.isEmpty()) return
+    override fun onDraw(canvas: Canvas) {
+        if (data.isEmpty()) return
 
         val w = width.toFloat()
         val h = height.toFloat()
