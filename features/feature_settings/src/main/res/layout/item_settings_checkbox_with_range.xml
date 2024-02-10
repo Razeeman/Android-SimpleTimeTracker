@@ -22,7 +22,7 @@
         android:layout_marginTop="12dp"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
-        android:translationZ="4dp"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintEnd_toStartOf="@id/barrierItemSettingsCheckboxWithRange"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +34,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingBottom="0dp"
-        android:translationZ="4dp"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintEnd_toEndOf="@id/tvItemSettingsCheckboxWithRangeTitle"
         app:layout_constraintStart_toStartOf="@id/tvItemSettingsCheckboxWithRangeTitle"
         app:layout_constraintTop_toBottomOf="@id/tvItemSettingsCheckboxWithRangeTitle"
@@ -51,7 +51,8 @@
         style="@style/SettingsDivider"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="12dp"
-        android:translationZ="4dp"
+        android:outlineProvider="none"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintTop_toBottomOf="@id/spaceItemSettingsCheckboxWithRangeBottom" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -66,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginEnd="4dp"
-        android:translationZ="4dp"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsCheckboxWithRangeTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvItemSettingsCheckboxWithRangeTitle" />
@@ -81,7 +82,7 @@
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
         android:textColor="?appTextPrimaryColor"
-        android:translationZ="4dp"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintEnd_toStartOf="@id/tvItemSettingsDivider"
         app:layout_constraintTop_toBottomOf="@id/checkboxItemSettings"
         tools:text="01:23" />
@@ -93,7 +94,7 @@
         android:gravity="end|center_vertical"
         android:text="-"
         android:textColor="?appTextPrimaryColor"
-        android:translationZ="4dp"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsStart"
         app:layout_constraintEnd_toStartOf="@id/tvItemSettingsEnd"
         app:layout_constraintTop_toTopOf="@id/tvItemSettingsStart"
@@ -109,7 +110,7 @@
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
         android:textColor="?appTextPrimaryColor"
-        android:translationZ="4dp"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvItemSettingsStart"

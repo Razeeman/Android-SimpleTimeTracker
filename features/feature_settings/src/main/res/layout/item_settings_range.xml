@@ -19,7 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:translationZ="4dp"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintBottom_toTopOf="@id/tvItemSettingsTitle"
         app:layout_constraintEnd_toStartOf="@id/tvItemSettingsStart"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,8 +34,8 @@
         android:gravity="center"
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
-        android:translationZ="4dp"
         android:textColor="?appTextPrimaryColor"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsTitle"
         app:layout_constraintEnd_toStartOf="@id/tvItemSettingsDivider"
         app:layout_constraintTop_toTopOf="@id/tvItemSettingsTitle"
@@ -47,8 +47,8 @@
         android:layout_height="wrap_content"
         android:gravity="end|center_vertical"
         android:text="-"
-        android:translationZ="4dp"
         android:textColor="?appTextPrimaryColor"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsTitle"
         app:layout_constraintEnd_toStartOf="@id/tvItemSettingsEnd"
         app:layout_constraintTop_toTopOf="@id/tvItemSettingsTitle" />
@@ -62,8 +62,8 @@
         android:gravity="center"
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
-        android:translationZ="4dp"
         android:textColor="?appTextPrimaryColor"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvItemSettingsTitle"
@@ -74,7 +74,8 @@
         style="@style/SettingsDivider"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="12dp"
-        android:translationZ="4dp"
+        android:outlineProvider="none"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintTop_toBottomOf="@id/tvItemSettingsTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

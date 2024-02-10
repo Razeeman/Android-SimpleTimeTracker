@@ -22,7 +22,7 @@
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical"
-        android:translationZ="4dp"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintTop_toTopOf="parent">
 
         <Space
@@ -73,7 +73,8 @@
         style="@style/SettingsDivider"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="12dp"
-        android:translationZ="4dp"
+        android:outlineProvider="none"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintTop_toBottomOf="@id/layoutItemSettingsText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

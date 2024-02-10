@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
         android:paddingBottom="0dp"
-        android:translationZ="4dp"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintTop_toBottomOf="@id/spaceItemSettingsTop"
         tools:text="Subtitle" />
 
@@ -41,7 +41,8 @@
         style="@style/SettingsDivider"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="12dp"
-        android:translationZ="4dp"
+        android:outlineProvider="none"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintTop_toBottomOf="@id/spaceItemSettingsBottom" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

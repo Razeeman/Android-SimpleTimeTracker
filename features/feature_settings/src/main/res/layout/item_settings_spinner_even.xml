@@ -19,7 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:translationZ="4dp"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tvItemSettingsValue"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,10 +35,10 @@
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:textColor="?appTextPrimaryColor"
-        android:translationZ="4dp"
-        app:layout_constraintStart_toEndOf="@id/tvItemSettingsTitle"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintBottom_toBottomOf="@id/spinnerItemSettings"
         app:layout_constraintEnd_toEndOf="@id/spinnerItemSettings"
+        app:layout_constraintStart_toEndOf="@id/tvItemSettingsTitle"
         app:layout_constraintTop_toTopOf="@id/spinnerItemSettings"
         tools:text="@string/settings_dark_mode_system" />
 
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginEnd="12dp"
-        android:translationZ="4dp"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintBottom_toBottomOf="@id/tvItemSettingsTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvItemSettingsTitle" />
@@ -57,7 +57,8 @@
         style="@style/SettingsDivider"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="12dp"
-        android:translationZ="4dp"
+        android:outlineProvider="none"
+        android:translationZ="@dimen/settings_card_elevation"
         app:layout_constraintTop_toBottomOf="@id/tvItemSettingsTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
