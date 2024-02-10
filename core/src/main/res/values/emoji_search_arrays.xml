@@ -1,0 +1,2121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ UNICODE, INC. LICENSE AGREEMENT - DATA FILES AND SOFTWARE
+  ~ See Terms of Use for definitions of Unicode Inc.'s
+  ~ Data Files and Software.
+  ~
+  ~ NOTICE TO USER: Carefully read the following legal agreement.
+  ~ BY DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING UNICODE INC.'S
+  ~ DATA FILES ("DATA FILES"), AND/OR SOFTWARE ("SOFTWARE"),
+  ~ YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE
+  ~ TERMS AND CONDITIONS OF THIS AGREEMENT.
+  ~ IF YOU DO NOT AGREE, DO NOT DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE
+  ~ THE DATA FILES OR SOFTWARE.
+  ~
+  ~ COPYRIGHT AND PERMISSION NOTICE
+  ~
+  ~ Copyright © 1991-2021 Unicode, Inc. All rights reserved.
+  ~ Distributed under the Terms of Use in https://www.unicode.org/copyright.html.
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining
+  ~ a copy of the Unicode data files and any associated documentation
+  ~ (the "Data Files") or Unicode software and any associated documentation
+  ~ (the "Software") to deal in the Data Files or Software
+  ~ without restriction, including without limitation the rights to use,
+  ~ copy, modify, merge, publish, distribute, and/or sell copies of
+  ~ the Data Files or Software, and to permit persons to whom the Data Files
+  ~ or Software are furnished to do so, provided that either
+  ~ (a) this copyright and permission notice appear with all copies
+  ~ of the Data Files or Software, or
+  ~ (b) this copyright and permission notice appear in associated
+  ~ Documentation.
+  ~
+  ~ THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF
+  ~ ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+  ~ WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  ~ NONINFRINGEMENT OF THIRD PARTY RIGHTS.
+  ~ IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS
+  ~ NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL
+  ~ DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+  ~ DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+  ~ TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+  ~ PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+  ~
+  ~ Except as contained in this notice, the name of a copyright holder
+  ~ shall not be used in advertising or otherwise to promote the sale,
+  ~ use or other dealings in these Data Files or Software without prior
+  ~ written authorization of the copyright holder.
+-->
+<resources>
+    # group: Smileys Emotion
+    <string-array name="emoji_hint_smileys">
+        # subgroup: face-smiling
+        <item>grinning face</item>
+        <item>grinning face with big eyes</item>
+        <item>grinning face with smiling eyes</item>
+        <item>beaming face with smiling eyes</item>
+        <item>grinning squinting face</item>
+        <item>grinning face with sweat</item>
+        <item>rolling on the floor laughing</item>
+        <item>face with tears of joy</item>
+        <item>slightly smiling face</item>
+        <item>upside-down face</item>
+        <item>melting face</item>
+        <item>winking face</item>
+        <item>smiling face with smiling eyes</item>
+        <item>smiling face with halo</item>
+
+        # subgroup: face-affection
+        <item>smiling face with hearts</item>
+        <item>smiling face with heart-eyes</item>
+        <item>star-struck</item>
+        <item>face blowing a kiss</item>
+        <item>kissing face</item>
+        <item>smiling face</item>
+        <item>kissing face with closed eyes</item>
+        <item>kissing face with smiling eyes</item>
+        <item>smiling face with tear</item>
+
+        # subgroup: face-tongue
+        <item>face savoring food</item>
+        <item>face with tongue</item>
+        <item>winking face with tongue</item>
+        <item>zany face</item>
+        <item>squinting face with tongue</item>
+        <item>money-mouth face</item>
+
+        # subgroup: face-hand
+        <item>hugging face</item>
+        <item>face with hand over mouth</item>
+        <item>face with open eyes and hand over mouth</item>
+        <item>face with peeking eye</item>
+        <item>shushing face</item>
+        <item>thinking face</item>
+        <item>saluting face</item>
+
+        # subgroup: face-neutral-skeptical
+        <item>zipper-mouth face</item>
+        <item>face with raised eyebrow</item>
+        <item>neutral face</item>
+        <item>expressionless face</item>
+        <item>face without mouth</item>
+        <item>dotted line face</item>
+        <item>face in clouds</item>
+        <item>smirking face</item>
+        <item>unamused face</item>
+        <item>face with rolling eyes</item>
+        <item>grimacing face</item>
+        <item>face exhaling</item>
+        <item>lying face</item>
+
+        # subgroup: face-sleepy
+        <item>relieved face</item>
+        <item>pensive face</item>
+        <item>sleepy face</item>
+        <item>drooling face</item>
+        <item>sleeping face</item>
+
+        # subgroup: face-unwell
+        <item>face with medical mask</item>
+        <item>face with thermometer</item>
+        <item>face with head-bandage</item>
+        <item>nauseated face</item>
+        <item>face vomiting</item>
+        <item>sneezing face</item>
+        <item>hot face</item>
+        <item>cold face</item>
+        <item>woozy face</item>
+        <item>knocked-out face</item>
+        <item>face with spiral eyes</item>
+        <item>exploding head</item>
+
+        # subgroup: face-hat
+        <item>cowboy hat face</item>
+        <item>partying face</item>
+        <item>disguised face</item>
+
+        # subgroup: face-glasses
+        <item>smiling face with sunglasses</item>
+        <item>nerd face</item>
+        <item>face with monocle</item>
+
+        # subgroup: face-concerned
+        <item>confused face</item>
+        <item>face with diagonal mouth</item>
+        <item>worried face</item>
+        <item>slightly frowning face</item>
+        <item>frowning face</item>
+        <item>face with open mouth</item>
+        <item>hushed face</item>
+        <item>astonished face</item>
+        <item>flushed face</item>
+        <item>pleading face</item>
+        <item>face holding back tears</item>
+        <item>frowning face with open mouth</item>
+        <item>anguished face</item>
+        <item>fearful face</item>
+        <item>anxious face with sweat</item>
+        <item>sad but relieved face</item>
+        <item>crying face</item>
+        <item>loudly crying face</item>
+        <item>face screaming in fear</item>
+        <item>confounded face</item>
+        <item>persevering face</item>
+        <item>disappointed face</item>
+        <item>downcast face with sweat</item>
+        <item>weary face</item>
+        <item>tired face</item>
+        <item>yawning face</item>
+
+        # subgroup: face-negative
+        <item>face with steam from nose</item>
+        <item>pouting face</item>
+        <item>angry face</item>
+        <item>face with symbols on mouth</item>
+        <item>smiling face with horns</item>
+        <item>angry face with horns</item>
+        <item>skull</item>
+        <item>skull and crossbones</item>
+
+        # subgroup: face-costume
+        <item>pile of poo</item>
+        <item>clown face</item>
+        <item>ogre</item>
+        <item>goblin</item>
+        <item>ghost</item>
+        <item>alien</item>
+        <item>alien monster</item>
+        <item>robot</item>
+
+        # subgroup: cat-face
+        <item>grinning cat</item>
+        <item>grinning cat with smiling eyes</item>
+        <item>cat with tears of joy</item>
+        <item>smiling cat with heart-eyes</item>
+        <item>cat with wry smile</item>
+        <item>kissing cat</item>
+        <item>weary cat</item>
+        <item>crying cat</item>
+        <item>pouting cat</item>
+
+        # subgroup: monkey-face
+        <item>see-no-evil monkey</item>
+        <item>hear-no-evil monkey</item>
+        <item>speak-no-evil monkey</item>
+
+        # subgroup: emotion
+        <item>kiss mark</item>
+        <item>love letter</item>
+        <item>heart with arrow</item>
+        <item>heart with ribbon</item>
+        <item>sparkling heart</item>
+        <item>growing heart</item>
+        <item>beating heart</item>
+        <item>revolving hearts</item>
+        <item>two hearts</item>
+        <item>heart decoration</item>
+        <item>heart exclamation</item>
+        <item>broken heart</item>
+        <item>heart on fire</item>
+        <item>mending heart</item>
+        <item>red heart</item>
+        <item>orange heart</item>
+        <item>yellow heart</item>
+        <item>green heart</item>
+        <item>blue heart</item>
+        <item>purple heart</item>
+        <item>brown heart</item>
+        <item>black heart</item>
+        <item>white heart</item>
+        <item>hundred points</item>
+        <item>anger symbol</item>
+        <item>collision</item>
+        <item>dizzy</item>
+        <item>sweat droplets</item>
+        <item>dashing away</item>
+        <item>hole</item>
+        <item>bomb</item>
+        <item>speech balloon</item>
+        <item>eye in speech bubble</item>
+        <item>left speech bubble</item>
+        <item>right anger bubble</item>
+        <item>thought balloon</item>
+        <item>zzz</item>
+    </string-array>
+
+    # group: People Body
+    <string-array name="emoji_hint_people">
+        # subgroup: hand-fingers-open
+        <item>waving hand</item>
+        <item>raised back of hand</item>
+        <item>hand with fingers splayed</item>
+        <item>raised hand</item>
+        <item>vulcan salute</item>
+        <item>rightwards hand</item>
+        <item>leftwards hand</item>
+        <item>palm down hand</item>
+        <item>palm up hand</item>
+
+        # subgroup: hand-fingers-partial
+        <item>OK hand</item>
+        <item>pinched fingers</item>
+        <item>pinching hand</item>
+        <item>victory hand</item>
+        <item>crossed fingers</item>
+        <item>hand with index finger and thumb crossed</item>
+        <item>love-you gesture</item>
+        <item>sign of the horns</item>
+        <item>call me hand</item>
+
+        # subgroup: hand-single-finger
+        <item>backhand index pointing left</item>
+        <item>backhand index pointing right</item>
+        <item>backhand index pointing up</item>
+        <item>middle finger</item>
+        <item>backhand index pointing down</item>
+        <item>index pointing up</item>
+        <item>index pointing at the viewer</item>
+
+        # subgroup: hand-fingers-closed
+        <item>thumbs up</item>
+        <item>thumbs down</item>
+        <item>raised fist</item>
+        <item>oncoming fist</item>
+        <item>left-facing fist</item>
+        <item>right-facing fist</item>
+
+        # subgroup: hands
+        <item>clapping hands</item>
+        <item>raising hands</item>
+        <item>heart hands</item>
+        <item>open hands</item>
+        <item>palms up together</item>
+        <item>handshake</item>
+        <item>folded hands</item>
+
+        # subgroup: hand-prop
+        <item>writing hand</item>
+        <item>nail polish</item>
+        <item>selfie</item>
+
+        # subgroup: body-parts
+        <item>flexed biceps</item>
+        <item>mechanical arm</item>
+        <item>mechanical leg</item>
+        <item>leg</item>
+        <item>foot</item>
+        <item>ear</item>
+        <item>ear with hearing aid</item>
+        <item>nose</item>
+        <item>brain</item>
+        <item>anatomical heart</item>
+        <item>lungs</item>
+        <item>tooth</item>
+        <item>bone</item>
+        <item>eyes</item>
+        <item>eye</item>
+        <item>tongue</item>
+        <item>mouth</item>
+        <item>biting lip</item>
+
+        # subgroup: person
+        <item>baby</item>
+        <item>child</item>
+        <item>boy</item>
+        <item>girl</item>
+        <item>person</item>
+        <item>person, blond hair</item>
+        <item>man</item>
+        <item>person, beard</item>
+        <item>man, beard</item>
+        <item>woman, beard</item>
+        <item>man, red hair</item>
+        <item>man, curly hair</item>
+        <item>man, white hair</item>
+        <item>man, bald</item>
+        <item>woman</item>
+        <item>woman, red hair</item>
+        <item>person, red hair</item>
+        <item>woman, curly hair</item>
+        <item>person, curly hair</item>
+        <item>woman, white hair</item>
+        <item>person, white hair</item>
+        <item>woman, bald</item>
+        <item>person, bald</item>
+        <item>woman, blond hair</item>
+        <item>man, blond hair</item>
+        <item>older person</item>
+        <item>old man</item>
+        <item>old woman</item>
+
+        # subgroup: person-gesture
+        <item>person frowning</item>
+        <item>man frowning</item>
+        <item>woman frowning</item>
+        <item>person pouting</item>
+        <item>man pouting</item>
+        <item>woman pouting</item>
+        <item>person gesturing NO</item>
+        <item>man gesturing NO</item>
+        <item>woman gesturing NO</item>
+        <item>person gesturing OK</item>
+        <item>man gesturing OK</item>
+        <item>woman gesturing OK</item>
+        <item>person tipping hand</item>
+        <item>man tipping hand</item>
+        <item>woman tipping hand</item>
+        <item>person raising hand</item>
+        <item>man raising hand</item>
+        <item>woman raising hand</item>
+        <item>deaf person</item>
+        <item>deaf man</item>
+        <item>deaf woman</item>
+        <item>person bowing</item>
+        <item>man bowing</item>
+        <item>woman bowing</item>
+        <item>person facepalming</item>
+        <item>man facepalming</item>
+        <item>woman facepalming</item>
+        <item>person shrugging</item>
+        <item>man shrugging</item>
+        <item>woman shrugging</item>
+
+        # subgroup: person-role
+        <item>health worker</item>
+        <item>man health worker</item>
+        <item>woman health worker</item>
+        <item>student</item>
+        <item>man student</item>
+        <item>woman student</item>
+        <item>teacher</item>
+        <item>man teacher</item>
+        <item>woman teacher</item>
+        <item>judge</item>
+        <item>man judge</item>
+        <item>woman judge</item>
+        <item>farmer</item>
+        <item>man farmer</item>
+        <item>woman farmer</item>
+        <item>cook</item>
+        <item>man cook</item>
+        <item>woman cook</item>
+        <item>mechanic</item>
+        <item>man mechanic</item>
+        <item>woman mechanic</item>
+        <item>factory worker</item>
+        <item>man factory worker</item>
+        <item>woman factory worker</item>
+        <item>office worker</item>
+        <item>man office worker</item>
+        <item>woman office worker</item>
+        <item>scientist</item>
+        <item>man scientist</item>
+        <item>woman scientist</item>
+        <item>technologist</item>
+        <item>man technologist</item>
+        <item>woman technologist</item>
+        <item>singer</item>
+        <item>man singer</item>
+        <item>woman singer</item>
+        <item>artist</item>
+        <item>man artist</item>
+        <item>woman artist</item>
+        <item>pilot</item>
+        <item>man pilot</item>
+        <item>woman pilot</item>
+        <item>astronaut</item>
+        <item>man astronaut</item>
+        <item>woman astronaut</item>
+        <item>firefighter</item>
+        <item>man firefighter</item>
+        <item>woman firefighter</item>
+        <item>police officer</item>
+        <item>man police officer</item>
+        <item>woman police officer</item>
+        <item>detective</item>
+        <item>man detective</item>
+        <item>woman detective</item>
+        <item>guard</item>
+        <item>man guard</item>
+        <item>woman guard</item>
+        <item>ninja</item>
+        <item>construction worker</item>
+        <item>man construction worker</item>
+        <item>woman construction worker</item>
+        <item>person with crown</item>
+        <item>prince</item>
+        <item>princess</item>
+        <item>person wearing turban</item>
+        <item>man wearing turban</item>
+        <item>woman wearing turban</item>
+        <item>person with skullcap</item>
+        <item>woman with headscarf</item>
+        <item>person in tuxedo</item>
+        <item>man in tuxedo</item>
+        <item>woman in tuxedo</item>
+        <item>person with veil</item>
+        <item>man with veil</item>
+        <item>woman with veil</item>
+        <item>pregnant woman</item>
+        <item>pregnant man</item>
+        <item>pregnant person</item>
+        <item>breast-feeding</item>
+        <item>woman feeding baby</item>
+        <item>man feeding baby</item>
+        <item>person feeding baby</item>
+
+        # subgroup: person-fantasy
+        <item>baby angel</item>
+        <item>Santa Claus</item>
+        <item>Mrs. Claus</item>
+        <item>mx claus</item>
+        <item>superhero</item>
+        <item>man superhero</item>
+        <item>woman superhero</item>
+        <item>supervillain</item>
+        <item>man supervillain</item>
+        <item>woman supervillain</item>
+        <item>mage</item>
+        <item>man mage</item>
+        <item>woman mage</item>
+        <item>fairy</item>
+        <item>man fairy</item>
+        <item>woman fairy</item>
+        <item>vampire</item>
+        <item>man vampire</item>
+        <item>woman vampire</item>
+        <item>merperson</item>
+        <item>merman</item>
+        <item>mermaid</item>
+        <item>elf</item>
+        <item>man elf</item>
+        <item>woman elf</item>
+        <item>genie</item>
+        <item>man genie</item>
+        <item>woman genie</item>
+        <item>zombie</item>
+        <item>man zombie</item>
+        <item>woman zombie</item>
+        <item>troll</item>
+
+        # subgroup: person-activity
+        <item>person getting massage</item>
+        <item>man getting massage</item>
+        <item>woman getting massage</item>
+        <item>person getting haircut</item>
+        <item>man getting haircut</item>
+        <item>woman getting haircut</item>
+        <item>person walking</item>
+        <item>man walking</item>
+        <item>woman walking</item>
+        <item>person standing</item>
+        <item>man standing</item>
+        <item>woman standing</item>
+        <item>person kneeling</item>
+        <item>man kneeling</item>
+        <item>woman kneeling</item>
+        <item>person with white cane</item>
+        <item>man with white cane</item>
+        <item>woman with white cane</item>
+        <item>person in motorized wheelchair</item>
+        <item>man in motorized wheelchair</item>
+        <item>woman in motorized wheelchair</item>
+        <item>person in manual wheelchair</item>
+        <item>man in manual wheelchair</item>
+        <item>woman in manual wheelchair</item>
+        <item>person running</item>
+        <item>man running</item>
+        <item>woman running</item>
+        <item>woman dancing</item>
+        <item>man dancing</item>
+        <item>person in suit levitating</item>
+        <item>people with bunny ears</item>
+        <item>men with bunny ears</item>
+        <item>women with bunny ears</item>
+        <item>person in steamy room</item>
+        <item>man in steamy room</item>
+        <item>woman in steamy room</item>
+        <item>person climbing</item>
+        <item>man climbing</item>
+        <item>woman climbing</item>
+
+        # subgroup: person-sport
+        <item>person fencing</item>
+        <item>horse racing</item>
+        <item>skier</item>
+        <item>snowboarder</item>
+        <item>person golfing</item>
+        <item>man golfing</item>
+        <item>woman golfing</item>
+        <item>person surfing</item>
+        <item>man surfing</item>
+        <item>woman surfing</item>
+        <item>person rowing boat</item>
+        <item>man rowing boat</item>
+        <item>woman rowing boat</item>
+        <item>person swimming</item>
+        <item>man swimming</item>
+        <item>woman swimming</item>
+        <item>person bouncing ball</item>
+        <item>man bouncing ball</item>
+        <item>woman bouncing ball</item>
+        <item>person lifting weights</item>
+        <item>man lifting weights</item>
+        <item>woman lifting weights</item>
+        <item>person biking</item>
+        <item>man biking</item>
+        <item>woman biking</item>
+        <item>person mountain biking</item>
+        <item>man mountain biking</item>
+        <item>woman mountain biking</item>
+        <item>person cartwheeling</item>
+        <item>man cartwheeling</item>
+        <item>woman cartwheeling</item>
+        <item>people wrestling</item>
+        <item>men wrestling</item>
+        <item>women wrestling</item>
+        <item>person playing water polo</item>
+        <item>man playing water polo</item>
+        <item>woman playing water polo</item>
+        <item>person playing handball</item>
+        <item>man playing handball</item>
+        <item>woman playing handball</item>
+        <item>person juggling</item>
+        <item>man juggling</item>
+        <item>woman juggling</item>
+
+        # subgroup: person-resting
+        <item>person in lotus position</item>
+        <item>man in lotus position</item>
+        <item>woman in lotus position</item>
+        <item>person taking bath</item>
+        <item>person in bed</item>
+
+        # subgroup: family
+        <item>people holding hands</item>
+        <item>women holding hands</item>
+        <item>woman and man holding hands</item>
+        <item>men holding hands</item>
+        <item>kiss: person, person</item>
+        <item>kiss: woman, man</item>
+        <item>kiss: man, man</item>
+        <item>kiss: woman, woman</item>
+        <item>couple with heart: person, person</item>
+        <item>couple with heart: woman, man</item>
+        <item>couple with heart: man, man</item>
+        <item>couple with heart: woman, woman</item>
+        <item>family</item>
+        <item>family: man, woman, boy</item>
+        <item>family: man, woman, girl</item>
+        <item>family: man, woman, girl, boy</item>
+        <item>family: man, woman, boy, boy</item>
+        <item>family: man, woman, girl, girl</item>
+        <item>family: man, man, boy</item>
+        <item>family: man, man, girl</item>
+        <item>family: man, man, girl, boy</item>
+        <item>family: man, man, boy, boy</item>
+        <item>family: man, man, girl, girl</item>
+        <item>family: woman, woman, boy</item>
+        <item>family: woman, woman, girl</item>
+        <item>family: woman, woman, girl, boy</item>
+        <item>family: woman, woman, boy, boy</item>
+        <item>family: woman, woman, girl, girl</item>
+        <item>family: man, boy</item>
+        <item>family: man, boy, boy</item>
+        <item>family: man, girl</item>
+        <item>family: man, girl, boy</item>
+        <item>family: man, girl, girl</item>
+        <item>family: woman, boy</item>
+        <item>family: woman, boy, boy</item>
+        <item>family: woman, girl</item>
+        <item>family: woman, girl, boy</item>
+        <item>family: woman, girl, girl</item>
+
+        # subgroup: person-symbol
+        <item>speaking head</item>
+        <item>bust in silhouette</item>
+        <item>busts in silhouette</item>
+        <item>people hugging</item>
+        <item>footprints</item>
+    </string-array>
+
+    # group: Animals Nature
+    <string-array name="emoji_hint_animals">
+        # subgroup: animal-mammal
+        <item>monkey face</item>
+        <item>monkey</item>
+        <item>gorilla</item>
+        <item>orangutan</item>
+        <item>dog face</item>
+        <item>dog</item>
+        <item>guide dog</item>
+        <item>service dog</item>
+        <item>poodle</item>
+        <item>wolf</item>
+        <item>fox</item>
+        <item>raccoon</item>
+        <item>cat face</item>
+        <item>cat</item>
+        <item>black cat</item>
+        <item>lion</item>
+        <item>tiger face</item>
+        <item>tiger</item>
+        <item>leopard</item>
+        <item>horse face</item>
+        <item>horse</item>
+        <item>unicorn</item>
+        <item>zebra</item>
+        <item>deer</item>
+        <item>bison</item>
+        <item>cow face</item>
+        <item>ox</item>
+        <item>water buffalo</item>
+        <item>cow</item>
+        <item>pig face</item>
+        <item>pig</item>
+        <item>boar</item>
+        <item>pig nose</item>
+        <item>ram</item>
+        <item>ewe</item>
+        <item>goat</item>
+        <item>camel</item>
+        <item>two-hump camel</item>
+        <item>llama</item>
+        <item>giraffe</item>
+        <item>elephant</item>
+        <item>mammoth</item>
+        <item>rhinoceros</item>
+        <item>hippopotamus</item>
+        <item>mouse face</item>
+        <item>mouse</item>
+        <item>rat</item>
+        <item>hamster</item>
+        <item>rabbit face</item>
+        <item>rabbit</item>
+        <item>chipmunk</item>
+        <item>beaver</item>
+        <item>hedgehog</item>
+        <item>bat</item>
+        <item>bear</item>
+        <item>polar bear</item>
+        <item>koala</item>
+        <item>panda</item>
+        <item>sloth</item>
+        <item>otter</item>
+        <item>skunk</item>
+        <item>kangaroo</item>
+        <item>badger</item>
+        <item>paw prints</item>
+
+        # subgroup: animal-bird
+        <item>turkey</item>
+        <item>chicken</item>
+        <item>rooster</item>
+        <item>hatching chick</item>
+        <item>baby chick</item>
+        <item>front-facing baby chick</item>
+        <item>bird</item>
+        <item>penguin</item>
+        <item>dove</item>
+        <item>eagle</item>
+        <item>duck</item>
+        <item>swan</item>
+        <item>owl</item>
+        <item>dodo</item>
+        <item>feather</item>
+        <item>flamingo</item>
+        <item>peacock</item>
+        <item>parrot</item>
+
+        # subgroup: animal-amphibian
+        <item>frog</item>
+
+        # subgroup: animal-reptile
+        <item>crocodile</item>
+        <item>turtle</item>
+        <item>lizard</item>
+        <item>snake</item>
+        <item>dragon face</item>
+        <item>dragon</item>
+        <item>sauropod</item>
+        <item>T-Rex</item>
+
+        # subgroup: animal-marine
+        <item>spouting whale</item>
+        <item>whale</item>
+        <item>dolphin</item>
+        <item>seal</item>
+        <item>fish</item>
+        <item>tropical fish</item>
+        <item>blowfish</item>
+        <item>shark</item>
+        <item>octopus</item>
+        <item>spiral shell</item>
+        <item>coral</item>
+
+        # subgroup: animal-bug
+        <item>snail</item>
+        <item>butterfly</item>
+        <item>bug</item>
+        <item>ant</item>
+        <item>honeybee</item>
+        <item>beetle</item>
+        <item>lady beetle</item>
+        <item>cricket</item>
+        <item>cockroach</item>
+        <item>spider</item>
+        <item>spider web</item>
+        <item>scorpion</item>
+        <item>mosquito</item>
+        <item>fly</item>
+        <item>worm</item>
+        <item>microbe</item>
+
+        # subgroup: plant-flower
+        <item>bouquet</item>
+        <item>cherry blossom</item>
+        <item>white flower</item>
+        <item>lotus</item>
+        <item>rosette</item>
+        <item>rose</item>
+        <item>wilted flower</item>
+        <item>hibiscus</item>
+        <item>sunflower</item>
+        <item>blossom</item>
+        <item>tulip</item>
+
+        # subgroup: plant-other
+        <item>seedling</item>
+        <item>potted plant</item>
+        <item>evergreen tree</item>
+        <item>deciduous tree</item>
+        <item>palm tree</item>
+        <item>cactus</item>
+        <item>sheaf of rice</item>
+        <item>herb</item>
+        <item>shamrock</item>
+        <item>four leaf clover</item>
+        <item>maple leaf</item>
+        <item>fallen leaf</item>
+        <item>leaf fluttering in wind</item>
+        <item>empty nest</item>
+        <item>nest with eggs</item>
+    </string-array>
+
+    # group: Food Drink
+    <string-array name="emoji_hint_food">
+        # subgroup: food-fruit
+        <item>grapes</item>
+        <item>melon</item>
+        <item>watermelon</item>
+        <item>tangerine</item>
+        <item>lemon</item>
+        <item>banana</item>
+        <item>pineapple</item>
+        <item>mango</item>
+        <item>red apple</item>
+        <item>green apple</item>
+        <item>pear</item>
+        <item>peach</item>
+        <item>cherries</item>
+        <item>strawberry</item>
+        <item>blueberries</item>
+        <item>kiwi fruit</item>
+        <item>tomato</item>
+        <item>olive</item>
+        <item>coconut</item>
+
+        # subgroup: food-vegetable
+        <item>avocado</item>
+        <item>eggplant</item>
+        <item>potato</item>
+        <item>carrot</item>
+        <item>ear of corn</item>
+        <item>hot pepper</item>
+        <item>bell pepper</item>
+        <item>cucumber</item>
+        <item>leafy green</item>
+        <item>broccoli</item>
+        <item>garlic</item>
+        <item>onion</item>
+        <item>mushroom</item>
+        <item>peanuts</item>
+        <item>beans</item>
+        <item>chestnut</item>
+
+        # subgroup: food-prepared
+        <item>bread</item>
+        <item>croissant</item>
+        <item>baguette bread</item>
+        <item>flatbread</item>
+        <item>pretzel</item>
+        <item>bagel</item>
+        <item>pancakes</item>
+        <item>waffle</item>
+        <item>cheese wedge</item>
+        <item>meat on bone</item>
+        <item>poultry leg</item>
+        <item>cut of meat</item>
+        <item>bacon</item>
+        <item>hamburger</item>
+        <item>french fries</item>
+        <item>pizza</item>
+        <item>hot dog</item>
+        <item>sandwich</item>
+        <item>taco</item>
+        <item>burrito</item>
+        <item>tamale</item>
+        <item>stuffed flatbread</item>
+        <item>falafel</item>
+        <item>egg</item>
+        <item>cooking</item>
+        <item>shallow pan of food</item>
+        <item>pot of food</item>
+        <item>fondue</item>
+        <item>bowl with spoon</item>
+        <item>green salad</item>
+        <item>popcorn</item>
+        <item>butter</item>
+        <item>salt</item>
+        <item>canned food</item>
+
+        # subgroup: food-asian
+        <item>bento box</item>
+        <item>rice cracker</item>
+        <item>rice ball</item>
+        <item>cooked rice</item>
+        <item>curry rice</item>
+        <item>steaming bowl</item>
+        <item>spaghetti</item>
+        <item>roasted sweet potato</item>
+        <item>oden</item>
+        <item>sushi</item>
+        <item>fried shrimp</item>
+        <item>fish cake with swirl</item>
+        <item>moon cake</item>
+        <item>dango</item>
+        <item>dumpling</item>
+        <item>fortune cookie</item>
+        <item>takeout box</item>
+
+        # subgroup: food-marine
+        <item>crab</item>
+        <item>lobster</item>
+        <item>shrimp</item>
+        <item>squid</item>
+        <item>oyster</item>
+
+        # subgroup: food-sweet
+        <item>soft ice cream</item>
+        <item>shaved ice</item>
+        <item>ice cream</item>
+        <item>doughnut</item>
+        <item>cookie</item>
+        <item>birthday cake</item>
+        <item>shortcake</item>
+        <item>cupcake</item>
+        <item>pie</item>
+        <item>chocolate bar</item>
+        <item>candy</item>
+        <item>lollipop</item>
+        <item>custard</item>
+        <item>honey pot</item>
+
+        # subgroup: drink
+        <item>baby bottle</item>
+        <item>glass of milk</item>
+        <item>hot beverage</item>
+        <item>teapot</item>
+        <item>teacup without handle</item>
+        <item>sake</item>
+        <item>bottle with popping cork</item>
+        <item>wine glass</item>
+        <item>cocktail glass</item>
+        <item>tropical drink</item>
+        <item>beer mug</item>
+        <item>clinking beer mugs</item>
+        <item>clinking glasses</item>
+        <item>tumbler glass</item>
+        <item>pouring liquid</item>
+        <item>cup with straw</item>
+        <item>bubble tea</item>
+        <item>beverage box</item>
+        <item>mate</item>
+        <item>ice</item>
+
+        # subgroup: dishware
+        <item>chopsticks</item>
+        <item>fork and knife with plate</item>
+        <item>fork and knife</item>
+        <item>spoon</item>
+        <item>kitchen knife</item>
+        <item>jar</item>
+        <item>amphora</item>
+    </string-array>
+
+    # group: Travel Places
+    <string-array name="emoji_hint_travel">
+        # subgroup: place-map
+        <item>globe showing Europe-Africa</item>
+        <item>globe showing Americas</item>
+        <item>globe showing Asia-Australia</item>
+        <item>globe with meridians</item>
+        <item>world map</item>
+        <item>map of Japan</item>
+        <item>compass</item>
+
+        # subgroup: place-geographic
+        <item>snow-capped mountain</item>
+        <item>mountain</item>
+        <item>volcano</item>
+        <item>mount fuji</item>
+        <item>camping</item>
+        <item>beach with umbrella</item>
+        <item>desert</item>
+        <item>desert island</item>
+        <item>national park</item>
+
+        # subgroup: place-building
+        <item>stadium</item>
+        <item>classical building</item>
+        <item>building construction</item>
+        <item>brick</item>
+        <item>rock</item>
+        <item>wood</item>
+        <item>hut</item>
+        <item>houses</item>
+        <item>derelict house</item>
+        <item>house</item>
+        <item>house with garden</item>
+        <item>office building</item>
+        <item>Japanese post office</item>
+        <item>post office</item>
+        <item>hospital</item>
+        <item>bank</item>
+        <item>hotel</item>
+        <item>love hotel</item>
+        <item>convenience store</item>
+        <item>school</item>
+        <item>department store</item>
+        <item>factory</item>
+        <item>Japanese castle</item>
+        <item>castle</item>
+        <item>wedding</item>
+        <item>Tokyo tower</item>
+        <item>Statue of Liberty</item>
+
+        # subgroup: place-religious
+        <item>church</item>
+        <item>mosque</item>
+        <item>hindu temple</item>
+        <item>synagogue</item>
+        <item>shinto shrine</item>
+        <item>kaaba</item>
+
+        # subgroup: place-other
+        <item>fountain</item>
+        <item>tent</item>
+        <item>foggy</item>
+        <item>night with stars</item>
+        <item>cityscape</item>
+        <item>sunrise over mountains</item>
+        <item>sunrise</item>
+        <item>cityscape at dusk</item>
+        <item>sunset</item>
+        <item>bridge at night</item>
+        <item>hot springs</item>
+        <item>carousel horse</item>
+        <item>playground slide</item>
+        <item>ferris wheel</item>
+        <item>roller coaster</item>
+        <item>barber pole</item>
+        <item>circus tent</item>
+
+        # subgroup: transport-ground
+        <item>locomotive</item>
+        <item>railway car</item>
+        <item>high-speed train</item>
+        <item>bullet train</item>
+        <item>train</item>
+        <item>metro</item>
+        <item>light rail</item>
+        <item>station</item>
+        <item>tram</item>
+        <item>monorail</item>
+        <item>mountain railway</item>
+        <item>tram car</item>
+        <item>bus</item>
+        <item>oncoming bus</item>
+        <item>trolleybus</item>
+        <item>minibus</item>
+        <item>ambulance</item>
+        <item>fire engine</item>
+        <item>police car</item>
+        <item>oncoming police car</item>
+        <item>taxi</item>
+        <item>oncoming taxi</item>
+        <item>automobile</item>
+        <item>oncoming automobile</item>
+        <item>sport utility vehicle</item>
+        <item>pickup truck</item>
+        <item>delivery truck</item>
+        <item>articulated lorry</item>
+        <item>tractor</item>
+        <item>racing car</item>
+        <item>motorcycle</item>
+        <item>motor scooter</item>
+        <item>manual wheelchair</item>
+        <item>motorized wheelchair</item>
+        <item>auto rickshaw</item>
+        <item>bicycle</item>
+        <item>kick scooter</item>
+        <item>skateboard</item>
+        <item>roller skate</item>
+        <item>bus stop</item>
+        <item>motorway</item>
+        <item>railway track</item>
+        <item>oil drum</item>
+        <item>fuel pump</item>
+        <item>wheel</item>
+        <item>police car light</item>
+        <item>horizontal traffic light</item>
+        <item>vertical traffic light</item>
+        <item>stop sign</item>
+        <item>construction</item>
+
+        # subgroup: transport-water
+        <item>anchor</item>
+        <item>ring buoy</item>
+        <item>sailboat</item>
+        <item>canoe</item>
+        <item>speedboat</item>
+        <item>passenger ship</item>
+        <item>ferry</item>
+        <item>motor boat</item>
+        <item>ship</item>
+
+        # subgroup: transport-air
+        <item>airplane</item>
+        <item>small airplane</item>
+        <item>airplane departure</item>
+        <item>airplane arrival</item>
+        <item>parachute</item>
+        <item>seat</item>
+        <item>helicopter</item>
+        <item>suspension railway</item>
+        <item>mountain cableway</item>
+        <item>aerial tramway</item>
+        <item>satellite</item>
+        <item>rocket</item>
+        <item>flying saucer</item>
+
+        # subgroup: hotel
+        <item>bellhop bell</item>
+        <item>luggage</item>
+
+        # subgroup: time
+        <item>hourglass done</item>
+        <item>hourglass not done</item>
+        <item>watch</item>
+        <item>alarm clock</item>
+        <item>stopwatch</item>
+        <item>timer clock</item>
+        <item>mantelpiece clock</item>
+        <item>twelve o’clock</item>
+        <item>twelve-thirty</item>
+        <item>one o’clock</item>
+        <item>one-thirty</item>
+        <item>two o’clock</item>
+        <item>two-thirty</item>
+        <item>three o’clock</item>
+        <item>three-thirty</item>
+        <item>four o’clock</item>
+        <item>four-thirty</item>
+        <item>five o’clock</item>
+        <item>five-thirty</item>
+        <item>six o’clock</item>
+        <item>six-thirty</item>
+        <item>seven o’clock</item>
+        <item>seven-thirty</item>
+        <item>eight o’clock</item>
+        <item>eight-thirty</item>
+        <item>nine o’clock</item>
+        <item>nine-thirty</item>
+        <item>ten o’clock</item>
+        <item>ten-thirty</item>
+        <item>eleven o’clock</item>
+        <item>eleven-thirty</item>
+
+        # subgroup: sky weather
+        <item>new moon</item>
+        <item>waxing crescent moon</item>
+        <item>first quarter moon</item>
+        <item>waxing gibbous moon</item>
+        <item>full moon</item>
+        <item>waning gibbous moon</item>
+        <item>last quarter moon</item>
+        <item>waning crescent moon</item>
+        <item>crescent moon</item>
+        <item>new moon face</item>
+        <item>first quarter moon face</item>
+        <item>last quarter moon face</item>
+        <item>thermometer</item>
+        <item>sun</item>
+        <item>full moon face</item>
+        <item>sun with face</item>
+        <item>ringed planet</item>
+        <item>star</item>
+        <item>glowing star</item>
+        <item>shooting star</item>
+        <item>milky way</item>
+        <item>cloud</item>
+        <item>sun behind cloud</item>
+        <item>cloud with lightning and rain</item>
+        <item>sun behind small cloud</item>
+        <item>sun behind large cloud</item>
+        <item>sun behind rain cloud</item>
+        <item>cloud with rain</item>
+        <item>cloud with snow</item>
+        <item>cloud with lightning</item>
+        <item>tornado</item>
+        <item>fog</item>
+        <item>wind face</item>
+        <item>cyclone</item>
+        <item>rainbow</item>
+        <item>closed umbrella</item>
+        <item>umbrella</item>
+        <item>umbrella with rain drops</item>
+        <item>umbrella on ground</item>
+        <item>high voltage</item>
+        <item>snowflake</item>
+        <item>snowman</item>
+        <item>snowman without snow</item>
+        <item>comet</item>
+        <item>fire</item>
+        <item>droplet</item>
+        <item>water wave</item>
+    </string-array>
+
+    # group: Activities
+    <string-array name="emoji_hint_activities">
+        # subgroup: event
+        <item>jack-o-lantern</item>
+        <item>Christmas tree</item>
+        <item>fireworks</item>
+        <item>sparkler</item>
+        <item>firecracker</item>
+        <item>sparkles</item>
+        <item>balloon</item>
+        <item>party popper</item>
+        <item>confetti ball</item>
+        <item>tanabata tree</item>
+        <item>pine decoration</item>
+        <item>Japanese dolls</item>
+        <item>carp streamer</item>
+        <item>wind chime</item>
+        <item>moon viewing ceremony</item>
+        <item>red envelope</item>
+        <item>ribbon</item>
+        <item>wrapped gift</item>
+        <item>reminder ribbon</item>
+        <item>admission tickets</item>
+        <item>ticket</item>
+
+        # subgroup: award-medal
+        <item>military medal</item>
+        <item>trophy</item>
+        <item>sports medal</item>
+        <item>1st place medal</item>
+        <item>2nd place medal</item>
+        <item>3rd place medal</item>
+
+        # subgroup: sport
+        <item>soccer ball</item>
+        <item>baseball</item>
+        <item>softball</item>
+        <item>basketball</item>
+        <item>volleyball</item>
+        <item>american football</item>
+        <item>rugby football</item>
+        <item>tennis</item>
+        <item>flying disc</item>
+        <item>bowling</item>
+        <item>cricket game</item>
+        <item>field hockey</item>
+        <item>ice hockey</item>
+        <item>lacrosse</item>
+        <item>ping pong</item>
+        <item>badminton</item>
+        <item>boxing glove</item>
+        <item>martial arts uniform</item>
+        <item>goal net</item>
+        <item>flag in hole</item>
+        <item>ice skate</item>
+        <item>fishing pole</item>
+        <item>diving mask</item>
+        <item>running shirt</item>
+        <item>skis</item>
+        <item>sled</item>
+        <item>curling stone</item>
+
+        # subgroup: game
+        <item>bullseye</item>
+        <item>yo-yo</item>
+        <item>kite</item>
+        <item>pool 8 ball</item>
+        <item>crystal ball</item>
+        <item>magic wand</item>
+        <item>nazar amulet</item>
+        <item>hamsa</item>
+        <item>video game</item>
+        <item>joystick</item>
+        <item>slot machine</item>
+        <item>game die</item>
+        <item>puzzle piece</item>
+        <item>teddy bear</item>
+        <item>piñata</item>
+        <item>mirror ball</item>
+        <item>nesting dolls</item>
+        <item>spade suit</item>
+        <item>heart suit</item>
+        <item>diamond suit</item>
+        <item>club suit</item>
+        <item>chess pawn</item>
+        <item>joker</item>
+        <item>mahjong red dragon</item>
+        <item>flower playing cards</item>
+
+        # subgroup: arts crafts
+        <item>performing arts</item>
+        <item>framed picture</item>
+        <item>artist palette</item>
+        <item>thread</item>
+        <item>sewing needle</item>
+        <item>yarn</item>
+        <item>knot</item>
+    </string-array>
+
+    # group: Objects
+    <string-array name="emoji_hint_objects">
+        # subgroup: clothing
+        <item>glasses</item>
+        <item>sunglasses</item>
+        <item>goggles</item>
+        <item>lab coat</item>
+        <item>safety vest</item>
+        <item>necktie</item>
+        <item>t-shirt</item>
+        <item>jeans</item>
+        <item>scarf</item>
+        <item>gloves</item>
+        <item>coat</item>
+        <item>socks</item>
+        <item>dress</item>
+        <item>kimono</item>
+        <item>sari</item>
+        <item>one-piece swimsuit</item>
+        <item>briefs</item>
+        <item>shorts</item>
+        <item>bikini</item>
+        <item>woman’s clothes</item>
+        <item>purse</item>
+        <item>handbag</item>
+        <item>clutch bag</item>
+        <item>shopping bags</item>
+        <item>backpack</item>
+        <item>thong sandal</item>
+        <item>man’s shoe</item>
+        <item>running shoe</item>
+        <item>hiking boot</item>
+        <item>flat shoe</item>
+        <item>high-heeled shoe</item>
+        <item>woman’s sandal</item>
+        <item>ballet shoes</item>
+        <item>woman’s boot</item>
+        <item>crown</item>
+        <item>woman’s hat</item>
+        <item>top hat</item>
+        <item>graduation cap</item>
+        <item>billed cap</item>
+        <item>military helmet</item>
+        <item>rescue worker’s helmet</item>
+        <item>prayer beads</item>
+        <item>lipstick</item>
+        <item>ring</item>
+        <item>gem stone</item>
+
+        # subgroup: sound
+        <item>muted speaker</item>
+        <item>speaker low volume</item>
+        <item>speaker medium volume</item>
+        <item>speaker high volume</item>
+        <item>loudspeaker</item>
+        <item>megaphone</item>
+        <item>postal horn</item>
+        <item>bell</item>
+        <item>bell with slash</item>
+
+        # subgroup: music
+        <item>musical score</item>
+        <item>musical note</item>
+        <item>musical notes</item>
+        <item>studio microphone</item>
+        <item>level slider</item>
+        <item>control knobs</item>
+        <item>microphone</item>
+        <item>headphone</item>
+        <item>radio</item>
+
+        # subgroup: musical-instrument
+        <item>saxophone</item>
+        <item>accordion</item>
+        <item>guitar</item>
+        <item>musical keyboard</item>
+        <item>trumpet</item>
+        <item>violin</item>
+        <item>banjo</item>
+        <item>drum</item>
+        <item>long drum</item>
+
+        # subgroup: phone
+        <item>mobile phone</item>
+        <item>mobile phone with arrow</item>
+        <item>telephone</item>
+        <item>telephone receiver</item>
+        <item>pager</item>
+        <item>fax machine</item>
+
+        # subgroup: computer
+        <item>battery</item>
+        <item>low battery</item>
+        <item>electric plug</item>
+        <item>laptop</item>
+        <item>desktop computer</item>
+        <item>printer</item>
+        <item>keyboard</item>
+        <item>computer mouse</item>
+        <item>trackball</item>
+        <item>computer disk</item>
+        <item>floppy disk</item>
+        <item>optical disk</item>
+        <item>dvd</item>
+        <item>abacus</item>
+
+        # subgroup: light video
+        <item>movie camera</item>
+        <item>film frames</item>
+        <item>film projector</item>
+        <item>clapper board</item>
+        <item>television</item>
+        <item>camera</item>
+        <item>camera with flash</item>
+        <item>video camera</item>
+        <item>videocassette</item>
+        <item>magnifying glass tilted left</item>
+        <item>magnifying glass tilted right</item>
+        <item>candle</item>
+        <item>light bulb</item>
+        <item>flashlight</item>
+        <item>red paper lantern</item>
+        <item>diya lamp</item>
+
+        # subgroup: book-paper
+        <item>notebook with decorative cover</item>
+        <item>closed book</item>
+        <item>open book</item>
+        <item>green book</item>
+        <item>blue book</item>
+        <item>orange book</item>
+        <item>books</item>
+        <item>notebook</item>
+        <item>ledger</item>
+        <item>page with curl</item>
+        <item>scroll</item>
+        <item>page facing up</item>
+        <item>newspaper</item>
+        <item>rolled-up newspaper</item>
+        <item>bookmark tabs</item>
+        <item>bookmark</item>
+        <item>label</item>
+
+        # subgroup: money
+        <item>money bag</item>
+        <item>coin</item>
+        <item>yen banknote</item>
+        <item>dollar banknote</item>
+        <item>euro banknote</item>
+        <item>pound banknote</item>
+        <item>money with wings</item>
+        <item>credit card</item>
+        <item>receipt</item>
+        <item>chart increasing with yen</item>
+
+        # subgroup: mail
+        <item>envelope</item>
+        <item>e-mail</item>
+        <item>incoming envelope</item>
+        <item>envelope with arrow</item>
+        <item>outbox tray</item>
+        <item>inbox tray</item>
+        <item>package</item>
+        <item>closed mailbox with raised flag</item>
+        <item>closed mailbox with lowered flag</item>
+        <item>open mailbox with raised flag</item>
+        <item>open mailbox with lowered flag</item>
+        <item>postbox</item>
+        <item>ballot box with ballot</item>
+
+        # subgroup: writing
+        <item>pencil</item>
+        <item>black nib</item>
+        <item>fountain pen</item>
+        <item>pen</item>
+        <item>paintbrush</item>
+        <item>crayon</item>
+        <item>memo</item>
+
+        # subgroup: office
+        <item>briefcase</item>
+        <item>file folder</item>
+        <item>open file folder</item>
+        <item>card index dividers</item>
+        <item>calendar</item>
+        <item>tear-off calendar</item>
+        <item>spiral notepad</item>
+        <item>spiral calendar</item>
+        <item>card index</item>
+        <item>chart increasing</item>
+        <item>chart decreasing</item>
+        <item>bar chart</item>
+        <item>clipboard</item>
+        <item>pushpin</item>
+        <item>round pushpin</item>
+        <item>paperclip</item>
+        <item>linked paperclips</item>
+        <item>straight ruler</item>
+        <item>triangular ruler</item>
+        <item>scissors</item>
+        <item>card file box</item>
+        <item>file cabinet</item>
+        <item>wastebasket</item>
+
+        # subgroup: lock
+        <item>locked</item>
+        <item>unlocked</item>
+        <item>locked with pen</item>
+        <item>locked with key</item>
+        <item>key</item>
+        <item>old key</item>
+
+        # subgroup: tool
+        <item>hammer</item>
+        <item>axe</item>
+        <item>pick</item>
+        <item>hammer and pick</item>
+        <item>hammer and wrench</item>
+        <item>dagger</item>
+        <item>crossed swords</item>
+        <item>water pistol</item>
+        <item>boomerang</item>
+        <item>bow and arrow</item>
+        <item>shield</item>
+        <item>carpentry saw</item>
+        <item>wrench</item>
+        <item>screwdriver</item>
+        <item>nut and bolt</item>
+        <item>gear</item>
+        <item>clamp</item>
+        <item>balance scale</item>
+        <item>white cane</item>
+        <item>link</item>
+        <item>chains</item>
+        <item>hook</item>
+        <item>toolbox</item>
+        <item>magnet</item>
+        <item>ladder</item>
+
+        # subgroup: science
+        <item>alembic</item>
+        <item>test tube</item>
+        <item>petri dish</item>
+        <item>dna</item>
+        <item>microscope</item>
+        <item>telescope</item>
+        <item>satellite antenna</item>
+
+        # subgroup: medical
+        <item>syringe</item>
+        <item>drop of blood</item>
+        <item>pill</item>
+        <item>adhesive bandage</item>
+        <item>crutch</item>
+        <item>stethoscope</item>
+        <item>x-ray</item>
+
+        # subgroup: household
+        <item>door</item>
+        <item>elevator</item>
+        <item>mirror</item>
+        <item>window</item>
+        <item>bed</item>
+        <item>couch and lamp</item>
+        <item>chair</item>
+        <item>toilet</item>
+        <item>plunger</item>
+        <item>shower</item>
+        <item>bathtub</item>
+        <item>mouse trap</item>
+        <item>razor</item>
+        <item>lotion bottle</item>
+        <item>safety pin</item>
+        <item>broom</item>
+        <item>basket</item>
+        <item>roll of paper</item>
+        <item>bucket</item>
+        <item>soap</item>
+        <item>bubbles</item>
+        <item>toothbrush</item>
+        <item>sponge</item>
+        <item>fire extinguisher</item>
+        <item>shopping cart</item>
+
+        # subgroup: other-object
+        <item>cigarette</item>
+        <item>coffin</item>
+        <item>headstone</item>
+        <item>funeral urn</item>
+        <item>moai</item>
+        <item>placard</item>
+        <item>identification card</item>
+    </string-array>
+
+    # group: Symbols
+    <string-array name="emoji_hint_symbols">
+        # subgroup: transport-sign
+        <item>ATM sign</item>
+        <item>litter in bin sign</item>
+        <item>potable water</item>
+        <item>wheelchair symbol</item>
+        <item>men’s room</item>
+        <item>women’s room</item>
+        <item>restroom</item>
+        <item>baby symbol</item>
+        <item>water closet</item>
+        <item>passport control</item>
+        <item>customs</item>
+        <item>baggage claim</item>
+        <item>left luggage</item>
+
+        # subgroup: warning
+        <item>warning</item>
+        <item>children crossing</item>
+        <item>no entry</item>
+        <item>prohibited</item>
+        <item>no bicycles</item>
+        <item>no smoking</item>
+        <item>no littering</item>
+        <item>non-potable water</item>
+        <item>no pedestrians</item>
+        <item>no mobile phones</item>
+        <item>no one under eighteen</item>
+        <item>radioactive</item>
+        <item>biohazard</item>
+
+        # subgroup: arrow
+        <item>up arrow</item>
+        <item>up-right arrow</item>
+        <item>right arrow</item>
+        <item>down-right arrow</item>
+        <item>down arrow</item>
+        <item>down-left arrow</item>
+        <item>left arrow</item>
+        <item>up-left arrow</item>
+        <item>up-down arrow</item>
+        <item>left-right arrow</item>
+        <item>right arrow curving left</item>
+        <item>left arrow curving right</item>
+        <item>right arrow curving up</item>
+        <item>right arrow curving down</item>
+        <item>clockwise vertical arrows</item>
+        <item>counterclockwise arrows button</item>
+        <item>BACK arrow</item>
+        <item>END arrow</item>
+        <item>ON! arrow</item>
+        <item>SOON arrow</item>
+        <item>TOP arrow</item>
+
+        # subgroup: religion
+        <item>place of worship</item>
+        <item>atom symbol</item>
+        <item>om</item>
+        <item>star of David</item>
+        <item>wheel of dharma</item>
+        <item>yin yang</item>
+        <item>latin cross</item>
+        <item>orthodox cross</item>
+        <item>star and crescent</item>
+        <item>peace symbol</item>
+        <item>menorah</item>
+        <item>dotted six-pointed star</item>
+
+        # subgroup: zodiac
+        <item>Aries</item>
+        <item>Taurus</item>
+        <item>Gemini</item>
+        <item>Cancer</item>
+        <item>Leo</item>
+        <item>Virgo</item>
+        <item>Libra</item>
+        <item>Scorpio</item>
+        <item>Sagittarius</item>
+        <item>Capricorn</item>
+        <item>Aquarius</item>
+        <item>Pisces</item>
+        <item>Ophiuchus</item>
+
+        # subgroup: av-symbol
+        <item>shuffle tracks button</item>
+        <item>repeat button</item>
+        <item>repeat single button</item>
+        <item>play button</item>
+        <item>fast-forward button</item>
+        <item>next track button</item>
+        <item>play or pause button</item>
+        <item>reverse button</item>
+        <item>fast reverse button</item>
+        <item>last track button</item>
+        <item>upwards button</item>
+        <item>fast up button</item>
+        <item>downwards button</item>
+        <item>fast down button</item>
+        <item>pause button</item>
+        <item>stop button</item>
+        <item>record button</item>
+        <item>eject button</item>
+        <item>cinema</item>
+        <item>dim button</item>
+        <item>bright button</item>
+        <item>antenna bars</item>
+        <item>vibration mode</item>
+        <item>mobile phone off</item>
+
+        # subgroup: gender
+        <item>female sign</item>
+        <item>male sign</item>
+        <item>transgender symbol</item>
+
+        # subgroup: math
+        <item>multiply</item>
+        <item>plus</item>
+        <item>minus</item>
+        <item>divide</item>
+        <item>heavy equals sign</item>
+        <item>infinity</item>
+
+        # subgroup: punctuation
+        <item>double exclamation mark</item>
+        <item>exclamation question mark</item>
+        <item>red question mark</item>
+        <item>white question mark</item>
+        <item>white exclamation mark</item>
+        <item>red exclamation mark</item>
+        <item>wavy dash</item>
+
+        # subgroup: currency
+        <item>currency exchange</item>
+        <item>heavy dollar sign</item>
+
+        # subgroup: other-symbol
+        <item>medical symbol</item>
+        <item>recycling symbol</item>
+        <item>fleur-de-lis</item>
+        <item>trident emblem</item>
+        <item>name badge</item>
+        <item>Japanese symbol for beginner</item>
+        <item>hollow red circle</item>
+        <item>check mark button</item>
+        <item>check box with check</item>
+        <item>check mark</item>
+        <item>cross mark</item>
+        <item>cross mark button</item>
+        <item>curly loop</item>
+        <item>double curly loop</item>
+        <item>part alternation mark</item>
+        <item>eight-spoked asterisk</item>
+        <item>eight-pointed star</item>
+        <item>sparkle</item>
+        <item>copyright</item>
+        <item>registered</item>
+        <item>trade mark</item>
+
+        # subgroup: keycap
+        <item>keycap: #</item>
+        <item>keycap: *</item>
+        <item>keycap: 0</item>
+        <item>keycap: 1</item>
+        <item>keycap: 2</item>
+        <item>keycap: 3</item>
+        <item>keycap: 4</item>
+        <item>keycap: 5</item>
+        <item>keycap: 6</item>
+        <item>keycap: 7</item>
+        <item>keycap: 8</item>
+        <item>keycap: 9</item>
+        <item>keycap: 10</item>
+
+        # subgroup: alphanum
+        <item>input latin uppercase</item>
+        <item>input latin lowercase</item>
+        <item>input numbers</item>
+        <item>input symbols</item>
+        <item>input latin letters</item>
+        <item>A button (blood type)</item>
+        <item>AB button (blood type)</item>
+        <item>B button (blood type)</item>
+        <item>CL button</item>
+        <item>COOL button</item>
+        <item>FREE button</item>
+        <item>information</item>
+        <item>ID button</item>
+        <item>circled M</item>
+        <item>NEW button</item>
+        <item>NG button</item>
+        <item>O button (blood type)</item>
+        <item>OK button</item>
+        <item>P button</item>
+        <item>SOS button</item>
+        <item>UP! button</item>
+        <item>VS button</item>
+        <item>Japanese “here” button</item>
+        <item>Japanese “service charge” button</item>
+        <item>Japanese “monthly amount” button</item>
+        <item>Japanese “not free of charge” button</item>
+        <item>Japanese “reserved” button</item>
+        <item>Japanese “bargain” button</item>
+        <item>Japanese “discount” button</item>
+        <item>Japanese “free of charge” button</item>
+        <item>Japanese “prohibited” button</item>
+        <item>Japanese “acceptable” button</item>
+        <item>Japanese “application” button</item>
+        <item>Japanese “passing grade” button</item>
+        <item>Japanese “vacancy” button</item>
+        <item>Japanese “congratulations” button</item>
+        <item>Japanese “secret” button</item>
+        <item>Japanese “open for business” button</item>
+        <item>Japanese “no vacancy” button</item>
+
+        # subgroup: geometric
+        <item>red circle</item>
+        <item>orange circle</item>
+        <item>yellow circle</item>
+        <item>green circle</item>
+        <item>blue circle</item>
+        <item>purple circle</item>
+        <item>brown circle</item>
+        <item>black circle</item>
+        <item>white circle</item>
+        <item>red square</item>
+        <item>orange square</item>
+        <item>yellow square</item>
+        <item>green square</item>
+        <item>blue square</item>
+        <item>purple square</item>
+        <item>brown square</item>
+        <item>black large square</item>
+        <item>white large square</item>
+        <item>black medium square</item>
+        <item>white medium square</item>
+        <item>black medium-small square</item>
+        <item>white medium-small square</item>
+        <item>black small square</item>
+        <item>white small square</item>
+        <item>large orange diamond</item>
+        <item>large blue diamond</item>
+        <item>small orange diamond</item>
+        <item>small blue diamond</item>
+        <item>red triangle pointed up</item>
+        <item>red triangle pointed down</item>
+        <item>diamond with a dot</item>
+        <item>radio button</item>
+        <item>white square button</item>
+        <item>black square button</item>
+    </string-array>
+
+    # group: Flags
+    <string-array name="emoji_hint_flags">
+        # subgroup: flag
+        <item>chequered flag</item>
+        <item>triangular flag</item>
+        <item>crossed flags</item>
+        <item>black flag</item>
+        <item>white flag</item>
+        <item>rainbow flag</item>
+        <item>transgender flag</item>
+        <item>pirate flag</item>
+
+        # subgroup: country-flag
+        <item>flag: Ascension Island</item>
+        <item>flag: Andorra</item>
+        <item>flag: United Arab Emirates</item>
+        <item>flag: Afghanistan</item>
+        <item>flag: Antigua Barbuda</item>
+        <item>flag: Anguilla</item>
+        <item>flag: Albania</item>
+        <item>flag: Armenia</item>
+        <item>flag: Angola</item>
+        <item>flag: Antarctica</item>
+        <item>flag: Argentina</item>
+        <item>flag: American Samoa</item>
+        <item>flag: Austria</item>
+        <item>flag: Australia</item>
+        <item>flag: Aruba</item>
+        <item>flag: Åland Islands</item>
+        <item>flag: Azerbaijan</item>
+        <item>flag: Bosnia Herzegovina</item>
+        <item>flag: Barbados</item>
+        <item>flag: Bangladesh</item>
+        <item>flag: Belgium</item>
+        <item>flag: Burkina Faso</item>
+        <item>flag: Bulgaria</item>
+        <item>flag: Bahrain</item>
+        <item>flag: Burundi</item>
+        <item>flag: Benin</item>
+        <item>flag: St. Barthélemy</item>
+        <item>flag: Bermuda</item>
+        <item>flag: Brunei</item>
+        <item>flag: Bolivia</item>
+        <item>flag: Caribbean Netherlands</item>
+        <item>flag: Brazil</item>
+        <item>flag: Bahamas</item>
+        <item>flag: Bhutan</item>
+        <item>flag: Bouvet Island</item>
+        <item>flag: Botswana</item>
+        <item>flag: Belarus</item>
+        <item>flag: Belize</item>
+        <item>flag: Canada</item>
+        <item>flag: Cocos (Keeling) Islands</item>
+        <item>flag: Congo - Kinshasa</item>
+        <item>flag: Central African Republic</item>
+        <item>flag: Congo - Brazzaville</item>
+        <item>flag: Switzerland</item>
+        <item>flag: Côte d’Ivoire</item>
+        <item>flag: Cook Islands</item>
+        <item>flag: Chile</item>
+        <item>flag: Cameroon</item>
+        <item>flag: China</item>
+        <item>flag: Colombia</item>
+        <item>flag: Clipperton Island</item>
+        <item>flag: Costa Rica</item>
+        <item>flag: Cuba</item>
+        <item>flag: Cape Verde</item>
+        <item>flag: Curaçao</item>
+        <item>flag: Christmas Island</item>
+        <item>flag: Cyprus</item>
+        <item>flag: Czechia</item>
+        <item>flag: Germany</item>
+        <item>flag: Diego Garcia</item>
+        <item>flag: Djibouti</item>
+        <item>flag: Denmark</item>
+        <item>flag: Dominica</item>
+        <item>flag: Dominican Republic</item>
+        <item>flag: Algeria</item>
+        <item>flag: Ceuta Melilla</item>
+        <item>flag: Ecuador</item>
+        <item>flag: Estonia</item>
+        <item>flag: Egypt</item>
+        <item>flag: Western Sahara</item>
+        <item>flag: Eritrea</item>
+        <item>flag: Spain</item>
+        <item>flag: Ethiopia</item>
+        <item>flag: European Union</item>
+        <item>flag: Finland</item>
+        <item>flag: Fiji</item>
+        <item>flag: Falkland Islands</item>
+        <item>flag: Micronesia</item>
+        <item>flag: Faroe Islands</item>
+        <item>flag: France</item>
+        <item>flag: Gabon</item>
+        <item>flag: United Kingdom</item>
+        <item>flag: Grenada</item>
+        <item>flag: Georgia</item>
+        <item>flag: French Guiana</item>
+        <item>flag: Guernsey</item>
+        <item>flag: Ghana</item>
+        <item>flag: Gibraltar</item>
+        <item>flag: Greenland</item>
+        <item>flag: Gambia</item>
+        <item>flag: Guinea</item>
+        <item>flag: Guadeloupe</item>
+        <item>flag: Equatorial Guinea</item>
+        <item>flag: Greece</item>
+        <item>flag: South Georgia South Sandwich Islands</item>
+        <item>flag: Guatemala</item>
+        <item>flag: Guam</item>
+        <item>flag: Guinea-Bissau</item>
+        <item>flag: Guyana</item>
+        <item>flag: Hong Kong SAR China</item>
+        <item>flag: Heard McDonald Islands</item>
+        <item>flag: Honduras</item>
+        <item>flag: Croatia</item>
+        <item>flag: Haiti</item>
+        <item>flag: Hungary</item>
+        <item>flag: Canary Islands</item>
+        <item>flag: Indonesia</item>
+        <item>flag: Ireland</item>
+        <item>flag: Israel</item>
+        <item>flag: Isle of Man</item>
+        <item>flag: India</item>
+        <item>flag: British Indian Ocean Territory</item>
+        <item>flag: Iraq</item>
+        <item>flag: Iran</item>
+        <item>flag: Iceland</item>
+        <item>flag: Italy</item>
+        <item>flag: Jersey</item>
+        <item>flag: Jamaica</item>
+        <item>flag: Jordan</item>
+        <item>flag: Japan</item>
+        <item>flag: Kenya</item>
+        <item>flag: Kyrgyzstan</item>
+        <item>flag: Cambodia</item>
+        <item>flag: Kiribati</item>
+        <item>flag: Comoros</item>
+        <item>flag: St. Kitts Nevis</item>
+        <item>flag: North Korea</item>
+        <item>flag: South Korea</item>
+        <item>flag: Kuwait</item>
+        <item>flag: Cayman Islands</item>
+        <item>flag: Kazakhstan</item>
+        <item>flag: Laos</item>
+        <item>flag: Lebanon</item>
+        <item>flag: St. Lucia</item>
+        <item>flag: Liechtenstein</item>
+        <item>flag: Sri Lanka</item>
+        <item>flag: Liberia</item>
+        <item>flag: Lesotho</item>
+        <item>flag: Lithuania</item>
+        <item>flag: Luxembourg</item>
+        <item>flag: Latvia</item>
+        <item>flag: Libya</item>
+        <item>flag: Morocco</item>
+        <item>flag: Monaco</item>
+        <item>flag: Moldova</item>
+        <item>flag: Montenegro</item>
+        <item>flag: St. Martin</item>
+        <item>flag: Madagascar</item>
+        <item>flag: Marshall Islands</item>
+        <item>flag: North Macedonia</item>
+        <item>flag: Mali</item>
+        <item>flag: Myanmar (Burma)</item>
+        <item>flag: Mongolia</item>
+        <item>flag: Macao SAR China</item>
+        <item>flag: Northern Mariana Islands</item>
+        <item>flag: Martinique</item>
+        <item>flag: Mauritania</item>
+        <item>flag: Montserrat</item>
+        <item>flag: Malta</item>
+        <item>flag: Mauritius</item>
+        <item>flag: Maldives</item>
+        <item>flag: Malawi</item>
+        <item>flag: Mexico</item>
+        <item>flag: Malaysia</item>
+        <item>flag: Mozambique</item>
+        <item>flag: Namibia</item>
+        <item>flag: New Caledonia</item>
+        <item>flag: Niger</item>
+        <item>flag: Norfolk Island</item>
+        <item>flag: Nigeria</item>
+        <item>flag: Nicaragua</item>
+        <item>flag: Netherlands</item>
+        <item>flag: Norway</item>
+        <item>flag: Nepal</item>
+        <item>flag: Nauru</item>
+        <item>flag: Niue</item>
+        <item>flag: New Zealand</item>
+        <item>flag: Oman</item>
+        <item>flag: Panama</item>
+        <item>flag: Peru</item>
+        <item>flag: French Polynesia</item>
+        <item>flag: Papua New Guinea</item>
+        <item>flag: Philippines</item>
+        <item>flag: Pakistan</item>
+        <item>flag: Poland</item>
+        <item>flag: St. Pierre Miquelon</item>
+        <item>flag: Pitcairn Islands</item>
+        <item>flag: Puerto Rico</item>
+        <item>flag: Palestinian Territories</item>
+        <item>flag: Portugal</item>
+        <item>flag: Palau</item>
+        <item>flag: Paraguay</item>
+        <item>flag: Qatar</item>
+        <item>flag: Réunion</item>
+        <item>flag: Romania</item>
+        <item>flag: Serbia</item>
+        <item>flag: Russia</item>
+        <item>flag: Rwanda</item>
+        <item>flag: Saudi Arabia</item>
+        <item>flag: Solomon Islands</item>
+        <item>flag: Seychelles</item>
+        <item>flag: Sudan</item>
+        <item>flag: Sweden</item>
+        <item>flag: Singapore</item>
+        <item>flag: St. Helena</item>
+        <item>flag: Slovenia</item>
+        <item>flag: Svalbard Jan Mayen</item>
+        <item>flag: Slovakia</item>
+        <item>flag: Sierra Leone</item>
+        <item>flag: San Marino</item>
+        <item>flag: Senegal</item>
+        <item>flag: Somalia</item>
+        <item>flag: Suriname</item>
+        <item>flag: South Sudan</item>
+        <item>flag: São Tomé Príncipe</item>
+        <item>flag: El Salvador</item>
+        <item>flag: Sint Maarten</item>
+        <item>flag: Syria</item>
+        <item>flag: Eswatini</item>
+        <item>flag: Tristan da Cunha</item>
+        <item>flag: Turks Caicos Islands</item>
+        <item>flag: Chad</item>
+        <item>flag: French Southern Territories</item>
+        <item>flag: Togo</item>
+        <item>flag: Thailand</item>
+        <item>flag: Tajikistan</item>
+        <item>flag: Tokelau</item>
+        <item>flag: Timor-Leste</item>
+        <item>flag: Turkmenistan</item>
+        <item>flag: Tunisia</item>
+        <item>flag: Tonga</item>
+        <item>flag: Turkey</item>
+        <item>flag: Trinidad Tobago</item>
+        <item>flag: Tuvalu</item>
+        <item>flag: Taiwan</item>
+        <item>flag: Tanzania</item>
+        <item>flag: Ukraine</item>
+        <item>flag: Uganda</item>
+        <item>flag: U.S. Outlying Islands</item>
+        <item>flag: United Nations</item>
+        <item>flag: United States</item>
+        <item>flag: Uruguay</item>
+        <item>flag: Uzbekistan</item>
+        <item>flag: Vatican City</item>
+        <item>flag: St. Vincent Grenadines</item>
+        <item>flag: Venezuela</item>
+        <item>flag: British Virgin Islands</item>
+        <item>flag: U.S. Virgin Islands</item>
+        <item>flag: Vietnam</item>
+        <item>flag: Vanuatu</item>
+        <item>flag: Wallis Futuna</item>
+        <item>flag: Samoa</item>
+        <item>flag: Kosovo</item>
+        <item>flag: Yemen</item>
+        <item>flag: Mayotte</item>
+        <item>flag: South Africa</item>
+        <item>flag: Zambia</item>
+        <item>flag: Zimbabwe</item>
+
+        # subgroup: subdivision-flag
+        <item>flag: England</item>
+        <item>flag: Scotland</item>
+        <item>flag: Wales</item>
+    </string-array>
+</resources>

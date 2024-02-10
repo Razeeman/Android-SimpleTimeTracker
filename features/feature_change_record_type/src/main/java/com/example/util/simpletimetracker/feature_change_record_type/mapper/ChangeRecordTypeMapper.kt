@@ -33,7 +33,7 @@ class ChangeRecordTypeMapper @Inject constructor(
     ): List<ViewHolderType> {
         val isSearching = search.isNotBlank()
         val iconCategories = iconImageMapper.getAvailableImages(
-            loadSearchHints = isSearching
+            loadSearchHints = isSearching,
         )
         return iconCategories.toList().mapIndexed { index, (category, images) ->
             val categoryViewData = ChangeRecordTypeIconCategoryInfoViewData(
@@ -68,19 +68,38 @@ class ChangeRecordTypeMapper @Inject constructor(
 
     fun mapIconEmojiData(
         newColor: AppColor,
+        search: String,
         isDarkTheme: Boolean,
     ): List<ViewHolderType> {
-        val iconCategories = iconEmojiMapper.getAvailableEmojis()
+        val isSearching = search.isNotBlank()
+        val iconCategories = iconEmojiMapper.getAvailableEmojis(
+            loadSearchHints = isSearching,
+        )
         return iconCategories.toList().mapIndexed { index, (category, codes) ->
-            listOf(
-                ChangeRecordTypeIconCategoryInfoViewData(
-                    type = ChangeRecordTypeIconTypeViewData.Emoji(category.type, index.toLong()),
-                    text = category.name,
-                    isLast = index == iconCategories.size - 1,
-                ),
-            ) + codes.map { code ->
-                mapEmojiViewData(code, newColor, isDarkTheme)
+            val categoryViewData = ChangeRecordTypeIconCategoryInfoViewData(
+                type = ChangeRecordTypeIconTypeViewData.Emoji(category.type, index.toLong()),
+                text = category.name,
+                isLast = index == iconCategories.size - 1,
+            )
+                .let(::listOf)
+                .takeIf { !isSearching } // Don't show category on search.
+                .orEmpty()
+
+            val codesViewData = codes.mapNotNull {
+                if (isSearching) {
+                    if (!it.emojiSearch.contains(search)) {
+                        return@mapNotNull null
+                    }
+                }
+
+                mapEmojiViewData(
+                    codes = it.emojiCode,
+                    newColor = newColor,
+                    isDarkTheme = isDarkTheme,
+                )
             }
+
+            categoryViewData + codesViewData
         }.flatten()
     }
 
@@ -132,8 +151,8 @@ class ChangeRecordTypeMapper @Inject constructor(
         } else {
             val theme = if (isDarkTheme) R.style.AppThemeDark else R.style.AppTheme
             ChangeRecordTypeIconSelectorStateViewData.Available(
-                state = if (iconType != IconType.IMAGE) IconImageState.Chooser else iconImageState,
-                searchButtonIsVisible = iconType == IconType.IMAGE,
+                state = iconImageState,
+                searchButtonIsVisible = true,
                 searchButtonColor = when (iconImageState) {
                     is IconImageState.Chooser -> R.attr.appInactiveColor
                     is IconImageState.Search -> R.attr.colorSecondary

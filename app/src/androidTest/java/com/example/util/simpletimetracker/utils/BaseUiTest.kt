@@ -74,12 +74,12 @@ open class BaseUiTest {
             .let { (_, imagesMap) -> imagesMap.last().iconResId }
     val firstEmoji: String
         get() = iconEmojiMapper
-            .getAvailableEmojis()[iconEmojiMapper.getAvailableEmojiCategories().first()]
-            ?.first().orEmpty()
+            .getAvailableEmojis(loadSearchHints = false)[iconEmojiMapper.getAvailableEmojiCategories().first()]
+            ?.first()?.emojiCode.orEmpty()
     val lastEmoji: String
         get() = iconEmojiMapper
-            .getAvailableEmojis()[iconEmojiMapper.getAvailableEmojiCategories().last()]
-            ?.last().orEmpty()
+            .getAvailableEmojis(loadSearchHints = false)[iconEmojiMapper.getAvailableEmojiCategories().last()]
+            ?.last()?.emojiCode.orEmpty()
 
     val hourString: String by lazy { getString(R.string.time_hour) }
     val minuteString: String by lazy { getString(R.string.time_minute) }

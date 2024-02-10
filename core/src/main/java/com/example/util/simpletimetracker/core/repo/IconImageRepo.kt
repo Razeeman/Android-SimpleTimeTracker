@@ -6,7 +6,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class IconImageRepo @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
 ) {
 
     fun getImages(arrayResId: Int): Map<String, Int> {
@@ -17,18 +17,6 @@ class IconImageRepo @Inject constructor(
             ta.getResourceId(it, R.drawable.unknown).let { resId ->
                 res[context.resources.getResourceEntryName(resId)] = resId
             }
-        }
-        ta.recycle()
-
-        return res
-    }
-
-    fun getHints(arrayResId: Int): List<String> {
-        val res = mutableListOf<String>()
-
-        val ta = context.resources.obtainTypedArray(arrayResId)
-        (0 until ta.length()).forEach {
-            ta.getString(it).orEmpty().let(res::add)
         }
         ta.recycle()
 

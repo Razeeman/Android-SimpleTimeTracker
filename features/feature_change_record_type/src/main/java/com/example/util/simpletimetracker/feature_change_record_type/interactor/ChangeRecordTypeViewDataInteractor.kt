@@ -42,13 +42,13 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                 DividerViewData(1).let(viewData::add)
 
                 categoryViewDataMapper.mapSelectedCategoriesHint(
-                    isEmpty = selected.isEmpty()
+                    isEmpty = selected.isEmpty(),
                 ).let(viewData::add)
 
                 selected.map {
                     categoryViewDataMapper.mapCategory(
                         category = it,
-                        isDarkTheme = isDarkTheme
+                        isDarkTheme = isDarkTheme,
                     )
                 }.let(viewData::addAll)
 
@@ -57,7 +57,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                 available.map {
                     categoryViewDataMapper.mapCategory(
                         category = it,
-                        isDarkTheme = isDarkTheme
+                        isDarkTheme = isDarkTheme,
                     )
                 }.let(viewData::addAll)
 
@@ -67,7 +67,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
             }
             ?: listOf(
                 categoryViewDataMapper.mapToCategoriesFirstHint(),
-                categoryViewDataMapper.mapToTypeTagAddItem(isDarkTheme)
+                categoryViewDataMapper.mapToTypeTagAddItem(isDarkTheme),
             )
     }
 
@@ -82,21 +82,27 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
         iconSearch: String,
     ): ChangeRecordTypeIconStateViewData = withContext(Dispatchers.IO) {
         val isDarkTheme = prefsInteractor.getDarkMode()
+        val search = if (iconImageState == IconImageState.Search) iconSearch else ""
 
         when (iconType) {
             IconType.IMAGE -> {
-                val search = if (iconImageState == IconImageState.Search) iconSearch else ""
-                ChangeRecordTypeIconStateViewData.Icons(
-                    mapper.mapIconImageData(newColor, search, isDarkTheme)
+                val items = mapper.mapIconImageData(
+                    newColor = newColor,
+                    search = search,
+                    isDarkTheme = isDarkTheme,
                 )
+                ChangeRecordTypeIconStateViewData.Icons(items)
             }
             IconType.TEXT -> {
                 ChangeRecordTypeIconStateViewData.Text
             }
             IconType.EMOJI -> {
-                ChangeRecordTypeIconStateViewData.Icons(
-                    mapper.mapIconEmojiData(newColor, isDarkTheme)
+                val items = mapper.mapIconEmojiData(
+                    newColor = newColor,
+                    search = search,
+                    isDarkTheme = isDarkTheme,
                 )
+                ChangeRecordTypeIconStateViewData.Icons(items)
             }
         }
     }

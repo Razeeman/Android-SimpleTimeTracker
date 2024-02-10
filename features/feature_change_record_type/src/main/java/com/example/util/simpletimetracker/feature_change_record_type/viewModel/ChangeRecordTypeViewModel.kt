@@ -294,7 +294,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onIconImageSearch(search: String) {
-        if (iconType != IconType.IMAGE) return
+        if (iconType == IconType.TEXT) return
 
         if (search != iconSearch) {
             iconSearchJob?.cancel()

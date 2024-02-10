@@ -313,10 +313,10 @@ class IconTest : BaseUiTest() {
         )
 
         // Check categories
-        iconEmojiMapper.getAvailableEmojis().forEach { (category, emojis) ->
+        iconEmojiMapper.getAvailableEmojis(loadSearchHints = false).forEach { (category, emojis) ->
             checkViewIsDisplayed(withTag(category.categoryIcon))
             clickOnView(withTag(category.categoryIcon))
-            val firstEmoji = iconEmojiMapper.toEmojiString(emojis.first())
+            val firstEmoji = iconEmojiMapper.toEmojiString(emojis.first().emojiCode)
 
             // Check category hint
             checkViewIsDisplayed(withText(category.name))
@@ -328,8 +328,11 @@ class IconTest : BaseUiTest() {
     @Test
     fun skinToneSelectionDialog() {
         val name = "name"
-        val category = iconEmojiMapper.getAvailableEmojiCategories().first { it.type == IconEmojiType.PEOPLE }
-        val emoji = iconEmojiMapper.getAvailableEmojis()[category]?.first() ?: throw RuntimeException()
+        val category = iconEmojiMapper.getAvailableEmojiCategories()
+            .first { it.type == IconEmojiType.PEOPLE }
+        val emoji = iconEmojiMapper.getAvailableEmojis(loadSearchHints = false)[category]
+            ?.first()?.emojiCode
+            ?: throw RuntimeException()
         val emojiDefault = emoji.let(iconEmojiMapper::toEmojiString)
         val emojiSkinTones = emoji.let(iconEmojiMapper::toSkinToneVariations)
         val emojiSkinTone = emojiSkinTones.last()

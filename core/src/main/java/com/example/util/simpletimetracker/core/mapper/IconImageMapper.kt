@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.core.mapper
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.IconImageRepo
@@ -107,7 +108,7 @@ class IconImageMapper @Inject constructor(
         return getAvailableCategories().associateWith {
             val images = mapTypeToIconArray(it.type).let(repo::getImages)
             val searchHints = if (loadSearchHints) {
-                mapTypeToSearchArray(it.type).let(repo::getHints)
+                mapTypeToSearchArray(it.type).let(resourceRepo::getStringArray)
             } else {
                 emptyList()
             }
@@ -122,6 +123,7 @@ class IconImageMapper @Inject constructor(
         }
     }
 
+    @SuppressLint("DiscouragedApi")
     fun mapToDrawableResId(iconName: String): Int {
         return context.resources
             .getIdentifier(iconName, "drawable", context.packageName)

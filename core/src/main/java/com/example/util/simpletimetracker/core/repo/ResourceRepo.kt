@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.core.repo
 
 import android.content.Context
 import android.util.TypedValue
+import androidx.annotation.ArrayRes
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.PluralsRes
@@ -44,5 +45,9 @@ class ResourceRepo @Inject constructor(
                 .theme
                 .resolveAttribute(attrId, this, true)
         }.data
+    }
+
+    fun getStringArray(@ArrayRes arrayResId: Int): List<String> {
+        return context.resources.getStringArray(arrayResId).toList()
     }
 }
