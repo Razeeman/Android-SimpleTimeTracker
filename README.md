@@ -1,3 +1,36 @@
+<div align="center">
+
+# Simple Time Tracker for Wear OS
+
+A fork of Simple Time Tracker with WearOS support.
+
+<!-- BADGES -->
+[![](https://badgen.net/github/license/thehale/SimpleTimeTracker-WearOS)](https://github.com/thehale/SimpleTimeTracker-WearOS/blob/master/LICENSE)
+[![](https://badgen.net/badge/icon/Sponsor/pink?icon=github&label)](https://github.com/sponsors/thehale)
+[![](https://img.shields.io/badge/Follow-thehale-0A66C2?logo=linkedin)](https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=thehale)
+
+|                                                                         |                                                                          |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| ![Application screenshot](docs/simpletimetracker-wearos-list-start.png) | ![Application screenshot](docs/simpletimetracker-wearos-list-middle.png) |
+
+</div>
+
+## WearOS Status
+
+While **not ready for production**, this project has a solid foundation for Wear
+<->
+Mobile communication and is now open to contributors for adding functionality
+and UI/Design.
+
+Check the GitHub Issues for details about the next steps. Once this fork reaches
+stability, we will open a PR back into the upstream application so everyone can
+benefit from these improvements!
+
+------
+------
+
+*Original README...*
+
 # Simple Time Tracker
 
 Simple app that helps track how much time you spend on all the useless activities in the world.
