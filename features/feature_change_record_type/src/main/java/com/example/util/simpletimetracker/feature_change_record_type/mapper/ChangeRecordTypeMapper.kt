@@ -5,14 +5,14 @@ import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.AppColor
+import com.example.util.simpletimetracker.domain.model.IconImageState
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryViewData
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconImageStateViewData
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconImageStateViewData.IconImageState
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSelectorStateViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
@@ -122,21 +122,24 @@ class ChangeRecordTypeMapper @Inject constructor(
         }
     }
 
-    fun mapToIconImageStateViewData(
+    fun mapToIconSelectorViewData(
         iconImageState: IconImageState,
         iconType: IconType,
         isDarkTheme: Boolean,
-    ): ChangeRecordTypeIconImageStateViewData {
-        val theme = if (isDarkTheme) R.style.AppThemeDark else R.style.AppTheme
-
-        return ChangeRecordTypeIconImageStateViewData(
-            state = if (iconType != IconType.IMAGE) IconImageState.Chooser else iconImageState,
-            searchButtonIsVisible = iconType == IconType.IMAGE,
-            searchButtonColor = when (iconImageState) {
-                is IconImageState.Chooser -> R.attr.appInactiveColor
-                is IconImageState.Search -> R.attr.colorSecondary
-            }.let { resourceRepo.getThemedAttr(it, theme) },
-        )
+    ): ChangeRecordTypeIconSelectorStateViewData {
+        return if (iconType == IconType.TEXT) {
+            ChangeRecordTypeIconSelectorStateViewData.None
+        } else {
+            val theme = if (isDarkTheme) R.style.AppThemeDark else R.style.AppTheme
+            ChangeRecordTypeIconSelectorStateViewData.Available(
+                state = if (iconType != IconType.IMAGE) IconImageState.Chooser else iconImageState,
+                searchButtonIsVisible = iconType == IconType.IMAGE,
+                searchButtonColor = when (iconImageState) {
+                    is IconImageState.Chooser -> R.attr.appInactiveColor
+                    is IconImageState.Search -> R.attr.colorSecondary
+                }.let { resourceRepo.getThemedAttr(it, theme) },
+            )
+        }
     }
 
     fun mapEmojiSelectionParams(

@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
+import com.example.util.simpletimetracker.domain.model.IconImageState
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
@@ -35,6 +36,8 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmpty
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
@@ -49,8 +52,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Icon
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeGoalsViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconImageStateViewData
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconImageStateViewData.IconImageState
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSelectorStateViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconStateViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
@@ -96,6 +98,7 @@ class ChangeRecordTypeFragment :
     }
     private val iconsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createLoaderAdapterDelegate(),
             createChangeRecordTypeIconAdapterDelegate(viewModel::onIconClick),
             createEmojiAdapterDelegate(viewModel::onEmojiClick),
             createChangeRecordTypeIconCategoryInfoAdapterDelegate(),
@@ -158,12 +161,14 @@ class ChangeRecordTypeFragment :
             layoutManager = GridLayoutManager(requireContext(), getIconsColumnCount())
                 .also { iconsLayoutManager = it }
             adapter = iconsAdapter
+            itemAnimator = null
             setIconsSpanSize()
         }
 
         rvChangeRecordTypeIconCategory.apply {
             layoutManager = GridLayoutManager(requireContext(), IconEmojiType.values().size)
             adapter = iconCategoriesAdapter
+            itemAnimator = null
         }
 
         rvChangeRecordTypeCategories.apply {
@@ -225,9 +230,9 @@ class ChangeRecordTypeFragment :
             recordType.observe(::updatePreview)
             colors.observe(colorsAdapter::replace)
             icons.observe(::updateIconsState)
-            iconCategories.observe(iconCategoriesAdapter::replace)
+            iconCategories.observe(iconCategoriesAdapter::replaceAsNew)
             iconsTypeViewData.observe(btnChangeRecordTypeIconSwitch.adapter::replace)
-            iconImageStateViewData.observe(::updateIconImageStateViewData)
+            iconSelectorViewData.observe(::updateIconSelectorViewData)
             categories.observe(categoriesAdapter::replace)
             goalsViewData.observe(::updateGoalsState)
             notificationsHintVisible.observe(
@@ -357,7 +362,7 @@ class ChangeRecordTypeFragment :
             is ChangeRecordTypeIconStateViewData.Icons -> {
                 rvChangeRecordTypeIcon.isVisible = true
                 inputChangeRecordTypeIconText.isVisible = false
-                iconsAdapter.replace(state.items)
+                iconsAdapter.replaceAsNew(state.items)
             }
             is ChangeRecordTypeIconStateViewData.Text -> {
                 rvChangeRecordTypeIcon.isVisible = false
@@ -384,10 +389,11 @@ class ChangeRecordTypeFragment :
 
     private fun setIconsSpanSize() {
         iconsLayoutManager?.setSpanSizeLookup { position ->
-            if (iconsAdapter.getItemByPosition(position) is ChangeRecordTypeIconCategoryInfoViewData) {
-                iconsLayoutManager?.spanCount ?: 1
-            } else {
-                1
+            when (iconsAdapter.getItemByPosition(position)) {
+                is ChangeRecordTypeIconCategoryInfoViewData,
+                is LoaderViewData,
+                -> iconsLayoutManager?.spanCount ?: 1
+                else -> 1
             }
         }
     }
@@ -402,13 +408,19 @@ class ChangeRecordTypeFragment :
             ?.scrollFlags = scrollFlags
     }
 
-    private fun updateIconImageStateViewData(
-        data: ChangeRecordTypeIconImageStateViewData,
+    private fun updateIconSelectorViewData(
+        data: ChangeRecordTypeIconSelectorStateViewData,
     ) = with(binding) {
-        btnChangeRecordTypeIconSearch.isVisible = data.searchButtonIsVisible
-        ivChangeRecordTypeIconSearch.backgroundTintList = ColorStateList.valueOf(data.searchButtonColor)
-        rvChangeRecordTypeIconCategory.isVisible = data.state is IconImageState.Chooser
-        inputChangeRecordTypeIconSearch.isVisible = data.state is IconImageState.Search
+        if (data is ChangeRecordTypeIconSelectorStateViewData.Available) {
+            btnChangeRecordTypeIconSearch.isVisible = data.searchButtonIsVisible
+            ivChangeRecordTypeIconSearch.backgroundTintList = ColorStateList.valueOf(data.searchButtonColor)
+            rvChangeRecordTypeIconCategory.isVisible = data.state is IconImageState.Chooser
+            inputChangeRecordTypeIconSearch.isVisible = data.state is IconImageState.Search
+        } else {
+            btnChangeRecordTypeIconSearch.isVisible = false
+            rvChangeRecordTypeIconCategory.isVisible = false
+            inputChangeRecordTypeIconSearch.isVisible = false
+        }
     }
 
     companion object {
