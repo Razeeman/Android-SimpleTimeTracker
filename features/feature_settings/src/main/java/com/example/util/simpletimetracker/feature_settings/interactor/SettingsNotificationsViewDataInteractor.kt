@@ -47,6 +47,7 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
                 isChecked = showNotifications,
                 bottomSpaceIsVisible = !showNotifications,
                 dividerIsVisible = !showNotifications,
+                forceBind = true,
             )
             if (showNotifications) {
                 result += SettingsCheckboxViewData(
