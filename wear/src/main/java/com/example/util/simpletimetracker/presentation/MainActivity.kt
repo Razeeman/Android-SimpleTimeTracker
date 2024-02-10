@@ -7,6 +7,7 @@ package com.example.util.simpletimetracker.presentation
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -25,9 +26,13 @@ import com.google.android.horologist.compose.focus.rememberActiveFocusRequester
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import com.google.android.horologist.compose.rotaryinput.*
 import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.data.Messaging
 import com.example.util.simpletimetracker.data.getTimeTrackingActivities
 import com.example.util.simpletimetracker.presentation.theme.SimpleTimeTrackerForWearOSTheme
+import com.example.util.simpletimetracker.wearrpc.Messenger
+import com.example.util.simpletimetracker.wearrpc.WearRPCClient
+//import com.example.util.simpletimetracker.wearrpc.CurrentActivity
+import kotlinx.coroutines.*
+//import java.util.Date
 
 const val LOG_TAG = "com.razeeman.util.simpletimetracker"
 
@@ -42,6 +47,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WearApp() {
+    val context = LocalContext.current
+    val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
     SimpleTimeTrackerForWearOSTheme {
         val scrollState = rememberScalingLazyListState()
         Scaffold(
@@ -55,8 +62,69 @@ fun WearApp() {
                 PositionIndicator(scalingLazyListState = scrollState)
             },
         ) {
-            ActivityList(scrollState)
+            ScalingLazyColumn (
+                modifier = Modifier.fillMaxSize(),
+                autoCentering = AutoCenteringParams(itemIndex = 0)
+            ){
+                item {
+                    DebugButton(
+                        label = "Ping",
+                        onClick = {
+                            Log.i(LOG_TAG, "Pinging mobile ...")
+                            scope.async {
+                                val response = WearRPCClient(Messenger(context)).ping("Ping button")
+                                Log.i(LOG_TAG, response)
+                            }
+                        }
+                    )
+                }
+                item {
+                    DebugButton(label="Query Activities", onClick = {
+                        Log.i(LOG_TAG, "Querying activities ...")
+                        scope.async {
+                            val response = WearRPCClient(Messenger(context)).queryActivities()
+                            Log.i(LOG_TAG, "Received ${response.size} activities")
+                            for (activity in response) {
+                                Log.i(LOG_TAG, " - ${activity.id}: ${activity.name}")
+                            }
+                        }
+                    })
+                }
+            }
+
+//            ActivityList(scrollState)
         }
+    }
+}
+
+@Composable
+fun DebugButton(label: String, onClick: () -> Unit) {
+    Chip(
+        modifier = Modifier
+            .fillMaxWidth(0.9f)
+            .padding(top = 10.dp),
+        label = { Text(label) },
+        onClick = onClick,
+    )
+}
+
+@OptIn(ExperimentalHorologistComposeLayoutApi::class)
+@Composable
+fun ScrollingColumn(scrollState: ScalingLazyListState = rememberScalingLazyListState(), content: @Composable () -> Unit) {
+    val focusRequester = rememberActiveFocusRequester()
+    val rotaryHapticFeedback = rememberRotaryHapticFeedback()
+    ScalingLazyColumn(
+        modifier =
+        Modifier
+            .rotaryWithScroll(focusRequester, scrollState, rotaryHapticFeedback)
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background)
+            .selectableGroup(),
+        contentPadding = PaddingValues(10.dp),
+        verticalArrangement = Arrangement.Center,
+        state = scrollState,
+    ) {
+        content
     }
 }
 
@@ -68,11 +136,11 @@ fun ActivityList(scrollState: ScalingLazyListState = rememberScalingLazyListStat
     val rotaryHapticFeedback = rememberRotaryHapticFeedback()
     ScalingLazyColumn(
         modifier =
-            Modifier
-                .rotaryWithScroll(focusRequester, scrollState, rotaryHapticFeedback)
-                .fillMaxSize()
-                .background(MaterialTheme.colors.background)
-                .selectableGroup(),
+        Modifier
+            .rotaryWithScroll(focusRequester, scrollState, rotaryHapticFeedback)
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background)
+            .selectableGroup(),
         contentPadding = PaddingValues(10.dp),
         verticalArrangement = Arrangement.Center,
         state = scrollState,
@@ -125,11 +193,12 @@ fun ActivityWithTag(
     icon: Int = R.drawable.baseline_question_mark_24,
 ) {
     val context = LocalContext.current
+    val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
     Chip(
         modifier =
-            Modifier
-                .fillMaxWidth(0.9f)
-                .padding(top = 10.dp),
+        Modifier
+            .fillMaxWidth(0.9f)
+            .padding(top = 10.dp),
         icon = {
             ActivityIcon(iconId = icon)
         },
@@ -151,7 +220,7 @@ fun ActivityWithTag(
             ChipDefaults.chipColors(
                 backgroundColor = color,
             ),
-        onClick = { startTimeTracking(context, name, tag) },
+        onClick = { startTimeTracking(scope, context) },
     )
 }
 
@@ -162,11 +231,12 @@ fun ActivityWithoutTag(
     icon: Int = R.drawable.baseline_question_mark_24,
 ) {
     val context = LocalContext.current
+    val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
     Chip(
         modifier =
-            Modifier
-                .fillMaxWidth(0.9f)
-                .padding(top = 10.dp),
+        Modifier
+            .fillMaxWidth(0.9f)
+            .padding(top = 10.dp),
         icon = {
             ActivityIcon(iconId = icon)
         },
@@ -181,7 +251,7 @@ fun ActivityWithoutTag(
             ChipDefaults.chipColors(
                 backgroundColor = color,
             ),
-        onClick = { startTimeTracking(context, name, "") },
+        onClick = { startTimeTracking(scope, context) },
     )
 }
 
@@ -191,16 +261,22 @@ fun ActivityIcon(iconId: Int) {
         painter = painterResource(id = iconId),
         contentDescription = "activity icon",
         modifier =
-            Modifier
-                .size(ChipDefaults.IconSize)
-                .wrapContentSize(align = Alignment.Center),
+        Modifier
+            .size(ChipDefaults.IconSize)
+            .wrapContentSize(align = Alignment.Center),
     )
 }
 
-fun startTimeTracking(
-    context: Context,
-    activity: String,
-    tag: String,
-) {
-    Messaging().startTimeTracking(context, activity, tag)
+fun startTimeTracking(scope: CoroutineScope, context: Context) {
+//    val activities = arrayOf(
+//        CurrentActivity(
+//            id,
+//            name,
+//            startedAt = Date(),
+//            arrayOf(/* tags */),
+//        )
+//    )
+//    scope.async {
+//        WearRPCClient(context).setCurrentActivities(activities)
+//    }
 }
