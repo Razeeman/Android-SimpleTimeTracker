@@ -32,6 +32,7 @@ class ChangeRecordTypeMapper @Inject constructor(
         isDarkTheme: Boolean,
     ): List<ViewHolderType> {
         val isSearching = search.isNotBlank()
+        val actualSearch = search.lowercase().split(" ")
         val iconCategories = iconImageMapper.getAvailableImages(
             loadSearchHints = isSearching,
         )
@@ -47,9 +48,7 @@ class ChangeRecordTypeMapper @Inject constructor(
 
             val iconsViewData = images.mapNotNull {
                 if (isSearching) {
-                    if (!it.iconName.contains(search) &&
-                        !it.iconSearch.contains(search)
-                    ) {
+                    if (!containsSearch(actualSearch, it.iconName, it.iconSearch)) {
                         return@mapNotNull null
                     }
                 }
@@ -72,6 +71,7 @@ class ChangeRecordTypeMapper @Inject constructor(
         isDarkTheme: Boolean,
     ): List<ViewHolderType> {
         val isSearching = search.isNotBlank()
+        val actualSearch = search.lowercase().split(" ")
         val iconCategories = iconEmojiMapper.getAvailableEmojis(
             loadSearchHints = isSearching,
         )
@@ -87,7 +87,7 @@ class ChangeRecordTypeMapper @Inject constructor(
 
             val codesViewData = codes.mapNotNull {
                 if (isSearching) {
-                    if (!it.emojiSearch.contains(search)) {
+                    if (!containsSearch(actualSearch, it.emojiSearch)) {
                         return@mapNotNull null
                     }
                 }
@@ -207,5 +207,15 @@ class ChangeRecordTypeMapper @Inject constructor(
             colorInt = newColor
                 .let { colorMapper.mapToColorInt(it, isDarkTheme) },
         )
+    }
+
+    // If search text is several words - all words should be found.
+    private fun containsSearch(
+        searchParts: List<String>,
+        vararg searchableField: String,
+    ): Boolean {
+        return searchParts.all { part ->
+            searchableField.any { it.contains(part) }
+        }
     }
 }

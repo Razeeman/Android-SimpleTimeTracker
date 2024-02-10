@@ -257,7 +257,7 @@
         <item>palm up hand</item>
 
         # subgroup: hand-fingers-partial
-        <item>OK hand</item>
+        <item>ok hand</item>
         <item>pinched fingers</item>
         <item>pinching hand</item>
         <item>victory hand</item>
@@ -355,12 +355,12 @@
         <item>person pouting</item>
         <item>man pouting</item>
         <item>woman pouting</item>
-        <item>person gesturing NO</item>
-        <item>man gesturing NO</item>
-        <item>woman gesturing NO</item>
-        <item>person gesturing OK</item>
-        <item>man gesturing OK</item>
-        <item>woman gesturing OK</item>
+        <item>person gesturing no</item>
+        <item>man gesturing no</item>
+        <item>woman gesturing no</item>
+        <item>person gesturing ok</item>
+        <item>man gesturing ok</item>
+        <item>woman gesturing ok</item>
         <item>person tipping hand</item>
         <item>man tipping hand</item>
         <item>woman tipping hand</item>
@@ -466,8 +466,8 @@
 
         # subgroup: person-fantasy
         <item>baby angel</item>
-        <item>Santa Claus</item>
-        <item>Mrs. Claus</item>
+        <item>santa claus</item>
+        <item>mrs. claus</item>
         <item>mx claus</item>
         <item>superhero</item>
         <item>man superhero</item>
@@ -738,7 +738,7 @@
         <item>dragon face</item>
         <item>dragon</item>
         <item>sauropod</item>
-        <item>T-Rex</item>
+        <item>t-rex</item>
 
         # subgroup: animal-marine
         <item>spouting whale</item>
@@ -956,12 +956,12 @@
     # group: Travel Places
     <string-array name="emoji_hint_travel">
         # subgroup: place-map
-        <item>globe showing Europe-Africa</item>
-        <item>globe showing Americas</item>
-        <item>globe showing Asia-Australia</item>
+        <item>globe showing europe-africa</item>
+        <item>globe showing americas</item>
+        <item>globe showing asia-australia</item>
         <item>globe with meridians</item>
         <item>world map</item>
-        <item>map of Japan</item>
+        <item>map of japan</item>
         <item>compass</item>
 
         # subgroup: place-geographic
@@ -988,7 +988,7 @@
         <item>house</item>
         <item>house with garden</item>
         <item>office building</item>
-        <item>Japanese post office</item>
+        <item>japanese post office</item>
         <item>post office</item>
         <item>hospital</item>
         <item>bank</item>
@@ -998,11 +998,11 @@
         <item>school</item>
         <item>department store</item>
         <item>factory</item>
-        <item>Japanese castle</item>
+        <item>japanese castle</item>
         <item>castle</item>
         <item>wedding</item>
-        <item>Tokyo tower</item>
-        <item>Statue of Liberty</item>
+        <item>tokyo tower</item>
+        <item>statue of liberty</item>
 
         # subgroup: place-religious
         <item>church</item>
@@ -1200,7 +1200,7 @@
     <string-array name="emoji_hint_activities">
         # subgroup: event
         <item>jack-o-lantern</item>
-        <item>Christmas tree</item>
+        <item>christmas tree</item>
         <item>fireworks</item>
         <item>sparkler</item>
         <item>firecracker</item>
@@ -1210,7 +1210,7 @@
         <item>confetti ball</item>
         <item>tanabata tree</item>
         <item>pine decoration</item>
-        <item>Japanese dolls</item>
+        <item>japanese dolls</item>
         <item>carp streamer</item>
         <item>wind chime</item>
         <item>moon viewing ceremony</item>
@@ -1592,7 +1592,7 @@
     # group: Symbols
     <string-array name="emoji_hint_symbols">
         # subgroup: transport-sign
-        <item>ATM sign</item>
+        <item>atm sign</item>
         <item>litter in bin sign</item>
         <item>potable water</item>
         <item>wheelchair symbol</item>
@@ -1638,17 +1638,17 @@
         <item>right arrow curving down</item>
         <item>clockwise vertical arrows</item>
         <item>counterclockwise arrows button</item>
-        <item>BACK arrow</item>
-        <item>END arrow</item>
-        <item>ON! arrow</item>
-        <item>SOON arrow</item>
-        <item>TOP arrow</item>
+        <item>back arrow</item>
+        <item>end arrow</item>
+        <item>on! arrow</item>
+        <item>soon arrow</item>
+        <item>top arrow</item>
 
         # subgroup: religion
         <item>place of worship</item>
         <item>atom symbol</item>
         <item>om</item>
-        <item>star of David</item>
+        <item>star of david</item>
         <item>wheel of dharma</item>
         <item>yin yang</item>
         <item>latin cross</item>
@@ -1659,19 +1659,19 @@
         <item>dotted six-pointed star</item>
 
         # subgroup: zodiac
-        <item>Aries</item>
-        <item>Taurus</item>
-        <item>Gemini</item>
-        <item>Cancer</item>
-        <item>Leo</item>
-        <item>Virgo</item>
-        <item>Libra</item>
-        <item>Scorpio</item>
-        <item>Sagittarius</item>
-        <item>Capricorn</item>
-        <item>Aquarius</item>
-        <item>Pisces</item>
-        <item>Ophiuchus</item>
+        <item>aries</item>
+        <item>taurus</item>
+        <item>gemini</item>
+        <item>cancer</item>
+        <item>leo</item>
+        <item>virgo</item>
+        <item>libra</item>
+        <item>scorpio</item>
+        <item>sagittarius</item>
+        <item>capricorn</item>
+        <item>aquarius</item>
+        <item>pisces</item>
+        <item>ophiuchus</item>
 
         # subgroup: av-symbol
         <item>shuffle tracks button</item>
@@ -1731,7 +1731,7 @@
         <item>fleur-de-lis</item>
         <item>trident emblem</item>
         <item>name badge</item>
-        <item>Japanese symbol for beginner</item>
+        <item>japanese symbol for beginner</item>
         <item>hollow red circle</item>
         <item>check mark button</item>
         <item>check box with check</item>
@@ -1769,40 +1769,40 @@
         <item>input numbers</item>
         <item>input symbols</item>
         <item>input latin letters</item>
-        <item>A button (blood type)</item>
-        <item>AB button (blood type)</item>
-        <item>B button (blood type)</item>
-        <item>CL button</item>
-        <item>COOL button</item>
-        <item>FREE button</item>
+        <item>a button (blood type)</item>
+        <item>ab button (blood type)</item>
+        <item>b button (blood type)</item>
+        <item>cl button</item>
+        <item>cool button</item>
+        <item>free button</item>
         <item>information</item>
-        <item>ID button</item>
-        <item>circled M</item>
-        <item>NEW button</item>
-        <item>NG button</item>
-        <item>O button (blood type)</item>
-        <item>OK button</item>
-        <item>P button</item>
-        <item>SOS button</item>
-        <item>UP! button</item>
-        <item>VS button</item>
-        <item>Japanese “here” button</item>
-        <item>Japanese “service charge” button</item>
-        <item>Japanese “monthly amount” button</item>
-        <item>Japanese “not free of charge” button</item>
-        <item>Japanese “reserved” button</item>
-        <item>Japanese “bargain” button</item>
-        <item>Japanese “discount” button</item>
-        <item>Japanese “free of charge” button</item>
-        <item>Japanese “prohibited” button</item>
-        <item>Japanese “acceptable” button</item>
-        <item>Japanese “application” button</item>
-        <item>Japanese “passing grade” button</item>
-        <item>Japanese “vacancy” button</item>
-        <item>Japanese “congratulations” button</item>
-        <item>Japanese “secret” button</item>
-        <item>Japanese “open for business” button</item>
-        <item>Japanese “no vacancy” button</item>
+        <item>id button</item>
+        <item>circled m</item>
+        <item>new button</item>
+        <item>ng button</item>
+        <item>o button (blood type)</item>
+        <item>ok button</item>
+        <item>p button</item>
+        <item>sos button</item>
+        <item>up! button</item>
+        <item>vs button</item>
+        <item>japanese “here” button</item>
+        <item>japanese “service charge” button</item>
+        <item>japanese “monthly amount” button</item>
+        <item>japanese “not free of charge” button</item>
+        <item>japanese “reserved” button</item>
+        <item>japanese “bargain” button</item>
+        <item>japanese “discount” button</item>
+        <item>japanese “free of charge” button</item>
+        <item>japanese “prohibited” button</item>
+        <item>japanese “acceptable” button</item>
+        <item>japanese “application” button</item>
+        <item>japanese “passing grade” button</item>
+        <item>japanese “vacancy” button</item>
+        <item>japanese “congratulations” button</item>
+        <item>japanese “secret” button</item>
+        <item>japanese “open for business” button</item>
+        <item>japanese “no vacancy” button</item>
 
         # subgroup: geometric
         <item>red circle</item>
@@ -1854,268 +1854,268 @@
         <item>pirate flag</item>
 
         # subgroup: country-flag
-        <item>flag: Ascension Island</item>
-        <item>flag: Andorra</item>
-        <item>flag: United Arab Emirates</item>
-        <item>flag: Afghanistan</item>
-        <item>flag: Antigua Barbuda</item>
-        <item>flag: Anguilla</item>
-        <item>flag: Albania</item>
-        <item>flag: Armenia</item>
-        <item>flag: Angola</item>
-        <item>flag: Antarctica</item>
-        <item>flag: Argentina</item>
-        <item>flag: American Samoa</item>
-        <item>flag: Austria</item>
-        <item>flag: Australia</item>
-        <item>flag: Aruba</item>
-        <item>flag: Åland Islands</item>
-        <item>flag: Azerbaijan</item>
-        <item>flag: Bosnia Herzegovina</item>
-        <item>flag: Barbados</item>
-        <item>flag: Bangladesh</item>
-        <item>flag: Belgium</item>
-        <item>flag: Burkina Faso</item>
-        <item>flag: Bulgaria</item>
-        <item>flag: Bahrain</item>
-        <item>flag: Burundi</item>
-        <item>flag: Benin</item>
-        <item>flag: St. Barthélemy</item>
-        <item>flag: Bermuda</item>
-        <item>flag: Brunei</item>
-        <item>flag: Bolivia</item>
-        <item>flag: Caribbean Netherlands</item>
-        <item>flag: Brazil</item>
-        <item>flag: Bahamas</item>
-        <item>flag: Bhutan</item>
-        <item>flag: Bouvet Island</item>
-        <item>flag: Botswana</item>
-        <item>flag: Belarus</item>
-        <item>flag: Belize</item>
-        <item>flag: Canada</item>
-        <item>flag: Cocos (Keeling) Islands</item>
-        <item>flag: Congo - Kinshasa</item>
-        <item>flag: Central African Republic</item>
-        <item>flag: Congo - Brazzaville</item>
-        <item>flag: Switzerland</item>
-        <item>flag: Côte d’Ivoire</item>
-        <item>flag: Cook Islands</item>
-        <item>flag: Chile</item>
-        <item>flag: Cameroon</item>
-        <item>flag: China</item>
-        <item>flag: Colombia</item>
-        <item>flag: Clipperton Island</item>
-        <item>flag: Costa Rica</item>
-        <item>flag: Cuba</item>
-        <item>flag: Cape Verde</item>
-        <item>flag: Curaçao</item>
-        <item>flag: Christmas Island</item>
-        <item>flag: Cyprus</item>
-        <item>flag: Czechia</item>
-        <item>flag: Germany</item>
-        <item>flag: Diego Garcia</item>
-        <item>flag: Djibouti</item>
-        <item>flag: Denmark</item>
-        <item>flag: Dominica</item>
-        <item>flag: Dominican Republic</item>
-        <item>flag: Algeria</item>
-        <item>flag: Ceuta Melilla</item>
-        <item>flag: Ecuador</item>
-        <item>flag: Estonia</item>
-        <item>flag: Egypt</item>
-        <item>flag: Western Sahara</item>
-        <item>flag: Eritrea</item>
-        <item>flag: Spain</item>
-        <item>flag: Ethiopia</item>
-        <item>flag: European Union</item>
-        <item>flag: Finland</item>
-        <item>flag: Fiji</item>
-        <item>flag: Falkland Islands</item>
-        <item>flag: Micronesia</item>
-        <item>flag: Faroe Islands</item>
-        <item>flag: France</item>
-        <item>flag: Gabon</item>
-        <item>flag: United Kingdom</item>
-        <item>flag: Grenada</item>
-        <item>flag: Georgia</item>
-        <item>flag: French Guiana</item>
-        <item>flag: Guernsey</item>
-        <item>flag: Ghana</item>
-        <item>flag: Gibraltar</item>
-        <item>flag: Greenland</item>
-        <item>flag: Gambia</item>
-        <item>flag: Guinea</item>
-        <item>flag: Guadeloupe</item>
-        <item>flag: Equatorial Guinea</item>
-        <item>flag: Greece</item>
-        <item>flag: South Georgia South Sandwich Islands</item>
-        <item>flag: Guatemala</item>
-        <item>flag: Guam</item>
-        <item>flag: Guinea-Bissau</item>
-        <item>flag: Guyana</item>
-        <item>flag: Hong Kong SAR China</item>
-        <item>flag: Heard McDonald Islands</item>
-        <item>flag: Honduras</item>
-        <item>flag: Croatia</item>
-        <item>flag: Haiti</item>
-        <item>flag: Hungary</item>
-        <item>flag: Canary Islands</item>
-        <item>flag: Indonesia</item>
-        <item>flag: Ireland</item>
-        <item>flag: Israel</item>
-        <item>flag: Isle of Man</item>
-        <item>flag: India</item>
-        <item>flag: British Indian Ocean Territory</item>
-        <item>flag: Iraq</item>
-        <item>flag: Iran</item>
-        <item>flag: Iceland</item>
-        <item>flag: Italy</item>
-        <item>flag: Jersey</item>
-        <item>flag: Jamaica</item>
-        <item>flag: Jordan</item>
-        <item>flag: Japan</item>
-        <item>flag: Kenya</item>
-        <item>flag: Kyrgyzstan</item>
-        <item>flag: Cambodia</item>
-        <item>flag: Kiribati</item>
-        <item>flag: Comoros</item>
-        <item>flag: St. Kitts Nevis</item>
-        <item>flag: North Korea</item>
-        <item>flag: South Korea</item>
-        <item>flag: Kuwait</item>
-        <item>flag: Cayman Islands</item>
-        <item>flag: Kazakhstan</item>
-        <item>flag: Laos</item>
-        <item>flag: Lebanon</item>
-        <item>flag: St. Lucia</item>
-        <item>flag: Liechtenstein</item>
-        <item>flag: Sri Lanka</item>
-        <item>flag: Liberia</item>
-        <item>flag: Lesotho</item>
-        <item>flag: Lithuania</item>
-        <item>flag: Luxembourg</item>
-        <item>flag: Latvia</item>
-        <item>flag: Libya</item>
-        <item>flag: Morocco</item>
-        <item>flag: Monaco</item>
-        <item>flag: Moldova</item>
-        <item>flag: Montenegro</item>
-        <item>flag: St. Martin</item>
-        <item>flag: Madagascar</item>
-        <item>flag: Marshall Islands</item>
-        <item>flag: North Macedonia</item>
-        <item>flag: Mali</item>
-        <item>flag: Myanmar (Burma)</item>
-        <item>flag: Mongolia</item>
-        <item>flag: Macao SAR China</item>
-        <item>flag: Northern Mariana Islands</item>
-        <item>flag: Martinique</item>
-        <item>flag: Mauritania</item>
-        <item>flag: Montserrat</item>
-        <item>flag: Malta</item>
-        <item>flag: Mauritius</item>
-        <item>flag: Maldives</item>
-        <item>flag: Malawi</item>
-        <item>flag: Mexico</item>
-        <item>flag: Malaysia</item>
-        <item>flag: Mozambique</item>
-        <item>flag: Namibia</item>
-        <item>flag: New Caledonia</item>
-        <item>flag: Niger</item>
-        <item>flag: Norfolk Island</item>
-        <item>flag: Nigeria</item>
-        <item>flag: Nicaragua</item>
-        <item>flag: Netherlands</item>
-        <item>flag: Norway</item>
-        <item>flag: Nepal</item>
-        <item>flag: Nauru</item>
-        <item>flag: Niue</item>
-        <item>flag: New Zealand</item>
-        <item>flag: Oman</item>
-        <item>flag: Panama</item>
-        <item>flag: Peru</item>
-        <item>flag: French Polynesia</item>
-        <item>flag: Papua New Guinea</item>
-        <item>flag: Philippines</item>
-        <item>flag: Pakistan</item>
-        <item>flag: Poland</item>
-        <item>flag: St. Pierre Miquelon</item>
-        <item>flag: Pitcairn Islands</item>
-        <item>flag: Puerto Rico</item>
-        <item>flag: Palestinian Territories</item>
-        <item>flag: Portugal</item>
-        <item>flag: Palau</item>
-        <item>flag: Paraguay</item>
-        <item>flag: Qatar</item>
-        <item>flag: Réunion</item>
-        <item>flag: Romania</item>
-        <item>flag: Serbia</item>
-        <item>flag: Russia</item>
-        <item>flag: Rwanda</item>
-        <item>flag: Saudi Arabia</item>
-        <item>flag: Solomon Islands</item>
-        <item>flag: Seychelles</item>
-        <item>flag: Sudan</item>
-        <item>flag: Sweden</item>
-        <item>flag: Singapore</item>
-        <item>flag: St. Helena</item>
-        <item>flag: Slovenia</item>
-        <item>flag: Svalbard Jan Mayen</item>
-        <item>flag: Slovakia</item>
-        <item>flag: Sierra Leone</item>
-        <item>flag: San Marino</item>
-        <item>flag: Senegal</item>
-        <item>flag: Somalia</item>
-        <item>flag: Suriname</item>
-        <item>flag: South Sudan</item>
-        <item>flag: São Tomé Príncipe</item>
-        <item>flag: El Salvador</item>
-        <item>flag: Sint Maarten</item>
-        <item>flag: Syria</item>
-        <item>flag: Eswatini</item>
-        <item>flag: Tristan da Cunha</item>
-        <item>flag: Turks Caicos Islands</item>
-        <item>flag: Chad</item>
-        <item>flag: French Southern Territories</item>
-        <item>flag: Togo</item>
-        <item>flag: Thailand</item>
-        <item>flag: Tajikistan</item>
-        <item>flag: Tokelau</item>
-        <item>flag: Timor-Leste</item>
-        <item>flag: Turkmenistan</item>
-        <item>flag: Tunisia</item>
-        <item>flag: Tonga</item>
-        <item>flag: Turkey</item>
-        <item>flag: Trinidad Tobago</item>
-        <item>flag: Tuvalu</item>
-        <item>flag: Taiwan</item>
-        <item>flag: Tanzania</item>
-        <item>flag: Ukraine</item>
-        <item>flag: Uganda</item>
-        <item>flag: U.S. Outlying Islands</item>
-        <item>flag: United Nations</item>
-        <item>flag: United States</item>
-        <item>flag: Uruguay</item>
-        <item>flag: Uzbekistan</item>
-        <item>flag: Vatican City</item>
-        <item>flag: St. Vincent Grenadines</item>
-        <item>flag: Venezuela</item>
-        <item>flag: British Virgin Islands</item>
-        <item>flag: U.S. Virgin Islands</item>
-        <item>flag: Vietnam</item>
-        <item>flag: Vanuatu</item>
-        <item>flag: Wallis Futuna</item>
-        <item>flag: Samoa</item>
-        <item>flag: Kosovo</item>
-        <item>flag: Yemen</item>
-        <item>flag: Mayotte</item>
-        <item>flag: South Africa</item>
-        <item>flag: Zambia</item>
-        <item>flag: Zimbabwe</item>
+        <item>flag: ascension island</item>
+        <item>flag: andorra</item>
+        <item>flag: united arab emirates</item>
+        <item>flag: afghanistan</item>
+        <item>flag: antigua barbuda</item>
+        <item>flag: anguilla</item>
+        <item>flag: albania</item>
+        <item>flag: armenia</item>
+        <item>flag: angola</item>
+        <item>flag: antarctica</item>
+        <item>flag: argentina</item>
+        <item>flag: american samoa</item>
+        <item>flag: austria</item>
+        <item>flag: australia</item>
+        <item>flag: aruba</item>
+        <item>flag: åland islands</item>
+        <item>flag: azerbaijan</item>
+        <item>flag: bosnia herzegovina</item>
+        <item>flag: barbados</item>
+        <item>flag: bangladesh</item>
+        <item>flag: belgium</item>
+        <item>flag: burkina faso</item>
+        <item>flag: bulgaria</item>
+        <item>flag: bahrain</item>
+        <item>flag: burundi</item>
+        <item>flag: benin</item>
+        <item>flag: st. barthélemy</item>
+        <item>flag: bermuda</item>
+        <item>flag: brunei</item>
+        <item>flag: bolivia</item>
+        <item>flag: caribbean netherlands</item>
+        <item>flag: brazil</item>
+        <item>flag: bahamas</item>
+        <item>flag: bhutan</item>
+        <item>flag: bouvet island</item>
+        <item>flag: botswana</item>
+        <item>flag: belarus</item>
+        <item>flag: belize</item>
+        <item>flag: canada</item>
+        <item>flag: cocos (keeling) islands</item>
+        <item>flag: congo - kinshasa</item>
+        <item>flag: central african republic</item>
+        <item>flag: congo - brazzaville</item>
+        <item>flag: switzerland</item>
+        <item>flag: côte d’ivoire</item>
+        <item>flag: cook islands</item>
+        <item>flag: chile</item>
+        <item>flag: cameroon</item>
+        <item>flag: china</item>
+        <item>flag: colombia</item>
+        <item>flag: clipperton island</item>
+        <item>flag: costa rica</item>
+        <item>flag: cuba</item>
+        <item>flag: cape verde</item>
+        <item>flag: curaçao</item>
+        <item>flag: christmas island</item>
+        <item>flag: cyprus</item>
+        <item>flag: czechia</item>
+        <item>flag: germany</item>
+        <item>flag: diego garcia</item>
+        <item>flag: djibouti</item>
+        <item>flag: denmark</item>
+        <item>flag: dominica</item>
+        <item>flag: dominican republic</item>
+        <item>flag: algeria</item>
+        <item>flag: ceuta melilla</item>
+        <item>flag: ecuador</item>
+        <item>flag: estonia</item>
+        <item>flag: egypt</item>
+        <item>flag: western sahara</item>
+        <item>flag: eritrea</item>
+        <item>flag: spain</item>
+        <item>flag: ethiopia</item>
+        <item>flag: european union</item>
+        <item>flag: finland</item>
+        <item>flag: fiji</item>
+        <item>flag: falkland islands</item>
+        <item>flag: micronesia</item>
+        <item>flag: faroe islands</item>
+        <item>flag: france</item>
+        <item>flag: gabon</item>
+        <item>flag: united kingdom</item>
+        <item>flag: grenada</item>
+        <item>flag: georgia</item>
+        <item>flag: french guiana</item>
+        <item>flag: guernsey</item>
+        <item>flag: ghana</item>
+        <item>flag: gibraltar</item>
+        <item>flag: greenland</item>
+        <item>flag: gambia</item>
+        <item>flag: guinea</item>
+        <item>flag: guadeloupe</item>
+        <item>flag: equatorial guinea</item>
+        <item>flag: greece</item>
+        <item>flag: south georgia south sandwich islands</item>
+        <item>flag: guatemala</item>
+        <item>flag: guam</item>
+        <item>flag: guinea-bissau</item>
+        <item>flag: guyana</item>
+        <item>flag: hong kong sar china</item>
+        <item>flag: heard mcdonald islands</item>
+        <item>flag: honduras</item>
+        <item>flag: croatia</item>
+        <item>flag: haiti</item>
+        <item>flag: hungary</item>
+        <item>flag: canary islands</item>
+        <item>flag: indonesia</item>
+        <item>flag: ireland</item>
+        <item>flag: israel</item>
+        <item>flag: isle of man</item>
+        <item>flag: india</item>
+        <item>flag: british indian ocean territory</item>
+        <item>flag: iraq</item>
+        <item>flag: iran</item>
+        <item>flag: iceland</item>
+        <item>flag: italy</item>
+        <item>flag: jersey</item>
+        <item>flag: jamaica</item>
+        <item>flag: jordan</item>
+        <item>flag: japan</item>
+        <item>flag: kenya</item>
+        <item>flag: kyrgyzstan</item>
+        <item>flag: cambodia</item>
+        <item>flag: kiribati</item>
+        <item>flag: comoros</item>
+        <item>flag: st. kitts nevis</item>
+        <item>flag: north korea</item>
+        <item>flag: south korea</item>
+        <item>flag: kuwait</item>
+        <item>flag: cayman islands</item>
+        <item>flag: kazakhstan</item>
+        <item>flag: laos</item>
+        <item>flag: lebanon</item>
+        <item>flag: st. lucia</item>
+        <item>flag: liechtenstein</item>
+        <item>flag: sri lanka</item>
+        <item>flag: liberia</item>
+        <item>flag: lesotho</item>
+        <item>flag: lithuania</item>
+        <item>flag: luxembourg</item>
+        <item>flag: latvia</item>
+        <item>flag: libya</item>
+        <item>flag: morocco</item>
+        <item>flag: monaco</item>
+        <item>flag: moldova</item>
+        <item>flag: montenegro</item>
+        <item>flag: st. martin</item>
+        <item>flag: madagascar</item>
+        <item>flag: marshall islands</item>
+        <item>flag: north macedonia</item>
+        <item>flag: mali</item>
+        <item>flag: myanmar (burma)</item>
+        <item>flag: mongolia</item>
+        <item>flag: macao sar china</item>
+        <item>flag: northern mariana islands</item>
+        <item>flag: martinique</item>
+        <item>flag: mauritania</item>
+        <item>flag: montserrat</item>
+        <item>flag: malta</item>
+        <item>flag: mauritius</item>
+        <item>flag: maldives</item>
+        <item>flag: malawi</item>
+        <item>flag: mexico</item>
+        <item>flag: malaysia</item>
+        <item>flag: mozambique</item>
+        <item>flag: namibia</item>
+        <item>flag: new caledonia</item>
+        <item>flag: niger</item>
+        <item>flag: norfolk island</item>
+        <item>flag: nigeria</item>
+        <item>flag: nicaragua</item>
+        <item>flag: netherlands</item>
+        <item>flag: norway</item>
+        <item>flag: nepal</item>
+        <item>flag: nauru</item>
+        <item>flag: niue</item>
+        <item>flag: new zealand</item>
+        <item>flag: oman</item>
+        <item>flag: panama</item>
+        <item>flag: peru</item>
+        <item>flag: french polynesia</item>
+        <item>flag: papua new guinea</item>
+        <item>flag: philippines</item>
+        <item>flag: pakistan</item>
+        <item>flag: poland</item>
+        <item>flag: st. pierre miquelon</item>
+        <item>flag: pitcairn islands</item>
+        <item>flag: puerto rico</item>
+        <item>flag: palestinian territories</item>
+        <item>flag: portugal</item>
+        <item>flag: palau</item>
+        <item>flag: paraguay</item>
+        <item>flag: qatar</item>
+        <item>flag: réunion</item>
+        <item>flag: romania</item>
+        <item>flag: serbia</item>
+        <item>flag: russia</item>
+        <item>flag: rwanda</item>
+        <item>flag: saudi arabia</item>
+        <item>flag: solomon islands</item>
+        <item>flag: seychelles</item>
+        <item>flag: sudan</item>
+        <item>flag: sweden</item>
+        <item>flag: singapore</item>
+        <item>flag: st. helena</item>
+        <item>flag: slovenia</item>
+        <item>flag: svalbard jan mayen</item>
+        <item>flag: slovakia</item>
+        <item>flag: sierra leone</item>
+        <item>flag: san marino</item>
+        <item>flag: senegal</item>
+        <item>flag: somalia</item>
+        <item>flag: suriname</item>
+        <item>flag: south sudan</item>
+        <item>flag: são tomé príncipe</item>
+        <item>flag: el salvador</item>
+        <item>flag: sint maarten</item>
+        <item>flag: syria</item>
+        <item>flag: eswatini</item>
+        <item>flag: tristan da cunha</item>
+        <item>flag: turks caicos islands</item>
+        <item>flag: chad</item>
+        <item>flag: french southern territories</item>
+        <item>flag: togo</item>
+        <item>flag: thailand</item>
+        <item>flag: tajikistan</item>
+        <item>flag: tokelau</item>
+        <item>flag: timor-leste</item>
+        <item>flag: turkmenistan</item>
+        <item>flag: tunisia</item>
+        <item>flag: tonga</item>
+        <item>flag: turkey</item>
+        <item>flag: trinidad tobago</item>
+        <item>flag: tuvalu</item>
+        <item>flag: taiwan</item>
+        <item>flag: tanzania</item>
+        <item>flag: ukraine</item>
+        <item>flag: uganda</item>
+        <item>flag: u.s. outlying islands</item>
+        <item>flag: united nations</item>
+        <item>flag: united states</item>
+        <item>flag: uruguay</item>
+        <item>flag: uzbekistan</item>
+        <item>flag: vatican city</item>
+        <item>flag: st. vincent grenadines</item>
+        <item>flag: venezuela</item>
+        <item>flag: british virgin islands</item>
+        <item>flag: u.s. virgin islands</item>
+        <item>flag: vietnam</item>
+        <item>flag: vanuatu</item>
+        <item>flag: wallis futuna</item>
+        <item>flag: samoa</item>
+        <item>flag: kosovo</item>
+        <item>flag: yemen</item>
+        <item>flag: mayotte</item>
+        <item>flag: south africa</item>
+        <item>flag: zambia</item>
+        <item>flag: zimbabwe</item>
 
         # subgroup: subdivision-flag
-        <item>flag: England</item>
-        <item>flag: Scotland</item>
-        <item>flag: Wales</item>
+        <item>flag: england</item>
+        <item>flag: scotland</item>
+        <item>flag: wales</item>
     </string-array>
 </resources>
