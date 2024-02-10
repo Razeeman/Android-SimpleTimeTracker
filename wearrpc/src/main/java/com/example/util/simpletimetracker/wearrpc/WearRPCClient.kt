@@ -20,7 +20,7 @@ class WearRPCClient(private val messenger: Messenger): SimpleTimeTrackerAPI {
     }
 
     override suspend fun queryActivities(): Array<Activity> {
-        val response = messenger.sendMessage(Request.GET_ACTIVITIES)
+        val response = messenger.sendMessage(Request.QUERY_ACTIVITIES)
         if (response != null) {
             Log.i(TAG, String(response))
             val collectionType = object : TypeToken<Array<Activity>>() {}.type

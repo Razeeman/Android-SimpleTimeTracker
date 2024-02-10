@@ -14,20 +14,21 @@ class WearRPCServer(private val api: SimpleTimeTrackerAPI) {
         if (path.startsWith("/stt")) {
             when (path) {
                 Request.PING -> return onPing(request)
-                Request.GET_ACTIVITIES -> return onGetActivities()
-                Request.GET_CURRENT_ACTIVITIES -> return onGetCurrentActivities()
-                Request.START_ACTIVITIES -> return onStartActivities(request)
-                Request.GET_TAGS_FOR_ACTIVITY -> return onGetTagsForActivity(request)
+                Request.QUERY_ACTIVITIES -> return onQueryActivities()
+                Request.QUERY_CURRENT_ACTIVITIES -> return onQueryCurrentActivities()
+                Request.SET_CURRENT_ACTIVITIES -> return onSetCurrentActivities(request)
+                Request.QUERY_TAGS_FOR_ACTIVITY -> return onQueryTagsForActivity(request)
+                Request.QUERY_SETTINGS -> return onQuerySettings()
                 else -> throw WearRPCException("$path is an invalid RPC call")
             }
         } else return null
     }
 
-    private suspend fun onGetTagsForActivity(request: ByteArray): ByteArray? {
+    private suspend fun onQueryTagsForActivity(request: ByteArray): ByteArray? {
         TODO("Not yet implemented")
     }
 
-    private suspend fun onStartActivities(request: ByteArray): ByteArray? {
+    private suspend fun onSetCurrentActivities(request: ByteArray): ByteArray? {
         TODO("Not yet implemented")
     }
 
@@ -35,11 +36,15 @@ class WearRPCServer(private val api: SimpleTimeTrackerAPI) {
         return request
     }
 
-    private suspend fun onGetActivities(): ByteArray? {
+    private suspend fun onQueryActivities(): ByteArray? {
         return Gson().toJson(api.queryActivities()).toByteArray()
     }
 
-    private suspend fun onGetCurrentActivities(): ByteArray? {
+    private suspend fun onQueryCurrentActivities(): ByteArray? {
         return Gson().toJson(api.queryCurrentActivities()).toByteArray()
+    }
+
+    private suspend fun onQuerySettings(): ByteArray? {
+        TODO("Not yet implemented")
     }
 }

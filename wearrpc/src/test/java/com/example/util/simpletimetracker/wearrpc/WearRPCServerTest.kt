@@ -55,19 +55,19 @@ class PingEndpointTest: WearRPCServerTestBase() {
 
 class GetActivitiesTest: WearRPCServerTestBase() {
     @Test fun returns_no_activities_when_none_are_available() = runTest {
-        val response = rpc.onRequest(Request.GET_ACTIVITIES, ByteArray(0))
+        val response = rpc.onRequest(Request.QUERY_ACTIVITIES, ByteArray(0))
         assertResponseEquals("[]", response)
     }
 
     @Test fun returns_one_activity_when_one_exists() = runTest {
         api.mock_queryActivities(arrayOf(Activity(42, "Chores")))
-        val response = rpc.onRequest(Request.GET_ACTIVITIES, ByteArray(0))
+        val response = rpc.onRequest(Request.QUERY_ACTIVITIES, ByteArray(0))
         assertResponseEquals("[{\"id\":42,\"name\":\"Chores\"}]", response)
     }
 
     @Test fun returns_all_existing_activities() = runTest {
         api.mock_queryActivities(arrayOf(Activity(13, "Singing"), Activity(24, "Homework")))
-        val response = rpc.onRequest(Request.GET_ACTIVITIES, ByteArray(0))
+        val response = rpc.onRequest(Request.QUERY_ACTIVITIES, ByteArray(0))
         assertResponseEquals("[{\"id\":13,\"name\":\"Singing\"},{\"id\":24,\"name\":\"Homework\"}]", response)
     }
 }
