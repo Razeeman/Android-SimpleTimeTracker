@@ -97,7 +97,10 @@ dependencies {
     implementation(project(":feature_data_edit"))
     implementation(project(":feature_records_filter"))
     implementation(project(":feature_goals"))
+    implementation(project(":wearrpc"))
 
+    implementation("com.google.android.gms:play-services-wearable:18.0.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
     implementation(Deps.Androidx.room)
     implementation(Deps.Ktx.navigationFragment)
     implementation(Deps.Ktx.navigationUi)
