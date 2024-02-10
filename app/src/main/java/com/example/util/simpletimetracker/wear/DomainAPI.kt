@@ -31,18 +31,35 @@ class DomainAPI (
 
     override suspend fun queryCurrentActivities(): Array<CurrentActivity> {
         TODO("Not yet implemented")
+        // 1. Pull the current activities from the runningRecordInteractor
+        // 2. Return as an `Array<CurrentActivity>`
     }
 
     override suspend fun setCurrentActivities(activities: Array<CurrentActivity>) {
         TODO("Not yet implemented")
+        // This is a little tricky... The given `activities` should be considered a declarative
+        // statement of the activities expected to be running upon successful completion of this
+        // method.
+
+        // Currently running activities not in the given Array should be stopped
+
+        // Activities in the given Array that are not running should be started
+
+        // For activities in the given Array which are running...
+            // If the start dates + tags are unchanged, then leave the activity running.
+            // If the start dates and/or tags are different, stop the current running activity
+            // instance and restart it as of the requested start date.
+
     }
 
     override suspend fun queryTagsForActivity(activityId: Long): Array<Tag> {
         TODO("Not yet implemented")
+        // Look up the tags which can be associated with this activity and return them
     }
 
     override suspend fun querySettings(): Settings {
         TODO("Not yet implemented")
+        // Obtain the desired Settings from the prefsInteractor and return them.
     }
 
 }

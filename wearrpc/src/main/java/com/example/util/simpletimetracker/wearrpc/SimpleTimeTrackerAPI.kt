@@ -6,23 +6,49 @@
 package com.example.util.simpletimetracker.wearrpc
 
 interface SimpleTimeTrackerAPI {
-    /** /stt//GET/ping */
+    /**
+     * /stt//GET/ping
+     *
+     * Echos the message it receives
+     *
+     * Primarily used to test request/response functionality
+     */
     suspend fun ping(str: String): String {
         return str
     }
 
-    /** /stt//GET/activities */
+    /**
+     * /stt//GET/activities
+     *
+     * Retrieves a list of all the time-tracking activities available for selection
+     */
     suspend fun queryActivities(): Array<Activity>
 
-    /** /stt//GET/activities/current */
+    /**
+     * /stt//GET/activities/current
+     *
+     * Retrieves a list of the currently running activity/activities
+     */
     suspend fun queryCurrentActivities(): Array<CurrentActivity>
 
-    /** /stt//POST/activities/current */
+    /**
+     * /stt//POST/activities/current
+     *
+     * Replaces the currently running activity/activities with the given activities
+     */
     suspend fun setCurrentActivities(activities: Array<CurrentActivity>): Unit
 
-    /** /stt//GET/activities/:ID/tags */
+    /**
+     * /stt//GET/activities/:ID/tags
+     *
+     * Retrieves the tags available for association with the activity with the given ID
+     */
     suspend fun queryTagsForActivity(activityId: Long): Array<Tag>
 
-    /** /stt//GET/settings */
+    /**
+     * /stt//GET/settings
+     *
+     * Retrieves the settings relevant to time tracking behavior
+     */
     suspend fun querySettings(): Settings
 }

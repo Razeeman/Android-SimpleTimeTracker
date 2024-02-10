@@ -30,17 +30,27 @@ class WearRPCClient(private val messenger: Messenger): SimpleTimeTrackerAPI {
 
     override suspend fun queryCurrentActivities(): Array<CurrentActivity> {
         TODO("Not yet implemented")
+        // 1. Send a Request.QUERY_CURRENT_ACTIVITIES message
+        // 2. Parse the resulting JSON bytes and return it
     }
 
     override suspend fun setCurrentActivities(activities: Array<CurrentActivity>) {
         TODO("Not yet implemented")
+        // 1. Serialize the given activities to JSON
+        // 2. Send a Request.SET_CURRENT_ACTIVITIES message
+        // 3. Wait for response (successful/error)
     }
 
     override suspend fun queryTagsForActivity(activityId: Long): Array<Tag> {
         TODO("Not yet implemented")
+        // 1. Serialize the given activityID to bytes
+        // 2. Send a Request.QUERY_TAGS_FOR_ACTIVITY message
+        // 3. Deserialize the JSON response and return.
     }
 
     override suspend fun querySettings(): Settings {
         TODO("Not yet implemented")
+        // 1. Send a Request.QUERY_SETTINGS message
+        // 2. Deserialize the JSON response and return
     }
 }
