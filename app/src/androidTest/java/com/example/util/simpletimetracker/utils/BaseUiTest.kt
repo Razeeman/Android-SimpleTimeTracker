@@ -65,13 +65,13 @@ open class BaseUiTest {
     val lastColor: Int
         get() = ColorMapper.getAvailableColors().last()
     val firstIcon: Int
-        get() = iconImageMapper.getAvailableImages().toList().first().let { (_, imagesMap) ->
-            imagesMap.toList().first().let { (_, resId) -> resId }
-        }
+        get() = iconImageMapper.getAvailableImages(loadSearchHints = false)
+            .toList().first()
+            .let { (_, imagesMap) -> imagesMap.first().iconResId }
     val lastIcon: Int
-        get() = iconImageMapper.getAvailableImages().toList().last().let { (_, imagesMap) ->
-            imagesMap.toList().last().let { (_, resId) -> resId }
-        }
+        get() = iconImageMapper.getAvailableImages(loadSearchHints = false)
+            .toList().last()
+            .let { (_, imagesMap) -> imagesMap.last().iconResId }
     val firstEmoji: String
         get() = iconEmojiMapper
             .getAvailableEmojis()[iconEmojiMapper.getAvailableEmojiCategories().first()]
@@ -119,7 +119,8 @@ open class BaseUiTest {
             .getString(id, *args)
     }
 
-    @ColorInt internal fun getColor(id: Int): Int {
+    @ColorInt
+    internal fun getColor(id: Int): Int {
         return InstrumentationRegistry.getInstrumentation().targetContext.resources
             .getColor(id)
     }

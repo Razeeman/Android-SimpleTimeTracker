@@ -277,10 +277,10 @@ class IconTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
 
         // Check categories
-        iconImageMapper.getAvailableImages().forEach { (category, images) ->
+        iconImageMapper.getAvailableImages(loadSearchHints = false).forEach { (category, images) ->
             checkViewIsDisplayed(withTag(category.categoryIcon))
             clickOnView(withTag(category.categoryIcon))
-            val firstImage = images.values.first()
+            val firstImage = images.first().iconResId
 
             if (category == iconImageMapper.getAvailableCategories().last()) {
                 onView(

@@ -62,8 +62,8 @@ class TestUtils @Inject constructor(
         archived: Boolean = false,
         categories: List<String> = emptyList(),
     ) = runBlocking {
-        val icons = iconImageMapper.getAvailableImages().values
-            .toList().flatMap { it.toList() }.toMap()
+        val icons = iconImageMapper.getAvailableImages(loadSearchHints = false).values
+            .flatten().associateBy { it.iconName }.mapValues { it.value.iconResId }
         val iconId = icons.filterValues { it == icon }.keys.firstOrNull()
             ?: text
             ?: icons.keys.first()

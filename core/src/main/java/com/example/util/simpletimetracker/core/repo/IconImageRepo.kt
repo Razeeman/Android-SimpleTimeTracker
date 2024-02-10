@@ -22,4 +22,16 @@ class IconImageRepo @Inject constructor(
 
         return res
     }
+
+    fun getHints(arrayResId: Int): List<String> {
+        val res = mutableListOf<String>()
+
+        val ta = context.resources.obtainTypedArray(arrayResId)
+        (0 until ta.length()).forEach {
+            ta.getString(it).orEmpty().let(res::add)
+        }
+        ta.recycle()
+
+        return res
+    }
 }

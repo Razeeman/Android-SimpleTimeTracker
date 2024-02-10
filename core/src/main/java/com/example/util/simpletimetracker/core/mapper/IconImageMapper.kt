@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.IconImageRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.model.IconImage
 import com.example.util.simpletimetracker.domain.model.IconImageCategory
 import com.example.util.simpletimetracker.domain.model.IconImageType
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -100,8 +101,26 @@ class IconImageMapper @Inject constructor(
         )
     )
 
-    fun getAvailableImages(): Map<IconImageCategory, Map<String, Int>> =
-        getAvailableCategories().associateWith { mapTypeToArray(it.type).let(repo::getImages) }
+    fun getAvailableImages(
+        loadSearchHints: Boolean,
+    ): Map<IconImageCategory, List<IconImage>> {
+        return getAvailableCategories().associateWith {
+            val images = mapTypeToIconArray(it.type).let(repo::getImages)
+            val searchHints = if (loadSearchHints) {
+                mapTypeToSearchArray(it.type).let(repo::getHints)
+            } else {
+                emptyList()
+            }
+
+            images.keys.mapIndexedNotNull { index, iconName ->
+                IconImage(
+                    iconName = iconName,
+                    iconResId = images[iconName] ?: return@mapIndexedNotNull null,
+                    iconSearch = searchHints.getOrNull(index).orEmpty(),
+                )
+            }
+        }
+    }
 
     fun mapToDrawableResId(iconName: String): Int {
         return context.resources
@@ -110,7 +129,7 @@ class IconImageMapper @Inject constructor(
             ?: R.drawable.unknown
     }
 
-    private fun mapTypeToArray(type: IconImageType): Int = when (type) {
+    private fun mapTypeToIconArray(type: IconImageType): Int = when (type) {
         IconImageType.MAPS -> R.array.icon_maps
         IconImageType.PLACES -> R.array.icon_places
         IconImageType.SOCIAL -> R.array.icon_social
@@ -127,5 +146,24 @@ class IconImageMapper @Inject constructor(
         IconImageType.NAVIGATION -> R.array.icon_navigation
         IconImageType.NOTIFICATION -> R.array.icon_notification
         IconImageType.TOGGLE -> R.array.icon_toggle
+    }
+
+    private fun mapTypeToSearchArray(type: IconImageType): Int = when (type) {
+        IconImageType.MAPS -> R.array.icon_hint_maps
+        IconImageType.PLACES -> R.array.icon_hint_places
+        IconImageType.SOCIAL -> R.array.icon_hint_social
+        IconImageType.ACTION -> R.array.icon_hint_action
+        IconImageType.HARDWARE -> R.array.icon_hint_hardware
+        IconImageType.ALERT -> R.array.icon_hint_alert
+        IconImageType.AV -> R.array.icon_hint_av
+        IconImageType.COMMUNICATION -> R.array.icon_hint_communication
+        IconImageType.CONTENT -> R.array.icon_hint_content
+        IconImageType.DEVICE -> R.array.icon_hint_device
+        IconImageType.EDITOR -> R.array.icon_hint_editor
+        IconImageType.FILE -> R.array.icon_hint_file
+        IconImageType.IMAGE -> R.array.icon_hint_image
+        IconImageType.NAVIGATION -> R.array.icon_hint_navigation
+        IconImageType.NOTIFICATION -> R.array.icon_hint_notification
+        IconImageType.TOGGLE -> R.array.icon_hint_toggle
     }
 }

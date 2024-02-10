@@ -31,7 +31,10 @@ class ChangeRecordTypeMapper @Inject constructor(
         search: String,
         isDarkTheme: Boolean,
     ): List<ViewHolderType> {
-        val iconCategories = iconImageMapper.getAvailableImages()
+        val isSearching = search.isNotBlank()
+        val iconCategories = iconImageMapper.getAvailableImages(
+            loadSearchHints = isSearching
+        )
         return iconCategories.toList().mapIndexed { index, (category, images) ->
             val categoryViewData = ChangeRecordTypeIconCategoryInfoViewData(
                 type = ChangeRecordTypeIconTypeViewData.Image(category.type, index.toLong()),
@@ -39,17 +42,21 @@ class ChangeRecordTypeMapper @Inject constructor(
                 isLast = index == iconCategories.size - 1,
             )
                 .let(::listOf)
-                .takeIf { search.isEmpty() } // Don't show category on search.
+                .takeIf { !isSearching } // Don't show category on search.
                 .orEmpty()
 
-            val iconsViewData = images.mapNotNull { (iconName, iconResId) ->
-                if (search.isNotEmpty() && !iconName.contains(search)) {
-                    return@mapNotNull null
+            val iconsViewData = images.mapNotNull {
+                if (isSearching) {
+                    if (!it.iconName.contains(search) &&
+                        !it.iconSearch.contains(search)
+                    ) {
+                        return@mapNotNull null
+                    }
                 }
 
                 mapImageViewData(
-                    iconName = iconName,
-                    iconResId = iconResId,
+                    iconName = it.iconName,
+                    iconResId = it.iconResId,
                     newColor = newColor,
                     isDarkTheme = isDarkTheme,
                 )

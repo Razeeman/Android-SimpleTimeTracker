@@ -128,6 +128,7 @@
     <string name="change_record_type_icon_image_hint">Ícone</string>
     <string name="change_record_type_icon_text_hint">Texto</string>
     <string name="change_record_type_icon_emoji_hint">Emoji</string>
+    <string name="change_record_type_icon_search_hint">Pesquisa (em inglês)</string>
     <string name="change_record_type_save">Guardar</string>
     <string name="change_record_message_choose_name">Escolher um nome</string>
     <string name="change_record_type_categories_empty">Nenhuma categoria adicionada</string>
@@ -385,9 +386,15 @@ Exemplo:<br/>
     <string name="statistics_detail_tag_split_hint">Distribuição de etiquetas</string>
     <string name="statistics_detail_day_split_hint">Distribuição diária</string>
     <string name="statistics_detail_duration_split_hint">Distribuição da duração do registo</string>
+    <string name="statistics_detail_next_activities_hint">Principais próximas atividades</string>
+    <string name="statistics_detail_multitasking_activities_hint">Principais multitarefas</string>
 
     <plurals name="statistics_detail_times_tracked">
+<!--        <item quantity="zero">Registos</item>-->
         <item quantity="one">Registo</item>
+<!--        <item quantity="two">Registos</item>-->
+<!--        <item quantity="few">Registos</item>-->
+<!--        <item quantity="many">Registos</item>-->
         <item quantity="other">Registos</item>
     </plurals>
 

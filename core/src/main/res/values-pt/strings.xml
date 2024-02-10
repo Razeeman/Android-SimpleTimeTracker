@@ -390,7 +390,11 @@ Exemplo:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Principais multitarefas</string>
 
     <plurals name="statistics_detail_times_tracked">
+<!--        <item quantity="zero">Registros</item>-->
         <item quantity="one">Registro</item>
+<!--        <item quantity="two">Registros</item>-->
+<!--        <item quantity="few">Registros</item>-->
+<!--        <item quantity="many">Registros</item>-->
         <item quantity="other">Registros</item>
     </plurals>
 

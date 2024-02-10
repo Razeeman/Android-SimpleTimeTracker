@@ -1,0 +1,1346 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--suppress CheckTagEmptyBody -->
+
+<resources>
+
+    <!--  Should be in the same order as icons file  -->
+
+    <string-array name="icon_hint_action">
+        <item></item>
+        <item>person people</item>
+        <item>person people</item>
+        <item>wheelchair person people</item>
+        <item>wheelchair person people</item>
+        <item>bank money house</item>
+        <item>wallet money</item>
+        <item>person people</item>
+        <item>person people</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>graph</item>
+        <item></item>
+        <item>clock time watch</item>
+        <item>clock time watch</item>
+        <item>clock time watch</item>
+        <item>clock time watch</item>
+        <item></item>
+        <item></item>
+        <item>graph chart</item>
+        <item>water sea</item>
+        <item>robot</item>
+        <item>alarm message chat</item>
+        <item></item>
+        <item>phone</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>read book list</item>
+        <item></item>
+        <item>chart graph</item>
+        <item>list</item>
+        <item>badge person people</item>
+        <item>badge</item>
+        <item>badge</item>
+        <item>badge</item>
+        <item>badge</item>
+        <item></item>
+        <item>cloud</item>
+        <item></item>
+        <item></item>
+        <item>read</item>
+        <item>read phone</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>animal</item>
+        <item>work mechanic</item>
+        <item>work mechanic</item>
+        <item></item>
+        <item>date</item>
+        <item></item>
+        <item>photo</item>
+        <item>chat message</item>
+        <item>birthday cake</item>
+        <item></item>
+        <item>work briefcase</item>
+        <item>triangle</item>
+        <item></item>
+        <item></item>
+        <item>book read</item>
+        <item></item>
+        <item>bookmark</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>commute work car bus</item>
+        <item></item>
+        <item></item>
+        <item>person people</item>
+        <item>question</item>
+        <item>sound music</item>
+        <item></item>
+        <item>money</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>calendar</item>
+        <item>remove bin trash</item>
+        <item>remove bin trash</item>
+        <item>remove bin trash</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>check</item>
+        <item>check</item>
+        <item>check</item>
+        <item>circle graph chart</item>
+        <item>circle graph chart</item>
+        <item></item>
+        <item></item>
+        <item>leaf nature</item>
+        <item></item>
+        <item></item>
+        <item>money</item>
+        <item>calendar date</item>
+        <item>chair home</item>
+        <item></item>
+        <item></item>
+        <item>compass travel</item>
+        <item>compass travel</item>
+        <item>puzzle home indoors</item>
+        <item>person face people</item>
+        <item>person face people</item>
+        <item></item>
+        <item>heart</item>
+        <item>heart</item>
+        <item>chat message</item>
+        <item></item>
+        <item></item>
+        <item>search</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>travel fly flight plane</item>
+        <item>travel fly flight plane</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>hammer work court</item>
+        <item></item>
+        <item></item>
+        <item>star</item>
+        <item>list</item>
+        <item></item>
+        <item>question</item>
+        <item>question</item>
+        <item>question</item>
+        <item></item>
+        <item></item>
+        <item>time</item>
+        <item>time</item>
+        <item>house home</item>
+        <item>house home</item>
+        <item></item>
+        <item>time</item>
+        <item>time</item>
+        <item>time</item>
+        <item>internet</item>
+        <item>lock</item>
+        <item>computer phone</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>water</item>
+        <item>tag</item>
+        <item>tag</item>
+        <item>tag</item>
+        <item>tag</item>
+        <item>tag</item>
+        <item>internet</item>
+        <item></item>
+        <item>graph</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>enter</item>
+        <item>exit</item>
+        <item>tag label</item>
+        <item>letter mail</item>
+        <item>letter</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>moon</item>
+        <item>wheelchair person people</item>
+        <item></item>
+        <item></item>
+        <item>electric</item>
+        <item>check</item>
+        <item>sound radio</item>
+        <item>water drop</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>letter</item>
+        <item>electric</item>
+        <item>search</item>
+        <item>hand person people</item>
+        <item>card money</item>
+        <item></item>
+        <item>list</item>
+        <item></item>
+        <item>badge person people</item>
+        <item></item>
+        <item>phone</item>
+        <item>person people</item>
+        <item></item>
+        <item>call message</item>
+        <item></item>
+        <item>animal dog</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>person people woman child baby</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>check</item>
+        <item>clock time watch</item>
+        <item>message chat</item>
+        <item>message chat</item>
+        <item>list</item>
+        <item>person people</item>
+        <item>card</item>
+        <item>check</item>
+        <item></item>
+        <item>list</item>
+        <item></item>
+        <item>money</item>
+        <item>clock time watch</item>
+        <item>bin trash</item>
+        <item></item>
+        <item>location</item>
+        <item></item>
+        <item>outdoors person people</item>
+        <item></item>
+        <item></item>
+        <item>clock time watch</item>
+        <item>message chat</item>
+        <item></item>
+        <item></item>
+        <item>list</item>
+        <item>message chat</item>
+        <item>gear</item>
+        <item>gear</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>phone</item>
+        <item></item>
+        <item>radio</item>
+        <item></item>
+        <item></item>
+        <item>electric</item>
+        <item>electric</item>
+        <item></item>
+        <item>call</item>
+        <item></item>
+        <item></item>
+        <item>micro</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>message chat</item>
+        <item>message chat</item>
+        <item>message chat</item>
+        <item>letter</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>shop house</item>
+        <item>message chat</item>
+        <item>message chat</item>
+        <item>person people group</item>
+        <item>person people group</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>hand person people</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>calculator</item>
+        <item>letter</item>
+        <item>letter</item>
+        <item>letter</item>
+        <item>letter</item>
+        <item>letter</item>
+        <item>letter</item>
+        <item>film</item>
+        <item>hand like</item>
+        <item>hand like</item>
+        <item>hand like</item>
+        <item>hand like</item>
+        <item>hands like</item>
+        <item>graph chart</item>
+        <item>list</item>
+        <item>date calendar</item>
+        <item></item>
+        <item>hand person people</item>
+        <item>flag travel</item>
+        <item></item>
+        <item>language</item>
+        <item>graph chart</item>
+        <item></item>
+        <item>graph chart</item>
+        <item>bookmark read</item>
+        <item>bookmark read</item>
+        <item>check</item>
+        <item>clock time watch</item>
+        <item>clock time watch</item>
+        <item></item>
+        <item>safety</item>
+        <item>safety</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>box</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>eye person people</item>
+        <item>eye person people</item>
+        <item>voice sound person people</item>
+        <item>clock time watch</item>
+        <item></item>
+        <item>briefcase work</item>
+        <item>briefcase work</item>
+        <item>briefcase work</item>
+        <item>list</item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+    
+    <string-array name="icon_hint_alert">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="icon_hint_av">
+        <item>monitor screen</item>
+        <item></item>
+        <item>music</item>
+        <item></item>
+        <item>clock time watch</item>
+        <item></item>
+        <item></item>
+        <item>subtitle</item>
+        <item>graph chart</item>
+        <item></item>
+        <item>video</item>
+        <item>video</item>
+        <item></item>
+        <item></item>
+        <item>video</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>video</item>
+        <item>listen sound</item>
+        <item>video</item>
+        <item></item>
+        <item>read</item>
+        <item></item>
+        <item></item>
+        <item>audio</item>
+        <item>audio</item>
+        <item>audio</item>
+        <item>film</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>video</item>
+        <item>video</item>
+        <item>video</item>
+        <item>video</item>
+        <item>video</item>
+        <item>video</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>monitor</item>
+        <item>music</item>
+        <item>account contact person people</item>
+        <item>monitor screen</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>video music</item>
+        <item>video music</item>
+        <item></item>
+        <item>clock time watch sleep</item>
+        <item>letter</item>
+        <item>video square</item>
+        <item>video</item>
+        <item></item>
+        <item>music</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>camera film</item>
+        <item>camera film</item>
+        <item>sound music</item>
+        <item>sound music</item>
+        <item>sound music</item>
+        <item>sound music</item>
+        <item></item>
+        <item></item>
+
+    </string-array>
+
+    <string-array name="icon_hint_communication">
+        <item>work building</item>
+        <item>phone</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>message chat</item>
+        <item>message chat</item>
+        <item>message chat</item>
+        <item>list</item>
+        <item>message chat</item>
+        <item>person people</item>
+        <item>call person people</item>
+        <item>person people</item>
+        <item>phone call</item>
+        <item>phone call</item>
+        <item>message letter</item>
+        <item>message chat</item>
+        <item>book read</item>
+        <item></item>
+        <item>water drop</item>
+        <item>question</item>
+        <item>travel</item>
+        <item>travel</item>
+        <item>letter</item>
+        <item>message chat</item>
+        <item></item>
+        <item>call</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>phone call</item>
+        <item>wifi</item>
+        <item></item>
+        <item>sound</item>
+        <item>phone</item>
+        <item>phone</item>
+        <item>phone</item>
+        <item>phone</item>
+        <item>notebook laptop computer</item>
+        <item></item>
+        <item>message chat</item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="icon_hint_content">
+        <item>plus</item>
+        <item>plus</item>
+        <item>plus</item>
+        <item>plus</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>scissors</item>
+        <item></item>
+        <item>pen write</item>
+        <item>bin trash</item>
+        <item>letter mail</item>
+        <item></item>
+        <item>travel</item>
+        <item>letter</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>letter mail</item>
+        <item>letter mail</item>
+        <item></item>
+        <item>work briefcase</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>floppy</item>
+        <item></item>
+        <item>message chat</item>
+        <item>list</item>
+        <item>letter</item>
+        <item></item>
+        <item></item>
+        <item>home sofa rest</item>
+    </string-array>
+    
+    <string-array name="icon_hint_device">
+        <item>clock time watch</item>
+        <item>clock time watch</item>
+        <item>clock time watch</item>
+        <item>travel fly flight plane</item>
+        <item>travel fly flight plane</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>sun</item>
+        <item></item>
+        <item>chart graph</item>
+        <item></item>
+        <item>phone notebook laptop computer</item>
+        <item></item>
+        <item>location</item>
+        <item>location</item>
+        <item>location</item>
+        <item></item>
+        <item>location</item>
+        <item>location</item>
+        <item>connection</item>
+        <item></item>
+        <item>phone</item>
+        <item>phone</item>
+        <item>phone</item>
+        <item>phone</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>connection triangle</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item>connection</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>connection</item>
+        <item>connection</item>
+    </string-array>
+    
+    <string-array name="icon_hint_editor">
+        <item></item>
+        <item>bank</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>write</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>list</item>
+        <item></item>
+        <item></item>
+        <item>letter</item>
+        <item></item>
+        <item></item>
+        <item>water drop</item>
+        <item>letter</item>
+        <item></item>
+        <item></item>
+        <item>letter</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>letter</item>
+        <item>letter</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>sum</item>
+        <item>flashlight</item>
+        <item>graph chart</item>
+        <item>message chat</item>
+        <item></item>
+        <item>smile face person people emotion</item>
+        <item>date calendar</item>
+        <item></item>
+        <item>picture</item>
+        <item></item>
+        <item></item>
+        <item>message chat</item>
+        <item>write pen</item>
+        <item>money bank</item>
+        <item>money bank</item>
+        <item>graph chart</item>
+        <item>graph chart</item>
+        <item>graph chart</item>
+        <item></item>
+        <item></item>
+        <item>graph chart</item>
+        <item></item>
+        <item></item>
+        <item>letter</item>
+        <item>letter</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+    
+    <string-array name="icon_hint_file">
+        <item></item>
+        <item>weather</item>
+        <item>weather</item>
+        <item>weather</item>
+        <item></item>
+        <item>weather</item>
+        <item>weather</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>work</item>
+        <item>work</item>
+        <item>work contact person people</item>
+    </string-array>
+
+    <string-array name="icon_hint_hardware">
+        <item>screen monitor</item>
+        <item>screen monitor</item>
+        <item>notebook laptop computer</item>
+        <item>monitor screen computer</item>
+        <item>monitor screen computer</item>
+        <item></item>
+        <item></item>
+        <item>phone screen watch computer</item>
+        <item>phone</item>
+        <item></item>
+        <item>music headphones</item>
+        <item>music headphones</item>
+        <item>computer</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>computer</item>
+        <item></item>
+        <item></item>
+        <item>micro</item>
+        <item>notebook computer</item>
+        <item>notebook computer</item>
+        <item>notebook computer</item>
+        <item>notebook computer</item>
+        <item></item>
+        <item>computer</item>
+        <item></item>
+        <item></item>
+        <item>phone notebook laptop</item>
+        <item>phone notebook laptop</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>music</item>
+        <item>music</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>screen monitor computer</item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="icon_hint_image">
+        <item>camera</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>flag</item>
+        <item>music</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>circle</item>
+        <item>moon</item>
+        <item>moon</item>
+        <item></item>
+        <item>sun</item>
+        <item></item>
+        <item></item>
+        <item>picture</item>
+        <item>draw</item>
+        <item></item>
+        <item>photo</item>
+        <item>photo</item>
+        <item></item>
+        <item></item>
+        <item>photo</item>
+        <item></item>
+        <item></item>
+        <item>photo image picture</item>
+        <item></item>
+        <item>draw palette</item>
+        <item></item>
+        <item></item>
+        <item>plus</item>
+        <item>plus</item>
+        <item></item>
+        <item>square</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>square</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>triangle</item>
+        <item>write</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>cloud weather</item>
+        <item></item>
+        <item>travel mountain nature</item>
+        <item></item>
+        <item></item>
+        <item>flower</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>weather</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>medic</item>
+        <item>photo</item>
+        <item></item>
+        <item></item>
+        <item>travel mountain nature</item>
+        <item></item>
+        <item></item>
+        <item>circle</item>
+        <item>photo</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>camera</item>
+        <item>film</item>
+        <item>film</item>
+        <item></item>
+        <item>tree</item>
+        <item>tree person people</item>
+        <item></item>
+        <item></item>
+        <item>draw</item>
+        <item>photo picture</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>photo</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>person people</item>
+        <item>person people</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>video</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>smile person people emotion</item>
+        <item></item>
+        <item></item>
+        <item>clock time watch</item>
+        <item></item>
+        <item></item>
+        <item>clock time watch</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>weather</item>
+        <item>light bulb</item>
+        <item></item>
+        <item>light bulb</item>
+    </string-array>
+
+    <string-array name="icon_hint_maps">
+        <item></item>
+        <item>house shop</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>work farm tractor vehicle</item>
+        <item></item>
+        <item>money</item>
+        <item></item>
+        <item></item>
+        <item>food eat</item>
+        <item></item>
+        <item></item>
+        <item>food bread eat</item>
+        <item>food eat drink</item>
+        <item>car vehicle commute bus</item>
+        <item>car vehicle commute</item>
+        <item>car vehicle commute</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>vehicle commute</item>
+        <item>travel vehicle bus commute</item>
+        <item></item>
+        <item>food eat</item>
+        <item></item>
+        <item>person people commute</item>
+        <item>travel</item>
+        <item>vehicle bus commute</item>
+        <item>vehicle car commute</item>
+        <item>vehicle train commute</item>
+        <item>person people sport</item>
+        <item>train vehicle travel commute</item>
+        <item>train vehicle travel commute</item>
+        <item>person people</item>
+        <item>clothes</item>
+        <item></item>
+        <item></item>
+        <item>travel</item>
+        <item>vehicle commute</item>
+        <item>vehicle car commute</item>
+        <item>vehicle commute</item>
+        <item>vehicle commute</item>
+        <item>vehicle commute</item>
+        <item></item>
+        <item></item>
+        <item>food eat</item>
+        <item>house</item>
+        <item>fly travel plane</item>
+        <item>person people</item>
+        <item>work hammer screw</item>
+        <item>work hammer</item>
+        <item>work</item>
+        <item>bed sleep person people</item>
+        <item></item>
+        <item>food eat</item>
+        <item></item>
+        <item></item>
+        <item>food drink</item>
+        <item>film ticket</item>
+        <item>plane fly flight travel</item>
+        <item>money</item>
+        <item>drink food</item>
+        <item>drink food</item>
+        <item>vehicle commute</item>
+        <item>house</item>
+        <item>food eat</item>
+        <item>food</item>
+        <item></item>
+        <item>flower</item>
+        <item></item>
+        <item>shop cart</item>
+        <item>medic</item>
+        <item>bed sleep person people</item>
+        <item></item>
+        <item>book read</item>
+        <item>shop</item>
+        <item>film</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>call</item>
+        <item>food eat</item>
+        <item>ticket film</item>
+        <item></item>
+        <item>letter mail</item>
+        <item></item>
+        <item>camera photo</item>
+        <item>car vehicle</item>
+        <item>car vehicle commute</item>
+        <item></item>
+        <item>food eat</item>
+        <item>travel</item>
+        <item></item>
+        <item></item>
+        <item>read</item>
+        <item>gear</item>
+        <item></item>
+        <item>vehicle</item>
+        <item>vehicle</item>
+        <item></item>
+        <item>house</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>music drink food</item>
+        <item>food eat</item>
+        <item>food eat</item>
+        <item>bus vehicle</item>
+        <item></item>
+        <item>tree nature</item>
+        <item>vehicle</item>
+        <item>person people</item>
+        <item>person people</item>
+        <item>bug animal</item>
+        <item>mouse animal</item>
+        <item>location</item>
+        <item>location</item>
+        <item>work wrench</item>
+        <item>travel</item>
+        <item>food eat</item>
+        <item></item>
+        <item>food eat</item>
+        <item>food eat</item>
+        <item>person people</item>
+        <item></item>
+        <item>food eat</item>
+        <item>shop house</item>
+        <item></item>
+        <item>travel commute</item>
+        <item>food eat</item>
+        <item>commute car vehicle</item>
+        <item>mountain nature travel</item>
+        <item></item>
+        <item>car</item>
+        <item>travel commute</item>
+        <item>travel commute</item>
+        <item>person people</item>
+        <item></item>
+        <item>circle</item>
+        <item>vehicle</item>
+        <item>hand heart</item>
+        <item>drink food</item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="icon_hint_navigation">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>repeat</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="icon_hint_notification">
+        <item>android</item>
+        <item>bed sleep medic hospital</item>
+        <item>bed sleep medic hospital</item>
+        <item>bed sleep medic hospital</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>car commute vehicle</item>
+        <item></item>
+        <item>date calendar</item>
+        <item>date calendar</item>
+        <item>date calendar</item>
+        <item></item>
+        <item>video</item>
+        <item>message chat</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>monitor computer</item>
+        <item>monitor computer</item>
+        <item>call</item>
+        <item>call</item>
+        <item>call</item>
+        <item>call</item>
+        <item>call</item>
+        <item>call</item>
+        <item>electric</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>message chat</item>
+        <item>message chat</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>phone</item>
+        <item>phone</item>
+        <item>car commute vehicle</item>
+        <item>phone</item>
+        <item>video</item>
+        <item>earth planet</item>
+        <item>person people group</item>
+        <item>network</item>
+    </string-array>
+    
+    <string-array name="icon_hint_places">
+        <item>winter weather</item>
+        <item>bus vehicle commute</item>
+        <item></item>
+        <item>house</item>
+        <item>person people baby child</item>
+        <item></item>
+        <item>person people</item>
+        <item>umbrella weather</item>
+        <item></item>
+        <item>work briefcase</item>
+        <item>saw work</item>
+        <item></item>
+        <item>phone</item>
+        <item></item>
+        <item>person people baby child</item>
+        <item>baby child</item>
+        <item>house work</item>
+        <item></item>
+        <item></item>
+        <item>hand person people</item>
+        <item>hand person people</item>
+        <item></item>
+        <item></item>
+        <item>child person people baby family</item>
+        <item>child person people baby family</item>
+        <item></item>
+        <item></item>
+        <item>exercise sport</item>
+        <item>eat house</item>
+        <item>house</item>
+        <item>food eat drink</item>
+        <item>sport</item>
+        <item>nature</item>
+        <item>bath</item>
+        <item>home</item>
+        <item>home</item>
+        <item>fridge food</item>
+        <item>door</item>
+        <item>food eat</item>
+        <item>home</item>
+        <item></item>
+        <item>phone</item>
+        <item>drink</item>
+        <item>camera</item>
+        <item>food drink eat</item>
+        <item>door</item>
+        <item>camera</item>
+        <item>child baby</item>
+        <item>swim sport person people</item>
+        <item>food eat</item>
+        <item>home house</item>
+        <item>door</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>hand</item>
+        <item>nature flower</item>
+        <item>drink</item>
+        <item></item>
+        <item>shop house</item>
+        <item>child baby</item>
+        <item>food drink eat</item>
+        <item>call</item>
+        <item>weather</item>
+        <item>hand person people</item>
+        <item>home house</item>
+        <item>person people</item>
+    </string-array>
+
+    <string-array name="icon_hint_social">
+        <item>person people</item>
+        <item>safety</item>
+        <item></item>
+        <item>birthday</item>
+        <item>soap</item>
+        <item>person people</item>
+        <item>work hammer wrench</item>
+        <item></item>
+        <item></item>
+        <item>house</item>
+        <item>person people walk</item>
+        <item>person face smile emotion</item>
+        <item></item>
+        <item></item>
+        <item>drink</item>
+        <item>animal</item>
+        <item>light bulb</item>
+        <item>person people</item>
+        <item></item>
+        <item>car vehicle house commute</item>
+        <item>work person people</item>
+        <item></item>
+        <item></item>
+        <item>person people walk</item>
+        <item>person people group</item>
+        <item>person people group</item>
+        <item>person people group</item>
+        <item>write pen</item>
+        <item></item>
+        <item>sofa</item>
+        <item>house</item>
+        <item>travel</item>
+        <item></item>
+        <item></item>
+        <item>person people face smile emotion</item>
+        <item>person people face frown emotion</item>
+        <item>moon</item>
+        <item>travel</item>
+        <item>alarm</item>
+        <item>alarm</item>
+        <item>alarm</item>
+        <item>alarm</item>
+        <item>alarm</item>
+        <item>food eat</item>
+        <item></item>
+        <item>camera photo</item>
+        <item>person people group</item>
+        <item>person people group</item>
+        <item>person people group</item>
+        <item>person people</item>
+        <item>person people</item>
+        <item>person people</item>
+        <item>person people</item>
+        <item>person people</item>
+        <item>person people</item>
+        <item>person people</item>
+        <item></item>
+        <item>chart graph</item>
+        <item>robot work factory</item>
+        <item>person people head</item>
+        <item>planet earth</item>
+        <item>planet earth</item>
+        <item>hand like</item>
+        <item>person people group</item>
+        <item></item>
+        <item>soap</item>
+        <item>education school</item>
+        <item>education school</item>
+        <item>meditation person people</item>
+        <item>person people face frown emotion</item>
+        <item>person people face emotion</item>
+        <item>person people face smile emotion</item>
+        <item>person people face frown emotion</item>
+        <item>person people face smile laugh emotion</item>
+        <item></item>
+        <item>person people face</item>
+        <item>sofa</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>person people</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>hand like</item>
+        <item>hand like</item>
+        <item>fire</item>
+    </string-array>
+    
+    <string-array name="icon_hint_toggle">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+</resources>
