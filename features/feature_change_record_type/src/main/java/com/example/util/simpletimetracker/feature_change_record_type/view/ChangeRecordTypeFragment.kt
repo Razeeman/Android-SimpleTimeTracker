@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_type.view
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -48,6 +49,8 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Icon
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeGoalsViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconImageStateViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconImageStateViewData.IconImageState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconStateViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
@@ -194,6 +197,8 @@ class ChangeRecordTypeFragment :
             updateIconContainerScroll(it)
             viewModel.onIconTypeClick(it)
         }
+        etChangeRecordTypeIconSearch.doAfterTextChanged { viewModel.onIconImageSearch(it.toString()) }
+        btnChangeRecordTypeIconSearch.setOnClick(viewModel::onIconImageSearchClicked)
         GoalsViewDelegate.initGoalUx(
             viewModel = viewModel,
             layout = layoutChangeRecordTypeGoals,
@@ -222,10 +227,11 @@ class ChangeRecordTypeFragment :
             icons.observe(::updateIconsState)
             iconCategories.observe(iconCategoriesAdapter::replace)
             iconsTypeViewData.observe(btnChangeRecordTypeIconSwitch.adapter::replace)
+            iconImageStateViewData.observe(::updateIconImageStateViewData)
             categories.observe(categoriesAdapter::replace)
             goalsViewData.observe(::updateGoalsState)
             notificationsHintVisible.observe(
-                layoutChangeRecordTypeGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set
+                layoutChangeRecordTypeGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set,
             )
             chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->
@@ -394,6 +400,15 @@ class ChangeRecordTypeFragment :
 
         (btnChangeRecordTypeIconSwitch.layoutParams as? AppBarLayout.LayoutParams)
             ?.scrollFlags = scrollFlags
+    }
+
+    private fun updateIconImageStateViewData(
+        data: ChangeRecordTypeIconImageStateViewData,
+    ) = with(binding) {
+        btnChangeRecordTypeIconSearch.isVisible = data.searchButtonIsVisible
+        ivChangeRecordTypeIconSearch.backgroundTintList = ColorStateList.valueOf(data.searchButtonColor)
+        rvChangeRecordTypeIconCategory.isVisible = data.state is IconImageState.Chooser
+        inputChangeRecordTypeIconSearch.isVisible = data.state is IconImageState.Search
     }
 
     companion object {

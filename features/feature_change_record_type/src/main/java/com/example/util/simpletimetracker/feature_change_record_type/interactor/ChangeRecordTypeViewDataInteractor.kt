@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconImageStateViewData.IconImageState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconStateViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -77,13 +78,16 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
     suspend fun getIconsViewData(
         newColor: AppColor,
         iconType: IconType,
+        iconImageState: IconImageState,
+        iconSearch: String,
     ): ChangeRecordTypeIconStateViewData = withContext(Dispatchers.IO) {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         when (iconType) {
             IconType.IMAGE -> {
+                val search = if (iconImageState == IconImageState.Search) iconSearch else ""
                 ChangeRecordTypeIconStateViewData.Icons(
-                    mapper.mapIconImageData(newColor, isDarkTheme)
+                    mapper.mapIconImageData(newColor, search, isDarkTheme)
                 )
             }
             IconType.TEXT -> {

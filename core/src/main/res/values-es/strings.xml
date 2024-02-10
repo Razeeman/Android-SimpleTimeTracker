@@ -128,6 +128,7 @@
     <string name="change_record_type_icon_image_hint">Icono</string>
     <string name="change_record_type_icon_text_hint">Texto</string>
     <string name="change_record_type_icon_emoji_hint">Emoji</string>
+    <string name="change_record_type_icon_search_hint">Buscar (en inglés)</string>
     <string name="change_record_type_save">Guardar</string>
     <string name="change_record_message_choose_name">Escoja un nombre</string>
     <string name="change_record_type_categories_empty">No se añadieron categorías</string>

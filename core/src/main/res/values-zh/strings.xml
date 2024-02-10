@@ -128,6 +128,7 @@
     <string name="change_record_type_icon_image_hint">图标</string>
     <string name="change_record_type_icon_text_hint">文本</string>
     <string name="change_record_type_icon_emoji_hint">表情符号</string>
+    <string name="change_record_type_icon_search_hint">搜索（英文）</string>
     <string name="change_record_type_save">保存</string>
     <string name="change_record_message_choose_name">请填写名称</string>
     <string name="change_record_type_categories_empty">未添加任何类别</string>

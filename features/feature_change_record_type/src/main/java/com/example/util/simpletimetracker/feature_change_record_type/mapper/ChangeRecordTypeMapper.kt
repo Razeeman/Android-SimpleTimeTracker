@@ -11,6 +11,8 @@ import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewDa
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconImageStateViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconImageStateViewData.IconImageState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
@@ -26,19 +28,34 @@ class ChangeRecordTypeMapper @Inject constructor(
 
     fun mapIconImageData(
         newColor: AppColor,
+        search: String,
         isDarkTheme: Boolean,
     ): List<ViewHolderType> {
         val iconCategories = iconImageMapper.getAvailableImages()
         return iconCategories.toList().mapIndexed { index, (category, images) ->
-            listOf(
-                ChangeRecordTypeIconCategoryInfoViewData(
-                    type = ChangeRecordTypeIconTypeViewData.Image(category.type, index.toLong()),
-                    text = category.name,
-                    isLast = index == iconCategories.size - 1,
-                ),
-            ) + images.map { (iconName, iconResId) ->
-                mapImageViewData(iconName, iconResId, newColor, isDarkTheme)
+            val categoryViewData = ChangeRecordTypeIconCategoryInfoViewData(
+                type = ChangeRecordTypeIconTypeViewData.Image(category.type, index.toLong()),
+                text = category.name,
+                isLast = index == iconCategories.size - 1,
+            )
+                .let(::listOf)
+                .takeIf { search.isEmpty() } // Don't show category on search.
+                .orEmpty()
+
+            val iconsViewData = images.mapNotNull { (iconName, iconResId) ->
+                if (search.isNotEmpty() && !iconName.contains(search)) {
+                    return@mapNotNull null
+                }
+
+                mapImageViewData(
+                    iconName = iconName,
+                    iconResId = iconResId,
+                    newColor = newColor,
+                    isDarkTheme = isDarkTheme,
+                )
             }
+
+            categoryViewData + iconsViewData
         }.flatten()
     }
 
@@ -96,6 +113,23 @@ class ChangeRecordTypeMapper @Inject constructor(
                 isSelected = it == iconType,
             )
         }
+    }
+
+    fun mapToIconImageStateViewData(
+        iconImageState: IconImageState,
+        iconType: IconType,
+        isDarkTheme: Boolean,
+    ): ChangeRecordTypeIconImageStateViewData {
+        val theme = if (isDarkTheme) R.style.AppThemeDark else R.style.AppTheme
+
+        return ChangeRecordTypeIconImageStateViewData(
+            state = if (iconType != IconType.IMAGE) IconImageState.Chooser else iconImageState,
+            searchButtonIsVisible = iconType == IconType.IMAGE,
+            searchButtonColor = when (iconImageState) {
+                is IconImageState.Chooser -> R.attr.appInactiveColor
+                is IconImageState.Search -> R.attr.colorSecondary
+            }.let { resourceRepo.getThemedAttr(it, theme) },
+        )
     }
 
     fun mapEmojiSelectionParams(

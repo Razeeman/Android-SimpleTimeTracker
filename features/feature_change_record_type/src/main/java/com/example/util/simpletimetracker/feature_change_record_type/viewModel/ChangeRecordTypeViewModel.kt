@@ -38,6 +38,8 @@ import com.example.util.simpletimetracker.feature_change_record_type.mapper.Chan
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconImageStateViewData
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconImageStateViewData.IconImageState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconStateViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
@@ -48,6 +50,8 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordT
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.example.util.simpletimetracker.core.R as coreR
@@ -105,6 +109,12 @@ class ChangeRecordTypeViewModel @Inject constructor(
     val iconsTypeViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData(loadIconsTypeViewData())
     }
+    val iconImageStateViewData: LiveData<ChangeRecordTypeIconImageStateViewData> by lazy {
+        return@lazy MutableLiveData<ChangeRecordTypeIconImageStateViewData>().let { initial ->
+            viewModelScope.launch { initial.value = loadIconImageStateViewData() }
+            initial
+        }
+    }
     val categories: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch {
@@ -129,6 +139,9 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private val recordTypeId: Long get() = (extra as? ChangeRecordTypeParams.Change)?.id.orZero()
     private var iconType: IconType = IconType.IMAGE
+    private var iconImageState: IconImageState = IconImageState.Chooser
+    private var iconSearch: String = ""
+    private var iconSearchJob: Job? = null
     private var initialCategories: Set<Long> = emptySet()
     private var newName: String = ""
     private var newIconName: String = ""
@@ -209,11 +222,13 @@ class ChangeRecordTypeViewModel @Inject constructor(
         if (viewData.iconType == iconType) return
         viewModelScope.launch {
             if (viewData.iconType != IconType.TEXT) {
+                keyboardVisibility.set(false)
                 icons.set(ChangeRecordTypeIconStateViewData.Icons(emptyList()))
             }
             iconType = viewData.iconType
             updateIconsTypeViewData()
             updateIconCategories(selectedIndex = 0)
+            updateIconImageStateViewData()
             updateIcons()
         }
     }
@@ -258,6 +273,38 @@ class ChangeRecordTypeViewModel @Inject constructor(
         infoItems
             .lastOrNull { items.indexOf(it) <= firstVisiblePosition }
             ?.let { updateIconCategories(it.getUniqueId()) }
+    }
+
+    fun onIconImageSearchClicked() {
+        val newState = when (iconImageState) {
+            is IconImageState.Chooser -> IconImageState.Search
+            is IconImageState.Search -> IconImageState.Chooser
+        }
+        iconImageState = newState
+
+        if (iconImageState is IconImageState.Chooser) {
+            keyboardVisibility.set(false)
+            expandIconTypeSwitch.set(Unit)
+            icons.set(ChangeRecordTypeIconStateViewData.Icons(emptyList()))
+        }
+        viewModelScope.launch {
+            updateIconImageStateViewData()
+            updateIcons()
+        }
+    }
+
+    fun onIconImageSearch(search: String) {
+        if (iconType != IconType.IMAGE) return
+
+        if (search != iconSearch) {
+            iconSearchJob?.cancel()
+            iconSearchJob = viewModelScope.launch {
+                iconSearch = search
+                delay(500)
+                updateIconImageStateViewData()
+                updateIcons()
+            }
+        }
     }
 
     fun onEmojiClick(item: EmojiViewData) {
@@ -461,7 +508,12 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private suspend fun loadIconsViewData(): ChangeRecordTypeIconStateViewData {
-        return viewDataInteractor.getIconsViewData(newColor, iconType)
+        return viewDataInteractor.getIconsViewData(
+            newColor = newColor,
+            iconType = iconType,
+            iconImageState = iconImageState,
+            iconSearch = iconSearch,
+        )
     }
 
     private fun updateIconCategories(selectedIndex: Long) {
@@ -483,6 +535,19 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private fun loadIconsTypeViewData(): List<ViewHolderType> {
         return changeRecordTypeMapper.mapToIconSwitchViewData(iconType)
+    }
+
+    private suspend fun updateIconImageStateViewData() {
+        val data = loadIconImageStateViewData()
+        iconImageStateViewData.set(data)
+    }
+
+    private suspend fun loadIconImageStateViewData(): ChangeRecordTypeIconImageStateViewData {
+        return changeRecordTypeMapper.mapToIconImageStateViewData(
+            iconImageState = iconImageState,
+            iconType = iconType,
+            isDarkTheme = prefsInteractor.getDarkMode(),
+        )
     }
 
     private suspend fun updateCategoriesViewData() {
