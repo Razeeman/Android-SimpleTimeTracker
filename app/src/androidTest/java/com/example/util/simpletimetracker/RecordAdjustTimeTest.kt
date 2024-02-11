@@ -47,7 +47,7 @@ class RecordAdjustTimeTest : BaseUiTest() {
         testUtils.addRecord(
             typeName = name1,
             timeStarted = calendar.getMillis(hour = 15, minute = 0),
-            timeEnded = calendar.getMillis(hour = 16, minute = 0)
+            timeEnded = calendar.getMillis(hour = 16, minute = 0),
         )
         testUtils.addRecord(
             typeName = name2,
@@ -161,8 +161,8 @@ class RecordAdjustTimeTest : BaseUiTest() {
                 hasDescendant(withText(coreR.string.untracked_time_name)),
                 hasDescendant(withText(timeEndedTimeStamp1.formatTime())),
                 hasDescendant(withText(timeStartedTimeStamp2.formatTime())),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
         clickOnViewWithText("-1")
         clickOnViewWithText("-1")
@@ -231,7 +231,7 @@ class RecordAdjustTimeTest : BaseUiTest() {
 
         // Change record
         longClickOnView(
-            allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name2), isCompletelyDisplayed())
+            allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name2), isCompletelyDisplayed()),
         )
         clickOnViewWithText("-5")
         clickOnViewWithText(coreR.string.change_record_actions_hint)
@@ -264,8 +264,8 @@ class RecordAdjustTimeTest : BaseUiTest() {
                 hasDescendant(withText(name)),
                 hasDescendant(withText(timeStartedPreview)),
                 hasDescendant(withText(timeEndedPreview)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 
@@ -279,8 +279,8 @@ class RecordAdjustTimeTest : BaseUiTest() {
                 withId(baseR.id.viewRunningRecordItem),
                 hasDescendant(withText(name)),
                 hasDescendant(withText(timeStartedPreview)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 }

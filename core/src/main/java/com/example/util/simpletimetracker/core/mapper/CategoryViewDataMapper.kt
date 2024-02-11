@@ -35,13 +35,13 @@ class CategoryViewDataMapper @Inject constructor(
             id = category.id,
             name = category.name,
             iconColor = getTextColor(isDarkTheme, isFiltered),
-            color = getColor(category.color, isDarkTheme, isFiltered)
+            color = getColor(category.color, isDarkTheme, isFiltered),
         )
     }
 
     fun mapToUncategorizedItem(
         isFiltered: Boolean,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
     ): CategoryViewData {
         return CategoryViewData.Category(
             id = UNCATEGORIZED_ITEM_ID,
@@ -61,7 +61,7 @@ class CategoryViewDataMapper @Inject constructor(
 
     fun mapToCategoryUntrackedItem(
         isFiltered: Boolean,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
     ): CategoryViewData {
         return CategoryViewData.Category(
             id = UNTRACKED_ITEM_ID,
@@ -96,7 +96,7 @@ class CategoryViewDataMapper @Inject constructor(
             iconColor = getTextColor(isDarkTheme, isFiltered),
             iconAlpha = colorMapper.toIconAlpha(icon, isFiltered),
             color = getColor(color, isDarkTheme, isFiltered),
-            icon = if (showIcon) icon else null
+            icon = if (showIcon) icon else null,
         )
     }
 
@@ -114,13 +114,13 @@ class CategoryViewDataMapper @Inject constructor(
             } else {
                 colorMapper.toUntrackedColor(isDarkTheme)
             },
-            icon = RecordTypeIcon.Image(R.drawable.untagged)
+            icon = RecordTypeIcon.Image(R.drawable.untagged),
         )
     }
 
     fun mapToTagUntrackedItem(
         isFiltered: Boolean,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
     ): CategoryViewData {
         return CategoryViewData.Record.Tagged(
             id = UNTRACKED_ITEM_ID,
@@ -129,7 +129,7 @@ class CategoryViewDataMapper @Inject constructor(
             icon = RecordTypeIcon.Image(R.drawable.unknown),
             iconColor = getTextColor(
                 isDarkTheme = isDarkTheme,
-                isFiltered = isFiltered
+                isFiltered = isFiltered,
             ),
             color = if (isFiltered) {
                 colorMapper.toFilteredColor(isDarkTheme)
@@ -149,7 +149,7 @@ class CategoryViewDataMapper @Inject constructor(
 
     fun mapToMultitaskItem(
         isFiltered: Boolean,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
     ): CategoryViewData {
         return CategoryViewData.Record.Tagged(
             id = MULTITASK_ITEM_ID,
@@ -158,7 +158,7 @@ class CategoryViewDataMapper @Inject constructor(
             icon = RecordTypeIcon.Image(R.drawable.multitask),
             iconColor = getTextColor(
                 isDarkTheme = isDarkTheme,
-                isFiltered = isFiltered
+                isFiltered = isFiltered,
             ),
             color = if (isFiltered) {
                 colorMapper.toFilteredColor(isDarkTheme)
@@ -170,24 +170,24 @@ class CategoryViewDataMapper @Inject constructor(
 
     fun mapToRecordTagsEmpty(): ViewHolderType {
         return EmptyViewData(
-            message = resourceRepo.getString(R.string.change_record_categories_empty)
+            message = resourceRepo.getString(R.string.change_record_categories_empty),
         )
     }
 
     fun mapToCategoriesEmpty(): ViewHolderType {
         return EmptyViewData(
-            message = resourceRepo.getString(R.string.change_record_type_categories_empty)
+            message = resourceRepo.getString(R.string.change_record_type_categories_empty),
         )
     }
 
     fun mapToCategoryHint(): ViewHolderType = HintViewData(
         text = R.string.categories_record_type_hint
-            .let(resourceRepo::getString)
+            .let(resourceRepo::getString),
     )
 
     fun mapToRecordTagHint(): ViewHolderType = HintViewData(
         text = R.string.categories_record_hint
-            .let(resourceRepo::getString)
+            .let(resourceRepo::getString),
     )
 
     fun mapToCategoriesFirstHint(): ViewHolderType {
@@ -212,7 +212,7 @@ class CategoryViewDataMapper @Inject constructor(
                 R.string.nothing_selected
             } else {
                 R.string.something_selected
-            }.let(resourceRepo::getString)
+            }.let(resourceRepo::getString),
         )
     }
 
@@ -248,7 +248,7 @@ class CategoryViewDataMapper @Inject constructor(
         return CategoryAddViewData(
             type = type,
             name = name,
-            color = colorMapper.toInactiveColor(isDarkTheme)
+            color = colorMapper.toInactiveColor(isDarkTheme),
         )
     }
 }

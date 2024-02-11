@@ -51,7 +51,7 @@ class NotificationActivityInteractorImpl @Inject constructor(
         NotificationActivityParams(
             title = resourceRepo.getString(R.string.notification_activity_title),
             subtitle = resourceRepo.getString(R.string.notification_activity_text, recordNames),
-            isDarkTheme = prefsInteractor.getDarkMode()
+            isDarkTheme = prefsInteractor.getDarkMode(),
         ).let(manager::show)
     }
 }

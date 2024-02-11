@@ -14,11 +14,11 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 class StatisticsView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : CardView(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     private val binding: StatisticsViewLayoutBinding = StatisticsViewLayoutBinding
@@ -79,32 +79,39 @@ class StatisticsView @JvmOverloads constructor(
     private fun initAttrs(
         context: Context,
         attrs: AttributeSet?,
-        defStyleAttr: Int
+        defStyleAttr: Int,
     ) {
         context.obtainStyledAttributes(attrs, R.styleable.StatisticsView, defStyleAttr, 0)
             .run {
-                if (hasValue(R.styleable.StatisticsView_itemName)) itemName =
-                    getString(R.styleable.StatisticsView_itemName).orEmpty()
+                if (hasValue(R.styleable.StatisticsView_itemName)) {
+                    itemName = getString(R.styleable.StatisticsView_itemName).orEmpty()
+                }
 
-                if (hasValue(R.styleable.StatisticsView_itemColor)) itemColor =
-                    getColor(R.styleable.StatisticsView_itemColor, Color.BLACK)
+                if (hasValue(R.styleable.StatisticsView_itemColor)) {
+                    itemColor = getColor(R.styleable.StatisticsView_itemColor, Color.BLACK)
+                }
 
-                if (hasValue(R.styleable.StatisticsView_itemIcon)) itemIcon =
-                    getResourceId(R.styleable.StatisticsView_itemIcon, R.drawable.unknown)
+                if (hasValue(R.styleable.StatisticsView_itemIcon)) {
+                    itemIcon = getResourceId(R.styleable.StatisticsView_itemIcon, R.drawable.unknown)
                         .let(RecordTypeIcon::Image)
+                }
 
-                if (hasValue(R.styleable.StatisticsView_itemIconText)) itemIcon =
-                    getString(R.styleable.StatisticsView_itemIconText).orEmpty()
+                if (hasValue(R.styleable.StatisticsView_itemIconText)) {
+                    itemIcon = getString(R.styleable.StatisticsView_itemIconText).orEmpty()
                         .let(RecordTypeIcon::Text)
+                }
 
-                if (hasValue(R.styleable.StatisticsView_itemIconVisible)) itemIconVisible =
-                    getBoolean(R.styleable.StatisticsView_itemIconVisible, false)
+                if (hasValue(R.styleable.StatisticsView_itemIconVisible)) {
+                    itemIconVisible = getBoolean(R.styleable.StatisticsView_itemIconVisible, false)
+                }
 
-                if (hasValue(R.styleable.StatisticsView_itemDuration)) itemDuration =
-                    getString(R.styleable.StatisticsView_itemDuration).orEmpty()
+                if (hasValue(R.styleable.StatisticsView_itemDuration)) {
+                    itemDuration = getString(R.styleable.StatisticsView_itemDuration).orEmpty()
+                }
 
-                if (hasValue(R.styleable.StatisticsView_itemPercent)) itemPercent =
-                    getString(R.styleable.StatisticsView_itemPercent).orEmpty()
+                if (hasValue(R.styleable.StatisticsView_itemPercent)) {
+                    itemPercent = getString(R.styleable.StatisticsView_itemPercent).orEmpty()
+                }
 
                 recycle()
             }

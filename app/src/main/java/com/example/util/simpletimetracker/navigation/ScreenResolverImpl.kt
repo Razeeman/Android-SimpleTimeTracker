@@ -25,7 +25,7 @@ class ScreenResolverImpl @Inject constructor(
                     it.navId,
                     it.bundleCreator.createBundle(data),
                     null,
-                    navExtras
+                    navExtras,
                 )
             }
             ?: run {

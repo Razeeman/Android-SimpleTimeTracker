@@ -17,11 +17,11 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 class MultitaskRecordView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : CardView(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     private val adapter: BaseRecyclerAdapter by lazy {
@@ -83,7 +83,7 @@ class MultitaskRecordView @JvmOverloads constructor(
 
     private fun createAdapterDelegate() =
         createRecyclerBindingAdapterDelegate<ItemViewData, ItemMultitaskDataLayoutBinding>(
-            ItemMultitaskDataLayoutBinding::inflate
+            ItemMultitaskDataLayoutBinding::inflate,
         ) { binding, item, _ ->
 
             with(binding.root) {
@@ -109,7 +109,7 @@ class MultitaskRecordView @JvmOverloads constructor(
         val tagName: String,
         val iconId: RecordTypeIcon,
         val color: Int,
-        val comment: String
+        val comment: String,
     ) : ViewHolderType {
 
         override fun getUniqueId(): Long = name.hashCode().toLong()

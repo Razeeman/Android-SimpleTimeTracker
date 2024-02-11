@@ -50,7 +50,7 @@ class StatisticsRangesTest : BaseUiTest() {
         testUtils.addRecord(
             typeName = name,
             timeStarted = calendar.timeInMillis - TimeUnit.MINUTES.toMillis(1),
-            timeEnded = calendar.timeInMillis
+            timeEnded = calendar.timeInMillis,
         )
 
         // Statistics day range
@@ -168,8 +168,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
-                calendarPrev.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarPrev.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -182,8 +182,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
-                calendarNext.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarNext.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -216,8 +216,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
-                calendarPrev.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarPrev.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -230,8 +230,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
-                calendarNext.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarNext.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -261,8 +261,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
-                calendarPrev.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarPrev.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -275,8 +275,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
-                calendarNext.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarNext.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -306,8 +306,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
-                calendarPrev.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarPrev.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -320,8 +320,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
-                calendarNext.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarNext.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -354,8 +354,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
-                calendarPrev.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarPrev.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -368,8 +368,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
-                calendarNext.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarNext.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -402,8 +402,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
-                calendarPrev.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarPrev.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -416,8 +416,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
-                calendarNext.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarNext.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -446,8 +446,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
-                calendarPrev.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarPrev.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -460,8 +460,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
-                calendarNext.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarNext.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -494,8 +494,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
-                calendarPrev.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarPrev.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -508,8 +508,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
-                calendarNext.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarNext.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -538,8 +538,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
-                calendarPrev.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarPrev.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -552,8 +552,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
-                calendarNext.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarNext.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -586,8 +586,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
-                calendarPrev.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarPrev.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -600,8 +600,8 @@ class StatisticsRangesTest : BaseUiTest() {
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
-                calendarNext.get(Calendar.DAY_OF_MONTH)
-            )
+                calendarNext.get(Calendar.DAY_OF_MONTH),
+            ),
         )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -625,7 +625,7 @@ class StatisticsRangesTest : BaseUiTest() {
         testUtils.addRecord(
             typeName = name1,
             timeStarted = calendar.timeInMillis,
-            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1),
         )
         calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -2)
@@ -636,7 +636,7 @@ class StatisticsRangesTest : BaseUiTest() {
         testUtils.addRecord(
             typeName = name2,
             timeStarted = calendar.timeInMillis,
-            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(2)
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(2),
         )
 
         // Check custom range not selected
@@ -650,7 +650,7 @@ class StatisticsRangesTest : BaseUiTest() {
         pressBack()
         tryAction {
             checkViewIsDisplayed(
-                allOf(withId(statisticsR.id.btnStatisticsContainerToday), withText(coreR.string.title_today))
+                allOf(withId(statisticsR.id.btnStatisticsContainerToday), withText(coreR.string.title_today)),
             )
         }
 
@@ -659,7 +659,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_custom)
         clickOnViewWithId(dialogsR.id.btnCustomRangeSelection)
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.btnStatisticsContainerToday), withText(coreR.string.range_custom))
+            allOf(withId(statisticsR.id.btnStatisticsContainerToday), withText(coreR.string.range_custom)),
         )
         checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))
@@ -761,7 +761,7 @@ class StatisticsRangesTest : BaseUiTest() {
         testUtils.addRecord(
             typeName = name1,
             timeStarted = calendar.timeInMillis,
-            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1),
         )
         calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -6)
@@ -770,7 +770,7 @@ class StatisticsRangesTest : BaseUiTest() {
         testUtils.addRecord(
             typeName = name1,
             timeStarted = calendar.timeInMillis,
-            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1),
         )
         calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -7)
@@ -779,7 +779,7 @@ class StatisticsRangesTest : BaseUiTest() {
         testUtils.addRecord(
             typeName = name1,
             timeStarted = calendar.timeInMillis,
-            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1)
+            timeEnded = calendar.timeInMillis + TimeUnit.HOURS.toMillis(1),
         )
 
         // Select range
@@ -787,7 +787,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_last)
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.btnStatisticsContainerToday), withText(coreR.string.range_last))
+            allOf(withId(statisticsR.id.btnStatisticsContainerToday), withText(coreR.string.range_last)),
         )
         checkStatisticsItem(name = name1, hours = 2)
     }
@@ -802,8 +802,8 @@ class StatisticsRangesTest : BaseUiTest() {
                 withId(baseR.id.viewStatisticsItem),
                 hasDescendant(if (nameResId != null) withText(nameResId) else withText(name)),
                 hasDescendant(withSubstring("$hours$hourString 0$minuteString")),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 

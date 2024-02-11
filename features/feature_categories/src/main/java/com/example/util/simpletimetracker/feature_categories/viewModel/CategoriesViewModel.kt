@@ -31,7 +31,7 @@ class CategoriesViewModel @Inject constructor(
             viewModelScope.launch {
                 initial.value = CategoriesViewData(
                     items = listOf(LoaderViewData()),
-                    showHint = false
+                    showHint = false,
                 )
                 initial.value = loadCategoriesViewData()
             }
@@ -54,11 +54,11 @@ class CategoriesViewModel @Inject constructor(
                     preview = ChangeTagData.Change.Preview(
                         name = item.name,
                         color = item.color,
-                        icon = icon
-                    )
-                )
+                        icon = icon,
+                    ),
+                ),
             ),
-            sharedElements = mapOf(sharedElements)
+            sharedElements = mapOf(sharedElements),
         )
     }
 
@@ -69,7 +69,7 @@ class CategoriesViewModel @Inject constructor(
         }
 
         router.navigate(
-            data = params(ChangeTagData.New())
+            data = params(ChangeTagData.New()),
         )
     }
 

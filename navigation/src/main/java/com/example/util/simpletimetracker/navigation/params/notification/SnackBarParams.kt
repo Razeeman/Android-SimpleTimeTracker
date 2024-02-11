@@ -12,7 +12,7 @@ data class SnackBarParams(
 
     enum class TAG {
         RECORD_DELETE,
-        RECORDS_ALL_DELETE
+        RECORDS_ALL_DELETE,
     }
 
     sealed interface Duration {

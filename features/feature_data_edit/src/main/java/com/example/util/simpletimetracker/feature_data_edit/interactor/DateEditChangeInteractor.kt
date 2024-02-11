@@ -31,7 +31,7 @@ class DateEditChangeInteractor @Inject constructor(
         addTagState: DataEditAddTagsState,
         removeTagState: DataEditRemoveTagsState,
         deleteRecordsState: DataEditDeleteRecordsState,
-        filters: List<RecordsFilter>
+        filters: List<RecordsFilter>,
     ) {
         if (filters.isEmpty()) return
 
@@ -51,7 +51,9 @@ class DateEditChangeInteractor @Inject constructor(
             addTags == null &&
             removeTags == null &&
             !deleteRecord
-        ) return
+        ) {
+            return
+        }
 
         val records = recordFilterInteractor.getByFilter(filters)
             .filterIsInstance<Record>()

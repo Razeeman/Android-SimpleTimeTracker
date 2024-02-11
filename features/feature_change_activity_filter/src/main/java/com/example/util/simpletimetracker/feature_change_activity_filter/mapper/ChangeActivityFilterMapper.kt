@@ -19,7 +19,7 @@ class ChangeActivityFilterMapper @Inject constructor(
             ChangeActivityFilterTypeSwitchViewData(
                 type = it,
                 name = mapToTagTypeName(it),
-                isSelected = it == type
+                isSelected = it == type,
             )
         }
     }

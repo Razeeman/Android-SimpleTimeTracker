@@ -17,7 +17,7 @@ class CustomSpinner @JvmOverloads constructor(
 ) : FrameLayout(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     var onItemSelected: (CustomSpinnerItem) -> Unit = {}
@@ -75,7 +75,7 @@ class CustomSpinner @JvmOverloads constructor(
                     onPositionSelected(it)
                     isFromUser = false
                 }
-            }
+            },
         )
 
         // Restore listeners

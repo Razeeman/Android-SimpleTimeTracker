@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemC
 fun createColorPaletteAdapterDelegate(
     onColorPaletteItemClick: (() -> Unit),
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {

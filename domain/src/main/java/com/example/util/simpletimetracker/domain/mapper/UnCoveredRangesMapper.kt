@@ -51,9 +51,11 @@ class UnCoveredRangesMapper @Inject constructor() {
         for (i in (1 until points.size)) {
             // If there are no open points, then we add the
             // difference between previous and current point.
-            if (counter == 0) Range(points[i - 1].first, points[i].first)
-                .takeUnless { it.timeStarted == it.timeEnded }
-                ?.let(result::add)
+            if (counter == 0) {
+                Range(points[i - 1].first, points[i].first)
+                    .takeUnless { it.timeStarted == it.timeEnded }
+                    ?.let(result::add)
+            }
 
             // If this is an ending point, reduce count of open points
             if (points[i].second) counter-- else counter++

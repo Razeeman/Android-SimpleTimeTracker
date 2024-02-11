@@ -66,10 +66,10 @@ class AddRecordTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordCategories))
         val currentTime = System.currentTimeMillis()
         var timeStarted = timeMapper.formatDateTime(
-            time = currentTime - 60 * 60 * 1000, useMilitaryTime = true, showSeconds = false
+            time = currentTime - 60 * 60 * 1000, useMilitaryTime = true, showSeconds = false,
         )
         var timeEnded = timeMapper.formatDateTime(
-            time = currentTime, useMilitaryTime = true, showSeconds = false
+            time = currentTime, useMilitaryTime = true, showSeconds = false,
         )
         checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeEnded), withText(timeEnded)))
@@ -176,8 +176,8 @@ class AddRecordTest : BaseUiTest() {
                     hasDescendant(withText(timeEndedPreview)),
                     hasDescendant(withText("2$hourString 3$minuteString")),
                     hasDescendant(withText(comment)),
-                    isCompletelyDisplayed()
-                )
+                    isCompletelyDisplayed(),
+                ),
             )
         }
     }
@@ -417,7 +417,7 @@ class AddRecordTest : BaseUiTest() {
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkAfterTimeAdjustment(
-            timeStarted = "15:00", timeEnded = "16:00", duration = "1$hourString 0$minuteString"
+            timeStarted = "15:00", timeEnded = "16:00", duration = "1$hourString 0$minuteString",
         )
 
         // Check visibility
@@ -430,32 +430,32 @@ class AddRecordTest : BaseUiTest() {
         // Check time start adjustments
         clickOnViewWithText("-30")
         checkAfterTimeAdjustment(
-            timeStarted = "14:30", timeEnded = "16:00", duration = "1$hourString 30$minuteString"
+            timeStarted = "14:30", timeEnded = "16:00", duration = "1$hourString 30$minuteString",
         )
         clickOnViewWithText("-5")
         checkAfterTimeAdjustment(
-            timeStarted = "14:25", timeEnded = "16:00", duration = "1$hourString 35$minuteString"
+            timeStarted = "14:25", timeEnded = "16:00", duration = "1$hourString 35$minuteString",
         )
         clickOnViewWithText("-1")
         checkAfterTimeAdjustment(
-            timeStarted = "14:24", timeEnded = "16:00", duration = "1$hourString 36$minuteString"
+            timeStarted = "14:24", timeEnded = "16:00", duration = "1$hourString 36$minuteString",
         )
         clickOnViewWithText("+1")
         checkAfterTimeAdjustment(
-            timeStarted = "14:25", timeEnded = "16:00", duration = "1$hourString 35$minuteString"
+            timeStarted = "14:25", timeEnded = "16:00", duration = "1$hourString 35$minuteString",
         )
         clickOnViewWithText("+5")
         checkAfterTimeAdjustment(
-            timeStarted = "14:30", timeEnded = "16:00", duration = "1$hourString 30$minuteString"
+            timeStarted = "14:30", timeEnded = "16:00", duration = "1$hourString 30$minuteString",
         )
         clickOnViewWithText("+30")
         checkAfterTimeAdjustment(
-            timeStarted = "15:00", timeEnded = "16:00", duration = "1$hourString 0$minuteString"
+            timeStarted = "15:00", timeEnded = "16:00", duration = "1$hourString 0$minuteString",
         )
         clickOnViewWithText("+30")
         clickOnViewWithText("+30")
         checkAfterTimeAdjustment(
-            timeStarted = "16:00", timeEnded = "16:00", duration = "0$secondString"
+            timeStarted = "16:00", timeEnded = "16:00", duration = "0$secondString",
         )
 
         // Check time end adjustments
@@ -464,32 +464,32 @@ class AddRecordTest : BaseUiTest() {
         tryAction { clickOnViewWithText("+30") }
         clickOnViewWithText("+30")
         checkAfterTimeAdjustment(
-            timeStarted = "16:00", timeEnded = "17:00", duration = "1$hourString 0$minuteString"
+            timeStarted = "16:00", timeEnded = "17:00", duration = "1$hourString 0$minuteString",
         )
         clickOnViewWithText("+5")
         checkAfterTimeAdjustment(
-            timeStarted = "16:00", timeEnded = "17:05", duration = "1$hourString 5$minuteString"
+            timeStarted = "16:00", timeEnded = "17:05", duration = "1$hourString 5$minuteString",
         )
         clickOnViewWithText("+1")
         checkAfterTimeAdjustment(
-            timeStarted = "16:00", timeEnded = "17:06", duration = "1$hourString 6$minuteString"
+            timeStarted = "16:00", timeEnded = "17:06", duration = "1$hourString 6$minuteString",
         )
         clickOnViewWithText("-1")
         checkAfterTimeAdjustment(
-            timeStarted = "16:00", timeEnded = "17:05", duration = "1$hourString 5$minuteString"
+            timeStarted = "16:00", timeEnded = "17:05", duration = "1$hourString 5$minuteString",
         )
         clickOnViewWithText("-5")
         checkAfterTimeAdjustment(
-            timeStarted = "16:00", timeEnded = "17:00", duration = "1$hourString 0$minuteString"
+            timeStarted = "16:00", timeEnded = "17:00", duration = "1$hourString 0$minuteString",
         )
         clickOnViewWithText("-30")
         checkAfterTimeAdjustment(
-            timeStarted = "16:00", timeEnded = "16:30", duration = "30$minuteString"
+            timeStarted = "16:00", timeEnded = "16:30", duration = "30$minuteString",
         )
         clickOnViewWithText("-30")
         clickOnViewWithText("-30")
         checkAfterTimeAdjustment(
-            timeStarted = "15:30", timeEnded = "15:30", duration = "0$secondString"
+            timeStarted = "15:30", timeEnded = "15:30", duration = "0$secondString",
         )
     }
 
@@ -499,19 +499,19 @@ class AddRecordTest : BaseUiTest() {
         duration: String,
     ) {
         checkPreviewUpdated(
-            hasDescendant(allOf(withId(changeRecordR.id.tvRecordItemTimeStarted), withText(timeStarted)))
+            hasDescendant(allOf(withId(changeRecordR.id.tvRecordItemTimeStarted), withText(timeStarted))),
         )
         checkPreviewUpdated(
-            hasDescendant(allOf(withId(changeRecordR.id.tvRecordItemTimeFinished), withText(timeEnded)))
+            hasDescendant(allOf(withId(changeRecordR.id.tvRecordItemTimeFinished), withText(timeEnded))),
         )
         checkPreviewUpdated(
-            hasDescendant(allOf(withId(changeRecordR.id.tvRecordItemDuration), withText(duration)))
+            hasDescendant(allOf(withId(changeRecordR.id.tvRecordItemDuration), withText(duration))),
         )
         checkViewIsDisplayed(
-            allOf(withId(changeRecordR.id.tvChangeRecordTimeStarted), withSubstring(timeStarted))
+            allOf(withId(changeRecordR.id.tvChangeRecordTimeStarted), withSubstring(timeStarted)),
         )
         checkViewIsDisplayed(
-            allOf(withId(changeRecordR.id.tvChangeRecordTimeEnded), withSubstring(timeEnded))
+            allOf(withId(changeRecordR.id.tvChangeRecordTimeEnded), withSubstring(timeEnded)),
         )
     }
 

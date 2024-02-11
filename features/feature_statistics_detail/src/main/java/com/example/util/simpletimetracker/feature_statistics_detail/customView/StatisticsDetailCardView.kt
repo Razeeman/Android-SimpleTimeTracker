@@ -28,7 +28,7 @@ class StatisticsDetailCardView @JvmOverloads constructor(
 ) : FrameLayout(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     var listener: (StatisticsDetailCardViewData.ClickableType, Coordinates) -> Unit = { _, _ -> }
@@ -55,8 +55,8 @@ class StatisticsDetailCardView @JvmOverloads constructor(
             createStatisticsDetailCardAdapterDelegate(
                 titleTextSize = titleTextSize,
                 subtitleTextSize = subtitleTextSize,
-                onItemClick = ::onItemClick
-            )
+                onItemClick = ::onItemClick,
+            ),
         )
     }
 
@@ -79,21 +79,21 @@ class StatisticsDetailCardView @JvmOverloads constructor(
             attrs,
             R.styleable.StatisticsDetailCardView,
             defStyleAttr,
-            0
+            0,
         ).run {
             itemsCount = getInt(
-                R.styleable.StatisticsDetailCardView_itemCount, DEFAULT_ITEM_COUNT
+                R.styleable.StatisticsDetailCardView_itemCount, DEFAULT_ITEM_COUNT,
             )
             itemsDescription = getString(
                 R.styleable.StatisticsDetailCardView_itemDescription,
             ).orEmpty()
             titleTextSize = getDimensionPixelSize(
                 R.styleable.StatisticsDetailCardView_itemTitleTextSize,
-                DEFAULT_TITLE_TEXT_SIZE.spToPx()
+                DEFAULT_TITLE_TEXT_SIZE.spToPx(),
             )
             subtitleTextSize = getDimensionPixelSize(
                 R.styleable.StatisticsDetailCardView_itemSubtitleTextSize,
-                DEFAULT_SUBTITLE_TEXT_SIZE.spToPx()
+                DEFAULT_SUBTITLE_TEXT_SIZE.spToPx(),
             )
             recycle()
         }
@@ -115,7 +115,7 @@ class StatisticsDetailCardView @JvmOverloads constructor(
                         value = "$DEFAULT_TITLE$it",
                         valueChange = StatisticsDetailCardViewData.ValueChange.None,
                         secondValue = "",
-                        description = "$DEFAULT_SUBTITLE$it"
+                        description = "$DEFAULT_SUBTITLE$it",
                     )
                 }
                 .let { items = it }
@@ -124,7 +124,7 @@ class StatisticsDetailCardView @JvmOverloads constructor(
 
     private fun onItemClick(
         type: StatisticsDetailCardViewData.ClickableType,
-        coordinates: Coordinates
+        coordinates: Coordinates,
     ) {
         listener(type, coordinates)
     }

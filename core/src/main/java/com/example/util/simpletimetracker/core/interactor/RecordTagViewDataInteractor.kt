@@ -44,7 +44,7 @@ class RecordTagViewDataInteractor @Inject constructor(
 
                 listOf(
                     categoryViewDataMapper.mapToRecordTagHint(),
-                    DividerViewData(1)
+                    DividerViewData(1),
                 ).takeIf { showAddButton }?.let(viewData::addAll)
 
                 categoryViewDataMapper.mapSelectedCategoriesHint(

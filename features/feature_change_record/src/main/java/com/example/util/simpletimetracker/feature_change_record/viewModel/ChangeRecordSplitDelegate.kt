@@ -55,7 +55,7 @@ class ChangeRecordSplitDelegateImpl @Inject constructor(
             timeStarted = newTimeStarted,
             timeEnded = newTimeSplit,
             comment = newComment,
-            tagIds = newCategoryIds
+            tagIds = newCategoryIds,
         ).let {
             addRecordMediator.add(it)
         }

@@ -37,7 +37,7 @@ class ColorViewDataInteractor @Inject constructor(
                     { -it.third[0] }, // hue
                     { it.third[1] }, // saturation
                     { it.third[2] }, // value
-                )
+                ),
             )
             .map { (colorId, colorInt, _) ->
                 ColorViewData(
@@ -45,11 +45,11 @@ class ColorViewDataInteractor @Inject constructor(
                     colorInt = colorInt.let {
                         if (isDarkTheme) colorMapper.darkenColor(it) else it
                     },
-                    selected = !customColorSelected && currentColor.colorId == colorId
+                    selected = !customColorSelected && currentColor.colorId == colorId,
                 )
             }
             .plus(
-                ColorPaletteViewData(selected = customColorSelected)
+                ColorPaletteViewData(selected = customColorSelected),
             )
             .toList()
     }

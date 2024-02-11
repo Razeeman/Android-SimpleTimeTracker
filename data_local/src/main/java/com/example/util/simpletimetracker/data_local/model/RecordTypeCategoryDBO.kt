@@ -8,5 +8,5 @@ data class RecordTypeCategoryDBO(
     @ColumnInfo(name = "record_type_id")
     val recordTypeId: Long,
     @ColumnInfo(name = "category_id")
-    val categoryId: Long
+    val categoryId: Long,
 )

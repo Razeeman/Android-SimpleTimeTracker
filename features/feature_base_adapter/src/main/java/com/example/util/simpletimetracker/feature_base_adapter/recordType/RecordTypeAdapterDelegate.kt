@@ -15,7 +15,7 @@ fun createRecordTypeAdapterDelegate(
     onItemLongClick: ((ViewData, Map<Any, String>) -> Unit)? = null,
     withTransition: Boolean = false,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding.viewRecordTypeItem) {

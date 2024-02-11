@@ -4,5 +4,5 @@ import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 
 data class RepeatButtonViewData(
     val items: List<CustomSpinner.CustomSpinnerItem>,
-    val selectedPosition: Int
+    val selectedPosition: Int,
 )

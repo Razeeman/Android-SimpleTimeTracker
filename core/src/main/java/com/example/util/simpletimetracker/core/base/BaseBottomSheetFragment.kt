@@ -24,7 +24,7 @@ abstract class BaseBottomSheetFragment<T : ViewBinding> : BottomSheetDialogFragm
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = inflater(inflater, container, false)
         return binding.root
@@ -60,7 +60,7 @@ abstract class BaseBottomSheetFragment<T : ViewBinding> : BottomSheetDialogFragm
     }
 
     inline fun <T> LiveData<T>.observe(
-        crossinline onChanged: (T) -> Unit
+        crossinline onChanged: (T) -> Unit,
     ) {
         observe(viewLifecycleOwner) { onChanged(it) }
     }

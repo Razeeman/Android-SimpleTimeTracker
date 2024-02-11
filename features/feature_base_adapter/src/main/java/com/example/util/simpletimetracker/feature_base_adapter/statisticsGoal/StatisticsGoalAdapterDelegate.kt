@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.statisticsGoal.St
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 
 fun createStatisticsGoalAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding.viewStatisticsGoalItem) {

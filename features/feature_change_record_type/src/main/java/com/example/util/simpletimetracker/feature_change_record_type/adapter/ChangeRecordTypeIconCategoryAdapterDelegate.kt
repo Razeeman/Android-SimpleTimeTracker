@@ -9,15 +9,15 @@ import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.example.util.simpletimetracker.feature_change_record_type.R
 
 fun createChangeRecordTypeIconCategoryAdapterDelegate(
-    onItemClick: ((ViewData) -> Unit)
+    onItemClick: ((ViewData) -> Unit),
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {
         item as ViewData
         val tint = root.context.getThemedAttr(
-            if (item.selected) R.attr.appLightTextColor else R.attr.colorPrimary
+            if (item.selected) R.attr.appLightTextColor else R.attr.colorPrimary,
         )
         with(ivChangeRecordTypeIconCategoryItem) {
             setImageResource(item.categoryIcon)

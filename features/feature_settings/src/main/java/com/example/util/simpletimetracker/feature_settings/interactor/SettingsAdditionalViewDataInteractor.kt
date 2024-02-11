@@ -144,7 +144,7 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
                     subtitle = "",
                     dividerIsVisible = false,
                     layoutIsClickable = false,
-                )
+                ),
             )
             result += SettingsCheckboxViewData(
                 block = SettingsBlock.AdditionalSendEvents,

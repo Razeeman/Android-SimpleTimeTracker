@@ -65,13 +65,13 @@ class ChangeCategoryTest : BaseUiTest() {
 
         clickOnViewWithText(coreR.string.change_record_type_color_hint)
         checkViewIsDisplayed(
-            allOf(withId(changeCategoryR.id.viewColorItemSelected), withParent(withCardColor(firstColor)))
+            allOf(withId(changeCategoryR.id.viewColorItemSelected), withParent(withCardColor(firstColor))),
         )
         scrollRecyclerToView(changeCategoryR.id.rvChangeCategoryColor, withCardColor(lastColor))
         clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
         checkViewIsDisplayed(
-            allOf(withId(changeCategoryR.id.viewColorItemSelected), withParent(withCardColor(lastColor)))
+            allOf(withId(changeCategoryR.id.viewColorItemSelected), withParent(withCardColor(lastColor))),
         )
         clickOnViewWithText(coreR.string.change_record_type_color_hint)
 

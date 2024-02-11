@@ -31,7 +31,7 @@ class SharingInteractor @Inject constructor(
             is SharingRepo.Result.Success -> {
                 ShareImageParams(
                     uriString = result.uriString,
-                    notHandledCallback = { R.string.message_app_not_found.let(::showMessage) }
+                    notHandledCallback = { R.string.message_app_not_found.let(::showMessage) },
                 ).let(router::execute)
             }
             is SharingRepo.Result.Error -> {
@@ -45,7 +45,7 @@ class SharingInteractor @Inject constructor(
             message = resourceRepo.getString(stringResId),
             margins = SnackBarParams.Margins(
                 bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
-            )
+            ),
         )
         router.show(params)
     }

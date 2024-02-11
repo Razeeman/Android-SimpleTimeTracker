@@ -154,7 +154,7 @@ class WidgetUniversal : BaseUiTest() {
             name = filter,
             type = ActivityFilter.Type.Activity,
             color = firstColor,
-            names = listOf(name1)
+            names = listOf(name1),
         )
         scenarioRule = ActivityScenario.launch(WidgetUniversalActivity::class.java)
 
@@ -188,8 +188,8 @@ class WidgetUniversal : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withText(R.string.running_records_repeat_no_prev_record),
-                withId(com.google.android.material.R.id.snackbar_text)
-            )
+                withId(com.google.android.material.R.id.snackbar_text),
+            ),
         )
 
         // Check
@@ -203,8 +203,8 @@ class WidgetUniversal : BaseUiTest() {
             allOf(
                 withId(baseR.id.viewRecordTypeItem),
                 hasDescendant(withCardColor(color)),
-                hasDescendant(withText(name))
-            )
+                hasDescendant(withText(name)),
+            ),
         )
     }
 }

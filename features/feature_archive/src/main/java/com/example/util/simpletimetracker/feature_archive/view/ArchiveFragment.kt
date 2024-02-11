@@ -39,7 +39,7 @@ class ArchiveFragment :
             createHintAdapterDelegate(),
             createDividerAdapterDelegate(),
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
-            createCategoryAdapterDelegate(viewModel::onCategoryClick)
+            createCategoryAdapterDelegate(viewModel::onCategoryClick),
         )
     }
 

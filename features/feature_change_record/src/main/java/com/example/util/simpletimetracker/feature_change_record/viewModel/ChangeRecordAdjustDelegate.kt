@@ -33,7 +33,7 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
     ) {
         getChangedPrevRecord(
             record = prevRecord,
-            newTimeStarted = newTimeStarted
+            newTimeStarted = newTimeStarted,
         )?.let {
             addRecordMediator.add(it)
         }
@@ -41,7 +41,7 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
         if (adjustNextRecordAvailable) {
             getChangedNextRecord(
                 record = nextRecord,
-                newTimeEnded = newTimeEnded
+                newTimeEnded = newTimeEnded,
             )?.let {
                 addRecordMediator.add(it)
             }
@@ -62,7 +62,7 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
             record = prevRecord,
             changedRecord = getChangedPrevRecord(
                 record = prevRecord,
-                newTimeStarted = newTimeStarted
+                newTimeStarted = newTimeStarted,
             ),
         )
         val nextData = loadAdjustPreviewViewData(
@@ -70,7 +70,7 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
             record = nextRecord,
             changedRecord = getChangedNextRecord(
                 record = nextRecord,
-                newTimeEnded = newTimeEnded
+                newTimeEnded = newTimeEnded,
             ),
         )
         adjustPreview.set(prevData to nextData)
@@ -115,7 +115,7 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
         return record?.let {
             it.copy(
                 timeStarted = newTimeEnded,
-                timeEnded = it.timeEnded.coerceAtLeast(newTimeEnded)
+                timeEnded = it.timeEnded.coerceAtLeast(newTimeEnded),
             )
         }
     }

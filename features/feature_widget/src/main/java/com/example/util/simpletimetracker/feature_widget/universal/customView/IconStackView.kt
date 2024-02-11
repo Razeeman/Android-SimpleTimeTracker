@@ -22,11 +22,11 @@ import kotlin.math.sqrt
 class IconStackView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : View(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     // Attrs
@@ -171,7 +171,7 @@ class IconStackView @JvmOverloads constructor(
     private fun initArgs(
         context: Context,
         attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+        defStyleAttr: Int = 0,
     ) {
         context.obtainStyledAttributes(attrs, R.styleable.IconStackView, defStyleAttr, 0)
             .run {
@@ -198,7 +198,7 @@ class IconStackView @JvmOverloads constructor(
             (0 until segments).map {
                 IconStackData(
                     icon = RecordTypeIcon.Image(R.drawable.ic_desktop_windows_24px),
-                    iconBackgroundColor = Color.RED
+                    iconBackgroundColor = Color.RED,
                 )
             }.let(::setData)
         }

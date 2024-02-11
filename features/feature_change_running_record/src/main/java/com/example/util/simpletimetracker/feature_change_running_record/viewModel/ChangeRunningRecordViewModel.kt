@@ -170,7 +170,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             id = newTypeId,
             timeStarted = newTimeStarted,
             comment = newComment,
-            tagIds = newCategoryIds
+            tagIds = newCategoryIds,
         )
 
         return changeRunningRecordViewDataInteractor.getPreviewViewData(record, extra)

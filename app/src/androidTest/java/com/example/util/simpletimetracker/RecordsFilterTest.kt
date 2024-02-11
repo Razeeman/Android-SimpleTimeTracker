@@ -60,7 +60,7 @@ class RecordsFilterTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1)))
+            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1))),
         )
         checkRecordsCard(1)
 
@@ -115,7 +115,7 @@ class RecordsFilterTest : BaseUiTest() {
         pressBack()
         tryAction { clickOnView(allOf(withText(categoryName1), isCompletelyDisplayed())) }
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(categoryName1)))
+            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(categoryName1))),
         )
         checkRecordsCard(1)
 
@@ -133,7 +133,7 @@ class RecordsFilterTest : BaseUiTest() {
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         clickOnView(withSubstring(getString(coreR.string.activity_hint)))
         clickOnView(
-            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.uncategorized_time_name))
+            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.uncategorized_time_name)),
         )
         pressBack()
         checkRecordsCard(3)
@@ -168,7 +168,7 @@ class RecordsFilterTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1)))
+            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1))),
         )
         checkRecordsCard(3)
 
@@ -176,8 +176,8 @@ class RecordsFilterTest : BaseUiTest() {
         clickOnView(
             allOf(
                 hasSibling(withSubstring(getString(coreR.string.activity_hint))),
-                withId(baseR.id.ivRecordFilterItemRemove)
-            )
+                withId(baseR.id.ivRecordFilterItemRemove),
+            ),
         )
         clickOnView(withSubstring(getString(coreR.string.change_record_comment_field)))
         clickOnViewWithText(coreR.string.records_filter_no_comment)
@@ -231,14 +231,14 @@ class RecordsFilterTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1)))
+            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1))),
         )
         checkRecordsCard(7)
 
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         clickOnView(withSubstring(getString(coreR.string.records_filter_filter_tags)))
         clickOnView(
-            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.change_record_untagged))
+            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.change_record_untagged)),
         )
         pressBack()
         checkRecordsCard(6)
@@ -265,8 +265,8 @@ class RecordsFilterTest : BaseUiTest() {
         clickOnView(
             allOf(
                 hasSibling(withSubstring(getString(coreR.string.records_filter_filter_tags))),
-                withId(baseR.id.ivRecordFilterItemRemove)
-            )
+                withId(baseR.id.ivRecordFilterItemRemove),
+            ),
         )
         clickOnView(withSubstring(getString(coreR.string.records_filter_filter_tags)))
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag3)))
@@ -306,14 +306,14 @@ class RecordsFilterTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1)))
+            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1))),
         )
         checkRecordsCard(7)
 
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         clickOnView(withSubstring(getString(coreR.string.records_filter_select_tags)))
         clickOnView(
-            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.change_record_untagged))
+            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.change_record_untagged)),
         )
         pressBack()
         checkRecordsCard(1)
@@ -340,8 +340,8 @@ class RecordsFilterTest : BaseUiTest() {
         clickOnView(
             allOf(
                 hasSibling(withSubstring(getString(coreR.string.records_filter_select_tags))),
-                withId(baseR.id.ivRecordFilterItemRemove)
-            )
+                withId(baseR.id.ivRecordFilterItemRemove),
+            ),
         )
         clickOnView(withSubstring(getString(coreR.string.records_filter_select_tags)))
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag3)))
@@ -381,18 +381,18 @@ class RecordsFilterTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1)))
+            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1))),
         )
         checkRecordsCard(7)
 
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         clickOnView(withSubstring(getString(coreR.string.records_filter_select_tags)))
         clickOnView(
-            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag1))
+            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag1)),
         )
         clickOnView(withSubstring(getString(coreR.string.records_filter_filter_tags)))
         clickOnView(
-            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag3))
+            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag3)),
         )
         pressBack()
         checkRecordsCard(2)
@@ -418,7 +418,7 @@ class RecordsFilterTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1)))
+            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1))),
         )
         checkRecordsCard(3)
 
@@ -426,8 +426,8 @@ class RecordsFilterTest : BaseUiTest() {
         clickOnView(
             allOf(
                 isDescendantOfA(withId(baseR.id.viewRecordFilterItem)),
-                withSubstring(getString(coreR.string.activity_hint))
-            )
+                withSubstring(getString(coreR.string.activity_hint)),
+            ),
         )
         clickOnView(withText("$name1 - $tag1"))
         clickOnView(withText("$name1 - $tag2"))
@@ -819,7 +819,7 @@ class RecordsFilterTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1)))
+            allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1))),
         )
         checkRecordsCard(12)
 
@@ -838,7 +838,7 @@ class RecordsFilterTest : BaseUiTest() {
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         clickOnView(withSubstring(getString(coreR.string.records_filter_select_tags)))
         clickOnView(
-            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag1))
+            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag1)),
         )
         pressBack()
         checkRecordsCard(2)
@@ -846,7 +846,7 @@ class RecordsFilterTest : BaseUiTest() {
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         clickOnView(withSubstring(getString(coreR.string.records_filter_filter_tags)))
         clickOnView(
-            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag2))
+            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag2)),
         )
         pressBack()
         checkRecordsCard(1)
@@ -855,8 +855,8 @@ class RecordsFilterTest : BaseUiTest() {
         clickOnView(
             allOf(
                 isDescendantOfA(withId(baseR.id.viewRecordFilterItem)),
-                withSubstring(getString(coreR.string.activity_hint))
-            )
+                withSubstring(getString(coreR.string.activity_hint)),
+            ),
         )
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordItem)), withSubstring(name2)))
         pressBack()
@@ -868,8 +868,8 @@ class RecordsFilterTest : BaseUiTest() {
             allOf(
                 withPluralText(coreR.plurals.statistics_detail_times_tracked, count),
                 hasSibling(withText(count.toString())),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 }

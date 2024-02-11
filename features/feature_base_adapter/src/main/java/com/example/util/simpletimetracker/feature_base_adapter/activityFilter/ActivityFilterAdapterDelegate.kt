@@ -12,7 +12,7 @@ fun createActivityFilterAdapterDelegate(
     onClick: ((ViewData) -> Unit),
     onLongClick: ((ViewData, Pair<Any, String>) -> Unit) = { _, _ -> },
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding.viewActivityFilterItem) {

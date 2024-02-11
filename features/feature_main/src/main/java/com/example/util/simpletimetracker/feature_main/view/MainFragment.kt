@@ -108,7 +108,7 @@ class MainFragment : BaseFragment<Binding>() {
     }
 
     private fun getOnBackPressedCallback(): OnBackPressedCallback {
-        return object : OnBackPressedCallback(/* enabled = */ false) {
+        return object : OnBackPressedCallback(false) {
             override fun handleOnBackPressed() {
                 binding.mainPager.setCurrentItem(mainPagePosition, true)
             }

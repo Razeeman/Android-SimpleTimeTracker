@@ -77,7 +77,7 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
                 override fun onColorSelected(saturation: Float, value: Float) {
                     viewModel.onColorChanged(saturation, value)
                 }
-            }
+            },
         )
 
         textWatcherHex = etColorSelectionHex
@@ -108,7 +108,7 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
             binding.viewColorSelectionView.setHue(
                 hue = it.colorHue,
                 saturation = it.colorSaturation,
-                value = it.colorValue
+                value = it.colorValue,
             )
 
             binding.cardColorSelectionSelectedColor.setCardBackgroundColor(it.selectedColor)

@@ -89,7 +89,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     ): StatisticsDetailPreviewViewData {
         val item = categoryViewDataMapper.mapToUncategorizedItem(
             isDarkTheme = isDarkTheme,
-            isFiltered = false
+            isFiltered = false,
         )
 
         return StatisticsDetailPreviewViewData(
@@ -134,7 +134,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     ): StatisticsDetailPreviewViewData {
         val item = categoryViewDataMapper.mapToUntaggedItem(
             isDarkTheme = isDarkTheme,
-            isFiltered = false
+            isFiltered = false,
         )
 
         return StatisticsDetailPreviewViewData(
@@ -163,7 +163,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             },
             name = resourceRepo.getString(R.string.untracked_time_name),
             iconId = RecordTypeIcon.Image(R.drawable.unknown),
-            color = colorMapper.toUntrackedColor(isDarkTheme)
+            color = colorMapper.toUntrackedColor(isDarkTheme),
         )
     }
 
@@ -180,7 +180,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             },
             name = resourceRepo.getString(R.string.multitask_time_name),
             iconId = RecordTypeIcon.Image(R.drawable.multitask),
-            color = colorMapper.toUntrackedColor(isDarkTheme)
+            color = colorMapper.toUntrackedColor(isDarkTheme),
         )
     }
 
@@ -192,7 +192,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             type = StatisticsDetailPreviewViewData.Type.FILTER,
             name = "",
             iconId = RecordTypeIcon.Image(R.drawable.unknown),
-            color = colorMapper.toUntrackedColor(isDarkTheme)
+            color = colorMapper.toUntrackedColor(isDarkTheme),
         )
     }
 
@@ -235,12 +235,12 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             appliedChartGrouping = appliedChartGrouping,
             chartGroupingViewData = mapToChartGroupingViewData(
                 availableChartGroupings = availableChartGroupings,
-                appliedChartGrouping = appliedChartGrouping
+                appliedChartGrouping = appliedChartGrouping,
             ),
             appliedChartLength = appliedChartLength,
             chartLengthViewData = mapToChartLengthViewData(
                 availableChartLengths = availableChartLengths,
-                appliedChartLength = appliedChartLength
+                appliedChartLength = appliedChartLength,
             ),
         )
     }
@@ -253,14 +253,14 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 value = emptyValue,
                 valueChange = StatisticsDetailCardViewData.ValueChange.None,
                 secondValue = "",
-                description = resourceRepo.getString(R.string.statistics_detail_range_averages)
+                description = resourceRepo.getString(R.string.statistics_detail_range_averages),
             ),
             StatisticsDetailCardViewData(
                 value = emptyValue,
                 valueChange = StatisticsDetailCardViewData.ValueChange.None,
                 secondValue = "",
-                description = resourceRepo.getString(R.string.statistics_detail_range_averages_non_empty)
-            )
+                description = resourceRepo.getString(R.string.statistics_detail_range_averages_non_empty),
+            ),
         )
     }
 
@@ -276,7 +276,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             DayOfWeek.THURSDAY,
             DayOfWeek.FRIDAY,
             DayOfWeek.SATURDAY,
-            DayOfWeek.SUNDAY
+            DayOfWeek.SUNDAY,
         ).let { list ->
             list.indexOf(firstDayOfWeek)
                 .takeUnless { it == -1 }.orZero()
@@ -287,7 +287,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             val calendarDay = timeMapper.toCalendarDayOfWeek(day)
             BarChartView.ViewData(
                 value = data[calendarDay].orZero(),
-                legend = timeMapper.toShortDayOfWeekName(day)
+                legend = timeMapper.toShortDayOfWeekName(day),
             )
         }
 
@@ -313,7 +313,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             .map { (hour, legend) ->
                 BarChartView.ViewData(
                     value = data[hour].orZero(),
-                    legend = legend
+                    legend = legend,
                 )
             }
 
@@ -335,7 +335,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             is RangeLength.Day -> emptyList()
             else -> listOf(
                 SplitChartGrouping.HOURLY,
-                SplitChartGrouping.DAILY
+                SplitChartGrouping.DAILY,
             )
         }
 
@@ -343,7 +343,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             StatisticsDetailSplitGroupingViewData(
                 splitChartGrouping = it,
                 name = mapToSplitGroupingName(it),
-                isSelected = it == splitChartGrouping
+                isSelected = it == splitChartGrouping,
             )
         }
     }
@@ -410,7 +410,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
         val title = resourceRepo.getString(
             R.string.statistics_detail_range_averages_title,
-            mapToGroupingName(chartGrouping)
+            mapToGroupingName(chartGrouping),
         )
 
         val rangeAverages = listOf(
@@ -439,7 +439,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                     .let { "($it)" }
                     .takeIf { showComparison }
                     .orEmpty(),
-                description = resourceRepo.getString(R.string.statistics_detail_range_averages)
+                description = resourceRepo.getString(R.string.statistics_detail_range_averages),
             ),
             StatisticsDetailCardViewData(
                 value = averageByNonEmpty.let {
@@ -466,8 +466,8 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                     .let { "($it)" }
                     .takeIf { showComparison }
                     .orEmpty(),
-                description = resourceRepo.getString(R.string.statistics_detail_range_averages_non_empty)
-            )
+                description = resourceRepo.getString(R.string.statistics_detail_range_averages_non_empty),
+            ),
         )
 
         return title to rangeAverages
@@ -511,7 +511,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 colorMapper.toPositiveColor(isDarkTheme)
             } else {
                 colorMapper.toNegativeColor(isDarkTheme)
-            }
+            },
         )
     }
 
@@ -535,7 +535,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             data = data.map {
                 BarChartView.ViewData(
                     value = formatInterval(it.duration, isMinutes),
-                    legend = it.legend
+                    legend = it.legend,
                 )
             },
             legendSuffix = legendSuffix,
@@ -556,13 +556,13 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     private fun formatInterval(interval: Long, isMinutes: Boolean): Float {
         val hr: Long = TimeUnit.MILLISECONDS.toHours(
-            interval
+            interval,
         )
         val min: Long = TimeUnit.MILLISECONDS.toMinutes(
-            interval - TimeUnit.HOURS.toMillis(hr)
+            interval - TimeUnit.HOURS.toMillis(hr),
         )
         val sec: Long = TimeUnit.MILLISECONDS.toSeconds(
-            interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
+            interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min),
         )
 
         return if (isMinutes) {
@@ -580,7 +580,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             StatisticsDetailGroupingViewData(
                 chartGrouping = it,
                 name = mapToGroupingName(it),
-                isSelected = it == appliedChartGrouping
+                isSelected = it == appliedChartGrouping,
             )
         }
     }
@@ -593,7 +593,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             StatisticsDetailChartLengthViewData(
                 chartLength = it,
                 name = mapToLengthName(it),
-                isSelected = it == appliedChartLength
+                isSelected = it == appliedChartLength,
             )
         }
     }

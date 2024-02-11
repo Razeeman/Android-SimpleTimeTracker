@@ -29,11 +29,11 @@ import kotlin.math.min
 class BarChartView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : View(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
     // Attrs
     private var barCountInEdit: Int = 0
@@ -91,12 +91,12 @@ class BarChartView @JvmOverloads constructor(
 
     private val singleTapDetector = SingleTapDetector(
         context = context,
-        onSingleTap = { onTouch(it, isClick = true) }
+        onSingleTap = { onTouch(it, isClick = true) },
     )
     private val swipeDetector = SwipeDetector(
         context = context,
         onSlide = ::onSwipe,
-        onSlideStop = ::onSwipeStop
+        onSlideStop = ::onSwipeStop,
     )
 
     init {
@@ -194,12 +194,12 @@ class BarChartView @JvmOverloads constructor(
     private fun initArgs(
         context: Context,
         attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+        defStyleAttr: Int = 0,
     ) {
         context
             .obtainStyledAttributes(
                 attrs,
-                R.styleable.BarChartView, defStyleAttr, 0
+                R.styleable.BarChartView, defStyleAttr, 0,
             )
             .run {
                 barCountInEdit =
@@ -344,7 +344,7 @@ class BarChartView @JvmOverloads constructor(
                 pointText,
                 w - textPaint.measureText(pointText) / 2 - longestTextWidth / 2,
                 pixelBottomBound - legendLinesPixelStep * index,
-                textPaint
+                textPaint,
             )
         }
 
@@ -355,12 +355,14 @@ class BarChartView @JvmOverloads constructor(
                     barWidth * index - barWidth / 2 -
                     textPaint.measureText(legend) / 2
 
-                if (textStart >= 0) canvas.drawText(
-                    legend,
-                    textStart,
-                    pixelBottomBound + legendTextSize,
-                    textPaint
-                )
+                if (textStart >= 0) {
+                    canvas.drawText(
+                        legend,
+                        textStart,
+                        pixelBottomBound + legendTextSize,
+                        textPaint,
+                    )
+                }
             }
         }
     }
@@ -370,7 +372,7 @@ class BarChartView @JvmOverloads constructor(
             barCornerRadius, barCornerRadius,
             barCornerRadius, barCornerRadius,
             0f, 0f,
-            0f, 0f
+            0f, 0f,
         )
 
         canvas.save()
@@ -382,7 +384,7 @@ class BarChartView @JvmOverloads constructor(
                 0f + barDividerWidth / 2,
                 pixelTopBound + chartHeight * (1f - scaled),
                 barWidth - barDividerWidth / 2,
-                pixelBottomBound
+                pixelBottomBound,
             )
             barPath = Path().apply {
                 addRoundRect(bounds, radiusArr, Path.Direction.CW)
@@ -402,7 +404,7 @@ class BarChartView @JvmOverloads constructor(
                 pixelBottomBound - legendLinesPixelStep * index,
                 pixelRightBound,
                 pixelBottomBound - legendLinesPixelStep * index,
-                linePaint
+                linePaint,
             )
         }
     }
@@ -435,11 +437,11 @@ class BarChartView @JvmOverloads constructor(
         val backgroundHeight = textHeight + 2 * selectedBarTextPadding
         val backgroundCenterX = max(
             min(barCenterX, pixelRightBound - backgroundWidth / 2),
-            backgroundWidth / 2
+            backgroundWidth / 2,
         )
         val backgroundCenterY = max(
             barTop - selectedBarBackgroundPadding - backgroundHeight / 2,
-            backgroundHeight / 2
+            backgroundHeight / 2,
         )
 
         canvas.save()
@@ -451,13 +453,13 @@ class BarChartView @JvmOverloads constructor(
             -backgroundWidth / 2,
             -backgroundHeight / 2,
             backgroundWidth / 2,
-            backgroundHeight / 2
+            backgroundHeight / 2,
         )
         canvas.drawRoundRect(
             bounds,
             selectedBarBackgroundRadius,
             selectedBarBackgroundRadius,
-            selectedBarBackgroundPaint
+            selectedBarBackgroundPaint,
         )
 
         // Draw text
@@ -465,7 +467,7 @@ class BarChartView @JvmOverloads constructor(
             pointText,
             bounds.left + selectedBarTextPadding,
             bounds.bottom - selectedBarTextPadding,
-            selectedBarTextPaint
+            selectedBarTextPaint,
         )
 
         canvas.restore()

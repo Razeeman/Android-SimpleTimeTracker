@@ -79,7 +79,7 @@ class CsvRepoImpl @Inject constructor(
                         record = record,
                         recordType = recordTypes[record.typeId],
                         categories = typeToCategories[record.typeId].orEmpty(),
-                        recordTags = recordTags.filter { it.id in record.tagIds }
+                        recordTags = recordTags.filter { it.id in record.tagIds },
                     )
                         ?.toByteArray()
                         ?.let { fileOutputStream?.write(it) }
@@ -102,7 +102,7 @@ class CsvRepoImpl @Inject constructor(
     }
 
     override suspend fun importCsvFile(
-        uriString: String
+        uriString: String,
     ): ResultCode = withContext(Dispatchers.IO) {
         var inputStream: InputStream? = null
         var reader: BufferedReader? = null
@@ -217,13 +217,13 @@ class CsvRepoImpl @Inject constructor(
 
     private fun formatDuration(interval: Long): String {
         val hr: Long = TimeUnit.MILLISECONDS.toHours(
-            interval
+            interval,
         )
         val min: Long = TimeUnit.MILLISECONDS.toMinutes(
-            interval - TimeUnit.HOURS.toMillis(hr)
+            interval - TimeUnit.HOURS.toMillis(hr),
         )
         val sec: Long = TimeUnit.MILLISECONDS.toSeconds(
-            interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min)
+            interval - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min),
         )
 
         return "$hr:$min:$sec"

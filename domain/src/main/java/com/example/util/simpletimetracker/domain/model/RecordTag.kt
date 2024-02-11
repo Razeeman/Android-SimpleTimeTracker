@@ -11,5 +11,5 @@ data class RecordTag(
     val typeId: Long,
     val name: String,
     val color: AppColor,
-    val archived: Boolean = false
+    val archived: Boolean = false,
 )

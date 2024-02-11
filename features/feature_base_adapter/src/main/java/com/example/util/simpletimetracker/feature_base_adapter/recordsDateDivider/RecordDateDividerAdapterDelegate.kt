@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemR
 import com.example.util.simpletimetracker.feature_base_adapter.recordsDateDivider.RecordsDateDividerViewData as ViewData
 
 fun createRecordsDateDividerAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {

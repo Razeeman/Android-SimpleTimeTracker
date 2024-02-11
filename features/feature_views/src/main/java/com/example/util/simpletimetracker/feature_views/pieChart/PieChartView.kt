@@ -30,11 +30,11 @@ import kotlin.math.sin
 class PieChartView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : View(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     // Attrs
@@ -137,8 +137,8 @@ class PieChartView @JvmOverloads constructor(
                 Arc(
                     color = segment.colorInt,
                     drawable = drawable,
-                    arcPercent = segmentPercent
-                )
+                    arcPercent = segmentPercent,
+                ),
             )
         }
 
@@ -153,12 +153,12 @@ class PieChartView @JvmOverloads constructor(
     private fun initArgs(
         context: Context,
         attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+        defStyleAttr: Int = 0,
     ) {
         context
             .obtainStyledAttributes(
                 attrs,
-                R.styleable.PieChartView, defStyleAttr, 0
+                R.styleable.PieChartView, defStyleAttr, 0,
             )
             .run {
                 innerRadiusRatio =
@@ -210,14 +210,14 @@ class PieChartView @JvmOverloads constructor(
 
         bounds.set(
             w / 2 - segmentCenterLine, h / 2 - segmentCenterLine,
-            w / 2 + segmentCenterLine, h / 2 + segmentCenterLine
+            w / 2 + segmentCenterLine, h / 2 + segmentCenterLine,
         )
         canvas.drawArc(
             bounds,
             -90f,
             360f * segmentAnimationScale,
             false,
-            shadowPaint
+            shadowPaint,
         )
     }
 
@@ -233,7 +233,7 @@ class PieChartView @JvmOverloads constructor(
         canvas.translate(w / 2f, h / 2f)
         bounds.set(
             -segmentCenterLine, -segmentCenterLine,
-            segmentCenterLine, +segmentCenterLine
+            segmentCenterLine, +segmentCenterLine,
         )
         layerBounds.set(-r, -r, r, r)
         segments.forEach {
@@ -245,7 +245,7 @@ class PieChartView @JvmOverloads constructor(
                 currentSweepAngle,
                 sweepAngle,
                 false,
-                segmentPaint
+                segmentPaint,
             )
             drawParticles(
                 segment = it,
@@ -290,7 +290,7 @@ class PieChartView @JvmOverloads constructor(
         val iconSizeHalfSize = calculateIconSize(r) / 2f
         particleBounds.set(
             -iconSizeHalfSize, -iconSizeHalfSize,
-            iconSizeHalfSize, iconSizeHalfSize
+            iconSizeHalfSize, iconSizeHalfSize,
         )
 
         val fromAngle = floor(currentSweepAngle / PARTICLES_ANGLE_STEP).toInt()
@@ -306,7 +306,7 @@ class PieChartView @JvmOverloads constructor(
             val innerParticleSpanDistance = r * innerRadiusRatio - iconSizeHalfSize
             val outerParticleSpanDistance = r + iconSizeHalfSize
             val particleDistance = interpolate(
-                0f, outerParticleSpanDistance, distanceVariation
+                0f, outerParticleSpanDistance, distanceVariation,
             )
 
             if (
@@ -344,7 +344,7 @@ class PieChartView @JvmOverloads constructor(
                 -r * innerRadiusRatio + 1,
                 0f,
                 -r - 1,
-                dividerPaint
+                dividerPaint,
             )
             canvas.rotate(sweepAngle)
         }
@@ -357,7 +357,7 @@ class PieChartView @JvmOverloads constructor(
         val iconSize = calculateIconSize(r)
         val bounds = Rect(
             -iconSize / 2, -iconSize / 2,
-            iconSize / 2, iconSize / 2
+            iconSize / 2, iconSize / 2,
         )
         var rotation: Float
         val iconPositionFromCenter = r - r * (1 - innerRadiusRatio) / 2
@@ -410,7 +410,7 @@ class PieChartView @JvmOverloads constructor(
                     PiePortion(
                         value = it.toLong(),
                         colorInt = Color.BLACK,
-                        iconId = RecordTypeIcon.Image(R.drawable.unknown)
+                        iconId = RecordTypeIcon.Image(R.drawable.unknown),
                     )
                 }.let {
                     setSegments(
@@ -467,7 +467,7 @@ class PieChartView @JvmOverloads constructor(
     private inner class Arc(
         val color: Int,
         val drawable: Bitmap? = null,
-        val arcPercent: Float
+        val arcPercent: Float,
     )
 
     companion object {

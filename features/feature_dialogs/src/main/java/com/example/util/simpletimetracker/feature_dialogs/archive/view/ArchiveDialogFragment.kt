@@ -46,12 +46,12 @@ class ArchiveDialogFragment : BaseBottomSheetFragment<Binding>() {
             createArchiveDialogTitleAdapterDelegate(),
             createArchiveDialogButtonsAdapterDelegate(
                 onDeleteClick = ::onDeleteClick,
-                onRestoreClick = ::onRestoreClick
-            )
+                onRestoreClick = ::onRestoreClick,
+            ),
         )
     }
     private val params: ArchiveDialogParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = ArchiveDialogParams.Activity(0)
+        key = ARGS_PARAMS, default = ArchiveDialogParams.Activity(0),
     )
     private var archiveDialogListener: ArchiveDialogListener? = null
 

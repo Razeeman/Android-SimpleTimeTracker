@@ -6,7 +6,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemE
 import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData as ViewData
 
 fun createEmptyAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {

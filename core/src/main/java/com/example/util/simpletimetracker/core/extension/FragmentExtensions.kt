@@ -37,6 +37,6 @@ fun Fragment.addOnBackPressedListener(isEnabled: Boolean = true, action: () -> U
         this,
         object : OnBackPressedCallback(isEnabled) {
             override fun handleOnBackPressed() = action()
-        }
+        },
     )
 }

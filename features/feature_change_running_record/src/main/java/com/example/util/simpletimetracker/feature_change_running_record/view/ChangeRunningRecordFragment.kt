@@ -39,7 +39,7 @@ class ChangeRunningRecordFragment :
     private val viewModel: ChangeRunningRecordViewModel by viewModels()
 
     private val params: ChangeRunningRecordParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = ChangeRunningRecordParams()
+        key = ARGS_PARAMS, default = ChangeRunningRecordParams(),
     )
 
     private val core by lazy {

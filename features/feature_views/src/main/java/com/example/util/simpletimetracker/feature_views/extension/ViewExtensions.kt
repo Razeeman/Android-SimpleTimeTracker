@@ -48,11 +48,17 @@ inline fun <T> View.setOnClickWith(item: T, crossinline listener: ((T) -> Unit))
 }
 
 fun View.setOnLongClick(listener: (() -> Unit)) {
-    setOnLongClickListener { listener.invoke(); true }
+    setOnLongClickListener {
+        listener.invoke()
+        true
+    }
 }
 
 inline fun <T> View.setOnLongClickWith(item: T, crossinline listener: ((T) -> Unit)) {
-    setOnLongClickListener { listener.invoke(item); true }
+    setOnLongClickListener {
+        listener.invoke(item)
+        true
+    }
 }
 
 fun TabLayout.onTabSelected(func: (TabLayout.Tab) -> Unit) {
@@ -108,7 +114,7 @@ fun SeekBar.onProgressChanged(func: (Int) -> Unit) {
 }
 
 fun View.setAllMargins(
-    all: Int?
+    all: Int?,
 ) {
     setMargins(all, all, all, all)
 }
@@ -136,7 +142,7 @@ fun View.getBitmapFromView(): Bitmap {
     return Bitmap.createBitmap(
         measuredWidth.checkValue(),
         measuredHeight.checkValue(),
-        Bitmap.Config.ARGB_8888
+        Bitmap.Config.ARGB_8888,
     ).also {
         draw(Canvas(it))
     }

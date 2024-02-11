@@ -29,7 +29,7 @@ class RangeViewDataMapper @Inject constructor(
 
         return RangesViewData(
             items = data,
-            selectedPosition = selectedPosition
+            selectedPosition = selectedPosition,
         )
     }
 
@@ -81,7 +81,7 @@ class RangeViewDataMapper @Inject constructor(
 
         return RangeViewData(
             range = rangeLength,
-            text = text
+            text = text,
         )
     }
 
@@ -108,7 +108,7 @@ class RangeViewDataMapper @Inject constructor(
             RangeLength.Year,
             RangeLength.Month,
             RangeLength.Week,
-            RangeLength.Day
+            RangeLength.Day,
         )
     }
 }

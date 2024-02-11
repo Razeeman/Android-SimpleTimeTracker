@@ -19,7 +19,7 @@ class StatisticsGoalView @JvmOverloads constructor(
 ) : CardView(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     private val binding: StatisticsGoalViewLayoutBinding = StatisticsGoalViewLayoutBinding
@@ -97,34 +97,43 @@ class StatisticsGoalView @JvmOverloads constructor(
     ) {
         context.obtainStyledAttributes(attrs, R.styleable.StatisticsGoalView, defStyleAttr, 0)
             .run {
-                if (hasValue(R.styleable.StatisticsGoalView_itemName)) itemName =
-                    getString(R.styleable.StatisticsGoalView_itemName).orEmpty()
+                if (hasValue(R.styleable.StatisticsGoalView_itemName)) {
+                    itemName = getString(R.styleable.StatisticsGoalView_itemName).orEmpty()
+                }
 
-                if (hasValue(R.styleable.StatisticsGoalView_itemColor)) itemColor =
-                    getColor(R.styleable.StatisticsGoalView_itemColor, Color.BLACK)
+                if (hasValue(R.styleable.StatisticsGoalView_itemColor)) {
+                    itemColor = getColor(R.styleable.StatisticsGoalView_itemColor, Color.BLACK)
+                }
 
-                if (hasValue(R.styleable.StatisticsGoalView_itemIcon)) itemIcon =
-                    getResourceId(R.styleable.StatisticsGoalView_itemIcon, R.drawable.unknown)
+                if (hasValue(R.styleable.StatisticsGoalView_itemIcon)) {
+                    itemIcon = getResourceId(R.styleable.StatisticsGoalView_itemIcon, R.drawable.unknown)
                         .let(RecordTypeIcon::Image)
+                }
 
-                if (hasValue(R.styleable.StatisticsGoalView_itemIconText)) itemIcon =
-                    getString(R.styleable.StatisticsGoalView_itemIconText).orEmpty()
+                if (hasValue(R.styleable.StatisticsGoalView_itemIconText)) {
+                    itemIcon = getString(R.styleable.StatisticsGoalView_itemIconText).orEmpty()
                         .let(RecordTypeIcon::Text)
+                }
 
-                if (hasValue(R.styleable.StatisticsGoalView_itemIconVisible)) itemIconVisible =
-                    getBoolean(R.styleable.StatisticsGoalView_itemIconVisible, false)
+                if (hasValue(R.styleable.StatisticsGoalView_itemIconVisible)) {
+                    itemIconVisible = getBoolean(R.styleable.StatisticsGoalView_itemIconVisible, false)
+                }
 
-                if (hasValue(R.styleable.StatisticsGoalView_itemGoalCurrent)) itemGoalCurrent =
-                    getString(R.styleable.StatisticsGoalView_itemGoalCurrent).orEmpty()
+                if (hasValue(R.styleable.StatisticsGoalView_itemGoalCurrent)) {
+                    itemGoalCurrent = getString(R.styleable.StatisticsGoalView_itemGoalCurrent).orEmpty()
+                }
 
-                if (hasValue(R.styleable.StatisticsGoalView_itemGoal)) itemGoal =
-                    getString(R.styleable.StatisticsGoalView_itemGoal).orEmpty()
+                if (hasValue(R.styleable.StatisticsGoalView_itemGoal)) {
+                    itemGoal = getString(R.styleable.StatisticsGoalView_itemGoal).orEmpty()
+                }
 
-                if (hasValue(R.styleable.StatisticsGoalView_itemGoalPercent)) itemGoalPercent =
-                    getString(R.styleable.StatisticsGoalView_itemGoalPercent).orEmpty()
+                if (hasValue(R.styleable.StatisticsGoalView_itemGoalPercent)) {
+                    itemGoalPercent = getString(R.styleable.StatisticsGoalView_itemGoalPercent).orEmpty()
+                }
 
-                if (hasValue(R.styleable.StatisticsGoalView_itemGoalTimeComplete)) itemGoalTimeComplete =
-                    getBoolean(R.styleable.StatisticsGoalView_itemGoalTimeComplete, false)
+                if (hasValue(R.styleable.StatisticsGoalView_itemGoalTimeComplete)) {
+                    itemGoalTimeComplete = getBoolean(R.styleable.StatisticsGoalView_itemGoalTimeComplete, false)
+                }
 
                 recycle()
             }

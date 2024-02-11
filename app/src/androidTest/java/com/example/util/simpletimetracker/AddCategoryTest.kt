@@ -79,7 +79,7 @@ class AddCategoryTest : BaseUiTest() {
         clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryColor, withCardColor(firstColor))
         checkPreviewUpdated(withCardColor(firstColor))
         checkViewIsDisplayed(
-            allOf(withId(changeCategoryR.id.viewColorItemSelected), withParent(withCardColor(firstColor)))
+            allOf(withId(changeCategoryR.id.viewColorItemSelected), withParent(withCardColor(firstColor))),
         )
 
         // Selecting color
@@ -87,7 +87,7 @@ class AddCategoryTest : BaseUiTest() {
         clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryColor, withCardColor(lastColor))
         checkPreviewUpdated(withCardColor(lastColor))
         checkViewIsDisplayed(
-            allOf(withId(changeCategoryR.id.viewColorItemSelected), withParent(withCardColor(lastColor)))
+            allOf(withId(changeCategoryR.id.viewColorItemSelected), withParent(withCardColor(lastColor))),
         )
 
         // Open activity chooser

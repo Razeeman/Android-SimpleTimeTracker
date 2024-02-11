@@ -127,7 +127,7 @@ class DataEditTest : BaseUiTest() {
 
         // Check
         checkViewIsDisplayed(
-            allOf(withId(dataEditR.id.tvDataEditSelectedRecords), withSubstring("2"))
+            allOf(withId(dataEditR.id.tvDataEditSelectedRecords), withSubstring("2")),
         )
         onView(withText(coreR.string.data_edit_button_change)).check(matches(isNotEnabled()))
         onView(withId(dataEditR.id.checkboxDataEditChangeActivity)).perform(nestedScrollTo())
@@ -152,8 +152,8 @@ class DataEditTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withText(coreR.string.data_edit_success_message),
-                withId(com.google.android.material.R.id.snackbar_text)
-            )
+                withId(com.google.android.material.R.id.snackbar_text),
+            ),
         )
         NavUtils.openRecordsScreen()
         checkRecord(
@@ -224,7 +224,7 @@ class DataEditTest : BaseUiTest() {
 
         // Check
         checkViewIsDisplayed(
-            allOf(withId(dataEditR.id.tvDataEditSelectedRecords), withSubstring("2"))
+            allOf(withId(dataEditR.id.tvDataEditSelectedRecords), withSubstring("2")),
         )
         onView(withText(coreR.string.data_edit_button_change)).check(matches(isNotEnabled()))
         onView(withId(dataEditR.id.checkboxDataEditChangeComment)).perform(nestedScrollTo())
@@ -244,8 +244,8 @@ class DataEditTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withText(coreR.string.data_edit_success_message),
-                withId(com.google.android.material.R.id.snackbar_text)
-            )
+                withId(com.google.android.material.R.id.snackbar_text),
+            ),
         )
         NavUtils.openRecordsScreen()
         checkRecord(
@@ -315,7 +315,7 @@ class DataEditTest : BaseUiTest() {
 
         // Check
         checkViewIsDisplayed(
-            allOf(withId(dataEditR.id.tvDataEditSelectedRecords), withSubstring("2"))
+            allOf(withId(dataEditR.id.tvDataEditSelectedRecords), withSubstring("2")),
         )
         onView(withText(coreR.string.data_edit_button_change)).check(matches(isNotEnabled()))
         onView(withId(dataEditR.id.checkboxDataEditAddTag)).perform(nestedScrollTo())
@@ -342,8 +342,8 @@ class DataEditTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withText(coreR.string.data_edit_success_message),
-                withId(com.google.android.material.R.id.snackbar_text)
-            )
+                withId(com.google.android.material.R.id.snackbar_text),
+            ),
         )
         NavUtils.openRecordsScreen()
         checkRecord(
@@ -413,7 +413,7 @@ class DataEditTest : BaseUiTest() {
 
         // Check
         checkViewIsDisplayed(
-            allOf(withId(dataEditR.id.tvDataEditSelectedRecords), withSubstring("2"))
+            allOf(withId(dataEditR.id.tvDataEditSelectedRecords), withSubstring("2")),
         )
         onView(withText(coreR.string.data_edit_button_change)).check(matches(isNotEnabled()))
         onView(withId(dataEditR.id.checkboxDataEditRemoveTag)).perform(nestedScrollTo())
@@ -440,8 +440,8 @@ class DataEditTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withText(coreR.string.data_edit_success_message),
-                withId(com.google.android.material.R.id.snackbar_text)
-            )
+                withId(com.google.android.material.R.id.snackbar_text),
+            ),
         )
         NavUtils.openRecordsScreen()
         checkRecord(
@@ -511,7 +511,7 @@ class DataEditTest : BaseUiTest() {
 
         // Check
         checkViewIsDisplayed(
-            allOf(withId(dataEditR.id.tvDataEditSelectedRecords), withSubstring("2"))
+            allOf(withId(dataEditR.id.tvDataEditSelectedRecords), withSubstring("2")),
         )
         onView(withText(coreR.string.data_edit_button_change)).check(matches(isNotEnabled()))
 
@@ -559,8 +559,8 @@ class DataEditTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withText(coreR.string.data_edit_success_message),
-                withId(com.google.android.material.R.id.snackbar_text)
-            )
+                withId(com.google.android.material.R.id.snackbar_text),
+            ),
         )
         NavUtils.openRecordsScreen()
         onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
@@ -590,8 +590,8 @@ class DataEditTest : BaseUiTest() {
                     hasDescendant(withText(name)),
                     hasDescendant(withTag(icon)),
                     hasDescendant(withText(comment)),
-                    isCompletelyDisplayed()
-                )
+                    isCompletelyDisplayed(),
+                ),
             )
         }
     }

@@ -16,7 +16,7 @@ class ActivityFilterView @JvmOverloads constructor(
 ) : CardView(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     private val binding: ActivityFilterViewLayoutBinding = ActivityFilterViewLayoutBinding
@@ -33,11 +33,13 @@ class ActivityFilterView @JvmOverloads constructor(
 
         context.obtainStyledAttributes(attrs, R.styleable.ActivityFilterView, defStyleAttr, 0)
             .run {
-                if (hasValue(R.styleable.ActivityFilterView_itemName)) itemName =
-                    getString(R.styleable.ActivityFilterView_itemName).orEmpty()
+                if (hasValue(R.styleable.ActivityFilterView_itemName)) {
+                    itemName = getString(R.styleable.ActivityFilterView_itemName).orEmpty()
+                }
 
-                if (hasValue(R.styleable.ActivityFilterView_itemColor)) itemColor =
-                    getColor(R.styleable.ActivityFilterView_itemColor, Color.BLACK)
+                if (hasValue(R.styleable.ActivityFilterView_itemColor)) {
+                    itemColor = getColor(R.styleable.ActivityFilterView_itemColor, Color.BLACK)
+                }
 
                 recycle()
             }

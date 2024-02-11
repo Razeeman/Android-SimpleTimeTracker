@@ -51,7 +51,7 @@ class MultitaskRecordViewDataMapper @Inject constructor(
                         comment = it.comment,
                     )
                 },
-            )
+            ),
         )
     }
 }

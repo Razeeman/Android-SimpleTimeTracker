@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemM
 import com.example.util.simpletimetracker.feature_base_adapter.multitaskRecord.MultitaskRecordViewData as ViewData
 
 fun createMultitaskRecordAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding.root) {

@@ -104,7 +104,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
         if (viewData !is ChartFilterTypeViewData) return
         viewModelScope.launch {
             widgetData = widgetData.copy(
-                chartFilterType = viewData.filterType
+                chartFilterType = viewData.filterType,
             )
             updateFilterTypeViewData()
             updateTypesViewData()
@@ -115,7 +115,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             val oldIds = widgetData.filteredTypes.toMutableList()
             widgetData = widgetData.copy(
-                filteredTypes = oldIds.apply { addOrRemove(item.id) }.toSet()
+                filteredTypes = oldIds.apply { addOrRemove(item.id) }.toSet(),
             )
             updateRecordTypesViewData()
         }
@@ -126,14 +126,14 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
             is CategoryViewData.Category -> {
                 val oldIds = widgetData.filteredCategories.toMutableList()
                 widgetData = widgetData.copy(
-                    filteredCategories = oldIds.apply { addOrRemove(item.id) }.toSet()
+                    filteredCategories = oldIds.apply { addOrRemove(item.id) }.toSet(),
                 )
                 updateCategoriesViewData()
             }
             is CategoryViewData.Record -> {
                 val oldIds = widgetData.filteredTags.toMutableList()
                 widgetData = widgetData.copy(
-                    filteredTags = oldIds.apply { addOrRemove(item.id) }.toSet()
+                    filteredTags = oldIds.apply { addOrRemove(item.id) }.toSet(),
                 )
                 updateTagsViewData()
             }
@@ -165,7 +165,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
                         filteredTypes = (
                             getTypesCache().map(RecordType::id) +
                                 UNTRACKED_ITEM_ID
-                            ).toSet()
+                            ).toSet(),
                     )
                 }
                 ChartFilterType.CATEGORY -> {
@@ -174,7 +174,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
                             getCategoriesCache().map(Category::id) +
                                 UNTRACKED_ITEM_ID +
                                 UNCATEGORIZED_ITEM_ID
-                            ).toSet()
+                            ).toSet(),
                     )
                 }
                 ChartFilterType.RECORD_TAG -> {
@@ -184,7 +184,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
                                 UNTRACKED_ITEM_ID +
                                 UNCATEGORIZED_ITEM_ID
                             )
-                            .toSet()
+                            .toSet(),
                     )
                 }
             }
@@ -281,7 +281,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
 
         return chartFilterViewDataInteractor.loadCategoriesViewData(
             categories = getCategoriesCache(),
-            categoryIdsFiltered = categoryIdsFiltered
+            categoryIdsFiltered = categoryIdsFiltered,
         )
     }
 
@@ -311,7 +311,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
             rangeLength = widgetData.rangeLength,
             position = 0,
             startOfDayShift = startOfDayShift,
-            firstDayOfWeek = firstDayOfWeek
+            firstDayOfWeek = firstDayOfWeek,
         )
     }
 

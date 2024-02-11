@@ -17,9 +17,9 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 fun createStatisticsDetailCardAdapterDelegate(
     titleTextSize: Int,
     subtitleTextSize: Int,
-    onItemClick: (ViewData.ClickableType, Coordinates) -> Unit
+    onItemClick: (ViewData.ClickableType, Coordinates) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {
@@ -58,7 +58,7 @@ fun createStatisticsDetailCardAdapterDelegate(
             ivStatisticsDetailCardIcon.setBackgroundResource(item.icon.iconDrawable)
             ViewCompat.setBackgroundTintList(
                 ivStatisticsDetailCardIcon,
-                ColorStateList.valueOf(item.icon.iconColor)
+                ColorStateList.valueOf(item.icon.iconColor),
             )
         } else {
             cardStatisticsDetailCardIcon.visible = false

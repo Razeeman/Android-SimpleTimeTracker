@@ -16,11 +16,11 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 class RecordView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : CardView(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     private val binding: RecordViewLayoutBinding = RecordViewLayoutBinding
@@ -101,41 +101,51 @@ class RecordView @JvmOverloads constructor(
     private fun initAttrs(
         context: Context,
         attrs: AttributeSet?,
-        defStyleAttr: Int
+        defStyleAttr: Int,
     ) {
         context.obtainStyledAttributes(attrs, R.styleable.RecordView, defStyleAttr, 0)
             .run {
-                if (hasValue(R.styleable.RecordView_itemName)) itemName =
-                    getString(R.styleable.RecordView_itemName).orEmpty()
+                if (hasValue(R.styleable.RecordView_itemName)) {
+                    itemName = getString(R.styleable.RecordView_itemName).orEmpty()
+                }
 
-                if (hasValue(R.styleable.RecordView_itemColor)) itemColor =
-                    getColor(R.styleable.RecordView_itemColor, Color.BLACK)
+                if (hasValue(R.styleable.RecordView_itemColor)) {
+                    itemColor = getColor(R.styleable.RecordView_itemColor, Color.BLACK)
+                }
 
-                if (hasValue(R.styleable.RecordView_itemTagName)) itemTagName =
-                    getString(R.styleable.RecordView_itemTagName).orEmpty()
+                if (hasValue(R.styleable.RecordView_itemTagName)) {
+                    itemTagName = getString(R.styleable.RecordView_itemTagName).orEmpty()
+                }
 
-                if (hasValue(R.styleable.RecordView_itemTagColor)) itemTagColor =
-                    getColor(R.styleable.RecordView_itemTagColor, Color.WHITE)
+                if (hasValue(R.styleable.RecordView_itemTagColor)) {
+                    itemTagColor = getColor(R.styleable.RecordView_itemTagColor, Color.WHITE)
+                }
 
-                if (hasValue(R.styleable.RecordView_itemIcon)) itemIcon =
-                    getResourceId(R.styleable.RecordView_itemIcon, R.drawable.unknown)
+                if (hasValue(R.styleable.RecordView_itemIcon)) {
+                    itemIcon = getResourceId(R.styleable.RecordView_itemIcon, R.drawable.unknown)
                         .let(RecordTypeIcon::Image)
+                }
 
-                if (hasValue(R.styleable.RecordView_itemIconText)) itemIcon =
-                    getString(R.styleable.RecordView_itemIconText).orEmpty()
+                if (hasValue(R.styleable.RecordView_itemIconText)) {
+                    itemIcon = getString(R.styleable.RecordView_itemIconText).orEmpty()
                         .let(RecordTypeIcon::Text)
+                }
 
-                if (hasValue(R.styleable.RecordView_itemTimeStarted)) itemTimeStarted =
-                    getString(R.styleable.RecordView_itemTimeStarted).orEmpty()
+                if (hasValue(R.styleable.RecordView_itemTimeStarted)) {
+                    itemTimeStarted = getString(R.styleable.RecordView_itemTimeStarted).orEmpty()
+                }
 
-                if (hasValue(R.styleable.RecordView_itemTimeEnded)) itemTimeEnded =
-                    getString(R.styleable.RecordView_itemTimeEnded).orEmpty()
+                if (hasValue(R.styleable.RecordView_itemTimeEnded)) {
+                    itemTimeEnded = getString(R.styleable.RecordView_itemTimeEnded).orEmpty()
+                }
 
-                if (hasValue(R.styleable.RecordView_itemDuration)) itemDuration =
-                    getString(R.styleable.RecordView_itemDuration).orEmpty()
+                if (hasValue(R.styleable.RecordView_itemDuration)) {
+                    itemDuration = getString(R.styleable.RecordView_itemDuration).orEmpty()
+                }
 
-                if (hasValue(R.styleable.RecordView_itemComment)) itemComment =
-                    getString(R.styleable.RecordView_itemComment).orEmpty()
+                if (hasValue(R.styleable.RecordView_itemComment)) {
+                    itemComment = getString(R.styleable.RecordView_itemComment).orEmpty()
+                }
 
                 recycle()
             }
@@ -150,7 +160,7 @@ class RecordView @JvmOverloads constructor(
             spannable.setSpan(
                 ForegroundColorSpan(itemTagColor),
                 itemName.length, name.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
             )
             tvRecordItemName.text = spannable
         }

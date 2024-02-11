@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowVie
 data class CardSizeButtonsViewData(
     val numberOfCards: Int,
     override val name: String,
-    override val isSelected: Boolean
+    override val isSelected: Boolean,
 ) : ButtonsRowViewData() {
 
     override val id: Long = numberOfCards.toLong()

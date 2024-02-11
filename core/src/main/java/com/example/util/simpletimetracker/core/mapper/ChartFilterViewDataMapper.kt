@@ -14,13 +14,13 @@ class ChartFilterViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
     private val recordTypeCardSizeMapper: RecordTypeCardSizeMapper,
-    private val categoryViewDataMapper: CategoryViewDataMapper
+    private val categoryViewDataMapper: CategoryViewDataMapper,
 ) {
 
     fun mapToUntrackedItem(
         typeIdsFiltered: List<Long>,
         numberOfCards: Int,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
     ): RecordTypeViewData {
         return RecordTypeViewData(
             id = UNTRACKED_ITEM_ID,
@@ -29,7 +29,7 @@ class ChartFilterViewDataMapper @Inject constructor(
             iconId = RecordTypeIcon.Image(R.drawable.unknown),
             iconColor = categoryViewDataMapper.getTextColor(
                 isDarkTheme = isDarkTheme,
-                isFiltered = UNTRACKED_ITEM_ID in typeIdsFiltered
+                isFiltered = UNTRACKED_ITEM_ID in typeIdsFiltered,
             ),
             color = if (UNTRACKED_ITEM_ID in typeIdsFiltered) {
                 colorMapper.toFilteredColor(isDarkTheme)
@@ -38,7 +38,7 @@ class ChartFilterViewDataMapper @Inject constructor(
             },
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
-            asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards)
+            asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards),
         )
     }
 
@@ -51,7 +51,7 @@ class ChartFilterViewDataMapper @Inject constructor(
             ChartFilterTypeViewData(
                 filterType = it,
                 name = mapToFilterTypeName(it),
-                isSelected = it == filterType
+                isSelected = it == filterType,
             )
         }
     }

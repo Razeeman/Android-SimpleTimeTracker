@@ -11,7 +11,7 @@ class RunningRecordTypeSpecialViewData(
     @ColorInt val color: Int,
     val width: Int,
     val height: Int,
-    val asRow: Boolean = false
+    val asRow: Boolean = false,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = type.hashCode().toLong()

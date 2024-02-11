@@ -104,13 +104,13 @@ class ChangeRecordTagTest : BaseUiTest() {
         // Change item color
         clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagColor)
         checkViewIsDisplayed(
-            allOf(withId(changeRecordTagR.id.viewColorItemSelected), withParent(withCardColor(firstColor)))
+            allOf(withId(changeRecordTagR.id.viewColorItemSelected), withParent(withCardColor(firstColor))),
         )
         scrollRecyclerToView(changeRecordTagR.id.rvChangeRecordTagColor, withCardColor(lastColor))
         clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagColor, withCardColor(lastColor))
         tryAction { checkPreviewUpdated(withCardColor(lastColor)) }
         checkViewIsDisplayed(
-            allOf(withId(changeRecordTagR.id.viewColorItemSelected), withParent(withCardColor(lastColor)))
+            allOf(withId(changeRecordTagR.id.viewColorItemSelected), withParent(withCardColor(lastColor))),
         )
 
         clickOnViewWithText(coreR.string.change_record_type_save)

@@ -54,7 +54,7 @@ class TimeMapperGetRangeStartAndEndTest {
                     shift = input[1] as Int,
                     firstDayOfWeek = input[2] as DayOfWeek,
                     startOfDayShift = input[3] as Long,
-                )
+                ),
             )
         }
 
@@ -86,36 +86,36 @@ class TimeMapperGetRangeStartAndEndTest {
 
                 arrayOf(
                     listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, -hourInMs, -hourInMs - 1),
-                    -hourInMs to 86400000L - hourInMs
+                    -hourInMs to 86400000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, -hourInMs, -hourInMs + 1),
-                    86400000L - hourInMs to 172800000L - hourInMs
+                    86400000L - hourInMs to 172800000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, -hourInMs, 0L),
-                    86400000L - hourInMs to 172800000L - hourInMs
+                    86400000L - hourInMs to 172800000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, -hourInMs, hourInMs),
-                    86400000L - hourInMs to 172800000L - hourInMs
+                    86400000L - hourInMs to 172800000L - hourInMs,
                 ),
 
                 arrayOf(
                     listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, hourInMs, -hourInMs),
-                    hourInMs to 86400000L + hourInMs
+                    hourInMs to 86400000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, hourInMs, 0L),
-                    hourInMs to 86400000L + hourInMs
+                    hourInMs to 86400000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, hourInMs, hourInMs - 1),
-                    hourInMs to 86400000L + hourInMs
+                    hourInMs to 86400000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Day, 1, DayOfWeek.MONDAY, hourInMs, hourInMs + 1),
-                    86400000L + hourInMs to 172800000L + hourInMs
+                    86400000L + hourInMs to 172800000L + hourInMs,
                 ),
             )
         }
@@ -142,7 +142,7 @@ class TimeMapperGetRangeStartAndEndTest {
                     shift = input[1] as Int,
                     firstDayOfWeek = input[2] as DayOfWeek,
                     startOfDayShift = input[3] as Long,
-                )
+                ),
             )
         }
 
@@ -205,89 +205,89 @@ class TimeMapperGetRangeStartAndEndTest {
                 // from 1970.01.12 monday, negative shift
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, 0L, 345600000L),
-                    950400000L to 1555200000L
+                    950400000L to 1555200000L,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, -hourInMs, 345600000L - hourInMs - 1),
-                    345600000L - hourInMs to 950400000L - hourInMs
+                    345600000L - hourInMs to 950400000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, -hourInMs, 345600000L - hourInMs + 1),
-                    950400000L - hourInMs to 1555200000L - hourInMs
+                    950400000L - hourInMs to 1555200000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, -hourInMs, 345600000L),
-                    950400000L - hourInMs to 1555200000L - hourInMs
+                    950400000L - hourInMs to 1555200000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, -hourInMs, 345600000L + 1),
-                    950400000L - hourInMs to 1555200000L - hourInMs
+                    950400000L - hourInMs to 1555200000L - hourInMs,
                 ),
 
                 // from 1970.01.18 sunday, negative shift
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, 0L, 864000000L),
-                    950400000L to 1555200000L
+                    950400000L to 1555200000L,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, -hourInMs, 864000000L + 23 * hourInMs - 1),
-                    950400000L - hourInMs to 1555200000L - hourInMs
+                    950400000L - hourInMs to 1555200000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, -hourInMs, 864000000L + 23 * hourInMs + 1),
-                    1555200000L - hourInMs to 2160000000L - hourInMs
+                    1555200000L - hourInMs to 2160000000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, -hourInMs, 864000000L + 24 * hourInMs),
-                    1555200000L - hourInMs to 2160000000L - hourInMs
+                    1555200000L - hourInMs to 2160000000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, -hourInMs, 864000000L + 24 * hourInMs + 1),
-                    1555200000L - hourInMs to 2160000000L - hourInMs
+                    1555200000L - hourInMs to 2160000000L - hourInMs,
                 ),
 
                 // from 1970.01.12 monday, positive shift
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, 0L, 345600000L),
-                    950400000L to 1555200000L
+                    950400000L to 1555200000L,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, hourInMs, 345600000L - 1),
-                    345600000L + hourInMs to 950400000L + hourInMs
+                    345600000L + hourInMs to 950400000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, hourInMs, 345600000L),
-                    345600000L + hourInMs to 950400000L + hourInMs
+                    345600000L + hourInMs to 950400000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, hourInMs, 345600000L + hourInMs - 1),
-                    345600000L + hourInMs to 950400000L + hourInMs
+                    345600000L + hourInMs to 950400000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, hourInMs, 345600000L + hourInMs + 1),
-                    950400000L + hourInMs to 1555200000L + hourInMs
+                    950400000L + hourInMs to 1555200000L + hourInMs,
                 ),
 
                 // from 1970.01.18 sunday, positive shift
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, 0L, 864000000L),
-                    950400000L to 1555200000L
+                    950400000L to 1555200000L,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, hourInMs, 864000000L + 24 * hourInMs - 1),
-                    950400000L + hourInMs to 1555200000L + hourInMs
+                    950400000L + hourInMs to 1555200000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, hourInMs, 864000000L + 24 * hourInMs),
-                    950400000L + hourInMs to 1555200000L + hourInMs
+                    950400000L + hourInMs to 1555200000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, hourInMs, 864000000L + 25 * hourInMs - 1),
-                    950400000L + hourInMs to 1555200000L + hourInMs
+                    950400000L + hourInMs to 1555200000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Week, 1, DayOfWeek.MONDAY, hourInMs, 864000000L + 25 * hourInMs + 1),
-                    1555200000 + hourInMs to 2160000000 + hourInMs
+                    1555200000 + hourInMs to 2160000000 + hourInMs,
                 ),
             )
         }
@@ -314,7 +314,7 @@ class TimeMapperGetRangeStartAndEndTest {
                     shift = input[1] as Int,
                     firstDayOfWeek = input[2] as DayOfWeek,
                     startOfDayShift = input[3] as Long,
-                )
+                ),
             )
         }
 
@@ -347,89 +347,89 @@ class TimeMapperGetRangeStartAndEndTest {
                 // from 1970.02.01 start of month, negative shift
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, 0L, 0L),
-                    2678400000L to 5097600000L
+                    2678400000L to 5097600000L,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, -hourInMs, -hourInMs - 1),
-                    0L - hourInMs to 2678400000L - hourInMs
+                    0L - hourInMs to 2678400000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, -hourInMs, -hourInMs + 1),
-                    2678400000L - hourInMs to 5097600000L - hourInMs
+                    2678400000L - hourInMs to 5097600000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, -hourInMs, 0L),
-                    2678400000L - hourInMs to 5097600000L - hourInMs
+                    2678400000L - hourInMs to 5097600000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, -hourInMs, 1L),
-                    2678400000L - hourInMs to 5097600000L - hourInMs
+                    2678400000L - hourInMs to 5097600000L - hourInMs,
                 ),
 
                 // from 1970.02.28 end of month, negative shift
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, 0L, 2592000000L),
-                    2678400000L to 5097600000L
+                    2678400000L to 5097600000L,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, -hourInMs, 2592000000L + 23 * hourInMs - 1),
-                    2678400000L - hourInMs to 5097600000L - hourInMs
+                    2678400000L - hourInMs to 5097600000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, -hourInMs, 2592000000L + 23 * hourInMs + 1),
-                    5097600000L - hourInMs to 7776000000L - hourInMs
+                    5097600000L - hourInMs to 7776000000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, -hourInMs, 2592000000L + 24 * hourInMs),
-                    5097600000L - hourInMs to 7776000000L - hourInMs
+                    5097600000L - hourInMs to 7776000000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, -hourInMs, 2592000000L + 24 * hourInMs + 1),
-                    5097600000L - hourInMs to 7776000000L - hourInMs
+                    5097600000L - hourInMs to 7776000000L - hourInMs,
                 ),
 
                 // from 1970.02.01 start of month, positive shift
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, 0L, 0L),
-                    2678400000L to 5097600000L
+                    2678400000L to 5097600000L,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, hourInMs, -1L),
-                    0L + hourInMs to 2678400000L + hourInMs
+                    0L + hourInMs to 2678400000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, hourInMs, 0L),
-                    0L + hourInMs to 2678400000L + hourInMs
+                    0L + hourInMs to 2678400000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, hourInMs, +hourInMs - 1),
-                    0L + hourInMs to 2678400000L + hourInMs
+                    0L + hourInMs to 2678400000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, hourInMs, +hourInMs + 1),
-                    2678400000L + hourInMs to 5097600000L + hourInMs
+                    2678400000L + hourInMs to 5097600000L + hourInMs,
                 ),
 
                 // from 1970.02.28 end of month, positive shift
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, 0L, 2592000000L),
-                    2678400000L to 5097600000L
+                    2678400000L to 5097600000L,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, hourInMs, 2592000000L + 24 * hourInMs - 1),
-                    2678400000L + hourInMs to 5097600000L + hourInMs
+                    2678400000L + hourInMs to 5097600000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, hourInMs, 2592000000L + 24 * hourInMs),
-                    2678400000L + hourInMs to 5097600000L + hourInMs
+                    2678400000L + hourInMs to 5097600000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, hourInMs, 2592000000L + 25 * hourInMs - 1),
-                    2678400000L + hourInMs to 5097600000L + hourInMs
+                    2678400000L + hourInMs to 5097600000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Month, 1, DayOfWeek.MONDAY, hourInMs, 2592000000L + 25 * hourInMs + 1),
-                    5097600000L + hourInMs to 7776000000L + hourInMs
+                    5097600000L + hourInMs to 7776000000L + hourInMs,
                 ),
             )
         }
@@ -456,7 +456,7 @@ class TimeMapperGetRangeStartAndEndTest {
                     shift = input[1] as Int,
                     firstDayOfWeek = input[2] as DayOfWeek,
                     startOfDayShift = input[3] as Long,
-                )
+                ),
             )
         }
 
@@ -489,89 +489,89 @@ class TimeMapperGetRangeStartAndEndTest {
                 // from 1971.01.01 start of year, negative shift
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, 0L, 0L),
-                    31536000000L to 63072000000L
+                    31536000000L to 63072000000L,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, -hourInMs, -hourInMs - 1),
-                    0L - hourInMs to 31536000000L - hourInMs
+                    0L - hourInMs to 31536000000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, -hourInMs, -hourInMs + 1),
-                    31536000000L - hourInMs to 63072000000L - hourInMs
+                    31536000000L - hourInMs to 63072000000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, -hourInMs, 0L),
-                    31536000000L - hourInMs to 63072000000L - hourInMs
+                    31536000000L - hourInMs to 63072000000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, -hourInMs, 1L),
-                    31536000000L - hourInMs to 63072000000L - hourInMs
+                    31536000000L - hourInMs to 63072000000L - hourInMs,
                 ),
 
                 // from 1971.12.31 end of year, negative shift
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, 0L, 31449600000L),
-                    31536000000L to 63072000000L
+                    31536000000L to 63072000000L,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, -hourInMs, 31449600000L + 23 * hourInMs - 1),
-                    31536000000L - hourInMs to 63072000000L - hourInMs
+                    31536000000L - hourInMs to 63072000000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, -hourInMs, 31449600000L + 23 * hourInMs + 1),
-                    63072000000L - hourInMs to 94694400000L - hourInMs
+                    63072000000L - hourInMs to 94694400000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, -hourInMs, 31449600000L + 24 * hourInMs),
-                    63072000000L - hourInMs to 94694400000L - hourInMs
+                    63072000000L - hourInMs to 94694400000L - hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, -hourInMs, 31449600000L + 24 * hourInMs + 1),
-                    63072000000L - hourInMs to 94694400000L - hourInMs
+                    63072000000L - hourInMs to 94694400000L - hourInMs,
                 ),
 
                 // from 1971.01.01 start of year, positive shift
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, 0L, 0L),
-                    31536000000L to 63072000000L
+                    31536000000L to 63072000000L,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, hourInMs, -1L),
-                    0L + hourInMs to 31536000000L + hourInMs
+                    0L + hourInMs to 31536000000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, hourInMs, 0L),
-                    0L + hourInMs to 31536000000L + hourInMs
+                    0L + hourInMs to 31536000000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, hourInMs, +hourInMs - 1),
-                    0L + hourInMs to 31536000000L + hourInMs
+                    0L + hourInMs to 31536000000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, hourInMs, +hourInMs + 1),
-                    31536000000L + hourInMs to 63072000000L + hourInMs
+                    31536000000L + hourInMs to 63072000000L + hourInMs,
                 ),
 
                 // from 1971.12.31 end of year, positive shift
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, 0L, 31449600000L),
-                    31536000000L to 63072000000L
+                    31536000000L to 63072000000L,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, hourInMs, 31449600000L + 24 * hourInMs - 1),
-                    31536000000L + hourInMs to 63072000000L + hourInMs
+                    31536000000L + hourInMs to 63072000000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, hourInMs, 31449600000L + 24 * hourInMs),
-                    31536000000L + hourInMs to 63072000000L + hourInMs
+                    31536000000L + hourInMs to 63072000000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, hourInMs, 31449600000L + 25 * hourInMs - 1),
-                    31536000000L + hourInMs to 63072000000L + hourInMs
+                    31536000000L + hourInMs to 63072000000L + hourInMs,
                 ),
                 arrayOf(
                     listOf(RangeLength.Year, 1, DayOfWeek.MONDAY, hourInMs, 31449600000L + 25 * hourInMs + 1),
-                    63072000000L + hourInMs to 94694400000L + hourInMs
+                    63072000000L + hourInMs to 94694400000L + hourInMs,
                 ),
             )
         }
@@ -598,7 +598,7 @@ class TimeMapperGetRangeStartAndEndTest {
                     shift = input[1] as Int,
                     firstDayOfWeek = input[2] as DayOfWeek,
                     startOfDayShift = input[3] as Long,
-                )
+                ),
             )
         }
 
@@ -635,11 +635,11 @@ class TimeMapperGetRangeStartAndEndTest {
                 // range custom
                 arrayOf(
                     listOf(RangeLength.Custom(Range(100L, 200L)), 0, DayOfWeek.MONDAY, 0L, 0L),
-                    100L to 200L
+                    100L to 200L,
                 ),
                 arrayOf(
                     listOf(RangeLength.Custom(Range(300L, 400L)), 0, DayOfWeek.WEDNESDAY, hourInMs, hourInMs),
-                    300L to 400L
+                    300L to 400L,
                 ),
             )
         }

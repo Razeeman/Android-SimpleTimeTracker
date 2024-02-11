@@ -210,7 +210,7 @@ class ChartFilterViewModel @Inject constructor(
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
         return chartFilterViewDataInteractor.loadCategoriesViewData(
             categories = getCategoriesCache(),
-            categoryIdsFiltered = categoryIdsFiltered
+            categoryIdsFiltered = categoryIdsFiltered,
         )
     }
 

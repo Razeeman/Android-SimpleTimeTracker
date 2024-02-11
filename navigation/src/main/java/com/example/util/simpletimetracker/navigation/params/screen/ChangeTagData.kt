@@ -9,14 +9,14 @@ sealed class ChangeTagData : Parcelable {
     data class Change(
         val transitionName: String,
         val id: Long,
-        val preview: Preview? = null
+        val preview: Preview? = null,
     ) : ChangeTagData() {
 
         @Parcelize
         data class Preview(
             val name: String,
             @ColorInt val color: Int,
-            val icon: RecordTypeIconParams?
+            val icon: RecordTypeIconParams?,
         ) : Parcelable
     }
 

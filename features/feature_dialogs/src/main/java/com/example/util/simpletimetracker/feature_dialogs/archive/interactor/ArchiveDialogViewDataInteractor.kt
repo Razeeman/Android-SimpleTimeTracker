@@ -23,7 +23,7 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
     private val recordToRecordTagInteractor: RecordToRecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val categoryViewDataMapper: CategoryViewDataMapper
+    private val categoryViewDataMapper: CategoryViewDataMapper,
 ) {
 
     suspend fun getActivityViewData(typeId: Long): List<ViewHolderType> {
@@ -48,12 +48,12 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
 
             ArchiveDialogInfoViewData(
                 name = resourceRepo.getString(R.string.archive_records_count),
-                text = recordsCount.toString()
+                text = recordsCount.toString(),
             ).let(::add)
 
             ArchiveDialogInfoViewData(
                 name = resourceRepo.getString(R.string.archive_record_tags_count),
-                text = recordTagCount.toString()
+                text = recordTagCount.toString(),
             ).let(::add)
 
             ArchiveDialogButtonsViewData.let(::add)
@@ -68,7 +68,7 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
         val item = categoryViewDataMapper.mapRecordTag(
             tag = tag,
             type = type,
-            isDarkTheme = isDarkTheme
+            isDarkTheme = isDarkTheme,
         )
         val recordsCount = recordToRecordTagInteractor.getRecordIdsByTagId(tagId).size
 
@@ -80,7 +80,7 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
 
             ArchiveDialogInfoViewData(
                 name = resourceRepo.getString(R.string.archive_tagged_records_count),
-                text = recordsCount.toString()
+                text = recordsCount.toString(),
             ).let(::add)
 
             ArchiveDialogButtonsViewData.let(::add)

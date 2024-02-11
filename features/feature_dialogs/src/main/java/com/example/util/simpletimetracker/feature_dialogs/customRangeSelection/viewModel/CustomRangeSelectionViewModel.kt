@@ -53,8 +53,8 @@ class CustomRangeSelectionViewModel @Inject constructor(
                     timestamp = rangeStart,
                     type = DateTimeDialogType.DATE,
                     useMilitaryTime = useMilitaryTime,
-                    firstDayOfWeek = firstDayOfWeek
-                )
+                    firstDayOfWeek = firstDayOfWeek,
+                ),
             )
         }
     }
@@ -70,8 +70,8 @@ class CustomRangeSelectionViewModel @Inject constructor(
                     timestamp = rangeEnd,
                     type = DateTimeDialogType.DATE,
                     useMilitaryTime = useMilitaryTime,
-                    firstDayOfWeek = firstDayOfWeek
-                )
+                    firstDayOfWeek = firstDayOfWeek,
+                ),
             )
         }
     }
@@ -131,7 +131,7 @@ class CustomRangeSelectionViewModel @Inject constructor(
             rangeStartString = rangeStart
                 .let(timeMapper::formatDateYear),
             rangeEndString = rangeEnd
-                .let(timeMapper::formatDateYear)
+                .let(timeMapper::formatDateYear),
         )
     }
 

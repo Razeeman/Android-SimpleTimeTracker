@@ -26,7 +26,7 @@ class UntrackedRecordMapper @Inject constructor(
             .map {
                 Range(
                     max(it.timeStarted, untrackedTimeStart),
-                    min(it.timeEnded, untrackedTimeEndRange)
+                    min(it.timeEnded, untrackedTimeEndRange),
                 )
             }
             // Calculate uncovered ranges

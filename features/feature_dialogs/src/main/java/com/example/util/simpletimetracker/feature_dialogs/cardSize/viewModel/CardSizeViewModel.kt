@@ -26,7 +26,7 @@ class CardSizeViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val cardSizeViewDataMapper: CardSizeViewDataMapper,
-    private val recordTypeViewDataMapper: RecordTypeViewDataMapper
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
 ) : ViewModel() {
 
     val recordTypes: LiveData<List<ViewHolderType>> by lazy {

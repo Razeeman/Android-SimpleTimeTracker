@@ -10,7 +10,7 @@ fun createRecordFilterAdapterDelegate(
     onClick: (ViewData) -> Unit,
     onRemoveClick: (ViewData) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {

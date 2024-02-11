@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 data class ChangeRecordTypeIconViewData(
     val iconName: String,
     @DrawableRes val iconResId: Int,
-    @ColorInt val colorInt: Int
+    @ColorInt val colorInt: Int,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = iconName.hashCode().toLong()

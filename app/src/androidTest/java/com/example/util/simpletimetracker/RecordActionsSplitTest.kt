@@ -68,13 +68,13 @@ class RecordActionsSplitTest : BaseUiTest() {
 
         // Check time adjust
         clickOnView(
-            allOf(isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)), withText("-5"))
+            allOf(isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)), withText("-5")),
         )
         timePreview = calendar.apply { add(Calendar.MINUTE, -5) }.timeInMillis.formatDateTime()
         checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeSplit), withText(timePreview)))
 
         clickOnView(
-            allOf(isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)), withText("+5"))
+            allOf(isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)), withText("+5")),
         )
         timePreview = calendar.apply { add(Calendar.MINUTE, +5) }.timeInMillis.formatDateTime()
         checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeSplit), withText(timePreview)))
@@ -100,8 +100,8 @@ class RecordActionsSplitTest : BaseUiTest() {
             clickOnView(
                 allOf(
                     isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)),
-                    withText("-30")
-                )
+                    withText("-30"),
+                ),
             )
         }
         var timePreview = timeStartedTimestamp.formatDateTime()
@@ -110,8 +110,8 @@ class RecordActionsSplitTest : BaseUiTest() {
             clickOnView(
                 allOf(
                     isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)),
-                    withText("+30")
-                )
+                    withText("+30"),
+                ),
             )
         }
         timePreview = timeEndedTimestamp.formatDateTime()
@@ -129,8 +129,8 @@ class RecordActionsSplitTest : BaseUiTest() {
             clickOnView(
                 allOf(
                     isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)),
-                    withText("-30")
-                )
+                    withText("-30"),
+                ),
             )
         }
         timePreview = timeStartedTimestamp.formatDateTime()
@@ -139,8 +139,8 @@ class RecordActionsSplitTest : BaseUiTest() {
             clickOnView(
                 allOf(
                     isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)),
-                    withText("+30")
-                )
+                    withText("+30"),
+                ),
             )
         }
         timePreview = System.currentTimeMillis().formatDateTime()
@@ -171,7 +171,7 @@ class RecordActionsSplitTest : BaseUiTest() {
             timeStarted = timeStartedTimestamp,
             timeEnded = timeEndedTimestamp,
             tagNames = listOf(tag),
-            comment = comment
+            comment = comment,
         )
 
         // Check record
@@ -188,8 +188,8 @@ class RecordActionsSplitTest : BaseUiTest() {
         clickOnView(
             allOf(
                 isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)),
-                withText("+30")
-            )
+                withText("+30"),
+            ),
         )
         clickOnViewWithText(coreR.string.change_record_split)
 
@@ -221,9 +221,9 @@ class RecordActionsSplitTest : BaseUiTest() {
 
         // Open untracked time
         onView(
-            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed())
+            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()),
         ).check(
-            recyclerItemCount(2)
+            recyclerItemCount(2),
         )
         clickOnViewWithText(coreR.string.untracked_time_name)
 
@@ -239,15 +239,15 @@ class RecordActionsSplitTest : BaseUiTest() {
         // Split
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         clickOnView(
-            allOf(isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)), withText("+1"))
+            allOf(isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)), withText("+1")),
         )
         clickOnViewWithText(coreR.string.change_record_split)
 
         checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
         onView(
-            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed())
+            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()),
         ).check(
-            recyclerItemCount(3)
+            recyclerItemCount(3),
         )
     }
 
@@ -261,9 +261,9 @@ class RecordActionsSplitTest : BaseUiTest() {
 
         // Open untracked time
         onView(
-            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed())
+            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()),
         ).check(
-            recyclerItemCount(1)
+            recyclerItemCount(1),
         )
         clickOnViewWithId(recordsR.id.btnRecordAdd)
 
@@ -282,9 +282,9 @@ class RecordActionsSplitTest : BaseUiTest() {
 
         checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
         onView(
-            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed())
+            allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()),
         ).check(
-            recyclerItemCount(3)
+            recyclerItemCount(3),
         )
     }
 
@@ -307,7 +307,7 @@ class RecordActionsSplitTest : BaseUiTest() {
             typeName = name,
             timeStarted = currentTime,
             tagNames = listOf(tag),
-            comment = comment
+            comment = comment,
         )
 
         // Check record
@@ -324,7 +324,7 @@ class RecordActionsSplitTest : BaseUiTest() {
 
         // Divide
         clickOnView(
-            allOf(withText("-30"), isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust)))
+            allOf(withText("-30"), isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeSplitAdjust))),
         )
         clickOnViewWithText(coreR.string.change_record_split)
 
@@ -357,8 +357,8 @@ class RecordActionsSplitTest : BaseUiTest() {
                 hasDescendant(withText(timeEndedPreview)),
                 hasDescendant(withText(timeRangePreview)),
                 hasDescendant(withText(comment)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 
@@ -376,8 +376,8 @@ class RecordActionsSplitTest : BaseUiTest() {
                 hasDescendant(withTag(firstIcon)),
                 hasDescendant(withText(timeStartedPreview)),
                 hasDescendant(withText(comment)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 }

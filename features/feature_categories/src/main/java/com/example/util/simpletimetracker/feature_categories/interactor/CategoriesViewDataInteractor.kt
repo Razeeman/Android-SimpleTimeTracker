@@ -46,7 +46,7 @@ class CategoriesViewDataInteractor @Inject constructor(
         categories.map { category ->
             categoryViewDataMapper.mapCategory(
                 category = category,
-                isDarkTheme = isDarkTheme
+                isDarkTheme = isDarkTheme,
             )
         }.let(result::addAll)
 
@@ -73,7 +73,7 @@ class CategoriesViewDataInteractor @Inject constructor(
             categoryViewDataMapper.mapRecordTag(
                 tag = tag,
                 type = types.firstOrNull { it.id == tag.typeId },
-                isDarkTheme = isDarkTheme
+                isDarkTheme = isDarkTheme,
             )
         }.let(result::addAll)
 

@@ -72,12 +72,12 @@ class RecordsViewModel @Inject constructor(
                 goalTime = item.goalTime.toParams(),
                 iconId = item.iconId.toParams(),
                 color = item.color,
-                comment = item.comment
-            )
+                comment = item.comment,
+            ),
         )
         router.navigate(
             data = ChangeRunningRecordFromMainParams(params),
-            sharedElements = sharedElements?.let(::mapOf) ?: emptyMap()
+            sharedElements = sharedElements?.let(::mapOf) ?: emptyMap(),
         )
     }
 
@@ -90,7 +90,7 @@ class RecordsViewModel @Inject constructor(
             duration = item.duration,
             iconId = item.iconId.toParams(),
             color = item.color,
-            comment = item.comment
+            comment = item.comment,
         )
 
         val params = when (item) {
@@ -98,18 +98,18 @@ class RecordsViewModel @Inject constructor(
                 transitionName = sharedElements?.second.orEmpty(),
                 id = item.id,
                 from = ChangeRecordParams.From.Records,
-                preview = preview
+                preview = preview,
             )
             is RecordViewData.Untracked -> ChangeRecordParams.Untracked(
                 transitionName = sharedElements?.second.orEmpty(),
                 timeStarted = item.timeStartedTimestamp,
                 timeEnded = item.timeEndedTimestamp,
-                preview = preview
+                preview = preview,
             )
         }
         router.navigate(
             data = ChangeRecordFromMainParams(params),
-            sharedElements = sharedElements?.let(::mapOf) ?: emptyMap()
+            sharedElements = sharedElements?.let(::mapOf) ?: emptyMap(),
         )
     }
 
@@ -137,7 +137,7 @@ class RecordsViewModel @Inject constructor(
         }
     }
 
-    private fun updateRecords() = viewModelScope.launch() {
+    private fun updateRecords() = viewModelScope.launch {
         isCalendarView.set(prefsInteractor.getShowRecordsCalendar())
 
         when (val state = loadRecordsViewData()) {

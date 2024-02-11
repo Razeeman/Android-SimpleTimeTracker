@@ -35,7 +35,6 @@ class TimeDialogFragment : BaseFragment<Binding>() {
     }
 
     override fun initUi(): Unit = with(binding) {
-
         val calendar = Calendar.getInstance()
             .apply { timeInMillis = timestamp }
 

@@ -33,7 +33,7 @@ class CardSizeDialogFragment : BaseBottomSheetFragment<Binding>() {
         BaseRecyclerAdapter(
             createEmptyAdapterDelegate(),
             createRecordTypeAdapterDelegate(),
-            createLoaderAdapterDelegate()
+            createLoaderAdapterDelegate(),
         )
     }
 

@@ -15,16 +15,16 @@ interface Router {
 
     fun navigate(
         data: ScreenParams,
-        sharedElements: Map<Any, String>? = null
+        sharedElements: Map<Any, String>? = null,
     )
 
     fun execute(
-        data: ActionParams
+        data: ActionParams,
     )
 
     fun show(
         data: NotificationParams,
-        anchor: Any? = null // should be a view
+        anchor: Any? = null, // should be a view
     )
 
     fun setResultListener(key: String, listener: ResultListener)

@@ -68,13 +68,13 @@ class StatisticsViewDataMapper @Inject constructor(
     fun mapStatisticsTotalTracked(totalTracked: String): ViewHolderType {
         return StatisticsInfoViewData(
             name = resourceRepo.getString(R.string.statistics_total_tracked),
-            text = totalTracked
+            text = totalTracked,
         )
     }
 
     fun mapToEmpty(): ViewHolderType {
         return EmptyViewData(
-            message = R.string.no_data.let(resourceRepo::getString)
+            message = R.string.no_data.let(resourceRepo::getString),
         )
     }
 
@@ -88,13 +88,13 @@ class StatisticsViewDataMapper @Inject constructor(
 
     fun mapToHint(): ViewHolderType {
         return HintViewData(
-            text = R.string.statistics_hint.let(resourceRepo::getString)
+            text = R.string.statistics_hint.let(resourceRepo::getString),
         )
     }
 
     fun mapToGoalHint(): ViewHolderType {
         return HintViewData(
-            text = R.string.change_record_type_goal_time_hint.let(resourceRepo::getString)
+            text = R.string.change_record_type_goal_time_hint.let(resourceRepo::getString),
         )
     }
 
@@ -113,7 +113,7 @@ class StatisticsViewDataMapper @Inject constructor(
         val durationPercent = statisticsMapper.getDurationPercentString(
             sumDuration = sumDuration,
             duration = statistics.data.duration,
-            statisticsSize = statisticsSize
+            statisticsSize = statisticsSize,
         )
         val transitionName = "${TransitionNames.STATISTICS_DETAIL}_shift${shift}_id${statistics.id}"
 
@@ -127,7 +127,7 @@ class StatisticsViewDataMapper @Inject constructor(
                         statistics = statistics,
                         showDuration = showDuration,
                         showSeconds = showSeconds,
-                        useProportionalMinutes = useProportionalMinutes
+                        useProportionalMinutes = useProportionalMinutes,
                     ),
                     percent = durationPercent,
                     icon = RecordTypeIcon.Image(R.drawable.unknown),
@@ -147,7 +147,7 @@ class StatisticsViewDataMapper @Inject constructor(
                         statistics = statistics,
                         showDuration = showDuration,
                         showSeconds = showSeconds,
-                        useProportionalMinutes = useProportionalMinutes
+                        useProportionalMinutes = useProportionalMinutes,
                     ),
                     percent = durationPercent,
                     icon = RecordTypeIcon.Image(R.drawable.untagged),
@@ -163,7 +163,7 @@ class StatisticsViewDataMapper @Inject constructor(
                         statistics = statistics,
                         showDuration = showDuration,
                         showSeconds = showSeconds,
-                        useProportionalMinutes = useProportionalMinutes
+                        useProportionalMinutes = useProportionalMinutes,
                     ),
                     percent = durationPercent,
                     icon = dataHolder.icon

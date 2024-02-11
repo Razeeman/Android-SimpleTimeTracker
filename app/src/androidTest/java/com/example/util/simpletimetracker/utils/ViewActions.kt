@@ -33,7 +33,11 @@ import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.anyOf
 
 enum class Direction {
-    UP, DOWN, LEFT, RIGHT, COORDINATES
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+    COORDINATES,
 }
 
 fun slowHalfSwipe(): ViewAction = GeneralSwipeAction(
@@ -57,7 +61,7 @@ fun swipeUp(requiredViewVisibilityPercentage: Int): ViewAction = object : ViewAc
             Swipe.FAST,
             GeneralLocation.VISIBLE_CENTER,
             GeneralLocation.TOP_CENTER,
-            Press.FINGER
+            Press.FINGER,
         ).perform(uiController, view)
     }
 }
@@ -100,8 +104,8 @@ fun clickLocation(
             location,
             Press.FINGER,
             InputDevice.SOURCE_UNKNOWN,
-            MotionEvent.BUTTON_PRIMARY
-        )
+            MotionEvent.BUTTON_PRIMARY,
+        ),
     )
 }
 
@@ -115,9 +119,9 @@ fun nestedScrollTo(): ViewAction = object : ViewAction {
             anyOf(
                 isAssignableFrom(ScrollView::class.java),
                 isAssignableFrom(HorizontalScrollView::class.java),
-                isAssignableFrom(NestedScrollView::class.java)
-            )
-        )
+                isAssignableFrom(NestedScrollView::class.java),
+            ),
+        ),
     )
 
     override fun perform(uiController: UiController, view: View) {
@@ -154,7 +158,7 @@ fun drag(
 
             val steps: Array<FloatArray> = interpolate(
                 viewCoordinates,
-                destCoordinates
+                destCoordinates,
             )
 
             uiController.loopMainThreadUntilIdle()

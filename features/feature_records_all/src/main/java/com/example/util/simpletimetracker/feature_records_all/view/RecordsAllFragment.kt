@@ -41,7 +41,7 @@ class RecordsAllFragment : BaseFragment<Binding>() {
 
     private val viewModel: RecordsAllViewModel by viewModels()
     private val removeRecordViewModel: RemoveRecordViewModel by activityViewModels(
-        factoryProducer = { removeRecordViewModelFactory }
+        factoryProducer = { removeRecordViewModelFactory },
     )
     private val recordsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
@@ -53,11 +53,11 @@ class RecordsAllFragment : BaseFragment<Binding>() {
             createMultitaskRecordAdapterDelegate(),
             createRecordsDateDividerAdapterDelegate(),
             createEmptyAdapterDelegate(),
-            createLoaderAdapterDelegate()
+            createLoaderAdapterDelegate(),
         )
     }
     private val params: RecordsAllParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = RecordsAllParams()
+        key = ARGS_PARAMS, default = RecordsAllParams(),
     )
 
     override fun initUi(): Unit = with(binding) {

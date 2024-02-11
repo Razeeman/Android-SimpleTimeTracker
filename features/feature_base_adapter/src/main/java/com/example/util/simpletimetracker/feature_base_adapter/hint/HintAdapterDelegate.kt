@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemH
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData as ViewData
 
 fun createHintAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {

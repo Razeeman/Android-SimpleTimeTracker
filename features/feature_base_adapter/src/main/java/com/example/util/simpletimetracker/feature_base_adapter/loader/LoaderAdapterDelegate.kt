@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemL
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData as ViewData
 
 fun createLoaderAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { _, _, _ ->
 
     // Nothing to bind

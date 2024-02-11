@@ -158,7 +158,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
                 ChartBarDataDuration(
                     legend = data.legend,
-                    duration = duration
+                    duration = duration,
                 )
             }
     }
@@ -179,23 +179,23 @@ class StatisticsDetailChartInteractor @Inject constructor(
             is RangeLength.Week,
             is RangeLength.Last,
             -> listOf(
-                ChartGrouping.DAILY
+                ChartGrouping.DAILY,
             )
             is RangeLength.Month,
             -> listOf(
                 ChartGrouping.DAILY,
-                ChartGrouping.WEEKLY
+                ChartGrouping.WEEKLY,
             )
             is RangeLength.Year -> listOf(
                 ChartGrouping.DAILY,
                 ChartGrouping.WEEKLY,
-                ChartGrouping.MONTHLY
+                ChartGrouping.MONTHLY,
             )
             is RangeLength.All -> listOf(
                 ChartGrouping.DAILY,
                 ChartGrouping.WEEKLY,
                 ChartGrouping.MONTHLY,
-                ChartGrouping.YEARLY
+                ChartGrouping.YEARLY,
             )
             is RangeLength.Custom -> {
                 customRangeGroupings = calculateCustomRangeGropings(rangeLength, firstDayOfWeek)
@@ -217,7 +217,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             is RangeLength.Year,
             is RangeLength.Last,
             -> timeMapper.getRangeStartAndEnd(
-                rangeLength, rangePosition, firstDayOfWeek, 0
+                rangeLength, rangePosition, firstDayOfWeek, 0,
             ).timeEnded - 1
             is RangeLength.All -> System.currentTimeMillis()
             is RangeLength.Custom -> rangeLength.range.timeEnded - 1
@@ -247,7 +247,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             is RangeLength.Custom -> {
                 customRangeGroupings.first { it.first == appliedChartGrouping }.second
             }
-            is RangeLength.Last -> rangeLength.days
+            is RangeLength.Last -> rangeLength.DAYS
         }
 
         return when (appliedChartGrouping) {
@@ -285,7 +285,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             ChartBarDataRange(
                 legend = legend,
                 rangeStart = rangeStart + startOfDayShift,
-                rangeEnd = rangeEnd + startOfDayShift
+                rangeEnd = rangeEnd + startOfDayShift,
             )
         }
     }
@@ -315,7 +315,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             ChartBarDataRange(
                 legend = legend,
                 rangeStart = rangeStart + startOfDayShift,
-                rangeEnd = rangeEnd + startOfDayShift
+                rangeEnd = rangeEnd + startOfDayShift,
             )
         }
     }
@@ -342,7 +342,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             ChartBarDataRange(
                 legend = legend,
                 rangeStart = rangeStart + startOfDayShift,
-                rangeEnd = rangeEnd + startOfDayShift
+                rangeEnd = rangeEnd + startOfDayShift,
             )
         }
     }
@@ -369,7 +369,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             ChartBarDataRange(
                 legend = legend,
                 rangeStart = rangeStart + startOfDayShift,
-                rangeEnd = rangeEnd + startOfDayShift
+                rangeEnd = rangeEnd + startOfDayShift,
             )
         }
     }
@@ -384,7 +384,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             ChartGrouping.DAILY,
             ChartGrouping.WEEKLY,
             ChartGrouping.MONTHLY,
-            ChartGrouping.YEARLY
+            ChartGrouping.YEARLY,
         )
 
         allChartGroupings.forEach { chartGrouping ->
@@ -399,7 +399,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
                 fromTime = range.timeStarted,
                 toTime = range.timeEnded - 1, // end of day is beginning on next one, shift back.
                 range = currentRangeLength,
-                firstDayOfWeek = firstDayOfWeek
+                firstDayOfWeek = firstDayOfWeek,
             )
 
             when {

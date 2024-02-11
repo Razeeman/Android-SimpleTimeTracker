@@ -92,8 +92,11 @@ class DataEditFragment :
             deleteRecordsState.observe(::setDeleteRecordsState)
             changeButtonState.observe(::setChangeButtonState)
             keyboardVisibility.observe { visible ->
-                if (visible) showKeyboard(etDataEditChangeComment)
-                else hideKeyboard()
+                if (visible) {
+                    showKeyboard(etDataEditChangeComment)
+                } else {
+                    hideKeyboard()
+                }
             }
         }
     }
@@ -237,7 +240,7 @@ class DataEditFragment :
     }
 
     private fun setChangeButtonState(
-        state: DataEditChangeButtonState
+        state: DataEditChangeButtonState,
     ) = with(binding) {
         btnDataEditChange.isEnabled = state.enabled
         btnDataEditChange.backgroundTintList = ColorStateList.valueOf(state.backgroundTint)

@@ -145,8 +145,8 @@ class ChangeActivityFilterViewModel @Inject constructor(
         ColorSelectionDialogParams(
             preselectedColor = colorMapper.mapToColorInt(
                 color = newColor,
-                isDarkTheme = false // Pass original, not darkened color.
-            )
+                isDarkTheme = false, // Pass original, not darkened color.
+            ),
         ).let(router::navigate)
     }
 

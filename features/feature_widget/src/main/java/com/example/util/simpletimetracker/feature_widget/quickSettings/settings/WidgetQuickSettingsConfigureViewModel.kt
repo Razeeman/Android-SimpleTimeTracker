@@ -26,7 +26,7 @@ class WidgetQuickSettingsConfigureViewModel @Inject constructor(
         viewModelScope.launch {
             prefsInteractor.setQuickSettingsWidget(
                 widgetId = extra.widgetId,
-                data = QuickSettingsWidgetType.AllowMultitasking
+                data = QuickSettingsWidgetType.AllowMultitasking,
             )
             widgetInteractor.updateQuickSettingsWidget(extra.widgetId)
             handled.set(extra.widgetId)
@@ -37,7 +37,7 @@ class WidgetQuickSettingsConfigureViewModel @Inject constructor(
         viewModelScope.launch {
             prefsInteractor.setQuickSettingsWidget(
                 widgetId = extra.widgetId,
-                data = QuickSettingsWidgetType.ShowRecordTagSelection
+                data = QuickSettingsWidgetType.ShowRecordTagSelection,
             )
             widgetInteractor.updateQuickSettingsWidget(extra.widgetId)
             handled.set(extra.widgetId)

@@ -16,7 +16,7 @@ fun createCategoryAdapterDelegate(
     onClickWithTransition: ((ViewData, Pair<Any, String>) -> Unit)? = null,
     onLongClickWithTransition: ((ViewData, Pair<Any, String>) -> Unit)? = null,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding.viewCategoryItem) {

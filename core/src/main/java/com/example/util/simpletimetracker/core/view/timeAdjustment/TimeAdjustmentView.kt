@@ -24,14 +24,14 @@ class TimeAdjustmentView @JvmOverloads constructor(
 ) : FrameLayout(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     var listener: ((ViewData) -> Unit)? = null
 
     val adapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createAdapterDelegate(::onItemClick)
+            createAdapterDelegate(::onItemClick),
         )
     }
 
@@ -69,7 +69,7 @@ class TimeAdjustmentView @JvmOverloads constructor(
     private fun createAdapterDelegate(
         onItemClick: ((ViewData) -> Unit),
     ) = createRecyclerBindingAdapterDelegate<ViewData, TimeAdjustmentItemLayoutBinding>(
-        TimeAdjustmentItemLayoutBinding::inflate
+        TimeAdjustmentItemLayoutBinding::inflate,
     ) { binding, item, _ ->
 
         with(binding) {

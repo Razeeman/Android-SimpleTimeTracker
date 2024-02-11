@@ -31,7 +31,7 @@ class RangeMapper @Inject constructor() {
     ): Range {
         return Range(
             timeStarted = max(record.timeStarted, range.timeStarted),
-            timeEnded = min(record.timeEnded, range.timeEnded)
+            timeEnded = min(record.timeEnded, range.timeEnded),
         )
     }
 
@@ -58,7 +58,7 @@ class RangeMapper @Inject constructor() {
                 is MultitaskRecord -> MultitaskRecord(
                     records = record.records.map {
                         clampNormalRecordToRange(it, range)
-                    }
+                    },
                 )
             }
         } else {
@@ -80,7 +80,7 @@ class RangeMapper @Inject constructor() {
     ): Record {
         return record.copy(
             timeStarted = max(record.timeStarted, range.timeStarted),
-            timeEnded = min(record.timeEnded, range.timeEnded)
+            timeEnded = min(record.timeEnded, range.timeEnded),
         )
     }
 

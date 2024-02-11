@@ -137,8 +137,8 @@ class ChangeCategoryViewModel @Inject constructor(
         ColorSelectionDialogParams(
             preselectedColor = colorMapper.mapToColorInt(
                 color = newColor,
-                isDarkTheme = false // Pass original, not darkened color.
-            )
+                isDarkTheme = false, // Pass original, not darkened color.
+            ),
         ).let(router::navigate)
     }
 
@@ -187,7 +187,7 @@ class ChangeCategoryViewModel @Inject constructor(
             Category(
                 id = categoryId,
                 name = newName,
-                color = newColor
+                color = newColor,
             ).let {
                 val addedId = saveCategory()
                 saveTypes(addedId)
@@ -205,7 +205,7 @@ class ChangeCategoryViewModel @Inject constructor(
         val category = Category(
             id = categoryId,
             name = newName,
-            color = newColor
+            color = newColor,
         )
 
         return categoryInteractor.add(category)
@@ -272,7 +272,7 @@ class ChangeCategoryViewModel @Inject constructor(
 
         return Category(
             name = newName,
-            color = newColor
+            color = newColor,
         ).let { categoryViewDataMapper.mapCategory(it, isDarkTheme) }
     }
 
@@ -281,7 +281,7 @@ class ChangeCategoryViewModel @Inject constructor(
 
         return Category(
             name = newName,
-            color = newColor
+            color = newColor,
         ).let { categoryViewDataMapper.mapCategory(it, isDarkTheme) }
     }
 

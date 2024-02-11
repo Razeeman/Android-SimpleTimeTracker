@@ -11,19 +11,19 @@ interface Throttler : LifecycleOwner {
     var throttleJob: Job?
 
     fun throttle(
-        destinationFunction: () -> Unit
+        destinationFunction: () -> Unit,
     ): () -> Unit = {
         throttler { destinationFunction() }
     }
 
     fun <T> throttle(
-        destinationFunction: (T) -> Unit
+        destinationFunction: (T) -> Unit,
     ): (T) -> Unit = { param ->
         throttler { destinationFunction(param) }
     }
 
     fun <T, U> throttle(
-        destinationFunction: (T, U) -> Unit
+        destinationFunction: (T, U) -> Unit,
     ): (T, U) -> Unit = { param1, param2 ->
         throttler { destinationFunction(param1, param2) }
     }

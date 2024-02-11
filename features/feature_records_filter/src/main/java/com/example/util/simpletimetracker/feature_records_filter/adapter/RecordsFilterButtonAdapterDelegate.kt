@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.feature_records_filter.databinding.Ite
 fun createRecordsFilterButtonAdapterDelegate(
     onClick: (ViewData) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {

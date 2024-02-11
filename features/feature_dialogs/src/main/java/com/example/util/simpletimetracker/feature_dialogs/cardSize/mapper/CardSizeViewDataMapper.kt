@@ -11,13 +11,13 @@ import javax.inject.Inject
 
 class CardSizeViewDataMapper @Inject constructor(
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val colorMapper: ColorMapper
+    private val colorMapper: ColorMapper,
 ) {
 
     fun toToRecordTypeViewData(
         recordType: RecordType,
         numberOfCards: Int,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
     ): RecordTypeViewData {
         return recordTypeViewDataMapper.map(
             recordType = recordType,
@@ -32,21 +32,21 @@ class CardSizeViewDataMapper @Inject constructor(
             CardSizeButtonsViewData(
                 numberOfCards = buttonNumber,
                 name = buttonNumber.toString(),
-                isSelected = numberOfCards == buttonNumber
+                isSelected = numberOfCards == buttonNumber,
             )
         }
     }
 
     fun toDefaultButtonViewData(
         numberOfCards: Int,
-        isDarkTheme: Boolean
+        isDarkTheme: Boolean,
     ): CardSizeDefaultButtonViewData {
         return CardSizeDefaultButtonViewData(
             color = if (numberOfCards == 0) {
                 colorMapper.toActiveColor(isDarkTheme)
             } else {
                 colorMapper.toInactiveColor(isDarkTheme)
-            }
+            },
         )
     }
 }

@@ -39,7 +39,7 @@ class ActivityFilterViewDataMapper @Inject constructor(
     ): ActivityFilterAddViewData {
         return ActivityFilterAddViewData(
             name = resourceRepo.getString(R.string.running_records_add_filter),
-            color = colorMapper.toInactiveColor(isDarkTheme)
+            color = colorMapper.toInactiveColor(isDarkTheme),
         )
     }
 }

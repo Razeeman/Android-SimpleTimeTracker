@@ -93,7 +93,7 @@ fun ViewPager2.addOnPageChangeCallback(
         override fun onPageScrolled(
             position: Int,
             positionOffset: Float,
-            positionOffsetPixels: Int
+            positionOffsetPixels: Int,
         ) = onPageScrolled(position, positionOffset, positionOffsetPixels)
 
         override fun onPageSelected(position: Int) = onPageSelected(position)
@@ -102,7 +102,7 @@ fun ViewPager2.addOnPageChangeCallback(
 
     registerOnPageChangeCallback(callback)
     getLifecycleObserverAdapter(
-        onDestroy = { unregisterOnPageChangeCallback(callback) }
+        onDestroy = { unregisterOnPageChangeCallback(callback) },
     ).let(lifecycleOwner.lifecycle::addObserver)
 }
 

@@ -76,14 +76,14 @@ class CustomColorTest : BaseUiTest() {
         checkColorState(
             finalColorInt = 0xff00ff00.toInt(),
             colorGreen = 255,
-            colorHue = 120
+            colorHue = 120,
         )
 
         typeTextIntoView(dialogsR.id.etColorSelectionHex, "#0000FF")
         checkColorState(
             finalColorInt = 0xff0000ff.toInt(),
             colorBlue = 255,
-            colorHue = 240
+            colorHue = 240,
         )
 
         typeTextIntoView(dialogsR.id.etColorSelectionHex, "#29a674")
@@ -112,7 +112,7 @@ class CustomColorTest : BaseUiTest() {
         checkColorState(
             finalColorInt = 0xff00ff00.toInt(),
             colorGreen = 255,
-            colorHue = 120
+            colorHue = 120,
         )
 
         typeTextIntoView(dialogsR.id.etColorSelectionRed, "0")
@@ -121,7 +121,7 @@ class CustomColorTest : BaseUiTest() {
         checkColorState(
             finalColorInt = 0xff0000ff.toInt(),
             colorBlue = 255,
-            colorHue = 240
+            colorHue = 240,
         )
 
         typeTextIntoView(dialogsR.id.etColorSelectionRed, "41")
@@ -150,14 +150,14 @@ class CustomColorTest : BaseUiTest() {
         checkColorState(
             finalColorInt = 0xff00ff00.toInt(),
             colorGreen = 255,
-            colorHue = 120
+            colorHue = 120,
         )
 
         typeTextIntoView(dialogsR.id.etColorSelectionHue, "240")
         checkColorState(
             finalColorInt = 0xff0000ff.toInt(),
             colorBlue = 255,
-            colorHue = 240
+            colorHue = 240,
         )
 
         typeTextIntoView(dialogsR.id.etColorSelectionHue, "156")
@@ -213,13 +213,13 @@ class CustomColorTest : BaseUiTest() {
         // Check new color selected
         checkPreviewUpdated(hasDescendant(withCardColorInt(customColorInt)))
         checkViewIsNotDisplayed(
-            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt)))
+            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))),
         )
         checkViewIsDisplayed(
             allOf(
                 withId(dialogsR.id.viewColorPaletteItemSelected),
-                withParent(withId(dialogsR.id.layoutColorPaletteItem))
-            )
+                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+            ),
         )
 
         // Save record type
@@ -233,7 +233,7 @@ class CustomColorTest : BaseUiTest() {
                 withId(dialogsR.id.viewRecordTypeItem),
                 hasDescendant(withCardColorInt(customColorInt)),
                 hasDescendant(withText(name)),
-            )
+            ),
         )
         longClickOnView(withText(name))
         checkPreviewUpdated(hasDescendant(withCardColorInt(customColorInt)))
@@ -241,8 +241,8 @@ class CustomColorTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(dialogsR.id.viewColorPaletteItemSelected),
-                withParent(withId(dialogsR.id.layoutColorPaletteItem))
-            )
+                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+            ),
         )
         scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeColor, withId(dialogsR.id.layoutColorPaletteItem))
         clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withId(dialogsR.id.layoutColorPaletteItem))
@@ -267,8 +267,8 @@ class CustomColorTest : BaseUiTest() {
                 withId(dialogsR.id.viewRecordItem),
                 withCardColorInt(customColorInt),
                 hasDescendant(withText(name)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
 
         // Check statistics
@@ -278,8 +278,8 @@ class CustomColorTest : BaseUiTest() {
                 withId(dialogsR.id.viewStatisticsItem),
                 withCardColorInt(customColorInt),
                 hasDescendant(withText(name)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
 
         // Check activity record tag
@@ -290,7 +290,7 @@ class CustomColorTest : BaseUiTest() {
                 withId(dialogsR.id.viewCategoryItem),
                 withCardColorInt(customColorInt),
                 hasDescendant(withText(tagName)),
-            )
+            ),
         )
     }
 
@@ -335,13 +335,13 @@ class CustomColorTest : BaseUiTest() {
         // Check new color selected
         checkPreviewUpdated(withCardColorInt(customColorInt))
         checkViewIsNotDisplayed(
-            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt)))
+            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))),
         )
         checkViewIsDisplayed(
             allOf(
                 withId(dialogsR.id.viewColorPaletteItemSelected),
-                withParent(withId(dialogsR.id.layoutColorPaletteItem))
-            )
+                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+            ),
         )
         clickOnViewWithText(coreR.string.change_category_color_hint)
 
@@ -355,19 +355,19 @@ class CustomColorTest : BaseUiTest() {
                 withId(dialogsR.id.viewCategoryItem),
                 withCardColorInt(customColorInt),
                 hasDescendant(withText(categoryName)),
-            )
+            ),
         )
         longClickOnView(withText(categoryName))
         checkPreviewUpdated(withCardColorInt(customColorInt))
         clickOnViewWithText(coreR.string.change_category_color_hint)
         checkViewIsNotDisplayed(
-            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt)))
+            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))),
         )
         checkViewIsDisplayed(
             allOf(
                 withId(dialogsR.id.viewColorPaletteItemSelected),
-                withParent(withId(dialogsR.id.layoutColorPaletteItem))
-            )
+                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+            ),
         )
         scrollRecyclerToView(changeCategoryR.id.rvChangeCategoryColor, withId(dialogsR.id.layoutColorPaletteItem))
         clickOnRecyclerItem(changeCategoryR.id.rvChangeCategoryColor, withId(dialogsR.id.layoutColorPaletteItem))
@@ -397,8 +397,8 @@ class CustomColorTest : BaseUiTest() {
                 withId(dialogsR.id.viewStatisticsItem),
                 withCardColorInt(customColorInt),
                 hasDescendant(withText(categoryName)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 
@@ -442,13 +442,13 @@ class CustomColorTest : BaseUiTest() {
         // Check new color selected
         checkPreviewUpdated(withCardColorInt(customColorInt))
         checkViewIsNotDisplayed(
-            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt)))
+            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))),
         )
         checkViewIsDisplayed(
             allOf(
                 withId(dialogsR.id.viewColorPaletteItemSelected),
-                withParent(withId(dialogsR.id.layoutColorPaletteItem))
-            )
+                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+            ),
         )
 
         // Save tag
@@ -461,19 +461,19 @@ class CustomColorTest : BaseUiTest() {
                 withId(dialogsR.id.viewCategoryItem),
                 withCardColorInt(customColorInt),
                 hasDescendant(withText(tagName)),
-            )
+            ),
         )
         longClickOnView(withText(tagName))
         checkPreviewUpdated(withCardColorInt(customColorInt))
         clickOnViewWithText(coreR.string.change_category_color_hint)
         checkViewIsNotDisplayed(
-            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt)))
+            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))),
         )
         checkViewIsDisplayed(
             allOf(
                 withId(dialogsR.id.viewColorPaletteItemSelected),
-                withParent(withId(dialogsR.id.layoutColorPaletteItem))
-            )
+                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+            ),
         )
         scrollRecyclerToView(changeRecordTagR.id.rvChangeRecordTagColor, withId(dialogsR.id.layoutColorPaletteItem))
         clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagColor, withId(dialogsR.id.layoutColorPaletteItem))
@@ -499,25 +499,25 @@ class CustomColorTest : BaseUiTest() {
     ) {
         checkSliderValue(dialogsR.id.sliderColorSelectionHue, colorHue)
         checkViewIsDisplayed(
-            allOf(withId(dialogsR.id.cardColorSelectionSelectedColor), withCardColorInt(finalColorInt))
+            allOf(withId(dialogsR.id.cardColorSelectionSelectedColor), withCardColorInt(finalColorInt)),
         )
         checkViewIsDisplayed(
-            allOf(withId(dialogsR.id.etColorSelectionRed), withText(colorRed.toString()))
+            allOf(withId(dialogsR.id.etColorSelectionRed), withText(colorRed.toString())),
         )
         checkViewIsDisplayed(
-            allOf(withId(dialogsR.id.etColorSelectionGreen), withText(colorGreen.toString()))
+            allOf(withId(dialogsR.id.etColorSelectionGreen), withText(colorGreen.toString())),
         )
         checkViewIsDisplayed(
-            allOf(withId(dialogsR.id.etColorSelectionBlue), withText(colorBlue.toString()))
+            allOf(withId(dialogsR.id.etColorSelectionBlue), withText(colorBlue.toString())),
         )
         checkViewIsDisplayed(
-            allOf(withId(dialogsR.id.etColorSelectionHue), withText(colorHue.toString()))
+            allOf(withId(dialogsR.id.etColorSelectionHue), withText(colorHue.toString())),
         )
         checkViewIsDisplayed(
-            allOf(withId(dialogsR.id.etColorSelectionSaturation), withText(colorSaturation.toString()))
+            allOf(withId(dialogsR.id.etColorSelectionSaturation), withText(colorSaturation.toString())),
         )
         checkViewIsDisplayed(
-            allOf(withId(dialogsR.id.etColorSelectionValue), withText(colorValue.toString()))
+            allOf(withId(dialogsR.id.etColorSelectionValue), withText(colorValue.toString())),
         )
     }
 }

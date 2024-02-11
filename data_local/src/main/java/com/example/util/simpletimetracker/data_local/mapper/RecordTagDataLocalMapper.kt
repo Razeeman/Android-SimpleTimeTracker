@@ -16,7 +16,7 @@ class RecordTagDataLocalMapper @Inject constructor() {
                 colorId = dbo.color,
                 colorInt = dbo.colorInt,
             ),
-            archived = dbo.archived
+            archived = dbo.archived,
         )
     }
 
@@ -27,7 +27,7 @@ class RecordTagDataLocalMapper @Inject constructor() {
             name = domain.name,
             color = domain.color.colorId,
             colorInt = domain.color.colorInt,
-            archived = domain.archived
+            archived = domain.archived,
         )
     }
 }

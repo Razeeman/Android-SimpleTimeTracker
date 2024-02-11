@@ -52,7 +52,7 @@ class NotificationResolverImpl @Inject constructor(
                 is SnackBarParams.Duration.Normal -> SNACK_BAR_DURATION_MS
                 is SnackBarParams.Duration.Long -> SNACK_BAR_LONG_DURATION_MS
                 is SnackBarParams.Duration.Indefinite -> LENGTH_INDEFINITE
-            }
+            },
         )
 
         val textViewId = com.google.android.material.R.id.snackbar_text
@@ -76,13 +76,15 @@ class NotificationResolverImpl @Inject constructor(
             snackBar.anchorView = anchor
         }
 
-        snackBar.addCallback(object : Snackbar.Callback() {
-            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                if (event != DISMISS_EVENT_ACTION) {
-                    data.dismissedListener?.invoke(data.tag)
+        snackBar.addCallback(
+            object : Snackbar.Callback() {
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    if (event != DISMISS_EVENT_ACTION) {
+                        data.dismissedListener?.invoke(data.tag)
+                    }
                 }
-            }
-        })
+            },
+        )
 
         snackBar.view.setOnClick {
             snackBar.dismiss()
@@ -108,7 +110,7 @@ class NotificationResolverImpl @Inject constructor(
         val popupView = PopupWindow(
             view.root,
             ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
+            ViewGroup.LayoutParams.WRAP_CONTENT,
         )
         popupView.apply {
             isFocusable = false

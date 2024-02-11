@@ -38,7 +38,7 @@ class ChartFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
             createCategoryAdapterDelegate(viewModel::onCategoryClick),
             createLoaderAdapterDelegate(),
-            createEmptyAdapterDelegate()
+            createEmptyAdapterDelegate(),
         )
     }
 

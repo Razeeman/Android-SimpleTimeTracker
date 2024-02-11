@@ -39,7 +39,7 @@ class DateTimeDialogFragment :
     private var dateDialogFragment: DateDialogFragment? = null
     private var dateTimeDialogListeners: MutableList<DateTimeDialogListener> = mutableListOf()
     private val params: DateTimeDialogParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = DateTimeDialogParams()
+        key = ARGS_PARAMS, default = DateTimeDialogParams(),
     )
     private var newTimestamp: Long = 0
     private val calendar = Calendar.getInstance()
@@ -137,7 +137,7 @@ class DateTimeDialogFragment :
                 R.id.datePickerContainer,
                 DateDialogFragment.newInstance(params.timestamp, dayOfWeek)
                     .apply { listener = this@DateTimeDialogFragment }
-                    .also { dateDialogFragment = it }
+                    .also { dateDialogFragment = it },
             )
         }
     }
@@ -150,10 +150,10 @@ class DateTimeDialogFragment :
                     .newInstance(
                         timestamp = params.timestamp,
                         useMilitaryTime = params.useMilitaryTime,
-                        showSeconds = params.showSeconds
+                        showSeconds = params.showSeconds,
                     )
                     .apply { listener = this@DateTimeDialogFragment }
-                    .also { timeDialogFragment = it }
+                    .also { timeDialogFragment = it },
             )
         }
     }

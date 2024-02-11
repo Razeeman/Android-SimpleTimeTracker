@@ -29,7 +29,7 @@ class SeriesCalendarView @JvmOverloads constructor(
 ) : View(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     // Attrs
@@ -138,12 +138,12 @@ class SeriesCalendarView @JvmOverloads constructor(
     private fun initArgs(
         context: Context,
         attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+        defStyleAttr: Int = 0,
     ) {
         context
             .obtainStyledAttributes(
                 attrs,
-                R.styleable.SeriesCalendarView, defStyleAttr, 0
+                R.styleable.SeriesCalendarView, defStyleAttr, 0,
             )
             .run {
                 legendTextSize =
@@ -217,7 +217,7 @@ class SeriesCalendarView @JvmOverloads constructor(
                     currentLegend,
                     boxLeft,
                     legendTextSize,
-                    legendTextPaint
+                    legendTextPaint,
                 )
                 currentLegend = legend
             }
@@ -265,7 +265,7 @@ class SeriesCalendarView @JvmOverloads constructor(
                     top = globalRect.top + it.boxTop.toInt(),
                     right = globalRect.left + it.boxRight.toInt(),
                     bottom = globalRect.top + it.boxBottom.toInt(),
-                )
+                ),
             )
         }
     }

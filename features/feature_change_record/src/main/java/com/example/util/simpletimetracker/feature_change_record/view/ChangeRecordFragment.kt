@@ -38,10 +38,10 @@ class ChangeRecordFragment :
 
     private val viewModel: ChangeRecordViewModel by viewModels()
     private val removeRecordViewModel: RemoveRecordViewModel by activityViewModels(
-        factoryProducer = { removeRecordViewModelFactory }
+        factoryProducer = { removeRecordViewModelFactory },
     )
     private val extra: ChangeRecordParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = ChangeRecordParams.New()
+        key = ARGS_PARAMS, default = ChangeRecordParams.New(),
     )
 
     private val core by lazy {
@@ -75,7 +75,7 @@ class ChangeRecordFragment :
         btnChangeRecordDelete.setOnClick {
             viewModel.onDeleteClick()
             removeRecordViewModel.onDeleteClick(
-                (extra as? ChangeRecordParams.Tracked)?.from
+                (extra as? ChangeRecordParams.Tracked)?.from,
             )
         }
     }
@@ -120,7 +120,7 @@ class ChangeRecordFragment :
             duration = preview.duration,
             iconId = preview.iconId.toViewData(),
             color = preview.color,
-            comment = preview.comment
+            comment = preview.comment,
         ).let(::updatePreview)
     }
 

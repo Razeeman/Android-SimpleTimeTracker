@@ -401,8 +401,11 @@ class ChangeRecordTypeFragment :
     private fun updateIconContainerScroll(item: ButtonsRowViewData) = with(binding) {
         if (item !is ChangeRecordTypeIconSwitchViewData) return@with
 
-        val scrollFlags = if (item.iconType == IconType.TEXT) 0
-        else AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+        val scrollFlags = if (item.iconType == IconType.TEXT) {
+            0
+        } else {
+            AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+        }
 
         (btnChangeRecordTypeIconSwitch.layoutParams as? AppBarLayout.LayoutParams)
             ?.scrollFlags = scrollFlags

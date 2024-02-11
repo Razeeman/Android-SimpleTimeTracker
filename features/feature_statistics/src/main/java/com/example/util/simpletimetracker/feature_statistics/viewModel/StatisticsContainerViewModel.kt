@@ -100,7 +100,7 @@ class StatisticsContainerViewModel @Inject constructor(
                 timeMapper.toTimestampShift(
                     toTime = timestamp,
                     range = prefsInteractor.getStatisticsRange(),
-                    firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+                    firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
                 ).toInt().let(::updatePosition)
             }
         }
@@ -111,7 +111,7 @@ class StatisticsContainerViewModel @Inject constructor(
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val current = timeMapper.toTimestampShifted(
             rangesFromToday = position.value.orZero(),
-            range = prefsInteractor.getStatisticsRange()
+            range = prefsInteractor.getStatisticsRange(),
         )
 
         router.navigate(
@@ -120,8 +120,8 @@ class StatisticsContainerViewModel @Inject constructor(
                 type = DateTimeDialogType.DATE,
                 timestamp = current,
                 useMilitaryTime = useMilitaryTime,
-                firstDayOfWeek = firstDayOfWeek
-            )
+                firstDayOfWeek = firstDayOfWeek,
+            ),
         )
     }
 
@@ -155,7 +155,7 @@ class StatisticsContainerViewModel @Inject constructor(
             rangeLength = getRangeLength(),
             position = position.value.orZero(),
             startOfDayShift = startOfDayShift,
-            firstDayOfWeek = firstDayOfWeek
+            firstDayOfWeek = firstDayOfWeek,
         )
     }
 

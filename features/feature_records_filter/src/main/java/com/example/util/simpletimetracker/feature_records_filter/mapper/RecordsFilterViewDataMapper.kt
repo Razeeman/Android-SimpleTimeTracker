@@ -48,7 +48,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
         val selected = resourceRepo.getString(R.string.something_selected)
         val recordsString: String = resourceRepo.getQuantityString(
             R.plurals.statistics_detail_times_tracked,
-            count
+            count,
         ).lowercase()
 
         return "$selected $count $recordsString"
@@ -146,12 +146,12 @@ class RecordsFilterViewDataMapper @Inject constructor(
                 val start = timeMapper.formatTime(
                     time = filter.range.timeStarted + startOfDay,
                     useMilitaryTime = useMilitaryTime,
-                    showSeconds = false
+                    showSeconds = false,
                 )
                 val end = timeMapper.formatTime(
                     time = filter.range.timeEnded + startOfDay,
                     useMilitaryTime = useMilitaryTime,
-                    showSeconds = false
+                    showSeconds = false,
                 )
                 "$start - $end"
             }

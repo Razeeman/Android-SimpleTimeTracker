@@ -23,7 +23,7 @@ class ColorSelectionView @JvmOverloads constructor(
 ) : View(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     interface ColorSelectedListener {
@@ -31,9 +31,12 @@ class ColorSelectionView @JvmOverloads constructor(
     }
 
     // Attrs
-    @FloatRange(from = 0.0, to = 360.0) private var colorHue: Float = 0f
-    @FloatRange(from = 0.0, to = 1.0) private var colorSaturation: Float = 1f
-    @FloatRange(from = 0.0, to = 1.0) private var colorValue: Float = 1f
+    @FloatRange(from = 0.0, to = 360.0)
+    private var colorHue: Float = 0f
+    @FloatRange(from = 0.0, to = 1.0)
+    private var colorSaturation: Float = 1f
+    @FloatRange(from = 0.0, to = 1.0)
+    private var colorValue: Float = 1f
     private var selectedColorRadius: Int = 0
     private var selectedColorStrokeWidth: Int = 0
     private var selectedColorStrokeColor: Int = Color.WHITE
@@ -56,14 +59,14 @@ class ColorSelectionView @JvmOverloads constructor(
 
     private val singleTapDetector = SingleTapDetector(
         context = context,
-        onSingleTap = { onTouch(it) }
+        onSingleTap = { onTouch(it) },
     )
 
     // TODO fix swipe in bottom sheet
     private val swipeDetector = SwipeDetector(
         context = context,
         onSlide = ::onSwipe,
-        onSlideStop = ::onSwipeStop
+        onSlideStop = ::onSwipeStop,
     )
 
     init {
@@ -95,14 +98,14 @@ class ColorSelectionView @JvmOverloads constructor(
         val selectedColorCenterY = pixelTopBound + pixelHeightBound * (1 - colorValue)
         bounds.set(
             selectedColorCenterX - selectedColorRadius, selectedColorCenterY - selectedColorRadius,
-            selectedColorCenterX + selectedColorRadius, selectedColorCenterY + selectedColorRadius
+            selectedColorCenterX + selectedColorRadius, selectedColorCenterY + selectedColorRadius,
         )
         canvas.drawArc(
             bounds,
             0f,
             360f,
             false,
-            selectedColorPaint
+            selectedColorPaint,
         )
     }
 
@@ -136,7 +139,7 @@ class ColorSelectionView @JvmOverloads constructor(
         context
             .obtainStyledAttributes(
                 attrs,
-                R.styleable.ColorSelectionView, defStyleAttr, 0
+                R.styleable.ColorSelectionView, defStyleAttr, 0,
             )
             .run {
                 colorHue =
@@ -169,14 +172,14 @@ class ColorSelectionView @JvmOverloads constructor(
         colors[0] = Color.WHITE
         colors[1] = Color.TRANSPARENT
         LinearGradient(
-            0f, 0f, w, 0f, colors, null, Shader.TileMode.CLAMP
+            0f, 0f, w, 0f, colors, null, Shader.TileMode.CLAMP,
         ).let(gradientPaint1::setShader)
 
         val colors2 = IntArray(2)
         colors2[0] = Color.TRANSPARENT
         colors2[1] = Color.BLACK
         LinearGradient(
-            0f, 0f, 0f, h, colors2, null, Shader.TileMode.CLAMP
+            0f, 0f, 0f, h, colors2, null, Shader.TileMode.CLAMP,
         ).let(gradientPaint2::setShader)
     }
 
@@ -201,7 +204,7 @@ class ColorSelectionView @JvmOverloads constructor(
 
         listener?.onColorSelected(
             saturation = newSaturation,
-            value = newValue
+            value = newValue,
         )
     }
 

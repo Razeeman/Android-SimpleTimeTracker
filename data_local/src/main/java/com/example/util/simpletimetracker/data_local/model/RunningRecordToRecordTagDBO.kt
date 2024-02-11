@@ -8,5 +8,5 @@ data class RunningRecordToRecordTagDBO(
     @ColumnInfo(name = "running_record_id")
     val runningRecordId: Long,
     @ColumnInfo(name = "record_tag_id")
-    val recordTagId: Long
+    val recordTagId: Long,
 )

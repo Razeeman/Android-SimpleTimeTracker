@@ -8,6 +8,6 @@ sealed class RangeLength {
     object All : RangeLength()
     data class Custom(val range: Range) : RangeLength()
     object Last : RangeLength() {
-        const val days: Int = 7
+        const val DAYS: Int = 7
     }
 }

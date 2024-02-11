@@ -21,7 +21,7 @@ abstract class BaseRecyclerViewHolder(view: View) : RecyclerView.ViewHolder(view
 
 inline fun <reified T : ViewHolderType, B : ViewBinding> createRecyclerBindingAdapterDelegate(
     noinline inflater: (LayoutInflater, ViewGroup?, Boolean) -> B,
-    noinline onBind: (B, ViewHolderType, List<Any>) -> Unit
+    noinline onBind: (B, ViewHolderType, List<Any>) -> Unit,
 ) = object : RecyclerAdapterDelegate {
 
     override fun isForValidType(check: ViewHolderType): Boolean {
@@ -31,7 +31,7 @@ inline fun <reified T : ViewHolderType, B : ViewBinding> createRecyclerBindingAd
     override fun onCreateViewHolder(parent: ViewGroup): BaseRecyclerBindingViewHolder<B> =
         BaseRecyclerBindingViewHolder(
             binding = inflater(LayoutInflater.from(parent.context), parent, false),
-            onBind = onBind
+            onBind = onBind,
         )
 
     override fun getViewHolderTypeName(): String = T::class.java.simpleName
@@ -39,7 +39,7 @@ inline fun <reified T : ViewHolderType, B : ViewBinding> createRecyclerBindingAd
 
 class BaseRecyclerBindingViewHolder<B : ViewBinding>(
     private val binding: B,
-    private val onBind: (B, ViewHolderType, List<Any>) -> Unit
+    private val onBind: (B, ViewHolderType, List<Any>) -> Unit,
 ) : BaseRecyclerViewHolder(binding.root) {
 
     override fun bind(item: ViewHolderType, payloads: List<Any>) =

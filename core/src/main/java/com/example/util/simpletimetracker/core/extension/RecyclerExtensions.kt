@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapt
 fun RecyclerView.onItemMoved(
     onSelected: (RecyclerView.ViewHolder?) -> Unit = {},
     onClear: (RecyclerView.ViewHolder) -> Unit = {},
-    onMoved: (Int, Int) -> Unit = { _, _ -> }
+    onMoved: (Int, Int) -> Unit = { _, _ -> },
 ) {
     val dragDirections =
         ItemTouchHelper.DOWN or ItemTouchHelper.UP or ItemTouchHelper.START or ItemTouchHelper.END
@@ -16,7 +16,7 @@ fun RecyclerView.onItemMoved(
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
+            target: RecyclerView.ViewHolder,
         ): Boolean {
             val fromPosition = viewHolder.adapterPosition
             val toPosition = target.adapterPosition

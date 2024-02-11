@@ -30,7 +30,7 @@ class CsvExportSettingsDialogFragment :
     private val viewModel: CsvExportSettingsViewModel by viewModels()
 
     private val params: DataExportSettingDialogParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = DataExportSettingDialogParams()
+        key = ARGS_PARAMS, default = DataExportSettingDialogParams(),
     )
 
     private var dialogListener: DataExportSettingsDialogListener? = null

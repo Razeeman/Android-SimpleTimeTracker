@@ -115,7 +115,7 @@ class SettingsCardOrder : BaseUiTest() {
         NavUtils.openSettingsDisplay()
         scrollSettingsRecyclerToText(R.string.settings_sort_order)
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.tvItemSettingsValue), withText(coreR.string.settings_sort_by_name))
+            allOf(withId(settingsR.id.tvItemSettingsValue), withText(coreR.string.settings_sort_by_name)),
         )
     }
 
@@ -164,7 +164,7 @@ class SettingsCardOrder : BaseUiTest() {
         clickOnSettingsSpinnerBesideText(R.string.settings_sort_order)
         clickOnViewWithText(coreR.string.settings_sort_by_color)
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.tvItemSettingsValue), withText(coreR.string.settings_sort_by_color))
+            allOf(withId(settingsR.id.tvItemSettingsValue), withText(coreR.string.settings_sort_by_color)),
         )
 
         // Check new order
@@ -215,7 +215,7 @@ class SettingsCardOrder : BaseUiTest() {
         // Check new order
         pressBack()
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.tvItemSettingsValue), withText(coreR.string.settings_sort_manually))
+            allOf(withId(settingsR.id.tvItemSettingsValue), withText(coreR.string.settings_sort_manually)),
         )
         NavUtils.openRunningRecordsScreen()
         checkOrder(name2, name1, ::isCompletelyLeftOf)
@@ -285,7 +285,7 @@ class SettingsCardOrder : BaseUiTest() {
     private fun checkOrder(first: String, second: String, vararg matchers: (Matcher<View>) -> ViewAssertion) {
         matchers.forEach { matcher ->
             onView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(first))).check(
-                matcher(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(second)))
+                matcher(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(second))),
             )
         }
     }

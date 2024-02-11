@@ -268,7 +268,7 @@ class SettingsMapper @Inject constructor(
     ): Long {
         return Calendar.getInstance().shiftTimeStamp(
             timestamp = timeMapper.getStartOfDayTimeStamp(),
-            shift = startOfDayShift.absoluteValue
+            shift = startOfDayShift.absoluteValue,
         )
     }
 

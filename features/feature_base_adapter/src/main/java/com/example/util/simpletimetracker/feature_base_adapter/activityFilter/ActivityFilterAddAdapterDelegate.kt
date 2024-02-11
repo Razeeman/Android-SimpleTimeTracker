@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 fun createActivityFilterAddAdapterDelegate(
     onItemClick: (() -> Unit),
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding.viewActivityFilterItem) {

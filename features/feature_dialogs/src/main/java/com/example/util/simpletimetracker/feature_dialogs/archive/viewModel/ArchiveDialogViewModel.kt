@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ArchiveDialogViewModel @Inject constructor(
-    private val archiveDialogViewDataInteractor: ArchiveDialogViewDataInteractor
+    private val archiveDialogViewDataInteractor: ArchiveDialogViewDataInteractor,
 ) : ViewModel() {
 
     lateinit var extra: ArchiveDialogParams

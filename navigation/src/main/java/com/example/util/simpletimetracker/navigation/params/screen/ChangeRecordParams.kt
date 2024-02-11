@@ -10,7 +10,7 @@ sealed class ChangeRecordParams : Parcelable {
         val transitionName: String,
         val id: Long,
         val from: From,
-        val preview: Preview
+        val preview: Preview,
     ) : ChangeRecordParams()
 
     @Parcelize
@@ -18,12 +18,12 @@ sealed class ChangeRecordParams : Parcelable {
         val transitionName: String,
         val timeStarted: Long,
         val timeEnded: Long,
-        val preview: Preview
+        val preview: Preview,
     ) : ChangeRecordParams()
 
     @Parcelize
     data class New(
-        val daysFromToday: Int = 0
+        val daysFromToday: Int = 0,
     ) : ChangeRecordParams()
 
     @Parcelize
@@ -35,7 +35,7 @@ sealed class ChangeRecordParams : Parcelable {
         val duration: String,
         val iconId: RecordTypeIconParams,
         @ColorInt val color: Int,
-        val comment: String
+        val comment: String,
     ) : Parcelable
 
     sealed class From : Parcelable {

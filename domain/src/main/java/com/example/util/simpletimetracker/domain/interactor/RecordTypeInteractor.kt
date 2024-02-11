@@ -96,7 +96,7 @@ class RecordTypeInteractor @Inject constructor(
                     { -(it.second[0].roundToInt()) }, // reversed hue
                     { (it.second[1] * 100).roundToInt() }, // saturation
                     { (it.second[2] * 100).roundToInt() }, // value
-                )
+                ),
             )
             .map { (type, _) ->
                 type

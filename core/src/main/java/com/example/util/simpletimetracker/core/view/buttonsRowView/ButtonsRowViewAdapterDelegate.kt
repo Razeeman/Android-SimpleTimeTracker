@@ -8,9 +8,9 @@ import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowVie
 
 fun createButtonsRowViewAdapterDelegate(
     selectedColor: Int,
-    onItemClick: ((ViewData) -> Unit)
+    onItemClick: ((ViewData) -> Unit),
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {

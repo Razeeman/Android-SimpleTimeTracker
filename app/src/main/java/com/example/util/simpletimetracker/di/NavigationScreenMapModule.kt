@@ -44,7 +44,7 @@ class NavigationScreenMapModule {
     fun changeRecordTypeChange(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_changeRecordTypeFragment,
-            bundleCreatorDelegate(ChangeRecordTypeFragment::createBundle)
+            bundleCreatorDelegate(ChangeRecordTypeFragment::createBundle),
         )
     }
 
@@ -54,7 +54,7 @@ class NavigationScreenMapModule {
     fun changeRecordTypeNew(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_changeRecordTypeFragment,
-            bundleCreatorDelegate(ChangeRecordTypeFragment::createBundle)
+            bundleCreatorDelegate(ChangeRecordTypeFragment::createBundle),
         )
     }
 
@@ -64,7 +64,7 @@ class NavigationScreenMapModule {
     fun changeRecordRunningFromMain(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_changeRunningRecordFragment,
-            bundleCreatorDelegate(ChangeRunningRecordFragment::createBundle)
+            bundleCreatorDelegate(ChangeRunningRecordFragment::createBundle),
         )
     }
 
@@ -74,7 +74,7 @@ class NavigationScreenMapModule {
     fun changeRecordRunningFromRecordsAll(): NavigationData {
         return NavigationData(
             R.id.action_recordsAllFragment_to_changeRunningRecordFragment,
-            bundleCreatorDelegate(ChangeRunningRecordFragment::createBundle)
+            bundleCreatorDelegate(ChangeRunningRecordFragment::createBundle),
         )
     }
 
@@ -84,7 +84,7 @@ class NavigationScreenMapModule {
     fun changeRecordFromMain(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_changeRecordFragment,
-            bundleCreatorDelegate(ChangeRecordFragment::createBundle)
+            bundleCreatorDelegate(ChangeRecordFragment::createBundle),
         )
     }
 
@@ -94,7 +94,7 @@ class NavigationScreenMapModule {
     fun changeRecordFromRecordsAll(): NavigationData {
         return NavigationData(
             R.id.action_recordsAllFragment_to_changeRecordFragment,
-            bundleCreatorDelegate(ChangeRecordFragment::createBundle)
+            bundleCreatorDelegate(ChangeRecordFragment::createBundle),
         )
     }
 
@@ -104,7 +104,7 @@ class NavigationScreenMapModule {
     fun statisticsDetail(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_statisticsDetailFragment,
-            bundleCreatorDelegate(StatisticsDetailFragment::createBundle)
+            bundleCreatorDelegate(StatisticsDetailFragment::createBundle),
         )
     }
 
@@ -114,7 +114,7 @@ class NavigationScreenMapModule {
     fun recordsAll(): NavigationData {
         return NavigationData(
             R.id.action_statisticsDetailFragment_to_recordsAllFragment,
-            bundleCreatorDelegate(RecordsAllFragment::createBundle)
+            bundleCreatorDelegate(RecordsAllFragment::createBundle),
         )
     }
 
@@ -124,7 +124,7 @@ class NavigationScreenMapModule {
     fun categories(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_categoriesFragment,
-            BundleCreator.empty()
+            BundleCreator.empty(),
         )
     }
 
@@ -134,7 +134,7 @@ class NavigationScreenMapModule {
     fun archive(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_archiveFragment,
-            BundleCreator.empty()
+            BundleCreator.empty(),
         )
     }
 
@@ -144,7 +144,7 @@ class NavigationScreenMapModule {
     fun dataEdit(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_dataEditFragment,
-            BundleCreator.empty()
+            BundleCreator.empty(),
         )
     }
 
@@ -154,7 +154,7 @@ class NavigationScreenMapModule {
     fun changeCategoryFromTags(): NavigationData {
         return NavigationData(
             R.id.action_categoriesFragment_to_changeCategoryFragment,
-            bundleCreatorDelegate(ChangeCategoryFragment::createBundle)
+            bundleCreatorDelegate(ChangeCategoryFragment::createBundle),
         )
     }
 
@@ -164,7 +164,7 @@ class NavigationScreenMapModule {
     fun changeCategoryFromChangeActivity(): NavigationData {
         return NavigationData(
             R.id.action_changeRecordTypeFragment_to_changeCategoryFragment,
-            bundleCreatorDelegate(ChangeCategoryFragment::createBundle)
+            bundleCreatorDelegate(ChangeCategoryFragment::createBundle),
         )
     }
 
@@ -174,7 +174,7 @@ class NavigationScreenMapModule {
     fun changeRecordTagFromTags(): NavigationData {
         return NavigationData(
             R.id.action_categoriesFragment_to_changeRecordTagFragment,
-            bundleCreatorDelegate(ChangeRecordTagFragment::createBundle)
+            bundleCreatorDelegate(ChangeRecordTagFragment::createBundle),
         )
     }
 
@@ -184,7 +184,7 @@ class NavigationScreenMapModule {
     fun changeRecordTagFromChangeRecord(): NavigationData {
         return NavigationData(
             R.id.action_changeRecordFragment_to_changeRecordTagFragment,
-            bundleCreatorDelegate(ChangeRecordTagFragment::createBundle)
+            bundleCreatorDelegate(ChangeRecordTagFragment::createBundle),
         )
     }
 
@@ -194,7 +194,7 @@ class NavigationScreenMapModule {
     fun changeRecordTagFromChangeRunningRecord(): NavigationData {
         return NavigationData(
             R.id.action_changeRunningRecordFragment_to_changeRecordTagFragment,
-            bundleCreatorDelegate(ChangeRecordTagFragment::createBundle)
+            bundleCreatorDelegate(ChangeRecordTagFragment::createBundle),
         )
     }
 
@@ -204,7 +204,7 @@ class NavigationScreenMapModule {
     fun changeActivityFilterChange(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_changeActivityFilterFragment,
-            bundleCreatorDelegate(ChangeActivityFilterFragment::createBundle)
+            bundleCreatorDelegate(ChangeActivityFilterFragment::createBundle),
         )
     }
 
@@ -214,7 +214,7 @@ class NavigationScreenMapModule {
     fun changeActivityFilterNew(): NavigationData {
         return NavigationData(
             R.id.action_mainFragment_to_changeActivityFilterFragment,
-            bundleCreatorDelegate(ChangeActivityFilterFragment::createBundle)
+            bundleCreatorDelegate(ChangeActivityFilterFragment::createBundle),
         )
     }
 }

@@ -69,7 +69,7 @@ class ChangeRecordViewDataInteractor @Inject constructor(
             .takeUnless { it.isEmpty() }
             ?.let {
                 HintViewData(
-                    text = resourceRepo.getString(R.string.change_record_favourite_comments_hint)
+                    text = resourceRepo.getString(R.string.change_record_favourite_comments_hint),
                 ).let(::listOf) + it
             }.orEmpty()
 
@@ -89,7 +89,7 @@ class ChangeRecordViewDataInteractor @Inject constructor(
             .takeUnless { it.isEmpty() }
             ?.let {
                 HintViewData(
-                    text = resourceRepo.getString(R.string.change_record_last_comments_hint)
+                    text = resourceRepo.getString(R.string.change_record_last_comments_hint),
                 ).let(::listOf) + it
             }.orEmpty()
 
@@ -97,7 +97,7 @@ class ChangeRecordViewDataInteractor @Inject constructor(
     }
 
     suspend fun getFavCommentViewData(
-        comment: String
+        comment: String,
     ): ChangeRecordFavCommentState {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val isFavourite = favouriteCommentInteractor.get(comment) != null

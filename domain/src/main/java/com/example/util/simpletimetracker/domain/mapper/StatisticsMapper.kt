@@ -8,7 +8,7 @@ class StatisticsMapper @Inject constructor() {
     fun getDurationPercentString(
         sumDuration: Long,
         duration: Long,
-        statisticsSize: Int
+        statisticsSize: Int,
     ): String {
         val durationPercent = if (sumDuration != 0L) {
             duration * 100f / sumDuration

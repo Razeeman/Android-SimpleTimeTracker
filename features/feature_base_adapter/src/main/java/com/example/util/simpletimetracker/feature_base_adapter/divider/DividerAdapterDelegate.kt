@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemD
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData as ViewData
 
 fun createDividerAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { _, _, _ ->
 
     // Nothing to bind

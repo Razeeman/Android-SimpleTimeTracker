@@ -29,7 +29,7 @@ class MainActivity : BaseActivity() {
     lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
 
     private val backupViewModel: BackupViewModel by viewModels(
-        factoryProducer = { backupViewModelFactory }
+        factoryProducer = { backupViewModelFactory },
     )
     private lateinit var binding: MainActivityBinding
 

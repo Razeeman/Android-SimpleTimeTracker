@@ -6,7 +6,7 @@ import com.example.util.simpletimetracker.domain.model.ChartFilterType
 data class ChartFilterTypeViewData(
     val filterType: ChartFilterType,
     override val name: String,
-    override val isSelected: Boolean
+    override val isSelected: Boolean,
 ) : ButtonsRowViewData() {
 
     override val id: Long = filterType.ordinal.toLong()

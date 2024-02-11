@@ -47,7 +47,7 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
         )
     }
     private val params: RecordTagSelectionParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = RecordTagSelectionParams()
+        key = ARGS_PARAMS, default = RecordTagSelectionParams(),
     )
     private val listeners: MutableList<OnTagSelectedListener> = mutableListOf()
 

@@ -9,5 +9,5 @@ import kotlinx.parcelize.Parcelize
 data class PiePortion(
     val value: Long,
     @ColorInt val colorInt: Int,
-    val iconId: RecordTypeIcon? = null
+    val iconId: RecordTypeIcon? = null,
 ) : Parcelable

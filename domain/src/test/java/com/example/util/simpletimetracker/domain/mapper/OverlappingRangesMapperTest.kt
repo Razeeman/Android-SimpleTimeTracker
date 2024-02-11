@@ -23,7 +23,7 @@ class OverlappingRangesMapperTest(
             it.first.sorted().map(::Id) to it.second
         }
         val actual = subject.map(
-            segments = input.map { Id(it.first) to it.second }
+            segments = input.map { Id(it.first) to it.second },
         ).map {
             it.first.sortedBy { id -> (id as Id).value } to it.second
         }
@@ -66,38 +66,38 @@ class OverlappingRangesMapperTest(
             // One overlap
             arrayOf(
                 listOf(1 to Range(2, 4), 2 to Range(3, 5)),
-                listOf(listOf(1, 2) to Range(3, 4))
+                listOf(listOf(1, 2) to Range(3, 4)),
             ),
             arrayOf(
                 listOf(1 to Range(2, 4), 2 to Range(5, 3)),
-                listOf(listOf(1, 2) to Range(3, 4))
+                listOf(listOf(1, 2) to Range(3, 4)),
             ),
             arrayOf(
                 listOf(1 to Range(4, 2), 2 to Range(3, 5)),
-                listOf(listOf(1, 2) to Range(3, 4))
+                listOf(listOf(1, 2) to Range(3, 4)),
             ),
 
             arrayOf(
                 listOf(1 to Range(0, 7), 2 to Range(0, 10)),
-                listOf(listOf(1, 2) to Range(0, 7))
+                listOf(listOf(1, 2) to Range(0, 7)),
             ),
 
             arrayOf(
                 listOf(1 to Range(0, 10), 2 to Range(4, 6)),
-                listOf(listOf(1, 2) to Range(4, 6))
+                listOf(listOf(1, 2) to Range(4, 6)),
             ),
             arrayOf(
                 listOf(1 to Range(4, 6), 2 to Range(0, 10)),
-                listOf(listOf(1, 2) to Range(4, 6))
+                listOf(listOf(1, 2) to Range(4, 6)),
             ),
 
             arrayOf(
                 listOf(1 to Range(0, 10), 2 to Range(0, 10)),
-                listOf(listOf(1, 2) to Range(0, 10))
+                listOf(listOf(1, 2) to Range(0, 10)),
             ),
             arrayOf(
                 listOf(1 to Range(0, 10), 2 to Range(10, 0)),
-                listOf(listOf(1, 2) to Range(0, 10))
+                listOf(listOf(1, 2) to Range(0, 10)),
             ),
 
             // Two overlaps
@@ -110,18 +110,18 @@ class OverlappingRangesMapperTest(
                 listOf(
                     listOf(1, 3) to Range(2, 4),
                     listOf(2, 3) to Range(6, 8),
-                )
+                ),
             ),
             arrayOf(
                 listOf(
                     1 to Range(0L, 10L),
                     2 to Range(2L, 4L),
-                    3 to Range(6L, 8L)
+                    3 to Range(6L, 8L),
                 ),
                 listOf(
                     listOf(1, 2) to Range(2, 4),
                     listOf(1, 3) to Range(6, 8),
-                )
+                ),
             ),
 
             // Three overlaps
@@ -129,13 +129,13 @@ class OverlappingRangesMapperTest(
                 listOf(
                     1 to Range(0L, 10L),
                     2 to Range(2L, 8L),
-                    3 to Range(4L, 6L)
+                    3 to Range(4L, 6L),
                 ),
                 listOf(
                     listOf(1, 2) to Range(2, 4),
                     listOf(1, 2, 3) to Range(4, 6),
                     listOf(1, 2) to Range(6, 8),
-                )
+                ),
             ),
 
             // Many overlaps
@@ -152,7 +152,7 @@ class OverlappingRangesMapperTest(
                     listOf(1, 3) to Range(6, 8),
                     listOf(1, 4, 3) to Range(8, 10),
                     listOf(1, 4) to Range(10, 12),
-                )
+                ),
             ),
 
             // Disconnected segments

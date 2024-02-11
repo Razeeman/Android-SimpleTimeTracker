@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRe
 fun createChangeRecordCommentAdapterDelegate(
     onItemClick: ((ViewData) -> Unit),
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {

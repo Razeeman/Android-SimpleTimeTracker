@@ -30,7 +30,7 @@ import javax.inject.Singleton
 @Singleton
 class NotificationTypeManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val router: Router
+    private val router: Router,
 ) {
 
     private val notificationManager: NotificationManagerCompat =
@@ -65,7 +65,7 @@ class NotificationTypeManager @Inject constructor(
         val stopIntent = getPendingSelfIntent(
             context = context,
             action = ACTION_NOTIFICATION_STOP,
-            recordTypeId = params.id
+            recordTypeId = params.id,
         )
 
         val builder = NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
@@ -88,7 +88,7 @@ class NotificationTypeManager @Inject constructor(
             val channel = NotificationChannel(
                 NOTIFICATIONS_CHANNEL_ID,
                 NOTIFICATIONS_CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_LOW // no sound
+                NotificationManager.IMPORTANCE_LOW, // no sound
             )
             notificationManager.createNotificationChannel(channel)
         }
@@ -157,7 +157,7 @@ class NotificationTypeManager @Inject constructor(
         // Prev button
         setImageViewBitmap(
             R.id.ivNotificationTypesPrev,
-            getIconBitmap(params.controlIconPrev, params.controlIconColor)
+            getIconBitmap(params.controlIconPrev, params.controlIconColor),
         )
         setOnClickPendingIntent(
             R.id.btnNotificationTypesPrev,
@@ -167,7 +167,7 @@ class NotificationTypeManager @Inject constructor(
                 recordTypeId = recordTypeId,
                 recordTypesShift = (params.typesShift - TYPES_LIST_SIZE)
                     .coerceAtLeast(0),
-            )
+            ),
         )
 
         // Types buttons
@@ -188,7 +188,7 @@ class NotificationTypeManager @Inject constructor(
                     recordTypeId = recordTypeId,
                     recordTypesShift = params.typesShift,
                     selectedTypeId = it.id,
-                )
+                ),
             ).let {
                 addView(R.id.containerNotificationTypes, it)
             }
@@ -200,7 +200,7 @@ class NotificationTypeManager @Inject constructor(
                 icon = null,
                 color = null,
                 isChecked = null,
-                intent = null
+                intent = null,
             ).let {
                 addView(R.id.containerNotificationTypes, it)
             }
@@ -209,7 +209,7 @@ class NotificationTypeManager @Inject constructor(
         // Next button
         setImageViewBitmap(
             R.id.ivNotificationTypesNext,
-            getIconBitmap(params.controlIconNext, params.controlIconColor)
+            getIconBitmap(params.controlIconNext, params.controlIconColor),
         )
         setOnClickPendingIntent(
             R.id.btnNotificationTypesNext,
@@ -219,8 +219,8 @@ class NotificationTypeManager @Inject constructor(
                 recordTypeId = recordTypeId,
                 recordTypesShift = (params.typesShift + TYPES_LIST_SIZE)
                     .takeUnless { it >= params.types.size }
-                    ?: params.typesShift
-            )
+                    ?: params.typesShift,
+            ),
         )
     }
 
@@ -231,7 +231,7 @@ class NotificationTypeManager @Inject constructor(
         // Prev button
         setImageViewBitmap(
             R.id.ivNotificationTagsPrev,
-            getIconBitmap(params.controlIconPrev, params.controlIconColor)
+            getIconBitmap(params.controlIconPrev, params.controlIconColor),
         )
         setOnClickPendingIntent(
             R.id.btnNotificationTagsPrev,
@@ -243,7 +243,7 @@ class NotificationTypeManager @Inject constructor(
                 recordTypesShift = params.typesShift,
                 recordTagsShift = (params.tagsShift - TAGS_LIST_SIZE)
                     .coerceAtLeast(0),
-            )
+            ),
         )
 
         // Types buttons
@@ -260,7 +260,7 @@ class NotificationTypeManager @Inject constructor(
                     recordTypeId = recordTypeId,
                     recordTagId = it.id,
                     recordTypesShift = params.typesShift,
-                )
+                ),
             ).let {
                 addView(R.id.containerNotificationTags, it)
             }
@@ -271,7 +271,7 @@ class NotificationTypeManager @Inject constructor(
             getTagControlView(
                 text = "",
                 color = null,
-                intent = null
+                intent = null,
             ).let {
                 addView(R.id.containerNotificationTags, it)
             }
@@ -280,7 +280,7 @@ class NotificationTypeManager @Inject constructor(
         // Next button
         setImageViewBitmap(
             R.id.ivNotificationTagsNext,
-            getIconBitmap(params.controlIconNext, params.controlIconColor)
+            getIconBitmap(params.controlIconNext, params.controlIconColor),
         )
         setOnClickPendingIntent(
             R.id.btnNotificationTagsNext,
@@ -292,8 +292,8 @@ class NotificationTypeManager @Inject constructor(
                 recordTypesShift = params.typesShift,
                 recordTagsShift = (params.tagsShift + TAGS_LIST_SIZE)
                     .takeUnless { it >= params.tags.size }
-                    ?: params.tagsShift
-            )
+                    ?: params.tagsShift,
+            ),
         )
     }
 
@@ -358,7 +358,7 @@ class NotificationTypeManager @Inject constructor(
             context,
             requestCode ?: recordTypeId.toInt(),
             intent,
-            PendingIntents.getFlags()
+            PendingIntents.getFlags(),
         )
     }
 

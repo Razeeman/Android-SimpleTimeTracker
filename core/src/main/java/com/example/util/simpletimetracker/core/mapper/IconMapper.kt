@@ -6,7 +6,7 @@ import javax.inject.Singleton
 
 @Singleton
 class IconMapper @Inject constructor(
-    private val iconImageMapper: IconImageMapper
+    private val iconImageMapper: IconImageMapper,
 ) {
 
     fun mapIcon(icon: String): RecordTypeIcon {

@@ -130,7 +130,7 @@ class AddDefaultRecordTypeTest : BaseUiTest() {
     ) {
         matchers.forEach { matcher ->
             onView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(first))).check(
-                matcher(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(second)))
+                matcher(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(second))),
             )
         }
     }

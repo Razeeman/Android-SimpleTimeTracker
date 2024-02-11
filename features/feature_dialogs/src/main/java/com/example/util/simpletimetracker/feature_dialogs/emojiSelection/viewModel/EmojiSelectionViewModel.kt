@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EmojiSelectionViewModel @Inject constructor(
     private val mapper: EmojiSelectionMapper,
-    private val prefsInteractor: PrefsInteractor
+    private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
 
     lateinit var extra: EmojiSelectionDialogParams
@@ -45,7 +45,7 @@ class EmojiSelectionViewModel @Inject constructor(
         return mapper.mapIconEmojiData(
             color = AppColor(colorId = extra.color.colorId, colorInt = extra.color.colorInt),
             isDarkTheme = isDarkTheme,
-            emojiCodes = extra.emojiCodes
+            emojiCodes = extra.emojiCodes,
         )
     }
 }

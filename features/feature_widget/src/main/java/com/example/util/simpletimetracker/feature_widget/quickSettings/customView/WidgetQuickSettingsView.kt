@@ -14,11 +14,11 @@ import com.example.util.simpletimetracker.feature_widget.databinding.WidgetQuick
 class WidgetQuickSettingsView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : CardView(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     private val binding: WidgetQuickSettingsViewLayoutBinding = WidgetQuickSettingsViewLayoutBinding

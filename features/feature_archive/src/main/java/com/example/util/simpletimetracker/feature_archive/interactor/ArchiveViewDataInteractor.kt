@@ -51,7 +51,7 @@ class ArchiveViewDataInteractor @Inject constructor(
                 tag = tag,
                 type = types[tag.typeId],
                 isDarkTheme = isDarkTheme,
-                isFiltered = false
+                isFiltered = false,
             )
         }
 

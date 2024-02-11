@@ -13,7 +13,7 @@ fun createRunningRecordAdapterDelegate(
     onItemClick: ((ViewData, Pair<Any, String>) -> Unit),
     onItemLongClick: ((ViewData, Pair<Any, String>) -> Unit) = { _, _ -> },
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, payloads ->
 
     with(binding.viewRunningRecordItem) {

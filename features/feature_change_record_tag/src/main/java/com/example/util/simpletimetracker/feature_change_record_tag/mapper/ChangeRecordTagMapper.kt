@@ -20,7 +20,7 @@ class ChangeRecordTagMapper @Inject constructor(
             ChangeRecordTagTypeSwitchViewData(
                 tagType = it,
                 name = mapToTagTypeName(it),
-                isSelected = it == tagType
+                isSelected = it == tagType,
             )
         }
     }
@@ -38,7 +38,7 @@ class ChangeRecordTagMapper @Inject constructor(
             hint = when (tagType) {
                 RecordTagType.GENERAL -> R.string.change_record_tag_type_general_hint
                 RecordTagType.TYPED -> R.string.change_record_tag_type_typed_hint
-            }.let(resourceRepo::getString)
+            }.let(resourceRepo::getString),
         )
     }
 

@@ -9,7 +9,7 @@ import javax.inject.Inject
 class ScreenFactoryImpl @Inject constructor() : ScreenFactory {
 
     override fun getFragment(
-        data: ScreenParams
+        data: ScreenParams,
     ): Fragment? = when (data) {
         is RecordTagSelectionParams -> RecordTagSelectionFragment.newInstance(data)
         else -> null

@@ -281,11 +281,13 @@ class RecordsCalendarView @JvmOverloads constructor(
                 iconMaxSize =
                     getDimensionPixelSize(R.styleable.RecordsCalendarView_calendarIconMaxSize, 0)
 
-                if (hasValue(R.styleable.RecordsCalendarView_calendarReverseOrder)) reverseOrder =
-                    getBoolean(R.styleable.RecordsCalendarView_calendarReverseOrder, false)
+                if (hasValue(R.styleable.RecordsCalendarView_calendarReverseOrder)) {
+                    reverseOrder = getBoolean(R.styleable.RecordsCalendarView_calendarReverseOrder, false)
+                }
 
-                if (hasValue(R.styleable.RecordsCalendarView_calendarRecordsCount)) recordsCount =
-                    getInt(R.styleable.RecordsCalendarView_calendarRecordsCount, 0)
+                if (hasValue(R.styleable.RecordsCalendarView_calendarRecordsCount)) {
+                    recordsCount = getInt(R.styleable.RecordsCalendarView_calendarRecordsCount, 0)
+                }
 
                 recycle()
             }

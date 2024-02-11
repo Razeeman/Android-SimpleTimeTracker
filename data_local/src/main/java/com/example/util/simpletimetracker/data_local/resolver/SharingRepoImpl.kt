@@ -34,7 +34,7 @@ class SharingRepoImpl @Inject constructor(
             val uri = FileProvider.getUriForFile(
                 context,
                 applicationDataProvider.getPackageName() + ".provider",
-                file
+                file,
             )
             SharingRepo.Result.Success(uri.toString())
         } catch (e: Exception) {

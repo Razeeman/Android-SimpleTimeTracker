@@ -11,7 +11,7 @@ import javax.inject.Inject
 class RecordTagSelectionViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val resourceRepo: ResourceRepo,
-    private val recordTagViewDataInteractor: RecordTagViewDataInteractor
+    private val recordTagViewDataInteractor: RecordTagViewDataInteractor,
 ) {
 
     suspend fun getViewData(typeId: Long, selectedTags: List<Long>): List<ViewHolderType> {

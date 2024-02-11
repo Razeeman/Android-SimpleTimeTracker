@@ -9,5 +9,5 @@ data class NotificationGoalTimeParams(
     val icon: RecordTypeIcon,
     val color: Int,
     val text: String,
-    val description: String
+    val description: String,
 )

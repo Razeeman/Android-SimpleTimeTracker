@@ -60,16 +60,16 @@ class RecordsRangesTest : BaseUiTest() {
             allOf(
                 withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(coreR.string.untracked_time_name)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
         clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
         checkViewIsDisplayed(
             allOf(
                 withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(coreR.string.untracked_time_name)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
 
         longClickOnViewWithId(recordsR.id.btnRecordsContainerToday)
@@ -99,8 +99,8 @@ class RecordsRangesTest : BaseUiTest() {
                 setDate(
                     calendarPrev.get(Calendar.YEAR),
                     calendarPrev.get(Calendar.MONTH) + 1,
-                    calendarPrev.get(Calendar.DAY_OF_MONTH)
-                )
+                    calendarPrev.get(Calendar.DAY_OF_MONTH),
+                ),
             )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -113,8 +113,8 @@ class RecordsRangesTest : BaseUiTest() {
                 setDate(
                     calendarNext.get(Calendar.YEAR),
                     calendarNext.get(Calendar.MONTH) + 1,
-                    calendarNext.get(Calendar.DAY_OF_MONTH)
-                )
+                    calendarNext.get(Calendar.DAY_OF_MONTH),
+                ),
             )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -145,8 +145,8 @@ class RecordsRangesTest : BaseUiTest() {
                 setDate(
                     calendarPrev.get(Calendar.YEAR),
                     calendarPrev.get(Calendar.MONTH) + 1,
-                    calendarPrev.get(Calendar.DAY_OF_MONTH)
-                )
+                    calendarPrev.get(Calendar.DAY_OF_MONTH),
+                ),
             )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -159,8 +159,8 @@ class RecordsRangesTest : BaseUiTest() {
                 setDate(
                     calendarNext.get(Calendar.YEAR),
                     calendarNext.get(Calendar.MONTH) + 1,
-                    calendarNext.get(Calendar.DAY_OF_MONTH)
-                )
+                    calendarNext.get(Calendar.DAY_OF_MONTH),
+                ),
             )
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 

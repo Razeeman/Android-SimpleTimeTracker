@@ -128,10 +128,10 @@ class StatisticsViewModel @Inject constructor(
                 preview = StatisticsDetailParams.Preview(
                     name = item.name,
                     iconId = item.icon?.toParams(),
-                    color = item.color
-                )
+                    color = item.color,
+                ),
             ),
-            sharedElements = sharedElements
+            sharedElements = sharedElements,
         )
     }
 

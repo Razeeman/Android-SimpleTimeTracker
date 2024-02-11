@@ -1,6 +1,7 @@
 root = true
 
-[*.kt]
+# noinspection EditorConfigKeyCorrectness
+[*.{kt,kts}]
 indent_style = space
 indent_size = 4
 continuation_indent_size = 4
@@ -8,4 +9,11 @@ tab_width = 4
 trim_trailing_whitespace = true
 ij_kotlin_allow_trailing_comma = true
 ij_kotlin_allow_trailing_comma_on_call_site = true
-disabled_rules = import-ordering, final-newline
+
+ktlint_code_style = intellij_idea
+ktlint_standard_final-newline = disabled
+ktlint_standard_import-ordering = disabled
+ktlint_standard_package-name = disabled
+ktlint_standard_argument-list-wrapping = disabled
+ktlint_standard_discouraged-comment-location = disabled
+ktlint_standard_spacing-between-declarations-with-annotations = disabled

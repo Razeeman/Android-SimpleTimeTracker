@@ -54,7 +54,7 @@ class RecordActionsMergeTest : BaseUiTest() {
         // Running record - not shown
         tryAction {
             longClickOnView(
-                allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed())
+                allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed()),
             )
         }
         clickOnViewWithText(coreR.string.change_record_actions_hint)
@@ -64,7 +64,7 @@ class RecordActionsMergeTest : BaseUiTest() {
         // Record - not shown
         NavUtils.openRecordsScreen()
         clickOnView(
-            allOf(withId(baseR.id.viewRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed())
+            allOf(withId(baseR.id.viewRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed()),
         )
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         checkViewIsNotDisplayed(withText(coreR.string.change_record_merge))
@@ -118,8 +118,8 @@ class RecordActionsMergeTest : BaseUiTest() {
                     hasDescendant(withText(current.formatTime())),
                     hasDescendant(withText(timeEndedTimestamp.formatTime())),
                     hasDescendant(withText(untrackedRangePreview)),
-                    isCompletelyDisplayed()
-                )
+                    isCompletelyDisplayed(),
+                ),
             )
         }
         checkViewIsDisplayed(
@@ -129,8 +129,8 @@ class RecordActionsMergeTest : BaseUiTest() {
                 hasDescendant(withText(timeStartedTimestamp.formatTime())),
                 hasDescendant(withText(timeEndedTimestamp.formatTime())),
                 hasDescendant(withText(timeRangePreview)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
 
         // Merge
@@ -139,8 +139,8 @@ class RecordActionsMergeTest : BaseUiTest() {
                 withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(coreR.string.untracked_time_name)),
                 hasDescendant(withText(untrackedRangePreview)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         onView(withText(coreR.string.change_record_merge)).perform(nestedScrollTo(), click())
@@ -151,8 +151,8 @@ class RecordActionsMergeTest : BaseUiTest() {
                 withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(coreR.string.untracked_time_name)),
                 hasDescendant(withText(untrackedRangePreview)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
         timeRangePreview = (current - timeStartedTimestamp).formatInterval()
         checkViewIsDisplayed(
@@ -162,8 +162,8 @@ class RecordActionsMergeTest : BaseUiTest() {
                 hasDescendant(withText(timeStartedTimestamp.formatTime())),
                 hasDescendant(withText(current.formatTime())),
                 hasDescendant(withText(timeRangePreview)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 }

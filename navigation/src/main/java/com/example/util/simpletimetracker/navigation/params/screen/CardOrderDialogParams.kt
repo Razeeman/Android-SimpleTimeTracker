@@ -6,5 +6,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CardOrderDialogParams(
-    val initialOrder: CardOrder = CardOrder.MANUAL
+    val initialOrder: CardOrder = CardOrder.MANUAL,
 ) : Parcelable, ScreenParams

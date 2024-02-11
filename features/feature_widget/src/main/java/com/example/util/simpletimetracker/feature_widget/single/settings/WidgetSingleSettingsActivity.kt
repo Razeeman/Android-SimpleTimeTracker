@@ -37,7 +37,7 @@ class WidgetSingleSettingsActivity : BaseActivity() {
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
             createRunningRecordTypeSpecialAdapterDelegate(viewModel::onSpecialRecordTypeClick),
             createEmptyAdapterDelegate(),
-            createLoaderAdapterDelegate()
+            createLoaderAdapterDelegate(),
         )
     }
 
@@ -72,7 +72,7 @@ class WidgetSingleSettingsActivity : BaseActivity() {
         val widgetId = intent?.extras
             ?.getInt(
                 AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID
+                AppWidgetManager.INVALID_APPWIDGET_ID,
             )
             ?: AppWidgetManager.INVALID_APPWIDGET_ID
 

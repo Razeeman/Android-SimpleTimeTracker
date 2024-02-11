@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 class RecordsAllViewModel @Inject constructor(
     private val router: Router,
     private val recordsAllViewDataInteractor: RecordsAllViewDataInteractor,
-    private val recordsAllViewDataMapper: RecordsAllViewDataMapper
+    private val recordsAllViewDataMapper: RecordsAllViewDataMapper,
 ) : ViewModel() {
 
     lateinit var extra: RecordsAllParams
@@ -71,12 +71,12 @@ class RecordsAllViewModel @Inject constructor(
                 goalTime = item.goalTime.toParams(),
                 iconId = item.iconId.toParams(),
                 color = item.color,
-                comment = item.comment
-            )
+                comment = item.comment,
+            ),
         )
         router.navigate(
             data = ChangeRunningRecordFromRecordsAllParams(params),
-            sharedElements = mapOf(sharedElements)
+            sharedElements = mapOf(sharedElements),
         )
     }
 
@@ -89,7 +89,7 @@ class RecordsAllViewModel @Inject constructor(
             duration = item.duration,
             iconId = item.iconId.toParams(),
             color = item.color,
-            comment = item.comment
+            comment = item.comment,
         )
 
         val params = when (item) {
@@ -103,12 +103,12 @@ class RecordsAllViewModel @Inject constructor(
                 transitionName = sharedElements.second,
                 timeStarted = item.timeStartedTimestamp,
                 timeEnded = item.timeEndedTimestamp,
-                preview = preview
+                preview = preview,
             )
         }
         router.navigate(
             data = ChangeRecordFromRecordsAllParams(params),
-            sharedElements = mapOf(sharedElements)
+            sharedElements = mapOf(sharedElements),
         )
     }
 

@@ -45,7 +45,7 @@ class ActivityFilterViewDataInteractor @Inject constructor(
                     .let {
                         if (appendAddButton) {
                             it + activityFilterViewDataMapper.mapToActivityFilterAddItem(
-                                isDarkTheme = isDarkTheme
+                                isDarkTheme = isDarkTheme,
                             )
                         } else {
                             it

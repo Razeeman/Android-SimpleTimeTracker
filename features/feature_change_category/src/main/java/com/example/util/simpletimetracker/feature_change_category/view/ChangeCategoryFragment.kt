@@ -105,7 +105,7 @@ class ChangeCategoryFragment :
 
         GoalsViewDelegate.initGoalUi(
             layout = binding.layoutChangeCategoryGoals,
-            dayOfWeekAdapter = dailyGoalDayOfWeekAdapter
+            dayOfWeekAdapter = dailyGoalDayOfWeekAdapter,
         )
     }
 
@@ -134,7 +134,7 @@ class ChangeCategoryFragment :
             types.observe(typesAdapter::replace)
             goalsViewData.observe(::updateGoalsState)
             notificationsHintVisible.observe(
-                layoutChangeCategoryGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set
+                layoutChangeCategoryGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set,
             )
             chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->

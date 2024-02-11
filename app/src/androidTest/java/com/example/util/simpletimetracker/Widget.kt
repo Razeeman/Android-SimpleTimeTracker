@@ -54,8 +54,8 @@ class Widget : BaseUiTest() {
             allOf(
                 withId(baseR.id.viewRecordTypeItem),
                 hasDescendant(withCardColor(color)),
-                hasDescendant(withText(name))
-            )
+                hasDescendant(withText(name)),
+            ),
         )
     }
 }

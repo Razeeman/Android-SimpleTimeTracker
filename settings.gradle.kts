@@ -4,7 +4,7 @@ include(
     "domain",
     "core",
     "navigation",
-    "data_local"
+    "data_local",
 )
 
 file("features").walkTopDown().maxDepth(1).forEach { dir ->

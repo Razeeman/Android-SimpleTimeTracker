@@ -7,9 +7,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemS
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData as ViewData
 
 fun createStatisticsAdapterDelegate(
-    onItemClick: ((ViewData, Map<Any, String>) -> Unit)
+    onItemClick: ((ViewData, Map<Any, String>) -> Unit),
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding.viewStatisticsItem) {

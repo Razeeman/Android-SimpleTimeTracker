@@ -84,7 +84,7 @@ class IcsRepoImpl @Inject constructor(
                         record = record,
                         recordType = recordTypes[record.typeId],
                         categories = typeToCategories[record.typeId].orEmpty(),
-                        recordTags = recordTags.filter { it.id in record.tagIds }
+                        recordTags = recordTags.filter { it.id in record.tagIds },
                     )
                         ?.toByteArray()
                         ?.let { fileOutputStream?.write(it) }

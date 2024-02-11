@@ -6,7 +6,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 data class EmojiViewData(
     val emojiText: String,
     val emojiCodes: String,
-    @ColorInt val colorInt: Int
+    @ColorInt val colorInt: Int,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = emojiText.hashCode().toLong()

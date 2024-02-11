@@ -74,7 +74,7 @@ class SettingsExportViewDataInteractor @Inject constructor(
                     subtitle = resourceRepo.getString(R.string.settings_import_csv_description),
                     hint = resourceRepo.getString(R.string.data_edit_hint),
                     hintColor = SettingsTextColor.Attention,
-                )
+                ),
             )
 
             result += SettingsTextViewData(
@@ -100,7 +100,7 @@ class SettingsExportViewDataInteractor @Inject constructor(
     private suspend fun loadAutomaticExportLastSaveTime(): String {
         return if (loadAutomaticExportEnabled()) {
             settingsCommonInteractor.getLastSaveString(
-                prefsInteractor.getAutomaticExportLastSaveTime()
+                prefsInteractor.getAutomaticExportLastSaveTime(),
             )
         } else {
             ""

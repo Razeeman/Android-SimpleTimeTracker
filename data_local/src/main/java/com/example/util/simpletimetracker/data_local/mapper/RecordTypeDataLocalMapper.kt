@@ -14,7 +14,7 @@ class RecordTypeDataLocalMapper @Inject constructor() {
             icon = dbo.icon,
             color = AppColor(
                 colorId = dbo.color,
-                colorInt = dbo.colorInt
+                colorInt = dbo.colorInt,
             ),
             hidden = dbo.hidden,
         )

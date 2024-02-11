@@ -26,10 +26,10 @@ class StatisticsCategoryInteractor @Inject constructor(
                 statisticsInteractor.getStatistics(range, it)
             }
             .plus(
-                statisticsInteractor.getUntracked(range, records, addUntracked)
+                statisticsInteractor.getUntracked(range, records, addUntracked),
             )
             .plus(
-                getUncategorized(range, records, addUncategorized)
+                getUncategorized(range, records, addUncategorized),
             )
     }
 
@@ -55,7 +55,7 @@ class StatisticsCategoryInteractor @Inject constructor(
     }
 
     private suspend fun getCategoryRecords(
-        allRecords: List<RecordBase>
+        allRecords: List<RecordBase>,
     ): Map<Long, List<RecordBase>> {
         val recordTypeCategories = recordTypeCategoryInteractor.getAll()
             .groupBy(RecordTypeCategory::categoryId)
@@ -67,7 +67,7 @@ class StatisticsCategoryInteractor @Inject constructor(
     }
 
     private suspend fun getUncategorized(
-        allRecords: List<RecordBase>
+        allRecords: List<RecordBase>,
     ): List<RecordBase> {
         val recordTypeCategories = recordTypeCategoryInteractor.getAll().map { it.recordTypeId }
 

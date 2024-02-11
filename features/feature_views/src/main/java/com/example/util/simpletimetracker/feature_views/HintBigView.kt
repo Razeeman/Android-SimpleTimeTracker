@@ -63,14 +63,17 @@ class HintBigView @JvmOverloads constructor(
     ) {
         context.obtainStyledAttributes(attrs, R.styleable.HintBigView, defStyleAttr, 0)
             .run {
-                if (hasValue(R.styleable.HintBigView_itemHintText)) itemText =
-                    getString(R.styleable.HintBigView_itemHintText).orEmpty()
+                if (hasValue(R.styleable.HintBigView_itemHintText)) {
+                    itemText = getString(R.styleable.HintBigView_itemHintText).orEmpty()
+                }
 
-                if (hasValue(R.styleable.HintBigView_itemInfoIconVisible)) itemInfoIconVisible =
-                    getBoolean(R.styleable.HintBigView_itemInfoIconVisible, false)
+                if (hasValue(R.styleable.HintBigView_itemInfoIconVisible)) {
+                    itemInfoIconVisible = getBoolean(R.styleable.HintBigView_itemInfoIconVisible, false)
+                }
 
-                if (hasValue(R.styleable.HintBigView_itemCloseIconVisible)) itemCloseIconVisible =
-                    getBoolean(R.styleable.HintBigView_itemCloseIconVisible, false)
+                if (hasValue(R.styleable.HintBigView_itemCloseIconVisible)) {
+                    itemCloseIconVisible = getBoolean(R.styleable.HintBigView_itemCloseIconVisible, false)
+                }
 
                 recycle()
             }

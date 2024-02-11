@@ -27,7 +27,7 @@ android {
             isCrunchPngs = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android.txt"),
-                "proguard-debug-rules.pro"
+                "proguard-debug-rules.pro",
             )
             testProguardFile("proguard-test-rules.pro")
         }
@@ -36,7 +36,7 @@ android {
             isCrunchPngs = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }

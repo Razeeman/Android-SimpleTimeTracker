@@ -37,13 +37,13 @@ class TimeTrackerApp : Application() {
                     .detectAll()
                     .penaltyLog()
                     .penaltyDialog()
-                    .build()
+                    .build(),
             )
             StrictMode.setVmPolicy(
                 StrictMode.VmPolicy.Builder()
                     .detectAll()
                     .penaltyLog()
-                    .build()
+                    .build(),
             )
         }
     }

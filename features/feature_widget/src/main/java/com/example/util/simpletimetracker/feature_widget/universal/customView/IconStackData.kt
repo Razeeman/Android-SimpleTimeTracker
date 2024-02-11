@@ -5,5 +5,5 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 data class IconStackData(
     val icon: RecordTypeIcon,
-    @ColorInt val iconBackgroundColor: Int
+    @ColorInt val iconBackgroundColor: Int,
 )

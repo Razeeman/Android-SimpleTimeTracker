@@ -215,8 +215,8 @@ class DataEditViewModel @Inject constructor(
                 tag = ALERT_DIALOG_TAG,
                 message = resourceRepo.getString(R.string.archive_deletion_alert),
                 btnPositive = resourceRepo.getString(R.string.data_edit_button_change),
-                btnNegative = resourceRepo.getString(R.string.cancel)
-            )
+                btnNegative = resourceRepo.getString(R.string.cancel),
+            ),
         )
     }
 

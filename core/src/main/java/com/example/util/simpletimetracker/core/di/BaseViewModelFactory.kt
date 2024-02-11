@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import javax.inject.Inject
 
 class BaseViewModelFactory<VM : ViewModel> @Inject constructor(
-    private val viewModel: VM
+    private val viewModel: VM,
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

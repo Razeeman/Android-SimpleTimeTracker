@@ -15,6 +15,7 @@ sealed class DateTimeDialogType : Parcelable {
     data class DATETIME(val initialTab: Tab = Tab.TIME) : DateTimeDialogType()
 
     enum class Tab {
-        DATE, TIME
+        DATE,
+        TIME,
     }
 }

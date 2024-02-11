@@ -37,12 +37,12 @@ class DateEditViewDataInteractor @Inject constructor(
         val selectedRecordsCount = records.size
         val recordsString = resourceRepo.getQuantityString(
             R.plurals.statistics_detail_times_tracked,
-            selectedRecordsCount
+            selectedRecordsCount,
         ).lowercase()
 
         return DataEditRecordsCountState(
             count = selectedRecordsCount,
-            countText = "$selectedRecordsCount $recordsString"
+            countText = "$selectedRecordsCount $recordsString",
         )
     }
 
@@ -59,7 +59,7 @@ class DateEditViewDataInteractor @Inject constructor(
                 recordTypeViewDataMapper.map(
                     recordType = type,
                     isDarkTheme = isDarkTheme,
-                )
+                ),
             )
         }
     }

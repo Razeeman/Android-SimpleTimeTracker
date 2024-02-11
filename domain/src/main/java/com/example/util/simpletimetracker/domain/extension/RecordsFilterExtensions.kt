@@ -26,7 +26,7 @@ fun List<RecordsFilter>.getCategoryIds(): List<Long> {
 
 fun List<RecordsFilter>.getTypeIdsFromCategories(
     recordTypes: List<RecordType>,
-    recordTypeCategories: List<RecordTypeCategory>
+    recordTypeCategories: List<RecordTypeCategory>,
 ): List<Long> {
     return getCategoryIds()
         .takeUnless { it.isEmpty() }
@@ -53,7 +53,7 @@ fun List<RecordsFilter>.getTypeIdsFromCategories(
 
 fun List<RecordsFilter>.getAllTypeIds(
     recordTypes: List<RecordType>,
-    recordTypeCategories: List<RecordTypeCategory>
+    recordTypeCategories: List<RecordTypeCategory>,
 ): List<Long> {
     return getTypeIds() + getTypeIdsFromCategories(recordTypes, recordTypeCategories)
 }

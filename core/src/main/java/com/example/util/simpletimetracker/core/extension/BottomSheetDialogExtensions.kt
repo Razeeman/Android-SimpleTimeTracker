@@ -39,6 +39,6 @@ fun BottomSheetDialogFragment.blockContentScroll(recyclerView: RecyclerView) {
         },
         onScrollStateChanged = { _, newState ->
             if (newState == RecyclerView.SCROLL_STATE_IDLE) behavior?.isDraggable = true
-        }
+        },
     )
 }

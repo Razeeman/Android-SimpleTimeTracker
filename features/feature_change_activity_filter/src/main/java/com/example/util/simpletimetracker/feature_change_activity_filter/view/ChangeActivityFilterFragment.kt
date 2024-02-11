@@ -56,12 +56,12 @@ class ChangeActivityFilterFragment :
             createCategoryAdapterDelegate(viewModel::onCategoryClick),
             createDividerAdapterDelegate(),
             createInfoAdapterDelegate(),
-            createEmptyAdapterDelegate()
+            createEmptyAdapterDelegate(),
         )
     }
 
     private val params: ChangeActivityFilterParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = ChangeActivityFilterParams.New
+        key = ARGS_PARAMS, default = ChangeActivityFilterParams.New,
     )
 
     override fun initUi(): Unit = with(binding) {
@@ -70,7 +70,7 @@ class ChangeActivityFilterFragment :
         setSharedTransitions(
             additionalCondition = { params !is ChangeActivityFilterParams.New },
             transitionName = (params as? ChangeActivityFilterParams.Change)?.transitionName.orEmpty(),
-            sharedView = previewChangeActivityFilter
+            sharedView = previewChangeActivityFilter,
         )
 
         rvChangeActivityFilterColor.apply {

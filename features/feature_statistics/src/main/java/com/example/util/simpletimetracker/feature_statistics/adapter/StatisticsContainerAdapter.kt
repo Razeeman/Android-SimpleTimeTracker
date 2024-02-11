@@ -14,7 +14,7 @@ class StatisticsContainerAdapter(fragment: Fragment) : FragmentStateAdapter(frag
     override fun createFragment(position: Int): Fragment {
         val shift = position - FIRST
         return StatisticsFragment.newInstance(
-            StatisticsParams(shift = shift)
+            StatisticsParams(shift = shift),
         )
     }
 

@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowVie
 data class ChangeRecordTagTypeSwitchViewData(
     val tagType: RecordTagType,
     override val name: String,
-    override val isSelected: Boolean
+    override val isSelected: Boolean,
 ) : ButtonsRowViewData() {
 
     override val id: Long = tagType.ordinal.toLong()

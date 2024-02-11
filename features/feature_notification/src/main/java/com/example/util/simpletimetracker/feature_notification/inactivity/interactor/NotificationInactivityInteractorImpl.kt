@@ -44,7 +44,7 @@ class NotificationInactivityInteractorImpl @Inject constructor(
         NotificationInactivityParams(
             title = resourceRepo.getString(R.string.notification_inactivity_title),
             subtitle = resourceRepo.getString(R.string.notification_inactivity_text),
-            isDarkTheme = prefsInteractor.getDarkMode()
+            isDarkTheme = prefsInteractor.getDarkMode(),
         ).let(manager::show)
     }
 }

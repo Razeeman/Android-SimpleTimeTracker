@@ -58,23 +58,23 @@ class StatisticsDetailFragment :
     private val previewAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createStatisticsPreviewCompareAdapterDelegate(),
-            createStatisticsPreviewAdapterDelegate()
+            createStatisticsPreviewAdapterDelegate(),
         )
     }
     private val nextActivitiesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createHintAdapterDelegate(),
-            createStatisticsPreviewAdapterDelegate()
+            createStatisticsPreviewAdapterDelegate(),
         )
     }
     private val dataSplitAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createHintAdapterDelegate(),
-            createStatisticsTagAdapterDelegate()
+            createStatisticsTagAdapterDelegate(),
         )
     }
     private val params: StatisticsDetailParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = StatisticsDetailParams()
+        key = ARGS_PARAMS, default = StatisticsDetailParams(),
     )
 
     override fun initUi(): Unit = with(binding) {
@@ -172,7 +172,7 @@ class StatisticsDetailFragment :
             type = StatisticsDetailPreviewViewData.Type.FILTER,
             name = name,
             iconId = iconId?.toViewData(),
-            color = color
+            color = color,
         )
 
         StatisticsDetailPreviewCompositeViewData(
@@ -310,7 +310,7 @@ class StatisticsDetailFragment :
     }
 
     private fun updateNextActivitiesViewData(
-        viewData: List<ViewHolderType>
+        viewData: List<ViewHolderType>,
     ) {
         binding.rvStatisticsDetailNextActivities.isVisible = viewData.isNotEmpty()
         nextActivitiesAdapter.replace(viewData)

@@ -47,7 +47,7 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
                     .map {
                         it.id to categoryViewDataMapper.mapCategory(
                             category = it,
-                            isDarkTheme = isDarkTheme
+                            isDarkTheme = isDarkTheme,
                         )
                     }
             }
@@ -61,7 +61,7 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
             ?.let { (selected, available) ->
                 val viewData = mutableListOf<ViewHolderType>()
                 mapSelectedTypesHint(
-                    isEmpty = selected.isEmpty()
+                    isEmpty = selected.isEmpty(),
                 ).let(viewData::add)
                 selected.let(viewData::addAll)
                 DividerViewData(1)
@@ -88,7 +88,7 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
                 R.string.nothing_selected
             } else {
                 R.string.something_selected
-            }.let(resourceRepo::getString)
+            }.let(resourceRepo::getString),
         )
     }
 }

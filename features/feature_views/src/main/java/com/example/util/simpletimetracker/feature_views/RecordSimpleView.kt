@@ -13,11 +13,11 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 class RecordSimpleView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : ConstraintLayout(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     private val binding: RecordSimpleViewLayoutBinding = RecordSimpleViewLayoutBinding
@@ -33,7 +33,7 @@ class RecordSimpleView @JvmOverloads constructor(
         set(value) {
             ViewCompat.setBackgroundTintList(
                 binding.ivRecordSimpleItemBackground,
-                ColorStateList.valueOf(value)
+                ColorStateList.valueOf(value),
             )
             field = value
         }
@@ -63,29 +63,35 @@ class RecordSimpleView @JvmOverloads constructor(
     private fun initAttrs(
         context: Context,
         attrs: AttributeSet?,
-        defStyleAttr: Int
+        defStyleAttr: Int,
     ) {
         context.obtainStyledAttributes(attrs, R.styleable.RecordSimpleView, defStyleAttr, 0)
             .run {
-                if (hasValue(R.styleable.RecordSimpleView_itemName)) itemName =
-                    getString(R.styleable.RecordSimpleView_itemName).orEmpty()
+                if (hasValue(R.styleable.RecordSimpleView_itemName)) {
+                    itemName = getString(R.styleable.RecordSimpleView_itemName).orEmpty()
+                }
 
-                if (hasValue(R.styleable.RecordSimpleView_itemColor)) itemColor =
-                    getColor(R.styleable.RecordSimpleView_itemColor, Color.BLACK)
+                if (hasValue(R.styleable.RecordSimpleView_itemColor)) {
+                    itemColor = getColor(R.styleable.RecordSimpleView_itemColor, Color.BLACK)
+                }
 
-                if (hasValue(R.styleable.RecordSimpleView_itemIcon)) itemIcon =
-                    getResourceId(R.styleable.RecordSimpleView_itemIcon, R.drawable.unknown)
+                if (hasValue(R.styleable.RecordSimpleView_itemIcon)) {
+                    itemIcon = getResourceId(R.styleable.RecordSimpleView_itemIcon, R.drawable.unknown)
                         .let(RecordTypeIcon::Image)
+                }
 
-                if (hasValue(R.styleable.RecordSimpleView_itemIconText)) itemIcon =
-                    getString(R.styleable.RecordSimpleView_itemIconText).orEmpty()
+                if (hasValue(R.styleable.RecordSimpleView_itemIconText)) {
+                    itemIcon = getString(R.styleable.RecordSimpleView_itemIconText).orEmpty()
                         .let(RecordTypeIcon::Text)
+                }
 
-                if (hasValue(R.styleable.RecordSimpleView_itemTime)) itemTime =
-                    getString(R.styleable.RecordSimpleView_itemTime).orEmpty()
+                if (hasValue(R.styleable.RecordSimpleView_itemTime)) {
+                    itemTime = getString(R.styleable.RecordSimpleView_itemTime).orEmpty()
+                }
 
-                if (hasValue(R.styleable.RecordSimpleView_itemDuration)) itemDuration =
-                    getString(R.styleable.RecordSimpleView_itemDuration).orEmpty()
+                if (hasValue(R.styleable.RecordSimpleView_itemDuration)) {
+                    itemDuration = getString(R.styleable.RecordSimpleView_itemDuration).orEmpty()
+                }
 
                 recycle()
             }

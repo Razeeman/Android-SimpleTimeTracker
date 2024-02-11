@@ -582,12 +582,12 @@ class PrefsInteractor @Inject constructor(
                 if (forDetail) {
                     Range(
                         timeStarted = prefsRepo.statisticsDetailRangeCustomStart,
-                        timeEnded = prefsRepo.statisticsDetailRangeCustomEnd
+                        timeEnded = prefsRepo.statisticsDetailRangeCustomEnd,
                     )
                 } else {
                     Range(
                         timeStarted = prefsRepo.statisticsRangeCustomStart,
-                        timeEnded = prefsRepo.statisticsRangeCustomEnd
+                        timeEnded = prefsRepo.statisticsRangeCustomEnd,
                     )
                 }.let(RangeLength::Custom)
             }

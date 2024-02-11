@@ -65,10 +65,10 @@ class ChangeRecordTest : BaseUiTest() {
         var timeStartedTimestamp = currentTime - 60 * 60 * 1000
         var timeEndedTimestamp = currentTime
         var timeStarted = timeMapper.formatDateTime(
-            time = timeStartedTimestamp, useMilitaryTime = true, showSeconds = false
+            time = timeStartedTimestamp, useMilitaryTime = true, showSeconds = false,
         )
         var timeEnded = timeMapper.formatDateTime(
-            time = timeEndedTimestamp, useMilitaryTime = true, showSeconds = false
+            time = timeEndedTimestamp, useMilitaryTime = true, showSeconds = false,
         )
         var timeStartedPreview = timeStartedTimestamp
             .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
@@ -198,8 +198,8 @@ class ChangeRecordTest : BaseUiTest() {
                 hasDescendant(withText(timeEndedPreview)),
                 hasDescendant(withText(timeRangePreview)),
                 hasDescendant(withText(newComment)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 
@@ -227,8 +227,8 @@ class ChangeRecordTest : BaseUiTest() {
             checkViewIsDisplayed(
                 allOf(
                     withId(changeRecordR.id.viewRecordItem),
-                    hasDescendant(withText(name))
-                )
+                    hasDescendant(withText(name)),
+                ),
             )
         }
 
@@ -247,8 +247,8 @@ class ChangeRecordTest : BaseUiTest() {
             checkViewIsDisplayed(
                 allOf(
                     withId(changeRecordR.id.viewRecordItem),
-                    hasDescendant(withText(fullName))
-                )
+                    hasDescendant(withText(fullName)),
+                ),
             )
         }
 
@@ -266,8 +266,8 @@ class ChangeRecordTest : BaseUiTest() {
             checkViewIsDisplayed(
                 allOf(
                     withId(changeRecordR.id.viewRecordItem),
-                    hasDescendant(withText(name))
-                )
+                    hasDescendant(withText(name)),
+                ),
             )
         }
     }

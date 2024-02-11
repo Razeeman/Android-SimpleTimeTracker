@@ -146,8 +146,8 @@ class ChangeRecordTagViewModel @Inject constructor(
         ColorSelectionDialogParams(
             preselectedColor = colorMapper.mapToColorInt(
                 color = newColor,
-                isDarkTheme = false // Pass original, not darkened color.
-            )
+                isDarkTheme = false, // Pass original, not darkened color.
+            ),
         ).let(router::navigate)
     }
 
@@ -234,7 +234,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         val tag = RecordTag(
             name = newName,
             color = newColor,
-            typeId = newTypeId
+            typeId = newTypeId,
         )
         val type = recordTypeInteractor.get(newTypeId)
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -242,7 +242,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         return categoryViewDataMapper.mapRecordTag(
             tag = tag,
             type = type,
-            isDarkTheme = isDarkTheme
+            isDarkTheme = isDarkTheme,
         )
     }
 
@@ -262,7 +262,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         return changeRecordTagMapper.mapToTagTypeSetupViewData(
             recordTagId = recordTagId,
             typeId = newTypeId,
-            tagType = tagType
+            tagType = tagType,
         )
     }
 

@@ -36,11 +36,11 @@ class CardOrderDialogFragment : BaseBottomSheetFragment<Binding>() {
         BaseRecyclerAdapter(
             createEmptyAdapterDelegate(),
             createRecordTypeAdapterDelegate(),
-            createLoaderAdapterDelegate()
+            createLoaderAdapterDelegate(),
         )
     }
     private val extra: CardOrderDialogParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = CardOrderDialogParams()
+        key = ARGS_PARAMS, default = CardOrderDialogParams(),
     )
 
     override fun onDismiss(dialog: DialogInterface) {

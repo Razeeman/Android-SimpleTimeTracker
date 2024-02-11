@@ -8,6 +8,6 @@ interface ScreenResolver {
     fun navigate(
         navController: NavController?,
         data: ScreenParams,
-        sharedElements: Map<Any, String>?
+        sharedElements: Map<Any, String>?,
     )
 }

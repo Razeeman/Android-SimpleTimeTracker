@@ -87,7 +87,7 @@ abstract class ChangeRecordBaseViewModel(
         ChangeRecordChooserState(
             current = ChangeRecordChooserState.State.Closed,
             previous = ChangeRecordChooserState.State.Closed,
-        )
+        ),
     )
     val searchCommentViewData: LiveData<ChangeRecordSearchCommentState> by lazy {
         return@lazy MutableLiveData<ChangeRecordSearchCommentState>().let { initial ->
@@ -149,7 +149,7 @@ abstract class ChangeRecordBaseViewModel(
 
     protected suspend fun updateTimeSplitData() {
         changeRecordSplitDelegate.updateTimeSplitValue(
-            newTimeSplit = newTimeSplit
+            newTimeSplit = newTimeSplit,
         )
         changeRecordSplitDelegate.updateSplitPreviewViewData(
             newTypeId = newTypeId,
@@ -206,7 +206,7 @@ abstract class ChangeRecordBaseViewModel(
                     onSplitComplete = {
                         newTimeStarted = newTimeSplit
                         onSaveClick()
-                    }
+                    },
                 )
             },
         )
@@ -223,9 +223,9 @@ abstract class ChangeRecordBaseViewModel(
                     newTimeEnded = newTimeEnded,
                     onAdjustComplete = {
                         onSaveClick()
-                    }
+                    },
                 )
-            }
+            },
         )
     }
 
@@ -260,7 +260,7 @@ abstract class ChangeRecordBaseViewModel(
                     newTimeEnded = newTimeEnded,
                     onMergeComplete = {
                         router.back()
-                    }
+                    },
                 )
             },
             checkTypeSelected = false,
@@ -317,10 +317,10 @@ abstract class ChangeRecordBaseViewModel(
                         name = item.name,
                         color = item.color,
                         icon = icon,
-                    )
-                )
+                    ),
+                ),
             ),
-            sharedElements = mapOf(sharedElements)
+            sharedElements = mapOf(sharedElements),
         )
     }
 
@@ -328,8 +328,8 @@ abstract class ChangeRecordBaseViewModel(
         val preselectedTypeId: Long? = newTypeId.takeUnless { it == 0L }
         router.navigate(
             data = getChangeCategoryParams(
-                ChangeTagData.New(preselectedTypeId)
-            )
+                ChangeTagData.New(preselectedTypeId),
+            ),
         )
     }
 
@@ -383,7 +383,7 @@ abstract class ChangeRecordBaseViewModel(
         viewModelScope.launch {
             updateSearchCommentViewData(
                 isEnabled = !currentlyEnabled,
-                isLoading = false
+                isLoading = false,
             )
         }
     }
@@ -416,14 +416,14 @@ abstract class ChangeRecordBaseViewModel(
     fun onAdjustTimeStartedClick() {
         updateAdjustTimeState(
             clicked = TimeAdjustmentState.TIME_STARTED,
-            other = TimeAdjustmentState.TIME_ENDED
+            other = TimeAdjustmentState.TIME_ENDED,
         )
     }
 
     fun onAdjustTimeEndedClick() {
         updateAdjustTimeState(
             clicked = TimeAdjustmentState.TIME_ENDED,
-            other = TimeAdjustmentState.TIME_STARTED
+            other = TimeAdjustmentState.TIME_STARTED,
         )
     }
 
@@ -465,7 +465,7 @@ abstract class ChangeRecordBaseViewModel(
             prevRecord = prevRecord,
             nextRecord = nextRecord,
             newTimeStarted = newTimeStarted,
-            newTimeEnded = newTimeEnded
+            newTimeEnded = newTimeEnded,
         )
     }
 
@@ -502,7 +502,7 @@ abstract class ChangeRecordBaseViewModel(
             ChangeRecordChooserState(
                 current = newState,
                 previous = current,
-            )
+            ),
         )
     }
 
@@ -522,7 +522,7 @@ abstract class ChangeRecordBaseViewModel(
                 useMilitaryTime = useMilitaryTime,
                 firstDayOfWeek = firstDayOfWeek,
                 showSeconds = showSeconds,
-            )
+            ),
         )
     }
 
@@ -647,7 +647,7 @@ abstract class ChangeRecordBaseViewModel(
     ) {
         val data = loadSearchCommentViewData(
             isLoading = isLoading,
-            isEnabled = isEnabled
+            isEnabled = isEnabled,
         )
         searchCommentViewData.set(data)
     }

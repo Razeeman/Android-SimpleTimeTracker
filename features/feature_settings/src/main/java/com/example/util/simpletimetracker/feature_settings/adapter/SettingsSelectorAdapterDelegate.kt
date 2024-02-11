@@ -7,7 +7,6 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSelectorViewData
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSelectorViewData as ViewData
@@ -36,7 +35,7 @@ fun createSettingsSelectorAdapterDelegate(
 }
 
 fun selectorAdapterBindDelegate(
-    item: SettingsSelectorViewData,
+    item: ViewData,
     title: AppCompatTextView,
     subtitle: AppCompatTextView,
     value: AppCompatTextView,

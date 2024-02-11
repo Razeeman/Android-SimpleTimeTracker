@@ -71,7 +71,7 @@ class ChangeRecordViewDataMapper @Inject constructor(
                     timeMapper.formatInterval(
                         interval = it,
                         forceSeconds = showSeconds,
-                        useProportionalMinutes = useProportionalMinutes
+                        useProportionalMinutes = useProportionalMinutes,
                     )
                 }
                 .orEmpty(),
@@ -81,7 +81,7 @@ class ChangeRecordViewDataMapper @Inject constructor(
                 ?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
                 ?: colorMapper.toUntrackedColor(isDarkTheme),
             comment = record?.comment
-                .orEmpty()
+                .orEmpty(),
         )
     }
 }

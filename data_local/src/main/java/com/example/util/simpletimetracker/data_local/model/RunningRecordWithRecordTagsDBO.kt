@@ -14,8 +14,8 @@ data class RunningRecordWithRecordTagsDBO(
         associateBy = Junction(
             RunningRecordToRecordTagDBO::class,
             parentColumn = "running_record_id",
-            entityColumn = "record_tag_id"
-        )
+            entityColumn = "record_tag_id",
+        ),
     )
-    val recordTags: List<RecordTagDBO>
+    val recordTags: List<RecordTagDBO>,
 )

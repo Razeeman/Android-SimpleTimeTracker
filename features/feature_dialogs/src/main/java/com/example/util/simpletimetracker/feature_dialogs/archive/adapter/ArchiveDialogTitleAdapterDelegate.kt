@@ -6,7 +6,7 @@ import com.example.util.simpletimetracker.feature_dialogs.databinding.ItemArchiv
 
 fun createArchiveDialogTitleAdapterDelegate() =
     createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-        Binding::inflate
+        Binding::inflate,
     ) { itemView, item, _ ->
 
         with(itemView) {

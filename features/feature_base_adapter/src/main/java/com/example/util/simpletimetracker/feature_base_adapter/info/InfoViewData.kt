@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.feature_base_adapter.info
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 
 data class InfoViewData(
-    val text: String
+    val text: String,
 ) : ViewHolderType {
 
     // Only one in recycler, add id if needed, but don't do text hashcode,

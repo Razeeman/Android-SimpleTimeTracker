@@ -6,9 +6,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewDa
 import com.example.util.simpletimetracker.feature_statistics.databinding.ItemStatisticsEmptyLayoutBinding as Binding
 
 fun createStatisticsEmptyAdapterDelegate(
-    onFilterClick: (() -> Unit)
+    onFilterClick: (() -> Unit),
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {

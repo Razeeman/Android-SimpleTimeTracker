@@ -46,8 +46,8 @@ class DeleteRecordTypeTest : BaseUiTest() {
                     withId(baseR.id.viewRecordTypeItem),
                     hasDescendant(withText(name)),
                     hasDescendant(withTag(icon)),
-                    hasDescendant(withCardColor(color))
-                )
+                    hasDescendant(withCardColor(color)),
+                ),
             )
         }
 
@@ -58,8 +58,8 @@ class DeleteRecordTypeTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withSubstring(getString(coreR.string.change_record_type_archived)),
-                withId(R.id.snackbar_text)
-            )
+                withId(R.id.snackbar_text),
+            ),
         )
 
         // Record type is deleted
@@ -68,8 +68,8 @@ class DeleteRecordTypeTest : BaseUiTest() {
                 withId(baseR.id.viewRecordTypeItem),
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(icon)),
-                withCardColor(color)
-            )
+                withCardColor(color),
+            ),
         )
 
         // Delete
@@ -83,8 +83,8 @@ class DeleteRecordTypeTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withText(coreR.string.archive_activity_deleted),
-                withId(R.id.snackbar_text)
-            )
+                withId(R.id.snackbar_text),
+            ),
         )
         pressBack()
 

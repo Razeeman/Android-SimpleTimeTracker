@@ -4,7 +4,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 
 data class ArchiveDialogInfoViewData(
     val name: String,
-    val text: String
+    val text: String,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = name.hashCode().toLong()

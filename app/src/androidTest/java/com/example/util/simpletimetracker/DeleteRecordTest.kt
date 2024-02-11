@@ -49,8 +49,8 @@ class DeleteRecordTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withText(getString(coreR.string.record_removed, name)),
-                withId(com.google.android.material.R.id.snackbar_text)
-            )
+                withId(com.google.android.material.R.id.snackbar_text),
+            ),
         )
 
         // Record is deleted
@@ -68,8 +68,8 @@ class DeleteRecordTest : BaseUiTest() {
                 withCardColor(color),
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(icon)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 }

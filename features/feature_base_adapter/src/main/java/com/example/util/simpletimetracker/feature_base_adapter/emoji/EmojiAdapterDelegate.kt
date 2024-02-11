@@ -6,9 +6,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemE
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData as ViewData
 
 fun createEmojiAdapterDelegate(
-    onIconItemClick: ((ViewData) -> Unit)
+    onIconItemClick: ((ViewData) -> Unit),
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {

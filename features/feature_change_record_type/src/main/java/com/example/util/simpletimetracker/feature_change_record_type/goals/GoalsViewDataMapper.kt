@@ -61,7 +61,7 @@ class GoalsViewDataMapper @Inject constructor(
                 goal = goalsState.daily,
                 selectedDaysOfWeek = goalsState.daysOfWeek,
                 isDarkTheme = isDarkTheme,
-            )
+            ),
         )
     }
 

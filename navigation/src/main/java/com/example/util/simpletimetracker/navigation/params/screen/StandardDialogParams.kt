@@ -10,5 +10,5 @@ data class StandardDialogParams(
     val title: String = "",
     val message: String = "",
     val btnPositive: String = "",
-    val btnNegative: String = ""
+    val btnNegative: String = "",
 ) : Parcelable, ScreenParams

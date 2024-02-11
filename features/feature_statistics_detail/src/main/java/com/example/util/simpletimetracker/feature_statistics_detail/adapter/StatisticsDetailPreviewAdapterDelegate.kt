@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 
 fun createStatisticsPreviewAdapterDelegate() =
     createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-        Binding::inflate
+        Binding::inflate,
     ) { binding, item, _ ->
 
         with(binding) {

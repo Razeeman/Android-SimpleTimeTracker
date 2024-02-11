@@ -19,11 +19,11 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 class RunningRecordView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : CardView(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     private val binding: RecordRunningViewLayoutBinding = RecordRunningViewLayoutBinding
@@ -123,47 +123,59 @@ class RunningRecordView @JvmOverloads constructor(
     private fun initAttrs(
         context: Context,
         attrs: AttributeSet?,
-        defStyleAttr: Int
+        defStyleAttr: Int,
     ) {
         context.obtainStyledAttributes(attrs, R.styleable.RunningRecordView, defStyleAttr, 0)
             .run {
-                if (hasValue(R.styleable.RunningRecordView_itemName)) itemName =
-                    getString(R.styleable.RunningRecordView_itemName).orEmpty()
+                if (hasValue(R.styleable.RunningRecordView_itemName)) {
+                    itemName = getString(R.styleable.RunningRecordView_itemName).orEmpty()
+                }
 
-                if (hasValue(R.styleable.RunningRecordView_itemColor)) itemColor =
-                    getColor(R.styleable.RunningRecordView_itemColor, Color.BLACK)
+                if (hasValue(R.styleable.RunningRecordView_itemColor)) {
+                    itemColor = getColor(R.styleable.RunningRecordView_itemColor, Color.BLACK)
+                }
 
-                if (hasValue(R.styleable.RunningRecordView_itemTagName)) itemTagName =
-                    getString(R.styleable.RunningRecordView_itemTagName).orEmpty()
+                if (hasValue(R.styleable.RunningRecordView_itemTagName)) {
+                    itemTagName = getString(R.styleable.RunningRecordView_itemTagName).orEmpty()
+                }
 
-                if (hasValue(R.styleable.RunningRecordView_itemTagColor)) itemTagColor =
-                    getColor(R.styleable.RunningRecordView_itemTagColor, Color.WHITE)
+                if (hasValue(R.styleable.RunningRecordView_itemTagColor)) {
+                    itemTagColor = getColor(R.styleable.RunningRecordView_itemTagColor, Color.WHITE)
+                }
 
-                if (hasValue(R.styleable.RunningRecordView_itemIcon)) itemIcon =
-                    getResourceId(R.styleable.RunningRecordView_itemIcon, R.drawable.unknown)
+                if (hasValue(R.styleable.RunningRecordView_itemIcon)) {
+                    itemIcon = getResourceId(R.styleable.RunningRecordView_itemIcon, R.drawable.unknown)
                         .let(RecordTypeIcon::Image)
+                }
 
-                if (hasValue(R.styleable.RunningRecordView_itemIconText)) itemIcon =
-                    getString(R.styleable.RunningRecordView_itemIconText).orEmpty()
+                if (hasValue(R.styleable.RunningRecordView_itemIconText)) {
+                    itemIcon = getString(R.styleable.RunningRecordView_itemIconText).orEmpty()
                         .let(RecordTypeIcon::Text)
+                }
 
-                if (hasValue(R.styleable.RunningRecordView_itemTimeStarted)) itemTimeStarted =
-                    getString(R.styleable.RunningRecordView_itemTimeStarted).orEmpty()
+                if (hasValue(R.styleable.RunningRecordView_itemTimeStarted)) {
+                    itemTimeStarted = getString(R.styleable.RunningRecordView_itemTimeStarted).orEmpty()
+                }
 
-                if (hasValue(R.styleable.RunningRecordView_itemTimer)) itemTimer =
-                    getString(R.styleable.RunningRecordView_itemTimer).orEmpty()
+                if (hasValue(R.styleable.RunningRecordView_itemTimer)) {
+                    itemTimer = getString(R.styleable.RunningRecordView_itemTimer).orEmpty()
+                }
 
-                if (hasValue(R.styleable.RunningRecordView_itemTimerDay)) itemTimerTotal =
-                    getString(R.styleable.RunningRecordView_itemTimerDay).orEmpty()
+                if (hasValue(R.styleable.RunningRecordView_itemTimerDay)) {
+                    itemTimerTotal = getString(R.styleable.RunningRecordView_itemTimerDay).orEmpty()
+                }
 
-                if (hasValue(R.styleable.RunningRecordView_itemGoalTime)) itemGoalTime =
-                    getString(R.styleable.RunningRecordView_itemGoalTime).orEmpty()
+                if (hasValue(R.styleable.RunningRecordView_itemGoalTime)) {
+                    itemGoalTime = getString(R.styleable.RunningRecordView_itemGoalTime).orEmpty()
+                }
 
-                if (hasValue(R.styleable.RunningRecordView_itemComment)) itemComment =
-                    getString(R.styleable.RunningRecordView_itemComment).orEmpty()
+                if (hasValue(R.styleable.RunningRecordView_itemComment)) {
+                    itemComment = getString(R.styleable.RunningRecordView_itemComment).orEmpty()
+                }
 
-                if (hasValue(R.styleable.RunningRecordView_itemNowIconVisible)) itemNowIconVisible =
-                    getBoolean(R.styleable.RunningRecordView_itemNowIconVisible, false)
+                if (hasValue(R.styleable.RunningRecordView_itemNowIconVisible)) {
+                    itemNowIconVisible = getBoolean(R.styleable.RunningRecordView_itemNowIconVisible, false)
+                }
 
                 recycle()
             }
@@ -178,7 +190,7 @@ class RunningRecordView @JvmOverloads constructor(
             spannable.setSpan(
                 ForegroundColorSpan(itemTagColor),
                 itemName.length, name.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
             )
             tvRunningRecordItemName.text = spannable
         }

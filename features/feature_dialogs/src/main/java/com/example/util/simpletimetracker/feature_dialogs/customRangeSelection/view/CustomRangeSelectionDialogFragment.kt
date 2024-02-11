@@ -30,7 +30,7 @@ class CustomRangeSelectionDialogFragment :
     private val viewModel: CustomRangeSelectionViewModel by viewModels()
 
     private val params: CustomRangeSelectionParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = CustomRangeSelectionParams()
+        key = ARGS_PARAMS, default = CustomRangeSelectionParams(),
     )
 
     private var dialogListener: CustomRangeSelectionDialogListener? = null

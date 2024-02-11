@@ -30,12 +30,12 @@ class CheckNotificationsPermissionInteractor @Inject constructor(
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> requestPermission(
                 onEnabled = onEnabled,
                 onDisabled = onDisabled,
-                anchor = anchor
+                anchor = anchor,
             )
 
             else -> doOnDisabled(
                 onDisabled = onDisabled,
-                anchor = anchor
+                anchor = anchor,
             )
         }
     }

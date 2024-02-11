@@ -61,7 +61,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             rangeLength = rangeLength,
             shift = rangePosition,
             firstDayOfWeek = firstDayOfWeek,
-            startOfDayShift = startOfDayShift
+            startOfDayShift = startOfDayShift,
         )
 
         return@withContext mapStatsData(
@@ -106,7 +106,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             compareFirstRecord = "",
             lastRecord = "",
             compareLastRecord = "",
-            splitData = emptyList()
+            splitData = emptyList(),
         )
     }
 
@@ -140,7 +140,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                 R.color.colorInactiveDark
             } else {
                 R.color.colorInactive
-            }.let(resourceRepo::getColor)
+            }.let(resourceRepo::getColor),
         )
         val activitySplitData = mapActivities(
             records = records,
@@ -278,7 +278,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                     secondValue = compareTotalDuration,
                     description = resourceRepo.getString(R.string.statistics_detail_total_duration),
                     accented = true,
-                )
+                ),
             ),
             timesTracked = listOf(
                 StatisticsDetailCardViewData(
@@ -286,12 +286,12 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                     valueChange = StatisticsDetailCardViewData.ValueChange.None,
                     secondValue = compareTimesTracked,
                     description = resourceRepo.getQuantityString(
-                        R.plurals.statistics_detail_times_tracked, timesTracked.orZero()
+                        R.plurals.statistics_detail_times_tracked, timesTracked.orZero(),
                     ),
                     icon = timesTrackedIcon,
                     clickable = StatisticsDetailClickableTracked,
                     accented = true,
-                )
+                ),
             ),
             averageRecord = listOf(
                 StatisticsDetailCardViewData(
@@ -305,7 +305,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                     value = averageRecord,
                     valueChange = StatisticsDetailCardViewData.ValueChange.None,
                     secondValue = compareAverageRecord,
-                    description = resourceRepo.getString(R.string.statistics_detail_average_record)
+                    description = resourceRepo.getString(R.string.statistics_detail_average_record),
                 ),
                 StatisticsDetailCardViewData(
                     value = longestRecord,
@@ -313,23 +313,23 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                     secondValue = compareLongestRecord,
                     description = resourceRepo.getString(R.string.statistics_detail_longest_record),
                     clickable = StatisticsDetailClickableLongest(longestRecordDate),
-                )
+                ),
             ),
             datesTracked = listOf(
                 StatisticsDetailCardViewData(
                     value = firstRecord,
                     valueChange = StatisticsDetailCardViewData.ValueChange.None,
                     secondValue = compareFirstRecord,
-                    description = resourceRepo.getString(R.string.statistics_detail_first_record)
+                    description = resourceRepo.getString(R.string.statistics_detail_first_record),
                 ),
                 StatisticsDetailCardViewData(
                     value = lastRecord,
                     valueChange = StatisticsDetailCardViewData.ValueChange.None,
                     secondValue = compareLastRecord,
-                    description = resourceRepo.getString(R.string.statistics_detail_last_record)
-                )
+                    description = resourceRepo.getString(R.string.statistics_detail_last_record),
+                ),
             ),
-            splitData = splitData
+            splitData = splitData,
         )
     }
 
@@ -448,7 +448,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         val durationPercent = statisticsMapper.getDurationPercentString(
             sumDuration = sumDuration,
             duration = duration,
-            statisticsSize = statisticsSize
+            statisticsSize = statisticsSize,
         )
 
         return StatisticsTagViewData(

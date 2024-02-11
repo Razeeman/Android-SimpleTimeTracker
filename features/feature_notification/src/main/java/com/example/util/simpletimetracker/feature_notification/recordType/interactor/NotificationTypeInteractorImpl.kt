@@ -73,7 +73,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
         val thisGoals = filterGoalsByDayOfWeekInteractor.execute(
             goals = recordTypeGoalInteractor.getByType(typeId),
             range = range,
-            startOfDayShift = startOfDayShift
+            startOfDayShift = startOfDayShift,
         )
         val goalTime = if (thisGoals.hasDailyDuration()) {
             thisGoals.getDailyDuration()

@@ -13,5 +13,5 @@ data class ChangeRecordViewData(
     val duration: String,
     val iconId: RecordTypeIcon,
     @ColorInt val color: Int,
-    val comment: String
+    val comment: String,
 )

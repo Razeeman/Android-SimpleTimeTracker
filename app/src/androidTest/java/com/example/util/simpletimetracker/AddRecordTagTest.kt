@@ -57,8 +57,8 @@ class AddRecordTagTest : BaseUiTest() {
         clickOnView(
             allOf(
                 isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
-                withText(coreR.string.change_record_tag_type_typed)
-            )
+                withText(coreR.string.change_record_tag_type_typed),
+            ),
         )
 
         // View is set up
@@ -67,7 +67,7 @@ class AddRecordTagTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagType))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagColor))
         checkViewIsDisplayed(
-            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagType), withCardColor(viewsR.color.colorBackground))
+            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagType), withCardColor(viewsR.color.colorBackground)),
         )
 
         // Name is not selected
@@ -81,7 +81,7 @@ class AddRecordTagTest : BaseUiTest() {
         clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
         checkViewIsDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagType))
         checkViewIsDisplayed(
-            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagType), withCardColor(viewsR.color.inputFieldBorder))
+            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagType), withCardColor(viewsR.color.inputFieldBorder)),
         )
 
         // Selecting activity
@@ -91,7 +91,7 @@ class AddRecordTagTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
         clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
         checkViewIsDisplayed(
-            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagType), withCardColor(viewsR.color.colorBackground))
+            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagType), withCardColor(viewsR.color.colorBackground)),
         )
 
         clickOnViewWithText(coreR.string.change_record_type_save)
@@ -128,7 +128,7 @@ class AddRecordTagTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagType))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagType))
         checkViewIsDisplayed(
-            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagColor), withCardColor(viewsR.color.colorBackground))
+            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagColor), withCardColor(viewsR.color.colorBackground)),
         )
 
         // Name is not selected
@@ -142,7 +142,7 @@ class AddRecordTagTest : BaseUiTest() {
         clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagColor)
         checkViewIsDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagColor))
         checkViewIsDisplayed(
-            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagColor), withCardColor(viewsR.color.inputFieldBorder))
+            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagColor), withCardColor(viewsR.color.inputFieldBorder)),
         )
 
         // Selecting color
@@ -150,11 +150,11 @@ class AddRecordTagTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withText(name)))
         checkPreviewUpdated(withCardColor(lastColor))
         checkViewIsDisplayed(
-            allOf(withId(changeRecordTagR.id.viewColorItemSelected), withParent(withCardColor(lastColor)))
+            allOf(withId(changeRecordTagR.id.viewColorItemSelected), withParent(withCardColor(lastColor))),
         )
         clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagColor)
         checkViewIsDisplayed(
-            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagColor), withCardColor(viewsR.color.colorBackground))
+            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagColor), withCardColor(viewsR.color.colorBackground)),
         )
 
         clickOnViewWithText(coreR.string.change_record_type_save)
@@ -180,8 +180,8 @@ class AddRecordTagTest : BaseUiTest() {
         clickOnView(
             allOf(
                 isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
-                withText(coreR.string.change_record_tag_type_typed)
-            )
+                withText(coreR.string.change_record_tag_type_typed),
+            ),
         )
         clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
         checkViewIsDisplayed(withText(coreR.string.record_types_empty))
@@ -209,8 +209,8 @@ class AddRecordTagTest : BaseUiTest() {
         clickOnView(
             allOf(
                 isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
-                withText(coreR.string.change_record_tag_type_typed)
-            )
+                withText(coreR.string.change_record_tag_type_typed),
+            ),
         )
         clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
         clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagType, withText(typeName))

@@ -18,7 +18,7 @@ class WidgetStatisticsChartView @JvmOverloads constructor(
 ) : CardView(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     private val binding = WidgetStatisticsChartViewLayoutBinding

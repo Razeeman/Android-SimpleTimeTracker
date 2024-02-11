@@ -38,7 +38,7 @@ class DateDialogFragment : BaseFragment<Binding>() {
         datePicker.init(
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
+            calendar.get(Calendar.DAY_OF_MONTH),
         ) { _, year, monthOfYear, dayOfMonth ->
             listener?.onDateSet(year, monthOfYear, dayOfMonth)
         }
@@ -54,7 +54,7 @@ class DateDialogFragment : BaseFragment<Binding>() {
 
         fun newInstance(
             timestamp: Long,
-            firstDayOfWeek: Int
+            firstDayOfWeek: Int,
         ) = DateDialogFragment().apply {
             arguments = Bundle().apply {
                 putLong(ARGS_TIMESTAMP, timestamp)

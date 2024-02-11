@@ -11,7 +11,7 @@ fun createStatisticsChartAdapterDelegate(
     onShareClick: (() -> Unit),
     onChartAttached: (Boolean) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {

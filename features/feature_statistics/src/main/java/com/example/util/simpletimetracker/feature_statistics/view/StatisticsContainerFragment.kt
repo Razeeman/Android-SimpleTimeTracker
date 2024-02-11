@@ -35,7 +35,7 @@ class StatisticsContainerFragment :
 
     private val viewModel: StatisticsContainerViewModel by viewModels()
     private val settingsViewModel: StatisticsSettingsViewModel by activityViewModels(
-        factoryProducer = { settingsViewModelFactory }
+        factoryProducer = { settingsViewModelFactory },
     )
 
     override fun initUi(): Unit = with(binding) {
@@ -98,7 +98,7 @@ class StatisticsContainerFragment :
     private fun updatePosition(position: Int) = with(binding) {
         pagerStatisticsContainer.setCurrentItem(
             position + StatisticsContainerAdapter.FIRST,
-            viewPagerSmoothScroll
+            viewPagerSmoothScroll,
         )
     }
 

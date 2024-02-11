@@ -50,7 +50,7 @@ class WidgetQuickSettingsConfigureActivity : BaseActivity() {
         val widgetId = intent?.extras
             ?.getInt(
                 AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID
+                AppWidgetManager.INVALID_APPWIDGET_ID,
             )
             ?: AppWidgetManager.INVALID_APPWIDGET_ID
 

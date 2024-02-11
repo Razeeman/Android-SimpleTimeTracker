@@ -7,5 +7,5 @@ data class StatisticsDetailStatsViewData(
     val timesTracked: List<StatisticsDetailCardViewData>,
     val averageRecord: List<StatisticsDetailCardViewData>,
     val datesTracked: List<StatisticsDetailCardViewData>,
-    val splitData: List<ViewHolderType>
+    val splitData: List<ViewHolderType>,
 )

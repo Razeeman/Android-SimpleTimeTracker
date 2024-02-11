@@ -37,7 +37,7 @@ class PermissionRepo @Inject constructor(
             if (it.uri.toString() == excludeUri) return@forEach
             contentResolver.releasePersistableUriPermission(
                 it.uri,
-                Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION,
             )
         }
     }
@@ -46,7 +46,7 @@ class PermissionRepo @Inject constructor(
         // Take persisted permission to be able to use this uri later, for automatic backups.
         contentResolver.takePersistableUriPermission(
             Uri.parse(uri),
-            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            Intent.FLAG_GRANT_WRITE_URI_PERMISSION,
         )
     }.fold(
         onSuccess = { true },

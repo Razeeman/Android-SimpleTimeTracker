@@ -58,14 +58,14 @@ class RecordsAllTest : BaseUiTest() {
             hourStarted = 15,
             minutesStarted = 0,
             hourEnded = 16,
-            minutesEnded = 0
+            minutesEnded = 0,
         )
 
         val firstRecord = allOf(
             withId(baseR.id.viewRecordItem),
             hasDescendant(withText(name)),
             hasDescendant(withText("1$hourString 0$minuteString")),
-            isCompletelyDisplayed()
+            isCompletelyDisplayed(),
         )
 
         // Record added
@@ -80,7 +80,7 @@ class RecordsAllTest : BaseUiTest() {
             hourEnded = 19,
             minutesEnded = 0,
             comment = comment,
-            tag = tag
+            tag = tag,
         )
 
         val secondRecord = allOf(
@@ -88,7 +88,7 @@ class RecordsAllTest : BaseUiTest() {
             hasDescendant(withText(fullName)),
             hasDescendant(withText("2$hourString 0$minuteString")),
             hasDescendant(withText(comment)),
-            isCompletelyDisplayed()
+            isCompletelyDisplayed(),
         )
 
         // Another record added
@@ -130,14 +130,14 @@ class RecordsAllTest : BaseUiTest() {
             hourStarted = 15,
             minutesStarted = 0,
             hourEnded = 16,
-            minutesEnded = 0
+            minutesEnded = 0,
         )
 
         val firstRecord = allOf(
             withId(baseR.id.viewRecordItem),
             hasDescendant(withText(name)),
             hasDescendant(withText("1$hourString 0$minuteString")),
-            isCompletelyDisplayed()
+            isCompletelyDisplayed(),
         )
 
         // Record added
@@ -149,14 +149,14 @@ class RecordsAllTest : BaseUiTest() {
             hourStarted = 17,
             minutesStarted = 0,
             hourEnded = 19,
-            minutesEnded = 0
+            minutesEnded = 0,
         )
 
         val secondRecord = allOf(
             withId(baseR.id.viewRecordItem),
             hasDescendant(withText(name)),
             hasDescendant(withText("2$hourString 0$minuteString")),
-            isCompletelyDisplayed()
+            isCompletelyDisplayed(),
         )
 
         // Another record added
@@ -171,8 +171,8 @@ class RecordsAllTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withPluralText(coreR.plurals.statistics_detail_times_tracked, 2),
-                hasSibling(withText("2"))
-            )
+                hasSibling(withText("2")),
+            ),
         )
 
         // Open records all
@@ -193,8 +193,8 @@ class RecordsAllTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withText(message),
-                withId(com.google.android.material.R.id.snackbar_text)
-            )
+                withId(com.google.android.material.R.id.snackbar_text),
+            ),
         )
 
         // Record is deleted
@@ -207,8 +207,8 @@ class RecordsAllTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withPluralText(coreR.plurals.statistics_detail_times_tracked, 1),
-                hasSibling(withText("1"))
-            )
+                hasSibling(withText("1")),
+            ),
         )
     }
 
@@ -240,14 +240,14 @@ class RecordsAllTest : BaseUiTest() {
             hourStarted = 15,
             minutesStarted = 0,
             hourEnded = 16,
-            minutesEnded = 0
+            minutesEnded = 0,
         )
 
         val firstRecord = allOf(
             withId(baseR.id.viewRecordItem),
             hasDescendant(withText(typeName1)),
             hasDescendant(withText("1$hourString 0$minuteString")),
-            isCompletelyDisplayed()
+            isCompletelyDisplayed(),
         )
 
         // Record added
@@ -260,14 +260,14 @@ class RecordsAllTest : BaseUiTest() {
             hourStarted = 17,
             minutesStarted = 0,
             hourEnded = 19,
-            minutesEnded = 0
+            minutesEnded = 0,
         )
 
         val secondRecord = allOf(
             withId(baseR.id.viewRecordItem),
             hasDescendant(withText(typeName2)),
             hasDescendant(withText("2$hourString 0$minuteString")),
-            isCompletelyDisplayed()
+            isCompletelyDisplayed(),
         )
 
         // Another record added

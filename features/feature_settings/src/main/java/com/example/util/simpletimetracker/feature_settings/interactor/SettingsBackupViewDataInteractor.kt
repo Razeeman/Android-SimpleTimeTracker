@@ -86,7 +86,7 @@ class SettingsBackupViewDataInteractor @Inject constructor(
     private suspend fun loadAutomaticBackupLastSaveTime(): String {
         return if (loadAutomaticBackupEnabled()) {
             settingsCommonInteractor.getLastSaveString(
-                prefsInteractor.getAutomaticBackupLastSaveTime()
+                prefsInteractor.getAutomaticBackupLastSaveTime(),
             )
         } else {
             ""

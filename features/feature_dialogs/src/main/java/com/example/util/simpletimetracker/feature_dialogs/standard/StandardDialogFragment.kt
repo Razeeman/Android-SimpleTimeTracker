@@ -35,12 +35,12 @@ class StandardDialogFragment :
             AlertDialog.Builder(it).apply {
                 if (title.isNotEmpty()) setTitle(title)
                 if (message.isNotEmpty()) setMessage(message)
-                if (btnPositive.isNotEmpty()) setPositiveButton(
-                    btnPositive, this@StandardDialogFragment
-                )
-                if (btnNegative.isNotEmpty()) setNegativeButton(
-                    btnNegative, this@StandardDialogFragment
-                )
+                if (btnPositive.isNotEmpty()) {
+                    setPositiveButton(btnPositive, this@StandardDialogFragment)
+                }
+                if (btnNegative.isNotEmpty()) {
+                    setNegativeButton(btnNegative, this@StandardDialogFragment)
+                }
             }.create()
         } ?: throw IllegalStateException("Dialog context cannot be null")
     }

@@ -55,7 +55,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         // Running record - not shown
         tryAction {
             longClickOnView(
-                allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed())
+                allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed()),
             )
         }
         clickOnViewWithText(coreR.string.change_record_actions_hint)
@@ -65,7 +65,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         // Record - shown
         NavUtils.openRecordsScreen()
         clickOnView(
-            allOf(withId(baseR.id.viewRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed())
+            allOf(withId(baseR.id.viewRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed()),
         )
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         onView(withText(coreR.string.change_record_duplicate)).perform(nestedScrollTo())
@@ -97,7 +97,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
             timeStarted = timeStartedTimestamp,
             timeEnded = current,
             tagNames = listOf(tag),
-            comment = comment
+            comment = comment,
         )
 
         // Check record
@@ -110,7 +110,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
             timeStartedPreview,
             timeEndedPreview,
             timeRangePreview,
-            comment
+            comment,
         )
 
         // Continue
@@ -129,7 +129,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
                 timeStartedPreview,
                 timeEndedPreview,
                 timeRangePreview,
-                comment
+                comment,
             )
         }
     }
@@ -161,8 +161,8 @@ class RecordActionsDuplicateTest : BaseUiTest() {
                 hasDescendant(withText(timeStartedPreview)),
                 hasDescendant(withText(timeEndedPreview)),
                 hasDescendant(withText(timeRangePreview)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
         onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
             .check(recyclerItemCount(2))
@@ -197,7 +197,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
                 timeStartedPreview,
                 timeEndedPreview,
                 timeRangePreview,
-                comment
+                comment,
             )
         }
     }
@@ -253,7 +253,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
                 timeStartedPreview,
                 timeEndedPreview,
                 timeRangePreview,
-                comment
+                comment,
             )
         }
     }
@@ -279,8 +279,8 @@ class RecordActionsDuplicateTest : BaseUiTest() {
                     hasDescendant(withText(timeEndedPreview)),
                     hasDescendant(withText(timeRangePreview)),
                     hasDescendant(withText(comment)),
-                    isCompletelyDisplayed()
-                )
+                    isCompletelyDisplayed(),
+                ),
             )
         }
     }

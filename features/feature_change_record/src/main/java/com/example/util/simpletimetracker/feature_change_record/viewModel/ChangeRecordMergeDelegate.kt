@@ -55,7 +55,7 @@ class ChangeRecordMergeDelegateImpl @Inject constructor(
         val data = loadMergePreviewViewData(
             mergeAvailable = mergeAvailable,
             prevRecord = prevRecord,
-            newTimeEnded = newTimeEnded
+            newTimeEnded = newTimeEnded,
         )
         mergePreview.set(data)
     }

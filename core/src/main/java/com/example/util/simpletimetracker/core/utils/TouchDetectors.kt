@@ -100,7 +100,10 @@ class SwipeDetector(
 ) {
 
     enum class Direction {
-        DOWN, UP, LEFT, RIGHT
+        DOWN,
+        UP,
+        LEFT,
+        RIGHT,
     }
 
     private var isSliding = false

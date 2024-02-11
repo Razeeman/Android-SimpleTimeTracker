@@ -6,7 +6,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitC
 data class StatisticsDetailSplitGroupingViewData(
     val splitChartGrouping: SplitChartGrouping,
     override val name: String,
-    override val isSelected: Boolean
+    override val isSelected: Boolean,
 ) : ButtonsRowViewData() {
 
     override val id: Long = splitChartGrouping.ordinal.toLong()

@@ -24,5 +24,5 @@ data class RecordTagDBO(
     val colorInt: String,
 
     @ColumnInfo(name = "archived")
-    val archived: Boolean
+    val archived: Boolean,
 )

@@ -75,8 +75,8 @@ class ChangeUntrackedTest : BaseUiTest() {
                 withCardColor(color),
                 hasDescendant(withText(name)),
                 hasDescendant(withTag(icon)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
 
         // Delete record

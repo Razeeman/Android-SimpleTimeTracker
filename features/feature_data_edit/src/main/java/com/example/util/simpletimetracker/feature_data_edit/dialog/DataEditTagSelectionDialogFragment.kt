@@ -48,7 +48,7 @@ class DataEditTagSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
         )
     }
     private val params: DataEditTagSelectionDialogParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = DataEditTagSelectionDialogParams()
+        key = ARGS_PARAMS, default = DataEditTagSelectionDialogParams(),
     )
     private var listener: DataEditTagSelectionDialogListener? = null
 

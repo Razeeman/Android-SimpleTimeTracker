@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 
 class ActivityFilterAddViewData(
     val name: String,
-    @ColorInt val color: Int
+    @ColorInt val color: Int,
 ) : ViewHolderType {
 
     // Only one add item on screen

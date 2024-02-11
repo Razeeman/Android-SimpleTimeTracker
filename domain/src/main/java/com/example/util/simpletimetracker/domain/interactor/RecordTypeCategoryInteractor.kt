@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import javax.inject.Inject
 
 class RecordTypeCategoryInteractor @Inject constructor(
-    private val recordTypeCategoryRepo: RecordTypeCategoryRepo
+    private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
 ) {
 
     suspend fun getAll(): List<RecordTypeCategory> {

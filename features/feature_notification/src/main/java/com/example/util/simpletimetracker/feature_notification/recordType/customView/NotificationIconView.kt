@@ -14,11 +14,11 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 class NotificationIconView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : RelativeLayout(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     private val binding: NotificationIconViewLayoutBinding = NotificationIconViewLayoutBinding
@@ -26,14 +26,16 @@ class NotificationIconView @JvmOverloads constructor(
 
     init {
         context.obtainStyledAttributes(
-            attrs, R.styleable.NotificationIconView, defStyleAttr, 0
+            attrs, R.styleable.NotificationIconView, defStyleAttr, 0,
         ).run {
-            if (hasValue(R.styleable.NotificationIconView_itemColor)) itemColor =
-                getColor(R.styleable.NotificationIconView_itemColor, Color.BLACK)
+            if (hasValue(R.styleable.NotificationIconView_itemColor)) {
+                itemColor = getColor(R.styleable.NotificationIconView_itemColor, Color.BLACK)
+            }
 
-            if (hasValue(R.styleable.NotificationIconView_itemIcon)) itemIcon =
-                getResourceId(R.styleable.NotificationIconView_itemIcon, R.drawable.unknown)
+            if (hasValue(R.styleable.NotificationIconView_itemIcon)) {
+                itemIcon = getResourceId(R.styleable.NotificationIconView_itemIcon, R.drawable.unknown)
                     .let(RecordTypeIcon::Image)
+            }
 
             if (hasValue(R.styleable.NotificationIconView_itemWithCheck)) {
                 itemWithCheck = getBoolean(R.styleable.NotificationIconView_itemWithCheck, false)

@@ -7,9 +7,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemR
 import com.example.util.simpletimetracker.feature_base_adapter.recordTypeSpecial.RunningRecordTypeSpecialViewData as ViewData
 
 fun createRunningRecordTypeSpecialAdapterDelegate(
-    onItemClick: ((ViewData) -> Unit)
+    onItemClick: ((ViewData) -> Unit),
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding.viewRecordTypeItem) {

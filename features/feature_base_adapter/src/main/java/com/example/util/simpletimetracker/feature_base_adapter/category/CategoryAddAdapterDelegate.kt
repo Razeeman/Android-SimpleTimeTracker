@@ -6,9 +6,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemC
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryAddViewData as ViewData
 
 fun createCategoryAddAdapterDelegate(
-    onItemClick: ((ViewData) -> Unit)
+    onItemClick: ((ViewData) -> Unit),
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding.viewCategoryItem) {

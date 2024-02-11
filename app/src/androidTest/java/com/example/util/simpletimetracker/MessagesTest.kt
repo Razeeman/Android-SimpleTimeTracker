@@ -29,8 +29,8 @@ class MessagesTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withText(coreR.string.change_record_message_choose_name),
-                withId(com.google.android.material.R.id.snackbar_text)
-            )
+                withId(com.google.android.material.R.id.snackbar_text),
+            ),
         )
     }
 
@@ -42,8 +42,8 @@ class MessagesTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withText(coreR.string.change_record_message_choose_type),
-                withId(com.google.android.material.R.id.snackbar_text)
-            )
+                withId(com.google.android.material.R.id.snackbar_text),
+            ),
         )
     }
 }

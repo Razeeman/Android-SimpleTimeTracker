@@ -64,7 +64,7 @@ class RecordFilterInteractor @Inject constructor(
             rangeLength = rangeLength,
             shift = rangePosition,
             firstDayOfWeek = firstDayOfWeek,
-            startOfDayShift = startOfDayShift
+            startOfDayShift = startOfDayShift,
         )
 
         return@withContext if (range.timeStarted == 0L && range.timeEnded == 0L) {
@@ -212,12 +212,12 @@ class RecordFilterInteractor @Inject constructor(
             val startDay = timeMapper.getDayOfWeek(
                 timestamp = timeStarted,
                 calendar = calendar,
-                startOfDayShift = startOfDayShift
+                startOfDayShift = startOfDayShift,
             )
             val endDay = timeMapper.getDayOfWeek(
                 timestamp = timeEnded,
                 calendar = calendar,
-                startOfDayShift = startOfDayShift
+                startOfDayShift = startOfDayShift,
             )
             daysOfRecord.add(startDay)
             daysOfRecord.add(endDay)
@@ -292,7 +292,7 @@ class RecordFilterInteractor @Inject constructor(
 
     private suspend fun getAllRecords(
         range: Range,
-        runningRecords: List<RunningRecord>
+        runningRecords: List<RunningRecord>,
     ): List<RecordBase> {
         val records = if (range.timeStarted == 0L && range.timeEnded == 0L) {
             interactor.getAll() + runningRecords

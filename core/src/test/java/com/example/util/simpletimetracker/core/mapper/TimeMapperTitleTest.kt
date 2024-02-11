@@ -58,8 +58,8 @@ class TimeMapperTitleTest {
                 output,
                 subject.toDayTitle(
                     daysFromToday = input[0] as Int,
-                    startOfDayShift = input[1] as Long
-                )
+                    startOfDayShift = input[1] as Long,
+                ),
             )
         }
 
@@ -136,7 +136,7 @@ class TimeMapperTitleTest {
                     weeksFromToday = input[0] as Int,
                     startOfDayShift = input[1] as Long,
                     firstDayOfWeek = input[2] as DayOfWeek,
-                )
+                ),
             )
         }
 
@@ -268,7 +268,7 @@ class TimeMapperTitleTest {
                 subject.toMonthTitle(
                     monthsFromToday = input[0] as Int,
                     startOfDayShift = input[1] as Long,
-                )
+                ),
             )
         }
 
@@ -362,7 +362,7 @@ class TimeMapperTitleTest {
                 subject.toYearTitle(
                     yearsFromToday = input[0] as Int,
                     startOfDayShift = input[1] as Long,
-                )
+                ),
             )
         }
 

@@ -22,7 +22,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), Throttler {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = inflater(inflater, container, false)
         return binding.root
@@ -73,7 +73,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), Throttler {
     }
 
     inline fun <T> LiveData<T>.observe(
-        crossinline onChanged: (T) -> Unit
+        crossinline onChanged: (T) -> Unit,
     ) {
         observe(viewLifecycleOwner) { onChanged(it) }
     }

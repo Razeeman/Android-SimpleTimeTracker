@@ -5,5 +5,5 @@ import com.example.util.simpletimetracker.domain.model.RangeLength
 
 data class RangeViewData(
     val range: RangeLength,
-    override val text: String
+    override val text: String,
 ) : CustomSpinner.CustomSpinnerItem()

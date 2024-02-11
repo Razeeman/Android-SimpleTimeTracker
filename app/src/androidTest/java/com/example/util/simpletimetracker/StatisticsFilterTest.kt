@@ -50,20 +50,20 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name2), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString")),
         )
 
         // Filter untracked
         clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
         clickOnView(
-            allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(coreR.string.untracked_time_name))
+            allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(coreR.string.untracked_time_name)),
         )
         pressBack()
         tryAction { checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed())) }
         checkViewIsDisplayed(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name2), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString")),
         )
 
         // Filter activity
@@ -74,7 +74,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name2), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("1$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("1$hourString 0$minuteString")),
         )
 
         // Filter all
@@ -95,7 +95,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name2), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString")),
         )
 
         // Hide all
@@ -140,7 +140,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(name2), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name3), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString")),
         )
 
         // Switch filter
@@ -154,13 +154,13 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(tag2), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(coreR.string.uncategorized_time_name), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString")),
         )
 
         // Filter untracked
         clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
         clickOnView(
-            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.untracked_time_name))
+            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.untracked_time_name)),
         )
         pressBack()
         tryAction { checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed())) }
@@ -168,13 +168,13 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(tag2), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(coreR.string.uncategorized_time_name), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString")),
         )
 
         // Filter uncategorized
         clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
         clickOnView(
-            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.uncategorized_time_name))
+            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.uncategorized_time_name)),
         )
         pressBack()
         tryAction { checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed())) }
@@ -182,7 +182,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(tag2), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(coreR.string.uncategorized_time_name), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString")),
         )
 
         // Filter tag
@@ -192,7 +192,7 @@ class StatisticsFilterTest : BaseUiTest() {
         tryAction { checkViewDoesNotExist(allOf(withText(tag1), isCompletelyDisplayed())) }
         checkViewIsDisplayed(allOf(withText(tag2), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("1$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("1$hourString 0$minuteString")),
         )
 
         // Filter all
@@ -213,7 +213,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(coreR.string.uncategorized_time_name), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString")),
         )
 
         // Hide all
@@ -259,7 +259,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(name2), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(name3), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString")),
         )
 
         // Switch filter
@@ -273,13 +273,13 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(tag2), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(coreR.string.change_record_untagged), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString")),
         )
 
         // Filter untracked
         clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
         clickOnView(
-            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.untracked_time_name))
+            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.untracked_time_name)),
         )
         pressBack()
         tryAction { checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed())) }
@@ -287,13 +287,13 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(tag2), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(coreR.string.change_record_untagged), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString")),
         )
 
         // Filter untagged
         clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
         clickOnView(
-            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.change_record_untagged))
+            allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(coreR.string.change_record_untagged)),
         )
         pressBack()
         tryAction { checkViewDoesNotExist(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed())) }
@@ -301,7 +301,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(tag2), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(coreR.string.change_record_untagged), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("2$hourString 0$minuteString")),
         )
 
         // Filter tag
@@ -311,7 +311,7 @@ class StatisticsFilterTest : BaseUiTest() {
         tryAction { checkViewDoesNotExist(allOf(withText(tag1), isCompletelyDisplayed())) }
         checkViewIsDisplayed(allOf(withText(tag2), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("1$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("1$hourString 0$minuteString")),
         )
 
         // Filter all
@@ -332,7 +332,7 @@ class StatisticsFilterTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withText(coreR.string.change_record_untagged), isCompletelyDisplayed()))
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString"))
+            allOf(withId(statisticsR.id.tvStatisticsInfoText), withText("3$hourString 0$minuteString")),
         )
 
         // Hide all

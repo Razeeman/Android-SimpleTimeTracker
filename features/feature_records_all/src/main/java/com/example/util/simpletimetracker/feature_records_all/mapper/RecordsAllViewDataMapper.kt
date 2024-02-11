@@ -14,13 +14,13 @@ class RecordsAllViewDataMapper @Inject constructor(
 
     private val sortOrderList: List<RecordsAllSortOrder> = listOf(
         RecordsAllSortOrder.TIME_STARTED,
-        RecordsAllSortOrder.DURATION
+        RecordsAllSortOrder.DURATION,
     )
 
     fun toSortOrderViewData(currentOrder: RecordsAllSortOrder): RecordsAllSortOrderViewData {
         return RecordsAllSortOrderViewData(
             items = sortOrderList.map(::toSortOrderName).map(CustomSpinner::CustomSpinnerTextItem),
-            selectedPosition = toPosition(currentOrder)
+            selectedPosition = toPosition(currentOrder),
         )
     }
 

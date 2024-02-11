@@ -21,7 +21,7 @@ class EmojiSelectionMapper @Inject constructor(
             EmojiViewData(
                 emojiText = iconEmojiMapper.toEmojiString(codes),
                 emojiCodes = codes,
-                colorInt = colorMapper.mapToColorInt(color, isDarkTheme)
+                colorInt = colorMapper.mapToColorInt(color, isDarkTheme),
             )
         }
     }

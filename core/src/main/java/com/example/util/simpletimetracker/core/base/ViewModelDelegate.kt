@@ -9,7 +9,9 @@ abstract class ViewModelDelegate : ScopeHolder {
 
     val delegateScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    override fun getScope(): CoroutineScope { return delegateScope }
+    override fun getScope(): CoroutineScope {
+        return delegateScope
+    }
 
     fun clear() {
         delegateScope.cancel()

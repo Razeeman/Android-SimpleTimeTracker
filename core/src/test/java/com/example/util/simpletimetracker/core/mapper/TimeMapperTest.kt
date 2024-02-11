@@ -56,13 +56,13 @@ class TimeMapperTest {
             val subject = TimeMapper(
                 localeProvider = localeProvider,
                 resourceRepo = resourceRepo,
-                currentTimestampProvider = currentTimestampProvider
+                currentTimestampProvider = currentTimestampProvider,
             )
 
             assertEquals(
                 "Test failed for params $input",
                 output,
-                subject.formatInterval(input, useProportionalMinutes = false, forceSeconds = false)
+                subject.formatInterval(input, useProportionalMinutes = false, forceSeconds = false),
             )
         }
 
@@ -110,13 +110,13 @@ class TimeMapperTest {
             val subject = TimeMapper(
                 localeProvider = localeProvider,
                 resourceRepo = resourceRepo,
-                currentTimestampProvider = currentTimestampProvider
+                currentTimestampProvider = currentTimestampProvider,
             )
 
             assertEquals(
                 "Test failed for params $input",
                 output,
-                subject.formatInterval(input, useProportionalMinutes = true, forceSeconds = false)
+                subject.formatInterval(input, useProportionalMinutes = true, forceSeconds = false),
             )
         }
 
@@ -178,13 +178,13 @@ class TimeMapperTest {
             val subject = TimeMapper(
                 localeProvider = localeProvider,
                 resourceRepo = resourceRepo,
-                currentTimestampProvider = currentTimestampProvider
+                currentTimestampProvider = currentTimestampProvider,
             )
 
             assertEquals(
                 "Test failed for params $input",
                 output,
-                subject.formatInterval(input, useProportionalMinutes = false, forceSeconds = true)
+                subject.formatInterval(input, useProportionalMinutes = false, forceSeconds = true),
             )
         }
 

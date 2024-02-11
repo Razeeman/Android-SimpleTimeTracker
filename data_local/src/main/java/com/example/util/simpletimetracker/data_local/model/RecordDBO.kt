@@ -24,5 +24,5 @@ data class RecordDBO(
 
     @Deprecated("storing tag ids moved to a separate database")
     @ColumnInfo(name = "tag_id")
-    val tagId: Long
+    val tagId: Long,
 )

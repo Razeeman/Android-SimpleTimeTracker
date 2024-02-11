@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.feature_statistics.viewData.Statistics
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 
 fun createStatisticsTitleAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {

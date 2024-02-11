@@ -6,7 +6,6 @@ import androidx.appcompat.widget.AppCompatTextView
 import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTextViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsTextColor
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
@@ -37,7 +36,7 @@ fun createSettingsTextAdapterDelegate(
 }
 
 fun textAdapterBindDelegate(
-    item: SettingsTextViewData,
+    item: ViewData,
     title: AppCompatTextView,
     subtitle: AppCompatTextView,
     hint: AppCompatTextView,

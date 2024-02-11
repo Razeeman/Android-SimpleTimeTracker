@@ -64,7 +64,7 @@ class RemoveRecordViewModel @Inject constructor(
                     tag = tag,
                     message = resourceRepo.getString(R.string.record_removed, removedName),
                     actionText = R.string.record_removed_undo.let(resourceRepo::getString),
-                    actionListener = { removedRecord?.let(::onAction) }
+                    actionListener = { removedRecord?.let(::onAction) },
                 )
             }
         }

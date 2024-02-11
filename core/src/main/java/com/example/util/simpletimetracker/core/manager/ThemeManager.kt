@@ -7,7 +7,7 @@ import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class ThemeManager @Inject constructor(
-    private val prefsInteractor: PrefsInteractor
+    private val prefsInteractor: PrefsInteractor,
 ) {
 
     fun setTheme(activity: Activity) {

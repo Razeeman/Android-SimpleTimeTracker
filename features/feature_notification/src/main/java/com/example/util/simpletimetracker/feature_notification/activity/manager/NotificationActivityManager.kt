@@ -28,7 +28,7 @@ import javax.inject.Singleton
 class NotificationActivityManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val colorMapper: ColorMapper,
-    private val router: Router
+    private val router: Router,
 ) {
 
     private val notificationManager: NotificationManagerCompat =
@@ -78,7 +78,7 @@ class NotificationActivityManager @Inject constructor(
             val channel = NotificationChannel(
                 NOTIFICATIONS_CHANNEL_ID,
                 NOTIFICATIONS_CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_DEFAULT,
             )
             notificationManager.createNotificationChannel(channel)
         }

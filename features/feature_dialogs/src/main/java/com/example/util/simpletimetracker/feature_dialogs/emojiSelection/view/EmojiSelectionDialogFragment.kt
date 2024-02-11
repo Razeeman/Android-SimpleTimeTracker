@@ -34,7 +34,7 @@ class EmojiSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     private val adapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createLoaderAdapterDelegate(),
-            createEmojiAdapterDelegate(viewModel::onEmojiClick)
+            createEmojiAdapterDelegate(viewModel::onEmojiClick),
         )
     }
 

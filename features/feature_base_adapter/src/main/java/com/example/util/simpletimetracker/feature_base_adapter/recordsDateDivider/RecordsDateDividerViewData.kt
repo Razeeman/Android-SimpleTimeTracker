@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.feature_base_adapter.recordsDateDivid
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 
 data class RecordsDateDividerViewData(
-    val message: String
+    val message: String,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = message.hashCode().toLong()

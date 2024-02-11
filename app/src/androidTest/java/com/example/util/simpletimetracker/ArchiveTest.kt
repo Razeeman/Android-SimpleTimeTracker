@@ -94,8 +94,8 @@ class ArchiveTest : BaseUiTest() {
         clickOnView(
             allOf(
                 isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
-                withText(coreR.string.change_record_tag_type_typed)
-            )
+                withText(coreR.string.change_record_tag_type_typed),
+            ),
         )
         clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
         checkTypeVisible(name1)
@@ -297,15 +297,15 @@ class ArchiveTest : BaseUiTest() {
             allOf(
                 withId(dialogsR.id.layoutArchiveDialogInfoItem),
                 hasDescendant(withText(coreR.string.archive_records_count)),
-                hasDescendant(withText("6"))
-            )
+                hasDescendant(withText("6")),
+            ),
         )
         checkViewIsDisplayed(
             allOf(
                 withId(dialogsR.id.layoutArchiveDialogInfoItem),
                 hasDescendant(withText(coreR.string.archive_record_tags_count)),
-                hasDescendant(withText("2"))
-            )
+                hasDescendant(withText("2")),
+            ),
         )
         pressBack()
 
@@ -315,15 +315,15 @@ class ArchiveTest : BaseUiTest() {
             allOf(
                 withId(dialogsR.id.layoutArchiveDialogInfoItem),
                 hasDescendant(withText(coreR.string.archive_records_count)),
-                hasDescendant(withText("0"))
-            )
+                hasDescendant(withText("0")),
+            ),
         )
         checkViewIsDisplayed(
             allOf(
                 withId(dialogsR.id.layoutArchiveDialogInfoItem),
                 hasDescendant(withText(coreR.string.archive_record_tags_count)),
-                hasDescendant(withText("0"))
-            )
+                hasDescendant(withText("0")),
+            ),
         )
         pressBack()
 
@@ -333,8 +333,8 @@ class ArchiveTest : BaseUiTest() {
             allOf(
                 withId(dialogsR.id.layoutArchiveDialogInfoItem),
                 hasDescendant(withText(coreR.string.archive_tagged_records_count)),
-                hasDescendant(withText("4"))
-            )
+                hasDescendant(withText("4")),
+            ),
         )
         pressBack()
 
@@ -344,8 +344,8 @@ class ArchiveTest : BaseUiTest() {
             allOf(
                 withId(dialogsR.id.layoutArchiveDialogInfoItem),
                 hasDescendant(withText(coreR.string.archive_tagged_records_count)),
-                hasDescendant(withText("0"))
-            )
+                hasDescendant(withText("0")),
+            ),
         )
         pressBack()
 
@@ -355,8 +355,8 @@ class ArchiveTest : BaseUiTest() {
             allOf(
                 withId(dialogsR.id.layoutArchiveDialogInfoItem),
                 hasDescendant(withText(coreR.string.archive_tagged_records_count)),
-                hasDescendant(withText("2"))
-            )
+                hasDescendant(withText("2")),
+            ),
         )
         pressBack()
 
@@ -366,8 +366,8 @@ class ArchiveTest : BaseUiTest() {
             allOf(
                 withId(dialogsR.id.layoutArchiveDialogInfoItem),
                 hasDescendant(withText(coreR.string.archive_tagged_records_count)),
-                hasDescendant(withText("0"))
-            )
+                hasDescendant(withText("0")),
+            ),
         )
     }
 
@@ -376,8 +376,8 @@ class ArchiveTest : BaseUiTest() {
             allOf(
                 withId(dialogsR.id.viewRecordTypeItem),
                 hasDescendant(withText(name)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 
@@ -386,8 +386,8 @@ class ArchiveTest : BaseUiTest() {
             allOf(
                 withId(dialogsR.id.viewRecordTypeItem),
                 hasDescendant(withText(name)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 
@@ -396,8 +396,8 @@ class ArchiveTest : BaseUiTest() {
             allOf(
                 withId(dialogsR.id.viewCategoryItem),
                 hasDescendant(withText(name)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 
@@ -406,8 +406,8 @@ class ArchiveTest : BaseUiTest() {
             allOf(
                 withId(dialogsR.id.viewCategoryItem),
                 hasDescendant(withText(name)),
-                isCompletelyDisplayed()
-            )
+                isCompletelyDisplayed(),
+            ),
         )
     }
 }

@@ -43,7 +43,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             rangeLength = rangeLength,
             shift = rangePosition,
             firstDayOfWeek = firstDayOfWeek,
-            startOfDayShift = startOfDayShift
+            startOfDayShift = startOfDayShift,
         )
         val data = if (isForComparison && filter.isEmpty()) {
             emptyMap()
@@ -74,7 +74,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             rangeLength = rangeLength,
             shift = rangePosition,
             firstDayOfWeek = firstDayOfWeek,
-            startOfDayShift = startOfDayShift
+            startOfDayShift = startOfDayShift,
         )
 
         val ranges = if (range.timeStarted != 0L && range.timeEnded != 0L) {
@@ -111,10 +111,10 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
 
         val buckets: MutableMap<Range, Long> = mutableMapOf()
         val minBucket = nearestDivider(
-            isUpper = false, divider = step, value = minDuration
+            isUpper = false, divider = step, value = minDuration,
         )
         val maxBucket = nearestDivider(
-            isUpper = true, divider = step, value = maxDuration
+            isUpper = true, divider = step, value = maxDuration,
         )
         (minBucket until maxBucket step step).forEach {
             buckets[Range(it, it + step)] = 0
@@ -234,13 +234,13 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             SplitChartGrouping.HOURLY -> timeMapper.sameHour(
                 date1 = record.timeStarted,
                 date2 = record.timeEnded,
-                calendar = calendar
+                calendar = calendar,
             )
 
             SplitChartGrouping.DAILY -> timeMapper.sameDay(
                 date1 = calendar.shiftTimeStamp(record.timeStarted, -startOfDayShift),
                 date2 = calendar.shiftTimeStamp(record.timeEnded, -startOfDayShift),
-                calendar = calendar
+                calendar = calendar,
             )
         }
         val rangeStep = when (splitChartGrouping) {
@@ -265,11 +265,11 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
 
         val firstRecord = record.copy(
             timeStarted = record.timeStarted,
-            timeEnded = rangeEnd
+            timeEnded = rangeEnd,
         )
         val secondRecord = record.copy(
             timeStarted = rangeEnd,
-            timeEnded = record.timeEnded
+            timeEnded = record.timeEnded,
         )
         splitRecords.add(firstRecord)
 
@@ -278,7 +278,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             record = secondRecord,
             splitChartGrouping = splitChartGrouping,
             startOfDayShift = startOfDayShift,
-            splitRecords = splitRecords
+            splitRecords = splitRecords,
         )
     }
 

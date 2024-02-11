@@ -12,26 +12,26 @@ sealed class ChangeRecordTypeParams : ScreenParams, Parcelable {
         val transitionName: String,
         val id: Long,
         override val sizePreview: SizePreview,
-        val preview: Preview
+        val preview: Preview,
     ) : ChangeRecordTypeParams() {
 
         @Parcelize
         data class Preview(
             val name: String,
             val iconId: RecordTypeIconParams,
-            @ColorInt val color: Int
+            @ColorInt val color: Int,
         ) : Parcelable
     }
 
     @Parcelize
     data class New(
-        override val sizePreview: SizePreview
+        override val sizePreview: SizePreview,
     ) : ChangeRecordTypeParams()
 
     @Parcelize
     data class SizePreview(
         val width: Int? = null,
         val height: Int? = null,
-        val asRow: Boolean = false
+        val asRow: Boolean = false,
     ) : Parcelable
 }

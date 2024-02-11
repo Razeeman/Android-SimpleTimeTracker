@@ -54,12 +54,12 @@ class ChangeRecordTagFragment :
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createEmptyAdapterDelegate(),
-            createRecordTypeAdapterDelegate(viewModel::onTypeClick)
+            createRecordTypeAdapterDelegate(viewModel::onTypeClick),
         )
     }
 
     private val params: ChangeTagData by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = ChangeTagData.New()
+        key = ARGS_PARAMS, default = ChangeTagData.New(),
     )
 
     override fun initUi(): Unit = with(binding) {

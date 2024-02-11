@@ -14,11 +14,11 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 class IconView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : FrameLayout(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     private val binding: IconViewLayoutBinding = IconViewLayoutBinding
@@ -28,17 +28,21 @@ class IconView @JvmOverloads constructor(
         context
             .obtainStyledAttributes(attrs, R.styleable.IconView, defStyleAttr, 0)
             .run {
-                if (hasValue(R.styleable.IconView_itemIcon)) itemIcon =
-                    getResourceId(R.styleable.IconView_itemIcon, R.drawable.unknown).let(RecordTypeIcon::Image)
+                if (hasValue(R.styleable.IconView_itemIcon)) {
+                    itemIcon = getResourceId(R.styleable.IconView_itemIcon, R.drawable.unknown).let(RecordTypeIcon::Image)
+                }
 
-                if (hasValue(R.styleable.IconView_itemIconText)) itemIcon =
-                    getString(R.styleable.IconView_itemIconText).orEmpty().let(RecordTypeIcon::Text)
+                if (hasValue(R.styleable.IconView_itemIconText)) {
+                    itemIcon = getString(R.styleable.IconView_itemIconText).orEmpty().let(RecordTypeIcon::Text)
+                }
 
-                if (hasValue(R.styleable.IconView_itemIconColor)) itemIconColor =
-                    getColor(R.styleable.IconView_itemIconColor, Color.WHITE)
+                if (hasValue(R.styleable.IconView_itemIconColor)) {
+                    itemIconColor = getColor(R.styleable.IconView_itemIconColor, Color.WHITE)
+                }
 
-                if (hasValue(R.styleable.IconView_itemIconAlpha)) itemIconAlpha =
-                    getFloat(R.styleable.IconView_itemIconAlpha, 1.0f)
+                if (hasValue(R.styleable.IconView_itemIconAlpha)) {
+                    itemIconAlpha = getFloat(R.styleable.IconView_itemIconAlpha, 1.0f)
+                }
 
                 recycle()
             }

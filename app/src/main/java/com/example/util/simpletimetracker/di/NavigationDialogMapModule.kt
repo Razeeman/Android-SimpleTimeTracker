@@ -50,7 +50,7 @@ class NavigationDialogMapModule {
     fun standardDialog(): NavigationData {
         return NavigationData(
             R.id.standardDialogFragment,
-            bundleCreatorDelegate(StandardDialogFragment::createBundle)
+            bundleCreatorDelegate(StandardDialogFragment::createBundle),
         )
     }
 
@@ -60,7 +60,7 @@ class NavigationDialogMapModule {
     fun dateTimeDialog(): NavigationData {
         return NavigationData(
             R.id.dateTimeDialog,
-            bundleCreatorDelegate(DateTimeDialogFragment::createBundle)
+            bundleCreatorDelegate(DateTimeDialogFragment::createBundle),
         )
     }
 
@@ -70,7 +70,7 @@ class NavigationDialogMapModule {
     fun durationDialog(): NavigationData {
         return NavigationData(
             R.id.durationDialog,
-            bundleCreatorDelegate(DurationDialogFragment::createBundle)
+            bundleCreatorDelegate(DurationDialogFragment::createBundle),
         )
     }
 
@@ -80,7 +80,7 @@ class NavigationDialogMapModule {
     fun chartFilterDialog(): NavigationData {
         return NavigationData(
             R.id.chartFilerDialogFragment,
-            BundleCreator.empty()
+            BundleCreator.empty(),
         )
     }
 
@@ -90,7 +90,7 @@ class NavigationDialogMapModule {
     fun defaultTypesSelectionDialog(): NavigationData {
         return NavigationData(
             R.id.defaultTypesSelectionDialogFragment,
-            BundleCreator.empty()
+            BundleCreator.empty(),
         )
     }
 
@@ -100,7 +100,7 @@ class NavigationDialogMapModule {
     fun cardSizeDialog(): NavigationData {
         return NavigationData(
             R.id.cardSizeDialogFragment,
-            BundleCreator.empty()
+            BundleCreator.empty(),
         )
     }
 
@@ -110,7 +110,7 @@ class NavigationDialogMapModule {
     fun cardOrderDialog(): NavigationData {
         return NavigationData(
             R.id.cardOrderDialogFragment,
-            bundleCreatorDelegate(CardOrderDialogFragment::createBundle)
+            bundleCreatorDelegate(CardOrderDialogFragment::createBundle),
         )
     }
 
@@ -120,7 +120,7 @@ class NavigationDialogMapModule {
     fun emojiSelectionDialog(): NavigationData {
         return NavigationData(
             R.id.emojiSelectionDialogFragment,
-            bundleCreatorDelegate(EmojiSelectionDialogFragment::createBundle)
+            bundleCreatorDelegate(EmojiSelectionDialogFragment::createBundle),
         )
     }
 
@@ -130,7 +130,7 @@ class NavigationDialogMapModule {
     fun colorSelectionDialog(): NavigationData {
         return NavigationData(
             R.id.colorSelectionDialogFragment,
-            bundleCreatorDelegate(ColorSelectionDialogFragment::createBundle)
+            bundleCreatorDelegate(ColorSelectionDialogFragment::createBundle),
         )
     }
 
@@ -140,7 +140,7 @@ class NavigationDialogMapModule {
     fun archiveDialogActivity(): NavigationData {
         return NavigationData(
             R.id.archiveDialogFragment,
-            bundleCreatorDelegate(ArchiveDialogFragment::createBundle)
+            bundleCreatorDelegate(ArchiveDialogFragment::createBundle),
         )
     }
 
@@ -150,7 +150,7 @@ class NavigationDialogMapModule {
     fun archiveDialogRecordTag(): NavigationData {
         return NavigationData(
             R.id.archiveDialogFragment,
-            bundleCreatorDelegate(ArchiveDialogFragment::createBundle)
+            bundleCreatorDelegate(ArchiveDialogFragment::createBundle),
         )
     }
 
@@ -160,7 +160,7 @@ class NavigationDialogMapModule {
     fun recordTagSelectionDialog(): NavigationData {
         return NavigationData(
             R.id.recordTagSelectionDialogFragment,
-            bundleCreatorDelegate(RecordTagSelectionDialogFragment::createBundle)
+            bundleCreatorDelegate(RecordTagSelectionDialogFragment::createBundle),
         )
     }
 
@@ -170,7 +170,7 @@ class NavigationDialogMapModule {
     fun csvExportSettingsDialog(): NavigationData {
         return NavigationData(
             R.id.csvExportSettingsDialogFragment,
-            bundleCreatorDelegate(CsvExportSettingsDialogFragment::createBundle)
+            bundleCreatorDelegate(CsvExportSettingsDialogFragment::createBundle),
         )
     }
 
@@ -180,7 +180,7 @@ class NavigationDialogMapModule {
     fun customRangeSelectionDialog(): NavigationData {
         return NavigationData(
             R.id.customRangeSelectionDialogFragment,
-            bundleCreatorDelegate(CustomRangeSelectionDialogFragment::createBundle)
+            bundleCreatorDelegate(CustomRangeSelectionDialogFragment::createBundle),
         )
     }
 
@@ -190,7 +190,7 @@ class NavigationDialogMapModule {
     fun helpDialog(): NavigationData {
         return NavigationData(
             R.id.helpDialogFragment,
-            bundleCreatorDelegate(HelpDialogFragment::createBundle)
+            bundleCreatorDelegate(HelpDialogFragment::createBundle),
         )
     }
 
@@ -200,7 +200,7 @@ class NavigationDialogMapModule {
     fun dataEditTypeSelectionDialog(): NavigationData {
         return NavigationData(
             R.id.dataEditTypeSelectionDialogFragment,
-            BundleCreator.empty()
+            BundleCreator.empty(),
         )
     }
 
@@ -210,7 +210,7 @@ class NavigationDialogMapModule {
     fun dataEditTagSelectionDialog(): NavigationData {
         return NavigationData(
             R.id.dataEditTagSelectionDialogFragment,
-            bundleCreatorDelegate(DataEditTagSelectionDialogFragment::createBundle)
+            bundleCreatorDelegate(DataEditTagSelectionDialogFragment::createBundle),
         )
     }
 
@@ -220,7 +220,7 @@ class NavigationDialogMapModule {
     fun recordsFilter(): NavigationData {
         return NavigationData(
             R.id.recordsFilterDialogFragment,
-            bundleCreatorDelegate(RecordsFilterFragment::createBundle)
+            bundleCreatorDelegate(RecordsFilterFragment::createBundle),
         )
     }
 }

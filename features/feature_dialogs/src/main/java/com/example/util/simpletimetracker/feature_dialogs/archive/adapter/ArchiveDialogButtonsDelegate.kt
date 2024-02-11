@@ -7,9 +7,9 @@ import com.example.util.simpletimetracker.feature_dialogs.databinding.ItemArchiv
 
 fun createArchiveDialogButtonsAdapterDelegate(
     onDeleteClick: () -> Unit,
-    onRestoreClick: () -> Unit
+    onRestoreClick: () -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, _, _ ->
 
     with(binding) {

@@ -28,7 +28,7 @@ sealed class RecordViewData : ViewHolderType {
         override val duration: String,
         override val iconId: RecordTypeIcon,
         @ColorInt override val color: Int,
-        override val comment: String
+        override val comment: String,
     ) : RecordViewData() {
 
         override fun getUniqueId(): Long = id

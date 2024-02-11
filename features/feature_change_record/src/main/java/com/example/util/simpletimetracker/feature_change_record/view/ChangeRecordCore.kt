@@ -55,7 +55,7 @@ class ChangeRecordCore(
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createEmptyAdapterDelegate(),
-            createRecordTypeAdapterDelegate(viewModel::onTypeClick)
+            createRecordTypeAdapterDelegate(viewModel::onTypeClick),
         )
     }
     private val categoriesAdapter: BaseRecyclerAdapter by lazy {
@@ -69,7 +69,7 @@ class ChangeRecordCore(
             createInfoAdapterDelegate(),
             createHintAdapterDelegate(),
             createHintBigAdapterDelegate(),
-            createEmptyAdapterDelegate()
+            createEmptyAdapterDelegate(),
         )
     }
     private val commentsAdapter: BaseRecyclerAdapter by lazy {
@@ -173,8 +173,11 @@ class ChangeRecordCore(
             timeSplitAdjustmentItems.observe(containerChangeRecordTimeSplitAdjust.adapter::replace)
             chooserState.observe { updateChooserState(it, binding) }
             keyboardVisibility.observe { visible ->
-                if (visible) showKeyboard(etChangeRecordComment)
-                else hideKeyboard()
+                if (visible) {
+                    showKeyboard(etChangeRecordComment)
+                } else {
+                    hideKeyboard()
+                }
             }
             timeAdjustmentState.observe { state ->
                 containerChangeRecordTimeAdjust.visible = state != TimeAdjustmentState.HIDDEN
@@ -291,7 +294,7 @@ class ChangeRecordCore(
     ) {
         ViewCompat.setBackgroundTintList(
             binding.ivChangeRecordFavouriteComment,
-            ColorStateList.valueOf(data.iconColor)
+            ColorStateList.valueOf(data.iconColor),
         )
         binding.btnChangeRecordFavouriteComment.visible = data.isVisible
     }

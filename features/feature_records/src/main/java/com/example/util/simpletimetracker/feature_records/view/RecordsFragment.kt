@@ -41,10 +41,10 @@ class RecordsFragment : BaseFragment<Binding>() {
 
     private val viewModel: RecordsViewModel by viewModels()
     private val removeRecordViewModel: RemoveRecordViewModel by activityViewModels(
-        factoryProducer = { removeRecordViewModelFactory }
+        factoryProducer = { removeRecordViewModelFactory },
     )
     private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
-        factoryProducer = { mainTabsViewModelFactory }
+        factoryProducer = { mainTabsViewModelFactory },
     )
     private val recordsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(

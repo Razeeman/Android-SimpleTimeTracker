@@ -11,18 +11,18 @@ internal fun View.collapseAllAppBarsInParent() {
 }
 
 internal fun <T> View.findViewsInParent(
-    viewType: Class<T>
+    viewType: Class<T>,
 ): Collection<T> = findViewsInParentRecursively(
     startView = this,
     currentParent = this.parent,
-    type = viewType
+    type = viewType,
 )
 
 private fun <T> findViewsInParentRecursively(
     startView: View,
     currentParent: ViewParent,
     type: Class<T>,
-    result: MutableCollection<T> = mutableSetOf()
+    result: MutableCollection<T> = mutableSetOf(),
 ): Collection<T> {
     if (currentParent !is ViewGroup) {
         return result
@@ -46,6 +46,6 @@ private fun <T> findViewsInParentRecursively(
         startView = startView,
         currentParent = currentParent.parent,
         type = type,
-        result = result
+        result = result,
     )
 }

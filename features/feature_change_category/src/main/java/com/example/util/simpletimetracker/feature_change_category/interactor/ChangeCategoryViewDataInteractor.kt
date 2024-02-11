@@ -13,7 +13,7 @@ class ChangeCategoryViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val changeCategoryMapper: ChangeCategoryMapper
+    private val changeCategoryMapper: ChangeCategoryMapper,
 ) {
 
     suspend fun getTypesViewData(selectedTypes: List<Long>): List<ViewHolderType> {
@@ -32,7 +32,7 @@ class ChangeCategoryViewDataInteractor @Inject constructor(
                 val viewData = mutableListOf<ViewHolderType>()
 
                 changeCategoryMapper.mapSelectedTypesHint(
-                    isEmpty = selected.isEmpty()
+                    isEmpty = selected.isEmpty(),
                 ).let(viewData::add)
 
                 selected.map {

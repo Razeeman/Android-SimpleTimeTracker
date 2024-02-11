@@ -22,7 +22,7 @@ class SeriesView @JvmOverloads constructor(
 ) : View(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
     // Attrs
     private var seriesCountInPreview: Long = 0
@@ -106,7 +106,7 @@ class SeriesView @JvmOverloads constructor(
         context
             .obtainStyledAttributes(
                 attrs,
-                R.styleable.SeriesView, defStyleAttr, 0
+                R.styleable.SeriesView, defStyleAttr, 0,
             )
             .run {
                 seriesCountInPreview =
@@ -227,7 +227,7 @@ class SeriesView @JvmOverloads constructor(
                 text,
                 w / 2f - textWidth / 2f,
                 barHeight / 2f + valueTextHeight / 2f,
-                valueTextPaint
+                valueTextPaint,
             )
 
             /****************

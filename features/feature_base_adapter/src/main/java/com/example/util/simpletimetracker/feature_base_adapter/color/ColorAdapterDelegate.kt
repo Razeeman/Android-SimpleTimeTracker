@@ -7,9 +7,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewDa
 import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemColorLayoutBinding as Binding
 
 fun createColorAdapterDelegate(
-    onColorItemClick: ((ViewData) -> Unit)
+    onColorItemClick: ((ViewData) -> Unit),
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-    Binding::inflate
+    Binding::inflate,
 ) { binding, item, _ ->
 
     with(binding) {

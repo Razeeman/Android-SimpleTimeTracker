@@ -9,21 +9,21 @@ class RecordTypeCategoryDataLocalMapper @Inject constructor() {
     fun map(dbo: RecordTypeCategoryDBO): RecordTypeCategory {
         return RecordTypeCategory(
             recordTypeId = dbo.recordTypeId,
-            categoryId = dbo.categoryId
+            categoryId = dbo.categoryId,
         )
     }
 
     fun map(typeId: Long, categoryId: Long): RecordTypeCategoryDBO {
         return RecordTypeCategoryDBO(
             recordTypeId = typeId,
-            categoryId = categoryId
+            categoryId = categoryId,
         )
     }
 
     fun map(domain: RecordTypeCategory): RecordTypeCategoryDBO {
         return RecordTypeCategoryDBO(
             recordTypeId = domain.recordTypeId,
-            categoryId = domain.categoryId
+            categoryId = domain.categoryId,
         )
     }
 }

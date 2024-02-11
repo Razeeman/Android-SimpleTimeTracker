@@ -16,18 +16,18 @@ import com.google.android.flexbox.JustifyContent
 class ButtonsRowView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : FrameLayout(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     var listener: ((ButtonsRowViewData) -> Unit)? = null
 
     val adapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createButtonsRowViewAdapterDelegate(selectedColor, ::onItemClick)
+            createButtonsRowViewAdapterDelegate(selectedColor, ::onItemClick),
         )
     }
 
@@ -70,7 +70,7 @@ class ButtonsRowView @JvmOverloads constructor(
             listOf(
                 ButtonsRowTestViewData(1, "Button 1", true),
                 ButtonsRowTestViewData(2, "Button 2", false),
-                ButtonsRowTestViewData(3, "Button 3", false)
+                ButtonsRowTestViewData(3, "Button 3", false),
             ).let(adapter::replace)
         }
     }
@@ -78,6 +78,6 @@ class ButtonsRowView @JvmOverloads constructor(
     inner class ButtonsRowTestViewData(
         override val id: Long,
         override val name: String,
-        override val isSelected: Boolean
+        override val isSelected: Boolean,
     ) : ButtonsRowViewData()
 }

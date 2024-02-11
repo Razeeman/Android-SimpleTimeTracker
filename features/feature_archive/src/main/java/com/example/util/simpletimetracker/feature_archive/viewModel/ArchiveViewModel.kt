@@ -56,14 +56,14 @@ class ArchiveViewModel @Inject constructor(
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         router.navigate(
-            data = ArchiveDialogParams.Activity(item.id)
+            data = ArchiveDialogParams.Activity(item.id),
         )
     }
 
     fun onCategoryClick(item: CategoryViewData) {
-        if (item is CategoryViewData.Record) router.navigate(
-            data = ArchiveDialogParams.RecordTag(item.id)
-        )
+        if (item is CategoryViewData.Record) {
+            router.navigate(data = ArchiveDialogParams.RecordTag(item.id))
+        }
     }
 
     fun onDeleteClick(params: ArchiveDialogParams?) {
@@ -75,8 +75,8 @@ class ArchiveViewModel @Inject constructor(
                 data = params,
                 message = resourceRepo.getString(R.string.archive_deletion_alert),
                 btnPositive = resourceRepo.getString(R.string.archive_dialog_delete),
-                btnNegative = resourceRepo.getString(R.string.cancel)
-            )
+                btnNegative = resourceRepo.getString(R.string.cancel),
+            ),
         )
     }
 
@@ -133,7 +133,7 @@ class ArchiveViewModel @Inject constructor(
             duration = SnackBarParams.Duration.Short,
             margins = SnackBarParams.Margins(
                 bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
-            )
+            ),
         )
         router.show(params)
     }

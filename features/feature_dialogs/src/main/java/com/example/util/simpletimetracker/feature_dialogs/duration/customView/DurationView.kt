@@ -13,11 +13,11 @@ import java.lang.Float.min
 class DurationView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : View(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     // Attrs
@@ -66,25 +66,25 @@ class DurationView @JvmOverloads constructor(
     private fun initArgs(
         context: Context,
         attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+        defStyleAttr: Int = 0,
     ) {
         context
             .obtainStyledAttributes(
                 attrs,
-                R.styleable.DurationView, defStyleAttr, 0
+                R.styleable.DurationView, defStyleAttr, 0,
             )
             .run {
                 textColor = getColor(
-                    R.styleable.DurationView_durationTextColor, Color.BLACK
+                    R.styleable.DurationView_durationTextColor, Color.BLACK,
                 )
                 legendTextColor = getColor(
-                    R.styleable.DurationView_durationLegendTextColor, Color.BLACK
+                    R.styleable.DurationView_durationLegendTextColor, Color.BLACK,
                 )
                 legendTextSize = getDimensionPixelSize(
-                    R.styleable.DurationView_durationLegendTextSize, 14
+                    R.styleable.DurationView_durationLegendTextSize, 14,
                 ).toFloat()
                 legendPadding = getDimensionPixelSize(
-                    R.styleable.DurationView_durationLegendPadding, 0
+                    R.styleable.DurationView_durationLegendPadding, 0,
                 ).toFloat()
 
                 recycle()
@@ -162,6 +162,6 @@ class DurationView @JvmOverloads constructor(
     data class ViewData(
         val hours: Long = 0,
         val minutes: Long = 0,
-        val seconds: Long = 0
+        val seconds: Long = 0,
     )
 }

@@ -1,7 +1,10 @@
 package com.example.util.simpletimetracker.domain.model
 
 enum class DaysInCalendar {
-    ONE, THREE, FIVE, SEVEN,
+    ONE,
+    THREE,
+    FIVE,
+    SEVEN,
 }
 
 val DaysInCalendar.count: Int

@@ -14,8 +14,8 @@ data class RecordWithRecordTagsDBO(
         associateBy = Junction(
             RecordToRecordTagDBO::class,
             parentColumn = "record_id",
-            entityColumn = "record_tag_id"
-        )
+            entityColumn = "record_tag_id",
+        ),
     )
-    val recordTags: List<RecordTagDBO>
+    val recordTags: List<RecordTagDBO>,
 )

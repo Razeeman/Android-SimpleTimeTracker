@@ -20,7 +20,7 @@ data class StatisticsDetailCardViewData(
 
     data class Icon(
         @DrawableRes val iconDrawable: Int,
-        @ColorInt val iconColor: Int
+        @ColorInt val iconColor: Int,
     )
 
     sealed interface ValueChange {

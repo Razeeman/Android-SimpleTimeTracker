@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.feature_change_category.R
 import javax.inject.Inject
 
 class ChangeCategoryMapper @Inject constructor(
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
 ) {
 
     fun mapSelectedTypesHint(isEmpty: Boolean): ViewHolderType {
@@ -16,7 +16,7 @@ class ChangeCategoryMapper @Inject constructor(
                 R.string.nothing_selected
             } else {
                 R.string.something_selected
-            }.let(resourceRepo::getString)
+            }.let(resourceRepo::getString),
         )
     }
 }

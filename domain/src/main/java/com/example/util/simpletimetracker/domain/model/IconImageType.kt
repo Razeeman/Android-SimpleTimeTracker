@@ -16,5 +16,5 @@ enum class IconImageType {
     IMAGE,
     NAVIGATION,
     NOTIFICATION,
-    TOGGLE
+    TOGGLE,
 }

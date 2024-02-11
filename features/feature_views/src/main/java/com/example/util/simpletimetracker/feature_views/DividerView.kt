@@ -13,7 +13,7 @@ class DividerView @JvmOverloads constructor(
 ) : ConstraintLayout(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     init {

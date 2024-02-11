@@ -68,7 +68,7 @@ class RecordsViewDataMapper @Inject constructor(
 
     fun mapToHint(): ViewHolderType {
         return HintViewData(
-            text = R.string.records_hint.let(resourceRepo::getString)
+            text = R.string.records_hint.let(resourceRepo::getString),
         )
     }
 

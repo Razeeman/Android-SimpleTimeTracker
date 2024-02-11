@@ -39,7 +39,7 @@ class MigrationTest {
                 testDatabaseName,
             )
             .addMigrations(
-                *AppDatabaseMigrations.migrations.toTypedArray()
+                *AppDatabaseMigrations.migrations.toTypedArray(),
             )
             .build()
             .apply { openHelper.writableDatabase.close() }

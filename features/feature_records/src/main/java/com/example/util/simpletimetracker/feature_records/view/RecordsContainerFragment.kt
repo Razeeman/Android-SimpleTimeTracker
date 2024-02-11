@@ -35,7 +35,7 @@ class RecordsContainerFragment :
 
     private val viewModel: RecordsContainerViewModel by viewModels()
     private val removeRecordViewModel: RemoveRecordViewModel by activityViewModels(
-        factoryProducer = { removeRecordViewModelFactory }
+        factoryProducer = { removeRecordViewModelFactory },
     )
 
     override fun initUi(): Unit = with(binding) {
@@ -60,7 +60,7 @@ class RecordsContainerFragment :
             position.observe {
                 pagerRecordsContainer.setCurrentItem(
                     it + RecordsContainerAdapter.FIRST,
-                    viewPagerSmoothScroll
+                    viewPagerSmoothScroll,
                 )
             }
         }

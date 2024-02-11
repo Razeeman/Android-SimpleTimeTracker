@@ -19,7 +19,7 @@ class ActivityFilterDataLocalMapper @Inject constructor() {
             name = dbo.name,
             color = AppColor(
                 colorId = dbo.color,
-                colorInt = dbo.colorInt
+                colorInt = dbo.colorInt,
             ),
             selected = dbo.selected,
         )

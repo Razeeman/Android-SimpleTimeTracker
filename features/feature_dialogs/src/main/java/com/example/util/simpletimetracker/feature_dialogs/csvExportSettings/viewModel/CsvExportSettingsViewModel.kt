@@ -52,8 +52,8 @@ class CsvExportSettingsViewModel @Inject constructor(
                     timestamp = rangeStart,
                     type = DateTimeDialogType.DATETIME(initialTab = DateTimeDialogType.Tab.DATE),
                     useMilitaryTime = useMilitaryTime,
-                    firstDayOfWeek = firstDayOfWeek
-                )
+                    firstDayOfWeek = firstDayOfWeek,
+                ),
             )
         }
     }
@@ -69,8 +69,8 @@ class CsvExportSettingsViewModel @Inject constructor(
                     timestamp = rangeEnd,
                     type = DateTimeDialogType.DATETIME(initialTab = DateTimeDialogType.Tab.DATE),
                     useMilitaryTime = useMilitaryTime,
-                    firstDayOfWeek = firstDayOfWeek
-                )
+                    firstDayOfWeek = firstDayOfWeek,
+                ),
             )
         }
     }
@@ -100,8 +100,8 @@ class CsvExportSettingsViewModel @Inject constructor(
         onExport(
             range = DataExportSettingsResult.Range(
                 rangeStart = rangeStart,
-                rangeEnd = rangeEnd
-            )
+                rangeEnd = rangeEnd,
+            ),
         )
     }
 
@@ -112,7 +112,7 @@ class CsvExportSettingsViewModel @Inject constructor(
     private fun onExport(range: DataExportSettingsResult.Range?) {
         DataExportSettingsResult(
             tag = extra.tag.orEmpty(),
-            range = range
+            range = range,
         ).let(dataExportSettingsResult::set)
     }
 
@@ -144,7 +144,7 @@ class CsvExportSettingsViewModel @Inject constructor(
                         useMilitaryTime = useMilitaryTime,
                         showSeconds = false,
                     )
-                }
+                },
         )
     }
 

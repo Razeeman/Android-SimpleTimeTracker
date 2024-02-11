@@ -26,10 +26,10 @@ class StatisticsTagInteractor @Inject constructor(
                 statisticsInteractor.getStatistics(range, it)
             }
             .plus(
-                statisticsInteractor.getUntracked(range, records, addUntracked)
+                statisticsInteractor.getUntracked(range, records, addUntracked),
             )
             .plus(
-                getUntagged(range, records, addUncategorized)
+                getUntagged(range, records, addUncategorized),
             )
     }
 
@@ -55,7 +55,7 @@ class StatisticsTagInteractor @Inject constructor(
     }
 
     private suspend fun getTagRecords(
-        allRecords: List<RecordBase>
+        allRecords: List<RecordBase>,
     ): Map<Long, List<RecordBase>> {
         val recordTags = recordTagInteractor.getAll().map(RecordTag::id)
 
@@ -65,7 +65,7 @@ class StatisticsTagInteractor @Inject constructor(
     }
 
     private fun getUntagged(
-        allRecords: List<RecordBase>
+        allRecords: List<RecordBase>,
     ): List<RecordBase> {
         return allRecords.filter { it.tagIds.isEmpty() }
     }

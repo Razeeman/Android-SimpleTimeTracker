@@ -46,7 +46,7 @@ class RecordTagInteractor @Inject constructor(
             ?.let { savedItem ->
                 newItem = tag.copy(
                     id = savedItem.id,
-                    archived = false
+                    archived = false,
                 )
             }
 

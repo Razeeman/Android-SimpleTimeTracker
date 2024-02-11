@@ -6,5 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 
 abstract class BaseViewModel : ViewModel(), ScopeHolder {
 
-    override fun getScope(): CoroutineScope { return viewModelScope }
+    override fun getScope(): CoroutineScope {
+        return viewModelScope
+    }
 }

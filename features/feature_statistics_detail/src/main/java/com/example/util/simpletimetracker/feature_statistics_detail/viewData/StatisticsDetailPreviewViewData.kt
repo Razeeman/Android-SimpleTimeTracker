@@ -9,7 +9,7 @@ data class StatisticsDetailPreviewViewData(
     val type: Type,
     val name: String,
     val iconId: RecordTypeIcon? = null,
-    @ColorInt val color: Int
+    @ColorInt val color: Int,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = id
@@ -18,6 +18,7 @@ data class StatisticsDetailPreviewViewData(
         other is StatisticsDetailPreviewViewData && other.type == type
 
     enum class Type {
-        FILTER, COMPARISON
+        FILTER,
+        COMPARISON,
     }
 }

@@ -9,5 +9,5 @@ enum class IconEmojiType {
     ACTIVITIES,
     OBJECTS,
     SYMBOLS,
-    FLAGS
+    FLAGS,
 }

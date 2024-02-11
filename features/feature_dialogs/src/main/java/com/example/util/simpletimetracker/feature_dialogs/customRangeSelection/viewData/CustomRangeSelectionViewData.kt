@@ -2,5 +2,5 @@ package com.example.util.simpletimetracker.feature_dialogs.customRangeSelection.
 
 data class CustomRangeSelectionViewData(
     val rangeStartString: String,
-    val rangeEndString: String
+    val rangeEndString: String,
 )

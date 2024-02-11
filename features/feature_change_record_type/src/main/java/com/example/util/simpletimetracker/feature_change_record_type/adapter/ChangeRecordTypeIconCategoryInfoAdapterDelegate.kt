@@ -6,7 +6,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 
 fun createChangeRecordTypeIconCategoryInfoAdapterDelegate() =
     createRecyclerBindingAdapterDelegate<ViewData, Binding>(
-        Binding::inflate
+        Binding::inflate,
     ) { binding, item, _ ->
 
         with(binding) {

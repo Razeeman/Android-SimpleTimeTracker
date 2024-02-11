@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class RecordTypeCardSizeMapper @Inject constructor(
     private val deviceRepo: DeviceRepo,
-    private val resourceRepo: ResourceRepo
+    private val resourceRepo: ResourceRepo,
 ) {
 
     private val defaultWidth: Int by lazy { resourceRepo.getDimenInDp(R.dimen.record_type_card_width) }

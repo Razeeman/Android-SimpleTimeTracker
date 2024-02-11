@@ -21,13 +21,13 @@ class NotificationTypeBroadcastController @Inject constructor(
         name ?: return
         GlobalScope.launch {
             activityStartStopFromBroadcastInteractor.onActionActivityStart(
-                name = name, comment = comment, tagName = tagName
+                name = name, comment = comment, tagName = tagName,
             )
         }
     }
 
     fun onActionActivityStop(
-        name: String?
+        name: String?,
     ) {
         name ?: return
         GlobalScope.launch {
@@ -36,7 +36,7 @@ class NotificationTypeBroadcastController @Inject constructor(
     }
 
     fun onActionActivityStop(
-        typeId: Long
+        typeId: Long,
     ) {
         if (typeId == 0L) return
         GlobalScope.launch {
@@ -68,7 +68,7 @@ class NotificationTypeBroadcastController @Inject constructor(
     ) {
         GlobalScope.launch {
             activityStartStopFromBroadcastInteractor.onActionActivityRestart(
-                comment = comment, tagName = tagName
+                comment = comment, tagName = tagName,
             )
         }
     }

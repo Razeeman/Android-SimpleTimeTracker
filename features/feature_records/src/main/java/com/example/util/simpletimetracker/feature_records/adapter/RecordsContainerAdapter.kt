@@ -14,7 +14,7 @@ class RecordsContainerAdapter(fragment: Fragment) : FragmentStateAdapter(fragmen
     override fun createFragment(position: Int): Fragment {
         val shift = position - FIRST
         return RecordsFragment.newInstance(
-            RecordsParams(shift = shift)
+            RecordsParams(shift = shift),
         )
     }
 

@@ -72,7 +72,7 @@ class RecordsContainerViewModel @Inject constructor(
             }
             val current = timeMapper.toTimestampShifted(
                 rangesFromToday = actualShift,
-                range = RangeLength.Day
+                range = RangeLength.Day,
             )
 
             router.navigate(
@@ -81,8 +81,8 @@ class RecordsContainerViewModel @Inject constructor(
                     type = DateTimeDialogType.DATE,
                     timestamp = current,
                     useMilitaryTime = useMilitaryTime,
-                    firstDayOfWeek = firstDayOfWeek
-                )
+                    firstDayOfWeek = firstDayOfWeek,
+                ),
             )
         }
     }
@@ -102,7 +102,7 @@ class RecordsContainerViewModel @Inject constructor(
                     .toTimestampShift(
                         toTime = timestamp,
                         range = RangeLength.Day,
-                        firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+                        firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
                     )
                     .toInt()
                     .let { shift ->
@@ -140,7 +140,7 @@ class RecordsContainerViewModel @Inject constructor(
             shift = shift,
             startOfDayShift = startOfDayShift,
             isCalendarView = isCalendarView,
-            calendarDayCount = calendarDayCount.count
+            calendarDayCount = calendarDayCount.count,
         )
     }
 

@@ -56,10 +56,10 @@ class StatisticsFragment :
 
     private val viewModel: StatisticsViewModel by viewModels()
     private val settingsViewModel: StatisticsSettingsViewModel by activityViewModels(
-        factoryProducer = { settingsViewModelFactory }
+        factoryProducer = { settingsViewModelFactory },
     )
     private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
-        factoryProducer = { mainTabsViewModelFactory }
+        factoryProducer = { mainTabsViewModelFactory },
     )
 
     private val statisticsAdapter: BaseRecyclerAdapter by lazy { buildAdapter() }
@@ -143,7 +143,7 @@ class StatisticsFragment :
             ),
             createStatisticsInfoAdapterDelegate(),
             createStatisticsAdapterDelegate(
-                onItemClick = throttle(viewModel::onItemClick)
+                onItemClick = throttle(viewModel::onItemClick),
             ),
             createStatisticsEmptyAdapterDelegate(
                 onFilterClick = viewModel::onFilterClick,

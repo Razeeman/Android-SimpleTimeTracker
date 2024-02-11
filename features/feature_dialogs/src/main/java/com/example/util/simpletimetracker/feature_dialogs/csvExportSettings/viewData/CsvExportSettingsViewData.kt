@@ -2,5 +2,5 @@ package com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.vie
 
 data class CsvExportSettingsViewData(
     val rangeStartString: String,
-    val rangeEndString: String
+    val rangeEndString: String,
 )

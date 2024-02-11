@@ -38,10 +38,10 @@ class DataLocalModule {
         return Room
             .databaseBuilder(
                 context,
-                AppDatabase::class.java, AppDatabase.DATABASE_NAME
+                AppDatabase::class.java, AppDatabase.DATABASE_NAME,
             )
             .addMigrations(
-                *AppDatabaseMigrations.migrations.toTypedArray()
+                *AppDatabaseMigrations.migrations.toTypedArray(),
             )
             .build()
     }

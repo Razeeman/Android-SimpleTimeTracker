@@ -13,11 +13,11 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 class CategoryView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : CardView(
     context,
     attrs,
-    defStyleAttr
+    defStyleAttr,
 ) {
 
     private val binding: CategoryViewLayoutBinding = CategoryViewLayoutBinding
@@ -35,19 +35,23 @@ class CategoryView @JvmOverloads constructor(
 
         context.obtainStyledAttributes(attrs, R.styleable.CategoryView, defStyleAttr, 0)
             .run {
-                if (hasValue(R.styleable.CategoryView_itemName)) itemName =
-                    getString(R.styleable.CategoryView_itemName).orEmpty()
+                if (hasValue(R.styleable.CategoryView_itemName)) {
+                    itemName = getString(R.styleable.CategoryView_itemName).orEmpty()
+                }
 
-                if (hasValue(R.styleable.CategoryView_itemColor)) itemColor =
-                    getColor(R.styleable.CategoryView_itemColor, Color.BLACK)
+                if (hasValue(R.styleable.CategoryView_itemColor)) {
+                    itemColor = getColor(R.styleable.CategoryView_itemColor, Color.BLACK)
+                }
 
-                if (hasValue(R.styleable.CategoryView_itemIcon)) itemIcon =
-                    getResourceId(R.styleable.CategoryView_itemIcon, R.drawable.unknown)
+                if (hasValue(R.styleable.CategoryView_itemIcon)) {
+                    itemIcon = getResourceId(R.styleable.CategoryView_itemIcon, R.drawable.unknown)
                         .let(RecordTypeIcon::Image)
+                }
 
-                if (hasValue(R.styleable.CategoryView_itemIconText)) itemIcon =
-                    getString(R.styleable.CategoryView_itemIconText).orEmpty()
+                if (hasValue(R.styleable.CategoryView_itemIconText)) {
+                    itemIcon = getString(R.styleable.CategoryView_itemIconText).orEmpty()
                         .let(RecordTypeIcon::Text)
+                }
 
                 if (hasValue(R.styleable.CategoryView_itemIconColor)) {
                     itemIconColor = getColor(R.styleable.CategoryView_itemIconColor, Color.WHITE)
@@ -57,8 +61,9 @@ class CategoryView @JvmOverloads constructor(
                     itemIconAlpha = getFloat(R.styleable.CategoryView_itemIconAlpha, 1.0f)
                 }
 
-                if (hasValue(R.styleable.CategoryView_itemIconVisible)) itemIconVisible =
-                    getBoolean(R.styleable.CategoryView_itemIconVisible, false)
+                if (hasValue(R.styleable.CategoryView_itemIconVisible)) {
+                    itemIconVisible = getBoolean(R.styleable.CategoryView_itemIconVisible, false)
+                }
 
                 recycle()
             }

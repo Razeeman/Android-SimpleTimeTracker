@@ -44,7 +44,7 @@ class ZeroDurationRecordTest : BaseUiTest() {
             hourStarted = 15,
             minutesStarted = 0,
             hourEnded = 15,
-            minutesEnded = 0
+            minutesEnded = 0,
         )
 
         // Record added
@@ -52,7 +52,7 @@ class ZeroDurationRecordTest : BaseUiTest() {
             withId(baseR.id.viewRecordItem),
             hasDescendant(withText(name)),
             hasDescendant(withText("0$secondString")),
-            isCompletelyDisplayed()
+            isCompletelyDisplayed(),
         )
         checkViewIsDisplayed(record)
 
@@ -63,8 +63,8 @@ class ZeroDurationRecordTest : BaseUiTest() {
         clickOnView(
             allOf(
                 isDescendantOfA(withId(baseR.id.viewRecordTypeItem)),
-                withText(coreR.string.untracked_time_name)
-            )
+                withText(coreR.string.untracked_time_name),
+            ),
         )
         pressBack()
 
@@ -74,8 +74,8 @@ class ZeroDurationRecordTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withPluralText(coreR.plurals.statistics_detail_times_tracked, 1),
-                hasSibling(withText("1"))
-            )
+                hasSibling(withText("1")),
+            ),
         )
 
         // Check records all

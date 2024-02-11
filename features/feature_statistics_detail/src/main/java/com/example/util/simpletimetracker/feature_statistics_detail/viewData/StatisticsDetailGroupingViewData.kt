@@ -6,7 +6,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartG
 data class StatisticsDetailGroupingViewData(
     val chartGrouping: ChartGrouping,
     override val name: String,
-    override val isSelected: Boolean
+    override val isSelected: Boolean,
 ) : ButtonsRowViewData() {
 
     override val id: Long = chartGrouping.ordinal.toLong()

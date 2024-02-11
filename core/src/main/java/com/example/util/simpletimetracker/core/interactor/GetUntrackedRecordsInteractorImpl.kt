@@ -48,7 +48,7 @@ class GetUntrackedRecordsInteractorImpl @Inject constructor(
                 typeId = UNTRACKED_ITEM_ID,
                 timeStarted = it.timeStarted,
                 timeEnded = it.timeEnded,
-                comment = ""
+                comment = "",
             )
         }.let {
             processTimeOfDayRange(it)
@@ -73,7 +73,7 @@ class GetUntrackedRecordsInteractorImpl @Inject constructor(
             processRecord(
                 record = it,
                 timeOfDay = timeOfDay,
-                calendar = calendar
+                calendar = calendar,
             )
         }.flatten()
     }
@@ -100,7 +100,7 @@ class GetUntrackedRecordsInteractorImpl @Inject constructor(
 
         while (check) {
             cutRangeFromRecord(
-                record, Range(currentTimeOfDayRangeStart, currentTimeOfDayRangeEnd)
+                record, Range(currentTimeOfDayRangeStart, currentTimeOfDayRangeEnd),
             )?.let(result::add)
 
             if (currentTimeOfDayRangeEnd >= record.timeEnded) {
@@ -127,7 +127,7 @@ class GetUntrackedRecordsInteractorImpl @Inject constructor(
         return if (record.timeStarted < range.timeEnded && record.timeEnded > range.timeStarted) {
             record.copy(
                 timeStarted = max(record.timeStarted, range.timeStarted),
-                timeEnded = min(record.timeEnded, range.timeEnded)
+                timeEnded = min(record.timeEnded, range.timeEnded),
             )
         } else {
             null

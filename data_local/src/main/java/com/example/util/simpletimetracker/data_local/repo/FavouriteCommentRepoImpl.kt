@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @Singleton
 class FavouriteCommentRepoImpl @Inject constructor(
     private val favouriteCommentDao: FavouriteCommentDao,
-    private val FavouriteCommentDataLocalMapper: FavouriteCommentDataLocalMapper
+    private val FavouriteCommentDataLocalMapper: FavouriteCommentDataLocalMapper,
 ) : FavouriteCommentRepo {
 
     override suspend fun getAll(): List<FavouriteComment> = withContext(Dispatchers.IO) {
@@ -34,7 +34,7 @@ class FavouriteCommentRepoImpl @Inject constructor(
     override suspend fun add(comment: FavouriteComment): Long = withContext(Dispatchers.IO) {
         logDataAccess("add")
         return@withContext favouriteCommentDao.insert(
-            comment.let(FavouriteCommentDataLocalMapper::map)
+            comment.let(FavouriteCommentDataLocalMapper::map),
         )
     }
 
