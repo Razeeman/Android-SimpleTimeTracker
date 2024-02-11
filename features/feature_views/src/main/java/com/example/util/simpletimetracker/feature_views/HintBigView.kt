@@ -1,13 +1,11 @@
 package com.example.util.simpletimetracker.feature_views
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_views.databinding.HintBigViewLayoutBinding
-import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 
 class HintBigView @JvmOverloads constructor(
@@ -42,18 +40,11 @@ class HintBigView @JvmOverloads constructor(
         }
 
     init {
-        initProps()
         initAttrs(context, attrs, defStyleAttr)
     }
 
     fun setOnCloseClick(action: () -> Unit) {
         binding.btnHintBigClose.setOnClick(action)
-    }
-
-    private fun initProps() {
-        setBackgroundResource(R.drawable.bg_rounded_corners)
-        val backgroundTint = context.getThemedAttr(R.attr.appActiveColor)
-        backgroundTintList = ColorStateList.valueOf(backgroundTint)
     }
 
     private fun initAttrs(
