@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker
 
 object Versions {
-    const val gradle = "7.3.1"
+    const val gradle = "8.0.2"
     const val kotlin = "1.7.21"
     const val ktlint = "10.1.0"
 

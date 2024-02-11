@@ -13,7 +13,7 @@ applyAndroidLibrary()
 
 android {
     defaultConfig {
-        applicationId = "com.razeeman.util.simpletimetracker"
+        applicationId = Base.applicationId
         versionCode = Base.versionCode
         versionName = Base.versionName
 
@@ -41,9 +41,22 @@ android {
         }
     }
 
+    buildTypes {
+        getByName("debug") {
+            buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
+        }
+        getByName("release") {
+            buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     testOptions {
@@ -54,6 +67,8 @@ android {
         // Adds exported schema location as test app assets.
         getByName("androidTest").assets.srcDir("$projectDir/../data_local/schemas")
     }
+
+    namespace = Base.namespace
 }
 
 dependencies {

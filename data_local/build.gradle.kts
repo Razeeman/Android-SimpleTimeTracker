@@ -1,3 +1,4 @@
+import com.example.util.simpletimetracker.Base
 import com.example.util.simpletimetracker.Deps
 import com.example.util.simpletimetracker.applyAndroidLibrary
 
@@ -17,6 +18,8 @@ android {
             }
         }
     }
+
+    namespace = "${Base.namespace}.data_local"
 }
 
 dependencies {

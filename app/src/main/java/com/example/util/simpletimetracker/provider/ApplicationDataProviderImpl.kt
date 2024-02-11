@@ -19,6 +19,11 @@ class ApplicationDataProviderImpl @Inject constructor(
     }
 
     override fun getAppVersion(): String {
-        return BuildConfig.VERSION_NAME
+        val appVersion = BuildConfig.VERSION_NAME
+        return if (BuildConfig.DEBUG) {
+            "$appVersion ${BuildConfig.BUILD_TYPE}"
+        } else {
+            appVersion
+        }
     }
 }

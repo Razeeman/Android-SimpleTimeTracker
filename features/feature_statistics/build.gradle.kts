@@ -1,3 +1,4 @@
+import com.example.util.simpletimetracker.Base
 import com.example.util.simpletimetracker.Deps
 import com.example.util.simpletimetracker.applyAndroidLibrary
 
@@ -10,6 +11,10 @@ plugins {
 }
 
 applyAndroidLibrary()
+
+android {
+    namespace = "${Base.namespace}.feature_statistics"
+}
 
 dependencies {
     implementation(project(":core"))

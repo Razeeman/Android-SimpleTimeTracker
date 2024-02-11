@@ -4,6 +4,7 @@ import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.FragmentNavigator
+import com.example.util.simpletimetracker.BuildConfig
 import com.example.util.simpletimetracker.navigation.params.screen.ScreenParams
 import javax.inject.Inject
 

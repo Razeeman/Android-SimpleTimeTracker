@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_settings.interactor
 
-import com.example.util.simpletimetracker.core.BuildConfig
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -51,11 +50,6 @@ class SettingsRatingViewDataInteractor @Inject constructor(
     }
 
     private fun loadVersionName(): String {
-        val appVersion = applicationDataProvider.getAppVersion()
-        return if (BuildConfig.DEBUG) {
-            "$appVersion ${BuildConfig.BUILD_TYPE}"
-        } else {
-            appVersion
-        }
+        return applicationDataProvider.getAppVersion()
     }
 }

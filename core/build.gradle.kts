@@ -1,3 +1,4 @@
+import com.example.util.simpletimetracker.Base
 import com.example.util.simpletimetracker.Deps
 import com.example.util.simpletimetracker.applyAndroidLibrary
 
@@ -11,14 +12,7 @@ plugins {
 applyAndroidLibrary()
 
 android {
-    buildTypes {
-        getByName("debug") {
-            buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
-        }
-        getByName("release") {
-            buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
-        }
-    }
+    namespace = "${Base.namespace}.core"
 }
 
 dependencies {
