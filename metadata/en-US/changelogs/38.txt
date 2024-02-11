@@ -1,0 +1,2 @@
+- Add icon and emoji search
+- General bug fixes and improvements
