@@ -13,7 +13,7 @@ package com.example.util.simpletimetracker.wearrpc
 
 import java.util.Date
 
-data class Activity(val id: Long, val name: String /* , val color: String, val icon: ByteArray */)
+data class Activity(val id: Long, val name: String, val icon: String, val color: String)
 
 data class CurrentActivity(val id: Long, val name: String, val startedAt: Date, val tags: Array<Tag>) {
     override fun equals(other: Any?): Boolean {

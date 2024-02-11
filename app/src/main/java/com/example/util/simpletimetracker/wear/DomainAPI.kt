@@ -25,7 +25,11 @@ class DomainAPI (
     override suspend fun queryActivities(): Array<Activity> {
         return recordTypeInteractor.getAll()
             .filter { recordType -> !recordType.hidden }
-            .map { recordType -> Activity(recordType.id, recordType.name) }
+            .map { recordType ->
+                val color = appColorMapper.mapToColorInt(recordType.color)
+                val hex = String.format("#%06X", (0xFFFFFF and color))
+                Activity(recordType.id, recordType.name, recordType.icon, hex)
+            }
             .toTypedArray()
     }
 
