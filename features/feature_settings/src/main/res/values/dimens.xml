@@ -3,6 +3,7 @@
     <dimen name="settings_background_height">14dp</dimen>
     <dimen name="settings_background_bottom_shift">-14dp</dimen>
     <dimen name="settings_background_height_double">28dp</dimen>
+    <integer name="settings_card_scale">5</integer>
     <!--  One dp bigger than background card elevation  -->
     <dimen name="settings_card_elevation">5dp</dimen>
 </resources>
