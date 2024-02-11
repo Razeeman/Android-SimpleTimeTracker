@@ -107,6 +107,7 @@
         <item>grimacing face</item>
         <item>face exhaling</item>
         <item>lying face</item>
+        <item>shaking face</item>
 
         # subgroup: face-sleepy
         <item>relieved face</item>
@@ -219,13 +220,16 @@
         <item>heart on fire</item>
         <item>mending heart</item>
         <item>red heart</item>
+        <item>pink heart</item>
         <item>orange heart</item>
         <item>yellow heart</item>
         <item>green heart</item>
         <item>blue heart</item>
+        <item>light blue heart</item>
         <item>purple heart</item>
         <item>brown heart</item>
         <item>black heart</item>
+        <item>grey heart</item>
         <item>white heart</item>
         <item>hundred points</item>
         <item>anger symbol</item>
@@ -255,6 +259,8 @@
         <item>leftwards hand</item>
         <item>palm down hand</item>
         <item>palm up hand</item>
+        <item>leftwards pushing hand</item>
+        <item>rightwards pushing hand</item>
 
         # subgroup: hand-fingers-partial
         <item>ok hand</item>
@@ -662,6 +668,8 @@
         <item>tiger</item>
         <item>leopard</item>
         <item>horse face</item>
+        <item>moose</item>
+        <item>donkey</item>
         <item>horse</item>
         <item>unicorn</item>
         <item>zebra</item>
@@ -726,6 +734,9 @@
         <item>flamingo</item>
         <item>peacock</item>
         <item>parrot</item>
+        <item>wing</item>
+        <item>black bird</item>
+        <item>goose</item>
 
         # subgroup: animal-amphibian
         <item>frog</item>
@@ -752,6 +763,7 @@
         <item>octopus</item>
         <item>spiral shell</item>
         <item>coral</item>
+        <item>jellyfish</item>
 
         # subgroup: animal-bug
         <item>snail</item>
@@ -783,6 +795,7 @@
         <item>sunflower</item>
         <item>blossom</item>
         <item>tulip</item>
+        <item>hyacinth</item>
 
         # subgroup: plant-other
         <item>seedling</item>
@@ -842,6 +855,8 @@
         <item>peanuts</item>
         <item>beans</item>
         <item>chestnut</item>
+        <item>ginger root</item>
+        <item>pea pod</item>
 
         # subgroup: food-prepared
         <item>bread</item>
@@ -1318,6 +1333,7 @@
         <item>shorts</item>
         <item>bikini</item>
         <item>woman’s clothes</item>
+        <item>folding hand fan</item>
         <item>purse</item>
         <item>handbag</item>
         <item>clutch bag</item>
@@ -1332,6 +1348,7 @@
         <item>woman’s sandal</item>
         <item>ballet shoes</item>
         <item>woman’s boot</item>
+        <item>hair pick</item>
         <item>crown</item>
         <item>woman’s hat</item>
         <item>top hat</item>
@@ -1376,6 +1393,8 @@
         <item>banjo</item>
         <item>drum</item>
         <item>long drum</item>
+        <item>maracas</item>
+        <item>flute</item>
 
         # subgroup: phone
         <item>mobile phone</item>
@@ -1657,6 +1676,7 @@
         <item>peace symbol</item>
         <item>menorah</item>
         <item>dotted six-pointed star</item>
+        <item>khanda</item>
 
         # subgroup: zodiac
         <item>aries</item>
@@ -1696,6 +1716,7 @@
         <item>dim button</item>
         <item>bright button</item>
         <item>antenna bars</item>
+        <item>wireless</item>
         <item>vibration mode</item>
         <item>mobile phone off</item>
 

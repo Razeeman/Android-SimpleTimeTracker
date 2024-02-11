@@ -19,7 +19,7 @@ object Versions {
     const val flexBox = "2.0.1"
     const val cardView = "1.0.0"
     const val material = "1.2.0"
-    const val emoji = "1.2.0"
+    const val emoji = "1.4.0"
 
     const val fragmentKtx = "1.3.4"
     const val coreKtx = "1.2.0"

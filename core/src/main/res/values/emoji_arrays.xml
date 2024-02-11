@@ -107,6 +107,7 @@
         <item>😬</item> # E1.0 grimacing face
         <item>😮‍💨</item> # E13.1 face exhaling
         <item>🤥</item> # E3.0 lying face
+        <item>🫨</item> # E15.0 shaking face
 
         # subgroup: face-sleepy
         <item>😌</item> # E0.6 relieved face
@@ -219,13 +220,16 @@
         <item>❤️‍🔥</item> # E13.1 heart on fire
         <item>❤️‍🩹</item> # E13.1 mending heart
         <item>❤️</item> # E0.6 red heart
+        <item>🩷</item> # E15.0 pink heart
         <item>🧡</item> # E5.0 orange heart
         <item>💛</item> # E0.6 yellow heart
         <item>💚</item> # E0.6 green heart
         <item>💙</item> # E0.6 blue heart
+        <item>🩵</item> # E15.0 light blue heart
         <item>💜</item> # E0.6 purple heart
         <item>🤎</item> # E12.0 brown heart
         <item>🖤</item> # E3.0 black heart
+        <item>🩶</item> # E15.0 grey heart
         <item>🤍</item> # E12.0 white heart
         <item>💯</item> # E0.6 hundred points
         <item>💢</item> # E0.6 anger symbol
@@ -255,6 +259,8 @@
         <item>🫲SKIN_TONE</item> # E14.0 leftwards hand
         <item>🫳SKIN_TONE</item> # E14.0 palm down hand
         <item>🫴SKIN_TONE</item> # E14.0 palm up hand
+        <item>🫷SKIN_TONE</item> # E15.0 leftwards pushing hand
+        <item>🫸SKIN_TONE</item> # E15.0 rightwards pushing hand
 
         # subgroup: hand-fingers-partial
         <item>👌SKIN_TONE</item> # E1.0 OK hand
@@ -662,6 +668,8 @@
         <item>🐅</item> # E1.0 tiger
         <item>🐆</item> # E1.0 leopard
         <item>🐴</item> # E0.6 horse face
+        <item>🫎</item> # E15.0 moose
+        <item>🫏</item> # E15.0 donkey
         <item>🐎</item> # E0.6 horse
         <item>🦄</item> # E1.0 unicorn
         <item>🦓</item> # E5.0 zebra
@@ -726,6 +734,9 @@
         <item>🦩</item> # E12.0 flamingo
         <item>🦚</item> # E11.0 peacock
         <item>🦜</item> # E11.0 parrot
+        <item>🪽</item> # E15.0 wing
+        <item>🐦‍⬛</item> # E15.0 black bird
+        <item>🪿</item> # E15.0 goose
 
         # subgroup: animal-amphibian
         <item>🐸</item> # E0.6 frog
@@ -752,6 +763,7 @@
         <item>🐙</item> # E0.6 octopus
         <item>🐚</item> # E0.6 spiral shell
         <item>🪸</item> # E14.0 coral
+        <item>🪼</item> # E15.0 jellyfish
 
         # subgroup: animal-bug
         <item>🐌</item> # E0.6 snail
@@ -783,6 +795,7 @@
         <item>🌻</item> # E0.6 sunflower
         <item>🌼</item> # E0.6 blossom
         <item>🌷</item> # E0.6 tulip
+        <item>🪻</item> # E15.0 hyacinth
 
         # subgroup: plant-other
         <item>🌱</item> # E0.6 seedling
@@ -842,6 +855,8 @@
         <item>🥜</item> # E3.0 peanuts
         <item>🫘</item> # E14.0 beans
         <item>🌰</item> # E0.6 chestnut
+        <item>🫚</item> # E15.0 ginger root
+        <item>🫛</item> # E15.0 pea pod
 
         # subgroup: food-prepared
         <item>🍞</item> # E0.6 bread
@@ -1318,6 +1333,7 @@
         <item>🩳</item> # E12.0 shorts
         <item>👙</item> # E0.6 bikini
         <item>👚</item> # E0.6 woman’s clothes
+        <item>🪭</item> # E15.0 folding hand fan
         <item>👛</item> # E0.6 purse
         <item>👜</item> # E0.6 handbag
         <item>👝</item> # E0.6 clutch bag
@@ -1332,6 +1348,7 @@
         <item>👡</item> # E0.6 woman’s sandal
         <item>🩰</item> # E12.0 ballet shoes
         <item>👢</item> # E0.6 woman’s boot
+        <item>🪮</item> # E15.0 hair pick
         <item>👑</item> # E0.6 crown
         <item>👒</item> # E0.6 woman’s hat
         <item>🎩</item> # E0.6 top hat
@@ -1376,6 +1393,8 @@
         <item>🪕</item> # E12.0 banjo
         <item>🥁</item> # E3.0 drum
         <item>🪘</item> # E13.0 long drum
+        <item>🪇</item> # E15.0 maracas
+        <item>🪈</item> # E15.0 flute
 
         # subgroup: phone
         <item>📱</item> # E0.6 mobile phone
@@ -1657,6 +1676,7 @@
         <item>☮️</item> # E1.0 peace symbol
         <item>🕎</item> # E1.0 menorah
         <item>🔯</item> # E0.6 dotted six-pointed star
+        <item>🪯</item> # E15.0 khanda
 
         # subgroup: zodiac
         <item>♈</item> # E0.6 Aries
@@ -1696,6 +1716,7 @@
         <item>🔅</item> # E1.0 dim button
         <item>🔆</item> # E1.0 bright button
         <item>📶</item> # E0.6 antenna bars
+        <item>🛜</item> # E15.0 wireless
         <item>📳</item> # E0.6 vibration mode
         <item>📴</item> # E0.6 mobile phone off
 
