@@ -6,6 +6,7 @@
 package com.example.util.simpletimetracker.wearrpc
 
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 
 class WearRPCServer(private val api: SimpleTimeTrackerAPI) {
@@ -25,17 +26,15 @@ class WearRPCServer(private val api: SimpleTimeTrackerAPI) {
     }
 
     private suspend fun onQueryTagsForActivity(request: ByteArray): ByteArray? {
-        TODO("Not yet implemented")
-        // 1. Parse the activity id (Long) from the request (throw an exception if not there)
-        // 2. Ask this.api for the associated tags
-        // 3. JSON-serialize the tag list into a ByteArray to return as a response.
+        val activityId = Gson().fromJson(String(request), Long::class.java)
+        return Gson().toJson(api.queryTagsForActivity(activityId)).toByteArray()
     }
 
     private suspend fun onSetCurrentActivities(request: ByteArray): ByteArray? {
-        TODO("Not yet implemented")
-        // 1. Deserialize the JSON CurrentActivity records from the request
-        // 2. Delegate to this.api
-        // 3. Return a success message (let unresolvable exceptions from this.api bubble up)
+        val collectionType = object : TypeToken<Array<CurrentActivity>>() {}.type
+        val activities: Array<CurrentActivity> = Gson().fromJson(String(request), collectionType)
+        api.setCurrentActivities(activities)
+        return ByteArray(0)
     }
 
     private suspend fun onPing(request: ByteArray): ByteArray? {
@@ -51,8 +50,6 @@ class WearRPCServer(private val api: SimpleTimeTrackerAPI) {
     }
 
     private suspend fun onQuerySettings(): ByteArray? {
-        TODO("Not yet implemented")
-        // 1. Obtain the settings from this.api
-        // 2. Serialize to JSON and return the bytes
+        return Gson().toJson(api.querySettings()).toByteArray()
     }
 }

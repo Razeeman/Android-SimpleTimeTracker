@@ -5,52 +5,54 @@
  */
 package com.example.util.simpletimetracker.wearrpc
 
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 
-class WearRPCClient(private val messenger: Messenger): SimpleTimeTrackerAPI {
-    private val TAG: String = WearRPCClient::class.java.name
+class WearRPCClient(private val messenger: Messenger) : SimpleTimeTrackerAPI {
 
     override suspend fun ping(message: String): String {
-        val response = messenger.sendMessage(Request.PING, message.toByteArray())
+        val response = messenger.send(Request.PING, message.toByteArray())
         if (response != null) return String(response)
         else throw WearRPCException("No response")
     }
 
     override suspend fun queryActivities(): Array<Activity> {
-        val response = messenger.sendMessage(Request.QUERY_ACTIVITIES)
+        val response = messenger.send(Request.QUERY_ACTIVITIES)
         if (response != null) {
-            Log.i(TAG, String(response))
             val collectionType = object : TypeToken<Array<Activity>>() {}.type
             return Gson().fromJson(String(response), collectionType)
         } else throw WearRPCException("No response")
     }
 
     override suspend fun queryCurrentActivities(): Array<CurrentActivity> {
-        TODO("Not yet implemented")
-        // 1. Send a Request.QUERY_CURRENT_ACTIVITIES message
-        // 2. Parse the resulting JSON bytes and return it
+        val response = messenger.send(Request.QUERY_CURRENT_ACTIVITIES)
+        if (response != null) {
+            val collectionType = object : TypeToken<Array<CurrentActivity>>() {}.type
+            return Gson().fromJson(String(response), collectionType)
+        } else throw WearRPCException("No response")
     }
 
     override suspend fun setCurrentActivities(activities: Array<CurrentActivity>) {
-        TODO("Not yet implemented")
-        // 1. Serialize the given activities to JSON
-        // 2. Send a Request.SET_CURRENT_ACTIVITIES message
-        // 3. Wait for response (successful/error)
+        messenger.send(Request.SET_CURRENT_ACTIVITIES, Gson().toJson(activities).toByteArray())
     }
 
     override suspend fun queryTagsForActivity(activityId: Long): Array<Tag> {
-        TODO("Not yet implemented")
-        // 1. Serialize the given activityID to bytes
-        // 2. Send a Request.QUERY_TAGS_FOR_ACTIVITY message
-        // 3. Deserialize the JSON response and return.
+        val response = messenger.send(
+            Request.QUERY_TAGS_FOR_ACTIVITY,
+            Gson().toJson(activityId).toByteArray(),
+        )
+        if (response != null) {
+            val collectionType = object : TypeToken<Array<Tag>>() {}.type
+            return Gson().fromJson(String(response), collectionType)
+        } else throw WearRPCException("No response")
     }
 
     override suspend fun querySettings(): Settings {
-        TODO("Not yet implemented")
-        // 1. Send a Request.QUERY_SETTINGS message
-        // 2. Deserialize the JSON response and return
+        val response = messenger.send(Request.QUERY_SETTINGS)
+        if (response != null) {
+            val jsonType = object : TypeToken<Settings>() {}.type
+            return Gson().fromJson(String(response), jsonType)
+        } else throw WearRPCException("No response")
     }
 }

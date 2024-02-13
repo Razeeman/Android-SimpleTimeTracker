@@ -48,7 +48,7 @@ import androidx.wear.compose.material.rememberScalingLazyListState
 import androidx.wear.compose.material.scrollAway
 import com.example.util.simpletimetracker.presentation.theme.SimpleTimeTrackerForWearOSTheme
 import com.example.util.simpletimetracker.wearrpc.Activity
-import com.example.util.simpletimetracker.wearrpc.Messenger
+import com.example.util.simpletimetracker.wearrpc.ContextMessenger
 import com.example.util.simpletimetracker.wearrpc.WearRPCClient
 import com.google.android.horologist.compose.focus.rememberActiveFocusRequester
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
@@ -97,7 +97,7 @@ fun ActivityList(scrollState: ScalingLazyListState = rememberScalingLazyListStat
         key1 = queryCount,
         block = {
             async(Dispatchers.Default) {
-                activities = WearRPCClient(Messenger(context)).queryActivities()
+                activities = WearRPCClient(ContextMessenger(context)).queryActivities()
             }
         },
     )

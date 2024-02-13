@@ -15,14 +15,17 @@ import com.google.android.gms.wearable.Wearable
 import kotlinx.coroutines.CompletableDeferred
 import java.util.concurrent.CancellationException
 
-class Messenger(private val context: Context) {
-    private val TAG: String = Messenger::class.java.name
-
-    suspend fun sendMessage(capability: String): ByteArray? {
-        return sendMessage(capability, ByteArray(0))
+interface Messenger {
+    suspend fun send(capability: String): ByteArray? {
+        return this.send(capability, ByteArray(0))
     }
+    suspend fun send(capability: String, message: ByteArray): ByteArray?
+}
 
-    suspend fun sendMessage(capability: String, message: ByteArray): ByteArray? {
+class ContextMessenger(private val context: Context): Messenger {
+    private val TAG: String = ContextMessenger::class.java.name
+
+    override suspend fun send(capability: String, message: ByteArray): ByteArray? {
         val def = CompletableDeferred<ByteArray?>()
         val bestNode = findNearestNode(capability)
 

@@ -34,9 +34,13 @@ class DomainAPI (
     }
 
     override suspend fun queryCurrentActivities(): Array<CurrentActivity> {
-        TODO("Not yet implemented")
-        // 1. Pull the current activities from the runningRecordInteractor
-        // 2. Return as an `Array<CurrentActivity>`
+        return runningRecordInteractor.getAll().map {
+            CurrentActivity(
+                it.id,
+                it.timeStarted,
+                arrayOf()  // TODO - Pull actual list of active tags
+            )
+        }.toTypedArray()
     }
 
     override suspend fun setCurrentActivities(activities: Array<CurrentActivity>) {
@@ -62,8 +66,7 @@ class DomainAPI (
     }
 
     override suspend fun querySettings(): Settings {
-        TODO("Not yet implemented")
-        // Obtain the desired Settings from the prefsInteractor and return them.
+        return Settings(prefsInteractor.getAllowMultitasking())
     }
 
 }
