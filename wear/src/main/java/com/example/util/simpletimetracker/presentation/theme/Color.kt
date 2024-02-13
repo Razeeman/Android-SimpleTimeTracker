@@ -24,3 +24,7 @@ internal val wearColorPalette: Colors =
         onSecondary = Color.Black,
         onError = Color.Black,
     )
+
+fun hexCodeToColor(hex: String): Color {
+    return Color(android.graphics.Color.parseColor(hex))
+}
