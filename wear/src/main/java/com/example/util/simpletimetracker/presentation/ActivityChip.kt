@@ -27,7 +27,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun ActivityChip(activity: Activity, startedAt: Long? = null) {
+fun ActivityChip(activity: Activity, startedAt: Long? = null, onClick: () -> Unit = {}) {
     val context = LocalContext.current
     val briefIcon = if (activity.icon.startsWith("ic_")) {
         "?"
@@ -64,13 +64,7 @@ fun ActivityChip(activity: Activity, startedAt: Long? = null) {
         colors = ChipDefaults.chipColors(
             backgroundColor = color,
         ),
-        onClick = {
-            Toast.makeText(
-                context,
-                "Starting `${activity.name}` (id: ${activity.id})\n[Not Yet Implemented]",
-                Toast.LENGTH_SHORT,
-            ).show()
-        },
+        onClick = onClick,
     )
 }
 

@@ -6,6 +6,7 @@
 package com.example.util.simpletimetracker.wear
 
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
@@ -33,6 +34,9 @@ class WearService : WearableListenerService() {
     lateinit var recordTypeInteractor: RecordTypeInteractor
 
     @Inject
+    lateinit var recordTagInteractor: RecordTagInteractor
+
+    @Inject
     lateinit var runningRecordInteractor: RunningRecordInteractor
 
     @Inject
@@ -43,6 +47,7 @@ class WearService : WearableListenerService() {
             DomainAPI(
                 prefsInteractor,
                 recordTypeInteractor,
+                recordTagInteractor,
                 runningRecordInteractor,
                 appColorMapper,
             ),

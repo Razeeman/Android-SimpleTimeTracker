@@ -3,9 +3,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
- package com.example.util.simpletimetracker.wear
+package com.example.util.simpletimetracker.wear
 
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
@@ -15,22 +16,21 @@ import com.example.util.simpletimetracker.wearrpc.Settings
 import com.example.util.simpletimetracker.wearrpc.SimpleTimeTrackerAPI
 import com.example.util.simpletimetracker.wearrpc.Tag
 
-class DomainAPI (
+class DomainAPI(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val appColorMapper: AppColorMapper,
-): SimpleTimeTrackerAPI {
+) : SimpleTimeTrackerAPI {
 
     override suspend fun queryActivities(): Array<Activity> {
-        return recordTypeInteractor.getAll()
-            .filter { recordType -> !recordType.hidden }
+        return recordTypeInteractor.getAll().filter { recordType -> !recordType.hidden }
             .map { recordType ->
                 val color = appColorMapper.mapToColorInt(recordType.color)
                 val hex = String.format("#%06X", (0xFFFFFF and color))
                 Activity(recordType.id, recordType.name, recordType.icon, hex)
-            }
-            .toTypedArray()
+            }.toTypedArray()
     }
 
     override suspend fun queryCurrentActivities(): Array<CurrentActivity> {
@@ -38,7 +38,7 @@ class DomainAPI (
             CurrentActivity(
                 it.id,
                 it.timeStarted,
-                arrayOf()  // TODO - Pull actual list of active tags
+                arrayOf(),  // TODO - Pull actual list of active tags
             )
         }.toTypedArray()
     }
@@ -54,15 +54,16 @@ class DomainAPI (
         // Activities in the given Array that are not running should be started
 
         // For activities in the given Array which are running...
-            // If the start dates + tags are unchanged, then leave the activity running.
-            // If the start dates and/or tags are different, stop the current running activity
-            // instance and restart it as of the requested start date.
+        // If the start dates + tags are unchanged, then leave the activity running.
+        // If the start dates and/or tags are different, stop the current running activity
+        // instance and restart it as of the requested start date.
 
     }
 
     override suspend fun queryTagsForActivity(activityId: Long): Array<Tag> {
-        TODO("Not yet implemented")
-        // Look up the tags which can be associated with this activity and return them
+        return recordTagInteractor.getByTypeOrUntyped(activityId).filter { !it.archived }.map {
+            Tag(id = it.id, name = it.name)
+        }.toTypedArray()
     }
 
     override suspend fun querySettings(): Settings {

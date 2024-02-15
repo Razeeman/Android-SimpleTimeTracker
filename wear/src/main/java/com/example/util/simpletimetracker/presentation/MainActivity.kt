@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -50,6 +51,7 @@ import com.google.android.horologist.compose.rotaryinput.rememberRotaryHapticFee
 import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,6 +87,8 @@ fun WearApp() {
 @Composable
 fun ActivityList(scrollState: ScalingLazyListState = rememberScalingLazyListState()) {
     val context = LocalContext.current
+    val composableScope = rememberCoroutineScope()
+    val rpc = WearRPCClient(ContextMessenger(context))
 
     var activities: Array<Activity> by remember { mutableStateOf(arrayOf()) }
     var activitiesQueryCount by remember { mutableIntStateOf(0) }
@@ -92,7 +96,7 @@ fun ActivityList(scrollState: ScalingLazyListState = rememberScalingLazyListStat
         key1 = activitiesQueryCount,
         block = {
             async(Dispatchers.Default) {
-                activities = WearRPCClient(ContextMessenger(context)).queryActivities()
+                activities = rpc.queryActivities()
             }
         },
     )
@@ -103,8 +107,7 @@ fun ActivityList(scrollState: ScalingLazyListState = rememberScalingLazyListStat
         key1 = activitiesQueryCount,
         block = {
             async(Dispatchers.Default) {
-                currentActivities =
-                    WearRPCClient(ContextMessenger(context)).queryCurrentActivities()
+                currentActivities = rpc.queryCurrentActivities()
             }
         },
     )
@@ -125,7 +128,23 @@ fun ActivityList(scrollState: ScalingLazyListState = rememberScalingLazyListStat
             val startedAt =
                 currentActivities.filter { it.id == activity.id }.getOrNull(0)?.startedAt
             item {
-                ActivityChip(activity, startedAt)
+                ActivityChip(
+                    activity, startedAt,
+                    onClick = {
+                        composableScope.launch(Dispatchers.Default){
+                            val tags = rpc.queryTagsForActivity(activity.id)
+                            composableScope.launch(Dispatchers.Main) {
+                                Toast.makeText(
+                                    context,
+                                    "`${activity.name}` (id: ${activity.id}) has tags [${
+                                        tags.joinToString(",") { it.name }
+                                    }]",
+                                    Toast.LENGTH_SHORT,
+                                ).show()
+                            }
+                        }
+                    },
+                )
             }
         }
         item {
