@@ -125,13 +125,14 @@ fun ActivityList(scrollState: ScalingLazyListState = rememberScalingLazyListStat
         state = scrollState,
     ) {
         for (activity in activities) {
-            val startedAt =
-                currentActivities.filter { it.id == activity.id }.getOrNull(0)?.startedAt
+            val currentActivity = currentActivities.filter { it.id == activity.id }.getOrNull(0)
             item {
                 ActivityChip(
-                    activity, startedAt,
+                    activity,
+                    startedAt = currentActivity?.startedAt,
+                    tags = currentActivity?.tags ?: arrayOf(),
                     onClick = {
-                        composableScope.launch(Dispatchers.Default){
+                        composableScope.launch(Dispatchers.Default) {
                             val tags = rpc.queryTagsForActivity(activity.id)
                             composableScope.launch(Dispatchers.Main) {
                                 Toast.makeText(

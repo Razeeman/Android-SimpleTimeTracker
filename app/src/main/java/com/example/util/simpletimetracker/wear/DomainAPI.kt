@@ -34,11 +34,14 @@ class DomainAPI(
     }
 
     override suspend fun queryCurrentActivities(): Array<CurrentActivity> {
-        return runningRecordInteractor.getAll().map {
+        return runningRecordInteractor.getAll().map { record ->
             CurrentActivity(
-                it.id,
-                it.timeStarted,
-                arrayOf(),  // TODO - Pull actual list of active tags
+                record.id,
+                record.timeStarted,
+                record.tagIds.map { tagId ->
+                    val tag = recordTagInteractor.get(tagId)
+                    Tag(id = tag?.id ?: -1, name = tag?.name ?: "")
+                }.filter { it.id > 0 }.toTypedArray(),
             )
         }.toTypedArray()
     }

@@ -5,14 +5,12 @@
  */
 package com.example.util.simpletimetracker.presentation
 
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,18 +19,33 @@ import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Text
 import com.example.util.simpletimetracker.presentation.theme.hexCodeToColor
 import com.example.util.simpletimetracker.wearrpc.Activity
+import com.example.util.simpletimetracker.wearrpc.Tag
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun ActivityChip(activity: Activity, startedAt: Long? = null, onClick: () -> Unit = {}) {
-    val context = LocalContext.current
+fun ActivityChip(
+    activity: Activity,
+    startedAt: Long? = null,
+    tags: Array<Tag> = arrayOf(),
+    onClick: () -> Unit = {},
+) {
     val briefIcon = if (activity.icon.startsWith("ic_")) {
         "?"
     } else {
         activity.icon.substring(0, activity.icon.length.coerceAtMost(2))
+    }
+    val tagsList = if (tags.isNotEmpty()) {
+        tags.joinToString(", ") { it.name }
+    } else {
+        ""
+    }
+    val tagString = if (tagsList.length > 0) {
+        " ($tagsList)"
+    } else {
+        ""
     }
     val color = hexCodeToColor(activity.color)
     var modifier = Modifier
@@ -42,7 +55,7 @@ fun ActivityChip(activity: Activity, startedAt: Long? = null, onClick: () -> Uni
         modifier = modifier,
         label = {
             Text(
-                text = "$briefIcon : ${activity.name}",
+                text = "$briefIcon : ${activity.name}" + tagString,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -99,4 +112,16 @@ fun SampleSleep() {
 @Composable
 fun CurrentlyRunning() {
     ActivityChip(Activity(456, "Sleeping", "🛏️", "#ABCDEF"), startedAt = 1706751601000L)
+}
+
+@Preview()
+@Composable
+fun CurrentlyRunningWithTags() {
+    ActivityChip(
+        Activity(456, "Sleeping", "🛏️", "#ABCDEF"), startedAt = 1706751601000L,
+        tags = arrayOf(
+            Tag(id = 2, name = "Work"),
+            Tag(id = 4, name = "Hotel"),
+        ),
+    )
 }
