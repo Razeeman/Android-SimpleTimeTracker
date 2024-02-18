@@ -10,15 +10,16 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.util.simpletimetracker.presentation.components.ActivitiesList
 import com.example.util.simpletimetracker.presentation.remember.rememberActivities
 import com.example.util.simpletimetracker.presentation.remember.rememberCurrentActivities
+import com.example.util.simpletimetracker.wearrpc.Activity
 import com.example.util.simpletimetracker.wearrpc.ContextMessenger
 import com.example.util.simpletimetracker.wearrpc.WearRPCClient
-
 
 @Composable
 fun ActivitiesScreen(onSelectActivity: (activityId: Long) -> Unit) {
     val rpc = WearRPCClient(ContextMessenger(LocalContext.current))
     val (activities, refreshActivities) = rememberActivities(rpc)
-    val (currentActivities, refreshCurrentActivities) = rememberCurrentActivities(rpc)
+    val (currentActivities, affectCurrentActivities, refreshCurrentActivities) =
+        rememberCurrentActivities(rpc)
 
     ActivitiesList(
         activities,
@@ -26,12 +27,14 @@ fun ActivitiesScreen(onSelectActivity: (activityId: Long) -> Unit) {
         onSelectActivity = {
             onSelectActivity(it.id)
         },
+        onDeselectActivity = { deselectedActivity: Activity ->
+            affectCurrentActivities {
+                currentActivities.filter { it.id != deselectedActivity.id }.toTypedArray()
+            }
+        },
         onRefresh = {
             refreshActivities()
             refreshCurrentActivities()
         },
     )
 }
-
-
-

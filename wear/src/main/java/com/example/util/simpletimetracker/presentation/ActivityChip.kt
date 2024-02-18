@@ -5,18 +5,23 @@
  */
 package com.example.util.simpletimetracker.presentation
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material.Chip
-import androidx.wear.compose.material.ChipDefaults
+import androidx.wear.compose.material.Switch
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.ToggleChip
+import androidx.wear.compose.material.ToggleChipDefaults
 import com.example.util.simpletimetracker.presentation.theme.hexCodeToColor
 import com.example.util.simpletimetracker.wearrpc.Activity
 import com.example.util.simpletimetracker.wearrpc.Tag
@@ -30,7 +35,7 @@ fun ActivityChip(
     activity: Activity,
     startedAt: Long? = null,
     tags: Array<Tag> = arrayOf(),
-    onClick: () -> Unit = {},
+    onClick: (Boolean) -> Unit = {},
 ) {
     val briefIcon = if (activity.icon.startsWith("ic_")) {
         "?"
@@ -51,7 +56,8 @@ fun ActivityChip(
     var modifier = Modifier
         .fillMaxWidth(0.9f)
         .padding(top = 10.dp)
-    Chip(
+    var switchChecked by remember { mutableStateOf(startedAt != null) }
+    ToggleChip(
         modifier = modifier,
         label = {
             Text(
@@ -60,13 +66,6 @@ fun ActivityChip(
                 overflow = TextOverflow.Ellipsis,
             )
         },
-        border = ChipDefaults.chipBorder(
-            borderStroke = if (startedAt != null) {
-                BorderStroke(2.dp, Color.White)
-            } else {
-                null
-            },
-        ),
         secondaryLabel = {
             if (startedAt != null) {
                 Text("Since ${recentTimestampToString(startedAt)}")
@@ -74,10 +73,26 @@ fun ActivityChip(
                 null
             }
         },
-        colors = ChipDefaults.chipColors(
-            backgroundColor = color,
+        colors = ToggleChipDefaults.toggleChipColors(
+            checkedStartBackgroundColor = color,
+            checkedEndBackgroundColor = color,
+            uncheckedToggleControlColor = ToggleChipDefaults.SwitchUncheckedIconColor,
         ),
-        onClick = onClick,
+        onCheckedChange = {
+            switchChecked = it
+            onClick(switchChecked)
+        },
+        checked = switchChecked,
+        toggleControl = {
+            Switch(
+                checked = switchChecked,
+                enabled = true,
+                modifier = Modifier.semantics {
+                    this.contentDescription =
+                        if (switchChecked) "On" else "Off"
+                },
+            )
+        },
     )
 }
 

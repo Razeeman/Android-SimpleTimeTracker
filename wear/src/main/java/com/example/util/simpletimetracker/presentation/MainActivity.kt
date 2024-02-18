@@ -27,4 +27,3 @@ fun WearApp() {
         MainNavigator()
     }
 }
-

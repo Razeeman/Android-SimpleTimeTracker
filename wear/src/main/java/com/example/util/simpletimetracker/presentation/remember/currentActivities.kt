@@ -11,11 +11,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.example.util.simpletimetracker.wearrpc.CurrentActivity
 import com.example.util.simpletimetracker.wearrpc.WearRPCClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 /**
  * Handles asynchronous retrieval of the currently running activities in Simple Time Tracker on the
@@ -35,13 +37,31 @@ import kotlinx.coroutines.async
  * from the phone.
  */
 @Composable
-fun rememberCurrentActivities(rpc: WearRPCClient): Pair<Array<CurrentActivity>, () -> Unit> {
+fun rememberCurrentActivities(
+    rpc: WearRPCClient,
+): Triple<
+    Array<CurrentActivity>,
+    ((Array<CurrentActivity>) -> (Array<CurrentActivity>)) -> Unit,
+    () -> Unit,
+    > {
     var currentActivities: Array<CurrentActivity> by remember { mutableStateOf(arrayOf()) }
     var currentActivitiesQueryCount by remember { mutableIntStateOf(0) }
+    val queryCurrentActivities = { currentActivitiesQueryCount++ }
+    val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(currentActivitiesQueryCount) {
         async(Dispatchers.Default) {
             currentActivities = rpc.queryCurrentActivities()
         }
     }
-    return Pair(currentActivities) { currentActivitiesQueryCount++ }
+
+    return Triple(
+        currentActivities,
+        { affectCurrentActivities ->
+            currentActivities = affectCurrentActivities(currentActivities)
+            coroutineScope.launch(Dispatchers.Default) {
+                rpc.setCurrentActivities(currentActivities)
+                queryCurrentActivities()
+            }
+        }, { queryCurrentActivities() },
+    )
 }

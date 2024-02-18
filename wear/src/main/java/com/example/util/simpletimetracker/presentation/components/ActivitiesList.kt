@@ -19,6 +19,7 @@ fun ActivitiesList(
     activities: Array<Activity>,
     currentActivities: Array<CurrentActivity>,
     onSelectActivity: (activity: Activity) -> Unit,
+    onDeselectActivity: (activity: Activity) -> Unit,
     onRefresh: () -> Unit,
 ) {
     ScaffoldedScrollingColumn {
@@ -29,7 +30,7 @@ fun ActivitiesList(
                     activity,
                     startedAt = currentActivity?.startedAt,
                     tags = currentActivity?.tags ?: arrayOf(),
-                    onClick = { onSelectActivity(activity) },
+                    onClick = { if (it) onSelectActivity(activity) else onDeselectActivity(activity) },
                 )
             }
         }
@@ -56,6 +57,7 @@ private fun Preview() {
         activities,
         currentActivities = currents,
         onSelectActivity = { /* `it` is the selected activity */ },
+        onDeselectActivity = { /* `it` is the deselected activity */ },
         onRefresh = { /* What to do when requesting a refresh */ }
     )
 }
