@@ -56,7 +56,13 @@ class ContextMessenger(private val context: Context): Messenger {
 
     private suspend fun findNearestNode(capability: String): Node? {
         // Find all nodes which support the time tracking message
-        Log.d(TAG, "Searching for nodes with Simple Time Tracker installed")
+        Log.d(TAG, "Searching for nodes with ${context.packageName} installed")
+        val nodeClient = Wearable.getNodeClient(context)
+        val connectedNodes = Tasks.await(nodeClient.connectedNodes)
+        connectedNodes.forEach {
+            Log.d(TAG, "Connected to ${it.displayName} (id: ${it.id}) (nearby: ${it.isNearby})")
+        }
+
         val capabilityInfo: CapabilityInfo = Tasks.await(
             Wearable.getCapabilityClient(context)
                 .getCapability(capability, CapabilityClient.FILTER_REACHABLE),
