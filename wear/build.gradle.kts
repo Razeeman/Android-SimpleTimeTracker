@@ -58,13 +58,18 @@ android {
 }
 
 dependencies {
+
     var compose_version = "1.3.1"
     var wear_compose_version = "1.1.0"
-    // Custom Dependencies
+    // Runtime Dependencies
+    implementation("androidx.wear.compose:compose-navigation:$wear_compose_version")
     implementation("com.google.android.horologist:horologist-compose-layout:0.2.7")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
     implementation("androidx.compose.material:material-icons-core:1.6.1")
     implementation(project(":wearrpc"))
+
+    // Dev Dependencies
+    implementation("androidx.wear:wear-tooling-preview:1.0.0")
 
     // Default Dependencies
     implementation("androidx.core:core-ktx:1.7.0")
