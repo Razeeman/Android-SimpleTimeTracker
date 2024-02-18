@@ -99,7 +99,6 @@ class QueryCurrentActivitiesTest : WearRPCServerTestBase() {
         val activities = arrayOf(
             CurrentActivity(
                 42,
-                "Activities",
                 jan_31_2024_afternoon,
                 arrayOf(Tag(1, "Friends"), Tag(2, "Family")),
             ),
@@ -116,13 +115,11 @@ class QueryCurrentActivitiesTest : WearRPCServerTestBase() {
         val activities = arrayOf(
             CurrentActivity(
                 42,
-                "Activities",
                 jan_31_2024_afternoon,
                 arrayOf(Tag(1, "Friends"), Tag(2, "Family")),
             ),
             CurrentActivity(
                 42,
-                "Chores",
                 jan_31_2024_evening,
                 arrayOf(Tag(5, "Shopping")),
             ),
