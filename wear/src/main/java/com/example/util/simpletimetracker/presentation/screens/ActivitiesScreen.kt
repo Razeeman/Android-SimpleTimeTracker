@@ -18,8 +18,9 @@ import com.example.util.simpletimetracker.wearrpc.WearRPCClient
 fun ActivitiesScreen(onSelectActivity: (activityId: Long) -> Unit) {
     val rpc = WearRPCClient(ContextMessenger(LocalContext.current))
     val (activities, refreshActivities) = rememberActivities(rpc)
-    val (currentActivities, affectCurrentActivities, refreshCurrentActivities) =
-        rememberCurrentActivities(rpc)
+    val (currentActivities, setCurrentActivities, refreshCurrentActivities) = rememberCurrentActivities(
+        rpc,
+    )
 
     ActivitiesList(
         activities,
@@ -28,9 +29,9 @@ fun ActivitiesScreen(onSelectActivity: (activityId: Long) -> Unit) {
             onSelectActivity(it.id)
         },
         onDeselectActivity = { deselectedActivity: Activity ->
-            affectCurrentActivities {
+            val remainingActivities =
                 currentActivities.filter { it.id != deselectedActivity.id }.toTypedArray()
-            }
+            setCurrentActivities(remainingActivities)
         },
         onRefresh = {
             refreshActivities()
