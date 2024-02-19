@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
+import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.wearrpc.Activity
 import com.example.util.simpletimetracker.wearrpc.CurrentActivity
 import com.example.util.simpletimetracker.wearrpc.Settings
@@ -47,20 +48,19 @@ class DomainAPI(
     }
 
     override suspend fun setCurrentActivities(activities: Array<CurrentActivity>) {
-        TODO("Not yet implemented")
-        // This is a little tricky... The given `activities` should be considered a declarative
-        // statement of the activities expected to be running upon successful completion of this
-        // method.
-
-        // Currently running activities not in the given Array should be stopped
-
-        // Activities in the given Array that are not running should be started
-
-        // For activities in the given Array which are running...
-        // If the start dates + tags are unchanged, then leave the activity running.
-        // If the start dates and/or tags are different, stop the current running activity
-        // instance and restart it as of the requested start date.
-
+        val currents = queryCurrentActivities()
+        val unchanged = currents.filter { c -> activities.any {a -> a == c} }
+        val stopped = currents.filter { c -> unchanged.none { u -> u == c} }
+        val started = activities.filter { a -> currents.none { c -> a == c } }
+        stopped.forEach { runningRecordInteractor.remove(it.id) }
+        started.forEach { runningRecordInteractor.add(
+            RunningRecord(
+                id = it.id,
+                timeStarted = it.startedAt,
+                comment = "",
+                tagIds = it.tags.map { t -> t.id },
+            )
+        ) }
     }
 
     override suspend fun queryTagsForActivity(activityId: Long): Array<Tag> {
