@@ -9,7 +9,6 @@ package com.example.util.simpletimetracker.presentation.components
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.tooling.preview.devices.WearDevices
-import com.example.util.simpletimetracker.presentation.ActivityChip
 import com.example.util.simpletimetracker.presentation.layout.ScaffoldedScrollingColumn
 import com.example.util.simpletimetracker.wearrpc.Activity
 import com.example.util.simpletimetracker.wearrpc.CurrentActivity
