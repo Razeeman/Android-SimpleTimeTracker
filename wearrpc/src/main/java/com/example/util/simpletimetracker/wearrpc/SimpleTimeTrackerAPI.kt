@@ -32,7 +32,7 @@ interface SimpleTimeTrackerAPI {
     suspend fun queryCurrentActivities(): Array<CurrentActivity>
 
     /**
-     * /stt//POST/activities/current
+     * /stt//PUT/activities/current
      *
      * Replaces the currently running activity/activities with the given activities
      */

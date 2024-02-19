@@ -9,7 +9,7 @@ object Request {
     val PING = "/stt//GET/ping"
     val QUERY_ACTIVITIES = "/stt//GET/activities"
     val QUERY_CURRENT_ACTIVITIES = "/stt//GET/activities/current"
-    val SET_CURRENT_ACTIVITIES = "/stt//POST/activities/current"
+    val SET_CURRENT_ACTIVITIES = "/stt//PUT/activities/current"
     val QUERY_TAGS_FOR_ACTIVITY = "/stt//GET/activities/:ID/tags"
     val QUERY_SETTINGS = "/stt//GET/settings"
 }

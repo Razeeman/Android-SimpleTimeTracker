@@ -8,7 +8,7 @@
         <item>/stt//GET/ping</item>
         <item>/stt//GET/activities</item>
         <item>/stt//GET/activities/current</item>
-        <item>/stt//POST/activities/current</item>
+        <item>/stt//PUT/activities/current</item>
         <item>/stt//GET/activities/:ID/tags</item>
         <item>/stt//GET/settings</item>
     </string-array>
