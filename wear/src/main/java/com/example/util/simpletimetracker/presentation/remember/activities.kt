@@ -38,13 +38,10 @@ import kotlinx.coroutines.async
 fun rememberActivities(rpc: WearRPCClient): Pair<Array<Activity>, () -> Unit> {
     var activities: Array<Activity> by remember { mutableStateOf(arrayOf()) }
     var activitiesQueryCount by remember { mutableIntStateOf(0) }
-    LaunchedEffect(
-        key1 = activitiesQueryCount,
-        block = {
-            async(Dispatchers.Default) {
-                activities = rpc.queryActivities()
-            }
-        },
-    )
+    LaunchedEffect(activitiesQueryCount) {
+        async(Dispatchers.Default) {
+            activities = rpc.queryActivities()
+        }
+    }
     return Pair(activities) { activitiesQueryCount++ }
 }

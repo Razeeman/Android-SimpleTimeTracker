@@ -39,13 +39,10 @@ import kotlinx.coroutines.async
 fun rememberTags(rpc: WearRPCClient, activityId: Long): Pair<Array<Tag>, () -> Unit> {
     var tags: Array<Tag> by remember { mutableStateOf(arrayOf()) }
     var tagsQueryCount by remember { mutableIntStateOf(0) }
-    LaunchedEffect(
-        key1 = tagsQueryCount,
-        block = {
-            async(Dispatchers.Default) {
-                tags = rpc.queryTagsForActivity(activityId)
-            }
-        },
-    )
+    LaunchedEffect(tagsQueryCount) {
+        async(Dispatchers.Default) {
+            tags = rpc.queryTagsForActivity(activityId)
+        }
+    }
     return Pair(tags) { tagsQueryCount++ }
 }
