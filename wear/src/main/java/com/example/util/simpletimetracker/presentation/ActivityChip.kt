@@ -47,7 +47,7 @@ fun ActivityChip(
     } else {
         ""
     }
-    val tagString = if (tagsList.length > 0) {
+    val tagString = if (tagsList.isNotEmpty()) {
         " ($tagsList)"
     } else {
         ""
@@ -108,7 +108,6 @@ fun recentTimestampToString(epochMillis: Long): String {
     } else {
         return time.format(DateTimeFormatter.ISO_DATE_TIME).replace("T", " ")
     }
-
 }
 
 @Preview()
