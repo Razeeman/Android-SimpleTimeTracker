@@ -76,7 +76,8 @@ fun ActivityChip(
         colors = ToggleChipDefaults.toggleChipColors(
             checkedStartBackgroundColor = color,
             checkedEndBackgroundColor = color,
-            uncheckedToggleControlColor = ToggleChipDefaults.SwitchUncheckedIconColor,
+            uncheckedStartBackgroundColor = color,
+            uncheckedEndBackgroundColor = color,
         ),
         onCheckedChange = {
             switchChecked = it
