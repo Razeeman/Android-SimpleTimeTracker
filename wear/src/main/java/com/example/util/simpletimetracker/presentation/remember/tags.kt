@@ -24,8 +24,7 @@ import kotlinx.coroutines.async
  * Usage:
  * ```
  * val activityId: Long = /* obtain the ID (e.g. as a parameter) */
- * val rpc = /* create a WearRPCClient instance */
- * val (tags, refresh) = rememberTags(rpc, activityId)
+ * val (tags, refresh) = rememberTags(activityId)
  * ```
  *
  * Initially, `tags` will be an empty array. Once the actual tags are received
@@ -36,7 +35,8 @@ import kotlinx.coroutines.async
  * from the phone.
  */
 @Composable
-fun rememberTags(rpc: WearRPCClient, activityId: Long): Pair<Array<Tag>, () -> Unit> {
+fun rememberTags(activityId: Long): Pair<Array<Tag>, () -> Unit> {
+    var rpc = rememberRPCClient()
     var tags: Array<Tag> by remember { mutableStateOf(arrayOf()) }
     var tagsQueryCount by remember { mutableIntStateOf(0) }
     LaunchedEffect(tagsQueryCount) {

@@ -6,21 +6,16 @@
 package com.example.util.simpletimetracker.presentation.screens
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import com.example.util.simpletimetracker.presentation.components.ActivitiesList
 import com.example.util.simpletimetracker.presentation.remember.rememberActivities
 import com.example.util.simpletimetracker.presentation.remember.rememberCurrentActivities
 import com.example.util.simpletimetracker.wearrpc.Activity
-import com.example.util.simpletimetracker.wearrpc.ContextMessenger
-import com.example.util.simpletimetracker.wearrpc.WearRPCClient
+
 
 @Composable
 fun ActivitiesScreen(onSelectActivity: (activityId: Long) -> Unit) {
-    val rpc = WearRPCClient(ContextMessenger(LocalContext.current))
-    val (activities, refreshActivities) = rememberActivities(rpc)
-    val (currentActivities, setCurrentActivities, refreshCurrentActivities) = rememberCurrentActivities(
-        rpc,
-    )
+    val (activities, refreshActivities) = rememberActivities()
+    val (currentActivities, setCurrentActivities, refreshCurrentActivities) = rememberCurrentActivities()
 
     ActivitiesList(
         activities,

@@ -25,27 +25,25 @@ import kotlinx.coroutines.launch
  *
  * Usage:
  * ```
- * val rpc = /* create a WearRPCClient instance */
- * val (currents, setCurrents, refresh) = rememberCurrentActivities(rpc)
+ * val (currents, setCurrents, refresh) = rememberCurrentActivities()
  * ```
  *
  * Initially, `currents` will be an empty array. Once the actual current activities are received
  * from the phone, `currents` will *automatically* update to that array and the encapsulating
  * Composable will *automatically* re-render.
- * 
+ *
  * `setCurrents` is a function you can call to set the array of current activities on the phone.
  *
  * `refresh` is a function you can call to forcibly re-request the array of current activities
  * from the phone.
  */
 @Composable
-fun rememberCurrentActivities(
-    rpc: WearRPCClient,
-): Triple<
+fun rememberCurrentActivities(): Triple<
     Array<CurrentActivity>,
         (Array<CurrentActivity>) -> Unit,
         () -> Unit,
     > {
+    var rpc = rememberRPCClient()
     var currentActivities: Array<CurrentActivity> by remember { mutableStateOf(arrayOf()) }
     var currentActivitiesQueryCount by remember { mutableIntStateOf(0) }
     val queryCurrentActivities = { currentActivitiesQueryCount++ }

@@ -23,8 +23,7 @@ import kotlinx.coroutines.async
  *
  * Usage:
  * ```
- * val rpc = /* create a WearRPCClient instance */
- * val (activities, refresh) = rememberActivities(rpc)
+ * val (activities, refresh) = rememberActivities()
  * ```
  *
  * Initially, `activities` will be an empty array. Once the actual activities are received
@@ -35,7 +34,8 @@ import kotlinx.coroutines.async
  * from the phone.
  */
 @Composable
-fun rememberActivities(rpc: WearRPCClient): Pair<Array<Activity>, () -> Unit> {
+fun rememberActivities(): Pair<Array<Activity>, () -> Unit> {
+    var rpc = rememberRPCClient()
     var activities: Array<Activity> by remember { mutableStateOf(arrayOf()) }
     var activitiesQueryCount by remember { mutableIntStateOf(0) }
     LaunchedEffect(activitiesQueryCount) {
