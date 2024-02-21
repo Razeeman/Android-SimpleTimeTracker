@@ -11,7 +11,6 @@ import com.example.util.simpletimetracker.presentation.remember.rememberActiviti
 import com.example.util.simpletimetracker.presentation.remember.rememberCurrentActivities
 import com.example.util.simpletimetracker.wearrpc.Activity
 
-
 @Composable
 fun ActivitiesScreen(onSelectActivity: (activityId: Long) -> Unit) {
     val (activities, refreshActivities) = rememberActivities()

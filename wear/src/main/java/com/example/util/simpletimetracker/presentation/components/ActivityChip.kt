@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
@@ -18,10 +19,11 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material.SplitToggleChip
 import androidx.wear.compose.material.Switch
 import androidx.wear.compose.material.Text
-import androidx.wear.compose.material.ToggleChip
 import androidx.wear.compose.material.ToggleChipDefaults
+import com.example.util.simpletimetracker.presentation.remember.rememberRPCClient
 import com.example.util.simpletimetracker.presentation.theme.hexCodeToColor
 import com.example.util.simpletimetracker.wearrpc.Activity
 import com.example.util.simpletimetracker.wearrpc.Tag
@@ -35,8 +37,13 @@ fun ActivityChip(
     activity: Activity,
     startedAt: Long? = null,
     tags: Array<Tag> = arrayOf(),
-    onClick: (Boolean) -> Unit = {},
+    onSelectActivity: () -> Unit = {},
+    onSelectActivitySkipTagSelection: () -> Unit = {},
+    onDeselectActivity: () -> Unit = {},
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    val rpcClient = rememberRPCClient()
+
     val briefIcon = if (activity.icon.startsWith("ic_")) {
         "?"
     } else {
@@ -57,7 +64,7 @@ fun ActivityChip(
         .fillMaxWidth(0.9f)
         .padding(top = 10.dp)
     var switchChecked by remember { mutableStateOf(startedAt != null) }
-    ToggleChip(
+    SplitToggleChip(
         modifier = modifier,
         label = {
             Text(
@@ -73,17 +80,21 @@ fun ActivityChip(
                 null
             }
         },
-        colors = ToggleChipDefaults.toggleChipColors(
-            checkedStartBackgroundColor = color,
-            checkedEndBackgroundColor = color,
-            uncheckedStartBackgroundColor = color,
-            uncheckedEndBackgroundColor = color,
+        colors = ToggleChipDefaults.splitToggleChipColors(
+            backgroundColor = color,
         ),
         onCheckedChange = {
+            if (it) {
+                onSelectActivitySkipTagSelection()
+            } else {
+                onDeselectActivity()
+            }
             switchChecked = it
-            onClick(switchChecked)
         },
         checked = switchChecked,
+        onClick = {
+            onSelectActivity()
+        },
         toggleControl = {
             Switch(
                 checked = switchChecked,
