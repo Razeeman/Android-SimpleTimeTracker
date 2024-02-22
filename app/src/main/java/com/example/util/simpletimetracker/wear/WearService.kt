@@ -8,6 +8,7 @@ package com.example.util.simpletimetracker.wear
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.wearrpc.WearRPCServer
@@ -40,6 +41,9 @@ class WearService : WearableListenerService() {
     lateinit var runningRecordInteractor: RunningRecordInteractor
 
     @Inject
+    lateinit var removeRunningRecordMediator: RemoveRunningRecordMediator
+
+    @Inject
     lateinit var appColorMapper: AppColorMapper
 
     override fun onRequest(nodeId: String, path: String, request: ByteArray): Task<ByteArray>? {
@@ -49,6 +53,7 @@ class WearService : WearableListenerService() {
                 recordTypeInteractor,
                 recordTagInteractor,
                 runningRecordInteractor,
+                removeRunningRecordMediator,
                 appColorMapper,
             ),
         )

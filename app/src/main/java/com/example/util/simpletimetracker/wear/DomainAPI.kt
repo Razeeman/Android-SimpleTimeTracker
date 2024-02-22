@@ -8,6 +8,7 @@ package com.example.util.simpletimetracker.wear
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.model.RunningRecord
@@ -22,6 +23,7 @@ class DomainAPI(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val appColorMapper: AppColorMapper,
 ) : SimpleTimeTrackerAPI {
 
@@ -49,18 +51,20 @@ class DomainAPI(
 
     override suspend fun setCurrentActivities(activities: Array<CurrentActivity>) {
         val currents = queryCurrentActivities()
-        val unchanged = currents.filter { c -> activities.any {a -> a == c} }
-        val stopped = currents.filter { c -> unchanged.none { u -> u == c} }
+        val unchanged = currents.filter { c -> activities.any { a -> a == c } }
+        val stopped = currents.filter { c -> unchanged.none { u -> u == c } }
         val started = activities.filter { a -> currents.none { c -> a == c } }
-        stopped.forEach { runningRecordInteractor.remove(it.id) }
-        started.forEach { runningRecordInteractor.add(
-            RunningRecord(
-                id = it.id,
-                timeStarted = it.startedAt,
-                comment = "",
-                tagIds = it.tags.map { t -> t.id },
-            )
-        ) }
+        stopped.forEach { removeRunningRecordMediator.removeWithRecordAdd(asRunningRecord(it)) }
+        started.forEach { runningRecordInteractor.add(asRunningRecord(it)) }
+    }
+
+    private fun asRunningRecord(currentActivity: CurrentActivity): RunningRecord {
+        return RunningRecord(
+            id = currentActivity.id,
+            timeStarted = currentActivity.startedAt,
+            comment = "",
+            tagIds = currentActivity.tags.map { t -> t.id },
+        )
     }
 
     override suspend fun queryTagsForActivity(activityId: Long): Array<Tag> {
