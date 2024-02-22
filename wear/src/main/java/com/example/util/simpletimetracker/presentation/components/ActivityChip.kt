@@ -37,9 +37,9 @@ fun ActivityChip(
     activity: Activity,
     startedAt: Long? = null,
     tags: Array<Tag> = arrayOf(),
-    onSelectActivity: () -> Unit = {},
-    onSelectActivitySkipTagSelection: () -> Unit = {},
-    onDeselectActivity: () -> Unit = {},
+    onPress: () -> Unit = {},
+    onToggleOn: () -> Unit = {},
+    onToggleOff: () -> Unit = {},
 ) {
     val briefIcon = if (activity.icon.startsWith("ic_")) {
         "?"
@@ -60,7 +60,7 @@ fun ActivityChip(
     var modifier = Modifier
         .fillMaxWidth(0.9f)
         .padding(top = 10.dp)
-    var switchChecked by remember { mutableStateOf(startedAt != null) }
+    var switchChecked = startedAt != null
     SplitToggleChip(
         modifier = modifier,
         label = {
@@ -87,16 +87,13 @@ fun ActivityChip(
         ),
         onCheckedChange = {
             if (it) {
-                onSelectActivitySkipTagSelection()
+                onToggleOn()
             } else {
-                onDeselectActivity()
+                onToggleOff()
             }
-            switchChecked = it
         },
         checked = switchChecked,
-        onClick = {
-            onSelectActivity()
-        },
+        onClick = onPress,
         toggleControl = {
             Switch(
                 checked = switchChecked,

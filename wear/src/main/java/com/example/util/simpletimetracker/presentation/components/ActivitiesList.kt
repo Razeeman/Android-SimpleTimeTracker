@@ -1,4 +1,3 @@
-
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -6,7 +5,6 @@
  */
 package com.example.util.simpletimetracker.presentation.components
 
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
@@ -16,57 +14,27 @@ import com.example.util.simpletimetracker.presentation.layout.ScaffoldedScrollin
 import com.example.util.simpletimetracker.presentation.remember.rememberRPCClient
 import com.example.util.simpletimetracker.wearrpc.Activity
 import com.example.util.simpletimetracker.wearrpc.CurrentActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Composable
 fun ActivitiesList(
     activities: Array<Activity>,
     currentActivities: Array<CurrentActivity>,
     onSelectActivity: (activity: Activity) -> Unit,
-    onDeselectActivity: (activity: Activity) -> Unit,
+    onEnableActivity: (activity: Activity) -> Unit,
+    onDisableActivity: (activity: Activity) -> Unit,
     onRefresh: () -> Unit,
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    val rpcClient = rememberRPCClient()
-    val context = LocalContext.current
-
     ScaffoldedScrollingColumn {
         for (activity in activities) {
             val currentActivity = currentActivities.filter { it.id == activity.id }.getOrNull(0)
-            item {
+            item(key = activity.id) {
                 ActivityChip(
                     activity,
                     startedAt = currentActivity?.startedAt,
                     tags = currentActivity?.tags ?: arrayOf(),
-                    onSelectActivity = {
-                        coroutineScope.launch(Dispatchers.Default) {
-                            val activityTags = rpcClient.queryTagsForActivity(activity.id)
-                            coroutineScope.launch(Dispatchers.Main) {
-                                if (activityTags.isNotEmpty()) {
-                                    onSelectActivity(activity)
-                                } else {
-                                    Toast.makeText(context, "Activity has no tags", Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                        }
-                    },
-                    onSelectActivitySkipTagSelection = {
-                        coroutineScope.launch(Dispatchers.Default) {
-                            rpcClient.setCurrentActivities(
-                                currentActivities.plus(
-                                    CurrentActivity(
-                                        activity.id,
-                                        System.currentTimeMillis(),
-                                        arrayOf(),
-                                    ),
-                                ),
-                            )
-                        }
-                    },
-                    onDeselectActivity = {
-                        onDeselectActivity(activity)
-                    },
+                    onPress = { onSelectActivity(activity) },
+                    onToggleOn = { onEnableActivity(activity) },
+                    onToggleOff = { onDisableActivity(activity) },
                 )
             }
         }
@@ -93,7 +61,8 @@ private fun Preview() {
         activities,
         currentActivities = currents,
         onSelectActivity = { /* `it` is the selected activity */ },
-        onDeselectActivity = { /* `it` is the deselected activity */ },
+        onEnableActivity = { /* `it` is the enabled activity */ },
+        onDisableActivity = { /* `it` is the disabled activity */ },
         onRefresh = { /* What to do when requesting a refresh */ },
     )
 }
