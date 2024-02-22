@@ -11,9 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
@@ -21,9 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.SplitToggleChip
 import androidx.wear.compose.material.Switch
+import androidx.wear.compose.material.SwitchDefaults
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.ToggleChipDefaults
-import com.example.util.simpletimetracker.presentation.remember.rememberRPCClient
 import com.example.util.simpletimetracker.presentation.theme.hexCodeToColor
 import com.example.util.simpletimetracker.wearrpc.Activity
 import com.example.util.simpletimetracker.wearrpc.Tag
@@ -41,9 +41,6 @@ fun ActivityChip(
     onSelectActivitySkipTagSelection: () -> Unit = {},
     onDeselectActivity: () -> Unit = {},
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    val rpcClient = rememberRPCClient()
-
     val briefIcon = if (activity.icon.startsWith("ic_")) {
         "?"
     } else {
@@ -82,6 +79,11 @@ fun ActivityChip(
         },
         colors = ToggleChipDefaults.splitToggleChipColors(
             backgroundColor = color,
+            splitBackgroundOverlayColor = if (switchChecked) {
+                Color.White.copy(alpha = .1F)
+            } else {
+                Color.Black.copy(alpha = .3F)
+            },
         ),
         onCheckedChange = {
             if (it) {
@@ -100,9 +102,14 @@ fun ActivityChip(
                 checked = switchChecked,
                 enabled = true,
                 modifier = Modifier.semantics {
-                    this.contentDescription =
-                        if (switchChecked) "On" else "Off"
+                    this.contentDescription = if (switchChecked) "On" else "Off"
                 },
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = Color.White,
+                    checkedTrackColor = Color.White.copy(alpha = 0.5F),
+                    uncheckedThumbColor = Color.White,
+                    uncheckedTrackColor = Color.White.copy(alpha = 0.5F),
+                ),
             )
         },
     )
@@ -132,6 +139,15 @@ fun SampleCooking() {
 @Composable
 fun SampleSleep() {
     ActivityChip(Activity(456, "Sleeping", "🛏️", "#ABCDEF"))
+}
+
+@Preview()
+@Composable
+fun White() {
+    // TODO handle the look of light colored chips
+    // Note: A white color is only possible when using the RGB color picker.
+    // The default color options in the phone app are mostly darker shades.
+    ActivityChip(Activity(456, "Sleeping", "🛏️", "#FFFFFF"))
 }
 
 @Preview()
