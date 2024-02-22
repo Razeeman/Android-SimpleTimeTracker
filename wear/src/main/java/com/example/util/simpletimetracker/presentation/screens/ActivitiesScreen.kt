@@ -8,11 +8,11 @@ package com.example.util.simpletimetracker.presentation.screens
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import com.example.util.simpletimetracker.presentation.components.ActivitiesList
+import com.example.util.simpletimetracker.presentation.mediators.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.presentation.remember.rememberActivities
 import com.example.util.simpletimetracker.presentation.remember.rememberCurrentActivities
 import com.example.util.simpletimetracker.presentation.remember.rememberRPCClient
 import com.example.util.simpletimetracker.wearrpc.Activity
-import com.example.util.simpletimetracker.wearrpc.CurrentActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -21,7 +21,8 @@ fun ActivitiesScreen(onSelectActivity: (activityId: Long) -> Unit) {
     val coroutineScope = rememberCoroutineScope()
     val rpc = rememberRPCClient()
     val (activities, refreshActivities) = rememberActivities()
-    val (currentActivities, setCurrentActivities, refreshCurrentActivities) = rememberCurrentActivities()
+    val (currentActivities, refreshCurrentActivities) = rememberCurrentActivities()
+    val currentActivitiesMediator = CurrentActivitiesMediator(rpc, currentActivities)
     val refresh = {
         refreshActivities()
         refreshCurrentActivities()
@@ -36,38 +37,22 @@ fun ActivitiesScreen(onSelectActivity: (activityId: Long) -> Unit) {
                 if (activityTags.isNotEmpty()) {
                     coroutineScope.launch(Dispatchers.Main) { onSelectActivity(it.id) }
                 } else {
-                    rpc.setCurrentActivities(
-                        arrayOf(
-                            CurrentActivity(
-                                it.id,
-                                System.currentTimeMillis(),
-                                arrayOf(),
-                            ),
-                        ),
-                    )
+                    currentActivitiesMediator.start(it.id)
                     refresh()
                 }
             }
         },
         onEnableActivity = {
             coroutineScope.launch(Dispatchers.Default) {
-                rpc.setCurrentActivities(
-                    arrayOf(
-                        CurrentActivity(
-                            it.id,
-                            System.currentTimeMillis(),
-                            arrayOf(),
-                        ),
-                    ),
-                )
+                currentActivitiesMediator.start(it.id)
                 refresh()
             }
         },
         onDisableActivity = { deselectedActivity: Activity ->
-            val remainingActivities =
-                currentActivities.filter { it.id != deselectedActivity.id }.toTypedArray()
-            setCurrentActivities(remainingActivities)
-            refresh()
+            coroutineScope.launch(Dispatchers.Default) {
+                currentActivitiesMediator.stop(deselectedActivity.id)
+                refresh()
+            }
         },
         onRefresh = refresh,
     )
