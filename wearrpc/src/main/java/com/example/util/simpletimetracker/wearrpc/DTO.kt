@@ -11,8 +11,6 @@ package com.example.util.simpletimetracker.wearrpc
  * Object definitions for records sent between Wear/Mobile
  */
 
-import java.util.Date
-
 data class Activity(val id: Long, val name: String, val icon: String, val color: String)
 
 data class CurrentActivity(val id: Long, val startedAt: Long, val tags: Array<Tag>) {
@@ -37,6 +35,11 @@ data class CurrentActivity(val id: Long, val startedAt: Long, val tags: Array<Ta
     }
 }
 
-data class Tag(val id: Long, val name: String /*, val color: String */)
+data class Tag(val id: Long, val name: String, val isGeneral: Boolean /*, val color: String */)
 
-data class Settings(val multitasking: Boolean)
+data class Settings(
+    val allowMultitasking: Boolean,
+    val showRecordTagSelection: Boolean,
+    val recordTagSelectionCloseAfterOne: Boolean,
+    val recordTagSelectionEvenForGeneralTags: Boolean,
+)

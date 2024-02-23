@@ -93,6 +93,7 @@ class QueryCurrentActivitiesTest : WearRPCServerTestBase() {
         val response = client.queryCurrentActivities()
         assertArrayEquals(activities, response)
     }
+
     @Test
     fun returns_one_activity_when_one_exists() = runTest {
         val jan_31_2024_afternoon = 1706704801L
@@ -100,7 +101,7 @@ class QueryCurrentActivitiesTest : WearRPCServerTestBase() {
             CurrentActivity(
                 42,
                 jan_31_2024_afternoon,
-                arrayOf(Tag(1, "Friends"), Tag(2, "Family")),
+                arrayOf(Tag(1, "Friends", isGeneral = false), Tag(2, "Family", isGeneral = false)),
             ),
         )
         api.mock_queryCurrentActivities(activities)
@@ -116,12 +117,12 @@ class QueryCurrentActivitiesTest : WearRPCServerTestBase() {
             CurrentActivity(
                 42,
                 jan_31_2024_afternoon,
-                arrayOf(Tag(1, "Friends"), Tag(2, "Family")),
+                arrayOf(Tag(1, "Friends", isGeneral = false), Tag(2, "Family", isGeneral = false)),
             ),
             CurrentActivity(
                 42,
                 jan_31_2024_evening,
-                arrayOf(Tag(5, "Shopping")),
+                arrayOf(Tag(5, "Shopping", isGeneral = false)),
             ),
         )
         api.mock_queryCurrentActivities(activities)
@@ -130,7 +131,7 @@ class QueryCurrentActivitiesTest : WearRPCServerTestBase() {
     }
 }
 
-class QueryTagsForActivityTest: WearRPCServerTestBase() {
+class QueryTagsForActivityTest : WearRPCServerTestBase() {
     @Test
     fun returns_no_tags_if_activity_has_none() = runTest {
         api.mock_queryTagsForActivity(mapOf(13L to arrayOf()))
@@ -146,7 +147,7 @@ class QueryTagsForActivityTest: WearRPCServerTestBase() {
 
     @Test
     fun returns_one_tag_associated_with_activity() = runTest {
-        val tags = arrayOf(Tag(5, "Shopping"))
+        val tags = arrayOf(Tag(5, "Shopping", isGeneral = false))
         api.mock_queryTagsForActivity(mapOf(13L to tags))
         val response = client.queryTagsForActivity(13)
         assertArrayEquals(tags, response)
@@ -154,7 +155,7 @@ class QueryTagsForActivityTest: WearRPCServerTestBase() {
 
     @Test
     fun returns_all_tags_associated_with_activity() = runTest {
-        val tags = arrayOf(Tag(5, "Shopping"), Tag(14, "Work"))
+        val tags = arrayOf(Tag(5, "Shopping", isGeneral = false), Tag(14, "Work", isGeneral = false))
         api.mock_queryTagsForActivity(mapOf(13L to tags))
         val response = client.queryTagsForActivity(13L)
         assertArrayEquals(tags, response)
@@ -162,8 +163,8 @@ class QueryTagsForActivityTest: WearRPCServerTestBase() {
 
     @Test
     fun returns_only_tags_associated_with_requested_activity() = runTest {
-        val tags = arrayOf(Tag(5, "Shopping"), Tag(14, "Work"))
-        val otherTags = arrayOf(Tag(7, "Chores"), Tag(13, "Sleep"))
+        val tags = arrayOf(Tag(5, "Shopping", isGeneral = false), Tag(14, "Work", isGeneral = false))
+        val otherTags = arrayOf(Tag(7, "Chores", isGeneral = false), Tag(13, "Sleep", isGeneral = false))
         api.mock_queryTagsForActivity(mapOf(10L to tags, 17L to otherTags))
         val response = client.queryTagsForActivity(10L)
         assertArrayEquals(tags, response)
@@ -172,19 +173,25 @@ class QueryTagsForActivityTest: WearRPCServerTestBase() {
     }
 }
 
-class QuerySettingsTest: WearRPCServerTestBase() {
+class QuerySettingsTest : WearRPCServerTestBase() {
+    private val sampleSettings = Settings(
+        allowMultitasking = true,
+        showRecordTagSelection = false,
+        recordTagSelectionCloseAfterOne = false,
+        recordTagSelectionEvenForGeneralTags = false,
+    )
     @Test
     fun returns_settings_with_multitasking_enabled() = runTest {
-        api.mock_querySettings(Settings(multitasking = true))
+        api.mock_querySettings(sampleSettings)
         val response = client.querySettings()
-        assertTrue(response.multitasking)
+        assertTrue(response.allowMultitasking)
     }
 
     @Test
     fun returns_settings_with_multitasking_disabled() = runTest {
-        api.mock_querySettings(Settings(multitasking = false))
+        api.mock_querySettings(sampleSettings.copy(allowMultitasking = false))
         val response = client.querySettings()
-        assertFalse(response.multitasking)
+        assertFalse(response.allowMultitasking)
     }
 }
 
@@ -212,13 +219,14 @@ class MockSimpleTimeTrackerAPI : SimpleTimeTrackerAPI {
         this.currentActivities = activities
     }
 
-    override suspend fun setCurrentActivities(activities: Array<CurrentActivity>): Unit {
+    override suspend fun setCurrentActivities(activities: Array<CurrentActivity>) {
         TODO("Not yet implemented")
     }
 
     override suspend fun queryTagsForActivity(activityId: Long): Array<Tag> {
         return this.tags.getOrDefault(activityId, arrayOf())
     }
+
     fun mock_queryTagsForActivity(tags: Map<Long, Array<Tag>>) {
         this.tags = tags
     }

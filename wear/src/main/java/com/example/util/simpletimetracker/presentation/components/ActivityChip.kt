@@ -159,8 +159,8 @@ fun CurrentlyRunningWithTags() {
     ActivityChip(
         Activity(456, "Sleeping", "🛏️", "#ABCDEF"), startedAt = 1706751601000L,
         tags = arrayOf(
-            Tag(id = 2, name = "Work"),
-            Tag(id = 4, name = "Hotel"),
+            Tag(id = 2, name = "Work", isGeneral = false),
+            Tag(id = 4, name = "Hotel", isGeneral = false),
         ),
     )
 }

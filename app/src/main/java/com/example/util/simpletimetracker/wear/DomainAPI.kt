@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
+import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.wearrpc.Activity
 import com.example.util.simpletimetracker.wearrpc.CurrentActivity
@@ -42,8 +43,7 @@ class DomainAPI(
                 record.id,
                 record.timeStarted,
                 record.tagIds.map { tagId ->
-                    val tag = recordTagInteractor.get(tagId)
-                    Tag(id = tag?.id ?: -1, name = tag?.name ?: "")
+                    asTag(recordTagInteractor.get(tagId))
                 }.filter { it.id > 0 }.toTypedArray(),
             )
         }.toTypedArray()
@@ -68,13 +68,25 @@ class DomainAPI(
     }
 
     override suspend fun queryTagsForActivity(activityId: Long): Array<Tag> {
-        return recordTagInteractor.getByTypeOrUntyped(activityId).filter { !it.archived }.map {
-            Tag(id = it.id, name = it.name)
-        }.toTypedArray()
+        return recordTagInteractor.getByTypeOrUntyped(activityId).filter { !it.archived }
+            .map { asTag(it) }.toTypedArray()
+    }
+
+    private fun asTag(recordTag: RecordTag?): Tag {
+        return Tag(
+            id = recordTag?.id ?: -1,
+            name = recordTag?.name ?: "",
+            isGeneral = recordTag?.typeId == 0L,
+        )
     }
 
     override suspend fun querySettings(): Settings {
-        return Settings(prefsInteractor.getAllowMultitasking())
+        return Settings(
+            allowMultitasking = prefsInteractor.getAllowMultitasking(),
+            showRecordTagSelection = prefsInteractor.getShowRecordTagSelection(),
+            recordTagSelectionCloseAfterOne = prefsInteractor.getRecordTagSelectionCloseAfterOne(),
+            recordTagSelectionEvenForGeneralTags = prefsInteractor.getRecordTagSelectionEvenForGeneralTags(),
+        )
     }
 
 }

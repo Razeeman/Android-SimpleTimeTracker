@@ -18,7 +18,7 @@ class CurrentActivitiesMediator(
             startedAt = System.currentTimeMillis(),
             tags = tags
         )
-        if (settings().multitasking) {
+        if (settings().allowMultitasking) {
             this.rpc.setCurrentActivities(currents.plus(newCurrent))
         } else {
             this.rpc.setCurrentActivities(arrayOf(newCurrent))
