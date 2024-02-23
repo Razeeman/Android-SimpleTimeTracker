@@ -35,6 +35,7 @@ class ContextMessenger(private val context: Context): Messenger {
             Wearable.getMessageClient(context).sendRequest(bestNode.id, capability, message)
                 .addOnSuccessListener {
                     Log.d(TAG, "Response received for $capability")
+                    Log.d(TAG, "${String(it)}")
                     def.complete(it)
                 }.addOnCanceledListener {
                     val message = "Request $capability to ${bestNode.displayName} was cancelled"
