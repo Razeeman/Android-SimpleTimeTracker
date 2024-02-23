@@ -5,55 +5,69 @@
  */
 package com.example.util.simpletimetracker.presentation.screens
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.navigation.NavController
 import com.example.util.simpletimetracker.presentation.components.ActivitiesList
 import com.example.util.simpletimetracker.presentation.mediators.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.presentation.remember.rememberActivities
 import com.example.util.simpletimetracker.presentation.remember.rememberCurrentActivities
 import com.example.util.simpletimetracker.presentation.remember.rememberRPCClient
 import com.example.util.simpletimetracker.wearrpc.Activity
+import com.example.util.simpletimetracker.wearrpc.StartActivityMediator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
-fun ActivitiesScreen(onSelectActivity: (activityId: Long) -> Unit) {
+fun ActivitiesScreen(navigation: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val rpc = rememberRPCClient()
     val (activities, refreshActivities) = rememberActivities()
     val (currentActivities, refreshCurrentActivities) = rememberCurrentActivities()
-    val currentActivitiesMediator = CurrentActivitiesMediator(rpc, currentActivities)
     val refresh = {
         refreshActivities()
         refreshCurrentActivities()
     }
+    val currentActivitiesMediator = CurrentActivitiesMediator(rpc, currentActivities)
+    val startActivityWithoutTags: (Activity) -> Unit = {
+        Log.d("ActivitiesScreen", "Starting ${it.name} (#${it.id}) without tags")
+        coroutineScope.launch(Dispatchers.Default) {
+            currentActivitiesMediator.start(it.id)
+            refresh()
+        }
+    }
+    val startActivityWithTags: (Activity) -> Unit = {
+        coroutineScope.launch(Dispatchers.Main) {
+            Log.d("ActivitiesScreen", "Starting ${it.name} (#${it.id}) with tags")
+            navigation.navigate("activities/${it.id}/tags")
+        }
+    }
+    val stopActivity: (Activity) -> Unit = {
+        Log.d("ActivitiesScreen", "Stopping ${it.name} (#${it.id})")
+        coroutineScope.launch(Dispatchers.Default) {
+            currentActivitiesMediator.stop(it.id)
+            refresh()
+        }
+    }
+
+    val startActivitiesMediator = StartActivityMediator(
+        rpc,
+        onRequestStartActivity = startActivityWithoutTags,
+        onRequestTagSelection = startActivityWithTags,
+    )
+
 
     ActivitiesList(
         activities,
         currentActivities,
         onSelectActivity = {
             coroutineScope.launch(Dispatchers.Default) {
-                val activityTags = rpc.queryTagsForActivity(it.id)
-                if (activityTags.isNotEmpty()) {
-                    coroutineScope.launch(Dispatchers.Main) { onSelectActivity(it.id) }
-                } else {
-                    currentActivitiesMediator.start(it.id)
-                    refresh()
-                }
+                startActivitiesMediator.requestStart(it)
             }
         },
-        onEnableActivity = {
-            coroutineScope.launch(Dispatchers.Default) {
-                currentActivitiesMediator.start(it.id)
-                refresh()
-            }
-        },
-        onDisableActivity = { deselectedActivity: Activity ->
-            coroutineScope.launch(Dispatchers.Default) {
-                currentActivitiesMediator.stop(deselectedActivity.id)
-                refresh()
-            }
-        },
+        onEnableActivity = startActivityWithoutTags,
+        onDisableActivity = stopActivity,
         onRefresh = refresh,
     )
 }

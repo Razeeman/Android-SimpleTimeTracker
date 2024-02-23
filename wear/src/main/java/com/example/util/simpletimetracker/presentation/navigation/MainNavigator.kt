@@ -21,9 +21,7 @@ fun MainNavigator() {
         startDestination = "activities"
     ) {
         composable("activities") {
-            ActivitiesScreen(onSelectActivity = { id ->
-                navController.navigate("activities/$id/tags")
-            })
+            ActivitiesScreen(navController)
         }
         composable("activities/{id}/tags") {
             TagsScreen(activityId = it.arguments?.getString("id")?.toLong()!!, onSelectTag = {
