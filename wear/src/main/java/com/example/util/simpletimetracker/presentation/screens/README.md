@@ -8,4 +8,5 @@ Full-page, interactive user-facing experiences.
 Screens are typically assemble one or more component composables into a UI that
 a user finds useful.
  - Fetch relevant data, which is then passed to a component for rendering.
- - Configure listeners and reactions to button taps/events. 
+ - Configure listeners and reactions to button taps/events.
+ - Initiate navigation to other screens

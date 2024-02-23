@@ -3,8 +3,8 @@
    - file, You can obtain one at https://mozilla.org/MPL/2.0/. -->
 # Navigation
 
-Navigation is responsible for moving users between screens of the app.
+Navigation is responsible for defining the screens available in the app and marshalling the correct
+parameters to each requested screen.
 
-Typically, each screen will take one or more listener lambdas as parameters, to
-which Navigation will provide implementations which move the user from one
-screen to another.
+Typically, each screen will accept a `navigation: NavController` parameter so it can decide when to
+send the user to another screen.

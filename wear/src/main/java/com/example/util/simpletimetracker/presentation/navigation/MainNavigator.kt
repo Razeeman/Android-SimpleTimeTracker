@@ -5,7 +5,6 @@
  */
 package com.example.util.simpletimetracker.presentation.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
@@ -18,15 +17,16 @@ fun MainNavigator() {
     val navController = rememberSwipeDismissableNavController()
     SwipeDismissableNavHost(
         navController = navController,
-        startDestination = "activities"
+        startDestination = "activities",
     ) {
         composable("activities") {
             ActivitiesScreen(navController)
         }
         composable("activities/{id}/tags") {
-            TagsScreen(activityId = it.arguments?.getString("id")?.toLong()!!, onSelectTag = {
-                navController.navigate("activities")
-            })
+            TagsScreen(
+                activityId = it.arguments?.getString("id")?.toLong()!!,
+                navigation = navController,
+            )
         }
     }
 }

@@ -7,6 +7,7 @@ package com.example.util.simpletimetracker.presentation.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.navigation.NavController
 import com.example.util.simpletimetracker.presentation.components.TagList
 import com.example.util.simpletimetracker.presentation.mediators.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.presentation.remember.rememberCurrentActivities
@@ -18,7 +19,7 @@ import kotlinx.coroutines.launch
 import java.time.Instant
 
 @Composable
-fun TagsScreen(activityId: Long, onSelectTag: () -> Unit) {
+fun TagsScreen(activityId: Long, navigation: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val rpc = rememberRPCClient()
     val (tags) = rememberTags(activityId)
@@ -31,7 +32,7 @@ fun TagsScreen(activityId: Long, onSelectTag: () -> Unit) {
             coroutineScope.launch(Dispatchers.Default) {
                 currentActivitiesMediator.start(activityId, arrayOf(it))
                 coroutineScope.launch(Dispatchers.Main) {
-                    onSelectTag()
+                    navigation.navigate("activities")
                 }
             }
         },
