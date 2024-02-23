@@ -58,7 +58,6 @@ android {
 }
 
 dependencies {
-
     var compose_version = "1.3.1"
     var wear_compose_version = "1.1.0"
     // Runtime Dependencies
