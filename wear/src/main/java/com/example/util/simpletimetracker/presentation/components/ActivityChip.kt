@@ -8,10 +8,6 @@ package com.example.util.simpletimetracker.presentation.components
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
@@ -24,6 +20,7 @@ import androidx.wear.compose.material.Switch
 import androidx.wear.compose.material.SwitchDefaults
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.ToggleChipDefaults
+import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.presentation.theme.hexCodeToColor
 import com.example.util.simpletimetracker.wearrpc.Activity
 import com.example.util.simpletimetracker.wearrpc.Tag
@@ -57,12 +54,11 @@ fun ActivityChip(
         ""
     }
     val color = hexCodeToColor(activity.color)
-    var modifier = Modifier
-        .fillMaxWidth(0.9f)
-        .padding(top = 10.dp)
     var switchChecked = startedAt != null
     SplitToggleChip(
-        modifier = modifier,
+        modifier = Modifier
+            .fillMaxWidth(0.9f)
+            .padding(top = 10.dp),
         label = {
             Text(
                 text = "$briefIcon : ${activity.name}" + tagString,
@@ -126,19 +122,19 @@ fun recentTimestampToString(epochMillis: Long): String {
     }
 }
 
-@Preview()
+@Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleCooking() {
     ActivityChip(Activity(123, "Cooking", "🎉", "#123456"))
 }
 
-@Preview()
+@Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleSleep() {
     ActivityChip(Activity(456, "Sleeping", "🛏️", "#ABCDEF"))
 }
 
-@Preview()
+@Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun White() {
     // TODO handle the look of light colored chips
@@ -147,13 +143,13 @@ fun White() {
     ActivityChip(Activity(456, "Sleeping", "🛏️", "#FFFFFF"))
 }
 
-@Preview()
+@Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun CurrentlyRunning() {
     ActivityChip(Activity(456, "Sleeping", "🛏️", "#ABCDEF"), startedAt = 1706751601000L)
 }
 
-@Preview()
+@Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun CurrentlyRunningWithTags() {
     ActivityChip(
