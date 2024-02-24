@@ -9,28 +9,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavController
 import com.example.util.simpletimetracker.presentation.components.TagList
+import com.example.util.simpletimetracker.presentation.components.TagSelectionMode
 import com.example.util.simpletimetracker.presentation.mediators.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.presentation.remember.rememberCurrentActivities
 import com.example.util.simpletimetracker.presentation.remember.rememberRPCClient
+import com.example.util.simpletimetracker.presentation.remember.rememberSettings
 import com.example.util.simpletimetracker.presentation.remember.rememberTags
-import com.example.util.simpletimetracker.wearrpc.CurrentActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.Instant
 
 @Composable
 fun TagsScreen(activityId: Long, navigation: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val rpc = rememberRPCClient()
+    val (settings) = rememberSettings()
     val (tags) = rememberTags(activityId)
     val (currentActivities) = rememberCurrentActivities()
     val currentActivitiesMediator = CurrentActivitiesMediator(rpc, currentActivities)
 
     TagList(
         tags,
-        onSelectTag = {
+        mode = if (settings?.recordTagSelectionCloseAfterOne != false) {
+            TagSelectionMode.SINGLE
+        } else {
+            TagSelectionMode.MULTI
+        },
+        onSelectionComplete = {
             coroutineScope.launch(Dispatchers.Default) {
-                currentActivitiesMediator.start(activityId, arrayOf(it))
+                currentActivitiesMediator.start(activityId, it)
                 coroutineScope.launch(Dispatchers.Main) {
                     navigation.navigate("activities")
                 }
