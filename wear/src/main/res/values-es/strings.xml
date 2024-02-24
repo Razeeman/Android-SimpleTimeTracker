@@ -3,5 +3,5 @@
     <string name="submit_button_default_content_description">Enviar</string>
     <string name="refresh_button_default_content_description">Actualizar</string>
     <string name="no_tags">Sin etiquetas</string>
-    <string name="no_activities">Sin actividates</string>
+    <string name="no_activities">Sin actividades</string>
 </resources>
