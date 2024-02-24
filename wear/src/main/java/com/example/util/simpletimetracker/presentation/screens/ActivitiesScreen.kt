@@ -20,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
-fun ActivitiesScreen(navigation: NavController) {
+fun ActivitiesScreen(onRequestTagSelection: (activityId: Long) -> Unit) {
     val coroutineScope = rememberCoroutineScope()
     val rpc = rememberRPCClient()
     val (activities, refreshActivities) = rememberActivities()
@@ -40,7 +40,7 @@ fun ActivitiesScreen(navigation: NavController) {
     val startActivityWithTags: (Activity) -> Unit = {
         coroutineScope.launch(Dispatchers.Main) {
             Log.d("ActivitiesScreen", "Starting ${it.name} (#${it.id}) with tags")
-            navigation.navigate("activities/${it.id}/tags")
+            onRequestTagSelection(it.id)
         }
     }
     val stopActivity: (Activity) -> Unit = {
