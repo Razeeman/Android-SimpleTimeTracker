@@ -35,12 +35,7 @@ fun ActivitiesList(
                 )
             }
         }
-        item {
-            RefreshButton(
-                onClick = onRefresh,
-                contentDescription = "Refresh Activities List",
-            )
-        }
+        item { RefreshButton(onClick = onRefresh) }
     }
 }
 

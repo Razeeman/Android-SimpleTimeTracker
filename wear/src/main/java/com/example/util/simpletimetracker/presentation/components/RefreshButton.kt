@@ -18,7 +18,7 @@ import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.OutlinedButton
 
 @Composable
-fun RefreshButton(onClick: () -> Unit, contentDescription: String) {
+fun RefreshButton(onClick: () -> Unit, contentDescription: String = "Refresh") {
     val context = LocalContext.current
 
     OutlinedButton(
@@ -39,6 +39,5 @@ fun RefreshButton(onClick: () -> Unit, contentDescription: String) {
 private fun Preview() {
     RefreshButton(
         onClick = { /* Log.i("Preview", "Refresh Button clicked!") */ },
-        contentDescription = "Refreshing...",
     )
 }
