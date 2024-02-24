@@ -8,6 +8,7 @@ package com.example.util.simpletimetracker.presentation.screens
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.util.simpletimetracker.presentation.components.TagList
 import com.example.util.simpletimetracker.presentation.components.TagSelectionMode
 import com.example.util.simpletimetracker.presentation.mediators.CurrentActivitiesMediator
@@ -17,6 +18,12 @@ import com.example.util.simpletimetracker.presentation.remember.rememberSettings
 import com.example.util.simpletimetracker.presentation.remember.rememberTags
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
+fun NavHostController.navigateAndReplaceStartRoute(newHomeRoute: String) {
+    popBackStack(graph.startDestinationId, true)
+    graph.setStartDestination(newHomeRoute)
+    navigate(newHomeRoute)
+}
 
 @Composable
 fun TagsScreen(activityId: Long, navigation: NavController) {
@@ -38,7 +45,11 @@ fun TagsScreen(activityId: Long, navigation: NavController) {
             coroutineScope.launch(Dispatchers.Default) {
                 currentActivitiesMediator.start(activityId, it)
                 coroutineScope.launch(Dispatchers.Main) {
-                    navigation.navigate("activities")
+                    // Inspired by: https://stackoverflow.com/a/72856761/14765128
+                    navigation.navigate("activities") {
+                        popUpTo(navigation.graph.startDestinationId) { inclusive = true }
+                        navigation.graph.setStartDestination("activities")
+                    }
                 }
             }
         },
