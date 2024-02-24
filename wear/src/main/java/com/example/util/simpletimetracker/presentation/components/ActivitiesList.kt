@@ -43,8 +43,8 @@ fun ActivitiesList(
 @Composable
 private fun Preview() {
     val activities = arrayOf(
-        Activity(1234, "Chores", "🧹", "#FA0000"),
-        Activity(4321, "Sleep", "🛏️", "#0000FA"),
+        Activity(1234, "Chores", "🧹", 0xFFFA0000),
+        Activity(4321, "Sleep", "🛏️", 0xFF0000FA),
     )
     val currents = arrayOf(
         CurrentActivity(id = 4321, startedAt = 1708241427000L, tags = arrayOf()),

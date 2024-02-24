@@ -21,7 +21,6 @@ import androidx.wear.compose.material.SwitchDefaults
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.ToggleChipDefaults
 import androidx.wear.tooling.preview.devices.WearDevices
-import com.example.util.simpletimetracker.presentation.theme.hexCodeToColor
 import com.example.util.simpletimetracker.wearrpc.Activity
 import com.example.util.simpletimetracker.wearrpc.Tag
 import java.time.Instant
@@ -53,7 +52,6 @@ fun ActivityChip(
     } else {
         ""
     }
-    val color = hexCodeToColor(activity.color)
     var switchChecked = startedAt != null
     SplitToggleChip(
         modifier = Modifier
@@ -74,7 +72,7 @@ fun ActivityChip(
             }
         },
         colors = ToggleChipDefaults.splitToggleChipColors(
-            backgroundColor = color,
+            backgroundColor = Color(activity.color),
             splitBackgroundOverlayColor = if (switchChecked) {
                 Color.White.copy(alpha = .1F)
             } else {
@@ -125,13 +123,13 @@ fun recentTimestampToString(epochMillis: Long): String {
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleCooking() {
-    ActivityChip(Activity(123, "Cooking", "🎉", "#123456"))
+    ActivityChip(Activity(123, "Cooking", "🎉", 0xFF123456))
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleSleep() {
-    ActivityChip(Activity(456, "Sleeping", "🛏️", "#ABCDEF"))
+    ActivityChip(Activity(456, "Sleeping", "🛏️", 0xFFABCDEF))
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
@@ -140,20 +138,20 @@ fun White() {
     // TODO handle the look of light colored chips
     // Note: A white color is only possible when using the RGB color picker.
     // The default color options in the phone app are mostly darker shades.
-    ActivityChip(Activity(456, "Sleeping", "🛏️", "#FFFFFF"))
+    ActivityChip(Activity(456, "Sleeping", "🛏️", 0xFFFFFFFF))
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun CurrentlyRunning() {
-    ActivityChip(Activity(456, "Sleeping", "🛏️", "#ABCDEF"), startedAt = 1706751601000L)
+    ActivityChip(Activity(456, "Sleeping", "🛏️", 0xFFABCDEF), startedAt = 1706751601000L)
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun CurrentlyRunningWithTags() {
     ActivityChip(
-        Activity(456, "Sleeping", "🛏️", "#ABCDEF"), startedAt = 1706751601000L,
+        Activity(456, "Sleeping", "🛏️", 0xFFABCDEF), startedAt = 1706751601000L,
         tags = arrayOf(
             Tag(id = 2, name = "Work", isGeneral = false),
             Tag(id = 4, name = "Hotel", isGeneral = false),

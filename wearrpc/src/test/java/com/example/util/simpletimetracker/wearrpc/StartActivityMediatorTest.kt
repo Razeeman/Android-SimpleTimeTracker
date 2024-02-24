@@ -22,7 +22,7 @@ open class StartActivityMediatorTestBase {
         onRequestTagSelection = requestTagCallback,
     )
 
-    protected val sampleActivity = Activity(id = 1, name = "Sleep", icon = "🛏️", color = "#123456")
+    protected val sampleActivity = Activity(id = 1, name = "Sleep", icon = "🛏️", color = 0xFF123456)
     protected val sampleGeneralTag = Tag(id = 13, name = "Sleep", isGeneral = true)
     protected val sampleNonGeneralTag = Tag(id = 14, name = "Work", isGeneral = false)
     protected val settings = Settings(

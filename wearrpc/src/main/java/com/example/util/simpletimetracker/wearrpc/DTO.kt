@@ -11,7 +11,7 @@ package com.example.util.simpletimetracker.wearrpc
  * Object definitions for records sent between Wear/Mobile
  */
 
-data class Activity(val id: Long, val name: String, val icon: String, val color: String)
+data class Activity(val id: Long, val name: String, val icon: String, val color: Long)
 
 data class CurrentActivity(val id: Long, val startedAt: Long, val tags: Array<Tag>) {
     override fun equals(other: Any?): Boolean {

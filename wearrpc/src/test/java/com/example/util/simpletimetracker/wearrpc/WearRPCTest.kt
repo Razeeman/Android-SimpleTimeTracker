@@ -68,7 +68,7 @@ class GetActivitiesTest : WearRPCServerTestBase() {
 
     @Test
     fun returns_one_activity_when_one_exists() = runTest {
-        val activities = arrayOf(Activity(42, "Chores", "🎉", "#00FF00"))
+        val activities = arrayOf(Activity(42, "Chores", "🎉", 0xFF00FF00))
         api.mock_queryActivities(activities)
         val response = client.queryActivities()
         assertArrayEquals(activities, response)
@@ -77,8 +77,8 @@ class GetActivitiesTest : WearRPCServerTestBase() {
     @Test
     fun returns_all_existing_activities() = runTest {
         val activities = arrayOf(
-            Activity(13, "Singing", "🎶", "#123456"),
-            Activity(24, "Homework", "📝", "#ABCDEF"),
+            Activity(13, "Singing", "🎶", 0xFF123456),
+            Activity(24, "Homework", "📝", 0xFFABCDEF),
         )
         api.mock_queryActivities(activities)
         val response = client.queryActivities()

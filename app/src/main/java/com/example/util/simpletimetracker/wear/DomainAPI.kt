@@ -32,8 +32,12 @@ class DomainAPI(
         return recordTypeInteractor.getAll().filter { recordType -> !recordType.hidden }
             .map { recordType ->
                 val color = appColorMapper.mapToColorInt(recordType.color)
-                val hex = String.format("#%06X", (0xFFFFFF and color))
-                Activity(recordType.id, recordType.name, recordType.icon, hex)
+                Activity(
+                    id = recordType.id,
+                    name = recordType.name,
+                    icon = recordType.icon,
+                    color = color.toLong(),
+                )
             }.toTypedArray()
     }
 
