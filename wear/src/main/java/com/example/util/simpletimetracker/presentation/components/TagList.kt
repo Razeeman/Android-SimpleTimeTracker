@@ -12,10 +12,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
+import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.presentation.layout.ScaffoldedScrollingColumn
 import com.example.util.simpletimetracker.wearrpc.Tag
 
@@ -28,22 +30,33 @@ fun TagList(
     var selectedTags: List<Tag> by remember { mutableStateOf(listOf()) }
     ScaffoldedScrollingColumn {
         if (tags.isEmpty()) {
-            item { Text("No tags", modifier = Modifier.padding(8.dp)) }
+            item {
+                Text(
+                    LocalContext.current.getString(R.string.no_tags),
+                    modifier = Modifier.padding(8.dp),
+                )
+            }
         } else {
             for (tag in tags) {
                 item {
-                    TagChip(tag = tag, mode = mode, onClick = {
-                        when (mode) {
-                            TagSelectionMode.SINGLE -> { onSelectionComplete(arrayOf(tag)) }
-                            TagSelectionMode.MULTI -> {
-                                if (selectedTags.contains(tag)) {
-                                    selectedTags = selectedTags.minus(tag)
-                                } else {
-                                    selectedTags = selectedTags.plus(tag)
+                    TagChip(
+                        tag = tag, mode = mode,
+                        onClick = {
+                            when (mode) {
+                                TagSelectionMode.SINGLE -> {
+                                    onSelectionComplete(arrayOf(tag))
+                                }
+
+                                TagSelectionMode.MULTI -> {
+                                    if (selectedTags.contains(tag)) {
+                                        selectedTags = selectedTags.minus(tag)
+                                    } else {
+                                        selectedTags = selectedTags.plus(tag)
+                                    }
                                 }
                             }
-                        }
-                    })
+                        },
+                    )
                 }
             }
         }

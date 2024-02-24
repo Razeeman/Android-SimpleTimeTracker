@@ -1,8 +1,11 @@
 <resources>
-    <string name="app_name">Simple Time Tracker</string>
+    <string name="app_name" translatable="false">Simple Time Tracker</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
-    <string name="hello_world">From the Square world,\nHello, %1$s!</string>
+    <string name="submit_button_default_content_description">Submit</string>
+    <string name="refresh_button_default_content_description">Refresh</string>
+    <string name="no_tags">No tags</string>
+    <string name="no_activities">No activities</string>
 </resources>

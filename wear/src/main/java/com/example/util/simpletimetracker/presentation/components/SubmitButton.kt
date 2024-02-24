@@ -10,17 +10,23 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.OutlinedButton
+import com.example.util.simpletimetracker.R
 
 @Composable
-fun SubmitButton(onClick: () -> Unit, contentDescription: String = "Submit") {
+fun SubmitButton(onClick: () -> Unit, contentDescription: String? = null) {
     OutlinedButton(
         onClick = onClick,
         content = {
-            Icon(Icons.AutoMirrored.Rounded.Send, contentDescription = contentDescription)
+            Icon(
+                Icons.AutoMirrored.Rounded.Send,
+                contentDescription = contentDescription
+                    ?: LocalContext.current.getString(R.string.submit_button_default_content_description),
+            )
         },
         modifier = Modifier.padding(all = 8.dp),
     )

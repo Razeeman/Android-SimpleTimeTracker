@@ -16,10 +16,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.OutlinedButton
+import com.example.util.simpletimetracker.R
 
 @Composable
-fun RefreshButton(onClick: () -> Unit, contentDescription: String = "Refresh") {
+fun RefreshButton(onClick: () -> Unit, contentDescription: String? = null) {
     val context = LocalContext.current
+    
 
     OutlinedButton(
         onClick = {
@@ -28,7 +30,12 @@ fun RefreshButton(onClick: () -> Unit, contentDescription: String = "Refresh") {
             onClick()
         },
         content = {
-            Icon(Icons.Rounded.Refresh, contentDescription = contentDescription)
+            Icon(
+                Icons.Rounded.Refresh,
+                contentDescription = contentDescription ?: context.getString(
+                    R.string.refresh_button_default_content_description,
+                ),
+            )
         },
         modifier = Modifier.padding(all = 8.dp),
     )

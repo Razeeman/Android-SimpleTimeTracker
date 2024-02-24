@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="submit_button_default_content_description">Enviar</string>
+    <string name="refresh_button_default_content_description">Actualizar</string>
+    <string name="no_tags">Sin etiquetas</string>
+    <string name="no_activities">Sin actividates</string>
+</resources>
