@@ -59,8 +59,8 @@ fun ActivitiesScreen(onRequestTagSelection: (activityId: Long) -> Unit) {
 
 
     ActivitiesList(
-        activities,
-        currentActivities,
+        activities = activities,
+        currentActivities = currentActivities,
         onSelectActivity = {
             coroutineScope.launch(Dispatchers.Default) {
                 startActivitiesMediator.requestStart(it)

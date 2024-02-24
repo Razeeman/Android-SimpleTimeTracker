@@ -5,28 +5,32 @@
  */
 package com.example.util.simpletimetracker.presentation.components
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.OutlinedButton
 import com.example.util.simpletimetracker.R
+import com.example.util.simpletimetracker.presentation.remember.rememberAnimationRotation
 
 @Composable
 fun RefreshButton(onClick: () -> Unit, contentDescription: String? = null) {
     val context = LocalContext.current
-    
-
+    var pressCount by remember { mutableIntStateOf(0) }
+    val targetRotation = rememberAnimationRotation(key = pressCount)
     OutlinedButton(
         onClick = {
-            // Idea: Instead of a toast, spin the button while the callback is executing...
-            Toast.makeText(context, "Refreshing", Toast.LENGTH_SHORT).show()
+            pressCount++
             onClick()
         },
         content = {
@@ -37,7 +41,9 @@ fun RefreshButton(onClick: () -> Unit, contentDescription: String? = null) {
                 ),
             )
         },
-        modifier = Modifier.padding(all = 8.dp),
+        modifier = Modifier
+            .rotate(targetRotation)
+            .padding(all = 8.dp),
     )
 }
 
