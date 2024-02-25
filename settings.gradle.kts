@@ -5,6 +5,7 @@ include(
     "core",
     "navigation",
     "data_local",
+    "resources",
 )
 
 file("features").walkTopDown().maxDepth(1).forEach { dir ->

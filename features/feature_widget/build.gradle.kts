@@ -17,6 +17,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":resources"))
     implementation(project(":feature_dialogs"))
     implementation(project(":feature_views"))
 
