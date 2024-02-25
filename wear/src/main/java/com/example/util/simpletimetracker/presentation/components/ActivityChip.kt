@@ -5,7 +5,10 @@
  */
 package com.example.util.simpletimetracker.presentation.components
 
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -37,11 +40,6 @@ fun ActivityChip(
     onToggleOn: () -> Unit = {},
     onToggleOff: () -> Unit = {},
 ) {
-    val briefIcon = if (activity.icon.startsWith("ic_")) {
-        "?"
-    } else {
-        activity.icon.substring(0, activity.icon.length.coerceAtMost(2))
-    }
     val tagsList = if (tags.isNotEmpty()) {
         tags.joinToString(", ") { it.name }
     } else {
@@ -58,11 +56,20 @@ fun ActivityChip(
             .fillMaxWidth(0.9f)
             .padding(top = 10.dp),
         label = {
-            Text(
-                text = "$briefIcon : ${activity.name}" + tagString,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+            Row(
+                modifier = Modifier
+                    .height(IntrinsicSize.Min),
+            ) {
+                ActivityIcon(
+                    activityIcon = activity.icon,
+                )
+                Text(
+                    text = activity.name + tagString,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(start = 2.dp)
+                )
+            }
         },
         secondaryLabel = {
             if (startedAt != null) {
@@ -130,6 +137,18 @@ fun SampleCooking() {
 @Composable
 fun SampleSleep() {
     ActivityChip(Activity(456, "Sleeping", "🛏️", 0xFFABCDEF))
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
+fun SampleText() {
+    ActivityChip(Activity(456, "Sleeping", "Zzzz", 0xFFABCDEF))
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
+fun SampleIcon() {
+    ActivityChip(Activity(456, "Sleeping", "ic_hotel_24px", 0xFFABCDEF))
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)

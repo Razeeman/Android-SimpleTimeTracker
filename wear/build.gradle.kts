@@ -66,6 +66,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
     implementation("androidx.compose.material:material-icons-core:1.6.1")
     implementation(project(":wearrpc"))
+    implementation(project(":resources"))
 
     // Dev Dependencies
     implementation("androidx.wear:wear-tooling-preview:1.0.0")
@@ -82,6 +83,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
     implementation("androidx.activity:activity-compose:1.3.1")
+    implementation("androidx.appcompat:appcompat:1.6.0")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
     debugImplementation("androidx.compose.ui:ui-tooling:$compose_version")
     debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
