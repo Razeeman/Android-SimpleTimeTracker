@@ -50,24 +50,19 @@ fun ActivityChip(
     } else {
         ""
     }
-    var switchChecked = startedAt != null
+    val switchChecked = startedAt != null
     SplitToggleChip(
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .padding(top = 10.dp),
         label = {
-            Row(
-                modifier = Modifier
-                    .height(IntrinsicSize.Min),
-            ) {
-                ActivityIcon(
-                    activityIcon = activity.icon,
-                )
+            Row(modifier = Modifier.height(IntrinsicSize.Min)) {
+                ActivityIcon(activityIcon = activity.icon)
                 Text(
                     text = activity.name + tagString,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(start = 2.dp)
+                    modifier = Modifier.padding(start = 4.dp),
                 )
             }
         },
@@ -120,10 +115,10 @@ fun recentTimestampToString(epochMillis: Long): String {
         Instant.ofEpochMilli(epochMillis),
         ZoneId.systemDefault(),
     )
-    if (time > LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()).minusDays(1)) {
-        return time.format(DateTimeFormatter.ISO_LOCAL_TIME)
+    return if (time > LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()).minusDays(1)) {
+        time.format(DateTimeFormatter.ISO_LOCAL_TIME)
     } else {
-        return time.format(DateTimeFormatter.ISO_DATE_TIME).replace("T", " ")
+        time.format(DateTimeFormatter.ISO_DATE_TIME).replace("T", " ")
     }
 }
 
@@ -149,6 +144,12 @@ fun SampleText() {
 @Composable
 fun SampleIcon() {
     ActivityChip(Activity(456, "Sleeping", "ic_hotel_24px", 0xFFABCDEF))
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
+fun InvalidIcon() {
+    ActivityChip(Activity(456, "Sleeping", "ic_gobbldeegoock_24px", 0xFFABCDEF))
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
