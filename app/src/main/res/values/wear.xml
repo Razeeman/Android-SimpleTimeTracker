@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at https://mozilla.org/MPL/2.0/. -->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@array/android_wear_capabilities">
+    <string-array name="android_wear_capabilities">
+        <item>/stt//GET/ping</item>
+        <item>/stt//GET/activities</item>
+        <item>/stt//GET/activities/current</item>
+        <item>/stt//PUT/activities/current</item>
+        <item>/stt//GET/activities/:ID/tags</item>
+        <item>/stt//GET/settings</item>
+    </string-array>
+</resources>

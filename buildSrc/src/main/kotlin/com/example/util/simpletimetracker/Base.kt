@@ -6,6 +6,6 @@ object Base {
 
     const val versionCode = 38
     const val versionName = "1.37"
-    const val minSDK = 21
+    const val minSDK = 26
     const val currentSDK = 34
 }

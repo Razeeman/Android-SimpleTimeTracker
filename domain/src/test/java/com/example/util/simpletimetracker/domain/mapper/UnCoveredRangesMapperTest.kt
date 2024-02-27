@@ -61,7 +61,7 @@ class UnCoveredRangesMapperTest(
             ),
             arrayOf(
                 listOf(0L, 10L, listOf(Range(0L, 0L), Range(5L, 5L), Range(10L, 10L))),
-                listOf(0L to 5L, Range(5L, 10L)),
+                listOf(Range(0L, 5L), Range(5L, 10L)),
             ),
 
             // Segments on range points
