@@ -12,6 +12,8 @@ plugins {
 applyAndroidLibrary()
 
 android {
+    namespace = Base.namespace
+
     defaultConfig {
         applicationId = Base.applicationId
         versionCode = Base.versionCode
@@ -21,7 +23,7 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
+        debug {
             applicationIdSuffix = ".debug"
             isMinifyEnabled = true
             isCrunchPngs = false
@@ -31,7 +33,7 @@ android {
             )
             testProguardFile("proguard-test-rules.pro")
         }
-        getByName("release") {
+        release {
             isMinifyEnabled = true
             isCrunchPngs = false
             proguardFiles(
@@ -42,11 +44,24 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
+        debug {
             buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
         }
-        getByName("release") {
+        release {
             buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
+        }
+    }
+
+    flavorDimensions += "version"
+
+    productFlavors {
+        // No google play services, no wear logic, for f-droid.
+        create("base") {
+            dimension = "version"
+        }
+        create("play") {
+            dimension = "version"
+            isDefault = true
         }
     }
 
@@ -67,8 +82,6 @@ android {
         // Adds exported schema location as test app assets.
         getByName("androidTest").assets.srcDir("$projectDir/../data_local/schemas")
     }
-
-    namespace = Base.namespace
 }
 
 dependencies {
@@ -97,10 +110,8 @@ dependencies {
     implementation(project(":feature_data_edit"))
     implementation(project(":feature_records_filter"))
     implementation(project(":feature_goals"))
-    implementation(project(":wearrpc"))
+    "playImplementation"(project(":feature_wear"))
 
-    implementation("com.google.android.gms:play-services-wearable:18.0.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
     implementation(Deps.Androidx.room)
     implementation(Deps.Ktx.navigationFragment)
     implementation(Deps.Ktx.navigationUi)

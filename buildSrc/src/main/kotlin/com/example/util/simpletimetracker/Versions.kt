@@ -17,6 +17,7 @@ object Versions {
     const val dagger = "2.42"
     const val viewpager2 = "1.0.0"
     const val flexBox = "2.0.1"
+    const val services = "18.0.0"
     const val cardView = "1.0.0"
     const val material = "1.2.0"
     const val emoji = "1.4.0"
