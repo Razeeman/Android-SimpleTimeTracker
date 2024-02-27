@@ -35,7 +35,7 @@ data class CurrentActivity(val id: Long, val startedAt: Long, val tags: Array<Ta
     }
 }
 
-data class Tag(val id: Long, val name: String, val isGeneral: Boolean /*, val color: String */)
+data class Tag(val id: Long, val name: String, val isGeneral: Boolean, val color: Long)
 
 data class Settings(
     val allowMultitasking: Boolean,

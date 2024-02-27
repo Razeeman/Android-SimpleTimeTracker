@@ -36,7 +36,7 @@ fun ActivityChip(
     activity: Activity,
     startedAt: Long? = null,
     tags: Array<Tag> = arrayOf(),
-    onPress: () -> Unit = {},
+    onClick: () -> Unit = {},
     onToggleOn: () -> Unit = {},
     onToggleOff: () -> Unit = {},
 ) {
@@ -89,7 +89,7 @@ fun ActivityChip(
             }
         },
         checked = switchChecked,
-        onClick = onPress,
+        onClick = onClick,
         toggleControl = {
             Switch(
                 checked = switchChecked,
@@ -173,8 +173,8 @@ fun CurrentlyRunningWithTags() {
     ActivityChip(
         Activity(456, "Sleeping", "🛏️", 0xFFABCDEF), startedAt = 1706751601000L,
         tags = arrayOf(
-            Tag(id = 2, name = "Work", isGeneral = false),
-            Tag(id = 4, name = "Hotel", isGeneral = false),
+            Tag(id = 2, name = "Work", isGeneral = true, color = 0xFFFFAA22),
+            Tag(id = 4, name = "Hotel", isGeneral = false, color = 0xFFABCDEF),
         ),
     )
 }

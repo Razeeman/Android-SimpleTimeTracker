@@ -43,7 +43,7 @@ fun ActivitiesList(
                         activity,
                         startedAt = currentActivity?.startedAt,
                         tags = currentActivity?.tags ?: arrayOf(),
-                        onPress = { onSelectActivity(activity) },
+                        onClick = { onSelectActivity(activity) },
                         onToggleOn = { onEnableActivity(activity) },
                         onToggleOff = { onDisableActivity(activity) },
                     )

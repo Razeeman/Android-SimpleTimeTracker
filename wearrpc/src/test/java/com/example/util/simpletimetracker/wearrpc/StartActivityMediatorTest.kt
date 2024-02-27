@@ -6,9 +6,9 @@
 package com.example.util.simpletimetracker.wearrpc
 
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.Assert.*
 
 
 open class StartActivityMediatorTestBase {
@@ -23,8 +23,10 @@ open class StartActivityMediatorTestBase {
     )
 
     protected val sampleActivity = Activity(id = 1, name = "Sleep", icon = "🛏️", color = 0xFF123456)
-    protected val sampleGeneralTag = Tag(id = 13, name = "Sleep", isGeneral = true)
-    protected val sampleNonGeneralTag = Tag(id = 14, name = "Work", isGeneral = false)
+    protected val sampleGeneralTag =
+        Tag(id = 13, name = "Sleep", isGeneral = true, color = 0xFF654321)
+    protected val sampleNonGeneralTag =
+        Tag(id = 14, name = "Work", isGeneral = false, color = 0xFF654321)
     protected val settings = Settings(
         allowMultitasking = false,
         showRecordTagSelection = false,
@@ -57,12 +59,18 @@ class `Starts Activity When` : StartActivityMediatorTestBase() {
     }
 
     @Test
-    fun `tag selection enabled, but not for generals alone, and activity has only general tags`() = runTest {
-        api.mock_querySettings(settings.copy(showRecordTagSelection = true, recordTagSelectionEvenForGeneralTags = false))
-        api.mock_queryTagsForActivity(mapOf(sampleActivity.id to arrayOf(sampleGeneralTag)))
-        mediator.requestStart(sampleActivity)
-        `assert only start callback invoked`()
-    }
+    fun `tag selection enabled, but not for generals alone, and activity has only general tags`() =
+        runTest {
+            api.mock_querySettings(
+                settings.copy(
+                    showRecordTagSelection = true,
+                    recordTagSelectionEvenForGeneralTags = false,
+                ),
+            )
+            api.mock_queryTagsForActivity(mapOf(sampleActivity.id to arrayOf(sampleGeneralTag)))
+            mediator.requestStart(sampleActivity)
+            `assert only start callback invoked`()
+        }
 
     private fun `assert only start callback invoked`() {
         startCallback.assertCalledWith(sampleActivity)
@@ -71,7 +79,7 @@ class `Starts Activity When` : StartActivityMediatorTestBase() {
     }
 }
 
-class `Requests tags when tag selection enabled and`: StartActivityMediatorTestBase() {
+class `Requests tags when tag selection enabled and` : StartActivityMediatorTestBase() {
     private val sampleSettings = settings.copy(showRecordTagSelection = true)
 
     @Test
@@ -97,7 +105,7 @@ class `Requests tags when tag selection enabled and`: StartActivityMediatorTestB
     }
 }
 
-class MockMediatorCallback: (Activity) -> Unit {
+class MockMediatorCallback : (Activity) -> Unit {
     private var calledWith: Activity? = null
     private var callCount: Int = 0
     override fun invoke(activity: Activity) {

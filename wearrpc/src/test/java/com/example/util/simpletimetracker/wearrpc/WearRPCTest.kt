@@ -21,6 +21,11 @@ open class WearRPCServerTestBase {
     lateinit var messenger: Messenger
     lateinit var client: WearRPCClient
 
+    val tagFriends = Tag(1, "Friends", isGeneral = false, 0xFFFD3251)
+    val tagFamily = Tag(2, "Family", isGeneral = true, 0xFFFD3251)
+    val tagShopping = Tag(3, "Shopping", isGeneral = false, 0xFFFF0000)
+    val tagWork = Tag(14, "Work", isGeneral = false, 0xFF00FF00)
+
     @Before
     fun setup() {
         api = MockSimpleTimeTrackerAPI()
@@ -101,7 +106,7 @@ class QueryCurrentActivitiesTest : WearRPCServerTestBase() {
             CurrentActivity(
                 42,
                 jan_31_2024_afternoon,
-                arrayOf(Tag(1, "Friends", isGeneral = false), Tag(2, "Family", isGeneral = false)),
+                arrayOf(tagFriends, tagFamily),
             ),
         )
         api.mock_queryCurrentActivities(activities)
@@ -117,12 +122,12 @@ class QueryCurrentActivitiesTest : WearRPCServerTestBase() {
             CurrentActivity(
                 42,
                 jan_31_2024_afternoon,
-                arrayOf(Tag(1, "Friends", isGeneral = false), Tag(2, "Family", isGeneral = false)),
+                arrayOf(tagFriends, tagFamily),
             ),
             CurrentActivity(
                 42,
                 jan_31_2024_evening,
-                arrayOf(Tag(5, "Shopping", isGeneral = false)),
+                arrayOf(tagShopping),
             ),
         )
         api.mock_queryCurrentActivities(activities)
@@ -147,7 +152,7 @@ class QueryTagsForActivityTest : WearRPCServerTestBase() {
 
     @Test
     fun returns_one_tag_associated_with_activity() = runTest {
-        val tags = arrayOf(Tag(5, "Shopping", isGeneral = false))
+        val tags = arrayOf(tagShopping)
         api.mock_queryTagsForActivity(mapOf(13L to tags))
         val response = client.queryTagsForActivity(13)
         assertArrayEquals(tags, response)
@@ -155,7 +160,7 @@ class QueryTagsForActivityTest : WearRPCServerTestBase() {
 
     @Test
     fun returns_all_tags_associated_with_activity() = runTest {
-        val tags = arrayOf(Tag(5, "Shopping", isGeneral = false), Tag(14, "Work", isGeneral = false))
+        val tags = arrayOf(tagShopping, tagWork)
         api.mock_queryTagsForActivity(mapOf(13L to tags))
         val response = client.queryTagsForActivity(13L)
         assertArrayEquals(tags, response)
@@ -163,8 +168,8 @@ class QueryTagsForActivityTest : WearRPCServerTestBase() {
 
     @Test
     fun returns_only_tags_associated_with_requested_activity() = runTest {
-        val tags = arrayOf(Tag(5, "Shopping", isGeneral = false), Tag(14, "Work", isGeneral = false))
-        val otherTags = arrayOf(Tag(7, "Chores", isGeneral = false), Tag(13, "Sleep", isGeneral = false))
+        val tags = arrayOf(tagShopping, tagWork)
+        val otherTags = arrayOf(tagFriends, tagFamily)
         api.mock_queryTagsForActivity(mapOf(10L to tags, 17L to otherTags))
         val response = client.queryTagsForActivity(10L)
         assertArrayEquals(tags, response)

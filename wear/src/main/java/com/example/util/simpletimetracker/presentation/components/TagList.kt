@@ -42,20 +42,11 @@ fun TagList(
                     TagChip(
                         tag = tag, mode = mode,
                         onClick = {
-                            when (mode) {
-                                TagSelectionMode.SINGLE -> {
-                                    onSelectionComplete(arrayOf(tag))
-                                }
-
-                                TagSelectionMode.MULTI -> {
-                                    if (selectedTags.contains(tag)) {
-                                        selectedTags = selectedTags.minus(tag)
-                                    } else {
-                                        selectedTags = selectedTags.plus(tag)
-                                    }
-                                }
-                            }
+                            onSelectionComplete(selectedTags.minus(tag).plus(tag).toTypedArray())
+                            //                               ^No duplicate tags^
                         },
+                        onToggleOn = { selectedTags = selectedTags.plus(tag) },
+                        onToggleOff = { selectedTags = selectedTags.minus(tag) },
                     )
                 }
             }
@@ -75,8 +66,8 @@ private fun NoTags() {
 private fun WithSomeTags() {
     TagList(
         tags = arrayOf(
-            Tag(id = 123, name = "Sleep", isGeneral = false),
-            Tag(id = 124, name = "Personal", isGeneral = true),
+            Tag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
+            Tag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
         ),
     )
 }
@@ -86,8 +77,8 @@ private fun WithSomeTags() {
 private fun MultiSelectMode() {
     TagList(
         tags = arrayOf(
-            Tag(id = 123, name = "Sleep", isGeneral = false),
-            Tag(id = 124, name = "Personal", isGeneral = true),
+            Tag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
+            Tag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
         ),
         mode = TagSelectionMode.MULTI,
     )

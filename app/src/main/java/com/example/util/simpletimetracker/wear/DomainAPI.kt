@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.wearrpc.Activity
@@ -31,12 +32,11 @@ class DomainAPI(
     override suspend fun queryActivities(): Array<Activity> {
         return recordTypeInteractor.getAll().filter { recordType -> !recordType.hidden }
             .map { recordType ->
-                val color = appColorMapper.mapToColorInt(recordType.color)
                 Activity(
                     id = recordType.id,
                     name = recordType.name,
                     icon = recordType.icon,
-                    color = color.toLong(),
+                    color = asColor(recordType.color),
                 )
             }.toTypedArray()
     }
@@ -72,16 +72,37 @@ class DomainAPI(
     }
 
     override suspend fun queryTagsForActivity(activityId: Long): Array<Tag> {
+        val activityColor = recordTypeInteractor.get(activityId)?.color
         return recordTagInteractor.getByTypeOrUntyped(activityId).filter { !it.archived }
-            .map { asTag(it) }.toTypedArray()
+            .map { asTag(it, asColor(activityColor)) }.sortedBy { it.name }
+            .sortedBy { it.isGeneral }.toTypedArray()
     }
 
-    private fun asTag(recordTag: RecordTag?): Tag {
-        return Tag(
-            id = recordTag?.id ?: -1,
-            name = recordTag?.name ?: "",
-            isGeneral = recordTag?.typeId == 0L,
-        )
+    private fun asTag(recordTag: RecordTag?, activityColor: Long = 0x00000000): Tag {
+        return if (recordTag != null) {
+            val isGeneral = recordTag.typeId == 0L
+            val tagColor = if (isGeneral) {
+                asColor(recordTag.color)
+            } else {
+                activityColor
+            }
+            Tag(
+                id = recordTag.id,
+                name = recordTag.name,
+                isGeneral = isGeneral,
+                color = tagColor,
+            )
+        } else {
+            Tag(id = -1, name = "", isGeneral = true, color = 0xFF555555)
+        }
+    }
+
+    private fun asColor(appColor: AppColor?): Long {
+        return if (appColor == null) {
+            0x00000000
+        } else {
+            appColorMapper.mapToColorInt(appColor).toLong()
+        }
     }
 
     override suspend fun querySettings(): Settings {
