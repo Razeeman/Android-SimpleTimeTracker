@@ -18,6 +18,7 @@ android {
 dependencies {
     api(project(":domain"))
     api(project(":navigation"))
+    api(project(":resources"))
     api(project(":feature_base_adapter"))
     api(project(":feature_views"))
 
