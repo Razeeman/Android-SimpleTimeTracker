@@ -31,7 +31,7 @@
     <string name="range_week">Tuần</string>
     <string name="range_month">Tháng</string>
     <string name="range_year">Năm</string>
-    <string name="range_overall">Nhìn chung</string>
+    <string name="range_overall">Tổng thể</string>
     <string name="range_custom">Phạm vi</string>
     <string name="range_last">7 ngày qua</string>
     <string name="range_select_day">Chọn ngày</string>
