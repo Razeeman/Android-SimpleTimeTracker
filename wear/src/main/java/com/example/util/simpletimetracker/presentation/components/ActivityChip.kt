@@ -11,11 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
@@ -30,14 +25,11 @@ import androidx.wear.compose.material.SwitchDefaults
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.ToggleChipDefaults
 import androidx.wear.tooling.preview.devices.WearDevices
+import com.example.util.simpletimetracker.presentation.remember.rememberDurationSince
 import com.example.util.simpletimetracker.wearrpc.Activity
 import com.example.util.simpletimetracker.wearrpc.Tag
-import kotlinx.coroutines.time.delay
 import java.time.Duration
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 
 private const val ISO_HOURS_MINUTES_PARTS_REGEX = "(\\d[HM])(?!$)"
 private const val DECIMAL_SEPARATOR_AND_FRACTIONAL_PART_REGEX = "\\.\\d+"
@@ -58,7 +50,7 @@ fun ActivityChip(
         ""
     }
     val tagString = if (tagsList.isNotEmpty()) {
-        " ($tagsList)"
+        " - $tagsList"
     } else {
         ""
     }
@@ -71,7 +63,7 @@ fun ActivityChip(
             Row(modifier = Modifier.height(IntrinsicSize.Min)) {
                 ActivityIcon(activityIcon = activity.icon)
                 Text(
-                    text = activity.name + tagString,
+                    text = activity.name,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(start = 4.dp),
@@ -80,19 +72,22 @@ fun ActivityChip(
         },
         secondaryLabel = {
             if (startedAt != null) {
-                var startedDiff by remember { mutableStateOf(Duration.between(Instant.ofEpochMilli(startedAt), Instant.now())) }
+                var startedDiff = rememberDurationSince(epochMillis = startedAt)
 
                 Text(
-                    text = durationToLabel(startedDiff),
+                    text = durationToLabel(startedDiff) + tagString,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     color = Color.White,
                     fontSize = 10.sp,
-                    modifier = Modifier.padding(start = 22.dp),
+                    modifier = Modifier.padding(
+                        start = if (tagString.isNotEmpty()) {
+                            2.dp
+                        } else {
+                            22.dp
+                        },
+                    ),
                 )
-
-                LaunchedEffect(startedDiff) {
-                    delay(Duration.ofSeconds(1L))
-                    startedDiff = Duration.between(Instant.ofEpochMilli(startedAt), Instant.now())
-                }
             } else {
                 null
             }
@@ -137,22 +132,7 @@ fun durationToLabel(duration: Duration): String {
         .substring(2) // remove "PT" at the beginning of the string representation
         .replace(ISO_HOURS_MINUTES_PARTS_REGEX.toRegex(), "$1 ")
         .replace(DECIMAL_SEPARATOR_AND_FRACTIONAL_PART_REGEX.toRegex(), "")
-        .replace(ISO_MISSING_MINUTES_REGEX.toRegex(), "$1 0M $2")
-        .lowercase()
-}
-
-fun recentTimestampToString(epochMillis: Long): String {
-    // Someday, it would be nice for this to show nicer time strings
-    // e.g. "a few minutes ago", "yesterday", etc.
-    val time = LocalDateTime.ofInstant(
-        Instant.ofEpochMilli(epochMillis),
-        ZoneId.systemDefault(),
-    )
-    return if (time > LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()).minusDays(1)) {
-        time.format(DateTimeFormatter.ISO_LOCAL_TIME)
-    } else {
-        time.format(DateTimeFormatter.ISO_DATE_TIME).replace("T", " ")
-    }
+        .replace(ISO_MISSING_MINUTES_REGEX.toRegex(), "$1 0M $2").lowercase()
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
@@ -197,14 +177,18 @@ fun White() {
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun CurrentlyRunning() {
-    ActivityChip(Activity(456, "Sleeping", "🛏️", 0xFFABCDEF), startedAt = 1706751601000L)
+    ActivityChip(
+        Activity(456, "Sleeping", "🛏️", 0xFFABCDEF),
+        startedAt = Instant.now().toEpochMilli() - 360000,
+    )
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun CurrentlyRunningWithTags() {
     ActivityChip(
-        Activity(456, "Sleeping", "🛏️", 0xFFABCDEF), startedAt = 1706751601000L,
+        Activity(456, "Sleeping", "🛏️", 0xFFABCDEF),
+        startedAt = Instant.now().toEpochMilli() - 360000,
         tags = arrayOf(
             Tag(id = 2, name = "Work", isGeneral = true, color = 0xFFFFAA22),
             Tag(id = 4, name = "Hotel", isGeneral = false, color = 0xFFABCDEF),
