@@ -8,8 +8,8 @@ package com.example.util.simpletimetracker.presentation.screens
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.navigation.NavController
 import com.example.util.simpletimetracker.presentation.components.ActivitiesList
+import com.example.util.simpletimetracker.presentation.components.CreditsButton
 import com.example.util.simpletimetracker.presentation.mediators.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.presentation.remember.rememberActivities
 import com.example.util.simpletimetracker.presentation.remember.rememberCurrentActivities
@@ -20,7 +20,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
-fun ActivitiesScreen(onRequestTagSelection: (activityId: Long) -> Unit) {
+fun ActivitiesScreen(
+    onRequestTagSelection: (activityId: Long) -> Unit,
+    onRequestCredits: () -> Unit,
+) {
     val coroutineScope = rememberCoroutineScope()
     val rpc = rememberRPCClient()
     val (activities, refreshActivities) = rememberActivities()
@@ -69,5 +72,6 @@ fun ActivitiesScreen(onRequestTagSelection: (activityId: Long) -> Unit) {
         onEnableActivity = startActivityWithoutTags,
         onDisableActivity = stopActivity,
         onRefresh = refresh,
+        footer = { CreditsButton(onClick = onRequestCredits) },
     )
 }

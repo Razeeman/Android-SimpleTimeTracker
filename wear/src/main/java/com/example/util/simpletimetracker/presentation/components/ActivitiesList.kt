@@ -26,6 +26,7 @@ fun ActivitiesList(
     onEnableActivity: (activity: Activity) -> Unit,
     onDisableActivity: (activity: Activity) -> Unit,
     onRefresh: () -> Unit,
+    footer: @Composable () -> Unit = {}
 ) {
     ScaffoldedScrollingColumn {
         if (activities.isEmpty()) {
@@ -52,6 +53,7 @@ fun ActivitiesList(
         }
 
         item { RefreshButton(onClick = onRefresh) }
+        item { footer() }
     }
 }
 
@@ -85,5 +87,8 @@ private fun Preview() {
         onEnableActivity = { /* `it` is the enabled activity */ },
         onDisableActivity = { /* `it` is the disabled activity */ },
         onRefresh = { /* What to do when requesting a refresh */ },
+        footer = {
+            Text("Sample Footer")
+        }
     )
 }
