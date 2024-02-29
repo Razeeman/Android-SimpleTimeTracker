@@ -10,11 +10,13 @@ import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.example.util.simpletimetracker.presentation.screens.ActivitiesScreen
+import com.example.util.simpletimetracker.presentation.screens.CreditsScreen
 import com.example.util.simpletimetracker.presentation.screens.TagsScreen
 
 object Route {
     const val Activities = "activities"
     const val Tags = "activities/{id}/tags"
+    const val Credits = "credits"
 }
 
 @Composable
@@ -25,9 +27,12 @@ fun StartActivityNavigator() {
         startDestination = Route.Activities,
     ) {
         composable(Route.Activities) {
-            ActivitiesScreen(onRequestTagSelection = {
-                navigation.navigate(Route.Tags.replace("{id}", it.toString()))
-            })
+            ActivitiesScreen(
+                onRequestTagSelection = {
+                    navigation.navigate(Route.Tags.replace("{id}", it.toString()))
+                },
+                onRequestCredits = { navigation.navigate(Route.Credits) },
+            )
         }
         composable(Route.Tags) {
             TagsScreen(
@@ -41,5 +46,6 @@ fun StartActivityNavigator() {
                 },
             )
         }
+        composable(Route.Credits) { CreditsScreen() }
     }
 }
