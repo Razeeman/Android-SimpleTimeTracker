@@ -67,12 +67,18 @@ Simple app that helps track how much time you spend on all the useless activitie
 [![darkmode3_thumb]][darkmode3]
 <br>
 
+## WearOS
+
+[![wearos_demo]][wearos_demo]
+<br>
+
 ## Technology stack
 - Kotlin
 - Multi module
 - Single Activity
 - MVVM (Jetpack ViewModel + LiveData)
 - Jetpack Navigation
+- Jetpack Compose (WearOS)
 - Hilt
 - Room, migrations
 - Coroutines
@@ -98,6 +104,8 @@ Simple app that helps track how much time you spend on all the useless activitie
     ├── data_local                            # Database.
     ├── domain                                # Business logic.
     ├── navigation                            # Navigation interfaces and screen params.
+    ├── wear                                  # WearOS app.
+    ├── wearrpc                               # Mobile <--> WearOS communication
     ├── features
     │   ├── feature_archive                   # Screen for archived data.
     │   ├── feature_base_adapter              # Shared recycler adapters.
@@ -125,6 +133,9 @@ Simple app that helps track how much time you spend on all the useless activitie
     │   └── feature_widget                    # Widgets.
 
 ## License
+
+**Android App**
+
 Copyright (C) 2020-2024 Anton Razinkov devrazeeman@gmail.com
 
 This program is free software: you can redistribute it and/or modify
@@ -140,6 +151,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+**WearOS App**
+
+Copyright (C) 2023-2024 Joseph Hale https://jhale.dev,
+[@kantahrek](https://github.com/kantahrek), Anton Razinkov devrazeeman@gmail.com
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
 [change_record_thumb]: dev_files/screens/change_record_thumb.png
@@ -185,3 +204,5 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 [darkmode2]: dev_files/screens/darkmode2.png
 [darkmode3_thumb]: dev_files/screens/darkmode3_thumb.png
 [darkmode3]: dev_files/screens/darkmode3.png
+
+[wearos_demo]: dev_files/wearos_demo.gif
