@@ -36,6 +36,8 @@ object Deps {
             "com.google.android:flexbox:${Versions.flexBox}"
         const val services =
             "com.google.android.gms:play-services-wearable:${Versions.services}"
+        const val gson =
+            "com.google.code.gson:gson:${Versions.gson}"
     }
 
     object Emoji {
@@ -76,6 +78,8 @@ object Deps {
             "org.mockito:mockito-core:${Versions.mockito}"
         const val mockitoInline =
             "org.mockito:mockito-inline:${Versions.mockito}"
+        const val coroutines =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutinesTest}"
     }
 
     object UiTest {

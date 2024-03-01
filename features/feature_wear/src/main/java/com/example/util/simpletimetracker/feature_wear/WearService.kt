@@ -5,13 +5,6 @@
  */
 package com.example.util.simpletimetracker.feature_wear
 
-import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
-import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
-import com.example.util.simpletimetracker.wearrpc.WearRPCServer
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.WearableListenerService
@@ -29,34 +22,16 @@ import javax.inject.Inject
 class WearService : WearableListenerService() {
 
     @Inject
-    lateinit var prefsInteractor: PrefsInteractor
+    lateinit var wearRPCServer: WearRPCServer
 
-    @Inject
-    lateinit var recordTypeInteractor: RecordTypeInteractor
-
-    @Inject
-    lateinit var recordTagInteractor: RecordTagInteractor
-
-    @Inject
-    lateinit var runningRecordInteractor: RunningRecordInteractor
-
-    @Inject
-    lateinit var removeRunningRecordMediator: RemoveRunningRecordMediator
-
-    @Inject
-    lateinit var appColorMapper: AppColorMapper
-
-    override fun onRequest(nodeId: String, path: String, request: ByteArray): Task<ByteArray>? {
-        val rpc = WearRPCServer(
-            DomainAPI(
-                prefsInteractor,
-                recordTypeInteractor,
-                recordTagInteractor,
-                runningRecordInteractor,
-                removeRunningRecordMediator,
-                appColorMapper,
-            ),
-        )
-        return runBlocking { Tasks.forResult(rpc.onRequest(path, request)) }
+    override fun onRequest(
+        nodeId: String,
+        path: String,
+        request: ByteArray,
+    ): Task<ByteArray>? {
+        // Can block because service is on separate thread.
+        return runBlocking {
+            Tasks.forResult(wearRPCServer.onRequest(path, request))
+        }
     }
 }

@@ -18,6 +18,7 @@ object Versions {
     const val viewpager2 = "1.0.0"
     const val flexBox = "2.0.1"
     const val services = "18.0.0"
+    const val gson = "2.10.1"
     const val cardView = "1.0.0"
     const val material = "1.2.0"
     const val emoji = "1.4.0"
@@ -33,4 +34,5 @@ object Versions {
     const val junitUi = "1.1.4"
     const val espresso = "3.5.0"
     const val mockito = "5.2.0"
+    const val coroutinesTest = "1.7.1"
 }

@@ -17,20 +17,22 @@ import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.wearrpc.Activity
 import com.example.util.simpletimetracker.wearrpc.CurrentActivity
 import com.example.util.simpletimetracker.wearrpc.Settings
-import com.example.util.simpletimetracker.wearrpc.SimpleTimeTrackerAPI
+import com.example.util.simpletimetracker.wearrpc.WearCommunicationAPI
 import com.example.util.simpletimetracker.wearrpc.Tag
+import javax.inject.Inject
 
-class DomainAPI(
+class WearCommunicationInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val appColorMapper: AppColorMapper,
-) : SimpleTimeTrackerAPI {
+) : WearCommunicationAPI {
 
     override suspend fun queryActivities(): Array<Activity> {
-        return recordTypeInteractor.getAll().filter { recordType -> !recordType.hidden }
+        return recordTypeInteractor.getAll()
+            .filter { recordType -> !recordType.hidden }
             .map { recordType ->
                 Activity(
                     id = recordType.id,
@@ -67,15 +69,18 @@ class DomainAPI(
             id = currentActivity.id,
             timeStarted = currentActivity.startedAt,
             comment = "",
-            tagIds = currentActivity.tags.map { t -> t.id },
+            tagIds = currentActivity.tags.map(Tag::id),
         )
     }
 
     override suspend fun queryTagsForActivity(activityId: Long): Array<Tag> {
         val activityColor = recordTypeInteractor.get(activityId)?.color
-        return recordTagInteractor.getByTypeOrUntyped(activityId).filter { !it.archived }
-            .map { asTag(it, asColor(activityColor)) }.sortedBy { it.name }
-            .sortedBy { it.isGeneral }.toTypedArray()
+        return recordTagInteractor.getByTypeOrUntyped(activityId)
+            .filter { !it.archived }
+            .map { asTag(it, asColor(activityColor)) }
+            .sortedBy { it.name }
+            .sortedBy { it.isGeneral }
+            .toTypedArray()
     }
 
     private fun asTag(recordTag: RecordTag?, activityColor: Long = 0x00000000): Tag {
@@ -113,5 +118,4 @@ class DomainAPI(
             recordTagSelectionEvenForGeneralTags = prefsInteractor.getRecordTagSelectionEvenForGeneralTags(),
         )
     }
-
 }

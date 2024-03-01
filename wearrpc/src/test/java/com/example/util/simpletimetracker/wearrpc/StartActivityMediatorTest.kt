@@ -10,29 +10,30 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-
-open class StartActivityMediatorTestBase {
-
-    protected val api = MockSimpleTimeTrackerAPI()
-    protected val startCallback = MockMediatorCallback()
-    protected val requestTagCallback = MockMediatorCallback()
-    protected val mediator = StartActivityMediator(
+// TODO use mockito
+class StartActivityMediatorTest {
+    private val api = MockWearCommunicationAPI()
+    private val startCallback = MockMediatorCallback()
+    private val requestTagCallback = MockMediatorCallback()
+    private val mediator = StartActivityMediator(
         api = api,
         onRequestStartActivity = startCallback,
         onRequestTagSelection = requestTagCallback,
     )
 
-    protected val sampleActivity = Activity(id = 1, name = "Sleep", icon = "🛏️", color = 0xFF123456)
-    protected val sampleGeneralTag =
+    private val sampleActivity = Activity(id = 1, name = "Sleep", icon = "🛏️", color = 0xFF123456)
+    private val sampleGeneralTag =
         Tag(id = 13, name = "Sleep", isGeneral = true, color = 0xFF654321)
-    protected val sampleNonGeneralTag =
+    private val sampleNonGeneralTag =
         Tag(id = 14, name = "Work", isGeneral = false, color = 0xFF654321)
-    protected val settings = Settings(
+    private val settings = Settings(
         allowMultitasking = false,
         showRecordTagSelection = false,
         recordTagSelectionCloseAfterOne = false,
         recordTagSelectionEvenForGeneralTags = false,
     )
+
+    private val sampleSettings = settings.copy(showRecordTagSelection = true)
 
     @Before
     fun setup() {
@@ -40,9 +41,7 @@ open class StartActivityMediatorTestBase {
         startCallback.reset()
         requestTagCallback.reset()
     }
-}
 
-class `Starts Activity When` : StartActivityMediatorTestBase() {
     @Test
     fun `tag selection disabled`() = runTest {
         api.mock_querySettings(settings.copy(showRecordTagSelection = false))
@@ -77,10 +76,6 @@ class `Starts Activity When` : StartActivityMediatorTestBase() {
         startCallback.assertCallsMade(1)
         requestTagCallback.assertCallsMade(0)
     }
-}
-
-class `Requests tags when tag selection enabled and` : StartActivityMediatorTestBase() {
-    private val sampleSettings = settings.copy(showRecordTagSelection = true)
 
     @Test
     fun `activity has non-general tags`() = runTest {
@@ -103,26 +98,26 @@ class `Requests tags when tag selection enabled and` : StartActivityMediatorTest
         requestTagCallback.assertCallsMade(1)
         startCallback.assertCallsMade(0)
     }
-}
 
-class MockMediatorCallback : (Activity) -> Unit {
-    private var calledWith: Activity? = null
-    private var callCount: Int = 0
-    override fun invoke(activity: Activity) {
-        calledWith = activity
-        callCount++
-    }
+    class MockMediatorCallback : (Activity) -> Unit {
+        private var calledWith: Activity? = null
+        private var callCount: Int = 0
+        override fun invoke(activity: Activity) {
+            calledWith = activity
+            callCount++
+        }
 
-    fun assertCalledWith(activity: Activity) {
-        assertEquals(activity, calledWith)
-    }
+        fun assertCalledWith(activity: Activity) {
+            assertEquals(activity, calledWith)
+        }
 
-    fun assertCallsMade(count: Int) {
-        assertEquals(count, callCount)
-    }
+        fun assertCallsMade(count: Int) {
+            assertEquals(count, callCount)
+        }
 
-    fun reset() {
-        calledWith = null
-        callCount = 0
+        fun reset() {
+            calledWith = null
+            callCount = 0
+        }
     }
 }

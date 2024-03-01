@@ -23,7 +23,7 @@ jobs:
         run: ./gradlew ktlintCheck
 
       - name: Run tests
-        run: ./gradlew testDebug --stacktrace
+        run: ./gradlew testDebugUnitTest --stacktrace
 
   android_tests:
     runs-on: macos-latest

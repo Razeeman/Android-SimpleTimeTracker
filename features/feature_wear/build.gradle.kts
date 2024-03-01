@@ -19,6 +19,10 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":wearrpc"))
     implementation(Deps.Google.services)
+    implementation(Deps.Google.gson)
     implementation(Deps.Google.dagger)
     kapt(Deps.Kapt.dagger)
+
+    testImplementation(Deps.Test.junit)
+    testImplementation(Deps.Test.coroutines)
 }

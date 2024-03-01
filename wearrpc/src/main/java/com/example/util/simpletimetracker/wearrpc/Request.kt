@@ -6,10 +6,12 @@
 package com.example.util.simpletimetracker.wearrpc
 
 object Request {
-    val PING = "/stt//GET/ping"
-    val QUERY_ACTIVITIES = "/stt//GET/activities"
-    val QUERY_CURRENT_ACTIVITIES = "/stt//GET/activities/current"
-    val SET_CURRENT_ACTIVITIES = "/stt//PUT/activities/current"
-    val QUERY_TAGS_FOR_ACTIVITY = "/stt//GET/activities/:ID/tags"
-    val QUERY_SETTINGS = "/stt//GET/settings"
+    const val PATH = "/stt"
+
+    const val PING = "$PATH//GET/ping"
+    const val QUERY_ACTIVITIES = "$PATH//GET/activities"
+    const val QUERY_CURRENT_ACTIVITIES = "$PATH//GET/activities/current"
+    const val SET_CURRENT_ACTIVITIES = "$PATH//PUT/activities/current"
+    const val QUERY_TAGS_FOR_ACTIVITY = "$PATH//GET/activities/:ID/tags"
+    const val QUERY_SETTINGS = "$PATH//GET/settings"
 }

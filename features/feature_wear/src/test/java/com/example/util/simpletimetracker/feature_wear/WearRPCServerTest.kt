@@ -3,8 +3,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.wearrpc
+package com.example.util.simpletimetracker.feature_wear
 
+import com.example.util.simpletimetracker.wearrpc.Activity
+import com.example.util.simpletimetracker.wearrpc.CurrentActivity
+import com.example.util.simpletimetracker.wearrpc.Messenger
+import com.example.util.simpletimetracker.wearrpc.MockWearCommunicationAPI
+import com.example.util.simpletimetracker.wearrpc.Settings
+import com.example.util.simpletimetracker.wearrpc.Tag
+import com.example.util.simpletimetracker.wearrpc.WearRPCClient
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
@@ -14,42 +21,46 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
+// TODO use mockito
+@Suppress("LocalVariableName")
+class WearRPCServerTest {
+    private lateinit var api: MockWearCommunicationAPI
+    private lateinit var rpc: WearRPCServer
+    private lateinit var messenger: Messenger
+    private lateinit var client: WearRPCClient
 
-open class WearRPCServerTestBase {
-    lateinit var api: MockSimpleTimeTrackerAPI
-    lateinit var rpc: WearRPCServer
-    lateinit var messenger: Messenger
-    lateinit var client: WearRPCClient
+    private val sampleSettings = Settings(
+        allowMultitasking = true,
+        showRecordTagSelection = false,
+        recordTagSelectionCloseAfterOne = false,
+        recordTagSelectionEvenForGeneralTags = false,
+    )
 
-    val tagFriends = Tag(1, "Friends", isGeneral = false, 0xFFFD3251)
-    val tagFamily = Tag(2, "Family", isGeneral = true, 0xFFFD3251)
-    val tagShopping = Tag(3, "Shopping", isGeneral = false, 0xFFFF0000)
-    val tagWork = Tag(14, "Work", isGeneral = false, 0xFF00FF00)
+    private val tagFriends = Tag(1, "Friends", isGeneral = false, 0xFFFD3251)
+    private val tagFamily = Tag(2, "Family", isGeneral = true, 0xFFFD3251)
+    private val tagShopping = Tag(3, "Shopping", isGeneral = false, 0xFFFF0000)
+    private val tagWork = Tag(14, "Work", isGeneral = false, 0xFF00FF00)
 
     @Before
     fun setup() {
-        api = MockSimpleTimeTrackerAPI()
+        api = MockWearCommunicationAPI()
         rpc = WearRPCServer(api)
         messenger = MockMessenger(rpc)
         client = WearRPCClient(messenger)
         api.mockReset()
     }
-}
 
-class WearRPCServerTest : WearRPCServerTestBase() {
     @Test
     fun returns_null_for_unsupported_request() = runTest {
         val response = rpc.onRequest("/fake/path", "fake data".toByteArray())
         assertNull(response)
     }
 
-    @Test(expected = WearRPCException::class)
-    fun raises_for_invalid_SimpleTimeTracker_request() = runTest {
-        rpc.onRequest("/stt//GET/fake/path", "fake data".toByteArray())
+    @Test
+    fun returns_null_for_invalid_request() = runTest {
+        val response = rpc.onRequest("/stt//GET/fake/path", "fake data".toByteArray())
+        assertNull(response)
     }
-}
-
-class PingTest : WearRPCServerTestBase() {
 
     @Test
     fun responds_to_empty_request_with_empty_string() = runTest {
@@ -62,9 +73,7 @@ class PingTest : WearRPCServerTestBase() {
         val response = client.ping("Hello World!")
         assertEquals("Hello World!", response)
     }
-}
 
-class GetActivitiesTest : WearRPCServerTestBase() {
     @Test
     fun returns_no_activities_when_none_are_available() = runTest {
         val response = client.queryActivities()
@@ -89,9 +98,7 @@ class GetActivitiesTest : WearRPCServerTestBase() {
         val response = client.queryActivities()
         assertArrayEquals(activities, response)
     }
-}
 
-class QueryCurrentActivitiesTest : WearRPCServerTestBase() {
     @Test
     fun returns_no_activities_when_none_are_running() = runTest {
         val activities = arrayOf<CurrentActivity>()
@@ -100,7 +107,7 @@ class QueryCurrentActivitiesTest : WearRPCServerTestBase() {
     }
 
     @Test
-    fun returns_one_activity_when_one_exists() = runTest {
+    fun returns_one_current_activity_when_one_exists() = runTest {
         val jan_31_2024_afternoon = 1706704801L
         val activities = arrayOf(
             CurrentActivity(
@@ -134,9 +141,7 @@ class QueryCurrentActivitiesTest : WearRPCServerTestBase() {
         val response = client.queryCurrentActivities()
         assertArrayEquals(activities, response)
     }
-}
 
-class QueryTagsForActivityTest : WearRPCServerTestBase() {
     @Test
     fun returns_no_tags_if_activity_has_none() = runTest {
         api.mock_queryTagsForActivity(mapOf(13L to arrayOf()))
@@ -145,7 +150,7 @@ class QueryTagsForActivityTest : WearRPCServerTestBase() {
     }
 
     @Test
-    fun returns_no_tags_if_activity_doesnt_exist() = runTest {
+    fun returns_no_tags_if_activity_does_not_exist() = runTest {
         val response = client.queryTagsForActivity(42)
         assertArrayEquals(arrayOf(), response)
     }
@@ -176,15 +181,7 @@ class QueryTagsForActivityTest : WearRPCServerTestBase() {
         val responseOther = client.queryTagsForActivity(17L)
         assertArrayEquals(otherTags, responseOther)
     }
-}
 
-class QuerySettingsTest : WearRPCServerTestBase() {
-    private val sampleSettings = Settings(
-        allowMultitasking = true,
-        showRecordTagSelection = false,
-        recordTagSelectionCloseAfterOne = false,
-        recordTagSelectionEvenForGeneralTags = false,
-    )
     @Test
     fun returns_settings_with_multitasking_enabled() = runTest {
         api.mock_querySettings(sampleSettings)
@@ -198,64 +195,11 @@ class QuerySettingsTest : WearRPCServerTestBase() {
         val response = client.querySettings()
         assertFalse(response.allowMultitasking)
     }
-}
 
+    class MockMessenger(private val rpc: WearRPCServer) : Messenger {
 
-class MockSimpleTimeTrackerAPI : SimpleTimeTrackerAPI {
-
-    var activities: Array<Activity> = arrayOf()
-    var currentActivities: Array<CurrentActivity> = arrayOf()
-    var tags: Map<Long, Array<Tag>> = mapOf()
-    lateinit var settings: Settings
-
-    override suspend fun queryActivities(): Array<Activity> {
-        return activities
+        override suspend fun send(capability: String, message: ByteArray): ByteArray? {
+            return rpc.onRequest(capability, message)
+        }
     }
-
-    fun mock_queryActivities(activities: Array<Activity>) {
-        this.activities = activities
-    }
-
-    override suspend fun queryCurrentActivities(): Array<CurrentActivity> {
-        return currentActivities
-    }
-
-    fun mock_queryCurrentActivities(activities: Array<CurrentActivity>) {
-        this.currentActivities = activities
-    }
-
-    override suspend fun setCurrentActivities(activities: Array<CurrentActivity>) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun queryTagsForActivity(activityId: Long): Array<Tag> {
-        return this.tags.getOrDefault(activityId, arrayOf())
-    }
-
-    fun mock_queryTagsForActivity(tags: Map<Long, Array<Tag>>) {
-        this.tags = tags
-    }
-
-    override suspend fun querySettings(): Settings {
-        return settings
-    }
-
-    fun mock_querySettings(settings: Settings) {
-        this.settings = settings
-    }
-
-    fun mockReset() {
-        this.activities = arrayOf()
-        this.currentActivities = arrayOf()
-        this.tags = mapOf()
-    }
-
-}
-
-class MockMessenger(private val rpc: WearRPCServer) : Messenger {
-
-    override suspend fun send(capability: String, message: ByteArray): ByteArray? {
-        return rpc.onRequest(capability, message)
-    }
-
 }

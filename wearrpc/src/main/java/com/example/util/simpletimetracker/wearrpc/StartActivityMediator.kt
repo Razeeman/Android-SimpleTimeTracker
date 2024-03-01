@@ -6,7 +6,7 @@
 package com.example.util.simpletimetracker.wearrpc
 
 class StartActivityMediator(
-    private val api: SimpleTimeTrackerAPI,
+    private val api: WearCommunicationAPI,
     private val onRequestStartActivity: suspend (activity: Activity) -> Unit,
     private val onRequestTagSelection: suspend (activity: Activity) -> Unit,
 ) {

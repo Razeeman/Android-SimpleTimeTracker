@@ -9,7 +9,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 
-class WearRPCClient(private val messenger: Messenger) : SimpleTimeTrackerAPI {
+class WearRPCClient(private val messenger: Messenger) : WearCommunicationAPI {
 
     override suspend fun ping(message: String): String {
         val response = messenger.send(Request.PING, message.toByteArray())

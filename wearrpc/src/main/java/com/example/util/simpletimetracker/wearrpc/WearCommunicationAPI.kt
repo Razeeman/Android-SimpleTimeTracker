@@ -5,48 +5,48 @@
  */
 package com.example.util.simpletimetracker.wearrpc
 
-interface SimpleTimeTrackerAPI {
+interface WearCommunicationAPI {
     /**
-     * /stt//GET/ping
+     * [Request.PING]
      *
      * Echos the message it receives
      *
      * Primarily used to test request/response functionality
      */
-    suspend fun ping(str: String): String {
-        return str
+    suspend fun ping(message: String): String {
+        return message
     }
 
     /**
-     * /stt//GET/activities
+     * [Request.QUERY_ACTIVITIES]
      *
      * Retrieves a list of all the time-tracking activities available for selection
      */
     suspend fun queryActivities(): Array<Activity>
 
     /**
-     * /stt//GET/activities/current
+     * [Request.QUERY_CURRENT_ACTIVITIES]
      *
      * Retrieves a list of the currently running activity/activities
      */
     suspend fun queryCurrentActivities(): Array<CurrentActivity>
 
     /**
-     * /stt//PUT/activities/current
+     * [Request.SET_CURRENT_ACTIVITIES]
      *
      * Replaces the currently running activity/activities with the given activities
      */
-    suspend fun setCurrentActivities(activities: Array<CurrentActivity>): Unit
+    suspend fun setCurrentActivities(activities: Array<CurrentActivity>)
 
     /**
-     * /stt//GET/activities/:ID/tags
+     * [Request.QUERY_TAGS_FOR_ACTIVITY]
      *
      * Retrieves the tags available for association with the activity with the given ID
      */
     suspend fun queryTagsForActivity(activityId: Long): Array<Tag>
 
     /**
-     * /stt//GET/settings
+     * [Request.QUERY_SETTINGS]
      *
      * Retrieves the settings relevant to time tracking behavior
      */
