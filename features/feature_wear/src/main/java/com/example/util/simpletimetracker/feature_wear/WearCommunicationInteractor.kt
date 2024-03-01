@@ -5,6 +5,7 @@
  */
 package com.example.util.simpletimetracker.feature_wear
 
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -30,7 +31,7 @@ class WearCommunicationInteractor @Inject constructor(
     private val appColorMapper: AppColorMapper,
 ) : WearCommunicationAPI {
 
-    override suspend fun queryActivities(): Array<Activity> {
+    override suspend fun queryActivities(): List<Activity> {
         return recordTypeInteractor.getAll()
             .filter { recordType -> !recordType.hidden }
             .map { recordType ->
@@ -38,24 +39,24 @@ class WearCommunicationInteractor @Inject constructor(
                     id = recordType.id,
                     name = recordType.name,
                     icon = recordType.icon,
-                    color = asColor(recordType.color),
+                    color = mapColor(recordType.color),
                 )
-            }.toTypedArray()
+            }
     }
 
-    override suspend fun queryCurrentActivities(): Array<CurrentActivity> {
+    override suspend fun queryCurrentActivities(): List<CurrentActivity> {
         return runningRecordInteractor.getAll().map { record ->
             CurrentActivity(
-                record.id,
-                record.timeStarted,
-                record.tagIds.map { tagId ->
-                    asTag(recordTagInteractor.get(tagId))
-                }.filter { it.id > 0 }.toTypedArray(),
+                id = record.id,
+                startedAt = record.timeStarted,
+                tags = record.tagIds.mapNotNull { tagId ->
+                    recordTagInteractor.get(tagId)?.let(::mapTag)
+                },
             )
-        }.toTypedArray()
+        }
     }
 
-    override suspend fun setCurrentActivities(activities: Array<CurrentActivity>) {
+    override suspend fun setCurrentActivities(activities: List<CurrentActivity>) {
         val currents = queryCurrentActivities()
         val unchanged = currents.filter { c -> activities.any { a -> a == c } }
         val stopped = currents.filter { c -> unchanged.none { u -> u == c } }
@@ -73,41 +74,37 @@ class WearCommunicationInteractor @Inject constructor(
         )
     }
 
-    override suspend fun queryTagsForActivity(activityId: Long): Array<Tag> {
-        val activityColor = recordTypeInteractor.get(activityId)?.color
+    override suspend fun queryTagsForActivity(activityId: Long): List<Tag> {
+        val activity = recordTypeInteractor.get(activityId) ?: return emptyList()
+        val activityColor = mapColor(activity.color)
         return recordTagInteractor.getByTypeOrUntyped(activityId)
             .filter { !it.archived }
-            .map { asTag(it, asColor(activityColor)) }
+            .map { mapTag(it, activityColor) }
             .sortedBy { it.name }
             .sortedBy { it.isGeneral }
-            .toTypedArray()
     }
 
-    private fun asTag(recordTag: RecordTag?, activityColor: Long = 0x00000000): Tag {
-        return if (recordTag != null) {
-            val isGeneral = recordTag.typeId == 0L
-            val tagColor = if (isGeneral) {
-                asColor(recordTag.color)
-            } else {
-                activityColor
-            }
-            Tag(
-                id = recordTag.id,
-                name = recordTag.name,
-                isGeneral = isGeneral,
-                color = tagColor,
-            )
+    private fun mapTag(
+        recordTag: RecordTag,
+        activityColor: Long? = null,
+    ): Tag {
+        val isGeneral = recordTag.typeId == 0L
+        val tagColor = if (isGeneral) {
+            mapColor(recordTag.color)
         } else {
-            Tag(id = -1, name = "", isGeneral = true, color = 0xFF555555)
+            activityColor
         }
+
+        return Tag(
+            id = recordTag.id,
+            name = recordTag.name,
+            isGeneral = isGeneral,
+            color = tagColor.orZero(),
+        )
     }
 
-    private fun asColor(appColor: AppColor?): Long {
-        return if (appColor == null) {
-            0x00000000
-        } else {
-            appColorMapper.mapToColorInt(appColor).toLong()
-        }
+    private fun mapColor(appColor: AppColor): Long {
+        return appColorMapper.mapToColorInt(appColor).toLong()
     }
 
     override suspend fun querySettings(): Settings {

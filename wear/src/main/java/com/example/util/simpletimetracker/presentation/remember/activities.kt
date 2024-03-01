@@ -13,7 +13,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.example.util.simpletimetracker.wearrpc.Activity
-import com.example.util.simpletimetracker.wearrpc.WearRPCClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
@@ -34,9 +33,9 @@ import kotlinx.coroutines.async
  * from the phone.
  */
 @Composable
-fun rememberActivities(): Pair<Array<Activity>, () -> Unit> {
-    var rpc = rememberRPCClient()
-    var activities: Array<Activity> by remember { mutableStateOf(arrayOf()) }
+fun rememberActivities(): Pair<List<Activity>, () -> Unit> {
+    val rpc = rememberRPCClient()
+    var activities: List<Activity> by remember { mutableStateOf(emptyList()) }
     var activitiesQueryCount by remember { mutableIntStateOf(0) }
     LaunchedEffect(activitiesQueryCount) {
         async(Dispatchers.Default) {

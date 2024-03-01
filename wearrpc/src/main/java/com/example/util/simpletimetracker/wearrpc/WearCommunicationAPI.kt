@@ -22,28 +22,28 @@ interface WearCommunicationAPI {
      *
      * Retrieves a list of all the time-tracking activities available for selection
      */
-    suspend fun queryActivities(): Array<Activity>
+    suspend fun queryActivities(): List<Activity>
 
     /**
      * [Request.QUERY_CURRENT_ACTIVITIES]
      *
      * Retrieves a list of the currently running activity/activities
      */
-    suspend fun queryCurrentActivities(): Array<CurrentActivity>
+    suspend fun queryCurrentActivities(): List<CurrentActivity>
 
     /**
      * [Request.SET_CURRENT_ACTIVITIES]
      *
      * Replaces the currently running activity/activities with the given activities
      */
-    suspend fun setCurrentActivities(activities: Array<CurrentActivity>)
+    suspend fun setCurrentActivities(activities: List<CurrentActivity>)
 
     /**
      * [Request.QUERY_TAGS_FOR_ACTIVITY]
      *
      * Retrieves the tags available for association with the activity with the given ID
      */
-    suspend fun queryTagsForActivity(activityId: Long): Array<Tag>
+    suspend fun queryTagsForActivity(activityId: Long): List<Tag>
 
     /**
      * [Request.QUERY_SETTINGS]

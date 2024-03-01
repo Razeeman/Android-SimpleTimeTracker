@@ -44,7 +44,7 @@ class WearRPCServer @Inject constructor(
     }
 
     private suspend fun onSetCurrentActivities(request: ByteArray): ByteArray? {
-        val activities: Array<CurrentActivity> = mapRequest(request) ?: return null
+        val activities: List<CurrentActivity> = mapRequest(request) ?: return null
         api.setCurrentActivities(activities)
         return ByteArray(0)
     }

@@ -35,9 +35,9 @@ import kotlinx.coroutines.async
  * from the phone.
  */
 @Composable
-fun rememberCurrentActivities(): Pair<Array<CurrentActivity>, () -> Unit> {
-    var rpc = rememberRPCClient()
-    var currentActivities: Array<CurrentActivity> by remember { mutableStateOf(arrayOf()) }
+fun rememberCurrentActivities(): Pair<List<CurrentActivity>, () -> Unit> {
+    val rpc = rememberRPCClient()
+    var currentActivities: List<CurrentActivity> by remember { mutableStateOf(emptyList()) }
     var currentActivitiesQueryCount by remember { mutableIntStateOf(0) }
     val queryCurrentActivities = { currentActivitiesQueryCount++ }
     LaunchedEffect(currentActivitiesQueryCount) {
@@ -45,5 +45,5 @@ fun rememberCurrentActivities(): Pair<Array<CurrentActivity>, () -> Unit> {
             currentActivities = rpc.queryCurrentActivities()
         }
     }
-    return Pair(currentActivities, { queryCurrentActivities() })
+    return currentActivities to { queryCurrentActivities() }
 }

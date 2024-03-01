@@ -8,7 +8,6 @@ package com.example.util.simpletimetracker.wearrpc
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-
 class WearRPCClient(private val messenger: Messenger) : WearCommunicationAPI {
 
     override suspend fun ping(message: String): String {
@@ -17,33 +16,33 @@ class WearRPCClient(private val messenger: Messenger) : WearCommunicationAPI {
         else throw WearRPCException("No response")
     }
 
-    override suspend fun queryActivities(): Array<Activity> {
+    override suspend fun queryActivities(): List<Activity> {
         val response = messenger.send(Request.QUERY_ACTIVITIES)
         if (response != null) {
-            val collectionType = object : TypeToken<Array<Activity>>() {}.type
+            val collectionType = object : TypeToken<List<Activity>>() {}.type
             return Gson().fromJson(String(response), collectionType)
         } else throw WearRPCException("No response")
     }
 
-    override suspend fun queryCurrentActivities(): Array<CurrentActivity> {
+    override suspend fun queryCurrentActivities(): List<CurrentActivity> {
         val response = messenger.send(Request.QUERY_CURRENT_ACTIVITIES)
         if (response != null) {
-            val collectionType = object : TypeToken<Array<CurrentActivity>>() {}.type
+            val collectionType = object : TypeToken<List<CurrentActivity>>() {}.type
             return Gson().fromJson(String(response), collectionType)
         } else throw WearRPCException("No response")
     }
 
-    override suspend fun setCurrentActivities(activities: Array<CurrentActivity>) {
+    override suspend fun setCurrentActivities(activities: List<CurrentActivity>) {
         messenger.send(Request.SET_CURRENT_ACTIVITIES, Gson().toJson(activities).toByteArray())
     }
 
-    override suspend fun queryTagsForActivity(activityId: Long): Array<Tag> {
+    override suspend fun queryTagsForActivity(activityId: Long): List<Tag> {
         val response = messenger.send(
             Request.QUERY_TAGS_FOR_ACTIVITY,
             Gson().toJson(activityId).toByteArray(),
         )
         if (response != null) {
-            val collectionType = object : TypeToken<Array<Tag>>() {}.type
+            val collectionType = object : TypeToken<List<Tag>>() {}.type
             return Gson().fromJson(String(response), collectionType)
         } else throw WearRPCException("No response")
     }

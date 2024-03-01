@@ -2,36 +2,36 @@ package com.example.util.simpletimetracker.wearrpc
 
 class MockWearCommunicationAPI : WearCommunicationAPI {
 
-    var activities: Array<Activity> = arrayOf()
-    var currentActivities: Array<CurrentActivity> = arrayOf()
-    var tags: Map<Long, Array<Tag>> = mapOf()
+    var activities: List<Activity> = emptyList()
+    var currentActivities: List<CurrentActivity> = emptyList()
+    var tags: Map<Long, List<Tag>> = mapOf()
     lateinit var settings: Settings
 
-    override suspend fun queryActivities(): Array<Activity> {
+    override suspend fun queryActivities(): List<Activity> {
         return activities
     }
 
-    fun mock_queryActivities(activities: Array<Activity>) {
+    fun mock_queryActivities(activities: List<Activity>) {
         this.activities = activities
     }
 
-    override suspend fun queryCurrentActivities(): Array<CurrentActivity> {
+    override suspend fun queryCurrentActivities(): List<CurrentActivity> {
         return currentActivities
     }
 
-    fun mock_queryCurrentActivities(activities: Array<CurrentActivity>) {
+    fun mock_queryCurrentActivities(activities: List<CurrentActivity>) {
         this.currentActivities = activities
     }
 
-    override suspend fun setCurrentActivities(activities: Array<CurrentActivity>) {
+    override suspend fun setCurrentActivities(activities: List<CurrentActivity>) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun queryTagsForActivity(activityId: Long): Array<Tag> {
-        return this.tags[activityId] ?: arrayOf()
+    override suspend fun queryTagsForActivity(activityId: Long): List<Tag> {
+        return this.tags[activityId].orEmpty()
     }
 
-    fun mock_queryTagsForActivity(tags: Map<Long, Array<Tag>>) {
+    fun mock_queryTagsForActivity(tags: Map<Long, List<Tag>>) {
         this.tags = tags
     }
 
@@ -44,8 +44,8 @@ class MockWearCommunicationAPI : WearCommunicationAPI {
     }
 
     fun mockReset() {
-        this.activities = arrayOf()
-        this.currentActivities = arrayOf()
+        this.activities = emptyList()
+        this.currentActivities = emptyList()
         this.tags = mapOf()
     }
 

@@ -20,8 +20,8 @@ import com.example.util.simpletimetracker.wearrpc.CurrentActivity
 
 @Composable
 fun ActivitiesList(
-    activities: Array<Activity>,
-    currentActivities: Array<CurrentActivity>,
+    activities: List<Activity>,
+    currentActivities: List<CurrentActivity>,
     onSelectActivity: (activity: Activity) -> Unit,
     onEnableActivity: (activity: Activity) -> Unit,
     onDisableActivity: (activity: Activity) -> Unit,
@@ -43,7 +43,7 @@ fun ActivitiesList(
                     ActivityChip(
                         activity,
                         startedAt = currentActivity?.startedAt,
-                        tags = currentActivity?.tags ?: arrayOf(),
+                        tags = currentActivity?.tags.orEmpty(),
                         onClick = { onSelectActivity(activity) },
                         onToggleOn = { onEnableActivity(activity) },
                         onToggleOff = { onDisableActivity(activity) },
@@ -61,8 +61,8 @@ fun ActivitiesList(
 @Composable
 private fun NoActivities() {
     ActivitiesList(
-        activities = arrayOf(),
-        currentActivities = arrayOf(),
+        activities = emptyList(),
+        currentActivities = emptyList(),
         onSelectActivity = { /* `it` is the selected activity */ },
         onEnableActivity = { /* `it` is the enabled activity */ },
         onDisableActivity = { /* `it` is the disabled activity */ },
@@ -73,12 +73,12 @@ private fun NoActivities() {
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun Preview() {
-    val activities = arrayOf(
+    val activities = listOf(
         Activity(1234, "Chores", "🧹", 0xFFFA0000),
         Activity(4321, "Sleep", "🛏️", 0xFF0000FA),
     )
-    val currents = arrayOf(
-        CurrentActivity(id = 4321, startedAt = 1708241427000L, tags = arrayOf()),
+    val currents = listOf(
+        CurrentActivity(id = 4321, startedAt = 1708241427000L, tags = emptyList()),
     )
     ActivitiesList(
         activities = activities,

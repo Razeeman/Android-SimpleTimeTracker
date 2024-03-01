@@ -23,9 +23,9 @@ import com.example.util.simpletimetracker.wearrpc.Tag
 
 @Composable
 fun TagList(
-    tags: Array<Tag>,
+    tags: List<Tag>,
     mode: TagSelectionMode = TagSelectionMode.SINGLE,
-    onSelectionComplete: (tags: Array<Tag>) -> Unit = {},
+    onSelectionComplete: (tags: List<Tag>) -> Unit = {},
 ) {
     var selectedTags: List<Tag> by remember { mutableStateOf(listOf()) }
     ScaffoldedScrollingColumn {
@@ -42,8 +42,8 @@ fun TagList(
                     TagChip(
                         tag = tag, mode = mode,
                         onClick = {
-                            onSelectionComplete(selectedTags.minus(tag).plus(tag).toTypedArray())
-                            //                               ^No duplicate tags^
+                            // No duplicate tags
+                            onSelectionComplete(selectedTags.minus(tag).plus(tag))
                         },
                         onToggleOn = { selectedTags = selectedTags.plus(tag) },
                         onToggleOff = { selectedTags = selectedTags.minus(tag) },
@@ -51,21 +51,21 @@ fun TagList(
                 }
             }
         }
-        item { SubmitButton(onClick = { onSelectionComplete(selectedTags.toTypedArray()) }) }
+        item { SubmitButton(onClick = { onSelectionComplete(selectedTags) }) }
     }
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun NoTags() {
-    TagList(tags = arrayOf(), onSelectionComplete = {})
+    TagList(tags = emptyList(), onSelectionComplete = {})
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun WithSomeTags() {
     TagList(
-        tags = arrayOf(
+        tags = listOf(
             Tag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
             Tag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
         ),
@@ -76,7 +76,7 @@ private fun WithSomeTags() {
 @Composable
 private fun MultiSelectMode() {
     TagList(
-        tags = arrayOf(
+        tags = listOf(
             Tag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
             Tag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
         ),

@@ -39,7 +39,7 @@ private const val ISO_MISSING_MINUTES_REGEX = "(\\d+H) (\\d+S)"
 fun ActivityChip(
     activity: Activity,
     startedAt: Long? = null,
-    tags: Array<Tag> = arrayOf(),
+    tags: List<Tag> = emptyList(),
     onClick: () -> Unit = {},
     onToggleOn: () -> Unit = {},
     onToggleOff: () -> Unit = {},
@@ -189,7 +189,7 @@ fun CurrentlyRunningWithTags() {
     ActivityChip(
         Activity(456, "Sleeping", "🛏️", 0xFFABCDEF),
         startedAt = Instant.now().toEpochMilli() - 360000,
-        tags = arrayOf(
+        tags = listOf(
             Tag(id = 2, name = "Work", isGeneral = true, color = 0xFFFFAA22),
             Tag(id = 4, name = "Hotel", isGeneral = false, color = 0xFFABCDEF),
         ),
