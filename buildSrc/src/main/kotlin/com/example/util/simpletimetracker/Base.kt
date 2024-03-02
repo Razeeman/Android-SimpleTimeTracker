@@ -11,5 +11,5 @@ object Base {
 
     const val versionCodeWear = 1
     const val versionNameWear = "1.0"
-    const val minSDKWear = 26
+    const val minSDKWear = 25
 }
