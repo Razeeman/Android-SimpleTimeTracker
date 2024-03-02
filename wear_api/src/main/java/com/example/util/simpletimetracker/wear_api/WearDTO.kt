@@ -15,7 +15,7 @@ import kotlinx.parcelize.Parcelize
  */
 
 @Parcelize
-data class Activity(
+data class WearActivity(
     val id: Long,
     val name: String,
     val icon: String,
@@ -23,14 +23,14 @@ data class Activity(
 ): Parcelable
 
 @Parcelize
-data class CurrentActivity(
+data class WearCurrentActivity(
     val id: Long,
     val startedAt: Long,
-    val tags: List<Tag>,
+    val tags: List<WearTag>,
 ): Parcelable
 
 @Parcelize
-data class Tag(
+data class WearTag(
     val id: Long,
     val name: String,
     val isGeneral: Boolean,
@@ -38,7 +38,7 @@ data class Tag(
 ): Parcelable
 
 @Parcelize
-data class Settings(
+data class WearSettings(
     val allowMultitasking: Boolean,
     val showRecordTagSelection: Boolean,
     val recordTagSelectionCloseAfterOne: Boolean,

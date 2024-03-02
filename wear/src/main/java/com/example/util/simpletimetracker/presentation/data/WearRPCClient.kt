@@ -5,11 +5,11 @@
  */
 package com.example.util.simpletimetracker.presentation.data
 
-import com.example.util.simpletimetracker.wear_api.Activity
-import com.example.util.simpletimetracker.wear_api.CurrentActivity
-import com.example.util.simpletimetracker.wear_api.Request
-import com.example.util.simpletimetracker.wear_api.Settings
-import com.example.util.simpletimetracker.wear_api.Tag
+import com.example.util.simpletimetracker.wear_api.WearActivity
+import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
+import com.example.util.simpletimetracker.wear_api.WearRequests
+import com.example.util.simpletimetracker.wear_api.WearSettings
+import com.example.util.simpletimetracker.wear_api.WearTag
 import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -23,43 +23,43 @@ class WearRPCClient @Inject constructor(
 
     override suspend fun ping(message: String): String {
         val response: String? = messenger
-            .send(Request.PING, mapToBytes(message))
+            .send(WearRequests.PING, mapToBytes(message))
             ?.let(::mapFromBytes)
 
         return response ?: throw WearRPCException("No response")
     }
 
-    override suspend fun queryActivities(): List<Activity> {
-        val response: List<Activity>? = messenger
-            .send(Request.QUERY_ACTIVITIES)
+    override suspend fun queryActivities(): List<WearActivity> {
+        val response: List<WearActivity>? = messenger
+            .send(WearRequests.QUERY_ACTIVITIES)
             ?.let(::mapFromBytes)
 
         return response ?: throw WearRPCException("No response")
     }
 
-    override suspend fun queryCurrentActivities(): List<CurrentActivity> {
-        val response: List<CurrentActivity>? = messenger
-            .send(Request.QUERY_CURRENT_ACTIVITIES)
+    override suspend fun queryCurrentActivities(): List<WearCurrentActivity> {
+        val response: List<WearCurrentActivity>? = messenger
+            .send(WearRequests.QUERY_CURRENT_ACTIVITIES)
             ?.let(::mapFromBytes)
 
         return response ?: throw WearRPCException("No response")
     }
 
-    override suspend fun setCurrentActivities(starting: List<CurrentActivity>) {
-        messenger.send(Request.SET_CURRENT_ACTIVITIES, mapToBytes(starting))
+    override suspend fun setCurrentActivities(starting: List<WearCurrentActivity>) {
+        messenger.send(WearRequests.SET_CURRENT_ACTIVITIES, mapToBytes(starting))
     }
 
-    override suspend fun queryTagsForActivity(activityId: Long): List<Tag> {
-        val response: List<Tag>? = messenger
-            .send(Request.QUERY_TAGS_FOR_ACTIVITY, mapToBytes(activityId))
+    override suspend fun queryTagsForActivity(activityId: Long): List<WearTag> {
+        val response: List<WearTag>? = messenger
+            .send(WearRequests.QUERY_TAGS_FOR_ACTIVITY, mapToBytes(activityId))
             ?.let(::mapFromBytes)
 
         return response ?: throw WearRPCException("No response")
     }
 
-    override suspend fun querySettings(): Settings {
-        val response: Settings? = messenger
-            .send(Request.QUERY_SETTINGS)
+    override suspend fun querySettings(): WearSettings {
+        val response: WearSettings? = messenger
+            .send(WearRequests.QUERY_SETTINGS)
             ?.let(::mapFromBytes)
 
         return response ?: throw WearRPCException("No response")

@@ -19,15 +19,15 @@ import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.presentation.layout.ScaffoldedScrollingColumn
-import com.example.util.simpletimetracker.wear_api.Tag
+import com.example.util.simpletimetracker.wear_api.WearTag
 
 @Composable
 fun TagList(
-    tags: List<Tag>,
+    tags: List<WearTag>,
     mode: TagSelectionMode = TagSelectionMode.SINGLE,
-    onSelectionComplete: (tags: List<Tag>) -> Unit = {},
+    onSelectionComplete: (tags: List<WearTag>) -> Unit = {},
 ) {
-    var selectedTags: List<Tag> by remember { mutableStateOf(listOf()) }
+    var selectedTags: List<WearTag> by remember { mutableStateOf(listOf()) }
     ScaffoldedScrollingColumn {
         if (tags.isEmpty()) {
             item {
@@ -66,8 +66,8 @@ private fun NoTags() {
 private fun WithSomeTags() {
     TagList(
         tags = listOf(
-            Tag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
-            Tag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
+            WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
+            WearTag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
         ),
     )
 }
@@ -77,8 +77,8 @@ private fun WithSomeTags() {
 private fun MultiSelectMode() {
     TagList(
         tags = listOf(
-            Tag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
-            Tag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
+            WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
+            WearTag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
         ),
         mode = TagSelectionMode.MULTI,
     )

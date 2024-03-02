@@ -12,7 +12,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.example.util.simpletimetracker.wear_api.Settings
+import com.example.util.simpletimetracker.wear_api.WearSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
@@ -31,9 +31,9 @@ import kotlinx.coroutines.async
  * `refresh` is a function you can call to forcibly re-request the settings from the phone.
  */
 @Composable
-fun rememberSettings(): Pair<Settings?, () -> Unit> {
+fun rememberSettings(): Pair<WearSettings?, () -> Unit> {
     var rpc = rememberRPCClient()
-    var settings: Settings? by remember { mutableStateOf(null) }
+    var settings: WearSettings? by remember { mutableStateOf(null) }
     var settingsQueryCount by remember { mutableIntStateOf(0) }
     LaunchedEffect(settingsQueryCount) {
         async(Dispatchers.Default) {

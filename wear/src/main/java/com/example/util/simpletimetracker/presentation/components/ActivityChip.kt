@@ -26,8 +26,8 @@ import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.ToggleChipDefaults
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.presentation.remember.rememberDurationSince
-import com.example.util.simpletimetracker.wear_api.Activity
-import com.example.util.simpletimetracker.wear_api.Tag
+import com.example.util.simpletimetracker.wear_api.WearActivity
+import com.example.util.simpletimetracker.wear_api.WearTag
 import java.time.Duration
 import java.time.Instant
 
@@ -37,9 +37,9 @@ private const val ISO_MISSING_MINUTES_REGEX = "(\\d+H) (\\d+S)"
 
 @Composable
 fun ActivityChip(
-    activity: Activity,
+    activity: WearActivity,
     startedAt: Long? = null,
-    tags: List<Tag> = emptyList(),
+    tags: List<WearTag> = emptyList(),
     onClick: () -> Unit = {},
     onToggleOn: () -> Unit = {},
     onToggleOff: () -> Unit = {},
@@ -138,31 +138,31 @@ fun durationToLabel(duration: Duration): String {
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleCooking() {
-    ActivityChip(Activity(123, "Cooking", "🎉", 0xFF123456))
+    ActivityChip(WearActivity(123, "Cooking", "🎉", 0xFF123456))
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleSleep() {
-    ActivityChip(Activity(456, "Sleeping", "🛏️", 0xFFABCDEF))
+    ActivityChip(WearActivity(456, "Sleeping", "🛏️", 0xFFABCDEF))
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleText() {
-    ActivityChip(Activity(456, "Sleeping", "Zzzz", 0xFFABCDEF))
+    ActivityChip(WearActivity(456, "Sleeping", "Zzzz", 0xFFABCDEF))
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleIcon() {
-    ActivityChip(Activity(456, "Sleeping", "ic_hotel_24px", 0xFFABCDEF))
+    ActivityChip(WearActivity(456, "Sleeping", "ic_hotel_24px", 0xFFABCDEF))
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun InvalidIcon() {
-    ActivityChip(Activity(456, "Sleeping", "ic_gobbldeegoock_24px", 0xFFABCDEF))
+    ActivityChip(WearActivity(456, "Sleeping", "ic_gobbldeegoock_24px", 0xFFABCDEF))
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
@@ -171,14 +171,14 @@ fun White() {
     // TODO handle the look of light colored chips
     // Note: A white color is only possible when using the RGB color picker.
     // The default color options in the phone app are mostly darker shades.
-    ActivityChip(Activity(456, "Sleeping", "🛏️", 0xFFFFFFFF))
+    ActivityChip(WearActivity(456, "Sleeping", "🛏️", 0xFFFFFFFF))
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun CurrentlyRunning() {
     ActivityChip(
-        Activity(456, "Sleeping", "🛏️", 0xFFABCDEF),
+        WearActivity(456, "Sleeping", "🛏️", 0xFFABCDEF),
         startedAt = Instant.now().toEpochMilli() - 360000,
     )
 }
@@ -187,11 +187,11 @@ fun CurrentlyRunning() {
 @Composable
 fun CurrentlyRunningWithTags() {
     ActivityChip(
-        Activity(456, "Sleeping", "🛏️", 0xFFABCDEF),
+        WearActivity(456, "Sleeping", "🛏️", 0xFFABCDEF),
         startedAt = Instant.now().toEpochMilli() - 360000,
         tags = listOf(
-            Tag(id = 2, name = "Work", isGeneral = true, color = 0xFFFFAA22),
-            Tag(id = 4, name = "Hotel", isGeneral = false, color = 0xFFABCDEF),
+            WearTag(id = 2, name = "Work", isGeneral = true, color = 0xFFFFAA22),
+            WearTag(id = 4, name = "Hotel", isGeneral = false, color = 0xFFABCDEF),
         ),
     )
 }

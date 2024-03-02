@@ -5,8 +5,8 @@
  */
 package com.example.util.simpletimetracker.feature_wear
 
-import com.example.util.simpletimetracker.wear_api.CurrentActivity
-import com.example.util.simpletimetracker.wear_api.Request
+import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
+import com.example.util.simpletimetracker.wear_api.WearRequests
 import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -20,14 +20,14 @@ class WearRPCServer @Inject constructor(
     private val gson = Gson()
 
     suspend fun onRequest(path: String, request: ByteArray): ByteArray? {
-        return if (path.startsWith(Request.PATH)) {
+        return if (path.startsWith(WearRequests.PATH)) {
             when (path) {
-                Request.PING -> onPing(request)
-                Request.QUERY_ACTIVITIES -> onQueryActivities()
-                Request.QUERY_CURRENT_ACTIVITIES -> onQueryCurrentActivities()
-                Request.SET_CURRENT_ACTIVITIES -> onSetCurrentActivities(request)
-                Request.QUERY_TAGS_FOR_ACTIVITY -> onQueryTagsForActivity(request)
-                Request.QUERY_SETTINGS -> onQuerySettings()
+                WearRequests.PING -> onPing(request)
+                WearRequests.QUERY_ACTIVITIES -> onQueryActivities()
+                WearRequests.QUERY_CURRENT_ACTIVITIES -> onQueryCurrentActivities()
+                WearRequests.SET_CURRENT_ACTIVITIES -> onSetCurrentActivities(request)
+                WearRequests.QUERY_TAGS_FOR_ACTIVITY -> onQueryTagsForActivity(request)
+                WearRequests.QUERY_SETTINGS -> onQuerySettings()
                 else -> {
                     Timber.d("$path is an invalid RPC call")
                     null
@@ -44,7 +44,7 @@ class WearRPCServer @Inject constructor(
     }
 
     private suspend fun onSetCurrentActivities(request: ByteArray): ByteArray? {
-        val activities: List<CurrentActivity> = mapFromBytes(request) ?: return null
+        val activities: List<WearCurrentActivity> = mapFromBytes(request) ?: return null
         api.setCurrentActivities(activities)
         return ByteArray(0)
     }

@@ -25,7 +25,7 @@ import androidx.wear.compose.material.SplitToggleChip
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.ToggleChipDefaults
 import androidx.wear.tooling.preview.devices.WearDevices
-import com.example.util.simpletimetracker.wear_api.Tag
+import com.example.util.simpletimetracker.wear_api.WearTag
 
 enum class TagSelectionMode {
     SINGLE, MULTI,
@@ -33,7 +33,7 @@ enum class TagSelectionMode {
 
 @Composable
 fun TagChip(
-    tag: Tag,
+    tag: WearTag,
     onClick: () -> Unit = {},
     onToggleOn: () -> Unit = {},
     onToggleOff: () -> Unit = {},
@@ -57,7 +57,7 @@ fun TagChip(
 }
 
 @Composable
-private fun SingleSelectTagChip(tag: Tag, onClick: () -> Unit) {
+private fun SingleSelectTagChip(tag: WearTag, onClick: () -> Unit) {
     Chip(
         onClick = onClick,
         label = { Text(tag.name, maxLines = 1, overflow = TextOverflow.Ellipsis) },
@@ -70,7 +70,7 @@ private fun SingleSelectTagChip(tag: Tag, onClick: () -> Unit) {
 
 @Composable
 private fun MultiSelectTagChip(
-    tag: Tag,
+    tag: WearTag,
     onClick: () -> Unit = {},
     onToggleOn: () -> Unit = {},
     onToggleOff: () -> Unit = {},
@@ -118,7 +118,7 @@ private fun MultiSelectTagChip(
 @Composable
 private fun Default() {
     TagChip(
-        tag = Tag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
+        tag = WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
         onClick = {},
     )
 }
@@ -128,7 +128,7 @@ private fun Default() {
 @Composable
 private fun MultiSelectMode() {
     TagChip(
-        tag = Tag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF654321),
+        tag = WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF654321),
         onClick = {},
         mode = TagSelectionMode.MULTI,
     )
@@ -138,7 +138,7 @@ private fun MultiSelectMode() {
 @Composable
 private fun MultiSelectChecked() {
     MultiSelectTagChip(
-        tag = Tag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF654321),
+        tag = WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF654321),
         onClick = {},
         checked = true,
     )

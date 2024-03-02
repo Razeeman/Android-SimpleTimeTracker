@@ -15,16 +15,16 @@ import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.presentation.layout.ScaffoldedScrollingColumn
-import com.example.util.simpletimetracker.wear_api.Activity
-import com.example.util.simpletimetracker.wear_api.CurrentActivity
+import com.example.util.simpletimetracker.wear_api.WearActivity
+import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 
 @Composable
 fun ActivitiesList(
-    activities: List<Activity>,
-    currentActivities: List<CurrentActivity>,
-    onSelectActivity: (activity: Activity) -> Unit,
-    onEnableActivity: (activity: Activity) -> Unit,
-    onDisableActivity: (activity: Activity) -> Unit,
+    activities: List<WearActivity>,
+    currentActivities: List<WearCurrentActivity>,
+    onSelectActivity: (activity: WearActivity) -> Unit,
+    onEnableActivity: (activity: WearActivity) -> Unit,
+    onDisableActivity: (activity: WearActivity) -> Unit,
     onRefresh: () -> Unit,
     footer: @Composable () -> Unit = {}
 ) {
@@ -74,11 +74,11 @@ private fun NoActivities() {
 @Composable
 private fun Preview() {
     val activities = listOf(
-        Activity(1234, "Chores", "🧹", 0xFFFA0000),
-        Activity(4321, "Sleep", "🛏️", 0xFF0000FA),
+        WearActivity(1234, "Chores", "🧹", 0xFFFA0000),
+        WearActivity(4321, "Sleep", "🛏️", 0xFF0000FA),
     )
     val currents = listOf(
-        CurrentActivity(id = 4321, startedAt = 1708241427000L, tags = emptyList()),
+        WearCurrentActivity(id = 4321, startedAt = 1708241427000L, tags = emptyList()),
     )
     ActivitiesList(
         activities = activities,

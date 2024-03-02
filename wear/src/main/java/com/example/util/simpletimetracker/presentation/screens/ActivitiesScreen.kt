@@ -14,7 +14,7 @@ import com.example.util.simpletimetracker.presentation.mediators.CurrentActiviti
 import com.example.util.simpletimetracker.presentation.remember.rememberActivities
 import com.example.util.simpletimetracker.presentation.remember.rememberCurrentActivities
 import com.example.util.simpletimetracker.presentation.remember.rememberRPCClient
-import com.example.util.simpletimetracker.wear_api.Activity
+import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.presentation.mediators.StartActivityMediator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,20 +33,20 @@ fun ActivitiesScreen(
         refreshCurrentActivities()
     }
     val currentActivitiesMediator = CurrentActivitiesMediator(rpc, currentActivities)
-    val startActivityWithoutTags: (Activity) -> Unit = {
+    val startActivityWithoutTags: (WearActivity) -> Unit = {
         Log.d("ActivitiesScreen", "Starting ${it.name} (#${it.id}) without tags")
         coroutineScope.launch(Dispatchers.Default) {
             currentActivitiesMediator.start(it.id)
             refresh()
         }
     }
-    val startActivityWithTags: (Activity) -> Unit = {
+    val startActivityWithTags: (WearActivity) -> Unit = {
         coroutineScope.launch(Dispatchers.Main) {
             Log.d("ActivitiesScreen", "Starting ${it.name} (#${it.id}) with tags")
             onRequestTagSelection(it.id)
         }
     }
-    val stopActivity: (Activity) -> Unit = {
+    val stopActivity: (WearActivity) -> Unit = {
         Log.d("ActivitiesScreen", "Stopping ${it.name} (#${it.id})")
         coroutineScope.launch(Dispatchers.Default) {
             currentActivitiesMediator.stop(it.id)

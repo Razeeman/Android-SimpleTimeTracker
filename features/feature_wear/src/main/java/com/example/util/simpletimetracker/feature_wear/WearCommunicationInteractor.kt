@@ -16,11 +16,11 @@ import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RunningRecord
-import com.example.util.simpletimetracker.wear_api.Activity
-import com.example.util.simpletimetracker.wear_api.CurrentActivity
-import com.example.util.simpletimetracker.wear_api.Settings
+import com.example.util.simpletimetracker.wear_api.WearActivity
+import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
+import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
-import com.example.util.simpletimetracker.wear_api.Tag
+import com.example.util.simpletimetracker.wear_api.WearTag
 import javax.inject.Inject
 
 class WearCommunicationInteractor @Inject constructor(
@@ -33,11 +33,11 @@ class WearCommunicationInteractor @Inject constructor(
     private val appColorMapper: AppColorMapper,
 ) : WearCommunicationAPI {
 
-    override suspend fun queryActivities(): List<Activity> {
+    override suspend fun queryActivities(): List<WearActivity> {
         return recordTypeInteractor.getAll()
             .filter { recordType -> !recordType.hidden }
             .map { recordType ->
-                Activity(
+                WearActivity(
                     id = recordType.id,
                     name = recordType.name,
                     icon = recordType.icon,
@@ -46,9 +46,9 @@ class WearCommunicationInteractor @Inject constructor(
             }
     }
 
-    override suspend fun queryCurrentActivities(): List<CurrentActivity> {
+    override suspend fun queryCurrentActivities(): List<WearCurrentActivity> {
         return runningRecordInteractor.getAll().map { record ->
-            CurrentActivity(
+            WearCurrentActivity(
                 id = record.id,
                 startedAt = record.timeStarted,
                 tags = record.tagIds.mapNotNull { tagId ->
@@ -58,10 +58,10 @@ class WearCommunicationInteractor @Inject constructor(
         }
     }
 
-    override suspend fun setCurrentActivities(starting: List<CurrentActivity>) {
+    override suspend fun setCurrentActivities(starting: List<WearCurrentActivity>) {
         val currents = runningRecordInteractor.getAll()
         val currentsIds = runningRecordInteractor.getAll().map(RunningRecord::id)
-        val startingIds = starting.map(CurrentActivity::id)
+        val startingIds = starting.map(WearCurrentActivity::id)
 
         val stopped = currents.filter { it.id !in startingIds }
         val started = starting.filter { it.id !in currentsIds }
@@ -73,12 +73,12 @@ class WearCommunicationInteractor @Inject constructor(
             addRunningRecordMediator.add(
                 typeId = record.id,
                 timeStarted = record.startedAt,
-                tagIds = record.tags.map(Tag::id),
+                tagIds = record.tags.map(WearTag::id),
             )
         }
     }
 
-    override suspend fun queryTagsForActivity(activityId: Long): List<Tag> {
+    override suspend fun queryTagsForActivity(activityId: Long): List<WearTag> {
         val activity = recordTypeInteractor.get(activityId) ?: return emptyList()
         val activityColor = mapColor(activity.color)
         return recordTagInteractor.getByTypeOrUntyped(activityId)
@@ -91,7 +91,7 @@ class WearCommunicationInteractor @Inject constructor(
     private fun mapTag(
         recordTag: RecordTag,
         activityColor: Long? = null,
-    ): Tag {
+    ): WearTag {
         val isGeneral = recordTag.typeId == 0L
         val tagColor = if (isGeneral) {
             mapColor(recordTag.color)
@@ -99,7 +99,7 @@ class WearCommunicationInteractor @Inject constructor(
             activityColor
         }
 
-        return Tag(
+        return WearTag(
             id = recordTag.id,
             name = recordTag.name,
             isGeneral = isGeneral,
@@ -111,8 +111,8 @@ class WearCommunicationInteractor @Inject constructor(
         return appColorMapper.mapToColorInt(appColor).toLong()
     }
 
-    override suspend fun querySettings(): Settings {
-        return Settings(
+    override suspend fun querySettings(): WearSettings {
+        return WearSettings(
             allowMultitasking = prefsInteractor.getAllowMultitasking(),
             showRecordTagSelection = prefsInteractor.getShowRecordTagSelection(),
             recordTagSelectionCloseAfterOne = prefsInteractor.getRecordTagSelectionCloseAfterOne(),

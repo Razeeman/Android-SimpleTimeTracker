@@ -5,7 +5,7 @@
  */
 package com.example.util.simpletimetracker.wear_api
 
-object Request {
+object WearRequests {
     const val PATH = "/stt"
 
     const val PING = "$PATH//GET/ping"

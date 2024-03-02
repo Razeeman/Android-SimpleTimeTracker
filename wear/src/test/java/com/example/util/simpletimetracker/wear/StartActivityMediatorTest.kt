@@ -6,10 +6,10 @@
 package com.example.util.simpletimetracker.wear
 
 import com.example.util.simpletimetracker.presentation.mediators.StartActivityMediator
-import com.example.util.simpletimetracker.wear_api.Activity
+import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.wear_api.MockWearCommunicationAPI
-import com.example.util.simpletimetracker.wear_api.Settings
-import com.example.util.simpletimetracker.wear_api.Tag
+import com.example.util.simpletimetracker.wear_api.WearSettings
+import com.example.util.simpletimetracker.wear_api.WearTag
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -26,12 +26,12 @@ class StartActivityMediatorTest {
         onRequestTagSelection = requestTagCallback,
     )
 
-    private val sampleActivity = Activity(id = 1, name = "Sleep", icon = "🛏️", color = 0xFF123456)
+    private val sampleActivity = WearActivity(id = 1, name = "Sleep", icon = "🛏️", color = 0xFF123456)
     private val sampleGeneralTag =
-        Tag(id = 13, name = "Sleep", isGeneral = true, color = 0xFF654321)
+        WearTag(id = 13, name = "Sleep", isGeneral = true, color = 0xFF654321)
     private val sampleNonGeneralTag =
-        Tag(id = 14, name = "Work", isGeneral = false, color = 0xFF654321)
-    private val settings = Settings(
+        WearTag(id = 14, name = "Work", isGeneral = false, color = 0xFF654321)
+    private val settings = WearSettings(
         allowMultitasking = false,
         showRecordTagSelection = false,
         recordTagSelectionCloseAfterOne = false,
@@ -104,15 +104,15 @@ class StartActivityMediatorTest {
         startCallback.assertCallsMade(0)
     }
 
-    class MockMediatorCallback : (Activity) -> Unit {
-        private var calledWith: Activity? = null
+    class MockMediatorCallback : (WearActivity) -> Unit {
+        private var calledWith: WearActivity? = null
         private var callCount: Int = 0
-        override fun invoke(activity: Activity) {
+        override fun invoke(activity: WearActivity) {
             calledWith = activity
             callCount++
         }
 
-        fun assertCalledWith(activity: Activity) {
+        fun assertCalledWith(activity: WearActivity) {
             assertEquals(activity, calledWith)
         }
 

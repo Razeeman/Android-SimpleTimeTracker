@@ -5,12 +5,12 @@
  */
 package com.example.util.simpletimetracker.feature_wear
 
-import com.example.util.simpletimetracker.wear_api.Activity
-import com.example.util.simpletimetracker.wear_api.CurrentActivity
+import com.example.util.simpletimetracker.wear_api.WearActivity
+import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 import com.example.util.simpletimetracker.presentation.data.Messenger
 import com.example.util.simpletimetracker.wear_api.MockWearCommunicationAPI
-import com.example.util.simpletimetracker.wear_api.Settings
-import com.example.util.simpletimetracker.wear_api.Tag
+import com.example.util.simpletimetracker.wear_api.WearSettings
+import com.example.util.simpletimetracker.wear_api.WearTag
 import com.example.util.simpletimetracker.presentation.data.WearRPCClient
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertArrayEquals
@@ -29,17 +29,17 @@ class WearRPCServerTest {
     private lateinit var messenger: Messenger
     private lateinit var client: WearRPCClient
 
-    private val sampleSettings = Settings(
+    private val sampleSettings = WearSettings(
         allowMultitasking = true,
         showRecordTagSelection = false,
         recordTagSelectionCloseAfterOne = false,
         recordTagSelectionEvenForGeneralTags = false,
     )
 
-    private val tagFriends = Tag(1, "Friends", isGeneral = false, 0xFFFD3251)
-    private val tagFamily = Tag(2, "Family", isGeneral = true, 0xFFFD3251)
-    private val tagShopping = Tag(3, "Shopping", isGeneral = false, 0xFFFF0000)
-    private val tagWork = Tag(14, "Work", isGeneral = false, 0xFF00FF00)
+    private val tagFriends = WearTag(1, "Friends", isGeneral = false, 0xFFFD3251)
+    private val tagFamily = WearTag(2, "Family", isGeneral = true, 0xFFFD3251)
+    private val tagShopping = WearTag(3, "Shopping", isGeneral = false, 0xFFFF0000)
+    private val tagWork = WearTag(14, "Work", isGeneral = false, 0xFF00FF00)
 
     @Before
     fun setup() {
@@ -77,12 +77,12 @@ class WearRPCServerTest {
     @Test
     fun returns_no_activities_when_none_are_available() = runTest {
         val response = client.queryActivities()
-        assertArrayEquals(arrayOf<Activity>(), response)
+        assertArrayEquals(arrayOf<WearActivity>(), response)
     }
 
     @Test
     fun returns_one_activity_when_one_exists() = runTest {
-        val activities = arrayOf(Activity(42, "Chores", "🎉", 0xFF00FF00))
+        val activities = arrayOf(WearActivity(42, "Chores", "🎉", 0xFF00FF00))
         api.mock_queryActivities(activities)
         val response = client.queryActivities()
         assertArrayEquals(activities, response)
@@ -91,8 +91,8 @@ class WearRPCServerTest {
     @Test
     fun returns_all_existing_activities() = runTest {
         val activities = arrayOf(
-            Activity(13, "Singing", "🎶", 0xFF123456),
-            Activity(24, "Homework", "📝", 0xFFABCDEF),
+            WearActivity(13, "Singing", "🎶", 0xFF123456),
+            WearActivity(24, "Homework", "📝", 0xFFABCDEF),
         )
         api.mock_queryActivities(activities)
         val response = client.queryActivities()
@@ -101,7 +101,7 @@ class WearRPCServerTest {
 
     @Test
     fun returns_no_activities_when_none_are_running() = runTest {
-        val activities = arrayOf<CurrentActivity>()
+        val activities = arrayOf<WearCurrentActivity>()
         val response = client.queryCurrentActivities()
         assertArrayEquals(activities, response)
     }
@@ -110,7 +110,7 @@ class WearRPCServerTest {
     fun returns_one_current_activity_when_one_exists() = runTest {
         val jan_31_2024_afternoon = 1706704801L
         val activities = arrayOf(
-            CurrentActivity(
+            WearCurrentActivity(
                 42,
                 jan_31_2024_afternoon,
                 arrayOf(tagFriends, tagFamily),
@@ -126,12 +126,12 @@ class WearRPCServerTest {
         val jan_31_2024_afternoon = 1706704801L
         val jan_31_2024_evening = 1706751601L
         val activities = arrayOf(
-            CurrentActivity(
+            WearCurrentActivity(
                 42,
                 jan_31_2024_afternoon,
                 arrayOf(tagFriends, tagFamily),
             ),
-            CurrentActivity(
+            WearCurrentActivity(
                 42,
                 jan_31_2024_evening,
                 arrayOf(tagShopping),

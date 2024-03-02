@@ -1,19 +1,19 @@
 package com.example.util.simpletimetracker.presentation.mediators
 
-import com.example.util.simpletimetracker.wear_api.CurrentActivity
-import com.example.util.simpletimetracker.wear_api.Settings
-import com.example.util.simpletimetracker.wear_api.Tag
+import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
+import com.example.util.simpletimetracker.wear_api.WearSettings
+import com.example.util.simpletimetracker.wear_api.WearTag
 import com.example.util.simpletimetracker.presentation.data.WearRPCClient
 
 class CurrentActivitiesMediator(
     private val rpc: WearRPCClient,
-    private val currents: List<CurrentActivity>,
+    private val currents: List<WearCurrentActivity>,
 ) {
     suspend fun start(activityId: Long) {
         start(activityId, emptyList())
     }
-    suspend fun start(activityId: Long, tags: List<Tag>) {
-        val newCurrent = CurrentActivity(
+    suspend fun start(activityId: Long, tags: List<WearTag>) {
+        val newCurrent = WearCurrentActivity(
             id = activityId,
             startedAt = System.currentTimeMillis(),
             tags = tags
@@ -29,7 +29,7 @@ class CurrentActivitiesMediator(
         val remaining = currents.filter { it.id != currentId }
         this.rpc.setCurrentActivities(remaining)
     }
-    private suspend fun settings(): Settings {
+    private suspend fun settings(): WearSettings {
         return this.rpc.querySettings()
     }
 

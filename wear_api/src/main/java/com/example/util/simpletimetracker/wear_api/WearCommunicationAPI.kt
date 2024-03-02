@@ -7,7 +7,7 @@ package com.example.util.simpletimetracker.wear_api
 
 interface WearCommunicationAPI {
     /**
-     * [Request.PING]
+     * [WearRequests.PING]
      *
      * Echos the message it receives
      *
@@ -18,37 +18,37 @@ interface WearCommunicationAPI {
     }
 
     /**
-     * [Request.QUERY_ACTIVITIES]
+     * [WearRequests.QUERY_ACTIVITIES]
      *
      * Retrieves a list of all the time-tracking activities available for selection
      */
-    suspend fun queryActivities(): List<Activity>
+    suspend fun queryActivities(): List<WearActivity>
 
     /**
-     * [Request.QUERY_CURRENT_ACTIVITIES]
+     * [WearRequests.QUERY_CURRENT_ACTIVITIES]
      *
      * Retrieves a list of the currently running activity/activities
      */
-    suspend fun queryCurrentActivities(): List<CurrentActivity>
+    suspend fun queryCurrentActivities(): List<WearCurrentActivity>
 
     /**
-     * [Request.SET_CURRENT_ACTIVITIES]
+     * [WearRequests.SET_CURRENT_ACTIVITIES]
      *
      * Replaces the currently running activity/activities with the given activities
      */
-    suspend fun setCurrentActivities(starting: List<CurrentActivity>)
+    suspend fun setCurrentActivities(starting: List<WearCurrentActivity>)
 
     /**
-     * [Request.QUERY_TAGS_FOR_ACTIVITY]
+     * [WearRequests.QUERY_TAGS_FOR_ACTIVITY]
      *
      * Retrieves the tags available for association with the activity with the given ID
      */
-    suspend fun queryTagsForActivity(activityId: Long): List<Tag>
+    suspend fun queryTagsForActivity(activityId: Long): List<WearTag>
 
     /**
-     * [Request.QUERY_SETTINGS]
+     * [WearRequests.QUERY_SETTINGS]
      *
      * Retrieves the settings relevant to time tracking behavior
      */
-    suspend fun querySettings(): Settings
+    suspend fun querySettings(): WearSettings
 }

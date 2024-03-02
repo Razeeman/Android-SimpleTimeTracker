@@ -5,16 +5,16 @@
  */
 package com.example.util.simpletimetracker.presentation.mediators
 
-import com.example.util.simpletimetracker.wear_api.Activity
-import com.example.util.simpletimetracker.wear_api.Settings
+import com.example.util.simpletimetracker.wear_api.WearActivity
+import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 
 class StartActivityMediator(
     private val api: WearCommunicationAPI,
-    private val onRequestStartActivity: suspend (activity: Activity) -> Unit,
-    private val onRequestTagSelection: suspend (activity: Activity) -> Unit,
+    private val onRequestStartActivity: suspend (activity: WearActivity) -> Unit,
+    private val onRequestTagSelection: suspend (activity: WearActivity) -> Unit,
 ) {
-    suspend fun requestStart(activity: Activity) {
+    suspend fun requestStart(activity: WearActivity) {
         val settings = api.querySettings()
         if (settings.showRecordTagSelection) {
             requestTagSelectionIfNeeded(activity, settings)
@@ -23,7 +23,7 @@ class StartActivityMediator(
         }
     }
 
-    private suspend fun requestTagSelectionIfNeeded(activity: Activity, settings: Settings) {
+    private suspend fun requestTagSelectionIfNeeded(activity: WearActivity, settings: WearSettings) {
         val tags = api.queryTagsForActivity(activity.id)
         val generalTags = tags.filter { it.isGeneral }
         val nonGeneralTags = tags.filter { !it.isGeneral }
