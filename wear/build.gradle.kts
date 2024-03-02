@@ -1,10 +1,12 @@
-import com.example.util.simpletimetracker.Deps
-
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
+import com.example.util.simpletimetracker.Base
+import com.example.util.simpletimetracker.Deps
+import com.example.util.simpletimetracker.Versions
+import com.example.util.simpletimetracker.applyAndroidWearLibrary
 
 plugins {
     id("com.android.application")
@@ -13,20 +15,15 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
+applyAndroidWearLibrary()
+
 android {
-    namespace = "com.example.util.simpletimetracker"
-    compileSdk = 34
+    namespace = Base.namespace
 
     defaultConfig {
-        applicationId = "com.razeeman.util.simpletimetracker"
-        minSdk = 26
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-
+        applicationId = Base.applicationId
+        versionCode = Base.versionCodeWear
+        versionName = Base.versionNameWear
     }
 
     buildTypes {
@@ -41,61 +38,42 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+
     buildFeatures {
         compose = true
     }
+
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
-    }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+        kotlinCompilerExtensionVersion = Versions.compose_kotlin_compiler
     }
 }
 
 dependencies {
-    var compose_version = "1.3.1"
-    var wear_compose_version = "1.1.0"
-    // Runtime Dependencies
-    implementation("androidx.wear.compose:compose-navigation:$wear_compose_version")
-    implementation("com.google.android.horologist:horologist-compose-layout:0.2.7")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
-    implementation("androidx.compose.material:material-icons-core:1.6.1")
     implementation(project(":wear_api"))
     implementation(project(":resources"))
 
-    // Dev Dependencies
-    implementation("androidx.wear:wear-tooling-preview:1.0.0")
-
-    // Default Dependencies
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("com.google.android.gms:play-services-wearable:17.1.0")
+    implementation(Deps.Androidx.appcompat)
+    implementation(Deps.Google.services)
     implementation(Deps.Google.gson)
-    implementation("androidx.percentlayout:percentlayout:1.0.0")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
-    implementation("androidx.compose.ui:ui:$compose_version")
-    implementation("androidx.wear.compose:compose-material:$wear_compose_version")
-    implementation("androidx.wear.compose:compose-foundation:$wear_compose_version")
-    implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation("androidx.activity:activity-compose:1.3.1")
-    implementation("androidx.appcompat:appcompat:1.6.0")
-
     implementation(Deps.Google.dagger)
+    implementation(Deps.Compose.activity)
+    implementation(Deps.Compose.ui)
+    implementation(Deps.Compose.uiToolingPreview)
+    implementation(Deps.Compose.materialIcons)
+    implementation(Deps.Compose.wearNavigation)
+    implementation(Deps.Compose.wearMaterial)
+    implementation(Deps.Compose.wearFoundation)
+    implementation(Deps.Compose.wearToolingPreview)
+    implementation(Deps.Compose.horologist)
+    debugImplementation(Deps.Compose.uiTooling)
     kapt(Deps.Kapt.dagger)
 
     testImplementation(Deps.Test.junit)
     testImplementation(Deps.Test.coroutines)
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
-    debugImplementation("androidx.compose.ui:ui-tooling:$compose_version")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
+
 }

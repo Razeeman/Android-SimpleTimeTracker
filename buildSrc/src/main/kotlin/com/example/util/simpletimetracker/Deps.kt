@@ -64,6 +64,29 @@ object Deps {
             "androidx.navigation:navigation-ui-ktx:${Versions.navigationKtx}"
     }
 
+    object Compose {
+        const val activity =
+            "androidx.activity:activity-compose:${Versions.compose_version}"
+        const val ui =
+            "androidx.compose.ui:ui:${Versions.compose_version}"
+        const val uiToolingPreview =
+            "androidx.compose.ui:ui-tooling-preview:${Versions.compose_version}"
+        const val materialIcons =
+            "androidx.compose.material:material-icons-core:${Versions.compose_icons}"
+        const val wearNavigation =
+            "androidx.wear.compose:compose-navigation:${Versions.wear_compose_version}"
+        const val wearMaterial =
+            "androidx.wear.compose:compose-material:${Versions.wear_compose_version}"
+        const val wearFoundation =
+            "androidx.wear.compose:compose-foundation:${Versions.wear_compose_version}"
+        const val wearToolingPreview =
+            "androidx.wear:wear-tooling-preview:${Versions.wear_compose_tooling_preview}"
+        const val horologist =
+            "com.google.android.horologist:horologist-compose-layout:${Versions.horologist}"
+        const val uiTooling =
+            "androidx.compose.ui:ui-tooling:${Versions.compose_version}"
+    }
+
     object Kapt {
         const val room =
             "androidx.room:room-compiler:${Versions.room}"

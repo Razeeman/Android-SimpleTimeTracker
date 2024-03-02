@@ -20,6 +20,5 @@ android {
 }
 
 dependencies {
-    implementation(Deps.Google.services)
     implementation(Deps.Google.gson)
 }

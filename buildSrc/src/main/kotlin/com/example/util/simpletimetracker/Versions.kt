@@ -30,6 +30,13 @@ object Versions {
     const val viewModelKtx = "2.2.0"
     const val navigationKtx = "2.3.5"
 
+    const val compose_version = "1.3.1"
+    const val wear_compose_version = "1.1.0"
+    const val compose_icons = "1.6.1"
+    const val wear_compose_tooling_preview = "1.0.0"
+    const val horologist = "0.2.7"
+    const val compose_kotlin_compiler = "1.4.0-alpha02"
+
     const val junit = "4.13"
     const val junitUi = "1.1.4"
     const val espresso = "3.5.0"

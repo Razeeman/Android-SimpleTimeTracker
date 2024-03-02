@@ -1,0 +1,20 @@
+import com.example.util.simpletimetracker.Base
+
+android {
+    compileSdk = Base.currentSDK
+
+    defaultConfig {
+        minSdk = Base.minSDKWear
+        targetSdk = Base.currentSDK
+
+        vectorDrawables.generatedDensities()
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+}
