@@ -6,20 +6,15 @@
 package com.example.util.simpletimetracker.presentation.screens
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.util.simpletimetracker.presentation.components.ActivitiesList
-import com.example.util.simpletimetracker.presentation.components.CreditsButton
 import com.example.util.simpletimetracker.presentation.screens.ActivitiesViewModel.Effect
 import com.example.util.simpletimetracker.presentation.utils.collectEffects
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun ActivitiesScreen(
     onRequestTagSelection: (activityId: Long) -> Unit,
-    onRequestCredits: () -> Unit,
 ) {
     val viewModel = hiltViewModel<ActivitiesViewModel>()
     viewModel.init()
@@ -38,6 +33,5 @@ fun ActivitiesScreen(
         onEnableActivity = viewModel::startActivityWithoutTags,
         onDisableActivity = viewModel::stopActivity,
         onRefresh = viewModel::refresh,
-        footer = { CreditsButton(onClick = onRequestCredits) },
     )
 }

@@ -92,4 +92,8 @@ enum class SettingsBlock {
     TranslatorsTop,
     TranslatorsTitle,
     TranslatorsBottom,
+
+    ContributorsTop,
+    ContributorsTitle,
+    ContributorsBottom,
 }

@@ -271,6 +271,7 @@
     <string name="settings_version">Version</string>
     <string name="settings_email_chooser_title">Send with…</string>
     <string name="settings_translators">Translators</string>
+    <string name="settings_contributors">Contributors</string>
     <string name="settings_automated_tracking">Automated tracking</string>
     <string name="settings_automated_tracking_text"><![CDATA[
 Automatic tracking is possible through integration with third-party applications that allow to automate actions based on certain events. These applications, when a certain event occurs, can send a message to the app to start or stop the activity timer.<br/>

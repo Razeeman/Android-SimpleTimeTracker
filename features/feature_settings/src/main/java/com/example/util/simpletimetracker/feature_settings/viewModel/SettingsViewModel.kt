@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsAdditionalViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsBackupViewModelDelegate
+import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsContributorsViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsDisplayViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsExportViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsMainViewModelDelegate
@@ -38,6 +39,7 @@ class SettingsViewModel @Inject constructor(
     private val backupDelegate: SettingsBackupViewModelDelegate,
     private val exportDelegate: SettingsExportViewModelDelegate,
     private val translatorsDelegate: SettingsTranslatorsViewModelDelegate,
+    private val contributorsDelegate: SettingsContributorsViewModelDelegate,
 ) : BaseViewModel(), SettingsParent {
 
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
@@ -275,6 +277,7 @@ class SettingsViewModel @Inject constructor(
         result += backupDelegate.getViewData()
         result += exportDelegate.getViewData()
         result += translatorsDelegate.getViewData()
+        result += contributorsDelegate.getViewData()
         return result
     }
 

@@ -4,6 +4,4 @@
     <string name="refresh_button_default_content_description">Actualizar</string>
     <string name="no_tags">Sin etiquetas</string>
     <string name="no_activities">Sin actividades</string>
-    <string name="credits_button">Reconocimientos</string>
-    <string name="credits_by">por</string>
 </resources>

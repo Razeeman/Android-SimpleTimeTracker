@@ -24,6 +24,7 @@
         app:layout_constraintEnd_toStartOf="@id/tvItemSettingsTranslatorsLanguage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="4dp"
         tools:text="Translator" />
 
     <androidx.appcompat.widget.AppCompatTextView
