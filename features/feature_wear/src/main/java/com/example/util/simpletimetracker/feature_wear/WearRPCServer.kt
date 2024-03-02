@@ -39,12 +39,12 @@ class WearRPCServer @Inject constructor(
     }
 
     private suspend fun onQueryTagsForActivity(request: ByteArray): ByteArray? {
-        val activityId: Long = mapRequest(request) ?: return null
-        return mapToResponse(api.queryTagsForActivity(activityId))
+        val activityId: Long = mapFromBytes(request) ?: return null
+        return mapToBytes(api.queryTagsForActivity(activityId))
     }
 
     private suspend fun onSetCurrentActivities(request: ByteArray): ByteArray? {
-        val activities: List<CurrentActivity> = mapRequest(request) ?: return null
+        val activities: List<CurrentActivity> = mapFromBytes(request) ?: return null
         api.setCurrentActivities(activities)
         return ByteArray(0)
     }
@@ -54,22 +54,22 @@ class WearRPCServer @Inject constructor(
     }
 
     private suspend fun onQueryActivities(): ByteArray {
-        return mapToResponse(api.queryActivities())
+        return mapToBytes(api.queryActivities())
     }
 
     private suspend fun onQueryCurrentActivities(): ByteArray {
-        return mapToResponse(api.queryCurrentActivities())
+        return mapToBytes(api.queryCurrentActivities())
     }
 
     private suspend fun onQuerySettings(): ByteArray {
-        return mapToResponse(api.querySettings())
+        return mapToBytes(api.querySettings())
     }
 
-    private fun <T> mapToResponse(data: T): ByteArray {
+    private fun <T> mapToBytes(data: T): ByteArray {
         return gson.toJson(data).toByteArray()
     }
 
-    private inline fun <reified T> mapRequest(data: ByteArray): T? {
+    private inline fun <reified T> mapFromBytes(data: ByteArray): T? {
         return runCatching {
             val collectionType = object : TypeToken<T>() {}.type
             gson.fromJson<T>(String(data), collectionType)

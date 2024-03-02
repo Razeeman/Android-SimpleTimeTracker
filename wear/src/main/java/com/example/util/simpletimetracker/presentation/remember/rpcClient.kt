@@ -2,8 +2,8 @@ package com.example.util.simpletimetracker.presentation.remember
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import com.example.util.simpletimetracker.wearrpc.ContextMessenger
-import com.example.util.simpletimetracker.wearrpc.WearRPCClient
+import com.example.util.simpletimetracker.presentation.data.ContextMessenger
+import com.example.util.simpletimetracker.presentation.data.WearRPCClient
 
 @Composable
 fun rememberRPCClient(): WearRPCClient {

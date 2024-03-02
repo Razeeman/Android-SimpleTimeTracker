@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.wearrpc
+package com.example.util.simpletimetracker.presentation.data
 
 import android.content.Context
 import android.util.Log
@@ -14,49 +14,53 @@ import com.google.android.gms.wearable.Node
 import com.google.android.gms.wearable.Wearable
 import kotlinx.coroutines.CompletableDeferred
 import java.util.concurrent.CancellationException
+import javax.inject.Inject
 
 interface Messenger {
-    suspend fun send(capability: String): ByteArray? {
-        return this.send(capability, ByteArray(0))
-    }
-    suspend fun send(capability: String, message: ByteArray): ByteArray?
+    suspend fun send(
+        capability: String,
+        message: ByteArray = ByteArray(0),
+    ): ByteArray?
 }
 
-class ContextMessenger(private val context: Context): Messenger {
+class ContextMessenger @Inject constructor(
+    private val context: Context,
+) : Messenger {
     private val TAG: String = ContextMessenger::class.java.name
 
     override suspend fun send(capability: String, message: ByteArray): ByteArray? {
-        val def = CompletableDeferred<ByteArray?>()
+        val deferred = CompletableDeferred<ByteArray?>()
         val bestNode = findNearestNode(capability)
 
         // Send the message
-        bestNode?.also { nodeId ->
-            Log.d(TAG, "Sending message to ${bestNode?.displayName}")
+        if (bestNode != null) {
+            Log.d(TAG, "Sending message to ${bestNode.displayName}")
             Log.d(TAG, String(message))
-            Wearable.getMessageClient(context).sendRequest(bestNode.id, capability, message)
+            Wearable.getMessageClient(context)
+                .sendRequest(bestNode.id, capability, message)
                 .addOnSuccessListener {
                     Log.d(TAG, "Response received for $capability")
                     Log.d(TAG, String(it))
-                    def.complete(it)
+                    deferred.complete(it)
                 }.addOnCanceledListener {
-                    val message = "Request $capability to ${bestNode.displayName} was cancelled"
-                    Log.d(TAG, message)
-                    def.cancel(CancellationException(message))
+                    val logMessage = "Request $capability to ${bestNode.displayName} was cancelled"
+                    Log.d(TAG, logMessage)
+                    deferred.cancel(CancellationException(logMessage))
                 }.addOnFailureListener {
-                    val message =
-                        "No response received from mobile for $capability : ${String(message)}"
-                    Log.d(TAG, message)
-                    def.cancel(CancellationException(message))
+                    val logMessage = "No response received from mobile for $capability : ${String(message)}"
+                    Log.d(TAG, logMessage)
+                    deferred.cancel(CancellationException(logMessage))
                 }
-        } ?: run {
-            val message = "No nodes found with the capability $capability"
-            Log.d(TAG, message)
-            def.cancel(CancellationException(message))
+        } else {
+            val logMessage = "No nodes found with the capability $capability"
+            Log.d(TAG, logMessage)
+            deferred.cancel(CancellationException(logMessage))
         }
-        return def.await()
+
+        return deferred.await()
     }
 
-    private suspend fun findNearestNode(capability: String): Node? {
+    private fun findNearestNode(capability: String): Node? {
         // Find all nodes which support the time tracking message
         Log.d(TAG, "Searching for nodes with ${context.packageName} installed")
         val nodeClient = Wearable.getNodeClient(context)

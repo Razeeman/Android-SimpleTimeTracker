@@ -3,8 +3,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.wearrpc
+package com.example.util.simpletimetracker.wear
 
+import com.example.util.simpletimetracker.presentation.mediators.StartActivityMediator
+import com.example.util.simpletimetracker.wearrpc.Activity
+import com.example.util.simpletimetracker.wearrpc.MockWearCommunicationAPI
+import com.example.util.simpletimetracker.wearrpc.Settings
+import com.example.util.simpletimetracker.wearrpc.Tag
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -66,7 +71,7 @@ class StartActivityMediatorTest {
                     recordTagSelectionEvenForGeneralTags = false,
                 ),
             )
-            api.mock_queryTagsForActivity(mapOf(sampleActivity.id to arrayOf(sampleGeneralTag)))
+            api.mock_queryTagsForActivity(mapOf(sampleActivity.id to listOf(sampleGeneralTag)))
             mediator.requestStart(sampleActivity)
             `assert only start callback invoked`()
         }
@@ -80,7 +85,7 @@ class StartActivityMediatorTest {
     @Test
     fun `activity has non-general tags`() = runTest {
         api.mock_querySettings(sampleSettings)
-        api.mock_queryTagsForActivity(mapOf(sampleActivity.id to arrayOf(sampleNonGeneralTag)))
+        api.mock_queryTagsForActivity(mapOf(sampleActivity.id to listOf(sampleNonGeneralTag)))
         mediator.requestStart(sampleActivity)
         `assert only tag callback invoked`()
     }
@@ -88,7 +93,7 @@ class StartActivityMediatorTest {
     @Test
     fun `activity has only general tags and tag selection enabled for only generals`() = runTest {
         api.mock_querySettings(sampleSettings.copy(recordTagSelectionEvenForGeneralTags = true))
-        api.mock_queryTagsForActivity(mapOf(sampleActivity.id to arrayOf(sampleGeneralTag)))
+        api.mock_queryTagsForActivity(mapOf(sampleActivity.id to listOf(sampleGeneralTag)))
         mediator.requestStart(sampleActivity)
         `assert only tag callback invoked`()
     }

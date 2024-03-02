@@ -7,11 +7,11 @@ package com.example.util.simpletimetracker.feature_wear
 
 import com.example.util.simpletimetracker.wearrpc.Activity
 import com.example.util.simpletimetracker.wearrpc.CurrentActivity
-import com.example.util.simpletimetracker.wearrpc.Messenger
+import com.example.util.simpletimetracker.presentation.data.Messenger
 import com.example.util.simpletimetracker.wearrpc.MockWearCommunicationAPI
 import com.example.util.simpletimetracker.wearrpc.Settings
 import com.example.util.simpletimetracker.wearrpc.Tag
-import com.example.util.simpletimetracker.wearrpc.WearRPCClient
+import com.example.util.simpletimetracker.presentation.data.WearRPCClient
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
@@ -196,7 +196,8 @@ class WearRPCServerTest {
         assertFalse(response.allowMultitasking)
     }
 
-    class MockMessenger(private val rpc: WearRPCServer) : Messenger {
+    class MockMessenger(private val rpc: WearRPCServer) :
+        Messenger {
 
         override suspend fun send(capability: String, message: ByteArray): ByteArray? {
             return rpc.onRequest(capability, message)

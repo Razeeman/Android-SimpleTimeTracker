@@ -36,7 +36,7 @@ interface WearCommunicationAPI {
      *
      * Replaces the currently running activity/activities with the given activities
      */
-    suspend fun setCurrentActivities(activities: List<CurrentActivity>)
+    suspend fun setCurrentActivities(starting: List<CurrentActivity>)
 
     /**
      * [Request.QUERY_TAGS_FOR_ACTIVITY]

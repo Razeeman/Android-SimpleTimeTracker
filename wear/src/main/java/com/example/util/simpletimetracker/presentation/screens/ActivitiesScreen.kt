@@ -15,7 +15,7 @@ import com.example.util.simpletimetracker.presentation.remember.rememberActiviti
 import com.example.util.simpletimetracker.presentation.remember.rememberCurrentActivities
 import com.example.util.simpletimetracker.presentation.remember.rememberRPCClient
 import com.example.util.simpletimetracker.wearrpc.Activity
-import com.example.util.simpletimetracker.wearrpc.StartActivityMediator
+import com.example.util.simpletimetracker.presentation.mediators.StartActivityMediator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

@@ -23,7 +23,7 @@ class MockWearCommunicationAPI : WearCommunicationAPI {
         this.currentActivities = activities
     }
 
-    override suspend fun setCurrentActivities(activities: List<CurrentActivity>) {
+    override suspend fun setCurrentActivities(starting: List<CurrentActivity>) {
         TODO("Not yet implemented")
     }
 

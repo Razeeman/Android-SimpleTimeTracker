@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.presentation.mediators
 import com.example.util.simpletimetracker.wearrpc.CurrentActivity
 import com.example.util.simpletimetracker.wearrpc.Settings
 import com.example.util.simpletimetracker.wearrpc.Tag
-import com.example.util.simpletimetracker.wearrpc.WearRPCClient
+import com.example.util.simpletimetracker.presentation.data.WearRPCClient
 
 class CurrentActivitiesMediator(
     private val rpc: WearRPCClient,

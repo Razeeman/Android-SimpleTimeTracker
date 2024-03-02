@@ -5,35 +5,42 @@
  */
 package com.example.util.simpletimetracker.wearrpc
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 /**
  * Data Transfer Objects
  *
  * Object definitions for records sent between Wear/Mobile
  */
 
+@Parcelize
 data class Activity(
     val id: Long,
     val name: String,
     val icon: String,
     val color: Long,
-)
+): Parcelable
 
+@Parcelize
 data class CurrentActivity(
     val id: Long,
     val startedAt: Long,
     val tags: List<Tag>,
-)
+): Parcelable
 
+@Parcelize
 data class Tag(
     val id: Long,
     val name: String,
     val isGeneral: Boolean,
     val color: Long,
-)
+): Parcelable
 
+@Parcelize
 data class Settings(
     val allowMultitasking: Boolean,
     val showRecordTagSelection: Boolean,
     val recordTagSelectionCloseAfterOne: Boolean,
     val recordTagSelectionEvenForGeneralTags: Boolean,
-)
+): Parcelable

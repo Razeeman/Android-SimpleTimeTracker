@@ -6,6 +6,7 @@
 package com.example.util.simpletimetracker.feature_wear
 
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -28,6 +29,7 @@ class WearCommunicationInteractor @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
+    private val addRunningRecordMediator: AddRunningRecordMediator,
     private val appColorMapper: AppColorMapper,
 ) : WearCommunicationAPI {
 
@@ -56,22 +58,24 @@ class WearCommunicationInteractor @Inject constructor(
         }
     }
 
-    override suspend fun setCurrentActivities(activities: List<CurrentActivity>) {
-        val currents = queryCurrentActivities()
-        val unchanged = currents.filter { c -> activities.any { a -> a == c } }
-        val stopped = currents.filter { c -> unchanged.none { u -> u == c } }
-        val started = activities.filter { a -> currents.none { c -> a == c } }
-        stopped.forEach { removeRunningRecordMediator.removeWithRecordAdd(asRunningRecord(it)) }
-        started.forEach { runningRecordInteractor.add(asRunningRecord(it)) }
-    }
+    override suspend fun setCurrentActivities(starting: List<CurrentActivity>) {
+        val currents = runningRecordInteractor.getAll()
+        val currentsIds = runningRecordInteractor.getAll().map(RunningRecord::id)
+        val startingIds = starting.map(CurrentActivity::id)
 
-    private fun asRunningRecord(currentActivity: CurrentActivity): RunningRecord {
-        return RunningRecord(
-            id = currentActivity.id,
-            timeStarted = currentActivity.startedAt,
-            comment = "",
-            tagIds = currentActivity.tags.map(Tag::id),
-        )
+        val stopped = currents.filter { it.id !in startingIds }
+        val started = starting.filter { it.id !in currentsIds }
+
+        stopped.forEach {
+            removeRunningRecordMediator.removeWithRecordAdd(it)
+        }
+        started.forEach { record ->
+            addRunningRecordMediator.add(
+                typeId = record.id,
+                timeStarted = record.startedAt,
+                tagIds = record.tags.map(Tag::id),
+            )
+        }
     }
 
     override suspend fun queryTagsForActivity(activityId: Long): List<Tag> {
