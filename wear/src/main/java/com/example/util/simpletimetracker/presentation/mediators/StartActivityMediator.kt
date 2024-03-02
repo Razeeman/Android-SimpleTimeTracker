@@ -5,9 +5,9 @@
  */
 package com.example.util.simpletimetracker.presentation.mediators
 
-import com.example.util.simpletimetracker.wearrpc.Activity
-import com.example.util.simpletimetracker.wearrpc.Settings
-import com.example.util.simpletimetracker.wearrpc.WearCommunicationAPI
+import com.example.util.simpletimetracker.wear_api.Activity
+import com.example.util.simpletimetracker.wear_api.Settings
+import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 
 class StartActivityMediator(
     private val api: WearCommunicationAPI,

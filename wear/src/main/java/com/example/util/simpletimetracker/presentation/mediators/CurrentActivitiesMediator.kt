@@ -1,8 +1,8 @@
 package com.example.util.simpletimetracker.presentation.mediators
 
-import com.example.util.simpletimetracker.wearrpc.CurrentActivity
-import com.example.util.simpletimetracker.wearrpc.Settings
-import com.example.util.simpletimetracker.wearrpc.Tag
+import com.example.util.simpletimetracker.wear_api.CurrentActivity
+import com.example.util.simpletimetracker.wear_api.Settings
+import com.example.util.simpletimetracker.wear_api.Tag
 import com.example.util.simpletimetracker.presentation.data.WearRPCClient
 
 class CurrentActivitiesMediator(

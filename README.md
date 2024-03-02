@@ -105,7 +105,7 @@ Simple app that helps track how much time you spend on all the useless activitie
     ├── domain                                # Business logic.
     ├── navigation                            # Navigation interfaces and screen params.
     ├── wear                                  # WearOS app.
-    ├── wearrpc                               # Mobile <--> WearOS communication
+    ├── wear_api                              # Mobile - WearOS communication
     ├── features
     │   ├── feature_archive                   # Screen for archived data.
     │   ├── feature_base_adapter              # Shared recycler adapters.

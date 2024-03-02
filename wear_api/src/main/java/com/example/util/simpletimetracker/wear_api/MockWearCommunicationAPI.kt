@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.wearrpc
+package com.example.util.simpletimetracker.wear_api
 
 class MockWearCommunicationAPI : WearCommunicationAPI {
 

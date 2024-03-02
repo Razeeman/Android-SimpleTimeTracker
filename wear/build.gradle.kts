@@ -69,7 +69,7 @@ dependencies {
     implementation("com.google.android.horologist:horologist-compose-layout:0.2.7")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
     implementation("androidx.compose.material:material-icons-core:1.6.1")
-    implementation(project(":wearrpc"))
+    implementation(project(":wear_api"))
     implementation(project(":resources"))
 
     // Dev Dependencies

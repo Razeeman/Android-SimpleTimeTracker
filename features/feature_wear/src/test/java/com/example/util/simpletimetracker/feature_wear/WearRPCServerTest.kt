@@ -5,12 +5,12 @@
  */
 package com.example.util.simpletimetracker.feature_wear
 
-import com.example.util.simpletimetracker.wearrpc.Activity
-import com.example.util.simpletimetracker.wearrpc.CurrentActivity
+import com.example.util.simpletimetracker.wear_api.Activity
+import com.example.util.simpletimetracker.wear_api.CurrentActivity
 import com.example.util.simpletimetracker.presentation.data.Messenger
-import com.example.util.simpletimetracker.wearrpc.MockWearCommunicationAPI
-import com.example.util.simpletimetracker.wearrpc.Settings
-import com.example.util.simpletimetracker.wearrpc.Tag
+import com.example.util.simpletimetracker.wear_api.MockWearCommunicationAPI
+import com.example.util.simpletimetracker.wear_api.Settings
+import com.example.util.simpletimetracker.wear_api.Tag
 import com.example.util.simpletimetracker.presentation.data.WearRPCClient
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertArrayEquals

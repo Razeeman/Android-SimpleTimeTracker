@@ -16,11 +16,11 @@ import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RunningRecord
-import com.example.util.simpletimetracker.wearrpc.Activity
-import com.example.util.simpletimetracker.wearrpc.CurrentActivity
-import com.example.util.simpletimetracker.wearrpc.Settings
-import com.example.util.simpletimetracker.wearrpc.WearCommunicationAPI
-import com.example.util.simpletimetracker.wearrpc.Tag
+import com.example.util.simpletimetracker.wear_api.Activity
+import com.example.util.simpletimetracker.wear_api.CurrentActivity
+import com.example.util.simpletimetracker.wear_api.Settings
+import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
+import com.example.util.simpletimetracker.wear_api.Tag
 import javax.inject.Inject
 
 class WearCommunicationInteractor @Inject constructor(

@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_wear
 
-import com.example.util.simpletimetracker.wearrpc.WearCommunicationAPI
+import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

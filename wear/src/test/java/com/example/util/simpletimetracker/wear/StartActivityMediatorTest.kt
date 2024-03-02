@@ -6,10 +6,10 @@
 package com.example.util.simpletimetracker.wear
 
 import com.example.util.simpletimetracker.presentation.mediators.StartActivityMediator
-import com.example.util.simpletimetracker.wearrpc.Activity
-import com.example.util.simpletimetracker.wearrpc.MockWearCommunicationAPI
-import com.example.util.simpletimetracker.wearrpc.Settings
-import com.example.util.simpletimetracker.wearrpc.Tag
+import com.example.util.simpletimetracker.wear_api.Activity
+import com.example.util.simpletimetracker.wear_api.MockWearCommunicationAPI
+import com.example.util.simpletimetracker.wear_api.Settings
+import com.example.util.simpletimetracker.wear_api.Tag
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before

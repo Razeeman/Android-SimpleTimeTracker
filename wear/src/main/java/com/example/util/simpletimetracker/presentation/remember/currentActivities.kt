@@ -12,7 +12,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.example.util.simpletimetracker.wearrpc.CurrentActivity
+import com.example.util.simpletimetracker.wear_api.CurrentActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 

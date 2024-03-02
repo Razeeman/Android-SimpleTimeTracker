@@ -17,7 +17,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":wearrpc"))
+    implementation(project(":wear_api"))
     implementation(Deps.Google.services)
     implementation(Deps.Google.gson)
     implementation(Deps.Google.dagger)

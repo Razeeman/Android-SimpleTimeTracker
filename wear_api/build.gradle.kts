@@ -16,7 +16,7 @@ plugins {
 applyAndroidLibrary()
 
 android {
-    namespace = "${Base.namespace}.wearrpc"
+    namespace = "${Base.namespace}.wear_api"
 }
 
 dependencies {

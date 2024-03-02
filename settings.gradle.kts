@@ -6,6 +6,8 @@ include(
     "navigation",
     "data_local",
     "resources",
+    "wear",
+    "wear_api",
 )
 
 file("features").walkTopDown().maxDepth(1).forEach { dir ->
@@ -14,5 +16,3 @@ file("features").walkTopDown().maxDepth(1).forEach { dir ->
         project(":${dir.name}").projectDir = dir
     }
 }
-include(":wear")
-include(":wearrpc")

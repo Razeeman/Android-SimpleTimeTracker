@@ -5,9 +5,9 @@
  */
 package com.example.util.simpletimetracker.feature_wear
 
-import com.example.util.simpletimetracker.wearrpc.CurrentActivity
-import com.example.util.simpletimetracker.wearrpc.Request
-import com.example.util.simpletimetracker.wearrpc.WearCommunicationAPI
+import com.example.util.simpletimetracker.wear_api.CurrentActivity
+import com.example.util.simpletimetracker.wear_api.Request
+import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import timber.log.Timber
