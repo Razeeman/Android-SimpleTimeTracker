@@ -9,10 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.wear.compose.material.MaterialTheme
 
 @Composable
-fun SimpleTimeTrackerForWearOSTheme(content: @Composable () -> Unit) {
+fun WearTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colors = wearColorPalette,
-        typography = Typography,
+        colors = wearColors,
+        typography = wearTypography,
         // For shapes, we generally recommend using the default Material Wear shapes which are
         // optimized for round and non-round devices.
         content = content,

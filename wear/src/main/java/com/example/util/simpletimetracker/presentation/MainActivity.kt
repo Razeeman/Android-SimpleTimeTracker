@@ -9,8 +9,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import com.example.util.simpletimetracker.presentation.navigation.StartActivityNavigator
-import com.example.util.simpletimetracker.presentation.theme.SimpleTimeTrackerForWearOSTheme
+import com.example.util.simpletimetracker.presentation.navigation.WearNavigator
+import com.example.util.simpletimetracker.presentation.theme.WearTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WearApp() {
-    SimpleTimeTrackerForWearOSTheme {
-        StartActivityNavigator()
+    WearTheme {
+        WearNavigator()
     }
 }

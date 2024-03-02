@@ -20,7 +20,7 @@ object Route {
 }
 
 @Composable
-fun StartActivityNavigator() {
+fun WearNavigator() {
     val navigation = rememberSwipeDismissableNavController()
     SwipeDismissableNavHost(
         navController = navigation,
@@ -29,23 +29,29 @@ fun StartActivityNavigator() {
         composable(Route.Activities) {
             ActivitiesScreen(
                 onRequestTagSelection = {
-                    navigation.navigate(Route.Tags.replace("{id}", it.toString()))
+                    val route = Route.Tags.replace("{id}", it.toString())
+                    navigation.navigate(route)
                 },
-                onRequestCredits = { navigation.navigate(Route.Credits) },
+                onRequestCredits = {
+                    navigation.navigate(Route.Credits)
+                },
             )
         }
         composable(Route.Tags) {
+            val activityId = it.arguments
+                ?.getString("id")
+                ?.toLong()
+                ?: return@composable
+
             TagsScreen(
-                activityId = it.arguments?.getString("id")?.toLong()!!,
+                activityId = activityId,
                 onComplete = {
-                    // Inspired by: https://stackoverflow.com/a/72856761/14765128
-                    navigation.navigate(Route.Activities) {
-                        popUpTo(navigation.graph.startDestinationId) { inclusive = true }
-                        navigation.graph.setStartDestination(Route.Activities)
-                    }
+                    navigation.navigateToRoot(Route.Activities)
                 },
             )
         }
-        composable(Route.Credits) { CreditsScreen() }
+        composable(Route.Credits) {
+            CreditsScreen()
+        }
     }
 }
