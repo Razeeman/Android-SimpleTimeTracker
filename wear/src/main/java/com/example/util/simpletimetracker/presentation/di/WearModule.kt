@@ -3,9 +3,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.feature_wear
+package com.example.util.simpletimetracker.presentation.di
 
-import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
+import com.example.util.simpletimetracker.presentation.data.ContextMessenger
+import com.example.util.simpletimetracker.presentation.data.Messenger
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,8 +14,8 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface WidgetModule {
+interface WearModule {
 
     @Binds
-    fun WearCommunicationInteractor.bindWearCommunicationInteractor(): WearCommunicationAPI
+    fun ContextMessenger.bindMessenger(): Messenger
 }

@@ -12,7 +12,10 @@ import com.google.android.gms.wearable.CapabilityClient
 import com.google.android.gms.wearable.CapabilityInfo
 import com.google.android.gms.wearable.Node
 import com.google.android.gms.wearable.Wearable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
 
@@ -24,11 +27,14 @@ interface Messenger {
 }
 
 class ContextMessenger @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
 ) : Messenger {
     private val TAG: String = ContextMessenger::class.java.name
 
-    override suspend fun send(capability: String, message: ByteArray): ByteArray? {
+    override suspend fun send(
+        capability: String,
+        message: ByteArray,
+    ): ByteArray? = withContext(Dispatchers.IO) {
         val deferred = CompletableDeferred<ByteArray?>()
         val bestNode = findNearestNode(capability)
 
@@ -57,7 +63,7 @@ class ContextMessenger @Inject constructor(
             deferred.cancel(CancellationException(logMessage))
         }
 
-        return deferred.await()
+        deferred.await()
     }
 
     private fun findNearestNode(capability: String): Node? {

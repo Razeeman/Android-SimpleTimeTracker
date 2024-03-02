@@ -83,6 +83,8 @@ object Deps {
             "androidx.wear:wear-tooling-preview:${Versions.wear_compose_tooling_preview}"
         const val horologist =
             "com.google.android.horologist:horologist-compose-layout:${Versions.horologist}"
+        const val hilt =
+            "androidx.hilt:hilt-navigation-compose:${Versions.compose_hilt}"
         const val uiTooling =
             "androidx.compose.ui:ui-tooling:${Versions.compose_version}"
     }

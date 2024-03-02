@@ -6,38 +6,33 @@
 package com.example.util.simpletimetracker.presentation.screens
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.util.simpletimetracker.presentation.components.TagList
-import com.example.util.simpletimetracker.presentation.components.TagSelectionMode
-import com.example.util.simpletimetracker.presentation.mediators.CurrentActivitiesMediator
-import com.example.util.simpletimetracker.presentation.remember.rememberCurrentActivities
-import com.example.util.simpletimetracker.presentation.remember.rememberRPCClient
-import com.example.util.simpletimetracker.presentation.remember.rememberSettings
-import com.example.util.simpletimetracker.presentation.remember.rememberTags
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.util.simpletimetracker.presentation.screens.TagsViewModel.Effect
+import com.example.util.simpletimetracker.presentation.utils.collectEffects
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 
 @Composable
-fun TagsScreen(activityId: Long, onComplete: () -> Unit) {
-    val coroutineScope = rememberCoroutineScope()
-    val rpc = rememberRPCClient()
-    val (settings) = rememberSettings()
-    val (tags) = rememberTags(activityId)
-    val (currentActivities) = rememberCurrentActivities()
-    val currentActivitiesMediator = CurrentActivitiesMediator(rpc, currentActivities)
+fun TagsScreen(
+    activityId: Long,
+    onComplete: () -> Unit,
+) {
+    val viewModel = hiltViewModel<TagsViewModel>()
+    viewModel.init(activityId)
+    val state = viewModel.state.collectAsState()
+
+    viewModel.effects.collectEffects(key = viewModel) {
+        when (it) {
+            is Effect.OnComplete -> onComplete()
+        }
+    }
 
     TagList(
-        tags,
-        mode = if (settings?.recordTagSelectionCloseAfterOne != false) {
-            TagSelectionMode.SINGLE
-        } else {
-            TagSelectionMode.MULTI
-        },
-        onSelectionComplete = {
-            coroutineScope.launch(Dispatchers.Default) {
-                currentActivitiesMediator.start(activityId, it)
-                coroutineScope.launch(Dispatchers.Main) { onComplete() }
-            }
-        },
+        tags = state.value.tags,
+        mode = state.value.mode,
+        onSelectionComplete = { viewModel.onSelectionComplete(it) },
     )
 }

@@ -70,6 +70,7 @@ dependencies {
     implementation(Deps.Compose.wearFoundation)
     implementation(Deps.Compose.wearToolingPreview)
     implementation(Deps.Compose.horologist)
+    implementation(Deps.Compose.hilt)
     debugImplementation(Deps.Compose.uiTooling)
     kapt(Deps.Kapt.dagger)
 

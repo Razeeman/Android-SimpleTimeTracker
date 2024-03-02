@@ -36,6 +36,7 @@ object Versions {
     const val wear_compose_tooling_preview = "1.0.0"
     const val horologist = "0.2.7"
     const val compose_kotlin_compiler = "1.4.0-alpha02"
+    const val compose_hilt = "1.0.0"
 
     const val junit = "4.13"
     const val junitUi = "1.1.4"

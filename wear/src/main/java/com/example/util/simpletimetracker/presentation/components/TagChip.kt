@@ -123,7 +123,6 @@ private fun Default() {
     )
 }
 
-
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun MultiSelectMode() {

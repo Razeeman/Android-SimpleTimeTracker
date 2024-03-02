@@ -5,25 +5,39 @@
  */
 package com.example.util.simpletimetracker.presentation.mediators
 
+import com.example.util.simpletimetracker.presentation.data.WearRPCClient
 import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.wear_api.WearSettings
-import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
+import javax.inject.Inject
 
-class StartActivityMediator(
-    private val api: WearCommunicationAPI,
-    private val onRequestStartActivity: suspend (activity: WearActivity) -> Unit,
-    private val onRequestTagSelection: suspend (activity: WearActivity) -> Unit,
+class StartActivityMediator @Inject constructor(
+    private val api: WearRPCClient,
 ) {
-    suspend fun requestStart(activity: WearActivity) {
+
+    suspend fun requestStart(
+        activity: WearActivity,
+        onRequestStartActivity: suspend (activity: WearActivity) -> Unit,
+        onRequestTagSelection: suspend (activity: WearActivity) -> Unit,
+    ) {
         val settings = api.querySettings()
         if (settings.showRecordTagSelection) {
-            requestTagSelectionIfNeeded(activity, settings)
+            requestTagSelectionIfNeeded(
+                activity = activity,
+                settings = settings,
+                onRequestStartActivity = onRequestStartActivity,
+                onRequestTagSelection = onRequestTagSelection,
+            )
         } else {
             onRequestStartActivity(activity)
         }
     }
 
-    private suspend fun requestTagSelectionIfNeeded(activity: WearActivity, settings: WearSettings) {
+    private suspend fun requestTagSelectionIfNeeded(
+        activity: WearActivity,
+        settings: WearSettings,
+        onRequestStartActivity: suspend (activity: WearActivity) -> Unit,
+        onRequestTagSelection: suspend (activity: WearActivity) -> Unit,
+    ) {
         val tags = api.queryTagsForActivity(activity.id)
         val generalTags = tags.filter { it.isGeneral }
         val nonGeneralTags = tags.filter { !it.isGeneral }

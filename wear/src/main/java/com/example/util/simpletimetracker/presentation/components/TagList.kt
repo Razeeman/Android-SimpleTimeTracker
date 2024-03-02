@@ -40,7 +40,8 @@ fun TagList(
             for (tag in tags) {
                 item {
                     TagChip(
-                        tag = tag, mode = mode,
+                        tag = tag,
+                        mode = mode,
                         onClick = {
                             // No duplicate tags
                             onSelectionComplete(selectedTags.minus(tag).plus(tag))

@@ -5,73 +5,39 @@
  */
 package com.example.util.simpletimetracker.presentation.screens
 
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.util.simpletimetracker.presentation.components.ActivitiesList
 import com.example.util.simpletimetracker.presentation.components.CreditsButton
-import com.example.util.simpletimetracker.presentation.mediators.CurrentActivitiesMediator
-import com.example.util.simpletimetracker.presentation.remember.rememberActivities
-import com.example.util.simpletimetracker.presentation.remember.rememberCurrentActivities
-import com.example.util.simpletimetracker.presentation.remember.rememberRPCClient
-import com.example.util.simpletimetracker.wear_api.WearActivity
-import com.example.util.simpletimetracker.presentation.mediators.StartActivityMediator
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.util.simpletimetracker.presentation.screens.ActivitiesViewModel.Effect
+import com.example.util.simpletimetracker.presentation.utils.collectEffects
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun ActivitiesScreen(
     onRequestTagSelection: (activityId: Long) -> Unit,
     onRequestCredits: () -> Unit,
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    val rpc = rememberRPCClient()
-    val (activities, refreshActivities) = rememberActivities()
-    val (currentActivities, refreshCurrentActivities) = rememberCurrentActivities()
-    val refresh = {
-        refreshActivities()
-        refreshCurrentActivities()
-    }
-    val currentActivitiesMediator = CurrentActivitiesMediator(rpc, currentActivities)
-    val startActivityWithoutTags: (WearActivity) -> Unit = {
-        Log.d("ActivitiesScreen", "Starting ${it.name} (#${it.id}) without tags")
-        coroutineScope.launch(Dispatchers.Default) {
-            currentActivitiesMediator.start(it.id)
-            refresh()
-        }
-    }
-    val startActivityWithTags: (WearActivity) -> Unit = {
-        coroutineScope.launch(Dispatchers.Main) {
-            Log.d("ActivitiesScreen", "Starting ${it.name} (#${it.id}) with tags")
-            onRequestTagSelection(it.id)
-        }
-    }
-    val stopActivity: (WearActivity) -> Unit = {
-        Log.d("ActivitiesScreen", "Stopping ${it.name} (#${it.id})")
-        coroutineScope.launch(Dispatchers.Default) {
-            currentActivitiesMediator.stop(it.id)
-            refresh()
-        }
-    }
+    val viewModel = hiltViewModel<ActivitiesViewModel>()
+    viewModel.init()
+    val state = viewModel.state.collectAsState()
 
-    val startActivitiesMediator = StartActivityMediator(
-        rpc,
-        onRequestStartActivity = startActivityWithoutTags,
-        onRequestTagSelection = startActivityWithTags,
-    )
-
+    viewModel.effects.collectEffects(key = viewModel) {
+        when (it) {
+            is Effect.OnRequestTagSelection -> onRequestTagSelection(it.activityId)
+        }
+    }
 
     ActivitiesList(
-        activities = activities,
-        currentActivities = currentActivities,
-        onSelectActivity = {
-            coroutineScope.launch(Dispatchers.Default) {
-                startActivitiesMediator.requestStart(it)
-            }
-        },
-        onEnableActivity = startActivityWithoutTags,
-        onDisableActivity = stopActivity,
-        onRefresh = refresh,
+        activities = state.value.activities,
+        currentActivities = state.value.currentActivities,
+        onSelectActivity = viewModel::onSelectActivity,
+        onEnableActivity = viewModel::startActivityWithoutTags,
+        onDisableActivity = viewModel::stopActivity,
+        onRefresh = viewModel::refresh,
         footer = { CreditsButton(onClick = onRequestCredits) },
     )
 }
