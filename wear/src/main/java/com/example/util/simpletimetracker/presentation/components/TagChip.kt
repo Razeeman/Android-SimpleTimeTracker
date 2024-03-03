@@ -69,7 +69,7 @@ private fun SingleSelectTagChip(
         },
         colors = ChipDefaults.chipColors(backgroundColor = Color(tag.color)),
         modifier = Modifier
-            .fillMaxWidth(0.9f)
+            .fillMaxWidth()
             .padding(top = 10.dp),
     )
 }
@@ -114,7 +114,7 @@ private fun MultiSelectTagChip(
             },
         ),
         modifier = Modifier
-            .fillMaxWidth(0.9f)
+            .fillMaxWidth()
             .padding(top = 10.dp),
     )
 }

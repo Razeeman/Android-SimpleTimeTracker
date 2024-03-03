@@ -57,7 +57,7 @@ fun ActivityChip(
     val switchChecked = startedAt != null
     SplitToggleChip(
         modifier = Modifier
-            .fillMaxWidth(0.9f)
+            .fillMaxWidth()
             .padding(top = 10.dp),
         label = {
             Row(modifier = Modifier.height(IntrinsicSize.Min)) {
