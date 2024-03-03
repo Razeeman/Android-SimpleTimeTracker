@@ -13,8 +13,10 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material.AutoCenteringParams
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.ScalingLazyColumn
+import androidx.wear.compose.material.ScalingLazyColumnDefaults
 import androidx.wear.compose.material.ScalingLazyListScope
 import androidx.wear.compose.material.ScalingLazyListState
 import androidx.wear.compose.material.rememberScalingLazyListState
@@ -37,6 +39,12 @@ fun ScrollingColumn(
             .fillMaxSize()
             .background(MaterialTheme.colors.background)
             .selectableGroup(),
+        flingBehavior = ScalingLazyColumnDefaults.snapFlingBehavior(
+            state = scrollState,
+        ),
+        autoCentering = AutoCenteringParams(
+            itemIndex = 0,
+        ),
         contentPadding = PaddingValues(10.dp),
         verticalArrangement = Arrangement.Center,
         state = scrollState,
