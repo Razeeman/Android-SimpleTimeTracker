@@ -5,55 +5,106 @@
  */
 package com.example.util.simpletimetracker.presentation.components
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material.ScalingLazyListScope
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.presentation.layout.ScaffoldedScrollingColumn
+import com.example.util.simpletimetracker.presentation.utils.getString
 import com.example.util.simpletimetracker.wear_api.WearTag
+
+sealed interface TagListState {
+
+    data class Empty(
+        @StringRes val messageResId: Int,
+    ) : TagListState
+
+    data class Content(
+        val items: List<Item>,
+        val mode: TagSelectionMode,
+    ) : TagListState
+
+    sealed interface Item {
+        data class Tag(
+            val tag: WearTag,
+            val selected: Boolean,
+        ) : Item
+
+        data class Button(
+            @StringRes val textResId: Int,
+            val color: Color,
+            val buttonType: ButtonType,
+        ) : Item
+
+        sealed interface ButtonType {
+            object Complete : ButtonType
+            object Untagged : ButtonType
+        }
+    }
+}
 
 @Composable
 fun TagList(
-    tags: List<WearTag>,
-    selectedTags: List<WearTag>,
-    mode: TagSelectionMode,
-    onSelectionComplete: () -> Unit = {},
+    state: TagListState,
+    onButtonClick: (TagListState.Item.ButtonType) -> Unit = {},
     onToggleClick: (WearTag) -> Unit = {},
 ) {
     ScaffoldedScrollingColumn {
-        if (tags.isEmpty()) {
-            item {
-                Text(
-                    text = LocalContext.current.getString(R.string.no_tags),
-                    modifier = Modifier.padding(8.dp),
+        when (state) {
+            is TagListState.Empty -> renderEmptyState(
+                state = state,
+            )
+            is TagListState.Content -> renderContentState(
+                state = state,
+                onButtonClick = onButtonClick,
+                onToggleClick = onToggleClick,
+            )
+        }
+    }
+}
+
+private fun ScalingLazyListScope.renderEmptyState(
+    state: TagListState.Empty,
+) {
+    item {
+        Text(
+            text = getString(state.messageResId),
+            modifier = Modifier.padding(8.dp),
+        )
+    }
+}
+
+private fun ScalingLazyListScope.renderContentState(
+    state: TagListState.Content,
+    onButtonClick: (TagListState.Item.ButtonType) -> Unit = {},
+    onToggleClick: (WearTag) -> Unit = {},
+) {
+    for (item in state.items) {
+        when (item) {
+            is TagListState.Item.Tag -> item {
+                TagChip(
+                    tag = item.tag,
+                    mode = state.mode,
+                    onClick = onToggleClick,
+                    checked = item.selected,
                 )
             }
-        } else {
-            for (tag in tags) {
-                item {
-                    TagChip(
-                        tag = tag,
-                        mode = mode,
-                        onClick = onSelectionComplete,
-                        onToggleClick = onToggleClick,
-                        checked = tag.id in selectedTags.map { it.id },
-                    )
-                }
+            is TagListState.Item.Button -> item {
+                TagSelectionButton(
+                    text = getString(item.textResId),
+                    color = item.color,
+                    onClick = {
+                        onButtonClick(item.buttonType)
+                    },
+                )
             }
-        }
-        item {
-            SubmitButton(
-                onClick = onSelectionComplete,
-            )
         }
     }
 }
@@ -62,9 +113,7 @@ fun TagList(
 @Composable
 private fun NoTags() {
     TagList(
-        tags = emptyList(),
-        selectedTags = emptyList(),
-        mode = TagSelectionMode.SINGLE,
+        state = TagListState.Empty(R.string.no_tags),
     )
 }
 
@@ -72,12 +121,19 @@ private fun NoTags() {
 @Composable
 private fun WithSomeTags() {
     TagList(
-        tags = listOf(
-            WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
-            WearTag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
+        state = TagListState.Content(
+            items = listOf(
+                TagListState.Item.Tag(
+                    tag = WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
+                    selected = false,
+                ),
+                TagListState.Item.Tag(
+                    tag = WearTag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
+                    selected = false,
+                ),
+            ),
+            mode = TagSelectionMode.SINGLE,
         ),
-        selectedTags = emptyList(),
-        mode = TagSelectionMode.SINGLE,
     )
 }
 
@@ -85,13 +141,18 @@ private fun WithSomeTags() {
 @Composable
 private fun MultiSelectMode() {
     TagList(
-        tags = listOf(
-            WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
-            WearTag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
+        state = TagListState.Content(
+            items = listOf(
+                TagListState.Item.Tag(
+                    tag = WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
+                    selected = true,
+                ),
+                TagListState.Item.Tag(
+                    tag = WearTag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
+                    selected = false,
+                ),
+            ),
+            mode = TagSelectionMode.MULTI,
         ),
-        selectedTags = listOf(
-            WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
-        ),
-        mode = TagSelectionMode.MULTI,
     )
 }

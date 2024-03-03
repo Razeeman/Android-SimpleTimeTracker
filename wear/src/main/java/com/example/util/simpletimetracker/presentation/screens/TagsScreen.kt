@@ -29,10 +29,8 @@ fun TagsScreen(
     }
 
     TagList(
-        tags = state.tags,
-        selectedTags = state.selectedTags,
-        mode = state.mode,
-        onSelectionComplete = viewModel::onSelectionComplete,
+        state = state.listState,
+        onButtonClick = viewModel::onButtonClick,
         onToggleClick = viewModel::onToggleClick
     )
 }

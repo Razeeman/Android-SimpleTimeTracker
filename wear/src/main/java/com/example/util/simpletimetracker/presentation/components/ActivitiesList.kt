@@ -15,6 +15,7 @@ import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.presentation.layout.ScaffoldedScrollingColumn
+import com.example.util.simpletimetracker.presentation.utils.getString
 import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 
@@ -31,7 +32,7 @@ fun ActivitiesList(
         if (activities.isEmpty()) {
             item {
                 Text(
-                    LocalContext.current.getString(R.string.no_activities),
+                    getString(R.string.no_activities),
                     modifier = Modifier.padding(8.dp),
                 )
             }
@@ -40,7 +41,7 @@ fun ActivitiesList(
                 val currentActivity = currentActivities.filter { it.id == activity.id }.getOrNull(0)
                 item(key = activity.id) {
                     ActivityChip(
-                        activity,
+                        activity = activity,
                         startedAt = currentActivity?.startedAt,
                         tags = currentActivity?.tags.orEmpty(),
                         onClick = { onSelectActivity(activity) },

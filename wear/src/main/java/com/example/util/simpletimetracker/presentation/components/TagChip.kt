@@ -21,6 +21,7 @@ import androidx.wear.compose.material.SplitToggleChip
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.ToggleChipDefaults
 import androidx.wear.tooling.preview.devices.WearDevices
+import com.example.util.simpletimetracker.presentation.theme.wearColors
 import com.example.util.simpletimetracker.wear_api.WearTag
 
 enum class TagSelectionMode {
@@ -31,35 +32,37 @@ enum class TagSelectionMode {
 @Composable
 fun TagChip(
     tag: WearTag,
-    onClick: () -> Unit = {},
-    onToggleClick: (WearTag) -> Unit = {},
+    onClick: (WearTag) -> Unit = {},
     mode: TagSelectionMode = TagSelectionMode.SINGLE,
     checked: Boolean,
 ) {
     when (mode) {
         TagSelectionMode.SINGLE -> {
-            SingleSelectTagChip(tag = tag, onClick = onClick)
+            SingleSelectTagChip(
+                tag = tag,
+                onClick = onClick,
+            )
         }
 
         TagSelectionMode.MULTI -> {
             MultiSelectTagChip(
                 tag = tag,
                 onClick = onClick,
-                onToggleClick = onToggleClick,
                 checked = checked,
             )
         }
     }
-
 }
 
 @Composable
 private fun SingleSelectTagChip(
     tag: WearTag,
-    onClick: () -> Unit,
+    onClick: (WearTag) -> Unit,
 ) {
     Chip(
-        onClick = onClick,
+        onClick = {
+            onClick(tag)
+        },
         label = {
             Text(
                 text = tag.name,
@@ -77,16 +80,17 @@ private fun SingleSelectTagChip(
 @Composable
 private fun MultiSelectTagChip(
     tag: WearTag,
-    onClick: () -> Unit = {},
-    onToggleClick: (WearTag) -> Unit = {},
+    onClick: (WearTag) -> Unit = {},
     checked: Boolean,
 ) {
     SplitToggleChip(
         checked = checked,
         onCheckedChange = {
-            onToggleClick(tag)
+            onClick(tag)
         },
-        onClick = onClick,
+        onClick = {
+            onClick(tag)
+        },
         label = {
             Text(
                 text = tag.name,

@@ -5,6 +5,10 @@
  */
 package com.example.util.simpletimetracker.presentation.theme
 
+import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.material.Colors
+
+val ColorActive = Color(0xFF263238)
+val ColorInactive = Color(0xFF455A64)
 
 internal val wearColors: Colors = Colors()

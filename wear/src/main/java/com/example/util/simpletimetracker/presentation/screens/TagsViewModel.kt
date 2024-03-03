@@ -7,7 +7,8 @@ package com.example.util.simpletimetracker.presentation.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.presentation.components.TagSelectionMode
+import com.example.util.simpletimetracker.R
+import com.example.util.simpletimetracker.presentation.components.TagListState
 import com.example.util.simpletimetracker.presentation.data.WearRPCClient
 import com.example.util.simpletimetracker.presentation.mediators.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.wear_api.WearSettings
@@ -23,6 +24,7 @@ import javax.inject.Inject
 class TagsViewModel @Inject constructor(
     private val rpc: WearRPCClient,
     private val currentActivitiesMediator: CurrentActivitiesMediator,
+    private val tagsViewDataMapper: TagsViewDataMapper,
 ) : ViewModel() {
 
     val state = MutableStateFlow(State.Empty)
@@ -33,64 +35,86 @@ class TagsViewModel @Inject constructor(
 
     private var isInitialized = false
     private var activityId: Long? = null
+    private var tags: List<WearTag> = emptyList()
+    private var selectedTags: List<WearTag> = emptyList()
+    private var settings: WearSettings = WearSettings(
+        allowMultitasking = false,
+        showRecordTagSelection = false,
+        recordTagSelectionCloseAfterOne = false,
+        recordTagSelectionEvenForGeneralTags = false,
+    )
 
     // TODO switch to savedStateHandle
     fun init(activityId: Long) {
         if (isInitialized) return
         this.activityId = activityId
-        refresh()
+        loadData()
         isInitialized = true
     }
 
-    fun onSelectionComplete() {
-        viewModelScope.launch {
-            val activityId = this@TagsViewModel.activityId ?: return@launch
-            currentActivitiesMediator.start(
-                activityId = activityId,
-                tags = state.value.selectedTags,
-            )
-            effects.emit(Effect.OnComplete)
+    fun onButtonClick(buttonType: TagListState.Item.ButtonType) = viewModelScope.launch {
+        when (buttonType) {
+            is TagListState.Item.ButtonType.Untagged -> {
+                selectedTags = emptyList()
+                if (settings.recordTagSelectionCloseAfterOne) {
+                    startActivity()
+                } else {
+                    state.value = mapState()
+                }
+            }
+            is TagListState.Item.ButtonType.Complete -> {
+                startActivity()
+            }
         }
     }
 
-    fun onToggleClick(tag: WearTag) {
-        val currentSelectedTags = state.value.selectedTags.toMutableList()
-        val newSelectedTags = currentSelectedTags.apply {
+    fun onToggleClick(tag: WearTag) = viewModelScope.launch {
+        val currentSelectedTags = selectedTags.toMutableList()
+        selectedTags = currentSelectedTags.apply {
             if (tag in this) remove(tag) else add(tag)
         }
-        val newState = state.value.copy(selectedTags = newSelectedTags)
-        state.value = newState
+
+        if (settings.recordTagSelectionCloseAfterOne) {
+            startActivity()
+        } else {
+            state.value = mapState()
+        }
     }
 
-    private fun refresh() {
+    private fun loadData() {
         viewModelScope.launch {
             val activityId = this@TagsViewModel.activityId ?: return@launch
-            val settings = rpc.querySettings()
-            val newState = State(
-                tags = rpc.queryTagsForActivity(activityId),
-                selectedTags = emptyList(),
-                mode = if (settings.recordTagSelectionCloseAfterOne) {
-                    TagSelectionMode.SINGLE
-                } else {
-                    TagSelectionMode.MULTI
-                },
-                settings = settings,
-            )
-            state.value = newState
+            settings = rpc.querySettings()
+            tags = rpc.queryTagsForActivity(activityId)
+
+            state.value = mapState()
         }
+    }
+
+    private suspend fun startActivity() {
+        val activityId = this@TagsViewModel.activityId ?: return
+        currentActivitiesMediator.start(
+            activityId = activityId,
+            tags = selectedTags,
+        )
+        effects.emit(Effect.OnComplete)
+    }
+
+    private fun mapState(): State {
+        return tagsViewDataMapper.mapState(
+            tags = tags,
+            selectedTags = selectedTags,
+            settings = settings,
+        )
     }
 
     data class State(
-        val tags: List<WearTag>,
-        val selectedTags: List<WearTag>,
-        val mode: TagSelectionMode,
+        val listState: TagListState,
         val settings: WearSettings,
     ) {
         companion object {
             val Empty = State(
-                tags = emptyList(),
-                selectedTags = emptyList(),
-                mode = TagSelectionMode.SINGLE,
+                listState = TagListState.Empty(R.string.no_tags),
                 settings = WearSettings(
                     allowMultitasking = false,
                     showRecordTagSelection = false,
