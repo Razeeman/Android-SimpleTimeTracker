@@ -6,14 +6,12 @@
 package com.example.util.simpletimetracker.presentation.screens
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.util.simpletimetracker.presentation.components.TagList
 import com.example.util.simpletimetracker.presentation.screens.TagsViewModel.Effect
 import com.example.util.simpletimetracker.presentation.utils.collectEffects
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun TagsScreen(
@@ -22,7 +20,7 @@ fun TagsScreen(
 ) {
     val viewModel = hiltViewModel<TagsViewModel>()
     viewModel.init(activityId)
-    val state = viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     viewModel.effects.collectEffects(key = viewModel) {
         when (it) {
@@ -31,8 +29,10 @@ fun TagsScreen(
     }
 
     TagList(
-        tags = state.value.tags,
-        mode = state.value.mode,
-        onSelectionComplete = { viewModel.onSelectionComplete(it) },
+        tags = state.tags,
+        selectedTags = state.selectedTags,
+        mode = state.mode,
+        onSelectionComplete = viewModel::onSelectionComplete,
+        onToggleClick = viewModel::onToggleClick
     )
 }

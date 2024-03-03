@@ -27,14 +27,18 @@ class ActivitiesViewModel @Inject constructor(
     private val currentActivitiesMediator: CurrentActivitiesMediator,
 ) : ViewModel() {
 
-    val state = MutableStateFlow(State())
+    val state = MutableStateFlow(State.Empty)
     val effects = MutableSharedFlow<Effect>(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
 
+    private var isInitialized = false
+
     fun init() {
+        if (isInitialized) return
         refresh()
+        isInitialized = true
     }
 
     fun startActivityWithoutTags(wearActivity: WearActivity) {
@@ -69,7 +73,7 @@ class ActivitiesViewModel @Inject constructor(
                 activities = rpc.queryActivities(),
                 currentActivities = rpc.queryCurrentActivities(),
             )
-            state.emit(newState)
+            state.value = newState
         }
     }
 
@@ -81,9 +85,17 @@ class ActivitiesViewModel @Inject constructor(
     }
 
     data class State(
-        val activities: List<WearActivity> = emptyList(),
-        val currentActivities: List<WearCurrentActivity> = emptyList(),
-    )
+        val activities: List<WearActivity>,
+        val currentActivities: List<WearCurrentActivity>,
+    ) {
+
+        companion object {
+            val Empty = State(
+                activities = emptyList(),
+                currentActivities = emptyList(),
+            )
+        }
+    }
 
     sealed interface Effect {
         data class OnRequestTagSelection(val activityId: Long) : Effect

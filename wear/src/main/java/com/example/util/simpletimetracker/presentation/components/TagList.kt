@@ -24,15 +24,16 @@ import com.example.util.simpletimetracker.wear_api.WearTag
 @Composable
 fun TagList(
     tags: List<WearTag>,
-    mode: TagSelectionMode = TagSelectionMode.SINGLE,
-    onSelectionComplete: (tags: List<WearTag>) -> Unit = {},
+    selectedTags: List<WearTag>,
+    mode: TagSelectionMode,
+    onSelectionComplete: () -> Unit = {},
+    onToggleClick: (WearTag) -> Unit = {},
 ) {
-    var selectedTags: List<WearTag> by remember { mutableStateOf(listOf()) }
     ScaffoldedScrollingColumn {
         if (tags.isEmpty()) {
             item {
                 Text(
-                    LocalContext.current.getString(R.string.no_tags),
+                    text = LocalContext.current.getString(R.string.no_tags),
                     modifier = Modifier.padding(8.dp),
                 )
             }
@@ -42,24 +43,29 @@ fun TagList(
                     TagChip(
                         tag = tag,
                         mode = mode,
-                        onClick = {
-                            // No duplicate tags
-                            onSelectionComplete(selectedTags.minus(tag).plus(tag))
-                        },
-                        onToggleOn = { selectedTags = selectedTags.plus(tag) },
-                        onToggleOff = { selectedTags = selectedTags.minus(tag) },
+                        onClick = onSelectionComplete,
+                        onToggleClick = onToggleClick,
+                        checked = tag.id in selectedTags.map { it.id },
                     )
                 }
             }
         }
-        item { SubmitButton(onClick = { onSelectionComplete(selectedTags) }) }
+        item {
+            SubmitButton(
+                onClick = onSelectionComplete,
+            )
+        }
     }
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun NoTags() {
-    TagList(tags = emptyList(), onSelectionComplete = {})
+    TagList(
+        tags = emptyList(),
+        selectedTags = emptyList(),
+        mode = TagSelectionMode.SINGLE,
+    )
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
@@ -70,6 +76,8 @@ private fun WithSomeTags() {
             WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
             WearTag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
         ),
+        selectedTags = emptyList(),
+        mode = TagSelectionMode.SINGLE,
     )
 }
 
@@ -80,6 +88,9 @@ private fun MultiSelectMode() {
         tags = listOf(
             WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
             WearTag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
+        ),
+        selectedTags = listOf(
+            WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
         ),
         mode = TagSelectionMode.MULTI,
     )

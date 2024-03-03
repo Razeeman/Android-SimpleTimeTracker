@@ -7,6 +7,7 @@ package com.example.util.simpletimetracker.presentation.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.util.simpletimetracker.presentation.components.ActivitiesList
 import com.example.util.simpletimetracker.presentation.screens.ActivitiesViewModel.Effect
@@ -18,7 +19,7 @@ fun ActivitiesScreen(
 ) {
     val viewModel = hiltViewModel<ActivitiesViewModel>()
     viewModel.init()
-    val state = viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     viewModel.effects.collectEffects(key = viewModel) {
         when (it) {
@@ -27,8 +28,8 @@ fun ActivitiesScreen(
     }
 
     ActivitiesList(
-        activities = state.value.activities,
-        currentActivities = state.value.currentActivities,
+        activities = state.activities,
+        currentActivities = state.currentActivities,
         onSelectActivity = viewModel::onSelectActivity,
         onEnableActivity = viewModel::startActivityWithoutTags,
         onDisableActivity = viewModel::stopActivity,

@@ -8,10 +8,6 @@ package com.example.util.simpletimetracker.presentation.components
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
@@ -28,16 +24,17 @@ import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.wear_api.WearTag
 
 enum class TagSelectionMode {
-    SINGLE, MULTI,
+    SINGLE,
+    MULTI,
 }
 
 @Composable
 fun TagChip(
     tag: WearTag,
     onClick: () -> Unit = {},
-    onToggleOn: () -> Unit = {},
-    onToggleOff: () -> Unit = {},
+    onToggleClick: (WearTag) -> Unit = {},
     mode: TagSelectionMode = TagSelectionMode.SINGLE,
+    checked: Boolean,
 ) {
     when (mode) {
         TagSelectionMode.SINGLE -> {
@@ -48,8 +45,8 @@ fun TagChip(
             MultiSelectTagChip(
                 tag = tag,
                 onClick = onClick,
-                onToggleOn = onToggleOn,
-                onToggleOff = onToggleOff,
+                onToggleClick = onToggleClick,
+                checked = checked,
             )
         }
     }
@@ -57,10 +54,19 @@ fun TagChip(
 }
 
 @Composable
-private fun SingleSelectTagChip(tag: WearTag, onClick: () -> Unit) {
+private fun SingleSelectTagChip(
+    tag: WearTag,
+    onClick: () -> Unit,
+) {
     Chip(
         onClick = onClick,
-        label = { Text(tag.name, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        label = {
+            Text(
+                text = tag.name,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        },
         colors = ChipDefaults.chipColors(backgroundColor = Color(tag.color)),
         modifier = Modifier
             .fillMaxWidth(0.9f)
@@ -72,26 +78,25 @@ private fun SingleSelectTagChip(tag: WearTag, onClick: () -> Unit) {
 private fun MultiSelectTagChip(
     tag: WearTag,
     onClick: () -> Unit = {},
-    onToggleOn: () -> Unit = {},
-    onToggleOff: () -> Unit = {},
-    checked: Boolean = false,
+    onToggleClick: (WearTag) -> Unit = {},
+    checked: Boolean,
 ) {
-    var _checked by remember { mutableStateOf(checked) }
     SplitToggleChip(
-        checked = _checked,
+        checked = checked,
         onCheckedChange = {
-            _checked = !_checked
-            if (_checked) {
-                onToggleOn()
-            } else {
-                onToggleOff()
-            }
+            onToggleClick(tag)
         },
         onClick = onClick,
-        label = { Text(tag.name, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        label = {
+            Text(
+                text = tag.name,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        },
         toggleControl = {
             Checkbox(
-                checked = _checked,
+                checked = checked,
                 colors = CheckboxDefaults.colors(
                     checkedBoxColor = Color.White,
                     checkedCheckmarkColor = Color.White,
@@ -102,7 +107,7 @@ private fun MultiSelectTagChip(
         },
         colors = ToggleChipDefaults.splitToggleChipColors(
             backgroundColor = Color(tag.color),
-            splitBackgroundOverlayColor = if (_checked) {
+            splitBackgroundOverlayColor = if (checked) {
                 Color.White.copy(alpha = .1F)
             } else {
                 Color.Black.copy(alpha = .3F)
@@ -120,6 +125,7 @@ private fun Default() {
     TagChip(
         tag = WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
         onClick = {},
+        checked = false,
     )
 }
 
@@ -130,6 +136,7 @@ private fun MultiSelectMode() {
         tag = WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF654321),
         onClick = {},
         mode = TagSelectionMode.MULTI,
+        checked = false,
     )
 }
 
