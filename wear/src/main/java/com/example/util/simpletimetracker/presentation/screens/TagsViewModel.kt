@@ -7,7 +7,6 @@ package com.example.util.simpletimetracker.presentation.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.presentation.components.TagListState
 import com.example.util.simpletimetracker.presentation.data.WearRPCClient
 import com.example.util.simpletimetracker.presentation.mediators.CurrentActivitiesMediator
@@ -27,7 +26,7 @@ class TagsViewModel @Inject constructor(
     private val tagsViewDataMapper: TagsViewDataMapper,
 ) : ViewModel() {
 
-    val state = MutableStateFlow(State.Empty)
+    val state: MutableStateFlow<TagListState> = MutableStateFlow(TagListState.Loading)
     val effects = MutableSharedFlow<Effect>(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
@@ -100,29 +99,12 @@ class TagsViewModel @Inject constructor(
         effects.emit(Effect.OnComplete)
     }
 
-    private fun mapState(): State {
+    private fun mapState(): TagListState {
         return tagsViewDataMapper.mapState(
             tags = tags,
             selectedTags = selectedTags,
             settings = settings,
         )
-    }
-
-    data class State(
-        val listState: TagListState,
-        val settings: WearSettings,
-    ) {
-        companion object {
-            val Empty = State(
-                listState = TagListState.Empty(R.string.no_tags),
-                settings = WearSettings(
-                    allowMultitasking = false,
-                    showRecordTagSelection = false,
-                    recordTagSelectionCloseAfterOne = false,
-                    recordTagSelectionEvenForGeneralTags = false,
-                ),
-            )
-        }
     }
 
     sealed interface Effect {

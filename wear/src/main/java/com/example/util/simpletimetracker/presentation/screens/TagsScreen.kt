@@ -29,7 +29,7 @@ fun TagsScreen(
     }
 
     TagList(
-        state = state.listState,
+        state = state,
         onButtonClick = viewModel::onButtonClick,
         onToggleClick = viewModel::onToggleClick
     )

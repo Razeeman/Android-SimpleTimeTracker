@@ -22,6 +22,8 @@ import com.example.util.simpletimetracker.wear_api.WearTag
 
 sealed interface TagListState {
 
+    object Loading : TagListState
+
     data class Empty(
         @StringRes val messageResId: Int,
     ) : TagListState
@@ -58,6 +60,7 @@ fun TagList(
 ) {
     ScaffoldedScrollingColumn {
         when (state) {
+            is TagListState.Loading -> renderLoadingState()
             is TagListState.Empty -> renderEmptyState(
                 state = state,
             )
@@ -68,6 +71,10 @@ fun TagList(
             )
         }
     }
+}
+
+private fun renderLoadingState() {
+    // Show nothing until data is loded.
 }
 
 private fun ScalingLazyListScope.renderEmptyState(

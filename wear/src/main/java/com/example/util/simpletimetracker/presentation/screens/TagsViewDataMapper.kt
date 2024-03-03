@@ -20,7 +20,7 @@ class TagsViewDataMapper @Inject constructor() {
         tags: List<WearTag>,
         selectedTags: List<WearTag>,
         settings: WearSettings,
-    ): TagsViewModel.State {
+    ): TagListState {
         val listState = if (tags.isEmpty()) {
             mapEmptyState()
         } else {
@@ -31,10 +31,7 @@ class TagsViewDataMapper @Inject constructor() {
             )
         }
 
-        return TagsViewModel.State(
-            listState = listState,
-            settings = settings,
-        )
+        return listState
     }
 
     private fun mapEmptyState(): TagListState.Empty {

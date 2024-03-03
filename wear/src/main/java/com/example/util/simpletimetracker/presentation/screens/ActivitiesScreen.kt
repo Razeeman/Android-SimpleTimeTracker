@@ -28,11 +28,10 @@ fun ActivitiesScreen(
     }
 
     ActivitiesList(
-        activities = state.activities,
-        currentActivities = state.currentActivities,
+        state = state,
         onSelectActivity = viewModel::onSelectActivity,
         onEnableActivity = viewModel::startActivityWithoutTags,
         onDisableActivity = viewModel::stopActivity,
-        onRefresh = viewModel::refresh,
+        onRefresh = viewModel::loadData,
     )
 }
