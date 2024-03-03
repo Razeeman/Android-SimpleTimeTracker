@@ -12,6 +12,7 @@ class RemoveRunningRecordMediator @Inject constructor(
     private val notificationActivityInteractor: NotificationActivityInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val widgetInteractor: WidgetInteractor,
+    private val wearInteractor: WearInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
 ) {
@@ -52,6 +53,9 @@ class RemoveRunningRecordMediator @Inject constructor(
         val runningRecordIds = runningRecordInteractor.getAll().map { it.id }
         if (runningRecordIds.isEmpty()) notificationActivityInteractor.cancel()
         notificationGoalTimeInteractor.checkAndReschedule(runningRecordIds + typeId)
-        if (updateWidgets) widgetInteractor.updateWidgets()
+        if (updateWidgets) {
+            widgetInteractor.updateWidgets()
+            wearInteractor.updateCurrentActivities()
+        }
     }
 }

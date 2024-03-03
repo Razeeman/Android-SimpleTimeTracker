@@ -5,21 +5,29 @@
  */
 package com.example.util.simpletimetracker.data
 
+import android.content.Context
 import com.example.util.simpletimetracker.wear_api.WearActivity
+import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 import com.example.util.simpletimetracker.wear_api.WearRequests
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.example.util.simpletimetracker.wear_api.WearTag
-import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
+import com.google.android.gms.wearable.MessageClient
+import com.google.android.gms.wearable.Wearable
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class WearRPCClient @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val messenger: Messenger,
 ) : WearCommunicationAPI {
 
     private val gson = Gson()
+    private var listener: MessageClient.OnMessageReceivedListener? = null
 
     override suspend fun ping(message: String): String {
         val response: String? = messenger
@@ -63,6 +71,28 @@ class WearRPCClient @Inject constructor(
             ?.let(::mapFromBytes)
 
         return response ?: throw WearRPCException("No response")
+    }
+
+    fun addListener(
+        onDataChanged: () -> Unit,
+    ) {
+        listener = MessageClient.OnMessageReceivedListener {
+            if (it.path == WearRequests.DATA_UPDATED) {
+                val response: String? = it.data.let(::mapFromBytes)
+                if (response == WearRequests.DATA_UPDATED_CURRENT_ACTIVITIES) {
+                    onDataChanged()
+                }
+            }
+        }
+        listener?.let {
+            Wearable.getMessageClient(context).addListener(it)
+        }
+    }
+
+    fun removeListener() {
+        listener?.let {
+            Wearable.getMessageClient(context).removeListener(it)
+        }
     }
 
     private fun <T> mapToBytes(data: T): ByteArray {

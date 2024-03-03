@@ -14,6 +14,7 @@ class AddRunningRecordMediator @Inject constructor(
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val notificationGoalCountInteractor: NotificationGoalCountInteractor,
     private val widgetInteractor: WidgetInteractor,
+    private val wearInteractor: WearInteractor,
     private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
 ) {
 
@@ -97,6 +98,7 @@ class AddRunningRecordMediator @Inject constructor(
                 if (runningRecordInteractor.getAll().size == 1) notificationActivityInteractor.checkAndSchedule()
                 notificationGoalTimeInteractor.checkAndReschedule(listOf(typeId))
                 widgetInteractor.updateWidgets()
+                wearInteractor.updateCurrentActivities()
             }
         }
     }

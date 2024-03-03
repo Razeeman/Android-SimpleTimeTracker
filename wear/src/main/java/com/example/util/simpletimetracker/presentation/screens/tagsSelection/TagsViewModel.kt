@@ -7,8 +7,8 @@ package com.example.util.simpletimetracker.presentation.screens.tagsSelection
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.presentation.components.TagListState
-import com.example.util.simpletimetracker.data.WearRPCClient
 import com.example.util.simpletimetracker.domain.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.example.util.simpletimetracker.wear_api.WearTag
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TagsViewModel @Inject constructor(
-    private val rpc: WearRPCClient,
+    private val wearDataRepo: WearDataRepo,
     private val currentActivitiesMediator: CurrentActivitiesMediator,
     private val tagsViewDataMapper: TagsViewDataMapper,
 ) : ViewModel() {
@@ -83,8 +83,8 @@ class TagsViewModel @Inject constructor(
     private fun loadData() {
         viewModelScope.launch {
             val activityId = this@TagsViewModel.activityId ?: return@launch
-            settings = rpc.querySettings()
-            tags = rpc.queryTagsForActivity(activityId)
+            settings = wearDataRepo.loadSettings()
+            tags = wearDataRepo.loadTagsForActivity(activityId)
 
             state.value = mapState()
         }

@@ -5,13 +5,13 @@
  */
 package com.example.util.simpletimetracker.domain
 
-import com.example.util.simpletimetracker.data.WearRPCClient
+import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import javax.inject.Inject
 
 class StartActivityMediator @Inject constructor(
-    private val api: WearRPCClient,
+    private val wearDataRepo: WearDataRepo,
 ) {
 
     suspend fun requestStart(
@@ -19,7 +19,7 @@ class StartActivityMediator @Inject constructor(
         onRequestStartActivity: suspend (activity: WearActivity) -> Unit,
         onRequestTagSelection: suspend (activity: WearActivity) -> Unit,
     ) {
-        val settings = api.querySettings()
+        val settings = wearDataRepo.loadSettings()
         if (settings.showRecordTagSelection) {
             requestTagSelectionIfNeeded(
                 activity = activity,
@@ -38,11 +38,11 @@ class StartActivityMediator @Inject constructor(
         onRequestStartActivity: suspend (activity: WearActivity) -> Unit,
         onRequestTagSelection: suspend (activity: WearActivity) -> Unit,
     ) {
-        val tags = api.queryTagsForActivity(activity.id)
+        val tags = wearDataRepo.loadTagsForActivity(activity.id)
         val generalTags = tags.filter { it.isGeneral }
         val nonGeneralTags = tags.filter { !it.isGeneral }
-        val tagSelectionNeeded =
-            nonGeneralTags.isNotEmpty() || generalTags.isNotEmpty() && settings.recordTagSelectionEvenForGeneralTags
+        val tagSelectionNeeded = nonGeneralTags.isNotEmpty() ||
+            generalTags.isNotEmpty() && settings.recordTagSelectionEvenForGeneralTags
         if (tagSelectionNeeded) {
             onRequestTagSelection(activity)
         } else {

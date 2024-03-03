@@ -5,6 +5,7 @@
  */
 package com.example.util.simpletimetracker.feature_wear
 
+import com.example.util.simpletimetracker.domain.interactor.WearInteractor
 import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import dagger.Binds
 import dagger.Module
@@ -17,4 +18,8 @@ interface WearModule {
 
     @Binds
     fun WearCommunicationInteractor.bindWearCommunicationInteractor(): WearCommunicationAPI
+
+    // TODO add base flavor noop
+    @Binds
+    fun WearInteractorImpl.bindWearInteractor(): WearInteractor
 }

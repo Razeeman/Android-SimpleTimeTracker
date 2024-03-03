@@ -17,10 +17,11 @@ import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.wear_api.WearActivity
+import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 import com.example.util.simpletimetracker.wear_api.WearSettings
-import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import com.example.util.simpletimetracker.wear_api.WearTag
+import dagger.Lazy
 import javax.inject.Inject
 
 class WearCommunicationInteractor @Inject constructor(
@@ -28,8 +29,8 @@ class WearCommunicationInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val removeRunningRecordMediator: RemoveRunningRecordMediator,
-    private val addRunningRecordMediator: AddRunningRecordMediator,
+    private val removeRunningRecordMediator: Lazy<RemoveRunningRecordMediator>,
+    private val addRunningRecordMediator: Lazy<AddRunningRecordMediator>,
     private val appColorMapper: AppColorMapper,
 ) : WearCommunicationAPI {
 
@@ -67,10 +68,10 @@ class WearCommunicationInteractor @Inject constructor(
         val started = starting.filter { it.id !in currentsIds }
 
         stopped.forEach {
-            removeRunningRecordMediator.removeWithRecordAdd(it)
+            removeRunningRecordMediator.get().removeWithRecordAdd(it)
         }
         started.forEach { record ->
-            addRunningRecordMediator.add(
+            addRunningRecordMediator.get().add(
                 typeId = record.id,
                 timeStarted = record.startedAt,
                 tagIds = record.tags.map(WearTag::id),

@@ -1,13 +1,12 @@
 package com.example.util.simpletimetracker.domain
 
-import com.example.util.simpletimetracker.data.WearRPCClient
+import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
-import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.example.util.simpletimetracker.wear_api.WearTag
 import javax.inject.Inject
 
 class CurrentActivitiesMediator @Inject constructor(
-    private val rpc: WearRPCClient,
+    private val wearDataRepo: WearDataRepo,
 ) {
 
     suspend fun start(
@@ -19,21 +18,19 @@ class CurrentActivitiesMediator @Inject constructor(
             startedAt = System.currentTimeMillis(),
             tags = tags,
         )
-        if (settings().allowMultitasking) {
-            val currents = rpc.queryCurrentActivities()
-            this.rpc.setCurrentActivities(currents.plus(newCurrent))
+        val settings = wearDataRepo.loadSettings()
+
+        if (settings.allowMultitasking) {
+            val currents = wearDataRepo.loadCurrentActivities()
+            this.wearDataRepo.setCurrentActivities(currents.plus(newCurrent))
         } else {
-            this.rpc.setCurrentActivities(listOf(newCurrent))
+            this.wearDataRepo.setCurrentActivities(listOf(newCurrent))
         }
     }
 
     suspend fun stop(currentId: Long) {
-        val currents = rpc.queryCurrentActivities()
+        val currents = wearDataRepo.loadCurrentActivities()
         val remaining = currents.filter { it.id != currentId }
-        this.rpc.setCurrentActivities(remaining)
-    }
-
-    private suspend fun settings(): WearSettings {
-        return this.rpc.querySettings()
+        this.wearDataRepo.setCurrentActivities(remaining)
     }
 }

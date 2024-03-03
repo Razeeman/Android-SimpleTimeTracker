@@ -8,18 +8,29 @@ package com.example.util.simpletimetracker.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.navigation.WearNavigator
 import com.example.util.simpletimetracker.presentation.theme.WearTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject lateinit var wearDataRepo: WearDataRepo
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        wearDataRepo.addListener()
         setContent {
             WearTheme {
                 WearNavigator()
             }
         }
+    }
+
+    override fun onStop() {
+        wearDataRepo.removeListener()
+        super.onStop()
     }
 }
