@@ -1,6 +1,6 @@
-package com.example.util.simpletimetracker.presentation.mediators
+package com.example.util.simpletimetracker.domain
 
-import com.example.util.simpletimetracker.presentation.data.WearRPCClient
+import com.example.util.simpletimetracker.data.WearRPCClient
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.example.util.simpletimetracker.wear_api.WearTag

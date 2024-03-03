@@ -17,7 +17,7 @@ import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.presentation.layout.ScaffoldedScrollingColumn
-import com.example.util.simpletimetracker.presentation.utils.getString
+import com.example.util.simpletimetracker.utils.getString
 import com.example.util.simpletimetracker.wear_api.WearTag
 
 sealed interface TagListState {

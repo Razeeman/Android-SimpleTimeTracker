@@ -8,7 +8,7 @@ package com.example.util.simpletimetracker.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.util.simpletimetracker.presentation.navigation.WearNavigator
+import com.example.util.simpletimetracker.navigation.WearNavigator
 import com.example.util.simpletimetracker.presentation.theme.WearTheme
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -3,13 +3,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.presentation.screens
+package com.example.util.simpletimetracker.presentation.screens.tagsSelection
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.presentation.components.TagListState
-import com.example.util.simpletimetracker.presentation.data.WearRPCClient
-import com.example.util.simpletimetracker.presentation.mediators.CurrentActivitiesMediator
+import com.example.util.simpletimetracker.data.WearRPCClient
+import com.example.util.simpletimetracker.domain.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.example.util.simpletimetracker.wear_api.WearTag
 import dagger.hilt.android.lifecycle.HiltViewModel

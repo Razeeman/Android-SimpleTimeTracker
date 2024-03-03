@@ -5,7 +5,7 @@
  */
 package com.example.util.simpletimetracker.wear
 
-import com.example.util.simpletimetracker.presentation.mediators.StartActivityMediator
+import com.example.util.simpletimetracker.domain.StartActivityMediator
 import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.wear_api.MockWearCommunicationAPI
 import com.example.util.simpletimetracker.wear_api.WearSettings

@@ -3,9 +3,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.presentation.mediators
+package com.example.util.simpletimetracker.domain
 
-import com.example.util.simpletimetracker.presentation.data.WearRPCClient
+import com.example.util.simpletimetracker.data.WearRPCClient
 import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import javax.inject.Inject

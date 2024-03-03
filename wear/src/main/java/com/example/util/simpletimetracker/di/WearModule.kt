@@ -3,10 +3,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.presentation.di
+package com.example.util.simpletimetracker.di
 
-import com.example.util.simpletimetracker.presentation.data.ContextMessenger
-import com.example.util.simpletimetracker.presentation.data.Messenger
+import com.example.util.simpletimetracker.data.ContextMessenger
+import com.example.util.simpletimetracker.data.Messenger
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
