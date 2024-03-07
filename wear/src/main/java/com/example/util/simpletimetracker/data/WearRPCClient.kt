@@ -78,10 +78,7 @@ class WearRPCClient @Inject constructor(
     ) {
         listener = MessageClient.OnMessageReceivedListener {
             if (it.path == WearRequests.DATA_UPDATED) {
-                val response: String? = it.data.let(::mapFromBytes)
-                if (response == WearRequests.DATA_UPDATED_CURRENT_ACTIVITIES) {
-                    onDataChanged()
-                }
+                onDataChanged()
             }
         }
         listener?.let {

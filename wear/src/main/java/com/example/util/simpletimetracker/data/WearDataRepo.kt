@@ -16,22 +16,15 @@ class WearDataRepo @Inject constructor(
     private val wearRPCClient: WearRPCClient,
 ) {
 
-    val activitiesUpdated: SharedFlow<Unit> get() = _activitiesUpdated.asSharedFlow()
-    val currentActivitiesUpdated: SharedFlow<Unit> get() = _currentActivitiesUpdated.asSharedFlow()
+    val dataUpdated: SharedFlow<Unit> get() = _dataUpdated.asSharedFlow()
 
-    private var _activitiesUpdated: MutableSharedFlow<Unit> = MutableSharedFlow(
-        extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-    )
-    private var _currentActivitiesUpdated: MutableSharedFlow<Unit> = MutableSharedFlow(
+    private var _dataUpdated: MutableSharedFlow<Unit> = MutableSharedFlow(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
 
     fun addListener() {
-        wearRPCClient.addListener {
-            _currentActivitiesUpdated.tryEmit(Unit)
-        }
+        wearRPCClient.addListener { _dataUpdated.tryEmit(Unit) }
     }
 
     fun removeListener() {

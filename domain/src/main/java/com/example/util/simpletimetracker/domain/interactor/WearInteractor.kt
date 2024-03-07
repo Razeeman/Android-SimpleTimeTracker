@@ -2,7 +2,5 @@ package com.example.util.simpletimetracker.domain.interactor
 
 interface WearInteractor {
 
-    suspend fun updateActivities()
-
-    suspend fun updateCurrentActivities()
+    suspend fun update()
 }

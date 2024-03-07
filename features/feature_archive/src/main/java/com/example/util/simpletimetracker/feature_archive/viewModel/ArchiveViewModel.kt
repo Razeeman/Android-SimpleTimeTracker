@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInte
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.WearInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.WidgetType
@@ -38,6 +39,7 @@ class ArchiveViewModel @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val widgetInteractor: WidgetInteractor,
+    private val wearInteractor: WearInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
 ) : ViewModel() {
 
@@ -94,6 +96,7 @@ class ArchiveViewModel @Inject constructor(
             }
 
             notificationTypeInteractor.updateNotifications()
+            wearInteractor.update()
             updateViewData()
             showMessage(message)
         }
@@ -114,10 +117,12 @@ class ArchiveViewModel @Inject constructor(
                     notificationGoalTimeInteractor.cancel(RecordTypeGoal.IdData.Type(params.id))
                     notificationGoalTimeInteractor.checkAndReschedule(runningRecordIds + params.id)
                     widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
+                    wearInteractor.update()
                     resourceRepo.getString(R.string.archive_activity_deleted)
                 }
                 is ArchiveDialogParams.RecordTag -> {
                     recordTagInteractor.remove(params.id)
+                    wearInteractor.update()
                     resourceRepo.getString(R.string.archive_tag_deleted)
                 }
             }

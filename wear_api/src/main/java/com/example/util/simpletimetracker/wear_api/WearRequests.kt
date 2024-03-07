@@ -15,6 +15,4 @@ object WearRequests {
     const val QUERY_TAGS_FOR_ACTIVITY = "$PATH//GET/activities/:ID/tags"
     const val QUERY_SETTINGS = "$PATH//GET/settings"
     const val DATA_UPDATED = "$PATH//data/updated"
-
-    const val DATA_UPDATED_CURRENT_ACTIVITIES = "data_updated_current_activities"
 }

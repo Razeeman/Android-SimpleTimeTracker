@@ -73,10 +73,7 @@ class ActivitiesViewModel @Inject constructor(
 
     private fun subscribeToDataUpdates() {
         viewModelScope.launch {
-            wearDataRepo.currentActivitiesUpdated.collect { loadData() }
-        }
-        viewModelScope.launch {
-            wearDataRepo.activitiesUpdated.collect { loadData() }
+            wearDataRepo.dataUpdated.collect { loadData() }
         }
     }
 

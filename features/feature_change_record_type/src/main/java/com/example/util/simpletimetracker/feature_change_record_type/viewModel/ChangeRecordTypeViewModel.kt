@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryIn
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.WearInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.IconImageState
@@ -66,6 +67,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val viewDataInteractor: ChangeRecordTypeViewDataInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val widgetInteractor: WidgetInteractor,
+    private val wearInteractor: WearInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -379,6 +381,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 runningRecordInteractor.get(recordTypeId)?.let { runningRecord ->
                     removeRunningRecordMediator.removeWithRecordAdd(runningRecord)
                 }
+                wearInteractor.update()
                 showArchivedMessage(R.string.change_record_type_archived)
                 keyboardVisibility.set(false)
                 router.back()
@@ -399,6 +402,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             notificationTypeInteractor.updateNotifications()
             notificationGoalTimeInteractor.checkAndReschedule(listOf(recordTypeId))
             widgetInteractor.updateWidgets()
+            wearInteractor.update()
             keyboardVisibility.set(false)
             router.back()
         }

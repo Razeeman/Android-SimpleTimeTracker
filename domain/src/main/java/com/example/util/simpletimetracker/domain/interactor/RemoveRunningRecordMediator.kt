@@ -55,7 +55,7 @@ class RemoveRunningRecordMediator @Inject constructor(
         notificationGoalTimeInteractor.checkAndReschedule(runningRecordIds + typeId)
         if (updateWidgets) {
             widgetInteractor.updateWidgets()
-            wearInteractor.updateCurrentActivities()
+            wearInteractor.update()
         }
     }
 }

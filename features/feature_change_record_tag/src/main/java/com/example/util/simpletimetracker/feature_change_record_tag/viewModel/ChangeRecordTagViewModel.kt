@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInte
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.WearInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -45,6 +46,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private val colorViewDataInteractor: ColorViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val wearInteractor: WearInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
     private val changeRecordTagMapper: ChangeRecordTagMapper,
     private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
@@ -178,6 +180,7 @@ class ChangeRecordTagViewModel @Inject constructor(
             if (recordTagId != 0L) {
                 recordTagInteractor.archive(recordTagId)
                 notificationTypeInteractor.updateNotifications()
+                wearInteractor.update()
                 showArchivedMessage(R.string.change_record_tag_archived)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
@@ -201,6 +204,7 @@ class ChangeRecordTagViewModel @Inject constructor(
             ).let {
                 recordTagInteractor.add(it)
                 notificationTypeInteractor.updateNotifications()
+                wearInteractor.update()
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }

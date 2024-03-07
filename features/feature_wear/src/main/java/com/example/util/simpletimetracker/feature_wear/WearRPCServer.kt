@@ -6,9 +6,9 @@
 package com.example.util.simpletimetracker.feature_wear
 
 import android.content.Context
+import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 import com.example.util.simpletimetracker.wear_api.WearRequests
-import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.Wearable
 import com.google.gson.Gson
@@ -45,7 +45,7 @@ class WearRPCServer @Inject constructor(
         }
     }
 
-    suspend fun updateCurrentActivities() = withContext(Dispatchers.IO) {
+    suspend fun updateData() = withContext(Dispatchers.IO) {
         // TODO handle errors?
         val nodesListTask = Wearable
             .getNodeClient(context)
@@ -56,7 +56,7 @@ class WearRPCServer @Inject constructor(
             Wearable.getMessageClient(context).sendMessage(
                 node.id,
                 WearRequests.DATA_UPDATED,
-                mapToBytes(WearRequests.DATA_UPDATED_CURRENT_ACTIVITIES),
+                null,
             )
         }
     }

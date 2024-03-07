@@ -98,7 +98,7 @@ class AddRunningRecordMediator @Inject constructor(
                 if (runningRecordInteractor.getAll().size == 1) notificationActivityInteractor.checkAndSchedule()
                 notificationGoalTimeInteractor.checkAndReschedule(listOf(typeId))
                 widgetInteractor.updateWidgets()
-                wearInteractor.updateCurrentActivities()
+                wearInteractor.update()
             }
         }
     }
