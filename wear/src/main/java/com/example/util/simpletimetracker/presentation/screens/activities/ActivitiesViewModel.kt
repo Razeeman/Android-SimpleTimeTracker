@@ -5,14 +5,13 @@
  */
 package com.example.util.simpletimetracker.presentation.screens.activities
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.data.WearDataRepo
-import com.example.util.simpletimetracker.presentation.components.ActivitiesListState
 import com.example.util.simpletimetracker.domain.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.domain.StartActivityMediator
+import com.example.util.simpletimetracker.presentation.components.ActivitiesListState
 import com.example.util.simpletimetracker.wear_api.WearActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
@@ -43,21 +42,19 @@ class ActivitiesViewModel @Inject constructor(
         isInitialized = true
     }
 
-    fun startActivityWithoutTags(wearActivity: WearActivity) = viewModelScope.launch {
-        Log.d("ActivitiesScreen", "Starting ${wearActivity.name} (#${wearActivity.id}) without tags")
-        currentActivitiesMediator.start(wearActivity.id)
-    }
-
     fun stopActivity(wearActivity: WearActivity) = viewModelScope.launch {
-        Log.d("ActivitiesScreen", "Stopping ${wearActivity.name} (#${wearActivity.id})")
         currentActivitiesMediator.stop(wearActivity.id)
     }
 
-    fun onSelectActivity(wearActivity: WearActivity) = viewModelScope.launch {
+    fun tryStartActivity(wearActivity: WearActivity) = viewModelScope.launch {
         startActivitiesMediator.requestStart(
             activity = wearActivity,
-            onRequestStartActivity = ::startActivityWithoutTags,
-            onRequestTagSelection = ::startActivityWithTags,
+            onRequestStartActivity = {
+                currentActivitiesMediator.start(wearActivity.id)
+            },
+            onRequestTagSelection = {
+                effects.emit(Effect.OnRequestTagSelection(wearActivity.id))
+            },
         )
     }
 
@@ -81,11 +78,6 @@ class ActivitiesViewModel @Inject constructor(
         viewModelScope.launch {
             wearDataRepo.activitiesUpdated.collect { loadData() }
         }
-    }
-
-    private fun startActivityWithTags(wearActivity: WearActivity) = viewModelScope.launch {
-        Log.d("ActivitiesScreen", "Starting ${wearActivity.name} (#${wearActivity.id}) with tags")
-        effects.emit(Effect.OnRequestTagSelection(wearActivity.id))
     }
 
     sealed interface Effect {

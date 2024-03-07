@@ -31,6 +31,6 @@ class CurrentActivitiesMediator @Inject constructor(
     suspend fun stop(currentId: Long) {
         val currents = wearDataRepo.loadCurrentActivities()
         val remaining = currents.filter { it.id != currentId }
-        this.wearDataRepo.setCurrentActivities(remaining)
+        wearDataRepo.setCurrentActivities(remaining)
     }
 }

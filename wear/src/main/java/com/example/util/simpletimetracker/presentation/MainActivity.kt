@@ -21,12 +21,16 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        wearDataRepo.addListener()
         setContent {
             WearTheme {
                 WearNavigator()
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        wearDataRepo.addListener()
     }
 
     override fun onStop() {

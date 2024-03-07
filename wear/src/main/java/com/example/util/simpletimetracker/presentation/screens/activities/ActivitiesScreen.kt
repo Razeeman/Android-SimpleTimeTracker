@@ -29,9 +29,8 @@ fun ActivitiesScreen(
 
     ActivitiesList(
         state = state,
-        onSelectActivity = viewModel::onSelectActivity,
-        onEnableActivity = viewModel::startActivityWithoutTags,
-        onDisableActivity = viewModel::stopActivity,
+        onStart = viewModel::tryStartActivity,
+        onStop = viewModel::stopActivity,
         onRefresh = viewModel::loadData,
     )
 }

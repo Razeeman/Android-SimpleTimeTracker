@@ -36,9 +36,8 @@ sealed interface ActivitiesListState {
 @Composable
 fun ActivitiesList(
     state: ActivitiesListState,
-    onSelectActivity: (activity: WearActivity) -> Unit = {},
-    onEnableActivity: (activity: WearActivity) -> Unit = {},
-    onDisableActivity: (activity: WearActivity) -> Unit = {},
+    onStart: (activity: WearActivity) -> Unit = {},
+    onStop: (activity: WearActivity) -> Unit = {},
     onRefresh: () -> Unit = {},
 ) {
     ScaffoldedScrollingColumn {
@@ -53,9 +52,8 @@ fun ActivitiesList(
             is ActivitiesListState.Content -> {
                 renderContent(
                     state = state,
-                    onSelectActivity = onSelectActivity,
-                    onEnableActivity = onEnableActivity,
-                    onDisableActivity = onDisableActivity,
+                    onStart = onStart,
+                    onStop = onStop,
                 )
                 renderRefreshButton(onRefresh)
             }
@@ -64,7 +62,7 @@ fun ActivitiesList(
 }
 
 private fun renderLoading() {
-    // Show nothing until data is loded.
+    // Show nothing until data is loaded.
 }
 
 private fun ScalingLazyListScope.renderEmpty(
@@ -80,23 +78,25 @@ private fun ScalingLazyListScope.renderEmpty(
 
 private fun ScalingLazyListScope.renderContent(
     state: ActivitiesListState.Content,
-    onSelectActivity: (activity: WearActivity) -> Unit,
-    onEnableActivity: (activity: WearActivity) -> Unit,
-    onDisableActivity: (activity: WearActivity) -> Unit,
+    onStart: (activity: WearActivity) -> Unit,
+    onStop: (activity: WearActivity) -> Unit,
 ) {
     for (activity in state.activities) {
         val currentActivity = state.currentActivities
-            .filter { it.id == activity.id }
-            .getOrNull(0)
+            .firstOrNull { it.id == activity.id }
 
         item(key = activity.id) {
             ActivityChip(
                 activity = activity,
                 startedAt = currentActivity?.startedAt,
                 tags = currentActivity?.tags.orEmpty(),
-                onClick = { onSelectActivity(activity) },
-                onToggleOn = { onEnableActivity(activity) },
-                onToggleOff = { onDisableActivity(activity) },
+                onClick = {
+                    if (currentActivity != null) {
+                        onStop(activity)
+                    } else {
+                        onStart(activity)
+                    }
+                },
             )
         }
     }

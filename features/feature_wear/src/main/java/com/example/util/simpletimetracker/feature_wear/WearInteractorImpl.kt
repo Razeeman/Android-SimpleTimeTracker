@@ -8,7 +8,7 @@ class WearInteractorImpl @Inject constructor(
 ) : WearInteractor {
 
     override suspend fun updateActivities() {
-
+        // TODO update activities
     }
 
     override suspend fun updateCurrentActivities() {

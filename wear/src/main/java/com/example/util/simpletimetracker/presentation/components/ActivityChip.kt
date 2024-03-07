@@ -13,17 +13,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.wear.compose.material.SplitToggleChip
-import androidx.wear.compose.material.Switch
-import androidx.wear.compose.material.SwitchDefaults
+import androidx.wear.compose.material.Chip
+import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Text
-import androidx.wear.compose.material.ToggleChipDefaults
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.presentation.remember.rememberDurationSince
 import com.example.util.simpletimetracker.wear_api.WearActivity
@@ -41,8 +37,6 @@ fun ActivityChip(
     startedAt: Long? = null,
     tags: List<WearTag> = emptyList(),
     onClick: () -> Unit = {},
-    onToggleOn: () -> Unit = {},
-    onToggleOff: () -> Unit = {},
 ) {
     val tagsList = if (tags.isNotEmpty()) {
         tags.joinToString(", ") { it.name }
@@ -54,8 +48,7 @@ fun ActivityChip(
     } else {
         ""
     }
-    val switchChecked = startedAt != null
-    SplitToggleChip(
+    Chip(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 10.dp),
@@ -72,7 +65,7 @@ fun ActivityChip(
         },
         secondaryLabel = {
             if (startedAt != null) {
-                var startedDiff = rememberDurationSince(epochMillis = startedAt)
+                val startedDiff = rememberDurationSince(epochMillis = startedAt)
 
                 Text(
                     text = durationToLabel(startedDiff) + tagString,
@@ -88,42 +81,12 @@ fun ActivityChip(
                         },
                     ),
                 )
-            } else {
-                null
             }
         },
-        colors = ToggleChipDefaults.splitToggleChipColors(
+        colors = ChipDefaults.chipColors(
             backgroundColor = Color(activity.color),
-            splitBackgroundOverlayColor = if (switchChecked) {
-                Color.White.copy(alpha = .1F)
-            } else {
-                Color.Black.copy(alpha = .3F)
-            },
         ),
-        onCheckedChange = {
-            if (it) {
-                onToggleOn()
-            } else {
-                onToggleOff()
-            }
-        },
-        checked = switchChecked,
         onClick = onClick,
-        toggleControl = {
-            Switch(
-                checked = switchChecked,
-                enabled = true,
-                modifier = Modifier.semantics {
-                    this.contentDescription = if (switchChecked) "On" else "Off"
-                },
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = Color.White,
-                    checkedTrackColor = Color.White.copy(alpha = 0.5F),
-                    uncheckedThumbColor = Color.White,
-                    uncheckedTrackColor = Color.White.copy(alpha = 0.5F),
-                ),
-            )
-        },
     )
 }
 

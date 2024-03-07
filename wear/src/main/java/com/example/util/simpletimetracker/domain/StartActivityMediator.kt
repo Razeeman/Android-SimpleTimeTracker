@@ -16,8 +16,8 @@ class StartActivityMediator @Inject constructor(
 
     suspend fun requestStart(
         activity: WearActivity,
-        onRequestStartActivity: suspend (activity: WearActivity) -> Unit,
-        onRequestTagSelection: suspend (activity: WearActivity) -> Unit,
+        onRequestStartActivity: suspend () -> Unit,
+        onRequestTagSelection: suspend () -> Unit,
     ) {
         val settings = wearDataRepo.loadSettings()
         if (settings.showRecordTagSelection) {
@@ -28,15 +28,15 @@ class StartActivityMediator @Inject constructor(
                 onRequestTagSelection = onRequestTagSelection,
             )
         } else {
-            onRequestStartActivity(activity)
+            onRequestStartActivity()
         }
     }
 
     private suspend fun requestTagSelectionIfNeeded(
         activity: WearActivity,
         settings: WearSettings,
-        onRequestStartActivity: suspend (activity: WearActivity) -> Unit,
-        onRequestTagSelection: suspend (activity: WearActivity) -> Unit,
+        onRequestStartActivity: suspend () -> Unit,
+        onRequestTagSelection: suspend () -> Unit,
     ) {
         val tags = wearDataRepo.loadTagsForActivity(activity.id)
         val generalTags = tags.filter { it.isGeneral }
@@ -44,9 +44,9 @@ class StartActivityMediator @Inject constructor(
         val tagSelectionNeeded = nonGeneralTags.isNotEmpty() ||
             generalTags.isNotEmpty() && settings.recordTagSelectionEvenForGeneralTags
         if (tagSelectionNeeded) {
-            onRequestTagSelection(activity)
+            onRequestTagSelection()
         } else {
-            onRequestStartActivity(activity)
+            onRequestStartActivity()
         }
     }
 }
