@@ -1,5 +1,4 @@
 <resources>
-    <string name="refresh_button_default_content_description">Refresh</string>
     <string name="no_tags">No tags</string>
     <string name="no_activities">No activities</string>
     <string name="untagged">Untagged</string>

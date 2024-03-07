@@ -7,11 +7,13 @@ package com.example.util.simpletimetracker.presentation.components
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.ScalingLazyListScope
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
@@ -73,8 +75,12 @@ fun TagList(
     }
 }
 
-private fun renderLoadingState() {
-    // Show nothing until data is loded.
+private fun ScalingLazyListScope.renderLoadingState() {
+    item {
+        CircularProgressIndicator(
+            modifier = Modifier.width(64.dp),
+        )
+    }
 }
 
 private fun ScalingLazyListScope.renderEmptyState(
@@ -114,6 +120,14 @@ private fun ScalingLazyListScope.renderContentState(
             }
         }
     }
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
+private fun Loading() {
+    TagList(
+        state = TagListState.Loading,
+    )
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)

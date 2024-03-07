@@ -43,7 +43,7 @@ fun ScrollingColumn(
             state = scrollState,
         ),
         autoCentering = AutoCenteringParams(
-            itemIndex = 0,
+            itemIndex = 1,
         ),
         contentPadding = PaddingValues(10.dp),
         verticalArrangement = Arrangement.Center,

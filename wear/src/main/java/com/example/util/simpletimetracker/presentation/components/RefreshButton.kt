@@ -15,19 +15,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.OutlinedButton
-import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.presentation.remember.rememberAnimationRotation
 
 @Composable
-fun RefreshButton(onClick: () -> Unit, contentDescription: String? = null) {
-    val context = LocalContext.current
+fun RefreshButton(
+    onClick: () -> Unit = {},
+) {
     var pressCount by remember { mutableIntStateOf(0) }
     val targetRotation = rememberAnimationRotation(key = pressCount)
+
     OutlinedButton(
         onClick = {
             pressCount++
@@ -35,10 +35,8 @@ fun RefreshButton(onClick: () -> Unit, contentDescription: String? = null) {
         },
         content = {
             Icon(
-                Icons.Rounded.Refresh,
-                contentDescription = contentDescription ?: context.getString(
-                    R.string.refresh_button_default_content_description,
-                ),
+                imageVector = Icons.Rounded.Refresh,
+                contentDescription = null,
             )
         },
         modifier = Modifier
@@ -50,7 +48,5 @@ fun RefreshButton(onClick: () -> Unit, contentDescription: String? = null) {
 @Preview
 @Composable
 private fun Preview() {
-    RefreshButton(
-        onClick = { /* Log.i("Preview", "Refresh Button clicked!") */ },
-    )
+    RefreshButton()
 }

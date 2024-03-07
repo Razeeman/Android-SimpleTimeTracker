@@ -104,8 +104,9 @@ Simple app that helps track how much time you spend on all the useless activitie
     ├── data_local                            # Database.
     ├── domain                                # Business logic.
     ├── navigation                            # Navigation interfaces and screen params.
+    ├── resources                             # Common resources between phone and watch apps.
     ├── wear                                  # WearOS app.
-    ├── wear_api                              # Mobile - WearOS communication
+    ├── wear_api                              # Mobile - WearOS communication contracts.
     ├── features
     │   ├── feature_archive                   # Screen for archived data.
     │   ├── feature_base_adapter              # Shared recycler adapters.
@@ -130,6 +131,7 @@ Simple app that helps track how much time you spend on all the useless activitie
     │   ├── feature_statistics_detail         # Screen showing detailed statistics.
     │   ├── feature_tag_selection             # Screen for selecting tags.
     │   ├── feature_views                     # Custom views.
+    │   ├── feature_wear                      # Phone app logic to connect to wear app.
     │   └── feature_widget                    # Widgets.
 
 ## License

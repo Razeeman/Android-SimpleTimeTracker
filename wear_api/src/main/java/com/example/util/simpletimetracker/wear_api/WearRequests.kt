@@ -8,11 +8,15 @@ package com.example.util.simpletimetracker.wear_api
 object WearRequests {
     const val PATH = "/stt"
 
+    // From wear to app.
+    // Same strings are set in the android_wear_capabilities manifest
     const val PING = "$PATH//GET/ping"
     const val QUERY_ACTIVITIES = "$PATH//GET/activities"
     const val QUERY_CURRENT_ACTIVITIES = "$PATH//GET/activities/current"
     const val SET_CURRENT_ACTIVITIES = "$PATH//PUT/activities/current"
     const val QUERY_TAGS_FOR_ACTIVITY = "$PATH//GET/activities/:ID/tags"
     const val QUERY_SETTINGS = "$PATH//GET/settings"
+
+    // From app to wear.
     const val DATA_UPDATED = "$PATH//data/updated"
 }
