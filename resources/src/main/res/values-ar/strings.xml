@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">اﻹثنين</string>
+    <string name="day_of_week_tuesday">الثلاثاء</string>
+    <string name="day_of_week_wednesday">اﻷربعاء</string>
+    <string name="day_of_week_thursday">الخميس</string>
+    <string name="day_of_week_friday">الجمعة</string>
+    <string name="day_of_week_saturday">السبت</string>
+    <string name="day_of_week_sunday">اﻷحد</string>
+
+    <string name="activity_hint">اﻷنشطة</string>
+    <string name="category_hint">التصنيف</string>
+    <string name="record_tag_hint">وسوم التتبع</string>
+    <string name="record_tag_hint_short">الوسوم</string>
+    <string name="nothing_selected">لم يحدد شيء</string>
+    <string name="something_selected">المحدد:</string>
+    <string name="select_all">اختر الكل</string>
+    <string name="select_nothing">لا تختار شيئا</string>
+    <string name="no_data">لايوجد بيانات</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">اﻷمس</string>
+    <string name="title_today">اليوم</string>
+    <string name="title_tomorrow">غدا</string>
+    <string name="title_this_week">هذا اﻷسبوع</string>
+    <string name="title_this_month">هذا الشهر</string>
+    <string name="title_this_year">هذه السنة</string>
+
+    <string name="range_day">يوم</string>
+    <string name="range_week">أسبوع</string>
+    <string name="range_month">شهر</string>
+    <string name="range_year">سنة</string>
+    <string name="range_overall">كامل</string>
+    <string name="range_custom">الفترة الزمنية</string>
+    <string name="range_last">آخر ٧ أيام</string>
+    <string name="range_select_day">اختر تاريخ</string>
+    <string name="range_select_week">اختر أسبوع</string>
+    <string name="range_select_month">اختر شهر</string>
+    <string name="range_select_year">اختر سنة</string>
+
+    <string name="ok">حسناً</string>
+    <string name="cancel">إلغاء</string>
+
+    <string name="time_hour">س</string>
+    <string name="time_minute">د</string>
+    <string name="time_second">ث</string>
+
+    <string name="untracked_time_name">غير متتبع</string>
+    <string name="uncategorized_time_name">غير مصنف</string>
+    <string name="multitask_time_name">تعدد المهام</string>
+    <string name="running_record_goal_time">الهدف %s</string>
+    <string name="record_types_empty">لم تضاف أنشطة</string>
+    <string name="record_tag_selection_hint">اختر وسوم متتبعة</string>
+    <string name="time_now">الآن</string>
+    <string name="cannot_be_in_the_future">لا يمكن أن يكون في المستقبل</string>
+
+    <!--  Records  -->
+    <string name="record_removed">متتبع %s أزيل</string>
+    <string name="record_removed_undo">تراجع</string>
+    <string name="records_hint">للتعديل، اضغط على ما تبع</string>
+    <string name="no_records_exist">سيتم عرض السجلات هنا</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_total_tracked">إجمالي الوقت المتتبع</string>
+    <string name="statistics_total_tracked_short">اﻹجمالي</string>
+    <string name="statistics_hint">اضغط على البطاقة لعرض إحصائيات مفصلة</string>
+    <string name="no_statistics_exist">سيتم عرض الإحصائيات هنا</string>
+
+    <!--  Categories  -->
+    <string name="categories_title">التصنيفات والوسوم</string>
+    <string name="categories_edit_hint">للتعديل، اضغط على البطاقة</string>
+    <string name="categories_record_type_hint">عين نفس التصنيف للأنشطة المختلفة حتى يعرض الإحصائيات المجمعة لكل اﻷنشطة في إحصاء واحد</string>
+    <string name="categories_record_hint">عين وسوم مختلفة للتمييز بين المتتبعات</string>
+    <string name="categories_add_category">إضافة تصنيف</string>
+    <string name="categories_add_record_tag">إضافة وسم التتبع</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">حذف التصنيف</string>
+    <string name="change_category_name_hint">إدخال اسم جديد</string>
+    <string name="change_category_color_hint">اللون</string>
+    <string name="change_category_types_hint">اﻷنشطة</string>
+    <string name="change_category_save">حفظ</string>
+    <string name="change_category_message_choose_name">اختيار اسم</string>
+
+    <!--  Change record tag  -->
+    <string name="change_record_tag_archived">تم أرشفة الوسم</string>
+    <string name="change_record_tag_type_hint">النشاط</string>
+    <string name="change_record_tag_type">نوع العلامة</string>
+    <string name="change_record_tag_type_general">عام</string>
+    <string name="change_record_tag_type_general_hint">يمكن تعيينه إلى متتبعات أي نشاط</string>
+    <string name="change_record_tag_type_typed">النشاط</string>
+    <string name="change_record_tag_type_typed_hint">لا يمكن تعيينه إلا لمتتبعات نشاط معين</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">اختيار النشاط</string>
+    <string name="change_record_type_field">النشاط</string>
+    <string name="change_record_tag_field">الوسم</string>
+    <string name="change_record_comment_field">التعليق</string>
+    <string name="change_record_comment_hint">إدخال تعليق جديد</string>
+    <string name="change_record_actions_hint">إجراءات</string>
+    <string name="change_record_last_comments_hint">آخر التعليقات</string>
+    <string name="change_record_favourite_comments_hint">المفضلة</string>
+    <string name="change_record_categories_empty">لم تضاف وسوم متتبعة</string>
+    <string name="change_record_save">حفظ</string>
+    <string name="change_record_untagged">بدون وسم</string>
+    <string name="change_running_record_removed">إزالة النشاط الجاري</string>
+    <string name="change_record_split">تقسيم</string>
+    <string name="change_record_split_hint">سيقسم التتبع الحالي إلى قسمين حسب النقطة المحددة في الوقت</string>
+    <string name="change_record_continue">واصَل</string>
+    <string name="change_record_continue_hint">سيلغي تتبع نقطة الوقوف ويواصل تتبع النشاط</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">سوف نكرر تتبع هذا النشاط</string>
+    <string name="change_record_duplicate">مضاعفة</string>
+    <string name="change_record_duplicate_hint">سينشئ نسخة مكررة من هذا التتبع</string>
+    <string name="change_record_merge">دمج</string>
+    <string name="change_record_merge_hint">سيدمج هذا الوقت إلى التتبع السابق</string>
+    <string name="change_record_adjust">تغيير</string>
+    <string name="change_record_change_prev_record">تغيير وقت التتبع السابق أيضا</string>
+    <string name="change_record_change_adjacent_records">تغيير وقت التتبع المحاذي أيضا</string>
+    <string name="change_record_untracked_time_hint">الوقت غير المُتعقب هو الوقت الذي لم يتم فيه تعقب أي نشاط.</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">تم أرشفة النشاط</string>
+    <string name="change_record_type_name_hint">إدخال اسم جديد</string>
+    <string name="change_record_type_new_icon_text_hint">إدخال نص جديد</string>
+    <string name="change_record_type_color_hint">اللون</string>
+    <string name="change_record_type_icon_image_hint">اﻷيقونة</string>
+    <string name="change_record_type_icon_text_hint">نص</string>
+    <string name="change_record_type_icon_emoji_hint">إيموجي</string>
+    <string name="change_record_type_icon_search_hint">بحث (باللغة الإنجليزية)</string>
+    <string name="change_record_type_save">حفظ</string>
+    <string name="change_record_message_choose_name">اختيار اسم</string>
+    <string name="change_record_type_categories_empty">لا توجد تصنيفات مضافة</string>
+    <string name="change_record_type_goal_time_disabled">غير مفعل</string>
+    <string name="change_record_type_goal_time_hint">الهدف</string>
+    <string name="change_record_type_goal_time_description">سيظهر الإخطار بعد الوصول إلى الهدف</string>
+    <string name="change_record_type_session_goal_time">الجلسة</string>
+    <string name="change_record_type_daily_goal_time">@string/range_day</string>
+    <string name="change_record_type_weekly_goal_time">@string/range_week</string>
+    <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_goal_duration">مدة</string>
+    <string name="change_record_type_goal_count">عدد</string>
+
+    <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">تم إزالة المرشِّح</string>
+    <string name="change_activity_filter_save">حفظ</string>
+    <string name="change_activity_filter_type">نوع المرشِّح</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">التاريخ</string>
+    <string name="date_time_dialog_time">التوقيت</string>
+    <string name="date_time_dialog_seconds">الثواني</string>
+
+    <string name="card_size_default">العرض الافتراضي</string>
+    <string name="card_size_hint">عدد البطاقات في الصف الواحد</string>
+
+    <string name="card_order_hint">قم بالسحب والإفلات لإعادة الترتيب</string>
+
+    <string name="chart_filter_hint">المرشِّح</string>
+    <string name="types_compare_hint">المقارنة</string>
+    <string name="types_filter_show_all">إظهار الكل</string>
+    <string name="types_filter_hide_all">إخفاء الكل</string>
+    <string name="chart_filter_type_hint">نوع الإحصاء</string>
+    <string name="chart_filter_categories_empty">لا توجد وسوم مضافة</string>
+
+    <string name="duration_dialog_save">حفظ</string>
+    <string name="duration_dialog_disable">غير مفعل</string>
+
+    <string name="color_selection_base_color_hint">اختيار اللون اﻷساسي</string>
+    <string name="color_selection_adjust_color_hint">ضبط اللون</string>
+    <string name="color_selection_final_color_hint">اللون النهائي</string>
+
+    <string name="csv_export_settings_range">النطاق الزمني</string>
+    <string name="csv_export_settings_all">الكل</string>
+    <string name="csv_export_settings_hint">حدد النطاق الزمني أو قم بتصدير كافة التتبعات</string>
+
+    <string name="schedule_exact_alarms">يجب تمكين إعداد النظام لهذا التطبيق لجدولة الإنذارات الدقيقة</string>
+    <string name="post_notifications">يجب تمكين إعداد النظام لهذا التطبيق لإظهار الإشعارات</string>
+    <string name="schedule_exact_alarms_open_settings">يفتح</string>
+
+    <string name="default_types_selection_title">حدد الأنشطة المراد إضافتها</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">فرز التتبعات</string>
+    <string name="records_all_sort_time_started">بدأ الوقت</string>
+    <string name="records_all_sort_duration">مدة</string>
+    <string name="records_all_search_comment">تعليق البحث</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">لبدء التتبع ، أضف الأنشطة بالنقر فوق الزر %s أو استخدم الإعدادات المسبقة الافتراضية بالنقر فوق الزر %s</string>
+    <string name="running_records_empty">انقر على النشاط لبدء التتبع</string>
+    <string name="running_records_has_timers">انقر على البطاقة لإيقاف التتبع</string>
+    <string name="running_records_empty_hint">انقر طويلا للتعديل</string>
+    <string name="running_records_add_type">يضيف</string>
+    <string name="running_records_add_filter">أضف عامل تصفية</string>
+    <string name="running_records_add_default">تقصير</string>
+    <string name="running_records_repeat">يكرر</string>
+    <string name="running_records_repeat_no_prev_record">لا يوجد سجل سابق لإعادة التشغيل</string>
+    <string name="running_records_repeat_already_tracking">تتبع بالفعل هذا النشاط</string>
+
+    <!--  Settings  -->
+    <string name="settings_display_title">إعدادات العرض</string>
+    <string name="settings_additional_title">إعدادات إضافية</string>
+    <string name="settings_notification_title">إعدادات الإشعار</string>
+    <string name="settings_backup_title">إعدادات النسخ الاحتياطي</string>
+    <string name="settings_export_title">التصدير والاستيراد</string>
+    <string name="settings_sort_order">فرز الأنشطة</string>
+    <string name="settings_sort_by_name">الاسم</string>
+    <string name="settings_sort_by_color">اللون</string>
+    <string name="settings_sort_manually">يدويا</string>
+    <string name="settings_first_day_of_week">اليوم الأول من الأسبوع</string>
+    <string name="settings_repeat_button_type">زر التكرار</string>
+    <string name="settings_repeat_last_record">كرر السجل الأخير</string>
+    <string name="settings_repeat_one_before_last">كرر التسجيل قبل الماضي</string>
+    <string name="settings_show_untracked_time">إظهار الوقت غير المتعقب في التتبعات</string>
+    <string name="settings_show_untracked_time_statistics">إظهار الوقت الذي لم يتم تعقبه في الإحصائيات</string>
+    <string name="settings_ignore_short_untracked">تجاهل الوقت القصير غير المتعقب</string>
+    <string name="settings_ignore_short_untracked_hint">لا تعرض الوقت غير المتعقب والذي يكون أقصر من الوقت المحدد.</string>
+    <string name="settings_untracked_range">النظاق الزمني لغير المتعقب</string>
+    <string name="settings_untracked_range_hint">تجاهل الوقت غير المتعقب خارج النطاق المحدد.</string>
+    <string name="settings_show_records_calendar">إظهار المتتبعات في عرض تقويم</string>
+    <string name="settings_reverse_order_in_calendar">ترتيب عكسي للمتتبعات</string>
+    <string name="settings_days_in_calendar">الأيام في التقويم</string>
+    <string name="settings_widget_transparency">القطعة شفافية الخلفية</string>
+    <string name="settings_show_activity_filters">إظهار عوامل تصفية النشاط على الشاشة الرئيسية</string>
+    <string name="settings_show_goals_separately">إظهار الأهداف في علامة تبويب منفصلة</string>
+    <string name="settings_allow_multitasking">السماح بتعدد المهام</string>
+    <string name="settings_allow_multitasking_hint">ًإذا كان غير مفعل، فبدء تشغيل مهمة جديدة سيوقف الأنشطة الأخرى تلقائيا.</string>
+    <string name="settings_show_notifications">إظهار إشعارات المؤقت</string>
+    <string name="settings_show_notifications_hint">إظهار اﻹشعارات عند تشغيل المؤقت.</string>
+    <string name="settings_show_notifications_controls">تفعيل إمكانية تبديل النشاط من اﻹشعار</string>
+    <string name="settings_keep_statistics_range">حافظ على نطاق الإحصائيات</string>
+    <string name="settings_keep_statistics_range_hint">في حال التفعيل، ستفتح الإحصائيات التفصيلية بنفس النطاق الزمني المحدد في الإحصائيات.</string>
+    <string name="settings_start_of_day">توقيت بداية اليوم</string>
+    <string name="settings_start_of_day_hint">سيتم تحويل بداية اليوم بمقدار الوقت المحدد ، للأمام أو للخلف حسب العلامة.</string>
+    <string name="settings_start_of_day_hint_value">يبدأ اليوم في %s</string>
+    <string name="settings_inactivity_reminder">إظهار تذكير الخمول</string>
+    <string name="settings_inactivity_reminder_hint">أظهر اﻹشعار بعد الوقت المحدد في حال عدم تشغيل نشاط للتتبع.</string>
+    <string name="settings_inactivity_reminder_recurrent">تكرار</string>
+    <string name="settings_activity_reminder">إظهار تذكير النشاط</string>
+    <string name="settings_activity_reminder_hint">أظهر اﻹشعار بعد الوقت المحدد إذا كان نشاط التتبع مفعل.</string>
+    <string name="settings_do_not_disturb">عدم اﻹزعاج</string>
+    <string name="settings_notifications_system_settings">اعدادات النظام</string>
+    <string name="settings_notifications_system_settings_hint">الصوت والاهتزاز والفلاش وغيرها</string>
+    <string name="settings_ignore_short_records">تجاهل التتبعات القصيرة</string>
+    <string name="settings_ignore_short_records_hint">لا تتبع الأنشطة اﻷقصر من الوقت المحدد.</string>
+    <string name="settings_inactivity_reminder_disabled">غير مفعل</string>
+    <string name="settings_dark_mode">الوضع الداكن</string>
+    <string name="settings_dark_mode_system">نظام</string>
+    <string name="settings_dark_mode_enabled">ممكن</string>
+    <string name="settings_language">لغة</string>
+    <string name="settings_use_military_time">استخدام تنسيق 24 ساعة</string>
+    <string name="settings_use_monthday_time">استخدم تنسيق تاريخ الشهر / اليوم</string>
+    <string name="settings_use_proportional_minutes">استخدم صيغة الدقيقة النسبية</string>
+    <string name="settings_show_seconds">إظهار الثواني</string>
+    <string name="settings_keep_screen_on">أبق الشاشة قيد التشغيل</string>
+    <string name="settings_change_card_size">تغيير حجم بطاقات اﻷنشظة</string>
+    <string name="settings_archive">اﻷرشيف</string>
+    <string name="settings_data_edit">تعديل البيانات</string>
+    <string name="settings_edit_categories">تعديل التصنيفات والوسوم</string>
+    <string name="settings_edit_categories_hint">عين تصنيفات للأنشطة ووسوم إلى التتبعات.</string>
+    <string name="settings_show_record_tag_selection">إظهار اختيار وسم التتبع</string>
+    <string name="settings_show_record_tag_selection_hint">عند بدء تشغيل مؤقت نشاط. إذا كان للنشاط أي وسوم تتبع فسيتم عرض مربع حوار الاختيار.</string>
+    <string name="settings_show_record_tag_close_hint">أغلق بعد اختيار وسم واحد.</string>
+    <string name="settings_show_record_tag_general_hint">اعرض حتى فقط مع الوسوم العامة.</string>
+    <string name="settings_rate">قيمنا</string>
+    <string name="settings_rate_description">قيم التطبيق واترك مراجعة.</string>
+    <string name="settings_feedback">انطباعات ومراجعة</string>
+    <string name="settings_feedback_description">هل لديك اقتراح؟ هل وجدت خطأ؟ هل تريد التحدث؟ اكتب لنا!</string>
+    <string name="settings_version">اﻹصدار</string>
+    <string name="settings_email_chooser_title">إرسال عبر…</string>
+    <string name="settings_translators">المترجمين</string>
+    <string name="settings_contributors">المساهمين الآخرين</string>
+    <string name="settings_automated_tracking">التتبع التلقائي</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+يمكن تفعيل التتبع التلقائي من خلال التكامل مع تطبيقات الطرف الثالث التي تسمح بأتمتة الإجراءات بناءً على أحداث معينة. كما يمكن لهذه التطبيقات، عند حدوث حدث معين إرسال رسالة إلى تطبيقنا لبدء أو إيقاف مؤقت تتبع النشاط.<br/>
+<br/>
+بعض الأمثلة على الأحداث:<br/>
+- تشغيل تطبيق معين.<br/>
+- مسح علامة NFC.<br/>
+- الذهاب إلى موقع معين.<br/>
+- أوقات معينة من اليوم.<br/>
+- الاتصال بالبلوتوث أو واي فاي.<br/>
+<br/>
+لتمكين هذا السلوك، يجب أن تدعم هذه التطبيقات إرسال \"intent\" أو \"broadcast intent\" مع هذه المعلمات:<br/>
+<br/>
+<b>Action</b> - \"%s\" أو \"%s\".<br/>
+<b>Extra</b> - \"%s\" مع اسم النشاط الذي ينبغي أن يبدأ أو يتوقف.<br/>
+<b>Package</b> - \"%s\".<br/>
+<br/>
+معلمات اختيارية لبدء النشاط:<br/>
+<br/>
+<b>Extra</b> - \"%s\" مع تعليقات التتبع.<br/>
+<b>Extra</b> - \"%s\" مع اسم تصنيف التتبع<br/>
+<br/>
+إضافات<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+    ]]></string>
+    <string name="settings_automated_tracking_send_events">إرسال اﻷحداث</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+إذا إعداد <b>\"%s\"</b> مفعل، فسيرسل التطبيق اﻷحداث المتعلقة بالنشاط الذي بدأ أو توقف إلى تطبيقات الطرف الثالث للتتبع التلقائي باستخدام هذه المعلمات:<br/>
+<br/>
+<b>Action</b> - \"%s\" أو \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
+
+    <string name="settings_save_backup">حفظ نسخة احتياطية</string>
+    <string name="settings_save_description">قبل الحفظ، تأكد من تثبيت أحدث إصدار من التطبيق لتجنب التعارضات.</string>
+    <string name="settings_automatic_backup">تفعيل الحفظ الاحتياطي التلقائي</string>
+    <string name="settings_automatic_export">تفعيل التصدير التلقائي لجدول البيانات</string>
+    <string name="settings_automatic_description">سيحفظ الملف في المكان المحدد كل يوم عند منتصف الليل متجاوزاً الملف المحفوظ مسبقًا.</string>
+    <string name="settings_automatic_last_save">آخر المحفوظات:</string>
+    <string name="settings_restore_backup">استيراد نسخة الاحتياطية</string>
+    <string name="settings_restore_description">ستفقد البيانات الحالية.</string>
+    <string name="settings_dialog_message">استرداد النسخة الاحتياطية؟</string>
+    <string name="settings_export_csv">تصدير جدول البيانات</string>
+    <string name="settings_export_csv_description">تصدير تتبعات النشاط كملف csv لعرضها في تطبيقات جداول البيانات المفضل.</string>
+    <string name="settings_import_csv">استيراد جدول البيانات</string>
+    <string name="settings_import_csv_description">استيراد سجلات النشاط من ملف csv، لن يفقد البيانات الحالية.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+يجب أن يحتوي ملف csv على هذه الأعمدة مفصولة بفاصلة:<br/>
+<br/>
+- اسم النشاط في الاقتباسات.<br/>
+- تنسيق توقيت بدء التتبع بـ \"yyyy-MM-dd HH:mm:ss\"<br/>
+- تنسيق توقيت نهاية التتبع بـ \"yyyy-MM-dd HH:mm:ss\"<br/>
+- التعليق في الاقتباسات.<br/>
+<br/>
+مثال:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
+    <string name="settings_export_ics">تصدير ICS</string>
+    <string name="settings_export_warning">لا يمكن استخدام هذا الملف كنسخة احتياطية.</string>
+    <string name="settings_file_open_error">خطأ في فتح الملف</string>
+    <string name="settings_file_create_error">خطأ في إنشاء الملف</string>
+
+    <string name="message_backup_saved">تم حفظ النسخة الاحتياطية</string>
+    <string name="message_backup_restored">تم استرجاع النسخة الاحتياطية</string>
+    <string name="message_save_error">خطأ في حفظ النسخة الاحتياطية</string>
+    <string name="message_restore_error">خطأ في استرجاع النسخة الاحتياطية</string>
+    <string name="message_app_not_found">التطبيق غير موجود</string>
+    <string name="message_export_complete">اكتمل التصدير</string>
+    <string name="message_export_error">خطأ في التصدير</string>
+    <string name="message_import_complete">اكتمل الاستيراد</string>
+    <string name="message_import_complete_hint">التتبعات المضافة: %s</string>
+    <string name="message_import_error">خطأ في الاستيراد</string>
+    <string name="message_automatic_backup_error">حدث خطأ في النسخ الاحتياطي التلقائي.</string>
+    <string name="message_automatic_export_error">حدث خطأ في التصدير التلقائي.</string>
+    <string name="message_automatic_error_hint">حاول تحديد مكان مختلف</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">ساعيّ</string>
+    <string name="statistics_detail_chart_daily">يومي</string>
+    <string name="statistics_detail_chart_weekly">أسبوعي</string>
+    <string name="statistics_detail_chart_monthly">شهري</string>
+    <string name="statistics_detail_chart_yearly">سنوي</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">د</string>
+    <string name="statistics_detail_legend_hour_suffix">س</string>
+
+    <string name="statistics_detail_range_averages_title">متوسط الفترة الزمنية: %s</string>
+    <string name="statistics_detail_range_averages">كامل النطاق</string>
+    <string name="statistics_detail_range_averages_non_empty">بدون فترات فارغة</string>
+
+    <string name="statistics_detail_total_duration">المجموع</string>
+    <string name="statistics_detail_record_length">مقدار التتبعات</string>
+    <string name="statistics_detail_shortest_record">أقصر</string>
+    <string name="statistics_detail_average_record">متوسط</string>
+    <string name="statistics_detail_longest_record">أطول</string>
+    <string name="statistics_detail_record_time">وقت التتبع</string>
+    <string name="statistics_detail_first_record">أول</string>
+    <string name="statistics_detail_last_record">آخر</string>
+    <string name="statistics_detail_streaks">السللة</string>
+    <string name="statistics_detail_streaks_longest">أطول</string>
+    <string name="statistics_detail_streaks_current">حالي</string>
+    <string name="statistics_detail_streaks_latest">آخر</string>
+    <string name="statistics_detail_activity_split_hint">تحصيص النشاط</string>
+    <string name="statistics_detail_tag_split_hint">تحصيص الوسوم</string>
+    <string name="statistics_detail_day_split_hint">تحصيص يومي</string>
+    <string name="statistics_detail_duration_split_hint">تحصيص مدة التتبع</string>
+    <string name="statistics_detail_next_activities_hint">أهم الأنشطة القادمة</string>
+    <string name="statistics_detail_multitasking_activities_hint">أعلى المهام المتعددة</string>
+
+    <plurals name="statistics_detail_times_tracked">
+        <item quantity="zero">تتبع</item>
+        <item quantity="one">تتبع</item>
+        <item quantity="two">تتبع</item>
+        <item quantity="few">تتبع</item>
+        <item quantity="many">تتبع</item>
+        <item quantity="other">تتبع</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">نشاط فردي</string>
+    <string name="widget_universal_name">شامل</string>
+    <string name="widget_statistics_chart_name">مخطط إحصائي</string>
+    <string name="widget_quick_settings_name">إعدادات سريعة</string>
+    <string name="widget_load_error">غير موجود</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">مذكر الخمول</string>
+    <string name="notification_inactivity_text">لا تنس تتبع وقتك</string>
+    <string name="notification_activity_title">مذكر النشاط</string>
+    <string name="notification_activity_text">هل مازلت تنشط: %s?</string>
+    <string name="notification_goal_time_description">تم الوصول للهدف</string>
+    <string name="notification_time_started">بُدء في %s</string>
+    <string name="notification_record_type_stop">أوقف</string>
+
+    <!--  Archive  -->
+    <string name="something_was_archived_hint">للإزالة بالكامل - افتح الأرشيف</string>
+    <string name="archive_hint">اضغط على البطاقة لعرض التفاصيل</string>
+    <string name="archive_dialog_delete">حذف</string>
+    <string name="archive_dialog_restore">استرجاع</string>
+    <string name="archive_empty">اﻷرشيف فارغ</string>
+    <string name="archive_activity_restored">تم استرجاع النشاط</string>
+    <string name="archive_tag_restored">استرجاع الوسم</string>
+    <string name="archive_activity_deleted">تم حذف النشاط</string>
+    <string name="archive_tag_deleted">تم حذف الوسم</string>
+    <string name="archive_activity_deletion_message">ستحذف جميع تتبعات ووسوم هذا النشاط.</string>
+    <string name="archive_tag_deletion_message">ستصبح جميع التتبعات الموسومة بهذا الوسم بدون وسم.</string>
+    <string name="archive_deletion_alert">هل أنت متأكد؟ لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="archive_records_count">التتبعات</string>
+    <string name="archive_record_tags_count">استرجاع الوسوم</string>
+    <string name="archive_tagged_records_count">التتبعات الموسومة</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">لا يمكن التراجع عن هذه التغييرات. تأكد من إنشاء ملف نسخ احتياطي قبل القيام بأي شيء.</string>
+    <string name="data_edit_select_records">اختيار التتبعات</string>
+    <string name="data_edit_change_activity">تغيير النشاط</string>
+    <string name="data_edit_change_activity_hint">ستزال وسوم النشاط الحالي.</string>
+    <string name="data_edit_change_comment">تغيير التعليق</string>
+    <string name="data_edit_change_add_tag">إضافة وسوم</string>
+    <string name="data_edit_change_remove_tag">حذف الوسوم</string>
+    <string name="data_edit_button_change">تغيير</string>
+    <string name="data_edit_success_message">تم تغيير البيانات</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">اختيار الوسوم</string>
+    <string name="records_filter_filter_tags">استبعاد العلامات</string>
+    <string name="records_filter_manually_filtered">تمت التصفية</string>
+    <string name="records_filter_no_comment">لا تعليق</string>
+    <string name="records_filter_any_comment">أي تعليق</string>
+    <string name="records_filter_select">اختيار</string>
+    <string name="records_filter_invert_selection">عكس الاختيار</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">ابتسامات &amp; مشاعر</string>
+    <string name="emojiGroupPeople">الناس &amp; الجسد</string>
+    <string name="emojiGroupAnimals">حيوانات &amp; طبيعة</string>
+    <string name="emojiGroupFood">أطعمة &amp; أشربة</string>
+    <string name="emojiGroupTravel">تنقل &amp; أماكن</string>
+    <string name="emojiGroupActivities">أنشطة</string>
+    <string name="emojiGroupObjects">أغراض ولوازم</string>
+    <string name="emojiGroupSymbols">رموز</string>
+    <string name="emojiGroupFlags">أعلام</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">خرائط</string>
+    <string name="imageGroupPlaces">أماكن</string>
+    <string name="imageGroupSocial">اجتماعي</string>
+    <string name="imageGroupAction">إجراءات وسلوك</string>
+    <string name="imageGroupHardware">عتاد</string>
+    <string name="imageGroupAlert">تحذيرات</string>
+    <string name="imageGroupAv">صوت وصورة</string>
+    <string name="imageGroupCommunication">اتصالات</string>
+    <string name="imageGroupContent">محتوى</string>
+    <string name="imageGroupDevice">أجهزة</string>
+    <string name="imageGroupEditor">محررات</string>
+    <string name="imageGroupFile">ملفات</string>
+    <string name="imageGroupImage">صور</string>
+    <string name="imageGroupNavigation">ملاحة</string>
+    <string name="imageGroupNotification">إشعارات</string>
+    <string name="imageGroupToggle">وصلة</string>
+
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">المتتبعات</string>
+    <string name="shortcut_navigation_statistics">اﻹحصائيات</string>
+    <string name="shortcut_navigation_settings">اﻹعدادات</string>
+
+</resources>

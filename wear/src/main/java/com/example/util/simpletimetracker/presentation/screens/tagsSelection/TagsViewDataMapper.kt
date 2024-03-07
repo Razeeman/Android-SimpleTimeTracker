@@ -35,7 +35,7 @@ class TagsViewDataMapper @Inject constructor() {
     }
 
     private fun mapEmptyState(): TagListState.Empty {
-        return TagListState.Empty(R.string.no_tags)
+        return TagListState.Empty(R.string.change_record_categories_empty)
     }
 
     private fun mapContentState(
@@ -61,7 +61,7 @@ class TagsViewDataMapper @Inject constructor() {
         val buttons = if (mode == TagSelectionMode.SINGLE) {
             listOf(
                 TagListState.Item.Button(
-                    textResId = R.string.untagged,
+                    textResId = R.string.change_record_untagged,
                     color = ColorInactive,
                     buttonType = TagListState.Item.ButtonType.Untagged,
                 ),
@@ -69,12 +69,12 @@ class TagsViewDataMapper @Inject constructor() {
         } else {
             listOf(
                 TagListState.Item.Button(
-                    textResId = R.string.untagged,
+                    textResId = R.string.change_record_untagged,
                     color = ColorInactive,
                     buttonType = TagListState.Item.ButtonType.Untagged,
                 ),
                 TagListState.Item.Button(
-                    textResId = R.string.save,
+                    textResId = R.string.duration_dialog_save,
                     color = ColorActive,
                     buttonType = TagListState.Item.ButtonType.Complete,
                 ),

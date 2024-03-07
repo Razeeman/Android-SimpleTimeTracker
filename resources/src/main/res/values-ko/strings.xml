@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">월</string>
+    <string name="day_of_week_tuesday">화</string>
+    <string name="day_of_week_wednesday">수</string>
+    <string name="day_of_week_thursday">목</string>
+    <string name="day_of_week_friday">금</string>
+    <string name="day_of_week_saturday">토</string>
+    <string name="day_of_week_sunday">일</string>
+
+    <string name="activity_hint">활동</string>
+    <string name="category_hint">카테고리</string>
+    <string name="record_tag_hint">태그 기록</string>
+    <string name="record_tag_hint_short">태그</string>
+    <string name="nothing_selected">아무것도 선택되어있지 않습니다</string>
+    <string name="something_selected">선택됨:</string>
+    <string name="select_all">모두 선택</string>
+    <string name="select_nothing">아무것도 선택하지 마세요</string>
+    <string name="no_data">데이터 없음</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">어제</string>
+    <string name="title_today">오늘</string>
+    <string name="title_tomorrow">내일</string>
+    <string name="title_this_week">이번 주</string>
+    <string name="title_this_month">이번 달</string>
+    <string name="title_this_year">올해</string>
+
+    <string name="range_day">일</string>
+    <string name="range_week">주</string>
+    <string name="range_month">월</string>
+    <string name="range_year">연</string>
+    <string name="range_overall">전 기간</string>
+    <string name="range_custom">범위</string>
+    <string name="range_last">지난 7일</string>
+    <string name="range_select_day">날짜 선택</string>
+    <string name="range_select_week">주 선택</string>
+    <string name="range_select_month">월 선택</string>
+    <string name="range_select_year">연 선택</string>
+
+    <string name="ok">확인</string>
+    <string name="cancel">취소</string>
+
+    <string name="time_hour">시</string>
+    <string name="time_minute">분</string>
+    <string name="time_second">초</string>
+
+    <string name="untracked_time_name">미기록</string>
+    <string name="uncategorized_time_name">미분류됨</string>
+    <string name="multitask_time_name">멀티태스크</string>
+    <string name="running_record_goal_time">목표 %s</string>
+    <string name="record_types_empty">추가된 활동이 없습니다</string>
+    <string name="record_tag_selection_hint">기록 태그를 선택하세요</string>
+    <string name="time_now">지금</string>
+    <string name="cannot_be_in_the_future">시간을 미래로 설정할 수 없습니다</string>
+
+    <!--  Records  -->
+    <string name="record_removed">기록 %s 삭제됨</string>
+    <string name="record_removed_undo">되돌리기</string>
+    <string name="records_hint">기록을 눌러 수정하세요</string>
+    <string name="no_records_exist">여기에서 기록을 확인하세요</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_total_tracked">총 기록된 시간</string>
+    <string name="statistics_total_tracked_short">총</string>
+    <string name="statistics_hint">카드를 눌러 상세한 통계를 확인하세요.</string>
+    <string name="no_statistics_exist">여기에서 통계를 확인하세요</string>
+
+    <!--  Categories  -->
+    <string name="categories_title">카테고리와 태그</string>
+    <string name="categories_edit_hint">카드를 눌러 수정하세요</string>
+    <string name="categories_record_type_hint">각기 다른 활동을 같은 카테고리로 묶어 카테고리별 통계를 확인할 수 있습니다</string>
+    <string name="categories_record_hint">같은 활동의 기록을 태그로 구분할 수 있습니다</string>
+    <string name="categories_add_category">카테고리 추가</string>
+    <string name="categories_add_record_tag">기록 태그 추가</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">카테고리 삭제됨</string>
+    <string name="change_category_name_hint">이름을 입력하세요</string>
+    <string name="change_category_color_hint">색상</string>
+    <string name="change_category_types_hint">활동</string>
+    <string name="change_category_save">저장</string>
+    <string name="change_category_message_choose_name">이름을 입력하세요</string>
+
+    <!--  Change record tag  -->
+    <string name="change_record_tag_archived">태그 보관됨</string>
+    <string name="change_record_tag_type_hint">활동</string>
+    <string name="change_record_tag_type">태그 분류</string>
+    <string name="change_record_tag_type_general">일반</string>
+    <string name="change_record_tag_type_general_hint">어떤 활동에도 추가할 수 있습니다</string>
+    <string name="change_record_tag_type_typed">활동</string>
+    <string name="change_record_tag_type_typed_hint">특정 활동에만 추가할 수 있습니다</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">활동을 선택하세요</string>
+    <string name="change_record_type_field">활동</string>
+    <string name="change_record_tag_field">태그</string>
+    <string name="change_record_comment_field">코멘트</string>
+    <string name="change_record_comment_hint">코멘트를 입력하세요</string>
+    <string name="change_record_actions_hint">수정</string>
+    <string name="change_record_last_comments_hint">이전 코멘트</string>
+    <string name="change_record_favourite_comments_hint">자주쓰는 코멘트</string>
+    <string name="change_record_categories_empty">기록 태그 없음</string>
+    <string name="change_record_save">저장</string>
+    <string name="change_record_untagged">태그 없음</string>
+    <string name="change_running_record_removed">현재 진행중인 활동 기록 삭제됨</string>
+    <string name="change_record_split">나누기</string>
+    <string name="change_record_split_hint">이 기록을 특정 시점을 기준으로 두개로 나눕니다</string>
+    <string name="change_record_continue">이어하기</string>
+    <string name="change_record_continue_hint">이 기록을 삭제하고 같은 기록을 이어서 진행합니다</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">이 활동을 반복적으로 추적합니다</string>
+    <string name="change_record_duplicate">복사</string>
+    <string name="change_record_duplicate_hint">이 기록의 사본을 만듭니다</string>
+    <string name="change_record_merge">병합</string>
+    <string name="change_record_merge_hint">이 기록을 이전 기록으로 병합합니다</string>
+    <string name="change_record_adjust">변경</string>
+    <string name="change_record_change_prev_record">이전 기록도 함께 변경</string>
+    <string name="change_record_change_adjacent_records">관련 기록의 시간도 함께 변경</string>
+    <string name="change_record_untracked_time_hint">추적되지 않은 시간은 활동이 추적되지 않은 시간입니다.</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">활동 보관됨</string>
+    <string name="change_record_type_name_hint">이름을 입력하세요</string>
+    <string name="change_record_type_new_icon_text_hint">텍스트를 입력하세요</string>
+    <string name="change_record_type_color_hint">색</string>
+    <string name="change_record_type_icon_image_hint">아이콘</string>
+    <string name="change_record_type_icon_text_hint">텍스트</string>
+    <string name="change_record_type_icon_emoji_hint">이모지</string>
+    <string name="change_record_type_icon_search_hint">검색(영문)</string>
+    <string name="change_record_type_save">저장</string>
+    <string name="change_record_message_choose_name">이름을 입력하세요</string>
+    <string name="change_record_type_categories_empty">카테고리 추가되지 않음</string>
+    <string name="change_record_type_goal_time_disabled">비활성화됨</string>
+    <string name="change_record_type_goal_time_hint">목표</string>
+    <string name="change_record_type_goal_time_description">목표 달성시 알림을 보냅니다.</string>
+    <string name="change_record_type_session_goal_time">세션</string>
+    <string name="change_record_type_daily_goal_time">@string/range_day</string>
+    <string name="change_record_type_weekly_goal_time">@string/range_week</string>
+    <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_goal_duration">시간</string>
+    <string name="change_record_type_goal_count">횟수</string>
+
+    <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">필터 삭제됨</string>
+    <string name="change_activity_filter_save">저장</string>
+    <string name="change_activity_filter_type">필터 종류</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">날짜</string>
+    <string name="date_time_dialog_time">시간</string>
+    <string name="date_time_dialog_seconds">초</string>
+
+    <string name="card_size_default">기본 폭</string>
+    <string name="card_size_hint">한 줄에 들어갈 카드의 수</string>
+
+    <string name="card_order_hint">드래그 앤 드롭으로 순서 변경</string>
+
+    <string name="chart_filter_hint">필터</string>
+    <string name="types_compare_hint">비교</string>
+    <string name="types_filter_show_all">모두 보기</string>
+    <string name="types_filter_hide_all">모두 숨기기</string>
+    <string name="chart_filter_type_hint">통계 종류</string>
+    <string name="chart_filter_categories_empty">태그 없음</string>
+
+    <string name="duration_dialog_save">저장</string>
+    <string name="duration_dialog_disable">비활성화</string>
+
+    <string name="color_selection_base_color_hint">기본 색 선택</string>
+    <string name="color_selection_adjust_color_hint">색 조정</string>
+    <string name="color_selection_final_color_hint">최종 색</string>
+
+    <string name="csv_export_settings_range">범위</string>
+    <string name="csv_export_settings_all">모두</string>
+    <string name="csv_export_settings_hint">시간 범위를 선택하거나, 모든 기록을 내보내기</string>
+
+    <string name="schedule_exact_alarms">정확한 알림을 위해서 시스템 설정이 필요합니다</string>
+    <string name="post_notifications">알림을 보내기 위해 시스템 설정이 필요합니다</string>
+    <string name="schedule_exact_alarms_open_settings">열기</string>
+
+    <string name="default_types_selection_title">추가할 활동을 선택하세요</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">기록 정렬</string>
+    <string name="records_all_sort_time_started">시작한 시간</string>
+    <string name="records_all_sort_duration">기간</string>
+    <string name="records_all_search_comment">코멘트 검색</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">기록을 시작하기 위해 %s 버튼을 눌러 활동을 추가하거나 %s 버튼을 눌러 기본 템플릿을 사용하세요</string>
+    <string name="running_records_empty">활동을 눌러 기록을 시작하세요</string>
+    <string name="running_records_has_timers">카드를 눌러 기록을 멈추세요</string>
+    <string name="running_records_empty_hint">길게 눌러 수정하세요</string>
+    <string name="running_records_add_type">추가</string>
+    <string name="running_records_add_filter">필터 추가</string>
+    <string name="running_records_add_default">기본</string>
+    <string name="running_records_repeat">반복</string>
+    <string name="running_records_repeat_no_prev_record">다시 시작할 이전 기록 없음</string>
+    <string name="running_records_repeat_already_tracking">이미 이 활동을 기록중입니다</string>
+
+    <!--  Settings  -->
+    <string name="settings_display_title">디스플레이 설정</string>
+    <string name="settings_additional_title">추가 설정</string>
+    <string name="settings_notification_title">알림 설정</string>
+    <string name="settings_backup_title">백업 설정</string>
+    <string name="settings_export_title">내보내기 및 가져오기</string>
+    <string name="settings_sort_order">활동 정렬</string>
+    <string name="settings_sort_by_name">이름</string>
+    <string name="settings_sort_by_color">색상</string>
+    <string name="settings_sort_manually">수동</string>
+    <string name="settings_first_day_of_week">한 주의 시작</string>
+    <string name="settings_repeat_button_type">반복 버튼</string>
+    <string name="settings_repeat_last_record">이전 기록을 반복합니다</string>
+    <string name="settings_repeat_one_before_last">마지막 기록 직전의 기록을 반복합니다</string>
+    <string name="settings_show_untracked_time">기록되지 않은 시간 보기</string>
+    <string name="settings_show_untracked_time_statistics">기록되지 않은 시간 통계에서 보기</string>
+    <string name="settings_ignore_short_untracked">짧은 기록되지 않은 시간 무시</string>
+    <string name="settings_ignore_short_untracked_hint">특정 시간보다 짧은 기록을 무시합니다.</string>
+    <string name="settings_untracked_range">기록 제외 시간</string>
+    <string name="settings_untracked_range_hint">일정 시간 범위 밖의 기록되지 않은 시간을 무시합니다.</string>
+    <string name="settings_show_records_calendar">기록을 캘린더 형식으로 보기</string>
+    <string name="settings_reverse_order_in_calendar">순서 뒤집기</string>
+    <string name="settings_days_in_calendar">표시할 일 수</string>
+    <string name="settings_widget_transparency">위젯 배경 투명도</string>
+    <string name="settings_show_activity_filters">메인 화면에 활동 필터 표시</string>
+    <string name="settings_show_goals_separately">목표 탭 분리</string>
+    <string name="settings_allow_multitasking">멀티태스킹 활성화</string>
+    <string name="settings_allow_multitasking_hint">비활성화시, 새로운 활동을 시작하면 기존의 활동 기록을 멈춥니다.</string>
+    <string name="settings_show_notifications">타이머 알림 표기</string>
+    <string name="settings_show_notifications_hint">타이머 활성화시 알림창에 표시합니다.</string>
+    <string name="settings_show_notifications_controls">알림창에서 활동 변경 활성화</string>
+    <string name="settings_keep_statistics_range">통계 범위 유지</string>
+    <string name="settings_keep_statistics_range_hint">활성화시 상세 통계가 같은 기간 범위를 가지게 됩니다.</string>
+    <string name="settings_start_of_day">하루의 시작 시간 옮기기</string>
+    <string name="settings_start_of_day_hint">하루의 시작 시간을 정해진 시간만큼 앞당기거나 늦춥니다.</string>
+    <string name="settings_start_of_day_hint_value">오늘은 %s에 시작됩니다</string>
+    <string name="settings_inactivity_reminder">기록 알림 활성화</string>
+    <string name="settings_inactivity_reminder_hint">일정 시간동안 기록 타이머가 시작되지 않는다면 알림을 보냅니다.</string>
+    <string name="settings_inactivity_reminder_recurrent">반복</string>
+    <string name="settings_activity_reminder">활동 알림 활성화</string>
+    <string name="settings_activity_reminder_hint">일정 시간 이상 특정 활동이 이어지면 알림을 보냅니다.</string>
+    <string name="settings_do_not_disturb">방해 금지 시간</string>
+    <string name="settings_notifications_system_settings">환경 설정</string>
+    <string name="settings_notifications_system_settings_hint">소리, 진동, 플래시 등</string>
+    <string name="settings_ignore_short_records">짧은 기록 무시</string>
+    <string name="settings_ignore_short_records_hint">일정 시간 아래의 기록을 무시합니다.</string>
+    <string name="settings_inactivity_reminder_disabled">비활성화됨</string>
+    <string name="settings_dark_mode">다크 모드</string>
+    <string name="settings_dark_mode_system">시스템</string>
+    <string name="settings_dark_mode_enabled">활성화됨</string>
+    <string name="settings_language">언어</string>
+    <string name="settings_use_military_time">24시간 포맷 사용</string>
+    <string name="settings_use_monthday_time">월/일 포맷 사용</string>
+    <string name="settings_use_proportional_minutes">시간 비율 포맷 사용</string>
+    <string name="settings_show_seconds">초 표시</string>
+    <string name="settings_keep_screen_on">화면 켠채로 유지</string>
+    <string name="settings_change_card_size">활동 카드 크기 변경</string>
+    <string name="settings_archive">보관</string>
+    <string name="settings_data_edit">데이터 수정</string>
+    <string name="settings_edit_categories">카테고리와 태그 수정</string>
+    <string name="settings_edit_categories_hint">활동에 카테고리를 할당하고 기록에 태그를 지정합니다.</string>
+    <string name="settings_show_record_tag_selection">기록 태그 선택 표시</string>
+    <string name="settings_show_record_tag_selection_hint">타이머를 시작할 때 활동에 기록 태그가 있는 경우 선택 대화 상자가 표시됩니다.</string>
+    <string name="settings_show_record_tag_close_hint">하나의 태그를 선택한 후 닫기.</string>
+    <string name="settings_show_record_tag_general_hint">일반 태그만 있는 경우에도 표시됩니다.</string>
+    <string name="settings_rate">평가하기</string>
+    <string name="settings_rate_description">앱을 평가하고 리뷰를 남겨주세요.</string>
+    <string name="settings_feedback">피드백</string>
+    <string name="settings_feedback_description">제안 사항이 있으신가요? 버그를 발견했나요? 대화를 나누고 싶으신가요? 글을 남겨주세요!</string>
+    <string name="settings_version">버전</string>
+    <string name="settings_email_chooser_title">…로 보내기</string>
+    <string name="settings_translators">번역가</string>
+    <string name="settings_contributors">기타 기여자</string>
+    <string name="settings_automated_tracking">자동 기록</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+특정 이벤트가 발생하였을 시 활동 타이머를 시작하거나 멈출 수 있는 제 3자 앱을 통해 자동으로 기록할 수 있습니다.<br/>
+<br/>
+특정 이벤트들의 예시는 다음과 같습니다:<br/>
+- 특정 앱을 염.<br/>
+- NFC 태그를 스캔함.<br/>
+- 특정 장소에 방문.<br/>
+- 일정 시간이 됨.<br/>
+- 특정 블루투스 기기나 와이파이에 연결됨.<br/>
+<br/>
+이것을 사용하기 위해서는 제 3자 앱이 \"intent\" 또는 \"broadcast intent\" 기능에 다음과 같은 파라미터를 추가해야합니다:<br/>
+<br/>
+<b>Action</b> - \"%s\" 또는 \"%s\".<br/>
+<b>Extra</b> - \"%s\" 시작 또는 정지할 앱의 이름.<br/>
+<b>Package</b> - \"%s\".<br/>
+<br/>
+활동 시작에 사용할 수 있는 선택적 파라미터:<br/>
+<br/>
+<b>Extra</b> - \"%s\" 코멘트<br/>
+<b>Extra</b> - \"%s\" 기록 태그<br/>
+<br/>
+추가사항:<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+    ]]></string>
+    <string name="settings_automated_tracking_send_events">이벤트 보내기</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+만약 <b>\"%s\"</b> 설정이 활성화 되어있다면, 이 앱은 활동이 시작 또는 중지될 때 제 3자 앱에게 다음과 같은 파라미터와 함께 이벤트를 보낼 것 입니다:<br/>
+<br/>
+<b>Action</b> - \"%s\" or \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
+
+    <string name="settings_save_backup">백업 저장</string>
+    <string name="settings_save_description">저장 전, 충돌을 방지하기 위해 앱이 최신 버전인지 확인하세요.</string>
+    <string name="settings_automatic_backup">자동 백업 활성화</string>
+    <string name="settings_automatic_export">자동 스프레드시트로 내보내기 활성화</string>
+    <string name="settings_automatic_description">파일은 매 새벽에 선택된 경로에 기존 파일에 덮어쓰일 것 입니다.</string>
+    <string name="settings_automatic_last_save">마지막 저장:</string>
+    <string name="settings_restore_backup">백업 복구</string>
+    <string name="settings_restore_description">현재 기록은 모두 사라질 것입니다.</string>
+    <string name="settings_dialog_message">백업을 복구하시겠습니까?</string>
+    <string name="settings_export_csv">스프레드시트로 내보내기</string>
+    <string name="settings_export_csv_description">활동 기록을 .csv 형식으로 내보내 원하는 스프레드시트 프로그램에서 사용 할 수 있습니다.</string>
+    <string name="settings_import_csv">스프레드시트 불러오기</string>
+    <string name="settings_import_csv_description">csv 파일에서 활동 기록을 불러옵니다. 현재 기록이 삭제되지 않습니다.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+csv 파일은 다음과 같은 열(column)들을 가져야합니다:<br/>
+<br/>
+- 따옴표 안에 기록된 활동명.<br/>
+- \"yyyy-MM-dd HH:mm:ss\" 포맷의 시작시간<br/>
+- \"yyyy-MM-dd HH:mm:ss\" 포맷의 종료시간"<br/>
+- 따옴표 안에 기록된 코멘트.<br/>
+<br/>
+예시:<br/>
+<br/>
+\"독서\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"코멘트, 코멘트\"
+    ]]></string>
+    <string name="settings_export_ics">ICS 내보내기</string>
+    <string name="settings_export_warning">이 파일은 백업으로 사용할 수 없습니다.</string>
+    <string name="settings_file_open_error">파일 열기 오류</string>
+    <string name="settings_file_create_error">파일 생성 오류</string>
+
+    <string name="message_backup_saved">백업 저장됨</string>
+    <string name="message_backup_restored">백업 복원됨</string>
+    <string name="message_save_error">백업 저장 오류</string>
+    <string name="message_restore_error">백업 복원 오류</string>
+    <string name="message_app_not_found">앱을 찾을 수 없음</string>
+    <string name="message_export_complete">내보내기 완료</string>
+    <string name="message_export_error">내보내기 오류</string>
+    <string name="message_import_complete">가져오기 완료</string>
+    <string name="message_import_complete_hint">추가된 기록 수: %s</string>
+    <string name="message_import_error">가져오기 오류</string>
+    <string name="message_automatic_backup_error">자동 백업 오류 발생</string>
+    <string name="message_automatic_export_error">자동 내보내기 오류 발생</string>
+    <string name="message_automatic_error_hint">다른 위치를 선택해 보세요</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">시간별</string>
+    <string name="statistics_detail_chart_daily">일별</string>
+    <string name="statistics_detail_chart_weekly">주별</string>
+    <string name="statistics_detail_chart_monthly">월별</string>
+    <string name="statistics_detail_chart_yearly">년별</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">분</string>
+    <string name="statistics_detail_legend_hour_suffix">시간</string>
+
+    <string name="statistics_detail_range_averages_title">기간 평균: %s</string>
+    <string name="statistics_detail_range_averages">전 기간</string>
+    <string name="statistics_detail_range_averages_non_empty">빈 기간 없이</string>
+
+    <string name="statistics_detail_total_duration">전체</string>
+    <string name="statistics_detail_record_length">기록 길이</string>
+    <string name="statistics_detail_shortest_record">가장 짧은</string>
+    <string name="statistics_detail_average_record">평균</string>
+    <string name="statistics_detail_longest_record">가장 긴</string>
+    <string name="statistics_detail_record_time">기록 시간</string>
+    <string name="statistics_detail_first_record">첫 번째</string>
+    <string name="statistics_detail_last_record">마지막</string>
+    <string name="statistics_detail_streaks">연속 기간</string>
+    <string name="statistics_detail_streaks_longest">가장 긴 기간</string>
+    <string name="statistics_detail_streaks_current">현재 기간</string>
+    <string name="statistics_detail_streaks_latest">최근 기간</string>
+    <string name="statistics_detail_activity_split_hint">활동 분포</string>
+    <string name="statistics_detail_tag_split_hint">태그 분포</string>
+    <string name="statistics_detail_day_split_hint">일별 분포</string>
+    <string name="statistics_detail_duration_split_hint">기록 기간 분포</string>
+    <string name="statistics_detail_next_activities_hint">다음 주요 활동</string>
+    <string name="statistics_detail_multitasking_activities_hint">최고의 멀티태스킹</string>
+
+    <plurals name="statistics_detail_times_tracked">
+<!--        <item quantity="zero">기록</item>-->
+<!--        <item quantity="one">기록</item>-->
+<!--        <item quantity="two">기록</item>-->
+<!--        <item quantity="few">기록</item>-->
+<!--        <item quantity="many">기록</item>-->
+        <item quantity="other">기록</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">단일 활동</string>
+    <string name="widget_universal_name">통합</string>
+    <string name="widget_statistics_chart_name">통계 차트</string>
+    <string name="widget_quick_settings_name">빠른 설정</string>
+    <string name="widget_load_error">찾을 수 없음</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">활동 없음 알림</string>
+    <string name="notification_inactivity_text">활동 기록을 잊지 마세요</string>
+    <string name="notification_activity_title">활동 알림</string>
+    <string name="notification_activity_text">아직도 하고있나요?: %s</string>
+    <string name="notification_goal_time_description">목표 달성</string>
+    <string name="notification_time_started">%s에 시작함</string>
+    <string name="notification_record_type_stop">정지</string>
+
+    <!--  Archive  -->
+    <string name="something_was_archived_hint">완전히 제거하려면 - 아카이브 열기</string>
+    <string name="archive_hint">세부 정보 보기를 위해 카드를 클릭하세요</string>
+    <string name="archive_dialog_delete">삭제</string>
+    <string name="archive_dialog_restore">복원</string>
+    <string name="archive_empty">보관함이 비어 있습니다</string>
+    <string name="archive_activity_restored">활동 복원됨</string>
+    <string name="archive_tag_restored">태그 복원됨</string>
+    <string name="archive_activity_deleted">활동 삭제됨</string>
+    <string name="archive_tag_deleted">태그 삭제됨</string>
+    <string name="archive_activity_deletion_message">이 활동과 기록 태그의 모든 기록도 함께 삭제됩니다.</string>
+    <string name="archive_tag_deletion_message">이 태그로 태그된 모든 기록이 태그 없이 되어집니다.</string>
+    <string name="archive_deletion_alert">확실합니까? 이 작업은 되돌릴 수 없습니다.</string>
+    <string name="archive_records_count">기록</string>
+    <string name="archive_record_tags_count">기록 태그</string>
+    <string name="archive_tagged_records_count">태그된 기록</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">이 변경 사항은 되돌릴 수 없습니다. 어떤 작업을 하기 전에 반드시 백업 파일을 생성하세요.</string>
+    <string name="data_edit_select_records">기록 선택</string>
+    <string name="data_edit_change_activity">활동 변경</string>
+    <string name="data_edit_change_activity_hint">현재 활동의 태그가 제거됩니다.</string>
+    <string name="data_edit_change_comment">코멘트 변경</string>
+    <string name="data_edit_change_add_tag">태그 추가</string>
+    <string name="data_edit_change_remove_tag">태그 제거</string>
+    <string name="data_edit_button_change">변경</string>
+    <string name="data_edit_success_message">데이터 변경됨</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">태그 선택</string>
+    <string name="records_filter_filter_tags">태그 제외</string>
+    <string name="records_filter_manually_filtered">필터링됨</string>
+    <string name="records_filter_no_comment">코멘트 없음</string>
+    <string name="records_filter_any_comment">어떤 코멘트</string>
+    <string name="records_filter_select">선택</string>
+    <string name="records_filter_invert_selection">선택 반전</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">스마일리 &amp; 감정</string>
+    <string name="emojiGroupPeople">사람 &amp; 몸</string>
+    <string name="emojiGroupAnimals">동물 &amp; 자연</string>
+    <string name="emojiGroupFood">음식 &amp; 음료</string>
+    <string name="emojiGroupTravel">여행 &amp; 장소</string>
+    <string name="emojiGroupActivities">활동</string>
+    <string name="emojiGroupObjects">물건</string>
+    <string name="emojiGroupSymbols">기호</string>
+    <string name="emojiGroupFlags">깃발</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">지도</string>
+    <string name="imageGroupPlaces">장소</string>
+    <string name="imageGroupSocial">소셜</string>
+    <string name="imageGroupAction">액션</string>
+    <string name="imageGroupHardware">하드웨어</string>
+    <string name="imageGroupAlert">알림</string>
+    <string name="imageGroupAv">오디오 및 비디오</string>
+    <string name="imageGroupCommunication">통신</string>
+    <string name="imageGroupContent">컨텐츠</string>
+    <string name="imageGroupDevice">기기</string>
+    <string name="imageGroupEditor">편집기</string>
+    <string name="imageGroupFile">파일</string>
+    <string name="imageGroupImage">이미지</string>
+    <string name="imageGroupNavigation">방향</string>
+    <string name="imageGroupNotification">알림</string>
+    <string name="imageGroupToggle">토글</string>
+
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">기록</string>
+    <string name="shortcut_navigation_statistics">통계</string>
+    <string name="shortcut_navigation_settings">설정</string>
+
+</resources>

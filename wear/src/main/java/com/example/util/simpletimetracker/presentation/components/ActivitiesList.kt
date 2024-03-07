@@ -126,7 +126,7 @@ private fun Loading() {
 @Composable
 private fun NoActivities() {
     ActivitiesList(
-        state = ActivitiesListState.Empty(R.string.no_activities),
+        state = ActivitiesListState.Empty(R.string.record_types_empty),
     )
 }
 

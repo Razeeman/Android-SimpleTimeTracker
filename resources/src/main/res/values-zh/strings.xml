@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">星期一</string>
+    <string name="day_of_week_tuesday">星期二</string>
+    <string name="day_of_week_wednesday">星期三</string>
+    <string name="day_of_week_thursday">星期四</string>
+    <string name="day_of_week_friday">星期五</string>
+    <string name="day_of_week_saturday">星期六</string>
+    <string name="day_of_week_sunday">星期日</string>
+
+    <string name="activity_hint">活动</string>
+    <string name="category_hint">类别</string>
+    <string name="record_tag_hint">记录标签</string>
+    <string name="record_tag_hint_short">标签</string>
+    <string name="nothing_selected">未选择任何内容</string>
+    <string name="something_selected">已选择：</string>
+    <string name="select_all">全选</string>
+    <string name="select_nothing">不选择任何内容</string>
+    <string name="no_data">没有数据</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">昨天</string>
+    <string name="title_today">今天</string>
+    <string name="title_tomorrow">明天</string>
+    <string name="title_this_week">这一周</string>
+    <string name="title_this_month">这个月</string>
+    <string name="title_this_year">今年</string>
+
+    <string name="range_day">天</string>
+    <string name="range_week">周</string>
+    <string name="range_month">月</string>
+    <string name="range_year">年</string>
+    <string name="range_overall">全部</string>
+    <string name="range_custom">间隔</string>
+    <string name="range_last">最近 7 天</string>
+    <string name="range_select_day">选择日期</string>
+    <string name="range_select_week">选择星期</string>
+    <string name="range_select_month">选择月份</string>
+    <string name="range_select_year">选择年份</string>
+
+    <string name="ok">确认</string>
+    <string name="cancel">取消</string>
+
+    <string name="time_hour">时</string>
+    <string name="time_minute">分</string>
+    <string name="time_second">秒</string>
+
+    <string name="untracked_time_name">未追踪</string>
+    <string name="uncategorized_time_name">未分类</string>
+    <string name="multitask_time_name">多任务</string>
+    <string name="running_record_goal_time">目标 %s</string>
+    <string name="record_types_empty">未添加任何活动</string>
+    <string name="record_tag_selection_hint">选择记录标签</string>
+    <string name="time_now">现在</string>
+    <string name="cannot_be_in_the_future">时间不可能在未来</string>
+
+    <!--  Records  -->
+    <string name="record_removed">记录 %s 已删除</string>
+    <string name="record_removed_undo">撤消</string>
+    <string name="records_hint">点击记录来编辑</string>
+    <string name="no_records_exist">记录将显示在这里</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_total_tracked">追踪总数</string>
+    <string name="statistics_total_tracked_short">全部的</string>
+    <string name="statistics_hint">点击卡片查看详细统计</string>
+    <string name="no_statistics_exist">统计数据将显示在这里</string>
+
+    <!--  Categories  -->
+    <string name="categories_title">类别和标签</string>
+    <string name="categories_edit_hint">点击卡片进行编辑</string>
+    <string name="categories_record_type_hint">将同一类别分配给不同的活动以查看其分组统计信息</string>
+    <string name="categories_record_hint">为同一种活动记录分配不同的标签，细致地区分它们</string>
+    <string name="categories_add_category">添加类别</string>
+    <string name="categories_add_record_tag">添加记录标签</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">已移除类别</string>
+    <string name="change_category_name_hint">输入新的名称</string>
+    <string name="change_category_color_hint">颜色</string>
+    <string name="change_category_types_hint">活动</string>
+    <string name="change_category_save">保存</string>
+    <string name="change_category_message_choose_name">请填写名称</string>
+
+    <!--  Change record tag  -->
+    <string name="change_record_tag_archived">标签已存档</string>
+    <string name="change_record_tag_type_hint">活动</string>
+    <string name="change_record_tag_type">標籤類型</string>
+    <string name="change_record_tag_type_general">一般的</string>
+    <string name="change_record_tag_type_general_hint">可以分配給任何活動的記錄</string>
+    <string name="change_record_tag_type_typed">活動</string>
+    <string name="change_record_tag_type_typed_hint">只能分配給特定活動的記錄</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">选择活动</string>
+    <string name="change_record_type_field">活动</string>
+    <string name="change_record_tag_field">标签</string>
+    <string name="change_record_comment_field">备注</string>
+    <string name="change_record_comment_hint">输入新评论</string>
+    <string name="change_record_actions_hint">动作</string>
+    <string name="change_record_last_comments_hint">最后评论</string>
+    <string name="change_record_favourite_comments_hint">最喜欢的</string>
+    <string name="change_record_categories_empty">未添加记录标签</string>
+    <string name="change_record_save">保存</string>
+    <string name="change_record_untagged">无标签</string>
+    <string name="change_running_record_removed">正在追踪的活动已删除</string>
+    <string name="change_record_split">划分</string>
+    <string name="change_record_split_hint">会在指定时间点将当前记录一分为二</string>
+    <string name="change_record_continue">继续</string>
+    <string name="change_record_continue_hint">将删除当前记录并继续跟踪此活动</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">将重复跟踪此活动</string>
+    <string name="change_record_duplicate">复制</string>
+    <string name="change_record_duplicate_hint">将创建此记录的副本</string>
+    <string name="change_record_merge">合并</string>
+    <string name="change_record_merge_hint">将把这个时间添加到以前的记录中</string>
+    <string name="change_record_adjust">改变</string>
+    <string name="change_record_change_prev_record">同时更改上一个记录的时间</string>
+    <string name="change_record_change_adjacent_records">同时更改相邻记录的时间</string>
+`    <string name="change_record_untracked_time_hint">未跟踪时间是指没有跟踪任何活动的时间。可以在设置中禁用它</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">活动已存档</string>
+    <string name="change_record_type_name_hint">输入新名称</string>
+    <string name="change_record_type_new_icon_text_hint">输入新文本</string>
+    <string name="change_record_type_color_hint">颜色</string>
+    <string name="change_record_type_icon_image_hint">图标</string>
+    <string name="change_record_type_icon_text_hint">文本</string>
+    <string name="change_record_type_icon_emoji_hint">表情符号</string>
+    <string name="change_record_type_icon_search_hint">搜索（英文）</string>
+    <string name="change_record_type_save">保存</string>
+    <string name="change_record_message_choose_name">请填写名称</string>
+    <string name="change_record_type_categories_empty">未添加任何类别</string>
+    <string name="change_record_type_goal_time_disabled">不启用</string>
+    <string name="change_record_type_goal_time_hint">目标</string>
+    <string name="change_record_type_goal_time_description">达到目标后将显示通知</string>
+    <string name="change_record_type_session_goal_time">阶段</string>
+    <string name="change_record_type_daily_goal_time">@string/range_day</string>
+    <string name="change_record_type_weekly_goal_time">@string/range_week</string>
+    <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_goal_duration">期间</string>
+    <string name="change_record_type_goal_count">数数</string>
+
+    <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">过滤器已移除</string>
+    <string name="change_activity_filter_save">保存</string>
+    <string name="change_activity_filter_type">过滤器类型</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">日期</string>
+    <string name="date_time_dialog_time">时间</string>
+    <string name="date_time_dialog_seconds">秒</string>
+
+    <string name="card_size_default">默认宽度</string>
+    <string name="card_size_hint">一行卡片数</string>
+
+    <string name="card_order_hint">拖放以重新排序</string>
+
+    <string name="chart_filter_hint">过滤</string>
+    <string name="types_compare_hint">比较</string>
+    <string name="types_filter_show_all">全部显示</string>
+    <string name="types_filter_hide_all">全部隐藏</string>
+    <string name="chart_filter_type_hint">统计类型</string>
+    <string name="chart_filter_categories_empty">未添加标签</string>
+
+    <string name="duration_dialog_save">保存</string>
+    <string name="duration_dialog_disable">不启用</string>
+
+    <string name="color_selection_base_color_hint">选择基色</string>
+    <string name="color_selection_adjust_color_hint">调整颜色</string>
+    <string name="color_selection_final_color_hint">最终颜色</string>
+
+    <string name="csv_export_settings_range">跨度</string>
+    <string name="csv_export_settings_all">全部</string>
+    <string name="csv_export_settings_hint">選擇時間範圍或導出所有記錄</string>
+
+    <string name="schedule_exact_alarms">应为此应用启用系统设置，以便安排准确的警报</string>
+    <string name="post_notifications">应为此应用程序启用系统设置才能显示通知</string>
+    <string name="schedule_exact_alarms_open_settings">打开</string>
+
+    <string name="default_types_selection_title">选择要添加的活动</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">对记录排序</string>
+    <string name="records_all_sort_time_started">开始时间</string>
+    <string name="records_all_sort_duration">持续时间</string>
+    <string name="records_all_search_comment">搜索评论</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">要开始跟踪，请单击 %s 按钮添加活动，或单击 %s 按钮使用默认预设</string>
+    <string name="running_records_empty">单击“活动”开始追踪</string>
+    <string name="running_records_has_timers">单击卡片以停止跟踪</string>
+    <string name="running_records_empty_hint">长按以编辑</string>
+    <string name="running_records_add_type">添加</string>
+    <string name="running_records_add_filter">添加过滤器</string>
+    <string name="running_records_add_default">默认</string>
+    <string name="running_records_repeat">重复</string>
+    <string name="running_records_repeat_no_prev_record">没有之前的记录可以重新启动</string>
+    <string name="running_records_repeat_already_tracking">已经在追踪此活动</string>
+
+    <!--  Settings  -->
+    <string name="settings_display_title">显示设置</string>
+    <string name="settings_additional_title">其他设置</string>
+    <string name="settings_notification_title">通知设置</string>
+    <string name="settings_backup_title">备份设置</string>
+    <string name="settings_export_title">导出和导入</string>
+    <string name="settings_sort_order">活动排序</string>
+    <string name="settings_sort_by_name">名称</string>
+    <string name="settings_sort_by_color">颜色</string>
+    <string name="settings_sort_manually">手动</string>
+    <string name="settings_first_day_of_week">一周的第一天</string>
+    <string name="settings_repeat_button_type">重复按钮</string>
+    <string name="settings_repeat_last_record">重复上次记录</string>
+    <string name="settings_repeat_one_before_last">重复上次之前的记录</string>
+    <string name="settings_show_untracked_time">在记录中显示未追踪的时间</string>
+    <string name="settings_show_untracked_time_statistics">在统计中显示未跟踪的时间</string>
+    <string name="settings_ignore_short_untracked">忽略短的未跟踪时间</string>
+    <string name="settings_ignore_short_untracked_hint">不要显示比指定时间短的未跟踪时间。</string>
+    <string name="settings_untracked_range">未追踪范围</string>
+    <string name="settings_untracked_range_hint">忽略指定范围之外的未跟踪时间。</string>
+    <string name="settings_show_records_calendar">在日历视图中显示记录</string>
+    <string name="settings_reverse_order_in_calendar">倒序记录</string>
+    <string name="settings_days_in_calendar">日历中的天数</string>
+    <string name="settings_widget_transparency">小部件背景透明度</string>
+    <string name="settings_show_activity_filters">在主屏幕上显示活动过滤器</string>
+    <string name="settings_show_goals_separately">在单独的选项卡上显示目标</string>
+    <string name="settings_allow_multitasking">允许同时对多个活动进行追踪</string>
+    <string name="settings_allow_multitasking_hint">如果不启用，启动新活动追踪时，将自动停止追踪其他活动。</string>
+    <string name="settings_show_notifications">显示计时通知</string>
+    <string name="settings_show_notifications_hint">追踪活动多长时间后显示通知。</string>
+    <string name="settings_show_notifications_controls">启用从通知切换活动</string>
+    <string name="settings_keep_statistics_range">保持统计范围</string>
+    <string name="settings_keep_statistics_range_hint">如果启用，详细统计信息将在统计信息中选择的相同时间范围内打开。</string>
+    <string name="settings_start_of_day">改变一天的开始</string>
+    <string name="settings_start_of_day_hint">一天的开始将根据标志向前或向后移动指定的时间量。</string>
+    <string name="settings_start_of_day_hint_value">今天开始于 %s</string>
+    <string name="settings_inactivity_reminder">显示无活动提醒</string>
+    <string name="settings_inactivity_reminder_hint">如果没有追踪中的活动，则在指定时间后显示通知。</string>
+    <string name="settings_inactivity_reminder_recurrent">复发性</string>
+    <string name="settings_activity_reminder">显示活动提醒</string>
+    <string name="settings_activity_reminder_hint">如果计时器正在运行，则在指定时间后显示通知。</string>
+    <string name="settings_do_not_disturb">请勿打扰</string>
+    <string name="settings_notifications_system_settings">系统设置</string>
+    <string name="settings_notifications_system_settings_hint">声音、振动、闪光等</string>
+    <string name="settings_ignore_short_records">忽略短记录</string>
+    <string name="settings_ignore_short_records_hint">不要跟踪短于指定时间的活动。</string>
+    <string name="settings_inactivity_reminder_disabled">不启用</string>
+    <string name="settings_dark_mode">深色模式</string>
+    <string name="settings_dark_mode_system">系统</string>
+    <string name="settings_dark_mode_enabled">启用</string>
+    <string name="settings_language">语言</string>
+    <string name="settings_use_military_time">使用24小时格式</string>
+    <string name="settings_use_monthday_time">使用月/日日期格式</string>
+    <string name="settings_use_proportional_minutes">使用比例分钟格式</string>
+    <string name="settings_show_seconds">显示秒数</string>
+    <string name="settings_keep_screen_on">保持屏幕开启</string>
+    <string name="settings_change_card_size">更改活动卡片大小</string>
+    <string name="settings_archive">存档</string>
+    <string name="settings_data_edit">数据编辑</string>
+    <string name="settings_edit_categories">编辑类别和标签</string>
+    <string name="settings_edit_categories_hint">将类别分配给活动，将标签分配给记录。</string>
+    <string name="settings_show_record_tag_selection">显示记录标签选择</string>
+    <string name="settings_show_record_tag_selection_hint">启动计时器时，如果活动有任何记录标签，则会显示一个选择对话框。</string>
+    <string name="settings_show_record_tag_close_hint">选择一个标签后关闭。</string>
+    <string name="settings_show_record_tag_general_hint">即使只有一般标签也能显示。</string>
+    <string name="settings_rate">给我们评分</string>
+    <string name="settings_rate_description">评价应用程序并留下评论。</string>
+    <string name="settings_feedback">反馈</string>
+    <string name="settings_feedback_description">有什么建议吗？找到问题了吗？想谈谈吗？给我们写邮件吧！</string>
+    <string name="settings_version">版本</string>
+    <string name="settings_email_chooser_title">发送方式…</string>
+    <string name="settings_translators">翻译人员</string>
+    <string name="settings_contributors">其他贡献者</string>
+    <string name="settings_automated_tracking">自动跟踪</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+通过与允许基于某些事件自动执行操作的第三方应用程序集成，可以实现自动跟踪。这些应用程序，当某个事件发生时，可以向应用程序发送消息以启动或停止活动计时器。<br/>
+<br/>
+一些事件的例子：<br/>
+- 启动某个应用程序。<br/>
+- 扫描 NFC 标签。<br/>
+- 去某个地方。<br/>
+- 一天中的某些时间。<br/>
+- 连接到蓝牙或 Wifi。<br/>
+<br/>
+要启用此行为，这些应用程序应支持使用以下参数发送\"intent\"或\"broadcast intent\"：<br/>
+<br/>
+<b>Action</b> - \"%s\" 或 \"%s\"。<br/>
+<b>Extra</b> - 带有应启动或停止的活动名称的\"%s\"。<br/>
+<b>Package</b> - \"%s\"。<br/>
+<br/>
+启动活动的可选参数：<br/>
+<br/>
+<b>Extra</b> - 带有记录评论的\"%s\"。<br/>
+<b>Extra</b> - 带有记录标签名称的\"%s\"。<br/>
+<br/>
+额外的：<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+    ]]></string>
+    <string name="settings_automated_tracking_send_events">发送事件</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+如果启用了 <b>\"%s\"</b> 设置，应用程序将在活动开始或停止时将事件发送到第三方应用程序以使用以下参数进行自动跟踪：<br/>
+<br/>
+<b>Action</b> - \"%s\" 或 \"%s\"。<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
+
+    <string name="settings_save_backup">保存备份</string>
+    <string name="settings_save_description">保存前，请确保已安装最新版本的应用程序，以避免冲突。</string>
+    <string name="settings_automatic_backup">启用自动备份</string>
+    <string name="settings_automatic_export">启用自动电子表格导出</string>
+    <string name="settings_automatic_description">文件将在每天午夜覆盖之前保存的文件保存在选定的位置。</string>
+    <string name="settings_automatic_last_save">最后保存：</string>
+    <string name="settings_restore_backup">还原备份</string>
+    <string name="settings_restore_description">当前数据将丢失。</string>
+    <string name="settings_dialog_message">恢复备份？</string>
+    <string name="settings_export_csv">导出为电子表格</string>
+    <string name="settings_export_csv_description">将活动记录导出为csv文件以在电子表格应用程序中查看。</string>
+    <string name="settings_import_csv">电子表格导入</string>
+    <string name="settings_import_csv_description">从 csv 文件导入活动记录。当前数据不会丢失。</string>
+    <string name="settings_import_csv_help"><![CDATA[
+csv 文件必须包含以逗号分隔的这些列：<br/>
+<br/>
+- 引号中的活动名称。<br/>
+- 记录开始时间格式为\"yyyy-MM-dd HH:mm:ss\"<br/>
+- 记录结束时间格式为\"yyyy-MM-dd HH:mm:ss\"<br/>
+- 评论用引号。<br/>
+<br/>
+示例：<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
+    <string name="settings_export_ics">ICS 出口</string>
+    <string name="settings_export_warning">此文件不能用作备份。</string>
+    <string name="settings_file_open_error">打开文件时出错</string>
+    <string name="settings_file_create_error">创建文件时出错</string>
+
+    <string name="message_backup_saved">备份已保存</string>
+    <string name="message_backup_restored">备份已还原</string>
+    <string name="message_save_error">保存备份时出错</string>
+    <string name="message_restore_error">还原备份时出错</string>
+    <string name="message_app_not_found">找不到应用程序</string>
+    <string name="message_export_complete">导出已完成</string>
+    <string name="message_export_error">导出错误</string>
+    <string name="message_import_complete">导入完成</string>
+    <string name="message_import_complete_hint">添加的记录：%s</string>
+    <string name="message_import_error">导入错误</string>
+    <string name="message_automatic_backup_error">自动备份出错。</string>
+    <string name="message_automatic_export_error">自动导出时出错。</string>
+    <string name="message_automatic_error_hint">尝试选择不同的位置</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">每小时</string>
+    <string name="statistics_detail_chart_daily">每天</string>
+    <string name="statistics_detail_chart_weekly">每周</string>
+    <string name="statistics_detail_chart_monthly">每月</string>
+    <string name="statistics_detail_chart_yearly">每年</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">m</string>
+    <string name="statistics_detail_legend_hour_suffix">h</string>
+
+    <string name="statistics_detail_range_averages_title">期间平均: %s</string>
+    <string name="statistics_detail_range_averages">对于整个范围</string>
+    <string name="statistics_detail_range_averages_non_empty">没有空期</string>
+
+    <string name="statistics_detail_total_duration">全部</string>
+    <string name="statistics_detail_record_length">记录长度</string>
+    <string name="statistics_detail_shortest_record">最短</string>
+    <string name="statistics_detail_average_record">平均</string>
+    <string name="statistics_detail_longest_record">最长</string>
+    <string name="statistics_detail_record_time">记录时间</string>
+    <string name="statistics_detail_first_record">第一</string>
+    <string name="statistics_detail_last_record">最后</string>
+    <string name="statistics_detail_streaks">系列</string>
+    <string name="statistics_detail_streaks_longest">最长</string>
+    <string name="statistics_detail_streaks_current">当前的</string>
+    <string name="statistics_detail_streaks_latest">最新的</string>
+    <string name="statistics_detail_activity_split_hint">活动分布</string>
+    <string name="statistics_detail_tag_split_hint">标签分布</string>
+    <string name="statistics_detail_day_split_hint">每日分发</string>
+    <string name="statistics_detail_duration_split_hint">记录持续时间分布</string>
+    <string name="statistics_detail_next_activities_hint">下一个热门活动</string>
+    <string name="statistics_detail_multitasking_activities_hint">顶级多任务处理</string>
+
+    <plurals name="statistics_detail_times_tracked">
+        <!--        <item quantity="zero">Records</item>-->
+        <!--        <item quantity="one">Record</item>-->
+        <!--        <item quantity="two">Records</item>-->
+        <!--        <item quantity="few">Records</item>-->
+        <!--        <item quantity="many">Records</item>-->
+        <item quantity="other">记录</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">单个活动</string>
+    <string name="widget_universal_name">通用</string>
+    <string name="widget_statistics_chart_name">统计图表</string>
+    <string name="widget_quick_settings_name">快速设置</string>
+    <string name="widget_load_error">找不到</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">无活动提醒</string>
+    <string name="notification_inactivity_text">别忘了追踪你的时间</string>
+    <string name="notification_activity_title">活动提醒</string>
+    <string name="notification_activity_text">你还在做：%s？</string>
+    <string name="notification_goal_time_description">达到的目标</string>
+    <string name="notification_time_started">从 %s 开始</string>
+    <string name="notification_record_type_stop">停止</string>
+
+    <!--  Archive  -->
+    <string name="something_was_archived_hint">要完全删除 - 打开存档</string>
+    <string name="archive_hint">点击卡片查看详情</string>
+    <string name="archive_dialog_delete">删除</string>
+    <string name="archive_dialog_restore">恢复</string>
+    <string name="archive_empty">存档为空</string>
+    <string name="archive_activity_restored">活动已恢复</string>
+    <string name="archive_tag_restored">标签已恢复</string>
+    <string name="archive_activity_deleted">活动已删除</string>
+    <string name="archive_tag_deleted">标签已删除</string>
+    <string name="archive_activity_deletion_message">此活动的所有记录和记录标签也将被删除。</string>
+    <string name="archive_tag_deletion_message">使用此标签标记的所有记录都将变为无标签。</string>
+    <string name="archive_deletion_alert">你确定吗？此操作无法撤消。</string>
+    <string name="archive_records_count">记录</string>
+    <string name="archive_record_tags_count">记录标签</string>
+    <string name="archive_tagged_records_count">标签标记的记录</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">这些更改无法撤消。确保在执行任何操作之前创建备份文件。</string>
+    <string name="data_edit_select_records">选择记录</string>
+    <string name="data_edit_change_activity">更改活动</string>
+    <string name="data_edit_change_activity_hint">当前活动的标签将被删除。</string>
+    <string name="data_edit_change_comment">更改评论</string>
+    <string name="data_edit_change_add_tag">添加标签</string>
+    <string name="data_edit_change_remove_tag">删除标签</string>
+    <string name="data_edit_button_change">改变</string>
+    <string name="data_edit_success_message">数据已更改</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">选择标签</string>
+    <string name="records_filter_filter_tags">排除标签</string>
+    <string name="records_filter_manually_filtered">已过滤</string>
+    <string name="records_filter_no_comment">没有意见</string>
+    <string name="records_filter_any_comment">任何意见</string>
+    <string name="records_filter_select">选择</string>
+    <string name="records_filter_invert_selection">反转选择</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">微笑与情感</string>
+    <string name="emojiGroupPeople">人与身体</string>
+    <string name="emojiGroupAnimals">动物与自然</string>
+    <string name="emojiGroupFood">食物和饮料</string>
+    <string name="emojiGroupTravel">旅行和地点</string>
+    <string name="emojiGroupActivities">活动</string>
+    <string name="emojiGroupObjects">物体</string>
+    <string name="emojiGroupSymbols">符号</string>
+    <string name="emojiGroupFlags">旗帜</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">地图</string>
+    <string name="imageGroupPlaces">地点</string>
+    <string name="imageGroupSocial">社交</string>
+    <string name="imageGroupAction">活动</string>
+    <string name="imageGroupHardware">硬件设备</string>
+    <string name="imageGroupAlert">警告标识</string>
+    <string name="imageGroupAv">音频视频</string>
+    <string name="imageGroupCommunication">交流沟通</string>
+    <string name="imageGroupContent">内容</string>
+    <string name="imageGroupDevice">设备状态</string>
+    <string name="imageGroupEditor">编辑</string>
+    <string name="imageGroupFile">文件</string>
+    <string name="imageGroupImage">图像</string>
+    <string name="imageGroupNavigation">导航</string>
+    <string name="imageGroupNotification">通知</string>
+    <string name="imageGroupToggle">标记</string>
+
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">记录</string>
+    <string name="shortcut_navigation_statistics">统计数据</string>
+    <string name="shortcut_navigation_settings">设置</string>
+
+</resources>

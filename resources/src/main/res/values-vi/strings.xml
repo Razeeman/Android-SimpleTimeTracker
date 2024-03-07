@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">T.Hai</string>
+    <string name="day_of_week_tuesday">T.Ba</string>
+    <string name="day_of_week_wednesday">T.Tư</string>
+    <string name="day_of_week_thursday">T.Năm</string>
+    <string name="day_of_week_friday">T.Sáu</string>
+    <string name="day_of_week_saturday">T.Bảy</string>
+    <string name="day_of_week_sunday">C.Nhật</string>
+
+    <string name="activity_hint">Hoạt động</string>
+    <string name="category_hint">Danh mục</string>
+    <string name="record_tag_hint">Thẻ bản ghi</string>
+    <string name="record_tag_hint_short">Thẻ</string>
+    <string name="nothing_selected">Chưa chọn gì</string>
+    <string name="something_selected">Đã chọn:</string>
+    <string name="select_all">Chọn tất cả</string>
+    <string name="select_nothing">Không chọn gì</string>
+    <string name="no_data">Không dữ liệu</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">Hôm qua</string>
+    <string name="title_today">Hôm nay</string>
+    <string name="title_tomorrow">Ngày mai</string>
+    <string name="title_this_week">Tuần này</string>
+    <string name="title_this_month">Tháng này</string>
+    <string name="title_this_year">Năm nay</string>
+
+    <string name="range_day">Ngày</string>
+    <string name="range_week">Tuần</string>
+    <string name="range_month">Tháng</string>
+    <string name="range_year">Năm</string>
+    <string name="range_overall">Tổng thể</string>
+    <string name="range_custom">Phạm vi</string>
+    <string name="range_last">7 ngày qua</string>
+    <string name="range_select_day">Chọn ngày</string>
+    <string name="range_select_week">Chọn tuần</string>
+    <string name="range_select_month">Chọn tháng</string>
+    <string name="range_select_year">Chọn năm</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Hủy</string>
+
+    <string name="time_hour">h</string>
+    <string name="time_minute">m</string>
+    <string name="time_second">s</string>
+
+    <string name="untracked_time_name">Chưa theo dõi</string>
+    <string name="uncategorized_time_name">Chưa phân loại</string>
+    <string name="multitask_time_name">Đa nhiệm</string>
+    <string name="running_record_goal_time">mục tiêu %s</string>
+    <string name="record_types_empty">Chưa thêm hoạt động nào</string>
+    <string name="record_tag_selection_hint">Chọn thẻ bản ghi</string>
+    <string name="time_now">Bây giờ</string>
+    <string name="cannot_be_in_the_future">Thời gian không thể ở tương lai</string>
+
+    <!--  Records  -->
+    <string name="record_removed">Bản ghi %s đã bị loại</string>
+    <string name="record_removed_undo">Hoàn tác</string>
+    <string name="records_hint">Bấm vào bản ghi để chỉnh sửa</string>
+    <string name="no_records_exist">Bản ghi sẽ được hiển thị ở đây</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_total_tracked">Tổng số đã theo dõi</string>
+    <string name="statistics_total_tracked_short">Tổng số</string>
+    <string name="statistics_hint">Bấm vào thẻ để xem số liệu thống kê chi tiết</string>
+    <string name="no_statistics_exist">Thống kê sẽ được hiển thị ở đây</string>
+
+    <!--  Categories  -->
+    <string name="categories_title">Danh mục và thẻ</string>
+    <string name="categories_edit_hint">Bấm vào thẻ để chỉnh sửa</string>
+    <string name="categories_record_type_hint">Chỉ định cùng một danh mục cho các hoạt động khác nhau để xem số liệu thống kê được nhóm của chúng</string>
+    <string name="categories_record_hint">Gán các thẻ khác nhau cho các bản ghi để phân biệt giữa chúng</string>
+    <string name="categories_add_category">Thêm danh mục</string>
+    <string name="categories_add_record_tag">Thêm thẻ bản ghi</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">Đã loại danh mục</string>
+    <string name="change_category_name_hint">Nhập tên mới</string>
+    <string name="change_category_color_hint">Màu</string>
+    <string name="change_category_types_hint">Hoạt động</string>
+    <string name="change_category_save">Lưu</string>
+    <string name="change_category_message_choose_name">Chọn một tên</string>
+
+    <!--  Change record tag  -->
+    <string name="change_record_tag_archived">Đã lưu trữ thẻ</string>
+    <string name="change_record_tag_type_hint">Hoạt động</string>
+    <string name="change_record_tag_type">Loại thẻ</string>
+    <string name="change_record_tag_type_general">Chung</string>
+    <string name="change_record_tag_type_general_hint">Có thể được gán cho bản ghi của bất kỳ hoạt động nào</string>
+    <string name="change_record_tag_type_typed">Hoạt động</string>
+    <string name="change_record_tag_type_typed_hint">Chỉ có thể được gán cho các bản ghi của một hoạt động cụ thể</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">Chọn hoạt động</string>
+    <string name="change_record_type_field">Hoạt động</string>
+    <string name="change_record_tag_field">Thẻ</string>
+    <string name="change_record_comment_field">Nhận xét</string>
+    <string name="change_record_comment_hint">Nhập nhận xét mới</string>
+    <string name="change_record_actions_hint">Hành động</string>
+    <string name="change_record_last_comments_hint">Nhận xét cuối cùng</string>
+    <string name="change_record_favourite_comments_hint">Yêu thích</string>
+    <string name="change_record_categories_empty">Không có thẻ bản ghi nào được thêm vào</string>
+    <string name="change_record_save">Lưu</string>
+    <string name="change_record_untagged">Chưa gắn thẻ</string>
+    <string name="change_running_record_removed">Đã xóa hoạt động đang chạy</string>
+    <string name="change_record_split">Phân chia</string>
+    <string name="change_record_split_hint">Sẽ cắt bản ghi hiện tại thành hai tại thời điểm được chỉ định</string>
+    <string name="change_record_continue">Tiếp tục</string>
+    <string name="change_record_continue_hint">Sẽ xóa bản ghi hiện tại và tiếp tục theo dõi hoạt động này</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">Sẽ lặp lại việc theo dõi hoạt động này</string>
+    <string name="change_record_duplicate">Nhân đôi</string>
+    <string name="change_record_duplicate_hint">Sẽ tạo một bản sao của bản ghi này</string>
+    <string name="change_record_merge">Hợp nhất</string>
+    <string name="change_record_merge_hint">Sẽ thêm thời gian này vào bản ghi trước đó</string>
+    <string name="change_record_adjust">Thay đổi</string>
+    <string name="change_record_change_prev_record">Đồng thời thay đổi thời gian của bản ghi trước đó</string>
+    <string name="change_record_change_adjacent_records">Đồng thời thay đổi thời gian của các bản ghi liền kề</string>
+    <string name="change_record_untracked_time_hint">Thời gian không bị theo dõi là thời gian không có hoạt động nào được theo dõi.</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">Đã lưu trữ hoạt động</string>
+    <string name="change_record_type_name_hint">Nhập tên mới</string>
+    <string name="change_record_type_new_icon_text_hint">Nhập văn bản mới</string>
+    <string name="change_record_type_color_hint">Màu</string>
+    <string name="change_record_type_icon_image_hint">Biểu tượng</string>
+    <string name="change_record_type_icon_text_hint">Văn bản</string>
+    <string name="change_record_type_icon_emoji_hint">Emoji</string>
+    <string name="change_record_type_icon_search_hint">Tìm kiếm (bằng tiếng Anh)</string>
+    <string name="change_record_type_save">Lưu</string>
+    <string name="change_record_message_choose_name">Chọn một tên</string>
+    <string name="change_record_type_categories_empty">Chưa thêm danh mục nào</string>
+    <string name="change_record_type_goal_time_disabled">Đã tắt</string>
+    <string name="change_record_type_goal_time_hint">Mục tiêu</string>
+    <string name="change_record_type_goal_time_description">Thông báo sẽ được hiển thị sau khi đạt được mục tiêu</string>
+    <string name="change_record_type_session_goal_time">Phiên</string>
+    <string name="change_record_type_daily_goal_time">@string/range_day</string>
+    <string name="change_record_type_weekly_goal_time">@string/range_week</string>
+    <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_goal_duration">Thời lượng</string>
+    <string name="change_record_type_goal_count">Đếm</string>
+
+    <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">Đã xóa bộ lọc</string>
+    <string name="change_activity_filter_save">Lưu</string>
+    <string name="change_activity_filter_type">Loại bộ lọc</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">Ngày</string>
+    <string name="date_time_dialog_time">Giờ</string>
+    <string name="date_time_dialog_seconds">Giây</string>
+
+    <string name="card_size_default">Chiều rộng mặc định</string>
+    <string name="card_size_hint">Số thẻ trong một hàng</string>
+
+    <string name="card_order_hint">Kéo và thả để sắp xếp lại</string>
+
+    <string name="chart_filter_hint">Bộ lọc</string>
+    <string name="types_compare_hint">So sánh</string>
+    <string name="types_filter_show_all">Hiển thị tất cả</string>
+    <string name="types_filter_hide_all">Ẩn tất cả</string>
+    <string name="chart_filter_type_hint">Loại thống kê</string>
+    <string name="chart_filter_categories_empty">Chưa thêm thẻ nào</string>
+
+    <string name="duration_dialog_save">Lưu</string>
+    <string name="duration_dialog_disable">Tắt</string>
+
+    <string name="color_selection_base_color_hint">Chọn màu cơ bản</string>
+    <string name="color_selection_adjust_color_hint">Điều chỉnh màu</string>
+    <string name="color_selection_final_color_hint">Màu cuối cùng</string>
+
+    <string name="csv_export_settings_range">Phạm vi</string>
+    <string name="csv_export_settings_all">Tất cả</string>
+    <string name="csv_export_settings_hint">Chọn phạm vi thời gian hoặc xuất tất cả bản ghi</string>
+
+    <string name="schedule_exact_alarms">Thiết đặt hệ thống phải được bật cho ứng dụng này để lên lịch báo thức chính xác</string>
+    <string name="post_notifications">Thiết đặt hệ thống phải được bật cho ứng dụng này để hiển thị thông báo</string>
+    <string name="schedule_exact_alarms_open_settings">Mở</string>
+
+    <string name="default_types_selection_title">Chọn hoạt động để thêm</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">Sắp xếp bản ghi</string>
+    <string name="records_all_sort_time_started">Thời gian bắt đầu</string>
+    <string name="records_all_sort_duration">Thời lượng</string>
+    <string name="records_all_search_comment">Tìm kiếm nhận xét</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">Để bắt đầu theo dõi, hãy thêm hoạt động bằng cách nhấp vào nút %s hoặc sử dụng thiết đặt trước mặc định bằng cách nhấp vào nút %s</string>
+    <string name="running_records_empty">Nhấp vào hoạt động để bắt đầu theo dõi</string>
+    <string name="running_records_has_timers">Bấm vào thẻ để ngừng theo dõi</string>
+    <string name="running_records_empty_hint">Nhấn lâu để chỉnh sửa</string>
+    <string name="running_records_add_type">Thêm</string>
+    <string name="running_records_add_filter">Thêm bộ lọc</string>
+    <string name="running_records_add_default">Mặc định</string>
+    <string name="running_records_repeat">Lặp lại</string>
+    <string name="running_records_repeat_no_prev_record">Không có bản ghi trước đó để khởi động lại</string>
+    <string name="running_records_repeat_already_tracking">Đã theo dõi hoạt động này</string>
+
+    <!--  Settings  -->
+    <string name="settings_display_title">Thiết đặt hiển thị</string>
+    <string name="settings_additional_title">Thiết đặt bổ sung</string>
+    <string name="settings_notification_title">Thiết đặt thông báo</string>
+    <string name="settings_backup_title">Thiết đặt sao lưu</string>
+    <string name="settings_export_title">Xuất và nhập</string>
+    <string name="settings_sort_order">Sắp xếp hoạt động</string>
+    <string name="settings_sort_by_name">Tên</string>
+    <string name="settings_sort_by_color">Màu</string>
+    <string name="settings_sort_manually">Thủ công</string>
+    <string name="settings_first_day_of_week">Ngày đầu tuần</string>
+    <string name="settings_repeat_button_type">Nút lặp lại</string>
+    <string name="settings_repeat_last_record">Lặp lại bản ghi cuối cùng</string>
+    <string name="settings_repeat_one_before_last">Lặp lại bản ghi trước lần cuối cùng</string>
+    <string name="settings_show_untracked_time">Hiển thị thời gian không được theo dõi trong bản ghi</string>
+    <string name="settings_show_untracked_time_statistics">Hiển thị thời gian không được theo dõi trong thống kê</string>
+    <string name="settings_ignore_short_untracked">Bỏ qua thời gian ngắn không được theo dõi</string>
+    <string name="settings_ignore_short_untracked_hint">Không hiển thị thời gian không được theo dõi ngắn hơn thời gian đã chỉ định.</string>
+    <string name="settings_untracked_range">Phạm vi không bị theo dõi</string>
+    <string name="settings_untracked_range_hint">Bỏ qua thời gian không được theo dõi ngoài phạm vi được chỉ định.</string>
+    <string name="settings_show_records_calendar">Hiển thị bản ghi trong chế độ xem lịch</string>
+    <string name="settings_reverse_order_in_calendar">Đảo ngược thứ tự các bản ghi</string>
+    <string name="settings_days_in_calendar">Ngày trong lịch</string>
+    <string name="settings_widget_transparency">Độ trong suốt của nền tiện ích</string>
+    <string name="settings_show_activity_filters">Hiển thị bộ lọc hoạt động trên màn hình chính</string>
+    <string name="settings_show_goals_separately">Hiển thị mục tiêu trên một tab riêng</string>
+    <string name="settings_allow_multitasking">Cho phép đa nhiệm</string>
+    <string name="settings_allow_multitasking_hint">Nếu bị tắt, việc bắt đầu bộ hẹn giờ mới sẽ tự động dừng các hoạt động khác.</string>
+    <string name="settings_show_notifications">Hiển thị thông báo hẹn giờ</string>
+    <string name="settings_show_notifications_hint">Hiển thị thông báo khi đồng hồ hẹn giờ đang chạy.</string>
+    <string name="settings_show_notifications_controls">Cho phép chuyển đổi hoạt động từ thông báo</string>
+    <string name="settings_keep_statistics_range">Giữ phạm vi thống kê</string>
+    <string name="settings_keep_statistics_range_hint">Nếu bật thống kê chi tiết sẽ được mở với cùng khoảng thời gian được chọn trong thống kê.</string>
+    <string name="settings_start_of_day">Thay đổi đầu ngày</string>
+    <string name="settings_start_of_day_hint">Thời điểm bắt đầu ngày sẽ được dịch chuyển theo khoảng thời gian được chỉ định, tiến hoặc lùi tùy theo dấu hiệu.</string>
+    <string name="settings_start_of_day_hint_value">Hôm nay bắt đầu lúc %s</string>
+    <string name="settings_inactivity_reminder">Hiển thị lời nhắc không hoạt động</string>
+    <string name="settings_inactivity_reminder_hint">Hiển thị thông báo sau thời gian được chỉ định nếu không có đồng hồ hẹn giờ nào đang chạy.</string>
+    <string name="settings_inactivity_reminder_recurrent">Định kỳ</string>
+    <string name="settings_activity_reminder">Hiển thị lời nhắc hoạt động</string>
+    <string name="settings_activity_reminder_hint">Hiển thị thông báo sau thời gian được chỉ định nếu bộ hẹn giờ đang chạy.</string>
+    <string name="settings_do_not_disturb">Đừng làm phiền</string>
+    <string name="settings_notifications_system_settings">Cài đặt hệ thống</string>
+    <string name="settings_notifications_system_settings_hint">Âm thanh, độ rung, đèn flash và các tính năng khác</string>
+    <string name="settings_ignore_short_records">Bỏ qua các bản ghi ngắn</string>
+    <string name="settings_ignore_short_records_hint">Không theo dõi các hoạt động ngắn hơn thời gian quy định.</string>
+    <string name="settings_inactivity_reminder_disabled">Đã tắt</string>
+    <string name="settings_dark_mode">Chế độ tối</string>
+    <string name="settings_dark_mode_system">Hệ thống</string>
+    <string name="settings_dark_mode_enabled">Đã bật</string>
+    <string name="settings_language">Ngôn ngữ</string>
+    <string name="settings_use_military_time">Sử dụng định dạng 24 giờ</string>
+    <string name="settings_use_monthday_time">Sử dụng định dạng ngày Tháng/Ngày</string>
+    <string name="settings_use_proportional_minutes">Sử dụng định dạng phút tỷ lệ thuận</string>
+    <string name="settings_show_seconds">Hiện giây</string>
+    <string name="settings_keep_screen_on">Giữ màn hình luôn bật</string>
+    <string name="settings_change_card_size">Thay đổi kích thước thẻ hoạt động</string>
+    <string name="settings_archive">Lưu trữ</string>
+    <string name="settings_data_edit">Chỉnh sửa dữ liệu</string>
+    <string name="settings_edit_categories">Chỉnh sửa danh mục và thẻ</string>
+    <string name="settings_edit_categories_hint">Gán danh mục cho hoạt động và gắn thẻ cho bản ghi.</string>
+    <string name="settings_show_record_tag_selection">Hiển thị lựa chọn thẻ bản ghi</string>
+    <string name="settings_show_record_tag_selection_hint">Khi bắt đầu hẹn giờ, nếu hoạt động có bất kỳ thẻ bản ghi nào - hộp thoại lựa chọn sẽ được hiển thị.</string>
+    <string name="settings_show_record_tag_close_hint">Đóng sau khi chọn một thẻ.</string>
+    <string name="settings_show_record_tag_general_hint">Hiển thị ngay cả với chỉ các thẻ chung.</string>
+    <string name="settings_rate">Hãy đánh giá chúng tôi</string>
+    <string name="settings_rate_description">Xếp hạng ứng dụng và để lại đánh giá.</string>
+    <string name="settings_feedback">Phản hồi</string>
+    <string name="settings_feedback_description">Có một gợi ý? Tìm thấy một lỗi? Muốn nói chuyện? Hãy viết thư cho chúng tôi!</string>
+    <string name="settings_version">Phiên bản</string>
+    <string name="settings_email_chooser_title">Gửi bằng…</string>
+    <string name="settings_translators">Người dịch</string>
+    <string name="settings_contributors">Những người đóng góp khác</string>
+    <string name="settings_automated_tracking">Theo dõi tự động</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+Có thể theo dõi tự động thông qua tích hợp với các ứng dụng của bên thứ ba cho phép tự động hóa các hành động dựa trên các sự kiện nhất định. Các ứng dụng này, khi một sự kiện nhất định xảy ra, có thể gửi tin nhắn đến ứng dụng để bắt đầu hoặc dừng bộ hẹn giờ hoạt động.<br/>
+<br/>
+Một số ví dụ về sự kiện:<br/>
+- Khởi chạy một ứng dụng nhất định.<br/>
+- Quét thẻ NFC.<br/>
+- Đi đến một địa điểm nhất định.<br/>
+- Một số thời điểm nhất định trong ngày.<br/>
+- Kết nối với Bluetooth hoặc Wifi.<br/>
+<br/>
+Để kích hoạt hành vi này, các ứng dụng này phải hỗ trợ gửi \"ý định\" hoặc \"ý định phát sóng\" với các tham số sau:<br/>
+<br/>
+<b>Hành động</b> - \"%s\" hoặc \"%s\".<br/>
+<b>Bổ sung</b> - \"%s\" với tên hoạt động sẽ được bắt đầu hoặc dừng.<br/>
+<b>Gói</b> - \"%s\".<br/>
+<br/>
+Các thông số tùy chọn để bắt đầu hoạt động:<br/>
+<br/>
+<b>Bổ sung</b> - \"%s\" có bản ghi nhận xét.<br/>
+<b>Bổ sung</b> - \"%s\" với tên của thẻ bản ghi.<br/>
+<br/>
+Ngoài ra:<br/>
+<br/>
+<b>Hành động</b> - \"%s\".<br/>
+<b>Hành động</b> - \"%s\".<br/>
+<b>Hành động</b> - \"%s\".<br/>
+<b>Hành động</b> - \"%s\".<br/>
+    ]]></string>
+    <string name="settings_automated_tracking_send_events">Gửi sự kiện</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+Nếu thiết đặt <b>\"%s\"</b> được bật, ứng dụng sẽ gửi các sự kiện về hoạt động đã bắt đầu hoặc đã dừng tới các ứng dụng của bên thứ ba để theo dõi tự động với các thông số sau:<br/>
+<br/>
+<b>Hành động</b> - \"%s\" or \"%s\".<br/>
+<b>Bổ sung</b> - \"%s\".<br/>
+<b>Bổ sung</b> - \"%s\".<br/>
+<b>Bổ sung</b> - \"%s\".<br/>
+    ]]></string>
+
+    <string name="settings_save_backup">Lưu bản sao lưu</string>
+    <string name="settings_save_description">Trước khi lưu, hãy đảm bảo rằng bạn đã cài đặt phiên bản mới nhất của ứng dụng để tránh xung đột.</string>
+    <string name="settings_automatic_backup">Bật sao lưu tự động</string>
+    <string name="settings_automatic_export">Bật tính năng xuất bảng tính tự động</string>
+    <string name="settings_automatic_description">Tệp sẽ được lưu ở vị trí đã chọn ghi đè tệp đã lưu trước đó vào lúc nửa đêm hàng ngày.</string>
+    <string name="settings_automatic_last_save">Lần lưu cuối cùng:</string>
+    <string name="settings_restore_backup">Khôi phục bản sao lưu</string>
+    <string name="settings_restore_description">Dữ liệu hiện tại sẽ bị mất.</string>
+    <string name="settings_dialog_message">Khôi phục bản sao lưu?</string>
+    <string name="settings_export_csv">Xuất bảng tính</string>
+    <string name="settings_export_csv_description">Xuất bản ghi hoạt động dưới dạng tệp csv để xem trong ứng dụng bảng tính ưa thích.</string>
+    <string name="settings_import_csv">Nhập bảng tính</string>
+    <string name="settings_import_csv_description">Nhập bản ghi hoạt động từ tệp csv. Dữ liệu hiện tại sẽ không bị mất.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+Tệp csv phải chứa các cột này được phân tách bằng dấu phẩy:<br/>
+<br/>
+- Tên hoạt động trong dấu ngoặc kép.<br/>
+- Thời gian bắt đầu ghi ở định dạng \"yyyy-MM-dd HH:mm:ss\"<br/>
+- Thời gian kết thúc ghi ở định dạng \"yyyy-MM-dd HH:mm:ss\"<br/>
+- Nhận xét trong dấu ngoặc kép.<br/>
+<br/>
+Ví dụ:<br/>
+<br/>
+\"Đọc\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Nhận xét, nhận xét\"
+    ]]></string>
+    <string name="settings_export_ics">Xuất ICS</string>
+    <string name="settings_export_warning">Không thể sử dụng tệp này làm bản sao lưu.</string>
+    <string name="settings_file_open_error">Lỗi mở tệp</string>
+    <string name="settings_file_create_error">Lỗi tạo tệp</string>
+
+    <string name="message_backup_saved">Đã lưu bản sao lưu</string>
+    <string name="message_backup_restored">Đã khôi phục bản sao lưu</string>
+    <string name="message_save_error">Lỗi lưu bản sao lưu</string>
+    <string name="message_restore_error">Lỗi khôi phục bản sao lưu</string>
+    <string name="message_app_not_found">Không tìm thấy ứng dụng</string>
+    <string name="message_export_complete">Đã xuất xong</string>
+    <string name="message_export_error">Lỗi xuất</string>
+    <string name="message_import_complete">Đã nhập xong</string>
+    <string name="message_import_complete_hint">Bản ghi đã thêm: %s</string>
+    <string name="message_import_error">Lỗi nhập</string>
+    <string name="message_automatic_backup_error">Đã xảy ra lỗi khi sao lưu tự động.</string>
+    <string name="message_automatic_export_error">Đã xảy ra lỗi khi xuất tự động.</string>
+    <string name="message_automatic_error_hint">Hãy thử chọn vị trí khác</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">hàng giờ</string>
+    <string name="statistics_detail_chart_daily">hàng ngày</string>
+    <string name="statistics_detail_chart_weekly">hàng tuần</string>
+    <string name="statistics_detail_chart_monthly">hàng tháng</string>
+    <string name="statistics_detail_chart_yearly">hàng năm</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">m</string>
+    <string name="statistics_detail_legend_hour_suffix">h</string>
+
+    <string name="statistics_detail_range_averages_title">Trung bình giai đoạn: %s</string>
+    <string name="statistics_detail_range_averages">Cho toàn bộ phạm vi</string>
+    <string name="statistics_detail_range_averages_non_empty">Không có giai đoạn trống</string>
+
+    <string name="statistics_detail_total_duration">Tổng số</string>
+    <string name="statistics_detail_record_length">Độ dài bản ghi</string>
+    <string name="statistics_detail_shortest_record">Ngắn nhất</string>
+    <string name="statistics_detail_average_record">Trung bình</string>
+    <string name="statistics_detail_longest_record">Dài nhất</string>
+    <string name="statistics_detail_record_time">Thời gian bản ghi</string>
+    <string name="statistics_detail_first_record">Đầu tiên</string>
+    <string name="statistics_detail_last_record">Cuối cùng</string>
+    <string name="statistics_detail_streaks">Loạt</string>
+    <string name="statistics_detail_streaks_longest">Dài nhất</string>
+    <string name="statistics_detail_streaks_current">Hiện tại</string>
+    <string name="statistics_detail_streaks_latest">Mới nhất</string>
+    <string name="statistics_detail_activity_split_hint">Phân bổ hoạt động</string>
+    <string name="statistics_detail_tag_split_hint">Phân bổ thẻ</string>
+    <string name="statistics_detail_day_split_hint">Phân bổ hàng ngày</string>
+    <string name="statistics_detail_duration_split_hint">Phân bổ thời lượng bản ghi</string>
+    <string name="statistics_detail_next_activities_hint">Hoạt động tiếp theo hàng đầu</string>
+    <string name="statistics_detail_multitasking_activities_hint">Đa nhiệm hàng đầu</string>
+
+    <plurals name="statistics_detail_times_tracked">
+<!--        <item quantity="zero">Bản ghi</item>-->
+<!--        <item quantity="one">Bản ghi</item>-->
+<!--        <item quantity="two">Bản ghi</item>-->
+<!--        <item quantity="few">Bản ghi</item>-->
+<!--        <item quantity="many">Bản ghi</item>-->
+        <item quantity="other">Bản ghi</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">Hoạt động đơn lẻ</string>
+    <string name="widget_universal_name">Phổ quát</string>
+    <string name="widget_statistics_chart_name">Biểu đồ thống kê</string>
+    <string name="widget_quick_settings_name">Thiết đặt nhanh</string>
+    <string name="widget_load_error">Không tìm thấy</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">Lời nhắc không hoạt động</string>
+    <string name="notification_inactivity_text">Đừng quên theo dõi thời gian của bạn</string>
+    <string name="notification_activity_title">Lời nhắc hoạt động</string>
+    <string name="notification_activity_text">Bạn vẫn đang làm: %s?</string>
+    <string name="notification_goal_time_description">đã đạt mục tiêu</string>
+    <string name="notification_time_started">Bắt đầu lúc %s</string>
+    <string name="notification_record_type_stop">Dừng lại</string>
+
+    <!--  Archive  -->
+    <string name="something_was_archived_hint">Để xóa hoàn toàn - hãy mở kho lưu trữ</string>
+    <string name="archive_hint">Bấm vào thẻ để xem chi tiết</string>
+    <string name="archive_dialog_delete">Xóa</string>
+    <string name="archive_dialog_restore">Khôi phục</string>
+    <string name="archive_empty">Kho lưu trữ trống</string>
+    <string name="archive_activity_restored">Đã khôi phục hoạt động</string>
+    <string name="archive_tag_restored">Đã khôi phục thẻ</string>
+    <string name="archive_activity_deleted">Hoạt động đã bị xóa</string>
+    <string name="archive_tag_deleted">Đã xóa thẻ</string>
+    <string name="archive_activity_deletion_message">Tất cả bản ghi về hoạt động này và thẻ bản ghi cũng sẽ bị xóa.</string>
+    <string name="archive_tag_deletion_message">Tất cả bản ghi được gắn thẻ này sẽ không được gắn thẻ.</string>
+    <string name="archive_deletion_alert">Bạn có chắc không? Hành động này không thể hoàn tác được.</string>
+    <string name="archive_records_count">Bản ghi</string>
+    <string name="archive_record_tags_count">Thẻ bản ghi</string>
+    <string name="archive_tagged_records_count">Bản ghi đã gắn thẻ</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">Những thay đổi này không thể hoàn tác được. Đảm bảo tạo một tệp sao lưu trước khi làm bất cứ điều gì.</string>
+    <string name="data_edit_select_records">Chọn bản ghi</string>
+    <string name="data_edit_change_activity">Thay đổi hoạt động</string>
+    <string name="data_edit_change_activity_hint">Thẻ của hoạt động hiện tại sẽ bị xóa.</string>
+    <string name="data_edit_change_comment">Thay đổi nhận xét</string>
+    <string name="data_edit_change_add_tag">Thêm thẻ</string>
+    <string name="data_edit_change_remove_tag">Xóa thẻ</string>
+    <string name="data_edit_button_change">Thay đổi</string>
+    <string name="data_edit_success_message">Dữ liệu đã thay đổi</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">Chọn thẻ</string>
+    <string name="records_filter_filter_tags">Loại trừ thẻ</string>
+    <string name="records_filter_manually_filtered">Đã lọc</string>
+    <string name="records_filter_no_comment">Không có nhận xét</string>
+    <string name="records_filter_any_comment">Mọi nhận xét</string>
+    <string name="records_filter_select">Chọn</string>
+    <string name="records_filter_invert_selection">Đảo ngược lựa chọn</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">Mặt cười &amp; Cảm xúc</string>
+    <string name="emojiGroupPeople">Con người &amp; Cơ thể</string>
+    <string name="emojiGroupAnimals">Động vật &amp; Thiên nhiên</string>
+    <string name="emojiGroupFood">Thức ăn &amp; Thức uống</string>
+    <string name="emojiGroupTravel">Du lịch &amp; Địa điểm</string>
+    <string name="emojiGroupActivities">Hoạt động</string>
+    <string name="emojiGroupObjects">Đối tượng</string>
+    <string name="emojiGroupSymbols">Ký hiệu</string>
+    <string name="emojiGroupFlags">Cờ</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">Bản đồ</string>
+    <string name="imageGroupPlaces">Địa điểm</string>
+    <string name="imageGroupSocial">Xã hội</string>
+    <string name="imageGroupAction">Hành động</string>
+    <string name="imageGroupHardware">Phần cứng</string>
+    <string name="imageGroupAlert">Cảnh báo</string>
+    <string name="imageGroupAv">Âm thanh băng hình</string>
+    <string name="imageGroupCommunication">Giao tiếp</string>
+    <string name="imageGroupContent">Nội dung</string>
+    <string name="imageGroupDevice">Thiết bị</string>
+    <string name="imageGroupEditor">Biên tập viên</string>
+    <string name="imageGroupFile">Tệp tin</string>
+    <string name="imageGroupImage">Hình ảnh</string>
+    <string name="imageGroupNavigation">Điều hướng</string>
+    <string name="imageGroupNotification">Thông báo</string>
+    <string name="imageGroupToggle">Chuyển đổi</string>
+
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">Bản ghi</string>
+    <string name="shortcut_navigation_statistics">Thống kê</string>
+    <string name="shortcut_navigation_settings">Thiết đặt</string>
+
+</resources>

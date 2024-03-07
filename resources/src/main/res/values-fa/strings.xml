@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">دوشنبه</string>
+    <string name="day_of_week_tuesday">سه شنبه</string>
+    <string name="day_of_week_wednesday">چهارشنبه</string>
+    <string name="day_of_week_thursday">پنج شنبه</string>
+    <string name="day_of_week_friday">جمعه</string>
+    <string name="day_of_week_saturday">شنبه</string>
+    <string name="day_of_week_sunday">یکشنبه</string>
+
+    <string name="activity_hint">فعالیت ها</string>
+    <string name="category_hint">دسته بندی ها</string>
+    <string name="record_tag_hint">برچسب های تاریخچه</string>
+    <string name="record_tag_hint_short">برچسب ها</string>
+    <string name="nothing_selected">موردی انتخاب نشده</string>
+    <string name="something_selected">انتخاب شده:</string>
+    <string name="select_all">انتخاب همه</string>
+    <string name="select_nothing">چیزی را انتخاب نکنید</string>
+    <string name="no_data">اطلاعاتی وجود ندارد</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">روز قبل</string>
+    <string name="title_today">امروز</string>
+    <string name="title_tomorrow">فردا</string>
+    <string name="title_this_week">این هفته</string>
+    <string name="title_this_month">این ماه</string>
+    <string name="title_this_year">امسال</string>
+
+    <string name="range_day">روز</string>
+    <string name="range_week">هفته</string>
+    <string name="range_month">ماه</string>
+    <string name="range_year">سال</string>
+    <string name="range_overall">به طور کلی</string>
+    <string name="range_custom">محدوده</string>
+    <string name="range_last">7 روز قبلی</string>
+    <string name="range_select_day">انتخاب تاریخ</string>
+    <string name="range_select_week">انتخاب هفته</string>
+    <string name="range_select_month">انتخاب ماه</string>
+    <string name="range_select_year">انتخاب سال</string>
+
+    <string name="ok">موافقت</string>
+    <string name="cancel">لغو</string>
+
+    <string name="time_hour">س</string>
+    <string name="time_minute">د</string>
+    <string name="time_second">ث</string>
+
+    <string name="untracked_time_name">اندازه گیری نشده</string>
+    <string name="uncategorized_time_name">دسته بندی نشده</string>
+    <string name="multitask_time_name">چند وظیفه ای</string>
+    <string name="running_record_goal_time">هدف %s</string>
+    <string name="record_types_empty">فعالیتی اضافه نشده</string>
+    <string name="record_tag_selection_hint">انتخاب برچسب تاریخچه</string>
+    <string name="time_now">اکنون</string>
+    <string name="cannot_be_in_the_future">زمان نمیتواند در آینده باشد</string>
+
+    <!--  Records  -->
+    <string name="record_removed">تاریخچه %s حذف شد</string>
+    <string name="record_removed_undo">ابطال</string>
+    <string name="records_hint">تاریخچه را برای ویرایش لمس کنید</string>
+    <string name="no_records_exist">سوابق در اینجا نشان داده خواهد شد</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_total_tracked">مجموع اندازه گیری</string>
+    <string name="statistics_total_tracked_short">مجموع</string>
+    <string name="statistics_hint">برای مشاهده آمار با جزئیات کارت را لمس کنید</string>
+    <string name="no_statistics_exist">آمار در اینجا نشان داده خواهد شد</string>
+
+    <!--  Categories  -->
+    <string name="categories_title">دسته بندی ها و برچسب ها</string>
+    <string name="categories_edit_hint">برای ویرایش کارت را لمس کنید</string>
+    <string name="categories_record_type_hint">همان دسته بندی را به فعالیت های دیگر اختصاص دهید تا آمار گروهی آنها را مشاهده کنید</string>
+    <string name="categories_record_hint">برچسب های مختلف را به تاریخچه ها اختصاص دهید تا آنها را از هم تفکیک کنید</string>
+    <string name="categories_add_category">افزودن دسته بندی</string>
+    <string name="categories_add_record_tag">افزودن برچسب تاریخچه</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">دسته بندی حذف شد</string>
+    <string name="change_category_name_hint">نام جدید را وارد کنید</string>
+    <string name="change_category_color_hint">رنگ</string>
+    <string name="change_category_types_hint">فعالیت ها</string>
+    <string name="change_category_save">ذخیره</string>
+    <string name="change_category_message_choose_name">نامی انتخاب کنید</string>
+
+    <!--  Change record tag  -->
+    <string name="change_record_tag_archived">برچسب بایگانی شد</string>
+    <string name="change_record_tag_type_hint">فعالیت</string>
+    <string name="change_record_tag_type">نوع برچسب</string>
+    <string name="change_record_tag_type_general">عمومی</string>
+    <string name="change_record_tag_type_general_hint">می تواند به تاریخچه هر فعالیتی اضافه شود</string>
+    <string name="change_record_tag_type_typed">فعالیت</string>
+    <string name="change_record_tag_type_typed_hint">می تواند به تاریخچه های یک فعالیت خاص اصافه شود</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">انتخاب فعالیت</string>
+    <string name="change_record_type_field">فعالیت</string>
+    <string name="change_record_tag_field">برچسب</string>
+    <string name="change_record_comment_field">نظر</string>
+    <string name="change_record_comment_hint">وارد کردن نظر جدید</string>
+    <string name="change_record_actions_hint">اقدامات</string>
+    <string name="change_record_last_comments_hint">نظرهای قبلی</string>
+    <string name="change_record_favourite_comments_hint">مورد علاقه</string>
+    <string name="change_record_categories_empty">برچسب تاریخچه ای اضافه نشده</string>
+    <string name="change_record_save">ذخیره</string>
+    <string name="change_record_untagged">بدون برچسب</string>
+    <string name="change_running_record_removed">فعالیت در حال اجرا حذف شد</string>
+    <string name="change_record_split">تقسیم</string>
+    <string name="change_record_split_hint">در زمان معین فعالیت فعلی را به دو قسمت تقسیم می کند</string>
+    <string name="change_record_continue">ادامه</string>
+    <string name="change_record_continue_hint">فعالیت فعلی را حذف کرده و فعالیت انتخابی را اندازه گیری می کند</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">ردیابی این فعالیت را تکرار خواهد کرد</string>
+    <string name="change_record_duplicate">تکثیر</string>
+    <string name="change_record_duplicate_hint">از این تاریخچه نسخه کپی می سازد</string>
+    <string name="change_record_merge">تریکب</string>
+    <string name="change_record_merge_hint">این زمان را به تاریخچه قبلی اضاف می کند</string>
+    <string name="change_record_adjust">تغییر</string>
+    <string name="change_record_change_prev_record">همچنین زمان تاریخچه قبلی را تغییر دهید</string>
+    <string name="change_record_change_adjacent_records">همچنین زمان تاریخچه های مجاور را تغییر دهید</string>
+    <string name="change_record_untracked_time_hint">زمان ردیابی نشده زمانی است که هیچ فعالیتی ردیابی نشده است.</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">فعالیت بایگانی شد</string>
+    <string name="change_record_type_name_hint">نام جدید را وارد کنید</string>
+    <string name="change_record_type_new_icon_text_hint">متن جدید را وارد کنید</string>
+    <string name="change_record_type_color_hint">رنگ</string>
+    <string name="change_record_type_icon_image_hint">آیکون</string>
+    <string name="change_record_type_icon_text_hint">متن</string>
+    <string name="change_record_type_icon_emoji_hint">ایموجی</string>
+    <string name="change_record_type_icon_search_hint">جستجو (به انگلیسی)</string>
+    <string name="change_record_type_save">ذخیره</string>
+    <string name="change_record_message_choose_name">نامی انتخاب کنید</string>
+    <string name="change_record_type_categories_empty">دسته بندی ای اضافه نشد</string>
+    <string name="change_record_type_goal_time_disabled">غیر فعال</string>
+    <string name="change_record_type_goal_time_hint">هدف</string>
+    <string name="change_record_type_goal_time_description">اعلان پس از رسیدن به هدف نشان داده می شود</string>
+    <string name="change_record_type_session_goal_time">جلسه</string>
+    <string name="change_record_type_daily_goal_time">@string/range_day</string>
+    <string name="change_record_type_weekly_goal_time">@string/range_week</string>
+    <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_goal_duration">مدت زمان</string>
+    <string name="change_record_type_goal_count">شمردن</string>
+
+    <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">فیلتر حذف شد</string>
+    <string name="change_activity_filter_save">ذخیره</string>
+    <string name="change_activity_filter_type">نوع فیلتر</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">تاریخ</string>
+    <string name="date_time_dialog_time">زمان</string>
+    <string name="date_time_dialog_seconds">ثانیه</string>
+
+    <string name="card_size_default">عرض پیش فرض</string>
+    <string name="card_size_hint">تعداد کارت ها در یک ردیف</string>
+
+    <string name="card_order_hint">برای مرتب کرده بکشید و رها کنید</string>
+
+    <string name="chart_filter_hint">فیلتر</string>
+    <string name="types_compare_hint">مقایسه</string>
+    <string name="types_filter_show_all">نمایش همه</string>
+    <string name="types_filter_hide_all">مخفی کردن همه</string>
+    <string name="chart_filter_type_hint">نوع آمار ها</string>
+    <string name="chart_filter_categories_empty">برچسبی اضافه نشده</string>
+
+    <string name="duration_dialog_save">ذخیره</string>
+    <string name="duration_dialog_disable">غیرفعال کردن</string>
+
+    <string name="color_selection_base_color_hint">رنگ اصلی را انتخاب کنید</string>
+    <string name="color_selection_adjust_color_hint">تنظیم رنگ</string>
+    <string name="color_selection_final_color_hint">رنگ نهایی</string>
+
+    <string name="csv_export_settings_range">محدوده</string>
+    <string name="csv_export_settings_all">همه</string>
+    <string name="csv_export_settings_hint">محدوده زمانی را انتخاب کنید یا از تمام تاریخچه ها خروجی بگیرید</string>
+
+    <string name="schedule_exact_alarms">برای تنظیم دقیق آلارم تنظیمات سیستم باید برای این برنامه فعال شده باشند</string>
+    <string name="post_notifications">تنظیمات سیستم باید برای این برنامه فعال باشد تا اعلان‌ها نشان داده شود</string>
+    <string name="schedule_exact_alarms_open_settings">باز کردن</string>
+
+    <string name="default_types_selection_title">انتخاب فعالیت ها برای اضافه کردن</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">مرتب کردن تاریخچه ها</string>
+    <string name="records_all_sort_time_started">زمان شروع</string>
+    <string name="records_all_sort_duration">طول مدت</string>
+    <string name="records_all_search_comment">جستجوی نظر</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">برای شروع ردیابی، با کلیک بر روی دکمه %s فعالیت ها را اضافه کنید یا با کلیک بر روی دکمه %s از تنظیمات پیش فرض استفاده کنید</string>
+    <string name="running_records_empty">فعالیت را برای شروع اندازه گیری لمس کنید</string>
+    <string name="running_records_has_timers">برای توقف اندازه گیری  کارت را لمس کنید</string>
+    <string name="running_records_empty_hint">برای ویرایش لمس کنید و نگه دارید</string>
+    <string name="running_records_add_type">اضافه کردن</string>
+    <string name="running_records_add_filter">اضافه کردن فیلتر</string>
+    <string name="running_records_add_default">پیش فرض</string>
+    <string name="running_records_repeat">تکرار</string>
+    <string name="running_records_repeat_no_prev_record">رکورد قبلی برای راه اندازی مجدد وجود ندارد</string>
+    <string name="running_records_repeat_already_tracking">در حال حاضر این فعالیت را دنبال می کنم</string>
+
+    <!--  Settings  -->
+    <string name="settings_display_title">نمایش تنظیمات</string>
+    <string name="settings_additional_title">تنظیمت اضافه</string>
+    <string name="settings_notification_title">تنظیمات اعلان</string>
+    <string name="settings_backup_title">تنظیمات پشتیبان گیری</string>
+    <string name="settings_export_title">صادرات و واردات</string>
+    <string name="settings_sort_order">مرتب سازی فعالیت ها</string>
+    <string name="settings_sort_by_name">نام</string>
+    <string name="settings_sort_by_color">رنگ</string>
+    <string name="settings_sort_manually">دستی</string>
+    <string name="settings_first_day_of_week">اولین روز هفته</string>
+    <string name="settings_repeat_button_type">دکمه تکرار</string>
+    <string name="settings_repeat_last_record">آخرین رکورد را تکرار کنید</string>
+    <string name="settings_repeat_one_before_last">تکرار رکورد قبل از آخرین</string>
+    <string name="settings_show_untracked_time">زمان اندازه گیری نشده را در تاریخچه نمایش بده</string>
+    <string name="settings_show_untracked_time_statistics">نمایش زمان پیگیری نشده در آمار</string>
+    <string name="settings_ignore_short_untracked">چشم پوشی از زمان کوتاه اندازه گیری نشده</string>
+    <string name="settings_ignore_short_untracked_hint">زمان اندازه گیری نشده که از زمان معین کوتاه تر است را نمایش نده</string>
+    <string name="settings_untracked_range">محدوده اندازه گیری نشده</string>
+    <string name="settings_untracked_range_hint">در محدوده مشخص شده از زمان اندازه گیری نشده چشم پوشی کن</string>
+    <string name="settings_show_records_calendar">نمایش تاریخچه ها در نمای تقویم</string>
+    <string name="settings_reverse_order_in_calendar">ترتیب برعکس  تاریخچه ها</string>
+    <string name="settings_days_in_calendar">روزها در تقویم</string>
+    <string name="settings_widget_transparency">شفافیت پس زمینه ویجت</string>
+    <string name="settings_show_activity_filters">فیلتر فعالیت ها را در صفحه اصلی نمایش بده</string>
+    <string name="settings_show_goals_separately">نمایش اهداف در یک برگه جداگانه</string>
+    <string name="settings_allow_multitasking">انجام دادن همزمان فعالیت ها</string>
+    <string name="settings_allow_multitasking_hint">اگر غیر فعال باشد شروع تایمر های جدید فعالیت های دیگر را متوقف می کند</string>
+    <string name="settings_show_notifications">تایمر را در اعلان ها نمایش بده</string>
+    <string name="settings_show_notifications_hint">هنگام در جریان بودن تایمر ها اعلان نشان بده</string>
+    <string name="settings_show_notifications_controls">تغییر فعالیت از اعلان ها را فعال کن</string>
+    <string name="settings_keep_statistics_range">محدوده آماری را حفظ شود</string>
+    <string name="settings_keep_statistics_range_hint">اگر فعال باشد آمار جزئی با همان محدوده آماری در صفحه آمارها باز می شود</string>
+    <string name="settings_start_of_day">تغییر زمان شروع روز</string>
+    <string name="settings_start_of_day_hint">بسته به علامت، شروع روز با مقدار زمان مشخص، به جلو یا عقب جابه‌جا می‌شود.</string>
+    <string name="settings_start_of_day_hint_value">امروز در %s شروع می شود</string>
+    <string name="settings_inactivity_reminder">نمایش یادآور بی فعالیتی</string>
+    <string name="settings_inactivity_reminder_hint">اگر تایمری در حال اجرا نیست بعد از زمان معین اعلانی نمایش داده شود</string>
+    <string name="settings_inactivity_reminder_recurrent">مکرر</string>
+    <string name="settings_activity_reminder">یادآور فعالیت را نمایش بده</string>
+    <string name="settings_activity_reminder_hint">وقتی تایمری در حال اجراست اعلانی را بعد از زمان معین نشان بده</string>
+    <string name="settings_do_not_disturb">مزاحم نشوید</string>
+    <string name="settings_notifications_system_settings">تنظیمات سیستم</string>
+    <string name="settings_notifications_system_settings_hint">صدا، لرزش، فلاش و غیره</string>
+    <string name="settings_ignore_short_records">چشم پوشی از تاریخچه های کوتاه</string>
+    <string name="settings_ignore_short_records_hint">فعالیت هایی که از زمان معین شده کوتاه تر هستند را اندازه گیری نکن</string>
+    <string name="settings_inactivity_reminder_disabled">غیر فعال</string>
+    <string name="settings_dark_mode">تم تیره</string>
+    <string name="settings_dark_mode_system">سیستم</string>
+    <string name="settings_dark_mode_enabled">فعال شد</string>
+    <string name="settings_language">زبان</string>
+    <string name="settings_use_military_time">استفاده از فرمت 24 ساعته</string>
+    <string name="settings_use_monthday_time">از قالب تاریخ ماه/روز استفاده کنید</string>
+    <string name="settings_use_proportional_minutes">از زمان  دقایق نسبی استفاده کن</string>
+    <string name="settings_show_seconds">نمایش ثانیه ها</string>
+    <string name="settings_keep_screen_on">صفحه را روشن نگه دار</string>
+    <string name="settings_change_card_size">سایز کارت فعالیت ها را تغییر دهید</string>
+    <string name="settings_archive">بایگانی</string>
+    <string name="settings_data_edit">ویرایش اطلاعات</string>
+    <string name="settings_edit_categories">ویرایش دسته بندی ها و برچسب ها</string>
+    <string name="settings_edit_categories_hint">اختصاص دسته بندی ها به فعالیت ها و برچسب ها به تاریخچه ها</string>
+    <string name="settings_show_record_tag_selection">نمایش برچسب تاریخچه انتخابی</string>
+    <string name="settings_show_record_tag_selection_hint">هنگام شروع یک تایمر ، اگر فعالیت برچسبی داشت- منوی انتخابی ای نمایش داده می شود</string>
+    <string name="settings_show_record_tag_close_hint">بستن بعد از انتخاب یک برچسب</string>
+    <string name="settings_show_record_tag_general_hint">حتی با برچسب های عمومی هم نمایش بده</string>
+    <string name="settings_rate">به ما امتیاز دهید</string>
+    <string name="settings_rate_description">به ما امتیاز دهید و نظر خود را بگذارید</string>
+    <string name="settings_feedback">بازخورد</string>
+    <string name="settings_feedback_description">پیشنهادی دارید؟ ایرادی پیدا کردید؟میخواهید صحبت کنید؟ به ما پیام بدید</string>
+    <string name="settings_version">نسخه</string>
+    <string name="settings_email_chooser_title">ارسال با …</string>
+    <string name="settings_translators">مترجم ها</string>
+    <string name="settings_contributors">سایر مشارکت کنندگان</string>
+    <string name="settings_automated_tracking">اندازه گیری خودکار</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+اندازه گیری خودکاربوسیله یکپارچگی با برنامه های شخص ثالث  که به اقدامات خودکار بر اساس اتفاقات خاص اجازه می دهند میسر می شود. این برنامه ها، وقتی اتفاق مشخصی می افتد ، میتوانند پیغامی به برنامه بفرستند تا فعالیتی آغاز یا پایان یابد <br/>
+<br/>
+نمونه هایی از این اتفاقات:<br/>
+- باز کردن یک برنامه خاص.<br/>
+- اسکن کردن تگ NFC .<br/>
+- رفتن به موقعیت مکانی خاصی.<br/>
+- زمان های خاصی از روز.<br/>
+- اتصال به بلوتوث یا وایفای.<br/>
+<br/>
+برای فعال کردن این قابلیت این برنامه ها باید از ارسال این فرمان ها با این پارامتر ها پشتیبانی کنند \"intent\" یا \"broadcast intent\" :<br/>
+<br/>
+<b>عمل</b> - \"%s\" یا \"%s\".<br/>
+<b>اضافی</b> - \"%s\" با نام فعالیتی که باید شروع یا متوقف شود.<br/>
+<b>بسته</b> - \"%s\".<br/>
+<br/>
+پارامترهای اختیاری برای شروع فعالیت:<br/>
+<br/>
+<b>اضافی</b> - \"%s\" با نظر رکورد.<br/>
+<b>اضافی</b> - \"%s\" با نام یک برچسب رکورد.<br/>
+<br/>
+موارد اضافی:<br/>
+<br/>
+<b>عمل</b> - \"%s\".<br/>
+<b>عمل</b> - \"%s\".<br/>
+<b>عمل</b> - \"%s\".<br/>
+<b>عمل</b> - \"%s\".<br/>
+    ]]></string>
+    <string name="settings_automated_tracking_send_events">ارسال اتفاقات</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+اگر تنظیم <b>\"%s\"</b> فعال باشد، برنامه رویدادهای مربوط به فعالیت شروع شده یا متوقف شده را برای ردیابی خودکار با این پارامترها به برنامه های شخص ثالث ارسال می کند:<br/>
+<br/>
+<b>عمل</b> - \"%s\" یا \"%s\".<br/>
+<b>اضافی</b> - \"%s\".<br/>
+<b>اضافی</b> - \"%s\".<br/>
+<b>اضافی</b> - \"%s\".<br/>
+    ]]></string>
+
+    <string name="settings_save_backup">ذخیره نسخه پشتیبان</string>
+    <string name="settings_save_description">قبل از ذخیره کردن، از اینکه آخرین نسخه برنامه را نصب کرده اید مطمئن شوید تا از ناسازگاری جلوگیری شود.</string>
+    <string name="settings_automatic_backup">فعال کردن نسخه پشتیبان خودکار.</string>
+    <string name="settings_automatic_export">فعال کردن خروجی اکسل خودکار.</string>
+    <string name="settings_automatic_description">فایل در محل قبلی ذخیره خواهد شد و هر روز ساعت 12 بامداد فایل قبلی را بازنویسی خواهد کرد.</string>
+    <string name="settings_automatic_last_save">فایل ذخیره شده قبلی:</string>
+    <string name="settings_restore_backup">بازگردانی نسخه پشتیبان</string>
+    <string name="settings_restore_description">اطلاعات فعلی از دست خواهند رفت.</string>
+    <string name="settings_dialog_message">نسخه پشتیبان بازیابی شود؟</string>
+    <string name="settings_export_csv">خروجی اکسل</string>
+    <string name="settings_export_csv_description">گرفتن خروجی از تاریخچچه فعالیت ها با فرمت CSV تا بتوانید در برنامه دلخواه اطلاعات را مشاهده کنید.</string>
+    <string name="settings_import_csv">وارد کردن صفحه گسترده</string>
+    <string name="settings_import_csv_description">سوابق فعالیت را از یک فایل csv وارد کنید. داده های فعلی از بین نخواهند رفت.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+فایل csv باید حاوی این ستون ها باشد که با کاما از هم جدا شده اند:<br/>
+<br/>
+- نام فعالیت در نقل قول.<br/>
+- زمان شروع ضبط در قالب \"yyyy-MM-dd HH:mm:ss\"<br/>
+- زمان پایان رکورد در قالب \"yyyy-MM-dd HH:mm:ss\"<br/>
+- نظر در نقل قول.<br/>
+<br/>
+مثال:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"نظر، نظر\"
+    ]]></string>
+    <string name="settings_export_ics">خروجی ICS</string>
+    <string name="settings_export_warning">این فایل نمی تواند به عنوان نسخه پشتیبان استفاده شود.</string>
+    <string name="settings_file_open_error">خطا در بازکردن فایل</string>
+    <string name="settings_file_create_error">خطا در ساختن فایل</string>
+
+    <string name="message_backup_saved">نسخه پشتبان ذخیره شد</string>
+    <string name="message_backup_restored">نسخه پشتیبان بازیابی شد</string>
+    <string name="message_save_error">خطا در ذخیره نسخه پشتیبان</string>
+    <string name="message_restore_error">خطا در بازیابی نسخه پشتیبان</string>
+    <string name="message_app_not_found">برنامه پیدا نشد</string>
+    <string name="message_export_complete">خروجی کامل شد</string>
+    <string name="message_export_error">خطا در گرفتن خروجی</string>
+    <string name="message_import_complete">واردات انجام شد</string>
+    <string name="message_import_complete_hint">سوابق اضافه شده: %s</string>
+    <string name="message_import_error">خطای واردات</string>
+    <string name="message_automatic_backup_error">خطا در پشتیبانی خودکار.</string>
+    <string name="message_automatic_export_error">خطا در خروجی خودکار.</string>
+    <string name="message_automatic_error_hint">سعی کنید محل ذخیره دیگیری را انتخاب کنید.</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">هر ساعت</string>
+    <string name="statistics_detail_chart_daily">هر روز</string>
+    <string name="statistics_detail_chart_weekly">هر هفته</string>
+    <string name="statistics_detail_chart_monthly">هر ماه</string>
+    <string name="statistics_detail_chart_yearly">هر سال</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">د</string>
+    <string name="statistics_detail_legend_hour_suffix">س</string>
+
+    <string name="statistics_detail_range_averages_title">گردش متوسط: %s</string>
+    <string name="statistics_detail_range_averages">برای کل محدوده</string>
+    <string name="statistics_detail_range_averages_non_empty">بدون گردش خالی</string>
+
+    <string name="statistics_detail_total_duration">کل</string>
+    <string name="statistics_detail_record_length">طول تاریخچه</string>
+    <string name="statistics_detail_shortest_record">کوتاه ترین</string>
+    <string name="statistics_detail_average_record">متوسط</string>
+    <string name="statistics_detail_longest_record">طولانی ترین</string>
+    <string name="statistics_detail_record_time">طول تاریخچه</string>
+    <string name="statistics_detail_first_record">اولین</string>
+    <string name="statistics_detail_last_record">آخرین</string>
+    <string name="statistics_detail_streaks">ردیفی</string>
+    <string name="statistics_detail_streaks_longest">طولانی ترین</string>
+    <string name="statistics_detail_streaks_current">فعلی</string>
+    <string name="statistics_detail_streaks_latest">آخرین</string>
+    <string name="statistics_detail_activity_split_hint">پراکندگی فعالیت</string>
+    <string name="statistics_detail_tag_split_hint">پراکندگی برچسب</string>
+    <string name="statistics_detail_day_split_hint">پراکندگی روزانه</string>
+    <string name="statistics_detail_duration_split_hint">پراکندگی طول تاریخچه</string>
+    <string name="statistics_detail_next_activities_hint">برترین فعالیت های بعدی</string>
+    <string name="statistics_detail_multitasking_activities_hint">چند کاره برتر</string>
+
+    <plurals name="statistics_detail_times_tracked">
+<!--        <item quantity="zero">بدون تاریخچه</item>-->
+        <item quantity="one">تاریخچه</item>
+<!--        <item quantity="two">دو تاریخچه</item>-->
+<!--        <item quantity="few">تعداد کمی تاریخچه</item>-->
+<!--        <item quantity="many">تعداد زیادی تاریخچه</item>-->
+        <item quantity="other">تاریخچه</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">فعالیت تکی</string>
+    <string name="widget_universal_name">همه منظوره</string>
+    <string name="widget_statistics_chart_name">نمودار آماری</string>
+    <string name="widget_quick_settings_name">تنظیمات سریع</string>
+    <string name="widget_load_error">پیدا نشد</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">یادآور بی فعالیتی</string>
+    <string name="notification_inactivity_text">اندازه گیری زمانت رو فراموش نکن</string>
+    <string name="notification_activity_title">یادآور فعالیت</string>
+    <string name="notification_activity_text">آیا هنوز درحال انجام: %s ?</string>
+    <string name="notification_goal_time_description">به هدف خود رسیدید</string>
+    <string name="notification_time_started">شروع شده در %s</string>
+    <string name="notification_record_type_stop">توقف</string>
+
+    <!--  Archive  -->
+    <string name="something_was_archived_hint">برای حذف کامل - بایگانی را باز کنید</string>
+    <string name="archive_hint">کارت را لمس کنید تا جزئیات نمایش داده شود</string>
+    <string name="archive_dialog_delete">حذف</string>
+    <string name="archive_dialog_restore">بازیابی</string>
+    <string name="archive_empty">بایگانی خالی است</string>
+    <string name="archive_activity_restored">فعالیت بازیابی شد</string>
+    <string name="archive_tag_restored">برچسب بازیابی شد</string>
+    <string name="archive_activity_deleted">فعالیت حذف شد</string>
+    <string name="archive_tag_deleted">برچسب حذف شد</string>
+    <string name="archive_activity_deletion_message">تمام تاریخچه ها و برچسب های این فعالیت نیز حذف می شوند.</string>
+    <string name="archive_tag_deletion_message">تمام تاریخچه ها با این برچسب بدون برچسب می شوند.</string>
+    <string name="archive_deletion_alert">مطمئن هستید؟ بعد از انجام نمیتوانید به حالت قبلی بازگردید.</string>
+    <string name="archive_records_count">تاریخچه ها</string>
+    <string name="archive_record_tags_count">برچسب های تاریخچه</string>
+    <string name="archive_tagged_records_count">تاریخچه های برچسب دار</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">این تغییرات دائمی هستند. مطمئن شوید قبل از تغییر نسخه پشتیبان تهیه کرده اید</string>
+    <string name="data_edit_select_records">انتخاب تاریخچه ها</string>
+    <string name="data_edit_change_activity">تغییر فعالیت</string>
+    <string name="data_edit_change_activity_hint">برچسب های فعالیت فعلی حذف خواهند شد.</string>
+    <string name="data_edit_change_comment">تغییر نظر</string>
+    <string name="data_edit_change_add_tag">افزودن برچسب</string>
+    <string name="data_edit_change_remove_tag">حذف برچسب</string>
+    <string name="data_edit_button_change">تغییر</string>
+    <string name="data_edit_success_message">اطلاعات تغییر کردند</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">انتخاب برچسب ها</string>
+    <string name="records_filter_filter_tags">حذف برچسب ها</string>
+    <string name="records_filter_manually_filtered">فیلتر شده</string>
+    <string name="records_filter_no_comment">بدون نظر</string>
+    <string name="records_filter_any_comment">هر نظری</string>
+    <string name="records_filter_select">انتخاب</string>
+    <string name="records_filter_invert_selection">معکوس کردن موارد انتخابی</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">شکلک ها و احساسات</string>
+    <string name="emojiGroupPeople">مردم و بدن</string>
+    <string name="emojiGroupAnimals">حیوانات و طبیعت</string>
+    <string name="emojiGroupFood">غذا و نوشیدنی</string>
+    <string name="emojiGroupTravel">سفر و اماکن</string>
+    <string name="emojiGroupActivities">فعالیت ها</string>
+    <string name="emojiGroupObjects">اشیا</string>
+    <string name="emojiGroupSymbols">نماد ها</string>
+    <string name="emojiGroupFlags">پرچم ها</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">نقشه ها</string>
+    <string name="imageGroupPlaces">اماکن</string>
+    <string name="imageGroupSocial">اجتماعی</string>
+    <string name="imageGroupAction">اعمال</string>
+    <string name="imageGroupHardware">سخت افزار</string>
+    <string name="imageGroupAlert">هشدار</string>
+    <string name="imageGroupAv">صوتی تصویری</string>
+    <string name="imageGroupCommunication">ارتباط</string>
+    <string name="imageGroupContent">محتوا</string>
+    <string name="imageGroupDevice">دستگاه</string>
+    <string name="imageGroupEditor">ویرایش کننده</string>
+    <string name="imageGroupFile">فایل</string>
+    <string name="imageGroupImage">تصویر</string>
+    <string name="imageGroupNavigation">راه یابی</string>
+    <string name="imageGroupNotification">اعلان</string>
+    <string name="imageGroupToggle">تغییر وضع</string>
+
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">تاریخچه ها</string>
+    <string name="shortcut_navigation_statistics">آمار ها</string>
+    <string name="shortcut_navigation_settings">تنظیمات</string>
+
+</resources>

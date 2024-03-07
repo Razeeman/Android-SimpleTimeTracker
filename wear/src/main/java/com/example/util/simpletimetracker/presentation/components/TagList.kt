@@ -134,7 +134,7 @@ private fun Loading() {
 @Composable
 private fun NoTags() {
     TagList(
-        state = TagListState.Empty(R.string.no_tags),
+        state = TagListState.Empty(R.string.change_record_categories_empty),
     )
 }
 

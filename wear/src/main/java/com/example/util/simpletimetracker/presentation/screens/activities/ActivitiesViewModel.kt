@@ -61,7 +61,7 @@ class ActivitiesViewModel @Inject constructor(
     fun loadData() = viewModelScope.launch {
         val activities = wearDataRepo.loadActivities()
         val newState = if (activities.isEmpty()) {
-            ActivitiesListState.Empty(R.string.no_activities)
+            ActivitiesListState.Empty(R.string.record_types_empty)
         } else {
             ActivitiesListState.Content(
                 activities = activities,
