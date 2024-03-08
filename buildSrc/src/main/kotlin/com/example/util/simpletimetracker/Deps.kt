@@ -38,6 +38,8 @@ object Deps {
             "com.google.android.gms:play-services-wearable:${Versions.services}"
         const val gson =
             "com.google.code.gson:gson:${Versions.gson}"
+        const val desugaring =
+            "com.android.tools:desugar_jdk_libs:${Versions.desugaring}"
     }
 
     object Emoji {

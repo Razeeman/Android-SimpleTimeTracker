@@ -47,6 +47,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        isCoreLibraryDesugaringEnabled = true
     }
 
     buildFeatures {
@@ -66,6 +67,7 @@ dependencies {
     implementation(Deps.Google.services)
     implementation(Deps.Google.gson)
     implementation(Deps.Google.dagger)
+    coreLibraryDesugaring(Deps.Google.desugaring)
     implementation(Deps.Compose.activity)
     implementation(Deps.Compose.ui)
     implementation(Deps.Compose.uiToolingPreview)
