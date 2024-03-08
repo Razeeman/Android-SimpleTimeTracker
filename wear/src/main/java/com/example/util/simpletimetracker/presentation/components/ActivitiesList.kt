@@ -6,17 +6,18 @@
 package com.example.util.simpletimetracker.presentation.components
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.CircularProgressIndicator
+import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.ScalingLazyListScope
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
@@ -88,6 +89,10 @@ private fun RenderError(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        Icon(
+            painter = painterResource(R.drawable.connection_error),
+            contentDescription = null,
+        )
         Text(
             text = getString(stringResId = state.messageResId),
             modifier = Modifier.padding(8.dp),
@@ -125,9 +130,11 @@ private fun ScalingLazyListScope.renderContent(
 
         item(key = activity.id) {
             ActivityChip(
-                activity = activity,
+                name = activity.name,
+                icon = activity.icon,
+                color = activity.color,
                 startedAt = currentActivity?.startedAt,
-                tags = currentActivity?.tags.orEmpty(),
+                tags = currentActivity?.tags.orEmpty().map { it.name },
                 onClick = {
                     if (currentActivity != null) {
                         onStop(activity)

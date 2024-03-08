@@ -20,14 +20,14 @@ data class WearActivity(
     val name: String,
     val icon: String,
     val color: Long,
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class WearCurrentActivity(
     val id: Long,
     val startedAt: Long,
     val tags: List<WearTag>,
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class WearTag(
@@ -35,7 +35,7 @@ data class WearTag(
     val name: String,
     val isGeneral: Boolean,
     val color: Long,
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class WearSettings(
@@ -43,4 +43,4 @@ data class WearSettings(
     val showRecordTagSelection: Boolean,
     val recordTagSelectionCloseAfterOne: Boolean,
     val recordTagSelectionEvenForGeneralTags: Boolean,
-): Parcelable
+) : Parcelable

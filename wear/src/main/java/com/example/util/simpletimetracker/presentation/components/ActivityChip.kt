@@ -21,42 +21,36 @@ import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
+import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.presentation.remember.rememberDurationSince
-import com.example.util.simpletimetracker.wear_api.WearActivity
-import com.example.util.simpletimetracker.wear_api.WearTag
+import com.example.util.simpletimetracker.utils.getString
 import java.time.Duration
 import java.time.Instant
 
-private const val ISO_HOURS_MINUTES_PARTS_REGEX = "(\\d[HM])(?!$)"
-private const val DECIMAL_SEPARATOR_AND_FRACTIONAL_PART_REGEX = "\\.\\d+"
-private const val ISO_MISSING_MINUTES_REGEX = "(\\d+H) (\\d+S)"
-
 @Composable
 fun ActivityChip(
-    activity: WearActivity,
+    name: String,
+    icon: String,
+    color: Long,
     startedAt: Long? = null,
-    tags: List<WearTag> = emptyList(),
+    tags: List<String> = emptyList(),
     onClick: () -> Unit = {},
 ) {
-    val tagsList = if (tags.isNotEmpty()) {
-        tags.joinToString(", ") { it.name }
-    } else {
-        ""
-    }
+    val tagsList = tags.takeUnless { it.isEmpty() }
+        ?.joinToString(separator = ", ")
+        .orEmpty()
     val tagString = if (tagsList.isNotEmpty()) {
         " - $tagsList"
     } else {
         ""
     }
     Chip(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 10.dp),
+        modifier = Modifier.fillMaxWidth(),
         label = {
             Row(modifier = Modifier.height(IntrinsicSize.Min)) {
-                ActivityIcon(activityIcon = activity.icon)
+                ActivityIcon(activityIcon = icon)
                 Text(
-                    text = activity.name,
+                    text = name,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(start = 4.dp),
@@ -71,8 +65,7 @@ fun ActivityChip(
                     text = durationToLabel(startedDiff) + tagString,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    color = Color.White,
-                    fontSize = 10.sp,
+                    fontSize = 11.sp,
                     modifier = Modifier.padding(
                         start = if (tagString.isNotEmpty()) {
                             2.dp
@@ -84,48 +77,70 @@ fun ActivityChip(
             }
         },
         colors = ChipDefaults.chipColors(
-            backgroundColor = Color(activity.color),
+            backgroundColor = Color(color),
         ),
         onClick = onClick,
     )
 }
 
+// Copy from TimeMapper.formatInterval
+@Composable
 fun durationToLabel(duration: Duration): String {
-    return duration.toString()
-        .substring(2) // remove "PT" at the beginning of the string representation
-        .replace(ISO_HOURS_MINUTES_PARTS_REGEX.toRegex(), "$1 ")
-        .replace(DECIMAL_SEPARATOR_AND_FRACTIONAL_PART_REGEX.toRegex(), "")
-        .replace(ISO_MISSING_MINUTES_REGEX.toRegex(), "$1 0M $2").lowercase()
+    val hourString = getString(R.string.time_hour)
+    val minuteString = getString(R.string.time_minute)
+    val secondString = getString(R.string.time_second)
+
+    val hr = duration.toHours()
+    val min = duration.toMinutes() % 60
+    val sec = duration.seconds % 60
+
+    val willShowHours = hr != 0L
+    val willShowMinutes = willShowHours || min != 0L
+    val willShowSeconds = true
+
+    var res = ""
+    if (willShowHours) res += "$hr$hourString "
+    if (willShowMinutes) res += "$min$minuteString"
+    if (willShowMinutes && willShowSeconds) res += " "
+    if (willShowSeconds) res += "$sec$secondString"
+
+    return res
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleCooking() {
-    ActivityChip(WearActivity(123, "Cooking", "🎉", 0xFF123456))
+    ActivityChip("Cooking", "🎉", 0xFF123456)
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
+fun Sample() {
+    ActivityChip("Cooking", "🎉", 0xFF123456)
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleSleep() {
-    ActivityChip(WearActivity(456, "Sleeping", "🛏️", 0xFFABCDEF))
+    ActivityChip("Sleeping", "🛏️", 0xFFABCDEF)
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleText() {
-    ActivityChip(WearActivity(456, "Sleeping", "Zzzz", 0xFFABCDEF))
+    ActivityChip("Sleeping", "Zzzz", 0xFFABCDEF)
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleIcon() {
-    ActivityChip(WearActivity(456, "Sleeping", "ic_hotel_24px", 0xFFABCDEF))
+    ActivityChip("Sleeping", "ic_hotel_24px", 0xFFABCDEF)
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun InvalidIcon() {
-    ActivityChip(WearActivity(456, "Sleeping", "ic_gobbldeegoock_24px", 0xFFABCDEF))
+    ActivityChip("Sleeping", "ic_gobbldeegoock_24px", 0xFFABCDEF)
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
@@ -134,15 +149,15 @@ fun White() {
     // TODO handle the look of light colored chips
     // Note: A white color is only possible when using the RGB color picker.
     // The default color options in the phone app are mostly darker shades.
-    ActivityChip(WearActivity(456, "Sleeping", "🛏️", 0xFFFFFFFF))
+    ActivityChip("Sleeping", "🛏️", 0xFFFFFFFF)
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun CurrentlyRunning() {
     ActivityChip(
-        WearActivity(456, "Sleeping", "🛏️", 0xFFABCDEF),
-        startedAt = Instant.now().toEpochMilli() - 360000,
+        "Sleeping", "🛏️", 0xFFABCDEF,
+        startedAt = Instant.now().toEpochMilli() - 365000,
     )
 }
 
@@ -150,11 +165,8 @@ fun CurrentlyRunning() {
 @Composable
 fun CurrentlyRunningWithTags() {
     ActivityChip(
-        WearActivity(456, "Sleeping", "🛏️", 0xFFABCDEF),
-        startedAt = Instant.now().toEpochMilli() - 360000,
-        tags = listOf(
-            WearTag(id = 2, name = "Work", isGeneral = true, color = 0xFFFFAA22),
-            WearTag(id = 4, name = "Hotel", isGeneral = false, color = 0xFFABCDEF),
-        ),
+        "Sleeping", "🛏️", 0xFFABCDEF,
+        startedAt = Instant.now().toEpochMilli() - 365000,
+        tags = listOf("Work", "Hotel"),
     )
 }

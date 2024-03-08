@@ -41,8 +41,8 @@ fun ActivityIcon(
     } else {
         val textColor = LocalContentColor.current.toArgb()
         AndroidView(
-            factory = { context ->
-                val view = AppCompatTextView(context)
+            factory = { ctx ->
+                val view = AppCompatTextView(ctx)
                 view.gravity = Gravity.CENTER
                 view.setTextColor(textColor)
                 TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(

@@ -472,8 +472,7 @@ class TimeMapper @Inject constructor(
         val willShowSeconds = (!willShowHours && !willShowMinutes) || forceSeconds
 
         var res = ""
-        if (willShowHours) res += "$hr$hourString"
-        if (willShowHours && willShowMinutes) res += " "
+        if (willShowHours) res += "$hr$hourString "
         if (willShowMinutes) res += "$min$minuteString"
         if (willShowMinutes && willShowSeconds) res += " "
         if (willShowSeconds) res += "$sec$secondString"

@@ -7,7 +7,6 @@ package com.example.util.simpletimetracker.presentation.layout
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.runtime.Composable
@@ -45,8 +44,7 @@ fun ScrollingColumn(
         autoCentering = AutoCenteringParams(
             itemIndex = 1,
         ),
-        contentPadding = PaddingValues(10.dp),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.spacedBy(10.dp),
         state = scrollState,
         content = content,
     )

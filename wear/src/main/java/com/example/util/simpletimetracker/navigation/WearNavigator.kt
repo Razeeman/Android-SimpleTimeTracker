@@ -13,8 +13,8 @@ import com.example.util.simpletimetracker.presentation.screens.activities.Activi
 import com.example.util.simpletimetracker.presentation.screens.tagsSelection.TagsScreen
 
 object Route {
-    const val Activities = "activities"
-    const val Tags = "activities/{id}/tags"
+    const val ACTIVITIES = "activities"
+    const val TAGS = "activities/{id}/tags"
 }
 
 @Composable
@@ -22,17 +22,17 @@ fun WearNavigator() {
     val navigation = rememberSwipeDismissableNavController()
     SwipeDismissableNavHost(
         navController = navigation,
-        startDestination = Route.Activities,
+        startDestination = Route.ACTIVITIES,
     ) {
-        composable(Route.Activities) {
+        composable(Route.ACTIVITIES) {
             ActivitiesScreen(
                 onRequestTagSelection = {
-                    val route = Route.Tags.replace("{id}", it.toString())
+                    val route = Route.TAGS.replace("{id}", it.toString())
                     navigation.navigate(route)
                 },
             )
         }
-        composable(Route.Tags) {
+        composable(Route.TAGS) {
             val activityId = it.arguments
                 ?.getString("id")
                 ?.toLong()
@@ -41,7 +41,7 @@ fun WearNavigator() {
             TagsScreen(
                 activityId = activityId,
                 onComplete = {
-                    navigation.navigateToRoot(Route.Activities)
+                    navigation.navigateToRoot(Route.ACTIVITIES)
                 },
             )
         }

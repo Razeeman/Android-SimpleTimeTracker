@@ -5,32 +5,45 @@
  */
 package com.example.util.simpletimetracker.wear
 
+import com.example.util.simpletimetracker.data.WearDataRepo
+import com.example.util.simpletimetracker.domain.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.domain.StartActivityMediator
 import com.example.util.simpletimetracker.wear_api.WearActivity
-import com.example.util.simpletimetracker.wear_api.MockWearCommunicationAPI
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.example.util.simpletimetracker.wear_api.WearTag
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mockito
 
 // TODO use mockito
 class StartActivityMediatorTest {
-    private val api = MockWearCommunicationAPI()
-    private val startCallback = MockMediatorCallback()
-    private val requestTagCallback = MockMediatorCallback()
+    private val wearDataRepo: WearDataRepo = Mockito.mock()
+    private val currentActivitiesMediator: CurrentActivitiesMediator = Mockito.mock()
     private val mediator = StartActivityMediator(
-        api = api,
-        onRequestStartActivity = startCallback,
-        onRequestTagSelection = requestTagCallback,
+        wearDataRepo = wearDataRepo,
+        currentActivitiesMediator = currentActivitiesMediator,
     )
 
-    private val sampleActivity = WearActivity(id = 1, name = "Sleep", icon = "🛏️", color = 0xFF123456)
-    private val sampleGeneralTag =
-        WearTag(id = 13, name = "Sleep", isGeneral = true, color = 0xFF654321)
-    private val sampleNonGeneralTag =
-        WearTag(id = 14, name = "Work", isGeneral = false, color = 0xFF654321)
+    private val sampleActivity = WearActivity(
+        id = 1,
+        name = "Sleep",
+        icon = "🛏️",
+        color = 0xFF123456,
+    )
+    private val sampleGeneralTag = WearTag(
+        id = 13,
+        name = "Sleep",
+        isGeneral = true,
+        color = 0xFF654321,
+    )
+    private val sampleNonGeneralTag = WearTag(
+        id = 14,
+        name = "Work",
+        isGeneral = false,
+        color = 0xFF654321,
+    )
     private val settings = WearSettings(
         allowMultitasking = false,
         showRecordTagSelection = false,
@@ -42,87 +55,123 @@ class StartActivityMediatorTest {
 
     @Before
     fun setup() {
-        api.mockReset()
-        startCallback.reset()
-        requestTagCallback.reset()
+        Mockito.reset(wearDataRepo, currentActivitiesMediator)
     }
 
     @Test
     fun `tag selection disabled`() = runTest {
-        api.mock_querySettings(settings.copy(showRecordTagSelection = false))
-        mediator.requestStart(sampleActivity)
-        `assert only start callback invoked`()
+        // Given
+        Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
+            Result.success(settings.copy(showRecordTagSelection = false)),
+        )
+        var onRequestTagSelectionCalled = false
+
+        // When
+        mediator.requestStart(
+            activity = sampleActivity,
+            onRequestTagSelection = { onRequestTagSelectionCalled = true },
+        )
+
+        // Then
+        Mockito.verify(currentActivitiesMediator).start(sampleActivity.id)
+        assertEquals(false, onRequestTagSelectionCalled)
     }
 
     @Test
     fun `tag selection enabled and activity has no tags`() = runTest {
-        api.mock_querySettings(settings.copy(showRecordTagSelection = true))
-        api.mock_queryTagsForActivity(mapOf())
-        mediator.requestStart(sampleActivity)
-        `assert only start callback invoked`()
+        // Given
+        Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
+            Result.success(settings.copy(showRecordTagSelection = true)),
+        )
+        Mockito.`when`(wearDataRepo.loadTagsForActivity(Mockito.anyLong())).thenReturn(
+            Result.success(emptyList()),
+        )
+        var onRequestTagSelectionCalled = false
+
+        // When
+        mediator.requestStart(
+            activity = sampleActivity,
+            onRequestTagSelection = { onRequestTagSelectionCalled = true },
+        )
+
+        // Then
+        Mockito.verify(currentActivitiesMediator).start(sampleActivity.id)
+        assertEquals(false, onRequestTagSelectionCalled)
     }
 
     @Test
-    fun `tag selection enabled, but not for generals alone, and activity has only general tags`() =
-        runTest {
-            api.mock_querySettings(
+    fun `tag selection enabled, but not for generals alone, and activity has only general tags`() = runTest {
+        // Given
+        Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
+            Result.success(
                 settings.copy(
                     showRecordTagSelection = true,
                     recordTagSelectionEvenForGeneralTags = false,
                 ),
-            )
-            api.mock_queryTagsForActivity(mapOf(sampleActivity.id to listOf(sampleGeneralTag)))
-            mediator.requestStart(sampleActivity)
-            `assert only start callback invoked`()
-        }
+            ),
+        )
+        Mockito.`when`(wearDataRepo.loadTagsForActivity(Mockito.anyLong())).thenReturn(
+            Result.success(listOf(sampleGeneralTag)),
+        )
+        var onRequestTagSelectionCalled = false
 
-    private fun `assert only start callback invoked`() {
-        startCallback.assertCalledWith(sampleActivity)
-        startCallback.assertCallsMade(1)
-        requestTagCallback.assertCallsMade(0)
+        // When
+        mediator.requestStart(
+            activity = sampleActivity,
+            onRequestTagSelection = { onRequestTagSelectionCalled = true },
+        )
+
+        // Then
+        Mockito.verify(currentActivitiesMediator).start(sampleActivity.id)
+        assertEquals(false, onRequestTagSelectionCalled)
     }
 
     @Test
     fun `activity has non-general tags`() = runTest {
-        api.mock_querySettings(sampleSettings)
-        api.mock_queryTagsForActivity(mapOf(sampleActivity.id to listOf(sampleNonGeneralTag)))
-        mediator.requestStart(sampleActivity)
-        `assert only tag callback invoked`()
+        // Given
+        Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
+            Result.success(
+                settings.copy(
+                    showRecordTagSelection = true,
+                    recordTagSelectionEvenForGeneralTags = false,
+                ),
+            ),
+        )
+        Mockito.`when`(wearDataRepo.loadTagsForActivity(Mockito.anyLong())).thenReturn(
+            Result.success(listOf(sampleNonGeneralTag)),
+        )
+        var onRequestTagSelectionCalled = false
+
+        // When
+        mediator.requestStart(
+            activity = sampleActivity,
+            onRequestTagSelection = { onRequestTagSelectionCalled = true },
+        )
+
+        // Then
+        Mockito.verify(currentActivitiesMediator, Mockito.never()).start(sampleActivity.id)
+        assertEquals(true, onRequestTagSelectionCalled)
     }
 
     @Test
     fun `activity has only general tags and tag selection enabled for only generals`() = runTest {
-        api.mock_querySettings(sampleSettings.copy(recordTagSelectionEvenForGeneralTags = true))
-        api.mock_queryTagsForActivity(mapOf(sampleActivity.id to listOf(sampleGeneralTag)))
-        mediator.requestStart(sampleActivity)
-        `assert only tag callback invoked`()
-    }
+        // Given
+        Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
+            Result.success(settings.copy(recordTagSelectionEvenForGeneralTags = true)),
+        )
+        Mockito.`when`(wearDataRepo.loadTagsForActivity(Mockito.anyLong())).thenReturn(
+            Result.success(listOf(sampleGeneralTag)),
+        )
+        var onRequestTagSelectionCalled = false
 
-    private fun `assert only tag callback invoked`() {
-        requestTagCallback.assertCalledWith(sampleActivity)
-        requestTagCallback.assertCallsMade(1)
-        startCallback.assertCallsMade(0)
-    }
+        // When
+        mediator.requestStart(
+            activity = sampleActivity,
+            onRequestTagSelection = { onRequestTagSelectionCalled = true },
+        )
 
-    class MockMediatorCallback : (WearActivity) -> Unit {
-        private var calledWith: WearActivity? = null
-        private var callCount: Int = 0
-        override fun invoke(activity: WearActivity) {
-            calledWith = activity
-            callCount++
-        }
-
-        fun assertCalledWith(activity: WearActivity) {
-            assertEquals(activity, calledWith)
-        }
-
-        fun assertCallsMade(count: Int) {
-            assertEquals(count, callCount)
-        }
-
-        fun reset() {
-            calledWith = null
-            callCount = 0
-        }
+        // Then
+        Mockito.verify(currentActivitiesMediator).start(sampleActivity.id)
+        assertEquals(false, onRequestTagSelectionCalled)
     }
 }

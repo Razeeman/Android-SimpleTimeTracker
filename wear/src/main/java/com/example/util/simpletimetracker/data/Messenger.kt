@@ -29,7 +29,7 @@ interface Messenger {
 class ContextMessenger @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : Messenger {
-    private val TAG: String = ContextMessenger::class.java.name
+    private val tag: String = ContextMessenger::class.java.name
 
     override suspend fun send(
         capability: String,
@@ -40,26 +40,26 @@ class ContextMessenger @Inject constructor(
 
         // Send the message
         if (bestNode != null) {
-            Log.d(TAG, "Sending message to ${bestNode.displayName}")
-            Log.d(TAG, String(message))
+            Log.d(tag, "Sending message to ${bestNode.displayName}")
+            Log.d(tag, String(message))
             Wearable.getMessageClient(context)
                 .sendRequest(bestNode.id, capability, message)
                 .addOnSuccessListener {
-                    Log.d(TAG, "Response received for $capability")
-                    Log.d(TAG, String(it))
+                    Log.d(tag, "Response received for $capability")
+                    Log.d(tag, String(it))
                     deferred.complete(it)
                 }.addOnCanceledListener {
                     val logMessage = "Request $capability to ${bestNode.displayName} was cancelled"
-                    Log.d(TAG, logMessage)
+                    Log.d(tag, logMessage)
                     deferred.cancel(CancellationException(logMessage))
                 }.addOnFailureListener {
                     val logMessage = "No response received from mobile for $capability : ${String(message)}"
-                    Log.d(TAG, logMessage)
+                    Log.d(tag, logMessage)
                     deferred.cancel(CancellationException(logMessage))
                 }
         } else {
             val logMessage = "No nodes found with the capability $capability"
-            Log.d(TAG, logMessage)
+            Log.d(tag, logMessage)
             deferred.cancel(CancellationException(logMessage))
         }
 
@@ -68,11 +68,11 @@ class ContextMessenger @Inject constructor(
 
     private fun findNearestNode(capability: String): Node? {
         // Find all nodes which support the time tracking message
-        Log.d(TAG, "Searching for nodes with ${context.packageName} installed")
+        Log.d(tag, "Searching for nodes with ${context.packageName} installed")
         val nodeClient = Wearable.getNodeClient(context)
         val connectedNodes = Tasks.await(nodeClient.connectedNodes)
         connectedNodes.forEach {
-            Log.d(TAG, "Connected to ${it.displayName} (id: ${it.id}) (nearby: ${it.isNearby})")
+            Log.d(tag, "Connected to ${it.displayName} (id: ${it.id}) (nearby: ${it.isNearby})")
         }
 
         val capabilityInfo: CapabilityInfo = Tasks.await(
@@ -82,7 +82,7 @@ class ContextMessenger @Inject constructor(
 
         // Choose the best node (the closest one connected to the watch)
         val nodes = capabilityInfo.nodes
-        Log.d(TAG, nodes.toString())
+        Log.d(tag, nodes.toString())
         return nodes.firstOrNull { it.isNearby } ?: nodes.firstOrNull()
     }
 }

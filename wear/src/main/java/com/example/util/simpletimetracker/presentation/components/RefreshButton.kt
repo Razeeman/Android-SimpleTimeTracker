@@ -5,7 +5,7 @@
  */
 package com.example.util.simpletimetracker.presentation.components
 
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.runtime.Composable
@@ -35,13 +35,14 @@ fun RefreshButton(
         },
         content = {
             Icon(
+                // TODO replace with drawable resource, remove library.
                 imageVector = Icons.Rounded.Refresh,
                 contentDescription = null,
             )
         },
         modifier = Modifier
             .rotate(targetRotation)
-            .padding(all = 8.dp),
+            .size(44.dp),
     )
 }
 

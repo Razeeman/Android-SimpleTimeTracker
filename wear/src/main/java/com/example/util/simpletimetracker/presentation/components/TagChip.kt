@@ -6,13 +6,11 @@
 package com.example.util.simpletimetracker.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Checkbox
 import androidx.wear.compose.material.CheckboxDefaults
 import androidx.wear.compose.material.Chip
@@ -21,7 +19,6 @@ import androidx.wear.compose.material.SplitToggleChip
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.ToggleChipDefaults
 import androidx.wear.tooling.preview.devices.WearDevices
-import com.example.util.simpletimetracker.presentation.theme.wearColors
 import com.example.util.simpletimetracker.wear_api.WearTag
 
 enum class TagSelectionMode {
@@ -60,6 +57,7 @@ private fun SingleSelectTagChip(
     onClick: (WearTag) -> Unit,
 ) {
     Chip(
+        modifier = Modifier.fillMaxWidth(),
         onClick = {
             onClick(tag)
         },
@@ -70,10 +68,9 @@ private fun SingleSelectTagChip(
                 overflow = TextOverflow.Ellipsis,
             )
         },
-        colors = ChipDefaults.chipColors(backgroundColor = Color(tag.color)),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 10.dp),
+        colors = ChipDefaults.chipColors(
+            backgroundColor = Color(tag.color),
+        ),
     )
 }
 
@@ -117,9 +114,7 @@ private fun MultiSelectTagChip(
                 Color.Black.copy(alpha = .3F)
             },
         ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 10.dp),
+        modifier = Modifier.fillMaxWidth(),
     )
 }
 
