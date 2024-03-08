@@ -486,4 +486,7 @@
     <string name="shortcut_navigation_statistics">Статистика</string>
     <string name="shortcut_navigation_settings">Налаштування</string>
 
+    <!--  Wear  -->
+    <string name="wear_loading_error">Перевірте підключення та повторіть спробу</string>
+
 </resources>

@@ -486,4 +486,7 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <string name="shortcut_navigation_statistics">統計</string>
     <string name="shortcut_navigation_settings">設定</string>
 
+    <!--  Wear  -->
+    <string name="wear_loading_error">接続を確認して再試行してください</string>
+
 </resources>

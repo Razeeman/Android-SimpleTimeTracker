@@ -10,7 +10,6 @@ object WearRequests {
 
     // From wear to app.
     // Same strings are set in the android_wear_capabilities manifest
-    const val PING = "$PATH//GET/ping"
     const val QUERY_ACTIVITIES = "$PATH//GET/activities"
     const val QUERY_CURRENT_ACTIVITIES = "$PATH//GET/activities/current"
     const val SET_CURRENT_ACTIVITIES = "$PATH//PUT/activities/current"

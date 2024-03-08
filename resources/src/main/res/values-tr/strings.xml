@@ -486,4 +486,7 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="shortcut_navigation_statistics">İstatistikler</string>
     <string name="shortcut_navigation_settings">Ayarlar</string>
 
+    <!--  Wear  -->
+    <string name="wear_loading_error">Bağlantınızı kontrol edip tekrar deneyin</string>
+
 </resources>

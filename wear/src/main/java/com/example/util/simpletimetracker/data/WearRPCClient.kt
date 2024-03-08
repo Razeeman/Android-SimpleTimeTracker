@@ -29,20 +29,12 @@ class WearRPCClient @Inject constructor(
     private val gson = Gson()
     private var listener: MessageClient.OnMessageReceivedListener? = null
 
-    override suspend fun ping(message: String): String {
-        val response: String? = messenger
-            .send(WearRequests.PING, mapToBytes(message))
-            ?.let(::mapFromBytes)
-
-        return response ?: throw WearRPCException("No response")
-    }
-
     override suspend fun queryActivities(): List<WearActivity> {
         val response: List<WearActivity>? = messenger
             .send(WearRequests.QUERY_ACTIVITIES)
             ?.let(::mapFromBytes)
 
-        return response ?: throw WearRPCException("No response")
+        return response ?: throw WearRPCException
     }
 
     override suspend fun queryCurrentActivities(): List<WearCurrentActivity> {
@@ -50,7 +42,7 @@ class WearRPCClient @Inject constructor(
             .send(WearRequests.QUERY_CURRENT_ACTIVITIES)
             ?.let(::mapFromBytes)
 
-        return response ?: throw WearRPCException("No response")
+        return response ?: throw WearRPCException
     }
 
     override suspend fun setCurrentActivities(starting: List<WearCurrentActivity>) {
@@ -62,7 +54,7 @@ class WearRPCClient @Inject constructor(
             .send(WearRequests.QUERY_TAGS_FOR_ACTIVITY, mapToBytes(activityId))
             ?.let(::mapFromBytes)
 
-        return response ?: throw WearRPCException("No response")
+        return response ?: throw WearRPCException
     }
 
     override suspend fun querySettings(): WearSettings {
@@ -70,7 +62,7 @@ class WearRPCClient @Inject constructor(
             .send(WearRequests.QUERY_SETTINGS)
             ?.let(::mapFromBytes)
 
-        return response ?: throw WearRPCException("No response")
+        return response ?: throw WearRPCException
     }
 
     fun addListener(

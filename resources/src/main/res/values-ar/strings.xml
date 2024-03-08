@@ -486,4 +486,7 @@
     <string name="shortcut_navigation_statistics">اﻹحصائيات</string>
     <string name="shortcut_navigation_settings">اﻹعدادات</string>
 
+    <!--  Wear  -->
+    <string name="wear_loading_error">تحقق من اتصالك وحاول مرة أخرى</string>
+
 </resources>

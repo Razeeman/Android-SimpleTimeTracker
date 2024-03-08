@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.domain
 
 import com.example.util.simpletimetracker.data.WearDataRepo
+import com.example.util.simpletimetracker.data.WearRPCException
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 import com.example.util.simpletimetracker.wear_api.WearTag
 import javax.inject.Inject
@@ -12,25 +13,28 @@ class CurrentActivitiesMediator @Inject constructor(
     suspend fun start(
         activityId: Long,
         tags: List<WearTag> = emptyList(),
-    ) {
+    ): Result<Unit> {
         val newCurrent = WearCurrentActivity(
             id = activityId,
             startedAt = System.currentTimeMillis(),
             tags = tags,
         )
         val settings = wearDataRepo.loadSettings()
+            .getOrNull() ?: return Result.failure(WearRPCException)
 
-        if (settings.allowMultitasking) {
+        return if (settings.allowMultitasking) {
             val currents = wearDataRepo.loadCurrentActivities()
-            this.wearDataRepo.setCurrentActivities(currents.plus(newCurrent))
+                .getOrNull() ?: return Result.failure(WearRPCException)
+            wearDataRepo.setCurrentActivities(currents.plus(newCurrent))
         } else {
-            this.wearDataRepo.setCurrentActivities(listOf(newCurrent))
+            wearDataRepo.setCurrentActivities(listOf(newCurrent))
         }
     }
 
-    suspend fun stop(currentId: Long) {
+    suspend fun stop(currentId: Long): Result<Unit> {
         val currents = wearDataRepo.loadCurrentActivities()
+            .getOrNull() ?: return Result.failure(WearRPCException)
         val remaining = currents.filter { it.id != currentId }
-        wearDataRepo.setCurrentActivities(remaining)
+        return wearDataRepo.setCurrentActivities(remaining)
     }
 }

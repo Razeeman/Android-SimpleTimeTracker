@@ -31,6 +31,6 @@ fun ActivitiesScreen(
         state = state,
         onStart = viewModel::tryStartActivity,
         onStop = viewModel::stopActivity,
-        onRefresh = viewModel::loadData,
+        onRefresh = viewModel::onRefresh,
     )
 }

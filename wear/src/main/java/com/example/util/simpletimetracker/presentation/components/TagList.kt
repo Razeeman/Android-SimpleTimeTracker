@@ -6,11 +6,14 @@
 package com.example.util.simpletimetracker.presentation.components
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.CircularProgressIndicator
@@ -25,6 +28,10 @@ import com.example.util.simpletimetracker.wear_api.WearTag
 sealed interface TagListState {
 
     object Loading : TagListState
+
+    data class Error(
+        @StringRes val messageResId: Int,
+    ) : TagListState
 
     data class Empty(
         @StringRes val messageResId: Int,
@@ -59,39 +66,62 @@ fun TagList(
     state: TagListState,
     onButtonClick: (TagListState.Item.ButtonType) -> Unit = {},
     onToggleClick: (WearTag) -> Unit = {},
+    onRefresh: () -> Unit = {},
 ) {
     ScaffoldedScrollingColumn {
         when (state) {
-            is TagListState.Loading -> renderLoadingState()
-            is TagListState.Empty -> renderEmptyState(
-                state = state,
-            )
-            is TagListState.Content -> renderContentState(
-                state = state,
-                onButtonClick = onButtonClick,
-                onToggleClick = onToggleClick,
-            )
+            is TagListState.Loading -> item {
+                RenderLoadingState()
+            }
+            is TagListState.Error -> item {
+                RenderErrorState(state, onRefresh)
+            }
+            is TagListState.Empty -> item {
+                RenderEmptyState(state)
+            }
+            is TagListState.Content -> {
+                renderContentState(
+                    state = state,
+                    onButtonClick = onButtonClick,
+                    onToggleClick = onToggleClick,
+                )
+            }
         }
     }
 }
 
-private fun ScalingLazyListScope.renderLoadingState() {
-    item {
-        CircularProgressIndicator(
-            modifier = Modifier.width(64.dp),
+@Composable
+private fun RenderLoadingState() {
+    CircularProgressIndicator(
+        modifier = Modifier.width(64.dp),
+    )
+}
+
+@Composable
+private fun RenderErrorState(
+    state: TagListState.Error,
+    onRefresh: () -> Unit,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = getString(stringResId = state.messageResId),
+            modifier = Modifier.padding(8.dp),
+            textAlign = TextAlign.Center,
         )
+        RefreshButton(onRefresh)
     }
 }
 
-private fun ScalingLazyListScope.renderEmptyState(
+@Composable
+private fun RenderEmptyState(
     state: TagListState.Empty,
 ) {
-    item {
-        Text(
-            text = getString(state.messageResId),
-            modifier = Modifier.padding(8.dp),
-        )
-    }
+    Text(
+        text = getString(state.messageResId),
+        modifier = Modifier.padding(8.dp),
+    )
 }
 
 private fun ScalingLazyListScope.renderContentState(
@@ -127,6 +157,14 @@ private fun ScalingLazyListScope.renderContentState(
 private fun Loading() {
     TagList(
         state = TagListState.Loading,
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
+private fun Error() {
+    TagList(
+        state = TagListState.Error(R.string.wear_loading_error),
     )
 }
 

@@ -486,4 +486,7 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="shortcut_navigation_statistics">आंकड़े</string>
     <string name="shortcut_navigation_settings">सेटिंग</string>
 
+    <!--  Wear  -->
+    <string name="wear_loading_error">अपना कनेक्शन जांचें और पुनः प्रयास करें</string>
+
 </resources>

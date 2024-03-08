@@ -29,7 +29,6 @@ class WearRPCServer @Inject constructor(
     suspend fun onRequest(path: String, request: ByteArray): ByteArray? {
         return if (path.startsWith(WearRequests.PATH)) {
             when (path) {
-                WearRequests.PING -> onPing(request)
                 WearRequests.QUERY_ACTIVITIES -> onQueryActivities()
                 WearRequests.QUERY_CURRENT_ACTIVITIES -> onQueryCurrentActivities()
                 WearRequests.SET_CURRENT_ACTIVITIES -> onSetCurrentActivities(request)
@@ -70,10 +69,6 @@ class WearRPCServer @Inject constructor(
         val activities: List<WearCurrentActivity> = mapFromBytes(request) ?: return null
         api.setCurrentActivities(activities)
         return ByteArray(0)
-    }
-
-    private fun onPing(request: ByteArray): ByteArray {
-        return request
     }
 
     private suspend fun onQueryActivities(): ByteArray {

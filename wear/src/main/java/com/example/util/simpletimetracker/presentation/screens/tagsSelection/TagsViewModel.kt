@@ -7,6 +7,7 @@ package com.example.util.simpletimetracker.presentation.screens.tagsSelection
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.presentation.components.TagListState
 import com.example.util.simpletimetracker.domain.CurrentActivitiesMediator
@@ -80,23 +81,40 @@ class TagsViewModel @Inject constructor(
         }
     }
 
-    private fun loadData() {
-        viewModelScope.launch {
-            val activityId = this@TagsViewModel.activityId ?: return@launch
-            settings = wearDataRepo.loadSettings()
-            tags = wearDataRepo.loadTagsForActivity(activityId)
+    fun onRefresh() {
+        loadData()
+    }
 
+    private fun loadData() = viewModelScope.launch {
+        val activityId = this@TagsViewModel.activityId ?: return@launch
+
+        val settingsResult = wearDataRepo.loadSettings().getOrNull()
+        val tagsResult = wearDataRepo.loadTagsForActivity(activityId).getOrNull()
+
+        if (settingsResult != null && tagsResult != null) {
+            settings = settingsResult
+            tags = tagsResult
             state.value = mapState()
+        } else {
+            showError()
         }
     }
 
     private suspend fun startActivity() {
         val activityId = this@TagsViewModel.activityId ?: return
-        currentActivitiesMediator.start(
+        val result = currentActivitiesMediator.start(
             activityId = activityId,
             tags = selectedTags,
         )
-        effects.emit(Effect.OnComplete)
+        if (result.isFailure) {
+            showError()
+        } else {
+            effects.emit(Effect.OnComplete)
+        }
+    }
+
+    private fun showError() {
+        state.value = TagListState.Error(R.string.wear_loading_error)
     }
 
     private fun mapState(): TagListState {

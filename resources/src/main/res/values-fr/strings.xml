@@ -486,4 +486,7 @@ Exemple:<br/>
     <string name="shortcut_navigation_statistics">Statistiques</string>
     <string name="shortcut_navigation_settings">Réglages</string>
 
+    <!--  Wear  -->
+    <string name="wear_loading_error">Vérifiez votre connexion et réessayez</string>
+
 </resources>

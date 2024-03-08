@@ -43,32 +43,46 @@ class ActivitiesViewModel @Inject constructor(
     }
 
     fun stopActivity(wearActivity: WearActivity) = viewModelScope.launch {
-        currentActivitiesMediator.stop(wearActivity.id)
+        val result = currentActivitiesMediator.stop(wearActivity.id)
+        if (result.isFailure) showError()
     }
 
     fun tryStartActivity(wearActivity: WearActivity) = viewModelScope.launch {
-        startActivitiesMediator.requestStart(
+        val result = startActivitiesMediator.requestStart(
             activity = wearActivity,
-            onRequestStartActivity = {
-                currentActivitiesMediator.start(wearActivity.id)
-            },
             onRequestTagSelection = {
                 effects.emit(Effect.OnRequestTagSelection(wearActivity.id))
             },
         )
+        if (result.isFailure) showError()
     }
 
-    fun loadData() = viewModelScope.launch {
+    fun onRefresh() {
+        loadData()
+    }
+
+    private fun loadData() = viewModelScope.launch {
         val activities = wearDataRepo.loadActivities()
-        val newState = if (activities.isEmpty()) {
-            ActivitiesListState.Empty(R.string.record_types_empty)
-        } else {
-            ActivitiesListState.Content(
-                activities = activities,
-                currentActivities = wearDataRepo.loadCurrentActivities(),
-            )
+        val currentActivities = wearDataRepo.loadCurrentActivities()
+
+        when {
+            activities.isFailure || currentActivities.isFailure -> {
+                showError()
+            }
+            activities.getOrNull().isNullOrEmpty() -> {
+                state.value = ActivitiesListState.Empty(R.string.record_types_empty)
+            }
+            else -> {
+                state.value = ActivitiesListState.Content(
+                    activities = activities.getOrNull().orEmpty(),
+                    currentActivities = currentActivities.getOrNull().orEmpty(),
+                )
+            }
         }
-        state.value = newState
+    }
+
+    private fun showError() {
+        state.value = ActivitiesListState.Error(R.string.wear_loading_error)
     }
 
     private fun subscribeToDataUpdates() {

@@ -6,47 +6,58 @@
 package com.example.util.simpletimetracker.domain
 
 import com.example.util.simpletimetracker.data.WearDataRepo
+import com.example.util.simpletimetracker.data.WearRPCException
 import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import javax.inject.Inject
 
 class StartActivityMediator @Inject constructor(
     private val wearDataRepo: WearDataRepo,
+    private val currentActivitiesMediator: CurrentActivitiesMediator,
 ) {
 
     suspend fun requestStart(
         activity: WearActivity,
-        onRequestStartActivity: suspend () -> Unit,
         onRequestTagSelection: suspend () -> Unit,
-    ) {
+    ): Result<Unit> {
         val settings = wearDataRepo.loadSettings()
-        if (settings.showRecordTagSelection) {
+            .getOrNull() ?: return Result.failure(WearRPCException)
+
+        return if (settings.showRecordTagSelection) {
             requestTagSelectionIfNeeded(
                 activity = activity,
                 settings = settings,
-                onRequestStartActivity = onRequestStartActivity,
                 onRequestTagSelection = onRequestTagSelection,
             )
         } else {
-            onRequestStartActivity()
+            onRequestStartActivity(activity.id)
         }
     }
 
     private suspend fun requestTagSelectionIfNeeded(
         activity: WearActivity,
         settings: WearSettings,
-        onRequestStartActivity: suspend () -> Unit,
         onRequestTagSelection: suspend () -> Unit,
-    ) {
+    ): Result<Unit> {
         val tags = wearDataRepo.loadTagsForActivity(activity.id)
+            .getOrNull() ?: return Result.failure(WearRPCException)
+
         val generalTags = tags.filter { it.isGeneral }
         val nonGeneralTags = tags.filter { !it.isGeneral }
         val tagSelectionNeeded = nonGeneralTags.isNotEmpty() ||
             generalTags.isNotEmpty() && settings.recordTagSelectionEvenForGeneralTags
-        if (tagSelectionNeeded) {
+
+        return if (tagSelectionNeeded) {
             onRequestTagSelection()
+            Result.success(Unit)
         } else {
-            onRequestStartActivity()
+            onRequestStartActivity(activity.id)
         }
+    }
+
+    private suspend fun onRequestStartActivity(
+        activityId: Long,
+    ): Result<Unit> {
+        return currentActivitiesMediator.start(activityId)
     }
 }

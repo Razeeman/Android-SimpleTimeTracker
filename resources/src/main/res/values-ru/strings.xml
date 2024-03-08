@@ -486,4 +486,7 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="shortcut_navigation_statistics">Статистика</string>
     <string name="shortcut_navigation_settings">Настройки</string>
 
+    <!--  Wear  -->
+    <string name="wear_loading_error">Проверьте подключение и повторите попытку.</string>
+
 </resources>

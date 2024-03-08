@@ -6,10 +6,14 @@
 package com.example.util.simpletimetracker.presentation.components
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.CircularProgressIndicator
@@ -24,6 +28,10 @@ import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 
 sealed interface ActivitiesListState {
     object Loading : ActivitiesListState
+
+    data class Error(
+        @StringRes val messageResId: Int,
+    ) : ActivitiesListState
 
     data class Empty(
         @StringRes val messageResId: Int,
@@ -44,12 +52,14 @@ fun ActivitiesList(
 ) {
     ScaffoldedScrollingColumn {
         when (state) {
-            is ActivitiesListState.Loading -> {
-                renderLoading()
+            is ActivitiesListState.Loading -> item {
+                RenderLoading()
             }
-            is ActivitiesListState.Empty -> {
-                renderEmpty(state)
-                renderRefreshButton(onRefresh)
+            is ActivitiesListState.Error -> item {
+                RenderError(state, onRefresh)
+            }
+            is ActivitiesListState.Empty -> item {
+                RenderEmpty(state, onRefresh)
             }
             is ActivitiesListState.Content -> {
                 renderContent(
@@ -57,28 +67,50 @@ fun ActivitiesList(
                     onStart = onStart,
                     onStop = onStop,
                 )
-                renderRefreshButton(onRefresh)
+                item { RefreshButton(onRefresh) }
             }
         }
     }
 }
 
-private fun ScalingLazyListScope.renderLoading() {
-    item {
-        CircularProgressIndicator(
-            modifier = Modifier.width(64.dp),
+@Composable
+private fun RenderLoading() {
+    CircularProgressIndicator(
+        modifier = Modifier.width(64.dp),
+    )
+}
+
+@Composable
+private fun RenderError(
+    state: ActivitiesListState.Error,
+    onRefresh: () -> Unit,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = getString(stringResId = state.messageResId),
+            modifier = Modifier.padding(8.dp),
+            textAlign = TextAlign.Center,
         )
+        RefreshButton(onRefresh)
     }
 }
 
-private fun ScalingLazyListScope.renderEmpty(
+@Composable
+private fun RenderEmpty(
     state: ActivitiesListState.Empty,
+    onRefresh: () -> Unit,
 ) {
-    item {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         Text(
-            getString(state.messageResId),
+            text = getString(stringResId = state.messageResId),
             modifier = Modifier.padding(8.dp),
+            textAlign = TextAlign.Center,
         )
+        RefreshButton(onRefresh)
     }
 }
 
@@ -108,17 +140,19 @@ private fun ScalingLazyListScope.renderContent(
     }
 }
 
-private fun ScalingLazyListScope.renderRefreshButton(
-    onRefresh: () -> Unit,
-) {
-    item { RefreshButton(onClick = onRefresh) }
-}
-
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun Loading() {
     ActivitiesList(
         state = ActivitiesListState.Loading,
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
+private fun Error() {
+    ActivitiesList(
+        state = ActivitiesListState.Error(R.string.wear_loading_error),
     )
 }
 

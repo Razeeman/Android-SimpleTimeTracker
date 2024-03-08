@@ -5,5 +5,5 @@
  */
 package com.example.util.simpletimetracker.data
 
-// TODO catch exception and show error?
-class WearRPCException(message: String) : Exception(message)
+// TODO replace with returning null or Result
+object WearRPCException : Exception()

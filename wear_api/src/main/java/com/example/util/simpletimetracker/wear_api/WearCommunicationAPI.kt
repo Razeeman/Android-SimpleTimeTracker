@@ -7,17 +7,6 @@ package com.example.util.simpletimetracker.wear_api
 
 interface WearCommunicationAPI {
     /**
-     * [WearRequests.PING]
-     *
-     * Echos the message it receives
-     *
-     * Primarily used to test request/response functionality
-     */
-    suspend fun ping(message: String): String {
-        return message
-    }
-
-    /**
      * [WearRequests.QUERY_ACTIVITIES]
      *
      * Retrieves a list of all the time-tracking activities available for selection

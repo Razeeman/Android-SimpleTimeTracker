@@ -486,4 +486,7 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="shortcut_navigation_statistics">統計</string>
     <string name="shortcut_navigation_settings">設定</string>
 
+    <!--  Wear  -->
+    <string name="wear_loading_error">檢查您的連線並重試</string>
+
 </resources>

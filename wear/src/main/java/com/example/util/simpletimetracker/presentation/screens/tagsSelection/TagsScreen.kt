@@ -31,6 +31,7 @@ fun TagsScreen(
     TagList(
         state = state,
         onButtonClick = viewModel::onButtonClick,
-        onToggleClick = viewModel::onToggleClick
+        onToggleClick = viewModel::onToggleClick,
+        onRefresh = viewModel::onRefresh,
     )
 }

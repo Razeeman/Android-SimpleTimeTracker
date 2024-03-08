@@ -486,4 +486,7 @@
     <string name="shortcut_navigation_statistics">آمار ها</string>
     <string name="shortcut_navigation_settings">تنظیمات</string>
 
+    <!--  Wear  -->
+    <string name="wear_loading_error">اتصال خود را بررسی کنید و دوباره امتحان کنید</string>
+
 </resources>

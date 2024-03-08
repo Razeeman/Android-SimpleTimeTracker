@@ -31,23 +31,23 @@ class WearDataRepo @Inject constructor(
         wearRPCClient.removeListener()
     }
 
-    suspend fun loadActivities(): List<WearActivity> {
-        return wearRPCClient.queryActivities()
+    suspend fun loadActivities(): Result<List<WearActivity>> {
+        return runCatching { wearRPCClient.queryActivities() }
     }
 
-    suspend fun loadCurrentActivities(): List<WearCurrentActivity> {
-        return wearRPCClient.queryCurrentActivities()
+    suspend fun loadCurrentActivities(): Result<List<WearCurrentActivity>> {
+        return runCatching { wearRPCClient.queryCurrentActivities() }
     }
 
-    suspend fun setCurrentActivities(starting: List<WearCurrentActivity>) {
-        wearRPCClient.setCurrentActivities(starting)
+    suspend fun setCurrentActivities(starting: List<WearCurrentActivity>): Result<Unit> {
+        return runCatching { wearRPCClient.setCurrentActivities(starting) }
     }
 
-    suspend fun loadTagsForActivity(activityId: Long): List<WearTag> {
-        return wearRPCClient.queryTagsForActivity(activityId)
+    suspend fun loadTagsForActivity(activityId: Long): Result<List<WearTag>> {
+        return runCatching { wearRPCClient.queryTagsForActivity(activityId) }
     }
 
-    suspend fun loadSettings(): WearSettings {
-        return wearRPCClient.querySettings()
+    suspend fun loadSettings(): Result<WearSettings> {
+        return runCatching { wearRPCClient.querySettings() }
     }
 }
