@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.util.simpletimetracker.presentation.components.ActivitiesList
 import com.example.util.simpletimetracker.presentation.screens.activities.ActivitiesViewModel.Effect
+import com.example.util.simpletimetracker.utils.OnLifecycle
 import com.example.util.simpletimetracker.utils.collectEffects
 
 @Composable
@@ -26,6 +27,8 @@ fun ActivitiesScreen(
             is Effect.OnRequestTagSelection -> onRequestTagSelection(it.activityId)
         }
     }
+
+    OnLifecycle(onStart = viewModel::onRefresh)
 
     ActivitiesList(
         state = state,

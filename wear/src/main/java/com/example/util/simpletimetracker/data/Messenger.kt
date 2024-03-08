@@ -7,9 +7,11 @@ package com.example.util.simpletimetracker.data
 
 import android.content.Context
 import android.util.Log
+import com.example.util.simpletimetracker.wear_api.WearRequests
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.CapabilityClient
 import com.google.android.gms.wearable.CapabilityInfo
+import com.google.android.gms.wearable.MessageClient
 import com.google.android.gms.wearable.Node
 import com.google.android.gms.wearable.Wearable
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -18,22 +20,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
+import javax.inject.Singleton
 
-interface Messenger {
+@Singleton
+class WearMessenger @Inject constructor(
+    @ApplicationContext private val context: Context,
+) {
+
+    private val tag: String = WearMessenger::class.java.name
+    private var listener: MessageClient.OnMessageReceivedListener? = null
+
     suspend fun send(
         capability: String,
         message: ByteArray = ByteArray(0),
-    ): ByteArray?
-}
-
-class ContextMessenger @Inject constructor(
-    @ApplicationContext private val context: Context,
-) : Messenger {
-    private val tag: String = ContextMessenger::class.java.name
-
-    override suspend fun send(
-        capability: String,
-        message: ByteArray,
     ): ByteArray? = withContext(Dispatchers.IO) {
         val deferred = CompletableDeferred<ByteArray?>()
         val bestNode = findNearestNode(capability)
@@ -64,6 +63,27 @@ class ContextMessenger @Inject constructor(
         }
 
         deferred.await()
+    }
+
+    fun addListener(
+        onDataChanged: () -> Unit,
+    ) {
+        listener = MessageClient.OnMessageReceivedListener {
+            Log.d(tag, "Message received")
+            Log.d(tag, "Message path ${it.path}")
+            if (it.path == WearRequests.DATA_UPDATED) {
+                onDataChanged()
+            }
+        }
+        listener?.let {
+            Wearable.getMessageClient(context).addListener(it)
+        }
+    }
+
+    fun removeListener() {
+        listener?.let {
+            Wearable.getMessageClient(context).removeListener(it)
+        }
     }
 
     private fun findNearestNode(capability: String): Node? {

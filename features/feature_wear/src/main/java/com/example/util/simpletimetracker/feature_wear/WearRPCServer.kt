@@ -45,18 +45,24 @@ class WearRPCServer @Inject constructor(
     }
 
     suspend fun updateData() = withContext(Dispatchers.IO) {
-        // TODO handle errors?
-        val nodesListTask = Wearable
-            .getNodeClient(context)
-            .connectedNodes
-        val nodesList = Tasks.await(nodesListTask)
+        runCatching {
+            Timber.d("Searching for nodes with ${context.packageName} installed")
+            val nodesList = Wearable.getNodeClient(context)
+                .connectedNodes
+                .let { Tasks.await(it) }
 
-        nodesList.forEach { node ->
-            Wearable.getMessageClient(context).sendMessage(
-                node.id,
-                WearRequests.DATA_UPDATED,
-                null,
-            )
+            nodesList.forEach {
+                Timber.d("Connected to ${it.displayName} (id: ${it.id}) (nearby: ${it.isNearby})")
+            }
+
+            nodesList.forEach { node ->
+                Timber.d("Sending message to ${node.displayName}")
+                Wearable.getMessageClient(context).sendMessage(
+                    node.id,
+                    WearRequests.DATA_UPDATED,
+                    null,
+                )
+            }
         }
     }
 
