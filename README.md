@@ -67,8 +67,9 @@ Simple app that helps track how much time you spend on all the useless activitie
 [![darkmode3_thumb]][darkmode3]
 <br>
 
-## WearOS
+## Wear OS
 
+[![wear1_thumb]][wear1]
 [![wearos_demo]][wearos_demo]
 <br>
 
@@ -78,10 +79,11 @@ Simple app that helps track how much time you spend on all the useless activitie
 - Single Activity
 - MVVM (Jetpack ViewModel + LiveData)
 - Jetpack Navigation
-- Jetpack Compose (WearOS)
+- Jetpack Compose
 - Hilt
 - Room, migrations
 - Coroutines
+- Wear OS
 - Widgets
 - Notifications
 - Custom Views (Pie Chart, Bar Chart, Color Selection, Calendar)
@@ -95,6 +97,10 @@ Simple app that helps track how much time you spend on all the useless activitie
 - CI with github actions
 - Emojis with EmojiCompat
 
+## Build flavors
+- base - F-Droid version, no google play services, no Wear OS support.
+- play - Google Play version, with google play services, Wear OS support.
+
 ## Directory structure
     .
     ├── .github                               # CI files.
@@ -105,8 +111,8 @@ Simple app that helps track how much time you spend on all the useless activitie
     ├── domain                                # Business logic.
     ├── navigation                            # Navigation interfaces and screen params.
     ├── resources                             # Common resources between phone and watch apps.
-    ├── wear                                  # WearOS app.
-    ├── wear_api                              # Mobile - WearOS communication contracts.
+    ├── wear                                  # Wear OS app.
+    ├── wear_api                              # Mobile - Wear OS communication contracts.
     ├── features
     │   ├── feature_archive                   # Screen for archived data.
     │   ├── feature_base_adapter              # Shared recycler adapters.
@@ -138,7 +144,8 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 **Android App**
 
-Copyright (C) 2020-2024 Anton Razinkov devrazeeman@gmail.com
+Copyright (C) 2020-2024
+Anton Razinkov devrazeeman@gmail.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -153,10 +160,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-**WearOS App**
+**Wear OS App**
 
-Copyright (C) 2023-2024 Joseph Hale https://jhale.dev,
-[@kantahrek](https://github.com/kantahrek), Anton Razinkov devrazeeman@gmail.com
+Copyright (C) 2023-2024
+Joseph Hale https://jhale.dev, [@kantahrek](https://github.com/kantahrek), Anton Razinkov devrazeeman@gmail.com
 
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -207,4 +214,6 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
 [darkmode3_thumb]: dev_files/screens/darkmode3_thumb.png
 [darkmode3]: dev_files/screens/darkmode3.png
 
+[wear1_thumb]: dev_files/screens/wear1_thumb.png
+[wear1]: dev_files/screens/wear1.png
 [wearos_demo]: dev_files/wearos_demo.gif
