@@ -57,6 +57,10 @@ class WearRPCClient @Inject constructor(
         return response ?: throw WearRPCException
     }
 
+    override suspend fun openPhoneApp() {
+        messenger.send(WearRequests.OPEN_PHONE_APP)
+    }
+
     fun addListener(
         onDataChanged: () -> Unit,
     ) {

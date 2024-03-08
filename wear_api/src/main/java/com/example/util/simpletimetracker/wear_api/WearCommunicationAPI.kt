@@ -40,4 +40,11 @@ interface WearCommunicationAPI {
      * Retrieves the settings relevant to time tracking behavior
      */
     suspend fun querySettings(): WearSettings
+
+    /**
+     * [WearRequests.OPEN_PHONE_APP]
+     *
+     * Starts application on the phone.
+     */
+    suspend fun openPhoneApp()
 }

@@ -5,11 +5,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
     tools:keep="@array/android_wear_capabilities">
     <string-array name="android_wear_capabilities">
-        <item>/stt//GET/ping</item>
-        <item>/stt//GET/activities</item>
-        <item>/stt//GET/activities/current</item>
-        <item>/stt//PUT/activities/current</item>
-        <item>/stt//GET/activities/:ID/tags</item>
-        <item>/stt//GET/settings</item>
+        <item>/stt/QUERY_ACTIVITIES</item>
+        <item>/stt/QUERY_CURRENT_ACTIVITIES</item>
+        <item>/stt/SET_CURRENT_ACTIVITIES</item>
+        <item>/stt/QUERY_TAGS_FOR_ACTIVITY</item>
+        <item>/stt/QUERY_SETTINGS</item>
+        <item>/stt/OPEN_PHONE_APP</item>
     </string-array>
 </resources>

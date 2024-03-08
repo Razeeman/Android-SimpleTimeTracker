@@ -48,6 +48,7 @@ fun ActivitiesList(
     onStart: (activityId: Long) -> Unit = {},
     onStop: (activityId: Long) -> Unit = {},
     onRefresh: () -> Unit = {},
+    onOpenOnPhone: () -> Unit = {},
 ) {
     ScaffoldedScrollingColumn {
         when (state) {
@@ -58,7 +59,7 @@ fun ActivitiesList(
                 RenderError(state, onRefresh)
             }
             is ActivitiesListState.Empty -> item {
-                RenderEmpty(state, onRefresh)
+                RenderEmpty(state, onOpenOnPhone)
             }
             is ActivitiesListState.Content -> {
                 renderContent(
@@ -103,7 +104,7 @@ private fun RenderError(
 @Composable
 private fun RenderEmpty(
     state: ActivitiesListState.Empty,
-    onRefresh: () -> Unit,
+    onOpenOnPhone: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -113,7 +114,7 @@ private fun RenderEmpty(
             modifier = Modifier.padding(8.dp),
             textAlign = TextAlign.Center,
         )
-        RefreshButton(onRefresh)
+        OpenOnPhoneButton(onOpenOnPhone)
     }
 }
 

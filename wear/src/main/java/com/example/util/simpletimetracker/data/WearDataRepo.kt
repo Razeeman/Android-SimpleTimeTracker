@@ -55,4 +55,8 @@ class WearDataRepo @Inject constructor(
     suspend fun loadSettings(): Result<WearSettings> {
         return runCatching { wearRPCClient.querySettings() }
     }
+
+    suspend fun openAppPhone(): Result<Unit> {
+        return runCatching { wearRPCClient.openPhoneApp() }
+    }
 }

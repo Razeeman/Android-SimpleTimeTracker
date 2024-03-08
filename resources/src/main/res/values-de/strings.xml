@@ -488,5 +488,6 @@ Beispiel:<br/>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut</string>
+    <string name="wear_open_on_phone">Am Telefon geöffnet</string>
 
 </resources>

@@ -35,5 +35,6 @@ fun ActivitiesScreen(
         onStart = viewModel::tryStartActivity,
         onStop = viewModel::stopActivity,
         onRefresh = viewModel::onRefresh,
+        onOpenOnPhone = viewModel::onOpenOnPhone,
     )
 }

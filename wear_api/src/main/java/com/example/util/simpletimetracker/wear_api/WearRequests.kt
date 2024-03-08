@@ -10,12 +10,13 @@ object WearRequests {
 
     // From wear to app.
     // Same strings are set in the android_wear_capabilities manifest
-    const val QUERY_ACTIVITIES = "$PATH//GET/activities"
-    const val QUERY_CURRENT_ACTIVITIES = "$PATH//GET/activities/current"
-    const val SET_CURRENT_ACTIVITIES = "$PATH//PUT/activities/current"
-    const val QUERY_TAGS_FOR_ACTIVITY = "$PATH//GET/activities/:ID/tags"
-    const val QUERY_SETTINGS = "$PATH//GET/settings"
+    const val QUERY_ACTIVITIES = "$PATH/QUERY_ACTIVITIES"
+    const val QUERY_CURRENT_ACTIVITIES = "$PATH/QUERY_CURRENT_ACTIVITIES"
+    const val SET_CURRENT_ACTIVITIES = "$PATH/SET_CURRENT_ACTIVITIES"
+    const val QUERY_TAGS_FOR_ACTIVITY = "$PATH/QUERY_TAGS_FOR_ACTIVITY"
+    const val QUERY_SETTINGS = "$PATH/QUERY_SETTINGS"
+    const val OPEN_PHONE_APP = "$PATH/OPEN_PHONE_APP"
 
     // From app to wear.
-    const val DATA_UPDATED = "$PATH//data/updated"
+    const val DATA_UPDATED = "$PATH/DATA_UPDATED"
 }

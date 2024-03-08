@@ -488,5 +488,6 @@ csv फ़ाइल में कॉमा से अलग किए गए य
 
     <!--  Wear  -->
     <string name="wear_loading_error">अपना कनेक्शन जांचें और पुनः प्रयास करें</string>
+    <string name="wear_open_on_phone">फ़ोन पर खोलें</string>
 
 </resources>

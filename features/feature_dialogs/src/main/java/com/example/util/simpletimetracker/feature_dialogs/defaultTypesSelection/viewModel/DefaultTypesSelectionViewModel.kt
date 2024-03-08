@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.WearInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -30,6 +31,7 @@ class DefaultTypesSelectionViewModel @Inject constructor(
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val getDefaultRecordTypesInteractor: GetDefaultRecordTypesInteractor,
     private val resourceRepo: ResourceRepo,
+    private val wearInteractor: WearInteractor,
 ) : ViewModel() {
 
     val types: LiveData<List<ViewHolderType>> by lazy {
@@ -75,6 +77,7 @@ class DefaultTypesSelectionViewModel @Inject constructor(
                 recordTypeInteractor.add(it.copy(id = 0))
             }
             prefsInteractor.setCardOrder(CardOrder.COLOR)
+            wearInteractor.update()
             close.set(Unit)
         }
     }

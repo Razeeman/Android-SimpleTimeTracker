@@ -60,6 +60,10 @@ class ActivitiesViewModel @Inject constructor(
         loadData()
     }
 
+    fun onOpenOnPhone() = viewModelScope.launch {
+        wearDataRepo.openAppPhone()
+    }
+
     private fun loadData() = viewModelScope.launch {
         val activities = wearDataRepo.loadActivities()
         val currentActivities = wearDataRepo.loadCurrentActivities()

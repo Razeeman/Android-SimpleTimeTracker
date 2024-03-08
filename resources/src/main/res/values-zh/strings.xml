@@ -488,5 +488,6 @@ csv 文件必须包含以逗号分隔的这些列：<br/>
 
     <!--  Wear  -->
     <string name="wear_loading_error">检查您的连接并重试</string>
+    <string name="wear_open_on_phone">在手机上打开</string>
 
 </resources>

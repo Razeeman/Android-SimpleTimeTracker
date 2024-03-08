@@ -42,7 +42,7 @@ fun ScrollingColumn(
             state = scrollState,
         ),
         autoCentering = AutoCenteringParams(
-            itemIndex = 1,
+            itemIndex = 0,
         ),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         state = scrollState,

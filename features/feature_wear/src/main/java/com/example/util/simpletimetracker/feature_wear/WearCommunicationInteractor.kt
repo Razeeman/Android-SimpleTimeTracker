@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RunningRecord
+import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
@@ -32,6 +33,7 @@ class WearCommunicationInteractor @Inject constructor(
     private val removeRunningRecordMediator: Lazy<RemoveRunningRecordMediator>,
     private val addRunningRecordMediator: Lazy<AddRunningRecordMediator>,
     private val appColorMapper: AppColorMapper,
+    private val router: Router,
 ) : WearCommunicationAPI {
 
     override suspend fun queryActivities(): List<WearActivity> {
@@ -88,6 +90,19 @@ class WearCommunicationInteractor @Inject constructor(
             .sortedBy { it.isGeneral }
     }
 
+    override suspend fun querySettings(): WearSettings {
+        return WearSettings(
+            allowMultitasking = prefsInteractor.getAllowMultitasking(),
+            showRecordTagSelection = prefsInteractor.getShowRecordTagSelection(),
+            recordTagSelectionCloseAfterOne = prefsInteractor.getRecordTagSelectionCloseAfterOne(),
+            recordTagSelectionEvenForGeneralTags = prefsInteractor.getRecordTagSelectionEvenForGeneralTags(),
+        )
+    }
+
+    override suspend fun openPhoneApp() {
+        router.startApp()
+    }
+
     private fun mapTag(
         recordTag: RecordTag,
         activityColor: Long? = null,
@@ -109,14 +124,5 @@ class WearCommunicationInteractor @Inject constructor(
 
     private fun mapColor(appColor: AppColor): Long {
         return appColorMapper.mapToColorInt(appColor).toLong()
-    }
-
-    override suspend fun querySettings(): WearSettings {
-        return WearSettings(
-            allowMultitasking = prefsInteractor.getAllowMultitasking(),
-            showRecordTagSelection = prefsInteractor.getShowRecordTagSelection(),
-            recordTagSelectionCloseAfterOne = prefsInteractor.getRecordTagSelectionCloseAfterOne(),
-            recordTagSelectionEvenForGeneralTags = prefsInteractor.getRecordTagSelectionEvenForGeneralTags(),
-        )
     }
 }

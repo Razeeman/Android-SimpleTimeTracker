@@ -488,5 +488,6 @@ CSV-файл должен содержать следующие столбцы, 
 
     <!--  Wear  -->
     <string name="wear_loading_error">Проверьте подключение и повторите попытку.</string>
+    <string name="wear_open_on_phone">Открыть на телефоне</string>
 
 </resources>

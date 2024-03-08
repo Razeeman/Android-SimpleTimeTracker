@@ -65,11 +65,14 @@ class RouterImpl @Inject constructor(
         activity?.startActivity(getMainStartIntent())
     }
 
-    override fun getMainStartIntent(): Intent {
-        return Intent(context, MainActivity::class.java)
+    override fun startApp() {
+        val intent = getMainStartIntent().apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        context.startActivity(intent)
     }
 
-    override fun getActivitySelectionIntent(): Intent {
-        return Intent(context, WidgetUniversalActivity::class.java)
+    override fun getMainStartIntent(): Intent {
+        return Intent(context, MainActivity::class.java)
     }
 }

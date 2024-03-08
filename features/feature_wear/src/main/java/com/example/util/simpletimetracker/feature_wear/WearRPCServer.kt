@@ -34,6 +34,7 @@ class WearRPCServer @Inject constructor(
                 WearRequests.SET_CURRENT_ACTIVITIES -> onSetCurrentActivities(request)
                 WearRequests.QUERY_TAGS_FOR_ACTIVITY -> onQueryTagsForActivity(request)
                 WearRequests.QUERY_SETTINGS -> onQuerySettings()
+                WearRequests.OPEN_PHONE_APP -> onOpenPhoneApp()
                 else -> {
                     Timber.d("$path is an invalid RPC call")
                     null
@@ -87,6 +88,11 @@ class WearRPCServer @Inject constructor(
 
     private suspend fun onQuerySettings(): ByteArray {
         return mapToBytes(api.querySettings())
+    }
+
+    private suspend fun onOpenPhoneApp(): ByteArray? {
+        api.openPhoneApp()
+        return null
     }
 
     private fun <T> mapToBytes(data: T): ByteArray {

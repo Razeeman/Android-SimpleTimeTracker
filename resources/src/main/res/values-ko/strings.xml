@@ -488,5 +488,6 @@ csv 파일은 다음과 같은 열(column)들을 가져야합니다:<br/>
 
     <!--  Wear  -->
     <string name="wear_loading_error">연결을 확인하고 다시 시도하세요.</string>
+    <string name="wear_open_on_phone">휴대전화에서 열기</string>
 
 </resources>
