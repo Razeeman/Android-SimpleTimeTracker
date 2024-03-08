@@ -73,7 +73,6 @@ class WearCommunicationInteractor @Inject constructor(
         started.forEach { record ->
             addRunningRecordMediator.get().add(
                 typeId = record.id,
-                timeStarted = record.startedAt,
                 tagIds = record.tags.map(WearTag::id),
             )
         }
