@@ -7,7 +7,6 @@ package com.example.util.simpletimetracker.presentation.screens.tagsSelection
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.presentation.components.TagListState
 import com.example.util.simpletimetracker.domain.CurrentActivitiesMediator
@@ -114,7 +113,7 @@ class TagsViewModel @Inject constructor(
     }
 
     private fun showError() {
-        state.value = TagListState.Error(R.string.wear_loading_error)
+        state.value = tagsViewDataMapper.mapErrorState()
     }
 
     private fun mapState(): TagListState {

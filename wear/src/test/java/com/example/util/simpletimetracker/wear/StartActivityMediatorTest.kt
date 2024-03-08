@@ -17,7 +17,6 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
 
-// TODO use mockito
 class StartActivityMediatorTest {
     private val wearDataRepo: WearDataRepo = Mockito.mock()
     private val currentActivitiesMediator: CurrentActivitiesMediator = Mockito.mock()
@@ -51,8 +50,6 @@ class StartActivityMediatorTest {
         recordTagSelectionEvenForGeneralTags = false,
     )
 
-    private val sampleSettings = settings.copy(showRecordTagSelection = true)
-
     @Before
     fun setup() {
         Mockito.reset(wearDataRepo, currentActivitiesMediator)
@@ -68,7 +65,7 @@ class StartActivityMediatorTest {
 
         // When
         mediator.requestStart(
-            activity = sampleActivity,
+            activityId = sampleActivity.id,
             onRequestTagSelection = { onRequestTagSelectionCalled = true },
         )
 
@@ -90,7 +87,7 @@ class StartActivityMediatorTest {
 
         // When
         mediator.requestStart(
-            activity = sampleActivity,
+            activityId = sampleActivity.id,
             onRequestTagSelection = { onRequestTagSelectionCalled = true },
         )
 
@@ -117,7 +114,7 @@ class StartActivityMediatorTest {
 
         // When
         mediator.requestStart(
-            activity = sampleActivity,
+            activityId = sampleActivity.id,
             onRequestTagSelection = { onRequestTagSelectionCalled = true },
         )
 
@@ -144,7 +141,7 @@ class StartActivityMediatorTest {
 
         // When
         mediator.requestStart(
-            activity = sampleActivity,
+            activityId = sampleActivity.id,
             onRequestTagSelection = { onRequestTagSelectionCalled = true },
         )
 
@@ -166,7 +163,7 @@ class StartActivityMediatorTest {
 
         // When
         mediator.requestStart(
-            activity = sampleActivity,
+            activityId = sampleActivity.id,
             onRequestTagSelection = { onRequestTagSelectionCalled = true },
         )
 

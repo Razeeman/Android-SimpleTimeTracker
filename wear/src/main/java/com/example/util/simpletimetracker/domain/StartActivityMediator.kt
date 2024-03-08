@@ -7,7 +7,6 @@ package com.example.util.simpletimetracker.domain
 
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.data.WearRPCException
-import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import javax.inject.Inject
 
@@ -17,7 +16,7 @@ class StartActivityMediator @Inject constructor(
 ) {
 
     suspend fun requestStart(
-        activity: WearActivity,
+        activityId: Long,
         onRequestTagSelection: suspend () -> Unit,
     ): Result<Unit> {
         val settings = wearDataRepo.loadSettings()
@@ -25,21 +24,21 @@ class StartActivityMediator @Inject constructor(
 
         return if (settings.showRecordTagSelection) {
             requestTagSelectionIfNeeded(
-                activity = activity,
+                activityId = activityId,
                 settings = settings,
                 onRequestTagSelection = onRequestTagSelection,
             )
         } else {
-            onRequestStartActivity(activity.id)
+            onRequestStartActivity(activityId)
         }
     }
 
     private suspend fun requestTagSelectionIfNeeded(
-        activity: WearActivity,
+        activityId: Long,
         settings: WearSettings,
         onRequestTagSelection: suspend () -> Unit,
     ): Result<Unit> {
-        val tags = wearDataRepo.loadTagsForActivity(activity.id)
+        val tags = wearDataRepo.loadTagsForActivity(activityId)
             .getOrNull() ?: return Result.failure(WearRPCException)
 
         val generalTags = tags.filter { it.isGeneral }
@@ -51,7 +50,7 @@ class StartActivityMediator @Inject constructor(
             onRequestTagSelection()
             Result.success(Unit)
         } else {
-            onRequestStartActivity(activity.id)
+            onRequestStartActivity(activityId)
         }
     }
 

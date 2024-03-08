@@ -16,6 +16,10 @@ import javax.inject.Inject
 
 class TagsViewDataMapper @Inject constructor() {
 
+    fun mapErrorState(): TagListState.Error {
+        return TagListState.Error(R.string.wear_loading_error)
+    }
+
     fun mapState(
         tags: List<WearTag>,
         selectedTags: List<WearTag>,

@@ -22,35 +22,33 @@ import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
+import com.example.util.simpletimetracker.domain.WearActivityIcon
 import com.example.util.simpletimetracker.presentation.remember.rememberDurationSince
 import com.example.util.simpletimetracker.utils.getString
 import java.time.Duration
 import java.time.Instant
 
+data class ActivityChipState(
+    val id: Long,
+    val name: String,
+    val icon: WearActivityIcon,
+    val color: Long,
+    val startedAt: Long? = null,
+    val tagString: String = "",
+)
+
 @Composable
 fun ActivityChip(
-    name: String,
-    icon: String,
-    color: Long,
-    startedAt: Long? = null,
-    tags: List<String> = emptyList(),
+    state: ActivityChipState,
     onClick: () -> Unit = {},
 ) {
-    val tagsList = tags.takeUnless { it.isEmpty() }
-        ?.joinToString(separator = ", ")
-        .orEmpty()
-    val tagString = if (tagsList.isNotEmpty()) {
-        " - $tagsList"
-    } else {
-        ""
-    }
     Chip(
         modifier = Modifier.fillMaxWidth(),
         label = {
             Row(modifier = Modifier.height(IntrinsicSize.Min)) {
-                ActivityIcon(activityIcon = icon)
+                ActivityIcon(activityIcon = state.icon)
                 Text(
-                    text = name,
+                    text = state.name,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(start = 4.dp),
@@ -58,16 +56,16 @@ fun ActivityChip(
             }
         },
         secondaryLabel = {
-            if (startedAt != null) {
-                val startedDiff = rememberDurationSince(epochMillis = startedAt)
+            if (state.startedAt != null) {
+                val startedDiff = rememberDurationSince(state.startedAt)
 
                 Text(
-                    text = durationToLabel(startedDiff) + tagString,
+                    text = durationToLabel(startedDiff) + state.tagString,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     fontSize = 11.sp,
                     modifier = Modifier.padding(
-                        start = if (tagString.isNotEmpty()) {
+                        start = if (state.tagString.isNotEmpty()) {
                             2.dp
                         } else {
                             22.dp
@@ -77,7 +75,7 @@ fun ActivityChip(
             }
         },
         colors = ChipDefaults.chipColors(
-            backgroundColor = Color(color),
+            backgroundColor = Color(state.color),
         ),
         onClick = onClick,
     )
@@ -110,37 +108,41 @@ fun durationToLabel(duration: Duration): String {
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleCooking() {
-    ActivityChip("Cooking", "🎉", 0xFF123456)
+    ActivityChip(
+        ActivityChipState(0, "Cooking", WearActivityIcon.Text("🎉"), 0xFF123456),
+    )
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun Sample() {
-    ActivityChip("Cooking", "🎉", 0xFF123456)
+    ActivityChip(
+        ActivityChipState(0, "Cooking", WearActivityIcon.Text("🎉"), 0xFF123456),
+    )
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleSleep() {
-    ActivityChip("Sleeping", "🛏️", 0xFFABCDEF)
+    ActivityChip(
+        ActivityChipState(0, "Sleeping", WearActivityIcon.Text("🛏️"), 0xFFABCDEF),
+    )
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleText() {
-    ActivityChip("Sleeping", "Zzzz", 0xFFABCDEF)
+    ActivityChip(
+        ActivityChipState(0, "Sleeping", WearActivityIcon.Text("Zzzz"), 0xFFABCDEF),
+    )
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleIcon() {
-    ActivityChip("Sleeping", "ic_hotel_24px", 0xFFABCDEF)
-}
-
-@Preview(device = WearDevices.LARGE_ROUND)
-@Composable
-fun InvalidIcon() {
-    ActivityChip("Sleeping", "ic_gobbldeegoock_24px", 0xFFABCDEF)
+    ActivityChip(
+        ActivityChipState(0, "Sleeping", WearActivityIcon.Image(R.drawable.ic_hotel_24px), 0xFFABCDEF),
+    )
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
@@ -149,15 +151,19 @@ fun White() {
     // TODO handle the look of light colored chips
     // Note: A white color is only possible when using the RGB color picker.
     // The default color options in the phone app are mostly darker shades.
-    ActivityChip("Sleeping", "🛏️", 0xFFFFFFFF)
+    ActivityChip(
+        ActivityChipState(0, "Sleeping", WearActivityIcon.Text("🛏️"), 0xFFFFFFFF),
+    )
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun CurrentlyRunning() {
     ActivityChip(
-        "Sleeping", "🛏️", 0xFFABCDEF,
-        startedAt = Instant.now().toEpochMilli() - 365000,
+        ActivityChipState(
+            0, "Sleeping", WearActivityIcon.Text("🛏️"), 0xFFABCDEF,
+            startedAt = Instant.now().toEpochMilli() - 365000,
+        ),
     )
 }
 
@@ -165,8 +171,10 @@ fun CurrentlyRunning() {
 @Composable
 fun CurrentlyRunningWithTags() {
     ActivityChip(
-        "Sleeping", "🛏️", 0xFFABCDEF,
-        startedAt = Instant.now().toEpochMilli() - 365000,
-        tags = listOf("Work", "Hotel"),
+        ActivityChipState(
+            0, "Sleeping", WearActivityIcon.Text("🛏️"), 0xFFABCDEF,
+            startedAt = Instant.now().toEpochMilli() - 365000,
+            tagString = " - Work, Hotel",
+        ),
     )
 }

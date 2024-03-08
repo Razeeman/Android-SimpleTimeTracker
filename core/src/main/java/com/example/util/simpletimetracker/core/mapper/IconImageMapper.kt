@@ -1,20 +1,16 @@
 package com.example.util.simpletimetracker.core.mapper
 
-import android.annotation.SuppressLint
-import android.content.Context
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.IconImageRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.IconImage
 import com.example.util.simpletimetracker.domain.model.IconImageCategory
 import com.example.util.simpletimetracker.domain.model.IconImageType
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class IconImageMapper @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val repo: IconImageRepo,
     private val resourceRepo: ResourceRepo,
 ) {
@@ -121,14 +117,6 @@ class IconImageMapper @Inject constructor(
                 )
             }
         }
-    }
-
-    @SuppressLint("DiscouragedApi")
-    fun mapToDrawableResId(iconName: String): Int {
-        return context.resources
-            .getIdentifier(iconName, "drawable", context.packageName)
-            .takeIf { it != 0 }
-            ?: R.drawable.unknown
     }
 
     private fun mapTypeToIconArray(type: IconImageType): Int = when (type) {

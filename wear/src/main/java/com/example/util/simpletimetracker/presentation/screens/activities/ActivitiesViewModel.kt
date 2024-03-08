@@ -7,12 +7,10 @@ package com.example.util.simpletimetracker.presentation.screens.activities
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.domain.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.domain.StartActivityMediator
 import com.example.util.simpletimetracker.presentation.components.ActivitiesListState
-import com.example.util.simpletimetracker.wear_api.WearActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -25,6 +23,7 @@ class ActivitiesViewModel @Inject constructor(
     private val wearDataRepo: WearDataRepo,
     private val startActivitiesMediator: StartActivityMediator,
     private val currentActivitiesMediator: CurrentActivitiesMediator,
+    private val activitiesViewDataMapper: ActivitiesViewDataMapper,
 ) : ViewModel() {
 
     val state: MutableStateFlow<ActivitiesListState> = MutableStateFlow(ActivitiesListState.Loading)
@@ -42,16 +41,16 @@ class ActivitiesViewModel @Inject constructor(
         isInitialized = true
     }
 
-    fun stopActivity(wearActivity: WearActivity) = viewModelScope.launch {
-        val result = currentActivitiesMediator.stop(wearActivity.id)
+    fun stopActivity(activityId: Long) = viewModelScope.launch {
+        val result = currentActivitiesMediator.stop(activityId)
         if (result.isFailure) showError()
     }
 
-    fun tryStartActivity(wearActivity: WearActivity) = viewModelScope.launch {
+    fun tryStartActivity(activityId: Long) = viewModelScope.launch {
         val result = startActivitiesMediator.requestStart(
-            activity = wearActivity,
+            activityId = activityId,
             onRequestTagSelection = {
-                effects.emit(Effect.OnRequestTagSelection(wearActivity.id))
+                effects.emit(Effect.OnRequestTagSelection(activityId))
             },
         )
         if (result.isFailure) showError()
@@ -70,10 +69,10 @@ class ActivitiesViewModel @Inject constructor(
                 showError()
             }
             activities.getOrNull().isNullOrEmpty() -> {
-                state.value = ActivitiesListState.Empty(R.string.record_types_empty)
+                state.value = activitiesViewDataMapper.mapEmptyState()
             }
             else -> {
-                state.value = ActivitiesListState.Content(
+                state.value = activitiesViewDataMapper.mapContentState(
                     activities = activities.getOrNull().orEmpty(),
                     currentActivities = currentActivities.getOrNull().orEmpty(),
                 )
@@ -82,7 +81,7 @@ class ActivitiesViewModel @Inject constructor(
     }
 
     private fun showError() {
-        state.value = ActivitiesListState.Error(R.string.wear_loading_error)
+        state.value = activitiesViewDataMapper.mapErrorState()
     }
 
     private fun subscribeToDataUpdates() {

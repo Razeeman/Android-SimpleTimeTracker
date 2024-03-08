@@ -22,10 +22,9 @@ import androidx.wear.compose.material.ScalingLazyListScope
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
+import com.example.util.simpletimetracker.domain.WearActivityIcon
 import com.example.util.simpletimetracker.presentation.layout.ScaffoldedScrollingColumn
 import com.example.util.simpletimetracker.utils.getString
-import com.example.util.simpletimetracker.wear_api.WearActivity
-import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 
 sealed interface ActivitiesListState {
     object Loading : ActivitiesListState
@@ -39,16 +38,15 @@ sealed interface ActivitiesListState {
     ) : ActivitiesListState
 
     data class Content(
-        val activities: List<WearActivity>,
-        val currentActivities: List<WearCurrentActivity>,
+        val items: List<ActivityChipState>,
     ) : ActivitiesListState
 }
 
 @Composable
 fun ActivitiesList(
     state: ActivitiesListState,
-    onStart: (activity: WearActivity) -> Unit = {},
-    onStop: (activity: WearActivity) -> Unit = {},
+    onStart: (activityId: Long) -> Unit = {},
+    onStop: (activityId: Long) -> Unit = {},
     onRefresh: () -> Unit = {},
 ) {
     ScaffoldedScrollingColumn {
@@ -121,25 +119,19 @@ private fun RenderEmpty(
 
 private fun ScalingLazyListScope.renderContent(
     state: ActivitiesListState.Content,
-    onStart: (activity: WearActivity) -> Unit,
-    onStop: (activity: WearActivity) -> Unit,
+    onStart: (activityId: Long) -> Unit,
+    onStop: (activityId: Long) -> Unit,
 ) {
-    for (activity in state.activities) {
-        val currentActivity = state.currentActivities
-            .firstOrNull { it.id == activity.id }
-
-        item(key = activity.id) {
+    for (itemState in state.items) {
+        val isRunning = itemState.startedAt != null
+        item(key = itemState.id) {
             ActivityChip(
-                name = activity.name,
-                icon = activity.icon,
-                color = activity.color,
-                startedAt = currentActivity?.startedAt,
-                tags = currentActivity?.tags.orEmpty().map { it.name },
+                state = itemState,
                 onClick = {
-                    if (currentActivity != null) {
-                        onStop(activity)
+                    if (isRunning) {
+                        onStop(itemState.id)
                     } else {
-                        onStart(activity)
+                        onStart(itemState.id)
                     }
                 },
             )
@@ -174,17 +166,25 @@ private fun NoActivities() {
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun Preview() {
-    val activities = listOf(
-        WearActivity(1234, "Chores", "🧹", 0xFFFA0000),
-        WearActivity(4321, "Sleep", "🛏️", 0xFF0000FA),
-    )
-    val currents = listOf(
-        WearCurrentActivity(id = 4321, startedAt = 1708241427000L, tags = emptyList()),
+    val items = listOf(
+        ActivityChipState(
+            id = 1234,
+            name = "Chores",
+            icon = WearActivityIcon.Text("🧹"),
+            color = 0xFFFA0000,
+        ),
+        ActivityChipState(
+            id = 4321,
+            name = "Sleep",
+            icon = WearActivityIcon.Text("🛏️"),
+            color = 0xFF0000FA,
+            startedAt = 1708241427000L,
+            tagString = "",
+        ),
     )
     ActivitiesList(
         state = ActivitiesListState.Content(
-            activities = activities,
-            currentActivities = currents,
+            items = items,
         ),
     )
 }
