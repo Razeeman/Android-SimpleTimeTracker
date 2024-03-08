@@ -41,7 +41,7 @@ fun WearNavigator() {
             TagsScreen(
                 activityId = activityId,
                 onComplete = {
-                    navigation.navigateToRoot(Route.ACTIVITIES)
+                    navigation.popBackStack()
                 },
             )
         }
