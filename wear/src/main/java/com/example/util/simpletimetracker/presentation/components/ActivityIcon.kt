@@ -26,15 +26,14 @@ import com.example.util.simpletimetracker.domain.WearActivityIcon
 @Composable
 fun ActivityIcon(
     activityIcon: WearActivityIcon,
+    modifier: Modifier,
 ) {
     when (activityIcon) {
         is WearActivityIcon.Image -> {
             Icon(
                 painter = painterResource(activityIcon.iconId),
                 contentDescription = null,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .height(1.dp),
+                modifier = modifier,
             )
         }
         is WearActivityIcon.Text -> {
@@ -53,7 +52,7 @@ fun ActivityIcon(
                     )
                     view
                 },
-                modifier = Modifier
+                modifier = modifier
                     .aspectRatio(1f)
                     .width(0.dp),
                 update = {

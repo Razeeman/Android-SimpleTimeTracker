@@ -51,7 +51,6 @@ class ActivitiesViewDataMapper @Inject constructor(
             .map { it.name }
             .takeUnless { it.isEmpty() }
             ?.joinToString(separator = ", ")
-            ?.let { " - $it" }
             .orEmpty()
         val icon = wearIconMapper.mapIcon(activity.icon)
 

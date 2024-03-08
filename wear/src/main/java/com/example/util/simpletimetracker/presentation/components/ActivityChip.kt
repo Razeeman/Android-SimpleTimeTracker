@@ -5,11 +5,11 @@
  */
 package com.example.util.simpletimetracker.presentation.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,36 +42,48 @@ fun ActivityChip(
     state: ActivityChipState,
     onClick: () -> Unit = {},
 ) {
+    val isRunning = state.startedAt != null
+    val height = if (isRunning) 56 else 44
     Chip(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .height(height.dp)
+            .fillMaxWidth(),
+        icon = {
+            ActivityIcon(
+                modifier = Modifier.height(20.dp),
+                activityIcon = state.icon
+            )
+        },
         label = {
             Row(modifier = Modifier.height(IntrinsicSize.Min)) {
-                ActivityIcon(activityIcon = state.icon)
                 Text(
                     text = state.name,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(start = 4.dp),
                 )
             }
         },
         secondaryLabel = {
-            if (state.startedAt != null) {
-                val startedDiff = rememberDurationSince(state.startedAt)
-
-                Text(
-                    text = durationToLabel(startedDiff) + state.tagString,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    fontSize = 11.sp,
-                    modifier = Modifier.padding(
-                        start = if (state.tagString.isNotEmpty()) {
-                            2.dp
-                        } else {
-                            22.dp
-                        },
-                    ),
-                )
+            Column {
+                if (state.tagString.isNotEmpty()) {
+                    Text(
+                        text = state.tagString,
+                        color = Color(0x99FFFFFF),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        fontSize = 10.sp,
+                    )
+                }
+                if (state.startedAt != null) {
+                    val startedDiff = rememberDurationSince(state.startedAt)
+                    val text = durationToLabel(startedDiff)
+                    Text(
+                        text = text,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        fontSize = 10.sp,
+                    )
+                }
             }
         },
         colors = ChipDefaults.chipColors(
@@ -174,7 +186,7 @@ fun CurrentlyRunningWithTags() {
         ActivityChipState(
             0, "Sleeping", WearActivityIcon.Text("🛏️"), 0xFFABCDEF,
             startedAt = Instant.now().toEpochMilli() - 365000,
-            tagString = " - Work, Hotel",
+            tagString = "Work, Hotel",
         ),
     )
 }
