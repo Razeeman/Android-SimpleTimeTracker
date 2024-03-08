@@ -1,4 +1,4 @@
-Simple Time Tracker helpt u bij te houden hoeveel tijd u gedurende de dag aan verschillende activiteiten besteedt. Start nieuwe activiteiten met één klik. Bekijk eerdere records en statistieken in de loop van de tijd. De app is gratis en open source. Ook widgets, back-ups, meldingen en donkere modus bechikbaar.
+Simple Time Tracker helpt u bij te houden hoeveel tijd u gedurende de dag aan verschillende activiteiten besteedt. Start nieuwe activiteiten met één klik. Bekijk eerdere records en statistieken in de loop van de tijd. De app is gratis en open source. Ook widgets, back-ups, meldingen en donkere modus bechikbaar. Ondersteunt ook horloges met Wear OS.
 
 <b>Eenvoudige interface</b>
 App heeft een minimalistische interface die zeer eenvoudig te gebruiken is.

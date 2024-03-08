@@ -55,10 +55,11 @@ android {
     flavorDimensions += "version"
 
     productFlavors {
-        // No google play services, no wear logic, for f-droid.
+        // F-Droid version, no google play services, no Wear OS support.
         create("base") {
             dimension = "version"
         }
+        // Google Play version, with google play services, Wear OS support.
         create("play") {
             dimension = "version"
             isDefault = true

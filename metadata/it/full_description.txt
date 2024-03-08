@@ -1,4 +1,4 @@
-Un Simple Time Tracker per aiutarti a tenere traccia di quanto tempo spendi durante il giorno su diverse attività. Avvia nuove attività con un click. Visualizza le precedenti registrazioni e le statistiche nel corso del tempo. L'app è gratuita e open source. Anche i widget, i backup, le notifiche e la modalità notte.
+Un Simple Time Tracker per aiutarti a tenere traccia di quanto tempo spendi durante il giorno su diverse attività. Avvia nuove attività con un click. Visualizza le precedenti registrazioni e le statistiche nel corso del tempo. L'app è gratuita e open source. Anche i widget, i backup, le notifiche e la modalità notte. Supporta anche orologi con sistema operativo Wear.
 
 <b>Interfaccia semplice</b>
 L'app ha un'interfaccia minimale molto semplice da usare.

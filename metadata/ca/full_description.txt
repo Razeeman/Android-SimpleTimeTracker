@@ -1,4 +1,4 @@
-Simple Time Tracker us ajuda a fer un seguiment de l'estona que dediqueu a diferents activitats durant el dia. Comenceu les noves activitats amb un clic. Veieu els enregistraments anteriors i les estadístiques al llarg del temps. L'aplicació és gratuïta i de codi obert. També «widgets», còpies de seguretat, notificacions i mode fosc.
+Simple Time Tracker us ajuda a fer un seguiment de l'estona que dediqueu a diferents activitats durant el dia. Comenceu les noves activitats amb un clic. Veieu els enregistraments anteriors i les estadístiques al llarg del temps. L'aplicació és gratuïta i de codi obert. També «widgets», còpies de seguretat, notificacions i mode fosc. També admet rellotges amb Wear OS.
 
 <b>Interfície Simple</b>
 L'aplicació té una interfície minimalista i molt fàcil de fer servir.

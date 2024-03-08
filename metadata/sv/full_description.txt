@@ -1,4 +1,4 @@
-Simple Time Tracker hjälper dig att hålla koll på hur mycket tid av din dag du lägger på olika aktiviteter. Påbörja nya aktiviteter med en enda tryckning. Få en överblick över tid. Kostar ingenting och källkoden är öppen. Innehåller även widgets, backup-funktionalitet, notifieringar och dark mode (mörkt läge).
+Simple Time Tracker hjälper dig att hålla koll på hur mycket tid av din dag du lägger på olika aktiviteter. Påbörja nya aktiviteter med en enda tryckning. Få en överblick över tid. Kostar ingenting och källkoden är öppen. Innehåller även widgets, backup-funktionalitet, notifieringar och dark mode (mörkt läge). Stöder även klockor med Wear OS.
 
 <b>Enkelt gränssnitt</b>
 Appen har ett minimalistiskt gränssnitt som är enkelt att använda.

@@ -1,4 +1,4 @@
-Trình theo dõi thời gian đơn giản giúp bạn theo dõi lượng thời gian bạn dành trong ngày cho các hoạt động khác nhau. Bắt đầu các hoạt động mới chỉ bằng một cú nhấp chuột. Xem các bản ghi và số liệu thống kê trước đó theo thời gian. Ứng dụng này là miễn phí và mã nguồn mở. Ngoài ra còn có các widget, bản sao lưu, thông báo và chế độ tối.
+Trình theo dõi thời gian đơn giản giúp bạn theo dõi lượng thời gian bạn dành trong ngày cho các hoạt động khác nhau. Bắt đầu các hoạt động mới chỉ bằng một cú nhấp chuột. Xem các bản ghi và số liệu thống kê trước đó theo thời gian. Ứng dụng này là miễn phí và mã nguồn mở. Ngoài ra còn có các widget, bản sao lưu, thông báo và chế độ tối. Cũng hỗ trợ đồng hồ với Wear OS.
 
 <b>Giao diện đơn giản</b>
 Ứng dụng có giao diện tối giản rất dễ sử dụng.
