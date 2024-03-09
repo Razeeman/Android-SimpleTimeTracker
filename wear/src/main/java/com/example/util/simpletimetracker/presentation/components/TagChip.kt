@@ -81,6 +81,7 @@ private fun MultiSelectTagChip(
     checked: Boolean,
 ) {
     SplitToggleChip(
+        modifier = Modifier.fillMaxWidth(),
         checked = checked,
         onCheckedChange = {
             onClick(tag)
@@ -114,7 +115,6 @@ private fun MultiSelectTagChip(
                 Color.Black.copy(alpha = .3F)
             },
         ),
-        modifier = Modifier.fillMaxWidth(),
     )
 }
 
