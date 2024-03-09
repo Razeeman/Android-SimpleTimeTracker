@@ -12,3 +12,4 @@
 -keep class androidx.test.espresso.IdlingRegistry { *; }
 -keep class androidx.test.espresso.IdlingResource { *; }
 -keep class androidx.test.espresso.IdlingResource$ResourceCallback { void onTransitionToIdle(); }
+-keep class com.google.gson.** { *; }
