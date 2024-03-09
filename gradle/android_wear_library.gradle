@@ -1,11 +1,11 @@
 import com.example.util.simpletimetracker.Base
 
 android {
-    compileSdk = Base.currentSDK
+    compileSdk = Base.currentSDKWear
 
     defaultConfig {
         minSdk = Base.minSDKWear
-        targetSdk = Base.currentSDK
+        targetSdk = Base.targetSDKWear
 
         vectorDrawables.generatedDensities()
     }

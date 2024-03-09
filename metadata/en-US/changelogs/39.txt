@@ -1,0 +1,2 @@
+- Add support for watches with Wear OS
+- General bug fixes and improvements
