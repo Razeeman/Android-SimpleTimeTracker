@@ -2,16 +2,16 @@
 <resources>
 
     <string-array name="contributors">
-        <item>Joseph Hale @thehale</item>
+        <item>\@thehale Joseph Hale</item>
         <item>\@gyrraf</item>
         <item>\@kantahrek</item>
         <item>\@Zolax9</item>
         <item>\@rec0de</item>
-        <item>Ben Halbach @bahalbach</item>
-        <item>John Veness @JohnVeness</item>
+        <item>\@bahalbach Ben Halbach</item>
+        <item>\@JohnVeness John Veness</item>
         <item>\@preethamrn</item>
         <item>\@Poussinou</item>
-        <item>Ilya Bizyaev @IlyaBizyaev</item>
+        <item>\@IlyaBizyaev Ilya Bizyaev</item>
     </string-array>
 
 </resources>
