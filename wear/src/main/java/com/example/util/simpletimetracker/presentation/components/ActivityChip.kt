@@ -43,7 +43,11 @@ fun ActivityChip(
     onClick: () -> Unit = {},
 ) {
     val isRunning = state.startedAt != null
-    val height = if (isRunning) 56 else 44
+    val height = if (isRunning) {
+        ACTIVITY_RUNNING_VIEW_HEIGHT
+    } else {
+        ACTIVITY_VIEW_HEIGHT
+    }
     Chip(
         modifier = Modifier
             .height(height.dp)
@@ -51,7 +55,7 @@ fun ActivityChip(
         icon = {
             ActivityIcon(
                 modifier = Modifier.height(20.dp),
-                activityIcon = state.icon
+                activityIcon = state.icon,
             )
         },
         label = {

@@ -6,7 +6,6 @@ import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.example.util.simpletimetracker.feature_widget.universal.activity.view.WidgetUniversalActivity
 import com.example.util.simpletimetracker.navigation.params.action.ActionParams
 import com.example.util.simpletimetracker.navigation.params.notification.NotificationParams
 import com.example.util.simpletimetracker.navigation.params.screen.ScreenParams

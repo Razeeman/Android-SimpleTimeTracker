@@ -6,12 +6,14 @@
 package com.example.util.simpletimetracker.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Text
@@ -26,6 +28,9 @@ fun TagSelectionButton(
     onClick: () -> Unit = {},
 ) {
     Chip(
+        modifier = Modifier
+            .height(ACTIVITY_VIEW_HEIGHT.dp)
+            .fillMaxWidth(),
         onClick = onClick,
         label = {
             Text(
@@ -39,7 +44,6 @@ fun TagSelectionButton(
         colors = ChipDefaults.chipColors(
             backgroundColor = color,
         ),
-        modifier = Modifier.fillMaxWidth(),
     )
 }
 

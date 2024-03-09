@@ -42,7 +42,7 @@ fun RefreshButton(
         },
         modifier = Modifier
             .rotate(targetRotation)
-            .size(44.dp),
+            .size(ACTIVITY_VIEW_HEIGHT.dp),
     )
 }
 
