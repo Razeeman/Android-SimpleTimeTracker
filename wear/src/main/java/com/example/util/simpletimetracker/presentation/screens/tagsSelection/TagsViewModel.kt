@@ -16,6 +16,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,8 +30,11 @@ class TagsViewModel @Inject constructor(
     private val tagsViewDataMapper: TagsViewDataMapper,
 ) : ViewModel() {
 
-    val state: MutableStateFlow<TagListState> = MutableStateFlow(TagListState.Loading)
-    val effects = MutableSharedFlow<Effect>(
+    val state: StateFlow<TagListState> get() = _state.asStateFlow()
+    private val _state: MutableStateFlow<TagListState> = MutableStateFlow(TagListState.Loading)
+
+    val effects: SharedFlow<Effect> get() = _effects.asSharedFlow()
+    private val _effects = MutableSharedFlow<Effect>(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
@@ -58,7 +65,7 @@ class TagsViewModel @Inject constructor(
                 if (settings.recordTagSelectionCloseAfterOne) {
                     startActivity()
                 } else {
-                    state.value = mapState()
+                    _state.value = mapState()
                 }
             }
             is TagListState.Item.ButtonType.Complete -> {
@@ -76,7 +83,7 @@ class TagsViewModel @Inject constructor(
         if (settings.recordTagSelectionCloseAfterOne) {
             startActivity()
         } else {
-            state.value = mapState()
+            _state.value = mapState()
         }
     }
 
@@ -93,7 +100,7 @@ class TagsViewModel @Inject constructor(
         if (settingsResult != null && tagsResult != null) {
             settings = settingsResult
             tags = tagsResult
-            state.value = mapState()
+            _state.value = mapState()
         } else {
             showError()
         }
@@ -108,12 +115,12 @@ class TagsViewModel @Inject constructor(
         if (result.isFailure) {
             showError()
         } else {
-            effects.emit(Effect.OnComplete)
+            _effects.emit(Effect.OnComplete)
         }
     }
 
     private fun showError() {
-        state.value = tagsViewDataMapper.mapErrorState()
+        _state.value = tagsViewDataMapper.mapErrorState()
     }
 
     private fun mapState(): TagListState {

@@ -5,13 +5,15 @@
  */
 package com.example.util.simpletimetracker.data
 
+import android.content.ComponentName
 import android.content.Context
 import android.util.Log
+import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
+import com.example.util.simpletimetracker.complication.WearComplicationService
 import com.example.util.simpletimetracker.wear_api.WearRequests
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.CapabilityClient
 import com.google.android.gms.wearable.CapabilityInfo
-import com.google.android.gms.wearable.MessageClient
 import com.google.android.gms.wearable.Node
 import com.google.android.gms.wearable.Wearable
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -28,7 +30,7 @@ class WearMessenger @Inject constructor(
 ) {
 
     private val tag: String = WearMessenger::class.java.name
-    private var listener: MessageClient.OnMessageReceivedListener? = null
+    private var listener: (suspend () -> Unit)? = null
 
     suspend fun send(
         capability: String,
@@ -66,24 +68,31 @@ class WearMessenger @Inject constructor(
     }
 
     fun addListener(
-        onDataChanged: () -> Unit,
+        onDataChanged: suspend () -> Unit,
     ) {
-        listener = MessageClient.OnMessageReceivedListener {
-            Log.d(tag, "Message received")
-            Log.d(tag, "Message path ${it.path}")
-            if (it.path == WearRequests.DATA_UPDATED) {
-                onDataChanged()
-            }
-        }
-        listener?.let {
-            Wearable.getMessageClient(context).addListener(it)
-        }
+        listener = onDataChanged
     }
 
-    fun removeListener() {
-        listener?.let {
-            Wearable.getMessageClient(context).removeListener(it)
+    suspend fun onRequest(path: String): ByteArray? {
+        if (path.startsWith(WearRequests.PATH)) {
+            when (path) {
+                WearRequests.DATA_UPDATED -> {
+                    listener?.invoke()
+                    updateComplications()
+                }
+                else -> {
+                    Log.d(tag, "$path is an invalid RPC call")
+                }
+            }
         }
+        return null
+    }
+
+    private fun updateComplications() {
+        ComplicationDataSourceUpdateRequester.create(
+            context = context,
+            complicationDataSourceComponent = ComponentName(context, WearComplicationService::class.java),
+        ).requestUpdateAll()
     }
 
     private fun findNearestNode(capability: String): Node? {

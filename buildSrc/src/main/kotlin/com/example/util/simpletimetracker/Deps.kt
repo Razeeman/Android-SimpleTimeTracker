@@ -91,11 +91,18 @@ object Deps {
             "androidx.compose.ui:ui-tooling:${Versions.compose_version}"
     }
 
+    object Wear {
+        const val complications =
+            "androidx.wear.watchface:watchface-complications-data-source-ktx:${Versions.wear_complications}"
+    }
+
     object Kapt {
         const val room =
             "androidx.room:room-compiler:${Versions.room}"
         const val dagger =
             "com.google.dagger:hilt-compiler:${Versions.dagger}"
+        const val metadata =
+            "org.jetbrains.kotlinx:kotlinx-metadata-jvm:${Versions.metadata_jvm}"
     }
 
     object Test {

@@ -15,6 +15,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,8 +30,11 @@ class ActivitiesViewModel @Inject constructor(
     private val activitiesViewDataMapper: ActivitiesViewDataMapper,
 ) : ViewModel() {
 
-    val state: MutableStateFlow<ActivitiesListState> = MutableStateFlow(ActivitiesListState.Loading)
-    val effects = MutableSharedFlow<Effect>(
+    val state: StateFlow<ActivitiesListState> get() = _state.asStateFlow()
+    private val _state: MutableStateFlow<ActivitiesListState> = MutableStateFlow(ActivitiesListState.Loading)
+
+    val effects: SharedFlow<Effect> get() = _effects.asSharedFlow()
+    private val _effects = MutableSharedFlow<Effect>(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
@@ -50,7 +57,7 @@ class ActivitiesViewModel @Inject constructor(
         val result = startActivitiesMediator.requestStart(
             activityId = activityId,
             onRequestTagSelection = {
-                effects.emit(Effect.OnRequestTagSelection(activityId))
+                _effects.emit(Effect.OnRequestTagSelection(activityId))
             },
         )
         if (result.isFailure) showError()
@@ -73,10 +80,10 @@ class ActivitiesViewModel @Inject constructor(
                 showError()
             }
             activities.getOrNull().isNullOrEmpty() -> {
-                state.value = activitiesViewDataMapper.mapEmptyState()
+                _state.value = activitiesViewDataMapper.mapEmptyState()
             }
             else -> {
-                state.value = activitiesViewDataMapper.mapContentState(
+                _state.value = activitiesViewDataMapper.mapContentState(
                     activities = activities.getOrNull().orEmpty(),
                     currentActivities = currentActivities.getOrNull().orEmpty(),
                 )
@@ -85,7 +92,7 @@ class ActivitiesViewModel @Inject constructor(
     }
 
     private fun showError() {
-        state.value = activitiesViewDataMapper.mapErrorState()
+        _state.value = activitiesViewDataMapper.mapErrorState()
     }
 
     private fun subscribeToDataUpdates() {

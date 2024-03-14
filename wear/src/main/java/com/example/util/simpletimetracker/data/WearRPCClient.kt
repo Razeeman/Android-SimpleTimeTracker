@@ -14,7 +14,9 @@ import com.example.util.simpletimetracker.wear_api.WearTag
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class WearRPCClient @Inject constructor(
     private val messenger: WearMessenger,
 ) : WearCommunicationAPI {
@@ -62,13 +64,9 @@ class WearRPCClient @Inject constructor(
     }
 
     fun addListener(
-        onDataChanged: () -> Unit,
+        onDataChanged: suspend () -> Unit,
     ) {
         messenger.addListener(onDataChanged)
-    }
-
-    fun removeListener() {
-        messenger.removeListener()
     }
 
     private fun <T> mapToBytes(data: T): ByteArray {

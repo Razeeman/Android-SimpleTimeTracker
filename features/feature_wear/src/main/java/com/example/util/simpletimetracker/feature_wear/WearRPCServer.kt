@@ -58,7 +58,7 @@ class WearRPCServer @Inject constructor(
 
             nodesList.forEach { node ->
                 Timber.d("Sending message to ${node.displayName}")
-                Wearable.getMessageClient(context).sendMessage(
+                Wearable.getMessageClient(context).sendRequest(
                     node.id,
                     WearRequests.DATA_UPDATED,
                     null,

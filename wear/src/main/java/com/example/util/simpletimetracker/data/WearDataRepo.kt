@@ -28,12 +28,8 @@ class WearDataRepo @Inject constructor(
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
 
-    fun addListener() {
-        wearRPCClient.addListener { _dataUpdated.tryEmit(Unit) }
-    }
-
-    fun removeListener() {
-        wearRPCClient.removeListener()
+    init {
+        wearRPCClient.addListener { _dataUpdated.emit(Unit) }
     }
 
     suspend fun loadActivities(): Result<List<WearActivity>> {

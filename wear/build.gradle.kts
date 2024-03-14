@@ -52,6 +52,7 @@ android {
 
     buildFeatures {
         compose = true
+        viewBinding = true
     }
 
     composeOptions {
@@ -67,6 +68,7 @@ dependencies {
     implementation(Deps.Google.services)
     implementation(Deps.Google.gson)
     implementation(Deps.Google.dagger)
+    implementation(Deps.Wear.complications)
     coreLibraryDesugaring(Deps.Google.desugaring)
     implementation(Deps.Compose.activity)
     implementation(Deps.Compose.ui)
@@ -80,6 +82,7 @@ dependencies {
     implementation(Deps.Compose.hilt)
     debugImplementation(Deps.Compose.uiTooling)
     kapt(Deps.Kapt.dagger)
+    kapt(Deps.Kapt.metadata)
 
     testImplementation(Deps.Test.junit)
     testImplementation(Deps.Test.mockito)
