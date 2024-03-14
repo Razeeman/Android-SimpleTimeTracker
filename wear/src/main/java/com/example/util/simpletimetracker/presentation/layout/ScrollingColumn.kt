@@ -41,7 +41,7 @@ fun ScrollingColumn(
             .selectableGroup(),
         flingBehavior = ScalingLazyColumnDefaults.snapFlingBehavior(
             state = scrollState,
-            decay = exponentialDecay(frictionMultiplier = 0.75f)
+            decay = exponentialDecay(frictionMultiplier = 0.75f),
         ),
         autoCentering = AutoCenteringParams(
             itemIndex = 0,

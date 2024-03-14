@@ -9,13 +9,8 @@ import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.drawable.Icon
-import android.os.Build
 import android.util.Log
-import android.util.TypedValue
-import android.view.View
-import android.view.View.MeasureSpec
 import androidx.wear.watchface.complications.data.ComplicationData
 import androidx.wear.watchface.complications.data.ComplicationText
 import androidx.wear.watchface.complications.data.ComplicationType
@@ -30,13 +25,11 @@ import androidx.wear.watchface.complications.datasource.SuspendingComplicationDa
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.data.WearIconMapper
-import com.example.util.simpletimetracker.data.WearMessenger
 import com.example.util.simpletimetracker.domain.WearActivityIcon
 import com.example.util.simpletimetracker.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class WearComplicationService : SuspendingComplicationDataSourceService() {
@@ -47,9 +40,9 @@ class WearComplicationService : SuspendingComplicationDataSourceService() {
     @Inject
     lateinit var iconMapper: WearIconMapper
 
-    private val tag: String = WearMessenger::class.java.name
+    private val tag: String = WearComplicationService::class.java.name
     private val appIcon = R.drawable.app_ic_launcher_monochrome
-    private val iconSize by lazy { 20.dpToPx() }
+    private val iconSizeDp = 20
     private val defaultText = "×"
     private val previewText = "Tracking"
 
@@ -144,39 +137,12 @@ class WearComplicationService : SuspendingComplicationDataSourceService() {
     }
 
     private fun getBitmap(icon: WearActivityIcon): Bitmap {
-        return IconView(this)
+        return WearIconView(this)
             .apply {
                 itemIcon = icon
-                measureExactly(iconSize)
+                measureExactly(iconSizeDp.dpToPx(this.context))
             }
             .getBitmapFromView()
-    }
-
-    private fun View.measureExactly(width: Int, height: Int = width) {
-        val specWidth = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
-        val specHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
-        measure(specWidth, specHeight)
-        layout(0, 0, measuredWidth, measuredHeight)
-    }
-
-    private fun View.getBitmapFromView(): Bitmap {
-        fun Int.checkValue(): Int = this.takeUnless { it <= 0 } ?: iconSize
-
-        return Bitmap.createBitmap(
-            measuredWidth.checkValue(),
-            measuredHeight.checkValue(),
-            Bitmap.Config.ARGB_8888,
-        ).also {
-            draw(Canvas(it))
-        }
-    }
-
-    private fun Int.dpToPx(): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            this.toFloat(),
-            this@WearComplicationService.resources.displayMetrics,
-        ).roundToInt()
     }
 
     @SuppressLint("WearRecents")
@@ -189,15 +155,7 @@ class WearComplicationService : SuspendingComplicationDataSourceService() {
             this,
             0,
             startIntent,
-            getFlags(),
+            getPendingIntentFlags(),
         )
-    }
-
-    private fun getFlags(): Int {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-        } else {
-            PendingIntent.FLAG_UPDATE_CURRENT
-        }
     }
 }

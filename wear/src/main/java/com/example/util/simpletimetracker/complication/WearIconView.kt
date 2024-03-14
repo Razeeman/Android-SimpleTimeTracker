@@ -10,10 +10,10 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
-import com.example.util.simpletimetracker.databinding.IconViewLayoutBinding
+import com.example.util.simpletimetracker.databinding.WearIconViewLayoutBinding
 import com.example.util.simpletimetracker.domain.WearActivityIcon
 
-class IconView @JvmOverloads constructor(
+class WearIconView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
@@ -23,7 +23,7 @@ class IconView @JvmOverloads constructor(
     defStyleAttr,
 ) {
 
-    private val binding: IconViewLayoutBinding = IconViewLayoutBinding
+    private val binding: WearIconViewLayoutBinding = WearIconViewLayoutBinding
         .inflate(LayoutInflater.from(context), this)
 
     var itemIcon: WearActivityIcon = WearActivityIcon.Image(0)
