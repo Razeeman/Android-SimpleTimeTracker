@@ -6,9 +6,9 @@
 package com.example.util.simpletimetracker.presentation.screens.activities
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.util.simpletimetracker.presentation.components.ActivitiesList
 import com.example.util.simpletimetracker.presentation.screens.activities.ActivitiesViewModel.Effect
 import com.example.util.simpletimetracker.utils.OnLifecycle
@@ -20,7 +20,7 @@ fun ActivitiesScreen(
 ) {
     val viewModel = hiltViewModel<ActivitiesViewModel>()
     viewModel.init()
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     viewModel.effects.collectEffects(key = viewModel) {
         when (it) {
