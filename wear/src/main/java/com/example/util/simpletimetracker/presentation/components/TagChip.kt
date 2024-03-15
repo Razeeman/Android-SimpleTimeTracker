@@ -8,6 +8,8 @@ package com.example.util.simpletimetracker.presentation.components
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
@@ -21,33 +23,38 @@ import androidx.wear.compose.material.SplitToggleChip
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.ToggleChipDefaults
 import androidx.wear.tooling.preview.devices.WearDevices
-import com.example.util.simpletimetracker.wear_api.WearTag
 
-enum class TagSelectionMode {
-    SINGLE,
-    MULTI,
+@Immutable
+data class TagChipState(
+    val id: Long,
+    val name: String,
+    val color: Long,
+    val checked: Boolean,
+    val mode: TagSelectionMode,
+) {
+    enum class TagSelectionMode {
+        SINGLE,
+        MULTI,
+    }
 }
 
 @Composable
 fun TagChip(
-    tag: WearTag,
-    onClick: (WearTag) -> Unit = {},
-    mode: TagSelectionMode = TagSelectionMode.SINGLE,
-    checked: Boolean,
+    state: TagChipState,
+    onClick: (Long) -> Unit = {},
 ) {
-    when (mode) {
-        TagSelectionMode.SINGLE -> {
+    when (state.mode) {
+        TagChipState.TagSelectionMode.SINGLE -> {
             SingleSelectTagChip(
-                tag = tag,
+                state = state,
                 onClick = onClick,
             )
         }
 
-        TagSelectionMode.MULTI -> {
+        TagChipState.TagSelectionMode.MULTI -> {
             MultiSelectTagChip(
-                tag = tag,
+                state = state,
                 onClick = onClick,
-                checked = checked,
             )
         }
     }
@@ -55,56 +62,58 @@ fun TagChip(
 
 @Composable
 private fun SingleSelectTagChip(
-    tag: WearTag,
-    onClick: (WearTag) -> Unit,
+    state: TagChipState,
+    onClick: (Long) -> Unit,
 ) {
+    val onClickState = remember(state.id) {
+        { onClick(state.id) }
+    }
     Chip(
         modifier = Modifier
             .height(ACTIVITY_VIEW_HEIGHT.dp)
             .fillMaxWidth(),
-        onClick = {
-            onClick(tag)
-        },
+        onClick = onClickState,
         label = {
             Text(
-                text = tag.name,
+                text = state.name,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
         },
         colors = ChipDefaults.chipColors(
-            backgroundColor = Color(tag.color),
+            backgroundColor = Color(state.color),
         ),
     )
 }
 
 @Composable
 private fun MultiSelectTagChip(
-    tag: WearTag,
-    onClick: (WearTag) -> Unit = {},
-    checked: Boolean,
+    state: TagChipState,
+    onClick: (Long) -> Unit = {},
 ) {
+    val onCheckedChange: (Boolean) -> Unit = remember(state.id) {
+        { onClick(state.id) }
+    }
+    val onClickState = remember(state.id) {
+        { onClick(state.id) }
+    }
     SplitToggleChip(
         modifier = Modifier
             .height(ACTIVITY_VIEW_HEIGHT.dp)
             .fillMaxWidth(),
-        checked = checked,
-        onCheckedChange = {
-            onClick(tag)
-        },
-        onClick = {
-            onClick(tag)
-        },
+        checked = state.checked,
+        onCheckedChange = onCheckedChange,
+        onClick = onClickState,
         label = {
             Text(
-                text = tag.name,
+                text = state.name,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
         },
         toggleControl = {
             Checkbox(
-                checked = checked,
+                checked = state.checked,
                 colors = CheckboxDefaults.colors(
                     checkedBoxColor = Color.White,
                     checkedCheckmarkColor = Color.White,
@@ -114,8 +123,8 @@ private fun MultiSelectTagChip(
             )
         },
         colors = ToggleChipDefaults.splitToggleChipColors(
-            backgroundColor = Color(tag.color),
-            splitBackgroundOverlayColor = if (checked) {
+            backgroundColor = Color(state.color),
+            splitBackgroundOverlayColor = if (state.checked) {
                 Color.White.copy(alpha = .1F)
             } else {
                 Color.Black.copy(alpha = .3F)
@@ -128,9 +137,13 @@ private fun MultiSelectTagChip(
 @Composable
 private fun Default() {
     TagChip(
-        tag = WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
-        onClick = {},
-        checked = false,
+        state = TagChipState(
+            id = 123,
+            name = "Sleep",
+            color = 0xFF123456,
+            checked = false,
+            mode = TagChipState.TagSelectionMode.SINGLE,
+        ),
     )
 }
 
@@ -138,10 +151,13 @@ private fun Default() {
 @Composable
 private fun MultiSelectMode() {
     TagChip(
-        tag = WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF654321),
-        onClick = {},
-        mode = TagSelectionMode.MULTI,
-        checked = false,
+        state = TagChipState(
+            id = 123,
+            name = "Sleep",
+            color = 0xFF654321,
+            checked = false,
+            mode = TagChipState.TagSelectionMode.MULTI,
+        ),
     )
 }
 
@@ -149,8 +165,12 @@ private fun MultiSelectMode() {
 @Composable
 private fun MultiSelectChecked() {
     MultiSelectTagChip(
-        tag = WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF654321),
-        onClick = {},
-        checked = true,
+        state = TagChipState(
+            id = 123,
+            name = "Sleep",
+            color = 0xFF654321,
+            checked = true,
+            mode = TagChipState.TagSelectionMode.MULTI,
+        ),
     )
 }

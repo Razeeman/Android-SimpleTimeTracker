@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,7 +26,6 @@ import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.presentation.layout.ScaffoldedScrollingColumn
 import com.example.util.simpletimetracker.utils.getString
-import com.example.util.simpletimetracker.wear_api.WearTag
 
 sealed interface TagListState {
 
@@ -41,13 +41,11 @@ sealed interface TagListState {
 
     data class Content(
         val items: List<Item>,
-        val mode: TagSelectionMode,
     ) : TagListState
 
     sealed interface Item {
         data class Tag(
-            val tag: WearTag,
-            val selected: Boolean,
+            val tag: TagChipState,
         ) : Item
 
         data class Button(
@@ -67,7 +65,7 @@ sealed interface TagListState {
 fun TagList(
     state: TagListState,
     onButtonClick: (TagListState.Item.ButtonType) -> Unit = {},
-    onToggleClick: (WearTag) -> Unit = {},
+    onToggleClick: (Long) -> Unit = {},
     onRefresh: () -> Unit = {},
 ) {
     ScaffoldedScrollingColumn {
@@ -133,25 +131,24 @@ private fun RenderEmptyState(
 private fun ScalingLazyListScope.renderContentState(
     state: TagListState.Content,
     onButtonClick: (TagListState.Item.ButtonType) -> Unit = {},
-    onToggleClick: (WearTag) -> Unit = {},
+    onToggleClick: (Long) -> Unit = {},
 ) {
-    for (item in state.items) {
-        when (item) {
+    for (itemState in state.items) {
+        when (itemState) {
             is TagListState.Item.Tag -> item {
                 TagChip(
-                    tag = item.tag,
-                    mode = state.mode,
+                    state = itemState.tag,
                     onClick = onToggleClick,
-                    checked = item.selected,
                 )
             }
             is TagListState.Item.Button -> item {
+                val onClick = remember(itemState) {
+                    { onButtonClick(itemState.buttonType) }
+                }
                 TagSelectionButton(
-                    text = getString(item.textResId),
-                    color = item.color,
-                    onClick = {
-                        onButtonClick(item.buttonType)
-                    },
+                    text = getString(itemState.textResId),
+                    color = itemState.color,
+                    onClick = onClick,
                 )
             }
         }
@@ -189,15 +186,24 @@ private fun WithSomeTags() {
         state = TagListState.Content(
             items = listOf(
                 TagListState.Item.Tag(
-                    tag = WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
-                    selected = false,
+                    tag = TagChipState(
+                        id = 123,
+                        name = "Sleep",
+                        color = 0xFF123456,
+                        checked = false,
+                        mode = TagChipState.TagSelectionMode.SINGLE,
+                    ),
                 ),
                 TagListState.Item.Tag(
-                    tag = WearTag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
-                    selected = false,
+                    tag = TagChipState(
+                        id = 124,
+                        name = "Personal",
+                        color = 0xFF123456,
+                        checked = false,
+                        mode = TagChipState.TagSelectionMode.SINGLE,
+                    ),
                 ),
             ),
-            mode = TagSelectionMode.SINGLE,
         ),
     )
 }
@@ -209,15 +215,24 @@ private fun MultiSelectMode() {
         state = TagListState.Content(
             items = listOf(
                 TagListState.Item.Tag(
-                    tag = WearTag(id = 123, name = "Sleep", isGeneral = false, color = 0xFF123456),
-                    selected = true,
+                    tag = TagChipState(
+                        id = 123,
+                        name = "Sleep",
+                        color = 0xFF123456,
+                        checked = true,
+                        mode = TagChipState.TagSelectionMode.MULTI,
+                    ),
                 ),
                 TagListState.Item.Tag(
-                    tag = WearTag(id = 124, name = "Personal", isGeneral = true, color = 0xFF123456),
-                    selected = false,
+                    tag = TagChipState(
+                        id = 124,
+                        name = "Personal",
+                        color = 0xFF123456,
+                        checked = false,
+                        mode = TagChipState.TagSelectionMode.MULTI,
+                    ),
                 ),
             ),
-            mode = TagSelectionMode.MULTI,
         ),
     )
 }

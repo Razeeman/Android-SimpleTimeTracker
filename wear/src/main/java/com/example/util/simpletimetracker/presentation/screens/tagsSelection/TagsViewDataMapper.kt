@@ -6,8 +6,8 @@
 package com.example.util.simpletimetracker.presentation.screens.tagsSelection
 
 import com.example.util.simpletimetracker.R
+import com.example.util.simpletimetracker.presentation.components.TagChipState
 import com.example.util.simpletimetracker.presentation.components.TagListState
-import com.example.util.simpletimetracker.presentation.components.TagSelectionMode
 import com.example.util.simpletimetracker.presentation.theme.ColorActive
 import com.example.util.simpletimetracker.presentation.theme.ColorInactive
 import com.example.util.simpletimetracker.wear_api.WearSettings
@@ -22,7 +22,7 @@ class TagsViewDataMapper @Inject constructor() {
 
     fun mapState(
         tags: List<WearTag>,
-        selectedTags: List<WearTag>,
+        selectedTagIds: List<Long>,
         settings: WearSettings,
     ): TagListState {
         val listState = if (tags.isEmpty()) {
@@ -30,7 +30,7 @@ class TagsViewDataMapper @Inject constructor() {
         } else {
             mapContentState(
                 tags = tags,
-                selectedTags = selectedTags,
+                selectedTagIds = selectedTagIds,
                 settings = settings,
             )
         }
@@ -44,25 +44,28 @@ class TagsViewDataMapper @Inject constructor() {
 
     private fun mapContentState(
         tags: List<WearTag>,
-        selectedTags: List<WearTag>,
+        selectedTagIds: List<Long>,
         settings: WearSettings,
     ): TagListState.Content {
-        val selectedTagIds = selectedTags.map { it.id }
-
         val mode = if (settings.recordTagSelectionCloseAfterOne) {
-            TagSelectionMode.SINGLE
+            TagChipState.TagSelectionMode.SINGLE
         } else {
-            TagSelectionMode.MULTI
+            TagChipState.TagSelectionMode.MULTI
         }
 
         val items = tags.map {
             TagListState.Item.Tag(
-                tag = it,
-                selected = it.id in selectedTagIds,
+                tag = TagChipState(
+                    id = it.id,
+                    name = it.name,
+                    color = it.color,
+                    checked = it.id in selectedTagIds,
+                    mode = mode,
+                ),
             )
         }
 
-        val buttons = if (mode == TagSelectionMode.SINGLE) {
+        val buttons = if (mode == TagChipState.TagSelectionMode.SINGLE) {
             listOf(
                 TagListState.Item.Button(
                     textResId = R.string.change_record_untagged,
@@ -87,7 +90,6 @@ class TagsViewDataMapper @Inject constructor() {
 
         return TagListState.Content(
             items = items + buttons,
-            mode = mode,
         )
     }
 }

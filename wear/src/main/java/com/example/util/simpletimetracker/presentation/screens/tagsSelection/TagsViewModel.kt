@@ -42,7 +42,7 @@ class TagsViewModel @Inject constructor(
     private var isInitialized = false
     private var activityId: Long? = null
     private var tags: List<WearTag> = emptyList()
-    private var selectedTags: List<WearTag> = emptyList()
+    private var selectedTagsIds: List<Long> = emptyList()
     private var settings: WearSettings = WearSettings(
         allowMultitasking = false,
         showRecordTagSelection = false,
@@ -61,7 +61,7 @@ class TagsViewModel @Inject constructor(
     fun onButtonClick(buttonType: TagListState.Item.ButtonType) = viewModelScope.launch {
         when (buttonType) {
             is TagListState.Item.ButtonType.Untagged -> {
-                selectedTags = emptyList()
+                selectedTagsIds = emptyList()
                 if (settings.recordTagSelectionCloseAfterOne) {
                     startActivity()
                 } else {
@@ -74,10 +74,10 @@ class TagsViewModel @Inject constructor(
         }
     }
 
-    fun onToggleClick(tag: WearTag) = viewModelScope.launch {
-        val currentSelectedTags = selectedTags.toMutableList()
-        selectedTags = currentSelectedTags.apply {
-            if (tag in this) remove(tag) else add(tag)
+    fun onToggleClick(tagId: Long) = viewModelScope.launch {
+        val currentSelectedTags = selectedTagsIds.toMutableList()
+        selectedTagsIds = currentSelectedTags.apply {
+            if (tagId in this) remove(tagId) else add(tagId)
         }
 
         if (settings.recordTagSelectionCloseAfterOne) {
@@ -110,7 +110,7 @@ class TagsViewModel @Inject constructor(
         val activityId = this@TagsViewModel.activityId ?: return
         val result = currentActivitiesMediator.start(
             activityId = activityId,
-            tags = selectedTags,
+            tags = tags.filter { it.id in selectedTagsIds },
         )
         if (result.isFailure) {
             showError()
@@ -126,7 +126,7 @@ class TagsViewModel @Inject constructor(
     private fun mapState(): TagListState {
         return tagsViewDataMapper.mapState(
             tags = tags,
-            selectedTags = selectedTags,
+            selectedTagIds = selectedTagsIds,
             settings = settings,
         )
     }

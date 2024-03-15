@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
@@ -28,6 +29,7 @@ import com.example.util.simpletimetracker.utils.getString
 import java.time.Duration
 import java.time.Instant
 
+@Immutable
 data class ActivityChipState(
     val id: Long,
     val name: String,
