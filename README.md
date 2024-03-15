@@ -70,6 +70,7 @@ Simple app that helps track how much time you spend on all the useless activitie
 ## Wear OS
 
 [![wear1_thumb]][wear1]
+[![wear2_thumb]][wear2]
 [![wearos_demo]][wearos_demo]
 <br>
 
@@ -216,4 +217,6 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 [wear1_thumb]: dev_files/screens/wear1_thumb.png
 [wear1]: dev_files/screens/wear1.png
+[wear2_thumb]: dev_files/screens/wear2_thumb.png
+[wear2]: dev_files/screens/wear2.png
 [wearos_demo]: dev_files/wearos_demo.gif
