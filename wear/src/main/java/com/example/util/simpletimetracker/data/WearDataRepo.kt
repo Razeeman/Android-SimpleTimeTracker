@@ -5,19 +5,31 @@
  */
 package com.example.util.simpletimetracker.data
 
+import android.content.ComponentName
+import android.content.Context
+import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
+import com.example.util.simpletimetracker.complication.WearComplicationService
 import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.example.util.simpletimetracker.wear_api.WearTag
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class WearDataRepo @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val wearRPCClient: WearRPCClient,
 ) {
 
@@ -28,31 +40,66 @@ class WearDataRepo @Inject constructor(
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
 
+    private var activitiesCache: List<WearActivity>? = null
+    private var currentActivitiesCache: List<WearCurrentActivity>? = null
+    private val mutex: Mutex = Mutex()
+
     init {
-        wearRPCClient.addListener { _dataUpdated.emit(Unit) }
+        wearRPCClient.addListener {
+            coroutineScope {
+                val deferred = mutableListOf<Deferred<Any>>()
+                deferred += async { loadActivities(forceReload = true) }
+                deferred += async { loadCurrentActivities(forceReload = true) }
+                deferred.awaitAll()
+                updateComplications()
+                _dataUpdated.emit(Unit)
+            }
+        }
     }
 
-    suspend fun loadActivities(): Result<List<WearActivity>> {
-        return runCatching { wearRPCClient.queryActivities() }
+    suspend fun loadActivities(
+        forceReload: Boolean,
+    ): Result<List<WearActivity>> = mutex.withLock {
+        return runCatching {
+            activitiesCache.takeUnless { forceReload }
+                ?: wearRPCClient.queryActivities()
+                    .also { activitiesCache = it }
+        }
     }
 
-    suspend fun loadCurrentActivities(): Result<List<WearCurrentActivity>> {
-        return runCatching { wearRPCClient.queryCurrentActivities() }
+    suspend fun loadCurrentActivities(
+        forceReload: Boolean,
+    ): Result<List<WearCurrentActivity>> = mutex.withLock {
+        return runCatching {
+            currentActivitiesCache.takeUnless { forceReload }
+                ?: wearRPCClient.queryCurrentActivities()
+                    .also { currentActivitiesCache = it }
+        }
     }
 
-    suspend fun setCurrentActivities(starting: List<WearCurrentActivity>): Result<Unit> {
+    suspend fun setCurrentActivities(starting: List<WearCurrentActivity>): Result<Unit> = mutex.withLock {
         return runCatching { wearRPCClient.setCurrentActivities(starting) }
     }
 
-    suspend fun loadTagsForActivity(activityId: Long): Result<List<WearTag>> {
+    suspend fun loadTagsForActivity(activityId: Long): Result<List<WearTag>> = mutex.withLock {
         return runCatching { wearRPCClient.queryTagsForActivity(activityId) }
     }
 
-    suspend fun loadSettings(): Result<WearSettings> {
+    suspend fun loadSettings(): Result<WearSettings> = mutex.withLock {
         return runCatching { wearRPCClient.querySettings() }
     }
 
-    suspend fun openAppPhone(): Result<Unit> {
+    suspend fun openAppPhone(): Result<Unit> = mutex.withLock {
         return runCatching { wearRPCClient.openPhoneApp() }
+    }
+
+    fun updateComplications() {
+        ComplicationDataSourceUpdateRequester.create(
+            context = context,
+            complicationDataSourceComponent = ComponentName(
+                context,
+                WearComplicationService::class.java,
+            ),
+        ).requestUpdateAll()
     }
 }

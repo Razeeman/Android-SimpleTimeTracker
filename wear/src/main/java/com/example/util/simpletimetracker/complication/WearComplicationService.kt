@@ -75,9 +75,9 @@ class WearComplicationService : SuspendingComplicationDataSourceService() {
     }
 
     private suspend fun buildShortTextData(): ComplicationData {
-        val activities = wearDataRepo.loadActivities()
+        val activities = wearDataRepo.loadActivities(forceReload = false)
             .getOrNull().orEmpty()
-        val currentActivities = wearDataRepo.loadCurrentActivities()
+        val currentActivities = wearDataRepo.loadCurrentActivities(forceReload = false)
             .getOrNull().orEmpty()
 
         // Take most current activity.

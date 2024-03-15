@@ -5,11 +5,8 @@
  */
 package com.example.util.simpletimetracker.data
 
-import android.content.ComponentName
 import android.content.Context
 import android.util.Log
-import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
-import com.example.util.simpletimetracker.complication.WearComplicationService
 import com.example.util.simpletimetracker.wear_api.WearRequests
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.CapabilityClient
@@ -78,7 +75,6 @@ class WearMessenger @Inject constructor(
             when (path) {
                 WearRequests.DATA_UPDATED -> {
                     listener?.invoke()
-                    updateComplications()
                 }
                 else -> {
                     Log.d(tag, "$path is an invalid RPC call")
@@ -86,13 +82,6 @@ class WearMessenger @Inject constructor(
             }
         }
         return null
-    }
-
-    private fun updateComplications() {
-        ComplicationDataSourceUpdateRequester.create(
-            context = context,
-            complicationDataSourceComponent = ComponentName(context, WearComplicationService::class.java),
-        ).requestUpdateAll()
     }
 
     private fun findNearestNode(capability: String): Node? {

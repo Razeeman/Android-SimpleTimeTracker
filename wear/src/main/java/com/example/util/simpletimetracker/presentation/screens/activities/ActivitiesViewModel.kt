@@ -43,7 +43,6 @@ class ActivitiesViewModel @Inject constructor(
 
     fun init() {
         if (isInitialized) return
-        loadData()
         subscribeToDataUpdates()
         isInitialized = true
     }
@@ -63,17 +62,18 @@ class ActivitiesViewModel @Inject constructor(
         if (result.isFailure) showError()
     }
 
-    fun onRefresh() {
-        loadData()
+    fun onRefresh() = viewModelScope.launch {
+        loadData(forceReload = true)
+        wearDataRepo.updateComplications()
     }
 
     fun onOpenOnPhone() = viewModelScope.launch {
         wearDataRepo.openAppPhone()
     }
 
-    private fun loadData() = viewModelScope.launch {
-        val activities = wearDataRepo.loadActivities()
-        val currentActivities = wearDataRepo.loadCurrentActivities()
+    private suspend fun loadData(forceReload: Boolean) {
+        val activities = wearDataRepo.loadActivities(forceReload)
+        val currentActivities = wearDataRepo.loadCurrentActivities(forceReload)
 
         when {
             activities.isFailure || currentActivities.isFailure -> {
@@ -97,7 +97,7 @@ class ActivitiesViewModel @Inject constructor(
 
     private fun subscribeToDataUpdates() {
         viewModelScope.launch {
-            wearDataRepo.dataUpdated.collect { loadData() }
+            wearDataRepo.dataUpdated.collect { loadData(forceReload = false) }
         }
     }
 

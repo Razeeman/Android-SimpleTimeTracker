@@ -28,7 +28,7 @@ class CurrentActivitiesMediator @Inject constructor(
             .getOrNull() ?: return Result.failure(WearRPCException)
 
         return if (settings.allowMultitasking) {
-            val currents = wearDataRepo.loadCurrentActivities()
+            val currents = wearDataRepo.loadCurrentActivities(forceReload = false)
                 .getOrNull() ?: return Result.failure(WearRPCException)
             wearDataRepo.setCurrentActivities(currents.plus(newCurrent))
         } else {
@@ -37,7 +37,7 @@ class CurrentActivitiesMediator @Inject constructor(
     }
 
     suspend fun stop(currentId: Long): Result<Unit> {
-        val currents = wearDataRepo.loadCurrentActivities()
+        val currents = wearDataRepo.loadCurrentActivities(forceReload = false)
             .getOrNull() ?: return Result.failure(WearRPCException)
         val remaining = currents.filter { it.id != currentId }
         return wearDataRepo.setCurrentActivities(remaining)
