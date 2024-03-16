@@ -5,9 +5,7 @@
  */
 package com.example.util.simpletimetracker.complication
 
-import android.annotation.SuppressLint
 import android.app.PendingIntent
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Icon
 import android.util.Log
@@ -26,7 +24,7 @@ import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.data.WearIconMapper
 import com.example.util.simpletimetracker.domain.WearActivityIcon
-import com.example.util.simpletimetracker.presentation.MainActivity
+import com.example.util.simpletimetracker.utils.getMainStartIntent
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
 import javax.inject.Inject
@@ -93,7 +91,7 @@ class WearComplicationService : SuspendingComplicationDataSourceService() {
             startedAt = currentActivity?.startedAt,
             activityName = name,
             activityIcon = activity?.icon?.let(iconMapper::mapIcon),
-            onClick = getMainStartIntent(),
+            onClick = getMainStartIntent(this),
         )
     }
 
@@ -143,19 +141,5 @@ class WearComplicationService : SuspendingComplicationDataSourceService() {
                 measureExactly(iconSizeDp.dpToPx(this.context))
             }
             .getBitmapFromView()
-    }
-
-    @SuppressLint("WearRecents")
-    private fun getMainStartIntent(): PendingIntent {
-        val startIntent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        }
-
-        return PendingIntent.getActivity(
-            this,
-            0,
-            startIntent,
-            getPendingIntentFlags(),
-        )
     }
 }

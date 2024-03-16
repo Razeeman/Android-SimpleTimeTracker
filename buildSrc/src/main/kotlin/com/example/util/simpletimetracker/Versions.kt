@@ -39,6 +39,7 @@ object Versions {
     const val compose_kotlin_compiler = "1.4.0-alpha02"
     const val compose_hilt = "1.0.0"
     const val wear_complications = "1.2.1"
+    const val wear_ongoing = "1.0.0"
     const val metadata_jvm = "0.5.0"
 
     const val junit = "4.13"

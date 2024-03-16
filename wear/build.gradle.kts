@@ -69,6 +69,7 @@ dependencies {
     implementation(Deps.Google.gson)
     implementation(Deps.Google.dagger)
     implementation(Deps.Wear.complications)
+    implementation(Deps.Wear.wearOngoing)
     coreLibraryDesugaring(Deps.Google.desugaring)
     implementation(Deps.Compose.activity)
     implementation(Deps.Compose.ui)

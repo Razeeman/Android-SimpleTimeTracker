@@ -5,11 +5,9 @@
  */
 package com.example.util.simpletimetracker.complication
 
-import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.os.Build
 import android.util.TypedValue
 import android.view.View
 import android.view.View.MeasureSpec
@@ -41,12 +39,4 @@ fun Int.dpToPx(context: Context): Int {
         this.toFloat(),
         context.resources.displayMetrics,
     ).roundToInt()
-}
-
-fun getPendingIntentFlags(): Int {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-    } else {
-        PendingIntent.FLAG_UPDATE_CURRENT
-    }
 }

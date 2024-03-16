@@ -7,9 +7,12 @@ package com.example.util.simpletimetracker.presentation.screens.activities
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.complication.WearComplicationManager
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.domain.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.domain.StartActivityMediator
+import com.example.util.simpletimetracker.domain.WearCheckNotificationsPermissionInteractor
+import com.example.util.simpletimetracker.notification.WearNotificationManager
 import com.example.util.simpletimetracker.presentation.components.ActivitiesListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
@@ -25,9 +28,12 @@ import javax.inject.Inject
 @HiltViewModel
 class ActivitiesViewModel @Inject constructor(
     private val wearDataRepo: WearDataRepo,
+    private val wearComplicationManager: WearComplicationManager,
+    private val wearNotificationManager: WearNotificationManager,
     private val startActivitiesMediator: StartActivityMediator,
     private val currentActivitiesMediator: CurrentActivitiesMediator,
     private val activitiesViewDataMapper: ActivitiesViewDataMapper,
+    private val wearCheckNotificationsPermissionInteractor: WearCheckNotificationsPermissionInteractor,
 ) : ViewModel() {
 
     val state: StateFlow<ActivitiesListState> get() = _state.asStateFlow()
@@ -52,7 +58,24 @@ class ActivitiesViewModel @Inject constructor(
         if (result.isFailure) showError()
     }
 
-    fun tryStartActivity(activityId: Long) = viewModelScope.launch {
+    fun tryStartActivity(activityId: Long) {
+        wearCheckNotificationsPermissionInteractor.execute(
+            onEnabled = { startActivity(activityId) },
+            onDisabled = { startActivity(activityId) },
+        )
+    }
+
+    fun onRefresh() = viewModelScope.launch {
+        loadData(forceReload = true)
+        wearComplicationManager.updateComplications()
+        wearNotificationManager.updateNotifications()
+    }
+
+    fun onOpenOnPhone() = viewModelScope.launch {
+        wearDataRepo.openAppPhone()
+    }
+
+    private fun startActivity(activityId: Long) = viewModelScope.launch {
         val result = startActivitiesMediator.requestStart(
             activityId = activityId,
             onRequestTagSelection = {
@@ -60,15 +83,6 @@ class ActivitiesViewModel @Inject constructor(
             },
         )
         if (result.isFailure) showError()
-    }
-
-    fun onRefresh() = viewModelScope.launch {
-        loadData(forceReload = true)
-        wearDataRepo.updateComplications()
-    }
-
-    fun onOpenOnPhone() = viewModelScope.launch {
-        wearDataRepo.openAppPhone()
     }
 
     private suspend fun loadData(forceReload: Boolean) {

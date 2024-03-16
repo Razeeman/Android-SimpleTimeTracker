@@ -94,6 +94,8 @@ object Deps {
     object Wear {
         const val complications =
             "androidx.wear.watchface:watchface-complications-data-source-ktx:${Versions.wear_complications}"
+        const val wearOngoing =
+            "androidx.wear:wear-ongoing:${Versions.wear_ongoing}"
     }
 
     object Kapt {

@@ -4,6 +4,8 @@
 
     <uses-feature android:name="android.hardware.type.watch" />
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".presentation.WearApp"
         android:allowBackup="true"
@@ -55,7 +57,7 @@
             android:name=".complication.WearComplicationService"
             android:exported="true"
             android:icon="@drawable/app_ic_launcher_monochrome"
-            android:label="@string/app_name"
+            android:label="@string/activity_hint"
             android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
 
             <intent-filter>

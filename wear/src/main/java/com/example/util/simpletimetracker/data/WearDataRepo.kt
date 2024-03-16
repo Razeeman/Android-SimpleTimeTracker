@@ -5,15 +5,13 @@
  */
 package com.example.util.simpletimetracker.data
 
-import android.content.ComponentName
-import android.content.Context
-import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
-import com.example.util.simpletimetracker.complication.WearComplicationService
+import com.example.util.simpletimetracker.complication.WearComplicationManager
+import com.example.util.simpletimetracker.notification.WearNotificationManager
 import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.example.util.simpletimetracker.wear_api.WearTag
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.Lazy
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -29,8 +27,9 @@ import javax.inject.Singleton
 
 @Singleton
 class WearDataRepo @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val wearRPCClient: WearRPCClient,
+    private val wearComplicationManager: WearComplicationManager,
+    private val wearNotificationManager: Lazy<WearNotificationManager>,
 ) {
 
     val dataUpdated: SharedFlow<Unit> get() = _dataUpdated.asSharedFlow()
@@ -51,7 +50,8 @@ class WearDataRepo @Inject constructor(
                 deferred += async { loadActivities(forceReload = true) }
                 deferred += async { loadCurrentActivities(forceReload = true) }
                 deferred.awaitAll()
-                updateComplications()
+                wearComplicationManager.updateComplications()
+                wearNotificationManager.get().updateNotifications()
                 _dataUpdated.emit(Unit)
             }
         }
@@ -91,15 +91,5 @@ class WearDataRepo @Inject constructor(
 
     suspend fun openAppPhone(): Result<Unit> = mutex.withLock {
         return runCatching { wearRPCClient.openPhoneApp() }
-    }
-
-    fun updateComplications() {
-        ComplicationDataSourceUpdateRequester.create(
-            context = context,
-            complicationDataSourceComponent = ComponentName(
-                context,
-                WearComplicationService::class.java,
-            ),
-        ).requestUpdateAll()
     }
 }
