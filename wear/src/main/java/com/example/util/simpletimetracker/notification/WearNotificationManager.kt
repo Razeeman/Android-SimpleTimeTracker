@@ -14,9 +14,9 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.wear.ongoing.OngoingActivity
 import androidx.wear.ongoing.Status
 import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.data.WearPermissionRepo
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.data.WearIconMapper
+import com.example.util.simpletimetracker.data.WearPermissionRepo
 import com.example.util.simpletimetracker.domain.WearActivityIcon
 import com.example.util.simpletimetracker.utils.getMainStartIntent
 import com.example.util.simpletimetracker.wear_api.WearActivity
@@ -59,6 +59,7 @@ class WearNotificationManager @Inject constructor(
     ) {
         if (!wearPermissionRepo.checkPostNotificationsPermission()) return
 
+        // TODO can pass bitmap but emulator crashing.
         val icon = when (
             val activityIcon = wearIconMapper.mapIcon(activity.icon)
         ) {
