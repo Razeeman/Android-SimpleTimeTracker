@@ -102,8 +102,10 @@ class WearComplicationService : SuspendingComplicationDataSourceService() {
         onClick: PendingIntent?,
     ): ComplicationData {
         val text = if (startedAt != null) {
+            // SHORT_DUAL_UNIT seems better,
+            // but on samsung watch for example "1h 15m" is shown as just "2h"
             TimeDifferenceComplicationText.Builder(
-                TimeDifferenceStyle.SHORT_DUAL_UNIT,
+                TimeDifferenceStyle.STOPWATCH,
                 CountUpTimeReference(Instant.ofEpochMilli(startedAt)),
             ).build()
         } else {
