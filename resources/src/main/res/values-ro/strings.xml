@@ -101,7 +101,7 @@
     <string name="change_record_actions_hint">Acțiuni</string>
     <string name="change_record_last_comments_hint">Ultimele comentarii</string>
     <string name="change_record_favourite_comments_hint">Favorite</string>
-    <string name="change_record_categories_empty">Nu au fost adaugate etichete</string>
+    <string name="change_record_categories_empty">Nu au fost adăugate etichete</string>
     <string name="change_record_save">Salvează</string>
     <string name="change_record_untagged">Ne-etichetat</string>
     <string name="change_running_record_removed">Ștergere activitatea în curs</string>
@@ -267,227 +267,227 @@
     <string name="settings_rate">Evaluează-ne</string>
     <string name="settings_rate_description">Evaluează aplicatia și scrie un recenzie.</string>
     <string name="settings_feedback">Părere</string>
-    <string name="settings_feedback_description">Have a suggestion? Found a bug? Want to talk? Write us!</string>
-    <string name="settings_version">Version</string>
-    <string name="settings_email_chooser_title">Send with…</string>
-    <string name="settings_translators">Translators</string>
-    <string name="settings_contributors">Other contributors</string>
-    <string name="settings_automated_tracking">Automated tracking</string>
+    <string name="settings_feedback_description">Ai o sugestie? Ai găsit o problemă? Vrei să vorbim? Scrie-ne!</string>
+    <string name="settings_version">Versiune</string>
+    <string name="settings_email_chooser_title">Trimite cu...</string>
+    <string name="settings_translators">Traducători</string>
+    <string name="settings_contributors">Alti contributori</string>
+    <string name="settings_automated_tracking">Urmărire automată</string>
     <string name="settings_automated_tracking_text"><![CDATA[
-Automatic tracking is possible through integration with third-party applications that allow to automate actions based on certain events. These applications, when a certain event occurs, can send a message to the app to start or stop the activity timer.<br/>
+Urmărirea automată este posibilă prin integrerea cu o aplicație terță care permite acțiuni automate bazate pe anumite evenimente. Aceste aplicații, când anumite evenimente se întamplă, pot trimite mesaje către aplicație pentru a porni sau termina un cronometru.<br/>
 <br/>
-Some examples of events:<br/>
-- Launching a certain app.<br/>
-- Scanning NFC tag.<br/>
-- Going to certain location.<br/>
-- Certain times of day.<br/>
-- Connecting to Bluetooth or Wifi.<br/>
+Câteva exemple de evenimente:<br/>
+- Pornirea unor anumite aplicații.<br/>
+- Scanning unui tag NFC.<br/>
+- Mersul în anumite locații.<br/>
+- Anumite momente ale zilei.<br/>
+- Conectarea la Bluetooth sau Wifi.<br/>
 <br/>
-To enable this behaviour these applications should support sending \"intent\" or \"broadcast intent\" with these parameters:<br/>
+Pentru a activa aceste aspecte, aplicațiile trebuie sa permită trimiterea de \"intent\" sau \"broadcast intent\" cu acești parametri:<br/>
 <br/>
-<b>Action</b> - \"%s\" or \"%s\".<br/>
-<b>Extra</b> - \"%s\" with activity name that should be started or stopped.<br/>
-<b>Package</b> - \"%s\".<br/>
+<b>Acțiune</b> - \"%s\" sau \"%s\".<br/>
+<b>Extra</b> - \"%s\" cu numele activității care trebuie începută sau oprită.<br/>
+<b>Pachet</b> - \"%s\".<br/>
 <br/>
-Optional parameters for starting activity:<br/>
+Parametri opționali pentru începerea activității:<br/>
 <br/>
-<b>Extra</b> - \"%s\" with record comment.<br/>
-<b>Extra</b> - \"%s\" with the name of a record tag.<br/>
+<b>Extra</b> - \"%s\" cu comentariu înregistrării.<br/>
+<b>Extra</b> - \"%s\" cu numele etichetei înregistrării.<br/>
 <br/>
-Additional:<br/>
+Adițional:<br/>
 <br/>
-<b>Action</b> - \"%s\".<br/>
-<b>Action</b> - \"%s\".<br/>
-<b>Action</b> - \"%s\".<br/>
-<b>Action</b> - \"%s\".<br/>
+<b>Acțiune</b> - \"%s\".<br/>
+<b>Acțiune</b> - \"%s\".<br/>
+<b>Acțiune</b> - \"%s\".<br/>
+<b>Acțiune</b> - \"%s\".<br/>
     ]]></string>
-    <string name="settings_automated_tracking_send_events">Send events</string>
+    <string name="settings_automated_tracking_send_events">Trimite eveniment</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
-If <b>\"%s\"</b> setting is enabled, app will send events on activity started or stopped to third-party applications for automated tracking with these parameters:<br/>
+Dacă opțiunea <b>\"%s\"</b> este activă, aplicația va trimite evenimente la pornirea sau oprirea unei activități către o aplicație terță parte pentru urmărirea automată cu următorii parametri:<br/>
 <br/>
-<b>Action</b> - \"%s\" or \"%s\".<br/>
+<b>Acțiune</b> - \"%s\" or \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
     ]]></string>
 
-    <string name="settings_save_backup">Save backup</string>
-    <string name="settings_save_description">Before saving, make sure that you have the latest version of the app installed to avoid conflicts.</string>
-    <string name="settings_automatic_backup">Enable automatic backup</string>
-    <string name="settings_automatic_export">Enable automatic spreadsheet export</string>
-    <string name="settings_automatic_description">File will be saved in the selected location overwriting previously saved file every day at midnight.</string>
-    <string name="settings_automatic_last_save">Last save:</string>
-    <string name="settings_restore_backup">Restore backup</string>
-    <string name="settings_restore_description">Current data will be lost.</string>
-    <string name="settings_dialog_message">Restore backup?</string>
-    <string name="settings_export_csv">Spreadsheet export</string>
-    <string name="settings_export_csv_description">Export activity records as a csv file to view in a preferred spreadsheet application.</string>
-    <string name="settings_import_csv">Spreadsheet import</string>
-    <string name="settings_import_csv_description">Import activity records from a csv file. Current data will not be lost.</string>
+    <string name="settings_save_backup">Salvează backup</string>
+    <string name="settings_save_description">Înainte de a salva, asigură-te ca ai ultima versiune a aplicației pentru a evita conflictele.</string>
+    <string name="settings_automatic_backup">Activează backup-ul automat</string>
+    <string name="settings_automatic_export">Activează exportul automat către o foaie de calcul</string>
+    <string name="settings_automatic_description">Fișierul va fi salvat în locația aleasă, suprascriind fișierul salvat anterior, în fiecare zi la miezul nopții.</string>
+    <string name="settings_automatic_last_save">Ultima salvare:</string>
+    <string name="settings_restore_backup">Restaurare backup</string>
+    <string name="settings_restore_description">Informația curentă va fi pierdută.</string>
+    <string name="settings_dialog_message">Restaurare backup?</string>
+    <string name="settings_export_csv">Export foaie de calcul</string>
+    <string name="settings_export_csv_description">Exportă înregistrările ca fișier csv pentru a fi vizualizat în aplicația preferată.</string>
+    <string name="settings_import_csv">Importă foaie de calcul</string>
+    <string name="settings_import_csv_description">Importă înregistrările dintr-un fișier csv. Datele curente vor fi pierdute.</string>
     <string name="settings_import_csv_help"><![CDATA[
-The csv file must contain these columns separated by commas:<br/>
+Fișierul csv trebuie să conțină aceste coloane separate prin virgulă:<br/>
 <br/>
-- Activity name in quotes.<br/>
-- Start time of record in the format \"yyyy-MM-dd HH:mm:ss\"<br/>
-- End time of record in the format \"yyyy-MM-dd HH:mm:ss\"<br/>
-- Comment in quotes.<br/>
+- Numele activității între ghilimele.<br/>
+- Timpul de start al activității în formatul \"aaaa-ll-zz HH:mm:ss\"<br/>
+- Timpul de final al activității în formatul \"aaaa-ll-zz HH:mm:ss\"<br/>
+- Comentariul între ghilimele.<br/>
 <br/>
-Example:<br/>
+Examplu:<br/>
 <br/>
 \"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
     ]]></string>
-    <string name="settings_export_ics">ICS export</string>
-    <string name="settings_export_warning">This file cannot be used as a backup.</string>
-    <string name="settings_file_open_error">Error opening file</string>
-    <string name="settings_file_create_error">Error creating file</string>
+    <string name="settings_export_ics">Export ICS</string>
+    <string name="settings_export_warning">Acest fișier nu poate fi folosit ca backup.</string>
+    <string name="settings_file_open_error">Eroare la deschiderea fișierului</string>
+    <string name="settings_file_create_error">Eroare la crearea fișieului</string>
 
-    <string name="message_backup_saved">Backup saved</string>
-    <string name="message_backup_restored">Backup restored</string>
-    <string name="message_save_error">Error saving backup</string>
-    <string name="message_restore_error">Error restoring backup</string>
-    <string name="message_app_not_found">Application not found</string>
-    <string name="message_export_complete">Export completed</string>
-    <string name="message_export_error">Export error</string>
-    <string name="message_import_complete">Import completed</string>
-    <string name="message_import_complete_hint">Records added: %s</string>
-    <string name="message_import_error">Import error</string>
-    <string name="message_automatic_backup_error">There was an error with automatic backup.</string>
-    <string name="message_automatic_export_error">There was an error with automatic export.</string>
-    <string name="message_automatic_error_hint">Try to select different location</string>
+    <string name="message_backup_saved">Backup salvat</string>
+    <string name="message_backup_restored">Backup restaurat</string>
+    <string name="message_save_error">Eroare la salvarea backup-ului</string>
+    <string name="message_restore_error">Eroare la restauarea backup-ului</string>
+    <string name="message_app_not_found">Aplicația nu a fost găsită</string>
+    <string name="message_export_complete">Export completat</string>
+    <string name="message_export_error">Eroare de export</string>
+    <string name="message_import_complete">Import completat</string>
+    <string name="message_import_complete_hint">Înregistrări adăugate %s</string>
+    <string name="message_import_error">Eroare la import</string>
+    <string name="message_automatic_backup_error">A fost o eroare la backup-ul automat.</string>
+    <string name="message_automatic_export_error">A fost o eroare la exportul automat.</string>
+    <string name="message_automatic_error_hint">Încearcă să alegi o altă locație</string>
 
     <!--  Statistics detail  -->
-    <string name="statistics_detail_chart_hourly">hourly</string>
-    <string name="statistics_detail_chart_daily">daily</string>
-    <string name="statistics_detail_chart_weekly">weekly</string>
-    <string name="statistics_detail_chart_monthly">monthly</string>
-    <string name="statistics_detail_chart_yearly">yearly</string>
+    <string name="statistics_detail_chart_hourly">orar</string>
+    <string name="statistics_detail_chart_daily">zilnic</string>
+    <string name="statistics_detail_chart_weekly">săptămânal</string>
+    <string name="statistics_detail_chart_monthly">lunar</string>
+    <string name="statistics_detail_chart_yearly">anual</string>
     <string name="statistics_detail_length_ten">10</string>
     <string name="statistics_detail_length_fifty">50</string>
     <string name="statistics_detail_length_hundred">100</string>
     <string name="statistics_detail_legend_minute_suffix">m</string>
     <string name="statistics_detail_legend_hour_suffix">h</string>
 
-    <string name="statistics_detail_range_averages_title">Average for period: %s</string>
-    <string name="statistics_detail_range_averages">For the whole range</string>
-    <string name="statistics_detail_range_averages_non_empty">Without empty periods</string>
+    <string name="statistics_detail_range_averages_title">Media pentru perioada: %s</string>
+    <string name="statistics_detail_range_averages">Pentru întregul interval</string>
+    <string name="statistics_detail_range_averages_non_empty">Fără perioade goale</string>
 
     <string name="statistics_detail_total_duration">Total</string>
-    <string name="statistics_detail_record_length">Record length</string>
-    <string name="statistics_detail_shortest_record">Shortest</string>
-    <string name="statistics_detail_average_record">Average</string>
-    <string name="statistics_detail_longest_record">Longest</string>
-    <string name="statistics_detail_record_time">Record time</string>
-    <string name="statistics_detail_first_record">First</string>
-    <string name="statistics_detail_last_record">Last</string>
-    <string name="statistics_detail_streaks">Series</string>
-    <string name="statistics_detail_streaks_longest">Longest</string>
-    <string name="statistics_detail_streaks_current">Current</string>
-    <string name="statistics_detail_streaks_latest">Latest</string>
-    <string name="statistics_detail_activity_split_hint">Activity distribution</string>
-    <string name="statistics_detail_tag_split_hint">Tag distribution</string>
-    <string name="statistics_detail_day_split_hint">Daily distribution</string>
-    <string name="statistics_detail_duration_split_hint">Record duration distribution</string>
-    <string name="statistics_detail_next_activities_hint">Top next activities</string>
+    <string name="statistics_detail_record_length">Durata înregistrării</string>
+    <string name="statistics_detail_shortest_record">Cea mai scurtă</string>
+    <string name="statistics_detail_average_record">Media</string>
+    <string name="statistics_detail_longest_record">Cea mai lungă</string>
+    <string name="statistics_detail_record_time">Timpul înregistrării</string>
+    <string name="statistics_detail_first_record">Primul</string>
+    <string name="statistics_detail_last_record">Ultimul</string>
+    <string name="statistics_detail_streaks">Serie</string>
+    <string name="statistics_detail_streaks_longest">Cel mai lung</string>
+    <string name="statistics_detail_streaks_current">Curent</string>
+    <string name="statistics_detail_streaks_latest">Ultimul</string>
+    <string name="statistics_detail_activity_split_hint">Distribuția activității</string>
+    <string name="statistics_detail_tag_split_hint">Distribuția etichetelor</string>
+    <string name="statistics_detail_day_split_hint">Distribuția zilnică</string>
+    <string name="statistics_detail_duration_split_hint">Distribuția înregistrărilor</string>
+    <string name="statistics_detail_next_activities_hint">Top următoare activități</string>
     <string name="statistics_detail_multitasking_activities_hint">Top multitasked</string>
 
     <plurals name="statistics_detail_times_tracked">
-        <item quantity="zero">Records</item>
-        <item quantity="one">Record</item>
-        <item quantity="two">Records</item>
-        <item quantity="few">Records</item>
-        <item quantity="many">Records</item>
-        <item quantity="other">Records</item>
+        <item quantity="zero">Înregistrări</item>
+        <item quantity="one">Înregistrări</item>
+        <item quantity="two">Înregistrări</item>
+        <item quantity="few">Înregistrări</item>
+        <item quantity="many">Înregistrări</item>
+        <item quantity="other">Înregistrări</item>
     </plurals>
 
     <!--  Widget  -->
-    <string name="widget_name">Single Activity</string>
+    <string name="widget_name">Activitate unică</string>
     <string name="widget_universal_name">Universal</string>
-    <string name="widget_statistics_chart_name">Statistics Chart</string>
-    <string name="widget_quick_settings_name">Quick settings</string>
-    <string name="widget_load_error">Not found</string>
+    <string name="widget_statistics_chart_name">Grafic statsistic</string>
+    <string name="widget_quick_settings_name">Setări rapide</string>
+    <string name="widget_load_error">Nu a fost găsit</string>
 
     <!--  Notification  -->
-    <string name="notification_inactivity_title">Inactivity reminder</string>
-    <string name="notification_inactivity_text">Don\'t forget to track your time</string>
-    <string name="notification_activity_title">Activity reminder</string>
-    <string name="notification_activity_text">Are you still doing: %s?</string>
-    <string name="notification_goal_time_description">goal reached</string>
-    <string name="notification_time_started">Started at %s</string>
+    <string name="notification_inactivity_title">Memento inactivitate</string>
+    <string name="notification_inactivity_text">Nu uita să urmărești timpul</string>
+    <string name="notification_activity_title">Memento activitate</string>
+    <string name="notification_activity_text">Înca mai faci: %s?</string>
+    <string name="notification_goal_time_description">Țel atins</string>
+    <string name="notification_time_started">Început la %s</string>
     <string name="notification_record_type_stop">Stop</string>
 
     <!--  Archive  -->
-    <string name="something_was_archived_hint">To remove completely - open archive</string>
-    <string name="archive_hint">Click on card to view details</string>
-    <string name="archive_dialog_delete">Delete</string>
-    <string name="archive_dialog_restore">Restore</string>
-    <string name="archive_empty">Archive is empty</string>
-    <string name="archive_activity_restored">Activity restored</string>
-    <string name="archive_tag_restored">Tag restored</string>
-    <string name="archive_activity_deleted">Activity deleted</string>
-    <string name="archive_tag_deleted">Tag deleted</string>
-    <string name="archive_activity_deletion_message">All records of this activity and record tags will also be deleted.</string>
-    <string name="archive_tag_deletion_message">All records tagged with this tag will become untagged.</string>
-    <string name="archive_deletion_alert">Are you sure? This action cannot be undone.</string>
-    <string name="archive_records_count">Records</string>
-    <string name="archive_record_tags_count">Record tags</string>
-    <string name="archive_tagged_records_count">Tagged records</string>
+    <string name="something_was_archived_hint">Pentru a șterge complet - deshide arhiva</string>
+    <string name="archive_hint">Click pe o carte pentru a vedea detaliile</string>
+    <string name="archive_dialog_delete">Șterge</string>
+    <string name="archive_dialog_restore">Reconstituie</string>
+    <string name="archive_empty">Arhiva este goală</string>
+    <string name="archive_activity_restored">Activitate recuperată</string>
+    <string name="archive_tag_restored">Etichetă recuperată</string>
+    <string name="archive_activity_deleted">Activitate ștearsă</string>
+    <string name="archive_tag_deleted">Etichetă ștearsă</string>
+    <string name="archive_activity_deletion_message">Toate înregistrările și etichetele asociate vor fi șterse.</string>
+    <string name="archive_tag_deletion_message">Toate înregistrările marcate cu această etichetă își vor pierde eticheta.</string>
+    <string name="archive_deletion_alert">Ești sigur? Această acțiune nu poate fi reversată.</string>
+    <string name="archive_records_count">Înregistrări</string>
+    <string name="archive_record_tags_count">Etichete</string>
+    <string name="archive_tagged_records_count">Înregistrări etichetate</string>
 
     <!--  Data edit  -->
-    <string name="data_edit_hint">These changes cannot be undone. Make sure to create a backup file before doing anything.</string>
-    <string name="data_edit_select_records">Select records</string>
-    <string name="data_edit_change_activity">Change activity</string>
-    <string name="data_edit_change_activity_hint">Tags of current activity will be removed.</string>
-    <string name="data_edit_change_comment">Change comment</string>
-    <string name="data_edit_change_add_tag">Add tags</string>
-    <string name="data_edit_change_remove_tag">Remove tags</string>
-    <string name="data_edit_button_change">Change</string>
-    <string name="data_edit_success_message">Data changed</string>
+    <string name="data_edit_hint">Aceste modificări nu pot fi reversate. Fii sigur că ai facut un backup înainte de a face orice altceva.</string>
+    <string name="data_edit_select_records">Alege înregistrarea</string>
+    <string name="data_edit_change_activity">Modifică activitatea</string>
+    <string name="data_edit_change_activity_hint">Etichetele activității curente vor fi eliminate.</string>
+    <string name="data_edit_change_comment">Schimbă comentariul</string>
+    <string name="data_edit_change_add_tag">Adaug etichete</string>
+    <string name="data_edit_change_remove_tag">Șterge etichete</string>
+    <string name="data_edit_button_change">Modifică</string>
+    <string name="data_edit_success_message">informații modificate</string>
 
     <!--  Records filter  -->
-    <string name="records_filter_select_tags">Select tags</string>
-    <string name="records_filter_filter_tags">Exclude tags</string>
-    <string name="records_filter_manually_filtered">Filtered</string>
-    <string name="records_filter_no_comment">No comment</string>
-    <string name="records_filter_any_comment">Any comment</string>
-    <string name="records_filter_select">Select</string>
-    <string name="records_filter_invert_selection">Invert selection</string>
+    <string name="records_filter_select_tags">Alege etichetele</string>
+    <string name="records_filter_filter_tags">Exclude etichete</string>
+    <string name="records_filter_manually_filtered">Filtrate</string>
+    <string name="records_filter_no_comment">Fără comentarii</string>
+    <string name="records_filter_any_comment">Orice comentariu</string>
+    <string name="records_filter_select">Alege</string>
+    <string name="records_filter_invert_selection">Inversează selecția</string>
 
     <!--  Icon emoji category  -->
-    <string name="emojiGroupSmileys">Smileys &amp; Emotion</string>
-    <string name="emojiGroupPeople">People &amp; Body</string>
-    <string name="emojiGroupAnimals">Animals &amp; Nature</string>
-    <string name="emojiGroupFood">Food &amp; Drink</string>
-    <string name="emojiGroupTravel">Travel &amp; Places</string>
-    <string name="emojiGroupActivities">Activities</string>
-    <string name="emojiGroupObjects">Objects</string>
-    <string name="emojiGroupSymbols">Symbols</string>
-    <string name="emojiGroupFlags">Flags</string>
+    <string name="emojiGroupSmileys">Smileys &amp; Emoție</string>
+    <string name="emojiGroupPeople">Oameni &amp; Corpuri</string>
+    <string name="emojiGroupAnimals">Animale &amp; Natura</string>
+    <string name="emojiGroupFood">Mâncare &amp; Băutură</string>
+    <string name="emojiGroupTravel">Călătorii &amp; Locuri</string>
+    <string name="emojiGroupActivities">Activități</string>
+    <string name="emojiGroupObjects">Obiecte</string>
+    <string name="emojiGroupSymbols">Simboluri</string>
+    <string name="emojiGroupFlags">Steaguri</string>
 
     <!--  Icon image category  -->
-    <string name="imageGroupMaps">Maps</string>
-    <string name="imageGroupPlaces">Places</string>
+    <string name="imageGroupMaps">Hărți</string>
+    <string name="imageGroupPlaces">Locuri</string>
     <string name="imageGroupSocial">Social</string>
-    <string name="imageGroupAction">Action</string>
+    <string name="imageGroupAction">Acțiuni</string>
     <string name="imageGroupHardware">Hardware</string>
-    <string name="imageGroupAlert">Alert</string>
+    <string name="imageGroupAlert">Alerte</string>
     <string name="imageGroupAv">Audio video</string>
-    <string name="imageGroupCommunication">Communication</string>
-    <string name="imageGroupContent">Content</string>
-    <string name="imageGroupDevice">Device</string>
+    <string name="imageGroupCommunication">Comunicații</string>
+    <string name="imageGroupContent">Conținut</string>
+    <string name="imageGroupDevice">Dispozitive</string>
     <string name="imageGroupEditor">Editor</string>
-    <string name="imageGroupFile">File</string>
-    <string name="imageGroupImage">Image</string>
-    <string name="imageGroupNavigation">Navigation</string>
-    <string name="imageGroupNotification">Notification</string>
-    <string name="imageGroupToggle">Toggle</string>
+    <string name="imageGroupFile">Fișier</string>
+    <string name="imageGroupImage">Imagine</string>
+    <string name="imageGroupNavigation">Navigație</string>
+    <string name="imageGroupNotification">Notificări</string>
+    <string name="imageGroupToggle">Comutări</string>
 
     <!--  Shortcuts  -->
-    <string name="shortcut_navigation_records">Records</string>
-    <string name="shortcut_navigation_statistics">Statistics</string>
-    <string name="shortcut_navigation_settings">Settings</string>
+    <string name="shortcut_navigation_records">Înregistrări</string>
+    <string name="shortcut_navigation_statistics">Statistică</string>
+    <string name="shortcut_navigation_settings">Setări</string>
 
     <!--  Wear  -->
-    <string name="wear_loading_error">Check your connection and try again</string>
-    <string name="wear_open_on_phone">Open on phone</string>
+    <string name="wear_loading_error">Verifică conexiunea și încearcă din nou</string>
+    <string name="wear_open_on_phone">Deschide pe telefon</string>
 
 </resources>
