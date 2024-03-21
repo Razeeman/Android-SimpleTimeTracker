@@ -489,5 +489,7 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <!--  Wear  -->
     <string name="wear_loading_error">Bağlantınızı kontrol edip tekrar deneyin</string>
     <string name="wear_open_on_phone">Telefonda aç</string>
+    <string name="wear_settings_title">Ayarlar</string>
+    <string name="wear_settings_title_show_compact_list">Kompakt listeyi göster</string>
 
 </resources>

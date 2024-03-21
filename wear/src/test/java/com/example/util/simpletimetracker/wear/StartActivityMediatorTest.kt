@@ -6,8 +6,8 @@
 package com.example.util.simpletimetracker.wear
 
 import com.example.util.simpletimetracker.data.WearDataRepo
-import com.example.util.simpletimetracker.domain.CurrentActivitiesMediator
-import com.example.util.simpletimetracker.domain.StartActivityMediator
+import com.example.util.simpletimetracker.domain.mediator.CurrentActivitiesMediator
+import com.example.util.simpletimetracker.domain.mediator.StartActivityMediator
 import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.example.util.simpletimetracker.wear_api.WearTag

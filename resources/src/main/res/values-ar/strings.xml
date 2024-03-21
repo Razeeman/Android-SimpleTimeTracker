@@ -489,5 +489,7 @@
     <!--  Wear  -->
     <string name="wear_loading_error">تحقق من اتصالك وحاول مرة أخرى</string>
     <string name="wear_open_on_phone">فتح على الهاتف</string>
+    <string name="wear_settings_title">إعدادات</string>
+    <string name="wear_settings_title_show_compact_list">عرض القائمة المدمجة</string>
 
 </resources>

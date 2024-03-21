@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.presentation.components
+package com.example.util.simpletimetracker.presentation.ui.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.OutlinedButton
-import com.example.util.simpletimetracker.presentation.remember.rememberAnimationRotation
+import com.example.util.simpletimetracker.presentation.ui.remember.rememberAnimationRotation
 
 @Composable
 fun RefreshButton(

@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.presentation.layout
+package com.example.util.simpletimetracker.presentation.ui.layout
 
 import androidx.compose.animation.core.exponentialDecay
 import androidx.compose.foundation.background
@@ -28,6 +28,7 @@ import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
 @OptIn(ExperimentalHorologistComposeLayoutApi::class)
 @Composable
 fun ScrollingColumn(
+    startItemIndex: Int,
     scrollState: ScalingLazyListState = rememberScalingLazyListState(),
     content: ScalingLazyListScope.() -> Unit,
 ) {
@@ -44,7 +45,7 @@ fun ScrollingColumn(
             decay = exponentialDecay(frictionMultiplier = 0.75f),
         ),
         autoCentering = AutoCenteringParams(
-            itemIndex = 0,
+            itemIndex = startItemIndex,
         ),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         state = scrollState,

@@ -89,6 +89,10 @@ class WearDataRepo @Inject constructor(
         return runCatching { wearRPCClient.querySettings() }
     }
 
+    suspend fun setSettings(settings: WearSettings): Result<Unit> = mutex.withLock {
+        return runCatching { wearRPCClient.setSettings(settings) }
+    }
+
     suspend fun openAppPhone(): Result<Unit> = mutex.withLock {
         return runCatching { wearRPCClient.openPhoneApp() }
     }

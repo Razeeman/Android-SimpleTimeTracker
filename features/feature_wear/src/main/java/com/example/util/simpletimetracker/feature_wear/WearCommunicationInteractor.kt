@@ -12,10 +12,13 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.SettingsDataUpdateInteractor
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RunningRecord
+import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
@@ -34,6 +37,8 @@ class WearCommunicationInteractor @Inject constructor(
     private val addRunningRecordMediator: Lazy<AddRunningRecordMediator>,
     private val appColorMapper: AppColorMapper,
     private val router: Router,
+    private val widgetInteractor: WidgetInteractor,
+    private val settingsDataUpdateInteractor: SettingsDataUpdateInteractor,
 ) : WearCommunicationAPI {
 
     override suspend fun queryActivities(): List<WearActivity> {
@@ -97,6 +102,12 @@ class WearCommunicationInteractor @Inject constructor(
             recordTagSelectionCloseAfterOne = prefsInteractor.getRecordTagSelectionCloseAfterOne(),
             recordTagSelectionEvenForGeneralTags = prefsInteractor.getRecordTagSelectionEvenForGeneralTags(),
         )
+    }
+
+    override suspend fun setSettings(settings: WearSettings) {
+        prefsInteractor.setAllowMultitasking(settings.allowMultitasking)
+        widgetInteractor.updateWidgets(listOf(WidgetType.QUICK_SETTINGS))
+        settingsDataUpdateInteractor.send()
     }
 
     override suspend fun openPhoneApp() {

@@ -42,6 +42,13 @@ interface WearCommunicationAPI {
     suspend fun querySettings(): WearSettings
 
     /**
+     * [WearRequests.SET_SETTINGS]
+     *
+     * Set app settings from wear.
+     */
+    suspend fun setSettings(settings: WearSettings)
+
+    /**
      * [WearRequests.OPEN_PHONE_APP]
      *
      * Starts application on the phone.

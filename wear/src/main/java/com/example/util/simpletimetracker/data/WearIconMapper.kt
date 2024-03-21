@@ -6,7 +6,7 @@
 package com.example.util.simpletimetracker.data
 
 import android.content.Context
-import com.example.util.simpletimetracker.domain.WearActivityIcon
+import com.example.util.simpletimetracker.domain.model.WearActivityIcon
 import com.example.util.simpletimetracker.resources.CommonActivityIcon
 import com.example.util.simpletimetracker.resources.IconMapperUtils
 import dagger.hilt.android.qualifiers.ApplicationContext

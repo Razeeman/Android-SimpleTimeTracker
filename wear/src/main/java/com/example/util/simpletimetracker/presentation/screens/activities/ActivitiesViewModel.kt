@@ -9,11 +9,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.complication.WearComplicationManager
 import com.example.util.simpletimetracker.data.WearDataRepo
-import com.example.util.simpletimetracker.domain.CurrentActivitiesMediator
-import com.example.util.simpletimetracker.domain.StartActivityMediator
-import com.example.util.simpletimetracker.domain.WearCheckNotificationsPermissionInteractor
+import com.example.util.simpletimetracker.domain.interactor.WearCheckNotificationsPermissionInteractor
+import com.example.util.simpletimetracker.domain.interactor.WearPrefsInteractor
+import com.example.util.simpletimetracker.domain.mediator.CurrentActivitiesMediator
+import com.example.util.simpletimetracker.domain.mediator.StartActivityMediator
 import com.example.util.simpletimetracker.notification.WearNotificationManager
-import com.example.util.simpletimetracker.presentation.components.ActivitiesListState
+import com.example.util.simpletimetracker.presentation.ui.components.ActivitiesListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -33,6 +34,7 @@ class ActivitiesViewModel @Inject constructor(
     private val startActivitiesMediator: StartActivityMediator,
     private val currentActivitiesMediator: CurrentActivitiesMediator,
     private val activitiesViewDataMapper: ActivitiesViewDataMapper,
+    private val wearPrefsInteractor: WearPrefsInteractor,
     private val wearCheckNotificationsPermissionInteractor: WearCheckNotificationsPermissionInteractor,
 ) : ViewModel() {
 
@@ -100,6 +102,7 @@ class ActivitiesViewModel @Inject constructor(
                 _state.value = activitiesViewDataMapper.mapContentState(
                     activities = activities.getOrNull().orEmpty(),
                     currentActivities = currentActivities.getOrNull().orEmpty(),
+                    showCompactList = wearPrefsInteractor.getWearShowCompactList(),
                 )
             }
         }

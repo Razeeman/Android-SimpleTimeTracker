@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.util.simpletimetracker.presentation.components.TagList
+import com.example.util.simpletimetracker.presentation.ui.components.TagList
 import com.example.util.simpletimetracker.presentation.screens.tagsSelection.TagsViewModel.Effect
 import com.example.util.simpletimetracker.utils.collectEffects
 

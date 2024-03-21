@@ -489,5 +489,7 @@ Exemple:<br/>
     <!--  Wear  -->
     <string name="wear_loading_error">Vérifiez votre connexion et réessayez</string>
     <string name="wear_open_on_phone">Ouvrir sur téléphone</string>
+    <string name="wear_settings_title">Paramètres</string>
+    <string name="wear_settings_title_show_compact_list">Afficher la liste compacte</string>
 
 </resources>

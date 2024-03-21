@@ -3,10 +3,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.presentation.components
+package com.example.util.simpletimetracker.presentation.ui.components
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -23,9 +29,12 @@ import androidx.wear.compose.material.ScalingLazyListScope
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.domain.WearActivityIcon
-import com.example.util.simpletimetracker.presentation.layout.ScaffoldedScrollingColumn
+import com.example.util.simpletimetracker.domain.model.WearActivityIcon
+import com.example.util.simpletimetracker.presentation.ui.layout.ScaffoldedScrollingColumn
 import com.example.util.simpletimetracker.utils.getString
+import com.example.util.simpletimetracker.utils.orZero
+import java.time.Instant
+import java.util.UUID
 
 sealed interface ActivitiesListState {
     object Loading : ActivitiesListState
@@ -39,6 +48,7 @@ sealed interface ActivitiesListState {
     ) : ActivitiesListState
 
     data class Content(
+        val isCompact: Boolean,
         val items: List<ActivityChipState>,
     ) : ActivitiesListState
 }
@@ -50,8 +60,11 @@ fun ActivitiesList(
     onStop: (activityId: Long) -> Unit = {},
     onRefresh: () -> Unit = {},
     onOpenOnPhone: () -> Unit = {},
+    onSettingsClick: () -> Unit = {},
 ) {
-    ScaffoldedScrollingColumn {
+    ScaffoldedScrollingColumn(
+        startItemIndex = 1,
+    ) {
         when (state) {
             is ActivitiesListState.Loading -> item {
                 RenderLoading()
@@ -67,6 +80,7 @@ fun ActivitiesList(
                     state = state,
                     onStart = onStart,
                     onStop = onStop,
+                    onSettingsClick = onSettingsClick,
                 )
                 item { RefreshButton(onRefresh) }
             }
@@ -90,7 +104,7 @@ private fun RenderError(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Icon(
-            painter = painterResource(R.drawable.connection_error),
+            painter = painterResource(R.drawable.wear_connection_error),
             contentDescription = null,
         )
         Text(
@@ -123,6 +137,30 @@ private fun ScalingLazyListScope.renderContent(
     state: ActivitiesListState.Content,
     onStart: (activityId: Long) -> Unit,
     onStop: (activityId: Long) -> Unit,
+    onSettingsClick: () -> Unit,
+) {
+    item {
+        SettingsButton(onSettingsClick)
+    }
+    if (state.isCompact) {
+        renderContentCompact(
+            state = state,
+            onStart = onStart,
+            onStop = onStop,
+        )
+    } else {
+        renderContentFull(
+            state = state,
+            onStart = onStart,
+            onStop = onStop,
+        )
+    }
+}
+
+private fun ScalingLazyListScope.renderContentFull(
+    state: ActivitiesListState.Content,
+    onStart: (activityId: Long) -> Unit,
+    onStop: (activityId: Long) -> Unit,
 ) {
     for (itemState in state.items) {
         item(key = itemState.id) {
@@ -141,6 +179,67 @@ private fun ScalingLazyListScope.renderContent(
                 onClick = onClick,
             )
         }
+    }
+}
+
+private fun ScalingLazyListScope.renderContentCompact(
+    state: ActivitiesListState.Content,
+    onStart: (activityId: Long) -> Unit,
+    onStop: (activityId: Long) -> Unit,
+) {
+    state.items
+        .withIndex()
+        .groupBy { it.index / ACTIVITY_LIST_COMPACT_CHIP_COUNT }
+        .map { it.value.map { part -> part.value } }
+        .forEach { part ->
+            item(key = part.firstOrNull()?.id.orZero()) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    CompactChipPlaceHolder(part.size)
+                    part.forEach { itemState ->
+                        val isRunning = itemState.startedAt != null
+                        val onClick = remember(itemState) {
+                            {
+                                if (isRunning) {
+                                    onStop(itemState.id)
+                                } else {
+                                    onStart(itemState.id)
+                                }
+                            }
+                        }
+                        ActivityChipCompact(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .aspectRatio(1f)
+                                .weight(1f),
+                            state = ActivityChipCompatState(
+                                id = itemState.id,
+                                icon = itemState.icon,
+                                color = itemState.color,
+                                startedAt = itemState.startedAt,
+                            ),
+                            onClick = onClick,
+                        )
+                    }
+                    CompactChipPlaceHolder(part.size)
+                }
+            }
+        }
+}
+
+@Composable
+private fun RowScope.CompactChipPlaceHolder(
+    partSize: Int,
+) {
+    if (partSize < ACTIVITY_LIST_COMPACT_CHIP_COUNT) {
+        val weight = if (partSize == 1) 1f else 0.5f
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .aspectRatio(1f)
+                .weight(weight),
+        )
     }
 }
 
@@ -170,25 +269,41 @@ private fun NoActivities() {
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
-private fun Preview() {
-    val items = listOf(
+private fun ContentFull() {
+    val items = List(5) {
         ActivityChipState(
-            id = 1234,
-            name = "Chores",
-            icon = WearActivityIcon.Text("🧹"),
-            color = 0xFFFA0000,
-        ),
-        ActivityChipState(
-            id = 4321,
+            id = UUID.randomUUID().hashCode().toLong(),
             name = "Sleep",
-            icon = WearActivityIcon.Text("🛏️"),
+            icon = WearActivityIcon.Image(R.drawable.ic_hotel_24px),
             color = 0xFF0000FA,
-            startedAt = 1708241427000L,
+            startedAt = Instant.now().toEpochMilli() - 36500000,
             tagString = "",
-        ),
-    )
+        )
+    }
     ActivitiesList(
         state = ActivitiesListState.Content(
+            isCompact = false,
+            items = items,
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
+private fun ContentCompact() {
+    val items = List(5) {
+        ActivityChipState(
+            id = UUID.randomUUID().hashCode().toLong(),
+            name = "Sleep",
+            icon = WearActivityIcon.Image(R.drawable.ic_hotel_24px),
+            color = 0xFF0000FA,
+            startedAt = Instant.now().toEpochMilli() - 36500000,
+            tagString = "",
+        )
+    }
+    ActivitiesList(
+        state = ActivitiesListState.Content(
+            isCompact = true,
             items = items,
         ),
     )

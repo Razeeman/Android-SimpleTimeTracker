@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.presentation.components
+package com.example.util.simpletimetracker.presentation.ui.components
 
 import android.util.TypedValue
 import android.view.Gravity
@@ -19,7 +19,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.widget.TextViewCompat
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.LocalContentColor
-import com.example.util.simpletimetracker.domain.WearActivityIcon
+import com.example.util.simpletimetracker.domain.model.WearActivityIcon
 
 @Composable
 fun ActivityIcon(
@@ -31,7 +31,9 @@ fun ActivityIcon(
             Icon(
                 painter = painterResource(activityIcon.iconId),
                 contentDescription = null,
-                modifier = modifier,
+                modifier = modifier
+                    .aspectRatio(1f)
+                    .width(0.dp),
             )
         }
         is WearActivityIcon.Text -> {

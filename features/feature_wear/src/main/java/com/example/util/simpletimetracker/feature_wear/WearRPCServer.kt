@@ -9,6 +9,7 @@ import android.content.Context
 import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 import com.example.util.simpletimetracker.wear_api.WearRequests
+import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.Wearable
 import com.google.gson.Gson
@@ -34,6 +35,7 @@ class WearRPCServer @Inject constructor(
                 WearRequests.SET_CURRENT_ACTIVITIES -> onSetCurrentActivities(request)
                 WearRequests.QUERY_TAGS_FOR_ACTIVITY -> onQueryTagsForActivity(request)
                 WearRequests.QUERY_SETTINGS -> onQuerySettings()
+                WearRequests.SET_SETTINGS -> onSetSettings(request)
                 WearRequests.OPEN_PHONE_APP -> onOpenPhoneApp()
                 else -> {
                     Timber.d("$path is an invalid RPC call")
@@ -88,6 +90,12 @@ class WearRPCServer @Inject constructor(
 
     private suspend fun onQuerySettings(): ByteArray {
         return mapToBytes(api.querySettings())
+    }
+
+    private suspend fun onSetSettings(request: ByteArray): ByteArray? {
+        val settings: WearSettings = mapFromBytes(request) ?: return null
+        api.setSettings(settings)
+        return ByteArray(0)
     }
 
     private suspend fun onOpenPhoneApp(): ByteArray? {

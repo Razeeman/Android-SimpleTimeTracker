@@ -6,8 +6,8 @@
 package com.example.util.simpletimetracker.presentation.screens.tagsSelection
 
 import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.presentation.components.TagChipState
-import com.example.util.simpletimetracker.presentation.components.TagListState
+import com.example.util.simpletimetracker.presentation.ui.components.TagChipState
+import com.example.util.simpletimetracker.presentation.ui.components.TagListState
 import com.example.util.simpletimetracker.presentation.theme.ColorActive
 import com.example.util.simpletimetracker.presentation.theme.ColorInactive
 import com.example.util.simpletimetracker.wear_api.WearSettings

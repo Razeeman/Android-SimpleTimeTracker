@@ -489,5 +489,7 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <!--  Wear  -->
     <string name="wear_loading_error">接続を確認して再試行してください</string>
     <string name="wear_open_on_phone">電話で開く</string>
+    <string name="wear_settings_title">設定</string>
+    <string name="wear_settings_title_show_compact_list">コンパクトなリストを表示</string>
 
 </resources>

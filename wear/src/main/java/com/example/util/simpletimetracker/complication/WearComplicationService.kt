@@ -23,7 +23,7 @@ import androidx.wear.watchface.complications.datasource.SuspendingComplicationDa
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.data.WearIconMapper
-import com.example.util.simpletimetracker.domain.WearActivityIcon
+import com.example.util.simpletimetracker.domain.model.WearActivityIcon
 import com.example.util.simpletimetracker.utils.getMainStartIntent
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant

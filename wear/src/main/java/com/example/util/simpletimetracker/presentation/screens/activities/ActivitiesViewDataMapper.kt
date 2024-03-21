@@ -7,8 +7,8 @@ package com.example.util.simpletimetracker.presentation.screens.activities
 
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.data.WearIconMapper
-import com.example.util.simpletimetracker.presentation.components.ActivitiesListState
-import com.example.util.simpletimetracker.presentation.components.ActivityChipState
+import com.example.util.simpletimetracker.presentation.ui.components.ActivitiesListState
+import com.example.util.simpletimetracker.presentation.ui.components.ActivityChipState
 import com.example.util.simpletimetracker.wear_api.WearActivity
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 import javax.inject.Inject
@@ -28,6 +28,7 @@ class ActivitiesViewDataMapper @Inject constructor(
     fun mapContentState(
         activities: List<WearActivity>,
         currentActivities: List<WearCurrentActivity>,
+        showCompactList: Boolean,
     ): ActivitiesListState.Content {
         val currentActivitiesMap = currentActivities.associateBy { it.id }
         val items = activities.map { activity ->
@@ -38,6 +39,7 @@ class ActivitiesViewDataMapper @Inject constructor(
         }
 
         return ActivitiesListState.Content(
+            isCompact = showCompactList,
             items = items,
         )
     }

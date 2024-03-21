@@ -59,6 +59,10 @@ class WearRPCClient @Inject constructor(
         return response ?: throw WearRPCException
     }
 
+    override suspend fun setSettings(settings: WearSettings) {
+        messenger.send(WearRequests.SET_SETTINGS, mapToBytes(settings))
+    }
+
     override suspend fun openPhoneApp() {
         messenger.send(WearRequests.OPEN_PHONE_APP)
     }

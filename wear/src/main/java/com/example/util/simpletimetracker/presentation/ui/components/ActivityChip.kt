@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.presentation.components
+package com.example.util.simpletimetracker.presentation.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -23,10 +23,9 @@ import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.domain.WearActivityIcon
-import com.example.util.simpletimetracker.presentation.remember.rememberDurationSince
-import com.example.util.simpletimetracker.utils.getString
-import java.time.Duration
+import com.example.util.simpletimetracker.domain.model.WearActivityIcon
+import com.example.util.simpletimetracker.presentation.ui.remember.rememberDurationSince
+import com.example.util.simpletimetracker.utils.durationToLabel
 import java.time.Instant
 
 @Immutable
@@ -97,30 +96,6 @@ fun ActivityChip(
         ),
         onClick = onClick,
     )
-}
-
-// Copy from TimeMapper.formatInterval
-@Composable
-fun durationToLabel(duration: Duration): String {
-    val hourString = getString(R.string.time_hour)
-    val minuteString = getString(R.string.time_minute)
-    val secondString = getString(R.string.time_second)
-
-    val hr = duration.toHours()
-    val min = duration.toMinutes() % 60
-    val sec = duration.seconds % 60
-
-    val willShowHours = hr != 0L
-    val willShowMinutes = willShowHours || min != 0L
-    val willShowSeconds = true
-
-    var res = ""
-    if (willShowHours) res += "$hr$hourString "
-    if (willShowMinutes) res += "$min$minuteString"
-    if (willShowMinutes && willShowSeconds) res += " "
-    if (willShowSeconds) res += "$sec$secondString"
-
-    return res
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)

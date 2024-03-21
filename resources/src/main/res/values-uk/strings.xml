@@ -489,5 +489,7 @@
     <!--  Wear  -->
     <string name="wear_loading_error">Перевірте підключення та повторіть спробу</string>
     <string name="wear_open_on_phone">Відкрити на телефоні</string>
+    <string name="wear_settings_title">Налаштування</string>
+    <string name="wear_settings_title_show_compact_list">Показати компактний список</string>
 
 </resources>

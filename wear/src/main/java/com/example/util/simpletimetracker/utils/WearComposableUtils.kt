@@ -16,9 +16,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import com.example.util.simpletimetracker.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
+import java.time.Duration
 
 @SuppressLint("ComposableNaming")
 @Composable
@@ -66,4 +68,46 @@ fun OnLifecycleEvent(onEvent: (Lifecycle.Event) -> Unit) {
             lifecycle.removeObserver(observer)
         }
     }
+}
+
+// Copy from TimeMapper.formatInterval
+@Composable
+fun durationToLabel(duration: Duration): String {
+    val hourString = getString(R.string.time_hour)
+    val minuteString = getString(R.string.time_minute)
+    val secondString = getString(R.string.time_second)
+
+    val hr = duration.toHours()
+    val min = duration.toMinutes() % 60
+    val sec = duration.seconds % 60
+
+    val willShowHours = hr != 0L
+    val willShowMinutes = willShowHours || min != 0L
+    val willShowSeconds = true
+
+    var res = ""
+    if (willShowHours) res += "$hr$hourString "
+    if (willShowMinutes) res += "$min$minuteString"
+    if (willShowMinutes && willShowSeconds) res += " "
+    if (willShowSeconds) res += "$sec$secondString"
+
+    return res
+}
+
+@Composable
+fun durationToLabelShort(duration: Duration): String {
+    val hr = duration.toHours()
+    val min = duration.toMinutes() % 60
+    val sec = duration.seconds % 60
+
+    val willShowHours = hr != 0L
+    val willShowMinutes = true
+    val willShowSeconds = true
+
+    var res = ""
+    if (willShowHours) res += "${hr.toString().padDuration()}:"
+    if (willShowMinutes) res += "${min.toString().padDuration()}:"
+    if (willShowSeconds) res += sec.toString().padDuration()
+
+    return res
 }

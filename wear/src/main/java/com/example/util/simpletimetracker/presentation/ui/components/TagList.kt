@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.presentation.components
+package com.example.util.simpletimetracker.presentation.ui.components
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
@@ -24,7 +24,7 @@ import androidx.wear.compose.material.ScalingLazyListScope
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.presentation.layout.ScaffoldedScrollingColumn
+import com.example.util.simpletimetracker.presentation.ui.layout.ScaffoldedScrollingColumn
 import com.example.util.simpletimetracker.utils.getString
 
 sealed interface TagListState {
@@ -68,7 +68,9 @@ fun TagList(
     onToggleClick: (Long) -> Unit = {},
     onRefresh: () -> Unit = {},
 ) {
-    ScaffoldedScrollingColumn {
+    ScaffoldedScrollingColumn(
+        startItemIndex = 0,
+    ) {
         when (state) {
             is TagListState.Loading -> item {
                 RenderLoadingState()
@@ -106,7 +108,7 @@ private fun RenderErrorState(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Icon(
-            painter = painterResource(R.drawable.connection_error),
+            painter = painterResource(R.drawable.wear_connection_error),
             contentDescription = null,
         )
         Text(

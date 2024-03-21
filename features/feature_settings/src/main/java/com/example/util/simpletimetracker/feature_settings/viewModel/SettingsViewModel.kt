@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.viewData.SettingsBlock
+import com.example.util.simpletimetracker.domain.interactor.SettingsDataUpdateInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsAdditionalViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsBackupViewModelDelegate
@@ -24,6 +25,7 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -40,6 +42,7 @@ class SettingsViewModel @Inject constructor(
     private val exportDelegate: SettingsExportViewModelDelegate,
     private val translatorsDelegate: SettingsTranslatorsViewModelDelegate,
     private val contributorsDelegate: SettingsContributorsViewModelDelegate,
+    private val settingsDataUpdateInteractor: SettingsDataUpdateInteractor,
 ) : BaseViewModel(), SettingsParent {
 
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
@@ -52,6 +55,7 @@ class SettingsViewModel @Inject constructor(
         additionalDelegate.init(this)
         backupDelegate.init(this)
         exportDelegate.init(this)
+        subscribeToUpdates()
     }
 
     override fun onCleared() {
@@ -265,6 +269,12 @@ class SettingsViewModel @Inject constructor(
 
     override suspend fun updateContent() {
         content.set(loadContent())
+    }
+
+    private fun subscribeToUpdates() = viewModelScope.launch {
+        settingsDataUpdateInteractor.dataUpdated.collect {
+            updateContent()
+        }
     }
 
     private suspend fun loadContent(): List<ViewHolderType> {

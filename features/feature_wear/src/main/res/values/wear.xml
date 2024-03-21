@@ -10,6 +10,7 @@
         <item>/stt/SET_CURRENT_ACTIVITIES</item>
         <item>/stt/QUERY_TAGS_FOR_ACTIVITY</item>
         <item>/stt/QUERY_SETTINGS</item>
+        <item>/stt/SET_SETTINGS</item>
         <item>/stt/OPEN_PHONE_APP</item>
     </string-array>
 </resources>

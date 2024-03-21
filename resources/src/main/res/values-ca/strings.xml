@@ -489,5 +489,7 @@ Exemple:<br/>
     <!--  Wear  -->
     <string name="wear_loading_error">Comprova la teva connexió i torna-ho a provar</string>
     <string name="wear_open_on_phone">Obre al telèfon</string>
+    <string name="wear_settings_title">Configuració</string>
+    <string name="wear_settings_title_show_compact_list">Mostra la llista compacta</string>
 
 </resources>

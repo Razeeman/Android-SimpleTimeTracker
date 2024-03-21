@@ -15,6 +15,7 @@ object WearRequests {
     const val SET_CURRENT_ACTIVITIES = "$PATH/SET_CURRENT_ACTIVITIES"
     const val QUERY_TAGS_FOR_ACTIVITY = "$PATH/QUERY_TAGS_FOR_ACTIVITY"
     const val QUERY_SETTINGS = "$PATH/QUERY_SETTINGS"
+    const val SET_SETTINGS = "$PATH/SET_SETTINGS"
     const val OPEN_PHONE_APP = "$PATH/OPEN_PHONE_APP"
 
     // From app to wear.

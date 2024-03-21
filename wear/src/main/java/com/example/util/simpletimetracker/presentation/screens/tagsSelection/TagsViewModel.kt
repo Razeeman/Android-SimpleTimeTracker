@@ -8,8 +8,8 @@ package com.example.util.simpletimetracker.presentation.screens.tagsSelection
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.data.WearDataRepo
-import com.example.util.simpletimetracker.presentation.components.TagListState
-import com.example.util.simpletimetracker.domain.CurrentActivitiesMediator
+import com.example.util.simpletimetracker.presentation.ui.components.TagListState
+import com.example.util.simpletimetracker.domain.mediator.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.example.util.simpletimetracker.wear_api.WearTag
 import dagger.hilt.android.lifecycle.HiltViewModel

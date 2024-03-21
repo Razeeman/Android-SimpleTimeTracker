@@ -11,7 +11,7 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.databinding.WearIconViewLayoutBinding
-import com.example.util.simpletimetracker.domain.WearActivityIcon
+import com.example.util.simpletimetracker.domain.model.WearActivityIcon
 
 class WearIconView @JvmOverloads constructor(
     context: Context,
