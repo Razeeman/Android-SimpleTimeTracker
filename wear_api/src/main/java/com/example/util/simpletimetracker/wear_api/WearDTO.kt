@@ -42,5 +42,5 @@ data class WearSettings(
     val allowMultitasking: Boolean,
     val showRecordTagSelection: Boolean,
     val recordTagSelectionCloseAfterOne: Boolean,
-    val recordTagSelectionEvenForGeneralTags: Boolean,
+    val recordTagSelectionExcludedActivities: List<Long>,
 ) : Parcelable

@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">Виберіть дії для додавання</string>
 
+    <string name="record_tag_selection_exclude_activities_title">Виключити діяльність</string>
+    <string name="record_tag_selection_exclude_activities_hint">Діалогове вікно вибору тегів не відображатиметься для вибраних дій.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Сортувати записи</string>
     <string name="records_all_sort_time_started">Початок</string>
@@ -262,8 +265,7 @@
     <string name="settings_edit_categories_hint">Призначайте категорії діям і теги записам.</string>
     <string name="settings_show_record_tag_selection">Показувати діалог вибору тега для запису</string>
     <string name="settings_show_record_tag_selection_hint">Під час запуску таймера, якщо у діяльності є якісь теги запису, буде показане діалогове вікно вибору.</string>
-    <string name="settings_show_record_tag_close_hint">Закрийте після вибору одного тегу.</string>
-    <string name="settings_show_record_tag_general_hint">Показати навіть із лише загальними тегами.</string>
+    <string name="settings_show_record_tag_close_hint">Закрийте після вибору одного тегу</string>
     <string name="settings_rate">Оцініть нас</string>
     <string name="settings_rate_description">Оцініть програму та залиште відгук.</string>
     <string name="settings_feedback">Зворотній зв\'язок</string>

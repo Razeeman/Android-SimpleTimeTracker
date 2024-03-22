@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">Wählen Sie die hinzuzufügenden Aktivitäten aus</string>
 
+    <string name="record_tag_selection_exclude_activities_title">Aktivitäten ausschließen</string>
+    <string name="record_tag_selection_exclude_activities_hint">Der Tag-Auswahldialog wird für ausgewählte Aktivitäten nicht angezeigt.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Einträge sortieren</string>
     <string name="records_all_sort_time_started">Zeit gestartet</string>
@@ -262,8 +265,7 @@
     <string name="settings_edit_categories_hint">Weisen Sie Aktivitäten Kategorien und Datensätzen Tags zu.</string>
     <string name="settings_show_record_tag_selection">Datensatz-Tag-Auswahl zeigen</string>
     <string name="settings_show_record_tag_selection_hint">Beim Starten eines Zählers wird ein Auswahldialog angezeigt, wenn die Aktivität Aufzeichnungs-Tags hat.</string>
-    <string name="settings_show_record_tag_close_hint">Schließen nach Auswahl eines Tags.</string>
-    <string name="settings_show_record_tag_general_hint">Auch mit nur allgemeinen Tags anzeigen.</string>
+    <string name="settings_show_record_tag_close_hint">Schließen nach Auswahl eines Tags</string>
     <string name="settings_rate">Bewerte uns</string>
     <string name="settings_rate_description">Bewerten die App und schreibe eine Rezension.</string>
     <string name="settings_feedback">Feedback</string>

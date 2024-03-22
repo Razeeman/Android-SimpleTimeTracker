@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">انتخاب فعالیت ها برای اضافه کردن</string>
 
+    <string name="record_tag_selection_exclude_activities_title">حذف فعالیت ها</string>
+    <string name="record_tag_selection_exclude_activities_hint">گفتگوی انتخاب برچسب برای فعالیت های انتخاب شده نشان داده نخواهد شد.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">مرتب کردن تاریخچه ها</string>
     <string name="records_all_sort_time_started">زمان شروع</string>
@@ -263,7 +266,6 @@
     <string name="settings_show_record_tag_selection">نمایش برچسب تاریخچه انتخابی</string>
     <string name="settings_show_record_tag_selection_hint">هنگام شروع یک تایمر ، اگر فعالیت برچسبی داشت- منوی انتخابی ای نمایش داده می شود</string>
     <string name="settings_show_record_tag_close_hint">بستن بعد از انتخاب یک برچسب</string>
-    <string name="settings_show_record_tag_general_hint">حتی با برچسب های عمومی هم نمایش بده</string>
     <string name="settings_rate">به ما امتیاز دهید</string>
     <string name="settings_rate_description">به ما امتیاز دهید و نظر خود را بگذارید</string>
     <string name="settings_feedback">بازخورد</string>

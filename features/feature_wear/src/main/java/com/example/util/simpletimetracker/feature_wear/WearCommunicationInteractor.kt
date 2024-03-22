@@ -100,7 +100,7 @@ class WearCommunicationInteractor @Inject constructor(
             allowMultitasking = prefsInteractor.getAllowMultitasking(),
             showRecordTagSelection = prefsInteractor.getShowRecordTagSelection(),
             recordTagSelectionCloseAfterOne = prefsInteractor.getRecordTagSelectionCloseAfterOne(),
-            recordTagSelectionEvenForGeneralTags = prefsInteractor.getRecordTagSelectionEvenForGeneralTags(),
+            recordTagSelectionExcludedActivities = prefsInteractor.getRecordTagSelectionExcludeActivities(),
         )
     }
 

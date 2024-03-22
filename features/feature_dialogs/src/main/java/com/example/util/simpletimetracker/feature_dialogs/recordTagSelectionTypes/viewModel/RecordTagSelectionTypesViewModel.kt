@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_dialogs.defaultTypesSelection.viewModel
+package com.example.util.simpletimetracker.feature_dialogs.recordTagSelectionTypes.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,28 +10,24 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.interactor.WearInteractor
-import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
+import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.defaultTypesSelection.interactor.GetDefaultRecordTypesInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DefaultTypesSelectionViewModel @Inject constructor(
+class RecordTagSelectionTypesViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val getDefaultRecordTypesInteractor: GetDefaultRecordTypesInteractor,
     private val resourceRepo: ResourceRepo,
-    private val wearInteractor: WearInteractor,
 ) : ViewModel() {
 
     val types: LiveData<List<ViewHolderType>> by lazy {
@@ -44,46 +40,37 @@ class DefaultTypesSelectionViewModel @Inject constructor(
         }
     }
     val close: LiveData<Unit> = MutableLiveData()
-    val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(false)
+    val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
 
-    private var recordTypes: List<RecordType> = emptyList()
+    private var initialized: Boolean = false
+    private var recordTypesCache: List<RecordType> = emptyList()
     private var typeIdsSelected: MutableList<Long> = mutableListOf()
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         typeIdsSelected.addOrRemove(item.id)
-        updateSaveButtonEnabled()
         updateRecordTypesViewData()
     }
 
     fun onShowAllClick() {
-        typeIdsSelected.addAll(recordTypes.map { it.id })
-        updateSaveButtonEnabled()
+        typeIdsSelected.addAll(recordTypesCache.map(RecordType::id))
         updateRecordTypesViewData()
     }
 
     fun onHideAllClick() {
         typeIdsSelected.clear()
-        updateSaveButtonEnabled()
         updateRecordTypesViewData()
     }
 
     fun onSaveClick() {
-        if (typeIdsSelected.size == 0) return
-
         saveButtonEnabled.set(false)
         viewModelScope.launch {
-            recordTypes.filter { it.id in typeIdsSelected }.forEach {
-                // Remove ids for correct adding in database.
-                recordTypeInteractor.add(it.copy(id = 0))
-            }
-            prefsInteractor.setCardOrder(CardOrder.COLOR)
-            wearInteractor.update()
+            // Remove non existent ids.
+            recordTypesCache
+                .filter { it.id in typeIdsSelected }
+                .map { it.id }
+                .let { prefsInteractor.setRecordTagSelectionExcludeActivities(it) }
             close.set(Unit)
         }
-    }
-
-    private fun updateSaveButtonEnabled() {
-        saveButtonEnabled.set(typeIdsSelected.size != 0)
     }
 
     private fun updateRecordTypesViewData() = viewModelScope.launch {
@@ -95,7 +82,15 @@ class DefaultTypesSelectionViewModel @Inject constructor(
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        if (recordTypes.isEmpty()) recordTypes = loadRecordTypes()
+        if (!initialized) {
+            recordTypesCache = recordTypeInteractor.getAll()
+                .filter { !it.hidden }
+            val recordTypeIds = recordTypesCache.map { it.id }
+            typeIdsSelected = prefsInteractor.getRecordTagSelectionExcludeActivities()
+                .filter { it in recordTypeIds }
+                .toMutableList()
+            initialized = true
+        }
 
         fun map(type: RecordType): ViewHolderType {
             return recordTypeViewDataMapper.map(
@@ -106,15 +101,21 @@ class DefaultTypesSelectionViewModel @Inject constructor(
             )
         }
 
-        val selected = recordTypes
+        val selected = recordTypesCache
             .filter { it.id in typeIdsSelected }
             .map(::map)
-        val available = recordTypes
+        val available = recordTypesCache
             .filter { it.id !in typeIdsSelected }
             .map(::map)
 
         val result = mutableListOf<ViewHolderType>()
 
+        if (recordTypesCache.isEmpty()) {
+            result += EmptyViewData(
+                message = resourceRepo.getString(R.string.record_types_empty),
+            )
+            return result
+        }
         if (selected.isNotEmpty()) {
             result += InfoViewData(resourceRepo.getString(R.string.something_selected))
             result += selected
@@ -127,9 +128,5 @@ class DefaultTypesSelectionViewModel @Inject constructor(
         result += available
 
         return result
-    }
-
-    private fun loadRecordTypes(): List<RecordType> {
-        return getDefaultRecordTypesInteractor.execute()
     }
 }

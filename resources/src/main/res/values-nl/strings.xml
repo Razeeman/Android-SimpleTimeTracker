@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">Selecteer activiteiten om toe te voegen</string>
 
+    <string name="record_tag_selection_exclude_activities_title">Exclusief activiteiten</string>
+    <string name="record_tag_selection_exclude_activities_hint">Het dialoogvenster voor tagselectie wordt niet weergegeven voor geselecteerde activiteiten.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Records sorteren</string>
     <string name="records_all_sort_time_started">Tijd begonnen</string>
@@ -262,8 +265,7 @@
     <string name="settings_edit_categories_hint">Wijs categorieën toe aan activiteiten en labels aan records.</string>
     <string name="settings_show_record_tag_selection">Toon opname label selectie</string>
     <string name="settings_show_record_tag_selection_hint">Als bij het starten van een timer, een activiteit opname labels heeft, wordt er een selectiedialoogvenster weergegeven.</string>
-    <string name="settings_show_record_tag_close_hint">Sluiten na het selecteren van een label.</string>
-    <string name="settings_show_record_tag_general_hint">Toon zelfs met alleen algemene labels.</string>
+    <string name="settings_show_record_tag_close_hint">Sluiten na het selecteren van een label</string>
     <string name="settings_rate">Beoordeel ons</string>
     <string name="settings_rate_description">Beoordeel de app en laat een recensie achter.</string>
     <string name="settings_feedback">Feedback</string>

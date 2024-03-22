@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsBottomViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxViewData
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxWithButtonViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCollapseViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsHintViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSelectorViewData
@@ -59,13 +60,17 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
             )
 
             val showRecordTagSelection = prefsInteractor.getShowRecordTagSelection()
-            result += SettingsCheckboxViewData(
-                block = SettingsBlock.AdditionalShowTagSelection,
-                title = resourceRepo.getString(R.string.settings_show_record_tag_selection),
-                subtitle = resourceRepo.getString(R.string.settings_show_record_tag_selection_hint),
-                isChecked = showRecordTagSelection,
-                bottomSpaceIsVisible = !showRecordTagSelection,
-                dividerIsVisible = !showRecordTagSelection,
+            result += SettingsCheckboxWithButtonViewData(
+                data = SettingsCheckboxViewData(
+                    block = SettingsBlock.AdditionalShowTagSelection,
+                    title = resourceRepo.getString(R.string.settings_show_record_tag_selection),
+                    subtitle = resourceRepo.getString(R.string.settings_show_record_tag_selection_hint),
+                    isChecked = showRecordTagSelection,
+                    bottomSpaceIsVisible = !showRecordTagSelection,
+                    dividerIsVisible = !showRecordTagSelection,
+                ),
+                buttonBlock = SettingsBlock.AdditionalTagSelectionExcludeActivities,
+                isButtonVisible = showRecordTagSelection,
             )
             if (showRecordTagSelection) {
                 result += SettingsCheckboxViewData(
@@ -73,14 +78,6 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
                     title = resourceRepo.getString(R.string.settings_show_record_tag_close_hint),
                     subtitle = "",
                     isChecked = prefsInteractor.getRecordTagSelectionCloseAfterOne(),
-                    bottomSpaceIsVisible = false,
-                    dividerIsVisible = false,
-                )
-                result += SettingsCheckboxViewData(
-                    block = SettingsBlock.AdditionalShowWithOnlyGeneral,
-                    title = resourceRepo.getString(R.string.settings_show_record_tag_general_hint),
-                    subtitle = "",
-                    isChecked = prefsInteractor.getRecordTagSelectionEvenForGeneralTags(),
                     bottomSpaceIsVisible = true,
                     dividerIsVisible = true,
                 )

@@ -55,6 +55,9 @@ class RecordTypeInteractor @Inject constructor(
             recordToRecordTagRepo.removeAllByRecordId(recordId) // TODO do better?
         }
 
+        prefsInteractor.getRecordTagSelectionExcludeActivities().toMutableList()
+            .apply { remove(id) }
+            .let { prefsInteractor.setRecordTagSelectionExcludeActivities(it) }
         recordRepo.removeByType(id)
         recordTypeCategoryRepo.removeAllByType(id)
         recordTagRepo.removeByType(id)

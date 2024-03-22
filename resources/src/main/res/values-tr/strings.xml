@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">Eklenecek etkinlikleri seçin</string>
 
+    <string name="record_tag_selection_exclude_activities_title">Etkinlikleri hariç tut</string>
+    <string name="record_tag_selection_exclude_activities_hint">Seçilen etkinlikler için etiket seçimi iletişim kutusu gösterilmeyecektir.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Kayıtları sırala</string>
     <string name="records_all_sort_time_started">Başlangıç zamanı</string>
@@ -262,8 +265,7 @@
     <string name="settings_edit_categories_hint">Etkinliklere kategoriler ve kayıtlara etiketler atayın.</string>
     <string name="settings_show_record_tag_selection">Kayıt etiketi seçimini göster</string>
     <string name="settings_show_record_tag_selection_hint">Eğer aktivite kayıt etiketine sahipse, zamanlayıcı başlatılırken seçim ekranı görünecek.</string>
-    <string name="settings_show_record_tag_close_hint">Bir etiket seçildiğinde seçim ekranını kapat.</string>
-    <string name="settings_show_record_tag_general_hint">Yalnızca genel etiketlerle bile gösterin.</string>
+    <string name="settings_show_record_tag_close_hint">Bir etiket seçildiğinde seçim ekranını kapat</string>
     <string name="settings_rate">Bizi oylayın</string>
     <string name="settings_rate_description">Uygulamayı oyla ve bir yorum bırak.</string>
     <string name="settings_feedback">Geri bildirim</string>

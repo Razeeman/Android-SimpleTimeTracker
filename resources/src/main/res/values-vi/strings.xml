@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">Chọn hoạt động để thêm</string>
 
+    <string name="record_tag_selection_exclude_activities_title">Loại trừ các hoạt động</string>
+    <string name="record_tag_selection_exclude_activities_hint">Hộp thoại chọn thẻ sẽ không được hiển thị cho các hoạt động đã chọn.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Sắp xếp bản ghi</string>
     <string name="records_all_sort_time_started">Thời gian bắt đầu</string>
@@ -262,8 +265,7 @@
     <string name="settings_edit_categories_hint">Gán danh mục cho hoạt động và gắn thẻ cho bản ghi.</string>
     <string name="settings_show_record_tag_selection">Hiển thị lựa chọn thẻ bản ghi</string>
     <string name="settings_show_record_tag_selection_hint">Khi bắt đầu hẹn giờ, nếu hoạt động có bất kỳ thẻ bản ghi nào - hộp thoại lựa chọn sẽ được hiển thị.</string>
-    <string name="settings_show_record_tag_close_hint">Đóng sau khi chọn một thẻ.</string>
-    <string name="settings_show_record_tag_general_hint">Hiển thị ngay cả với chỉ các thẻ chung.</string>
+    <string name="settings_show_record_tag_close_hint">Đóng sau khi chọn một thẻ</string>
     <string name="settings_rate">Hãy đánh giá chúng tôi</string>
     <string name="settings_rate_description">Xếp hạng ứng dụng và để lại đánh giá.</string>
     <string name="settings_feedback">Phản hồi</string>

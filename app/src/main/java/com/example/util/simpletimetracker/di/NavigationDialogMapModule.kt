@@ -32,6 +32,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.DurationDialo
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionTypesDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import dagger.Module
@@ -90,6 +91,16 @@ class NavigationDialogMapModule {
     fun defaultTypesSelectionDialog(): NavigationData {
         return NavigationData(
             R.id.defaultTypesSelectionDialogFragment,
+            BundleCreator.empty(),
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(RecordTagSelectionTypesDialogParams::class)
+    fun recordTagSelectionTypesDialog(): NavigationData {
+        return NavigationData(
+            R.id.recordTagSelectionTypesDialogFragment,
             BundleCreator.empty(),
         )
     }

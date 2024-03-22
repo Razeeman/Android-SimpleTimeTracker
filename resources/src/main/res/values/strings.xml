@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">Select activities to add</string>
 
+    <string name="record_tag_selection_exclude_activities_title">Exclude activities</string>
+    <string name="record_tag_selection_exclude_activities_hint">Tag selection dialog will not be shown for selected activities.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Sort records</string>
     <string name="records_all_sort_time_started">Time started</string>
@@ -262,8 +265,7 @@
     <string name="settings_edit_categories_hint">Assign categories to activities and tags to records.</string>
     <string name="settings_show_record_tag_selection">Show record tag selection</string>
     <string name="settings_show_record_tag_selection_hint">When starting a timer, if activity has any record tags - a selection dialog will be shown.</string>
-    <string name="settings_show_record_tag_close_hint">Close after selecting one tag.</string>
-    <string name="settings_show_record_tag_general_hint">Show even with only general tags.</string>
+    <string name="settings_show_record_tag_close_hint">Close after selecting one tag</string>
     <string name="settings_rate">Rate us</string>
     <string name="settings_rate_description">Rate the app and leave a review.</string>
     <string name="settings_feedback">Feedback</string>

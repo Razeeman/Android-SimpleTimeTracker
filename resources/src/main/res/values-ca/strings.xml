@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">Seleccioneu activitats per afegir</string>
 
+    <string name="record_tag_selection_exclude_activities_title">Exclou activitats</string>
+    <string name="record_tag_selection_exclude_activities_hint">El diàleg de selecció d\'etiquetes no es mostrarà per a les activitats seleccionades.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Endreça els enregistraments</string>
     <string name="records_all_sort_time_started">Temps d\'inici</string>
@@ -262,8 +265,7 @@
     <string name="settings_edit_categories_hint">Assigneu categories a activitats i etiquetes als enregistraments.</string>
     <string name="settings_show_record_tag_selection">Mostra selecció d\'etiquetes d\'enregistrament</string>
     <string name="settings_show_record_tag_selection_hint">Quan s\'iniciï un temporitzador, si l\'activitat té una etiqueta d\'enregistrament assignada, podreu triar l\'etiqueta amb una finestra de selecció.</string>
-    <string name="settings_show_record_tag_close_hint">Tanca després de seleccionar una etiqueta.</string>
-    <string name="settings_show_record_tag_general_hint">Mostra fins i tot només amb etiquetes generals.</string>
+    <string name="settings_show_record_tag_close_hint">Tanca després de seleccionar una etiqueta</string>
     <string name="settings_rate">Valoreu-nos</string>
     <string name="settings_rate_description">Valoreu l\'aplicació i deixeu un comentari</string>
     <string name="settings_feedback">Comentaris</string>

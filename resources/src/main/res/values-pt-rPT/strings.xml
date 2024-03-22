@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">Selecionar atividades para adicionar</string>
 
+    <string name="record_tag_selection_exclude_activities_title">Excluir atividades</string>
+    <string name="record_tag_selection_exclude_activities_hint">A caixa de diálogo de seleção de tags não será exibida para atividades selecionadas.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Organizar registos</string>
     <string name="records_all_sort_time_started">Hora de início</string>
@@ -262,8 +265,7 @@
     <string name="settings_edit_categories_hint">Atribuir categorias a atividades e etiquetas a registos.</string>
     <string name="settings_show_record_tag_selection">Mostrar seleção da etiqueta do registo</string>
     <string name="settings_show_record_tag_selection_hint">Ao iniciar um temporizador, se a atividade tiver alguma etiqueta, um diálogo de seleção será exibido.</string>
-    <string name="settings_show_record_tag_close_hint">Fechar após selecionar uma etiqueta.</string>
-    <string name="settings_show_record_tag_general_hint">Mostrar mesmo com etiquetas gerais.</string>
+    <string name="settings_show_record_tag_close_hint">Fechar após selecionar uma etiqueta</string>
     <string name="settings_rate">Avaliação</string>
     <string name="settings_rate_description">Avaliação e comentários sobre a aplicação.</string>
     <string name="settings_feedback">Feedback</string>

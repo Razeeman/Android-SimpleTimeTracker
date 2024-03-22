@@ -93,7 +93,7 @@ interface PrefsRepo {
 
     var recordTagSelectionCloseAfterOne: Boolean
 
-    var recordTagSelectionEvenForGeneralTags: Boolean
+    var recordTagSelectionExcludeActivities: Set<String>
 
     var automatedTrackingSendEvents: Boolean
 

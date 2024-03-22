@@ -21,32 +21,12 @@ class StartActivityMediator @Inject constructor(
     ): Result<Unit> {
         val settings = wearDataRepo.loadSettings()
             .getOrNull() ?: return Result.failure(WearRPCException)
+        val shouldShowTagSelection = shouldShowTagSelection(
+            typeId = activityId,
+            settings = settings,
+        ).getOrNull() ?: return Result.failure(WearRPCException)
 
-        return if (settings.showRecordTagSelection) {
-            requestTagSelectionIfNeeded(
-                activityId = activityId,
-                settings = settings,
-                onRequestTagSelection = onRequestTagSelection,
-            )
-        } else {
-            onRequestStartActivity(activityId)
-        }
-    }
-
-    private suspend fun requestTagSelectionIfNeeded(
-        activityId: Long,
-        settings: WearSettings,
-        onRequestTagSelection: suspend () -> Unit,
-    ): Result<Unit> {
-        val tags = wearDataRepo.loadTagsForActivity(activityId)
-            .getOrNull() ?: return Result.failure(WearRPCException)
-
-        val generalTags = tags.filter { it.isGeneral }
-        val nonGeneralTags = tags.filter { !it.isGeneral }
-        val tagSelectionNeeded = nonGeneralTags.isNotEmpty() ||
-            generalTags.isNotEmpty() && settings.recordTagSelectionEvenForGeneralTags
-
-        return if (tagSelectionNeeded) {
+        return if (shouldShowTagSelection) {
             onRequestTagSelection()
             Result.success(Unit)
         } else {
@@ -58,5 +38,27 @@ class StartActivityMediator @Inject constructor(
         activityId: Long,
     ): Result<Unit> {
         return currentActivitiesMediator.start(activityId)
+    }
+
+    private suspend fun shouldShowTagSelection(
+        typeId: Long,
+        settings: WearSettings,
+    ): Result<Boolean> {
+        // Check if need to show tag selection
+        return if (settings.showRecordTagSelection) {
+            val excludedActivities = settings.recordTagSelectionExcludedActivities
+
+            // Check if activity is excluded from tag dialog.
+            if (typeId !in excludedActivities) {
+                // Check if activity has tags.
+                val tags = wearDataRepo.loadTagsForActivity(typeId)
+                    .getOrNull() ?: return Result.failure(WearRPCException)
+                Result.success(tags.isNotEmpty())
+            } else {
+                Result.success(false)
+            }
+        } else {
+            Result.success(false)
+        }
     }
 }

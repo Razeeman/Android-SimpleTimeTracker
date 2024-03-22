@@ -206,8 +206,8 @@ class PrefsRepoImpl @Inject constructor(
         KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE, false,
     )
 
-    override var recordTagSelectionEvenForGeneralTags: Boolean by prefs.delegate(
-        KEY_RECORD_TAG_SELECTION_EVEN_FOR_GENERAL_TAGS, false,
+    override var recordTagSelectionExcludeActivities: Set<String> by prefs.delegate(
+        KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES, emptySet()
     )
 
     override var automatedTrackingSendEvents: Boolean by prefs.delegate(
@@ -448,8 +448,8 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_SHOW_SECONDS = "showSeconds"
         private const val KEY_KEEP_SCREEN_ON = "keepScreenOn"
         private const val KEY_SHOW_RECORD_TAG_SELECTION = "showRecordTagSelection"
+        private const val KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES = "showRecordTagSelectionExcludeActivities"
         private const val KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE = "recordTagSelectionCloseAfterOne"
-        private const val KEY_RECORD_TAG_SELECTION_EVEN_FOR_GENERAL_TAGS = "recordTagSelectionEvenForGeneralTags"
         private const val KEY_AUTOMATED_TRACKING_SEND_EVENTS = "automatedTrackingSendEvents"
         private const val KEY_AUTOMATIC_BACKUP_URI = "automaticBackupUri"
         private const val KEY_AUTOMATIC_BACKUP_ERROR = "automaticBackupError"
@@ -471,5 +471,6 @@ class PrefsRepoImpl @Inject constructor(
         // Removed
         private const val KEY_SORT_RECORD_TYPES_BY_COLOR = "sortRecordTypesByColor" // Boolean
         private const val KEY_DARK_MODE = "darkMode"
+        private const val KEY_RECORD_TAG_SELECTION_EVEN_FOR_GENERAL_TAGS = "recordTagSelectionEvenForGeneralTags"
     }
 }

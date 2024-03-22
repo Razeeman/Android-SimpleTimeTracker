@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">जोड़ने के लिए गतिविधियों का चयन करें</string>
 
+    <string name="record_tag_selection_exclude_activities_title">गतिविधियाँ बहिष्कृत करें</string>
+    <string name="record_tag_selection_exclude_activities_hint">चयनित गतिविधियों के लिए टैग चयन संवाद नहीं दिखाया जाएगा।</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">क्रमबद्ध अभिलेख</string>
     <string name="records_all_sort_time_started">समय शुरू हुआ</string>
@@ -263,7 +266,6 @@
     <string name="settings_show_record_tag_selection">चयन रिकॉर्ड टैग दिखाएं</string>
     <string name="settings_show_record_tag_selection_hint">टाइमर शुरू करते समय, यदि गतिविधि में कोई रिकॉर्ड टैग होता है - एक चयन संवाद दिखाया जाएगा।</string>
     <string name="settings_show_record_tag_close_hint">एक टैग का चयन करने के बाद बंद करें।</string>
-    <string name="settings_show_record_tag_general_hint">केवल सामान्य टैग के साथ भी दिखाएं।</string>
     <string name="settings_rate">हमें रेटिंग दें</string>
     <string name="settings_rate_description">ऐप को रेट करें और एक समीक्षा छोड़ दें।</string>
     <string name="settings_feedback">प्रतिपुष्टि</string>

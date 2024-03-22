@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">حدد الأنشطة المراد إضافتها</string>
 
+    <string name="record_tag_selection_exclude_activities_title">استبعاد الأنشطة</string>
+    <string name="record_tag_selection_exclude_activities_hint">لن يتم عرض مربع حوار تحديد العلامة للأنشطة المحددة.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">فرز التتبعات</string>
     <string name="records_all_sort_time_started">بدأ الوقت</string>
@@ -263,7 +266,6 @@
     <string name="settings_show_record_tag_selection">إظهار اختيار وسم التتبع</string>
     <string name="settings_show_record_tag_selection_hint">عند بدء تشغيل مؤقت نشاط. إذا كان للنشاط أي وسوم تتبع فسيتم عرض مربع حوار الاختيار.</string>
     <string name="settings_show_record_tag_close_hint">أغلق بعد اختيار وسم واحد.</string>
-    <string name="settings_show_record_tag_general_hint">اعرض حتى فقط مع الوسوم العامة.</string>
     <string name="settings_rate">قيمنا</string>
     <string name="settings_rate_description">قيم التطبيق واترك مراجعة.</string>
     <string name="settings_feedback">انطباعات ومراجعة</string>

@@ -7,7 +7,6 @@ class AddRunningRecordMediator @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val recordTagInteractor: RecordTagInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val notificationActivityInteractor: NotificationActivityInteractor,
@@ -16,6 +15,7 @@ class AddRunningRecordMediator @Inject constructor(
     private val widgetInteractor: WidgetInteractor,
     private val wearInteractor: WearInteractor,
     private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
+    private val shouldShowTagSelectionInteractor: ShouldShowTagSelectionInteractor,
 ) {
 
     /**
@@ -28,22 +28,9 @@ class AddRunningRecordMediator @Inject constructor(
         // Already running
         if (runningRecordInteractor.get(typeId) != null) return false
 
-        // Check if need to show tag selection
-        return if (prefsInteractor.getShowRecordTagSelection()) {
-            val tags = if (prefsInteractor.getRecordTagSelectionEvenForGeneralTags()) {
-                recordTagInteractor.getByTypeOrUntyped(typeId)
-            } else {
-                recordTagInteractor.getByType(typeId)
-            }.filterNot { it.archived }
-
-            // TODO add query to repo to find out if has tags.
-            if (tags.isEmpty()) {
-                startTimer(typeId, emptyList(), "")
-                true
-            } else {
-                onNeedToShowTagSelection()
-                false
-            }
+        return if (shouldShowTagSelectionInteractor.execute(typeId)) {
+            onNeedToShowTagSelection()
+            false
         } else {
             startTimer(typeId, emptyList(), "")
             true

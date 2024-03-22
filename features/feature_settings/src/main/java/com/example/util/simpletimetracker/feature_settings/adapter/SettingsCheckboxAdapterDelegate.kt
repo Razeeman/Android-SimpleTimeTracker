@@ -1,5 +1,9 @@
 package com.example.util.simpletimetracker.feature_settings.adapter
 
+import android.view.View
+import android.widget.Space
+import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.appcompat.widget.AppCompatTextView
 import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
@@ -17,25 +21,47 @@ fun createSettingsCheckboxAdapterDelegate(
     with(binding) {
         item as ViewData
 
-        tvItemSettingsTitle.text = item.title
-
-        if (item.subtitle.isEmpty()) {
-            tvItemSettingsSubtitle.visible = false
-        } else {
-            tvItemSettingsSubtitle.text = item.subtitle
-            tvItemSettingsSubtitle.visible = true
-        }
-
-        if (checkboxItemSettings.isChecked != item.isChecked) {
-            checkboxItemSettings.isChecked = item.isChecked
-        }
-
-        spaceItemSettingsTop.visible = item.topSpaceIsVisible
-        spaceItemSettingsBottom.visible = item.bottomSpaceIsVisible
-        viewItemSettingsDivider.visible = item.dividerIsVisible
-
-        checkboxItemSettings.setOnClick { onClick(item.block) }
+        checkboxAdapterBindDelegate(
+            item = item,
+            title = tvItemSettingsTitle,
+            subtitle = tvItemSettingsSubtitle,
+            checkbox = checkboxItemSettings,
+            spaceTop = spaceItemSettingsTop,
+            spaceBottom = spaceItemSettingsBottom,
+            divider = viewItemSettingsDivider,
+            onClick = onClick,
+        )
     }
+}
+
+fun checkboxAdapterBindDelegate(
+    item: ViewData,
+    title: AppCompatTextView,
+    subtitle: AppCompatTextView,
+    checkbox: AppCompatCheckBox,
+    spaceTop: Space,
+    spaceBottom: Space,
+    divider: View,
+    onClick: (block: SettingsBlock) -> Unit,
+) {
+    title.text = item.title
+
+    if (item.subtitle.isEmpty()) {
+        subtitle.visible = false
+    } else {
+        subtitle.text = item.subtitle
+        subtitle.visible = true
+    }
+
+    if (checkbox.isChecked != item.isChecked) {
+        checkbox.isChecked = item.isChecked
+    }
+
+    spaceTop.visible = item.topSpaceIsVisible
+    spaceBottom.visible = item.bottomSpaceIsVisible
+    divider.visible = item.dividerIsVisible
+
+    checkbox.setOnClick { onClick(item.block) }
 }
 
 data class SettingsCheckboxViewData(

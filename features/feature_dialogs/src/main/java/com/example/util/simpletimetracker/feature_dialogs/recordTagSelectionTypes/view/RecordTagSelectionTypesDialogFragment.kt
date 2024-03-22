@@ -1,6 +1,5 @@
-package com.example.util.simpletimetracker.feature_dialogs.defaultTypesSelection.view
+package com.example.util.simpletimetracker.feature_dialogs.recordTagSelectionTypes.view
 
-import com.example.util.simpletimetracker.feature_dialogs.databinding.DefaultTypesSelectionDialogFragmentBinding as Binding
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -11,11 +10,12 @@ import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.R
-import com.example.util.simpletimetracker.feature_dialogs.defaultTypesSelection.viewModel.DefaultTypesSelectionViewModel
+import com.example.util.simpletimetracker.feature_dialogs.recordTagSelectionTypes.viewModel.RecordTagSelectionTypesViewModel
 import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.google.android.flexbox.FlexDirection
@@ -23,14 +23,15 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.util.simpletimetracker.feature_dialogs.databinding.RecordTagSelectionTypesDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
-class DefaultTypesSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
+class RecordTagSelectionTypesDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    private val viewModel: DefaultTypesSelectionViewModel by viewModels()
+    private val viewModel: RecordTagSelectionTypesViewModel by viewModels()
 
     private val recordTypesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
@@ -38,17 +39,18 @@ class DefaultTypesSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
             createLoaderAdapterDelegate(),
             createDividerAdapterDelegate(),
             createInfoAdapterDelegate(),
+            createEmptyAdapterDelegate(),
         )
     }
 
     override fun initDialog() {
         setSkipCollapsed()
         setFullScreen()
-        blockContentScroll(binding.rvDefaultTypesSelectionContainer)
+        blockContentScroll(binding.rvRecordTagSelectionTypesContainer)
     }
 
     override fun initUi() {
-        binding.rvDefaultTypesSelectionContainer.apply {
+        binding.rvRecordTagSelectionTypesContainer.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER
@@ -59,25 +61,14 @@ class DefaultTypesSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     override fun initUx(): Unit = with(binding) {
-        btnDefaultTypesSelectionShowAll.setOnClick(viewModel::onShowAllClick)
-        btnDefaultTypesSelectionHideAll.setOnClick(viewModel::onHideAllClick)
-        btnDefaultTypesSelectionSave.setOnClick(viewModel::onSaveClick)
+        btnRecordTagSelectionTypesShowAll.setOnClick(viewModel::onShowAllClick)
+        btnRecordTagSelectionTypesHideAll.setOnClick(viewModel::onHideAllClick)
+        btnRecordTagSelectionTypesSave.setOnClick(viewModel::onSaveClick)
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
         types.observe(recordTypesAdapter::replace)
-        saveButtonEnabled.observe(::bindSaveButtonState)
+        saveButtonEnabled.observe(binding.btnRecordTagSelectionTypesSave::setEnabled)
         close.observeOnce(viewLifecycleOwner) { dismiss() }
-    }
-
-    private fun bindSaveButtonState(enabled: Boolean) = with(binding) {
-        btnDefaultTypesSelectionSave.isEnabled = enabled
-        val color = if (enabled) {
-            R.attr.appActiveColor
-        } else {
-            R.attr.appInactiveColor
-        }
-        context?.getThemedAttr(color)
-            ?.let(btnDefaultTypesSelectionSave::setBackgroundColor)
     }
 }

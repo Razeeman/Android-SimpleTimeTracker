@@ -436,12 +436,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.recordTagSelectionCloseAfterOne = value
     }
 
-    suspend fun getRecordTagSelectionEvenForGeneralTags(): Boolean = withContext(Dispatchers.IO) {
-        prefsRepo.recordTagSelectionEvenForGeneralTags
+    suspend fun getRecordTagSelectionExcludeActivities(): List<Long> = withContext(Dispatchers.IO) {
+        prefsRepo.recordTagSelectionExcludeActivities
+            .mapNotNull(String::toLongOrNull)
     }
 
-    suspend fun setRecordTagSelectionEvenForGeneralTags(value: Boolean) = withContext(Dispatchers.IO) {
-        prefsRepo.recordTagSelectionEvenForGeneralTags = value
+    suspend fun setRecordTagSelectionExcludeActivities(value: List<Long>) = withContext(Dispatchers.IO) {
+        prefsRepo.recordTagSelectionExcludeActivities = value
+            .map(Long::toString).toSet()
     }
 
     suspend fun getAutomatedTrackingSendEvents(): Boolean = withContext(Dispatchers.IO) {

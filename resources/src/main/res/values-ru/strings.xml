@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">Выберите активности для добавления</string>
 
+    <string name="record_tag_selection_exclude_activities_title">Исключить активности</string>
+    <string name="record_tag_selection_exclude_activities_hint">Диалог выбора тега не будет отображаться для выбранных активностей.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Сортировка</string>
     <string name="records_all_sort_time_started">Дата</string>
@@ -262,8 +265,7 @@
     <string name="settings_edit_categories_hint">Назначайте категории действиям и теги записям.</string>
     <string name="settings_show_record_tag_selection">Показывать диалог выбора тега для записи</string>
     <string name="settings_show_record_tag_selection_hint">При запуске таймера, если у активности есть теги для записей - будет показан диалог для выбора.</string>
-    <string name="settings_show_record_tag_close_hint">Закрыть после выбора одного тега.</string>
-    <string name="settings_show_record_tag_general_hint">Показать даже только с общими тегами.</string>
+    <string name="settings_show_record_tag_close_hint">Закрыть после выбора одного тега</string>
     <string name="settings_rate">Оцените нас</string>
     <string name="settings_rate_description">Оцените приложение и оставьте отзыв.</string>
     <string name="settings_feedback">Обратная связь</string>

@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">추가할 활동을 선택하세요</string>
 
+    <string name="record_tag_selection_exclude_activities_title">활동 제외</string>
+    <string name="record_tag_selection_exclude_activities_hint">선택한 활동에 대해서는 태그 선택 대화 상자가 표시되지 않습니다.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">기록 정렬</string>
     <string name="records_all_sort_time_started">시작한 시간</string>
@@ -263,7 +266,6 @@
     <string name="settings_show_record_tag_selection">기록 태그 선택 표시</string>
     <string name="settings_show_record_tag_selection_hint">타이머를 시작할 때 활동에 기록 태그가 있는 경우 선택 대화 상자가 표시됩니다.</string>
     <string name="settings_show_record_tag_close_hint">하나의 태그를 선택한 후 닫기.</string>
-    <string name="settings_show_record_tag_general_hint">일반 태그만 있는 경우에도 표시됩니다.</string>
     <string name="settings_rate">평가하기</string>
     <string name="settings_rate_description">앱을 평가하고 리뷰를 남겨주세요.</string>
     <string name="settings_feedback">피드백</string>

@@ -1,19 +1,13 @@
 package com.example.util.simpletimetracker.feature_dialogs.defaultTypesSelection.interactor
 
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.RecordType
 import javax.inject.Inject
 
-class GetDefaultRecordTypesInteractor @Inject constructor(
-    private val recordTypeInteractor: RecordTypeInteractor,
-) {
+class GetDefaultRecordTypesInteractor @Inject constructor() {
 
-    suspend fun execute(): List<RecordType> {
-        val currentTypes = recordTypeInteractor.getAll().map { it.name }
-
+    fun execute(): List<RecordType> {
         return defaultTypes
-            .filter { it.name !in currentTypes }
             .mapIndexed { index, type ->
                 RecordType(
                     id = index.toLong(),

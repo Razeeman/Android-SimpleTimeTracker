@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">选择要添加的活动</string>
 
+    <string name="record_tag_selection_exclude_activities_title">排除活动</string>
+    <string name="record_tag_selection_exclude_activities_hint">对于选定的活动，不会显示标签选择对话框。</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">对记录排序</string>
     <string name="records_all_sort_time_started">开始时间</string>
@@ -262,8 +265,7 @@
     <string name="settings_edit_categories_hint">将类别分配给活动，将标签分配给记录。</string>
     <string name="settings_show_record_tag_selection">显示记录标签选择</string>
     <string name="settings_show_record_tag_selection_hint">启动计时器时，如果活动有任何记录标签，则会显示一个选择对话框。</string>
-    <string name="settings_show_record_tag_close_hint">选择一个标签后关闭。</string>
-    <string name="settings_show_record_tag_general_hint">即使只有一般标签也能显示。</string>
+    <string name="settings_show_record_tag_close_hint">选择一个标签后关闭</string>
     <string name="settings_rate">给我们评分</string>
     <string name="settings_rate_description">评价应用程序并留下评论。</string>
     <string name="settings_feedback">反馈</string>

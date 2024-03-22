@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionTypesDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -120,12 +121,8 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onRecordTagSelectionGeneralClicked() {
-        delegateScope.launch {
-            val newValue = !prefsInteractor.getRecordTagSelectionEvenForGeneralTags()
-            prefsInteractor.setRecordTagSelectionEvenForGeneralTags(newValue)
-            parent?.updateContent()
-        }
+    fun onRecordTagSelectionExcludeActivitiesClicked() {
+        router.navigate(RecordTagSelectionTypesDialogParams)
     }
 
     fun onAutomatedTrackingSendEventsClicked() {

@@ -47,7 +47,7 @@ class TagsViewModel @Inject constructor(
         allowMultitasking = false,
         showRecordTagSelection = false,
         recordTagSelectionCloseAfterOne = false,
-        recordTagSelectionEvenForGeneralTags = false,
+        recordTagSelectionExcludedActivities = emptyList(),
     )
 
     // TODO switch to savedStateHandle

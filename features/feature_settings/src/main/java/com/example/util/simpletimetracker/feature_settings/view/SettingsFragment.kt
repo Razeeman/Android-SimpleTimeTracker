@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsBottomAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxAdapterDelegate
+import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxWithButtonAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxWithRangeAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCollapseAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsHintAdapterDelegate
@@ -67,6 +68,7 @@ class SettingsFragment :
             createSettingsTextAdapterDelegate(throttle(::onBlockClicked)),
             createSettingsTextWithButtonAdapterDelegate(::onBlockClicked),
             createSettingsCheckboxAdapterDelegate(::onBlockClicked),
+            createSettingsCheckboxWithButtonAdapterDelegate(::onBlockClicked),
             createSettingsCheckboxWithRangeAdapterDelegate(::onBlockClicked),
             createSettingsCollapseAdapterDelegate(::onBlockClicked),
             createSettingsSelectorAdapterDelegate(::onBlockClicked),

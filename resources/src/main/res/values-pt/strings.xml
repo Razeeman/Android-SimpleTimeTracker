@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">Selecione atividades para adicionar</string>
 
+    <string name="record_tag_selection_exclude_activities_title">Excluir atividades</string>
+    <string name="record_tag_selection_exclude_activities_hint">A caixa de diálogo de seleção de tags não será exibida para atividades selecionadas.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Ordenar registros</string>
     <string name="records_all_sort_time_started">Hora de início</string>
@@ -262,8 +265,7 @@
     <string name="settings_edit_categories_hint">Atribua categorias a atividades e tags a registros.</string>
     <string name="settings_show_record_tag_selection">Mostrar seleção de tag de registro</string>
     <string name="settings_show_record_tag_selection_hint">Ao iniciar um timer, se a atividade tiver alguma tag de registro - uma caixa de diálogo de seleção será exibida.</string>
-    <string name="settings_show_record_tag_close_hint">Fechar após selecionar uma tag.</string>
-    <string name="settings_show_record_tag_general_hint">Mostrar mesmo com apenas tags gerais.</string>
+    <string name="settings_show_record_tag_close_hint">Fechar após selecionar uma tag</string>
     <string name="settings_rate">Avalie-nos</string>
     <string name="settings_rate_description">Avalie o aplicativo e deixe um comentário.</string>
     <string name="settings_feedback">Feedback</string>

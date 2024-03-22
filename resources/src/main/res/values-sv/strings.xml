@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">Välj aktiviteter att lägga till</string>
 
+    <string name="record_tag_selection_exclude_activities_title">Uteslut aktiviteter</string>
+    <string name="record_tag_selection_exclude_activities_hint">Dialogrutan för val av tagg kommer inte att visas för valda aktiviteter.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Sortera händelser</string>
     <string name="records_all_sort_time_started">Starttid</string>
@@ -262,8 +265,7 @@
     <string name="settings_edit_categories_hint">Tilldela kategorier till aktiviteter och taggar till poster.</string>
     <string name="settings_show_record_tag_selection">Dialog för händelsetagg</string>
     <string name="settings_show_record_tag_selection_hint">Visa dialogruta för val av händelsetaggar om den påbörjade aktiviteten har tilldelade händelsetaggar.</string>
-    <string name="settings_show_record_tag_close_hint">Stäng efter att ha valt en tagg.</string>
-    <string name="settings_show_record_tag_general_hint">Visa även med bara allmänna taggar.</string>
+    <string name="settings_show_record_tag_close_hint">Stäng efter att ha valt en tagg</string>
     <string name="settings_rate">Ge oss ett betyg</string>
     <string name="settings_rate_description">Betygsätt appen och lämna en recension.</string>
     <string name="settings_feedback">Feedback</string>

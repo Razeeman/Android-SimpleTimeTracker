@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">Sélectionnez les activités à ajouter</string>
 
+    <string name="record_tag_selection_exclude_activities_title">Exclure les activités</string>
+    <string name="record_tag_selection_exclude_activities_hint">La boîte de dialogue de sélection de balise ne s\'affichera pas pour les activités sélectionnées.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Trier les enregistrements</string>
     <string name="records_all_sort_time_started">Heure de début</string>
@@ -263,7 +266,6 @@
     <string name="settings_show_record_tag_selection">Afficher la sélection d\'étiquette d\'enregistrement</string>
     <string name="settings_show_record_tag_selection_hint">Lors du démarrage d\'une activité, afficher une boîte de sélection si l\'activité a des étiquettes d\'enregistrement.</string>
     <string name="settings_show_record_tag_close_hint">Fermer après avoir sélectionné une étiquette</string>
-    <string name="settings_show_record_tag_general_hint">Afficher même avec uniquement des étiquettes générales.</string>
     <string name="settings_rate">Évaluez nous</string>
     <string name="settings_rate_description">Évaluez l\'application et laissez un avis.</string>
     <string name="settings_feedback">Retours</string>

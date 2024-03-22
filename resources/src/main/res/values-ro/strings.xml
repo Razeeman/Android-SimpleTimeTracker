@@ -181,6 +181,9 @@
 
     <string name="default_types_selection_title">Alege activități pentru a fi adăugate</string>
 
+    <string name="record_tag_selection_exclude_activities_title">Excludeți activități</string>
+    <string name="record_tag_selection_exclude_activities_hint">Dialogul de selecție a etichetelor nu va fi afișat pentru activitățile selectate.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Sortează înregistrările</string>
     <string name="records_all_sort_time_started">Ora de început</string>
@@ -262,14 +265,13 @@
     <string name="settings_edit_categories_hint">Atribuiți categorii activităților și etichete înregistrărilor.</string>
     <string name="settings_show_record_tag_selection">Arată etichetele atașate</string>
     <string name="settings_show_record_tag_selection_hint">Când este pornit un cronometru, dacă activitatea are etichete, un dailog de alegere va fi afișat.</string>
-    <string name="settings_show_record_tag_close_hint">Închide după alegerea unei etichete.</string>
-    <string name="settings_show_record_tag_general_hint">Arată chiar dacă sunt etichete generale.</string>
+    <string name="settings_show_record_tag_close_hint">Închide după alegerea unei etichete</string>
     <string name="settings_rate">Evaluează-ne</string>
     <string name="settings_rate_description">Evaluează aplicatia și scrie un recenzie.</string>
     <string name="settings_feedback">Părere</string>
     <string name="settings_feedback_description">Ai o sugestie? Ai găsit o problemă? Vrei să vorbim? Scrie-ne!</string>
     <string name="settings_version">Versiune</string>
-    <string name="settings_email_chooser_title">Trimite cu...</string>
+    <string name="settings_email_chooser_title">Trimite cu…</string>
     <string name="settings_translators">Traducători</string>
     <string name="settings_contributors">Alti contributori</string>
     <string name="settings_automated_tracking">Urmărire automată</string>
@@ -489,5 +491,7 @@ Examplu:<br/>
     <!--  Wear  -->
     <string name="wear_loading_error">Verifică conexiunea și încearcă din nou</string>
     <string name="wear_open_on_phone">Deschide pe telefon</string>
+    <string name="wear_settings_title">Setări</string>
+    <string name="wear_settings_title_show_compact_list">Afișează lista compactă</string>
 
 </resources>
