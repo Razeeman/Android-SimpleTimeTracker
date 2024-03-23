@@ -40,6 +40,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Dutch -> R.string.settings_dutch_language
             is AppLanguage.Portuguese -> R.string.settings_portuguese_language
             is AppLanguage.PortuguesePortugal -> R.string.settings_portuguese_portugal_language
+            is AppLanguage.Romanian -> R.string.settings_romanian_language
             is AppLanguage.Russian -> R.string.settings_russian_language
             is AppLanguage.Swedish -> R.string.settings_swedish_language
             is AppLanguage.Vietnamese -> R.string.settings_vietnamese_language
@@ -68,6 +69,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Dutch -> R.string.settings_dutch_tag
             is AppLanguage.Portuguese -> R.string.settings_portuguese_tag
             is AppLanguage.PortuguesePortugal -> R.string.settings_portuguese_portugal_tag
+            is AppLanguage.Romanian -> R.string.settings_romanian_tag
             is AppLanguage.Russian -> R.string.settings_russian_tag
             is AppLanguage.Swedish -> R.string.settings_swedish_tag
             is AppLanguage.Vietnamese -> R.string.settings_vietnamese_tag
@@ -98,6 +100,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Dutch -> R.string.settings_dutch_translators
             is AppLanguage.Portuguese -> R.string.settings_portuguese_translators
             is AppLanguage.PortuguesePortugal -> R.string.settings_portuguese_portugal_translators
+            is AppLanguage.Romanian -> R.string.settings_romanian_translators
             is AppLanguage.Russian -> R.string.settings_russian_translators
             is AppLanguage.Swedish -> R.string.settings_swedish_translators
             is AppLanguage.Vietnamese -> R.string.settings_vietnamese_translators
@@ -135,6 +138,7 @@ class LanguageInteractor @Inject constructor(
             AppLanguage.Dutch,
             AppLanguage.Portuguese,
             AppLanguage.PortuguesePortugal,
+            AppLanguage.Romanian,
             AppLanguage.Russian,
             AppLanguage.Swedish,
             AppLanguage.Vietnamese,

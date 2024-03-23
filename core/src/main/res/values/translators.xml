@@ -46,6 +46,10 @@
     <string name="settings_portuguese_portugal_language" translatable="false">Português (Portugal)</string>
     <string name="settings_portuguese_portugal_tag" translatable="false">pt-Pt</string>
 
+    <string name="settings_romanian_translators" translatable="false">Bogdan N</string>
+    <string name="settings_romanian_language" translatable="false">Română</string>
+    <string name="settings_romanian_tag" translatable="false">ro</string>
+
     <string name="settings_russian_translators" translatable="false">Геннадий Щерба</string>
     <string name="settings_russian_language" translatable="false">Русский</string>
     <string name="settings_russian_tag" translatable="false">ru</string>
