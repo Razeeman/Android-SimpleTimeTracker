@@ -34,7 +34,7 @@ fun WearNavigator() {
                 },
                 onSettingsClick = {
                     navigation.navigate(Route.SETTINGS)
-                }
+                },
             )
         }
         composable(Route.TAGS) {

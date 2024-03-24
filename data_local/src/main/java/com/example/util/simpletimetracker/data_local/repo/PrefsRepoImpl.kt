@@ -207,7 +207,7 @@ class PrefsRepoImpl @Inject constructor(
     )
 
     override var recordTagSelectionExcludeActivities: Set<String> by prefs.delegate(
-        KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES, emptySet()
+        KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES, emptySet(),
     )
 
     override var automatedTrackingSendEvents: Boolean by prefs.delegate(

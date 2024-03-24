@@ -12,7 +12,7 @@ import androidx.wear.compose.material.rememberScalingLazyListState
 @Composable
 fun ScaffoldedScrollingColumn(
     startItemIndex: Int,
-    content: ScalingLazyListScope.() -> Unit
+    content: ScalingLazyListScope.() -> Unit,
 ) {
     val scrollState = rememberScalingLazyListState()
     Scaffolding(scrollState) {

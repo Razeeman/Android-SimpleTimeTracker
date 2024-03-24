@@ -19,6 +19,11 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
+
       - name: Run style check
         run: ./gradlew ktlintCheck
 
@@ -31,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api-level: [19, 28, 29]
+        api-level: [21, 28, 29]
 
     steps:
       - name: Check out code
@@ -40,7 +45,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
-          java-version: '11' 
+          java-version: '17'
 
       - name: Run tests
         uses: reactivecircus/android-emulator-runner@v2

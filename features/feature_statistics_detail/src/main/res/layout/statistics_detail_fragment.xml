@@ -137,6 +137,7 @@
             <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
                 android:id="@+id/buttonsStatisticsDetailLength"
                 android:layout_width="match_parent"
+                android:layout_marginTop="-10dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/buttonsStatisticsDetailGrouping" />
 

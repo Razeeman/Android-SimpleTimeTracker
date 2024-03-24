@@ -1528,7 +1528,7 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
-    fun recordTagSelectionWithOnlyGeneral() {
+    fun recordTagSelectionExcludeActivities() {
         val name = "TypeName"
         val tagGeneral = "TagGeneral"
 
@@ -1542,14 +1542,10 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
         scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_selection)
-        checkViewDoesNotExist(withText(coreR.string.settings_show_record_tag_general_hint))
+        checkViewIsNotDisplayed(settingsButtonBesideText(coreR.string.settings_show_record_tag_selection))
 
         clickOnSettingsCheckboxBesideText(coreR.string.settings_show_record_tag_selection)
-        scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_general_hint)
-        checkViewIsDisplayed(withText(coreR.string.settings_show_record_tag_general_hint))
-        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_general_hint))
-        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_record_tag_general_hint)
-        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_general_hint))
+        checkViewIsDisplayed(settingsButtonBesideText(coreR.string.settings_show_record_tag_selection))
 
         // No tags - started right away
         NavUtils.openRunningRecordsScreen()
@@ -1559,7 +1555,7 @@ class SettingsTest : BaseUiTest() {
         // Add tag
         testUtils.addRecordTag(tagGeneral)
 
-        // Has a tag - show dialog
+        // Has a tag but not excluded - show dialog
         clickOnViewWithText(name)
         tryAction { checkViewIsDisplayed(withText(coreR.string.change_record_untagged)) }
         checkViewIsDisplayed(withText(tagGeneral))
@@ -1567,12 +1563,13 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting
         NavUtils.openSettingsScreen()
-        scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_general_hint)
-        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_general_hint))
-        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_record_tag_general_hint)
-        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_general_hint))
+        scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_selection)
+        clickOnSettingsButtonBesideText(coreR.string.settings_show_record_tag_selection)
+        Thread.sleep(1000)
+        clickOnViewWithText(name)
+        clickOnViewWithText(coreR.string.duration_dialog_save)
 
-        // Start with tags - no dialog
+        // Has a tag but excluded - no dialog
         NavUtils.openRunningRecordsScreen()
         clickOnViewWithText(name)
         tryAction { clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name))) }

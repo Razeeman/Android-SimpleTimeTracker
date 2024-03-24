@@ -7,6 +7,6 @@ package com.example.util.simpletimetracker.presentation.screens.settings
 
 interface SettingsItemType {
 
-    object AllowMultitasking: SettingsItemType
-    object ShowCompactList: SettingsItemType
+    object AllowMultitasking : SettingsItemType
+    object ShowCompactList : SettingsItemType
 }

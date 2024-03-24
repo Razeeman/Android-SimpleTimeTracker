@@ -47,7 +47,7 @@ class StartActivityMediatorTest {
         allowMultitasking = false,
         showRecordTagSelection = false,
         recordTagSelectionCloseAfterOne = false,
-        recordTagSelectionEvenForGeneralTags = false,
+        recordTagSelectionExcludedActivities = emptyList(),
     )
 
     @Before
@@ -59,7 +59,9 @@ class StartActivityMediatorTest {
     fun `tag selection disabled`() = runTest {
         // Given
         Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
-            Result.success(settings.copy(showRecordTagSelection = false)),
+            settings.copy(
+                showRecordTagSelection = false,
+            ).let(Result.Companion::success),
         )
         var onRequestTagSelectionCalled = false
 
@@ -78,7 +80,10 @@ class StartActivityMediatorTest {
     fun `tag selection enabled and activity has no tags`() = runTest {
         // Given
         Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
-            Result.success(settings.copy(showRecordTagSelection = true)),
+            settings.copy(
+                showRecordTagSelection = true,
+                recordTagSelectionExcludedActivities = emptyList(),
+            ).let(Result.Companion::success),
         )
         Mockito.`when`(wearDataRepo.loadTagsForActivity(Mockito.anyLong())).thenReturn(
             Result.success(emptyList()),
@@ -97,13 +102,13 @@ class StartActivityMediatorTest {
     }
 
     @Test
-    fun `tag selection enabled, but not for generals alone, and activity has only general tags`() = runTest {
+    fun `tag selection enabled, but not for this activity`() = runTest {
         // Given
         Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
             Result.success(
                 settings.copy(
                     showRecordTagSelection = true,
-                    recordTagSelectionEvenForGeneralTags = false,
+                    recordTagSelectionExcludedActivities = listOf(sampleActivity.id),
                 ),
             ),
         )
@@ -124,13 +129,13 @@ class StartActivityMediatorTest {
     }
 
     @Test
-    fun `activity has non-general tags`() = runTest {
+    fun `tag selection enabled, activity has tags`() = runTest {
         // Given
         Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
             Result.success(
                 settings.copy(
                     showRecordTagSelection = true,
-                    recordTagSelectionEvenForGeneralTags = false,
+                    recordTagSelectionExcludedActivities = emptyList(),
                 ),
             ),
         )
@@ -148,27 +153,5 @@ class StartActivityMediatorTest {
         // Then
         Mockito.verify(currentActivitiesMediator, Mockito.never()).start(sampleActivity.id)
         assertEquals(true, onRequestTagSelectionCalled)
-    }
-
-    @Test
-    fun `activity has only general tags and tag selection enabled for only generals`() = runTest {
-        // Given
-        Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
-            Result.success(settings.copy(recordTagSelectionEvenForGeneralTags = true)),
-        )
-        Mockito.`when`(wearDataRepo.loadTagsForActivity(Mockito.anyLong())).thenReturn(
-            Result.success(listOf(sampleGeneralTag)),
-        )
-        var onRequestTagSelectionCalled = false
-
-        // When
-        mediator.requestStart(
-            activityId = sampleActivity.id,
-            onRequestTagSelection = { onRequestTagSelectionCalled = true },
-        )
-
-        // Then
-        Mockito.verify(currentActivitiesMediator).start(sampleActivity.id)
-        assertEquals(false, onRequestTagSelectionCalled)
     }
 }
