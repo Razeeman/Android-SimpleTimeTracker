@@ -5,7 +5,6 @@
  */
 package com.example.util.simpletimetracker.presentation.ui.layout
 
-import androidx.compose.animation.core.exponentialDecay
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.AutoCenteringParams
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.ScalingLazyColumn
-import androidx.wear.compose.material.ScalingLazyColumnDefaults
 import androidx.wear.compose.material.ScalingLazyListScope
 import androidx.wear.compose.material.ScalingLazyListState
 import androidx.wear.compose.material.rememberScalingLazyListState
@@ -40,10 +38,6 @@ fun ScrollingColumn(
             .fillMaxSize()
             .background(MaterialTheme.colors.background)
             .selectableGroup(),
-        flingBehavior = ScalingLazyColumnDefaults.snapFlingBehavior(
-            state = scrollState,
-            decay = exponentialDecay(frictionMultiplier = 0.75f),
-        ),
         autoCentering = AutoCenteringParams(
             itemIndex = startItemIndex,
         ),
