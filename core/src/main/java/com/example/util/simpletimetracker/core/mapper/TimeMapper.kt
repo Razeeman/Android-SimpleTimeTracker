@@ -484,6 +484,36 @@ class TimeMapper @Inject constructor(
         return res
     }
 
+    fun formatIntervalAdjusted(
+        timeStarted: Long,
+        timeEnded: Long,
+        showSeconds: Boolean,
+        useProportionalMinutes: Boolean,
+    ): String {
+        val interval = formatInterval(
+            interval = timeEnded - timeStarted,
+            forceSeconds = showSeconds,
+            useProportionalMinutes = useProportionalMinutes,
+        )
+
+        return if (showSeconds || useProportionalMinutes) {
+            interval
+        } else {
+            val adjustedTimeStarted = timeStarted / MINUTES_IN_MILLIS * MINUTES_IN_MILLIS
+            val adjustedTimeEnded = timeEnded / MINUTES_IN_MILLIS * MINUTES_IN_MILLIS
+            val adjustedInterval = formatInterval(
+                interval = adjustedTimeEnded - adjustedTimeStarted,
+                forceSeconds = false,
+                useProportionalMinutes = false,
+            )
+            if (adjustedInterval != interval) {
+                "~$adjustedInterval"
+            } else {
+                interval
+            }
+        }
+    }
+
     private fun formatIntervalProportional(hr: Long, min: Long): String {
         val hourString = resourceRepo.getString(R.string.time_hour)
         val minutesProportion = min / 60f
@@ -600,5 +630,9 @@ class TimeMapper @Inject constructor(
     private fun isFirstWeekOfNextYear(calendar: Calendar): Boolean {
         return calendar.get(Calendar.WEEK_OF_YEAR) == 1 &&
             calendar.get(Calendar.MONTH) == calendar.getActualMaximum(Calendar.MONTH)
+    }
+
+    companion object {
+        private const val MINUTES_IN_MILLIS = 60_000
     }
 }

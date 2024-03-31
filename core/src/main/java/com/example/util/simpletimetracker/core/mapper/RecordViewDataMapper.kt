@@ -46,9 +46,10 @@ class RecordViewDataMapper @Inject constructor(
                 useMilitaryTime = useMilitaryTime,
                 showSeconds = showSeconds,
             ),
-            duration = timeMapper.formatInterval(
-                interval = record.duration,
-                forceSeconds = showSeconds,
+            duration = timeMapper.formatIntervalAdjusted(
+                timeStarted = record.timeStarted,
+                timeEnded = record.timeEnded,
+                showSeconds = showSeconds,
                 useProportionalMinutes = useProportionalMinutes,
             ),
             iconId = iconMapper.mapIcon(recordType.icon),
@@ -82,9 +83,10 @@ class RecordViewDataMapper @Inject constructor(
                 showSeconds = showSeconds,
             ),
             timeEndedTimestamp = timeEnded,
-            duration = timeMapper.formatInterval(
-                interval = timeEnded - timeStarted,
-                forceSeconds = showSeconds,
+            duration = timeMapper.formatIntervalAdjusted(
+                timeStarted = timeStarted,
+                timeEnded = timeEnded,
+                showSeconds = showSeconds,
                 useProportionalMinutes = useProportionalMinutes,
             ),
             iconId = RecordTypeIcon.Image(R.drawable.unknown),

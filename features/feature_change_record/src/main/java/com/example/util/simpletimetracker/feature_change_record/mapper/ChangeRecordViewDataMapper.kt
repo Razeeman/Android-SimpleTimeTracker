@@ -49,9 +49,10 @@ class ChangeRecordViewDataMapper @Inject constructor(
                 useMilitaryTime = useMilitaryTime,
                 showSeconds = showSeconds,
             ),
-            duration = timeMapper.formatInterval(
-                interval = record.duration,
-                forceSeconds = showSeconds,
+            duration = timeMapper.formatIntervalAdjusted(
+                timeStarted = record.timeStarted,
+                timeEnded = record.timeEnded,
+                showSeconds = showSeconds,
                 useProportionalMinutes = useProportionalMinutes,
             ),
             iconId = recordType?.icon.orEmpty()
