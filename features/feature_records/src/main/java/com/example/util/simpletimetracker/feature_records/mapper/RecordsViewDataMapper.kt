@@ -34,11 +34,12 @@ class RecordsViewDataMapper @Inject constructor(
         val (timeStarted, timeEnded) = clampToRange(record, range)
 
         return recordViewDataMapper.map(
-            record = record,
+            record = record.copy(
+                timeStarted = timeStarted,
+                timeEnded = timeEnded,
+            ),
             recordType = recordType,
             recordTags = recordTags,
-            timeStarted = timeStarted,
-            timeEnded = timeEnded,
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime,
             useProportionalMinutes = useProportionalMinutes,

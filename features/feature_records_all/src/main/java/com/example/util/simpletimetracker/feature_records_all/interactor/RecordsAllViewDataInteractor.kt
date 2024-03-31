@@ -59,8 +59,6 @@ class RecordsAllViewDataInteractor @Inject constructor(
                             record = record,
                             recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
                             recordTags = recordTags.filter { it.id in record.tagIds },
-                            timeStarted = record.timeStarted,
-                            timeEnded = record.timeEnded,
                             isDarkTheme = isDarkTheme,
                             useMilitaryTime = useMilitaryTime,
                             useProportionalMinutes = useProportionalMinutes,

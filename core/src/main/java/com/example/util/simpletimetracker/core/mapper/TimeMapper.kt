@@ -448,7 +448,11 @@ class TimeMapper @Inject constructor(
      * @param forceSeconds - true 1h 7m 21s, false 1h 7m
      * @param useProportionalMinutes - true 1.25h
      */
-    fun formatInterval(interval: Long, forceSeconds: Boolean, useProportionalMinutes: Boolean): String {
+    fun formatInterval(
+        interval: Long,
+        forceSeconds: Boolean,
+        useProportionalMinutes: Boolean,
+    ): String {
         val hourString = resourceRepo.getString(R.string.time_hour)
         val minuteString = resourceRepo.getString(R.string.time_minute)
         val secondString = resourceRepo.getString(R.string.time_second)

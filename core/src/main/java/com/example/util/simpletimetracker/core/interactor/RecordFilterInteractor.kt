@@ -223,7 +223,7 @@ class RecordFilterInteractor @Inject constructor(
             daysOfRecord.add(endDay)
 
             // Check long records.
-            if (timeEnded - timeStarted > dayInMillis) {
+            if (duration > dayInMillis) {
                 var check = true
                 calendar.timeInMillis = timeStarted
                 // Continuously add one day to time start until reach time ended.

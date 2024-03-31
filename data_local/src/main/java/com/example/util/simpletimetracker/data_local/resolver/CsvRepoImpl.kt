@@ -196,8 +196,8 @@ class CsvRepoImpl @Inject constructor(
                 record.comment,
                 categories.takeUnless { it.isEmpty() }?.joinToString(separator = ", ") { it.name }.orEmpty(),
                 recordTags.takeUnless { it.isEmpty() }?.joinToString(separator = ", ") { it.name }.orEmpty(),
-                formatDuration(record.timeEnded - record.timeStarted),
-                formatDurationMinutes(record.timeEnded - record.timeStarted),
+                formatDuration(record.duration),
+                formatDurationMinutes(record.duration),
             )
         } else {
             null

@@ -17,7 +17,7 @@ class ChangeRecordViewDataMapper @Inject constructor(
 ) {
 
     fun map(
-        record: Record?,
+        record: Record,
         recordType: RecordType?,
         recordTags: List<RecordTag>,
         isDarkTheme: Boolean,
@@ -29,59 +29,37 @@ class ChangeRecordViewDataMapper @Inject constructor(
             name = recordType?.name.orEmpty(),
             tagName = recordTags
                 .getFullName(),
-            timeStarted = record?.timeStarted
-                ?.let {
-                    timeMapper.formatTime(
-                        time = it,
-                        useMilitaryTime = useMilitaryTime,
-                        showSeconds = showSeconds,
-                    )
-                }
-                .orEmpty(),
-            timeFinished = record?.timeEnded
-                ?.let {
-                    timeMapper.formatTime(
-                        time = it,
-                        useMilitaryTime = useMilitaryTime,
-                        showSeconds = showSeconds,
-                    )
-                }
-                .orEmpty(),
-            dateTimeStarted = record?.timeStarted
-                ?.let {
-                    timeMapper.formatDateTime(
-                        time = it,
-                        useMilitaryTime = useMilitaryTime,
-                        showSeconds = showSeconds,
-                    )
-                }
-                .orEmpty(),
-            dateTimeFinished = record?.timeEnded
-                ?.let {
-                    timeMapper.formatDateTime(
-                        time = it,
-                        useMilitaryTime = useMilitaryTime,
-                        showSeconds = showSeconds,
-                    )
-                }
-                .orEmpty(),
-            duration = record
-                ?.let { it.timeEnded - it.timeStarted }
-                ?.let {
-                    timeMapper.formatInterval(
-                        interval = it,
-                        forceSeconds = showSeconds,
-                        useProportionalMinutes = useProportionalMinutes,
-                    )
-                }
-                .orEmpty(),
+            timeStarted = timeMapper.formatTime(
+                time = record.timeStarted,
+                useMilitaryTime = useMilitaryTime,
+                showSeconds = showSeconds,
+            ),
+            timeFinished = timeMapper.formatTime(
+                time = record.timeEnded,
+                useMilitaryTime = useMilitaryTime,
+                showSeconds = showSeconds,
+            ),
+            dateTimeStarted = timeMapper.formatDateTime(
+                time = record.timeStarted,
+                useMilitaryTime = useMilitaryTime,
+                showSeconds = showSeconds,
+            ),
+            dateTimeFinished = timeMapper.formatDateTime(
+                time = record.timeEnded,
+                useMilitaryTime = useMilitaryTime,
+                showSeconds = showSeconds,
+            ),
+            duration = timeMapper.formatInterval(
+                interval = record.duration,
+                forceSeconds = showSeconds,
+                useProportionalMinutes = useProportionalMinutes,
+            ),
             iconId = recordType?.icon.orEmpty()
                 .let(iconMapper::mapIcon),
             color = recordType?.color
                 ?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
                 ?: colorMapper.toUntrackedColor(isDarkTheme),
-            comment = record?.comment
-                .orEmpty(),
+            comment = record.comment,
         )
     }
 }
