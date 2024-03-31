@@ -1,4 +1,4 @@
-Simple Time Tracker ajuda a registar quanto tempo foi gasto durante o dia em diferentes atividades. Basta um clique para começar. Visualização dos registos e das estatísticas ao longo do tempo. A aplicação é grátis e de código aberto. Widgets, cópias de seguração, notificações e modo escuro também estão disponíveis. Também oferece suporte a relógios com Wear OS.
+Simple Time Tracker ajuda a registar quanto tempo foi gasto durante o dia em diferentes atividades. Basta um clique para começar. Visualização dos registos e das estatísticas ao longo do tempo. A aplicação é grátis e de código aberto. Widgets, cópias de seguração, notificações e modo escuro também estão disponíveis. Também suporta relógios com Wear OS e possui complicações.
 
 <b>Interface simples</b>
 A app tem uma interface minimalista que é muito fácil de usar.

@@ -1,4 +1,4 @@
-Simple Time Tracker membantu Anda melacak berapa banyak waktu yang Anda habiskan sepanjang hari dalam berbagai kegiatan. Mulai kegiatan baru dengan satu ketukan. Lihat rekor dan statistik sebelumnya dari waktu ke waktu. Aplikasi ini gratis dan bersumber terbuka. Juga widget, cadangan, notifikasi, dan mode gelap. Juga mendukung jam tangan dengan Wear OS.
+Simple Time Tracker membantu Anda melacak berapa banyak waktu yang Anda habiskan sepanjang hari dalam berbagai kegiatan. Mulai kegiatan baru dengan satu ketukan. Lihat rekor dan statistik sebelumnya dari waktu ke waktu. Aplikasi ini gratis dan bersumber terbuka. Juga widget, cadangan, notifikasi, dan mode gelap. Juga mendukung jam tangan dengan Wear OS dan memiliki komplikasi.
 
 <b>Antarmuka sederhana</b>
 Aplikasi memiliki sebuah antarmuka minimalis yang sangat mudah untuk digunakan.

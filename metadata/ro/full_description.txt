@@ -1,4 +1,4 @@
-Simple Time Tracker te ajută să urmărești cât timp petreci într-o zi cu diferite actități. Pornește activități noi cu un click. Vizualizează înregistrările anterioare si statistica în timp. Această aplicație este gratuită și open source. Aplicația dispune widget-uri, backup-uri, notificări și mod întunecat. De asemenea, aplicația suportă ceasuri cu Wear OS.
+Simple Time Tracker te ajută să urmărești cât timp petreci într-o zi cu diferite actități. Pornește activități noi cu un click. Vizualizează înregistrările anterioare si statistica în timp. Această aplicație este gratuită și open source. Aplicația dispune widget-uri, backup-uri, notificări și mod întunecat. De asemenea, aplicația suportă ceasuri cu Wear OS și are complicații.
 
 <b>Interfață simpla</b>
 Aplicația are o Interfață minimalistă care este ușor de folosit.
