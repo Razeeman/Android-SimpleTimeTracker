@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.core.delegates
+package com.example.util.simpletimetracker.core.delegates.colorSelection
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,7 +22,6 @@ interface ColorSelectionViewModelDelegate {
     fun onColorClick(item: ColorViewData)
     fun onColorPaletteClick()
     fun onCustomColorSelected(colorInt: Int)
-    suspend fun update()
 
     interface Parent {
         suspend fun update()
@@ -55,7 +54,7 @@ class ColorSelectionViewModelDelegateImpl @Inject constructor(
         this.parent = parent
     }
 
-    override suspend fun update() {
+    suspend fun update() {
         updateColors()
     }
 

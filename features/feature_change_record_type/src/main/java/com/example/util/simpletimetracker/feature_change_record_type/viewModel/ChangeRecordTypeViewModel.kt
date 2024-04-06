@@ -5,14 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
-import com.example.util.simpletimetracker.core.delegates.ColorSelectionViewModelDelegate
-import com.example.util.simpletimetracker.core.delegates.ColorSelectionViewModelDelegateImpl
+import com.example.util.simpletimetracker.core.delegates.colorSelection.ColorSelectionViewModelDelegate
+import com.example.util.simpletimetracker.core.delegates.colorSelection.ColorSelectionViewModelDelegateImpl
+import com.example.util.simpletimetracker.core.delegates.iconSelection.IconSelectionViewModelDelegate
+import com.example.util.simpletimetracker.core.delegates.iconSelection.IconSelectionViewModelDelegateImpl
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
-import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
-import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
@@ -23,35 +23,22 @@ import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordM
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.WearInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
-import com.example.util.simpletimetracker.domain.model.IconImageState
-import com.example.util.simpletimetracker.domain.model.IconType
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
-import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData
-import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegateImpl
 import com.example.util.simpletimetracker.feature_change_record_type.interactor.ChangeRecordTypeViewDataInteractor
-import com.example.util.simpletimetracker.feature_change_record_type.mapper.ChangeRecordTypeMapper
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryInfoViewData
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconCategoryViewData
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSelectorStateViewData
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconStateViewData
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconSwitchViewData
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeIconViewData
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromChangeActivityParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.example.util.simpletimetracker.core.R as coreR
@@ -70,14 +57,14 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val changeRecordTypeMapper: ChangeRecordTypeMapper,
     private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
-    private val iconEmojiMapper: IconEmojiMapper,
     private val goalsViewModelDelegate: GoalsViewModelDelegateImpl,
     private val colorSelectionViewModelDelegateImpl: ColorSelectionViewModelDelegateImpl,
+    private val iconSelectionViewModelDelegateImpl: IconSelectionViewModelDelegateImpl,
 ) : ViewModel(),
     GoalsViewModelDelegate by goalsViewModelDelegate,
-    ColorSelectionViewModelDelegate by colorSelectionViewModelDelegateImpl {
+    ColorSelectionViewModelDelegate by colorSelectionViewModelDelegateImpl,
+    IconSelectionViewModelDelegate by iconSelectionViewModelDelegateImpl {
 
     lateinit var extra: ChangeRecordTypeParams
 
@@ -87,27 +74,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 initializeRecordTypeData()
                 initial.value = loadRecordPreviewViewData()
             }
-            initial
-        }
-    }
-    val icons: LiveData<ChangeRecordTypeIconStateViewData> by lazy {
-        return@lazy MutableLiveData<ChangeRecordTypeIconStateViewData>().let { initial ->
-            viewModelScope.launch { initial.value = loadIconsViewData() }
-            initial
-        }
-    }
-    val iconCategories: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch { initial.value = loadIconCategoriesViewData() }
-            initial
-        }
-    }
-    val iconsTypeViewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData(loadIconsTypeViewData())
-    }
-    val iconSelectorViewData: LiveData<ChangeRecordTypeIconSelectorStateViewData> by lazy {
-        return@lazy MutableLiveData<ChangeRecordTypeIconSelectorStateViewData>().let { initial ->
-            viewModelScope.launch { initial.value = loadIconSelectorViewData() }
             initial
         }
     }
@@ -130,21 +96,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId == 0L) }
-    val iconsScrollPosition: LiveData<ChangeRecordTypeScrollViewData> = MutableLiveData()
-    val expandIconTypeSwitch: LiveData<Unit> = MutableLiveData()
 
     private val recordTypeId: Long get() = (extra as? ChangeRecordTypeParams.Change)?.id.orZero()
-    private var iconType: IconType = IconType.IMAGE
-    private var iconImageState: IconImageState = IconImageState.Chooser
-    private var iconSearch: String = ""
-    private var iconSearchJob: Job? = null
     private var initialCategories: Set<Long> = emptySet()
     private var newName: String = ""
-    private var newIconName: String = ""
     private var newCategories: MutableList<Long> = mutableListOf()
 
     init {
         colorSelectionViewModelDelegateImpl.attach(getColorSelectionDelegateParent())
+        iconSelectionViewModelDelegateImpl.attach(getIconSelectionDelegateParent())
     }
 
     override fun onCleared() {
@@ -183,125 +143,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onGoalTimeChooserClick() {
         onNewChooserState(ChangeRecordTypeChooserState.State.GoalTime)
-    }
-
-    fun onIconTypeClick(viewData: ButtonsRowViewData) {
-        if (viewData !is ChangeRecordTypeIconSwitchViewData) return
-        if (viewData.iconType == iconType) return
-        viewModelScope.launch {
-            keyboardVisibility.set(false)
-            iconType = viewData.iconType
-            updateIconsTypeViewData()
-            updateIconSelectorViewData()
-            updateIconCategories(selectedIndex = 0)
-            updateIconsLoad()
-            updateIcons()
-        }
-    }
-
-    fun onIconCategoryClick(viewData: ChangeRecordTypeIconCategoryViewData) {
-        if (viewData.getUniqueId() == 0L) {
-            expandIconTypeSwitch.set(Unit)
-        }
-        (icons.value as? ChangeRecordTypeIconStateViewData.Icons)
-            ?.items
-            ?.indexOfFirst { (it as? ChangeRecordTypeIconCategoryInfoViewData)?.type == viewData.type }
-            ?.let(::updateIconScrollPosition)
-    }
-
-    fun onIconClick(item: ChangeRecordTypeIconViewData) {
-        viewModelScope.launch {
-            if (item.iconName != newIconName) {
-                newIconName = item.iconName
-                updateRecordPreviewViewData()
-            }
-        }
-    }
-
-    fun onIconsScrolled(
-        firstVisiblePosition: Int,
-        lastVisiblePosition: Int,
-    ) {
-        val items = (icons.value as? ChangeRecordTypeIconStateViewData.Icons?)
-            ?.items ?: return
-        val infoItems = items.filterIsInstance<ChangeRecordTypeIconCategoryInfoViewData>()
-
-        // Last image category has small number of icons, need to check if it is visible,
-        // otherwise it would never be selected by the second check.
-        infoItems
-            .firstOrNull { it.isLast }
-            ?.takeIf { items.indexOf(it) <= lastVisiblePosition }
-            ?.let {
-                updateIconCategories(it.getUniqueId())
-                return
-            }
-
-        infoItems
-            .lastOrNull { items.indexOf(it) <= firstVisiblePosition }
-            ?.let { updateIconCategories(it.getUniqueId()) }
-    }
-
-    fun onIconImageSearchClicked() {
-        val newState = when (iconImageState) {
-            is IconImageState.Chooser -> IconImageState.Search
-            is IconImageState.Search -> IconImageState.Chooser
-        }
-        iconImageState = newState
-
-        if (iconImageState is IconImageState.Chooser) {
-            keyboardVisibility.set(false)
-            expandIconTypeSwitch.set(Unit)
-        }
-        viewModelScope.launch {
-            updateIconSelectorViewData()
-            updateIconCategories(selectedIndex = 0)
-            updateIconsLoad()
-            updateIcons()
-        }
-    }
-
-    fun onIconImageSearch(search: String) {
-        if (iconType == IconType.TEXT) return
-
-        if (search != iconSearch) {
-            iconSearchJob?.cancel()
-            iconSearchJob = viewModelScope.launch {
-                iconSearch = search
-                delay(500)
-                updateIcons()
-            }
-        }
-    }
-
-    fun onEmojiClick(item: EmojiViewData) {
-        if (iconEmojiMapper.hasSkinToneVariations(item.emojiCodes)) {
-            openEmojiSelectionDialog(item)
-        } else {
-            viewModelScope.launch {
-                if (item.emojiText != newIconName) {
-                    newIconName = item.emojiText
-                    updateRecordPreviewViewData()
-                }
-            }
-        }
-    }
-
-    fun onIconTextChange(text: String) {
-        viewModelScope.launch {
-            if (text != newIconName) {
-                newIconName = text
-                updateRecordPreviewViewData()
-            }
-        }
-    }
-
-    fun onEmojiSelected(emojiText: String) {
-        viewModelScope.launch {
-            if (emojiText != newIconName) {
-                newIconName = emojiText
-                updateRecordPreviewViewData()
-            }
-        }
     }
 
     fun onCategoryClick(item: CategoryViewData) {
@@ -373,10 +214,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
-    fun onScrolled() {
-        iconsScrollPosition.set(ChangeRecordTypeScrollViewData.NoScroll)
-    }
-
     private fun onNewChooserState(
         newState: ChangeRecordTypeChooserState.State,
     ) {
@@ -399,20 +236,11 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
-    private fun openEmojiSelectionDialog(item: EmojiViewData) {
-        val params = changeRecordTypeMapper.mapEmojiSelectionParams(
-            color = colorSelectionViewModelDelegateImpl.newColor,
-            emojiCodes = item.emojiCodes,
-        )
-
-        router.navigate(params)
-    }
-
     private suspend fun saveRecordType(): Long {
         val recordType = RecordType(
             id = recordTypeId,
             name = newName,
-            icon = newIconName,
+            icon = iconSelectionViewModelDelegateImpl.newIconName,
             color = colorSelectionViewModelDelegateImpl.newColor,
         )
 
@@ -430,10 +258,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private suspend fun initializeRecordTypeData() {
         recordTypeInteractor.get(recordTypeId)?.let {
             newName = it.name
-            newIconName = it.icon
+            iconSelectionViewModelDelegateImpl.newIconName = it.icon
             colorSelectionViewModelDelegateImpl.newColor = it.color
             goalsViewModelDelegate.initialize(RecordTypeGoal.IdData.Type(it.id))
-            updateIcons()
+            iconSelectionViewModelDelegateImpl.update()
             colorSelectionViewModelDelegateImpl.update()
         }
     }
@@ -450,7 +278,23 @@ class ChangeRecordTypeViewModel @Inject constructor(
         return object : ColorSelectionViewModelDelegate.Parent {
             override suspend fun update() {
                 updateRecordPreviewViewData()
-                updateIcons()
+                iconSelectionViewModelDelegateImpl.update()
+            }
+        }
+    }
+
+    private fun getIconSelectionDelegateParent(): IconSelectionViewModelDelegate.Parent {
+        return object : IconSelectionViewModelDelegate.Parent {
+            override fun keyboardVisibility(isVisible: Boolean) {
+                keyboardVisibility.set(isVisible)
+            }
+
+            override suspend fun updateRecordPreviewViewData() {
+                this@ChangeRecordTypeViewModel.updateRecordPreviewViewData()
+            }
+
+            override fun getColor(): AppColor {
+                return colorSelectionViewModelDelegateImpl.newColor
             }
         }
     }
@@ -465,63 +309,9 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
         return RecordType(
             name = newName,
-            icon = newIconName,
+            icon = iconSelectionViewModelDelegateImpl.newIconName,
             color = colorSelectionViewModelDelegateImpl.newColor,
         ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
-    }
-
-    private suspend fun updateIcons() {
-        val data = loadIconsViewData()
-        icons.set(data)
-    }
-
-    private fun updateIconsLoad() {
-        val items = listOf(LoaderViewData())
-        val data = ChangeRecordTypeIconStateViewData.Icons(items)
-        icons.set(data)
-    }
-
-    private suspend fun loadIconsViewData(): ChangeRecordTypeIconStateViewData {
-        return viewDataInteractor.getIconsViewData(
-            newColor = colorSelectionViewModelDelegateImpl.newColor,
-            iconType = iconType,
-            iconImageState = iconImageState,
-            iconSearch = iconSearch,
-        )
-    }
-
-    private fun updateIconCategories(selectedIndex: Long) {
-        val data = loadIconCategoriesViewData(selectedIndex)
-        iconCategories.set(data)
-    }
-
-    private fun loadIconCategoriesViewData(selectedIndex: Long = 0): List<ViewHolderType> {
-        return viewDataInteractor.getIconCategoriesViewData(
-            iconType = iconType,
-            selectedIndex = selectedIndex,
-        )
-    }
-
-    private fun updateIconsTypeViewData() {
-        val data = loadIconsTypeViewData()
-        iconsTypeViewData.set(data)
-    }
-
-    private fun loadIconsTypeViewData(): List<ViewHolderType> {
-        return changeRecordTypeMapper.mapToIconSwitchViewData(iconType)
-    }
-
-    private suspend fun updateIconSelectorViewData() {
-        val data = loadIconSelectorViewData()
-        iconSelectorViewData.set(data)
-    }
-
-    private suspend fun loadIconSelectorViewData(): ChangeRecordTypeIconSelectorStateViewData {
-        return changeRecordTypeMapper.mapToIconSelectorViewData(
-            iconImageState = iconImageState,
-            iconType = iconType,
-            isDarkTheme = prefsInteractor.getDarkMode(),
-        )
     }
 
     private suspend fun updateCategoriesViewData() {
@@ -531,10 +321,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
         return viewDataInteractor.getCategoriesViewData(newCategories)
-    }
-
-    private fun updateIconScrollPosition(position: Int) {
-        iconsScrollPosition.set(ChangeRecordTypeScrollViewData.ScrollTo(position))
     }
 
     private fun showMessage(stringResId: Int) {

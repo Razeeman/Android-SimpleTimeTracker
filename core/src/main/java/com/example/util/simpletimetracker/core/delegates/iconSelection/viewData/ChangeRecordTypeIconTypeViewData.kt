@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_change_record_type.viewData
+package com.example.util.simpletimetracker.core.delegates.iconSelection.viewData
 
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.domain.model.IconImageType
