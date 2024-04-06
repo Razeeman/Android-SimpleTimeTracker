@@ -31,16 +31,9 @@ class StartActivityMediatorTest {
         icon = "🛏️",
         color = 0xFF123456,
     )
-    private val sampleGeneralTag = WearTag(
+    private val sampleTag = WearTag(
         id = 13,
         name = "Sleep",
-        isGeneral = true,
-        color = 0xFF654321,
-    )
-    private val sampleNonGeneralTag = WearTag(
-        id = 14,
-        name = "Work",
-        isGeneral = false,
         color = 0xFF654321,
     )
     private val settings = WearSettings(
@@ -113,7 +106,7 @@ class StartActivityMediatorTest {
             ),
         )
         Mockito.`when`(wearDataRepo.loadTagsForActivity(Mockito.anyLong())).thenReturn(
-            Result.success(listOf(sampleGeneralTag)),
+            Result.success(listOf(sampleTag)),
         )
         var onRequestTagSelectionCalled = false
 
@@ -140,7 +133,7 @@ class StartActivityMediatorTest {
             ),
         )
         Mockito.`when`(wearDataRepo.loadTagsForActivity(Mockito.anyLong())).thenReturn(
-            Result.success(listOf(sampleNonGeneralTag)),
+            Result.success(listOf(sampleTag)),
         )
         var onRequestTagSelectionCalled = false
 

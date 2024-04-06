@@ -5,10 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
+import com.example.util.simpletimetracker.core.delegates.ColorSelectionViewModelDelegate
+import com.example.util.simpletimetracker.core.delegates.ColorSelectionViewModelDelegateImpl
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
@@ -22,14 +23,12 @@ import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordM
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.WearInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
-import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.IconImageState
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
-import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
@@ -50,7 +49,6 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromChangeActivityParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
-import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -75,10 +73,11 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val changeRecordTypeMapper: ChangeRecordTypeMapper,
     private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     private val iconEmojiMapper: IconEmojiMapper,
-    private val colorMapper: ColorMapper,
     private val goalsViewModelDelegate: GoalsViewModelDelegateImpl,
+    private val colorSelectionViewModelDelegateImpl: ColorSelectionViewModelDelegateImpl,
 ) : ViewModel(),
-    GoalsViewModelDelegate by goalsViewModelDelegate {
+    GoalsViewModelDelegate by goalsViewModelDelegate,
+    ColorSelectionViewModelDelegate by colorSelectionViewModelDelegateImpl {
 
     lateinit var extra: ChangeRecordTypeParams
 
@@ -88,12 +87,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 initializeRecordTypeData()
                 initial.value = loadRecordPreviewViewData()
             }
-            initial
-        }
-    }
-    val colors: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch { initial.value = loadColorsViewData() }
             initial
         }
     }
@@ -149,7 +142,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private var newName: String = ""
     private var newIconName: String = ""
     private var newCategories: MutableList<Long> = mutableListOf()
-    private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
+
+    init {
+        colorSelectionViewModelDelegateImpl.attach(getColorSelectionDelegateParent())
+    }
 
     override fun onCleared() {
         (goalsViewModelDelegate as? ViewModelDelegate)?.clear()
@@ -187,37 +183,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onGoalTimeChooserClick() {
         onNewChooserState(ChangeRecordTypeChooserState.State.GoalTime)
-    }
-
-    fun onColorClick(item: ColorViewData) {
-        viewModelScope.launch {
-            if (item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
-                newColor = AppColor(colorId = item.colorId, colorInt = "")
-                updateRecordPreviewViewData()
-                updateIcons()
-                updateColors()
-            }
-        }
-    }
-
-    fun onColorPaletteClick() {
-        ColorSelectionDialogParams(
-            preselectedColor = colorMapper.mapToColorInt(
-                color = newColor,
-                isDarkTheme = false, // Pass original, not darkened color.
-            ),
-        ).let(router::navigate)
-    }
-
-    fun onCustomColorSelected(colorInt: Int) {
-        viewModelScope.launch {
-            if (colorInt.toString() != newColor.colorInt) {
-                newColor = AppColor(colorId = 0, colorInt = colorInt.toString())
-                updateRecordPreviewViewData()
-                updateIcons()
-                updateColors()
-            }
-        }
     }
 
     fun onIconTypeClick(viewData: ButtonsRowViewData) {
@@ -436,7 +401,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private fun openEmojiSelectionDialog(item: EmojiViewData) {
         val params = changeRecordTypeMapper.mapEmojiSelectionParams(
-            color = newColor,
+            color = colorSelectionViewModelDelegateImpl.newColor,
             emojiCodes = item.emojiCodes,
         )
 
@@ -448,7 +413,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             id = recordTypeId,
             name = newName,
             icon = newIconName,
-            color = newColor,
+            color = colorSelectionViewModelDelegateImpl.newColor,
         )
 
         return recordTypeInteractor.add(recordType)
@@ -466,10 +431,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
         recordTypeInteractor.get(recordTypeId)?.let {
             newName = it.name
             newIconName = it.icon
-            newColor = it.color
+            colorSelectionViewModelDelegateImpl.newColor = it.color
             goalsViewModelDelegate.initialize(RecordTypeGoal.IdData.Type(it.id))
             updateIcons()
-            updateColors()
+            colorSelectionViewModelDelegateImpl.update()
         }
     }
 
@@ -479,6 +444,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 newCategories = it.toMutableList()
                 initialCategories = it
             }
+    }
+
+    private fun getColorSelectionDelegateParent(): ColorSelectionViewModelDelegate.Parent {
+        return object : ColorSelectionViewModelDelegate.Parent {
+            override suspend fun update() {
+                updateRecordPreviewViewData()
+                updateIcons()
+            }
+        }
     }
 
     private suspend fun updateRecordPreviewViewData() {
@@ -492,17 +466,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
         return RecordType(
             name = newName,
             icon = newIconName,
-            color = newColor,
+            color = colorSelectionViewModelDelegateImpl.newColor,
         ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
-    }
-
-    private suspend fun updateColors() {
-        val data = loadColorsViewData()
-        colors.set(data)
-    }
-
-    private suspend fun loadColorsViewData(): List<ViewHolderType> {
-        return viewDataInteractor.getColorsViewData(newColor)
     }
 
     private suspend fun updateIcons() {
@@ -518,7 +483,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private suspend fun loadIconsViewData(): ChangeRecordTypeIconStateViewData {
         return viewDataInteractor.getIconsViewData(
-            newColor = newColor,
+            newColor = colorSelectionViewModelDelegateImpl.newColor,
             iconType = iconType,
             iconImageState = iconImageState,
             iconSearch = iconSearch,

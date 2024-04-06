@@ -4,7 +4,6 @@ import com.example.util.simpletimetracker.data_local.database.RecordTypeToTagDao
 import com.example.util.simpletimetracker.data_local.mapper.RecordTypeToTagDataLocalMapper
 import com.example.util.simpletimetracker.data_local.utils.removeIf
 import com.example.util.simpletimetracker.data_local.utils.withLockedCache
-import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.repo.RecordTypeToTagRepo
 import kotlinx.coroutines.sync.Mutex

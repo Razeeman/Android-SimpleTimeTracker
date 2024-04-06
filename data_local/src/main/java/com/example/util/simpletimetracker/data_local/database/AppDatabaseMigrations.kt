@@ -221,7 +221,7 @@ class AppDatabaseMigrations {
                 // Just in case. Better leave tags with no colors and icons than loose all data.
                 runCatching {
                     database.execSQL(
-                        "UPDATE recordTags SET icon_color_source = type_id"
+                        "UPDATE recordTags SET icon_color_source = type_id",
                     )
                     database.execSQL(
                         "UPDATE recordTags SET color = (SELECT recordTypes.color FROM recordTypes WHERE recordTypes.id = recordTags.type_id), icon = (SELECT recordTypes.icon FROM recordTypes WHERE recordTypes.id = recordTags.type_id) WHERE EXISTS (SELECT * FROM recordTypes WHERE recordTypes.id = recordTags.type_id)",

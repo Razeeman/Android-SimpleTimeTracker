@@ -15,7 +15,6 @@ import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.model.FavouriteComment
 import com.example.util.simpletimetracker.domain.model.Record

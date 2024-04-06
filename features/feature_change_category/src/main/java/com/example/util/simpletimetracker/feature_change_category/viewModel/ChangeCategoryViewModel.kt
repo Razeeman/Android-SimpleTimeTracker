@@ -5,24 +5,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
+import com.example.util.simpletimetracker.core.delegates.ColorSelectionViewModelDelegate
+import com.example.util.simpletimetracker.core.delegates.ColorSelectionViewModelDelegateImpl
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
-import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
-import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_category.R
 import com.example.util.simpletimetracker.feature_change_category.interactor.ChangeCategoryViewDataInteractor
@@ -31,7 +29,6 @@ import com.example.util.simpletimetracker.feature_change_record_type.goals.Goals
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
-import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -42,28 +39,22 @@ class ChangeCategoryViewModel @Inject constructor(
     private val changeCategoryViewDataInteractor: ChangeCategoryViewDataInteractor,
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
-    private val colorViewDataInteractor: ColorViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
     private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
-    private val colorMapper: ColorMapper,
     private val goalsViewModelDelegate: GoalsViewModelDelegateImpl,
     private val widgetInteractor: WidgetInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val colorSelectionViewModelDelegateImpl: ColorSelectionViewModelDelegateImpl,
 ) : ViewModel(),
-    GoalsViewModelDelegate by goalsViewModelDelegate {
+    GoalsViewModelDelegate by goalsViewModelDelegate,
+    ColorSelectionViewModelDelegate by colorSelectionViewModelDelegateImpl {
 
     lateinit var extra: ChangeTagData
 
     val categoryPreview: LiveData<CategoryViewData> by lazy {
         return@lazy MutableLiveData<CategoryViewData>().let { initial ->
             viewModelScope.launch { initial.value = loadCategoryViewData() }
-            initial
-        }
-    }
-    val colors: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch { initial.value = loadColorsViewData() }
             initial
         }
     }
@@ -90,8 +81,11 @@ class ChangeCategoryViewModel @Inject constructor(
     private val categoryId: Long get() = (extra as? ChangeTagData.Change)?.id.orZero()
     private var initialTypes: Set<Long> = emptySet()
     private var newName: String = ""
-    private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
     private var newTypes: MutableList<Long> = mutableListOf()
+
+    init {
+        colorSelectionViewModelDelegateImpl.attach(getColorSelectionDelegateParent())
+    }
 
     override fun onCleared() {
         (goalsViewModelDelegate as? ViewModelDelegate)?.clear()
@@ -121,35 +115,6 @@ class ChangeCategoryViewModel @Inject constructor(
 
     fun onGoalTimeChooserClick() {
         onNewChooserState(ChangeRecordTypeChooserState.State.GoalTime)
-    }
-
-    fun onColorClick(item: ColorViewData) {
-        viewModelScope.launch {
-            if (item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
-                newColor = AppColor(colorId = item.colorId, colorInt = "")
-                updateCategoryPreview()
-                updateColors()
-            }
-        }
-    }
-
-    fun onColorPaletteClick() {
-        ColorSelectionDialogParams(
-            preselectedColor = colorMapper.mapToColorInt(
-                color = newColor,
-                isDarkTheme = false, // Pass original, not darkened color.
-            ),
-        ).let(router::navigate)
-    }
-
-    fun onCustomColorSelected(colorInt: Int) {
-        viewModelScope.launch {
-            if (colorInt.toString() != newColor.colorInt) {
-                newColor = AppColor(colorId = 0, colorInt = colorInt.toString())
-                updateCategoryPreview()
-                updateColors()
-            }
-        }
     }
 
     fun onTypeClick(item: RecordTypeViewData) {
@@ -188,7 +153,7 @@ class ChangeCategoryViewModel @Inject constructor(
             Category(
                 id = categoryId,
                 name = newName,
-                color = newColor,
+                color = colorSelectionViewModelDelegateImpl.newColor,
             ).let {
                 val addedId = categoryInteractor.add(it)
                 saveTypes(addedId)
@@ -249,6 +214,14 @@ class ChangeCategoryViewModel @Inject constructor(
         }
     }
 
+    private fun getColorSelectionDelegateParent(): ColorSelectionViewModelDelegate.Parent {
+        return object : ColorSelectionViewModelDelegate.Parent {
+            override suspend fun update() {
+                updateCategoryPreview()
+            }
+        }
+    }
+
     private fun updateCategoryPreview() = viewModelScope.launch {
         (categoryPreview as MutableLiveData).value = loadCategoryPreviewViewData()
     }
@@ -257,15 +230,15 @@ class ChangeCategoryViewModel @Inject constructor(
         categoryInteractor.get(categoryId)
             ?.let {
                 newName = it.name
-                newColor = it.color
+                colorSelectionViewModelDelegateImpl.newColor = it.color
                 goalsViewModelDelegate.initialize(RecordTypeGoal.IdData.Category(it.id))
-                updateColors()
+                colorSelectionViewModelDelegateImpl.update()
             }
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         return Category(
             name = newName,
-            color = newColor,
+            color = colorSelectionViewModelDelegateImpl.newColor,
         ).let { categoryViewDataMapper.mapCategory(it, isDarkTheme) }
     }
 
@@ -274,17 +247,8 @@ class ChangeCategoryViewModel @Inject constructor(
 
         return Category(
             name = newName,
-            color = newColor,
+            color = colorSelectionViewModelDelegateImpl.newColor,
         ).let { categoryViewDataMapper.mapCategory(it, isDarkTheme) }
-    }
-
-    private fun updateColors() = viewModelScope.launch {
-        val data = loadColorsViewData()
-        colors.set(data)
-    }
-
-    private suspend fun loadColorsViewData(): List<ViewHolderType> {
-        return colorViewDataInteractor.getColorsViewData(newColor)
     }
 
     private fun updateTypesViewData() = viewModelScope.launch {

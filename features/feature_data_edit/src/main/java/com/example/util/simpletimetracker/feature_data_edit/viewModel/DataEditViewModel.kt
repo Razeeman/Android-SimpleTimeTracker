@@ -12,7 +12,6 @@ import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
-import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_data_edit.R
 import com.example.util.simpletimetracker.feature_data_edit.interactor.DateEditChangeInteractor

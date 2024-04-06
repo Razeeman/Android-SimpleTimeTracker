@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.delegates.ColorSelectionViewModelDelegate
+import com.example.util.simpletimetracker.core.delegates.ColorSelectionViewModelDelegateImpl
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.ActivityFilterViewDataMapper
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.extension.orTrue
@@ -17,11 +17,9 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
-import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
-import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_activity_filter.R
 import com.example.util.simpletimetracker.feature_change_activity_filter.interactor.ChangeActivityFilterViewDataInteractor
@@ -29,7 +27,6 @@ import com.example.util.simpletimetracker.feature_change_activity_filter.mapper.
 import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterTypeSwitchViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityFilterParams
-import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,13 +36,13 @@ class ChangeActivityFilterViewModel @Inject constructor(
     private val router: Router,
     private val changeActivityFilterViewDataInteractor: ChangeActivityFilterViewDataInteractor,
     private val activityFilterInteractor: ActivityFilterInteractor,
-    private val colorViewDataInteractor: ColorViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val activityFilterViewDataMapper: ActivityFilterViewDataMapper,
     private val changeActivityFilterMapper: ChangeActivityFilterMapper,
     private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
-    private val colorMapper: ColorMapper,
-) : ViewModel() {
+    private val colorSelectionViewModelDelegateImpl: ColorSelectionViewModelDelegateImpl,
+) : ViewModel(),
+    ColorSelectionViewModelDelegate by colorSelectionViewModelDelegateImpl {
 
     lateinit var extra: ChangeActivityFilterParams
 
@@ -55,12 +52,6 @@ class ChangeActivityFilterViewModel @Inject constructor(
                 initializePreview()
                 initial.value = loadActivityFilterPreviewViewData()
             }
-            initial
-        }
-    }
-    val colors: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch { initial.value = loadColorsViewData() }
             initial
         }
     }
@@ -99,8 +90,11 @@ class ChangeActivityFilterViewModel @Inject constructor(
     private var newCategoryIds: MutableList<Long> = mutableListOf()
     private var newType: ActivityFilter.Type = ActivityFilter.Type.Activity
     private var newName: String = ""
-    private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
     private var wasSelected: Boolean = true
+
+    init {
+        colorSelectionViewModelDelegateImpl.attach(getColorSelectionDelegateParent())
+    }
 
     fun onNameChange(name: String) {
         viewModelScope.launch {
@@ -128,35 +122,6 @@ class ChangeActivityFilterViewModel @Inject constructor(
 
         if (flipColorChooser.value == true) {
             (flipColorChooser as MutableLiveData).value = false
-        }
-    }
-
-    fun onColorClick(item: ColorViewData) {
-        viewModelScope.launch {
-            if (item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
-                newColor = AppColor(colorId = item.colorId, colorInt = "")
-                updateActivityFilterPreview()
-                updateColors()
-            }
-        }
-    }
-
-    fun onColorPaletteClick() {
-        ColorSelectionDialogParams(
-            preselectedColor = colorMapper.mapToColorInt(
-                color = newColor,
-                isDarkTheme = false, // Pass original, not darkened color.
-            ),
-        ).let(router::navigate)
-    }
-
-    fun onCustomColorSelected(colorInt: Int) {
-        viewModelScope.launch {
-            if (colorInt.toString() != newColor.colorInt) {
-                newColor = AppColor(colorId = 0, colorInt = colorInt.toString())
-                updateActivityFilterPreview()
-                updateColors()
-            }
         }
     }
 
@@ -209,7 +174,7 @@ class ChangeActivityFilterViewModel @Inject constructor(
                 selectedIds = newSelectedIds,
                 type = newType,
                 name = newName,
-                color = newColor,
+                color = colorSelectionViewModelDelegateImpl.newColor,
                 selected = wasSelected,
             ).let {
                 activityFilterInteractor.add(it)
@@ -223,9 +188,9 @@ class ChangeActivityFilterViewModel @Inject constructor(
         if (extra is ChangeActivityFilterParams.Change) {
             activityFilterInteractor.get(filterId)?.let {
                 newName = it.name
-                newColor = it.color
+                colorSelectionViewModelDelegateImpl.newColor = it.color
                 wasSelected = it.selected
-                updateColors()
+                colorSelectionViewModelDelegateImpl.update()
             }
         }
     }
@@ -246,6 +211,14 @@ class ChangeActivityFilterViewModel @Inject constructor(
         }
     }
 
+    private fun getColorSelectionDelegateParent(): ColorSelectionViewModelDelegate.Parent {
+        return object : ColorSelectionViewModelDelegate.Parent {
+            override suspend fun update() {
+                updateActivityFilterPreview()
+            }
+        }
+    }
+
     private fun updateActivityFilterPreview() = viewModelScope.launch {
         (filterPreview as MutableLiveData).value = loadActivityFilterPreviewViewData()
     }
@@ -257,18 +230,9 @@ class ChangeActivityFilterViewModel @Inject constructor(
             selectedIds = newSelectedIds,
             type = newType,
             name = newName,
-            color = newColor,
+            color = colorSelectionViewModelDelegateImpl.newColor,
             selected = true,
         ).let { activityFilterViewDataMapper.map(it, isDarkTheme) }
-    }
-
-    private fun updateColors() = viewModelScope.launch {
-        val data = loadColorsViewData()
-        colors.set(data)
-    }
-
-    private suspend fun loadColorsViewData(): List<ViewHolderType> {
-        return colorViewDataInteractor.getColorsViewData(newColor)
     }
 
     private fun updateTagTypeViewData() {

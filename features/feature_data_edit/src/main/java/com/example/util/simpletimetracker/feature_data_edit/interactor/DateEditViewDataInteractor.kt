@@ -10,7 +10,6 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Record
-import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
@@ -116,7 +115,7 @@ class DateEditViewDataInteractor @Inject constructor(
         val selectableTagIds = filterSelectableTagsInteractor.execute(
             tagIds = tags.map { it.id },
             typesToTags = typesToTags,
-            typeIds = listOf(typeId)
+            typeIds = listOf(typeId),
         )
 
         return tags.filter { it.id in selectableTagIds }

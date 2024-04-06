@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 
 object UpdateViewChooserState {
 
-    inline fun <STATE, reified T: STATE, reified CLOSED: STATE> updateChooser(
+    inline fun <STATE, reified T : STATE, reified CLOSED : STATE> updateChooser(
         stateCurrent: STATE,
         statePrevious: STATE,
         chooserData: View,
@@ -27,22 +27,4 @@ object UpdateViewChooserState {
             if (closing) rotateUp()
         }
     }
-
-//    inline fun <reified T : ChangeRecordTypeChooserState.State> updateChooser(
-//        state: ChangeRecordTypeChooserState,
-//        chooserData: View,
-//        chooserView: CardView,
-//        chooserArrow: View,
-//    ) {
-//        val opened = state.current is T
-//        val opening = state.previous is Closed && state.current is T
-//        val closing = state.previous is T && state.current is Closed
-//
-//        chooserData.isVisible = opened
-//        chooserView.setChooserColor(opened)
-//        chooserArrow.apply {
-//            if (opening) rotateDown()
-//            if (closing) rotateUp()
-//        }
-//    }
 }

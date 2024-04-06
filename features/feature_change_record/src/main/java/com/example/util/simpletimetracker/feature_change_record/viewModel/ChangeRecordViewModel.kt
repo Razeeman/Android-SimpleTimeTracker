@@ -15,7 +15,6 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTime
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator

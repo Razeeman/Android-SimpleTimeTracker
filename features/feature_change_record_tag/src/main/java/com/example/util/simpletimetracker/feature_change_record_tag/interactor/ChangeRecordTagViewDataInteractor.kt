@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_tag.interactor
 
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RecordType

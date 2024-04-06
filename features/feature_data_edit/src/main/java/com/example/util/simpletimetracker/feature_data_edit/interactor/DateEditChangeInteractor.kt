@@ -74,7 +74,7 @@ class DateEditChangeInteractor @Inject constructor(
             val finalTagIds: Set<Long> = record.tagIds
                 .plus(addTags.orEmpty())
                 .filter { it !in removeTags.orEmpty() }
-                .let {  tags ->
+                .let { tags ->
                     filterSelectableTagsInteractor.execute(
                         tagIds = tags,
                         typesToTags = typesToTags,

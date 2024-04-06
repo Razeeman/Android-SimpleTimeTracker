@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_change_record_type.interactor
 
-import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -20,7 +19,6 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
     private val mapper: ChangeRecordTypeMapper,
     private val prefsInteractor: PrefsInteractor,
     private val categoryInteractor: CategoryInteractor,
-    private val colorViewDataInteractor: ColorViewDataInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
 ) {
 
@@ -69,10 +67,6 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
                 categoryViewDataMapper.mapToCategoriesFirstHint(),
                 categoryViewDataMapper.mapToTypeTagAddItem(isDarkTheme),
             )
-    }
-
-    suspend fun getColorsViewData(currentColor: AppColor): List<ViewHolderType> {
-        return colorViewDataInteractor.getColorsViewData(currentColor)
     }
 
     suspend fun getIconsViewData(

@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_views.extension
 import android.animation.ObjectAnimator
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.View.MeasureSpec
 import android.view.ViewGroup
@@ -194,10 +193,5 @@ fun TextView.setCompoundDrawableWithIntrinsicBounds(
     @DrawableRes right: Int = 0,
     @DrawableRes bottom: Int = 0,
 ) {
-    setCompoundDrawablesWithIntrinsicBounds(
-        /* left = */ left,
-        /* top = */ top,
-        /* right = */ right,
-        /* bottom = */ bottom,
-    )
+    setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom)
 }

@@ -13,7 +13,6 @@ import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMedi
 import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
