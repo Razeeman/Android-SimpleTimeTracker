@@ -103,7 +103,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         val step: Long = availableSteps
             .reversed()
             .firstOrNull { it < roughStep }
-            ?: availableSteps.last()
+            ?: availableSteps.reversed().last()
 
         if (total == 0L || durationSpread == 0L || step == 0L) {
             return@withContext mapper.mapToDurationsSlipChartViewData(emptyMap(), isVisible)
