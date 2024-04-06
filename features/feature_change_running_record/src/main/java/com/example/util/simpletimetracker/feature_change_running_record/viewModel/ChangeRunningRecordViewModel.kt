@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInte
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.RunningRecord
@@ -50,7 +51,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
     changeRecordAdjustDelegate: ChangeRecordAdjustDelegateImpl,
     recordInteractor: RecordInteractor,
-    recordTagInteractor: RecordTagInteractor,
+    recordTypeToTagInteractor: RecordTypeToTagInteractor,
     favouriteCommentInteractor: FavouriteCommentInteractor,
     snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     private val router: Router,
@@ -60,18 +61,18 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private val changeRunningRecordViewDataInteractor: ChangeRunningRecordViewDataInteractor,
     private val resourceRepo: ResourceRepo,
 ) : ChangeRecordBaseViewModel(
-    router,
-    snackBarMessageNavigationInteractor,
-    prefsInteractor,
-    recordTypesViewDataInteractor,
-    recordTagViewDataInteractor,
-    changeRecordViewDataInteractor,
-    recordInteractor,
-    recordTagInteractor,
-    favouriteCommentInteractor,
-    changeRecordMergeDelegate,
-    changeRecordSplitDelegate,
-    changeRecordAdjustDelegate,
+    router = router,
+    snackBarMessageNavigationInteractor = snackBarMessageNavigationInteractor,
+    prefsInteractor = prefsInteractor,
+    recordTypesViewDataInteractor = recordTypesViewDataInteractor,
+    recordTagViewDataInteractor = recordTagViewDataInteractor,
+    changeRecordViewDataInteractor = changeRecordViewDataInteractor,
+    recordInteractor = recordInteractor,
+    recordTypeToTagInteractor = recordTypeToTagInteractor,
+    favouriteCommentInteractor = favouriteCommentInteractor,
+    changeRecordMergeDelegate = changeRecordMergeDelegate,
+    changeRecordSplitDelegate = changeRecordSplitDelegate,
+    changeRecordAdjustDelegate = changeRecordAdjustDelegate,
 ) {
 
     lateinit var extra: ChangeRunningRecordParams

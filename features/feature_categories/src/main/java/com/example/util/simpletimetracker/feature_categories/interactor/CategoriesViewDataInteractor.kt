@@ -60,19 +60,16 @@ class CategoriesViewDataInteractor @Inject constructor(
 
     private suspend fun getRecordTagViewData(): CategoriesViewData {
         val tags = recordTagInteractor.getAll().filterNot { it.archived }
-        val types = recordTypeInteractor.getAll()
+        val types = recordTypeInteractor.getAll().associateBy { it.id }
         val isDarkTheme = prefsInteractor.getDarkMode()
         val result: MutableList<ViewHolderType> = mutableListOf()
 
         categoryViewDataMapper.mapToRecordTagHint().let(result::add)
 
-        tags.sortedBy { tag ->
-            val type = types.firstOrNull { it.id == tag.typeId } ?: 0
-            types.indexOf(type)
-        }.map { tag ->
+        tags.map { tag ->
             categoryViewDataMapper.mapRecordTag(
                 tag = tag,
-                type = types.firstOrNull { it.id == tag.typeId },
+                type = types[tag.iconColorSource],
                 isDarkTheme = isDarkTheme,
             )
         }.let(result::addAll)

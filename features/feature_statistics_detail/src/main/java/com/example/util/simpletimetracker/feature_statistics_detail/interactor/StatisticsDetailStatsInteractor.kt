@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
@@ -35,6 +36,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val timeMapper: TimeMapper,
     private val statisticsMapper: StatisticsMapper,
+    private val recordTagViewDataMapper: RecordTagViewDataMapper,
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val rangeMapper: RangeMapper,
@@ -411,18 +413,25 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         return hint + durations
             .mapNotNull { (tagId, duration) ->
                 val tag = tagsMap[tagId]
-                val type = typesMap[tag?.typeId]
+                val icon = if (tag != null) {
+                    recordTagViewDataMapper.mapIcon(tag, typesMap)
+                        ?.let(iconMapper::mapIcon)
+                        ?: RecordTypeIcon.Image(0)
+                } else {
+                    RecordTypeIcon.Image(R.drawable.untagged)
+                }
+                val color = if (tag != null) {
+                    recordTagViewDataMapper.mapColor(tag, typesMap)
+                        .let { colorMapper.mapToColorInt(it, isDarkTheme) }
+                } else {
+                    colorMapper.toUntrackedColor(isDarkTheme)
+                }
 
                 mapTag(
                     id = "tag_${tag?.id.orZero()}".hashCode().toLong(),
                     name = tag?.name ?: R.string.change_record_untagged.let(resourceRepo::getString),
-                    icon = type?.icon
-                        ?.let(iconMapper::mapIcon)
-                        ?: tag?.run { RecordTypeIcon.Image(0) }
-                        ?: RecordTypeIcon.Image(R.drawable.untagged),
-                    color = type?.color?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
-                        ?: tag?.color?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
-                        ?: colorMapper.toUntrackedColor(isDarkTheme),
+                    icon = icon,
+                    color = color,
                     duration = duration,
                     sumDuration = sumDuration,
                     statisticsSize = tagsSize,

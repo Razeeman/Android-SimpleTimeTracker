@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.domain.model.RecordToRecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.domain.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.FavouriteCommentRepo
@@ -28,6 +29,7 @@ import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeGoalRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTypeToTagRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.ResultCode
 import java.io.BufferedReader
@@ -53,6 +55,7 @@ class BackupRepoImpl @Inject constructor(
     private val recordRepo: RecordRepo,
     private val categoryRepo: CategoryRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
+    private val recordTypeToTagRepo: RecordTypeToTagRepo,
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val recordTagRepo: RecordTagRepo,
     private val activityFilterRepo: ActivityFilterRepo,
@@ -163,6 +166,9 @@ class BackupRepoImpl @Inject constructor(
 
             clearDataInteractor.execute()
 
+            // List of tag to related type id.
+            val tagsMigrationData: MutableList<Pair<RecordTag, Long>> = mutableListOf()
+
             // Read data
             while (reader?.readLine()?.also { line = it } != null) {
                 parts = line.split("\t")
@@ -198,8 +204,16 @@ class BackupRepoImpl @Inject constructor(
                     }
 
                     ROW_RECORD_TAG -> {
-                        recordTagFromBackupString(parts).let {
-                            recordTagRepo.add(it)
+                        recordTagFromBackupString(parts).let { (tag, typeId) ->
+                            recordTagRepo.add(tag)
+                            if (typeId != null) {
+                                val typeToTag = RecordTypeToTag(
+                                    recordTypeId = typeId,
+                                    tagId = tag.id,
+                                )
+                                recordTypeToTagRepo.add(typeToTag)
+                                tagsMigrationData.add(tag to typeId)
+                            }
                         }
                     }
 
@@ -228,6 +242,7 @@ class BackupRepoImpl @Inject constructor(
                     }
                 }
             }
+            migrateTags(tagsMigrationData)
             ResultCode.Success(resourceRepo.getString(R.string.message_backup_restored))
         } catch (e: Exception) {
             Timber.e(e)
@@ -290,13 +305,15 @@ class BackupRepoImpl @Inject constructor(
 
     private fun toBackupString(recordTag: RecordTag): String {
         return String.format(
-            "$ROW_RECORD_TAG\t%s\t%s\t%s\t%s\t%s\t%s\n",
+            "$ROW_RECORD_TAG\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
             recordTag.id.toString(),
-            recordTag.typeId.toString(),
+            "", // type relation is removed from tag dbo
             recordTag.name.clean(),
             (if (recordTag.archived) 1 else 0).toString(),
             recordTag.color.colorId.toString(),
             recordTag.color.colorInt,
+            recordTag.icon,
+            recordTag.iconColorSource,
         )
     }
 
@@ -464,17 +481,22 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
-    private fun recordTagFromBackupString(parts: List<String>): RecordTag {
+    private fun recordTagFromBackupString(parts: List<String>): Pair<RecordTag, Long?> {
+        // type id is removed from tag dbo, need to support old backup files.
+        val typeId = parts.getOrNull(2)?.toLongOrNull().orZero()
+
         return RecordTag(
             id = parts.getOrNull(1)?.toLongOrNull().orZero(),
-            typeId = parts.getOrNull(2)?.toLongOrNull().orZero(),
+            // parts[2] - type id is removed from tag dbo.
             name = parts.getOrNull(3).orEmpty(),
             archived = parts.getOrNull(4)?.toIntOrNull() == 1,
             color = AppColor(
                 colorId = parts.getOrNull(5)?.toIntOrNull().orZero(),
                 colorInt = parts.getOrNull(6).orEmpty(),
             ),
-        )
+            icon = parts.getOrNull(7).orEmpty(),
+            iconColorSource = parts.getOrNull(8)?.toLongOrNull().orZero(),
+        ) to typeId.takeUnless { it == 0L }
     }
 
     private fun recordToRecordTagFromBackupString(parts: List<String>): RecordToRecordTag {
@@ -542,6 +564,23 @@ class BackupRepoImpl @Inject constructor(
             },
             daysOfWeek = recordTypeGoalDataLocalMapper.mapDaysOfWeek(daysOfWeekString),
         )
+    }
+
+    private suspend fun migrateTags(
+        data: List<Pair<RecordTag, Long>>,
+    ) {
+        if (data.isEmpty()) return
+
+        val types = recordTypeRepo.getAll().associateBy { it.id }
+        data.forEach { (tag, typeId) ->
+            val type = types[typeId] ?: return@forEach
+            val updatedTag = tag.copy(
+                icon = type.icon,
+                color = type.color,
+                iconColorSource = typeId,
+            )
+            recordTagRepo.add(updatedTag)
+        }
     }
 
     private fun String.clean() =

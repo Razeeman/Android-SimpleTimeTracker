@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Etichetă arhivată</string>
     <string name="change_record_tag_type_hint">Activitate</string>
-    <string name="change_record_tag_type">Tip etichetă</string>
-    <string name="change_record_tag_type_general">General</string>
     <string name="change_record_tag_type_general_hint">Poate fi atribuit înregistrărilor oricărei activități</string>
-    <string name="change_record_tag_type_typed">Activitate</string>
     <string name="change_record_tag_type_typed_hint">Poate fi atribuit înregistrărilor unei activități specifice</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ Examplu:<br/>
     <string name="archive_tag_restored">Etichetă recuperată</string>
     <string name="archive_activity_deleted">Activitate ștearsă</string>
     <string name="archive_tag_deleted">Etichetă ștearsă</string>
-    <string name="archive_activity_deletion_message">Toate înregistrările și etichetele asociate vor fi șterse.</string>
-    <string name="archive_tag_deletion_message">Toate înregistrările marcate cu această etichetă își vor pierde eticheta.</string>
+    <string name="archive_activity_deletion_message">Toate înregistrările acestei activități vor fi, de asemenea, șterse</string>
+    <string name="archive_tag_deletion_message">Toate înregistrările marcate cu această etichetă își vor pierde eticheta</string>
     <string name="archive_deletion_alert">Ești sigur? Această acțiune nu poate fi reversată.</string>
     <string name="archive_records_count">Înregistrări</string>
-    <string name="archive_record_tags_count">Etichete</string>
     <string name="archive_tagged_records_count">Înregistrări etichetate</string>
 
     <!--  Data edit  -->

@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Тег переміщено до архіву</string>
     <string name="change_record_tag_type_hint">Активність</string>
-    <string name="change_record_tag_type">Тип тегу</string>
-    <string name="change_record_tag_type_general">Загальні</string>
     <string name="change_record_tag_type_general_hint">Може бути віднесено до записів будь -якої діяльності</string>
-    <string name="change_record_tag_type_typed">Активність</string>
     <string name="change_record_tag_type_typed_hint">Можна призначити лише до записів про певну діяльність</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@
     <string name="archive_tag_restored">Тег відновлено</string>
     <string name="archive_activity_deleted">Діяльність видалено</string>
     <string name="archive_tag_deleted">Тег видалено</string>
-    <string name="archive_activity_deletion_message">Усі записи цієї активності та теги записів також будуть видалені.</string>
-    <string name="archive_tag_deletion_message">Усі записи, позначені цим тегом, будуть без позначок.</string>
+    <string name="archive_activity_deletion_message">Усі записи цієї активності також будуть видалені</string>
+    <string name="archive_tag_deletion_message">Усі записи, позначені цим тегом, будуть без позначок</string>
     <string name="archive_deletion_alert">Ви впевнені? Цю дію не можна скасувати.</string>
     <string name="archive_records_count">Записи</string>
-    <string name="archive_record_tags_count">Теги запису</string>
     <string name="archive_tagged_records_count">Кількість записів, відмічених тегом</string>
 
     <!--  Data edit  -->

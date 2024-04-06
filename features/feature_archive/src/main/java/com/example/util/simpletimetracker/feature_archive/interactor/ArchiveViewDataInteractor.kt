@@ -43,13 +43,10 @@ class ArchiveViewDataInteractor @Inject constructor(
             )
         }
 
-        val recordTagsViewData = archivedRecordTags.sortedBy { tag ->
-            val type = types.values.firstOrNull { it.id == tag.typeId } ?: 0
-            types.values.indexOf(type)
-        }.map { tag ->
+        val recordTagsViewData = archivedRecordTags.map { tag ->
             categoryViewDataMapper.mapRecordTag(
                 tag = tag,
-                type = types[tag.typeId],
+                type = types[tag.iconColorSource],
                 isDarkTheme = isDarkTheme,
                 isFiltered = false,
             )

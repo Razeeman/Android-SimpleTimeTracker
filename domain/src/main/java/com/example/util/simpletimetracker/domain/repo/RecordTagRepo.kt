@@ -10,12 +10,6 @@ interface RecordTagRepo {
 
     suspend fun get(id: Long): RecordTag?
 
-    suspend fun getByType(typeId: Long): List<RecordTag>
-
-    suspend fun getUntyped(): List<RecordTag>
-
-    suspend fun getByTypeOrUntyped(typeId: Long): List<RecordTag>
-
     suspend fun add(tag: RecordTag): Long
 
     suspend fun archive(id: Long)
@@ -23,8 +17,6 @@ interface RecordTagRepo {
     suspend fun restore(id: Long)
 
     suspend fun remove(id: Long)
-
-    suspend fun removeByType(typeId: Long)
 
     suspend fun clear()
 }

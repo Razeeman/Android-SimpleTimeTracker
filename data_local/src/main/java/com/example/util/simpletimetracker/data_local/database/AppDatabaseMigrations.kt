@@ -22,6 +22,7 @@ class AppDatabaseMigrations {
                 migration_12_13,
                 migration_13_14,
                 migration_14_15,
+                migration_15_16,
             )
 
         private val migration_1_2 = object : Migration(1, 2) {
@@ -199,6 +200,33 @@ class AppDatabaseMigrations {
                 database.execSQL(
                     "ALTER TABLE recordTypeGoals ADD COLUMN days_of_week TEXT NOT NULL DEFAULT ''",
                 )
+            }
+        }
+
+        // TODO TAGS check backup
+        private val migration_15_16 = object : Migration(15, 16) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE recordTags ADD COLUMN icon TEXT NOT NULL DEFAULT ''",
+                )
+                database.execSQL(
+                    "ALTER TABLE recordTags ADD COLUMN icon_color_source INTEGER NOT NULL DEFAULT 0",
+                )
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `recordTypeToTag` (`record_type_id` INTEGER NOT NULL, `record_tag_id` INTEGER NOT NULL, PRIMARY KEY(`record_type_id`, `record_tag_id`))",
+                )
+                database.execSQL(
+                    "INSERT INTO recordTypeToTag (record_type_id, record_tag_id) SELECT type_id, id from recordTags WHERE type_id != 0",
+                )
+                // Just in case. Better leave tags with no colors and icons than loose all data.
+                runCatching {
+                    database.execSQL(
+                        "UPDATE recordTags SET icon_color_source = type_id"
+                    )
+                    database.execSQL(
+                        "UPDATE recordTags SET color = (SELECT recordTypes.color FROM recordTypes WHERE recordTypes.id = recordTags.type_id), icon = (SELECT recordTypes.icon FROM recordTypes WHERE recordTypes.id = recordTags.type_id) WHERE EXISTS (SELECT * FROM recordTypes WHERE recordTypes.id = recordTags.type_id)",
+                    )
+                }
             }
         }
     }

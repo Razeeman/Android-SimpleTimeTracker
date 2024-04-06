@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">برچسب بایگانی شد</string>
     <string name="change_record_tag_type_hint">فعالیت</string>
-    <string name="change_record_tag_type">نوع برچسب</string>
-    <string name="change_record_tag_type_general">عمومی</string>
     <string name="change_record_tag_type_general_hint">می تواند به تاریخچه هر فعالیتی اضافه شود</string>
-    <string name="change_record_tag_type_typed">فعالیت</string>
     <string name="change_record_tag_type_typed_hint">می تواند به تاریخچه های یک فعالیت خاص اصافه شود</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@
     <string name="archive_tag_restored">برچسب بازیابی شد</string>
     <string name="archive_activity_deleted">فعالیت حذف شد</string>
     <string name="archive_tag_deleted">برچسب حذف شد</string>
-    <string name="archive_activity_deletion_message">تمام تاریخچه ها و برچسب های این فعالیت نیز حذف می شوند.</string>
-    <string name="archive_tag_deletion_message">تمام تاریخچه ها با این برچسب بدون برچسب می شوند.</string>
+    <string name="archive_activity_deletion_message">تمامی سوابق این فعالیت نیز حذف خواهد شد</string>
+    <string name="archive_tag_deletion_message">تمام تاریخچه ها با این برچسب بدون برچسب می شوند</string>
     <string name="archive_deletion_alert">مطمئن هستید؟ بعد از انجام نمیتوانید به حالت قبلی بازگردید.</string>
     <string name="archive_records_count">تاریخچه ها</string>
-    <string name="archive_record_tags_count">برچسب های تاریخچه</string>
     <string name="archive_tagged_records_count">تاریخچه های برچسب دار</string>
 
     <!--  Data edit  -->

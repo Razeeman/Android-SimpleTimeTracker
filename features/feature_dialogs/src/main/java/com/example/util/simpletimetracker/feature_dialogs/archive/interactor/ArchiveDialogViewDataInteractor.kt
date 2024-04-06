@@ -38,7 +38,6 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
             isChecked = null,
         )
         val recordsCount = recordInteractor.getByType(listOf(typeId)).size
-        val recordTagCount = recordTagInteractor.getByType(typeId).size
 
         return mutableListOf<ViewHolderType>().apply {
             item.let(::add)
@@ -51,11 +50,6 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
                 text = recordsCount.toString(),
             ).let(::add)
 
-            ArchiveDialogInfoViewData(
-                name = resourceRepo.getString(R.string.archive_record_tags_count),
-                text = recordTagCount.toString(),
-            ).let(::add)
-
             ArchiveDialogButtonsViewData.let(::add)
         }
     }
@@ -63,7 +57,7 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
     suspend fun getRecordTagViewData(tagId: Long): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val tag = recordTagInteractor.get(tagId) ?: return emptyList()
-        val type = recordTypeInteractor.get(tag.typeId)
+        val type = recordTypeInteractor.get(tag.iconColorSource)
 
         val item = categoryViewDataMapper.mapRecordTag(
             tag = tag,

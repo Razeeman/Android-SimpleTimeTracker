@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">태그 보관됨</string>
     <string name="change_record_tag_type_hint">활동</string>
-    <string name="change_record_tag_type">태그 분류</string>
-    <string name="change_record_tag_type_general">일반</string>
     <string name="change_record_tag_type_general_hint">어떤 활동에도 추가할 수 있습니다</string>
-    <string name="change_record_tag_type_typed">활동</string>
     <string name="change_record_tag_type_typed_hint">특정 활동에만 추가할 수 있습니다</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ csv 파일은 다음과 같은 열(column)들을 가져야합니다:<br/>
     <string name="archive_tag_restored">태그 복원됨</string>
     <string name="archive_activity_deleted">활동 삭제됨</string>
     <string name="archive_tag_deleted">태그 삭제됨</string>
-    <string name="archive_activity_deletion_message">이 활동과 기록 태그의 모든 기록도 함께 삭제됩니다.</string>
-    <string name="archive_tag_deletion_message">이 태그로 태그된 모든 기록이 태그 없이 되어집니다.</string>
+    <string name="archive_activity_deletion_message">이 활동의 모든 기록도 삭제됩니다</string>
+    <string name="archive_tag_deletion_message">이 태그로 태그된 모든 기록이 태그 없이 되어집니다</string>
     <string name="archive_deletion_alert">확실합니까? 이 작업은 되돌릴 수 없습니다.</string>
     <string name="archive_records_count">기록</string>
-    <string name="archive_record_tags_count">기록 태그</string>
     <string name="archive_tagged_records_count">태그된 기록</string>
 
     <!--  Data edit  -->

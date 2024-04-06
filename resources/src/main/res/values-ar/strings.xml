@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">تم أرشفة الوسم</string>
     <string name="change_record_tag_type_hint">النشاط</string>
-    <string name="change_record_tag_type">نوع العلامة</string>
-    <string name="change_record_tag_type_general">عام</string>
     <string name="change_record_tag_type_general_hint">يمكن تعيينه إلى متتبعات أي نشاط</string>
-    <string name="change_record_tag_type_typed">النشاط</string>
     <string name="change_record_tag_type_typed_hint">لا يمكن تعيينه إلا لمتتبعات نشاط معين</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@
     <string name="archive_tag_restored">استرجاع الوسم</string>
     <string name="archive_activity_deleted">تم حذف النشاط</string>
     <string name="archive_tag_deleted">تم حذف الوسم</string>
-    <string name="archive_activity_deletion_message">ستحذف جميع تتبعات ووسوم هذا النشاط.</string>
-    <string name="archive_tag_deletion_message">ستصبح جميع التتبعات الموسومة بهذا الوسم بدون وسم.</string>
+    <string name="archive_activity_deletion_message">سيتم أيضًا حذف كافة سجلات هذا النشاط</string>
+    <string name="archive_tag_deletion_message">ستصبح جميع التتبعات الموسومة بهذا الوسم بدون وسم</string>
     <string name="archive_deletion_alert">هل أنت متأكد؟ لا يمكن التراجع عن هذا الإجراء.</string>
     <string name="archive_records_count">التتبعات</string>
-    <string name="archive_record_tags_count">استرجاع الوسوم</string>
     <string name="archive_tagged_records_count">التتبعات الموسومة</string>
 
     <!--  Data edit  -->

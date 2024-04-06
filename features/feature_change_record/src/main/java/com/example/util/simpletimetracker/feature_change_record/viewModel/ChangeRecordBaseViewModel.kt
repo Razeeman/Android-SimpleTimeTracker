@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInte
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.model.FavouriteComment
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -46,7 +47,7 @@ abstract class ChangeRecordBaseViewModel(
     private val recordTagViewDataInteractor: RecordTagViewDataInteractor,
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val recordInteractor: RecordInteractor,
-    private val recordTagInteractor: RecordTagInteractor,
+    private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
     private val favouriteCommentInteractor: FavouriteCommentInteractor,
     private val changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
     private val changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
@@ -282,7 +283,7 @@ abstract class ChangeRecordBaseViewModel(
             // Close type selection after type is selected
             onTypeChooserClick()
             // If type has any record tags - open tag selection
-            if (recordTagInteractor.getByType(newTypeId).isNotEmpty()) {
+            if (recordTypeToTagInteractor.getTags(newTypeId).isNotEmpty()) {
                 delay(300)
                 onCategoryChooserClick()
             }

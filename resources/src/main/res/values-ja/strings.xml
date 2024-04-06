@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">タグをアーカイブ</string>
     <string name="change_record_tag_type_hint">アクティビティ</string>
-    <string name="change_record_tag_type">タグ種別</string>
-    <string name="change_record_tag_type_general">一般</string>
     <string name="change_record_tag_type_general_hint">あらゆるアクティビティに割り当てることができます</string>
-    <string name="change_record_tag_type_typed">アクティビティ</string>
     <string name="change_record_tag_type_typed_hint">特定のアクティビティのみに割り当てることができます</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <string name="archive_tag_restored">タグ復元</string>
     <string name="archive_activity_deleted">アクティビティ削除</string>
     <string name="archive_tag_deleted">タグ削除</string>
-    <string name="archive_activity_deletion_message">このアクティビティのすべての記録と記録タグも削除されます。</string>
-    <string name="archive_tag_deletion_message">このタグが付けられた計測記録はすべてタグなしとなります。</string>
+    <string name="archive_activity_deletion_message">このアクティビティのすべての記録も削除されます</string>
+    <string name="archive_tag_deletion_message">このタグが付けられた計測記録はすべてタグなしとなります</string>
     <string name="archive_deletion_alert">この操作は元に戻せません。削除しますか？</string>
     <string name="archive_records_count">計測記録</string>
-    <string name="archive_record_tags_count">計測記録タグ</string>
     <string name="archive_tagged_records_count">タグ付けされた計測記録</string>
 
     <!--  Data edit  -->

@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Tag arquivada</string>
     <string name="change_record_tag_type_hint">Atividade</string>
-    <string name="change_record_tag_type">Tipo de tag</string>
-    <string name="change_record_tag_type_general">Geral</string>
     <string name="change_record_tag_type_general_hint">Pode ser atribuída a registros de qualquer atividade</string>
-    <string name="change_record_tag_type_typed">Atividade</string>
     <string name="change_record_tag_type_typed_hint">Só pode ser atribuída a registros de uma atividade específica</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ Exemplo:<br/>
     <string name="archive_tag_restored">Tag restaurada</string>
     <string name="archive_activity_deleted">Atividade excluída</string>
     <string name="archive_tag_deleted">Tag excluída</string>
-    <string name="archive_activity_deletion_message">Todos os registros desta atividade e tags de registro também serão excluídos.</string>
-    <string name="archive_tag_deletion_message">Todos os registros marcados com esta tag ficarão sem tag.</string>
+    <string name="archive_activity_deletion_message">Todos os registros desta atividade também serão excluídos</string>
+    <string name="archive_tag_deletion_message">Todos os registros marcados com esta tag ficarão sem tag</string>
     <string name="archive_deletion_alert">Você tem certeza? Esta ação não pode ser desfeita.</string>
     <string name="archive_records_count">Registros</string>
-    <string name="archive_record_tags_count">Tags de registro</string>
     <string name="archive_tagged_records_count">Registros com tag</string>
 
     <!--  Data edit  -->

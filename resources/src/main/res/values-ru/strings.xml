@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Тег перемещен в архив</string>
     <string name="change_record_tag_type_hint">Активность</string>
-    <string name="change_record_tag_type">Тип тега</string>
-    <string name="change_record_tag_type_general">Общий</string>
     <string name="change_record_tag_type_general_hint">Может быть назначен записям любой активности</string>
-    <string name="change_record_tag_type_typed">Активность</string>
     <string name="change_record_tag_type_typed_hint">Может быть назначен только записям определенной активности</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="archive_tag_restored">Тег восстановлен</string>
     <string name="archive_activity_deleted">Активность удалена</string>
     <string name="archive_tag_deleted">Тег удален</string>
-    <string name="archive_activity_deletion_message">Все записи этой активности и теги записей будут также удалены.</string>
-    <string name="archive_tag_deletion_message">Все записи отмеченные этим тегом будут без тега.</string>
+    <string name="archive_activity_deletion_message">Все записи этой активности будут также удалены</string>
+    <string name="archive_tag_deletion_message">Все записи отмеченные этим тегом будут без тега</string>
     <string name="archive_deletion_alert">Вы уверены? Это действие нельзя будет отменить.</string>
     <string name="archive_records_count">Записи</string>
-    <string name="archive_record_tags_count">Теги записей</string>
     <string name="archive_tagged_records_count">Записи, отмеченные тегом</string>
 
     <!--  Data edit  -->

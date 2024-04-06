@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">标签已存档</string>
     <string name="change_record_tag_type_hint">活动</string>
-    <string name="change_record_tag_type">標籤類型</string>
-    <string name="change_record_tag_type_general">一般的</string>
     <string name="change_record_tag_type_general_hint">可以分配給任何活動的記錄</string>
-    <string name="change_record_tag_type_typed">活動</string>
     <string name="change_record_tag_type_typed_hint">只能分配給特定活動的記錄</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ csv 文件必须包含以逗号分隔的这些列：<br/>
     <string name="archive_tag_restored">标签已恢复</string>
     <string name="archive_activity_deleted">活动已删除</string>
     <string name="archive_tag_deleted">标签已删除</string>
-    <string name="archive_activity_deletion_message">此活动的所有记录和记录标签也将被删除。</string>
-    <string name="archive_tag_deletion_message">使用此标签标记的所有记录都将变为无标签。</string>
+    <string name="archive_activity_deletion_message">此活动的所有记录也将被删除</string>
+    <string name="archive_tag_deletion_message">使用此标签标记的所有记录都将变为无标签</string>
     <string name="archive_deletion_alert">你确定吗？此操作无法撤消。</string>
     <string name="archive_records_count">记录</string>
-    <string name="archive_record_tags_count">记录标签</string>
     <string name="archive_tagged_records_count">标签标记的记录</string>
 
     <!--  Data edit  -->

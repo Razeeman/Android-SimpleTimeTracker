@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Label gearchiveerd</string>
     <string name="change_record_tag_type_hint">Activiteit</string>
-    <string name="change_record_tag_type">Label type</string>
-    <string name="change_record_tag_type_general">Algemeen</string>
     <string name="change_record_tag_type_general_hint">Kan worden toegewezen aan opname van elke activiteit</string>
-    <string name="change_record_tag_type_typed">Activiteit</string>
     <string name="change_record_tag_type_typed_hint">Kan alleen aan records van een specifieke activiteit worden toegewezen</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ Voorbeeld:<br/>
     <string name="archive_tag_restored">Label hersteld</string>
     <string name="archive_activity_deleted">Activiteit verwijderd</string>
     <string name="archive_tag_deleted">Label verwijderd</string>
-    <string name="archive_activity_deletion_message">Alle records van deze activiteit en record labels worden ook verwijderd.</string>
-    <string name="archive_tag_deletion_message">Alle records die zijn gelabeld met dit label worden niet gelabeld.</string>
+    <string name="archive_activity_deletion_message">Alle records van deze activiteit worden ook verwijderd</string>
+    <string name="archive_tag_deletion_message">Alle records die zijn gelabeld met dit label worden niet gelabeld</string>
     <string name="archive_deletion_alert">Bent u zeker? Deze actie kan niet ongedaan worden gemaakt.</string>
     <string name="archive_records_count">Gegevens</string>
-    <string name="archive_record_tags_count">Gegevens labelen</string>
     <string name="archive_tagged_records_count">Gelabelde gegevens</string>
 
     <!--  Data edit  -->

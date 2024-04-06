@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Etiqueta arquivada</string>
     <string name="change_record_tag_type_hint">Atividade</string>
-    <string name="change_record_tag_type">Tipo de etiqueta</string>
-    <string name="change_record_tag_type_general">Geral</string>
     <string name="change_record_tag_type_general_hint">Pode ser atribuída a registos de qualquer atividade</string>
-    <string name="change_record_tag_type_typed">Atividade</string>
     <string name="change_record_tag_type_typed_hint">Só pode ser atribuída a registos de uma atividade específica</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ Exemplo:<br/>
     <string name="archive_tag_restored">Etiqueta restaurada</string>
     <string name="archive_activity_deleted">Atividade excluída</string>
     <string name="archive_tag_deleted">Etiqueta eliminada</string>
-    <string name="archive_activity_deletion_message">Todos os registos desta atividade e etiquetas do registo também serão eliminados.</string>
-    <string name="archive_tag_deletion_message">Todos os registos marcados com esta etiqueta ficarão sem tag.</string>
+    <string name="archive_activity_deletion_message">Todos os registos desta atividade também serão eliminados</string>
+    <string name="archive_tag_deletion_message">Todos os registos marcados com esta etiqueta ficarão sem tag</string>
     <string name="archive_deletion_alert">De certeza? Esta ação não pode ser desfeita.</string>
     <string name="archive_records_count">Registos</string>
-    <string name="archive_record_tags_count">Etiquetas do registo</string>
     <string name="archive_tagged_records_count">Registos com etiquetas</string>
 
     <!--  Data edit  -->

@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">標記已歸檔</string>
     <string name="change_record_tag_type_hint">活動</string>
-    <string name="change_record_tag_type">標記類型</string>
-    <string name="change_record_tag_type_general">一般</string>
     <string name="change_record_tag_type_general_hint">已能指派任何活動給紀錄</string>
-    <string name="change_record_tag_type_typed">活動</string>
     <string name="change_record_tag_type_typed_hint">只能指派給指定活動的紀錄</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="archive_tag_restored">已還原標記</string>
     <string name="archive_activity_deleted">已刪除活動</string>
     <string name="archive_tag_deleted">已刪除標誌</string>
-    <string name="archive_activity_deletion_message">所有此活動紀錄 與 活動標誌也已被刪除</string>
+    <string name="archive_activity_deletion_message">此活動的所有記錄也將被刪除</string>
     <string name="archive_tag_deletion_message">所有已標記紀錄會變成未標記</string>
     <string name="archive_deletion_alert">你確定嗎？這動作無法被撤銷？</string>
     <string name="archive_records_count">紀錄</string>
-    <string name="archive_record_tags_count">紀錄標記</string>
     <string name="archive_tagged_records_count">已標記紀錄</string>
 
     <!--  Data edit  -->

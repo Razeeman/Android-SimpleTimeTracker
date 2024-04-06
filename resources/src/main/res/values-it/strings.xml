@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Etichetta archiviata</string>
     <string name="change_record_tag_type_hint">Attività</string>
-    <string name="change_record_tag_type">Tipo di etichetta</string>
-    <string name="change_record_tag_type_general">Generale</string>
     <string name="change_record_tag_type_general_hint">Può essere assegnato a registrazioni di qualunque attività</string>
-    <string name="change_record_tag_type_typed">Attività</string>
     <string name="change_record_tag_type_typed_hint">Può essere assegnato solo a registrazioni di una specifica attività</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ Esempio:<br/>
     <string name="archive_tag_restored">Etichetta ripristinata</string>
     <string name="archive_activity_deleted">Attività eliminata</string>
     <string name="archive_tag_deleted">Etichetta eliminata</string>
-    <string name="archive_activity_deletion_message">Anche tutte le registrazioni di questa attività e le relative etichette saranno rimosse.</string>
-    <string name="archive_tag_deletion_message">Tutte le registrazioni con questa etichetta non saranno più etichettatte.</string>
+    <string name="archive_activity_deletion_message">Verranno eliminati anche tutti i record di questa attività</string>
+    <string name="archive_tag_deletion_message">Tutte le registrazioni con questa etichetta non saranno più etichettatte</string>
     <string name="archive_deletion_alert">Sei sicuro? Questa azione è irreversibile.</string>
     <string name="archive_records_count">Registrazioni</string>
-    <string name="archive_record_tags_count">Etichette registrazione</string>
     <string name="archive_tagged_records_count">Registrazioni etichettate</string>
 
     <!--  Data edit  -->

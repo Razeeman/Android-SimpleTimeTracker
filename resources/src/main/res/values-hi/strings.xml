@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">टैग संग्रहीत</string>
     <string name="change_record_tag_type_hint">गतिविधि</string>
-    <string name="change_record_tag_type">टैग प्रकार</string>
-    <string name="change_record_tag_type_general">सामान्य</string>
     <string name="change_record_tag_type_general_hint">किसी भी गतिविधि के रिकॉर्ड को सौंपा जा सकता है</string>
-    <string name="change_record_tag_type_typed">गतिविधि</string>
     <string name="change_record_tag_type_typed_hint">केवल एक विशिष्ट गतिविधि के रिकॉर्ड को सौंपा जा सकता है</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="archive_tag_restored">टैग बहाल किया गया</string>
     <string name="archive_activity_deleted">हटा दी गई गतिविधि</string>
     <string name="archive_tag_deleted">टैग हटा दिया गया</string>
-    <string name="archive_activity_deletion_message">इस गतिविधि और रिकॉर्ड टैग के सभी रिकॉर्ड भी हटा दिए जाएंगे।</string>
-    <string name="archive_tag_deletion_message">इस टैग के साथ टैग किए गए सभी रिकॉर्ड अप्रकाशित हो जाएंगे।</string>
+    <string name="archive_activity_deletion_message">इस गतिविधि के सभी रिकॉर्ड भी हटा दिए जाएंगे</string>
+    <string name="archive_tag_deletion_message">इस टैग के साथ टैग किए गए सभी रिकॉर्ड अप्रकाशित हो जाएंगे</string>
     <string name="archive_deletion_alert">क्या आपको यकीन है? इस क्रिया को पूर्ववत नहीं किया जा सकता है।</string>
     <string name="archive_records_count">अभिलेख</string>
-    <string name="archive_record_tags_count">रिकॉर्ड टैग</string>
     <string name="archive_tagged_records_count">टैग किए गए अभिलेख</string>
 
     <!--  Data edit  -->

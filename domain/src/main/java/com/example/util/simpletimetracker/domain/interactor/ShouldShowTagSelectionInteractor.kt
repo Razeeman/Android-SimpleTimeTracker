@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 class ShouldShowTagSelectionInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
-    private val recordTagInteractor: RecordTagInteractor,
+    private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
 ) {
 
     suspend fun execute(typeId: Long): Boolean {
@@ -15,10 +15,9 @@ class ShouldShowTagSelectionInteractor @Inject constructor(
             // Check if activity is excluded from tag dialog.
             if (typeId !in excludedActivities) {
                 // Check if activity has tags.
-                // TODO add query to repo to find out if has tags.
-                val tags = recordTagInteractor.getByTypeOrUntyped(typeId)
+                val assignableTags = getSelectableTagsInteractor.execute(typeId)
                     .filterNot { it.archived }
-                tags.isNotEmpty()
+                assignableTags.isNotEmpty()
             } else {
                 false
             }

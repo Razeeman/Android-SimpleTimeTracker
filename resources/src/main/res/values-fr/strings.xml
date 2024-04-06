@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Étiquettes archivées</string>
     <string name="change_record_tag_type_hint">Activité</string>
-    <string name="change_record_tag_type">Type d\'étiquette</string>
-    <string name="change_record_tag_type_general">Général</string>
     <string name="change_record_tag_type_general_hint">Peut être attribuée aux enregistrements de n\'importe quelle activité</string>
-    <string name="change_record_tag_type_typed">Activité</string>
     <string name="change_record_tag_type_typed_hint">Ne peut être attribuée qu\'aux enregistrements d\'une activité spécifique</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ Exemple:<br/>
     <string name="archive_tag_restored">Étiquette restaurée</string>
     <string name="archive_activity_deleted">Activité supprimée</string>
     <string name="archive_tag_deleted">Étiquette supprimée</string>
-    <string name="archive_activity_deletion_message">Tous les enregistrements de cette activité et les étiquettes d\'enregistrement seront également supprimés.</string>
-    <string name="archive_tag_deletion_message">Cette étiquette sera retirée de tous les enregistrements associés.</string>
+    <string name="archive_activity_deletion_message">Tous les enregistrements de cette activité seront également supprimés</string>
+    <string name="archive_tag_deletion_message">Cette étiquette sera retirée de tous les enregistrements associés</string>
     <string name="archive_deletion_alert">Supprimer définitivement cet élément ? Cette action ne peut pas être annulée.</string>
     <string name="archive_records_count">Enregistrements</string>
-    <string name="archive_record_tags_count">Étiquettes d\'enregistrement</string>
     <string name="archive_tagged_records_count">Enregistrements étiquetés</string>
 
     <!--  Data edit  -->

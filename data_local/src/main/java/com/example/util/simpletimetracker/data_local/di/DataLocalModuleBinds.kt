@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.data_local.repo.RecordToRecordTagRepoI
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeCategoryRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeGoalRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTypeRepoImpl
+import com.example.util.simpletimetracker.data_local.repo.RecordTypeToTagRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RunningRecordRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RunningRecordToRecordTagRepoImpl
 import com.example.util.simpletimetracker.data_local.resolver.BackupRepoImpl
@@ -28,6 +29,7 @@ import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeGoalRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTypeToTagRepo
 import com.example.util.simpletimetracker.domain.repo.RunningRecordRepo
 import com.example.util.simpletimetracker.domain.repo.RunningRecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
@@ -87,6 +89,10 @@ interface DataLocalModuleBinds {
     @Binds
     @Singleton
     fun RecordTypeCategoryRepoImpl.bindRecordTypeCategoryRepo(): RecordTypeCategoryRepo
+
+    @Binds
+    @Singleton
+    fun RecordTypeToTagRepoImpl.bindRecordTypeToTagRepo(): RecordTypeToTagRepo
 
     @Binds
     @Singleton

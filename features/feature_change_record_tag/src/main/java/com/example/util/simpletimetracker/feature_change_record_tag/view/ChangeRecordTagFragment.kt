@@ -3,7 +3,10 @@ package com.example.util.simpletimetracker.feature_change_record_tag.view
 import com.example.util.simpletimetracker.feature_change_record_tag.databinding.ChangeRecordTagFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
@@ -15,13 +18,21 @@ import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.core.utils.setChooserColor
+import com.example.util.simpletimetracker.core.view.UpdateViewChooserState
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorPaletteAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeSetupViewData
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Closed
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Color
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Type
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
@@ -53,8 +64,11 @@ class ChangeRecordTagFragment :
     }
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createEmptyAdapterDelegate(),
             createRecordTypeAdapterDelegate(viewModel::onTypeClick),
+            createDividerAdapterDelegate(),
+            createInfoAdapterDelegate(),
+            createEmptyAdapterDelegate(),
+            createHintBigAdapterDelegate(),
         )
     }
 
@@ -96,36 +110,19 @@ class ChangeRecordTagFragment :
         fieldChangeRecordTagType.setOnClick(viewModel::onTypeChooserClick)
         btnChangeRecordTagSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTagDelete.setOnClick(viewModel::onDeleteClick)
-        buttonsChangeRecordTagType.listener = viewModel::onTagTypeClick
     }
 
     override fun initViewModel(): Unit = with(binding) {
         with(viewModel) {
             extra = params
             deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTagDelete::visible::set)
-            tagTypeSetupViewData.observe(::setTagTypeSetup)
             saveButtonEnabled.observe(btnChangeRecordTagSave::setEnabled)
             deleteButtonEnabled.observe(btnChangeRecordTagDelete::setEnabled)
-            typeSelectionVisibility.observe(groupChangeRecordTagTypeSelection::visible::set)
             preview.observeOnce(viewLifecycleOwner, ::updateUi)
             preview.observe(::updatePreview)
-            tagTypeViewData.observe(buttonsChangeRecordTagType.adapter::replace)
             colors.observe(colorsAdapter::replace)
             types.observe(typesAdapter::replace)
-            flipColorChooser.observe { opened ->
-                rvChangeRecordTagColor.visible = opened
-                fieldChangeRecordTagColor.setChooserColor(opened)
-                arrowChangeRecordTagColor.apply {
-                    if (opened) rotateDown() else rotateUp()
-                }
-            }
-            flipTypesChooser.observe { opened ->
-                rvChangeRecordTagType.visible = opened
-                fieldChangeRecordTagType.setChooserColor(opened)
-                arrowChangeRecordTagType.apply {
-                    if (opened) rotateDown() else rotateUp()
-                }
-            }
+            chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTagName) else hideKeyboard()
             }
@@ -139,12 +136,6 @@ class ChangeRecordTagFragment :
     private fun updateUi(item: CategoryViewData) = with(binding) {
         etChangeRecordTagName.setText(item.name)
         etChangeRecordTagName.setSelection(item.name.length)
-    }
-
-    private fun setTagTypeSetup(data: ChangeRecordTagTypeSetupViewData) = with(binding) {
-        fieldChangeRecordTagColor.visible = data.colorChooserVisibility
-        fieldChangeRecordTagType.visible = data.typesChooserVisibility
-        tvChangeRecordTagTypeHint.text = data.hint
     }
 
     private fun setPreview() = (params as? ChangeTagData.Change)?.preview?.run {
@@ -171,6 +162,43 @@ class ChangeRecordTagFragment :
                 itemIconVisible = false
             }
         }
+    }
+
+    private fun updateChooserState(state: ChangeRecordTagTypeChooserState) = with(binding) {
+        updateChooser<Color>(
+            state = state,
+            chooserData = rvChangeRecordTagColor,
+            chooserView = fieldChangeRecordTagColor,
+            chooserArrow = arrowChangeRecordTagColor,
+        )
+        updateChooser<Type>(
+            state = state,
+            chooserData = rvChangeRecordTagType,
+            chooserView = fieldChangeRecordTagType,
+            chooserArrow = arrowChangeRecordTagType,
+        )
+
+        val isClosed = state.current is Closed
+        inputChangeRecordTagName.isVisible = isClosed
+
+        // Chooser fields
+        fieldChangeRecordTagColor.isVisible = isClosed || state.current is Color
+        fieldChangeRecordTagType.isVisible = isClosed || state.current is Type
+    }
+
+    private inline fun <reified T : State> updateChooser(
+        state: ChangeRecordTagTypeChooserState,
+        chooserData: View,
+        chooserView: CardView,
+        chooserArrow: View,
+    ) {
+        UpdateViewChooserState.updateChooser<State, T, Closed>(
+            stateCurrent = state.current,
+            statePrevious = state.previous,
+            chooserData = chooserData,
+            chooserView = chooserView,
+            chooserArrow = chooserArrow,
+        )
     }
 
     companion object {

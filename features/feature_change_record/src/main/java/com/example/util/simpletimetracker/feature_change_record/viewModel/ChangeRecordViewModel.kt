@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInte
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -41,7 +42,7 @@ class ChangeRecordViewModel @Inject constructor(
     changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
     changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
     changeRecordAdjustDelegate: ChangeRecordAdjustDelegateImpl,
-    recordTagInteractor: RecordTagInteractor,
+    recordTypeToTagInteractor: RecordTypeToTagInteractor,
     favouriteCommentInteractor: FavouriteCommentInteractor,
     private val router: Router,
     private val recordInteractor: RecordInteractor,
@@ -55,18 +56,18 @@ class ChangeRecordViewModel @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val timeMapper: TimeMapper,
 ) : ChangeRecordBaseViewModel(
-    router,
-    snackBarMessageNavigationInteractor,
-    prefsInteractor,
-    recordTypesViewDataInteractor,
-    recordTagViewDataInteractor,
-    changeRecordViewDataInteractor,
-    recordInteractor,
-    recordTagInteractor,
-    favouriteCommentInteractor,
-    changeRecordMergeDelegate,
-    changeRecordSplitDelegate,
-    changeRecordAdjustDelegate,
+    router = router,
+    snackBarMessageNavigationInteractor = snackBarMessageNavigationInteractor,
+    prefsInteractor = prefsInteractor,
+    recordTypesViewDataInteractor = recordTypesViewDataInteractor,
+    recordTagViewDataInteractor = recordTagViewDataInteractor,
+    changeRecordViewDataInteractor = changeRecordViewDataInteractor,
+    recordInteractor = recordInteractor,
+    recordTypeToTagInteractor = recordTypeToTagInteractor,
+    favouriteCommentInteractor = favouriteCommentInteractor,
+    changeRecordMergeDelegate = changeRecordMergeDelegate,
+    changeRecordSplitDelegate = changeRecordSplitDelegate,
+    changeRecordAdjustDelegate = changeRecordAdjustDelegate,
 ) {
 
     lateinit var extra: ChangeRecordParams

@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_data_edit.R
@@ -43,6 +44,7 @@ class DataEditViewModel @Inject constructor(
     private val dataEditViewDataInteractor: DateEditViewDataInteractor,
     private val dataEditChangeInteractor: DateEditChangeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
 ) : ViewModel() {
 
     val selectedRecordsCountViewData: LiveData<DataEditRecordsCountState> by lazy {
@@ -277,13 +279,13 @@ class DataEditViewModel @Inject constructor(
         // If there are some tags selected to add or remove.
         if (tagsToAdd == null && tagsToRemove == null) return@launch
 
-        val allTags = recordTagInteractor.getAll().associateBy(RecordTag::id)
+        val typeToTags = recordTypeToTagInteractor.getAll()
 
         if (tagsToAdd != null) {
             val newTags = dataEditViewDataInteractor.filterTags(
                 typeForTagSelection = getTypeForTagSelection(),
                 tags = tagsToAdd,
-                allTags = allTags,
+                typesToTags = typeToTags,
             )
             addTagState = if (newTags.isNotEmpty()) {
                 DataEditAddTagsState.Enabled(newTags)
@@ -298,7 +300,7 @@ class DataEditViewModel @Inject constructor(
             val newTags = dataEditViewDataInteractor.filterTags(
                 typeForTagSelection = getTypeForTagSelection(),
                 tags = tagsToRemove,
-                allTags = allTags,
+                typesToTags = typeToTags,
             )
             removeTagState = if (newTags.isNotEmpty()) {
                 DataEditRemoveTagsState.Enabled(newTags)

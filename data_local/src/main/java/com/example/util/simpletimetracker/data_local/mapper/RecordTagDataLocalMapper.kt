@@ -10,12 +10,13 @@ class RecordTagDataLocalMapper @Inject constructor() {
     fun map(dbo: RecordTagDBO): RecordTag {
         return RecordTag(
             id = dbo.id,
-            typeId = dbo.typeId,
             name = dbo.name,
+            icon = dbo.icon,
             color = AppColor(
                 colorId = dbo.color,
                 colorInt = dbo.colorInt,
             ),
+            iconColorSource = dbo.iconColorSource,
             archived = dbo.archived,
         )
     }
@@ -23,10 +24,12 @@ class RecordTagDataLocalMapper @Inject constructor() {
     fun map(domain: RecordTag): RecordTagDBO {
         return RecordTagDBO(
             id = domain.id,
-            typeId = domain.typeId,
+            typeId = 0,
             name = domain.name,
+            icon = domain.icon,
             color = domain.color.colorId,
             colorInt = domain.color.colorInt,
+            iconColorSource = domain.iconColorSource,
             archived = domain.archived,
         )
     }

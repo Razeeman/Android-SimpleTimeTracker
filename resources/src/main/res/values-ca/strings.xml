@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Etiqueta arxivada</string>
     <string name="change_record_tag_type_hint">Activitat</string>
-    <string name="change_record_tag_type">Tipus d\'etiqueta</string>
-    <string name="change_record_tag_type_general">General</string>
     <string name="change_record_tag_type_general_hint">Pot ser assignat a enregistraments de qualsevol activitat</string>
-    <string name="change_record_tag_type_typed">Activitat</string>
     <string name="change_record_tag_type_typed_hint">Només pot ser assignat a enregistraments d\'una activitat específica</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ Exemple:<br/>
     <string name="archive_tag_restored">Etiqueta restaurada</string>
     <string name="archive_activity_deleted">Activitat eliminada</string>
     <string name="archive_tag_deleted">Etiqueta eliminada</string>
-    <string name="archive_activity_deletion_message">Tots els enregistraments d\'aquesta activitat i totes les etiquetes d\'enregistrament també s\'eliminaran.</string>
-    <string name="archive_tag_deletion_message">Tots els enregistraments amb aquesta etiqueta es quedaran sense etiquetar.</string>
+    <string name="archive_activity_deletion_message">També se suprimiran tots els registres d\'aquesta activitat</string>
+    <string name="archive_tag_deletion_message">Tots els enregistraments amb aquesta etiqueta es quedaran sense etiquetar</string>
     <string name="archive_deletion_alert">N\'esteu segur? Aquesta acció no es pot desfer.</string>
     <string name="archive_records_count">Enregistraments</string>
-    <string name="archive_record_tags_count">Etiquetes d\'enregistraments</string>
     <string name="archive_tagged_records_count">Enregistraments etiquetats</string>
 
     <!--  Data edit  -->

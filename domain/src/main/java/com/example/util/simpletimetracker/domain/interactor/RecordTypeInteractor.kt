@@ -5,11 +5,11 @@ import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
-import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeGoalRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTypeToTagRepo
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -19,7 +19,7 @@ class RecordTypeInteractor @Inject constructor(
     private val recordRepo: RecordRepo,
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
-    private val recordTagRepo: RecordTagRepo,
+    private val recordTypeToTagRepo: RecordTypeToTagRepo,
     private val recordTypeGoalRepo: RecordTypeGoalRepo,
     private val prefsInteractor: PrefsInteractor,
     private val appColorMapper: AppColorMapper,
@@ -50,17 +50,12 @@ class RecordTypeInteractor @Inject constructor(
         recordsToRemove.forEach { recordId ->
             recordToRecordTagRepo.removeAllByRecordId(recordId) // TODO do better?
         }
-        val tagsToRemove = recordTagRepo.getByType(id).map { it.id }
-        tagsToRemove.forEach { recordId ->
-            recordToRecordTagRepo.removeAllByRecordId(recordId) // TODO do better?
-        }
-
         prefsInteractor.getRecordTagSelectionExcludeActivities().toMutableList()
             .apply { remove(id) }
             .let { prefsInteractor.setRecordTagSelectionExcludeActivities(it) }
         recordRepo.removeByType(id)
         recordTypeCategoryRepo.removeAllByType(id)
-        recordTagRepo.removeByType(id)
+        recordTypeToTagRepo.removeAllByType(id)
         recordTypeGoalRepo.removeByType(id)
         recordTypeRepo.remove(id)
     }

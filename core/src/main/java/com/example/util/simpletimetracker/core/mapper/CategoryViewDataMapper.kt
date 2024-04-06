@@ -24,6 +24,7 @@ class CategoryViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
     private val iconMapper: IconMapper,
     private val resourceRepo: ResourceRepo,
+    private val recordTagViewDataMapper: RecordTagViewDataMapper,
 ) {
 
     fun mapCategory(
@@ -84,11 +85,10 @@ class CategoryViewDataMapper @Inject constructor(
         type: RecordType?,
         isDarkTheme: Boolean,
         isFiltered: Boolean = false,
-        showIcon: Boolean = true,
     ): CategoryViewData.Record {
-        val isTyped = tag.typeId != 0L
-        val icon = type?.icon?.let(iconMapper::mapIcon).takeIf { isTyped }
-        val color = type?.color.takeIf { isTyped } ?: tag.color
+        val icon = recordTagViewDataMapper.mapIcon(tag, type)
+            ?.let(iconMapper::mapIcon)
+        val color = recordTagViewDataMapper.mapColor(tag, type)
 
         return CategoryViewData.Record.Tagged(
             id = tag.id,
@@ -96,7 +96,7 @@ class CategoryViewDataMapper @Inject constructor(
             iconColor = getTextColor(isDarkTheme, isFiltered),
             iconAlpha = colorMapper.toIconAlpha(icon, isFiltered),
             color = getColor(color, isDarkTheme, isFiltered),
-            icon = if (showIcon) icon else null,
+            icon = icon,
         )
     }
 

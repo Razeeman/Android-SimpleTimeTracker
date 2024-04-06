@@ -27,11 +27,13 @@ import com.example.util.simpletimetracker.domain.extension.hasManuallyFiltered
 import com.example.util.simpletimetracker.domain.extension.hasMultitaskFilter
 import com.example.util.simpletimetracker.domain.extension.hasUntrackedFilter
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
+import com.example.util.simpletimetracker.domain.interactor.FilterSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
@@ -39,6 +41,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.domain.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
@@ -75,7 +78,9 @@ class RecordsFilterViewModel @Inject constructor(
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
+    private val filterSelectableTagsInteractor: FilterSelectableTagsInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
     private val router: Router,
@@ -130,6 +135,7 @@ class RecordsFilterViewModel @Inject constructor(
     private var recordTypeCategories: List<RecordTypeCategory>? = null
     private var categories: List<Category>? = null
     private var recordTags: List<RecordTag>? = null
+    private var recordTypeToTag: List<RecordTypeToTag>? = null
     private var goals: List<RecordTypeGoal>? = null
 
     fun init(extra: RecordsFilterParams) {
@@ -451,14 +457,21 @@ class RecordsFilterViewModel @Inject constructor(
             recordTypes = getTypesCache(),
             recordTypeCategories = getRecordTypeCategoriesCache(),
         )
+        val typesToTags = getRecordTypeToTagCache()
 
         suspend fun update(tags: List<RecordsFilter.TagItem>): List<RecordsFilter.TagItem> {
             return tags.filter {
                 when (it) {
                     is RecordsFilter.TagItem.Tagged -> {
                         it.tagId in getTagsCache()
-                            .filter { tag -> tag.typeId in newTypeIds || tag.typeId == 0L }
                             .map { tag -> tag.id }
+                            .let { tags ->
+                                filterSelectableTagsInteractor.execute(
+                                    tagIds = tags,
+                                    typesToTags = typesToTags,
+                                    typeIds = newTypeIds,
+                                )
+                            }
                     }
                     is RecordsFilter.TagItem.Untagged -> {
                         true
@@ -653,6 +666,12 @@ class RecordsFilterViewModel @Inject constructor(
         }
     }
 
+    private suspend fun getRecordTypeToTagCache(): List<RecordTypeToTag> {
+        return recordTypeToTag ?: run {
+            recordTypeToTagInteractor.getAll().also { recordTypeToTag = it }
+        }
+    }
+
     private suspend fun getGoalsCache(): List<RecordTypeGoal> {
         return goals ?: run {
             recordTypeGoalInteractor.getAllTypeGoals().also { goals = it }
@@ -742,6 +761,7 @@ class RecordsFilterViewModel @Inject constructor(
                     types = getTypesCache(),
                     recordTypeCategories = getRecordTypeCategoriesCache(),
                     recordTags = getTagsCache(),
+                    recordTypesToTags = getRecordTypeToTagCache(),
                 )
             }
             RecordFilterViewData.Type.DATE -> {

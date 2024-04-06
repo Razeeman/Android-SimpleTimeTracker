@@ -222,7 +222,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave"
         app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryGoalTime"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <include
             android:id="@+id/layoutChangeCategoryGoals"

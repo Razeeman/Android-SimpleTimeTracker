@@ -103,7 +103,7 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
                             val tag = tags[it.tagId] ?: return@mapNotNull null
                             statisticsDetailViewDataMapper.mapToTaggedPreview(
                                 tag = tag,
-                                type = types[tag.typeId],
+                                types = types,
                                 isDarkTheme = isDarkTheme,
                                 isForComparison = isForComparison,
                             )

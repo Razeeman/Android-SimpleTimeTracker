@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Tag archived</string>
     <string name="change_record_tag_type_hint">Activity</string>
-    <string name="change_record_tag_type">Tag type</string>
-    <string name="change_record_tag_type_general">General</string>
     <string name="change_record_tag_type_general_hint">Can be assigned to records of any activity</string>
-    <string name="change_record_tag_type_typed">Activity</string>
     <string name="change_record_tag_type_typed_hint">Can only be assigned to records of a specific activity</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ Example:<br/>
     <string name="archive_tag_restored">Tag restored</string>
     <string name="archive_activity_deleted">Activity deleted</string>
     <string name="archive_tag_deleted">Tag deleted</string>
-    <string name="archive_activity_deletion_message">All records of this activity and record tags will also be deleted.</string>
-    <string name="archive_tag_deletion_message">All records tagged with this tag will become untagged.</string>
+    <string name="archive_activity_deletion_message">All records of this activity will also be deleted</string>
+    <string name="archive_tag_deletion_message">All records tagged with this tag will become untagged</string>
     <string name="archive_deletion_alert">Are you sure? This action cannot be undone.</string>
     <string name="archive_records_count">Records</string>
-    <string name="archive_record_tags_count">Record tags</string>
     <string name="archive_tagged_records_count">Tagged records</string>
 
     <!--  Data edit  -->

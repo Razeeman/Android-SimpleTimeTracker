@@ -5,8 +5,9 @@
  */
 package com.example.util.simpletimetracker.feature_wear
 
-import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.GetSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -17,6 +18,7 @@ import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.RecordTag
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.navigation.Router
@@ -32,6 +34,7 @@ class WearCommunicationInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val removeRunningRecordMediator: Lazy<RemoveRunningRecordMediator>,
     private val addRunningRecordMediator: Lazy<AddRunningRecordMediator>,
@@ -39,6 +42,7 @@ class WearCommunicationInteractor @Inject constructor(
     private val router: Router,
     private val widgetInteractor: WidgetInteractor,
     private val settingsDataUpdateInteractor: SettingsDataUpdateInteractor,
+    private val recordTagViewDataMapper: RecordTagViewDataMapper,
 ) : WearCommunicationAPI {
 
     override suspend fun queryActivities(): List<WearActivity> {
@@ -56,12 +60,18 @@ class WearCommunicationInteractor @Inject constructor(
 
     override suspend fun queryCurrentActivities(): List<WearCurrentActivity> {
         return runningRecordInteractor.getAll().map { record ->
+            val tags = record.tagIds.mapNotNull { tagId ->
+                recordTagInteractor.get(tagId)?.let {
+                    mapTag(
+                        recordTag = it,
+                        types = emptyMap(), // Color is not needed.
+                    )
+                }
+            }
             WearCurrentActivity(
                 id = record.id,
                 startedAt = record.timeStarted,
-                tags = record.tagIds.mapNotNull { tagId ->
-                    recordTagInteractor.get(tagId)?.let(::mapTag)
-                },
+                tags = tags,
             )
         }
     }
@@ -86,13 +96,15 @@ class WearCommunicationInteractor @Inject constructor(
     }
 
     override suspend fun queryTagsForActivity(activityId: Long): List<WearTag> {
-        val activity = recordTypeInteractor.get(activityId) ?: return emptyList()
-        val activityColor = mapColor(activity.color)
-        return recordTagInteractor.getByTypeOrUntyped(activityId)
-            .filter { !it.archived }
-            .map { mapTag(it, activityColor) }
-            .sortedBy { it.name }
-            .sortedBy { it.isGeneral }
+        val types = recordTypeInteractor.getAll().associateBy { it.id }
+        return getSelectableTagsInteractor.execute(activityId)
+            .filterNot { it.archived }
+            .map {
+                mapTag(
+                    recordTag = it,
+                    types = types,
+                )
+            }
     }
 
     override suspend fun querySettings(): WearSettings {
@@ -116,20 +128,15 @@ class WearCommunicationInteractor @Inject constructor(
 
     private fun mapTag(
         recordTag: RecordTag,
-        activityColor: Long? = null,
+        types: Map<Long, RecordType>,
     ): WearTag {
-        val isGeneral = recordTag.typeId == 0L
-        val tagColor = if (isGeneral) {
-            mapColor(recordTag.color)
-        } else {
-            activityColor
-        }
-
         return WearTag(
             id = recordTag.id,
             name = recordTag.name,
-            isGeneral = isGeneral,
-            color = tagColor.orZero(),
+            color = recordTagViewDataMapper.mapColor(
+                tag = recordTag,
+                types = types,
+            ).let(::mapColor),
         )
     }
 

@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Tagg arkiverad</string>
     <string name="change_record_tag_type_hint">Aktivitet</string>
-    <string name="change_record_tag_type">Taggtyp</string>
-    <string name="change_record_tag_type_general">Allmän</string>
     <string name="change_record_tag_type_general_hint">Kan tilldelas händelse oavsett aktivitetstyp</string>
-    <string name="change_record_tag_type_typed">Aktivitet</string>
     <string name="change_record_tag_type_typed_hint">Kan endast tilldelas händelse av särskild aktivitet</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ Exempel:<br/>
     <string name="archive_tag_restored">Tagg återställd</string>
     <string name="archive_activity_deleted">Aktivitet raderad</string>
     <string name="archive_tag_deleted">Tagg raderad</string>
-    <string name="archive_activity_deletion_message">Alla händelser och händelsetaggar kopplade till aktiviteten kommer raderas.</string>
-    <string name="archive_tag_deletion_message">Taggen kommer tas bort från alla händeler där den tilldelats.</string>
+    <string name="archive_activity_deletion_message">Alla register över denna aktivitet kommer också att raderas</string>
+    <string name="archive_tag_deletion_message">Taggen kommer tas bort från alla händeler där den tilldelats</string>
     <string name="archive_deletion_alert">Är du säker? Detta kan ej ångras.</string>
     <string name="archive_records_count">Händelser</string>
-    <string name="archive_record_tags_count">Händelsetaggar</string>
     <string name="archive_tagged_records_count">Taggade händelser</string>
 
     <!--  Data edit  -->

@@ -6,18 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
-import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.domain.extension.flip
-import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.WearInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -26,10 +23,8 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.Category
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_tag.R
-import com.example.util.simpletimetracker.feature_change_record_tag.mapper.ChangeRecordTagMapper
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeSetupViewData
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeSwitchViewData
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.RecordTagType
+import com.example.util.simpletimetracker.feature_change_record_tag.interactor.ChangeRecordTagViewDataInteractor
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
@@ -40,15 +35,15 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangeRecordTagViewModel @Inject constructor(
     private val router: Router,
-    private val recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
+    private val changeRecordTagViewDataInteractor: ChangeRecordTagViewDataInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
     private val colorViewDataInteractor: ColorViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val wearInteractor: WearInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
-    private val changeRecordTagMapper: ChangeRecordTagMapper,
     private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     private val colorMapper: ColorMapper,
 ) : ViewModel() {
@@ -64,12 +59,6 @@ class ChangeRecordTagViewModel @Inject constructor(
             initial
         }
     }
-    val tagTypeViewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData(loadTagTypeViewData())
-    }
-    val tagTypeSetupViewData: LiveData<ChangeRecordTagTypeSetupViewData> by lazy {
-        return@lazy MutableLiveData()
-    }
     val colors: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             viewModelScope.launch { initial.value = loadColorsViewData() }
@@ -78,23 +67,31 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
     val types: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch { initial.value = loadTypesViewData() }
+            viewModelScope.launch {
+                initializeTypes()
+                initial.value = loadTypesViewData()
+            }
             initial
         }
     }
-    val flipColorChooser: LiveData<Boolean> = MutableLiveData()
-    val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
+    val chooserState: LiveData<ChangeRecordTagTypeChooserState> = MutableLiveData(
+        ChangeRecordTagTypeChooserState(
+            current = ChangeRecordTagTypeChooserState.State.Closed,
+            previous = ChangeRecordTagTypeChooserState.State.Closed,
+        ),
+    )
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId == 0L) }
-    val typeSelectionVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId == 0L) }
 
     private val recordTagId: Long get() = (extra as? ChangeTagData.Change)?.id.orZero()
-    private var tagType: RecordTagType = RecordTagType.GENERAL
     private var newName: String = ""
+    private var newIcon: String = ""
     private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
-    private var newTypeId: Long = 0L
+    private var newIconColorSource: Long = 0L // TODO TAGS add type selection to take color and icon from.
+    private var newTypeIds: Set<Long> = emptySet()
+    private var initialTypeIds: Set<Long> = emptySet()
 
     fun onNameChange(name: String) {
         viewModelScope.launch {
@@ -105,39 +102,18 @@ class ChangeRecordTagViewModel @Inject constructor(
         }
     }
 
-    fun onTagTypeClick(viewData: ButtonsRowViewData) {
-        if (viewData !is ChangeRecordTagTypeSwitchViewData) return
-        viewModelScope.launch {
-            tagType = viewData.tagType
-            updateTagTypeViewData()
-            updateTagTypeSetupViewData()
-            // TODO
-            if (flipTypesChooser.value == true) {
-                (flipTypesChooser as MutableLiveData).value = false
-            }
-            if (flipColorChooser.value == true) {
-                (flipColorChooser as MutableLiveData).value = false
-            }
-        }
-    }
-
     fun onColorChooserClick() {
-        (keyboardVisibility as MutableLiveData).value = false
-        (flipColorChooser as MutableLiveData).value = flipColorChooser.value
-            ?.flip().orTrue()
+        onNewChooserState(ChangeRecordTagTypeChooserState.State.Color)
     }
 
     fun onTypeChooserClick() {
-        (keyboardVisibility as MutableLiveData).value = false
-        (flipTypesChooser as MutableLiveData).value = flipTypesChooser.value
-            ?.flip().orTrue()
+        onNewChooserState(ChangeRecordTagTypeChooserState.State.Type)
     }
 
     fun onColorClick(item: ColorViewData) {
         viewModelScope.launch {
-            if (newTypeId != 0L || item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
+            if (item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
                 newColor = AppColor(colorId = item.colorId, colorInt = "")
-                newTypeId = 0
                 updatePreview()
                 updateColors()
             }
@@ -155,9 +131,8 @@ class ChangeRecordTagViewModel @Inject constructor(
 
     fun onCustomColorSelected(colorInt: Int) {
         viewModelScope.launch {
-            if (newTypeId != 0L || colorInt.toString() != newColor.colorInt) {
+            if (colorInt.toString() != newColor.colorInt) {
                 newColor = AppColor(colorId = 0, colorInt = colorInt.toString())
-                newTypeId = 0
                 updatePreview()
                 updateColors()
             }
@@ -166,11 +141,10 @@ class ChangeRecordTagViewModel @Inject constructor(
 
     fun onTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
-            if (item.id != newTypeId) {
-                newTypeId = item.id
-                updatePreview()
-                updateColors()
+            newTypeIds = newTypeIds.toMutableSet().apply {
+                if (item.id in this) remove(item.id) else add(item.id)
             }
+            updateTypesViewData()
         }
     }
 
@@ -198,11 +172,13 @@ class ChangeRecordTagViewModel @Inject constructor(
             // Zero id creates new record
             RecordTag(
                 id = recordTagId,
-                typeId = newTypeId,
                 name = newName,
+                icon = newIcon,
                 color = newColor,
+                iconColorSource = newIconColorSource, // TODO TAGS save icon and color if != 0
             ).let {
-                recordTagInteractor.add(it)
+                val addedId = recordTagInteractor.add(it)
+                saveTypes(addedId)
                 notificationTypeInteractor.updateNotifications()
                 wearInteractor.update()
                 (keyboardVisibility as MutableLiveData).value = false
@@ -211,62 +187,82 @@ class ChangeRecordTagViewModel @Inject constructor(
         }
     }
 
-    private suspend fun initializePreviewViewData() {
-        when (extra) {
+    private suspend fun saveTypes(tagId: Long) {
+        val addedTypes = newTypeIds.filterNot { it in initialTypeIds }
+        val removedTypes = initialTypeIds.filterNot { it in newTypeIds }
+
+        recordTypeToTagInteractor.addTypes(tagId, addedTypes)
+        recordTypeToTagInteractor.removeTypes(tagId, removedTypes)
+    }
+
+    private fun onNewChooserState(
+        newState: ChangeRecordTagTypeChooserState.State,
+    ) {
+        val current = chooserState.value?.current
+            ?: ChangeRecordTagTypeChooserState.State.Closed
+        keyboardVisibility.set(false)
+        if (current == newState) {
+            chooserState.set(
+                ChangeRecordTagTypeChooserState(
+                    current = ChangeRecordTagTypeChooserState.State.Closed,
+                    previous = current,
+                ),
+            )
+        } else {
+            chooserState.set(
+                ChangeRecordTagTypeChooserState(
+                    current = newState,
+                    previous = current,
+                ),
+            )
+        }
+    }
+
+    private suspend fun initializeTypes() {
+        when (val extra = extra) {
             is ChangeTagData.Change -> {
-                recordTagInteractor.get(recordTagId)?.let {
-                    newTypeId = it.typeId
-                    newName = it.name
-                    newColor = it.color
-                    updateColors()
-                }
+                val assignedTypes = recordTypeToTagInteractor.getTypes(extra.id)
+                newTypeIds = assignedTypes
+                initialTypeIds = assignedTypes
             }
             is ChangeTagData.New -> {
-                val preselectedTypeId: Long? = (extra as? ChangeTagData.New)?.preselectedTypeId
-                newTypeId = preselectedTypeId.orZero()
-                if (preselectedTypeId != null) tagType = RecordTagType.TYPED
+                newTypeIds = setOfNotNull(extra.preselectedTypeId)
+                initialTypeIds = emptySet()
             }
         }
-        updateTagTypeSetupViewData()
+    }
+
+    private suspend fun initializePreviewViewData() {
+        val extra = extra
+        if (extra is ChangeTagData.Change) {
+            recordTagInteractor.get(extra.id)?.let {
+                newName = it.name
+                newIcon = it.icon
+                newColor = it.color
+                newIconColorSource = it.iconColorSource
+                updateColors()
+            }
+        }
     }
 
     private fun updatePreview() = viewModelScope.launch {
-        (preview as MutableLiveData).value = loadPreviewViewData()
+        preview.set(loadPreviewViewData())
     }
 
     private suspend fun loadPreviewViewData(): CategoryViewData.Record {
         val tag = RecordTag(
             name = newName,
+            icon = newIcon,
             color = newColor,
-            typeId = newTypeId,
+            iconColorSource = newIconColorSource,
         )
-        val type = recordTypeInteractor.get(newTypeId)
         val isDarkTheme = prefsInteractor.getDarkMode()
+        val type = recordTypeInteractor.get(newIconColorSource)
 
         return categoryViewDataMapper.mapRecordTag(
             tag = tag,
             type = type,
             isDarkTheme = isDarkTheme,
-        )
-    }
-
-    private fun updateTagTypeViewData() {
-        tagTypeViewData.set(loadTagTypeViewData())
-    }
-
-    private fun loadTagTypeViewData(): List<ViewHolderType> {
-        return changeRecordTagMapper.mapToTagTypeSwitchViewData(tagType)
-    }
-
-    private fun updateTagTypeSetupViewData() {
-        tagTypeSetupViewData.set(loadTagTypeSetupViewData())
-    }
-
-    private fun loadTagTypeSetupViewData(): ChangeRecordTagTypeSetupViewData {
-        return changeRecordTagMapper.mapToTagTypeSetupViewData(
-            recordTagId = recordTagId,
-            typeId = newTypeId,
-            tagType = tagType,
         )
     }
 
@@ -276,17 +272,16 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     private suspend fun loadColorsViewData(): List<ViewHolderType> {
-        val selectedColor = if (newTypeId != 0L) {
-            AppColor(colorId = -1, colorInt = "") // Nonexistent color.
-        } else {
-            newColor
-        }
+        return colorViewDataInteractor.getColorsViewData(newColor)
+    }
 
-        return colorViewDataInteractor.getColorsViewData(selectedColor)
+    private fun updateTypesViewData() = viewModelScope.launch {
+        val data = loadTypesViewData()
+        types.set(data)
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
-        return recordTypesViewDataInteractor.getTypesViewData()
+        return changeRecordTagViewDataInteractor.getTypesViewData(newTypeIds)
     }
 
     private fun showMessage(stringResId: Int) {

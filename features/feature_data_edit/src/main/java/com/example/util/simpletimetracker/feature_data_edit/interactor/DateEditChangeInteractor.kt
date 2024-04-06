@@ -2,9 +2,10 @@ package com.example.util.simpletimetracker.feature_data_edit.interactor
 
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.FilterSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRecordMediator
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
@@ -21,8 +22,9 @@ class DateEditChangeInteractor @Inject constructor(
     private val addRecordMediator: AddRecordMediator,
     private val removeRecordMediator: RemoveRecordMediator,
     private val recordFilterInteractor: RecordFilterInteractor,
-    private val recordTagInteractor: RecordTagInteractor,
+    private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val filterSelectableTagsInteractor: FilterSelectableTagsInteractor,
 ) {
 
     suspend fun changeData(
@@ -57,7 +59,7 @@ class DateEditChangeInteractor @Inject constructor(
 
         val records = recordFilterInteractor.getByFilter(filters)
             .filterIsInstance<Record>()
-        val tags = recordTagInteractor.getAll().associateBy { it.id }
+        val typesToTags = recordTypeToTagInteractor.getAll()
         val oldTypeIds = mutableSetOf<Long>()
 
         records.forEach { record ->
@@ -72,9 +74,12 @@ class DateEditChangeInteractor @Inject constructor(
             val finalTagIds: Set<Long> = record.tagIds
                 .plus(addTags.orEmpty())
                 .filter { it !in removeTags.orEmpty() }
-                .filter { tagId ->
-                    val tag = tags[tagId] ?: return@filter false
-                    tag.typeId == 0L || tag.typeId == finalTypeId
+                .let {  tags ->
+                    filterSelectableTagsInteractor.execute(
+                        tagIds = tags,
+                        typesToTags = typesToTags,
+                        typeIds = listOf(finalTypeId),
+                    )
                 }
                 .toSet()
 

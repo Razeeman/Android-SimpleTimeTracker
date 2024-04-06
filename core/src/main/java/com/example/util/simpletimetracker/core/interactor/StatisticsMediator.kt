@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.core.interactor
 
+import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
@@ -24,6 +25,7 @@ class StatisticsMediator @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
     private val recordTagInteractor: RecordTagInteractor,
+    private val recordTagViewDataMapper: RecordTagViewDataMapper,
 ) {
 
     suspend fun getStatistics(
@@ -70,11 +72,10 @@ class StatisticsMediator @Inject constructor(
             ChartFilterType.RECORD_TAG -> {
                 val tags = recordTagInteractor.getAll()
                 tags.map { tag ->
-                    val isTyped = tag.typeId != 0L
                     tag.id to StatisticsDataHolder(
                         name = tag.name,
-                        color = types[tag.typeId]?.color.takeIf { isTyped } ?: tag.color,
-                        icon = types[tag.typeId]?.icon.takeIf { isTyped },
+                        color = recordTagViewDataMapper.mapColor(tag, types),
+                        icon = recordTagViewDataMapper.mapIcon(tag, types),
                     )
                 }
             }

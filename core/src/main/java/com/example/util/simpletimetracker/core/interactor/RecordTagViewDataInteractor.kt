@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.core.interactor
 
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
+import com.example.util.simpletimetracker.domain.interactor.GetSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -12,6 +13,7 @@ class RecordTagViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
 ) {
 
@@ -24,12 +26,8 @@ class RecordTagViewDataInteractor @Inject constructor(
         showUntaggedButton: Boolean,
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
-        val type = recordTypeInteractor.get(typeId)
-        val recordTags = if (typeId != 0L) {
-            recordTagInteractor.getByType(typeId)
-        } else {
-            emptyList()
-        } + recordTagInteractor.getUntyped()
+        val recordTags = getSelectableTagsInteractor.execute(typeId)
+        val types = recordTypeInteractor.getAll().associateBy { it.id }
 
         return recordTags
             .let { tags -> if (showArchived) tags else tags.filterNot { it.archived } }
@@ -54,7 +52,7 @@ class RecordTagViewDataInteractor @Inject constructor(
                 selected.map {
                     categoryViewDataMapper.mapRecordTag(
                         tag = it,
-                        type = type,
+                        type = types[it.iconColorSource],
                         isDarkTheme = isDarkTheme,
                     )
                 }.let(viewData::addAll)
@@ -67,7 +65,7 @@ class RecordTagViewDataInteractor @Inject constructor(
                 available.map {
                     categoryViewDataMapper.mapRecordTag(
                         tag = it,
-                        type = type,
+                        type = types[it.iconColorSource],
                         isDarkTheme = isDarkTheme,
                     )
                 }.let(viewData::addAll)

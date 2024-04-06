@@ -20,15 +20,6 @@ interface RecordTagDao {
     @Query("SELECT * FROM recordTags WHERE id = :id LIMIT 1")
     suspend fun get(id: Long): RecordTagDBO?
 
-    @Query("SELECT * FROM recordTags WHERE type_id = :typeId")
-    suspend fun getByType(typeId: Long): List<RecordTagDBO>
-
-    @Query("SELECT * FROM recordTags WHERE type_id = 0")
-    suspend fun getUntyped(): List<RecordTagDBO>
-
-    @Query("SELECT * FROM recordTags WHERE type_id = 0 OR type_id = :typeId")
-    suspend fun getByTypeOrUntyped(typeId: Long): List<RecordTagDBO>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(tag: RecordTagDBO): Long
 
@@ -40,9 +31,6 @@ interface RecordTagDao {
 
     @Query("DELETE FROM recordTags WHERE id = :id")
     suspend fun delete(id: Long)
-
-    @Query("DELETE FROM recordTags WHERE type_id = :typeId")
-    suspend fun deleteByType(typeId: Long)
 
     @Query("DELETE FROM recordTags")
     suspend fun clear()

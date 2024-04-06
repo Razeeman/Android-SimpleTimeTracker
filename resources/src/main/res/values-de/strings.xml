@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Tag archiviert</string>
     <string name="change_record_tag_type_hint">Aktivität</string>
-    <string name="change_record_tag_type">Tag-Typ</string>
-    <string name="change_record_tag_type_general">General</string>
     <string name="change_record_tag_type_general_hint">Kann Aufzeichnungen beliebiger Aktivitäten zugewiesen werden</string>
-    <string name="change_record_tag_type_typed">Aktivität</string>
     <string name="change_record_tag_type_typed_hint">Kann nur Datensätzen einer bestimmten Aktivität zugeordnet werden</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ Beispiel:<br/>
     <string name="archive_tag_restored">Markierung wiederhergestellt</string>
     <string name="archive_activity_deleted">Aktivität gelöscht</string>
     <string name="archive_tag_deleted">Markierung gelöscht</string>
-    <string name="archive_activity_deletion_message">Alle Einträge zu dieser Aktivität und alle Eintrags-Tags werden ebenfalls entfernt.</string>
+    <string name="archive_activity_deletion_message">Alle Aufzeichnungen dieser Aktivität werden ebenfalls gelöscht</string>
     <string name="archive_tag_deletion_message">Alle mit dieser Markierung versehenen Einträge werden entfernt</string>
     <string name="archive_deletion_alert">Bist Du sicher? Diese Aktion kann nicht rückgängig gemacht werden.</string>
     <string name="archive_records_count">Einträge</string>
-    <string name="archive_record_tags_count">Tags erfassen</string>
     <string name="archive_tagged_records_count">Markierte Einträge</string>
 
     <!--  Data edit  -->

@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Label diarsipkan</string>
     <string name="change_record_tag_type_hint">Kegiatan</string>
-    <string name="change_record_tag_type">Jenis tag</string>
-    <string name="change_record_tag_type_general">Umum</string>
     <string name="change_record_tag_type_general_hint">Dapat ditugaskan ke catatan aktivitas apa pun</string>
-    <string name="change_record_tag_type_typed">Kegiatan</string>
     <string name="change_record_tag_type_typed_hint">Hanya dapat ditetapkan ke catatan aktivitas tertentu</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ Contoh:<br/>
     <string name="archive_tag_restored">Label dipulihkan</string>
     <string name="archive_activity_deleted">Kegiatan dihapus</string>
     <string name="archive_tag_deleted">label dihapus</string>
-    <string name="archive_activity_deletion_message">Semua rekor kegiatan ini dan label rekor juga akan dihapus.</string>
-    <string name="archive_tag_deletion_message">Semua rekor yang diberi label dengan label ini akan menjadi tidak ditandai.</string>
+    <string name="archive_activity_deletion_message">Semua catatan aktivitas ini juga akan dihapus</string>
+    <string name="archive_tag_deletion_message">Semua rekor yang diberi label dengan label ini akan menjadi tidak ditandai</string>
     <string name="archive_deletion_alert">Apa kamu yakin? Tindakan ini tidak bisa dibatalkan.</string>
     <string name="archive_records_count">Rekor</string>
-    <string name="archive_record_tags_count">Label rekor</string>
     <string name="archive_tagged_records_count">Rekor yang label</string>
 
     <!--  Data edit  -->

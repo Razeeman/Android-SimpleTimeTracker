@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Etiket arşivlendi</string>
     <string name="change_record_tag_type_hint">Aktivite</string>
-    <string name="change_record_tag_type">Etiket tipi</string>
-    <string name="change_record_tag_type_general">Genel</string>
     <string name="change_record_tag_type_general_hint">Herhangi bir aktivitenin kayıtlarına atanabilir</string>
-    <string name="change_record_tag_type_typed">Aktivite</string>
     <string name="change_record_tag_type_typed_hint">Sadece seçilen aktivitenin kayıtlarına atanabilir</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="archive_tag_restored">Etiket geri yüklendi</string>
     <string name="archive_activity_deleted">Aktivite silindi</string>
     <string name="archive_tag_deleted">Etiket silindi</string>
-    <string name="archive_activity_deletion_message">Bu aktivitenin tüm kayıtları ve kayıt etiketleri silinecek.</string>
-    <string name="archive_tag_deletion_message">Bu etiketin atandığı tüm kayıtlardan etiket kaldırılacak.</string>
+    <string name="archive_activity_deletion_message">Bu aktivitenin tüm kayıtları da silinecek</string>
+    <string name="archive_tag_deletion_message">Bu etiketin atandığı tüm kayıtlardan etiket kaldırılacak</string>
     <string name="archive_deletion_alert">Emin misin? Bu eylem geri alınamaz.</string>
     <string name="archive_records_count">Kayıtlar</string>
-    <string name="archive_record_tags_count">Kayıt etiketleri</string>
     <string name="archive_tagged_records_count">Etiketin atandığı kayıtlar</string>
 
     <!--  Data edit  -->

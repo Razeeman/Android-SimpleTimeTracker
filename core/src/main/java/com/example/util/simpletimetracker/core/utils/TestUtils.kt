@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.model.AppColor
@@ -22,9 +23,9 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RunningRecord
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlinx.coroutines.runBlocking
 
 class TestUtils @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
@@ -33,6 +34,7 @@ class TestUtils @Inject constructor(
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
     private val activityFilterInteractor: ActivityFilterInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -169,13 +171,24 @@ class TestUtils @Inject constructor(
         val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
 
         val data = RecordTag(
-            typeId = type?.id.orZero(),
             name = tagName,
+            icon = "",
             color = AppColor(colorId = 0, colorInt = ""),
+            iconColorSource = type?.id.orZero(),
             archived = archived,
         )
 
-        recordTagInteractor.add(data)
+        val tagId = recordTagInteractor.add(data)
+
+        recordTypeInteractor.getAll()
+            .firstOrNull { it.name == typeName }
+            ?.id
+            ?.let {
+                recordTypeToTagInteractor.addTypes(
+                    tagId = tagId,
+                    typeIds = listOf(it),
+                )
+            }
     }
 
     fun addActivityFilter(

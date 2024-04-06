@@ -86,10 +86,7 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Đã lưu trữ thẻ</string>
     <string name="change_record_tag_type_hint">Hoạt động</string>
-    <string name="change_record_tag_type">Loại thẻ</string>
-    <string name="change_record_tag_type_general">Chung</string>
     <string name="change_record_tag_type_general_hint">Có thể được gán cho bản ghi của bất kỳ hoạt động nào</string>
-    <string name="change_record_tag_type_typed">Hoạt động</string>
     <string name="change_record_tag_type_typed_hint">Chỉ có thể được gán cho các bản ghi của một hoạt động cụ thể</string>
 
     <!--  Change record  -->
@@ -427,11 +424,10 @@ Ví dụ:<br/>
     <string name="archive_tag_restored">Đã khôi phục thẻ</string>
     <string name="archive_activity_deleted">Hoạt động đã bị xóa</string>
     <string name="archive_tag_deleted">Đã xóa thẻ</string>
-    <string name="archive_activity_deletion_message">Tất cả bản ghi về hoạt động này và thẻ bản ghi cũng sẽ bị xóa.</string>
-    <string name="archive_tag_deletion_message">Tất cả bản ghi được gắn thẻ này sẽ không được gắn thẻ.</string>
+    <string name="archive_activity_deletion_message">Tất cả hồ sơ về hoạt động này cũng sẽ bị xóa</string>
+    <string name="archive_tag_deletion_message">Tất cả bản ghi được gắn thẻ này sẽ không được gắn thẻ</string>
     <string name="archive_deletion_alert">Bạn có chắc không? Hành động này không thể hoàn tác được.</string>
     <string name="archive_records_count">Bản ghi</string>
-    <string name="archive_record_tags_count">Thẻ bản ghi</string>
     <string name="archive_tagged_records_count">Bản ghi đã gắn thẻ</string>
 
     <!--  Data edit  -->

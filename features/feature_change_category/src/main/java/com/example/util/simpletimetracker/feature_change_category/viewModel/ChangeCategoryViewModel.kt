@@ -184,12 +184,13 @@ class ChangeCategoryViewModel @Inject constructor(
         }
         (saveButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
+            // Zero id creates new record
             Category(
                 id = categoryId,
                 name = newName,
                 color = newColor,
             ).let {
-                val addedId = saveCategory()
+                val addedId = categoryInteractor.add(it)
                 saveTypes(addedId)
                 goalsViewModelDelegate.saveGoals(RecordTypeGoal.IdData.Category(addedId))
                 val typeIds = (initialTypes + newTypes).toSet().toList()
@@ -201,16 +202,6 @@ class ChangeCategoryViewModel @Inject constructor(
         }
     }
 
-    private suspend fun saveCategory(): Long {
-        val category = Category(
-            id = categoryId,
-            name = newName,
-            color = newColor,
-        )
-
-        return categoryInteractor.add(category)
-    }
-
     private suspend fun saveTypes(categoryId: Long) {
         val addedTypes = newTypes.filterNot { it in initialTypes }
         val removedTypes = initialTypes.filterNot { it in newTypes }
@@ -219,10 +210,12 @@ class ChangeCategoryViewModel @Inject constructor(
         recordTypeCategoryInteractor.removeTypes(categoryId, removedTypes)
     }
 
+    // TODO refactor choosers, same logic everywhere
     private fun onNewChooserState(
         newState: ChangeRecordTypeChooserState.State,
     ) {
-        val current = chooserState.value?.current ?: ChangeRecordTypeChooserState.State.Closed
+        val current = chooserState.value?.current
+            ?: ChangeRecordTypeChooserState.State.Closed
         keyboardVisibility.set(false)
         if (current == newState) {
             chooserState.set(

@@ -32,6 +32,7 @@ import com.example.util.simpletimetracker.domain.extension.hasMultitaskFilter
 import com.example.util.simpletimetracker.domain.extension.hasUncategorizedItem
 import com.example.util.simpletimetracker.domain.extension.hasUntaggedItem
 import com.example.util.simpletimetracker.domain.extension.hasUntrackedFilter
+import com.example.util.simpletimetracker.domain.interactor.FilterSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Category
@@ -42,6 +43,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.domain.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -68,6 +70,7 @@ import kotlinx.coroutines.withContext
 
 class RecordsFilterViewDataInteractor @Inject constructor(
     private val recordFilterInteractor: RecordFilterInteractor,
+    private val filterSelectableTagsInteractor: FilterSelectableTagsInteractor,
     private val recordInteractor: RecordInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val mapper: RecordsFilterViewDataMapper,
@@ -404,6 +407,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         types: List<RecordType>,
         recordTypeCategories: List<RecordTypeCategory>,
         recordTags: List<RecordTag>,
+        recordTypesToTags: List<RecordTypeToTag>,
     ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val result: MutableList<ViewHolderType> = mutableListOf()
 
@@ -419,17 +423,18 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             else -> emptyList()
         }
         val selectedTaggedIds: List<Long> = selectedTags.getTaggedIds()
+        val selectableTagIds = filterSelectableTagsInteractor.execute(
+            tagIds = recordTags.map { it.id },
+            typesToTags = recordTypesToTags,
+            typeIds = selectedTypes,
+        )
 
         val recordTagsViewData = recordTags
-            .filter { it.typeId in selectedTypes || it.typeId == 0L }
-            .sortedBy { tag ->
-                val recordType = types.firstOrNull { it.id == tag.typeId } ?: 0
-                types.indexOf(recordType)
-            }
+            .filter { it.id in selectableTagIds }
             .map { tag ->
                 categoryViewDataMapper.mapRecordTag(
                     tag = tag,
-                    type = typesMap[tag.typeId],
+                    type = typesMap[tag.iconColorSource],
                     isDarkTheme = isDarkTheme,
                     isFiltered = tag.id !in selectedTaggedIds,
                 )

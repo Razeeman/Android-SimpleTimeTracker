@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_statistics_detail.mapper
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.MULTITASK_ITEM_ID
@@ -41,6 +42,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo,
     private val categoryViewDataMapper: CategoryViewDataMapper,
+    private val recordTagViewDataMapper: RecordTagViewDataMapper,
 ) {
 
     fun mapToPreview(
@@ -107,13 +109,12 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
     fun mapToTaggedPreview(
         tag: RecordTag,
-        type: RecordType?,
+        types: Map<Long, RecordType>,
         isDarkTheme: Boolean,
         isForComparison: Boolean,
     ): StatisticsDetailPreviewViewData {
-        val isTyped = tag.typeId != 0L
-        val icon = type?.icon?.let(iconMapper::mapIcon).takeIf { isTyped }
-        val color = type?.color.takeIf { isTyped } ?: tag.color
+        val icon = recordTagViewDataMapper.mapIcon(tag, types)
+        val color = recordTagViewDataMapper.mapColor(tag, types)
 
         return StatisticsDetailPreviewViewData(
             id = tag.id,
@@ -123,7 +124,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 StatisticsDetailPreviewViewData.Type.FILTER
             },
             name = tag.name,
-            iconId = icon,
+            iconId = icon?.let(iconMapper::mapIcon),
             color = color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
         )
     }

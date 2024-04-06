@@ -33,7 +33,6 @@ data class WearCurrentActivity(
 data class WearTag(
     val id: Long,
     val name: String,
-    val isGeneral: Boolean,
     val color: Long,
 ) : Parcelable
 

@@ -103,14 +103,10 @@ class ChartFilterViewDataInteractor @Inject constructor(
         }
 
         return tags
-            .sortedBy { tag ->
-                val type = types.firstOrNull { it.id == tag.typeId } ?: 0
-                types.indexOf(type)
-            }
             .map { tag ->
                 categoryViewDataMapper.mapRecordTag(
                     tag = tag,
-                    type = typesMap[tag.typeId],
+                    type = typesMap[tag.iconColorSource],
                     isDarkTheme = isDarkTheme,
                     isFiltered = tag.id in recordTagsFiltered,
                 )

@@ -38,24 +38,6 @@ class RecordTagRepoImpl @Inject constructor(
         accessSource = { dao.get(id)?.let(mapper::map) },
     )
 
-    override suspend fun getByType(typeId: Long): List<RecordTag> = mutex.withLockedCache(
-        logMessage = "getByType",
-        accessCache = { cache?.filter { it.typeId == typeId } },
-        accessSource = { dao.getByType(typeId).map(mapper::map) },
-    )
-
-    override suspend fun getUntyped(): List<RecordTag> = mutex.withLockedCache(
-        logMessage = "getUntyped",
-        accessCache = { cache?.filter { it.typeId == 0L } },
-        accessSource = { dao.getUntyped().map(mapper::map) },
-    )
-
-    override suspend fun getByTypeOrUntyped(typeId: Long): List<RecordTag> = mutex.withLockedCache(
-        logMessage = "getByTypeOrUntyped",
-        accessCache = { cache?.filter { it.typeId == 0L || it.typeId == typeId } },
-        accessSource = { dao.getByTypeOrUntyped(typeId).map(mapper::map) },
-    )
-
     override suspend fun add(tag: RecordTag): Long = mutex.withLockedCache(
         logMessage = "add",
         accessSource = { dao.insert(tag.let(mapper::map)) },
@@ -78,12 +60,6 @@ class RecordTagRepoImpl @Inject constructor(
         logMessage = "remove",
         accessSource = { dao.delete(id) },
         afterSourceAccess = { cache = cache?.removeIf { it.id == id } },
-    )
-
-    override suspend fun removeByType(typeId: Long) = mutex.withLockedCache(
-        logMessage = "removeByType",
-        accessSource = { dao.deleteByType(typeId) },
-        afterSourceAccess = { cache = cache?.removeIf { it.typeId == typeId } },
     )
 
     override suspend fun clear() = mutex.withLockedCache(

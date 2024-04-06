@@ -10,11 +10,15 @@ data class RecordTagDBO(
     @ColumnInfo(name = "id")
     val id: Long,
 
+    @Deprecated("storing type id moved to a separate database")
     @ColumnInfo(name = "type_id")
     val typeId: Long,
 
     @ColumnInfo(name = "name")
     val name: String,
+
+    @ColumnInfo(name = "icon")
+    val icon: String,
 
     @ColumnInfo(name = "color")
     val color: Int,
@@ -22,6 +26,9 @@ data class RecordTagDBO(
     // If not empty - take color from here, custom colorInt stored as text.
     @ColumnInfo(name = "color_int")
     val colorInt: String,
+
+    @ColumnInfo(name = "icon_color_source")
+    val iconColorSource: Long,
 
     @ColumnInfo(name = "archived")
     val archived: Boolean,

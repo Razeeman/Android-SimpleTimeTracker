@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_notification.recordType.inter
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.domain.REPEAT_BUTTON_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.GetSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
@@ -17,9 +18,9 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordInteractor: RecordInteractor,
-    private val recordTagInteractor: RecordTagInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val recordRepeatInteractor: RecordRepeatInteractor,
+    private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
 ) {
 
     suspend fun onActionActivityStart(
@@ -145,11 +146,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         typeId: Long,
     ): Long? {
         name ?: return null
-
-        val tags = recordTagInteractor.getAll()
-            .filter { it.name == name && !it.archived }
-
-        return tags.firstOrNull { it.typeId == typeId }?.id // First return typed tag.
-            ?: tags.firstOrNull { it.typeId == 0L }?.id // If no typed - return general.
+        return getSelectableTagsInteractor.execute(typeId)
+            .firstOrNull { it.name == name && !it.archived }?.id
     }
 }

@@ -5,11 +5,13 @@ import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.FilterSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
+import com.example.util.simpletimetracker.domain.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_data_edit.R
@@ -27,6 +29,7 @@ class DateEditViewDataInteractor @Inject constructor(
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val categoryViewDataMapper: CategoryViewDataMapper,
     private val prefsInteractor: PrefsInteractor,
+    private val filterSelectableTagsInteractor: FilterSelectableTagsInteractor,
 ) {
 
     suspend fun getSelectedRecordsCount(
@@ -81,7 +84,7 @@ class DateEditViewDataInteractor @Inject constructor(
             .map {
                 categoryViewDataMapper.mapRecordTag(
                     tag = it,
-                    type = types[it.typeId],
+                    type = types[it.iconColorSource],
                     isDarkTheme = isDarkTheme,
                 )
             }
@@ -106,15 +109,16 @@ class DateEditViewDataInteractor @Inject constructor(
     fun filterTags(
         typeForTagSelection: Long?,
         tags: List<CategoryViewData.Record>,
-        allTags: Map<Long, RecordTag>,
+        typesToTags: List<RecordTypeToTag>,
     ): List<CategoryViewData.Record> {
-        // If there is a specific type selected by filter or change activity state,
         val typeId = typeForTagSelection.orZero()
-        // Filter tags selected to add to have typed tags only for this selected activity.
-        val newTags = tags.filter {
-            val tag = allTags[it.id] ?: return@filter false
-            tag.typeId == 0L || tag.typeId == typeId
-        }
-        return newTags
+
+        val selectableTagIds = filterSelectableTagsInteractor.execute(
+            tagIds = tags.map { it.id },
+            typesToTags = typesToTags,
+            typeIds = listOf(typeId)
+        )
+
+        return tags.filter { it.id in selectableTagIds }
     }
 }

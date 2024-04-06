@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.data_local.model.RecordToRecordTagDBO
 import com.example.util.simpletimetracker.data_local.model.RecordTypeCategoryDBO
 import com.example.util.simpletimetracker.data_local.model.RecordTypeDBO
 import com.example.util.simpletimetracker.data_local.model.RecordTypeGoalDBO
+import com.example.util.simpletimetracker.data_local.model.RecordTypeToTagDBO
 import com.example.util.simpletimetracker.data_local.model.RunningRecordDBO
 import com.example.util.simpletimetracker.data_local.model.RunningRecordToRecordTagDBO
 
@@ -24,11 +25,12 @@ import com.example.util.simpletimetracker.data_local.model.RunningRecordToRecord
         RecordTagDBO::class,
         RecordToRecordTagDBO::class,
         RunningRecordToRecordTagDBO::class,
+        RecordTypeToTagDBO::class,
         ActivityFilterDBO::class,
         FavouriteCommentDBO::class,
         RecordTypeGoalDBO::class,
     ],
-    version = 15,
+    version = 16,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -48,6 +50,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun recordToRecordTagDao(): RecordToRecordTagDao
 
     abstract fun runningRecordToRecordTagDao(): RunningRecordToRecordTagDao
+
+    abstract fun recordTypeToTagDao(): RecordTypeToTagDao
 
     abstract fun activityFilterDao(): ActivityFilterDao
 
