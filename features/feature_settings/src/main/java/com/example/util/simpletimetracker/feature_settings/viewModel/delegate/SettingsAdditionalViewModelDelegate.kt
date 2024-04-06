@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
@@ -8,18 +9,20 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsAdditionalViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
-import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionTypesDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SettingsAdditionalViewModelDelegate @Inject constructor(
     private val router: Router,
     private val prefsInteractor: PrefsInteractor,
+    private val resourceRepo: ResourceRepo,
     private val settingsMapper: SettingsMapper,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val widgetInteractor: WidgetInteractor,
@@ -121,8 +124,18 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onRecordTagSelectionExcludeActivitiesClicked() {
-        router.navigate(RecordTagSelectionTypesDialogParams)
+    fun onRecordTagSelectionExcludeActivitiesClicked() = delegateScope.launch {
+        TypesSelectionDialogParams(
+            tag = SettingsViewModel.EXCLUDE_ACTIVITIES_TYPES_SELECTION,
+            title = resourceRepo.getString(
+                R.string.record_tag_selection_exclude_activities_title,
+            ),
+            subtitle = resourceRepo.getString(
+                R.string.record_tag_selection_exclude_activities_hint,
+            ),
+            selectedTypeIds = prefsInteractor.getRecordTagSelectionExcludeActivities(),
+            isMultiSelectAvailable = true,
+        ).let(router::navigate)
     }
 
     fun onAutomatedTrackingSendEventsClicked() {
@@ -170,5 +183,9 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
                 parent?.updateContent()
             }
         }
+    }
+
+    fun onTypesSelected(typeIds: List<Long>) = delegateScope.launch {
+        prefsInteractor.setRecordTagSelectionExcludeActivities(typeIds)
     }
 }

@@ -88,6 +88,7 @@
     <string name="change_record_tag_type_hint">Kegiatan</string>
     <string name="change_record_tag_type_general_hint">Dapat ditugaskan ke catatan aktivitas apa pun</string>
     <string name="change_record_tag_type_typed_hint">Hanya dapat ditetapkan ke catatan aktivitas tertentu</string>
+    <string name="change_record_tag_select_activity_hint">Ambil warna dan ikon dari aktivitas</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Pilih kegiatan</string>

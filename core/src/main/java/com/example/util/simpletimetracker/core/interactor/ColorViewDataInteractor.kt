@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.core.interactor
 import android.graphics.Color
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -17,10 +18,10 @@ class ColorViewDataInteractor @Inject constructor(
 ) {
 
     suspend fun getColorsViewData(
-        currentColor: AppColor,
+        currentColor: AppColor?,
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
-        val customColorSelected = currentColor.colorInt.isNotEmpty()
+        val customColorSelected = currentColor?.colorInt?.isNotEmpty().orFalse()
 
         return ColorMapper.getAvailableColors()
             .asSequence()
@@ -45,7 +46,7 @@ class ColorViewDataInteractor @Inject constructor(
                     colorInt = colorInt.let {
                         if (isDarkTheme) colorMapper.darkenColor(it) else it
                     },
-                    selected = !customColorSelected && currentColor.colorId == colorId,
+                    selected = !customColorSelected && currentColor?.colorId == colorId,
                 )
             }
             .plus(

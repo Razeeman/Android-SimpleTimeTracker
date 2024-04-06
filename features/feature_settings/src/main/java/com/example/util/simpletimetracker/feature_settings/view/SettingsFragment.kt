@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.core.dialog.DataExportSettingsDialogLi
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
+import com.example.util.simpletimetracker.core.dialog.TypesSelectionDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.viewData.SettingsBlock
@@ -44,7 +45,8 @@ class SettingsFragment :
     StandardDialogListener,
     DurationDialogListener,
     DateTimeDialogListener,
-    DataExportSettingsDialogListener {
+    DataExportSettingsDialogListener,
+    TypesSelectionDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -124,6 +126,10 @@ class SettingsFragment :
 
     override fun onDataExportSettingsSelected(data: DataExportSettingsResult) {
         backupViewModel.onDataExportSettingsSelected(data)
+    }
+
+    override fun onTypesSelected(typeIds: List<Long>, tag: String?) {
+        viewModel.onTypesSelected(typeIds, tag)
     }
 
     private fun onBlockClicked(block: SettingsBlock) {

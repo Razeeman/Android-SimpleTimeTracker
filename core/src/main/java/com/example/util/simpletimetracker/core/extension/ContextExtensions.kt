@@ -12,3 +12,18 @@ inline fun <reified T> Context.findListener(): T? {
         else -> null
     }
 }
+
+inline fun <reified T> Context.findListeners(): List<T> {
+    val listeners = mutableListOf<T>()
+    when (this) {
+        is T -> {
+            listeners.add(this as T)
+        }
+        is AppCompatActivity -> {
+            this.getAllFragments()
+                .filterIsInstance<T>()
+                .let(listeners::addAll)
+        }
+    }
+    return listeners
+}

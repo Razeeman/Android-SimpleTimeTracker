@@ -88,6 +88,7 @@
     <string name="change_record_tag_type_hint">Aktivität</string>
     <string name="change_record_tag_type_general_hint">Kann Aufzeichnungen beliebiger Aktivitäten zugewiesen werden</string>
     <string name="change_record_tag_type_typed_hint">Kann nur Datensätzen einer bestimmten Aktivität zugeordnet werden</string>
+    <string name="change_record_tag_select_activity_hint">Übernehmen Sie Farbe und Symbol aus der Aktivität</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Aktivität auswählen</string>

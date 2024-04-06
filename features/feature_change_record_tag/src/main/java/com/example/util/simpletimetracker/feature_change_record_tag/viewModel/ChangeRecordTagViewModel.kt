@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteracto
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -28,6 +29,7 @@ import com.example.util.simpletimetracker.feature_change_record_tag.viewData.Cha
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,6 +37,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangeRecordTagViewModel @Inject constructor(
     private val router: Router,
+    private val resourceRepo: ResourceRepo,
     private val changeRecordTagViewDataInteractor: ChangeRecordTagViewDataInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
@@ -82,6 +85,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     )
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
+    val iconColorSourceSelected: LiveData<Boolean> = MutableLiveData(false)
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId == 0L) }
 
@@ -89,7 +93,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private var newName: String = ""
     private var newIcon: String = ""
     private var newColor: AppColor = AppColor(colorId = (0..ColorMapper.colorsNumber).random(), colorInt = "")
-    private var newIconColorSource: Long = 0L // TODO TAGS add type selection to take color and icon from.
+    private var newIconColorSource: Long = 0L
     private var newTypeIds: Set<Long> = emptySet()
     private var initialTypeIds: Set<Long> = emptySet()
 
@@ -112,10 +116,12 @@ class ChangeRecordTagViewModel @Inject constructor(
 
     fun onColorClick(item: ColorViewData) {
         viewModelScope.launch {
-            if (item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
+            if (newIconColorSource != 0L || item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
                 newColor = AppColor(colorId = item.colorId, colorInt = "")
+                newIconColorSource = 0
                 updatePreview()
                 updateColors()
+                updateIconColorSourceSelected()
             }
         }
     }
@@ -131,10 +137,12 @@ class ChangeRecordTagViewModel @Inject constructor(
 
     fun onCustomColorSelected(colorInt: Int) {
         viewModelScope.launch {
-            if (colorInt.toString() != newColor.colorInt) {
+            if (newIconColorSource != 0L || colorInt.toString() != newColor.colorInt) {
                 newColor = AppColor(colorId = 0, colorInt = colorInt.toString())
+                newIconColorSource = 0L
                 updatePreview()
                 updateColors()
+                updateIconColorSourceSelected()
             }
         }
     }
@@ -146,6 +154,28 @@ class ChangeRecordTagViewModel @Inject constructor(
             }
             updateTypesViewData()
         }
+    }
+
+    fun onSelectActivityClick() {
+        TypesSelectionDialogParams(
+            tag = TYPE_SELECTION_TAG,
+            title = resourceRepo.getString(R.string.change_record_message_choose_type),
+            subtitle = "",
+            selectedTypeIds = listOf(newIconColorSource),
+            isMultiSelectAvailable = false,
+        ).let(router::navigate)
+    }
+
+    fun onTypesSelected(typeIds: List<Long>, tag: String?) = viewModelScope.launch {
+        val typeId = typeIds.firstOrNull() ?: return@launch
+        val type = recordTypeInteractor.get(typeId) ?: return@launch
+
+        newIcon = type.icon
+        newColor = type.color
+        newIconColorSource = type.id
+        updateColors()
+        updatePreview()
+        updateIconColorSourceSelected()
     }
 
     fun onDeleteClick() {
@@ -175,7 +205,7 @@ class ChangeRecordTagViewModel @Inject constructor(
                 name = newName,
                 icon = newIcon,
                 color = newColor,
-                iconColorSource = newIconColorSource, // TODO TAGS save icon and color if != 0
+                iconColorSource = newIconColorSource,
             ).let {
                 val addedId = recordTagInteractor.add(it)
                 saveTypes(addedId)
@@ -241,8 +271,13 @@ class ChangeRecordTagViewModel @Inject constructor(
                 newColor = it.color
                 newIconColorSource = it.iconColorSource
                 updateColors()
+                updateIconColorSourceSelected()
             }
         }
+    }
+
+    private fun updateIconColorSourceSelected() {
+        iconColorSourceSelected.set(newIconColorSource != 0L)
     }
 
     private fun updatePreview() = viewModelScope.launch {
@@ -272,7 +307,8 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     private suspend fun loadColorsViewData(): List<ViewHolderType> {
-        return colorViewDataInteractor.getColorsViewData(newColor)
+        val currentColor = newColor.takeIf { newIconColorSource == 0L }
+        return colorViewDataInteractor.getColorsViewData(currentColor)
     }
 
     private fun updateTypesViewData() = viewModelScope.launch {
@@ -290,5 +326,9 @@ class ChangeRecordTagViewModel @Inject constructor(
 
     private fun showArchivedMessage(stringResId: Int) {
         snackBarMessageNavigationInteractor.showArchiveMessage(stringResId)
+    }
+
+    companion object {
+        private const val TYPE_SELECTION_TAG = "types_selection_tag"
     }
 }

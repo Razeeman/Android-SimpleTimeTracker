@@ -1,15 +1,13 @@
 package com.example.util.simpletimetracker.feature_tag_selection.view
 
-import com.example.util.simpletimetracker.feature_tag_selection.databinding.RecordTagSelectionFragmentBinding as Binding
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
-import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
@@ -27,6 +25,7 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.util.simpletimetracker.feature_tag_selection.databinding.RecordTagSelectionFragmentBinding as Binding
 
 @AndroidEntryPoint
 class RecordTagSelectionFragment : BaseFragment<Binding>() {
@@ -53,17 +52,7 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        when (context) {
-            is OnTagSelectedListener -> {
-                listeners.add(context)
-            }
-            is AppCompatActivity -> {
-                context.getAllFragments()
-                    .filter { it is OnTagSelectedListener }
-                    .mapNotNull { it as? OnTagSelectedListener }
-                    .let(listeners::addAll)
-            }
-        }
+        listeners += context.findListeners<OnTagSelectedListener>()
     }
 
     override fun initUi(): Unit = with(binding) {

@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_dialogs.recordTagSelectionTypes.viewModel
+package com.example.util.simpletimetracker.feature_dialogs.typesSelection.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,17 +18,21 @@ import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_dialogs.R
+import com.example.util.simpletimetracker.feature_dialogs.typesSelection.viewData.TypesSelectionDialogViewData
+import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RecordTagSelectionTypesViewModel @Inject constructor(
+class TypesSelectionViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val resourceRepo: ResourceRepo,
 ) : ViewModel() {
+
+    lateinit var extra: TypesSelectionDialogParams
 
     val types: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -39,7 +43,10 @@ class RecordTagSelectionTypesViewModel @Inject constructor(
             initial
         }
     }
-    val close: LiveData<Unit> = MutableLiveData()
+    val viewState: LiveData<TypesSelectionDialogViewData> by lazy {
+        MutableLiveData(loadViewState())
+    }
+    val onTypesSelected: LiveData<List<Long>> = MutableLiveData()
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
 
     private var initialized: Boolean = false
@@ -47,8 +54,12 @@ class RecordTagSelectionTypesViewModel @Inject constructor(
     private var typeIdsSelected: MutableList<Long> = mutableListOf()
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
-        typeIdsSelected.addOrRemove(item.id)
-        updateRecordTypesViewData()
+        if (extra.isMultiSelectAvailable) {
+            typeIdsSelected.addOrRemove(item.id)
+            updateRecordTypesViewData()
+        } else {
+            onTypesSelected.set(listOf(item.id))
+        }
     }
 
     fun onShowAllClick() {
@@ -64,13 +75,16 @@ class RecordTagSelectionTypesViewModel @Inject constructor(
     fun onSaveClick() {
         saveButtonEnabled.set(false)
         viewModelScope.launch {
-            // Remove non existent ids.
-            recordTypesCache
-                .filter { it.id in typeIdsSelected }
-                .map { it.id }
-                .let { prefsInteractor.setRecordTagSelectionExcludeActivities(it) }
-            close.set(Unit)
+            onTypesSelected.set(typeIdsSelected)
         }
+    }
+
+    private fun loadViewState(): TypesSelectionDialogViewData {
+        return TypesSelectionDialogViewData(
+            title = extra.title,
+            subtitle = extra.subtitle,
+            isButtonsVisible = extra.isMultiSelectAvailable,
+        )
     }
 
     private fun updateRecordTypesViewData() = viewModelScope.launch {
@@ -86,7 +100,9 @@ class RecordTagSelectionTypesViewModel @Inject constructor(
             recordTypesCache = recordTypeInteractor.getAll()
                 .filter { !it.hidden }
             val recordTypeIds = recordTypesCache.map { it.id }
-            typeIdsSelected = prefsInteractor.getRecordTagSelectionExcludeActivities()
+            typeIdsSelected = extra
+                .selectedTypeIds
+                // Remove non existent ids.
                 .filter { it in recordTypeIds }
                 .toMutableList()
             initialized = true

@@ -232,7 +232,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun onDateTimeSet(timestamp: Long, tag: String?) = viewModelScope.launch {
+    fun onDateTimeSet(timestamp: Long, tag: String?) {
         when (tag) {
             START_OF_DAY_DIALOG_TAG,
             -> additionalDelegate.onDateTimeSet(timestamp, tag)
@@ -244,6 +244,16 @@ class SettingsViewModel @Inject constructor(
             UNTRACKED_RANGE_START_DIALOG_TAG,
             UNTRACKED_RANGE_END_DIALOG_TAG,
             -> displayDelegate.onDateTimeSet(timestamp, tag)
+        }
+    }
+
+    fun onTypesSelected(
+        typeIds: List<Long>,
+        tag: String?,
+    ) {
+        when (tag) {
+            EXCLUDE_ACTIVITIES_TYPES_SELECTION,
+            -> additionalDelegate.onTypesSelected(typeIds)
         }
     }
 
@@ -302,5 +312,6 @@ class SettingsViewModel @Inject constructor(
         const val UNTRACKED_RANGE_START_DIALOG_TAG = "untracked_range_start_dialog_tag"
         const val UNTRACKED_RANGE_END_DIALOG_TAG = "untracked_range_end_dialog_tag"
         const val START_OF_DAY_DIALOG_TAG = "start_of_day_dialog_tag"
+        const val EXCLUDE_ACTIVITIES_TYPES_SELECTION = "exclude_activities_types_selection"
     }
 }

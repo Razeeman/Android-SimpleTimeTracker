@@ -88,6 +88,7 @@
     <string name="change_record_tag_type_hint">Activitat</string>
     <string name="change_record_tag_type_general_hint">Pot ser assignat a enregistraments de qualsevol activitat</string>
     <string name="change_record_tag_type_typed_hint">Només pot ser assignat a enregistraments d\'una activitat específica</string>
+    <string name="change_record_tag_select_activity_hint">Preneu color i icona de l\'activitat</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Seleccioneu una activitat</string>

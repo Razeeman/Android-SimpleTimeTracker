@@ -1,7 +1,10 @@
 package com.example.util.simpletimetracker.core.extension
 
+import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.DrawableRes
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater
@@ -39,4 +42,8 @@ fun Fragment.addOnBackPressedListener(isEnabled: Boolean = true, action: () -> U
             override fun handleOnBackPressed() = action()
         },
     )
+}
+
+fun Fragment.getDrawable(@DrawableRes resId: Int): Drawable? {
+    return context?.let { ResourcesCompat.getDrawable(resources, resId, it.theme) }
 }

@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.feature_dialogs.duration.view.Duration
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.view.EmojiSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.helpDialog.HelpDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.RecordTagSelectionDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.typesSelection.view.TypesSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
 import com.example.util.simpletimetracker.feature_records_filter.view.RecordsFilterFragment
 import com.example.util.simpletimetracker.navigation.NavigationData
@@ -32,7 +33,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.DurationDialo
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
-import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionTypesDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import dagger.Module
@@ -97,11 +98,11 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ScreenKey(RecordTagSelectionTypesDialogParams::class)
+    @ScreenKey(TypesSelectionDialogParams::class)
     fun recordTagSelectionTypesDialog(): NavigationData {
         return NavigationData(
-            R.id.recordTagSelectionTypesDialogFragment,
-            BundleCreator.empty(),
+            R.id.typesSelectionDialogFragment,
+            bundleCreatorDelegate(TypesSelectionDialogFragment::createBundle),
         )
     }
 

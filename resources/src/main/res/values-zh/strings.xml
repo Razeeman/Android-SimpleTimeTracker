@@ -88,6 +88,7 @@
     <string name="change_record_tag_type_hint">活动</string>
     <string name="change_record_tag_type_general_hint">可以分配給任何活動的記錄</string>
     <string name="change_record_tag_type_typed_hint">只能分配給特定活動的記錄</string>
+    <string name="change_record_tag_select_activity_hint">从活动中获取颜色和图标</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">选择活动</string>

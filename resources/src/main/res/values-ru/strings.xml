@@ -88,6 +88,7 @@
     <string name="change_record_tag_type_hint">Активность</string>
     <string name="change_record_tag_type_general_hint">Может быть назначен записям любой активности</string>
     <string name="change_record_tag_type_typed_hint">Может быть назначен только записям определенной активности</string>
+    <string name="change_record_tag_select_activity_hint">Взять цвет и иконку из активности</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Выберите активность</string>

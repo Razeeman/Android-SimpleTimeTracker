@@ -88,6 +88,7 @@
     <string name="change_record_tag_type_hint">Aktivitet</string>
     <string name="change_record_tag_type_general_hint">Kan tilldelas händelse oavsett aktivitetstyp</string>
     <string name="change_record_tag_type_typed_hint">Kan endast tilldelas händelse av särskild aktivitet</string>
+    <string name="change_record_tag_select_activity_hint">Ta färg och ikon från aktivitet</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Välj aktivitet</string>

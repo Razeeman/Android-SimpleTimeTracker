@@ -88,6 +88,7 @@
     <string name="change_record_tag_type_hint">النشاط</string>
     <string name="change_record_tag_type_general_hint">يمكن تعيينه إلى متتبعات أي نشاط</string>
     <string name="change_record_tag_type_typed_hint">لا يمكن تعيينه إلا لمتتبعات نشاط معين</string>
+    <string name="change_record_tag_select_activity_hint">خذ اللون والرمز من النشاط</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">اختيار النشاط</string>

@@ -88,6 +88,7 @@
     <string name="change_record_tag_type_hint">Attività</string>
     <string name="change_record_tag_type_general_hint">Può essere assegnato a registrazioni di qualunque attività</string>
     <string name="change_record_tag_type_typed_hint">Può essere assegnato solo a registrazioni di una specifica attività</string>
+    <string name="change_record_tag_select_activity_hint">Prendi il colore e l\'icona dall\'attività</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Seleziona attività</string>

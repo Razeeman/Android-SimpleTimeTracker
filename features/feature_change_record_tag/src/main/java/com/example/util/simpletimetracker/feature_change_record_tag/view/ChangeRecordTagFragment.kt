@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_change_record_tag.view
 
-import com.example.util.simpletimetracker.feature_change_record_tag.databinding.ChangeRecordTagFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +10,15 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
+import com.example.util.simpletimetracker.core.dialog.TypesSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
-import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.core.view.UpdateViewChooserState
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
@@ -28,14 +28,14 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmpty
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record_tag.R
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Closed
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Color
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Type
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
-import com.example.util.simpletimetracker.feature_views.extension.rotateDown
-import com.example.util.simpletimetracker.feature_views.extension.rotateUp
+import com.example.util.simpletimetracker.feature_views.extension.setCompoundDrawableWithIntrinsicBounds
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromScreen
@@ -45,11 +45,13 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.util.simpletimetracker.feature_change_record_tag.databinding.ChangeRecordTagFragmentBinding as Binding
 
 @AndroidEntryPoint
 class ChangeRecordTagFragment :
     BaseFragment<Binding>(),
-    ColorSelectionDialogListener {
+    ColorSelectionDialogListener,
+    TypesSelectionDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -108,6 +110,7 @@ class ChangeRecordTagFragment :
         etChangeRecordTagName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
         fieldChangeRecordTagColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTagType.setOnClick(viewModel::onTypeChooserClick)
+        btnChangeRecordTagSelectActivity.setOnClick(viewModel::onSelectActivityClick)
         btnChangeRecordTagSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTagDelete.setOnClick(viewModel::onDeleteClick)
     }
@@ -118,6 +121,7 @@ class ChangeRecordTagFragment :
             deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTagDelete::visible::set)
             saveButtonEnabled.observe(btnChangeRecordTagSave::setEnabled)
             deleteButtonEnabled.observe(btnChangeRecordTagDelete::setEnabled)
+            iconColorSourceSelected.observe(::updateIconColorSourceSelected)
             preview.observeOnce(viewLifecycleOwner, ::updateUi)
             preview.observe(::updatePreview)
             colors.observe(colorsAdapter::replace)
@@ -131,6 +135,10 @@ class ChangeRecordTagFragment :
 
     override fun onColorSelected(colorInt: Int) {
         viewModel.onCustomColorSelected(colorInt)
+    }
+
+    override fun onTypesSelected(typeIds: List<Long>, tag: String?) {
+        viewModel.onTypesSelected(typeIds, tag)
     }
 
     private fun updateUi(item: CategoryViewData) = with(binding) {
@@ -180,10 +188,18 @@ class ChangeRecordTagFragment :
 
         val isClosed = state.current is Closed
         inputChangeRecordTagName.isVisible = isClosed
+        btnChangeRecordTagSelectActivity.isVisible = isClosed
 
         // Chooser fields
         fieldChangeRecordTagColor.isVisible = isClosed || state.current is Color
         fieldChangeRecordTagType.isVisible = isClosed || state.current is Type
+    }
+
+    private fun updateIconColorSourceSelected(selected: Boolean) = with(binding) {
+        val drawable = R.drawable.spinner_check_mark
+            .takeIf { selected }.orZero()
+        btnChangeRecordTagSelectActivity
+            .setCompoundDrawableWithIntrinsicBounds(right = drawable)
     }
 
     private inline fun <reified T : State> updateChooser(

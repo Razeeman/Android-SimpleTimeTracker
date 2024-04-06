@@ -88,6 +88,7 @@
     <string name="change_record_tag_type_hint">गतिविधि</string>
     <string name="change_record_tag_type_general_hint">किसी भी गतिविधि के रिकॉर्ड को सौंपा जा सकता है</string>
     <string name="change_record_tag_type_typed_hint">केवल एक विशिष्ट गतिविधि के रिकॉर्ड को सौंपा जा सकता है</string>
+    <string name="change_record_tag_select_activity_hint">गतिविधि से रंग और आइकन लें</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">गतिविधि का चयन करें</string>

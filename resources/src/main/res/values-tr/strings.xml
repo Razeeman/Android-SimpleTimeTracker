@@ -88,6 +88,7 @@
     <string name="change_record_tag_type_hint">Aktivite</string>
     <string name="change_record_tag_type_general_hint">Herhangi bir aktivitenin kayıtlarına atanabilir</string>
     <string name="change_record_tag_type_typed_hint">Sadece seçilen aktivitenin kayıtlarına atanabilir</string>
+    <string name="change_record_tag_select_activity_hint">Etkinlikten renk ve simge alın</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Aktivite seçin</string>

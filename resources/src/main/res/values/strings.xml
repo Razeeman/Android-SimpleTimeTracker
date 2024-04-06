@@ -88,6 +88,7 @@
     <string name="change_record_tag_type_hint">Activity</string>
     <string name="change_record_tag_type_general_hint">Can be assigned to records of any activity</string>
     <string name="change_record_tag_type_typed_hint">Can only be assigned to records of a specific activity</string>
+    <string name="change_record_tag_select_activity_hint">Take color and icon from activity</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Select activity</string>

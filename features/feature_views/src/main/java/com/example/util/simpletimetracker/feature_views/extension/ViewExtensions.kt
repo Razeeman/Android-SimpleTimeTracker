@@ -3,12 +3,15 @@ package com.example.util.simpletimetracker.feature_views.extension
 import android.animation.ObjectAnimator
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.View.MeasureSpec
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.AdapterView
 import android.widget.SeekBar
+import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -184,3 +187,17 @@ fun RecyclerView.addOnScrollListenerAdapter(
         onScrollStateChanged(recyclerView, newState)
     }
 }.let(this::addOnScrollListener)
+
+fun TextView.setCompoundDrawableWithIntrinsicBounds(
+    @DrawableRes left: Int = 0,
+    @DrawableRes top: Int = 0,
+    @DrawableRes right: Int = 0,
+    @DrawableRes bottom: Int = 0,
+) {
+    setCompoundDrawablesWithIntrinsicBounds(
+        /* left = */ left,
+        /* top = */ top,
+        /* right = */ right,
+        /* bottom = */ bottom,
+    )
+}

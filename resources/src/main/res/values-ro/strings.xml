@@ -88,6 +88,7 @@
     <string name="change_record_tag_type_hint">Activitate</string>
     <string name="change_record_tag_type_general_hint">Poate fi atribuit înregistrărilor oricărei activități</string>
     <string name="change_record_tag_type_typed_hint">Poate fi atribuit înregistrărilor unei activități specifice</string>
+    <string name="change_record_tag_select_activity_hint">Luați culoarea și pictograma din activitate</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Alege activitatea</string>

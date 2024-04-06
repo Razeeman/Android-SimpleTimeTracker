@@ -16,26 +16,28 @@
         android:tint="?appContrastColor" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTypesSelectionDialogTitle"
         style="@style/DialogTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:text="@string/record_tag_selection_exclude_activities_title" />
+        tools:text="Title" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTypesSelectionDialogSubtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:gravity="center"
-        android:text="@string/record_tag_selection_exclude_activities_hint"
-        android:textColor="?appTextHintColor" />
+        android:textColor="?appTextHintColor"
+        tools:text="Subtitle" />
 
     <com.example.util.simpletimetracker.feature_views.DividerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRecordTagSelectionTypesContainer"
+        android:id="@+id/rvTypesSelectionContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -44,11 +46,14 @@
         tools:listitem="@layout/item_record_type_layout" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerTypesSelectionButtons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnRecordTagSelectionTypesShowAll"
+            android:id="@+id/btnTypesSelectionShowAll"
             style="@style/AppButton"
             android:layout_width="0dp"
             android:layout_marginStart="8dp"
@@ -57,12 +62,12 @@
             android:paddingHorizontal="0dp"
             android:singleLine="true"
             android:text="@string/select_all"
-            app:layout_constraintBottom_toTopOf="@id/btnRecordTagSelectionTypesSave"
-            app:layout_constraintEnd_toStartOf="@id/btnRecordTagSelectionTypesHideAll"
+            app:layout_constraintBottom_toTopOf="@id/btnTypesSelectionSave"
+            app:layout_constraintEnd_toStartOf="@id/btnTypesSelectionHideAll"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnRecordTagSelectionTypesHideAll"
+            android:id="@+id/btnTypesSelectionHideAll"
             style="@style/AppButton"
             android:layout_width="0dp"
             android:layout_marginStart="4dp"
@@ -71,12 +76,12 @@
             android:paddingHorizontal="0dp"
             android:singleLine="true"
             android:text="@string/select_nothing"
-            app:layout_constraintBottom_toTopOf="@id/btnRecordTagSelectionTypesSave"
+            app:layout_constraintBottom_toTopOf="@id/btnTypesSelectionSave"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnRecordTagSelectionTypesShowAll" />
+            app:layout_constraintStart_toEndOf="@id/btnTypesSelectionShowAll" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnRecordTagSelectionTypesSave"
+            android:id="@+id/btnTypesSelectionSave"
             style="@style/AppButtonActive"
             android:layout_width="match_parent"
             android:layout_marginHorizontal="8dp"

@@ -138,6 +138,20 @@
 
     </androidx.cardview.widget.CardView>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnChangeRecordTagSelectActivity"
+        style="@style/AppButton"
+        android:layout_width="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:insetTop="3dp"
+        android:text="@string/change_record_tag_select_activity_hint"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTagColor"
+        tools:drawableEnd="@drawable/spinner_check_mark" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeRecordTagColor"
         android:layout_width="match_parent"
