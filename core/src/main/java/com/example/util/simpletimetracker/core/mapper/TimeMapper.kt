@@ -490,13 +490,18 @@ class TimeMapper @Inject constructor(
         showSeconds: Boolean,
         useProportionalMinutes: Boolean,
     ): String {
+        val duration = timeEnded - timeStarted
         val interval = formatInterval(
-            interval = timeEnded - timeStarted,
+            interval = duration,
             forceSeconds = showSeconds,
             useProportionalMinutes = useProportionalMinutes,
         )
 
-        return if (showSeconds || useProportionalMinutes) {
+        return if (
+            showSeconds ||
+            useProportionalMinutes ||
+            duration < MINUTES_IN_MILLIS
+        ) {
             interval
         } else {
             val adjustedTimeStarted = timeStarted / MINUTES_IN_MILLIS * MINUTES_IN_MILLIS
