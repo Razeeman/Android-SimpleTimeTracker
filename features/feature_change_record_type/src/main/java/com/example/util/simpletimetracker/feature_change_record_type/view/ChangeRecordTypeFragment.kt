@@ -1,17 +1,19 @@
 package com.example.util.simpletimetracker.feature_change_record_type.view
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
-import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconSelectorStateViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconStateViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeScrollViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewDelegate.IconSelectionViewDelegate
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
@@ -23,11 +25,8 @@ import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.core.view.UpdateViewChooserState
-import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.domain.model.IconEmojiType
-import com.example.util.simpletimetracker.domain.model.IconImageState
-import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
@@ -39,13 +38,11 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmpty
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
-import com.example.util.simpletimetracker.feature_change_record_type.R
-import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeIconCategoryInfoAdapterDelegate
+import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createChangeRecordTypeIconAdapterDelegate
+import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
+import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createChangeRecordTypeIconCategoryInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State
@@ -55,28 +52,18 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.GoalTime
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Icon
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeGoalsViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconCategoryInfoViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconSelectorStateViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconStateViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconSwitchViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeScrollViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
-import com.example.util.simpletimetracker.feature_views.extension.addOnScrollListenerAdapter
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.pxToDp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_views.extension.setSpanSizeLookup
 import com.example.util.simpletimetracker.feature_views.extension.visible
-import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlin.math.max
 import com.example.util.simpletimetracker.feature_change_record_type.databinding.ChangeRecordTypeFragmentBinding as Binding
 
 @AndroidEntryPoint
@@ -112,7 +99,7 @@ class ChangeRecordTypeFragment :
         BaseRecyclerAdapter(
             createChangeRecordTypeIconCategoryAdapterDelegate {
                 viewModel.onIconCategoryClick(it)
-                binding.rvChangeRecordTypeIcon.stopScroll()
+                binding.containerChangeRecordTypeIcon.rvChangeRecordTypeIcon.stopScroll()
             },
         )
     }
@@ -161,19 +148,14 @@ class ChangeRecordTypeFragment :
             adapter = colorsAdapter
         }
 
-        rvChangeRecordTypeIcon.apply {
-            layoutManager = GridLayoutManager(requireContext(), getIconsColumnCount())
-                .also { iconsLayoutManager = it }
-            adapter = iconsAdapter
-            itemAnimator = null
-            setIconsSpanSize()
-        }
-
-        rvChangeRecordTypeIconCategory.apply {
-            layoutManager = GridLayoutManager(requireContext(), IconEmojiType.values().size)
-            adapter = iconCategoriesAdapter
-            itemAnimator = null
-        }
+        iconsLayoutManager = IconSelectionViewDelegate.initUi(
+            context = requireContext(),
+            resources = resources,
+            deviceRepo = deviceRepo,
+            layout = containerChangeRecordTypeIcon,
+            iconsAdapter = iconsAdapter,
+            iconCategoriesAdapter = iconCategoriesAdapter,
+        )
 
         rvChangeRecordTypeCategories.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
@@ -202,25 +184,14 @@ class ChangeRecordTypeFragment :
         fieldChangeRecordTypeGoalTime.setOnClick(viewModel::onGoalTimeChooserClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
-        btnChangeRecordTypeIconSwitch.listener = {
-            updateIconContainerScroll(it)
-            viewModel.onIconTypeClick(it)
-        }
-        etChangeRecordTypeIconSearch.doAfterTextChanged { viewModel.onIconImageSearch(it.toString()) }
-        btnChangeRecordTypeIconSearch.setOnClick(viewModel::onIconImageSearchClicked)
+        IconSelectionViewDelegate.initUx(
+            viewModel = viewModel,
+            layout = containerChangeRecordTypeIcon,
+            iconsLayoutManager = iconsLayoutManager,
+        )
         GoalsViewDelegate.initGoalUx(
             viewModel = viewModel,
             layout = layoutChangeRecordTypeGoals,
-        )
-        rvChangeRecordTypeIcon.addOnScrollListenerAdapter(
-            onScrolled = { _, _, _ ->
-                iconsLayoutManager?.let {
-                    viewModel.onIconsScrolled(
-                        firstVisiblePosition = it.findFirstCompletelyVisibleItemPosition(),
-                        lastVisiblePosition = it.findLastCompletelyVisibleItemPosition(),
-                    )
-                }
-            },
         )
     }
 
@@ -234,9 +205,10 @@ class ChangeRecordTypeFragment :
             recordType.observe(::updatePreview)
             colors.observe(colorsAdapter::replace)
             icons.observe(::updateIconsState)
-            iconCategories.observe(iconCategoriesAdapter::replaceAsNew)
-            iconsTypeViewData.observe(btnChangeRecordTypeIconSwitch.adapter::replace)
+            iconCategories.observe(::updateIconCategories)
+            iconsTypeViewData.observe(::updateIconsTypeViewData)
             iconSelectorViewData.observe(::updateIconSelectorViewData)
+            expandIconTypeSwitch.observe { updateBarExpanded() }
             categories.observe(categoriesAdapter::replace)
             goalsViewData.observe(::updateGoalsState)
             notificationsHintVisible.observe(
@@ -252,7 +224,6 @@ class ChangeRecordTypeFragment :
                     onScrolled()
                 }
             }
-            expandIconTypeSwitch.observe { appBarChangeRecordTypeIcon.setExpanded(true) }
         }
     }
 
@@ -285,11 +256,11 @@ class ChangeRecordTypeFragment :
     private fun updateUi(item: RecordTypeViewData) = with(binding) {
         etChangeRecordTypeName.setText(item.name)
         etChangeRecordTypeName.setSelection(item.name.length)
-        (item.iconId as? RecordTypeIcon.Text)?.text?.let {
-            etChangeRecordTypeIconText.setText(it)
-        }
-        // Set listener only after text is set to avoid trigger on screen return.
-        etChangeRecordTypeIconText.doAfterTextChanged { viewModel.onIconTextChange(it.toString()) }
+        IconSelectionViewDelegate.updateUi(
+            icon = item.iconId,
+            viewModel = viewModel,
+            layout = containerChangeRecordTypeIcon,
+        )
     }
 
     private fun updatePreview(item: RecordTypeViewData) {
@@ -327,7 +298,7 @@ class ChangeRecordTypeFragment :
         )
         updateChooser<Icon>(
             state = state,
-            chooserData = containerChangeRecordTypeIcon,
+            chooserData = containerChangeRecordTypeIcon.root,
             chooserView = fieldChangeRecordTypeIcon,
             chooserArrow = arrowChangeRecordTypeIcon,
         )
@@ -354,80 +325,48 @@ class ChangeRecordTypeFragment :
         fieldChangeRecordTypeGoalTime.isVisible = isClosed || state.current is GoalTime
     }
 
-    private fun updateGoalsState(state: ChangeRecordTypeGoalsViewData) = with(binding) {
+    private fun updateGoalsState(state: ChangeRecordTypeGoalsViewData)  {
         GoalsViewDelegate.updateGoalsState(
             state = state,
-            layout = layoutChangeRecordTypeGoals,
+            layout = binding.layoutChangeRecordTypeGoals,
         )
     }
 
-    private fun updateIconsState(state: ChangeRecordTypeIconStateViewData) = with(binding) {
-        when (state) {
-            is ChangeRecordTypeIconStateViewData.Icons -> {
-                rvChangeRecordTypeIcon.isVisible = true
-                inputChangeRecordTypeIconText.isVisible = false
-                iconsAdapter.replaceAsNew(state.items)
-            }
-            is ChangeRecordTypeIconStateViewData.Text -> {
-                rvChangeRecordTypeIcon.isVisible = false
-                inputChangeRecordTypeIconText.isVisible = true
-            }
-        }
+    private fun updateBarExpanded() {
+        IconSelectionViewDelegate.updateBarExpanded(
+            layout = binding.containerChangeRecordTypeIcon,
+        )
     }
 
-    private fun getIconsColumnCount(): Int {
-        val screenWidth = deviceRepo.getScreenWidthInDp().dpToPx()
-        val recyclerWidth = screenWidth -
-            2 * resources.getDimensionPixelOffset(R.dimen.color_icon_recycler_margin)
-        val elementWidth = resources.getDimensionPixelOffset(R.dimen.color_icon_item_width) +
-            2 * resources.getDimensionPixelOffset(R.dimen.color_icon_item_margin)
-        val columnCount = max(recyclerWidth / elementWidth, 1)
-
-        val rowWidth = elementWidth * columnCount
-        val recyclerPadding = (recyclerWidth - rowWidth) / 2
-        binding.rvChangeRecordTypeIcon
-            .updatePadding(left = recyclerPadding, right = recyclerPadding)
-
-        return columnCount
+    private fun updateIconsState(state: ChangeRecordTypeIconStateViewData)  {
+        IconSelectionViewDelegate.updateIconsState(
+            state = state,
+            layout = binding.containerChangeRecordTypeIcon,
+            iconsAdapter = iconsAdapter,
+        )
     }
 
-    private fun setIconsSpanSize() {
-        iconsLayoutManager?.setSpanSizeLookup { position ->
-            when (iconsAdapter.getItemByPosition(position)) {
-                is ChangeRecordTypeIconCategoryInfoViewData,
-                is LoaderViewData,
-                -> iconsLayoutManager?.spanCount ?: 1
-                else -> 1
-            }
-        }
-    }
-
-    private fun updateIconContainerScroll(item: ButtonsRowViewData) = with(binding) {
-        if (item !is ChangeRecordTypeIconSwitchViewData) return@with
-
-        val scrollFlags = if (item.iconType == IconType.TEXT) {
-            0
-        } else {
-            AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
-        }
-
-        (btnChangeRecordTypeIconSwitch.layoutParams as? AppBarLayout.LayoutParams)
-            ?.scrollFlags = scrollFlags
+    private fun updateIconCategories(data: List<ViewHolderType>) {
+        IconSelectionViewDelegate.updateIconCategories(
+            data = data,
+            iconCategoriesAdapter = iconCategoriesAdapter,
+        )
     }
 
     private fun updateIconSelectorViewData(
         data: ChangeRecordTypeIconSelectorStateViewData,
-    ) = with(binding) {
-        if (data is ChangeRecordTypeIconSelectorStateViewData.Available) {
-            btnChangeRecordTypeIconSearch.isVisible = data.searchButtonIsVisible
-            ivChangeRecordTypeIconSearch.backgroundTintList = ColorStateList.valueOf(data.searchButtonColor)
-            rvChangeRecordTypeIconCategory.isVisible = data.state is IconImageState.Chooser
-            inputChangeRecordTypeIconSearch.isVisible = data.state is IconImageState.Search
-        } else {
-            btnChangeRecordTypeIconSearch.isVisible = false
-            rvChangeRecordTypeIconCategory.isVisible = false
-            inputChangeRecordTypeIconSearch.isVisible = false
-        }
+    ) {
+        IconSelectionViewDelegate.updateIconSelectorViewData(
+            data = data,
+            layout = binding.containerChangeRecordTypeIcon,
+        )
+    }
+
+    private fun updateIconsTypeViewData(data: List<ViewHolderType>) {
+        IconSelectionViewDelegate.updateIconsTypeViewData(
+            data = data,
+            layout = binding.containerChangeRecordTypeIcon,
+        )
     }
 
     private inline fun <reified T : State> updateChooser(

@@ -50,7 +50,8 @@ interface IconSelectionViewModelDelegate {
 
     interface Parent {
         fun keyboardVisibility(isVisible: Boolean)
-        suspend fun updateRecordPreviewViewData()
+        suspend fun update()
+        fun onIconSelected() = Unit
         fun getColor(): AppColor
     }
 }
@@ -88,7 +89,7 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
     override val iconsScrollPosition: LiveData<ChangeRecordTypeScrollViewData> = MutableLiveData()
     override val expandIconTypeSwitch: LiveData<Unit> = MutableLiveData()
 
-    var newIconName: String = ""
+    var newIcon: String = ""
 
     private var parent: IconSelectionViewModelDelegate.Parent? = null
     private var iconType: IconType = IconType.IMAGE
@@ -130,9 +131,10 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
 
     override fun onIconClick(item: ChangeRecordTypeIconViewData) {
         delegateScope.launch {
-            if (item.iconName != newIconName) {
-                newIconName = item.iconName
-                parent?.updateRecordPreviewViewData()
+            if (item.iconName != newIcon) {
+                newIcon = item.iconName
+                parent?.onIconSelected()
+                parent?.update()
             }
         }
     }
@@ -197,9 +199,10 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
             openEmojiSelectionDialog(item)
         } else {
             delegateScope.launch {
-                if (item.emojiText != newIconName) {
-                    newIconName = item.emojiText
-                    parent?.updateRecordPreviewViewData()
+                if (item.emojiText != newIcon) {
+                    newIcon = item.emojiText
+                    parent?.onIconSelected()
+                    parent?.update()
                 }
             }
         }
@@ -207,18 +210,20 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
 
     override fun onIconTextChange(text: String) {
         delegateScope.launch {
-            if (text != newIconName) {
-                newIconName = text
-                parent?.updateRecordPreviewViewData()
+            if (text != newIcon) {
+                newIcon = text
+                parent?.onIconSelected()
+                parent?.update()
             }
         }
     }
 
     override fun onEmojiSelected(emojiText: String) {
         delegateScope.launch {
-            if (emojiText != newIconName) {
-                newIconName = emojiText
-                parent?.updateRecordPreviewViewData()
+            if (emojiText != newIcon) {
+                newIcon = emojiText
+                parent?.onIconSelected()
+                parent?.update()
             }
         }
     }

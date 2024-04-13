@@ -240,7 +240,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         val recordType = RecordType(
             id = recordTypeId,
             name = newName,
-            icon = iconSelectionViewModelDelegateImpl.newIconName,
+            icon = iconSelectionViewModelDelegateImpl.newIcon,
             color = colorSelectionViewModelDelegateImpl.newColor,
         )
 
@@ -258,7 +258,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private suspend fun initializeRecordTypeData() {
         recordTypeInteractor.get(recordTypeId)?.let {
             newName = it.name
-            iconSelectionViewModelDelegateImpl.newIconName = it.icon
+            iconSelectionViewModelDelegateImpl.newIcon = it.icon
             colorSelectionViewModelDelegateImpl.newColor = it.color
             goalsViewModelDelegate.initialize(RecordTypeGoal.IdData.Type(it.id))
             iconSelectionViewModelDelegateImpl.update()
@@ -289,7 +289,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 keyboardVisibility.set(isVisible)
             }
 
-            override suspend fun updateRecordPreviewViewData() {
+            override suspend fun update() {
                 this@ChangeRecordTypeViewModel.updateRecordPreviewViewData()
             }
 
@@ -309,7 +309,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
         return RecordType(
             name = newName,
-            icon = iconSelectionViewModelDelegateImpl.newIconName,
+            icon = iconSelectionViewModelDelegateImpl.newIcon,
             color = colorSelectionViewModelDelegateImpl.newColor,
         ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
     }

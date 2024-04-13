@@ -25,7 +25,7 @@ interface ColorSelectionViewModelDelegate {
 
     interface Parent {
         suspend fun update()
-        suspend fun onColorSelected() = Unit
+        fun onColorSelected() = Unit
         suspend fun isColorSelectedCheck(): Boolean = true
     }
 }

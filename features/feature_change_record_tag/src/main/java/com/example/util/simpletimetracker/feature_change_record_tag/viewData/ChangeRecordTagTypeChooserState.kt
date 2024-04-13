@@ -5,10 +5,10 @@ data class ChangeRecordTagTypeChooserState(
     val previous: State,
 ) {
 
-    // TODO TAGS object Icon : State
     sealed interface State {
         object Closed : State
         object Color : State
+        object Icon : State
         object Type : State
     }
 }

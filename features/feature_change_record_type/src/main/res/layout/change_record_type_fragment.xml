@@ -254,8 +254,9 @@
         tools:listitem="@layout/item_color_layout"
         tools:visibility="gone" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <include
         android:id="@+id/containerChangeRecordTypeIcon"
+        layout="@layout/icon_selection_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="@dimen/color_icon_recycler_margin"
@@ -264,134 +265,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTypeSave"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTypeMain"
-        tools:visibility="gone">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarChangeRecordTypeIcon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:colorBackground"
-            app:elevation="0dp">
-
-            <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
-                android:id="@+id/btnChangeRecordTypeIconSwitch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|snap" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlways|snap">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvChangeRecordTypeIconCategory"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="0dp"
-                    android:overScrollMode="never"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/btnChangeRecordTypeIconSearch"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_goneMarginEnd="8dp"
-                    tools:itemCount="1"
-                    tools:listitem="@layout/change_record_type_item_icon_category_layout"
-                    tools:visibility="visible" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/inputChangeRecordTypeIconSearch"
-                    style="@style/ChangeItemInputField"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="0dp"
-                    android:layout_marginBottom="4dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/btnChangeRecordTypeIconSearch"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_goneMarginEnd="8dp"
-                    tools:visibility="visible">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etChangeRecordTypeIconSearch"
-                        style="@style/ChangeItemNameEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/change_record_type_icon_search_hint" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/btnChangeRecordTypeIconSearch"
-                    style="@style/InputFieldCard"
-                    android:layout_width="36dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="6dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHeight_min="36dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="visible">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/ButtonTimeAdjust"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/ivChangeRecordTypeIconSearch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="4dp"
-                        android:background="@drawable/search"
-                        tools:backgroundTint="?appInactiveColor"
-                        android:scaleType="center" />
-
-                </androidx.cardview.widget.CardView>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvChangeRecordTypeIcon"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"
-            android:visibility="gone"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            tools:itemCount="30"
-            tools:listitem="@layout/change_record_type_item_icon_layout"
-            tools:visibility="visible" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputChangeRecordTypeIconText"
-            style="@style/ChangeItemInputField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:visibility="gone"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            tools:visibility="gone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etChangeRecordTypeIconText"
-                style="@style/ChangeItemNameEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/change_record_type_new_icon_text_hint" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        tools:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeRecordTypeCategories"
