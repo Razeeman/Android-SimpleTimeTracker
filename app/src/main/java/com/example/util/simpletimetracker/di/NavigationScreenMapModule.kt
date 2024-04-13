@@ -123,7 +123,7 @@ class NavigationScreenMapModule {
     @ScreenKey(CategoriesParams::class)
     fun categories(): NavigationData {
         return NavigationData(
-            R.id.action_mainFragment_to_categoriesFragment,
+            R.id.action_to_categoriesFragment,
             BundleCreator.empty(),
         )
     }
@@ -133,7 +133,7 @@ class NavigationScreenMapModule {
     @ScreenKey(ArchiveParams::class)
     fun archive(): NavigationData {
         return NavigationData(
-            R.id.action_mainFragment_to_archiveFragment,
+            R.id.action_to_archiveFragment,
             BundleCreator.empty(),
         )
     }
@@ -143,7 +143,7 @@ class NavigationScreenMapModule {
     @ScreenKey(DataEditParams::class)
     fun dataEdit(): NavigationData {
         return NavigationData(
-            R.id.action_mainFragment_to_dataEditFragment,
+            R.id.action_to_dataEditFragment,
             BundleCreator.empty(),
         )
     }
