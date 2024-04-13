@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.core.delegates.iconSelection.viewModel
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
+import com.example.util.simpletimetracker.core.interactor.StatisticsDetailNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
@@ -24,6 +25,7 @@ import com.example.util.simpletimetracker.domain.interactor.RunningRecordInterac
 import com.example.util.simpletimetracker.domain.interactor.WearInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -58,6 +60,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
+    private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
     private val goalsViewModelDelegate: GoalsViewModelDelegateImpl,
     private val colorSelectionViewModelDelegateImpl: ColorSelectionViewModelDelegateImpl,
     private val iconSelectionViewModelDelegateImpl: IconSelectionViewModelDelegateImpl,
@@ -95,6 +98,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId != 0L) }
+    val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId == 0L) }
 
     private val recordTypeId: Long get() = (extra as? ChangeRecordTypeParams.Change)?.id.orZero()
@@ -193,6 +197,22 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 router.back()
             }
         }
+    }
+
+    fun onStatisticsClick() = viewModelScope.launch {
+        if (recordTypeId == 0L) return@launch
+        val preview = recordType.value ?: return@launch
+
+        statisticsDetailNavigationInteractor.navigate(
+            transitionName = "",
+            filterType = ChartFilterType.ACTIVITY,
+            shift = 0,
+            sharedElements = emptyMap(),
+            itemId = recordTypeId,
+            itemName = preview.name,
+            itemIcon = preview.iconId,
+            itemColor = preview.color,
+        )
     }
 
     fun onSaveClick() {

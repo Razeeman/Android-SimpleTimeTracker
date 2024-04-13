@@ -81,6 +81,7 @@ class StatisticsDetailFragment :
         setPreview()
 
         setSharedTransitions(
+            additionalCondition = { params.transitionName.isNotEmpty() },
             transitionName = params.transitionName,
             sharedView = viewStatisticsDetailItem,
         )

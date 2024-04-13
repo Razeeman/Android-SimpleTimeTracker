@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.feature_change_record.databinding.Chan
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
@@ -63,7 +64,7 @@ class ChangeRecordFragment :
             transitionName = transitionName,
             sharedView = previewChangeRecord,
         )
-        core.initUi(binding.layoutChangeRecordCore)
+        core.initUi(layoutChangeRecordCore)
 
         setOnPreDrawListener {
             startPostponedEnterTransition()
@@ -71,7 +72,8 @@ class ChangeRecordFragment :
     }
 
     override fun initUx() = with(binding) {
-        core.initUx(binding.layoutChangeRecordCore)
+        core.initUx(layoutChangeRecordCore)
+        btnChangeRecordStatistics.setOnClick(viewModel::onStatisticsClick)
         btnChangeRecordDelete.setOnClick {
             viewModel.onDeleteClick()
             removeRecordViewModel.onDeleteClick(
@@ -83,11 +85,12 @@ class ChangeRecordFragment :
     override fun initViewModel() = with(binding) {
         with(viewModel) {
             extra = this@ChangeRecordFragment.extra
+            statsIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordStatistics::isVisible::set)
             record.observeOnce(viewLifecycleOwner) {
-                core.updateUi(binding.layoutChangeRecordCore, it.comment)
+                core.updateUi(layoutChangeRecordCore, it.comment)
             }
             record.observe(::updatePreview)
-            core.initViewModel(this@ChangeRecordFragment, binding.layoutChangeRecordCore)
+            core.initViewModel(this@ChangeRecordFragment, layoutChangeRecordCore)
         }
         with(removeRecordViewModel) {
             prepare((extra as? ChangeRecordParams.Tracked)?.id.orZero())

@@ -29,6 +29,14 @@
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
 
+    <action
+        android:id="@+id/action_to_statisticsDetailFragment"
+        app:destination="@id/statisticsDetailFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.util.simpletimetracker.feature_main.view.MainFragment"
@@ -62,9 +70,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_mainFragment_to_statisticsDetailFragment"
-            app:destination="@id/statisticsDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/changeRecordTypeFragment"

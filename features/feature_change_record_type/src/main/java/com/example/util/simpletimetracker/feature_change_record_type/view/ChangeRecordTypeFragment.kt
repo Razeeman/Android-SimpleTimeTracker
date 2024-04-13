@@ -184,6 +184,7 @@ class ChangeRecordTypeFragment :
         fieldChangeRecordTypeGoalTime.setOnClick(viewModel::onGoalTimeChooserClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
+        btnChangeRecordTypeStatistics.setOnClick(viewModel::onStatisticsClick)
         IconSelectionViewDelegate.initUx(
             viewModel = viewModel,
             layout = containerChangeRecordTypeIcon,
@@ -199,6 +200,7 @@ class ChangeRecordTypeFragment :
         with(viewModel) {
             extra = params
             deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTypeDelete::isVisible::set)
+            statsIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTypeStatistics::isVisible::set)
             saveButtonEnabled.observe(btnChangeRecordTypeSave::setEnabled)
             deleteButtonEnabled.observe(btnChangeRecordTypeDelete::setEnabled)
             recordType.observeOnce(viewLifecycleOwner, ::updateUi)
@@ -386,7 +388,7 @@ class ChangeRecordTypeFragment :
 
     companion object {
         private const val ARGS_PARAMS = "args_params"
-        private const val DELETE_BUTTON_SIZE = 72 // TODO get from dimens or viewModel
+        private const val DELETE_BUTTON_SIZE = 96 // TODO get from dimens or viewModel
 
         fun createBundle(data: ChangeRecordTypeParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)

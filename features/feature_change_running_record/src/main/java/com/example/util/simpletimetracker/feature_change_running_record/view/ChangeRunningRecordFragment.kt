@@ -54,9 +54,9 @@ class ChangeRunningRecordFragment :
         setSharedTransitions(
             additionalCondition = { params.transitionName.isNotEmpty() },
             transitionName = params.transitionName,
-            sharedView = binding.previewChangeRunningRecord,
+            sharedView = previewChangeRunningRecord,
         )
-        core.initUi(binding.layoutChangeRunningRecordCore)
+        core.initUi(layoutChangeRunningRecordCore)
 
         setOnPreDrawListener {
             startPostponedEnterTransition()
@@ -64,18 +64,19 @@ class ChangeRunningRecordFragment :
     }
 
     override fun initUx() = with(binding) {
-        core.initUx(binding.layoutChangeRunningRecordCore)
-        binding.btnChangeRunningRecordDelete.setOnClick(viewModel::onDeleteClick)
+        core.initUx(layoutChangeRunningRecordCore)
+        btnChangeRunningRecordDelete.setOnClick(viewModel::onDeleteClick)
+        btnChangeRunningRecordStatistics.setOnClick(viewModel::onStatisticsClick)
     }
 
     override fun initViewModel() = with(binding) {
         with(viewModel) {
             extra = params
             record.observeOnce(viewLifecycleOwner) {
-                core.updateUi(binding.layoutChangeRunningRecordCore, it.recordPreview?.comment.orEmpty())
+                core.updateUi(layoutChangeRunningRecordCore, it.recordPreview?.comment.orEmpty())
             }
             record.observe(::updatePreview)
-            core.initViewModel(this@ChangeRunningRecordFragment, binding.layoutChangeRunningRecordCore)
+            core.initViewModel(this@ChangeRunningRecordFragment, layoutChangeRunningRecordCore)
 
             deleteButtonEnabled.observe(btnChangeRunningRecordDelete::setEnabled)
             message.observe(::showMessage)

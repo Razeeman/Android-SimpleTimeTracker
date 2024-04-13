@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
+import com.example.util.simpletimetracker.core.interactor.StatisticsDetailNavigationInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
@@ -16,6 +17,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
@@ -59,6 +61,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val changeRunningRecordViewDataInteractor: ChangeRunningRecordViewDataInteractor,
     private val resourceRepo: ResourceRepo,
+    private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
 ) : ChangeRecordBaseViewModel(
     router = router,
     snackBarMessageNavigationInteractor = snackBarMessageNavigationInteractor,
@@ -101,6 +104,21 @@ class ChangeRunningRecordViewModel @Inject constructor(
             showMessage(R.string.change_running_record_removed)
             router.back()
         }
+    }
+
+    fun onStatisticsClick() = viewModelScope.launch {
+        val preview = record.value?.recordPreview ?: return@launch
+
+        statisticsDetailNavigationInteractor.navigate(
+            transitionName = "",
+            filterType = ChartFilterType.ACTIVITY,
+            shift = 0,
+            sharedElements = emptyMap(),
+            itemId = newTypeId,
+            itemName = preview.name,
+            itemIcon = preview.iconId,
+            itemColor = preview.color,
+        )
     }
 
     override suspend fun onSaveClickDelegate() {

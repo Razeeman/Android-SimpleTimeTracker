@@ -155,6 +155,7 @@ class ChangeRecordTagFragment :
         btnChangeRecordTagSelectActivity.setOnClick(viewModel::onSelectActivityClick)
         btnChangeRecordTagSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTagDelete.setOnClick(viewModel::onDeleteClick)
+        btnChangeRecordTagStatistics.setOnClick(viewModel::onStatisticsClick)
         IconSelectionViewDelegate.initUx(
             viewModel = viewModel,
             layout = containerChangeRecordTypeIcon,
@@ -166,6 +167,7 @@ class ChangeRecordTagFragment :
         with(viewModel) {
             extra = params
             deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTagDelete::visible::set)
+            statsIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTagStatistics::isVisible::set)
             saveButtonEnabled.observe(btnChangeRecordTagSave::setEnabled)
             deleteButtonEnabled.observe(btnChangeRecordTagDelete::setEnabled)
             iconColorSourceSelected.observe(::updateIconColorSourceSelected)

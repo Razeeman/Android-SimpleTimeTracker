@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.delegates.colorSelection.ColorSel
 import com.example.util.simpletimetracker.core.delegates.colorSelection.ColorSelectionViewModelDelegateImpl
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
+import com.example.util.simpletimetracker.core.interactor.StatisticsDetailNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
@@ -17,6 +18,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -45,6 +47,7 @@ class ChangeCategoryViewModel @Inject constructor(
     private val goalsViewModelDelegate: GoalsViewModelDelegateImpl,
     private val widgetInteractor: WidgetInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
     private val colorSelectionViewModelDelegateImpl: ColorSelectionViewModelDelegateImpl,
 ) : ViewModel(),
     GoalsViewModelDelegate by goalsViewModelDelegate,
@@ -76,6 +79,7 @@ class ChangeCategoryViewModel @Inject constructor(
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(categoryId != 0L) }
+    val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(categoryId != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(categoryId == 0L) }
 
     private val categoryId: Long get() = (extra as? ChangeTagData.Change)?.id.orZero()
@@ -140,6 +144,22 @@ class ChangeCategoryViewModel @Inject constructor(
                 router.back()
             }
         }
+    }
+
+    fun onStatisticsClick() = viewModelScope.launch {
+        if (categoryId == 0L) return@launch
+        val preview = categoryPreview.value ?: return@launch
+
+        statisticsDetailNavigationInteractor.navigate(
+            transitionName = "",
+            filterType = ChartFilterType.CATEGORY,
+            shift = 0,
+            sharedElements = emptyMap(),
+            itemId = categoryId,
+            itemName = preview.name,
+            itemIcon = null,
+            itemColor = preview.color,
+        )
     }
 
     fun onSaveClick() {

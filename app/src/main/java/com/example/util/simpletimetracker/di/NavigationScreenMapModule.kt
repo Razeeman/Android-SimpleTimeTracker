@@ -103,7 +103,7 @@ class NavigationScreenMapModule {
     @ScreenKey(StatisticsDetailParams::class)
     fun statisticsDetail(): NavigationData {
         return NavigationData(
-            R.id.action_mainFragment_to_statisticsDetailFragment,
+            R.id.action_to_statisticsDetailFragment,
             bundleCreatorDelegate(StatisticsDetailFragment::createBundle),
         )
     }

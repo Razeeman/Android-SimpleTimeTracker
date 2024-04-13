@@ -120,6 +120,7 @@ class ChangeCategoryFragment :
         fieldChangeCategoryGoalTime.setOnClick(viewModel::onGoalTimeChooserClick)
         btnChangeCategorySave.setOnClick(viewModel::onSaveClick)
         btnChangeCategoryDelete.setOnClick(viewModel::onDeleteClick)
+        btnChangeCategoryStatistics.setOnClick(viewModel::onStatisticsClick)
         GoalsViewDelegate.initGoalUx(
             viewModel = viewModel,
             layout = layoutChangeCategoryGoals,
@@ -130,6 +131,7 @@ class ChangeCategoryFragment :
         with(viewModel) {
             extra = params
             deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeCategoryDelete::visible::set)
+            statsIconVisibility.observeOnce(viewLifecycleOwner, btnChangeCategoryStatistics::isVisible::set)
             saveButtonEnabled.observe(btnChangeCategorySave::setEnabled)
             deleteButtonEnabled.observe(btnChangeCategoryDelete::setEnabled)
             categoryPreview.observeOnce(viewLifecycleOwner, ::updateUi)

@@ -6,13 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.SharingInteractor
+import com.example.util.simpletimetracker.core.interactor.StatisticsDetailNavigationInteractor
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.model.RangeLength
-import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
@@ -20,14 +18,13 @@ import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExt
 import com.example.util.simpletimetracker.feature_statistics.interactor.StatisticsViewDataInteractor
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDialogParams
-import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
@@ -35,6 +32,7 @@ class StatisticsViewModel @Inject constructor(
     private val statisticsViewDataInteractor: StatisticsViewDataInteractor,
     private val sharingInteractor: SharingInteractor,
     private val prefsInteractor: PrefsInteractor,
+    private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
 ) : ViewModel() {
 
     var extra: StatisticsExtra? = null
@@ -98,40 +96,15 @@ class StatisticsViewModel @Inject constructor(
         item: StatisticsViewData,
         sharedElements: Map<Any, String>,
     ) = viewModelScope.launch {
-        val filterType = prefsInteractor.getChartFilterType()
-        val rangeLength = if (prefsInteractor.getKeepStatisticsRange()) {
-            prefsInteractor.getStatisticsRange()
-        } else {
-            prefsInteractor.getStatisticsDetailRange()
-        }
-
-        router.navigate(
-            data = StatisticsDetailParams(
-                transitionName = item.transitionName,
-                filter = statisticsViewDataInteractor.mapFilter(
-                    filterType = filterType,
-                    selectedId = item.id,
-                ).let(::listOf).map(RecordsFilter::toParams),
-                range = when (rangeLength) {
-                    is RangeLength.Day -> StatisticsDetailParams.RangeLengthParams.Day
-                    is RangeLength.Week -> StatisticsDetailParams.RangeLengthParams.Week
-                    is RangeLength.Month -> StatisticsDetailParams.RangeLengthParams.Month
-                    is RangeLength.Year -> StatisticsDetailParams.RangeLengthParams.Year
-                    is RangeLength.All -> StatisticsDetailParams.RangeLengthParams.All
-                    is RangeLength.Custom -> StatisticsDetailParams.RangeLengthParams.Custom(
-                        start = rangeLength.range.timeStarted,
-                        end = rangeLength.range.timeEnded,
-                    )
-                    is RangeLength.Last -> StatisticsDetailParams.RangeLengthParams.Last
-                },
-                shift = if (prefsInteractor.getKeepStatisticsRange()) shift else 0,
-                preview = StatisticsDetailParams.Preview(
-                    name = item.name,
-                    iconId = item.icon?.toParams(),
-                    color = item.color,
-                ),
-            ),
+        statisticsDetailNavigationInteractor.navigate(
+            transitionName = item.transitionName,
+            filterType = prefsInteractor.getChartFilterType(),
+            shift = if (prefsInteractor.getKeepStatisticsRange()) shift else 0,
             sharedElements = sharedElements,
+            itemId = item.id,
+            itemName = item.name,
+            itemIcon = item.icon,
+            itemColor = item.color,
         )
     }
 

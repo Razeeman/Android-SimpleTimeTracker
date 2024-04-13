@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
+import com.example.util.simpletimetracker.core.interactor.StatisticsDetailNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
@@ -19,6 +21,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInter
 import com.example.util.simpletimetracker.domain.interactor.RemoveRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
@@ -54,6 +57,7 @@ class ChangeRecordViewModel @Inject constructor(
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val timeMapper: TimeMapper,
+    private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
 ) : ChangeRecordBaseViewModel(
     router = router,
     snackBarMessageNavigationInteractor = snackBarMessageNavigationInteractor,
@@ -85,6 +89,12 @@ class ChangeRecordViewModel @Inject constructor(
             initial
         }
     }
+    val statsIconVisibility: LiveData<Boolean> by lazy {
+        MutableLiveData(
+            extra is ChangeRecordParams.Tracked ||
+                extra is ChangeRecordParams.Untracked,
+        )
+    }
 
     fun onVisible() {
         viewModelScope.launch {
@@ -94,6 +104,26 @@ class ChangeRecordViewModel @Inject constructor(
 
     fun onDeleteClick() {
         router.back()
+    }
+
+    fun onStatisticsClick() = viewModelScope.launch {
+        val itemId = when {
+            newTypeId != 0L -> newTypeId
+            extra is ChangeRecordParams.Untracked -> UNTRACKED_ITEM_ID
+            else -> return@launch
+        }
+        val preview = record.value ?: return@launch
+
+        statisticsDetailNavigationInteractor.navigate(
+            transitionName = "",
+            filterType = ChartFilterType.ACTIVITY,
+            shift = 0,
+            sharedElements = emptyMap(),
+            itemId = itemId,
+            itemName = preview.name,
+            itemIcon = preview.iconId,
+            itemColor = preview.color,
+        )
     }
 
     override suspend fun onSaveClickDelegate() {
