@@ -256,16 +256,27 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     private suspend fun initializePreviewViewData() {
-        val extra = extra
-        if (extra is ChangeTagData.Change) {
-            recordTagInteractor.get(extra.id)?.let {
-                newName = it.name
-                iconSelectionViewModelDelegateImpl.newIcon = it.icon
-                colorSelectionViewModelDelegateImpl.newColor = it.color
-                newIconColorSource = it.iconColorSource
-                iconSelectionViewModelDelegateImpl.update()
-                colorSelectionViewModelDelegateImpl.update()
-                updateIconColorSourceSelected()
+        when (val extra = extra) {
+            is ChangeTagData.Change -> {
+                recordTagInteractor.get(extra.id)?.let {
+                    newName = it.name
+                    iconSelectionViewModelDelegateImpl.newIcon = it.icon
+                    colorSelectionViewModelDelegateImpl.newColor = it.color
+                    newIconColorSource = it.iconColorSource
+                    iconSelectionViewModelDelegateImpl.update()
+                    colorSelectionViewModelDelegateImpl.update()
+                    updateIconColorSourceSelected()
+                }
+            }
+            is ChangeTagData.New -> {
+                recordTypeInteractor.get(extra.preselectedTypeId.orZero())?.let { type ->
+                    iconSelectionViewModelDelegateImpl.newIcon = type.icon
+                    colorSelectionViewModelDelegateImpl.newColor = type.color
+                    newIconColorSource = type.id
+                    iconSelectionViewModelDelegateImpl.update()
+                    colorSelectionViewModelDelegateImpl.update()
+                    updateIconColorSourceSelected()
+                }
             }
         }
     }
@@ -275,9 +286,16 @@ class ChangeRecordTagViewModel @Inject constructor(
             override suspend fun update() {
                 updatePreview()
                 updateIconColorSourceSelected()
+                iconSelectionViewModelDelegateImpl.update()
             }
 
             override fun onColorSelected() {
+                viewModelScope.launch {
+                    if (newIconColorSource == 0L) return@launch
+                    val type = recordTypeInteractor.get(newIconColorSource)
+                        ?: return@launch
+                    iconSelectionViewModelDelegateImpl.newIcon = type.icon
+                }
                 newIconColorSource = 0
             }
 
@@ -299,6 +317,12 @@ class ChangeRecordTagViewModel @Inject constructor(
             }
 
             override fun onIconSelected() {
+                viewModelScope.launch {
+                    if (newIconColorSource == 0L) return@launch
+                    val type = recordTypeInteractor.get(newIconColorSource)
+                        ?: return@launch
+                    colorSelectionViewModelDelegateImpl.newColor = type.color
+                }
                 newIconColorSource = 0
             }
 

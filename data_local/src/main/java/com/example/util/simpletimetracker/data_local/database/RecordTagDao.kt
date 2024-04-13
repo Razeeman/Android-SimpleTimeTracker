@@ -20,6 +20,9 @@ interface RecordTagDao {
     @Query("SELECT * FROM recordTags WHERE id = :id LIMIT 1")
     suspend fun get(id: Long): RecordTagDBO?
 
+    @Query("SELECT * FROM recordTags WHERE icon_color_source = :typeId")
+    suspend fun getByType(typeId: Long): List<RecordTagDBO>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(tag: RecordTagDBO): Long
 

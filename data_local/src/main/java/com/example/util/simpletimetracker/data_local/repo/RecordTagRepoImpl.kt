@@ -38,6 +38,12 @@ class RecordTagRepoImpl @Inject constructor(
         accessSource = { dao.get(id)?.let(mapper::map) },
     )
 
+    override suspend fun getByType(typeId: Long): List<RecordTag> = mutex.withLockedCache(
+        logMessage = "getByType",
+        accessCache = { cache?.filter { it.iconColorSource == typeId } },
+        accessSource = { dao.getByType(typeId).map(mapper::map) },
+    )
+
     override suspend fun add(tag: RecordTag): Long = mutex.withLockedCache(
         logMessage = "add",
         accessSource = { dao.insert(tag.let(mapper::map)) },

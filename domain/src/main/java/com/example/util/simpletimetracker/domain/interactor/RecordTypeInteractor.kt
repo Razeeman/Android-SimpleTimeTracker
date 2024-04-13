@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeGoalRepo
@@ -17,6 +18,7 @@ import kotlin.math.roundToInt
 class RecordTypeInteractor @Inject constructor(
     private val recordTypeRepo: RecordTypeRepo,
     private val recordRepo: RecordRepo,
+    private val recordTagRepo: RecordTagRepo,
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
     private val recordTypeToTagRepo: RecordTypeToTagRepo,
@@ -49,6 +51,20 @@ class RecordTypeInteractor @Inject constructor(
         val recordsToRemove = recordRepo.getByType(listOf(id)).map { it.id }
         recordsToRemove.forEach { recordId ->
             recordToRecordTagRepo.removeAllByRecordId(recordId) // TODO do better?
+        }
+        val tagsToChange = recordTagRepo.getByType(id)
+        if (tagsToChange.isNotEmpty()) {
+            val type = recordTypeRepo.get(id)
+            if (type != null) {
+                tagsToChange.forEach { tag ->
+                    val updatedTag = tag.copy(
+                        color = type.color,
+                        icon = type.icon,
+                        iconColorSource = 0,
+                    )
+                    recordTagRepo.add(updatedTag)
+                }
+            }
         }
         prefsInteractor.getRecordTagSelectionExcludeActivities().toMutableList()
             .apply { remove(id) }
