@@ -6,7 +6,7 @@
     android:background="?selectableItemBackgroundBorderless">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/viewChangeRecordTypeIconCategoryItem"
+        android:id="@+id/viewIconSelectionCategoryItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/round_corners_background"
@@ -15,7 +15,7 @@
         tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivChangeRecordTypeIconCategoryItem"
+        android:id="@+id/ivIconSelectionCategoryItem"
         android:layout_width="match_parent"
         android:layout_height="24dp"
         android:layout_margin="2dp"

@@ -5,10 +5,10 @@ import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
-import com.example.util.simpletimetracker.core.databinding.ChangeRecordTypeItemIconCategoryLayoutBinding as Binding
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconCategoryViewData as ViewData
+import com.example.util.simpletimetracker.core.databinding.ItemIconSelectionCategoryLayoutBinding as Binding
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionCategoryViewData as ViewData
 
-fun createChangeRecordTypeIconCategoryAdapterDelegate(
+fun createIconSelectionCategoryAdapterDelegate(
     onItemClick: ((ViewData) -> Unit),
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
@@ -19,12 +19,12 @@ fun createChangeRecordTypeIconCategoryAdapterDelegate(
         val tint = root.context.getThemedAttr(
             if (item.selected) R.attr.appLightTextColor else R.attr.colorPrimary,
         )
-        with(ivChangeRecordTypeIconCategoryItem) {
+        with(ivIconSelectionCategoryItem) {
             setImageResource(item.categoryIcon)
             setColorFilter(tint)
             tag = item.categoryIcon
         }
-        viewChangeRecordTypeIconCategoryItem.isVisible = item.selected
+        viewIconSelectionCategoryItem.isVisible = item.selected
         root.setOnClickWith(item, onItemClick)
     }
 }

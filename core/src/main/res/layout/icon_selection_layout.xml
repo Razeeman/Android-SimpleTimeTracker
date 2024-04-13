@@ -6,14 +6,14 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarChangeRecordTypeIcon"
+        android:id="@+id/appBarIconSelection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:colorBackground"
         app:elevation="0dp">
 
         <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
-            android:id="@+id/btnChangeRecordTypeIconSwitch"
+            android:id="@+id/btnIconSelectionSwitch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|snap" />
@@ -24,7 +24,7 @@
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvChangeRecordTypeIconCategory"
+                android:id="@+id/rvIconSelectionCategory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -32,16 +32,16 @@
                 android:overScrollMode="never"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/btnChangeRecordTypeIconSearch"
+                app:layout_constraintEnd_toStartOf="@id/btnIconSelectionSearch"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_goneMarginEnd="8dp"
                 tools:itemCount="1"
-                tools:listitem="@layout/change_record_type_item_icon_category_layout"
+                tools:listitem="@layout/item_icon_selection_category_layout"
                 tools:visibility="visible" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/inputChangeRecordTypeIconSearch"
+                android:id="@+id/inputIconSelectionSearch"
                 style="@style/ChangeItemInputField"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -50,14 +50,14 @@
                 android:layout_marginBottom="4dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/btnChangeRecordTypeIconSearch"
+                app:layout_constraintEnd_toStartOf="@id/btnIconSelectionSearch"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_goneMarginEnd="8dp"
                 tools:visibility="visible">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etChangeRecordTypeIconSearch"
+                    android:id="@+id/etIconSelectionSearch"
                     style="@style/ChangeItemNameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/btnChangeRecordTypeIconSearch"
+                android:id="@+id/btnIconSelectionSearch"
                 style="@style/InputFieldCard"
                 android:layout_width="36dp"
                 android:layout_height="0dp"
@@ -85,7 +85,7 @@
                     android:text="" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivChangeRecordTypeIconSearch"
+                    android:id="@+id/ivIconSelectionSearch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -101,18 +101,18 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvChangeRecordTypeIcon"
+        android:id="@+id/rvIconSelection"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         tools:itemCount="30"
-        tools:listitem="@layout/change_record_type_item_icon_layout"
+        tools:listitem="@layout/item_icon_selection_layout"
         tools:visibility="visible" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputChangeRecordTypeIconText"
+        android:id="@+id/inputIconSelectionText"
         style="@style/ChangeItemInputField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
         tools:visibility="gone">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etChangeRecordTypeIconText"
+            android:id="@+id/etIconSelectionText"
             style="@style/ChangeItemNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

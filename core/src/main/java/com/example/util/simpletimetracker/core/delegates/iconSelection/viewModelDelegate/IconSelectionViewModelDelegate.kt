@@ -1,17 +1,17 @@
-package com.example.util.simpletimetracker.core.delegates.iconSelection
+package com.example.util.simpletimetracker.core.delegates.iconSelection.viewModelDelegate
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.delegates.iconSelection.interactor.IconSelectionDelegateViewDataInteractor
-import com.example.util.simpletimetracker.core.delegates.iconSelection.mapper.ChangeRecordTypeMapper
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconCategoryInfoViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconCategoryViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconSelectorStateViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconStateViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconSwitchViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeScrollViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.mapper.IconSelectionMapper
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionCategoryInfoViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionCategoryViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionSelectorStateViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionStateViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionSwitchViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionScrollViewData
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
@@ -29,17 +29,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 interface IconSelectionViewModelDelegate {
-    val icons: LiveData<ChangeRecordTypeIconStateViewData>
+    val icons: LiveData<IconSelectionStateViewData>
     val iconCategories: LiveData<List<ViewHolderType>>
     val iconsTypeViewData: LiveData<List<ViewHolderType>>
-    val iconSelectorViewData: LiveData<ChangeRecordTypeIconSelectorStateViewData>
-    val iconsScrollPosition: LiveData<ChangeRecordTypeScrollViewData>
+    val iconSelectorViewData: LiveData<IconSelectionSelectorStateViewData>
+    val iconsScrollPosition: LiveData<IconSelectionScrollViewData>
     val expandIconTypeSwitch: LiveData<Unit>
 
     fun attach(parent: Parent)
     fun onIconTypeClick(viewData: ButtonsRowViewData)
-    fun onIconCategoryClick(viewData: ChangeRecordTypeIconCategoryViewData)
-    fun onIconClick(item: ChangeRecordTypeIconViewData)
+    fun onIconCategoryClick(viewData: IconSelectionCategoryViewData)
+    fun onIconClick(item: IconSelectionViewData)
     fun onIconsScrolled(firstVisiblePosition: Int, lastVisiblePosition: Int)
     fun onIconImageSearchClicked()
     fun onIconImageSearch(search: String)
@@ -60,13 +60,13 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
     private val router: Router,
     private val iconEmojiMapper: IconEmojiMapper,
     private val prefsInteractor: PrefsInteractor,
-    private val changeRecordTypeMapper: ChangeRecordTypeMapper,
+    private val iconSelectionMapper: IconSelectionMapper,
     private val viewDataInteractor: IconSelectionDelegateViewDataInteractor,
 ) : IconSelectionViewModelDelegate,
     ViewModelDelegate() {
 
-    override val icons: LiveData<ChangeRecordTypeIconStateViewData> by lazy {
-        return@lazy MutableLiveData<ChangeRecordTypeIconStateViewData>().let { initial ->
+    override val icons: LiveData<IconSelectionStateViewData> by lazy {
+        return@lazy MutableLiveData<IconSelectionStateViewData>().let { initial ->
             delegateScope.launch { initial.value = loadIconsViewData() }
             initial
         }
@@ -80,13 +80,13 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
     override val iconsTypeViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData(loadIconsTypeViewData())
     }
-    override val iconSelectorViewData: LiveData<ChangeRecordTypeIconSelectorStateViewData> by lazy {
-        return@lazy MutableLiveData<ChangeRecordTypeIconSelectorStateViewData>().let { initial ->
+    override val iconSelectorViewData: LiveData<IconSelectionSelectorStateViewData> by lazy {
+        return@lazy MutableLiveData<IconSelectionSelectorStateViewData>().let { initial ->
             delegateScope.launch { initial.value = loadIconSelectorViewData() }
             initial
         }
     }
-    override val iconsScrollPosition: LiveData<ChangeRecordTypeScrollViewData> = MutableLiveData()
+    override val iconsScrollPosition: LiveData<IconSelectionScrollViewData> = MutableLiveData()
     override val expandIconTypeSwitch: LiveData<Unit> = MutableLiveData()
 
     var newIcon: String = ""
@@ -102,7 +102,7 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
     }
 
     override fun onIconTypeClick(viewData: ButtonsRowViewData) {
-        if (viewData !is ChangeRecordTypeIconSwitchViewData) return
+        if (viewData !is IconSelectionSwitchViewData) return
         if (viewData.iconType == iconType) return
         delegateScope.launch {
             parent?.keyboardVisibility(false)
@@ -119,17 +119,17 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
         updateIcons()
     }
 
-    override fun onIconCategoryClick(viewData: ChangeRecordTypeIconCategoryViewData) {
+    override fun onIconCategoryClick(viewData: IconSelectionCategoryViewData) {
         if (viewData.getUniqueId() == 0L) {
             expandIconTypeSwitch.set(Unit)
         }
-        (icons.value as? ChangeRecordTypeIconStateViewData.Icons)
+        (icons.value as? IconSelectionStateViewData.Icons)
             ?.items
-            ?.indexOfFirst { (it as? ChangeRecordTypeIconCategoryInfoViewData)?.type == viewData.type }
+            ?.indexOfFirst { (it as? IconSelectionCategoryInfoViewData)?.type == viewData.type }
             ?.let(::updateIconScrollPosition)
     }
 
-    override fun onIconClick(item: ChangeRecordTypeIconViewData) {
+    override fun onIconClick(item: IconSelectionViewData) {
         delegateScope.launch {
             if (item.iconName != newIcon) {
                 newIcon = item.iconName
@@ -143,9 +143,9 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
         firstVisiblePosition: Int,
         lastVisiblePosition: Int,
     ) {
-        val items = (icons.value as? ChangeRecordTypeIconStateViewData.Icons?)
+        val items = (icons.value as? IconSelectionStateViewData.Icons?)
             ?.items ?: return
-        val infoItems = items.filterIsInstance<ChangeRecordTypeIconCategoryInfoViewData>()
+        val infoItems = items.filterIsInstance<IconSelectionCategoryInfoViewData>()
 
         // Last image category has small number of icons, need to check if it is visible,
         // otherwise it would never be selected by the second check.
@@ -229,12 +229,12 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
     }
 
     override fun onScrolled() {
-        iconsScrollPosition.set(ChangeRecordTypeScrollViewData.NoScroll)
+        iconsScrollPosition.set(IconSelectionScrollViewData.NoScroll)
     }
 
     private fun openEmojiSelectionDialog(item: EmojiViewData) {
         val parent = parent ?: return
-        val params = changeRecordTypeMapper.mapEmojiSelectionParams(
+        val params = iconSelectionMapper.mapEmojiSelectionParams(
             color = parent.getColor(),
             emojiCodes = item.emojiCodes,
         )
@@ -249,11 +249,11 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
 
     private fun updateIconsLoad() {
         val items = listOf(LoaderViewData())
-        val data = ChangeRecordTypeIconStateViewData.Icons(items)
+        val data = IconSelectionStateViewData.Icons(items)
         icons.set(data)
     }
 
-    private suspend fun loadIconsViewData(): ChangeRecordTypeIconStateViewData {
+    private suspend fun loadIconsViewData(): IconSelectionStateViewData {
         val color = parent?.getColor() ?: AppColor(0, "")
         return viewDataInteractor.getIconsViewData(
             newColor = color,
@@ -281,7 +281,7 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
     }
 
     private fun loadIconsTypeViewData(): List<ViewHolderType> {
-        return changeRecordTypeMapper.mapToIconSwitchViewData(iconType)
+        return iconSelectionMapper.mapToIconSwitchViewData(iconType)
     }
 
     private suspend fun updateIconSelectorViewData() {
@@ -289,8 +289,8 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
         iconSelectorViewData.set(data)
     }
 
-    private suspend fun loadIconSelectorViewData(): ChangeRecordTypeIconSelectorStateViewData {
-        return changeRecordTypeMapper.mapToIconSelectorViewData(
+    private suspend fun loadIconSelectorViewData(): IconSelectionSelectorStateViewData {
+        return iconSelectionMapper.mapToIconSelectorViewData(
             iconImageState = iconImageState,
             iconType = iconType,
             isDarkTheme = prefsInteractor.getDarkMode(),
@@ -298,6 +298,6 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
     }
 
     private fun updateIconScrollPosition(position: Int) {
-        iconsScrollPosition.set(ChangeRecordTypeScrollViewData.ScrollTo(position))
+        iconsScrollPosition.set(IconSelectionScrollViewData.ScrollTo(position))
     }
 }

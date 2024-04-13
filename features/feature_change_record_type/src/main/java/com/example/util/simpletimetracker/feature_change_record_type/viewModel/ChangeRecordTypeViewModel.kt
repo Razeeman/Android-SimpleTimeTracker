@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.delegates.colorSelection.ColorSelectionViewModelDelegate
 import com.example.util.simpletimetracker.core.delegates.colorSelection.ColorSelectionViewModelDelegateImpl
-import com.example.util.simpletimetracker.core.delegates.iconSelection.IconSelectionViewModelDelegate
-import com.example.util.simpletimetracker.core.delegates.iconSelection.IconSelectionViewModelDelegateImpl
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewModelDelegate.IconSelectionViewModelDelegate
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewModelDelegate.IconSelectionViewModelDelegateImpl
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor

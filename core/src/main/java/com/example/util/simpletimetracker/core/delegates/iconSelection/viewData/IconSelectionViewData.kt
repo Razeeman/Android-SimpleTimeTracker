@@ -4,7 +4,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 
-data class ChangeRecordTypeIconViewData(
+data class IconSelectionViewData(
     val iconName: String,
     @DrawableRes val iconResId: Int,
     @ColorInt val colorInt: Int,
@@ -12,5 +12,5 @@ data class ChangeRecordTypeIconViewData(
 
     override fun getUniqueId(): Long = iconName.hashCode().toLong()
 
-    override fun isValidType(other: ViewHolderType): Boolean = other is ChangeRecordTypeIconViewData
+    override fun isValidType(other: ViewHolderType): Boolean = other is IconSelectionViewData
 }

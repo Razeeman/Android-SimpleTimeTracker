@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.core.delegates.iconSelection.interactor
 
-import com.example.util.simpletimetracker.core.delegates.iconSelection.mapper.ChangeRecordTypeMapper
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconStateViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.mapper.IconSelectionMapper
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionStateViewData
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.IconImageState
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class IconSelectionDelegateViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
-    private val mapper: ChangeRecordTypeMapper,
+    private val mapper: IconSelectionMapper,
 ) {
 
     suspend fun getIconsViewData(
@@ -21,7 +21,7 @@ class IconSelectionDelegateViewDataInteractor @Inject constructor(
         iconType: IconType,
         iconImageState: IconImageState,
         iconSearch: String,
-    ): ChangeRecordTypeIconStateViewData = withContext(Dispatchers.IO) {
+    ): IconSelectionStateViewData = withContext(Dispatchers.IO) {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val search = if (iconImageState == IconImageState.Search) iconSearch else ""
 
@@ -32,10 +32,10 @@ class IconSelectionDelegateViewDataInteractor @Inject constructor(
                     search = search,
                     isDarkTheme = isDarkTheme,
                 )
-                ChangeRecordTypeIconStateViewData.Icons(items)
+                IconSelectionStateViewData.Icons(items)
             }
             IconType.TEXT -> {
-                ChangeRecordTypeIconStateViewData.Text
+                IconSelectionStateViewData.Text
             }
             IconType.EMOJI -> {
                 val items = mapper.mapIconEmojiData(
@@ -43,7 +43,7 @@ class IconSelectionDelegateViewDataInteractor @Inject constructor(
                     search = search,
                     isDarkTheme = isDarkTheme,
                 )
-                ChangeRecordTypeIconStateViewData.Icons(items)
+                IconSelectionStateViewData.Icons(items)
             }
         }
     }

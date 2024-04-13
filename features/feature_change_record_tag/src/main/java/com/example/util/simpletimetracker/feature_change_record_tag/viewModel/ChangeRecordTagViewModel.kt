@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.delegates.colorSelection.ColorSelectionViewModelDelegate
 import com.example.util.simpletimetracker.core.delegates.colorSelection.ColorSelectionViewModelDelegateImpl
-import com.example.util.simpletimetracker.core.delegates.iconSelection.IconSelectionViewModelDelegate
-import com.example.util.simpletimetracker.core.delegates.iconSelection.IconSelectionViewModelDelegateImpl
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewModelDelegate.IconSelectionViewModelDelegate
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewModelDelegate.IconSelectionViewModelDelegateImpl
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
@@ -27,7 +27,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordType.Record
 import com.example.util.simpletimetracker.feature_change_record_tag.R
 import com.example.util.simpletimetracker.feature_change_record_tag.interactor.ChangeRecordTagViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState
-import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
@@ -97,6 +96,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         iconSelectionViewModelDelegateImpl.attach(getIconSelectionDelegateParent())
     }
 
+    // TODO TAGS add "remove icon" button
     fun onNameChange(name: String) {
         viewModelScope.launch {
             if (name != newName) {

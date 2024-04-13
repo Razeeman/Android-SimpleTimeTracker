@@ -1,12 +1,12 @@
 package com.example.util.simpletimetracker.core.delegates.iconSelection.mapper
 
 import com.example.util.simpletimetracker.core.R
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconCategoryInfoViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconCategoryViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconSelectorStateViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconSwitchViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconTypeViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionCategoryInfoViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionCategoryViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionSelectorStateViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionSwitchViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionTypeViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionViewData
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.IconImageMapper
@@ -19,7 +19,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewDa
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import javax.inject.Inject
 
-class ChangeRecordTypeMapper @Inject constructor(
+class IconSelectionMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val iconImageMapper: IconImageMapper,
     private val iconEmojiMapper: IconEmojiMapper,
@@ -37,8 +37,8 @@ class ChangeRecordTypeMapper @Inject constructor(
             loadSearchHints = isSearching,
         )
         return iconCategories.toList().mapIndexed { index, (category, images) ->
-            val categoryViewData = ChangeRecordTypeIconCategoryInfoViewData(
-                type = ChangeRecordTypeIconTypeViewData.Image(category.type, index.toLong()),
+            val categoryViewData = IconSelectionCategoryInfoViewData(
+                type = IconSelectionTypeViewData.Image(category.type, index.toLong()),
                 text = category.name,
                 isLast = index == iconCategories.size - 1,
             )
@@ -76,8 +76,8 @@ class ChangeRecordTypeMapper @Inject constructor(
             loadSearchHints = isSearching,
         )
         return iconCategories.toList().mapIndexed { index, (category, codes) ->
-            val categoryViewData = ChangeRecordTypeIconCategoryInfoViewData(
-                type = ChangeRecordTypeIconTypeViewData.Emoji(category.type, index.toLong()),
+            val categoryViewData = IconSelectionCategoryInfoViewData(
+                type = IconSelectionTypeViewData.Emoji(category.type, index.toLong()),
                 text = category.name,
                 isLast = index == iconCategories.size - 1,
             )
@@ -107,8 +107,8 @@ class ChangeRecordTypeMapper @Inject constructor(
         selectedIndex: Long,
     ): List<ViewHolderType> {
         return iconImageMapper.getAvailableCategories().mapIndexed { index, iconImageCategory ->
-            ChangeRecordTypeIconCategoryViewData(
-                type = ChangeRecordTypeIconTypeViewData.Image(iconImageCategory.type, index.toLong()),
+            IconSelectionCategoryViewData(
+                type = IconSelectionTypeViewData.Image(iconImageCategory.type, index.toLong()),
                 categoryIcon = iconImageCategory.categoryIcon,
                 selected = selectedIndex == index.toLong(),
             )
@@ -119,8 +119,8 @@ class ChangeRecordTypeMapper @Inject constructor(
         selectedIndex: Long,
     ): List<ViewHolderType> {
         return iconEmojiMapper.getAvailableEmojiCategories().mapIndexed { index, iconEmojiCategory ->
-            ChangeRecordTypeIconCategoryViewData(
-                type = ChangeRecordTypeIconTypeViewData.Emoji(iconEmojiCategory.type, index.toLong()),
+            IconSelectionCategoryViewData(
+                type = IconSelectionTypeViewData.Emoji(iconEmojiCategory.type, index.toLong()),
                 categoryIcon = iconEmojiCategory.categoryIcon,
                 selected = selectedIndex == index.toLong(),
             )
@@ -133,7 +133,7 @@ class ChangeRecordTypeMapper @Inject constructor(
             IconType.TEXT,
             IconType.EMOJI,
         ).map {
-            ChangeRecordTypeIconSwitchViewData(
+            IconSelectionSwitchViewData(
                 iconType = it,
                 name = mapToFilterTypeName(it),
                 isSelected = it == iconType,
@@ -145,12 +145,12 @@ class ChangeRecordTypeMapper @Inject constructor(
         iconImageState: IconImageState,
         iconType: IconType,
         isDarkTheme: Boolean,
-    ): ChangeRecordTypeIconSelectorStateViewData {
+    ): IconSelectionSelectorStateViewData {
         return if (iconType == IconType.TEXT) {
-            ChangeRecordTypeIconSelectorStateViewData.None
+            IconSelectionSelectorStateViewData.None
         } else {
             val theme = if (isDarkTheme) R.style.AppThemeDark else R.style.AppTheme
-            ChangeRecordTypeIconSelectorStateViewData.Available(
+            IconSelectionSelectorStateViewData.Available(
                 state = iconImageState,
                 searchButtonIsVisible = true,
                 searchButtonColor = when (iconImageState) {
@@ -188,7 +188,7 @@ class ChangeRecordTypeMapper @Inject constructor(
         newColor: AppColor,
         isDarkTheme: Boolean,
     ): ViewHolderType {
-        return ChangeRecordTypeIconViewData(
+        return IconSelectionViewData(
             iconName = iconName,
             iconResId = iconResId,
             colorInt = newColor

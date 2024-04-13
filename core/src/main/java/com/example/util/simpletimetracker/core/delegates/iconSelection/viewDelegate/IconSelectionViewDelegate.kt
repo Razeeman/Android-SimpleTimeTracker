@@ -3,23 +3,18 @@ package com.example.util.simpletimetracker.core.delegates.iconSelection.viewDele
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.databinding.IconSelectionLayoutBinding
-import com.example.util.simpletimetracker.core.delegates.iconSelection.IconSelectionViewModelDelegate
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconCategoryInfoViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconSelectorStateViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconStateViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconSwitchViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewModelDelegate.IconSelectionViewModelDelegate
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionCategoryInfoViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionSelectorStateViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionStateViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionSwitchViewData
 import com.example.util.simpletimetracker.core.repo.DeviceRepo
-import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.domain.model.IconImageState
@@ -33,7 +28,6 @@ import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setSpanSizeLookup
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.textfield.TextInputLayout
 import kotlin.math.max
 
 object IconSelectionViewDelegate {
@@ -53,7 +47,7 @@ object IconSelectionViewDelegate {
         )
         val manager = GridLayoutManager(context, columnCount)
 
-        rvChangeRecordTypeIcon.apply {
+        rvIconSelection.apply {
             layoutManager = manager
             adapter = iconsAdapter
             itemAnimator = null
@@ -63,7 +57,7 @@ object IconSelectionViewDelegate {
             )
         }
 
-        rvChangeRecordTypeIconCategory.apply {
+        rvIconSelectionCategory.apply {
             layoutManager = GridLayoutManager(context, IconEmojiType.values().size)
             adapter = iconCategoriesAdapter
             itemAnimator = null
@@ -77,13 +71,13 @@ object IconSelectionViewDelegate {
         layout: IconSelectionLayoutBinding,
         iconsLayoutManager: GridLayoutManager?,
     ) = with(layout) {
-        btnChangeRecordTypeIconSwitch.listener = {
+        btnIconSelectionSwitch.listener = {
             updateIconContainerScroll(it, layout)
             viewModel.onIconTypeClick(it)
         }
-        etChangeRecordTypeIconSearch.doAfterTextChanged { viewModel.onIconImageSearch(it.toString()) }
-        btnChangeRecordTypeIconSearch.setOnClick(viewModel::onIconImageSearchClicked)
-        rvChangeRecordTypeIcon.addOnScrollListenerAdapter(
+        etIconSelectionSearch.doAfterTextChanged { viewModel.onIconImageSearch(it.toString()) }
+        btnIconSelectionSearch.setOnClick(viewModel::onIconImageSearchClicked)
+        rvIconSelection.addOnScrollListenerAdapter(
             onScrolled = { _, _, _ ->
                 iconsLayoutManager?.let {
                     viewModel.onIconsScrolled(
@@ -101,39 +95,39 @@ object IconSelectionViewDelegate {
         layout: IconSelectionLayoutBinding,
     ) = with(layout) {
         (icon as? RecordTypeIcon.Text)?.text?.let {
-            etChangeRecordTypeIconText.setText(it)
+            etIconSelectionText.setText(it)
         }
         // Set listener only after text is set to avoid trigger on screen return.
-        etChangeRecordTypeIconText.doAfterTextChanged { viewModel.onIconTextChange(it.toString()) }
+        etIconSelectionText.doAfterTextChanged { viewModel.onIconTextChange(it.toString()) }
     }
 
     fun updateBarExpanded(
         layout: IconSelectionLayoutBinding,
     ) = with(layout) {
-        appBarChangeRecordTypeIcon.setExpanded(true)
+        appBarIconSelection.setExpanded(true)
     }
 
     fun updateIconsTypeViewData(
         data: List<ViewHolderType>,
         layout: IconSelectionLayoutBinding,
     ) = with(layout) {
-        btnChangeRecordTypeIconSwitch.adapter.replace(data)
+        btnIconSelectionSwitch.adapter.replace(data)
     }
 
     fun updateIconsState(
-        state: ChangeRecordTypeIconStateViewData,
+        state: IconSelectionStateViewData,
         layout: IconSelectionLayoutBinding,
         iconsAdapter: BaseRecyclerAdapter,
     ) = with(layout) {
         when (state) {
-            is ChangeRecordTypeIconStateViewData.Icons -> {
-                rvChangeRecordTypeIcon.isVisible = true
-                inputChangeRecordTypeIconText.isVisible = false
+            is IconSelectionStateViewData.Icons -> {
+                rvIconSelection.isVisible = true
+                inputIconSelectionText.isVisible = false
                 iconsAdapter.replaceAsNew(state.items)
             }
-            is ChangeRecordTypeIconStateViewData.Text -> {
-                rvChangeRecordTypeIcon.isVisible = false
-                inputChangeRecordTypeIconText.isVisible = true
+            is IconSelectionStateViewData.Text -> {
+                rvIconSelection.isVisible = false
+                inputIconSelectionText.isVisible = true
             }
         }
     }
@@ -159,7 +153,7 @@ object IconSelectionViewDelegate {
 
         val rowWidth = elementWidth * columnCount
         val recyclerPadding = (recyclerWidth - rowWidth) / 2
-        rvChangeRecordTypeIcon.updatePadding(left = recyclerPadding, right = recyclerPadding)
+        rvIconSelection.updatePadding(left = recyclerPadding, right = recyclerPadding)
 
         return columnCount
     }
@@ -170,7 +164,7 @@ object IconSelectionViewDelegate {
     ) {
         iconsLayoutManager?.setSpanSizeLookup { position ->
             when (iconsAdapter.getItemByPosition(position)) {
-                is ChangeRecordTypeIconCategoryInfoViewData,
+                is IconSelectionCategoryInfoViewData,
                 is LoaderViewData,
                 -> iconsLayoutManager.spanCount
                 else -> 1
@@ -182,7 +176,7 @@ object IconSelectionViewDelegate {
         item: ButtonsRowViewData,
         layout: IconSelectionLayoutBinding,
     ) = with(layout) {
-        if (item !is ChangeRecordTypeIconSwitchViewData) return
+        if (item !is IconSelectionSwitchViewData) return
 
         val scrollFlags = if (item.iconType == IconType.TEXT) {
             0
@@ -190,23 +184,23 @@ object IconSelectionViewDelegate {
             AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
         }
 
-        (btnChangeRecordTypeIconSwitch.layoutParams as? AppBarLayout.LayoutParams)
+        (btnIconSelectionSwitch.layoutParams as? AppBarLayout.LayoutParams)
             ?.scrollFlags = scrollFlags
     }
 
     fun updateIconSelectorViewData(
-        data: ChangeRecordTypeIconSelectorStateViewData,
+        data: IconSelectionSelectorStateViewData,
         layout: IconSelectionLayoutBinding,
     ) = with(layout) {
-        if (data is ChangeRecordTypeIconSelectorStateViewData.Available) {
-            btnChangeRecordTypeIconSearch.isVisible = data.searchButtonIsVisible
-            ivChangeRecordTypeIconSearch.backgroundTintList = ColorStateList.valueOf(data.searchButtonColor)
-            rvChangeRecordTypeIconCategory.isVisible = data.state is IconImageState.Chooser
-            inputChangeRecordTypeIconSearch.isVisible = data.state is IconImageState.Search
+        if (data is IconSelectionSelectorStateViewData.Available) {
+            btnIconSelectionSearch.isVisible = data.searchButtonIsVisible
+            ivIconSelectionSearch.backgroundTintList = ColorStateList.valueOf(data.searchButtonColor)
+            rvIconSelectionCategory.isVisible = data.state is IconImageState.Chooser
+            inputIconSelectionSearch.isVisible = data.state is IconImageState.Search
         } else {
-            btnChangeRecordTypeIconSearch.isVisible = false
-            rvChangeRecordTypeIconCategory.isVisible = false
-            inputChangeRecordTypeIconSearch.isVisible = false
+            btnIconSelectionSearch.isVisible = false
+            rvIconSelectionCategory.isVisible = false
+            inputIconSelectionSearch.isVisible = false
         }
     }
 }

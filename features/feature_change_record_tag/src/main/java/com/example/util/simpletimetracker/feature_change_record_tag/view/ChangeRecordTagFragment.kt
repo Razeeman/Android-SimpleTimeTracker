@@ -10,11 +10,11 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
-import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createChangeRecordTypeIconAdapterDelegate
-import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createChangeRecordTypeIconCategoryAdapterDelegate
-import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createChangeRecordTypeIconCategoryInfoAdapterDelegate
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconSelectorStateViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.ChangeRecordTypeIconStateViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createIconSelectionAdapterDelegate
+import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createIconSelectionCategoryAdapterDelegate
+import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createIconSelectionCategoryInfoAdapterDelegate
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionSelectorStateViewData
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionStateViewData
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewDelegate.IconSelectionViewDelegate
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesSelectionDialogListener
@@ -26,9 +26,7 @@ import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.core.view.UpdateViewChooserState
-import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.domain.model.IconEmojiType
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
@@ -85,16 +83,16 @@ class ChangeRecordTagFragment :
     private val iconsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createLoaderAdapterDelegate(),
-            createChangeRecordTypeIconAdapterDelegate(viewModel::onIconClick),
+            createIconSelectionAdapterDelegate(viewModel::onIconClick),
             createEmojiAdapterDelegate(viewModel::onEmojiClick),
-            createChangeRecordTypeIconCategoryInfoAdapterDelegate(),
+            createIconSelectionCategoryInfoAdapterDelegate(),
         )
     }
     private val iconCategoriesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createChangeRecordTypeIconCategoryAdapterDelegate {
+            createIconSelectionCategoryAdapterDelegate {
                 viewModel.onIconCategoryClick(it)
-                binding.containerChangeRecordTypeIcon.rvChangeRecordTypeIcon.stopScroll()
+                binding.containerChangeRecordTypeIcon.rvIconSelection.stopScroll()
             },
         )
     }
@@ -274,7 +272,7 @@ class ChangeRecordTagFragment :
         )
     }
 
-    private fun updateIconsState(state: ChangeRecordTypeIconStateViewData)  {
+    private fun updateIconsState(state: IconSelectionStateViewData) {
         IconSelectionViewDelegate.updateIconsState(
             state = state,
             layout = binding.containerChangeRecordTypeIcon,
@@ -290,7 +288,7 @@ class ChangeRecordTagFragment :
     }
 
     private fun updateIconSelectorViewData(
-        data: ChangeRecordTypeIconSelectorStateViewData,
+        data: IconSelectionSelectorStateViewData,
     ) {
         IconSelectionViewDelegate.updateIconSelectorViewData(
             data = data,
