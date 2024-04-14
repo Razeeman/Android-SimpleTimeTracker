@@ -130,6 +130,7 @@
     <string name="change_record_type_no_icon">アイコンなし</string>
     <string name="change_record_type_save">保存</string>
     <string name="change_record_message_choose_name">名称を入力してください</string>
+    <string name="change_record_message_name_exist">名前はすでに使用されています</string>
     <string name="change_record_type_categories_empty">カテゴリが追加されていません</string>
     <string name="change_record_type_goal_time_disabled">未設定</string>
     <string name="change_record_type_goal_time_hint">目標</string>

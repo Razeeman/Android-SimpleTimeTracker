@@ -130,6 +130,7 @@
     <string name="change_record_type_no_icon">無圖示</string>
     <string name="change_record_type_save">儲存</string>
     <string name="change_record_message_choose_name">選擇名稱</string>
+    <string name="change_record_message_name_exist">名稱已被使用</string>
     <string name="change_record_type_categories_empty">沒有新增分類</string>
     <string name="change_record_type_goal_time_disabled">關閉</string>
     <string name="change_record_type_goal_time_hint">目標</string>

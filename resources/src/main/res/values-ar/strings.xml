@@ -130,6 +130,7 @@
     <string name="change_record_type_no_icon">لا يوجد رمز</string>
     <string name="change_record_type_save">حفظ</string>
     <string name="change_record_message_choose_name">اختيار اسم</string>
+    <string name="change_record_message_name_exist">الاسم مستخدم بالفعل</string>
     <string name="change_record_type_categories_empty">لا توجد تصنيفات مضافة</string>
     <string name="change_record_type_goal_time_disabled">غير مفعل</string>
     <string name="change_record_type_goal_time_hint">الهدف</string>

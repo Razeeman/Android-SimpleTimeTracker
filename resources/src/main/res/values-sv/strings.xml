@@ -130,6 +130,7 @@
     <string name="change_record_type_no_icon">Ingen ikon</string>
     <string name="change_record_type_save">Spara</string>
     <string name="change_record_message_choose_name">Ange ett namn</string>
+    <string name="change_record_message_name_exist">Namnet har redan använts</string>
     <string name="change_record_type_categories_empty">Inga kategorier har lagts till</string>
     <string name="change_record_type_goal_time_disabled">Inaktiverad</string>
     <string name="change_record_type_goal_time_hint">Mål</string>

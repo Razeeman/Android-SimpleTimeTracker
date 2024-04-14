@@ -130,6 +130,7 @@
     <string name="change_record_type_no_icon">无图标</string>
     <string name="change_record_type_save">保存</string>
     <string name="change_record_message_choose_name">请填写名称</string>
+    <string name="change_record_message_name_exist">名称已被使用</string>
     <string name="change_record_type_categories_empty">未添加任何类别</string>
     <string name="change_record_type_goal_time_disabled">不启用</string>
     <string name="change_record_type_goal_time_hint">目标</string>

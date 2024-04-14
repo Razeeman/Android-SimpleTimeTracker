@@ -213,6 +213,7 @@ class ChangeRecordTypeFragment :
             expandIconTypeSwitch.observe { updateBarExpanded() }
             categories.observe(categoriesAdapter::replace)
             goalsViewData.observe(::updateGoalsState)
+            nameErrorMessage.observe(::updateNameErrorMessage)
             notificationsHintVisible.observe(
                 layoutChangeRecordTypeGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set,
             )
@@ -369,6 +370,11 @@ class ChangeRecordTypeFragment :
             data = data,
             layout = binding.containerChangeRecordTypeIcon,
         )
+    }
+
+    private fun updateNameErrorMessage(error: String) = with(binding) {
+        inputChangeRecordTypeName.error = error
+        inputChangeRecordTypeName.isErrorEnabled = error.isNotEmpty()
     }
 
     private inline fun <reified T : State> updateChooser(

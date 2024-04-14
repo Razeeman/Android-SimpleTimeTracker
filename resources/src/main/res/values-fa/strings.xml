@@ -130,6 +130,7 @@
     <string name="change_record_type_no_icon">بدون نماد</string>
     <string name="change_record_type_save">ذخیره</string>
     <string name="change_record_message_choose_name">نامی انتخاب کنید</string>
+    <string name="change_record_message_name_exist">نام قبلاً استفاده شده است</string>
     <string name="change_record_type_categories_empty">دسته بندی ای اضافه نشد</string>
     <string name="change_record_type_goal_time_disabled">غیر فعال</string>
     <string name="change_record_type_goal_time_hint">هدف</string>

@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsDetailNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
@@ -48,6 +49,7 @@ import com.example.util.simpletimetracker.core.R as coreR
 @HiltViewModel
 class ChangeRecordTypeViewModel @Inject constructor(
     private val router: Router,
+    private val resourceRepo: ResourceRepo,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
@@ -97,6 +99,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     )
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
+    val nameErrorMessage: LiveData<String> = MutableLiveData("")
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId != 0L) }
     val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId == 0L) }
@@ -130,6 +133,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 newName = name
                 updateRecordPreviewViewData()
             }
+        }
+        viewModelScope.launch {
+            val type = recordTypeInteractor.get(name)
+            val error = if (type != null && type.id != recordTypeId) {
+                resourceRepo.getString(R.string.change_record_message_name_exist)
+            } else {
+                ""
+            }
+            nameErrorMessage.set(error)
         }
     }
 

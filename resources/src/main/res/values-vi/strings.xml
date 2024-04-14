@@ -130,6 +130,7 @@
     <string name="change_record_type_no_icon">Không có biểu tượng</string>
     <string name="change_record_type_save">Lưu</string>
     <string name="change_record_message_choose_name">Chọn một tên</string>
+    <string name="change_record_message_name_exist">Tên đã được sử dụng</string>
     <string name="change_record_type_categories_empty">Chưa thêm danh mục nào</string>
     <string name="change_record_type_goal_time_disabled">Đã tắt</string>
     <string name="change_record_type_goal_time_hint">Mục tiêu</string>

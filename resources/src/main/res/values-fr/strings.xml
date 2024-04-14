@@ -130,6 +130,7 @@
     <string name="change_record_type_no_icon">Aucune icône</string>
     <string name="change_record_type_save">Sauvegarder</string>
     <string name="change_record_message_choose_name">Choisissez un nom</string>
+    <string name="change_record_message_name_exist">Nom déjà utilisé</string>
     <string name="change_record_type_categories_empty">Aucune catégorie ajoutée</string>
     <string name="change_record_type_goal_time_disabled">Désactivé</string>
     <string name="change_record_type_goal_time_hint">Objectif</string>

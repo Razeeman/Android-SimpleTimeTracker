@@ -130,6 +130,7 @@
     <string name="change_record_type_no_icon">아이콘 없음</string>
     <string name="change_record_type_save">저장</string>
     <string name="change_record_message_choose_name">이름을 입력하세요</string>
+    <string name="change_record_message_name_exist">이미 사용된 이름</string>
     <string name="change_record_type_categories_empty">카테고리 추가되지 않음</string>
     <string name="change_record_type_goal_time_disabled">비활성화됨</string>
     <string name="change_record_type_goal_time_hint">목표</string>

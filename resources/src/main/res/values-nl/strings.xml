@@ -130,6 +130,7 @@
     <string name="change_record_type_no_icon">Geen pictogram</string>
     <string name="change_record_type_save">Opslaan</string>
     <string name="change_record_message_choose_name">Kies een naam</string>
+    <string name="change_record_message_name_exist">Naam al gebruikt</string>
     <string name="change_record_type_categories_empty">Geen categorieën toegevoegd</string>
     <string name="change_record_type_goal_time_disabled">Uitgeschakeld</string>
     <string name="change_record_type_goal_time_hint">Doel</string>

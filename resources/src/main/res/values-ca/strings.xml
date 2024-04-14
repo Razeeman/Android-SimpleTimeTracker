@@ -130,6 +130,7 @@
     <string name="change_record_type_no_icon">Sense icona</string>
     <string name="change_record_type_save">Desa</string>
     <string name="change_record_message_choose_name">Trieu un nom</string>
+    <string name="change_record_message_name_exist">Nom ja utilitzat</string>
     <string name="change_record_type_categories_empty">No s\'han afegit categories</string>
     <string name="change_record_type_goal_time_disabled">Desactivat</string>
     <string name="change_record_type_goal_time_hint">Objectiu</string>

@@ -130,6 +130,7 @@
     <string name="change_record_type_no_icon">Немає значка</string>
     <string name="change_record_type_save">Зберегти</string>
     <string name="change_record_message_choose_name">Оберіть ім\'я</string>
+    <string name="change_record_message_name_exist">Назва вже використана</string>
     <string name="change_record_type_categories_empty">Категорії не додано</string>
     <string name="change_record_type_goal_time_disabled">Відключено</string>
     <string name="change_record_type_goal_time_hint">Цільова</string>

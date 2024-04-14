@@ -35,6 +35,10 @@ class RecordTypeInteractor @Inject constructor(
         return recordTypeRepo.get(id)
     }
 
+    suspend fun get(name: String): RecordType? {
+        return recordTypeRepo.get(name)
+    }
+
     suspend fun add(recordType: RecordType): Long {
         return recordTypeRepo.add(recordType)
     }
