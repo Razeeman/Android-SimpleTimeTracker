@@ -209,6 +209,8 @@
     <string name="settings_backup_title">Pengaturan cadangan</string>
     <string name="settings_export_title">Ekspor dan impor</string>
     <string name="settings_sort_order">Urutkan kegiatan</string>
+    <string name="settings_sort_order_category">Urutkan kategori</string>
+    <string name="settings_sort_order_tag">Urutkan tag</string>
     <string name="settings_sort_by_name">Nama</string>
     <string name="settings_sort_by_color">Warna</string>
     <string name="settings_sort_manually">Secara manual</string>

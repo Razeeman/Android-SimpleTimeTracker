@@ -1,21 +1,26 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeGoalRepo
-import java.util.Locale
 import javax.inject.Inject
 
 class CategoryInteractor @Inject constructor(
     private val categoryRepo: CategoryRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
     private val recordTypeGoalRepo: RecordTypeGoalRepo,
+    private val prefsInteractor: PrefsInteractor,
+    private val sortCardsInteractor: SortCardsInteractor,
 ) {
 
-    suspend fun getAll(): List<Category> {
-        return categoryRepo.getAll()
-            .sortedBy { it.name.lowercase(Locale.getDefault()) }
+    suspend fun getAll(cardOrder: CardOrder? = null): List<Category> {
+        return sortCardsInteractor.sort(
+            cardOrder = cardOrder ?: prefsInteractor.getCategoryOrder(),
+            manualOrderProvider = { prefsInteractor.getCategoryOrderManual() },
+            data = categoryRepo.getAll().map(::mapForSort),
+        ).map { it.data }
     }
 
     suspend fun get(id: Long): Category? {
@@ -30,5 +35,16 @@ class CategoryInteractor @Inject constructor(
         recordTypeCategoryRepo.removeAll(id)
         recordTypeGoalRepo.removeByCategory(id)
         categoryRepo.remove(id)
+    }
+
+    private fun mapForSort(
+        data: Category,
+    ): SortCardsInteractor.DataHolder<Category> {
+        return SortCardsInteractor.DataHolder(
+            id = data.id,
+            name = data.name,
+            color = data.color,
+            data = data,
+        )
     }
 }

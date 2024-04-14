@@ -209,6 +209,8 @@
     <string name="settings_backup_title">تنظیمات پشتیبان گیری</string>
     <string name="settings_export_title">صادرات و واردات</string>
     <string name="settings_sort_order">مرتب سازی فعالیت ها</string>
+    <string name="settings_sort_order_category">دسته بندی ها</string>
+    <string name="settings_sort_order_tag">مرتب سازی برچسب ها</string>
     <string name="settings_sort_by_name">نام</string>
     <string name="settings_sort_by_color">رنگ</string>
     <string name="settings_sort_manually">دستی</string>

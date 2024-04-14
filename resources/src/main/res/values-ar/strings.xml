@@ -209,6 +209,8 @@
     <string name="settings_backup_title">إعدادات النسخ الاحتياطي</string>
     <string name="settings_export_title">التصدير والاستيراد</string>
     <string name="settings_sort_order">فرز الأنشطة</string>
+    <string name="settings_sort_order_category">فرز الفئات</string>
+    <string name="settings_sort_order_tag">فرز العلامات</string>
     <string name="settings_sort_by_name">الاسم</string>
     <string name="settings_sort_by_color">اللون</string>
     <string name="settings_sort_manually">يدويا</string>

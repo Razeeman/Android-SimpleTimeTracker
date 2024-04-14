@@ -209,6 +209,8 @@
     <string name="settings_backup_title">Backup-Einstellungen</string>
     <string name="settings_export_title">Export und Import</string>
     <string name="settings_sort_order">Aktivitäten sortieren</string>
+    <string name="settings_sort_order_category">Kategorien sortieren</string>
+    <string name="settings_sort_order_tag">Tags sortieren</string>
     <string name="settings_sort_by_name">Name</string>
     <string name="settings_sort_by_color">Farbe</string>
     <string name="settings_sort_manually">Manuell</string>

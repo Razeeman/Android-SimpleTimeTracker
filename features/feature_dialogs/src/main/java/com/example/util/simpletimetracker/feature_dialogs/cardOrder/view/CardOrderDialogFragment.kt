@@ -33,7 +33,7 @@ class CardOrderDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     private val viewModel: CardOrderViewModel by viewModels()
 
-    private val recordTypesAdapter: BaseRecyclerAdapter by lazy {
+    private val viewDataAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createEmptyAdapterDelegate(),
             createRecordTypeAdapterDelegate(),
@@ -47,7 +47,7 @@ class CardOrderDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        viewModel.onDismiss(recordTypesAdapter.currentList)
+        viewModel.onDismiss(viewDataAdapter.currentList)
     }
 
     override fun initDialog() {
@@ -62,7 +62,7 @@ class CardOrderDialogFragment : BaseBottomSheetFragment<Binding>() {
                 justifyContent = JustifyContent.CENTER
                 flexWrap = FlexWrap.WRAP
             }
-            adapter = recordTypesAdapter
+            adapter = viewDataAdapter
         }
     }
 
@@ -87,7 +87,7 @@ class CardOrderDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     override fun initViewModel(): Unit = with(viewModel) {
         extra = this@CardOrderDialogFragment.extra
-        recordTypes.observe(recordTypesAdapter::replace)
+        viewData.observe(viewDataAdapter::replace)
     }
 
     companion object {

@@ -209,6 +209,8 @@
     <string name="settings_backup_title">Back-up instellingen</string>
     <string name="settings_export_title">Export en import</string>
     <string name="settings_sort_order">Activiteiten sorteren</string>
+    <string name="settings_sort_order_category">Categorieën sorteren</string>
+    <string name="settings_sort_order_tag">Tags sorteren</string>
     <string name="settings_sort_by_name">Naam</string>
     <string name="settings_sort_by_color">Kleur</string>
     <string name="settings_sort_manually">Handmatig</string>

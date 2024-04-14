@@ -14,6 +14,8 @@ interface PrefsRepo {
     var chartFilterType: Int
 
     var cardOrder: Int
+    var categoryOrder: Int
+    var tagOrder: Int
 
     var statisticsRange: Int
     var statisticsRangeCustomStart: Long
@@ -134,6 +136,14 @@ interface PrefsRepo {
     fun setCardOrderManual(cardOrder: Map<Long, Long>)
 
     fun getCardOrderManual(): Map<Long, Long>
+
+    fun setCategoryOrderManual(cardOrder: Map<Long, Long>)
+
+    fun getCategoryOrderManual(): Map<Long, Long>
+
+    fun setTagOrderManual(cardOrder: Map<Long, Long>)
+
+    fun getTagOrderManual(): Map<Long, Long>
 
     fun clear()
 }

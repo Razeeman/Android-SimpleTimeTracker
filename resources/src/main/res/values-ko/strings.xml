@@ -209,6 +209,8 @@
     <string name="settings_backup_title">백업 설정</string>
     <string name="settings_export_title">내보내기 및 가져오기</string>
     <string name="settings_sort_order">활동 정렬</string>
+    <string name="settings_sort_order_category">카테고리 정렬</string>
+    <string name="settings_sort_order_tag">태그 정렬</string>
     <string name="settings_sort_by_name">이름</string>
     <string name="settings_sort_by_color">색상</string>
     <string name="settings_sort_manually">수동</string>

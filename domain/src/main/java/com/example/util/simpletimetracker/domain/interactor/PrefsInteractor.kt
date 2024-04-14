@@ -67,20 +67,27 @@ class PrefsInteractor @Inject constructor(
     }
 
     suspend fun getCardOrder(): CardOrder = withContext(Dispatchers.IO) {
-        when (prefsRepo.cardOrder) {
-            0 -> CardOrder.NAME
-            1 -> CardOrder.COLOR
-            2 -> CardOrder.MANUAL
-            else -> CardOrder.NAME
-        }
+        mapToCardOrder(prefsRepo.cardOrder)
     }
 
     suspend fun setCardOrder(cardOrder: CardOrder) = withContext(Dispatchers.IO) {
-        prefsRepo.cardOrder = when (cardOrder) {
-            CardOrder.NAME -> 0
-            CardOrder.COLOR -> 1
-            CardOrder.MANUAL -> 2
-        }
+        prefsRepo.cardOrder = mapFromCardOrder(cardOrder)
+    }
+
+    suspend fun getCategoryOrder(): CardOrder = withContext(Dispatchers.IO) {
+        mapToCardOrder(prefsRepo.categoryOrder)
+    }
+
+    suspend fun setCategoryOrder(cardOrder: CardOrder) = withContext(Dispatchers.IO) {
+        prefsRepo.categoryOrder = mapFromCardOrder(cardOrder)
+    }
+
+    suspend fun getTagOrder(): CardOrder = withContext(Dispatchers.IO) {
+        mapToCardOrder(prefsRepo.tagOrder)
+    }
+
+    suspend fun setTagOrder(cardOrder: CardOrder) = withContext(Dispatchers.IO) {
+        prefsRepo.tagOrder = mapFromCardOrder(cardOrder)
     }
 
     suspend fun getStatisticsRange(): RangeLength = withContext(Dispatchers.IO) {
@@ -498,6 +505,22 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.getCardOrderManual()
     }
 
+    suspend fun setCategoryOrderManual(cardsOrder: Map<Long, Long>) = withContext(Dispatchers.IO) {
+        prefsRepo.setCategoryOrderManual(cardsOrder)
+    }
+
+    suspend fun getCategoryOrderManual(): Map<Long, Long> = withContext(Dispatchers.IO) {
+        prefsRepo.getCategoryOrderManual()
+    }
+
+    suspend fun setTagOrderManual(cardsOrder: Map<Long, Long>) = withContext(Dispatchers.IO) {
+        prefsRepo.setTagOrderManual(cardsOrder)
+    }
+
+    suspend fun getTagOrderManual(): Map<Long, Long> = withContext(Dispatchers.IO) {
+        prefsRepo.getTagOrderManual()
+    }
+
     suspend fun setAutomaticBackupUri(uri: String) = withContext(Dispatchers.IO) {
         prefsRepo.automaticBackupUri = uri
     }
@@ -607,6 +630,23 @@ class PrefsInteractor @Inject constructor(
             is RangeLength.All -> 4
             is RangeLength.Custom -> 5
             is RangeLength.Last -> 6
+        }
+    }
+
+    private fun mapToCardOrder(data: Int): CardOrder {
+        return when (data) {
+            0 -> CardOrder.NAME
+            1 -> CardOrder.COLOR
+            2 -> CardOrder.MANUAL
+            else -> CardOrder.NAME
+        }
+    }
+
+    private fun mapFromCardOrder(data: CardOrder): Int {
+        return when (data) {
+            CardOrder.NAME -> 0
+            CardOrder.COLOR -> 1
+            CardOrder.MANUAL -> 2
         }
     }
 }

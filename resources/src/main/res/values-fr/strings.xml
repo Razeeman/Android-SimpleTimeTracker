@@ -209,6 +209,8 @@
     <string name="settings_backup_title">Paramètres de sauvegarde</string>
     <string name="settings_export_title">Exporter et importer</string>
     <string name="settings_sort_order">Trier les activités</string>
+    <string name="settings_sort_order_category">Trier les catégories</string>
+    <string name="settings_sort_order_tag">Trier les balises</string>
     <string name="settings_sort_by_name">Par nom</string>
     <string name="settings_sort_by_color">Par couleur</string>
     <string name="settings_sort_manually">Manuellement</string>

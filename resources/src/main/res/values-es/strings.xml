@@ -209,6 +209,8 @@
     <string name="settings_backup_title">Configuración de copia de seguridad</string>
     <string name="settings_export_title">Exportar e importar</string>
     <string name="settings_sort_order">Ordenar actividades</string>
+    <string name="settings_sort_order_category">Ordenar categorías</string>
+    <string name="settings_sort_order_tag">Ordenar etiquetas</string>
     <string name="settings_sort_by_name">Nombre</string>
     <string name="settings_sort_by_color">Color</string>
     <string name="settings_sort_manually">Manual</string>

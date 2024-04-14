@@ -209,6 +209,8 @@
     <string name="settings_backup_title">Setări Backup</string>
     <string name="settings_export_title">Exportă și importă</string>
     <string name="settings_sort_order">Sortează activitățile</string>
+    <string name="settings_sort_order_category">Sortați categoriile</string>
+    <string name="settings_sort_order_tag">Sortați etichetele</string>
     <string name="settings_sort_by_name">Nume</string>
     <string name="settings_sort_by_color">Culoare</string>
     <string name="settings_sort_manually">Manual</string>

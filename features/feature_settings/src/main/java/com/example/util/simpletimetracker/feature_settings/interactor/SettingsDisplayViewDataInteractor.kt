@@ -18,9 +18,9 @@ import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSpinn
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTextViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTopViewData
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
-import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.WidgetTransparencyViewData
+import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import javax.inject.Inject
 
 class SettingsDisplayViewDataInteractor @Inject constructor(
@@ -172,19 +172,9 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                 subtitle = "",
                 isChecked = prefsInteractor.getShowSeconds(),
             )
-            val cardOrderViewData = loadCardOrderViewData()
-            result += SettingsSpinnerWithButtonViewData(
-                data = SettingsSpinnerViewData(
-                    block = SettingsBlock.DisplaySortActivities,
-                    title = resourceRepo.getString(R.string.settings_sort_order),
-                    value = cardOrderViewData.items
-                        .getOrNull(cardOrderViewData.selectedPosition)?.text.orEmpty(),
-                    items = cardOrderViewData.items,
-                    selectedPosition = cardOrderViewData.selectedPosition,
-                    processSameItemSelected = false,
-                ),
-                isButtonVisible = cardOrderViewData.isManualConfigButtonVisible,
-            )
+            result += mapOrderData(CardOrderDialogParams.Type.RecordType)
+            result += mapOrderData(CardOrderDialogParams.Type.Category)
+            result += mapOrderData(CardOrderDialogParams.Type.Tag)
             result += SettingsTextViewData(
                 block = SettingsBlock.DisplayCardSize,
                 title = resourceRepo.getString(R.string.settings_change_card_size),
@@ -198,6 +188,41 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
         )
 
         return result
+    }
+
+    private suspend fun mapOrderData(
+        type: CardOrderDialogParams.Type,
+    ): SettingsSpinnerWithButtonViewData {
+        val cardOrderViewData = when (type) {
+            is CardOrderDialogParams.Type.RecordType -> prefsInteractor.getCardOrder()
+            is CardOrderDialogParams.Type.Category -> prefsInteractor.getCategoryOrder()
+            is CardOrderDialogParams.Type.Tag -> prefsInteractor.getTagOrder()
+        }.let(settingsMapper::toCardOrderViewData)
+
+        val block = when (type) {
+            is CardOrderDialogParams.Type.RecordType -> SettingsBlock.DisplaySortActivities
+            is CardOrderDialogParams.Type.Category -> SettingsBlock.DisplaySortCategories
+            is CardOrderDialogParams.Type.Tag -> SettingsBlock.DisplaySortTags
+        }
+
+        val title = when (type) {
+            is CardOrderDialogParams.Type.RecordType -> R.string.settings_sort_order
+            is CardOrderDialogParams.Type.Category -> R.string.settings_sort_order_category
+            is CardOrderDialogParams.Type.Tag -> R.string.settings_sort_order_tag
+        }.let(resourceRepo::getString)
+
+        return SettingsSpinnerWithButtonViewData(
+            data = SettingsSpinnerViewData(
+                block = block,
+                title = title,
+                value = cardOrderViewData.items
+                    .getOrNull(cardOrderViewData.selectedPosition)?.text.orEmpty(),
+                items = cardOrderViewData.items,
+                selectedPosition = cardOrderViewData.selectedPosition,
+                processSameItemSelected = false,
+            ),
+            isButtonVisible = cardOrderViewData.isManualConfigButtonVisible,
+        )
     }
 
     private suspend fun loadIgnoreShortUntrackedViewData(): String {
@@ -246,10 +271,5 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
     private suspend fun loadUseProportionalMinutesViewData(): String {
         return prefsInteractor.getUseProportionalMinutes()
             .let(settingsMapper::toUseProportionalMinutesHint)
-    }
-
-    private suspend fun loadCardOrderViewData(): CardOrderViewData {
-        return prefsInteractor.getCardOrder()
-            .let(settingsMapper::toCardOrderViewData)
     }
 }

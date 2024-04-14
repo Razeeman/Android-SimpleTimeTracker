@@ -209,6 +209,8 @@
     <string name="settings_backup_title">Thiết đặt sao lưu</string>
     <string name="settings_export_title">Xuất và nhập</string>
     <string name="settings_sort_order">Sắp xếp hoạt động</string>
+    <string name="settings_sort_order_category">Sắp xếp danh mục</string>
+    <string name="settings_sort_order_tag">Sắp xếp thẻ</string>
     <string name="settings_sort_by_name">Tên</string>
     <string name="settings_sort_by_color">Màu</string>
     <string name="settings_sort_manually">Thủ công</string>

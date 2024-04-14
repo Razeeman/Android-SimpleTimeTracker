@@ -209,6 +209,8 @@
     <string name="settings_backup_title">備份設置</string>
     <string name="settings_export_title">導出和導入</string>
     <string name="settings_sort_order">排序活動</string>
+    <string name="settings_sort_order_category">對類別進行排序</string>
+    <string name="settings_sort_order_tag">對標籤進行排序</string>
     <string name="settings_sort_by_name">名稱</string>
     <string name="settings_sort_by_color">顏色</string>
     <string name="settings_sort_manually">手動</string>

@@ -209,6 +209,8 @@
     <string name="settings_backup_title">Налаштування резервного копіювання</string>
     <string name="settings_export_title">Експорт та імпорт</string>
     <string name="settings_sort_order">Сортувати активності</string>
+    <string name="settings_sort_order_category">Сортування категорій</string>
+    <string name="settings_sort_order_tag">Сортування тегів</string>
     <string name="settings_sort_by_name">Ім\'я</string>
     <string name="settings_sort_by_color">Колір</string>
     <string name="settings_sort_manually">Вручну</string>

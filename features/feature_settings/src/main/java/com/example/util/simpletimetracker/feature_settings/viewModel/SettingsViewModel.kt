@@ -132,6 +132,10 @@ class SettingsViewModel @Inject constructor(
                 displayDelegate.onChangeCardSizeClick()
             SettingsBlock.DisplaySortActivities ->
                 displayDelegate.onCardOrderManualClick()
+            SettingsBlock.DisplaySortCategories ->
+                displayDelegate.onCategoryOrderManualClick()
+            SettingsBlock.DisplaySortTags ->
+                displayDelegate.onTagOrderManualClick()
             SettingsBlock.AdditionalShiftStartOfDayButton ->
                 additionalDelegate.onStartOfDaySignClicked()
             SettingsBlock.AdditionalAutomatedTracking ->
@@ -198,6 +202,10 @@ class SettingsViewModel @Inject constructor(
                 displayDelegate.onWidgetTransparencySelected(position)
             SettingsBlock.DisplaySortActivities ->
                 displayDelegate.onRecordTypeOrderSelected(position)
+            SettingsBlock.DisplaySortCategories ->
+                displayDelegate.onCategoryOrderSelected(position)
+            SettingsBlock.DisplaySortTags ->
+                displayDelegate.onTagOrderSelected(position)
             SettingsBlock.AdditionalFirstDayOfWeek ->
                 additionalDelegate.onFirstDayOfWeekSelected(position)
             SettingsBlock.AdditionalRepeatButton ->

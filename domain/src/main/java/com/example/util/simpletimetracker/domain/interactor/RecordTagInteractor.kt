@@ -1,11 +1,11 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeToTagRepo
 import com.example.util.simpletimetracker.domain.repo.RunningRecordToRecordTagRepo
-import java.util.Locale
 import javax.inject.Inject
 
 class RecordTagInteractor @Inject constructor(
@@ -13,15 +13,20 @@ class RecordTagInteractor @Inject constructor(
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val runningRecordToRecordTagRepo: RunningRecordToRecordTagRepo,
     private val recordTypeToTagRepo: RecordTypeToTagRepo,
+    private val prefsInteractor: PrefsInteractor,
+    private val sortCardsInteractor: SortCardsInteractor,
 ) {
 
     suspend fun isEmpty(): Boolean {
         return repo.isEmpty()
     }
 
-    suspend fun getAll(): List<RecordTag> {
-        // TODO TAGS add sort
-        return repo.getAll().let(::sort)
+    suspend fun getAll(cardOrder: CardOrder? = null): List<RecordTag> {
+        return sortCardsInteractor.sort(
+            cardOrder = cardOrder ?: prefsInteractor.getTagOrder(),
+            manualOrderProvider = { prefsInteractor.getTagOrderManual() },
+            data = repo.getAll().map(::mapForSort),
+        ).map { it.data }
     }
 
     suspend fun get(id: Long): RecordTag? {
@@ -49,8 +54,14 @@ class RecordTagInteractor @Inject constructor(
         recordTypeToTagRepo.removeAll(id)
     }
 
-    // TODO remove sort and sort when needed.
-    private fun sort(items: List<RecordTag>): List<RecordTag> {
-        return items.sortedBy { it.name.lowercase(Locale.getDefault()) }
+    private fun mapForSort(
+        data: RecordTag,
+    ): SortCardsInteractor.DataHolder<RecordTag> {
+        return SortCardsInteractor.DataHolder(
+            id = data.id,
+            name = data.name,
+            color = data.color,
+            data = data,
+        )
     }
 }

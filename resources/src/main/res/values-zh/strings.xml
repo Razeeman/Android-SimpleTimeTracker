@@ -209,6 +209,8 @@
     <string name="settings_backup_title">备份设置</string>
     <string name="settings_export_title">导出和导入</string>
     <string name="settings_sort_order">活动排序</string>
+    <string name="settings_sort_order_category">对类别进行排序</string>
+    <string name="settings_sort_order_tag">对标签进行排序</string>
     <string name="settings_sort_by_name">名称</string>
     <string name="settings_sort_by_color">颜色</string>
     <string name="settings_sort_manually">手动</string>

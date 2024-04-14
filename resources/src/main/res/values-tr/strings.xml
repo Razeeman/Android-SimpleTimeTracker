@@ -209,6 +209,8 @@
     <string name="settings_backup_title">Yedekleme ayarları</string>
     <string name="settings_export_title">Ihracat ve ithalat</string>
     <string name="settings_sort_order">Aktiviteleri sırala</string>
+    <string name="settings_sort_order_category">Kategorileri sırala</string>
+    <string name="settings_sort_order_tag">Etiketleri sırala</string>
     <string name="settings_sort_by_name">İsim</string>
     <string name="settings_sort_by_color">Renk</string>
     <string name="settings_sort_manually">Elle</string>

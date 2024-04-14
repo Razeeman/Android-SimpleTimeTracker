@@ -42,6 +42,14 @@ class PrefsRepoImpl @Inject constructor(
         KEY_CARD_ORDER, 0,
     )
 
+    override var categoryOrder: Int by prefs.delegate(
+        KEY_CATEGORY_ORDER, 0,
+    )
+
+    override var tagOrder: Int by prefs.delegate(
+        KEY_TAG_ORDER, 0,
+    )
+
     override var statisticsRange: Int by prefs.delegate(
         KEY_STATISTICS_RANGE, 0,
     )
@@ -367,7 +375,37 @@ class PrefsRepoImpl @Inject constructor(
     }
 
     override fun setCardOrderManual(cardOrder: Map<Long, Long>) {
-        val key = KEY_CARD_ORDER_MANUAL
+        setOrderManual(KEY_CARD_ORDER_MANUAL, cardOrder)
+    }
+
+    override fun getCardOrderManual(): Map<Long, Long> {
+        return getOrderManual(KEY_CARD_ORDER_MANUAL)
+    }
+
+    override fun setCategoryOrderManual(cardOrder: Map<Long, Long>) {
+        setOrderManual(KEY_CATEGORY_ORDER_MANUAL, cardOrder)
+    }
+
+    override fun getCategoryOrderManual(): Map<Long, Long> {
+        return getOrderManual(KEY_CATEGORY_ORDER_MANUAL)
+    }
+
+    override fun setTagOrderManual(cardOrder: Map<Long, Long>) {
+        setOrderManual(KEY_TAG_ORDER_MANUAL, cardOrder)
+    }
+
+    override fun getTagOrderManual(): Map<Long, Long> {
+        return getOrderManual(KEY_TAG_ORDER_MANUAL)
+    }
+
+    override fun clear() {
+        prefs.edit().clear().apply()
+    }
+
+    private fun setOrderManual(
+        key: String,
+        cardOrder: Map<Long, Long>,
+    ) {
         logPrefsDataAccess("set $key")
         val set = cardOrder.map { (typeId, order) ->
             "$typeId$CARDS_ORDER_DELIMITER${order.toShort()}"
@@ -376,8 +414,9 @@ class PrefsRepoImpl @Inject constructor(
         prefs.edit().putStringSet(key, set).apply()
     }
 
-    override fun getCardOrderManual(): Map<Long, Long> {
-        val key = KEY_CARD_ORDER_MANUAL
+    private fun getOrderManual(
+        key: String,
+    ): Map<Long, Long> {
         logPrefsDataAccess("get $key")
         val set = prefs.getStringSet(key, emptySet())
 
@@ -393,10 +432,6 @@ class PrefsRepoImpl @Inject constructor(
             ?: emptyMap()
     }
 
-    override fun clear() {
-        prefs.edit().clear().apply()
-    }
-
     @Suppress("unused")
     companion object {
         private const val DO_NOT_DISTURB_PERIOD_START: Long = 0 // midnight
@@ -408,6 +443,8 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_TAGS_FILTERED_ON_CHART = "tagsFilteredOnChart"
         private const val KEY_CHART_FILTER_TYPE = "chartFilterType"
         private const val KEY_CARD_ORDER = "cardOrder"
+        private const val KEY_CATEGORY_ORDER = "categoryOrder"
+        private const val KEY_TAG_ORDER = "tagOrder"
         private const val KEY_STATISTICS_RANGE = "statisticsRange"
         private const val KEY_STATISTICS_RANGE_CUSTOM_START = "statisticsRangeCustomStart"
         private const val KEY_STATISTICS_RANGE_CUSTOM_END = "statisticsRangeCustomEnd"
@@ -467,6 +504,8 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_STATISTICS_WIDGET_RANGE = "statistics_widget_range_"
         private const val KEY_QUICK_SETTINGS_WIDGET_TYPE = "quick_settings_widget_type_"
         private const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"
+        private const val KEY_CATEGORY_ORDER_MANUAL = "categoryOrderManual"
+        private const val KEY_TAG_ORDER_MANUAL = "tagOrderManual"
 
         // Removed
         private const val KEY_SORT_RECORD_TYPES_BY_COLOR = "sortRecordTypesByColor" // Boolean

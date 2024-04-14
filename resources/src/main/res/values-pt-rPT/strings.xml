@@ -209,6 +209,8 @@
     <string name="settings_backup_title">Definições da cópia de segurança</string>
     <string name="settings_export_title">Exportar e importar</string>
     <string name="settings_sort_order">Organizar atividades</string>
+    <string name="settings_sort_order_category">Organizar categorias</string>
+    <string name="settings_sort_order_tag">Organizar tags</string>
     <string name="settings_sort_by_name">Nome</string>
     <string name="settings_sort_by_color">Cor</string>
     <string name="settings_sort_manually">Manualmente</string>

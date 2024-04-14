@@ -209,6 +209,8 @@
     <string name="settings_backup_title">बैकअप सेटिंग्स</string>
     <string name="settings_export_title">निर्यात और आयात</string>
     <string name="settings_sort_order">क्रमबद्ध गतिविधियाँ</string>
+    <string name="settings_sort_order_category">श्रेणियां क्रमबद्ध करें</string>
+    <string name="settings_sort_order_tag">टैग क्रमबद्ध करें</string>
     <string name="settings_sort_by_name">नाम</string>
     <string name="settings_sort_by_color">रंग</string>
     <string name="settings_sort_manually">हस्तचालन से</string>

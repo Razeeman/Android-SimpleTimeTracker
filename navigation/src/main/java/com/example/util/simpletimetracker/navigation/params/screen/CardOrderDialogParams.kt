@@ -6,5 +6,18 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CardOrderDialogParams(
+    val type: Type = Type.RecordType,
     val initialOrder: CardOrder = CardOrder.MANUAL,
-) : Parcelable, ScreenParams
+) : Parcelable, ScreenParams {
+
+    sealed interface Type : Parcelable {
+        @Parcelize
+        object RecordType : Type
+
+        @Parcelize
+        object Category : Type
+
+        @Parcelize
+        object Tag : Type
+    }
+}

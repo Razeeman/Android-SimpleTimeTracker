@@ -75,21 +75,45 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
     }
 
     fun onRecordTypeOrderSelected(position: Int) {
-        delegateScope.launch {
-            val currentOrder = prefsInteractor.getCardOrder()
-            val newOrder = settingsMapper.toCardOrder(position)
-            if (newOrder == currentOrder) return@launch
+        onOrderSelected(
+            type = CardOrderDialogParams.Type.RecordType,
+            position = position,
+        )
+    }
 
-            if (newOrder == CardOrder.MANUAL) {
-                openCardOrderDialog(currentOrder)
-            }
-            prefsInteractor.setCardOrder(newOrder)
-            parent?.updateContent()
-        }
+    fun onCategoryOrderSelected(position: Int) {
+        onOrderSelected(
+            type = CardOrderDialogParams.Type.Category,
+            position = position,
+        )
+    }
+
+    fun onTagOrderSelected(position: Int) {
+        onOrderSelected(
+            type = CardOrderDialogParams.Type.Tag,
+            position = position,
+        )
     }
 
     fun onCardOrderManualClick() {
-        openCardOrderDialog(CardOrder.MANUAL)
+        openOrderDialog(
+            type = CardOrderDialogParams.Type.RecordType,
+            cardOrder = CardOrder.MANUAL,
+        )
+    }
+
+    fun onCategoryOrderManualClick() {
+        openOrderDialog(
+            type = CardOrderDialogParams.Type.Category,
+            cardOrder = CardOrder.MANUAL,
+        )
+    }
+
+    fun onTagOrderManualClick() {
+        openOrderDialog(
+            type = CardOrderDialogParams.Type.Tag,
+            cardOrder = CardOrder.MANUAL,
+        )
     }
 
     fun onShowUntrackedInRecordsClicked() {
@@ -263,9 +287,40 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    private fun openCardOrderDialog(cardOrder: CardOrder) {
+    private fun onOrderSelected(
+        type: CardOrderDialogParams.Type,
+        position: Int,
+    ) {
+        delegateScope.launch {
+            val currentOrder = when (type) {
+                is CardOrderDialogParams.Type.RecordType -> prefsInteractor.getCardOrder()
+                is CardOrderDialogParams.Type.Category -> prefsInteractor.getCategoryOrder()
+                is CardOrderDialogParams.Type.Tag -> prefsInteractor.getTagOrder()
+            }
+            val newOrder = settingsMapper.toCardOrder(position)
+            if (newOrder == currentOrder) return@launch
+
+            if (newOrder == CardOrder.MANUAL) {
+                openOrderDialog(type, currentOrder)
+            }
+            when (type) {
+                is CardOrderDialogParams.Type.RecordType -> prefsInteractor.setCardOrder(newOrder)
+                is CardOrderDialogParams.Type.Category -> prefsInteractor.setCategoryOrder(newOrder)
+                is CardOrderDialogParams.Type.Tag -> prefsInteractor.setTagOrder(newOrder)
+            }
+            parent?.updateContent()
+        }
+    }
+
+    private fun openOrderDialog(
+        type: CardOrderDialogParams.Type,
+        cardOrder: CardOrder,
+    ) {
         router.navigate(
-            CardOrderDialogParams(cardOrder),
+            CardOrderDialogParams(
+                type = type,
+                initialOrder = cardOrder,
+            ),
         )
     }
 }

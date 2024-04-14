@@ -209,6 +209,8 @@
     <string name="settings_backup_title">バックアップ設定</string>
     <string name="settings_export_title">エクスポートとインポート</string>
     <string name="settings_sort_order">アクティビティをソート</string>
+    <string name="settings_sort_order_category">カテゴリを並べ替える</string>
+    <string name="settings_sort_order_tag">タグの並べ替え</string>
     <string name="settings_sort_by_name">名前</string>
     <string name="settings_sort_by_color">色</string>
     <string name="settings_sort_manually">手動</string>

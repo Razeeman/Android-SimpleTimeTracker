@@ -52,6 +52,8 @@ enum class SettingsBlock {
     DisplayProportionalFormat,
     DisplayShowSeconds,
     DisplaySortActivities,
+    DisplaySortCategories,
+    DisplaySortTags,
     DisplayCardSize,
     DisplayBottom,
 
