@@ -37,6 +37,7 @@ interface IconSelectionViewModelDelegate {
     val expandIconTypeSwitch: LiveData<Unit>
 
     fun attach(parent: Parent)
+    fun onNoIconClick()
     fun onIconTypeClick(viewData: ButtonsRowViewData)
     fun onIconCategoryClick(viewData: IconSelectionCategoryViewData)
     fun onIconClick(item: IconSelectionViewData)
@@ -99,6 +100,14 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
 
     override fun attach(parent: IconSelectionViewModelDelegate.Parent) {
         this.parent = parent
+    }
+
+    override fun onNoIconClick() {
+        delegateScope.launch {
+            newIcon = ""
+            parent?.onIconSelected()
+            parent?.update()
+        }
     }
 
     override fun onIconTypeClick(viewData: ButtonsRowViewData) {

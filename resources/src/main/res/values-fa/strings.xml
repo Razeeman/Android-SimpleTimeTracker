@@ -127,6 +127,7 @@
     <string name="change_record_type_icon_text_hint">متن</string>
     <string name="change_record_type_icon_emoji_hint">ایموجی</string>
     <string name="change_record_type_icon_search_hint">جستجو (به انگلیسی)</string>
+    <string name="change_record_type_no_icon">بدون نماد</string>
     <string name="change_record_type_save">ذخیره</string>
     <string name="change_record_message_choose_name">نامی انتخاب کنید</string>
     <string name="change_record_type_categories_empty">دسته بندی ای اضافه نشد</string>

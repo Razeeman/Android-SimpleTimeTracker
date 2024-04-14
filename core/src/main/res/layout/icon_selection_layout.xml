@@ -12,6 +12,17 @@
         android:background="?android:colorBackground"
         app:elevation="0dp">
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnIconSelectionNoIcon"
+            style="@style/AppButtonActive"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="8dp"
+            android:text="@string/change_record_type_no_icon"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            app:layout_scrollFlags="scroll|snap"
+            tools:visibility="visible" />
+
         <com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowView
             android:id="@+id/btnIconSelectionSwitch"
             android:layout_width="match_parent"

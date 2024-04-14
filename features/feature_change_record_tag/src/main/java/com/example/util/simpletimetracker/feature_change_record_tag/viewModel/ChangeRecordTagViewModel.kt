@@ -100,7 +100,6 @@ class ChangeRecordTagViewModel @Inject constructor(
         iconSelectionViewModelDelegateImpl.attach(getIconSelectionDelegateParent())
     }
 
-    // TODO TAGS add "remove icon" button
     fun onNameChange(name: String) {
         viewModelScope.launch {
             if (name != newName) {

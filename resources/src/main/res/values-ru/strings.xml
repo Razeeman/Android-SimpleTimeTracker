@@ -127,6 +127,7 @@
     <string name="change_record_type_icon_text_hint">Текст</string>
     <string name="change_record_type_icon_emoji_hint">Эмодзи</string>
     <string name="change_record_type_icon_search_hint">Поиск (на английском)</string>
+    <string name="change_record_type_no_icon">Без иконки</string>
     <string name="change_record_type_save">Сохранить</string>
     <string name="change_record_message_choose_name">Выберите имя</string>
     <string name="change_record_type_categories_empty">Категории не добавлены</string>

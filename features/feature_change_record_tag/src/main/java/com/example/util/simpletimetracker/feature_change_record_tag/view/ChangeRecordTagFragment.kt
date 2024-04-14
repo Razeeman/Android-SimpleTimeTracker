@@ -128,6 +128,7 @@ class ChangeRecordTagFragment :
             adapter = colorsAdapter
         }
 
+        containerChangeRecordTypeIcon.btnIconSelectionNoIcon.isVisible = true
         iconsLayoutManager = IconSelectionViewDelegate.initUi(
             context = requireContext(),
             resources = resources,
@@ -156,6 +157,7 @@ class ChangeRecordTagFragment :
         btnChangeRecordTagSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTagDelete.setOnClick(viewModel::onDeleteClick)
         btnChangeRecordTagStatistics.setOnClick(viewModel::onStatisticsClick)
+        containerChangeRecordTypeIcon.btnIconSelectionNoIcon.setOnClick(viewModel::onNoIconClick)
         IconSelectionViewDelegate.initUx(
             viewModel = viewModel,
             layout = containerChangeRecordTypeIcon,

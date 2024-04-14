@@ -127,6 +127,7 @@
     <string name="change_record_type_icon_text_hint">文字</string>
     <string name="change_record_type_icon_emoji_hint">表情符號</string>
     <string name="change_record_type_icon_search_hint">搜尋（英文）</string>
+    <string name="change_record_type_no_icon">無圖示</string>
     <string name="change_record_type_save">儲存</string>
     <string name="change_record_message_choose_name">選擇名稱</string>
     <string name="change_record_type_categories_empty">沒有新增分類</string>

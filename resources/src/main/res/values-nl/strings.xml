@@ -127,6 +127,7 @@
     <string name="change_record_type_icon_text_hint">Tekst</string>
     <string name="change_record_type_icon_emoji_hint">Emoji</string>
     <string name="change_record_type_icon_search_hint">Zoeken (in het Engels)</string>
+    <string name="change_record_type_no_icon">Geen pictogram</string>
     <string name="change_record_type_save">Opslaan</string>
     <string name="change_record_message_choose_name">Kies een naam</string>
     <string name="change_record_type_categories_empty">Geen categorieën toegevoegd</string>

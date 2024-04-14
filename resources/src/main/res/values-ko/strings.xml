@@ -127,6 +127,7 @@
     <string name="change_record_type_icon_text_hint">텍스트</string>
     <string name="change_record_type_icon_emoji_hint">이모지</string>
     <string name="change_record_type_icon_search_hint">검색(영문)</string>
+    <string name="change_record_type_no_icon">아이콘 없음</string>
     <string name="change_record_type_save">저장</string>
     <string name="change_record_message_choose_name">이름을 입력하세요</string>
     <string name="change_record_type_categories_empty">카테고리 추가되지 않음</string>

@@ -127,6 +127,7 @@
     <string name="change_record_type_icon_text_hint">نص</string>
     <string name="change_record_type_icon_emoji_hint">إيموجي</string>
     <string name="change_record_type_icon_search_hint">بحث (باللغة الإنجليزية)</string>
+    <string name="change_record_type_no_icon">لا يوجد رمز</string>
     <string name="change_record_type_save">حفظ</string>
     <string name="change_record_message_choose_name">اختيار اسم</string>
     <string name="change_record_type_categories_empty">لا توجد تصنيفات مضافة</string>

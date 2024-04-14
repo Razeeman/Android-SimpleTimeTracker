@@ -127,6 +127,7 @@
     <string name="change_record_type_icon_text_hint">मूलपाठ</string>
     <string name="change_record_type_icon_emoji_hint">इमोजी</string>
     <string name="change_record_type_icon_search_hint">खोजें (अंग्रेजी में)</string>
+    <string name="change_record_type_no_icon">कोई आइकन नहीं</string>
     <string name="change_record_type_save">बचाना</string>
     <string name="change_record_message_choose_name">एक नाम चुनो</string>
     <string name="change_record_type_categories_empty">कोई श्रेणियां नहीं जोड़ी</string>
