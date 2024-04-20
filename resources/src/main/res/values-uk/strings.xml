@@ -86,9 +86,11 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Тег переміщено до архіву</string>
     <string name="change_record_tag_type_hint">Активність</string>
+    <string name="change_record_tag_default_hint">Призначено за умовчанням</string>
     <string name="change_record_tag_type_general_hint">Може бути віднесено до записів будь -якої діяльності</string>
     <string name="change_record_tag_type_typed_hint">Можна призначити лише до записів про певну діяльність</string>
     <string name="change_record_tag_select_activity_hint">Візьміть колір і піктограму з активності</string>
+    <string name="change_record_tag_default_types_hint">Тег буде призначено за замовчуванням під час запуску таймера з вибраними діями</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Оберіть активність</string>

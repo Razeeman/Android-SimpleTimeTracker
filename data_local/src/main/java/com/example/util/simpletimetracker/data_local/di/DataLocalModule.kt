@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.data_local.database.RecordToRecordTagD
 import com.example.util.simpletimetracker.data_local.database.RecordTypeCategoryDao
 import com.example.util.simpletimetracker.data_local.database.RecordTypeDao
 import com.example.util.simpletimetracker.data_local.database.RecordTypeGoalDao
+import com.example.util.simpletimetracker.data_local.database.RecordTypeToDefaultTagDao
 import com.example.util.simpletimetracker.data_local.database.RecordTypeToTagDao
 import com.example.util.simpletimetracker.data_local.database.RunningRecordDao
 import com.example.util.simpletimetracker.data_local.database.RunningRecordToRecordTagDao
@@ -107,6 +108,12 @@ class DataLocalModule {
     @Singleton
     fun getRecordTypeToTagDao(database: AppDatabase): RecordTypeToTagDao {
         return database.recordTypeToTagDao()
+    }
+
+    @Provides
+    @Singleton
+    fun getRecordTypeToDefaultTagDao(database: AppDatabase): RecordTypeToDefaultTagDao {
+        return database.recordTypeToDefaultTagDao()
     }
 
     @Provides

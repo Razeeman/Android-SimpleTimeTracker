@@ -86,9 +86,11 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Tagg arkiverad</string>
     <string name="change_record_tag_type_hint">Aktivitet</string>
+    <string name="change_record_tag_default_hint">Tilldelad som standard</string>
     <string name="change_record_tag_type_general_hint">Kan tilldelas händelse oavsett aktivitetstyp</string>
     <string name="change_record_tag_type_typed_hint">Kan endast tilldelas händelse av särskild aktivitet</string>
     <string name="change_record_tag_select_activity_hint">Ta färg och ikon från aktivitet</string>
+    <string name="change_record_tag_default_types_hint">Tagg tilldelas som standard när du startar en timer med valda aktiviteter</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Välj aktivitet</string>

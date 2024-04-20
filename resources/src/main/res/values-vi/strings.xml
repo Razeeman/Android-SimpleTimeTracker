@@ -86,9 +86,11 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Đã lưu trữ thẻ</string>
     <string name="change_record_tag_type_hint">Hoạt động</string>
+    <string name="change_record_tag_default_hint">Được chỉ định theo mặc định</string>
     <string name="change_record_tag_type_general_hint">Có thể được gán cho bản ghi của bất kỳ hoạt động nào</string>
     <string name="change_record_tag_type_typed_hint">Chỉ có thể được gán cho các bản ghi của một hoạt động cụ thể</string>
     <string name="change_record_tag_select_activity_hint">Lấy màu sắc và biểu tượng từ hoạt động</string>
+    <string name="change_record_tag_default_types_hint">Thẻ sẽ được gán theo mặc định khi bắt đầu hẹn giờ với các hoạt động đã chọn</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Chọn hoạt động</string>

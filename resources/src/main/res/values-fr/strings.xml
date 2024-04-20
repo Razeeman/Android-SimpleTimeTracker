@@ -86,9 +86,11 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Étiquettes archivées</string>
     <string name="change_record_tag_type_hint">Activité</string>
+    <string name="change_record_tag_default_hint">Attribué par défaut</string>
     <string name="change_record_tag_type_general_hint">Peut être attribuée aux enregistrements de n\'importe quelle activité</string>
     <string name="change_record_tag_type_typed_hint">Ne peut être attribuée qu\'aux enregistrements d\'une activité spécifique</string>
     <string name="change_record_tag_select_activity_hint">Prendre la couleur et l\'icône de l\'activité</string>
+    <string name="change_record_tag_default_types_hint">La balise serait attribuée par défaut lors du démarrage d\'un minuteur avec des activités sélectionnées</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Sélectionnez une activité</string>

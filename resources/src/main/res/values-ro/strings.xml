@@ -86,9 +86,11 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Etichetă arhivată</string>
     <string name="change_record_tag_type_hint">Activitate</string>
+    <string name="change_record_tag_default_hint">Atribuit implicit</string>
     <string name="change_record_tag_type_general_hint">Poate fi atribuit înregistrărilor oricărei activități</string>
     <string name="change_record_tag_type_typed_hint">Poate fi atribuit înregistrărilor unei activități specifice</string>
     <string name="change_record_tag_select_activity_hint">Luați culoarea și pictograma din activitate</string>
+    <string name="change_record_tag_default_types_hint">Eticheta va fi atribuită în mod implicit la pornirea unui cronometru cu activitățile selectate</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Alege activitatea</string>

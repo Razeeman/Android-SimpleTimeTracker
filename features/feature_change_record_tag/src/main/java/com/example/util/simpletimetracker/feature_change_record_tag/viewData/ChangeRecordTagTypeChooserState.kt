@@ -10,5 +10,6 @@ data class ChangeRecordTagTypeChooserState(
         object Color : State
         object Icon : State
         object Type : State
+        object DefaultType : State
     }
 }

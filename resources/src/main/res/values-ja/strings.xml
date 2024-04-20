@@ -86,9 +86,11 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">タグをアーカイブ</string>
     <string name="change_record_tag_type_hint">アクティビティ</string>
+    <string name="change_record_tag_default_hint">デフォルトで割り当てられる</string>
     <string name="change_record_tag_type_general_hint">あらゆるアクティビティに割り当てることができます</string>
     <string name="change_record_tag_type_typed_hint">特定のアクティビティのみに割り当てることができます</string>
     <string name="change_record_tag_select_activity_hint">アクティビティから色とアイコンを取得する</string>
+    <string name="change_record_tag_default_types_hint">選択したアクティビティでタイマーを開始すると、タグがデフォルトで割り当てられます</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">アクティビティを選択してください</string>

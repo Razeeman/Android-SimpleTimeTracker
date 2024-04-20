@@ -86,9 +86,11 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Etiqueta archivada</string>
     <string name="change_record_tag_type_hint">Actividad</string>
+    <string name="change_record_tag_default_hint">Asignado por defecto</string>
     <string name="change_record_tag_type_general_hint">Puede ser asignando al registro de cualquier actividad</string>
     <string name="change_record_tag_type_typed_hint">Sólo puede ser asignado al registro de una actividad específica</string>
     <string name="change_record_tag_select_activity_hint">Tomar color e icono de la actividad</string>
+    <string name="change_record_tag_default_types_hint">La etiqueta se asignará de forma predeterminada al iniciar un temporizador con actividades seleccionadas</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Seleccione una actividad</string>

@@ -24,6 +24,14 @@ class ChangeRecordTagMapper @Inject constructor(
         )
     }
 
+    fun mapDefaultTypeHint(): ViewHolderType {
+        return HintBigViewData(
+            text = resourceRepo.getString(R.string.change_record_tag_default_types_hint),
+            infoIconVisible = true,
+            closeIconVisible = false,
+        )
+    }
+
     fun mapSelectedTypesHint(isEmpty: Boolean): ViewHolderType {
         return InfoViewData(
             text = if (isEmpty) {

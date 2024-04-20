@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTypeToDefaultTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeToTagRepo
 import com.example.util.simpletimetracker.domain.repo.RunningRecordToRecordTagRepo
 import javax.inject.Inject
@@ -13,6 +14,7 @@ class RecordTagInteractor @Inject constructor(
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val runningRecordToRecordTagRepo: RunningRecordToRecordTagRepo,
     private val recordTypeToTagRepo: RecordTypeToTagRepo,
+    private val recordTypeToDefaultTagRepo: RecordTypeToDefaultTagRepo,
     private val prefsInteractor: PrefsInteractor,
     private val sortCardsInteractor: SortCardsInteractor,
 ) {
@@ -52,6 +54,7 @@ class RecordTagInteractor @Inject constructor(
         recordToRecordTagRepo.removeAllByTagId(id)
         runningRecordToRecordTagRepo.removeAllByTagId(id)
         recordTypeToTagRepo.removeAll(id)
+        recordTypeToDefaultTagRepo.removeAll(id)
     }
 
     private fun mapForSort(

@@ -86,9 +86,11 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">برچسب بایگانی شد</string>
     <string name="change_record_tag_type_hint">فعالیت</string>
+    <string name="change_record_tag_default_hint">به طور پیش فرض اختصاص داده شده است</string>
     <string name="change_record_tag_type_general_hint">می تواند به تاریخچه هر فعالیتی اضافه شود</string>
     <string name="change_record_tag_type_typed_hint">می تواند به تاریخچه های یک فعالیت خاص اصافه شود</string>
     <string name="change_record_tag_select_activity_hint">رنگ و نماد را از فعالیت بگیرید</string>
+    <string name="change_record_tag_default_types_hint">هنگام شروع یک تایمر با فعالیت های انتخاب شده، برچسب به طور پیش فرض اختصاص داده می شود</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">انتخاب فعالیت</string>

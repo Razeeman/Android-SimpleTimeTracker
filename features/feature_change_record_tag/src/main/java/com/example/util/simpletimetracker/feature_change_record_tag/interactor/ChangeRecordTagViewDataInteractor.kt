@@ -16,7 +16,32 @@ class ChangeRecordTagViewDataInteractor @Inject constructor(
     private val changeRecordTagMapper: ChangeRecordTagMapper,
 ) {
 
-    suspend fun getTypesViewData(selectedTypes: Set<Long>): List<ViewHolderType> {
+    suspend fun getTypesViewData(
+        selectedTypes: Set<Long>,
+    ): List<ViewHolderType> {
+        return getViewData(
+            selectedTypes = selectedTypes,
+            hintViewDataProvider = { nothingSelected ->
+                changeRecordTagMapper.mapHint(nothingSelected)
+            },
+        )
+    }
+
+    suspend fun getDefaultTypesViewData(
+        selectedTypes: Set<Long>,
+    ): List<ViewHolderType> {
+        return getViewData(
+            selectedTypes = selectedTypes,
+            hintViewDataProvider = {
+                changeRecordTagMapper.mapDefaultTypeHint()
+            },
+        )
+    }
+
+    private suspend fun getViewData(
+        selectedTypes: Set<Long>,
+        hintViewDataProvider: (nothingSelected: Boolean) -> ViewHolderType,
+    ): List<ViewHolderType> {
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
 
@@ -31,9 +56,7 @@ class ChangeRecordTagViewDataInteractor @Inject constructor(
             ?.let { (selected, available) ->
                 val viewData = mutableListOf<ViewHolderType>()
 
-                changeRecordTagMapper.mapHint(
-                    nothingSelected = selected.isEmpty(),
-                ).let(viewData::add)
+                hintViewDataProvider(selected.isEmpty()).let(viewData::add)
 
                 changeRecordTagMapper.mapSelectedTypesHint(
                     isEmpty = selected.isEmpty(),

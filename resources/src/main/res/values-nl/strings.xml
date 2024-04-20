@@ -86,9 +86,11 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Label gearchiveerd</string>
     <string name="change_record_tag_type_hint">Activiteit</string>
+    <string name="change_record_tag_default_hint">Standaard toegewezen</string>
     <string name="change_record_tag_type_general_hint">Kan worden toegewezen aan opname van elke activiteit</string>
     <string name="change_record_tag_type_typed_hint">Kan alleen aan records van een specifieke activiteit worden toegewezen</string>
     <string name="change_record_tag_select_activity_hint">Neem kleur en icoon uit activiteit</string>
+    <string name="change_record_tag_default_types_hint">Tag zou standaard worden toegewezen bij het starten van een timer met geselecteerde activiteiten</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Selecteer activiteit</string>

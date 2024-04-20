@@ -86,9 +86,11 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Etiket arşivlendi</string>
     <string name="change_record_tag_type_hint">Aktivite</string>
+    <string name="change_record_tag_default_hint">Varsayılan olarak atandı</string>
     <string name="change_record_tag_type_general_hint">Herhangi bir aktivitenin kayıtlarına atanabilir</string>
     <string name="change_record_tag_type_typed_hint">Sadece seçilen aktivitenin kayıtlarına atanabilir</string>
     <string name="change_record_tag_select_activity_hint">Etkinlikten renk ve simge alın</string>
+    <string name="change_record_tag_default_types_hint">Seçilen etkinliklerle bir zamanlayıcı başlatıldığında etiket varsayılan olarak atanır</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Aktivite seçin</string>

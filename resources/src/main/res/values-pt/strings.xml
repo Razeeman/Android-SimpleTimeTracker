@@ -86,9 +86,11 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Tag arquivada</string>
     <string name="change_record_tag_type_hint">Atividade</string>
+    <string name="change_record_tag_default_hint">Atribuído por padrão</string>
     <string name="change_record_tag_type_general_hint">Pode ser atribuída a registros de qualquer atividade</string>
     <string name="change_record_tag_type_typed_hint">Só pode ser atribuída a registros de uma atividade específica</string>
     <string name="change_record_tag_select_activity_hint">Pegue a cor e o ícone da atividade</string>
+    <string name="change_record_tag_default_types_hint">A tag seria atribuída por padrão ao iniciar um cronômetro com atividades selecionadas</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Selecione a atividade</string>

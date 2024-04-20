@@ -86,9 +86,11 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">标签已存档</string>
     <string name="change_record_tag_type_hint">活动</string>
+    <string name="change_record_tag_default_hint">默认分配</string>
     <string name="change_record_tag_type_general_hint">可以分配給任何活動的記錄</string>
     <string name="change_record_tag_type_typed_hint">只能分配給特定活動的記錄</string>
     <string name="change_record_tag_select_activity_hint">从活动中获取颜色和图标</string>
+    <string name="change_record_tag_default_types_hint">当启动选定活动的计时器时，默认情况下会分配标签</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">选择活动</string>

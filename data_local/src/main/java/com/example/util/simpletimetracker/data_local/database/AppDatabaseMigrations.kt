@@ -23,6 +23,7 @@ class AppDatabaseMigrations {
                 migration_13_14,
                 migration_14_15,
                 migration_15_16,
+                migration_16_17,
             )
 
         private val migration_1_2 = object : Migration(1, 2) {
@@ -203,7 +204,6 @@ class AppDatabaseMigrations {
             }
         }
 
-        // TODO TAGS check backup
         private val migration_15_16 = object : Migration(15, 16) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
@@ -227,6 +227,14 @@ class AppDatabaseMigrations {
                         "UPDATE recordTags SET color = (SELECT recordTypes.color FROM recordTypes WHERE recordTypes.id = recordTags.type_id), icon = (SELECT recordTypes.icon FROM recordTypes WHERE recordTypes.id = recordTags.type_id) WHERE EXISTS (SELECT * FROM recordTypes WHERE recordTypes.id = recordTags.type_id)",
                     )
                 }
+            }
+        }
+
+        private val migration_16_17 = object : Migration(16, 17) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `recordTypeToDefaultTag` (`record_type_id` INTEGER NOT NULL, `record_tag_id` INTEGER NOT NULL, PRIMARY KEY(`record_type_id`, `record_tag_id`))",
+                )
             }
         }
     }

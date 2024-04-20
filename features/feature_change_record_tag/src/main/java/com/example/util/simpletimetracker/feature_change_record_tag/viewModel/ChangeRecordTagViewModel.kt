@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInte
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeToDefaultTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.WearInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
@@ -44,6 +45,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
+    private val recordTypeToDefaultTagInteractor: RecordTypeToDefaultTagInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val wearInteractor: WearInteractor,
@@ -76,6 +78,15 @@ class ChangeRecordTagViewModel @Inject constructor(
             initial
         }
     }
+    val defaultTypes: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch {
+                initializeDefaultTypes()
+                initial.value = loadDefaultTypesViewData()
+            }
+            initial
+        }
+    }
     val chooserState: LiveData<ChangeRecordTagTypeChooserState> = MutableLiveData(
         ChangeRecordTagTypeChooserState(
             current = ChangeRecordTagTypeChooserState.State.Closed,
@@ -93,7 +104,9 @@ class ChangeRecordTagViewModel @Inject constructor(
     private var newName: String = ""
     private var newIconColorSource: Long = 0L
     private var newTypeIds: Set<Long> = emptySet()
+    private var newDefaultTypeIds: Set<Long> = emptySet()
     private var initialTypeIds: Set<Long> = emptySet()
+    private var initialDefaultTypeIds: Set<Long> = emptySet()
 
     init {
         colorSelectionViewModelDelegateImpl.attach(getColorSelectionDelegateParent())
@@ -121,12 +134,25 @@ class ChangeRecordTagViewModel @Inject constructor(
         onNewChooserState(ChangeRecordTagTypeChooserState.State.Type)
     }
 
+    fun onDefaultTypeChooserClick() {
+        onNewChooserState(ChangeRecordTagTypeChooserState.State.DefaultType)
+    }
+
     fun onTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
             newTypeIds = newTypeIds.toMutableSet().apply {
                 if (item.id in this) remove(item.id) else add(item.id)
             }
             updateTypesViewData()
+        }
+    }
+
+    fun onDefaultTypeClick(item: RecordTypeViewData) {
+        viewModelScope.launch {
+            newDefaultTypeIds = newDefaultTypeIds.toMutableSet().apply {
+                if (item.id in this) remove(item.id) else add(item.id)
+            }
+            updateDefaultTypesViewData()
         }
     }
 
@@ -201,6 +227,7 @@ class ChangeRecordTagViewModel @Inject constructor(
             ).let {
                 val addedId = recordTagInteractor.add(it)
                 saveTypes(addedId)
+                saveDefaultTypes(addedId)
                 notificationTypeInteractor.updateNotifications()
                 wearInteractor.update()
                 (keyboardVisibility as MutableLiveData).value = false
@@ -215,6 +242,14 @@ class ChangeRecordTagViewModel @Inject constructor(
 
         recordTypeToTagInteractor.addTypes(tagId, addedTypes)
         recordTypeToTagInteractor.removeTypes(tagId, removedTypes)
+    }
+
+    private suspend fun saveDefaultTypes(tagId: Long) {
+        val addedTypes = newDefaultTypeIds.filterNot { it in initialDefaultTypeIds }
+        val removedTypes = initialDefaultTypeIds.filterNot { it in newDefaultTypeIds }
+
+        recordTypeToDefaultTagInteractor.addTypes(tagId, addedTypes)
+        recordTypeToDefaultTagInteractor.removeTypes(tagId, removedTypes)
     }
 
     private fun onNewChooserState(
@@ -250,6 +285,20 @@ class ChangeRecordTagViewModel @Inject constructor(
             is ChangeTagData.New -> {
                 newTypeIds = setOfNotNull(extra.preselectedTypeId)
                 initialTypeIds = emptySet()
+            }
+        }
+    }
+
+    private suspend fun initializeDefaultTypes() {
+        when (val extra = extra) {
+            is ChangeTagData.Change -> {
+                val assignedDefaultTypes = recordTypeToDefaultTagInteractor.getTypes(extra.id)
+                newDefaultTypeIds = assignedDefaultTypes
+                initialDefaultTypeIds = assignedDefaultTypes
+            }
+            is ChangeTagData.New -> {
+                newDefaultTypeIds = emptySet()
+                initialDefaultTypeIds = emptySet()
             }
         }
     }
@@ -363,6 +412,15 @@ class ChangeRecordTagViewModel @Inject constructor(
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
         return changeRecordTagViewDataInteractor.getTypesViewData(newTypeIds)
+    }
+
+    private fun updateDefaultTypesViewData() = viewModelScope.launch {
+        val data = loadDefaultTypesViewData()
+        defaultTypes.set(data)
+    }
+
+    private suspend fun loadDefaultTypesViewData(): List<ViewHolderType> {
+        return changeRecordTagViewDataInteractor.getDefaultTypesViewData(newDefaultTypeIds)
     }
 
     private fun showMessage(stringResId: Int) {

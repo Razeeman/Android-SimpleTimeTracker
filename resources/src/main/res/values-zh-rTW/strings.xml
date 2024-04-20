@@ -86,9 +86,11 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">標記已歸檔</string>
     <string name="change_record_tag_type_hint">活動</string>
+    <string name="change_record_tag_default_hint">預設分配</string>
     <string name="change_record_tag_type_general_hint">已能指派任何活動給紀錄</string>
     <string name="change_record_tag_type_typed_hint">只能指派給指定活動的紀錄</string>
     <string name="change_record_tag_select_activity_hint">從活動中獲取顏色和圖標</string>
+    <string name="change_record_tag_default_types_hint">當啟動選定活動的計時器時，預設會指派標籤</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">選擇活動</string>

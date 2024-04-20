@@ -7,6 +7,7 @@ class AddRunningRecordMediator @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val recordTypeToDefaultTagInteractor: RecordTypeToDefaultTagInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val notificationActivityInteractor: NotificationActivityInteractor,
@@ -72,11 +73,12 @@ class AddRunningRecordMediator @Inject constructor(
         tagIds: List<Long> = emptyList(),
     ) {
         if (runningRecordInteractor.get(typeId) == null && typeId > 0L) {
+            val defaultTags = recordTypeToDefaultTagInteractor.getTags(typeId)
             RunningRecord(
                 id = typeId,
                 timeStarted = timeStarted ?: System.currentTimeMillis(),
                 comment = comment,
-                tagIds = tagIds,
+                tagIds = (tagIds + defaultTags).toSet().toList(),
             ).let {
                 runningRecordInteractor.add(it)
                 notificationTypeInteractor.checkAndShow(typeId)

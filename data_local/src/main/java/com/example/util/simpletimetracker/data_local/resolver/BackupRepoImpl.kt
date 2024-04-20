@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.domain.model.RecordToRecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.domain.model.RecordTypeToDefaultTag
 import com.example.util.simpletimetracker.domain.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
@@ -29,6 +30,7 @@ import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeGoalRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
+import com.example.util.simpletimetracker.domain.repo.RecordTypeToDefaultTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeToTagRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.ResultCode
@@ -56,6 +58,7 @@ class BackupRepoImpl @Inject constructor(
     private val categoryRepo: CategoryRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
     private val recordTypeToTagRepo: RecordTypeToTagRepo,
+    private val recordTypeToDefaultTagRepo: RecordTypeToDefaultTagRepo,
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val recordTagRepo: RecordTagRepo,
     private val activityFilterRepo: ActivityFilterRepo,
@@ -109,6 +112,16 @@ class BackupRepoImpl @Inject constructor(
                 )
             }
             recordToRecordTagRepo.getAll().forEach {
+                fileOutputStream?.write(
+                    it.let(::toBackupString).toByteArray(),
+                )
+            }
+            recordTypeToTagRepo.getAll().forEach {
+                fileOutputStream?.write(
+                    it.let(::toBackupString).toByteArray(),
+                )
+            }
+            recordTypeToDefaultTagRepo.getAll().forEach {
                 fileOutputStream?.write(
                     it.let(::toBackupString).toByteArray(),
                 )
@@ -223,6 +236,18 @@ class BackupRepoImpl @Inject constructor(
                         }
                     }
 
+                    ROW_TYPE_TO_RECORD_TAG -> {
+                        typeToRecordTagFromBackupString(parts).let {
+                            recordTypeToTagRepo.add(it)
+                        }
+                    }
+
+                    ROW_TYPE_TO_DEFAULT_TAG -> {
+                        typeToDefaultTagFromBackupString(parts).let {
+                            recordTypeToDefaultTagRepo.add(it)
+                        }
+                    }
+
                     ROW_ACTIVITY_FILTER -> {
                         activityFilterFromBackupString(parts).let {
                             activityFilterRepo.add(it)
@@ -322,6 +347,22 @@ class BackupRepoImpl @Inject constructor(
             "$ROW_RECORD_TO_RECORD_TAG\t%s\t%s\n",
             recordToRecordTag.recordId.toString(),
             recordToRecordTag.recordTagId.toString(),
+        )
+    }
+
+    private fun toBackupString(typeToTag: RecordTypeToTag): String {
+        return String.format(
+            "$ROW_TYPE_TO_RECORD_TAG\t%s\t%s\n",
+            typeToTag.recordTypeId.toString(),
+            typeToTag.tagId.toString(),
+        )
+    }
+
+    private fun toBackupString(typeToDefaultTag: RecordTypeToDefaultTag): String {
+        return String.format(
+            "$ROW_TYPE_TO_DEFAULT_TAG\t%s\t%s\n",
+            typeToDefaultTag.recordTypeId.toString(),
+            typeToDefaultTag.tagId.toString(),
         )
     }
 
@@ -506,6 +547,20 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
+    private fun typeToRecordTagFromBackupString(parts: List<String>): RecordTypeToTag {
+        return RecordTypeToTag(
+            recordTypeId = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            tagId = parts.getOrNull(2)?.toLongOrNull().orZero(),
+        )
+    }
+
+    private fun typeToDefaultTagFromBackupString(parts: List<String>): RecordTypeToDefaultTag {
+        return RecordTypeToDefaultTag(
+            recordTypeId = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            tagId = parts.getOrNull(2)?.toLongOrNull().orZero(),
+        )
+    }
+
     private fun activityFilterFromBackupString(parts: List<String>): ActivityFilter {
         return ActivityFilter(
             id = parts.getOrNull(1)?.toLongOrNull().orZero(),
@@ -606,6 +661,8 @@ class BackupRepoImpl @Inject constructor(
         private const val ROW_TYPE_CATEGORY = "typeCategory"
         private const val ROW_RECORD_TAG = "recordTag"
         private const val ROW_RECORD_TO_RECORD_TAG = "recordToRecordTag"
+        private const val ROW_TYPE_TO_RECORD_TAG = "typeToRecordTag"
+        private const val ROW_TYPE_TO_DEFAULT_TAG = "typeToDefaultTag"
         private const val ROW_ACTIVITY_FILTER = "activityFilter"
         private const val ROW_FAVOURITE_COMMENT = "favouriteComment"
         private const val ROW_RECORD_TYPE_GOAL = "recordTypeGoal"

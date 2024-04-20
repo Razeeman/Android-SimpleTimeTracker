@@ -35,7 +35,7 @@
         android:id="@+id/previewChangeActivityFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="36dp"
+        android:layout_marginHorizontal="48dp"
         android:layout_marginTop="8dp"
         app:cardElevation="@dimen/record_type_card_elevation"
         app:itemIconVisible="false"

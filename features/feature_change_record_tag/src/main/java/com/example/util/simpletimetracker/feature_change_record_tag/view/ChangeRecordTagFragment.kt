@@ -44,6 +44,7 @@ import com.example.util.simpletimetracker.feature_change_record_tag.viewData.Cha
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Closed
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Color
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.DefaultType
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Icon
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Type
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
@@ -105,6 +106,15 @@ class ChangeRecordTagFragment :
             createHintBigAdapterDelegate(),
         )
     }
+    private val defaultTypesAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createRecordTypeAdapterDelegate(viewModel::onDefaultTypeClick),
+            createDividerAdapterDelegate(),
+            createInfoAdapterDelegate(),
+            createEmptyAdapterDelegate(),
+            createHintBigAdapterDelegate(),
+        )
+    }
     private var iconsLayoutManager: GridLayoutManager? = null
     private val params: ChangeTagData by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChangeTagData.New(),
@@ -146,6 +156,15 @@ class ChangeRecordTagFragment :
             }
             adapter = typesAdapter
         }
+
+        rvChangeRecordTagDefaultType.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = defaultTypesAdapter
+        }
     }
 
     override fun initUx() = with(binding) {
@@ -153,6 +172,7 @@ class ChangeRecordTagFragment :
         fieldChangeRecordTagColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTagIcon.setOnClick(viewModel::onIconChooserClick)
         fieldChangeRecordTagType.setOnClick(viewModel::onTypeChooserClick)
+        fieldChangeRecordTagDefaultType.setOnClick(viewModel::onDefaultTypeChooserClick)
         btnChangeRecordTagSelectActivity.setOnClick(viewModel::onSelectActivityClick)
         btnChangeRecordTagSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTagDelete.setOnClick(viewModel::onDeleteClick)
@@ -182,6 +202,7 @@ class ChangeRecordTagFragment :
             iconSelectorViewData.observe(::updateIconSelectorViewData)
             expandIconTypeSwitch.observe { updateBarExpanded() }
             types.observe(typesAdapter::replace)
+            defaultTypes.observe(defaultTypesAdapter::replace)
             chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTagName) else hideKeyboard()
@@ -252,6 +273,12 @@ class ChangeRecordTagFragment :
             chooserView = fieldChangeRecordTagType,
             chooserArrow = arrowChangeRecordTagType,
         )
+        updateChooser<DefaultType>(
+            state = state,
+            chooserData = rvChangeRecordTagDefaultType,
+            chooserView = fieldChangeRecordTagDefaultType,
+            chooserArrow = arrowChangeRecordTagDefaultType,
+        )
 
         val isClosed = state.current is Closed
         inputChangeRecordTagName.isVisible = isClosed
@@ -261,6 +288,7 @@ class ChangeRecordTagFragment :
         fieldChangeRecordTagColor.isVisible = isClosed || state.current is Color
         fieldChangeRecordTagIcon.isVisible = isClosed || state.current is Icon
         fieldChangeRecordTagType.isVisible = isClosed || state.current is Type
+        fieldChangeRecordTagDefaultType.isVisible = isClosed || state.current is DefaultType
     }
 
     private fun updateIconColorSourceSelected(selected: Boolean) = with(binding) {

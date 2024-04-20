@@ -86,9 +86,11 @@
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Label diarsipkan</string>
     <string name="change_record_tag_type_hint">Kegiatan</string>
+    <string name="change_record_tag_default_hint">Ditugaskan secara default</string>
     <string name="change_record_tag_type_general_hint">Dapat ditugaskan ke catatan aktivitas apa pun</string>
     <string name="change_record_tag_type_typed_hint">Hanya dapat ditetapkan ke catatan aktivitas tertentu</string>
     <string name="change_record_tag_select_activity_hint">Ambil warna dan ikon dari aktivitas</string>
+    <string name="change_record_tag_default_types_hint">Tag akan ditetapkan secara default saat memulai pengatur waktu dengan aktivitas yang dipilih</string>
 
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Pilih kegiatan</string>
