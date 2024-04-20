@@ -389,6 +389,8 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <string name="statistics_detail_streaks_longest">最長</string>
     <string name="statistics_detail_streaks_current">現時点</string>
     <string name="statistics_detail_streaks_latest">最新</string>
+    <string name="statistics_detail_streaks_any">任意の期間</string>
+    <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
     <string name="statistics_detail_activity_split_hint">活動分布</string>
     <string name="statistics_detail_tag_split_hint">タグ配布</string>
     <string name="statistics_detail_day_split_hint">日次記録</string>

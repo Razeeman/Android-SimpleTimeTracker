@@ -389,6 +389,8 @@ Exemplo:<br/>
     <string name="statistics_detail_streaks_longest">Maior</string>
     <string name="statistics_detail_streaks_current">Atual</string>
     <string name="statistics_detail_streaks_latest">Mais recentes</string>
+    <string name="statistics_detail_streaks_any">Qualquer duração</string>
+    <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
     <string name="statistics_detail_activity_split_hint">Distribuição de atividades</string>
     <string name="statistics_detail_tag_split_hint">Distribuição de tags</string>
     <string name="statistics_detail_day_split_hint">Distribuição diária</string>

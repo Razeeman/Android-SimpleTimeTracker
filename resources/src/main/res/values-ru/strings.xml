@@ -389,6 +389,8 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="statistics_detail_streaks_longest">Самая длинная</string>
     <string name="statistics_detail_streaks_current">Текущая</string>
     <string name="statistics_detail_streaks_latest">Последние</string>
+    <string name="statistics_detail_streaks_any">Любая продолжительность</string>
+    <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
     <string name="statistics_detail_activity_split_hint">Распределение активностей</string>
     <string name="statistics_detail_tag_split_hint">Распределение тегов</string>
     <string name="statistics_detail_day_split_hint">Распределение в течении дня</string>

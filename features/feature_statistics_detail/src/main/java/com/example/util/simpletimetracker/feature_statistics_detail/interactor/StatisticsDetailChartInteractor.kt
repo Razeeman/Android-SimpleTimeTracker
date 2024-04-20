@@ -5,12 +5,9 @@ import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.getDailyDuration
 import com.example.util.simpletimetracker.domain.extension.getMonthlyDuration
-import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.getWeeklyDuration
-import com.example.util.simpletimetracker.domain.extension.hasActivityFilter
 import com.example.util.simpletimetracker.domain.extension.value
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
@@ -35,7 +32,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
     private val rangeMapper: RangeMapper,
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
     private val prefsInteractor: PrefsInteractor,
-    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
+    private val statisticsDetailGetGoalFromFilterInteractor: StatisticsDetailGetGoalFromFilterInteractor,
 ) {
 
     suspend fun getChartViewData(
@@ -116,12 +113,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         filter: List<RecordsFilter>,
         appliedChartGrouping: ChartGrouping,
     ): Long {
-        // Show goal only if one activity is selected.
-        if (!filter.hasActivityFilter()) return 0
-        val typeIds = filter.getTypeIds()
-        if (typeIds.size != 1) return 0
-        val typeId = typeIds.firstOrNull() ?: return 0
-        val goals = recordTypeGoalInteractor.getByType(typeId)
+        val goals = statisticsDetailGetGoalFromFilterInteractor.execute(filter)
 
         return when (appliedChartGrouping) {
             ChartGrouping.DAILY -> goals.getDailyDuration().value

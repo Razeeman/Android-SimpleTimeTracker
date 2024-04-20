@@ -16,17 +16,20 @@ import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
 import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
+import com.example.util.simpletimetracker.domain.extension.getDaily
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Coordinates
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordBase
+import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailAdjacentActivitiesInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor
+import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailGetGoalFromFilterInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailSplitChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailStatsInteractor
@@ -35,6 +38,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.mapper.Stati
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
+import com.example.util.simpletimetracker.feature_statistics_detail.model.StreaksGoal
 import com.example.util.simpletimetracker.feature_statistics_detail.model.StreaksType
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
@@ -48,6 +52,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksGoalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksTypeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
@@ -62,9 +67,9 @@ import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilter
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterResultParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class StatisticsDetailViewModel @Inject constructor(
@@ -78,6 +83,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val streaksInteractor: StatisticsDetailStreaksInteractor,
     private val splitChartInteractor: StatisticsDetailSplitChartInteractor,
     private val adjacentActivitiesInteractor: StatisticsDetailAdjacentActivitiesInteractor,
+    private val statisticsDetailGetGoalFromFilterInteractor: StatisticsDetailGetGoalFromFilterInteractor,
     private val mapper: StatisticsDetailViewDataMapper,
     private val rangeViewDataMapper: RangeViewDataMapper,
     private val timeMapper: TimeMapper,
@@ -97,6 +103,9 @@ class StatisticsDetailViewModel @Inject constructor(
     }
     val streaksTypeViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData(loadStreaksTypeViewData())
+    }
+    val streaksGoalViewData: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData(loadStreaksGoalViewData())
     }
     val chartViewData: LiveData<StatisticsDetailChartCompositeViewData> by lazy {
         return@lazy MutableLiveData()
@@ -139,6 +148,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private var chartGrouping: ChartGrouping = ChartGrouping.DAILY
     private var streaksType: StreaksType = StreaksType.LONGEST
+    private var streaksGoal: StreaksGoal = StreaksGoal.ANY
     private var chartLength: ChartLength = ChartLength.TEN
     private var splitChartGrouping: SplitChartGrouping = SplitChartGrouping.DAILY
     private var rangeLength: RangeLength = RangeLength.All
@@ -214,6 +224,13 @@ class StatisticsDetailViewModel @Inject constructor(
         if (viewData !is StatisticsDetailStreaksTypeViewData) return
         this.streaksType = viewData.type
         updateStreaksTypeViewData()
+        updateStreaksViewData()
+    }
+
+    fun onStreaksGoalClick(viewData: ButtonsRowViewData) {
+        if (viewData !is StatisticsDetailStreaksGoalViewData) return
+        this.streaksGoal = viewData.type
+        updateStreaksGoalViewData()
         updateStreaksViewData()
     }
 
@@ -476,6 +493,15 @@ class StatisticsDetailViewModel @Inject constructor(
         return streaksInteractor.mapToStreaksTypeViewData(streaksType)
     }
 
+    private fun updateStreaksGoalViewData() {
+        streaksGoalViewData.set(loadStreaksGoalViewData())
+    }
+
+    private fun loadStreaksGoalViewData(): List<ViewHolderType> {
+        // TODO don't show if no goal
+        return streaksInteractor.mapToStreaksGoalViewData(streaksGoal)
+    }
+
     private fun updateStreaksViewData() = viewModelScope.launch {
         streaksViewData.set(loadStreaksViewData())
     }
@@ -485,6 +511,21 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private suspend fun loadStreaksViewData(): StatisticsDetailStreaksViewData {
+        suspend fun getDailyGoalType(
+            filters: List<RecordsFilter>,
+        ): RecordTypeGoal.Type {
+            val default = RecordTypeGoal.Type.Duration(1)
+
+            return if (streaksGoal == StreaksGoal.GOAL) {
+                statisticsDetailGetGoalFromFilterInteractor.execute(filters)
+                    .getDaily()
+                    ?.type
+                    ?: default
+            } else {
+                default
+            }
+        }
+
         return streaksInteractor.getStreaksViewData(
             records = records,
             compareRecords = compareRecords,
@@ -492,6 +533,8 @@ class StatisticsDetailViewModel @Inject constructor(
             rangeLength = rangeLength,
             rangePosition = rangePosition,
             streaksType = streaksType,
+            goalType = getDailyGoalType(filter),
+            compareGoalType = getDailyGoalType(comparisonFilter),
         )
     }
 

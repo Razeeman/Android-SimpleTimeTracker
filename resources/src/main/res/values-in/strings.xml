@@ -389,6 +389,8 @@ Contoh:<br/>
     <string name="statistics_detail_streaks_longest">Terlama</string>
     <string name="statistics_detail_streaks_current">Saat ini</string>
     <string name="statistics_detail_streaks_latest">Terbaru</string>
+    <string name="statistics_detail_streaks_any">Durasi berapa pun</string>
+    <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
     <string name="statistics_detail_activity_split_hint">Distribusi aktivitas</string>
     <string name="statistics_detail_tag_split_hint">Distribusi label</string>
     <string name="statistics_detail_day_split_hint">Distribusi harian</string>

@@ -389,6 +389,8 @@ Exempel:<br/>
     <string name="statistics_detail_streaks_longest">Längsta</string>
     <string name="statistics_detail_streaks_current">Nuvarande</string>
     <string name="statistics_detail_streaks_latest">Senast</string>
+    <string name="statistics_detail_streaks_any">Vilken varaktighet som helst</string>
+    <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
     <string name="statistics_detail_activity_split_hint">Aktivitetsfördelning</string>
     <string name="statistics_detail_tag_split_hint">Fördelning av taggar</string>
     <string name="statistics_detail_day_split_hint">Daglig fördelning</string>

@@ -112,6 +112,7 @@ class StatisticsDetailFragment :
         cardStatisticsDetailFilter.setOnClick(viewModel::onFilterClick)
         cardStatisticsDetailCompare.setOnClick(viewModel::onCompareClick)
         buttonsStatisticsDetailStreaksType.listener = viewModel::onStreaksTypeClick
+        buttonsStatisticsDetailStreaksGoal.listener = viewModel::onStreaksGoalClick
         buttonsStatisticsDetailGrouping.listener = viewModel::onChartGroupingClick
         buttonsStatisticsDetailLength.listener = viewModel::onChartLengthClick
         buttonsStatisticsDetailSplitGrouping.listener = viewModel::onSplitChartGroupingClick
@@ -142,6 +143,7 @@ class StatisticsDetailFragment :
         statsViewData.observe(::setStatsViewData)
         streaksViewData.observe(::setStreaksViewData)
         streaksTypeViewData.observe(binding.buttonsStatisticsDetailStreaksType.adapter::replace)
+        streaksGoalViewData.observe(binding.buttonsStatisticsDetailStreaksGoal.adapter::replace)
         chartViewData.observe(::updateChartViewData)
         splitChartViewData.observe(::updateSplitChartViewData)
         comparisonSplitChartViewData.observe(::updateComparisonSplitChartViewData)

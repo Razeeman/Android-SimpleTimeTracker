@@ -389,6 +389,8 @@ Ví dụ:<br/>
     <string name="statistics_detail_streaks_longest">Dài nhất</string>
     <string name="statistics_detail_streaks_current">Hiện tại</string>
     <string name="statistics_detail_streaks_latest">Mới nhất</string>
+    <string name="statistics_detail_streaks_any">Bất kỳ thời lượng nào</string>
+    <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
     <string name="statistics_detail_activity_split_hint">Phân bổ hoạt động</string>
     <string name="statistics_detail_tag_split_hint">Phân bổ thẻ</string>
     <string name="statistics_detail_day_split_hint">Phân bổ hàng ngày</string>

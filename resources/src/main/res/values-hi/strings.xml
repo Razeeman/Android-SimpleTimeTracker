@@ -389,6 +389,8 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="statistics_detail_streaks_longest">सबसे लंबे समय तक</string>
     <string name="statistics_detail_streaks_current">मौजूदा</string>
     <string name="statistics_detail_streaks_latest">नवीनतम</string>
+    <string name="statistics_detail_streaks_any">कोई भी अवधि</string>
+    <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
     <string name="statistics_detail_activity_split_hint">गतिविधि वितरण</string>
     <string name="statistics_detail_tag_split_hint">टैग वितरण</string>
     <string name="statistics_detail_day_split_hint">दैनिक वितरण</string>
