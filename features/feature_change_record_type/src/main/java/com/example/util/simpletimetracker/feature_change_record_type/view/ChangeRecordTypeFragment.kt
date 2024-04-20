@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_type.view
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +11,12 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createIconSelectionAdapterDelegate
+import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createIconSelectionCategoryAdapterDelegate
+import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createIconSelectionCategoryInfoAdapterDelegate
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionScrollViewData
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionSelectorStateViewData
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionStateViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionScrollViewData
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewDelegate.IconSelectionViewDelegate
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
@@ -25,6 +29,7 @@ import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.core.view.UpdateViewChooserState
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
@@ -40,10 +45,8 @@ import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHin
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
-import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createIconSelectionAdapterDelegate
-import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createIconSelectionCategoryAdapterDelegate
-import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createIconSelectionCategoryInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewDelegate
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeCategoriesViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Category
@@ -211,7 +214,7 @@ class ChangeRecordTypeFragment :
             iconsTypeViewData.observe(::updateIconsTypeViewData)
             iconSelectorViewData.observe(::updateIconSelectorViewData)
             expandIconTypeSwitch.observe { updateBarExpanded() }
-            categories.observe(categoriesAdapter::replace)
+            categories.observe(::updateCategories)
             goalsViewData.observe(::updateGoalsState)
             nameErrorMessage.observe(::updateNameErrorMessage)
             notificationsHintVisible.observe(
@@ -272,15 +275,21 @@ class ChangeRecordTypeFragment :
             itemIcon = item.iconId
             itemColor = item.color
         }
+        with(binding) {
+            viewChangeRecordTypePreviewBackground.backgroundTintList = ColorStateList.valueOf(item.color)
+            layoutChangeRecordTypeColorPreview.setCardBackgroundColor(item.color)
+            layoutChangeRecordTypeIconPreview.setCardBackgroundColor(item.color)
+            iconChangeRecordTypeIconPreview.itemIcon = item.iconId
+            layoutChangeRecordTypeCategoriesPreview.setCardBackgroundColor(item.color)
+            layoutChangeRecordTypeGoalPreview.setCardBackgroundColor(item.color)
+        }
     }
 
     private fun setPreview() {
-        val maxWidth = resources.displayMetrics.widthPixels.pxToDp() - DELETE_BUTTON_SIZE
-
         with(binding.previewChangeRecordType) {
             itemIsRow = params.sizePreview.asRow
             layoutParams = layoutParams.also { layoutParams ->
-                params.sizePreview.width?.coerceAtMost(maxWidth)?.dpToPx()?.let { layoutParams.width = it }
+                params.sizePreview.width?.dpToPx()?.let { layoutParams.width = it }
                 params.sizePreview.height?.dpToPx()?.let { layoutParams.height = it }
             }
 
@@ -288,6 +297,14 @@ class ChangeRecordTypeFragment :
                 itemName = it.name
                 itemIcon = it.iconId.toViewData()
                 itemColor = it.color
+
+                binding.viewChangeRecordTypePreviewBackground.backgroundTintList =
+                    ColorStateList.valueOf(it.color)
+                binding.layoutChangeRecordTypeColorPreview.setCardBackgroundColor(it.color)
+                binding.layoutChangeRecordTypeIconPreview.setCardBackgroundColor(it.color)
+                binding.iconChangeRecordTypeIconPreview.itemIcon = it.iconId.toViewData()
+                binding.layoutChangeRecordTypeCategoriesPreview.setCardBackgroundColor(it.color)
+                binding.layoutChangeRecordTypeGoalPreview.setCardBackgroundColor(it.color)
             }
         }
     }
@@ -320,6 +337,10 @@ class ChangeRecordTypeFragment :
 
         val isClosed = state.current is Closed
         inputChangeRecordTypeName.isVisible = isClosed
+        btnChangeRecordTypeStatistics.isVisible =
+            viewModel.statsIconVisibility.value.orFalse() && isClosed
+        btnChangeRecordTypeDelete.isVisible =
+            viewModel.deleteIconVisibility.value.orFalse() && isClosed
 
         // Chooser fields
         fieldChangeRecordTypeColor.isVisible = isClosed || state.current is Color
@@ -328,17 +349,27 @@ class ChangeRecordTypeFragment :
         fieldChangeRecordTypeGoalTime.isVisible = isClosed || state.current is GoalTime
     }
 
-    private fun updateGoalsState(state: ChangeRecordTypeGoalsViewData) {
+    private fun updateGoalsState(state: ChangeRecordTypeGoalsViewData) = with(binding) {
         GoalsViewDelegate.updateGoalsState(
             state = state,
-            layout = binding.layoutChangeRecordTypeGoals,
+            layout = layoutChangeRecordTypeGoals,
         )
+        layoutChangeRecordTypeGoalPreview.isVisible = state.selectedCount > 0
+        tvChangeRecordTypeGoalPreview.text = state.selectedCount.toString()
     }
 
     private fun updateBarExpanded() {
         IconSelectionViewDelegate.updateBarExpanded(
             layout = binding.containerChangeRecordTypeIcon,
         )
+    }
+
+    private fun updateCategories(
+        data: ChangeRecordTypeCategoriesViewData,
+    ) = with(binding) {
+        categoriesAdapter.replace(data.viewData)
+        layoutChangeRecordTypeCategoriesPreview.isVisible = data.selectedCount > 0
+        tvChangeRecordTypeCategoryPreview.text = data.selectedCount.toString()
     }
 
     private fun updateIconsState(state: IconSelectionStateViewData) {
@@ -394,7 +425,6 @@ class ChangeRecordTypeFragment :
 
     companion object {
         private const val ARGS_PARAMS = "args_params"
-        private const val DELETE_BUTTON_SIZE = 96 // TODO get from dimens or viewModel
 
         fun createBundle(data: ChangeRecordTypeParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)

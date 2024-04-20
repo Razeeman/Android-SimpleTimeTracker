@@ -40,7 +40,17 @@ class GoalsViewDataMapper @Inject constructor(
         goalsState: ChangeRecordTypeGoalsState,
         isDarkTheme: Boolean,
     ): ChangeRecordTypeGoalsViewData {
+        val selectedCount = listOf(
+            goalsState.session,
+            goalsState.daily,
+            goalsState.weekly,
+            goalsState.monthly,
+        ).count {
+            it.value > 0
+        }
+
         return ChangeRecordTypeGoalsViewData(
+            selectedCount = selectedCount,
             session = mapGoalViewData(
                 title = resourceRepo.getString(R.string.change_record_type_session_goal_time),
                 goal = goalsState.session,

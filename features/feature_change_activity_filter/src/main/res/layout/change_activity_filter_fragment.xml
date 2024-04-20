@@ -84,7 +84,6 @@
                 style="@style/InputFieldCardText"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
                 android:text="@string/change_category_color_hint"
                 app:layout_constraintEnd_toStartOf="@id/arrowChangeActivityFilterColor"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -125,7 +124,6 @@
                 style="@style/InputFieldCardText"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
                 android:text="@string/change_category_types_hint"
                 app:layout_constraintEnd_toStartOf="@id/arrowChangeActivityFilterType"
                 app:layout_constraintStart_toStartOf="parent" />

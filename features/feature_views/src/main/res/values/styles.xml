@@ -256,6 +256,68 @@
         <item name="android:background">?appDividerColor</item>
     </style>
 
+    <style name="EditScreenDivider">
+        <item name="android:layout_height">2dp</item>
+        <item name="android:background">?appDividerColor</item>
+    </style>
+
+    <style name="EditScreenControlButton" parent="SettingsCard">
+        <item name="android:layout_height">@dimen/input_field_height</item>
+        <item name="android:foreground">?selectableItemBackground</item>
+    </style>
+
+    <style name="EditScreenControlButton.Text" parent="InputFieldCardText">
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="layout_constrainedWidth">true</item>
+    </style>
+
+    <style name="EditScreenControlButton.Image">
+        <item name="android:scaleType">center</item>
+        <item name="android:tint">?appInactiveColor</item>
+        <item name="layout_constraintDimensionRatio">h,1:1</item>
+    </style>
+
+    <style name="EditScreenField" parent="InputFieldCardText">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="EditScreenField.Arrow">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+        <item name="android:src">?appArrow</item>
+    </style>
+
+    <style name="EditScreenPreview">
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="android:layout_margin">6dp</item>
+        <item name="android:foreground">?selectableItemBackgroundBorderless</item>
+        <item name="layout_constraintDimensionRatio">1</item>
+    </style>
+
+    <style name="EditScreenPreview.Icon">
+        <item name="android:layout_margin">4dp</item>
+    </style>
+
+    <style name="EditScreenPreview.Text">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">?appLightTextColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="EditScreenContainer">
+        <item name="android:background">?android:colorBackground</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+
     <style name="SettingsCard">
         <item name="cardBackgroundColor">?appCardBackgroundColor</item>
         <item name="cardCornerRadius">8dp</item>

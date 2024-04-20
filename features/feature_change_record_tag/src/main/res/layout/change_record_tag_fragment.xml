@@ -120,7 +120,6 @@
                         style="@style/InputFieldCardText"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:text="@string/change_category_color_hint"
                         app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTagColor"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -162,7 +161,6 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:ellipsize="end"
-                        android:gravity="center_vertical"
                         android:maxLines="1"
                         android:text="@string/change_record_type_icon_image_hint"
                         app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTagIcon"
@@ -206,7 +204,6 @@
                         style="@style/InputFieldCardText"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:text="@string/change_record_tag_type_hint"
                         app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTagType"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -246,7 +243,6 @@
                         style="@style/InputFieldCardText"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:text="@string/change_record_tag_default_hint"
                         app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTagDefaultType"
                         app:layout_constraintStart_toStartOf="parent" />
