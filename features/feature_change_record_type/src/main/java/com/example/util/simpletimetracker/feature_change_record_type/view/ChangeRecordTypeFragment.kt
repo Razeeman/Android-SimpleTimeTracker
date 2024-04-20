@@ -276,7 +276,8 @@ class ChangeRecordTypeFragment :
             itemColor = item.color
         }
         with(binding) {
-            viewChangeRecordTypePreviewBackground.backgroundTintList = ColorStateList.valueOf(item.color)
+            viewChangeRecordTypePreviewBackground.backgroundTintList =
+                ColorStateList.valueOf(item.color)
             layoutChangeRecordTypeColorPreview.setCardBackgroundColor(item.color)
             layoutChangeRecordTypeIconPreview.setCardBackgroundColor(item.color)
             iconChangeRecordTypeIconPreview.itemIcon = item.iconId

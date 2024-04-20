@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
 import com.example.util.simpletimetracker.feature_change_activity_filter.R
+import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterTypesViewData
 import javax.inject.Inject
 
 class ChangeActivityFilterViewDataInteractor @Inject constructor(
@@ -25,11 +26,10 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
     suspend fun getTypesViewData(
         type: ActivityFilter.Type,
         selectedIds: List<Long>,
-    ): List<ViewHolderType> {
+    ): ChangeActivityFilterTypesViewData {
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
-
-        return when (type) {
+        val data = when (type) {
             is ActivityFilter.Type.Activity -> {
                 recordTypeInteractor.getAll()
                     .filter { !it.hidden }
@@ -52,34 +52,37 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
                     }
             }
         }
-            .takeUnless { it.isEmpty() }
-            ?.let { data ->
-                val selected = data.filter { it.first in selectedIds }.map { it.second }
-                val available = data.filter { it.first !in selectedIds }.map { it.second }
-                selected to available
-            }
-            ?.let { (selected, available) ->
-                val viewData = mutableListOf<ViewHolderType>()
-                mapSelectedTypesHint(
-                    isEmpty = selected.isEmpty(),
-                ).let(viewData::add)
-                selected.let(viewData::addAll)
-                DividerViewData(1)
-                    .takeUnless { available.isEmpty() }
-                    ?.let(viewData::add)
-                available.let(viewData::addAll)
-                viewData
-            }
-            ?: run {
-                when (type) {
+
+        return if (data.isNotEmpty()) {
+            val selected = data.filter { it.first in selectedIds }.map { it.second }
+            val available = data.filter { it.first !in selectedIds }.map { it.second }
+            val viewData = mutableListOf<ViewHolderType>()
+            mapSelectedTypesHint(
+                isEmpty = selected.isEmpty(),
+            ).let(viewData::add)
+            selected.let(viewData::addAll)
+            DividerViewData(1)
+                .takeUnless { available.isEmpty() }
+                ?.let(viewData::add)
+            available.let(viewData::addAll)
+
+            ChangeActivityFilterTypesViewData(
+                selectedCount = selected.size,
+                viewData = viewData,
+            )
+        } else {
+            ChangeActivityFilterTypesViewData(
+                selectedCount = 0,
+                viewData = when (type) {
                     is ActivityFilter.Type.Activity -> {
                         recordTypeViewDataMapper.mapToEmpty()
                     }
                     is ActivityFilter.Type.Category -> {
                         listOf(categoryViewDataMapper.mapToCategoriesEmpty())
                     }
-                }
-            }
+                },
+            )
+        }
     }
 
     private fun mapSelectedTypesHint(isEmpty: Boolean): ViewHolderType {

@@ -1,9 +1,13 @@
 package com.example.util.simpletimetracker.feature_change_activity_filter.view
 
+import android.content.res.ColorStateList
 import com.example.util.simpletimetracker.feature_change_activity_filter.databinding.ChangeActivityFilterFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
@@ -14,6 +18,8 @@ import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.core.utils.setChooserColor
+import com.example.util.simpletimetracker.core.view.UpdateViewChooserState
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
@@ -23,6 +29,12 @@ import com.example.util.simpletimetracker.feature_base_adapter.divider.createDiv
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState
+import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState.State
+import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState.State.Closed
+import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState.State.Color
+import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState.State.Type
+import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterTypesViewData
 import com.example.util.simpletimetracker.feature_change_activity_filter.viewModel.ChangeActivityFilterViewModel
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
@@ -111,21 +123,8 @@ class ChangeActivityFilterFragment :
             filterPreview.observe(::updatePreview)
             colors.observe(colorsAdapter::replace)
             filterTypeViewData.observe(buttonsChangeActivityFilterType.adapter::replace)
-            viewData.observe(viewDataAdapter::replace)
-            flipColorChooser.observe { opened ->
-                rvChangeActivityFilterColor.visible = opened
-                fieldChangeActivityFilterColor.setChooserColor(opened)
-                arrowChangeActivityFilterColor.apply {
-                    if (opened) rotateDown() else rotateUp()
-                }
-            }
-            flipTypesChooser.observe { opened ->
-                containerChangeActivityFilterActivities.visible = opened
-                fieldChangeActivityFilterType.setChooserColor(opened)
-                arrowChangeActivityFilterType.apply {
-                    if (opened) rotateDown() else rotateUp()
-                }
-            }
+            viewData.observe(::updateTypes)
+            chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeActivityFilterName) else hideKeyboard()
             }
@@ -141,10 +140,17 @@ class ChangeActivityFilterFragment :
         etChangeActivityFilterName.setSelection(item.name.length)
     }
 
-    private fun setPreview() = (params as? ChangeActivityFilterParams.Change)?.preview?.run {
+    private fun setPreview() {
         with(binding.previewChangeActivityFilter) {
-            itemName = name
-            itemColor = color
+            (params as? ChangeActivityFilterParams.Change)?.preview?.let {
+                itemName = it.name
+                itemColor = it.color
+
+                binding.viewChangeChangeActivityPreviewBackground.backgroundTintList =
+                    ColorStateList.valueOf(it.color)
+                binding.layoutChangeActivityFilterColorPreview.setCardBackgroundColor(it.color)
+                binding.layoutChangeActivityFilterTypePreview.setCardBackgroundColor(it.color)
+            }
         }
     }
 
@@ -152,7 +158,60 @@ class ChangeActivityFilterFragment :
         with(binding.previewChangeActivityFilter) {
             itemName = item.name
             itemColor = item.color
+            with(binding) {
+                viewChangeChangeActivityPreviewBackground.backgroundTintList =
+                    ColorStateList.valueOf(item.color)
+                layoutChangeActivityFilterColorPreview.setCardBackgroundColor(item.color)
+                layoutChangeActivityFilterTypePreview.setCardBackgroundColor(item.color)
+            }
         }
+    }
+
+    private fun updateChooserState(state: ChangeActivityFilterChooserState) = with(binding) {
+        updateChooser<Color>(
+            state = state,
+            chooserData = rvChangeActivityFilterColor,
+            chooserView = fieldChangeActivityFilterColor,
+            chooserArrow = arrowChangeActivityFilterColor,
+        )
+        updateChooser<Type>(
+            state = state,
+            chooserData = containerChangeActivityFilterActivities,
+            chooserView = fieldChangeActivityFilterType,
+            chooserArrow = arrowChangeActivityFilterType,
+        )
+
+        val isClosed = state.current is Closed
+        inputChangeActivityFilterName.isVisible = isClosed
+        btnChangeActivityFilterDelete.isVisible =
+            viewModel.deleteIconVisibility.value.orFalse() && isClosed
+
+        // Chooser fields
+        fieldChangeActivityFilterColor.isVisible = isClosed || state.current is Color
+        fieldChangeActivityFilterType.isVisible = isClosed || state.current is Type
+    }
+
+    private fun updateTypes(
+        data: ChangeActivityFilterTypesViewData,
+    ) = with(binding) {
+        viewDataAdapter.replace(data.viewData)
+        layoutChangeActivityFilterTypePreview.isVisible = data.selectedCount > 0
+        tvChangeActivityFilterTypePreview.text = data.selectedCount.toString()
+    }
+
+    private inline fun <reified T : State> updateChooser(
+        state: ChangeActivityFilterChooserState,
+        chooserData: View,
+        chooserView: CardView,
+        chooserArrow: View,
+    ) {
+        UpdateViewChooserState.updateChooser<State, T, Closed>(
+            stateCurrent = state.current,
+            statePrevious = state.previous,
+            chooserData = chooserData,
+            chooserView = chooserView,
+            chooserArrow = chooserArrow,
+        )
     }
 
     companion object {

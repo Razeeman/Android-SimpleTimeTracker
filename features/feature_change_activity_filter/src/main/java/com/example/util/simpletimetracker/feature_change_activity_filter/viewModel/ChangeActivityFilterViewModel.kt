@@ -24,7 +24,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordType.Record
 import com.example.util.simpletimetracker.feature_change_activity_filter.R
 import com.example.util.simpletimetracker.feature_change_activity_filter.interactor.ChangeActivityFilterViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_activity_filter.mapper.ChangeActivityFilterMapper
+import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState
 import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterTypeSwitchViewData
+import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterTypesViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityFilterParams
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -64,8 +66,8 @@ class ChangeActivityFilterViewModel @Inject constructor(
             initial
         }
     }
-    val viewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+    val viewData: LiveData<ChangeActivityFilterTypesViewData> by lazy {
+        return@lazy MutableLiveData<ChangeActivityFilterTypesViewData>().let { initial ->
             viewModelScope.launch {
                 initializeSelectedTypes()
                 initial.value = loadViewData()
@@ -73,8 +75,12 @@ class ChangeActivityFilterViewModel @Inject constructor(
             initial
         }
     }
-    val flipColorChooser: LiveData<Boolean> = MutableLiveData()
-    val flipTypesChooser: LiveData<Boolean> = MutableLiveData()
+    val chooserState: LiveData<ChangeActivityFilterChooserState> = MutableLiveData(
+        ChangeActivityFilterChooserState(
+            current = ChangeActivityFilterChooserState.State.Closed,
+            previous = ChangeActivityFilterChooserState.State.Closed,
+        ),
+    )
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(filterId != 0L) }
@@ -106,23 +112,11 @@ class ChangeActivityFilterViewModel @Inject constructor(
     }
 
     fun onColorChooserClick() {
-        (keyboardVisibility as MutableLiveData).value = false
-        (flipColorChooser as MutableLiveData).value = flipColorChooser.value
-            ?.flip().orTrue()
-
-        if (flipTypesChooser.value == true) {
-            (flipTypesChooser as MutableLiveData).value = false
-        }
+        onNewChooserState(ChangeActivityFilterChooserState.State.Color)
     }
 
     fun onTypeChooserClick() {
-        (keyboardVisibility as MutableLiveData).value = false
-        (flipTypesChooser as MutableLiveData).value = flipTypesChooser.value
-            ?.flip().orTrue()
-
-        if (flipColorChooser.value == true) {
-            (flipColorChooser as MutableLiveData).value = false
-        }
+        onNewChooserState(ChangeActivityFilterChooserState.State.Type)
     }
 
     fun onFilterTypeClick(viewData: ButtonsRowViewData) {
@@ -181,6 +175,30 @@ class ChangeActivityFilterViewModel @Inject constructor(
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }
+        }
+    }
+
+    private fun onNewChooserState(
+        newState: ChangeActivityFilterChooserState.State,
+    ) {
+        val current = chooserState.value?.current
+            ?: ChangeActivityFilterChooserState.State.Closed
+
+        keyboardVisibility.set(false)
+        if (current == newState) {
+            chooserState.set(
+                ChangeActivityFilterChooserState(
+                    current = ChangeActivityFilterChooserState.State.Closed,
+                    previous = current,
+                ),
+            )
+        } else {
+            chooserState.set(
+                ChangeActivityFilterChooserState(
+                    current = newState,
+                    previous = current,
+                ),
+            )
         }
     }
 
@@ -248,8 +266,11 @@ class ChangeActivityFilterViewModel @Inject constructor(
         (viewData as MutableLiveData).value = data
     }
 
-    private suspend fun loadViewData(): List<ViewHolderType> {
-        return changeActivityFilterViewDataInteractor.getTypesViewData(newType, newSelectedIds)
+    private suspend fun loadViewData(): ChangeActivityFilterTypesViewData {
+        return changeActivityFilterViewDataInteractor.getTypesViewData(
+            type = newType,
+            selectedIds = newSelectedIds,
+        )
     }
 
     private fun showMessage(stringResId: Int) {
