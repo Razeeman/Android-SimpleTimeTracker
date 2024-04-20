@@ -26,6 +26,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.Category
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_category.R
 import com.example.util.simpletimetracker.feature_change_category.interactor.ChangeCategoryViewDataInteractor
+import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryTypesViewData
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegateImpl
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
@@ -61,8 +62,8 @@ class ChangeCategoryViewModel @Inject constructor(
             initial
         }
     }
-    val types: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+    val types: LiveData<ChangeCategoryTypesViewData> by lazy {
+        return@lazy MutableLiveData<ChangeCategoryTypesViewData>().let { initial ->
             viewModelScope.launch {
                 initializeSelectedTypes()
                 initial.value = loadTypesViewData()
@@ -276,7 +277,7 @@ class ChangeCategoryViewModel @Inject constructor(
         (types as MutableLiveData).value = data
     }
 
-    private suspend fun loadTypesViewData(): List<ViewHolderType> {
+    private suspend fun loadTypesViewData(): ChangeCategoryTypesViewData {
         return changeCategoryViewDataInteractor.getTypesViewData(newTypes)
     }
 

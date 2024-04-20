@@ -141,6 +141,7 @@
         <item name="cardElevation">0dp</item>
     </style>
 
+    <!--  TODO move maxLines and ellipsize to here  -->
     <style name="InputFieldCardText">
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">10dp</item>

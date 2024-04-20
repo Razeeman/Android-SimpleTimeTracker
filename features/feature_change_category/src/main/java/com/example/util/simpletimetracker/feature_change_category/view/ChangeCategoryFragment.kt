@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_category.view
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +16,10 @@ import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.showKeyboard
+import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.core.view.UpdateViewChooserState
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
@@ -26,8 +29,10 @@ import com.example.util.simpletimetracker.feature_base_adapter.divider.createDiv
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryTypesViewData
 import com.example.util.simpletimetracker.feature_change_category.viewModel.ChangeCategoryViewModel
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewDelegate
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeCategoriesViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Closed
@@ -137,7 +142,7 @@ class ChangeCategoryFragment :
             categoryPreview.observeOnce(viewLifecycleOwner, ::updateUi)
             categoryPreview.observe(::updatePreview)
             colors.observe(colorsAdapter::replace)
-            types.observe(typesAdapter::replace)
+            types.observe(::updateTypes)
             goalsViewData.observe(::updateGoalsState)
             notificationsHintVisible.observe(
                 layoutChangeCategoryGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set,
@@ -176,10 +181,18 @@ class ChangeCategoryFragment :
         etChangeCategoryName.setSelection(item.name.length)
     }
 
-    private fun setPreview() = (params as? ChangeTagData.Change)?.preview?.run {
+    private fun setPreview() {
         with(binding.previewChangeCategory) {
-            itemName = name
-            itemColor = color
+            (params as? ChangeTagData.Change)?.preview?.let {
+                itemName = it.name
+                itemColor = it.color
+
+                binding.viewChangeCategoryPreviewBackground.backgroundTintList =
+                    ColorStateList.valueOf(it.color)
+                binding.layoutChangeCategoryColorPreview.setCardBackgroundColor(it.color)
+                binding.layoutChangeCategoryTypePreview.setCardBackgroundColor(it.color)
+                binding.layoutChangeCategoryGoalPreview.setCardBackgroundColor(it.color)
+            }
         }
     }
 
@@ -187,6 +200,13 @@ class ChangeCategoryFragment :
         with(binding.previewChangeCategory) {
             itemName = item.name
             itemColor = item.color
+        }
+        with(binding) {
+            viewChangeCategoryPreviewBackground.backgroundTintList =
+                ColorStateList.valueOf(item.color)
+            layoutChangeCategoryColorPreview.setCardBackgroundColor(item.color)
+            layoutChangeCategoryTypePreview.setCardBackgroundColor(item.color)
+            layoutChangeCategoryGoalPreview.setCardBackgroundColor(item.color)
         }
     }
 
@@ -212,6 +232,10 @@ class ChangeCategoryFragment :
 
         val isClosed = state.current is Closed
         inputChangeCategoryName.isVisible = isClosed
+        btnChangeCategoryStatistics.isVisible =
+            viewModel.statsIconVisibility.value.orFalse() && isClosed
+        btnChangeCategoryDelete.isVisible =
+            viewModel.deleteIconVisibility.value.orFalse() && isClosed
 
         // Chooser fields
         fieldChangeCategoryColor.isVisible = isClosed || state.current is Color
@@ -224,6 +248,16 @@ class ChangeCategoryFragment :
             state = state,
             layout = layoutChangeCategoryGoals,
         )
+        layoutChangeCategoryGoalPreview.isVisible = state.selectedCount > 0
+        tvChangeCategoryGoalPreview.text = state.selectedCount.toString()
+    }
+
+    private fun updateTypes(
+        data: ChangeCategoryTypesViewData,
+    ) = with(binding) {
+        typesAdapter.replace(data.viewData)
+        layoutChangeCategoryTypePreview.isVisible = data.selectedCount > 0
+        tvChangeCategoryTypePreview.text = data.selectedCount.toString()
     }
 
     private inline fun <reified T : State> updateChooser(

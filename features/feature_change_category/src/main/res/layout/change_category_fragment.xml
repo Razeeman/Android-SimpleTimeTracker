@@ -3,256 +3,357 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/btnChangeCategoryStatistics"
-        style="@style/SettingsCard"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:foreground="?selectableItemBackground"
-        android:visibility="gone"
-        app:cardBackgroundColor="?appCardBackgroundColor"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center"
-            android:src="@drawable/statistics"
-            android:tint="?appInactiveColor"
-            tools:ignore="ContentDescription" />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/btnChangeCategoryDelete"
-        style="@style/SettingsCard"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
-        android:foreground="?selectableItemBackground"
-        android:visibility="gone"
-        app:cardBackgroundColor="?appCardBackgroundColor"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center"
-            android:src="@drawable/delete"
-            android:tint="?appInactiveColor"
-            tools:ignore="ContentDescription" />
-
-    </androidx.cardview.widget.CardView>
-
-    <com.example.util.simpletimetracker.feature_views.CategoryView
-        android:id="@+id/previewChangeCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="48dp"
-        android:layout_marginTop="8dp"
-        app:cardElevation="@dimen/record_type_card_elevation"
-        app:itemIconVisible="false"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:itemName="Name" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputChangeCategoryName"
-        style="@style/ChangeItemInputField"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/containerChangeCategoryMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintTop_toBottomOf="@id/previewChangeCategory">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etChangeCategoryName"
-            style="@style/ChangeItemNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/change_category_name_hint" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/fieldChangeCategoryColor"
-        style="@style/InputFieldCard"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/input_field_height"
-        android:layout_marginStart="@dimen/input_field_margin"
-        app:layout_constraintEnd_toStartOf="@id/fieldChangeCategoryGoalTime"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryType"
-        app:layout_goneMarginEnd="@dimen/input_field_margin">
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?appInputFieldBorder">
+            android:animateLayoutChanges="true">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/InputFieldCardText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/change_category_color_hint"
-                app:layout_constraintEnd_toStartOf="@id/arrowChangeCategoryColor"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <ImageView
-                android:id="@+id/arrowChangeCategoryColor"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="8dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="?appArrow"
-                app:layout_constraintBottom_toBottomOf="parent"
+            <com.example.util.simpletimetracker.feature_views.CategoryView
+                android:id="@+id/previewChangeCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardElevation="@dimen/record_type_card_elevation"
+                app:itemIconVisible="false"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
+                tools:itemName="Name" />
+
+            <View
+                android:id="@+id/dividerChangeCategoryPreview"
+                style="@style/EditScreenDivider"
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/previewChangeCategory" />
+
+            <View
+                android:id="@+id/viewChangeCategoryPreviewBackground"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:alpha="0.1"
+                android:background="@drawable/background_gradient"
+                android:rotation="180"
+                app:layout_constraintBottom_toBottomOf="@id/previewChangeCategory"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:backgroundTint="@color/black" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnChangeCategoryStatistics"
+                style="@style/EditScreenControlButton"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/edit_screen_button_margin_horizontal"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@id/btnChangeCategoryDelete"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dividerChangeCategoryPreview"
+                app:layout_goneMarginEnd="@dimen/edit_screen_button_margin_horizontal"
+                tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvBtnChangeCategoryStatistics"
+                        style="@style/EditScreenControlButton.Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/shortcut_navigation_statistics"
+                        app:layout_constraintEnd_toStartOf="@id/ivBtnChangeCategoryStatistics"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivBtnChangeCategoryStatistics"
+                        style="@style/EditScreenControlButton.Image"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/statistics"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tvBtnChangeCategoryStatistics"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnChangeCategoryDelete"
+                style="@style/EditScreenControlButton"
+                android:layout_width="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/edit_screen_button_margin_horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnChangeCategoryStatistics"
+                app:layout_constraintTop_toBottomOf="@id/dividerChangeCategoryPreview"
+                app:layout_goneMarginStart="@dimen/edit_screen_button_margin_horizontal"
+                tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvBtnChangeCategoryArchive"
+                        style="@style/EditScreenControlButton.Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/archive_dialog_delete"
+                        app:layout_constraintEnd_toStartOf="@id/ivBtnChangeCategoryArchive"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivBtnChangeCategoryArchive"
+                        style="@style/EditScreenControlButton.Image"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/delete"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tvBtnChangeCategoryArchive"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrierChangeCategoryButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="btnChangeCategoryStatistics, btnChangeCategoryDelete" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputChangeCategoryName"
+                style="@style/ChangeItemInputField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/barrierChangeCategoryButtons">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etChangeCategoryName"
+                    style="@style/ChangeItemNameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/change_category_name_hint" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fieldChangeCategoryColor"
+                style="@style/InputFieldCard"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/input_field_height"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                android:layout_marginTop="3dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inputChangeCategoryName"
+                app:layout_goneMarginTop="12dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?appInputFieldBorder">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutChangeCategoryColorPreview"
+                        style="@style/EditScreenPreview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toStartOf="@id/arrowChangeCategoryColor"
+                        tools:cardBackgroundColor="@color/black" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/EditScreenField"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/change_category_color_hint"
+                        app:layout_constraintEnd_toStartOf="@id/layoutChangeCategoryColorPreview"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/arrowChangeCategoryColor"
+                        style="@style/EditScreenField.Arrow"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fieldChangeCategoryType"
+                style="@style/InputFieldCard"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/input_field_height"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryColor"
+                app:layout_goneMarginTop="12dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?appInputFieldBorder">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutChangeCategoryTypePreview"
+                        style="@style/EditScreenPreview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toStartOf="@id/arrowChangeCategoryType"
+                        tools:cardBackgroundColor="@color/black"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeCategoryTypePreview"
+                            style="@style/EditScreenPreview.Text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:text="2" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/EditScreenField"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/change_category_types_hint"
+                        app:layout_constraintEnd_toStartOf="@id/layoutChangeCategoryTypePreview"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/arrowChangeCategoryType"
+                        style="@style/EditScreenField.Arrow"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fieldChangeCategoryGoalTime"
+                style="@style/InputFieldCard"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/input_field_height"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryType"
+                app:layout_goneMarginTop="12dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?appInputFieldBorder">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutChangeCategoryGoalPreview"
+                        style="@style/EditScreenPreview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toStartOf="@id/arrowChangeCategoryGoalTime"
+                        tools:cardBackgroundColor="@color/black"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeCategoryGoalPreview"
+                            style="@style/EditScreenPreview.Text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:text="2" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/EditScreenField"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/change_record_type_goal_time_hint"
+                        app:layout_constraintEnd_toStartOf="@id/layoutChangeCategoryGoalPreview"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/arrowChangeCategoryGoalTime"
+                        style="@style/EditScreenField.Arrow"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/fieldChangeCategoryType"
-        style="@style/InputFieldCard"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/input_field_height"
-        android:layout_marginHorizontal="@dimen/input_field_margin"
-        android:layout_marginTop="3dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputChangeCategoryName">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?appInputFieldBorder">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/InputFieldCardText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/change_category_types_hint"
-                app:layout_constraintEnd_toStartOf="@id/arrowChangeCategoryType"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <ImageView
-                android:id="@+id/arrowChangeCategoryType"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="8dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="?appArrow"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/fieldChangeCategoryGoalTime"
-        style="@style/InputFieldCard"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/input_field_height"
-        android:layout_marginEnd="@dimen/input_field_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/fieldChangeCategoryColor"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryType"
-        app:layout_goneMarginStart="@dimen/input_field_margin">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?appInputFieldBorder">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/InputFieldCardText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/change_record_type_goal_time_hint"
-                app:layout_constraintEnd_toStartOf="@id/arrowChangeCategoryGoalTime"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <ImageView
-                android:id="@+id/arrowChangeCategoryGoalTime"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="8dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="?appArrow"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeCategoryColor"
+        style="@style/EditScreenContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="?android:colorBackground"
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryColor"
+        app:layout_constraintTop_toBottomOf="@id/containerChangeCategoryMain"
         tools:itemCount="3"
         tools:listitem="@layout/item_color_layout"
         tools:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeCategoryType"
+        style="@style/EditScreenContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:background="?android:colorBackground"
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryType"
+        app:layout_constraintTop_toBottomOf="@id/containerChangeCategoryMain"
         tools:itemCount="3"
         tools:listitem="@layout/item_record_type_layout"
         tools:visibility="gone" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/containerChangeCategoryGoalTime"
+        style="@style/EditScreenContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:background="?android:colorBackground"
-        android:scrollbars="vertical"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave"
-        app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryGoalTime"
+        app:layout_constraintTop_toBottomOf="@id/containerChangeCategoryMain"
         tools:visibility="gone">
 
         <include
@@ -267,9 +368,7 @@
         android:id="@+id/btnChangeCategorySave"
         style="@style/AppButtonActive"
         android:layout_width="match_parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
         android:text="@string/change_category_save"
         app:layout_constraintBottom_toBottomOf="parent" />
 
