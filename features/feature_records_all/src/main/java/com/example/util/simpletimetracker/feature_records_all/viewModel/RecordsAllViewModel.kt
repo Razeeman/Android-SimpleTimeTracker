@@ -114,7 +114,7 @@ class RecordsAllViewModel @Inject constructor(
             timeEndedDateTime = timeMapper.getFormattedDateTime(
                 time = item.timeEndedTimestamp,
                 useMilitaryTime = useMilitaryTimeFormat,
-                showSeconds = useMilitaryTimeFormat,
+                showSeconds = showSeconds,
             ).toRecordParams(),
             duration = item.duration,
             iconId = item.iconId.toParams(),

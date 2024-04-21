@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.core.delegates.iconSelection.viewDeleg
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
+import com.example.util.simpletimetracker.core.extension.addOnBackPressedListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
@@ -57,7 +58,6 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeGoalsViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
-import com.example.util.simpletimetracker.feature_views.extension.pxToDp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
@@ -197,6 +197,7 @@ class ChangeRecordTypeFragment :
             viewModel = viewModel,
             layout = layoutChangeRecordTypeGoals,
         )
+        addOnBackPressedListener(action = viewModel::onBackPressed)
     }
 
     override fun initViewModel(): Unit = with(binding) {
@@ -342,6 +343,7 @@ class ChangeRecordTypeFragment :
             viewModel.statsIconVisibility.value.orFalse() && isClosed
         btnChangeRecordTypeDelete.isVisible =
             viewModel.deleteIconVisibility.value.orFalse() && isClosed
+        dividerChangeRecordTypeBottom.isVisible = !isClosed
 
         // Chooser fields
         fieldChangeRecordTypeColor.isVisible = isClosed || state.current is Color

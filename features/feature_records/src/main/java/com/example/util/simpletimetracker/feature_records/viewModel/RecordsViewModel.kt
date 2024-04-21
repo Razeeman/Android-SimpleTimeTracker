@@ -65,7 +65,7 @@ class RecordsViewModel @Inject constructor(
     fun onRunningRecordClick(
         item: RunningRecordViewData,
         sharedElements: Pair<Any, String>? = null,
-    ): Any = viewModelScope.launch {
+    ) = viewModelScope.launch {
         val useMilitaryTimeFormat = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
 
@@ -92,7 +92,7 @@ class RecordsViewModel @Inject constructor(
         )
         router.navigate(
             data = ChangeRunningRecordFromMainParams(params),
-            sharedElements = sharedElements?.let(::mapOf) ?: emptyMap(),
+            sharedElements = sharedElements?.let(::mapOf).orEmpty(),
         )
     }
 
@@ -116,7 +116,7 @@ class RecordsViewModel @Inject constructor(
             timeEndedDateTime = timeMapper.getFormattedDateTime(
                 time = item.timeEndedTimestamp,
                 useMilitaryTime = useMilitaryTimeFormat,
-                showSeconds = useMilitaryTimeFormat,
+                showSeconds = showSeconds,
             ).toRecordParams(),
             duration = item.duration,
             iconId = item.iconId.toParams(),
@@ -140,7 +140,7 @@ class RecordsViewModel @Inject constructor(
         }
         router.navigate(
             data = ChangeRecordFromMainParams(params),
-            sharedElements = sharedElements?.let(::mapOf) ?: emptyMap(),
+            sharedElements = sharedElements?.let(::mapOf).orEmpty(),
         )
     }
 

@@ -3,20 +3,18 @@ package com.example.util.simpletimetracker.feature_change_record.view
 import android.content.res.ColorStateList
 import android.view.View
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.viewbinding.ViewBinding
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.extension.addOnBackPressedListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.showKeyboard
-import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.domain.extension.orFalse
-import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
@@ -27,7 +25,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHin
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordCommentAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordCommentFieldAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordCoreLayoutBinding
@@ -135,7 +132,8 @@ class ChangeRecordCore(
         }
     }
 
-    fun initUx(
+    fun <T : ViewBinding> initUx(
+        fragment: BaseFragment<T>,
         binding: ChangeRecordCoreLayoutBinding,
     ) = with(binding) {
         etChangeRecordComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
@@ -158,6 +156,7 @@ class ChangeRecordCore(
         btnChangeRecordRepeat.setOnClick(viewModel::onRepeatClick)
         btnChangeRecordDuplicate.setOnClick(viewModel::onDuplicateClick)
         btnChangeRecordMerge.setOnClick(viewModel::onMergeClick)
+        fragment.addOnBackPressedListener(action = viewModel::onBackPressed)
     }
 
     fun <T : ViewBinding> initViewModel(

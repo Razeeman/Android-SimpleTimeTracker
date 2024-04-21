@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewDelegate.IconSelectionViewDelegate
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesSelectionDialogListener
+import com.example.util.simpletimetracker.core.extension.addOnBackPressedListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
@@ -42,13 +43,13 @@ import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAd
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_tag.R
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Closed
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Color
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.DefaultType
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Icon
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Type
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.State
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.State.Closed
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.State.Color
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.State.DefaultType
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.State.Icon
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.State.Type
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypesViewData
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setCompoundDrawableWithIntrinsicBounds
@@ -186,6 +187,7 @@ class ChangeRecordTagFragment :
             layout = containerChangeRecordTypeIcon,
             iconsLayoutManager = iconsLayoutManager,
         )
+        addOnBackPressedListener(action = viewModel::onBackPressed)
     }
 
     override fun initViewModel(): Unit = with(binding) {
@@ -282,7 +284,7 @@ class ChangeRecordTagFragment :
         }
     }
 
-    private fun updateChooserState(state: ChangeRecordTagTypeChooserState) = with(binding) {
+    private fun updateChooserState(state: ChangeRecordTagChooserState) = with(binding) {
         updateChooser<Color>(
             state = state,
             chooserData = rvChangeRecordTagColor,
@@ -315,6 +317,7 @@ class ChangeRecordTagFragment :
             viewModel.statsIconVisibility.value.orFalse() && isClosed
         btnChangeRecordTagDelete.isVisible =
             viewModel.deleteIconVisibility.value.orFalse() && isClosed
+        dividerChangeRecordTagBottom.isVisible = !isClosed
 
         // Chooser fields
         fieldChangeRecordTagColor.isVisible = isClosed || state.current is Color
@@ -384,7 +387,7 @@ class ChangeRecordTagFragment :
     }
 
     private inline fun <reified T : State> updateChooser(
-        state: ChangeRecordTagTypeChooserState,
+        state: ChangeRecordTagChooserState,
         chooserData: View,
         chooserView: CardView,
         chooserArrow: View,

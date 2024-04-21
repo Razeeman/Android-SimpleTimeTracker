@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_tag.viewData
 
-data class ChangeRecordTagTypeChooserState(
+data class ChangeRecordTagChooserState(
     val current: State,
     val previous: State,
 ) {

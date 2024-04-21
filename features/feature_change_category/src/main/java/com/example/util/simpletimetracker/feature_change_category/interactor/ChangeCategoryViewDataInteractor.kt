@@ -5,7 +5,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerVi
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_category.mapper.ChangeCategoryMapper
 import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryTypesViewData
 import javax.inject.Inject

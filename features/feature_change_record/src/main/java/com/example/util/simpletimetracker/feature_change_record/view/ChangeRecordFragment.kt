@@ -71,7 +71,7 @@ class ChangeRecordFragment :
     }
 
     override fun initUx() = with(binding) {
-        core.initUx(layoutChangeRecordCore)
+        core.initUx(this@ChangeRecordFragment, layoutChangeRecordCore)
         layoutChangeRecordCore.btnChangeRecordStatistics.setOnClick(viewModel::onStatisticsClick)
         layoutChangeRecordCore.btnChangeRecordDelete.setOnClick {
             viewModel.onDeleteClick()

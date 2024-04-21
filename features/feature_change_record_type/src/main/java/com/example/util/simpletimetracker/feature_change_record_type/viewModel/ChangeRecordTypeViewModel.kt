@@ -29,7 +29,6 @@ import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.R
@@ -243,6 +242,14 @@ class ChangeRecordTypeViewModel @Inject constructor(
             widgetInteractor.updateWidgets()
             wearInteractor.update()
             keyboardVisibility.set(false)
+            router.back()
+        }
+    }
+
+    fun onBackPressed() {
+        if (chooserState.value?.current !is ChangeRecordTypeChooserState.State.Closed) {
+            onNewChooserState(ChangeRecordTypeChooserState.State.Closed)
+        } else {
             router.back()
         }
     }

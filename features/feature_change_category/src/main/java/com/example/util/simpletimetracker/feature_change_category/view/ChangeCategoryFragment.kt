@@ -12,11 +12,11 @@ import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
+import com.example.util.simpletimetracker.core.extension.addOnBackPressedListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.showKeyboard
-import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.core.view.UpdateViewChooserState
 import com.example.util.simpletimetracker.domain.extension.orFalse
@@ -32,7 +32,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordType.create
 import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryTypesViewData
 import com.example.util.simpletimetracker.feature_change_category.viewModel.ChangeCategoryViewModel
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewDelegate
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeCategoriesViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Closed
@@ -130,6 +129,7 @@ class ChangeCategoryFragment :
             viewModel = viewModel,
             layout = layoutChangeCategoryGoals,
         )
+        addOnBackPressedListener(action = viewModel::onBackPressed)
     }
 
     override fun initViewModel(): Unit = with(binding) {
@@ -236,6 +236,7 @@ class ChangeCategoryFragment :
             viewModel.statsIconVisibility.value.orFalse() && isClosed
         btnChangeCategoryDelete.isVisible =
             viewModel.deleteIconVisibility.value.orFalse() && isClosed
+        dividerChangeCategoryBottom.isVisible = !isClosed
 
         // Chooser fields
         fieldChangeCategoryColor.isVisible = isClosed || state.current is Color

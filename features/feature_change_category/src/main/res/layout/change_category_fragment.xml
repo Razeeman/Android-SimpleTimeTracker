@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constrainedHeight="true"
-        app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeCategoryButton"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0">
 
@@ -312,6 +312,13 @@
 
             </androidx.cardview.widget.CardView>
 
+            <View
+                android:id="@+id/dividerChangeCategoryBottom"
+                style="@style/EditScreenDivider"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/edit_screen_field_top_margin"
+                app:layout_constraintTop_toBottomOf="@id/fieldChangeCategoryGoalTime" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
@@ -325,7 +332,7 @@
         android:layout_marginTop="8dp"
         android:overScrollMode="never"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeCategoryButton"
         app:layout_constraintTop_toBottomOf="@id/containerChangeCategoryMain"
         tools:itemCount="3"
         tools:listitem="@layout/item_color_layout"
@@ -339,7 +346,7 @@
         android:layout_marginTop="8dp"
         android:overScrollMode="never"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeCategoryButton"
         app:layout_constraintTop_toBottomOf="@id/containerChangeCategoryMain"
         tools:itemCount="3"
         tools:listitem="@layout/item_record_type_layout"
@@ -352,7 +359,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeCategoryButton"
         app:layout_constraintTop_toBottomOf="@id/containerChangeCategoryMain"
         tools:visibility="gone">
 
@@ -363,6 +370,12 @@
             android:layout_height="match_parent" />
 
     </androidx.core.widget.NestedScrollView>
+
+    <View
+        android:id="@+id/dividerChangeCategoryButton"
+        style="@style/EditScreenDivider"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toTopOf="@id/btnChangeCategorySave" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChangeCategorySave"

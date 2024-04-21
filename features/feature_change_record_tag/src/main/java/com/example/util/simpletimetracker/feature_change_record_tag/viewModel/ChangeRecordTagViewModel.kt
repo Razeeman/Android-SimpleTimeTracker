@@ -24,12 +24,11 @@ import com.example.util.simpletimetracker.domain.interactor.WearInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RecordTag
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_tag.R
 import com.example.util.simpletimetracker.feature_change_record_tag.interactor.ChangeRecordTagViewDataInteractor
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypesViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
@@ -88,10 +87,10 @@ class ChangeRecordTagViewModel @Inject constructor(
             initial
         }
     }
-    val chooserState: LiveData<ChangeRecordTagTypeChooserState> = MutableLiveData(
-        ChangeRecordTagTypeChooserState(
-            current = ChangeRecordTagTypeChooserState.State.Closed,
-            previous = ChangeRecordTagTypeChooserState.State.Closed,
+    val chooserState: LiveData<ChangeRecordTagChooserState> = MutableLiveData(
+        ChangeRecordTagChooserState(
+            current = ChangeRecordTagChooserState.State.Closed,
+            previous = ChangeRecordTagChooserState.State.Closed,
         ),
     )
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
@@ -124,19 +123,19 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     fun onColorChooserClick() {
-        onNewChooserState(ChangeRecordTagTypeChooserState.State.Color)
+        onNewChooserState(ChangeRecordTagChooserState.State.Color)
     }
 
     fun onIconChooserClick() {
-        onNewChooserState(ChangeRecordTagTypeChooserState.State.Icon)
+        onNewChooserState(ChangeRecordTagChooserState.State.Icon)
     }
 
     fun onTypeChooserClick() {
-        onNewChooserState(ChangeRecordTagTypeChooserState.State.Type)
+        onNewChooserState(ChangeRecordTagChooserState.State.Type)
     }
 
     fun onDefaultTypeChooserClick() {
-        onNewChooserState(ChangeRecordTagTypeChooserState.State.DefaultType)
+        onNewChooserState(ChangeRecordTagChooserState.State.DefaultType)
     }
 
     fun onTypeClick(item: RecordTypeViewData) {
@@ -237,6 +236,14 @@ class ChangeRecordTagViewModel @Inject constructor(
         }
     }
 
+    fun onBackPressed() {
+        if (chooserState.value?.current !is ChangeRecordTagChooserState.State.Closed) {
+            onNewChooserState(ChangeRecordTagChooserState.State.Closed)
+        } else {
+            router.back()
+        }
+    }
+
     private suspend fun saveTypes(tagId: Long) {
         val addedTypes = newTypeIds.filterNot { it in initialTypeIds }
         val removedTypes = initialTypeIds.filterNot { it in newTypeIds }
@@ -254,21 +261,21 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     private fun onNewChooserState(
-        newState: ChangeRecordTagTypeChooserState.State,
+        newState: ChangeRecordTagChooserState.State,
     ) {
         val current = chooserState.value?.current
-            ?: ChangeRecordTagTypeChooserState.State.Closed
+            ?: ChangeRecordTagChooserState.State.Closed
         keyboardVisibility.set(false)
         if (current == newState) {
             chooserState.set(
-                ChangeRecordTagTypeChooserState(
-                    current = ChangeRecordTagTypeChooserState.State.Closed,
+                ChangeRecordTagChooserState(
+                    current = ChangeRecordTagChooserState.State.Closed,
                     previous = current,
                 ),
             )
         } else {
             chooserState.set(
-                ChangeRecordTagTypeChooserState(
+                ChangeRecordTagChooserState(
                     current = newState,
                     previous = current,
                 ),

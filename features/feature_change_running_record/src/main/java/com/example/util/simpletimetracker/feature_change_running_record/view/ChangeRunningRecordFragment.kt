@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_running_record.view
 
 import android.content.res.ColorStateList
-import com.example.util.simpletimetracker.feature_change_running_record.databinding.ChangeRunningRecordFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,13 +18,13 @@ import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecor
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordFromScreen
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_change_running_record.databinding.ChangeRunningRecordFragmentBinding as Binding
 
 @AndroidEntryPoint
 class ChangeRunningRecordFragment :
@@ -66,7 +65,7 @@ class ChangeRunningRecordFragment :
     }
 
     override fun initUx() = with(binding) {
-        core.initUx(layoutChangeRunningRecordCore)
+        core.initUx(this@ChangeRunningRecordFragment, layoutChangeRunningRecordCore)
         layoutChangeRunningRecordCore.btnChangeRecordStatistics.setOnClick(viewModel::onStatisticsClick)
         layoutChangeRunningRecordCore.btnChangeRecordDelete.setOnClick(viewModel::onDeleteClick)
     }

@@ -21,7 +21,6 @@ import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.WidgetType
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_category.R
@@ -185,6 +184,14 @@ class ChangeCategoryViewModel @Inject constructor(
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }
+        }
+    }
+
+    fun onBackPressed() {
+        if (chooserState.value?.current !is ChangeRecordTypeChooserState.State.Closed) {
+            onNewChooserState(ChangeRecordTypeChooserState.State.Closed)
+        } else {
+            router.back()
         }
     }
 

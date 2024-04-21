@@ -46,7 +46,7 @@ class ChangeRecordViewDataMapper @Inject constructor(
             dateTimeStarted = timeMapper.getFormattedDateTime(
                 time = record.timeStarted,
                 useMilitaryTime = useMilitaryTime,
-                showSeconds = showSeconds
+                showSeconds = showSeconds,
             ),
             dateTimeFinished = timeMapper.getFormattedDateTime(
                 time = record.timeEnded,

@@ -63,7 +63,7 @@ fun ChangeRecordParams.Preview.DateTime.toViewData(): TimeMapper.DateTime {
 fun TimeMapper.DateTime.toRecordParams(): ChangeRecordParams.Preview.DateTime {
     return ChangeRecordParams.Preview.DateTime(
         date = date,
-        time = time
+        time = time,
     )
 }
 
@@ -77,7 +77,7 @@ fun ChangeRunningRecordParams.Preview.DateTime.toViewData(): TimeMapper.DateTime
 fun TimeMapper.DateTime.toRunningRecordParams(): ChangeRunningRecordParams.Preview.DateTime {
     return ChangeRunningRecordParams.Preview.DateTime(
         date = date,
-        time = time
+        time = time,
     )
 }
 

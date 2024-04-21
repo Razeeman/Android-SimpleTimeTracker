@@ -12,6 +12,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
+import com.example.util.simpletimetracker.core.extension.addOnBackPressedListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
@@ -108,6 +109,7 @@ class ChangeActivityFilterFragment :
         btnChangeActivityFilterSave.setOnClick(viewModel::onSaveClick)
         btnChangeActivityFilterDelete.setOnClick(viewModel::onDeleteClick)
         buttonsChangeActivityFilterType.listener = viewModel::onFilterTypeClick
+        addOnBackPressedListener(action = viewModel::onBackPressed)
     }
 
     override fun initViewModel(): Unit = with(binding) {
@@ -182,6 +184,7 @@ class ChangeActivityFilterFragment :
         inputChangeActivityFilterName.isVisible = isClosed
         btnChangeActivityFilterDelete.isVisible =
             viewModel.deleteIconVisibility.value.orFalse() && isClosed
+        dividerChangeActivityFilterBottom.isVisible = !isClosed
 
         // Chooser fields
         fieldChangeActivityFilterColor.isVisible = isClosed || state.current is Color

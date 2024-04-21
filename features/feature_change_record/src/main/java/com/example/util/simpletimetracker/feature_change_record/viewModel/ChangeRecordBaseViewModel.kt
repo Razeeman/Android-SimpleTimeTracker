@@ -445,6 +445,14 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
+    fun onBackPressed() {
+        if (chooserState.value?.current !is ChangeRecordChooserState.State.Closed) {
+            onNewChooserState(ChangeRecordChooserState.State.Closed)
+        } else {
+            router.back()
+        }
+    }
+
     private suspend fun updateMergeData() {
         changeRecordMergeDelegate.updateMergePreviewViewData(
             mergeAvailable = mergeAvailable,

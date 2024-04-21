@@ -11,8 +11,6 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.ActivityFilterViewDataMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
-import com.example.util.simpletimetracker.domain.extension.flip
-import com.example.util.simpletimetracker.domain.extension.orTrue
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -175,6 +173,14 @@ class ChangeActivityFilterViewModel @Inject constructor(
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }
+        }
+    }
+
+    fun onBackPressed() {
+        if (chooserState.value?.current !is ChangeActivityFilterChooserState.State.Closed) {
+            onNewChooserState(ChangeActivityFilterChooserState.State.Closed)
+        } else {
+            router.back()
         }
     }
 
