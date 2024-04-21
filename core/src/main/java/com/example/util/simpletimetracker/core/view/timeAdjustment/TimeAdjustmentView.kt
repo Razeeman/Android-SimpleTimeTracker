@@ -61,7 +61,7 @@ class TimeAdjustmentView @JvmOverloads constructor(
     private fun initEditMode() {
         if (isInEditMode) {
             List(6) {
-                ViewData.Adjust(text = "Button $it", value = it.toLong())
+                ViewData.Adjust(text = "Btn $it", value = it.toLong())
             }.let(adapter::replace)
         }
     }

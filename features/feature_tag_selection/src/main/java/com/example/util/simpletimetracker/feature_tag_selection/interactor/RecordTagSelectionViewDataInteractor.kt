@@ -28,7 +28,7 @@ class RecordTagSelectionViewDataInteractor @Inject constructor(
             showAddButton = false,
             showArchived = false,
             showUntaggedButton = true,
-        ).let(result::addAll)
+        ).data.let(result::addAll)
 
         return result
     }

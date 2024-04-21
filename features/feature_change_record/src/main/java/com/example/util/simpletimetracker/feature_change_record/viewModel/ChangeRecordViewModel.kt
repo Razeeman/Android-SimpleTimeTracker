@@ -79,6 +79,12 @@ class ChangeRecordViewModel @Inject constructor(
     override val splitPreviewTimeEnded: Long get() = newTimeEnded
     override val showTimeEndedOnSplitPreview: Boolean get() = true
     override val adjustNextRecordAvailable: Boolean get() = true
+    override val isTimeEndedAvailable: Boolean get() = true
+    override val isDeleteButtonVisible: Boolean
+        get() = (extra as? ChangeRecordParams.Tracked)?.id.orZero() != 0L
+    override val isStatisticsButtonVisible: Boolean
+        get() = extra is ChangeRecordParams.Tracked ||
+            extra is ChangeRecordParams.Untracked
 
     val record: LiveData<ChangeRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordViewData>().let { initial ->
@@ -88,12 +94,6 @@ class ChangeRecordViewModel @Inject constructor(
             }
             initial
         }
-    }
-    val statsIconVisibility: LiveData<Boolean> by lazy {
-        MutableLiveData(
-            extra is ChangeRecordParams.Tracked ||
-                extra is ChangeRecordParams.Untracked,
-        )
     }
 
     fun onVisible() {

@@ -23,7 +23,7 @@ interface Throttler : LifecycleOwner {
     }
 
     fun <T, U> throttle(
-        destinationFunction: (T, U) -> Unit,
+        destinationFunction: (T, U) -> Any,
     ): (T, U) -> Unit = { param1, param2 ->
         throttler { destinationFunction(param1, param2) }
     }

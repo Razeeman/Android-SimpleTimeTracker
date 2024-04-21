@@ -28,6 +28,7 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordCommentViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordFavCommentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSearchCommentState
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTagsViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromScreen
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
@@ -62,8 +63,8 @@ abstract class ChangeRecordBaseViewModel(
             initial
         }
     }
-    val categories: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+    val categories: LiveData<ChangeRecordTagsViewData> by lazy {
+        return@lazy MutableLiveData<ChangeRecordTagsViewData>().let { initial ->
             viewModelScope.launch {
                 initializePreviewViewData()
                 initial.value = loadCategoriesViewData()
@@ -80,7 +81,10 @@ abstract class ChangeRecordBaseViewModel(
             initial
         }
     }
-    val timeAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
+    val timeStartedAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
+        MutableLiveData(loadTimeAdjustmentItems())
+    }
+    val timeEndedAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(loadTimeAdjustmentItems())
     }
     val chooserState: LiveData<ChangeRecordChooserState> = MutableLiveData(
@@ -97,11 +101,13 @@ abstract class ChangeRecordBaseViewModel(
             initial
         }
     }
-    val timeAdjustmentState: LiveData<TimeAdjustmentState> = MutableLiveData(TimeAdjustmentState.TIME_STARTED)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
     val comment: LiveData<String> = MutableLiveData()
     val favCommentViewData: LiveData<ChangeRecordFavCommentState> = MutableLiveData()
+    val timeEndedVisibility: LiveData<Boolean> by lazy { MutableLiveData(isTimeEndedAvailable) }
+    val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(isDeleteButtonVisible) }
+    val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(isStatisticsButtonVisible) }
 
     protected var newTypeId: Long = 0
     protected var newTimeEnded: Long = 0
@@ -123,6 +129,9 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract val splitPreviewTimeEnded: Long
     protected abstract val showTimeEndedOnSplitPreview: Boolean
     protected abstract val adjustNextRecordAvailable: Boolean
+    protected abstract val isTimeEndedAvailable: Boolean
+    protected abstract val isDeleteButtonVisible: Boolean
+    protected abstract val isStatisticsButtonVisible: Boolean
 
     private var prevRecord: Record? = null
     private var nextRecord: Record? = null
@@ -413,27 +422,12 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
-    fun onAdjustTimeStartedClick() {
-        updateAdjustTimeState(
-            clicked = TimeAdjustmentState.TIME_STARTED,
-            other = TimeAdjustmentState.TIME_ENDED,
-        )
+    fun onAdjustTimeStartedItemClick(viewData: TimeAdjustmentView.ViewData) {
+        onAdjustTimeItemClick(TimeAdjustmentState.TIME_STARTED, viewData)
     }
 
-    fun onAdjustTimeEndedClick() {
-        updateAdjustTimeState(
-            clicked = TimeAdjustmentState.TIME_ENDED,
-            other = TimeAdjustmentState.TIME_STARTED,
-        )
-    }
-
-    fun onAdjustTimeItemClick(viewData: TimeAdjustmentView.ViewData) {
-        viewModelScope.launch {
-            when (viewData) {
-                is TimeAdjustmentView.ViewData.Now -> onAdjustTimeNowClick()
-                is TimeAdjustmentView.ViewData.Adjust -> adjustRecordTime(viewData.value)
-            }
-        }
+    fun onAdjustTimeEndedItemClick(viewData: TimeAdjustmentView.ViewData) {
+        onAdjustTimeItemClick(TimeAdjustmentState.TIME_ENDED, viewData)
     }
 
     fun onAdjustTimeSplitItemClick(viewData: TimeAdjustmentView.ViewData) {
@@ -530,8 +524,22 @@ abstract class ChangeRecordBaseViewModel(
         snackBarMessageNavigationInteractor.showMessage(stringResId)
     }
 
-    private suspend fun onAdjustTimeNowClick() {
-        when (timeAdjustmentState.value) {
+    private fun onAdjustTimeItemClick(
+        state: TimeAdjustmentState,
+        viewData: TimeAdjustmentView.ViewData,
+    ) {
+        viewModelScope.launch {
+            when (viewData) {
+                is TimeAdjustmentView.ViewData.Now -> onAdjustTimeNowClick(state)
+                is TimeAdjustmentView.ViewData.Adjust -> adjustRecordTime(state, viewData.value)
+            }
+        }
+    }
+
+    private suspend fun onAdjustTimeNowClick(
+        state: TimeAdjustmentState,
+    ) {
+        when (state) {
             TimeAdjustmentState.TIME_STARTED -> {
                 newTimeStarted = System.currentTimeMillis()
                 onTimeStartedChanged()
@@ -546,8 +554,11 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
-    private suspend fun adjustRecordTime(shiftInMinutes: Long) {
-        when (timeAdjustmentState.value) {
+    private suspend fun adjustRecordTime(
+        state: TimeAdjustmentState,
+        shiftInMinutes: Long,
+    ) {
+        when (state) {
             TimeAdjustmentState.TIME_STARTED -> {
                 newTimeStarted += TimeUnit.MINUTES.toMillis(shiftInMinutes)
                 onTimeStartedChanged()
@@ -558,28 +569,6 @@ abstract class ChangeRecordBaseViewModel(
             }
             else -> {
                 // Do nothing, it's hidden.
-            }
-        }
-    }
-
-    private fun updateAdjustTimeState(
-        clicked: TimeAdjustmentState,
-        other: TimeAdjustmentState,
-    ) {
-        when (timeAdjustmentState.value) {
-            TimeAdjustmentState.HIDDEN -> {
-                timeAdjustmentState.set(clicked)
-            }
-            clicked -> {
-                timeAdjustmentState.set(TimeAdjustmentState.HIDDEN)
-            }
-            other -> viewModelScope.launch {
-                timeAdjustmentState.set(TimeAdjustmentState.HIDDEN)
-                delay(300)
-                timeAdjustmentState.set(clicked)
-            }
-            else -> {
-                // Do nothing
             }
         }
     }
@@ -610,7 +599,7 @@ abstract class ChangeRecordBaseViewModel(
         categories.set(data)
     }
 
-    private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
+    private suspend fun loadCategoriesViewData(): ChangeRecordTagsViewData {
         return recordTagViewDataInteractor.getViewData(
             selectedTags = newCategoryIds,
             typeId = newTypeId,
@@ -618,7 +607,12 @@ abstract class ChangeRecordBaseViewModel(
             showAddButton = true,
             showArchived = false,
             showUntaggedButton = true,
-        )
+        ).let {
+            ChangeRecordTagsViewData(
+                selectedCount = it.selectedCount,
+                viewData = it.data,
+            )
+        }
     }
 
     private fun loadTimeAdjustmentItems(): List<ViewHolderType> {

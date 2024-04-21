@@ -9,6 +9,7 @@ data class RunningRecordViewData(
     val name: String,
     val tagName: String,
     val timeStarted: String,
+    val timeStartedTimestamp: Long,
     val timer: String,
     val timerTotal: String,
     val goalTime: GoalTimeViewData,

@@ -26,7 +26,6 @@ class RemoveRecordViewModel @Inject constructor(
 ) : ViewModel() {
 
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData()
-    val deleteIconVisibility: LiveData<Boolean> = MutableLiveData()
     val message: LiveData<SnackBarParams?> = MutableLiveData()
     val needUpdate: LiveData<Boolean> = MutableLiveData()
 
@@ -35,7 +34,6 @@ class RemoveRecordViewModel @Inject constructor(
     fun prepare(id: Long) {
         recordId = id
         (deleteButtonEnabled as MutableLiveData).value = true
-        (deleteIconVisibility as MutableLiveData).value = id != 0L
     }
 
     fun onDeleteClick(from: ChangeRecordParams.From?) {

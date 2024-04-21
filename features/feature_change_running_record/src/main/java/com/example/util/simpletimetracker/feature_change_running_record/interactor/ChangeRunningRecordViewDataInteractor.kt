@@ -56,7 +56,7 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
 
         return ChangeRunningRecordViewData(
             recordPreview = recordPreview,
-            dateTimeStarted = timeMapper.formatDateTime(
+            dateTimeStarted = timeMapper.getFormattedDateTime(
                 time = record.timeStarted,
                 useMilitaryTime = useMilitaryTime,
                 showSeconds = showSeconds,

@@ -7,6 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.extension.toParams
+import com.example.util.simpletimetracker.core.extension.toRecordParams
+import com.example.util.simpletimetracker.core.extension.toRunningRecordParams
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
@@ -31,6 +35,8 @@ class RecordsAllViewModel @Inject constructor(
     private val router: Router,
     private val recordsAllViewDataInteractor: RecordsAllViewDataInteractor,
     private val recordsAllViewDataMapper: RecordsAllViewDataMapper,
+    private val timeMapper: TimeMapper,
+    private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
 
     lateinit var extra: RecordsAllParams
@@ -57,7 +63,10 @@ class RecordsAllViewModel @Inject constructor(
     fun onRunningRecordClick(
         item: RunningRecordViewData,
         sharedElements: Pair<Any, String>,
-    ) {
+    ) = viewModelScope.launch {
+        val useMilitaryTimeFormat = prefsInteractor.getUseMilitaryTimeFormat()
+        val showSeconds = prefsInteractor.getShowSeconds()
+
         val params = ChangeRunningRecordParams(
             transitionName = sharedElements.second,
             id = item.id,
@@ -66,6 +75,11 @@ class RecordsAllViewModel @Inject constructor(
                 name = item.name,
                 tagName = item.tagName,
                 timeStarted = item.timeStarted,
+                timeStartedDateTime = timeMapper.getFormattedDateTime(
+                    time = item.timeStartedTimestamp,
+                    useMilitaryTime = useMilitaryTimeFormat,
+                    showSeconds = showSeconds,
+                ).toRunningRecordParams(),
                 duration = item.timer,
                 durationTotal = item.timerTotal,
                 goalTime = item.goalTime.toParams(),
@@ -80,12 +94,28 @@ class RecordsAllViewModel @Inject constructor(
         )
     }
 
-    fun onRecordClick(item: RecordViewData, sharedElements: Pair<Any, String>) {
+    fun onRecordClick(
+        item: RecordViewData,
+        sharedElements: Pair<Any, String>,
+    ) = viewModelScope.launch {
+        val useMilitaryTimeFormat = prefsInteractor.getUseMilitaryTimeFormat()
+        val showSeconds = prefsInteractor.getShowSeconds()
+
         val preview = ChangeRecordParams.Preview(
             name = item.name,
             tagName = item.tagName,
             timeStarted = item.timeStarted,
             timeFinished = item.timeFinished,
+            timeStartedDateTime = timeMapper.getFormattedDateTime(
+                time = item.timeStartedTimestamp,
+                useMilitaryTime = useMilitaryTimeFormat,
+                showSeconds = showSeconds,
+            ).toRecordParams(),
+            timeEndedDateTime = timeMapper.getFormattedDateTime(
+                time = item.timeEndedTimestamp,
+                useMilitaryTime = useMilitaryTimeFormat,
+                showSeconds = useMilitaryTimeFormat,
+            ).toRecordParams(),
             duration = item.duration,
             iconId = item.iconId.toParams(),
             color = item.color,

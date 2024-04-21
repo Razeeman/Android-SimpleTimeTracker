@@ -48,6 +48,7 @@ class RunningRecordViewDataMapper @Inject constructor(
                 useMilitaryTime = useMilitaryTime,
                 showSeconds = showSeconds,
             ),
+            timeStartedTimestamp = runningRecord.timeStarted,
             timer = timeMapper.formatInterval(
                 interval = currentDuration,
                 forceSeconds = true,

@@ -7,10 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
+import com.example.util.simpletimetracker.core.extension.toRunningRecordParams
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -45,6 +48,8 @@ class RunningRecordsViewModel @Inject constructor(
     private val recordRepeatInteractor: RecordRepeatInteractor,
     private val runningRecordsViewDataInteractor: RunningRecordsViewDataInteractor,
     private val activityFilterInteractor: ActivityFilterInteractor,
+    private val timeMapper: TimeMapper,
+    private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
@@ -125,7 +130,13 @@ class RunningRecordsViewModel @Inject constructor(
         }
     }
 
-    fun onRunningRecordLongClick(item: RunningRecordViewData, sharedElements: Pair<Any, String>) {
+    fun onRunningRecordLongClick(
+        item: RunningRecordViewData,
+        sharedElements: Pair<Any, String>,
+    ) = viewModelScope.launch {
+        val useMilitaryTimeFormat = prefsInteractor.getUseMilitaryTimeFormat()
+        val showSeconds = prefsInteractor.getShowSeconds()
+
         val params = ChangeRunningRecordParams(
             transitionName = sharedElements.second,
             id = item.id,
@@ -134,6 +145,11 @@ class RunningRecordsViewModel @Inject constructor(
                 name = item.name,
                 tagName = item.tagName,
                 timeStarted = item.timeStarted,
+                timeStartedDateTime = timeMapper.getFormattedDateTime(
+                    time = item.timeStartedTimestamp,
+                    useMilitaryTime = useMilitaryTimeFormat,
+                    showSeconds = showSeconds,
+                ).toRunningRecordParams(),
                 duration = item.timer,
                 durationTotal = item.timerTotal,
                 goalTime = item.goalTime.toParams(),

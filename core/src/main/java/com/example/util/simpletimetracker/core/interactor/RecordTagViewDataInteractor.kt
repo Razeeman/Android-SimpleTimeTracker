@@ -24,78 +24,87 @@ class RecordTagViewDataInteractor @Inject constructor(
         showAddButton: Boolean,
         showArchived: Boolean,
         showUntaggedButton: Boolean,
-    ): List<ViewHolderType> {
+    ): Result {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val recordTags = getSelectableTagsInteractor.execute(typeId)
         val types = recordTypeInteractor.getAll().associateBy { it.id }
-
-        return recordTags
+        val data = recordTags
             .let { tags -> if (showArchived) tags else tags.filterNot { it.archived } }
-            .takeUnless { it.isEmpty() }
-            ?.let { tags ->
-                val selected = tags.filter { it.id in selectedTags }
-                val available = tags.filter { it.id !in selectedTags }
-                selected to available
-            }
-            ?.let { (selected, available) ->
-                val viewData = mutableListOf<ViewHolderType>()
 
-                listOf(
-                    categoryViewDataMapper.mapToRecordTagHint(),
-                    DividerViewData(1),
-                ).takeIf { showAddButton }?.let(viewData::addAll)
+        return if (data.isNotEmpty()) {
+            val selected = data.filter { it.id in selectedTags }
+            val available = data.filter { it.id !in selectedTags }
 
-                categoryViewDataMapper.mapSelectedCategoriesHint(
-                    isEmpty = selected.isEmpty(),
-                ).takeIf { multipleChoiceAvailable }?.let(viewData::add)
+            val viewData = mutableListOf<ViewHolderType>()
 
-                selected.map {
-                    categoryViewDataMapper.mapRecordTag(
-                        tag = it,
-                        type = types[it.iconColorSource],
+            listOf(
+                categoryViewDataMapper.mapToRecordTagHint(),
+                DividerViewData(1),
+            ).takeIf { showAddButton }?.let(viewData::addAll)
+
+            categoryViewDataMapper.mapSelectedCategoriesHint(
+                isEmpty = selected.isEmpty(),
+            ).takeIf { multipleChoiceAvailable }?.let(viewData::add)
+
+            selected.map {
+                categoryViewDataMapper.mapRecordTag(
+                    tag = it,
+                    type = types[it.iconColorSource],
+                    isDarkTheme = isDarkTheme,
+                )
+            }.let(viewData::addAll)
+
+            DividerViewData(2)
+                .takeUnless { available.isEmpty() }
+                .takeIf { multipleChoiceAvailable }
+                ?.let(viewData::add)
+
+            available.map {
+                categoryViewDataMapper.mapRecordTag(
+                    tag = it,
+                    type = types[it.iconColorSource],
+                    isDarkTheme = isDarkTheme,
+                )
+            }.let(viewData::addAll)
+
+            if (showUntaggedButton) {
+                if (selected.isNotEmpty() || available.isNotEmpty()) {
+                    DividerViewData(3)
+                        .takeIf { multipleChoiceAvailable }
+                        ?.let(viewData::add)
+                    categoryViewDataMapper.mapToUntaggedItem(
                         isDarkTheme = isDarkTheme,
-                    )
-                }.let(viewData::addAll)
-
-                DividerViewData(2)
-                    .takeUnless { available.isEmpty() }
-                    .takeIf { multipleChoiceAvailable }
-                    ?.let(viewData::add)
-
-                available.map {
-                    categoryViewDataMapper.mapRecordTag(
-                        tag = it,
-                        type = types[it.iconColorSource],
-                        isDarkTheme = isDarkTheme,
-                    )
-                }.let(viewData::addAll)
-
-                if (showUntaggedButton) {
-                    if (selected.isNotEmpty() || available.isNotEmpty()) {
-                        DividerViewData(3)
-                            .takeIf { multipleChoiceAvailable }
-                            ?.let(viewData::add)
-                        categoryViewDataMapper.mapToUntaggedItem(
-                            isDarkTheme = isDarkTheme,
-                            isFiltered = false,
-                        ).let(viewData::add)
-                    }
+                        isFiltered = false,
+                    ).let(viewData::add)
                 }
-
-                categoryViewDataMapper.mapToRecordTagAddItem(isDarkTheme)
-                    .takeIf { showAddButton }
-                    ?.let(viewData::add)
-
-                viewData
             }
-            ?: listOfNotNull(
-                if (showAddButton && recordTagInteractor.isEmpty()) {
-                    categoryViewDataMapper.mapToTagsFirstHint()
-                } else {
-                    categoryViewDataMapper.mapToRecordTagsEmpty()
-                },
-                categoryViewDataMapper.mapToRecordTagAddItem(isDarkTheme)
-                    .takeIf { showAddButton },
+
+            categoryViewDataMapper.mapToRecordTagAddItem(isDarkTheme)
+                .takeIf { showAddButton }
+                ?.let(viewData::add)
+
+            Result(
+                selectedCount = selected.size,
+                data = viewData,
             )
+        } else {
+            Result(
+                selectedCount = 0,
+                data = listOfNotNull(
+                    if (showAddButton && recordTagInteractor.isEmpty()) {
+                        categoryViewDataMapper.mapToTagsFirstHint()
+                    } else {
+                        categoryViewDataMapper.mapToRecordTagsEmpty()
+                    },
+                    categoryViewDataMapper.mapToRecordTagAddItem(isDarkTheme)
+                        .takeIf { showAddButton },
+                ),
+            )
+        }
     }
+
+    data class Result(
+        val selectedCount: Int,
+        val data: List<ViewHolderType>,
+    )
 }

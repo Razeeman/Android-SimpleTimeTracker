@@ -3,75 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/btnChangeRunningRecordStatistics"
-        style="@style/SettingsCard"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:foreground="?selectableItemBackground"
-        app:cardBackgroundColor="?appCardBackgroundColor"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center"
-            android:src="@drawable/statistics"
-            android:tint="?appInactiveColor"
-            tools:ignore="ContentDescription" />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/btnChangeRunningRecordDelete"
-        style="@style/SettingsCard"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
-        android:foreground="?selectableItemBackground"
-        app:cardBackgroundColor="?appCardBackgroundColor"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center"
-            android:src="@drawable/delete"
-            android:tint="?appInactiveColor"
-            tools:ignore="ContentDescription" />
-
-    </androidx.cardview.widget.CardView>
+    android:layout_height="match_parent">
 
     <com.example.util.simpletimetracker.feature_views.RunningRecordView
         android:id="@+id/previewChangeRunningRecord"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="4dp"
         app:cardElevation="@dimen/record_type_card_elevation"
         app:itemTagColor="@color/white_alpha_60"
         app:layout_constrainedHeight="true"
-        app:layout_constraintEnd_toStartOf="@id/btnChangeRunningRecordDelete"
         app:layout_constraintHeight_max="200dp"
-        app:layout_constraintStart_toEndOf="@id/btnChangeRunningRecordStatistics"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_goneMarginEnd="4dp"
-        app:layout_goneMarginStart="4dp"
         tools:itemColor="@color/red_800"
         tools:itemComment="Comment"
         tools:itemName="Change running record"
         tools:itemTagName="Tag" />
+
+    <View
+        android:id="@+id/dividerChangeRunningRecordPreview"
+        style="@style/EditScreenDivider"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/previewChangeRunningRecord" />
+
+    <View
+        android:id="@+id/viewChangeRunningRecordPreviewBackground"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:alpha="0.1"
+        android:background="@drawable/background_gradient"
+        android:rotation="180"
+        app:layout_constraintBottom_toBottomOf="@id/previewChangeRunningRecord"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:backgroundTint="@color/black" />
 
     <include
         android:id="@+id/layoutChangeRunningRecordCore"
@@ -79,6 +43,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/previewChangeRunningRecord" />
+        app:layout_constraintTop_toBottomOf="@id/dividerChangeRunningRecordPreview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

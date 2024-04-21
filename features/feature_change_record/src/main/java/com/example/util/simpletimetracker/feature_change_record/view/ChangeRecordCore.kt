@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_change_record.view
 import android.content.res.ColorStateList
 import android.view.View
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -10,8 +11,12 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.viewbinding.ViewBinding
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
+import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.showKeyboard
+import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.utils.setChooserColor
+import com.example.util.simpletimetracker.domain.extension.orFalse
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
@@ -22,6 +27,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHin
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordCommentAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordCommentFieldAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordCoreLayoutBinding
@@ -32,17 +38,18 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Closed
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Comment
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Tag
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSimpleViewData
-import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordFavCommentState
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSearchCommentState
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSimpleViewData
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTagsViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
 import com.example.util.simpletimetracker.feature_views.RecordSimpleView
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -141,10 +148,9 @@ class ChangeRecordCore(
         fieldChangeRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
         fieldChangeRecordTimeEnded.setOnClick(viewModel::onTimeEndedClick)
         fieldChangeRecordTimeSplit.setOnClick(viewModel::onTimeSplitClick)
-        btnChangeRecordTimeStartedAdjust.setOnClick(viewModel::onAdjustTimeStartedClick)
-        btnChangeRecordTimeEndedAdjust.setOnClick(viewModel::onAdjustTimeEndedClick)
         btnChangeRecordTimeSplitAdjust.setOnClick(viewModel::onAdjustTimeSplitClick)
-        containerChangeRecordTimeAdjust.listener = viewModel::onAdjustTimeItemClick
+        containerChangeRecordTimeStartedAdjust.listener = viewModel::onAdjustTimeStartedItemClick
+        containerChangeRecordTimeEndedAdjust.listener = viewModel::onAdjustTimeEndedItemClick
         containerChangeRecordTimeSplitAdjust.listener = viewModel::onAdjustTimeSplitItemClick
         btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordSplit.setOnClick(viewModel::onSplitClick)
@@ -166,10 +172,23 @@ class ChangeRecordCore(
         binding: ChangeRecordCoreLayoutBinding,
     ) = with(binding) {
         with(viewModel) {
+            statsIconVisibility.observeOnce(
+                owner = viewLifecycleOwner,
+                observer = binding.btnChangeRecordStatistics::isVisible::set,
+            )
+            deleteIconVisibility.observeOnce(
+                owner = viewLifecycleOwner,
+                observer = binding.btnChangeRecordDelete::visible::set,
+            )
+            timeEndedVisibility.observeOnce(
+                owner = viewLifecycleOwner,
+                observer = { setTimeEndedVisibility(it, binding) },
+            )
             types.observe(typesAdapter::replace)
-            categories.observe(categoriesAdapter::replace)
+            categories.observe { updateCategories(it, binding) }
             saveButtonEnabled.observe { enableModifyingButtons(it, binding) }
-            timeAdjustmentItems.observe(containerChangeRecordTimeAdjust.adapter::replace)
+            timeStartedAdjustmentItems.observe(containerChangeRecordTimeStartedAdjust.adapter::replace)
+            timeEndedAdjustmentItems.observe(containerChangeRecordTimeEndedAdjust.adapter::replace)
             timeSplitAdjustmentItems.observe(containerChangeRecordTimeSplitAdjust.adapter::replace)
             chooserState.observe { updateChooserState(it, binding) }
             keyboardVisibility.observe { visible ->
@@ -178,11 +197,6 @@ class ChangeRecordCore(
                 } else {
                     hideKeyboard()
                 }
-            }
-            timeAdjustmentState.observe { state ->
-                containerChangeRecordTimeAdjust.visible = state != TimeAdjustmentState.HIDDEN
-                btnChangeRecordTimeStartedAdjust.setChooserColor(state == TimeAdjustmentState.TIME_STARTED)
-                btnChangeRecordTimeEndedAdjust.setChooserColor(state == TimeAdjustmentState.TIME_ENDED)
             }
             timeSplitAdjustmentState.observe { opened ->
                 containerChangeRecordTimeSplitAdjust.isVisible = opened
@@ -196,6 +210,18 @@ class ChangeRecordCore(
             mergePreview.observe { setMergePreview(it, binding) }
             splitPreview.observe { setSplitPreview(it, binding) }
             adjustPreview.observe { setAdjustPreview(it, binding) }
+        }
+    }
+
+    fun onSetPreview(
+        binding: ChangeRecordCoreLayoutBinding,
+        color: Int,
+        iconId: RecordTypeIcon,
+    ) {
+        with(binding) {
+            layoutChangeRecordTypePreview.setCardBackgroundColor(color)
+            iconChangeRecordTypePreview.itemIcon = iconId
+            layoutChangeRecordTagsPreview.setCardBackgroundColor(color)
         }
     }
 
@@ -237,6 +263,11 @@ class ChangeRecordCore(
         )
 
         val isClosed = state.current is Closed
+        containerChangeRecordTime.isVisible = isClosed
+        btnChangeRecordStatistics.isVisible =
+            viewModel.statsIconVisibility.value.orFalse() && isClosed
+        btnChangeRecordDelete.isVisible =
+            viewModel.deleteIconVisibility.value.orFalse() && isClosed
 
         // Chooser fields
         fieldChangeRecordType.isVisible = isClosed || state.current is Activity
@@ -311,6 +342,23 @@ class ChangeRecordCore(
             binding.rvChangeRecordSearchComments.visible = false
         }
         searchCommentsAdapter.replaceAsNew(data.items)
+    }
+
+    private fun setTimeEndedVisibility(
+        isVisible: Boolean,
+        binding: ChangeRecordCoreLayoutBinding,
+    ) {
+        binding.fieldChangeRecordTimeEnded.isVisible = isVisible
+        binding.containerChangeRecordTimeEndedAdjust.isVisible = isVisible
+    }
+
+    private fun updateCategories(
+        data: ChangeRecordTagsViewData,
+        binding: ChangeRecordCoreLayoutBinding,
+    ) = with(binding) {
+        categoriesAdapter.replace(data.viewData)
+        layoutChangeRecordTagsPreview.isVisible = data.selectedCount > 0
+        tvChangeRecordTagPreview.text = data.selectedCount.toString()
     }
 
     private fun ChangeRecordPreviewLayoutBinding.setData(data: ChangeRecordPreview) {

@@ -3,10 +3,12 @@ package com.example.util.simpletimetracker.feature_change_record.mapper
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.getFullName
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import javax.inject.Inject
 
@@ -14,6 +16,7 @@ class ChangeRecordViewDataMapper @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
+    private val resourceRepo: ResourceRepo,
 ) {
 
     fun map(
@@ -26,7 +29,8 @@ class ChangeRecordViewDataMapper @Inject constructor(
         showSeconds: Boolean,
     ): ChangeRecordViewData {
         return ChangeRecordViewData(
-            name = recordType?.name.orEmpty(),
+            name = recordType?.name
+                ?: resourceRepo.getString(R.string.untracked_time_name),
             tagName = recordTags
                 .getFullName(),
             timeStarted = timeMapper.formatTime(
@@ -39,12 +43,12 @@ class ChangeRecordViewDataMapper @Inject constructor(
                 useMilitaryTime = useMilitaryTime,
                 showSeconds = showSeconds,
             ),
-            dateTimeStarted = timeMapper.formatDateTime(
+            dateTimeStarted = timeMapper.getFormattedDateTime(
                 time = record.timeStarted,
                 useMilitaryTime = useMilitaryTime,
-                showSeconds = showSeconds,
+                showSeconds = showSeconds
             ),
-            dateTimeFinished = timeMapper.formatDateTime(
+            dateTimeFinished = timeMapper.getFormattedDateTime(
                 time = record.timeEnded,
                 useMilitaryTime = useMilitaryTime,
                 showSeconds = showSeconds,

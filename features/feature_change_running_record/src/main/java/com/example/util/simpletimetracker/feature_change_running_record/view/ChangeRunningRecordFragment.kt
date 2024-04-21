@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_running_record.view
 
+import android.content.res.ColorStateList
 import com.example.util.simpletimetracker.feature_change_running_record.databinding.ChangeRunningRecordFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecor
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordFromScreen
@@ -65,8 +67,8 @@ class ChangeRunningRecordFragment :
 
     override fun initUx() = with(binding) {
         core.initUx(layoutChangeRunningRecordCore)
-        btnChangeRunningRecordDelete.setOnClick(viewModel::onDeleteClick)
-        btnChangeRunningRecordStatistics.setOnClick(viewModel::onStatisticsClick)
+        layoutChangeRunningRecordCore.btnChangeRecordStatistics.setOnClick(viewModel::onStatisticsClick)
+        layoutChangeRunningRecordCore.btnChangeRecordDelete.setOnClick(viewModel::onDeleteClick)
     }
 
     override fun initViewModel() = with(binding) {
@@ -78,7 +80,7 @@ class ChangeRunningRecordFragment :
             record.observe(::updatePreview)
             core.initViewModel(this@ChangeRunningRecordFragment, layoutChangeRunningRecordCore)
 
-            deleteButtonEnabled.observe(btnChangeRunningRecordDelete::setEnabled)
+            deleteButtonEnabled.observe(layoutChangeRunningRecordCore.btnChangeRecordDelete::setEnabled)
             message.observe(::showMessage)
         }
     }
@@ -97,27 +99,37 @@ class ChangeRunningRecordFragment :
         viewModel.onDateTimeSet(timestamp, tag)
     }
 
-    private fun setPreview() = params.preview?.run {
+    private fun setPreview() = params.preview?.let { preview ->
         ChangeRunningRecordViewData(
-            RunningRecordViewData(
+            recordPreview = RunningRecordViewData(
                 id = 0, // Doesn't matter for preview.
-                name = name,
-                tagName = tagName,
-                timeStarted = timeStarted,
-                timer = duration,
-                timerTotal = durationTotal,
-                goalTime = goalTime.toViewData(),
-                iconId = iconId.toViewData(),
-                color = color,
-                comment = comment,
+                name = preview.name,
+                tagName = preview.tagName,
+                timeStarted = preview.timeStarted,
+                timeStartedTimestamp = 0,
+                timer = preview.duration,
+                timerTotal = preview.durationTotal,
+                goalTime = preview.goalTime.toViewData(),
+                iconId = preview.iconId.toViewData(),
+                color = preview.color,
+                comment = preview.comment,
                 nowIconVisible = params.from is ChangeRunningRecordParams.From.Records,
             ),
-            dateTimeStarted = "",
+            dateTimeStarted = preview.timeStartedDateTime.toViewData(),
         ).let(::updatePreview)
+
+        binding.viewChangeRunningRecordPreviewBackground.backgroundTintList =
+            ColorStateList.valueOf(preview.color)
+        core.onSetPreview(
+            binding = binding.layoutChangeRunningRecordCore,
+            color = preview.color,
+            iconId = preview.iconId.toViewData(),
+        )
     }
 
     private fun updatePreview(item: ChangeRunningRecordViewData) = with(binding.layoutChangeRunningRecordCore) {
-        tvChangeRecordTimeStarted.text = item.dateTimeStarted
+        tvChangeRecordTimeStartedDate.text = item.dateTimeStarted.date
+        tvChangeRecordTimeStartedTime.text = item.dateTimeStarted.time
 
         if (item.recordPreview == null) return
         with(binding.previewChangeRunningRecord) {
@@ -133,6 +145,14 @@ class ChangeRunningRecordFragment :
             itemComment = item.recordPreview.comment
             itemNowIconVisible = item.recordPreview.nowIconVisible
         }
+
+        binding.viewChangeRunningRecordPreviewBackground.backgroundTintList =
+            ColorStateList.valueOf(item.recordPreview.color)
+        core.onSetPreview(
+            binding = this,
+            color = item.recordPreview.color,
+            iconId = item.recordPreview.iconId,
+        )
     }
 
     private fun showMessage(message: SnackBarParams?) {
@@ -144,9 +164,6 @@ class ChangeRunningRecordFragment :
 
     private fun coreSetup() = with(binding) {
         // TODO move to view model
-        // No time ended in running record.
-        layoutChangeRunningRecordCore.fieldChangeRecordTimeEnded.isVisible = false
-        layoutChangeRunningRecordCore.btnChangeRecordTimeEndedAdjust.isVisible = false
         // Can't continue running record.
         layoutChangeRunningRecordCore.containerChangeRecordContinue.isVisible = false
         // Can't repeat running record.

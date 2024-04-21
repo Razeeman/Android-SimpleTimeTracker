@@ -1,10 +1,9 @@
 package com.example.util.simpletimetracker.feature_change_record.view
 
-import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordFragmentBinding as Binding
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
@@ -20,11 +19,11 @@ import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordsFromScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordFragmentBinding as Binding
 
 @AndroidEntryPoint
 class ChangeRecordFragment :
@@ -73,8 +72,8 @@ class ChangeRecordFragment :
 
     override fun initUx() = with(binding) {
         core.initUx(layoutChangeRecordCore)
-        btnChangeRecordStatistics.setOnClick(viewModel::onStatisticsClick)
-        btnChangeRecordDelete.setOnClick {
+        layoutChangeRecordCore.btnChangeRecordStatistics.setOnClick(viewModel::onStatisticsClick)
+        layoutChangeRecordCore.btnChangeRecordDelete.setOnClick {
             viewModel.onDeleteClick()
             removeRecordViewModel.onDeleteClick(
                 (extra as? ChangeRecordParams.Tracked)?.from,
@@ -85,7 +84,6 @@ class ChangeRecordFragment :
     override fun initViewModel() = with(binding) {
         with(viewModel) {
             extra = this@ChangeRecordFragment.extra
-            statsIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordStatistics::isVisible::set)
             record.observeOnce(viewLifecycleOwner) {
                 core.updateUi(layoutChangeRecordCore, it.comment)
             }
@@ -94,8 +92,7 @@ class ChangeRecordFragment :
         }
         with(removeRecordViewModel) {
             prepare((extra as? ChangeRecordParams.Tracked)?.id.orZero())
-            deleteButtonEnabled.observe(btnChangeRecordDelete::setEnabled)
-            deleteIconVisibility.observe(btnChangeRecordDelete::visible::set)
+            deleteButtonEnabled.observe(layoutChangeRecordCore.btnChangeRecordDelete::setEnabled)
         }
     }
 
@@ -118,13 +115,21 @@ class ChangeRecordFragment :
             tagName = preview.tagName,
             timeStarted = preview.timeStarted,
             timeFinished = preview.timeFinished,
-            dateTimeStarted = "",
-            dateTimeFinished = "",
+            dateTimeStarted = preview.timeStartedDateTime.toViewData(),
+            dateTimeFinished = preview.timeEndedDateTime.toViewData(),
             duration = preview.duration,
             iconId = preview.iconId.toViewData(),
             color = preview.color,
             comment = preview.comment,
         ).let(::updatePreview)
+
+        binding.viewChangeRecordPreviewBackground.backgroundTintList =
+            ColorStateList.valueOf(preview.color)
+        core.onSetPreview(
+            binding = binding.layoutChangeRecordCore,
+            color = preview.color,
+            iconId = preview.iconId.toViewData(),
+        )
     }
 
     private fun updatePreview(item: ChangeRecordViewData) = with(binding.layoutChangeRecordCore) {
@@ -138,8 +143,20 @@ class ChangeRecordFragment :
             itemDuration = item.duration
             itemComment = item.comment
         }
-        tvChangeRecordTimeStarted.text = item.dateTimeStarted
-        tvChangeRecordTimeEnded.text = item.dateTimeFinished
+        tvChangeRecordTimeStartedDate.text = item.dateTimeStarted.date
+        tvChangeRecordTimeStartedTime.text = item.dateTimeStarted.time
+        tvChangeRecordTimeEndedDate.text = item.dateTimeFinished.date
+        tvChangeRecordTimeEndedTime.text = item.dateTimeFinished.time
+
+        with(binding) {
+            viewChangeRecordPreviewBackground.backgroundTintList =
+                ColorStateList.valueOf(item.color)
+        }
+        core.onSetPreview(
+            binding = this,
+            color = item.color,
+            iconId = item.iconId,
+        )
     }
 
     private fun coreSetup() = with(binding) {

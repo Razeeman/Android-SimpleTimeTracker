@@ -69,7 +69,7 @@ class DataEditTagSelectionViewModel @Inject constructor(
             showAddButton = false,
             showArchived = true,
             showUntaggedButton = false,
-        ).let(result::addAll)
+        ).data.let(result::addAll)
 
         return result
     }

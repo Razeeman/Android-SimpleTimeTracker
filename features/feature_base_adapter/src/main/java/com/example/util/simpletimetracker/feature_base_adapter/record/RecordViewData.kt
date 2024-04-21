@@ -19,7 +19,7 @@ sealed class RecordViewData : ViewHolderType {
 
     data class Tracked(
         val id: Long,
-        override val timeStartedTimestamp: Long, // TODO remove?
+        override val timeStartedTimestamp: Long,
         override val timeEndedTimestamp: Long,
         override val name: String,
         override val tagName: String,

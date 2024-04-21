@@ -28,6 +28,11 @@ class TimeMapper @Inject constructor(
     private val timeFormatMilitary by lazy { SimpleDateFormat("HH:mm", locale) }
     private val timeFormatMilitaryWithSeconds by lazy { SimpleDateFormat("HH:mm:ss", locale) }
 
+    private val dateFormat by lazy { SimpleDateFormat("MMM d", locale) }
+    private val dateFormatWithSeconds by lazy { SimpleDateFormat("MMM d", locale) }
+    private val dateFormatMilitary by lazy { SimpleDateFormat("MMM d", locale) }
+    private val dateFormatMilitaryWithSeconds by lazy { SimpleDateFormat("MMM d", locale) }
+
     private val dateTimeFormat by lazy { SimpleDateFormat("MMM d h:mm a", locale) }
     private val dateTimeFormatWithSeconds by lazy { SimpleDateFormat("MMM d h:mm:ss a", locale) }
     private val dateTimeFormatMilitary by lazy { SimpleDateFormat("MMM d HH:mm", locale) }
@@ -60,6 +65,19 @@ class TimeMapper @Inject constructor(
             if (showSeconds) timeFormatMilitaryWithSeconds else timeFormatMilitary
         } else {
             if (showSeconds) timeFormatWithSeconds else timeFormat
+        }.format(time)
+    }
+
+    // Mar 11
+    fun formatDate(
+        time: Long,
+        useMilitaryTime: Boolean,
+        showSeconds: Boolean,
+    ): String = synchronized(lock) {
+        return if (useMilitaryTime) {
+            if (showSeconds) dateFormatMilitaryWithSeconds else dateFormatMilitary
+        } else {
+            if (showSeconds) dateFormatWithSeconds else dateFormat
         }.format(time)
     }
 
@@ -632,10 +650,34 @@ class TimeMapper @Inject constructor(
             .let(::toDayOfWeek)
     }
 
+    fun getFormattedDateTime(
+        time: Long,
+        useMilitaryTime: Boolean,
+        showSeconds: Boolean,
+    ): DateTime {
+        return DateTime(
+            date = formatDate(
+                time = time,
+                useMilitaryTime = useMilitaryTime,
+                showSeconds = showSeconds,
+            ),
+            time = formatTime(
+                time = time,
+                useMilitaryTime = useMilitaryTime,
+                showSeconds = showSeconds,
+            ),
+        )
+    }
+
     private fun isFirstWeekOfNextYear(calendar: Calendar): Boolean {
         return calendar.get(Calendar.WEEK_OF_YEAR) == 1 &&
             calendar.get(Calendar.MONTH) == calendar.getActualMaximum(Calendar.MONTH)
     }
+
+    data class DateTime(
+        val date: String,
+        val time: String,
+    )
 
     companion object {
         private const val MINUTES_IN_MILLIS = 60_000

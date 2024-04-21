@@ -14,12 +14,13 @@ data class ChangeRunningRecordParams(
 
     @Parcelize
     data class Preview(
-        var name: String,
+        val name: String,
         val tagName: String,
-        var timeStarted: String,
-        var duration: String,
-        var durationTotal: String,
-        var goalTime: GoalTimeParams,
+        val timeStarted: String,
+        val timeStartedDateTime: DateTime,
+        val duration: String,
+        val durationTotal: String,
+        val goalTime: GoalTimeParams,
         val iconId: RecordTypeIconParams,
         @ColorInt val color: Int,
         val comment: String,
@@ -29,6 +30,12 @@ data class ChangeRunningRecordParams(
         data class GoalTimeParams(
             val text: String,
             val complete: Boolean,
+        ) : Parcelable
+
+        @Parcelize
+        data class DateTime(
+            val date: String,
+            val time: String,
         ) : Parcelable
     }
 

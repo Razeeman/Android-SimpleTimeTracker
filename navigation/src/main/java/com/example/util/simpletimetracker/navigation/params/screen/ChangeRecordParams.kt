@@ -32,11 +32,20 @@ sealed class ChangeRecordParams : Parcelable {
         val tagName: String,
         val timeStarted: String,
         val timeFinished: String,
+        val timeStartedDateTime: DateTime,
+        val timeEndedDateTime: DateTime,
         val duration: String,
         val iconId: RecordTypeIconParams,
         @ColorInt val color: Int,
         val comment: String,
-    ) : Parcelable
+    ) : Parcelable {
+
+        @Parcelize
+        data class DateTime(
+            val date: String,
+            val time: String,
+        ) : Parcelable
+    }
 
     sealed class From : Parcelable {
         @Parcelize

@@ -1,9 +1,11 @@
 package com.example.util.simpletimetracker.core.extension
 
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.GoalTimeViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.RangeParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTypeIconParams
@@ -48,6 +50,34 @@ fun GoalTimeViewData.toParams(): ChangeRunningRecordParams.Preview.GoalTimeParam
     return ChangeRunningRecordParams.Preview.GoalTimeParams(
         text = this.text,
         complete = this.complete,
+    )
+}
+
+fun ChangeRecordParams.Preview.DateTime.toViewData(): TimeMapper.DateTime {
+    return TimeMapper.DateTime(
+        date = date,
+        time = time,
+    )
+}
+
+fun TimeMapper.DateTime.toRecordParams(): ChangeRecordParams.Preview.DateTime {
+    return ChangeRecordParams.Preview.DateTime(
+        date = date,
+        time = time
+    )
+}
+
+fun ChangeRunningRecordParams.Preview.DateTime.toViewData(): TimeMapper.DateTime {
+    return TimeMapper.DateTime(
+        date = date,
+        time = time,
+    )
+}
+
+fun TimeMapper.DateTime.toRunningRecordParams(): ChangeRunningRecordParams.Preview.DateTime {
+    return ChangeRunningRecordParams.Preview.DateTime(
+        date = date,
+        time = time
     )
 }
 
