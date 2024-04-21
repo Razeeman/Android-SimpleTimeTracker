@@ -9,6 +9,7 @@
         android:id="@+id/containerChangeRecordTypeMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:translationZ="1dp"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@id/dividerChangeRecordTypeButton"
         app:layout_constraintTop_toTopOf="parent"
