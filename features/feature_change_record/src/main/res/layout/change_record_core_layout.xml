@@ -41,7 +41,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvBtnChangeRecordStatistics"
-                        style="@style/EditScreenControlButton.Text"
+                        style="@style/EditScreenControlButtonText"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/shortcut_navigation_statistics"
@@ -51,7 +51,7 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivBtnChangeRecordStatistics"
-                        style="@style/EditScreenControlButton.Image"
+                        style="@style/EditScreenControlButtonImage"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:src="@drawable/statistics"
@@ -83,7 +83,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvBtnChangeRecordArchive"
-                        style="@style/EditScreenControlButton.Text"
+                        style="@style/EditScreenControlButtonText"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/archive_dialog_delete"
@@ -93,7 +93,7 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivBtnChangeRecordArchive"
-                        style="@style/EditScreenControlButton.Image"
+                        style="@style/EditScreenControlButtonImage"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:src="@drawable/delete"
@@ -269,7 +269,7 @@
 
                         <com.example.util.simpletimetracker.feature_views.IconView
                             android:id="@+id/iconChangeRecordTypePreview"
-                            style="@style/EditScreenPreview.Icon"
+                            style="@style/EditScreenPreviewIcon"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
 
@@ -285,7 +285,7 @@
 
                     <ImageView
                         android:id="@+id/arrowChangeRecordType"
-                        style="@style/EditScreenField.Arrow"
+                        style="@style/EditScreenFieldArrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -323,7 +323,7 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvChangeRecordTagPreview"
-                            style="@style/EditScreenPreview.Text"
+                            style="@style/EditScreenPreviewText"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             tools:text="2" />
@@ -340,7 +340,7 @@
 
                     <ImageView
                         android:id="@+id/arrowChangeRecordCategory"
-                        style="@style/EditScreenField.Arrow"
+                        style="@style/EditScreenFieldArrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -376,7 +376,7 @@
 
                     <ImageView
                         android:id="@+id/arrowChangeRecordComment"
-                        style="@style/EditScreenField.Arrow"
+                        style="@style/EditScreenFieldArrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -412,7 +412,7 @@
 
                     <ImageView
                         android:id="@+id/arrowChangeRecordAction"
-                        style="@style/EditScreenField.Arrow"
+                        style="@style/EditScreenFieldArrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"

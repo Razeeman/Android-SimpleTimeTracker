@@ -267,14 +267,14 @@
         <item name="android:foreground">?selectableItemBackground</item>
     </style>
 
-    <style name="EditScreenControlButton.Text" parent="InputFieldCardText">
+    <style name="EditScreenControlButtonText" parent="InputFieldCardText">
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">center</item>
         <item name="android:maxLines">1</item>
         <item name="layout_constrainedWidth">true</item>
     </style>
 
-    <style name="EditScreenControlButton.Image">
+    <style name="EditScreenControlButtonImage">
         <item name="android:scaleType">center</item>
         <item name="android:tint">?appInactiveColor</item>
         <item name="layout_constraintDimensionRatio">h,1:1</item>
@@ -285,7 +285,7 @@
         <item name="android:maxLines">1</item>
     </style>
 
-    <style name="EditScreenField.Arrow">
+    <style name="EditScreenFieldArrow">
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>
         <item name="android:scaleType">center</item>
@@ -304,14 +304,16 @@
         <item name="layout_constraintDimensionRatio">1</item>
     </style>
 
-    <style name="EditScreenPreview.Icon">
-        <item name="android:layout_margin">4dp</item>
+    <style name="EditScreenPreviewIcon">
+        <item name="android:padding">4dp</item>
+        <item name="android:foreground">?selectableItemBackgroundBorderless</item>
     </style>
 
-    <style name="EditScreenPreview.Text">
+    <style name="EditScreenPreviewText">
         <item name="android:gravity">center</item>
         <item name="android:textColor">?appLightTextColor</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:foreground">?selectableItemBackgroundBorderless</item>
     </style>
 
     <style name="EditScreenContainer">

@@ -65,7 +65,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvBtnChangeRecordTypeStatistics"
-                        style="@style/EditScreenControlButton.Text"
+                        style="@style/EditScreenControlButtonText"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/shortcut_navigation_statistics"
@@ -75,7 +75,7 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivBtnChangeRecordTypeStatistics"
-                        style="@style/EditScreenControlButton.Image"
+                        style="@style/EditScreenControlButtonImage"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:src="@drawable/statistics"
@@ -107,7 +107,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvBtnChangeRecordTypeArchive"
-                        style="@style/EditScreenControlButton.Text"
+                        style="@style/EditScreenControlButtonText"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/settings_archive"
@@ -117,7 +117,7 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivBtnChangeRecordTypeArchive"
-                        style="@style/EditScreenControlButton.Image"
+                        style="@style/EditScreenControlButtonImage"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:src="@drawable/archive"
@@ -190,7 +190,7 @@
 
                     <ImageView
                         android:id="@+id/arrowChangeRecordTypeColor"
-                        style="@style/EditScreenField.Arrow"
+                        style="@style/EditScreenFieldArrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -226,7 +226,7 @@
 
                         <com.example.util.simpletimetracker.feature_views.IconView
                             android:id="@+id/iconChangeRecordTypeIconPreview"
-                            style="@style/EditScreenPreview.Icon"
+                            style="@style/EditScreenPreviewIcon"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
 
@@ -242,7 +242,7 @@
 
                     <ImageView
                         android:id="@+id/arrowChangeRecordTypeIcon"
-                        style="@style/EditScreenField.Arrow"
+                        style="@style/EditScreenFieldArrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -280,7 +280,7 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvChangeRecordTypeCategoryPreview"
-                            style="@style/EditScreenPreview.Text"
+                            style="@style/EditScreenPreviewText"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             tools:text="2" />
@@ -297,7 +297,7 @@
 
                     <ImageView
                         android:id="@+id/arrowChangeRecordTypeCategory"
-                        style="@style/EditScreenField.Arrow"
+                        style="@style/EditScreenFieldArrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -335,7 +335,7 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvChangeRecordTypeGoalPreview"
-                            style="@style/EditScreenPreview.Text"
+                            style="@style/EditScreenPreviewText"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             tools:text="2" />
@@ -352,7 +352,7 @@
 
                     <ImageView
                         android:id="@+id/arrowChangeRecordTypeGoalTime"
-                        style="@style/EditScreenField.Arrow"
+                        style="@style/EditScreenFieldArrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"

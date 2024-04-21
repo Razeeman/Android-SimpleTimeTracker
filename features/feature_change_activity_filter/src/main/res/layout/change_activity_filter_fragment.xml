@@ -69,7 +69,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvBtnChangeRecordTypeArchive"
-                        style="@style/EditScreenControlButton.Text"
+                        style="@style/EditScreenControlButtonText"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/archive_dialog_delete"
@@ -79,7 +79,7 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivBtnChangeRecordTypeArchive"
-                        style="@style/EditScreenControlButton.Image"
+                        style="@style/EditScreenControlButtonImage"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:src="@drawable/delete"
@@ -151,7 +151,7 @@
 
                     <ImageView
                         android:id="@+id/arrowChangeActivityFilterColor"
-                        style="@style/EditScreenField.Arrow"
+                        style="@style/EditScreenFieldArrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -189,7 +189,7 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvChangeActivityFilterTypePreview"
-                            style="@style/EditScreenPreview.Text"
+                            style="@style/EditScreenPreviewText"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             tools:text="2" />
@@ -206,7 +206,7 @@
 
                     <ImageView
                         android:id="@+id/arrowChangeActivityFilterType"
-                        style="@style/EditScreenField.Arrow"
+                        style="@style/EditScreenFieldArrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
