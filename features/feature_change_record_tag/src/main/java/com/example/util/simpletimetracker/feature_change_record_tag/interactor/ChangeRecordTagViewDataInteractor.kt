@@ -3,10 +3,10 @@ package com.example.util.simpletimetracker.feature_change_record_tag.interactor
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_change_record_tag.mapper.ChangeRecordTagMapper
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypesViewData
 import javax.inject.Inject
 
 class ChangeRecordTagViewDataInteractor @Inject constructor(
@@ -18,7 +18,7 @@ class ChangeRecordTagViewDataInteractor @Inject constructor(
 
     suspend fun getTypesViewData(
         selectedTypes: Set<Long>,
-    ): List<ViewHolderType> {
+    ): ChangeRecordTagTypesViewData {
         return getViewData(
             selectedTypes = selectedTypes,
             hintViewDataProvider = { nothingSelected ->
@@ -29,7 +29,7 @@ class ChangeRecordTagViewDataInteractor @Inject constructor(
 
     suspend fun getDefaultTypesViewData(
         selectedTypes: Set<Long>,
-    ): List<ViewHolderType> {
+    ): ChangeRecordTagTypesViewData {
         return getViewData(
             selectedTypes = selectedTypes,
             hintViewDataProvider = {
@@ -41,51 +41,55 @@ class ChangeRecordTagViewDataInteractor @Inject constructor(
     private suspend fun getViewData(
         selectedTypes: Set<Long>,
         hintViewDataProvider: (nothingSelected: Boolean) -> ViewHolderType,
-    ): List<ViewHolderType> {
+    ): ChangeRecordTagTypesViewData {
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
-
-        return recordTypeInteractor.getAll()
+        val data = recordTypeInteractor.getAll()
             .filter { !it.hidden }
-            .takeUnless(List<RecordType>::isEmpty)
-            ?.let { types ->
-                val selected = types.filter { it.id in selectedTypes }
-                val available = types.filter { it.id !in selectedTypes }
-                selected to available
-            }
-            ?.let { (selected, available) ->
-                val viewData = mutableListOf<ViewHolderType>()
 
-                hintViewDataProvider(selected.isEmpty()).let(viewData::add)
+        return if (data.isNotEmpty()) {
+            val selected = data.filter { it.id in selectedTypes }
+            val available = data.filter { it.id !in selectedTypes }
 
-                changeRecordTagMapper.mapSelectedTypesHint(
-                    isEmpty = selected.isEmpty(),
-                ).let(viewData::add)
+            val viewData = mutableListOf<ViewHolderType>()
 
-                selected.map {
-                    recordTypeViewDataMapper.map(
-                        recordType = it,
-                        numberOfCards = numberOfCards,
-                        isDarkTheme = isDarkTheme,
-                        isChecked = null,
-                    )
-                }.let(viewData::addAll)
+            hintViewDataProvider(selected.isEmpty()).let(viewData::add)
 
-                DividerViewData(1)
-                    .takeUnless { available.isEmpty() }
-                    ?.let(viewData::add)
+            changeRecordTagMapper.mapSelectedTypesHint(
+                isEmpty = selected.isEmpty(),
+            ).let(viewData::add)
 
-                available.map {
-                    recordTypeViewDataMapper.map(
-                        recordType = it,
-                        numberOfCards = numberOfCards,
-                        isDarkTheme = isDarkTheme,
-                        isChecked = null,
-                    )
-                }.let(viewData::addAll)
+            selected.map {
+                recordTypeViewDataMapper.map(
+                    recordType = it,
+                    numberOfCards = numberOfCards,
+                    isDarkTheme = isDarkTheme,
+                    isChecked = null,
+                )
+            }.let(viewData::addAll)
 
-                viewData
-            }
-            ?: recordTypeViewDataMapper.mapToEmpty()
+            DividerViewData(1)
+                .takeUnless { available.isEmpty() }
+                ?.let(viewData::add)
+
+            available.map {
+                recordTypeViewDataMapper.map(
+                    recordType = it,
+                    numberOfCards = numberOfCards,
+                    isDarkTheme = isDarkTheme,
+                    isChecked = null,
+                )
+            }.let(viewData::addAll)
+
+            ChangeRecordTagTypesViewData(
+                selectedCount = selected.size,
+                viewData = viewData,
+            )
+        } else {
+            ChangeRecordTagTypesViewData(
+                selectedCount = 0,
+                viewData = recordTypeViewDataMapper.mapToEmpty(),
+            )
+        }
     }
 }

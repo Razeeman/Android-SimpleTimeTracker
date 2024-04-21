@@ -291,7 +291,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:text="@string/category_hint"
-                        app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTypeCategory"
+                        app:layout_constraintEnd_toStartOf="@id/layoutChangeRecordTypeCategoriesPreview"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <ImageView
@@ -346,7 +346,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:text="@string/change_record_type_goal_time_hint"
-                        app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTypeGoalTime"
+                        app:layout_constraintEnd_toStartOf="@id/layoutChangeRecordTypeGoalPreview"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <ImageView

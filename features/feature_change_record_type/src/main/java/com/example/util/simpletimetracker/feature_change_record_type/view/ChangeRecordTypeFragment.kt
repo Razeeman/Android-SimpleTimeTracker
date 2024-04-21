@@ -359,18 +359,18 @@ class ChangeRecordTypeFragment :
         tvChangeRecordTypeGoalPreview.text = state.selectedCount.toString()
     }
 
-    private fun updateBarExpanded() {
-        IconSelectionViewDelegate.updateBarExpanded(
-            layout = binding.containerChangeRecordTypeIcon,
-        )
-    }
-
     private fun updateCategories(
         data: ChangeRecordTypeCategoriesViewData,
     ) = with(binding) {
         categoriesAdapter.replace(data.viewData)
         layoutChangeRecordTypeCategoriesPreview.isVisible = data.selectedCount > 0
         tvChangeRecordTypeCategoryPreview.text = data.selectedCount.toString()
+    }
+
+    private fun updateBarExpanded() {
+        IconSelectionViewDelegate.updateBarExpanded(
+            layout = binding.containerChangeRecordTypeIcon,
+        )
     }
 
     private fun updateIconsState(state: IconSelectionStateViewData) {

@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_tag.view
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,7 @@ import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.core.view.UpdateViewChooserState
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -47,6 +49,7 @@ import com.example.util.simpletimetracker.feature_change_record_tag.viewData.Cha
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.DefaultType
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Icon
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState.State.Type
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypesViewData
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setCompoundDrawableWithIntrinsicBounds
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
@@ -201,8 +204,8 @@ class ChangeRecordTagFragment :
             iconsTypeViewData.observe(::updateIconsTypeViewData)
             iconSelectorViewData.observe(::updateIconSelectorViewData)
             expandIconTypeSwitch.observe { updateBarExpanded() }
-            types.observe(typesAdapter::replace)
-            defaultTypes.observe(defaultTypesAdapter::replace)
+            types.observe(::updateTypes)
+            defaultTypes.observe(::updateDefaultTypes)
             chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTagName) else hideKeyboard()
@@ -228,15 +231,28 @@ class ChangeRecordTagFragment :
         )
     }
 
-    private fun setPreview() = (params as? ChangeTagData.Change)?.preview?.run {
+    private fun setPreview() {
         with(binding.previewChangeRecordTag) {
-            itemName = name
-            itemColor = color
-            icon?.let {
-                itemIconVisible = true
-                itemIcon = it.toViewData()
-            } ?: run {
-                itemIconVisible = false
+            (params as? ChangeTagData.Change)?.preview?.let {
+                itemName = it.name
+                itemColor = it.color
+                val icon = it.icon
+                if (icon != null) {
+                    itemIconVisible = true
+                    itemIcon = icon.toViewData()
+                    binding.layoutChangeRecordTagIconPreview.isVisible = true
+                    binding.iconChangeRecordTagIconPreview.itemIcon = icon.toViewData()
+                } else {
+                    itemIconVisible = false
+                    binding.layoutChangeRecordTagIconPreview.isVisible = false
+                }
+
+                binding.viewChangeRecordTagPreviewBackground.backgroundTintList =
+                    ColorStateList.valueOf(it.color)
+                binding.layoutChangeRecordTagColorPreview.setCardBackgroundColor(it.color)
+                binding.layoutChangeRecordTagIconPreview.setCardBackgroundColor(it.color)
+                binding.layoutChangeRecordTagTypesPreview.setCardBackgroundColor(it.color)
+                binding.layoutChangeRecordTagDefaultTypePreview.setCardBackgroundColor(it.color)
             }
         }
     }
@@ -245,12 +261,24 @@ class ChangeRecordTagFragment :
         with(binding.previewChangeRecordTag) {
             itemName = item.name
             itemColor = item.color
-            item.icon?.let {
+            val icon = item.icon
+            if (icon != null) {
                 itemIconVisible = true
-                itemIcon = it
-            } ?: run {
+                itemIcon = icon
+                binding.layoutChangeRecordTagIconPreview.isVisible = true
+                binding.iconChangeRecordTagIconPreview.itemIcon = icon
+            } else {
                 itemIconVisible = false
+                binding.layoutChangeRecordTagIconPreview.isVisible = false
             }
+        }
+        with(binding) {
+            viewChangeRecordTagPreviewBackground.backgroundTintList =
+                ColorStateList.valueOf(item.color)
+            layoutChangeRecordTagColorPreview.setCardBackgroundColor(item.color)
+            layoutChangeRecordTagIconPreview.setCardBackgroundColor(item.color)
+            layoutChangeRecordTagTypesPreview.setCardBackgroundColor(item.color)
+            layoutChangeRecordTagDefaultTypePreview.setCardBackgroundColor(item.color)
         }
     }
 
@@ -283,6 +311,10 @@ class ChangeRecordTagFragment :
         val isClosed = state.current is Closed
         inputChangeRecordTagName.isVisible = isClosed
         btnChangeRecordTagSelectActivity.isVisible = isClosed
+        btnChangeRecordTagStatistics.isVisible =
+            viewModel.statsIconVisibility.value.orFalse() && isClosed
+        btnChangeRecordTagDelete.isVisible =
+            viewModel.deleteIconVisibility.value.orFalse() && isClosed
 
         // Chooser fields
         fieldChangeRecordTagColor.isVisible = isClosed || state.current is Color
@@ -296,6 +328,22 @@ class ChangeRecordTagFragment :
             .takeIf { selected }.orZero()
         btnChangeRecordTagSelectActivity
             .setCompoundDrawableWithIntrinsicBounds(right = drawable)
+    }
+
+    private fun updateTypes(
+        data: ChangeRecordTagTypesViewData,
+    ) = with(binding) {
+        typesAdapter.replace(data.viewData)
+        layoutChangeRecordTagTypesPreview.isVisible = data.selectedCount > 0
+        tvChangeRecordTagTypesPreview.text = data.selectedCount.toString()
+    }
+
+    private fun updateDefaultTypes(
+        data: ChangeRecordTagTypesViewData,
+    ) = with(binding) {
+        defaultTypesAdapter.replace(data.viewData)
+        layoutChangeRecordTagDefaultTypePreview.isVisible = data.selectedCount > 0
+        tvChangeRecordTagDefaultTypePreview.text = data.selectedCount.toString()
     }
 
     private fun updateBarExpanded() {

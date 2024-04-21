@@ -30,6 +30,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordType.Record
 import com.example.util.simpletimetracker.feature_change_record_tag.R
 import com.example.util.simpletimetracker.feature_change_record_tag.interactor.ChangeRecordTagViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypeChooserState
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypesViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
@@ -69,8 +70,8 @@ class ChangeRecordTagViewModel @Inject constructor(
             initial
         }
     }
-    val types: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+    val types: LiveData<ChangeRecordTagTypesViewData> by lazy {
+        return@lazy MutableLiveData<ChangeRecordTagTypesViewData>().let { initial ->
             viewModelScope.launch {
                 initializeTypes()
                 initial.value = loadTypesViewData()
@@ -78,8 +79,8 @@ class ChangeRecordTagViewModel @Inject constructor(
             initial
         }
     }
-    val defaultTypes: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+    val defaultTypes: LiveData<ChangeRecordTagTypesViewData> by lazy {
+        return@lazy MutableLiveData<ChangeRecordTagTypesViewData>().let { initial ->
             viewModelScope.launch {
                 initializeDefaultTypes()
                 initial.value = loadDefaultTypesViewData()
@@ -410,7 +411,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         types.set(data)
     }
 
-    private suspend fun loadTypesViewData(): List<ViewHolderType> {
+    private suspend fun loadTypesViewData(): ChangeRecordTagTypesViewData {
         return changeRecordTagViewDataInteractor.getTypesViewData(newTypeIds)
     }
 
@@ -419,7 +420,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         defaultTypes.set(data)
     }
 
-    private suspend fun loadDefaultTypesViewData(): List<ViewHolderType> {
+    private suspend fun loadDefaultTypesViewData(): ChangeRecordTagTypesViewData {
         return changeRecordTagViewDataInteractor.getDefaultTypesViewData(newDefaultTypeIds)
     }
 

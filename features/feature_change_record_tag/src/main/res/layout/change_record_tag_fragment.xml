@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/containerChangeRecordTagMain"
@@ -17,64 +16,13 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/btnChangeRecordTagStatistics"
-                style="@style/SettingsCard"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
-                android:foreground="?selectableItemBackground"
-                android:visibility="gone"
-                app:cardBackgroundColor="?appCardBackgroundColor"
-                app:layout_constraintDimensionRatio="h,1:1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="center"
-                    android:src="@drawable/statistics"
-                    android:tint="?appInactiveColor"
-                    tools:ignore="ContentDescription" />
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/btnChangeRecordTagDelete"
-                style="@style/SettingsCard"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
-                android:foreground="?selectableItemBackground"
-                android:visibility="gone"
-                app:cardBackgroundColor="?appCardBackgroundColor"
-                app:layout_constraintDimensionRatio="h,1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="center"
-                    android:src="@drawable/archive"
-                    android:tint="?appInactiveColor"
-                    tools:ignore="ContentDescription" />
-
-            </androidx.cardview.widget.CardView>
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
 
             <com.example.util.simpletimetracker.feature_views.CategoryView
                 android:id="@+id/previewChangeRecordTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="48dp"
-                android:layout_marginTop="8dp"
                 app:cardElevation="@dimen/record_type_card_elevation"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -82,14 +30,122 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:itemName="Name" />
 
+            <View
+                android:id="@+id/dividerChangeRecordTagPreview"
+                style="@style/EditScreenDivider"
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/previewChangeRecordTag" />
+
+            <View
+                android:id="@+id/viewChangeRecordTagPreviewBackground"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:alpha="0.1"
+                android:background="@drawable/background_gradient"
+                android:rotation="180"
+                app:layout_constraintBottom_toBottomOf="@id/previewChangeRecordTag"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:backgroundTint="@color/black" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnChangeRecordTagStatistics"
+                style="@style/EditScreenControlButton"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/edit_screen_button_margin_horizontal"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@id/btnChangeRecordTagDelete"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordTagPreview"
+                app:layout_goneMarginEnd="@dimen/edit_screen_button_margin_horizontal"
+                tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvBtnChangeRecordTagStatistics"
+                        style="@style/EditScreenControlButton.Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/shortcut_navigation_statistics"
+                        app:layout_constraintEnd_toStartOf="@id/ivBtnChangeRecordTagStatistics"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivBtnChangeRecordTagStatistics"
+                        style="@style/EditScreenControlButton.Image"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/statistics"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tvBtnChangeRecordTagStatistics"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnChangeRecordTagDelete"
+                style="@style/EditScreenControlButton"
+                android:layout_width="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/edit_screen_button_margin_horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnChangeRecordTagStatistics"
+                app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordTagPreview"
+                app:layout_goneMarginStart="@dimen/edit_screen_button_margin_horizontal"
+                tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvBtnChangeRecordTagArchive"
+                        style="@style/EditScreenControlButton.Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/settings_archive"
+                        app:layout_constraintEnd_toStartOf="@id/ivBtnChangeRecordTagArchive"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivBtnChangeRecordTagArchive"
+                        style="@style/EditScreenControlButton.Image"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/archive"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tvBtnChangeRecordTagArchive"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrierChangeRecordTagButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="btnChangeRecordTagStatistics, btnChangeRecordTagDelete" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputChangeRecordTagName"
                 style="@style/ChangeItemInputField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="4dp"
-                app:layout_constraintTop_toBottomOf="@id/previewChangeRecordTag">
+                android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/barrierChangeRecordTagButtons">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etChangeRecordTagName"
@@ -105,32 +161,37 @@
                 style="@style/InputFieldCard"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/input_field_height"
-                android:layout_marginStart="@dimen/input_field_margin"
-                app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordTagIcon"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                android:layout_marginTop="3dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTagType"
-                app:layout_goneMarginEnd="@dimen/input_field_margin">
+                app:layout_constraintTop_toBottomOf="@id/inputChangeRecordTagName"
+                app:layout_goneMarginTop="12dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="?appInputFieldBorder">
 
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutChangeRecordTagColorPreview"
+                        style="@style/EditScreenPreview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTagColor"
+                        tools:cardBackgroundColor="@color/black" />
+
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/InputFieldCardText"
+                        style="@style/EditScreenField"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:text="@string/change_category_color_hint"
-                        app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTagColor"
+                        app:layout_constraintEnd_toStartOf="@id/layoutChangeRecordTagColorPreview"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <ImageView
                         android:id="@+id/arrowChangeRecordTagColor"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:src="?appArrow"
+                        style="@style/EditScreenField.Arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -145,34 +206,44 @@
                 style="@style/InputFieldCard"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/input_field_height"
-                android:layout_marginEnd="@dimen/input_field_margin"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTagColor"
-                app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTagType"
-                app:layout_goneMarginStart="@dimen/input_field_margin">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTagColor"
+                app:layout_goneMarginTop="12dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="?appInputFieldBorder">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/InputFieldCardText"
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutChangeRecordTagIconPreview"
+                        style="@style/EditScreenPreview"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@string/change_record_type_icon_image_hint"
                         app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTagIcon"
+                        tools:cardBackgroundColor="@color/black">
+
+                        <com.example.util.simpletimetracker.feature_views.IconView
+                            android:id="@+id/iconChangeRecordTagIconPreview"
+                            style="@style/EditScreenPreview.Icon"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/EditScreenField"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/change_record_type_icon_image_hint"
+                        app:layout_constraintEnd_toStartOf="@id/layoutChangeRecordTagIconPreview"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <ImageView
                         android:id="@+id/arrowChangeRecordTagIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:src="?appArrow"
+                        style="@style/EditScreenField.Arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -187,34 +258,47 @@
                 style="@style/InputFieldCard"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/input_field_height"
-                android:layout_marginStart="@dimen/input_field_margin"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="@dimen/input_field_margin"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/inputChangeRecordTagName"
-                app:layout_goneMarginStart="@dimen/input_field_margin">
+                app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTagIcon"
+                app:layout_goneMarginTop="12dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="?appInputFieldBorder">
 
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutChangeRecordTagTypesPreview"
+                        style="@style/EditScreenPreview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTagType"
+                        tools:cardBackgroundColor="@color/black"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeRecordTagTypesPreview"
+                            style="@style/EditScreenPreview.Text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:text="2" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/InputFieldCardText"
+                        style="@style/EditScreenField"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:text="@string/change_record_tag_type_hint"
-                        app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTagType"
+                        app:layout_constraintEnd_toStartOf="@id/layoutChangeRecordTagTypesPreview"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <ImageView
                         android:id="@+id/arrowChangeRecordTagType"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:src="?appArrow"
+                        style="@style/EditScreenField.Arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -229,22 +313,42 @@
                 style="@style/InputFieldCard"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/input_field_height"
-                android:layout_marginHorizontal="@dimen/input_field_margin"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTagIcon">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTagType"
+                app:layout_goneMarginTop="12dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="?appInputFieldBorder">
 
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutChangeRecordTagDefaultTypePreview"
+                        style="@style/EditScreenPreview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTagDefaultType"
+                        tools:cardBackgroundColor="@color/black"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeRecordTagDefaultTypePreview"
+                            style="@style/EditScreenPreview.Text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:text="2" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/InputFieldCardText"
+                        style="@style/EditScreenField"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:text="@string/change_record_tag_default_hint"
-                        app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTagDefaultType"
+                        app:layout_constraintEnd_toStartOf="@id/layoutChangeRecordTagDefaultTypePreview"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <ImageView
@@ -267,8 +371,7 @@
                 android:id="@+id/btnChangeRecordTagSelectActivity"
                 style="@style/AppButton"
                 android:layout_width="0dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                 android:insetTop="3dp"
                 android:text="@string/change_record_tag_select_activity_hint"
                 android:textAllCaps="false"
@@ -283,16 +386,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeRecordTagColor"
+        style="@style/EditScreenContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="?android:colorBackground"
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTagSave"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTagMain"
         tools:itemCount="3"
         tools:listitem="@layout/item_color_layout"
@@ -300,14 +401,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeRecordTagType"
+        style="@style/EditScreenContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:background="?android:colorBackground"
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTagSave"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTagMain"
         tools:itemCount="3"
         tools:listitem="@layout/item_record_type_layout"
@@ -315,12 +415,12 @@
 
     <include
         android:id="@+id/containerChangeRecordTypeIcon"
+        style="@style/EditScreenContainer"
         layout="@layout/icon_selection_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/color_icon_recycler_margin"
+        android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
         android:layout_marginTop="8dp"
-        android:background="?android:colorBackground"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTagSave"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTagMain"
@@ -328,10 +428,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeRecordTagDefaultType"
+        style="@style/EditScreenContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:background="?android:colorBackground"
         android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnChangeRecordTagSave"
@@ -345,9 +445,7 @@
         android:id="@+id/btnChangeRecordTagSave"
         style="@style/AppButtonActive"
         android:layout_width="match_parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
         android:text="@string/change_category_save"
         app:layout_constraintBottom_toBottomOf="parent" />
 
