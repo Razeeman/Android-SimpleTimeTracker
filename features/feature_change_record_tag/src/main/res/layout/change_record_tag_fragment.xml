@@ -144,7 +144,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/edit_screen_field_top_margin"
                 app:layout_constraintTop_toBottomOf="@id/barrierChangeRecordTagButtons">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -166,7 +166,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/inputChangeRecordTagName"
-                app:layout_goneMarginTop="12dp">
+                app:layout_goneMarginTop="@dimen/edit_screen_field_top_margin">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -210,7 +210,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTagColor"
-                app:layout_goneMarginTop="12dp">
+                app:layout_goneMarginTop="@dimen/edit_screen_field_top_margin">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -262,7 +262,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTagIcon"
-                app:layout_goneMarginTop="12dp">
+                app:layout_goneMarginTop="@dimen/edit_screen_field_top_margin">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -317,7 +317,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTagType"
-                app:layout_goneMarginTop="12dp">
+                app:layout_goneMarginTop="@dimen/edit_screen_field_top_margin">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

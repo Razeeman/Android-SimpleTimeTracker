@@ -148,7 +148,6 @@ class ChangeRecordCore(
         fieldChangeRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
         fieldChangeRecordTimeEnded.setOnClick(viewModel::onTimeEndedClick)
         fieldChangeRecordTimeSplit.setOnClick(viewModel::onTimeSplitClick)
-        btnChangeRecordTimeSplitAdjust.setOnClick(viewModel::onAdjustTimeSplitClick)
         containerChangeRecordTimeStartedAdjust.listener = viewModel::onAdjustTimeStartedItemClick
         containerChangeRecordTimeEndedAdjust.listener = viewModel::onAdjustTimeEndedItemClick
         containerChangeRecordTimeSplitAdjust.listener = viewModel::onAdjustTimeSplitItemClick
@@ -197,10 +196,6 @@ class ChangeRecordCore(
                 } else {
                     hideKeyboard()
                 }
-            }
-            timeSplitAdjustmentState.observe { opened ->
-                containerChangeRecordTimeSplitAdjust.isVisible = opened
-                btnChangeRecordTimeSplitAdjust.setChooserColor(opened)
             }
             timeSplitText.observe(tvChangeRecordTimeSplit::setText)
             lastComments.observe(commentsAdapter::replace)
@@ -268,6 +263,7 @@ class ChangeRecordCore(
             viewModel.statsIconVisibility.value.orFalse() && isClosed
         btnChangeRecordDelete.isVisible =
             viewModel.deleteIconVisibility.value.orFalse() && isClosed
+        dividerChangeRecordBottom.isVisible = !isClosed
 
         // Chooser fields
         fieldChangeRecordType.isVisible = isClosed || state.current is Activity

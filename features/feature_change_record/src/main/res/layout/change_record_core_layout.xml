@@ -10,9 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constrainedHeight="true"
-        app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeRecordButton"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0">
+        app:layout_constraintVertical_bias="0"
+        tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -114,7 +115,7 @@
                 android:id="@+id/containerChangeRecordTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/edit_screen_field_top_margin"
                 app:layout_constraintTop_toBottomOf="@id/barrierChangeRecordButtons">
 
                 <androidx.cardview.widget.CardView
@@ -250,7 +251,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTime"
-                app:layout_goneMarginTop="12dp">
+                app:layout_goneMarginTop="@dimen/edit_screen_field_top_margin">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -302,7 +303,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordType"
-                app:layout_goneMarginTop="12dp">
+                app:layout_goneMarginTop="@dimen/edit_screen_field_top_margin">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -357,7 +358,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordCategory"
-                app:layout_goneMarginTop="12dp">
+                app:layout_goneMarginTop="@dimen/edit_screen_field_top_margin">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -393,7 +394,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordComment"
-                app:layout_goneMarginTop="12dp">
+                app:layout_goneMarginTop="@dimen/edit_screen_field_top_margin">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -420,6 +421,13 @@
 
             </androidx.cardview.widget.CardView>
 
+            <View
+                android:id="@+id/dividerChangeRecordBottom"
+                style="@style/EditScreenDivider"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/edit_screen_field_top_margin"
+                app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordAction" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
@@ -429,7 +437,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeRecordButton"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordMain"
         tools:visibility="gone">
 
@@ -451,7 +459,8 @@
                     style="@style/ChangeItemInputField"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="@dimen/edit_screen_margin_horizontal"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="2dp"
                     app:layout_constraintEnd_toStartOf="@id/btnChangeRecordSearchComment"
                     app:layout_constraintStart_toStartOf="parent"
@@ -473,10 +482,10 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginTop="2dp"
-                    android:layout_marginEnd="18dp"
+                    android:layout_marginEnd="@dimen/edit_screen_field_margin_horizontal"
                     app:layout_constraintDimensionRatio="h,1:1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="@id/inputChangeRecordComment">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/ButtonTimeAdjust"
@@ -500,7 +509,7 @@
                     style="@style/InputFieldCard"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:layout_marginEnd="18dp"
+                    android:layout_marginEnd="@dimen/edit_screen_field_margin_horizontal"
                     app:layout_constraintDimensionRatio="h,1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/btnChangeRecordSearchComment">
@@ -526,7 +535,7 @@
                     android:id="@+id/rvChangeRecordLastComments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="19dp"
+                    android:layout_marginHorizontal="7dp"
                     android:nestedScrollingEnabled="false"
                     android:overScrollMode="never"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -542,12 +551,13 @@
             android:id="@+id/rvChangeRecordSearchComments"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="18dp"
+            android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
             android:scrollbars="vertical"
+            android:layout_marginTop="12dp"
             android:visibility="gone"
             tools:itemCount="1"
             tools:listitem="@layout/change_record_comment_field_item"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
     </FrameLayout>
 
@@ -557,7 +567,7 @@
         android:layout_height="0dp"
         android:scrollbars="vertical"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeRecordButton"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordMain"
         tools:visibility="gone">
 
@@ -578,7 +588,7 @@
                     android:id="@+id/tvChangeRecordTimeSplitHint"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                     android:gravity="center"
                     android:paddingVertical="8dp"
                     android:text="@string/change_record_split_hint"
@@ -590,17 +600,15 @@
                     style="@style/InputFieldCard"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/input_field_height"
-                    android:layout_marginHorizontal="@dimen/input_field_margin"
-                    app:layout_constraintTop_toBottomOf="@id/tvChangeRecordTimeSplitHint"
-                    app:layout_goneMarginEnd="@dimen/input_field_margin">
+                    android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/tvChangeRecordTimeSplitHint">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvChangeRecordTimeSplit"
-                        style="@style/InputFieldCardText"
+                        style="@style/EditScreenField"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?appInputFieldBorder"
-                        android:maxLines="1"
                         app:autoSizeMaxTextSize="16sp"
                         app:autoSizeMinTextSize="1sp"
                         app:autoSizeTextType="uniform"
@@ -608,42 +616,13 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <Space
-                    android:id="@+id/spaceChangeRecordTimeSplitEnd"
-                    android:layout_width="8dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/fieldChangeRecordTimeSplit"
-                    app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeSplit" />
-
-                <Space
-                    android:id="@+id/spaceChangeRecordTimeSplitTop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="12dp"
-                    app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordTimeSplit"
-                    app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordTimeSplit" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/btnChangeRecordTimeSplitAdjust"
-                    style="@style/InputFieldCard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="@id/spaceChangeRecordTimeSplitEnd"
-                    app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeSplitTop">
-
-                    <androidx.appcompat.widget.AppCompatTextView style="@style/ButtonTimeAdjust" />
-
-                </androidx.cardview.widget.CardView>
-
                 <com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
                     android:id="@+id/containerChangeRecordTimeSplitAdjust"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/input_field_margin"
-                    android:layout_marginEnd="@dimen/input_field_margin"
-                    android:visibility="gone"
+                    android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTimeSplit"
-                    tools:visibility="visible" />
+                    app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTimeSplit" />
 
                 <include
                     android:id="@+id/containerChangeRecordSplitPreview"
@@ -657,8 +636,7 @@
                     android:id="@+id/btnChangeRecordSplit"
                     style="@style/AppButtonActive"
                     android:layout_width="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                     android:text="@string/change_record_split"
                     app:layout_constraintTop_toBottomOf="@id/containerChangeRecordSplitPreview" />
 
@@ -679,7 +657,7 @@
                     android:id="@+id/tvChangeRecordAdjustHint"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                     android:gravity="center"
                     android:paddingVertical="8dp"
                     android:textColor="?appTextHintColor"
@@ -706,8 +684,7 @@
                     android:id="@+id/btnChangeRecordAdjust"
                     style="@style/AppButtonActive"
                     android:layout_width="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                     android:text="@string/change_record_adjust"
                     app:layout_constraintTop_toBottomOf="@id/containerChangeRecordAdjustNextPreview" />
 
@@ -728,7 +705,7 @@
                     android:id="@+id/tvChangeRecordContinueHint"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                     android:gravity="center"
                     android:paddingVertical="8dp"
                     android:text="@string/change_record_continue_hint"
@@ -739,8 +716,7 @@
                     android:id="@+id/btnChangeRecordContinue"
                     style="@style/AppButtonActive"
                     android:layout_width="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                     android:text="@string/change_record_continue"
                     app:layout_constraintTop_toBottomOf="@id/tvChangeRecordContinueHint" />
 
@@ -761,7 +737,7 @@
                     android:id="@+id/tvChangeRecordRepeatHint"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                     android:gravity="center"
                     android:paddingVertical="8dp"
                     android:text="@string/change_record_repeat_hint"
@@ -772,8 +748,7 @@
                     android:id="@+id/btnChangeRecordRepeat"
                     style="@style/AppButtonActive"
                     android:layout_width="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                     android:text="@string/change_record_repeat"
                     app:layout_constraintTop_toBottomOf="@id/tvChangeRecordRepeatHint" />
 
@@ -794,7 +769,7 @@
                     android:id="@+id/tvChangeRecordDuplicateHint"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                     android:gravity="center"
                     android:paddingVertical="8dp"
                     android:text="@string/change_record_duplicate_hint"
@@ -805,8 +780,7 @@
                     android:id="@+id/btnChangeRecordDuplicate"
                     style="@style/AppButtonActive"
                     android:layout_width="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                     android:text="@string/change_record_duplicate"
                     app:layout_constraintTop_toBottomOf="@id/tvChangeRecordDuplicateHint" />
 
@@ -827,7 +801,7 @@
                     android:id="@+id/tvChangeRecordMergeHint"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                     android:gravity="center"
                     android:paddingVertical="8dp"
                     android:text="@string/change_record_merge_hint"
@@ -845,8 +819,7 @@
                     android:id="@+id/btnChangeRecordMerge"
                     style="@style/AppButtonActive"
                     android:layout_width="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                     android:text="@string/change_record_merge"
                     app:layout_constraintTop_toBottomOf="@id/containerChangeRecordMergePreview" />
 
@@ -864,7 +837,7 @@
         android:overScrollMode="never"
         android:scrollbars="vertical"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeRecordButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordMain"
         tools:itemCount="30"
@@ -879,20 +852,25 @@
         android:overScrollMode="never"
         android:scrollbars="vertical"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeRecordButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordMain"
         tools:itemCount="30"
         tools:listitem="@layout/item_category_layout"
         tools:visibility="gone" />
 
+    <View
+        android:id="@+id/dividerChangeRecordButton"
+        style="@style/EditScreenDivider"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toTopOf="@id/btnChangeRecordSave" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChangeRecordSave"
         style="@style/AppButtonActive"
         android:layout_width="match_parent"
-        android:layout_marginStart="8dp"
+        android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:text="@string/change_record_save"
         app:layout_constraintBottom_toBottomOf="parent" />
 

@@ -13,8 +13,7 @@
         android:layout_marginEnd="2dp"
         app:layout_constraintEnd_toStartOf="@id/btnChangeRecordSearchCommentField"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_goneMarginEnd="20dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etChangeRecordCommentField"

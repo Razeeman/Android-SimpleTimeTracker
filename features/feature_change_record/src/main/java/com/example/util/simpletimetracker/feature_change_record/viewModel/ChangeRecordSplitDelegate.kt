@@ -15,12 +15,9 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import javax.inject.Inject
 
 interface ChangeRecordSplitDelegate {
-    val timeSplitAdjustmentState: LiveData<Boolean>
     val timeSplitText: LiveData<String>
     val splitPreview: LiveData<ChangeRecordPreview>
     val timeSplitAdjustmentItems: LiveData<List<ViewHolderType>>
-
-    fun onAdjustTimeSplitClick()
 }
 
 class ChangeRecordSplitDelegateImpl @Inject constructor(
@@ -31,15 +28,9 @@ class ChangeRecordSplitDelegateImpl @Inject constructor(
     override val timeSplitAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(loadTimeSplitAdjustmentItems())
     }
-    override val timeSplitAdjustmentState: LiveData<Boolean> = MutableLiveData(true)
     override val timeSplitText: LiveData<String> = MutableLiveData()
     override val splitPreview: LiveData<ChangeRecordPreview> =
         MutableLiveData(ChangeRecordPreview.NotAvailable)
-
-    override fun onAdjustTimeSplitClick() {
-        val newValue = timeSplitAdjustmentState.value?.flip().orFalse()
-        timeSplitAdjustmentState.set(newValue)
-    }
 
     suspend fun onSplitClickDelegate(
         newTypeId: Long,

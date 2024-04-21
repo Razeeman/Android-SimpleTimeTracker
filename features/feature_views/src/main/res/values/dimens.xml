@@ -3,6 +3,7 @@
     <dimen name="edit_screen_margin_horizontal">8dp</dimen>
     <dimen name="edit_screen_button_margin_horizontal">5dp</dimen>
     <dimen name="edit_screen_field_margin_horizontal">6dp</dimen>
+    <dimen name="edit_screen_field_top_margin">8dp</dimen>
 
     <dimen name="input_field_corner_radius">8dp</dimen>
     <dimen name="input_field_height">58dp</dimen>

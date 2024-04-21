@@ -5,7 +5,7 @@ import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 
 /**
- * Sets card background depending if it was clicked before (eg. opening a choose by clicking on card).
+ * Sets card background depending if it was clicked before (eg. opening a chooser by clicking on card).
  */
 fun CardView.setChooserColor(opened: Boolean) {
     val colorAttr = if (opened) {
