@@ -371,7 +371,9 @@ class ChangeRecordCore(
     ) {
         binding.fieldChangeRecordTimeEnded.isVisible = isVisible
         binding.containerChangeRecordTimeEndedAdjust.isVisible = isVisible
+
         binding.fieldChangeRecordChangeCurrentPreviewTimeEnded.isVisible = isVisible
+        binding.btnChangeRecordChangeCurrentPreviewTimeStartedAdjust.isVisible = isVisible
         binding.btnChangeRecordChangeCurrentPreviewTimeEndedAdjust.isVisible = isVisible
     }
 

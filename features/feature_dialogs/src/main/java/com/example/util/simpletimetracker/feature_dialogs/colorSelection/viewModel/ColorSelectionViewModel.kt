@@ -90,6 +90,14 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
         getCurrentColorInt().let(colorSelected::set)
     }
 
+    fun onRandomClick() {
+        colorRed = (0..255).random()
+        colorGreen = (0..255).random()
+        colorBlue = (0..255).random()
+
+        onRGBChanged()
+    }
+
     private fun onHexChanged(@ColorInt newHexColor: Int) {
         val hsv = FloatArray(3)
         Color.colorToHSV(newHexColor, hsv)

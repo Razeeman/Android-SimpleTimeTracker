@@ -98,6 +98,7 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
             .doAfterTextChanged { viewModel.onHSVFieldsChanged(it.toString(), HSVUpdate.V) }
 
         btnColorSelectionSave.setOnClick(viewModel::onSaveClick)
+        btnColorSelectionRandom.setOnClick(viewModel::onRandomClick)
     }
 
     override fun initViewModel(): Unit = with(viewModel) {

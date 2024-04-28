@@ -249,9 +249,23 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnColorSelectionSave"
         style="@style/AppButtonActive"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_marginHorizontal="8dp"
         android:text="@string/duration_dialog_save"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnColorSelectionRandom"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnColorSelectionRandom"
+        style="@style/AppButton"
+        android:layout_width="48dp"
+        android:layout_marginEnd="8dp"
+        app:icon="@drawable/ic_casino_24px"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconTint="?appLightTextColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
