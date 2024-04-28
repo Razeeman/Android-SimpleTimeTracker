@@ -80,7 +80,6 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
     ) {
         val previousRecord = recordInteractor.getPrev(
             timeStarted = System.currentTimeMillis(),
-            limit = 1,
         ).firstOrNull() ?: return
         val typeId = previousRecord.typeId
         val tagId = findTagIdByName(tagName, typeId)

@@ -3,8 +3,10 @@ package com.example.util.simpletimetracker.data_local.repo
 import androidx.collection.LruCache
 import com.example.util.simpletimetracker.data_local.database.RecordDao
 import com.example.util.simpletimetracker.data_local.mapper.RecordDataLocalMapper
+import com.example.util.simpletimetracker.data_local.model.RecordWithRecordTagsDBO
 import com.example.util.simpletimetracker.data_local.utils.logDataAccess
 import com.example.util.simpletimetracker.data_local.utils.withLockedCache
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
@@ -18,11 +20,13 @@ import javax.inject.Singleton
 class RecordRepoImpl @Inject constructor(
     private val recordDao: RecordDao,
     private val recordDataLocalMapper: RecordDataLocalMapper,
+    private val prefsInteractor: PrefsInteractor,
 ) : RecordRepo {
 
     private var getFromRangeCache = LruCache<GetFromRangeKey, List<Record>>(10)
     private var getFromRangeByTypeCache = LruCache<GetFromRangeByTypeKey, List<Record>>(1)
     private var isEmpty: Boolean? = null
+    private var showSecondsCache: Boolean? = null
     private val mutex: Mutex = Mutex()
 
     override suspend fun isEmpty(): Boolean = mutex.withLockedCache(
@@ -32,26 +36,26 @@ class RecordRepoImpl @Inject constructor(
         afterSourceAccess = { isEmpty = it },
     )
 
-    override suspend fun getAll(): List<Record> = withContext(Dispatchers.IO) {
+    override suspend fun getAll(adjusted: Boolean): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("getAll")
-        recordDao.getAll().map(recordDataLocalMapper::map)
+        recordDao.getAll().map { mapItem(it, adjusted) }
     }
 
     override suspend fun getByType(typeIds: List<Long>): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("getByType")
-        recordDao.getByType(typeIds).map(recordDataLocalMapper::map)
+        recordDao.getByType(typeIds).map { mapItem(it) }
     }
 
     override suspend fun getByTypeWithAnyComment(typeIds: List<Long>): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("getByTypeWithAnyComment")
-        recordDao.getByTypeWithAnyComment(typeIds).map(recordDataLocalMapper::map)
+        recordDao.getByTypeWithAnyComment(typeIds).map { mapItem(it) }
     }
 
     override suspend fun searchComment(
         text: String,
     ): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("searchComment")
-        recordDao.searchComment(text).map(recordDataLocalMapper::map)
+        recordDao.searchComment(text).map { mapItem(it) }
     }
 
     override suspend fun searchByTypeWithComment(
@@ -59,20 +63,20 @@ class RecordRepoImpl @Inject constructor(
         text: String,
     ): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("searchByTypeWithComment")
-        recordDao.searchByTypeWithComment(typeIds, text).map(recordDataLocalMapper::map)
+        recordDao.searchByTypeWithComment(typeIds, text).map { mapItem(it) }
     }
 
     override suspend fun searchAnyComments(): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("searchAnyComments")
-        recordDao.searchAnyComments().map(recordDataLocalMapper::map)
+        recordDao.searchAnyComments().map { mapItem(it) }
     }
 
-    override suspend fun get(id: Long): Record? = withContext(Dispatchers.IO) {
+    override suspend fun get(id: Long, adjusted: Boolean): Record? = withContext(Dispatchers.IO) {
         logDataAccess("get")
-        recordDao.get(id)?.let(recordDataLocalMapper::map)
+        recordDao.get(id)?.let { mapItem(it, adjusted) }
     }
 
-    override suspend fun getFromRange(range: Range): List<Record> {
+    override suspend fun getFromRange(range: Range, adjusted: Boolean): List<Record> {
         val cacheKey = GetFromRangeKey(range)
         return mutex.withLockedCache(
             logMessage = "getFromRange",
@@ -81,7 +85,7 @@ class RecordRepoImpl @Inject constructor(
                 recordDao.getFromRange(
                     start = range.timeStarted,
                     end = range.timeEnded,
-                ).map(recordDataLocalMapper::map)
+                ).map { mapItem(it, adjusted) }
             },
             afterSourceAccess = { getFromRangeCache.put(cacheKey, it) },
         )
@@ -97,35 +101,49 @@ class RecordRepoImpl @Inject constructor(
                     typesIds = typeIds,
                     start = range.timeStarted,
                     end = range.timeEnded,
-                ).map(recordDataLocalMapper::map)
+                ).map { mapItem(it) }
             },
             afterSourceAccess = { getFromRangeByTypeCache.put(cacheKey, it) },
         )
     }
 
-    override suspend fun getPrev(timeStarted: Long, limit: Long): List<Record> =
-        withContext(Dispatchers.IO) {
-            logDataAccess("getPrev")
-            recordDao.getPrev(timeStarted, limit)
-                .map(recordDataLocalMapper::map)
-        }
+    override suspend fun getPrev(
+        timeStarted: Long,
+        limit: Long,
+        adjusted: Boolean,
+    ): List<Record> = withContext(Dispatchers.IO) {
+        logDataAccess("getPrev")
+        recordDao.getPrev(timeStarted, limit).map { mapItem(it, adjusted) }
+    }
 
-    override suspend fun getNext(timeEnded: Long): Record? =
-        withContext(Dispatchers.IO) {
-            logDataAccess("getNext")
-            recordDao.getNext(timeEnded)
-                ?.let(recordDataLocalMapper::map)
-        }
+    override suspend fun getNext(
+        timeEnded: Long,
+        adjusted: Boolean,
+    ): Record? = withContext(Dispatchers.IO) {
+        logDataAccess("getNext")
+        recordDao.getNext(timeEnded)?.let { mapItem(it, adjusted) }
+    }
 
     override suspend fun add(record: Record): Long = mutex.withLockedCache(
         logMessage = "add",
         accessSource = {
-            // Drop milliseconds.
-            val adjustedRecord = record.copy(
-                timeStarted = record.timeStarted / 1000 * 1000,
-                timeEnded = record.timeEnded / 1000 * 1000,
+            recordDao.insert(record.let(recordDataLocalMapper::map))
+        },
+        afterSourceAccess = { clearCache() },
+    )
+
+    override suspend fun update(
+        recordId: Long,
+        typeId: Long,
+        comment: String,
+    ) = mutex.withLockedCache(
+        logMessage = "update",
+        accessSource = {
+            recordDao.update(
+                recordId = recordId,
+                typeId = typeId,
+                comment = comment,
             )
-            recordDao.insert(adjustedRecord.let(recordDataLocalMapper::map))
         },
         afterSourceAccess = { clearCache() },
     )
@@ -148,10 +166,25 @@ class RecordRepoImpl @Inject constructor(
         afterSourceAccess = { clearCache() },
     )
 
-    private fun clearCache() {
+    override fun clearCache() {
         getFromRangeCache.evictAll()
         getFromRangeByTypeCache.evictAll()
         isEmpty = null
+        showSecondsCache = null
+    }
+
+    private suspend fun mapItem(
+        dbo: RecordWithRecordTagsDBO,
+        adjusted: Boolean = true,
+    ): Record {
+        val showSeconds = if (adjusted) {
+            showSecondsCache ?: prefsInteractor.getShowSeconds()
+                .also { showSecondsCache = it }
+        } else {
+            true
+        }
+
+        return recordDataLocalMapper.map(dbo, showSeconds)
     }
 
     private data class GetFromRangeByTypeKey(

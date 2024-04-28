@@ -40,7 +40,7 @@ class UntrackedRecordMapper @Inject constructor(
     ): Boolean {
         return if (durationCutoff > 0) {
             // Filter only untracked records that are longer than a cutoff
-            duration >= durationCutoff * 1000
+            duration > durationCutoff * 1000
         } else {
             true
         }

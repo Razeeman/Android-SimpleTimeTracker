@@ -7,7 +7,7 @@ interface RecordRepo {
 
     suspend fun isEmpty(): Boolean
 
-    suspend fun getAll(): List<Record>
+    suspend fun getAll(adjusted: Boolean): List<Record>
 
     suspend fun getByType(typeIds: List<Long>): List<Record>
 
@@ -19,21 +19,33 @@ interface RecordRepo {
 
     suspend fun searchAnyComments(): List<Record>
 
-    suspend fun get(id: Long): Record?
+    suspend fun get(id: Long, adjusted: Boolean): Record?
 
-    suspend fun getFromRange(range: Range): List<Record>
+    suspend fun getFromRange(range: Range, adjusted: Boolean): List<Record>
 
     suspend fun getFromRangeByType(typeIds: List<Long>, range: Range): List<Record>
 
-    suspend fun getPrev(timeStarted: Long, limit: Long): List<Record>
+    suspend fun getPrev(
+        timeStarted: Long,
+        limit: Long,
+        adjusted: Boolean,
+    ): List<Record>
 
-    suspend fun getNext(timeEnded: Long): Record?
+    suspend fun getNext(timeEnded: Long, adjusted: Boolean): Record?
 
     suspend fun add(record: Record): Long
+
+    suspend fun update(
+        recordId: Long,
+        typeId: Long,
+        comment: String,
+    )
 
     suspend fun remove(id: Long)
 
     suspend fun removeByType(typeId: Long)
 
     suspend fun clear()
+
+    fun clearCache()
 }

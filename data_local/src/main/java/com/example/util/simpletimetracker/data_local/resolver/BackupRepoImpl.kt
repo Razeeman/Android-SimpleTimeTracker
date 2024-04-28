@@ -91,7 +91,7 @@ class BackupRepoImpl @Inject constructor(
                     it.let(::toBackupString).toByteArray(),
                 )
             }
-            recordRepo.getAll().forEach {
+            recordRepo.getAll(adjusted = false).forEach {
                 fileOutputStream?.write(
                     it.let(::toBackupString).toByteArray(),
                 )

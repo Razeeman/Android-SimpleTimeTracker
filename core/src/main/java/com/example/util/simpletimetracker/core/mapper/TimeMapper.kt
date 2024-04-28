@@ -489,9 +489,19 @@ class TimeMapper @Inject constructor(
             return formatIntervalProportional(hr, min)
         }
 
-        val willShowHours = hr != 0L
-        val willShowMinutes = willShowHours || min != 0L
-        val willShowSeconds = (!willShowHours && !willShowMinutes) || forceSeconds
+        val willShowHours: Boolean
+        val willShowMinutes: Boolean
+        val willShowSeconds: Boolean
+
+        if (forceSeconds) {
+            willShowHours = hr != 0L
+            willShowMinutes = willShowHours || min != 0L
+            willShowSeconds = true
+        } else {
+            willShowHours = hr != 0L
+            willShowMinutes = true
+            willShowSeconds = false
+        }
 
         var res = ""
         if (willShowHours) res += "$hr$hourString "
@@ -502,6 +512,7 @@ class TimeMapper @Inject constructor(
         return res
     }
 
+    @Suppress("unused")
     fun formatIntervalAdjusted(
         timeStarted: Long,
         timeEnded: Long,

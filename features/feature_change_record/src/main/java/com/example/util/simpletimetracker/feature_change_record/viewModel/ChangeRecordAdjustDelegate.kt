@@ -262,16 +262,16 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
         adjustNextRecordAvailable: Boolean,
     ): AdjacentRecords {
         suspend fun getNext(): Record? {
-            return recordInteractor.getNext(newTimeEnded)
+            return recordInteractor.getNext(newTimeEnded, adjusted = false)
         }
 
         val recordRange = Range(timeStarted = newTimeStarted, timeEnded = newTimeEnded)
-        val adjacentRecords = recordInteractor.getFromRange(recordRange)
+        val adjacentRecords = recordInteractor.getFromRange(recordRange, adjusted = false)
             .sortedByDescending { it.timeStarted }
 
         val previousRecords = adjacentRecords
             .filter { it.timeStarted < newTimeStarted && it.timeEnded <= newTimeEnded }
-            .ifEmpty { recordInteractor.getPrev(newTimeStarted, limit = 1) }
+            .ifEmpty { recordInteractor.getPrev(newTimeStarted, adjusted = false) }
             .filter { it.id != recordId }
         val overlappedRecords = adjacentRecords
             .filter { it.timeStarted >= newTimeStarted && it.timeEnded <= newTimeEnded }

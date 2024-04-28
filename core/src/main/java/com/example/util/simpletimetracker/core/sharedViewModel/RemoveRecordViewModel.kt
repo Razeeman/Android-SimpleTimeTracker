@@ -40,7 +40,7 @@ class RemoveRecordViewModel @Inject constructor(
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             if (recordId != 0L) {
-                val removedRecord = recordInteractor.get(recordId)
+                val removedRecord = recordInteractor.get(recordId, adjusted = false)
                 val typeId = removedRecord?.typeId
                 val removedName = typeId
                     ?.let { recordTypeInteractor.get(it) }

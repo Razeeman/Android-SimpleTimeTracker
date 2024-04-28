@@ -62,6 +62,13 @@ interface RecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(record: RecordDBO): Long
 
+    @Query("UPDATE records SET type_id = :typeId, comment = :comment WHERE id = :recordId")
+    suspend fun update(
+        recordId: Long,
+        typeId: Long,
+        comment: String,
+    )
+
     @Query("DELETE FROM records WHERE id = :id")
     suspend fun delete(id: Long)
 

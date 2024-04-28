@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.WidgetTransparencyPercent
@@ -29,6 +30,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val settingsDisplayViewDataInteractor: SettingsDisplayViewDataInteractor,
+    private val recordInteractor: RecordInteractor,
 ) : ViewModelDelegate() {
 
     val keepScreenOnCheckbox: LiveData<Boolean>
@@ -234,6 +236,9 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowSeconds()
             prefsInteractor.setShowSeconds(newValue)
+            // Force reload from db to trigger seconds drop.
+            // Main tab updated every second, other tabs updates on visible.
+            recordInteractor.clearCache()
             parent?.updateContent()
             notificationTypeInteractor.updateNotifications()
             widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))

@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import javax.inject.Inject
@@ -16,7 +17,7 @@ class RecordInteractor @Inject constructor(
     }
 
     suspend fun getAll(): List<Record> {
-        return recordRepo.getAll()
+        return recordRepo.getAll(adjusted = true)
     }
 
     suspend fun getByType(typeIds: List<Long>): List<Record> {
@@ -39,38 +40,43 @@ class RecordInteractor @Inject constructor(
         return recordRepo.searchAnyComments()
     }
 
-    suspend fun get(id: Long): Record? {
-        return recordRepo.get(id)
+    suspend fun get(id: Long, adjusted: Boolean = true): Record? {
+        return recordRepo.get(id, adjusted)
     }
 
-    suspend fun getPrev(timeStarted: Long, limit: Long): List<Record> {
-        return recordRepo.getPrev(timeStarted, limit)
+    suspend fun getPrev(
+        timeStarted: Long,
+        limit: Long = 1,
+        adjusted: Boolean = true,
+    ): List<Record> {
+        return recordRepo.getPrev(
+            timeStarted = timeStarted,
+            limit = limit,
+            adjusted = adjusted,
+        )
     }
 
-    suspend fun getNext(timeEnded: Long): Record? {
-        return recordRepo.getNext(timeEnded)
+    suspend fun getNext(timeEnded: Long, adjusted: Boolean = true): Record? {
+        return recordRepo.getNext(timeEnded, adjusted)
     }
 
-    suspend fun getFromRange(range: Range): List<Record> {
-        return recordRepo.getFromRange(range)
+    suspend fun getFromRange(range: Range, adjusted: Boolean = true): List<Record> {
+        return recordRepo.getFromRange(range, adjusted)
     }
 
     suspend fun getFromRangeByType(typeIds: List<Long>, range: Range): List<Record> {
         return recordRepo.getFromRangeByType(typeIds, range)
     }
 
-    suspend fun add(
-        typeId: Long,
-        timeStarted: Long,
-        comment: String,
-        tagIds: List<Long>,
+    suspend fun addFromRunning(
+        runningRecord: RunningRecord,
     ) {
         Record(
-            typeId = typeId,
-            timeStarted = timeStarted,
+            typeId = runningRecord.id,
+            timeStarted = runningRecord.timeStarted,
             timeEnded = System.currentTimeMillis(),
-            comment = comment,
-            tagIds = tagIds,
+            comment = runningRecord.comment,
+            tagIds = runningRecord.tagIds,
         ).let {
             add(it)
         }
@@ -78,12 +84,37 @@ class RecordInteractor @Inject constructor(
 
     suspend fun add(record: Record) {
         val recordId = recordRepo.add(record)
-        recordToRecordTagRepo.removeAllByRecordId(recordId)
-        recordToRecordTagRepo.addRecordTags(recordId, record.tagIds)
+        updateTags(recordId, record.tagIds)
+    }
+
+    suspend fun update(
+        recordId: Long,
+        typeId: Long,
+        comment: String,
+        tagIds: List<Long>,
+    ) {
+        recordRepo.update(
+            recordId = recordId,
+            typeId = typeId,
+            comment = comment,
+        )
+        updateTags(recordId, tagIds)
     }
 
     suspend fun remove(id: Long) {
         recordToRecordTagRepo.removeAllByRecordId(id)
         recordRepo.remove(id)
+    }
+
+    fun clearCache() {
+        recordRepo.clearCache()
+    }
+
+    private suspend fun updateTags(
+        recordId: Long,
+        tagIds: List<Long>,
+    ) {
+        recordToRecordTagRepo.removeAllByRecordId(recordId)
+        recordToRecordTagRepo.addRecordTags(recordId, tagIds)
     }
 }

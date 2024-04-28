@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.dropSeconds
 import com.example.util.simpletimetracker.domain.extension.getFullName
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -54,10 +55,13 @@ class ChangeRecordViewDataMapper @Inject constructor(
                 useMilitaryTime = useMilitaryTime,
                 showSeconds = showSeconds,
             ),
-            duration = timeMapper.formatIntervalAdjusted(
-                timeStarted = record.timeStarted,
-                timeEnded = record.timeEnded,
-                showSeconds = showSeconds,
+            duration = timeMapper.formatInterval(
+                interval = if (showSeconds) {
+                    record.timeEnded - record.timeStarted
+                } else {
+                    record.timeEnded.dropSeconds() - record.timeStarted.dropSeconds()
+                },
+                forceSeconds = showSeconds,
                 useProportionalMinutes = useProportionalMinutes,
             ),
             iconId = recordType?.icon.orEmpty()

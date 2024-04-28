@@ -30,7 +30,7 @@ class ChangeRecordMergeDelegateImpl @Inject constructor(
         newTimeEnded: Long,
         onMergeComplete: () -> Unit,
     ) {
-        // If merge would be available bot only for untracked - add removal of current record
+        // If merge would be available but only for untracked - add removal of current record
         prevRecord?.copy(
             timeEnded = newTimeEnded,
         )?.let {

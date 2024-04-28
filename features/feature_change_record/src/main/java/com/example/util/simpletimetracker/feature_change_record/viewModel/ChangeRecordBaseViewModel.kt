@@ -634,7 +634,10 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     private suspend fun initializePrevRecord() {
-        prevRecord = recordInteractor.getPrev(timeStarted = originalTimeStarted, limit = 1).firstOrNull()
+        prevRecord = recordInteractor.getPrev(
+            timeStarted = originalTimeStarted,
+            adjusted = false,
+        ).firstOrNull()
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {

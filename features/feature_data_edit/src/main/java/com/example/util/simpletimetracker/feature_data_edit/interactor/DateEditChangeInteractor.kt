@@ -88,14 +88,13 @@ class DateEditChangeInteractor @Inject constructor(
                 oldTypeIds.add(record.typeId)
             }
 
-            // Change activity
-            record.copy(
+            // Change record
+            recordInteractor.update(
+                recordId = record.id,
                 typeId = finalTypeId,
                 comment = finalComment,
                 tagIds = finalTagIds.toList(),
-            ).let {
-                recordInteractor.add(it)
-            }
+            )
         }
 
         if (deleteRecord) {

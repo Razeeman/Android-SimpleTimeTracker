@@ -27,12 +27,7 @@ class RemoveRunningRecordMediator @Inject constructor(
 
         if (duration > durationToIgnore || durationToIgnore == 0L) {
             // No need to update widgets and notification because it will be done in running record remove.
-            recordInteractor.add(
-                typeId = runningRecord.id,
-                timeStarted = runningRecord.timeStarted,
-                comment = runningRecord.comment,
-                tagIds = runningRecord.tagIds,
-            )
+            recordInteractor.addFromRunning(runningRecord)
         }
         activityStartedStoppedBroadcastInteractor.onActivityStopped(
             typeId = runningRecord.id,

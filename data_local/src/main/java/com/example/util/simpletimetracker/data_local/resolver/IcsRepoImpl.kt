@@ -73,9 +73,9 @@ class IcsRepoImpl @Inject constructor(
 
             // Write data
             val records = if (range != null) {
-                recordRepo.getFromRange(range)
+                recordRepo.getFromRange(range, adjusted = false)
             } else {
-                recordRepo.getAll()
+                recordRepo.getAll(adjusted = false)
             }
             records
                 .sortedBy { it.timeStarted }
