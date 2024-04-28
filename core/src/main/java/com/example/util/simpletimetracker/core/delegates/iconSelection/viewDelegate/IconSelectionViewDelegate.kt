@@ -77,6 +77,7 @@ object IconSelectionViewDelegate {
         }
         etIconSelectionSearch.doAfterTextChanged { viewModel.onIconImageSearch(it.toString()) }
         btnIconSelectionSearch.setOnClick(viewModel::onIconImageSearchClicked)
+        btnIconSelectionFavourite.setOnClick(viewModel::onIconImageFavouriteClicked)
         rvIconSelection.addOnScrollListenerAdapter(
             onScrolled = { _, _, _ ->
                 iconsLayoutManager?.let {
@@ -193,12 +194,15 @@ object IconSelectionViewDelegate {
         layout: IconSelectionLayoutBinding,
     ) = with(layout) {
         if (data is IconSelectionSelectorStateViewData.Available) {
-            btnIconSelectionSearch.isVisible = data.searchButtonIsVisible
+            btnIconSelectionSearch.isVisible = true
             ivIconSelectionSearch.backgroundTintList = ColorStateList.valueOf(data.searchButtonColor)
+            btnIconSelectionFavourite.isVisible = true
+            ivIconSelectionFavourite.backgroundTintList = ColorStateList.valueOf(data.favouriteButtonColor)
             rvIconSelectionCategory.isVisible = data.state is IconImageState.Chooser
             inputIconSelectionSearch.isVisible = data.state is IconImageState.Search
         } else {
             btnIconSelectionSearch.isVisible = false
+            btnIconSelectionFavourite.isVisible = false
             rvIconSelectionCategory.isVisible = false
             inputIconSelectionSearch.isVisible = false
         }

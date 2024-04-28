@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.core.mapper
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.IconImageRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.model.FavouriteIcon
 import com.example.util.simpletimetracker.domain.model.IconImage
 import com.example.util.simpletimetracker.domain.model.IconImageCategory
 import com.example.util.simpletimetracker.domain.model.IconImageType
@@ -15,7 +16,12 @@ class IconImageMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
 ) {
 
-    fun getAvailableCategories(): List<IconImageCategory> = listOf(
+    fun getAvailableCategories(hasFavourites: Boolean): List<IconImageCategory> = listOfNotNull(
+        IconImageCategory(
+            type = IconImageType.FAVOURITES,
+            name = resourceRepo.getString(R.string.change_record_favourite_comments_hint),
+            categoryIcon = R.drawable.icon_category_image_favourite,
+        ).takeIf { hasFavourites },
         IconImageCategory(
             type = IconImageType.MAPS,
             name = resourceRepo.getString(R.string.imageGroupMaps),
@@ -101,10 +107,12 @@ class IconImageMapper @Inject constructor(
     fun getAvailableImages(
         loadSearchHints: Boolean,
     ): Map<IconImageCategory, List<IconImage>> {
-        return getAvailableCategories().associateWith {
-            val images = mapTypeToIconArray(it.type).let(repo::getImages)
+        return getAvailableCategories(true).associateWith {
+            val images = mapTypeToIconArray(it.type)
+                ?.let(repo::getImages).orEmpty()
             val searchHints = if (loadSearchHints) {
-                mapTypeToSearchArray(it.type).let(resourceRepo::getStringArray)
+                mapTypeToSearchArray(it.type)
+                    ?.let(resourceRepo::getStringArray).orEmpty()
             } else {
                 emptyList()
             }
@@ -119,7 +127,8 @@ class IconImageMapper @Inject constructor(
         }
     }
 
-    private fun mapTypeToIconArray(type: IconImageType): Int = when (type) {
+    private fun mapTypeToIconArray(type: IconImageType): Int? = when (type) {
+        IconImageType.FAVOURITES -> null
         IconImageType.MAPS -> R.array.icon_maps
         IconImageType.PLACES -> R.array.icon_places
         IconImageType.SOCIAL -> R.array.icon_social
@@ -138,7 +147,8 @@ class IconImageMapper @Inject constructor(
         IconImageType.TOGGLE -> R.array.icon_toggle
     }
 
-    private fun mapTypeToSearchArray(type: IconImageType): Int = when (type) {
+    private fun mapTypeToSearchArray(type: IconImageType): Int? = when (type) {
+        IconImageType.FAVOURITES -> null
         IconImageType.MAPS -> R.array.icon_hint_maps
         IconImageType.PLACES -> R.array.icon_hint_places
         IconImageType.SOCIAL -> R.array.icon_hint_social

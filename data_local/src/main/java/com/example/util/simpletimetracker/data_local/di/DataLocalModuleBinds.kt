@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.data_local.repo.ActivityFilterRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.CategoryRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.DataEditRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.FavouriteCommentRepoImpl
+import com.example.util.simpletimetracker.data_local.repo.FavouriteIconRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTagRepoImpl
@@ -23,6 +24,7 @@ import com.example.util.simpletimetracker.data_local.resolver.SharingRepoImpl
 import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.FavouriteCommentRepo
+import com.example.util.simpletimetracker.domain.repo.FavouriteIconRepo
 import com.example.util.simpletimetracker.domain.repo.PrefsRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
@@ -123,4 +125,8 @@ interface DataLocalModuleBinds {
     @Binds
     @Singleton
     fun DataEditRepoImpl.bindDataEditRepo(): DataEditRepo
+
+    @Binds
+    @Singleton
+    fun FavouriteIconRepoImpl.bindFavouriteIconRepo(): FavouriteIconRepo
 }

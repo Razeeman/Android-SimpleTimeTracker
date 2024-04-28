@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import com.example.util.simpletimetracker.data_local.model.ActivityFilterDBO
 import com.example.util.simpletimetracker.data_local.model.CategoryDBO
 import com.example.util.simpletimetracker.data_local.model.FavouriteCommentDBO
+import com.example.util.simpletimetracker.data_local.model.FavouriteIconDBO
 import com.example.util.simpletimetracker.data_local.model.RecordDBO
 import com.example.util.simpletimetracker.data_local.model.RecordTagDBO
 import com.example.util.simpletimetracker.data_local.model.RecordToRecordTagDBO
@@ -31,8 +32,9 @@ import com.example.util.simpletimetracker.data_local.model.RunningRecordToRecord
         ActivityFilterDBO::class,
         FavouriteCommentDBO::class,
         RecordTypeGoalDBO::class,
+        FavouriteIconDBO::class,
     ],
-    version = 17,
+    version = 18,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -62,6 +64,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun favouriteCommentDao(): FavouriteCommentDao
 
     abstract fun recordTypeGoalDao(): RecordTypeGoalDao
+
+    abstract fun favouriteIconDao(): FavouriteIconDao
 
     companion object {
         const val DATABASE_NAME = "simpleTimeTrackerDB"

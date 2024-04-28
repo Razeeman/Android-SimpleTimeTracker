@@ -10,33 +10,67 @@ import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.mapper.IconImageMapper
+import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.AppColor
+import com.example.util.simpletimetracker.domain.model.FavouriteIcon
+import com.example.util.simpletimetracker.domain.model.IconEmoji
+import com.example.util.simpletimetracker.domain.model.IconEmojiType
+import com.example.util.simpletimetracker.domain.model.IconImage
 import com.example.util.simpletimetracker.domain.model.IconImageState
+import com.example.util.simpletimetracker.domain.model.IconImageType
 import com.example.util.simpletimetracker.domain.model.IconType
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
+import com.example.util.simpletimetracker.resources.IconMapperUtils
 import javax.inject.Inject
 
 class IconSelectionMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val iconImageMapper: IconImageMapper,
     private val iconEmojiMapper: IconEmojiMapper,
+    private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
 ) {
 
     fun mapIconImageData(
         newColor: AppColor,
         search: String,
+        favourites: List<FavouriteIcon>,
         isDarkTheme: Boolean,
     ): List<ViewHolderType> {
         val isSearching = search.isNotBlank()
         val actualSearch = search.lowercase().split(" ")
+        val favouriteIconImages = favourites
+            .takeUnless { isSearching }
+            .orEmpty()
+            .filter { IconMapperUtils.isImageIcon(it.icon) }
+            .mapNotNull {
+                val resId = iconMapper.mapIcon(it.icon)
+                    as? RecordTypeIcon.Image
+                    ?: return@mapNotNull null
+                IconImage(
+                    iconName = it.icon,
+                    iconResId = resId.iconId,
+                    iconSearch = "",
+                )
+            }
         val iconCategories = iconImageMapper.getAvailableImages(
             loadSearchHints = isSearching,
         )
+
         return iconCategories.toList().mapIndexed { index, (category, images) ->
+            val categoryImages = if (category.type == IconImageType.FAVOURITES) {
+                favouriteIconImages
+            } else {
+                images
+            }
+
+            if (categoryImages.isEmpty()) return@mapIndexed emptyList()
+
             val categoryViewData = IconSelectionCategoryInfoViewData(
                 type = IconSelectionTypeViewData.Image(category.type, index.toLong()),
                 text = category.name,
@@ -46,7 +80,7 @@ class IconSelectionMapper @Inject constructor(
                 .takeIf { !isSearching } // Don't show category on search.
                 .orEmpty()
 
-            val iconsViewData = images.mapNotNull {
+            val iconsViewData = categoryImages.mapNotNull {
                 if (isSearching) {
                     if (!containsSearch(actualSearch, it.iconName, it.iconSearch)) {
                         return@mapNotNull null
@@ -68,14 +102,33 @@ class IconSelectionMapper @Inject constructor(
     fun mapIconEmojiData(
         newColor: AppColor,
         search: String,
+        favourites: List<FavouriteIcon>,
         isDarkTheme: Boolean,
     ): List<ViewHolderType> {
         val isSearching = search.isNotBlank()
         val actualSearch = search.lowercase().split(" ")
+        val favouriteEmojiTexts = favourites
+            .takeUnless { isSearching }
+            .orEmpty()
+            .filter { !IconMapperUtils.isImageIcon(it.icon) }
+            .map {
+                IconEmoji(
+                    emojiCode = it.icon,
+                    emojiSearch = "",
+                )
+            }
         val iconCategories = iconEmojiMapper.getAvailableEmojis(
             loadSearchHints = isSearching,
         )
         return iconCategories.toList().mapIndexed { index, (category, codes) ->
+            val categoryCodes = if (category.type == IconEmojiType.FAVOURITES) {
+                favouriteEmojiTexts
+            } else {
+                codes
+            }
+
+            if (categoryCodes.isEmpty()) return@mapIndexed emptyList()
+
             val categoryViewData = IconSelectionCategoryInfoViewData(
                 type = IconSelectionTypeViewData.Emoji(category.type, index.toLong()),
                 text = category.name,
@@ -85,7 +138,7 @@ class IconSelectionMapper @Inject constructor(
                 .takeIf { !isSearching } // Don't show category on search.
                 .orEmpty()
 
-            val codesViewData = codes.mapNotNull {
+            val codesViewData = categoryCodes.mapNotNull {
                 if (isSearching) {
                     if (!containsSearch(actualSearch, it.emojiSearch)) {
                         return@mapNotNull null
@@ -105,10 +158,18 @@ class IconSelectionMapper @Inject constructor(
 
     fun mapIconImageCategories(
         selectedIndex: Long,
+        hasFavourites: Boolean,
     ): List<ViewHolderType> {
-        return iconImageMapper.getAvailableCategories().mapIndexed { index, iconImageCategory ->
+        val categories = iconImageMapper.getAvailableCategories(true)
+        return categories.mapIndexedNotNull { index, iconImageCategory ->
+            if (iconImageCategory.type == IconImageType.FAVOURITES && !hasFavourites) {
+                return@mapIndexedNotNull null
+            }
             IconSelectionCategoryViewData(
-                type = IconSelectionTypeViewData.Image(iconImageCategory.type, index.toLong()),
+                type = IconSelectionTypeViewData.Image(
+                    type = iconImageCategory.type,
+                    id = index.toLong(),
+                ),
                 categoryIcon = iconImageCategory.categoryIcon,
                 selected = selectedIndex == index.toLong(),
             )
@@ -117,10 +178,18 @@ class IconSelectionMapper @Inject constructor(
 
     fun mapIconEmojiCategories(
         selectedIndex: Long,
+        hasFavourites: Boolean,
     ): List<ViewHolderType> {
-        return iconEmojiMapper.getAvailableEmojiCategories().mapIndexed { index, iconEmojiCategory ->
+        val categories = iconEmojiMapper.getAvailableEmojiCategories(true)
+        return categories.mapIndexedNotNull { index, iconEmojiCategory ->
+            if (iconEmojiCategory.type == IconEmojiType.FAVOURITES && !hasFavourites) {
+                return@mapIndexedNotNull null
+            }
             IconSelectionCategoryViewData(
-                type = IconSelectionTypeViewData.Emoji(iconEmojiCategory.type, index.toLong()),
+                type = IconSelectionTypeViewData.Emoji(
+                    type = iconEmojiCategory.type,
+                    id = index.toLong(),
+                ),
                 categoryIcon = iconEmojiCategory.categoryIcon,
                 selected = selectedIndex == index.toLong(),
             )
@@ -144,6 +213,7 @@ class IconSelectionMapper @Inject constructor(
     fun mapToIconSelectorViewData(
         iconImageState: IconImageState,
         iconType: IconType,
+        isSelectedIconFavourite: Boolean,
         isDarkTheme: Boolean,
     ): IconSelectionSelectorStateViewData {
         return if (iconType == IconType.TEXT) {
@@ -152,10 +222,14 @@ class IconSelectionMapper @Inject constructor(
             val theme = if (isDarkTheme) R.style.AppThemeDark else R.style.AppTheme
             IconSelectionSelectorStateViewData.Available(
                 state = iconImageState,
-                searchButtonIsVisible = true,
                 searchButtonColor = when (iconImageState) {
                     is IconImageState.Chooser -> R.attr.appInactiveColor
                     is IconImageState.Search -> R.attr.colorSecondary
+                }.let { resourceRepo.getThemedAttr(it, theme) },
+                favouriteButtonColor = if (isSelectedIconFavourite) {
+                    R.attr.colorSecondary
+                } else {
+                    R.attr.appInactiveColor
                 }.let { resourceRepo.getThemedAttr(it, theme) },
             )
         }

@@ -91,10 +91,9 @@
                 style="@style/InputFieldCard"
                 android:layout_width="36dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="6dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnIconSelectionFavourite"
                 app:layout_constraintHeight_min="36dp"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible">
@@ -112,6 +111,37 @@
                     android:layout_gravity="center"
                     android:layout_margin="4dp"
                     android:background="@drawable/search"
+                    android:scaleType="center"
+                    tools:backgroundTint="?appInactiveColor" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnIconSelectionFavourite"
+                style="@style/InputFieldCard"
+                android:layout_width="36dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="6dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_min="36dp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/ButtonTimeAdjust"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivIconSelectionFavourite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/favorite"
                     android:scaleType="center"
                     tools:backgroundTint="?appInactiveColor" />
 

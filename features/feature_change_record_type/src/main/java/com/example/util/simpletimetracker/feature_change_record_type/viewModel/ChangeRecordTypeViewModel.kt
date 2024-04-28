@@ -333,7 +333,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             }
 
             override suspend fun update() {
-                this@ChangeRecordTypeViewModel.updateRecordPreviewViewData()
+                updateRecordPreviewViewData()
             }
 
             override fun getColor(): AppColor {

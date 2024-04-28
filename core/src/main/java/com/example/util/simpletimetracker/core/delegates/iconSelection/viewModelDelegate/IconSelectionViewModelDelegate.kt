@@ -15,14 +15,18 @@ import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
+import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.FavouriteIconInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
+import com.example.util.simpletimetracker.domain.model.FavouriteIcon
 import com.example.util.simpletimetracker.domain.model.IconImageState
 import com.example.util.simpletimetracker.domain.model.IconType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.resources.IconMapperUtils
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -42,6 +46,7 @@ interface IconSelectionViewModelDelegate {
     fun onIconCategoryClick(viewData: IconSelectionCategoryViewData)
     fun onIconClick(item: IconSelectionViewData)
     fun onIconsScrolled(firstVisiblePosition: Int, lastVisiblePosition: Int)
+    fun onIconImageFavouriteClicked()
     fun onIconImageSearchClicked()
     fun onIconImageSearch(search: String)
     fun onEmojiClick(item: EmojiViewData)
@@ -63,6 +68,7 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val iconSelectionMapper: IconSelectionMapper,
     private val viewDataInteractor: IconSelectionDelegateViewDataInteractor,
+    private val favouriteIconInteractor: FavouriteIconInteractor,
 ) : IconSelectionViewModelDelegate,
     ViewModelDelegate() {
 
@@ -74,7 +80,7 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
     }
     override val iconCategories: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            delegateScope.launch { initial.value = loadIconCategoriesViewData() }
+            delegateScope.launch { initial.value = loadIconCategoriesViewData(selectedIndex = 0) }
             initial
         }
     }
@@ -125,6 +131,7 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
     }
 
     suspend fun update() {
+        updateIconSelectorViewData()
         updateIcons()
     }
 
@@ -132,6 +139,7 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
         if (viewData.getUniqueId() == 0L) {
             expandIconTypeSwitch.set(Unit)
         }
+        // Types in icons and categories should have the same index for this to work.
         (icons.value as? IconSelectionStateViewData.Icons)
             ?.items
             ?.indexOfFirst { (it as? IconSelectionCategoryInfoViewData)?.type == viewData.type }
@@ -144,6 +152,7 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
                 newIcon = item.iconName
                 parent?.onIconSelected()
                 parent?.update()
+                updateIconSelectorViewData()
             }
         }
     }
@@ -162,13 +171,33 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
             .firstOrNull { it.isLast }
             ?.takeIf { items.indexOf(it) <= lastVisiblePosition }
             ?.let {
-                updateIconCategories(it.getUniqueId())
+                delegateScope.launch { updateIconCategories(it.getUniqueId()) }
                 return
             }
 
         infoItems
             .lastOrNull { items.indexOf(it) <= firstVisiblePosition }
-            ?.let { updateIconCategories(it.getUniqueId()) }
+            ?.let { delegateScope.launch { updateIconCategories(it.getUniqueId()) } }
+    }
+
+    override fun onIconImageFavouriteClicked() {
+        if (newIcon.isEmpty()) return
+
+        delegateScope.launch {
+            favouriteIconInteractor.get(newIcon)?.let {
+                favouriteIconInteractor.remove(it.id)
+            } ?: run {
+                val new = FavouriteIcon(icon = newIcon)
+                favouriteIconInteractor.add(new)
+            }
+            val selectedIndex = iconCategories.value
+                ?.filterIsInstance<IconSelectionCategoryViewData>()
+                ?.firstOrNull { it.selected }
+                ?.type?.id.orZero()
+            updateIconSelectorViewData()
+            updateIconCategories(selectedIndex = selectedIndex)
+            updateIcons()
+        }
     }
 
     override fun onIconImageSearchClicked() {
@@ -212,6 +241,7 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
                     newIcon = item.emojiText
                     parent?.onIconSelected()
                     parent?.update()
+                    updateIconSelectorViewData()
                 }
             }
         }
@@ -272,15 +302,22 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
         )
     }
 
-    private fun updateIconCategories(selectedIndex: Long) {
+    private suspend fun updateIconCategories(selectedIndex: Long) {
         val data = loadIconCategoriesViewData(selectedIndex)
         iconCategories.set(data)
     }
 
-    private fun loadIconCategoriesViewData(selectedIndex: Long = 0): List<ViewHolderType> {
+    private suspend fun loadIconCategoriesViewData(selectedIndex: Long): List<ViewHolderType> {
+        val favourites = favouriteIconInteractor.getAll()
+        val hasFavourites = when (iconType) {
+            IconType.IMAGE -> favourites.any { IconMapperUtils.isImageIcon(it.icon) }
+            IconType.EMOJI -> favourites.any { !IconMapperUtils.isImageIcon(it.icon) }
+            IconType.TEXT -> false
+        }
         return viewDataInteractor.getIconCategoriesViewData(
             iconType = iconType,
             selectedIndex = selectedIndex,
+            hasFavourites = hasFavourites,
         )
     }
 
@@ -299,9 +336,12 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
     }
 
     private suspend fun loadIconSelectorViewData(): IconSelectionSelectorStateViewData {
+        val isFavourite = favouriteIconInteractor.get(newIcon) != null
+
         return iconSelectionMapper.mapToIconSelectorViewData(
             iconImageState = iconImageState,
             iconType = iconType,
+            isSelectedIconFavourite = isFavourite,
             isDarkTheme = prefsInteractor.getDarkMode(),
         )
     }

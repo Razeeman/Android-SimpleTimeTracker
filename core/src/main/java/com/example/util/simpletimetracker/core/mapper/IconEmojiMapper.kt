@@ -5,6 +5,8 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.IconEmoji
 import com.example.util.simpletimetracker.domain.model.IconEmojiCategory
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
+import com.example.util.simpletimetracker.domain.model.IconImageCategory
+import com.example.util.simpletimetracker.domain.model.IconImageType
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,7 +15,12 @@ class IconEmojiMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
 ) {
 
-    fun getAvailableEmojiCategories(): List<IconEmojiCategory> = listOf(
+    fun getAvailableEmojiCategories(hasFavourites: Boolean): List<IconEmojiCategory> = listOfNotNull(
+        IconEmojiCategory(
+            type = IconEmojiType.FAVOURITES,
+            name = resourceRepo.getString(R.string.change_record_favourite_comments_hint),
+            categoryIcon = R.drawable.icon_category_image_favourite,
+        ).takeIf { hasFavourites },
         IconEmojiCategory(
             type = IconEmojiType.SMILEYS,
             name = resourceRepo.getString(R.string.emojiGroupSmileys),
@@ -64,10 +71,12 @@ class IconEmojiMapper @Inject constructor(
     fun getAvailableEmojis(
         loadSearchHints: Boolean,
     ): Map<IconEmojiCategory, List<IconEmoji>> {
-        return getAvailableEmojiCategories().associateWith {
-            val codes = mapTypeToCodesArray(it.type).let(resourceRepo::getStringArray)
+        return getAvailableEmojiCategories(true).associateWith {
+            val codes = mapTypeToCodesArray(it.type)
+                ?.let(resourceRepo::getStringArray).orEmpty()
             val searchHints = if (loadSearchHints) {
-                mapTypeToSearchArray(it.type).let(resourceRepo::getStringArray)
+                mapTypeToSearchArray(it.type)
+                    ?.let(resourceRepo::getStringArray).orEmpty()
             } else {
                 emptyList()
             }
@@ -132,7 +141,8 @@ class IconEmojiMapper @Inject constructor(
             .replace(SAME_TONE_REPLACEMENT, "")
     }
 
-    private fun mapTypeToCodesArray(type: IconEmojiType): Int = when (type) {
+    private fun mapTypeToCodesArray(type: IconEmojiType): Int? = when (type) {
+        IconEmojiType.FAVOURITES -> null
         IconEmojiType.SMILEYS -> R.array.emoji_smileys
         IconEmojiType.PEOPLE -> R.array.emoji_people
         IconEmojiType.ANIMALS -> R.array.emoji_animals
@@ -144,7 +154,8 @@ class IconEmojiMapper @Inject constructor(
         IconEmojiType.FLAGS -> R.array.emoji_flags
     }
 
-    private fun mapTypeToSearchArray(type: IconEmojiType): Int = when (type) {
+    private fun mapTypeToSearchArray(type: IconEmojiType): Int? = when (type) {
+        IconEmojiType.FAVOURITES -> null
         IconEmojiType.SMILEYS -> R.array.emoji_hint_smileys
         IconEmojiType.PEOPLE -> R.array.emoji_hint_people
         IconEmojiType.ANIMALS -> R.array.emoji_hint_animals

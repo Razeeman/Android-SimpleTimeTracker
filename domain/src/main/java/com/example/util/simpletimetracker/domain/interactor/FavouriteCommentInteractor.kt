@@ -5,26 +5,22 @@ import com.example.util.simpletimetracker.domain.repo.FavouriteCommentRepo
 import javax.inject.Inject
 
 class FavouriteCommentInteractor @Inject constructor(
-    private val favouriteCommentRepo: FavouriteCommentRepo,
+    private val repo: FavouriteCommentRepo,
 ) {
 
     suspend fun getAll(): List<FavouriteComment> {
-        return favouriteCommentRepo.getAll()
-    }
-
-    suspend fun get(id: Long): FavouriteComment? {
-        return favouriteCommentRepo.get(id)
+        return repo.getAll()
     }
 
     suspend fun get(text: String): FavouriteComment? {
-        return favouriteCommentRepo.get(text)
+        return repo.get(text)
     }
 
     suspend fun add(comment: FavouriteComment): Long {
-        return favouriteCommentRepo.add(comment)
+        return repo.add(comment)
     }
 
     suspend fun remove(id: Long) {
-        favouriteCommentRepo.remove(id)
+        repo.remove(id)
     }
 }

@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.domain.model
 
 enum class IconImageType {
+    FAVOURITES,
     MAPS,
     PLACES,
     SOCIAL,

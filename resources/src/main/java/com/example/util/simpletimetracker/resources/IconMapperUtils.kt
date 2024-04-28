@@ -9,11 +9,15 @@ object IconMapperUtils {
         context: Context,
         icon: String,
     ): CommonActivityIcon {
-        return if (icon.startsWith("ic_") || icon.isEmpty()) {
+        return if (isImageIcon(icon) || icon.isEmpty()) {
             mapToDrawableResId(context, icon).let(CommonActivityIcon::Image)
         } else {
             CommonActivityIcon.Text(icon)
         }
+    }
+
+    fun isImageIcon(icon: String): Boolean {
+        return icon.startsWith("ic_")
     }
 
     @SuppressLint("DiscouragedApi")

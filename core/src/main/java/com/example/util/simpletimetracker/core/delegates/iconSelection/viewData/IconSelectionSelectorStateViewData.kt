@@ -7,8 +7,8 @@ sealed interface IconSelectionSelectorStateViewData {
 
     data class Available(
         val state: IconImageState,
-        val searchButtonIsVisible: Boolean,
         @ColorInt val searchButtonColor: Int,
+        @ColorInt val favouriteButtonColor: Int,
     ) : IconSelectionSelectorStateViewData
 
     object None : IconSelectionSelectorStateViewData

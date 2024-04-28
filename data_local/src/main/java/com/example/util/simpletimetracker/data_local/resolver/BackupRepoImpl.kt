@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.FavouriteComment
+import com.example.util.simpletimetracker.domain.model.FavouriteIcon
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordToRecordTag
@@ -24,6 +25,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.repo.FavouriteCommentRepo
+import com.example.util.simpletimetracker.domain.repo.FavouriteIconRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
@@ -63,6 +65,7 @@ class BackupRepoImpl @Inject constructor(
     private val recordTagRepo: RecordTagRepo,
     private val activityFilterRepo: ActivityFilterRepo,
     private val favouriteCommentRepo: FavouriteCommentRepo,
+    private val favouriteIconRepo: FavouriteIconRepo,
     private val recordTypeGoalRepo: RecordTypeGoalRepo,
     private val clearDataInteractor: ClearDataInteractor,
     private val resourceRepo: ResourceRepo,
@@ -132,6 +135,11 @@ class BackupRepoImpl @Inject constructor(
                 )
             }
             favouriteCommentRepo.getAll().forEach {
+                fileOutputStream?.write(
+                    it.let(::toBackupString).toByteArray(),
+                )
+            }
+            favouriteIconRepo.getAll().forEach {
                 fileOutputStream?.write(
                     it.let(::toBackupString).toByteArray(),
                 )
@@ -257,6 +265,12 @@ class BackupRepoImpl @Inject constructor(
                     ROW_FAVOURITE_COMMENT -> {
                         favouriteCommentFromBackupString(parts)?.let {
                             favouriteCommentRepo.add(it)
+                        }
+                    }
+
+                    ROW_FAVOURITE_ICON -> {
+                        favouriteIconFromBackupString(parts)?.let {
+                            favouriteIconRepo.add(it)
                         }
                     }
 
@@ -389,6 +403,14 @@ class BackupRepoImpl @Inject constructor(
             "$ROW_FAVOURITE_COMMENT\t%s\t%s\n",
             favouriteComment.id.toString(),
             favouriteComment.comment.cleanTabs().replaceNewline(),
+        )
+    }
+
+    private fun toBackupString(favouriteIcon: FavouriteIcon): String {
+        return String.format(
+            "$ROW_FAVOURITE_ICON\t%s\t%s\n",
+            favouriteIcon.id.toString(),
+            favouriteIcon.icon,
         )
     }
 
@@ -590,6 +612,14 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
+    private fun favouriteIconFromBackupString(parts: List<String>): FavouriteIcon? {
+        return FavouriteIcon(
+            id = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            icon = parts.getOrNull(2)
+                ?.takeUnless(String::isEmpty) ?: return null,
+        )
+    }
+
     private fun recordTypeGoalFromBackupString(parts: List<String>): RecordTypeGoal {
         val typeId = parts.getOrNull(2)?.toLongOrNull().orZero()
         val categoryId = parts.getOrNull(6)?.toLongOrNull().orZero()
@@ -665,6 +695,7 @@ class BackupRepoImpl @Inject constructor(
         private const val ROW_TYPE_TO_DEFAULT_TAG = "typeToDefaultTag"
         private const val ROW_ACTIVITY_FILTER = "activityFilter"
         private const val ROW_FAVOURITE_COMMENT = "favouriteComment"
+        private const val ROW_FAVOURITE_ICON = "favouriteIcon"
         private const val ROW_RECORD_TYPE_GOAL = "recordTypeGoal"
     }
 }
