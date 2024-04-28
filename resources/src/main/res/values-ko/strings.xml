@@ -118,6 +118,10 @@
     <string name="change_record_adjust">변경</string>
     <string name="change_record_change_prev_record">이전 기록도 함께 변경</string>
     <string name="change_record_change_adjacent_records">관련 기록의 시간도 함께 변경</string>
+    <string name="change_record_change_prev">이전의</string>
+    <string name="change_record_change_next">다음</string>
+    <string name="change_record_change_overlapped">중복됨</string>
+    <string name="change_record_change_overlapped_hint">기록이 완전히 중복되어 삭제됩니다.</string>
     <string name="change_record_untracked_time_hint">추적되지 않은 시간은 활동이 추적되지 않은 시간입니다.</string>
 
     <!--  Change record type  -->

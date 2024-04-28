@@ -118,6 +118,10 @@
     <string name="change_record_adjust">変更する</string>
     <string name="change_record_change_prev_record">前のレコードの時刻も変更</string>
     <string name="change_record_change_adjacent_records">隣接レコードの時刻も変更</string>
+    <string name="change_record_change_prev">前の</string>
+    <string name="change_record_change_next">次</string>
+    <string name="change_record_change_overlapped">重なった</string>
+    <string name="change_record_change_overlapped_hint">レコードは完全に重複しているため削除されます</string>
     <string name="change_record_untracked_time_hint">未追跡時間とは、アクティビティが追跡されなかった時間です。</string>
 
     <!--  Change record type  -->

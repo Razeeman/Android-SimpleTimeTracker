@@ -118,6 +118,10 @@
     <string name="change_record_adjust">Förändra</string>
     <string name="change_record_change_prev_record">Ändra även tid för tidigare händelse</string>
     <string name="change_record_change_adjacent_records">Ändra också tiden för de intilliggande händelserna</string>
+    <string name="change_record_change_prev">Tidigare</string>
+    <string name="change_record_change_next">Nästa</string>
+    <string name="change_record_change_overlapped">Överlappade</string>
+    <string name="change_record_change_overlapped_hint">Posterna är helt överlappade och kommer att tas bort</string>
     <string name="change_record_untracked_time_hint">Ospårad tid är tid då ingen aktivitet spårades.</string>
 
     <!--  Change record type  -->

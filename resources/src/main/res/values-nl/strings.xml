@@ -118,6 +118,10 @@
     <string name="change_record_adjust">Verandering</string>
     <string name="change_record_change_prev_record">Wijzig ook de tijd van het vorige record</string>
     <string name="change_record_change_adjacent_records">Wijzig ook de tijd van aangrenzende records</string>
+    <string name="change_record_change_prev">Vorig</string>
+    <string name="change_record_change_next">Volgende</string>
+    <string name="change_record_change_overlapped">Overlapt</string>
+    <string name="change_record_change_overlapped_hint">Records overlappen elkaar volledig en worden verwijderd</string>
     <string name="change_record_untracked_time_hint">Niet-bijgehouden tijd is de tijd waarin geen activiteit is bijgehouden.</string>
 
     <!--  Change record type  -->

@@ -118,6 +118,10 @@
     <string name="change_record_adjust">Ajustar</string>
     <string name="change_record_change_prev_record">Mudar a hora do registo anterior</string>
     <string name="change_record_change_adjacent_records">Mudar a hora dos registos adjacentes</string>
+    <string name="change_record_change_prev">Anterior</string>
+    <string name="change_record_change_next">Próximo</string>
+    <string name="change_record_change_overlapped">Sobreposto</string>
+    <string name="change_record_change_overlapped_hint">Os registros estão completamente sobrepostos e serão removidos</string>
     <string name="change_record_untracked_time_hint">O tempo não registado é o tempo em que nenhuma atividade foi registada.</string>
 
     <!--  Change record type  -->

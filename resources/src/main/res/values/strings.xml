@@ -120,6 +120,8 @@
     <string name="change_record_change_adjacent_records">Also change time of adjacent records</string>
     <string name="change_record_change_prev">Previous</string>
     <string name="change_record_change_next">Next</string>
+    <string name="change_record_change_overlapped">Overlapped</string>
+    <string name="change_record_change_overlapped_hint">Records are completely overlapped and will be removed</string>
     <string name="change_record_untracked_time_hint">Untracked time is time when no activity was tracked.</string>
 
     <!--  Change record type  -->

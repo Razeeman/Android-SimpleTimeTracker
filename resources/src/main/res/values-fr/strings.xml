@@ -118,6 +118,10 @@
     <string name="change_record_adjust">Changement</string>
     <string name="change_record_change_prev_record">Modifier également l\'heure de l\'enregistrement précédent</string>
     <string name="change_record_change_adjacent_records">Modifier également l\'heure des enregistrements adjacents</string>
+    <string name="change_record_change_prev">Précédent</string>
+    <string name="change_record_change_next">Suivant</string>
+    <string name="change_record_change_overlapped">Chevauché</string>
+    <string name="change_record_change_overlapped_hint">Les enregistrements se chevauchent complètement et seront supprimés</string>
     <string name="change_record_untracked_time_hint">Le temps non suivi est le temps pendant lequel aucune activité n\'a été suivie.</string>
 
     <!--  Change record type  -->

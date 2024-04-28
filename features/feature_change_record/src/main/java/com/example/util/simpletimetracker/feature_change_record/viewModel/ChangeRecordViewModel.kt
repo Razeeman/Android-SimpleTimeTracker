@@ -83,8 +83,7 @@ class ChangeRecordViewModel @Inject constructor(
     override val showTimeEndedOnAdjustPreview: Boolean get() = true
     override val adjustNextRecordAvailable: Boolean get() = true
     override val isTimeEndedAvailable: Boolean get() = true
-    override val isDeleteButtonVisible: Boolean
-        get() = (extra as? ChangeRecordParams.Tracked)?.id.orZero() != 0L
+    override val isDeleteButtonVisible: Boolean get() = recordId.orZero() != 0L
     override val isStatisticsButtonVisible: Boolean
         get() = extra is ChangeRecordParams.Tracked ||
             extra is ChangeRecordParams.Untracked
@@ -98,6 +97,8 @@ class ChangeRecordViewModel @Inject constructor(
             initial
         }
     }
+
+    private val recordId: Long? get() = (extra as? ChangeRecordParams.Tracked)?.id
 
     fun onVisible() {
         viewModelScope.launch {
@@ -131,7 +132,7 @@ class ChangeRecordViewModel @Inject constructor(
 
     override suspend fun onSaveClickDelegate() {
         // Zero id creates new record
-        val id = (extra as? ChangeRecordParams.Tracked)?.id.orZero()
+        val id = recordId.orZero()
         Record(
             id = id,
             typeId = newTypeId,
@@ -151,7 +152,7 @@ class ChangeRecordViewModel @Inject constructor(
 
     override suspend fun onContinueClickDelegate() {
         // Remove current record if exist.
-        (extra as? ChangeRecordParams.Tracked)?.id?.let {
+        recordId?.let {
             val typeId = recordInteractor.get(it)?.typeId.orZero()
             removeRecordMediator.remove(it, typeId)
         }
@@ -257,6 +258,7 @@ class ChangeRecordViewModel @Inject constructor(
             }
         }
         newTimeSplit = newTimeStarted
+        originalRecordId = recordId.orZero()
         originalTypeId = newTypeId
         originalTimeStarted = newTimeStarted
         originalTimeEnded = newTimeEnded

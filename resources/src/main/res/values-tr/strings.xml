@@ -118,6 +118,10 @@
     <string name="change_record_adjust">Değiştirmek</string>
     <string name="change_record_change_prev_record">Ayrıca önceki kaydın zamanını değiştir</string>
     <string name="change_record_change_adjacent_records">Bitişik kayıtların zamanını da değiştir</string>
+    <string name="change_record_change_prev">Öncesi</string>
+    <string name="change_record_change_next">Sonraki</string>
+    <string name="change_record_change_overlapped">Üst üste binmiş</string>
+    <string name="change_record_change_overlapped_hint">Kayıtlar tamamen çakışıyor ve kaldırılacak</string>
     <string name="change_record_untracked_time_hint">Takip edilmeyen zaman, hiçbir aktivitenin takip edilmediği zamandır.</string>
 
     <!--  Change record type  -->

@@ -110,6 +110,7 @@ class ChangeRecordSplitDelegateImpl @Inject constructor(
         }
 
         return ChangeRecordPreview.Available(
+            id = 0,
             before = changeRecordViewDataMapper.mapSimple(
                 preview = firstRecord,
                 showTimeEnded = true,

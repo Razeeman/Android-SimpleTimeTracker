@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.createCa
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAccentAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
@@ -100,7 +101,8 @@ class ChangeRecordCore(
     private val changesPreviewAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createHintAdapterDelegate(),
-            createChangeRecordChangePreviewAdapterDelegate(),
+            createHintAccentAdapterDelegate(),
+            createChangeRecordChangePreviewAdapterDelegate(viewModel::onChangePreviewCheckClick),
         )
     }
 
@@ -144,6 +146,7 @@ class ChangeRecordCore(
         rvChangeRecordChangePreviews.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = changesPreviewAdapter
+            itemAnimator = null
         }
     }
 
@@ -335,7 +338,6 @@ class ChangeRecordCore(
     ) = with(binding) {
         val current = data.currentData
 
-        containerChangeRecordChange.isVisible = data.changesPreview.isNotEmpty()
         containerChangeRecordChangeCurrentPreview.setData(current)
         changesPreviewAdapter.replaceAsNew(data.changesPreview)
     }

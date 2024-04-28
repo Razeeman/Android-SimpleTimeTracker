@@ -118,6 +118,10 @@
     <string name="change_record_adjust">تغيير</string>
     <string name="change_record_change_prev_record">تغيير وقت التتبع السابق أيضا</string>
     <string name="change_record_change_adjacent_records">تغيير وقت التتبع المحاذي أيضا</string>
+    <string name="change_record_change_prev">سابق</string>
+    <string name="change_record_change_next">التالي</string>
+    <string name="change_record_change_overlapped">متداخلة</string>
+    <string name="change_record_change_overlapped_hint">السجلات متداخلة تمامًا وستتم إزالتها</string>
     <string name="change_record_untracked_time_hint">الوقت غير المُتعقب هو الوقت الذي لم يتم فيه تعقب أي نشاط.</string>
 
     <!--  Change record type  -->

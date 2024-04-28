@@ -118,6 +118,10 @@
     <string name="change_record_adjust">Modifică</string>
     <string name="change_record_change_prev_record">Modifică de asemenea timpul înregistrării precedente</string>
     <string name="change_record_change_adjacent_records">Modifică de asemenea timpul înregistrărilor adiacente</string>
+    <string name="change_record_change_prev">Anterior</string>
+    <string name="change_record_change_next">Următorul</string>
+    <string name="change_record_change_overlapped">Suprapune</string>
+    <string name="change_record_change_overlapped_hint">Înregistrările sunt complet suprapuse și vor fi eliminate</string>
     <string name="change_record_untracked_time_hint">Timpul neurmărit este timpul în care nu a fost înregistrată o activitate.</string>
 
     <!--  Change record type  -->

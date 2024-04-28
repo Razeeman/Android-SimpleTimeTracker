@@ -118,6 +118,10 @@
     <string name="change_record_adjust">Зміна</string>
     <string name="change_record_change_prev_record">Також змінити час попереднього запису</string>
     <string name="change_record_change_adjacent_records">Також змінити час суміжних записів</string>
+    <string name="change_record_change_prev">Попередній</string>
+    <string name="change_record_change_next">Далі</string>
+    <string name="change_record_change_overlapped">Перекривається</string>
+    <string name="change_record_change_overlapped_hint">Записи повністю перекриваються та будуть видалені</string>
     <string name="change_record_untracked_time_hint">Невідстежуваний час – це час, коли жодна діяльність не відстежувалася.</string>
 
     <!--  Change record type  -->

@@ -78,6 +78,7 @@ class ChangeRecordMergeDelegateImpl @Inject constructor(
             .getPreviewViewData(changedRecord)
 
         return ChangeRecordPreview.Available(
+            id = 0,
             before = changeRecordViewDataMapper.mapSimple(
                 preview = previousRecordPreview,
                 showTimeEnded = true,

@@ -34,7 +34,8 @@ class RunningRecordsViewDataMapper @Inject constructor(
     fun mapToHasRunningRecords(): ViewHolderType {
         return HintViewData(
             text = R.string.running_records_has_timers.let(resourceRepo::getString),
-            paddingVertical = 0,
+            paddingTop = 0,
+            paddingBottom = 0,
         )
     }
 }

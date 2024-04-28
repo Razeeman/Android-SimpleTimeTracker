@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.core.base.ViewModelDelegate
+import com.example.util.simpletimetracker.core.delegates.iconSelection.viewModelDelegate.IconSelectionViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInte
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
+import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.FavouriteComment
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -116,6 +117,7 @@ abstract class ChangeRecordBaseViewModel(
     protected var newTimeSplit: Long = 0
     protected var newComment: String = ""
     protected var newCategoryIds: MutableList<Long> = mutableListOf()
+    protected var originalRecordId: Long = 0
     protected var originalTypeId: Long = 0
     protected var originalTimeStarted: Long = 0
     protected var originalTimeEnded: Long = 0
@@ -138,9 +140,12 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract val isStatisticsButtonVisible: Boolean
 
     private var prevRecord: Record? = null
-    private var nextRecord: Record? = null
     private var searchComment: String = ""
     private var searchLoadJob: Job? = null
+
+    init {
+        changeRecordAdjustDelegate.attach(getAdjustDelegateParent())
+    }
 
     override fun onCleared() {
         changeRecordAdjustDelegate.clear()
@@ -180,9 +185,8 @@ abstract class ChangeRecordBaseViewModel(
 
     protected suspend fun updateAdjustData() {
         changeRecordAdjustDelegate.updateAdjustPreviewViewData(
+            recordId = originalRecordId,
             adjustNextRecordAvailable = adjustNextRecordAvailable,
-            prevRecord = prevRecord,
-            nextRecord = nextRecord,
             newTypeId = newTypeId,
             newTimeStarted = newTimeStarted,
             newTimeEnded = adjustPreviewTimeEnded,
@@ -249,9 +253,8 @@ abstract class ChangeRecordBaseViewModel(
         onRecordChangeButtonClick(
             onProceed = {
                 changeRecordAdjustDelegate.onAdjustClickDelegate(
+                    recordId = originalRecordId,
                     adjustNextRecordAvailable = adjustNextRecordAvailable,
-                    prevRecord = prevRecord,
-                    nextRecord = nextRecord,
                     newTimeStarted = newTimeStarted,
                     newTimeEnded = newTimeEnded,
                     onAdjustComplete = {
@@ -615,16 +618,23 @@ abstract class ChangeRecordBaseViewModel(
         updateTimeSplitData()
     }
 
+    private fun getAdjustDelegateParent(): ChangeRecordAdjustDelegate.Parent {
+        return object : ChangeRecordAdjustDelegate.Parent {
+            override suspend fun update() {
+                updateAdjustData()
+            }
+        }
+    }
+
     private suspend fun initializeActions() {
-        initializePrevNextRecords()
+        initializePrevRecord()
         updateTimeSplitData()
         updateMergeData()
         updateAdjustData()
     }
 
-    private suspend fun initializePrevNextRecords() {
+    private suspend fun initializePrevRecord() {
         prevRecord = recordInteractor.getPrev(timeStarted = originalTimeStarted, limit = 1).firstOrNull()
-        nextRecord = recordInteractor.getNext(timeEnded = originalTimeEnded)
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
