@@ -100,6 +100,11 @@ class ChangeActivityFilterViewModel @Inject constructor(
         colorSelectionViewModelDelegateImpl.attach(getColorSelectionDelegateParent())
     }
 
+    override fun onCleared() {
+        colorSelectionViewModelDelegateImpl.clear()
+        super.onCleared()
+    }
+
     fun onNameChange(name: String) {
         viewModelScope.launch {
             if (name != newName) {

@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_change_record.R
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSimpleViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import javax.inject.Inject
 
@@ -65,6 +66,28 @@ class ChangeRecordViewDataMapper @Inject constructor(
                 ?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
                 ?: colorMapper.toUntrackedColor(isDarkTheme),
             comment = record.comment,
+        )
+    }
+
+    fun mapSimple(
+        preview: ChangeRecordViewData,
+        showTimeEnded: Boolean,
+        timeStartedChanged: Boolean,
+        timeEndedChanged: Boolean,
+    ): ChangeRecordSimpleViewData {
+        return ChangeRecordSimpleViewData(
+            name = preview.name,
+            timeStarted = preview.timeStarted,
+            timeEnded = if (showTimeEnded) {
+                preview.timeFinished
+            } else {
+                ""
+            },
+            timeStartedChanged = timeStartedChanged,
+            timeEndedChanged = timeEndedChanged,
+            duration = preview.duration,
+            iconId = preview.iconId,
+            color = preview.color,
         )
     }
 }

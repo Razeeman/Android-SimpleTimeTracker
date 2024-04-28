@@ -37,22 +37,79 @@
         android:ellipsize="end"
         android:textStyle="bold"
         app:autoSizeTextType="none"
-        app:layout_constraintBottom_toTopOf="@id/tvRecordSimpleItemTime"
+        app:layout_constraintBottom_toTopOf="@id/containerRecordSimpleItemTime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivRecordSimpleItemIcon"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Item name Item name Item name Item name Item name Item name Item name" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvRecordSimpleItemTime"
-        style="@style/RecordSimpleText"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerRecordSimpleItemTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/tvRecordSimpleItemDuration"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivRecordSimpleItemIcon"
-        app:layout_constraintTop_toBottomOf="@id/tvRecordSimpleItemName"
-        tools:text="07:35 - 11:58" />
+        app:layout_constraintTop_toBottomOf="@id/tvRecordSimpleItemName">
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="tvRecordSimpleItemTimeStarted, tvRecordSimpleItemTimeDivider, tvRecordSimpleItemTimeEnded"
+            app:flow_firstHorizontalBias="0"
+            app:flow_firstHorizontalStyle="packed"
+            app:flow_lastHorizontalBias="0"
+            app:flow_lastHorizontalStyle="packed"
+            app:flow_wrapMode="chain"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRecordSimpleItemTimeStarted"
+            style="@style/RecordSimpleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:background="@drawable/bg_rounded_corners"
+            android:paddingHorizontal="2dp"
+            app:layout_constraintEnd_toStartOf="@id/tvRecordSimpleItemTimeDivider"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:backgroundTint="?colorAccent"
+            tools:text="07:35:00" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRecordSimpleItemTimeDivider"
+            style="@style/RecordSimpleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:text=" - "
+            app:layout_constraintEnd_toStartOf="@id/tvRecordSimpleItemTimeEnded"
+            app:layout_constraintStart_toEndOf="@id/tvRecordSimpleItemTimeStarted"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRecordSimpleItemTimeEnded"
+            style="@style/RecordSimpleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:background="@drawable/bg_rounded_corners"
+            android:paddingHorizontal="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvRecordSimpleItemTimeDivider"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:backgroundTint="?colorAccent"
+            tools:text="11:58:00" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvRecordSimpleItemDuration"
@@ -64,7 +121,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivRecordSimpleItemIcon"
-        app:layout_constraintTop_toBottomOf="@id/tvRecordSimpleItemTime"
+        app:layout_constraintTop_toBottomOf="@id/containerRecordSimpleItemTime"
         tools:text="5h 23m 03s" />
 
 </merge>

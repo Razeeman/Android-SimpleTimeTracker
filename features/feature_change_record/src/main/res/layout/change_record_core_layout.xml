@@ -610,6 +610,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?appInputFieldBorder"
+                        android:gravity="center"
                         app:autoSizeMaxTextSize="16sp"
                         app:autoSizeMinTextSize="1sp"
                         app:autoSizeTextType="uniform"
@@ -644,50 +645,170 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerChangeRecordAdjust"
+                android:id="@+id/containerChangeRecordChange"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true">
 
                 <com.example.util.simpletimetracker.feature_views.DividerView
-                    android:id="@+id/dividerChangeRecordAdjust"
+                    android:id="@+id/dividerChangeRecordChange"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvChangeRecordAdjustHint"
+                    android:id="@+id/tvChangeRecordChangeHint"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                     android:gravity="center"
                     android:paddingVertical="8dp"
                     android:textColor="?appTextHintColor"
-                    app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordAdjust"
+                    app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordChange"
                     tools:text="@string/change_record_change_prev_record" />
 
                 <include
-                    android:id="@+id/containerChangeRecordAdjustPrevPreview"
+                    android:id="@+id/containerChangeRecordChangeCurrentPreview"
                     layout="@layout/change_record_preview_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/tvChangeRecordAdjustHint" />
+                    app:layout_constraintTop_toBottomOf="@id/tvChangeRecordChangeHint" />
 
-                <include
-                    android:id="@+id/containerChangeRecordAdjustNextPreview"
-                    layout="@layout/change_record_preview_layout"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/containerChangeRecordChangeCurrentPreviewTimes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    app:layout_constraintTop_toBottomOf="@id/containerChangeRecordAdjustPrevPreview"
-                    app:layout_goneMarginTop="0dp" />
+                    app:layout_constraintTop_toBottomOf="@id/containerChangeRecordChangeCurrentPreview">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/fieldChangeRecordChangeCurrentPreviewTimeStarted"
+                        style="@style/InputFieldCard"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/input_field_height"
+                        android:layout_marginStart="@dimen/edit_screen_field_margin_horizontal"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordChangeCurrentPreviewTimeEnded"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_goneMarginEnd="@dimen/edit_screen_field_margin_horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeRecordChangeCurrentPreviewTimeStarted"
+                            style="@style/EditScreenField"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?appInputFieldBorder"
+                            android:gravity="center"
+                            app:autoSizeMaxTextSize="16sp"
+                            app:autoSizeMinTextSize="1sp"
+                            app:autoSizeTextType="uniform"
+                            tools:text="07:35" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/fieldChangeRecordChangeCurrentPreviewTimeEnded"
+                        style="@style/InputFieldCard"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/input_field_height"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="@dimen/edit_screen_field_margin_horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/fieldChangeRecordChangeCurrentPreviewTimeStarted"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeRecordChangeCurrentPreviewTimeEnded"
+                            style="@style/EditScreenField"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?appInputFieldBorder"
+                            android:gravity="center"
+                            app:autoSizeMaxTextSize="16sp"
+                            app:autoSizeMinTextSize="1sp"
+                            app:autoSizeTextType="uniform"
+                            tools:text="11:58" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <Space
+                        android:id="@+id/spaceChangeRecordChangeCurrentPreviewTimeStartedEnd"
+                        android:layout_width="4dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/fieldChangeRecordChangeCurrentPreviewTimeStarted"
+                        app:layout_constraintTop_toTopOf="@id/fieldChangeRecordChangeCurrentPreviewTimeStarted" />
+
+                    <Space
+                        android:id="@+id/spaceChangeRecordChangeCurrentPreviewTimeStartedTop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp"
+                        app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordChangeCurrentPreviewTimeStarted"
+                        app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordChangeCurrentPreviewTimeStarted" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/btnChangeRecordChangeCurrentPreviewTimeStartedAdjust"
+                        style="@style/InputFieldCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="@id/spaceChangeRecordChangeCurrentPreviewTimeStartedEnd"
+                        app:layout_constraintTop_toTopOf="@id/spaceChangeRecordChangeCurrentPreviewTimeStartedTop">
+
+                        <androidx.appcompat.widget.AppCompatTextView style="@style/ButtonTimeAdjust" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <Space
+                        android:id="@+id/spaceChangeRecordChangeCurrentPreviewTimeEndedEnd"
+                        android:layout_width="4dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/fieldChangeRecordChangeCurrentPreviewTimeEnded"
+                        app:layout_constraintTop_toTopOf="@id/fieldChangeRecordChangeCurrentPreviewTimeEnded" />
+
+                    <Space
+                        android:id="@+id/spaceChangeRecordChangeCurrentPreviewTimeEndedTop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp"
+                        app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordChangeCurrentPreviewTimeEnded"
+                        app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordChangeCurrentPreviewTimeEnded" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/btnChangeRecordChangeCurrentPreviewTimeEndedAdjust"
+                        style="@style/InputFieldCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="@id/spaceChangeRecordChangeCurrentPreviewTimeEndedEnd"
+                        app:layout_constraintTop_toTopOf="@id/spaceChangeRecordChangeCurrentPreviewTimeEndedTop">
+
+                        <androidx.appcompat.widget.AppCompatTextView style="@style/ButtonTimeAdjust" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
+                    android:id="@+id/containerChangeRecordChangeTimeCurrentAdjust"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/containerChangeRecordChangeCurrentPreviewTimes" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvChangeRecordChangePreviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintTop_toBottomOf="@id/containerChangeRecordChangeTimeCurrentAdjust"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/change_record_preview_layout" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnChangeRecordAdjust"
+                    android:id="@+id/btnChangeRecordChange"
                     style="@style/AppButtonActive"
                     android:layout_width="match_parent"
                     android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                     android:text="@string/change_record_adjust"
-                    app:layout_constraintTop_toBottomOf="@id/containerChangeRecordAdjustNextPreview" />
+                    app:layout_constraintTop_toBottomOf="@id/rvChangeRecordChangePreviews" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -83,6 +83,9 @@ class ChangeRunningRecordViewModel @Inject constructor(
     override val splitPreviewTimeEnded: Long get() = System.currentTimeMillis()
     override val showTimeEndedOnSplitPreview: Boolean get() = false
     override val adjustNextRecordAvailable: Boolean get() = false
+    override val adjustPreviewTimeEnded: Long get() = System.currentTimeMillis()
+    override val adjustPreviewOriginalTimeEnded: Long get() = System.currentTimeMillis()
+    override val showTimeEndedOnAdjustPreview: Boolean get() = false
     override val isTimeEndedAvailable: Boolean get() = false
     override val isDeleteButtonVisible: Boolean get() = true
     override val isStatisticsButtonVisible: Boolean get() = true
@@ -205,6 +208,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
                 // Update split preview only if it is visible
                 if (chooserState.value?.current is ChangeRecordChooserState.State.Action) {
                     updateTimeSplitData()
+                    updateAdjustData()
                 }
                 delay(TIMER_UPDATE)
             }

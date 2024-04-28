@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_running_record.view
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -129,6 +130,7 @@ class ChangeRunningRecordFragment :
     private fun updatePreview(item: ChangeRunningRecordViewData) = with(binding.layoutChangeRunningRecordCore) {
         tvChangeRecordTimeStartedDate.text = item.dateTimeStarted.date
         tvChangeRecordTimeStartedTime.text = item.dateTimeStarted.time
+        tvChangeRecordChangeCurrentPreviewTimeStarted.text = item.dateTimeStarted.time
 
         if (item.recordPreview == null) return
         with(binding.previewChangeRunningRecord) {
@@ -171,7 +173,7 @@ class ChangeRunningRecordFragment :
         layoutChangeRunningRecordCore.containerChangeRecordDuplicate.isVisible = false
 
         context?.getString(R.string.change_record_change_prev_record)
-            ?.let(layoutChangeRunningRecordCore.tvChangeRecordAdjustHint::setText)
+            ?.let(layoutChangeRunningRecordCore.tvChangeRecordChangeHint::setText)
     }
 
     companion object {

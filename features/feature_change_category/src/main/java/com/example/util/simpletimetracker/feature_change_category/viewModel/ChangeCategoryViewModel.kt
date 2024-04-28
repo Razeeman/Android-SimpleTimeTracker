@@ -92,7 +92,8 @@ class ChangeCategoryViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        (goalsViewModelDelegate as? ViewModelDelegate)?.clear()
+        goalsViewModelDelegate.clear()
+        colorSelectionViewModelDelegateImpl.clear()
         super.onCleared()
     }
 

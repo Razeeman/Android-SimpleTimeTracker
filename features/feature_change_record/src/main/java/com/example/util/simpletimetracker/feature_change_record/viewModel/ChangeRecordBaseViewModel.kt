@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
@@ -128,6 +129,9 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract val mergeAvailable: Boolean
     protected abstract val splitPreviewTimeEnded: Long
     protected abstract val showTimeEndedOnSplitPreview: Boolean
+    protected abstract val adjustPreviewTimeEnded: Long
+    protected abstract val adjustPreviewOriginalTimeEnded: Long
+    protected abstract val showTimeEndedOnAdjustPreview: Boolean
     protected abstract val adjustNextRecordAvailable: Boolean
     protected abstract val isTimeEndedAvailable: Boolean
     protected abstract val isDeleteButtonVisible: Boolean
@@ -137,6 +141,11 @@ abstract class ChangeRecordBaseViewModel(
     private var nextRecord: Record? = null
     private var searchComment: String = ""
     private var searchLoadJob: Job? = null
+
+    override fun onCleared() {
+        changeRecordAdjustDelegate.clear()
+        super.onCleared()
+    }
 
     protected open suspend fun initializePreviewViewData() {
         // Don't wait for the completion.
@@ -166,6 +175,21 @@ abstract class ChangeRecordBaseViewModel(
             newTimeSplit = newTimeSplit,
             newTimeEnded = splitPreviewTimeEnded,
             showTimeEnded = showTimeEndedOnSplitPreview,
+        )
+    }
+
+    protected suspend fun updateAdjustData() {
+        changeRecordAdjustDelegate.updateAdjustPreviewViewData(
+            adjustNextRecordAvailable = adjustNextRecordAvailable,
+            prevRecord = prevRecord,
+            nextRecord = nextRecord,
+            newTypeId = newTypeId,
+            newTimeStarted = newTimeStarted,
+            newTimeEnded = adjustPreviewTimeEnded,
+            originalTypeId = originalTypeId,
+            originalTimeStarted = originalTimeStarted,
+            originalTimeEnded = adjustPreviewOriginalTimeEnded,
+            showTimeEnded = showTimeEndedOnAdjustPreview,
         )
     }
 
@@ -221,7 +245,7 @@ abstract class ChangeRecordBaseViewModel(
         )
     }
 
-    fun onAdjustClick() {
+    fun onChangeClick() {
         onRecordChangeButtonClick(
             onProceed = {
                 changeRecordAdjustDelegate.onAdjustClickDelegate(
@@ -285,6 +309,7 @@ abstract class ChangeRecordBaseViewModel(
                 updateCategoriesViewData()
                 updateLastCommentsViewData()
                 updateTimeSplitData()
+                updateAdjustData()
                 updateMergeData()
             }
 
@@ -430,6 +455,20 @@ abstract class ChangeRecordBaseViewModel(
         onAdjustTimeItemClick(TimeAdjustmentState.TIME_ENDED, viewData)
     }
 
+    fun onAdjustTimeChangeClick(viewData: TimeAdjustmentView.ViewData) {
+        when (timeChangeAdjustmentState.value) {
+            TimeAdjustmentState.TIME_STARTED -> {
+                onAdjustTimeItemClick(TimeAdjustmentState.TIME_STARTED, viewData)
+            }
+            TimeAdjustmentState.TIME_ENDED -> {
+                onAdjustTimeItemClick(TimeAdjustmentState.TIME_ENDED, viewData)
+            }
+            else -> {
+                // Do nothing, it's hidden.
+            }
+        }
+    }
+
     fun onAdjustTimeSplitItemClick(viewData: TimeAdjustmentView.ViewData) {
         viewModelScope.launch {
             when (viewData) {
@@ -457,16 +496,6 @@ abstract class ChangeRecordBaseViewModel(
         changeRecordMergeDelegate.updateMergePreviewViewData(
             mergeAvailable = mergeAvailable,
             prevRecord = prevRecord,
-            newTimeEnded = newTimeEnded,
-        )
-    }
-
-    private suspend fun updateAdjustData() {
-        changeRecordAdjustDelegate.updateAdjustPreviewViewData(
-            adjustNextRecordAvailable = adjustNextRecordAvailable,
-            prevRecord = prevRecord,
-            nextRecord = nextRecord,
-            newTimeStarted = newTimeStarted,
             newTimeEnded = newTimeEnded,
         )
     }

@@ -113,6 +113,12 @@ class ChangeRecordTagViewModel @Inject constructor(
         iconSelectionViewModelDelegateImpl.attach(getIconSelectionDelegateParent())
     }
 
+    override fun onCleared() {
+        colorSelectionViewModelDelegateImpl.clear()
+        iconSelectionViewModelDelegateImpl.clear()
+        super.onCleared()
+    }
+
     fun onNameChange(name: String) {
         viewModelScope.launch {
             if (name != newName) {

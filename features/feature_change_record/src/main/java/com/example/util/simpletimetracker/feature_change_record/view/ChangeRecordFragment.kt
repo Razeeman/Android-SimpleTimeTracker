@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record.view
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -147,6 +148,8 @@ class ChangeRecordFragment :
         tvChangeRecordTimeStartedTime.text = item.dateTimeStarted.time
         tvChangeRecordTimeEndedDate.text = item.dateTimeFinished.date
         tvChangeRecordTimeEndedTime.text = item.dateTimeFinished.time
+        tvChangeRecordChangeCurrentPreviewTimeStarted.text = item.dateTimeStarted.time
+        tvChangeRecordChangeCurrentPreviewTimeEnded.text = item.dateTimeFinished.time
 
         with(binding) {
             viewChangeRecordPreviewBackground.backgroundTintList =
@@ -162,7 +165,7 @@ class ChangeRecordFragment :
     private fun coreSetup() = with(binding) {
         // TODO move to view model
         context?.getString(R.string.change_record_change_adjacent_records)
-            ?.let(layoutChangeRecordCore.tvChangeRecordAdjustHint::setText)
+            ?.let(layoutChangeRecordCore.tvChangeRecordChangeHint::setText)
     }
 
     companion object {

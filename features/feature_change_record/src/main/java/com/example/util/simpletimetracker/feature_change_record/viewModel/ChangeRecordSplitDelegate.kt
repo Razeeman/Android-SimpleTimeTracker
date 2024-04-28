@@ -7,9 +7,8 @@ import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
+import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSimpleViewData
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import javax.inject.Inject
 
 interface ChangeRecordSplitDelegate {
@@ -21,6 +20,7 @@ interface ChangeRecordSplitDelegate {
 class ChangeRecordSplitDelegateImpl @Inject constructor(
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val addRecordMediator: AddRecordMediator,
+    private val changeRecordViewDataMapper: ChangeRecordViewDataMapper,
 ) : ChangeRecordSplitDelegate {
 
     override val timeSplitAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
@@ -110,23 +110,18 @@ class ChangeRecordSplitDelegateImpl @Inject constructor(
         }
 
         return ChangeRecordPreview.Available(
-            before = map(firstRecord, showTimeEnded = true),
-            after = map(secondRecord, showTimeEnded = showTimeEnded),
-        )
-    }
-
-    private fun map(
-        preview: ChangeRecordViewData,
-        showTimeEnded: Boolean,
-    ): ChangeRecordSimpleViewData {
-        return ChangeRecordSimpleViewData(
-            name = preview.name,
-            time = preview.timeStarted.let {
-                if (showTimeEnded) "$it - ${preview.timeFinished}" else it
-            },
-            duration = preview.duration,
-            iconId = preview.iconId,
-            color = preview.color,
+            before = changeRecordViewDataMapper.mapSimple(
+                preview = firstRecord,
+                showTimeEnded = true,
+                timeStartedChanged = false,
+                timeEndedChanged = true,
+            ),
+            after = changeRecordViewDataMapper.mapSimple(
+                preview = secondRecord,
+                showTimeEnded = showTimeEnded,
+                timeStartedChanged = true,
+                timeEndedChanged = false,
+            ),
         )
     }
 }

@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
+import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSimpleViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
@@ -18,6 +19,7 @@ interface ChangeRecordMergeDelegate {
 class ChangeRecordMergeDelegateImpl @Inject constructor(
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val addRecordMediator: AddRecordMediator,
+    private val changeRecordViewDataMapper: ChangeRecordViewDataMapper,
 ) : ChangeRecordMergeDelegate {
 
     override val mergePreview: LiveData<ChangeRecordPreview> =
@@ -76,18 +78,18 @@ class ChangeRecordMergeDelegateImpl @Inject constructor(
             .getPreviewViewData(changedRecord)
 
         return ChangeRecordPreview.Available(
-            before = map(previousRecordPreview),
-            after = map(changedRecordPreview),
-        )
-    }
-
-    private fun map(preview: ChangeRecordViewData): ChangeRecordSimpleViewData {
-        return ChangeRecordSimpleViewData(
-            name = preview.name,
-            time = "${preview.timeStarted} - ${preview.timeFinished}",
-            duration = preview.duration,
-            iconId = preview.iconId,
-            color = preview.color,
+            before = changeRecordViewDataMapper.mapSimple(
+                preview = previousRecordPreview,
+                showTimeEnded = true,
+                timeStartedChanged = false,
+                timeEndedChanged = false,
+            ),
+            after = changeRecordViewDataMapper.mapSimple(
+                preview = changedRecordPreview,
+                showTimeEnded = true,
+                timeStartedChanged = changedRecord.timeStarted != prevRecord.timeStarted,
+                timeEndedChanged = changedRecord.timeEnded != prevRecord.timeEnded,
+            ),
         )
     }
 }

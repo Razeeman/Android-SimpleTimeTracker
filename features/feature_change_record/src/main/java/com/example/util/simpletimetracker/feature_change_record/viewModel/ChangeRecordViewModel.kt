@@ -78,6 +78,9 @@ class ChangeRecordViewModel @Inject constructor(
     override val mergeAvailable: Boolean get() = extra is ChangeRecordParams.Untracked && newTypeId == 0L
     override val splitPreviewTimeEnded: Long get() = newTimeEnded
     override val showTimeEndedOnSplitPreview: Boolean get() = true
+    override val adjustPreviewTimeEnded: Long get() = newTimeEnded
+    override val adjustPreviewOriginalTimeEnded: Long get() = originalTimeEnded
+    override val showTimeEndedOnAdjustPreview: Boolean get() = true
     override val adjustNextRecordAvailable: Boolean get() = true
     override val isTimeEndedAvailable: Boolean get() = true
     override val isDeleteButtonVisible: Boolean

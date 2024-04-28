@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.extension.addOnBackPressedListener
@@ -25,10 +26,14 @@ import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHin
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordChangePreviewAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordCommentAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordCommentFieldAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordCoreLayoutBinding
 import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordPreviewLayoutBinding
+import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjustmentState
+import com.example.util.simpletimetracker.feature_change_record.utils.setData
+import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordAdjustState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Action
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Activity
@@ -92,6 +97,12 @@ class ChangeRecordCore(
             createChangeRecordCommentAdapterDelegate(viewModel::onCommentClick),
         )
     }
+    private val changesPreviewAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createHintAdapterDelegate(),
+            createChangeRecordChangePreviewAdapterDelegate(),
+        )
+    }
 
     fun initUi(
         binding: ChangeRecordCoreLayoutBinding,
@@ -130,6 +141,10 @@ class ChangeRecordCore(
             }
             adapter = searchCommentsAdapter
         }
+        rvChangeRecordChangePreviews.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = changesPreviewAdapter
+        }
     }
 
     fun <T : ViewBinding> initUx(
@@ -149,9 +164,14 @@ class ChangeRecordCore(
         containerChangeRecordTimeStartedAdjust.listener = viewModel::onAdjustTimeStartedItemClick
         containerChangeRecordTimeEndedAdjust.listener = viewModel::onAdjustTimeEndedItemClick
         containerChangeRecordTimeSplitAdjust.listener = viewModel::onAdjustTimeSplitItemClick
+        fieldChangeRecordChangeCurrentPreviewTimeStarted.setOnClick(viewModel::onTimeStartedClick)
+        fieldChangeRecordChangeCurrentPreviewTimeEnded.setOnClick(viewModel::onTimeEndedClick)
+        btnChangeRecordChangeCurrentPreviewTimeStartedAdjust.setOnClick(viewModel::onAdjustTimeStartedClick)
+        btnChangeRecordChangeCurrentPreviewTimeEndedAdjust.setOnClick(viewModel::onAdjustTimeEndedClick)
+        containerChangeRecordChangeTimeCurrentAdjust.listener = viewModel::onAdjustTimeChangeClick
         btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordSplit.setOnClick(viewModel::onSplitClick)
-        btnChangeRecordAdjust.setOnClick(viewModel::onAdjustClick)
+        btnChangeRecordChange.setOnClick(viewModel::onChangeClick)
         btnChangeRecordContinue.setOnClick(viewModel::onContinueClick)
         btnChangeRecordRepeat.setOnClick(viewModel::onRepeatClick)
         btnChangeRecordDuplicate.setOnClick(viewModel::onDuplicateClick)
@@ -188,6 +208,7 @@ class ChangeRecordCore(
             timeStartedAdjustmentItems.observe(containerChangeRecordTimeStartedAdjust.adapter::replace)
             timeEndedAdjustmentItems.observe(containerChangeRecordTimeEndedAdjust.adapter::replace)
             timeSplitAdjustmentItems.observe(containerChangeRecordTimeSplitAdjust.adapter::replace)
+            timeChangeAdjustmentItems.observe(containerChangeRecordChangeTimeCurrentAdjust.adapter::replace)
             chooserState.observe { updateChooserState(it, binding) }
             keyboardVisibility.observe { visible ->
                 if (visible) {
@@ -195,6 +216,13 @@ class ChangeRecordCore(
                 } else {
                     hideKeyboard()
                 }
+            }
+            timeChangeAdjustmentState.observe { state ->
+                containerChangeRecordChangeTimeCurrentAdjust.visible = state != TimeAdjustmentState.HIDDEN
+                btnChangeRecordChangeCurrentPreviewTimeStartedAdjust
+                    .setChooserColor(state == TimeAdjustmentState.TIME_STARTED)
+                btnChangeRecordChangeCurrentPreviewTimeEndedAdjust
+                    .setChooserColor(state == TimeAdjustmentState.TIME_ENDED)
             }
             timeSplitText.observe(tvChangeRecordTimeSplit::setText)
             lastComments.observe(commentsAdapter::replace)
@@ -277,7 +305,7 @@ class ChangeRecordCore(
     ) = with(binding) {
         btnChangeRecordSave.isEnabled = isEnabled
         btnChangeRecordSplit.isEnabled = isEnabled
-        btnChangeRecordAdjust.isEnabled = isEnabled
+        btnChangeRecordChange.isEnabled = isEnabled
         btnChangeRecordContinue.isEnabled = isEnabled
         btnChangeRecordRepeat.isEnabled = isEnabled
         btnChangeRecordDuplicate.isEnabled = isEnabled
@@ -302,16 +330,14 @@ class ChangeRecordCore(
     }
 
     private fun setAdjustPreview(
-        data: Pair<ChangeRecordPreview, ChangeRecordPreview>,
+        data: ChangeRecordAdjustState,
         binding: ChangeRecordCoreLayoutBinding,
     ) = with(binding) {
-        val prev = data.first
-        val next = data.second
+        val current = data.currentData
 
-        containerChangeRecordAdjust.isVisible = prev is ChangeRecordPreview.Available ||
-            next is ChangeRecordPreview.Available
-        containerChangeRecordAdjustPrevPreview.setData(prev)
-        containerChangeRecordAdjustNextPreview.setData(next)
+        containerChangeRecordChange.isVisible = data.changesPreview.isNotEmpty()
+        containerChangeRecordChangeCurrentPreview.setData(current)
+        changesPreviewAdapter.replaceAsNew(data.changesPreview)
     }
 
     private fun setFavCommentState(
@@ -345,6 +371,8 @@ class ChangeRecordCore(
     ) {
         binding.fieldChangeRecordTimeEnded.isVisible = isVisible
         binding.containerChangeRecordTimeEndedAdjust.isVisible = isVisible
+        binding.fieldChangeRecordChangeCurrentPreviewTimeEnded.isVisible = isVisible
+        binding.btnChangeRecordChangeCurrentPreviewTimeEndedAdjust.isVisible = isVisible
     }
 
     private fun updateCategories(
@@ -367,14 +395,6 @@ class ChangeRecordCore(
                 viewChangeRecordPreviewAfter.setData(data.after)
             }
         }
-    }
-
-    private fun RecordSimpleView.setData(data: ChangeRecordSimpleViewData) {
-        itemName = data.name
-        itemTime = data.time
-        itemDuration = data.duration
-        itemIcon = data.iconId
-        itemColor = data.color
     }
 
     private inline fun <reified T : ChangeRecordChooserState.State> updateChooser(

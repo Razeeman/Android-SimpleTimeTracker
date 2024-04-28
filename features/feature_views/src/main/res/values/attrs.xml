@@ -75,7 +75,10 @@
         <attr name="itemIconText" />
         <attr name="itemColor" />
         <attr name="itemDuration" />
-        <attr name="itemTime" format="string" />
+        <attr name="itemTimeStarted" />
+        <attr name="itemTimeEnded" />
+        <attr name="itemTimeStartedAccented" format="boolean" />
+        <attr name="itemTimeEndedAccented" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="StatisticsView">
