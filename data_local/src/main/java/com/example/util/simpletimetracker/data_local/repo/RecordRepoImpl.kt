@@ -23,6 +23,7 @@ class RecordRepoImpl @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
 ) : RecordRepo {
 
+    // Put only adjusted records to cache, unadjusted come from source.
     private var getFromRangeCache = LruCache<GetFromRangeKey, List<Record>>(10)
     private var getFromRangeByTypeCache = LruCache<GetFromRangeByTypeKey, List<Record>>(1)
     private var isEmpty: Boolean? = null
@@ -80,14 +81,14 @@ class RecordRepoImpl @Inject constructor(
         val cacheKey = GetFromRangeKey(range)
         return mutex.withLockedCache(
             logMessage = "getFromRange",
-            accessCache = { getFromRangeCache.get(cacheKey) },
+            accessCache = { if (adjusted) getFromRangeCache.get(cacheKey) else null },
             accessSource = {
                 recordDao.getFromRange(
                     start = range.timeStarted,
                     end = range.timeEnded,
                 ).map { mapItem(it, adjusted) }
             },
-            afterSourceAccess = { getFromRangeCache.put(cacheKey, it) },
+            afterSourceAccess = { if (adjusted) getFromRangeCache.put(cacheKey, it) },
         )
     }
 
