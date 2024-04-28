@@ -12,9 +12,14 @@
         android:background="?android:colorBackground"
         app:elevation="0dp">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            app:layout_scrollFlags="scroll|snap" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnIconSelectionNoIcon"
-            style="@style/AppButtonActive"
+            style="@style/AppButton"
             android:layout_width="match_parent"
             android:layout_marginHorizontal="8dp"
             android:text="@string/change_record_type_no_icon"
@@ -28,6 +33,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|snap" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            app:layout_scrollFlags="scroll|enterAlways|snap" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -108,6 +118,16 @@
             </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            app:layout_scrollFlags="scroll|enterAlways|snap" />
+
+        <View
+            style="@style/EditScreenDivider"
+            android:layout_width="match_parent"
+            app:layout_scrollFlags="scroll|enterAlways|snap" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
