@@ -6,7 +6,9 @@ import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.CornerPathEffect
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
@@ -17,6 +19,7 @@ import android.view.View
 import androidx.annotation.FloatRange
 import com.example.util.simpletimetracker.feature_views.IconView
 import com.example.util.simpletimetracker.feature_views.R
+import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
@@ -39,8 +42,8 @@ class PieChartView @JvmOverloads constructor(
 
     // Attrs
     private var innerRadiusRatio: Float = 0.0f
-    private var dividerWidth: Int = 0
-    private var dividerColor: Int = Color.WHITE
+    private var dividerWidth: Int = 0 // TODO reuse
+    private var dividerColor: Int = Color.WHITE // TODO remove
     private var iconPadding: Int = 0
     private var iconMaxSize: Int = 0
     private var segmentCount: Int = 0
@@ -60,7 +63,7 @@ class PieChartView @JvmOverloads constructor(
     private val layerBounds: RectF = RectF(0f, 0f, 0f, 0f)
     private val particleBounds: RectF = RectF(0f, 0f, 0f, 0f)
     private var segments: List<Arc> = emptyList()
-    private var shadowColor: Int = 0x40000000
+    private var shadowColor: Int = 0x70FF0000
     private var segmentAnimationScale: Float = 1f
     private var shouldAnimateSegmentsOpen: Boolean = true
     private var particlesAppearAnimationAlpha: Float = 1f
@@ -92,7 +95,7 @@ class PieChartView @JvmOverloads constructor(
 
         drawShadow(canvas, w, h, r)
         drawSegments(canvas, w, h, r)
-        drawDividers(canvas, w, h, r)
+//        drawDividers(canvas, w, h, r)
         drawIcons(canvas, w, h, r)
     }
 
@@ -184,7 +187,8 @@ class PieChartView @JvmOverloads constructor(
     private fun initPaint() {
         segmentPaint.apply {
             isAntiAlias = true
-            style = Paint.Style.STROKE
+            style = Paint.Style.FILL
+//            setPathEffect(CornerPathEffect(4.dpToPx().toFloat()))
         }
         shadowPaint.apply {
             isAntiAlias = true
@@ -223,30 +227,118 @@ class PieChartView @JvmOverloads constructor(
 
     @Suppress("DEPRECATION")
     private fun drawSegments(canvas: Canvas, w: Float, h: Float, r: Float) {
+        val cornerRadius = 2.dpToPx()
+        val angleGap = 1
+
         val segmentWidth = r - r * innerRadiusRatio
-        val segmentCenterLine = r - segmentWidth / 2f
+        val innerRadius = r - segmentWidth
+
+        val outerRadiusCircumference = 2 * Math.PI * r
+        val outerRadiusAngle = (cornerRadius * 360 / outerRadiusCircumference).toFloat()
+        val outerRadiusAngleRad = Math.toRadians(outerRadiusAngle.toDouble()).toFloat()
+        val innerRadiusCircumference = 2 * Math.PI * innerRadius
+        val innerRadiusAngle = (cornerRadius * 360 / innerRadiusCircumference).toFloat()
+        val innerRadiusAngleRad = Math.toRadians(innerRadiusAngle.toDouble()).toFloat()
+
         var currentSweepAngle = -90f
         var sweepAngle: Float
-        segmentPaint.strokeWidth = segmentWidth
+        var cornerControlAngle: Float
+        var cornerEndAngle: Float
+        var arcStartAngle: Float
+        var arcEndAngle: Float
 
         canvas.save()
         canvas.translate(w / 2f, h / 2f)
-        bounds.set(
-            -segmentCenterLine, -segmentCenterLine,
-            segmentCenterLine, +segmentCenterLine,
-        )
         layerBounds.set(-r, -r, r, r)
-        segments.forEach {
+        segments.forEachIndexed { index, it ->
+//            if (index != 0 && index != 1) return@forEachIndexed
+
             canvas.saveLayerAlpha(layerBounds, 0xFF, Canvas.ALL_SAVE_FLAG)
             sweepAngle = it.arcPercent * 360f * segmentAnimationScale
             segmentPaint.color = it.color
-            canvas.drawArc(
-                bounds,
-                currentSweepAngle,
-                sweepAngle,
-                false,
-                segmentPaint,
+
+            // Draw rounded segment shape.
+            val path = Path()
+            path.fillType = Path.FillType.EVEN_ODD
+
+            val currentSweepAngleRad = Math.toRadians(currentSweepAngle.toDouble()).toFloat()
+            val sweepAngleRad = Math.toRadians(sweepAngle.toDouble()).toFloat()
+
+            // Start of corner in top left.
+            path.moveTo(
+                cos(currentSweepAngleRad) * (r - cornerRadius),
+                sin(currentSweepAngleRad) * (r - cornerRadius),
             )
+
+            // Round corner in top left.
+            cornerControlAngle = currentSweepAngleRad
+            cornerEndAngle = currentSweepAngleRad + outerRadiusAngleRad
+                .coerceAtMost(sweepAngleRad / 2)
+            path.quadTo(
+                cos(cornerControlAngle) * r,
+                sin(cornerControlAngle) * r,
+                cos(cornerEndAngle) * r,
+                sin(cornerEndAngle) * r,
+            )
+
+            // Top arc from left to right.
+            arcStartAngle = currentSweepAngle + outerRadiusAngle
+                .coerceAtMost(sweepAngle / 2)
+            arcEndAngle = sweepAngle - (2 * outerRadiusAngle)
+                .coerceAtMost(sweepAngle)
+            bounds.set(-r, -r, r, r)
+            path.arcTo(bounds, arcStartAngle, arcEndAngle)
+
+            // Round corner in top right.
+            cornerControlAngle = currentSweepAngleRad + sweepAngleRad
+            cornerEndAngle = currentSweepAngleRad + sweepAngleRad
+            path.quadTo(
+                cos(cornerControlAngle) * r,
+                sin(cornerControlAngle) * r,
+                cos(cornerEndAngle) * (r - cornerRadius),
+                sin(cornerEndAngle) * (r - cornerRadius),
+            )
+
+            // Right side from top to bottom.
+            path.lineTo(
+                cos(currentSweepAngleRad + sweepAngleRad) * (innerRadius + cornerRadius),
+                sin(currentSweepAngleRad + sweepAngleRad) * (innerRadius + cornerRadius),
+            )
+
+            // Round corner in bottom right.
+            cornerControlAngle = currentSweepAngleRad + sweepAngleRad
+            cornerEndAngle = currentSweepAngleRad + sweepAngleRad - innerRadiusAngleRad
+                .coerceAtMost(sweepAngleRad / 2)
+            path.quadTo(
+                cos(cornerControlAngle) * innerRadius,
+                sin(cornerControlAngle) * innerRadius,
+                cos(cornerEndAngle) * innerRadius,
+                sin(cornerEndAngle) * innerRadius,
+            )
+
+            // Bottom arc from right to left.
+            arcStartAngle = currentSweepAngle + sweepAngle - innerRadiusAngle
+                .coerceAtMost(sweepAngle / 2)
+            arcEndAngle = -sweepAngle + (2 * innerRadiusAngle)
+                .coerceAtMost(sweepAngle)
+            bounds.set(-innerRadius, -innerRadius, innerRadius, innerRadius)
+            path.arcTo(bounds, arcStartAngle, arcEndAngle)
+
+            // Round corner in bottom left.
+            cornerControlAngle = currentSweepAngleRad
+            cornerEndAngle = currentSweepAngleRad
+            path.quadTo(
+                cos(cornerControlAngle) * innerRadius,
+                sin(cornerControlAngle) * innerRadius,
+                cos(cornerEndAngle) * (innerRadius + cornerRadius),
+                sin(cornerEndAngle) * (innerRadius + cornerRadius),
+            )
+
+            // Left side from bottom to top.
+            path.close()
+
+            canvas.drawPath(path, segmentPaint)
+
             drawParticles(
                 segment = it,
                 canvas = canvas,
@@ -254,6 +346,7 @@ class PieChartView @JvmOverloads constructor(
                 sweepAngle = sweepAngle,
                 r = r,
             )
+
             currentSweepAngle += sweepAngle
             canvas.restore()
         }
