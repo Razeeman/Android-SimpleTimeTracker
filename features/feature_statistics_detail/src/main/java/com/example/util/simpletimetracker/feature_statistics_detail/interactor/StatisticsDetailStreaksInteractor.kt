@@ -65,8 +65,9 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         rangeLength: RangeLength,
         rangePosition: Int,
         streaksType: StreaksType,
-        goalType: RecordTypeGoal.Type,
-        compareGoalType: RecordTypeGoal.Type,
+        streaksGoal: StreaksGoal,
+        goalType: RecordTypeGoal.Type?,
+        compareGoalType: RecordTypeGoal.Type?,
     ): StatisticsDetailStreaksViewData = withContext(Dispatchers.Default) {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
@@ -85,6 +86,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             firstDayOfWeek = firstDayOfWeek,
             startOfDayShift = startOfDayShift,
             streaksType = streaksType,
+            streaksGoal = streaksGoal,
             goalType = goalType,
         )
         val compareStatsData = if (showComparison) {
@@ -95,6 +97,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 firstDayOfWeek = firstDayOfWeek,
                 startOfDayShift = startOfDayShift,
                 streaksType = streaksType,
+                streaksGoal = streaksGoal,
                 goalType = compareGoalType,
             )
         } else {
@@ -178,7 +181,13 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
 
     fun mapToStreaksGoalViewData(
         streaksGoal: StreaksGoal,
+        dailyGoal: RecordTypeGoal.Type?,
+        compareGoalType: RecordTypeGoal.Type?,
     ): List<ViewHolderType> {
+        if (dailyGoal == null && compareGoalType == null) {
+            return emptyList()
+        }
+
         val types = listOf(
             StreaksGoal.ANY,
             StreaksGoal.GOAL,
@@ -214,7 +223,8 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
         streaksType: StreaksType,
-        goalType: RecordTypeGoal.Type,
+        streaksGoal: StreaksGoal,
+        goalType: RecordTypeGoal.Type?,
     ): IntermediateData {
         val stats = calculate(
             range = range,
@@ -222,6 +232,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             firstDayOfWeek = firstDayOfWeek,
             startOfDayShift = startOfDayShift,
             streaksType = streaksType,
+            streaksGoal = streaksGoal,
             goalType = goalType,
         )
 
@@ -235,6 +246,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 firstDayOfWeek = firstDayOfWeek,
                 startOfDayShift = startOfDayShift,
                 streaksType = streaksType,
+                streaksGoal = streaksGoal,
                 goalType = goalType,
             ).currentStreak
             stats.copy(currentStreak = currentStreak)
@@ -247,8 +259,15 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
         streaksType: StreaksType,
-        goalType: RecordTypeGoal.Type,
+        streaksGoal: StreaksGoal,
+        goalType: RecordTypeGoal.Type?,
     ): IntermediateData {
+        val defaultGoal = RecordTypeGoal.Type.Duration(1)
+        val goal = if (streaksGoal == StreaksGoal.GOAL) {
+            goalType ?: defaultGoal
+        } else {
+            defaultGoal
+        }
         val calendar = Calendar.getInstance()
         val durations = getRanges(
             range = if (range.timeStarted == 0L && range.timeEnded == 0L) {
@@ -274,15 +293,15 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                     ),
                 )
             }.run {
-                when (goalType) {
+                when (goal) {
                     is RecordTypeGoal.Type.Count -> count().toLong()
                     is RecordTypeGoal.Type.Duration -> sumOf(Range::duration)
                 }
             }
         }
-        val goalValue = when (goalType) {
-            is RecordTypeGoal.Type.Duration -> goalType.value * 1000
-            is RecordTypeGoal.Type.Count -> goalType.value
+        val goalValue = when (goal) {
+            is RecordTypeGoal.Type.Duration -> goal.value * 1000
+            is RecordTypeGoal.Type.Count -> goal.value
         }
 
         // Format: days, range start, range end.

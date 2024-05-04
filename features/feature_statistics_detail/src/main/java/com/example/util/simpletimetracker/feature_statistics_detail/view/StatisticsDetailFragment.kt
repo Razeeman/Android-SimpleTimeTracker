@@ -143,7 +143,7 @@ class StatisticsDetailFragment :
         statsViewData.observe(::setStatsViewData)
         streaksViewData.observe(::setStreaksViewData)
         streaksTypeViewData.observe(binding.buttonsStatisticsDetailStreaksType.adapter::replace)
-        streaksGoalViewData.observe(binding.buttonsStatisticsDetailStreaksGoal.adapter::replace)
+        streaksGoalViewData.observe(::setStreaksGoalViewData)
         chartViewData.observe(::updateChartViewData)
         splitChartViewData.observe(::updateSplitChartViewData)
         comparisonSplitChartViewData.observe(::updateComparisonSplitChartViewData)
@@ -227,6 +227,13 @@ class StatisticsDetailFragment :
         cardStatisticsDetailDates.items = statsViewData.datesTracked
         rvStatisticsDetailSplit.visible = statsViewData.splitData.isNotEmpty()
         dataSplitAdapter.replace(statsViewData.splitData)
+    }
+
+    private fun setStreaksGoalViewData(
+        viewData: List<ViewHolderType>
+    ) = with(binding) {
+        buttonsStatisticsDetailStreaksGoal.isVisible = viewData.isNotEmpty()
+        buttonsStatisticsDetailStreaksGoal.adapter.replace(viewData)
     }
 
     private fun setStreaksViewData(

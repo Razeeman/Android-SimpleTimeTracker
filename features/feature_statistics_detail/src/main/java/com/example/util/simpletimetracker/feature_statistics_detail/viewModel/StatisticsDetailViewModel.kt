@@ -105,7 +105,10 @@ class StatisticsDetailViewModel @Inject constructor(
         return@lazy MutableLiveData(loadStreaksTypeViewData())
     }
     val streaksGoalViewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData(loadStreaksGoalViewData())
+        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
+            viewModelScope.launch { initial.value = loadStreaksGoalViewData() }
+            initial
+        }
     }
     val chartViewData: LiveData<StatisticsDetailChartCompositeViewData> by lazy {
         return@lazy MutableLiveData()
@@ -160,6 +163,8 @@ class StatisticsDetailViewModel @Inject constructor(
     private var records: List<RecordBase> = emptyList() // all records with selected ids
     private var compareRecords: List<RecordBase> = emptyList() // all records with selected ids
     private var loadJob: Job? = null
+    private var dailyGoal: Result<RecordTypeGoal.Type?>? = null
+    private var compareDailyGoal: Result<RecordTypeGoal.Type?>? = null
 
     fun initialize(extra: StatisticsDetailParams) {
         if (this::extra.isInitialized) return
@@ -214,22 +219,25 @@ class StatisticsDetailViewModel @Inject constructor(
 
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
+            dailyGoal = Result.success(getDailyGoalType(filter))
+            compareDailyGoal = Result.success(getDailyGoalType(comparisonFilter))
             loadRecordsCache()
             updatePreviewViewData()
             updateViewData()
+            updateStreaksGoalViewData()
         }
     }
 
     fun onStreaksTypeClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailStreaksTypeViewData) return
-        this.streaksType = viewData.type
+        streaksType = viewData.type
         updateStreaksTypeViewData()
         updateStreaksViewData()
     }
 
     fun onStreaksGoalClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailStreaksGoalViewData) return
-        this.streaksGoal = viewData.type
+        streaksGoal = viewData.type
         updateStreaksGoalViewData()
         updateStreaksViewData()
     }
@@ -441,10 +449,39 @@ class StatisticsDetailViewModel @Inject constructor(
         )
     }
 
+    private suspend fun getDailyGoalType(
+        filters: List<RecordsFilter>,
+    ): RecordTypeGoal.Type? {
+        return statisticsDetailGetGoalFromFilterInteractor.execute(filters)
+            .getDaily()?.type
+    }
+
     private suspend fun loadRecordsCache() {
         // Load all records without date filter for faster date selection.
         records = recordFilterInteractor.getByFilter(filter)
         compareRecords = recordFilterInteractor.getByFilter(comparisonFilter)
+    }
+
+    private suspend fun getDailyGoal(): RecordTypeGoal.Type? {
+        // Initialize if null.
+        val goal = dailyGoal
+        return if (goal == null) {
+            getDailyGoalType(filter)
+                .also { dailyGoal = Result.success(it) }
+        } else {
+            goal.getOrNull()
+        }
+    }
+
+    private suspend fun getCompareDailyGoal(): RecordTypeGoal.Type? {
+        // Initialize if null.
+        val goal = compareDailyGoal
+        return if (goal == null) {
+            getDailyGoalType(comparisonFilter)
+                .also { compareDailyGoal = Result.success(it) }
+        } else {
+            goal.getOrNull()
+        }
     }
 
     private fun updatePreviewViewData() = viewModelScope.launch {
@@ -493,13 +530,16 @@ class StatisticsDetailViewModel @Inject constructor(
         return streaksInteractor.mapToStreaksTypeViewData(streaksType)
     }
 
-    private fun updateStreaksGoalViewData() {
+    private fun updateStreaksGoalViewData() = viewModelScope.launch {
         streaksGoalViewData.set(loadStreaksGoalViewData())
     }
 
-    private fun loadStreaksGoalViewData(): List<ViewHolderType> {
-        // TODO don't show if no goal
-        return streaksInteractor.mapToStreaksGoalViewData(streaksGoal)
+    private suspend fun loadStreaksGoalViewData(): List<ViewHolderType> {
+        return streaksInteractor.mapToStreaksGoalViewData(
+            streaksGoal = streaksGoal,
+            dailyGoal = getDailyGoal(),
+            compareGoalType = getCompareDailyGoal(),
+        )
     }
 
     private fun updateStreaksViewData() = viewModelScope.launch {
@@ -511,21 +551,6 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private suspend fun loadStreaksViewData(): StatisticsDetailStreaksViewData {
-        suspend fun getDailyGoalType(
-            filters: List<RecordsFilter>,
-        ): RecordTypeGoal.Type {
-            val default = RecordTypeGoal.Type.Duration(1)
-
-            return if (streaksGoal == StreaksGoal.GOAL) {
-                statisticsDetailGetGoalFromFilterInteractor.execute(filters)
-                    .getDaily()
-                    ?.type
-                    ?: default
-            } else {
-                default
-            }
-        }
-
         return streaksInteractor.getStreaksViewData(
             records = records,
             compareRecords = compareRecords,
@@ -533,8 +558,9 @@ class StatisticsDetailViewModel @Inject constructor(
             rangeLength = rangeLength,
             rangePosition = rangePosition,
             streaksType = streaksType,
-            goalType = getDailyGoalType(filter),
-            compareGoalType = getDailyGoalType(comparisonFilter),
+            streaksGoal = streaksGoal,
+            goalType = getDailyGoal(),
+            compareGoalType = getCompareDailyGoal(),
         )
     }
 
