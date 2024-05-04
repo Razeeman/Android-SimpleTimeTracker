@@ -70,10 +70,10 @@ class TimeMapperTest {
             @JvmStatic
             @Parameterized.Parameters
             fun data() = listOf(
-                arrayOf(0, "0s"),
-                arrayOf(100, "0s"),
-                arrayOf(secondInMs, "1s"),
-                arrayOf(14 * secondInMs, "14s"),
+                arrayOf(0, "0m"),
+                arrayOf(100, "0m"),
+                arrayOf(secondInMs, "0m"),
+                arrayOf(14 * secondInMs, "0m"),
 
                 arrayOf(minuteInMs, "1m"),
                 arrayOf(minuteInMs + 100, "1m"),

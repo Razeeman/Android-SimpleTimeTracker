@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.util.simpletimetracker.data_local.model.FavouriteIconDBO
-import com.example.util.simpletimetracker.data_local.model.RecordTypeDBO
 
 @Dao
 interface FavouriteIconDao {

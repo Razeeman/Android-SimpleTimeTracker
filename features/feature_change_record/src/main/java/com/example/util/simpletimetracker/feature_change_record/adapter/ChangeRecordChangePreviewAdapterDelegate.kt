@@ -1,14 +1,13 @@
 package com.example.util.simpletimetracker.feature_change_record.adapter
 
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordChangePreviewViewData
 import com.example.util.simpletimetracker.feature_change_record.utils.setData
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordChangePreviewViewData as ViewData
 import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordPreviewItemBinding as Binding
 
 fun createChangeRecordChangePreviewAdapterDelegate(
-    onCheckboxClicked: (ChangeRecordChangePreviewViewData) -> Unit,
+    onCheckboxClicked: (ViewData) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->

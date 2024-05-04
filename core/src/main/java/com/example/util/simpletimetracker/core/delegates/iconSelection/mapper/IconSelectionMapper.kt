@@ -20,7 +20,6 @@ import com.example.util.simpletimetracker.domain.model.IconImage
 import com.example.util.simpletimetracker.domain.model.IconImageState
 import com.example.util.simpletimetracker.domain.model.IconImageType
 import com.example.util.simpletimetracker.domain.model.IconType
-import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon

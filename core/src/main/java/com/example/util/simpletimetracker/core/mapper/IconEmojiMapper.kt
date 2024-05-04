@@ -5,8 +5,6 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.IconEmoji
 import com.example.util.simpletimetracker.domain.model.IconEmojiCategory
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
-import com.example.util.simpletimetracker.domain.model.IconImageCategory
-import com.example.util.simpletimetracker.domain.model.IconImageType
 import javax.inject.Inject
 import javax.inject.Singleton
 

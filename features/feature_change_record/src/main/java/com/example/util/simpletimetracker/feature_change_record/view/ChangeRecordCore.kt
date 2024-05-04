@@ -44,10 +44,8 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordFavCommentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSearchCommentState
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSimpleViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTagsViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
-import com.example.util.simpletimetracker.feature_views.RecordSimpleView
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick

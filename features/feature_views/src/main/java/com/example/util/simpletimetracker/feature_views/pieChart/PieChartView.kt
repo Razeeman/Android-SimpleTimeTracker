@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.CornerPathEffect
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PorterDuff
@@ -292,9 +291,9 @@ class PieChartView @JvmOverloads constructor(
             innerSweepAngle = sweepAngle - actualInnerAngleGap
             innerSweepAngleRad = Math.toRadians(innerSweepAngle.toDouble()).toFloat()
 
-            ////////////////////////////////
-            // Draw rounded segment shape //
-            ////////////////////////////////
+            /******************************
+             * Draw rounded segment shape *
+             ******************************/
 
             // Start of corner in top left.
             segmentPath.reset()

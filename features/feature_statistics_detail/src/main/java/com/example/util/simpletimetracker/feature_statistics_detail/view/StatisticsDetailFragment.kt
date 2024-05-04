@@ -230,7 +230,7 @@ class StatisticsDetailFragment :
     }
 
     private fun setStreaksGoalViewData(
-        viewData: List<ViewHolderType>
+        viewData: List<ViewHolderType>,
     ) = with(binding) {
         buttonsStatisticsDetailStreaksGoal.isVisible = viewData.isNotEmpty()
         buttonsStatisticsDetailStreaksGoal.adapter.replace(viewData)

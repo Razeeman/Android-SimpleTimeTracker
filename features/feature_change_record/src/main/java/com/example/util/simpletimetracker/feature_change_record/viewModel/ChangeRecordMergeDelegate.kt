@@ -8,8 +8,6 @@ import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSimpleViewData
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import javax.inject.Inject
 
 interface ChangeRecordMergeDelegate {

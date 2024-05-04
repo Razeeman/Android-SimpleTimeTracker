@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.core.mapper
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.IconImageRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.model.FavouriteIcon
 import com.example.util.simpletimetracker.domain.model.IconImage
 import com.example.util.simpletimetracker.domain.model.IconImageCategory
 import com.example.util.simpletimetracker.domain.model.IconImageType

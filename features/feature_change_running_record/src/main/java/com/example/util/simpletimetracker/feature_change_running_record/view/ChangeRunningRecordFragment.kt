@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_change_running_record.view
 
-import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
