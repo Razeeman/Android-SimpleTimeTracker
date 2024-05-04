@@ -42,8 +42,7 @@ class PieChartView @JvmOverloads constructor(
 
     // Attrs
     private var innerRadiusRatio: Float = 0.0f
-    private var dividerWidth: Int = 0 // TODO reuse
-    private var dividerColor: Int = Color.WHITE // TODO remove
+    private var dividerWidth: Int = 0
     private var iconPadding: Int = 0
     private var iconMaxSize: Int = 0
     private var segmentCount: Int = 0
@@ -53,23 +52,25 @@ class PieChartView @JvmOverloads constructor(
 
     private val segmentPaint: Paint = Paint()
     private val shadowPaint: Paint = Paint()
-    private val dividerPaint: Paint = Paint()
     private val particlePaint: Paint = Paint()
 
     private var attachedListener: ((Boolean) -> Unit)? = null
     private val segmentsOpenAnimator = ValueAnimator.ofFloat(0f, 1f)
     private val particlesAppearAnimator = ValueAnimator.ofFloat(0f, 1f)
     private val bounds: RectF = RectF(0f, 0f, 0f, 0f)
+    private val segmentPath: Path = Path()
     private val layerBounds: RectF = RectF(0f, 0f, 0f, 0f)
     private val particleBounds: RectF = RectF(0f, 0f, 0f, 0f)
     private var segments: List<Arc> = emptyList()
-    private var shadowColor: Int = 0x70FF0000
+    private var shadowColor: Int = 0x30000000
     private var segmentAnimationScale: Float = 1f
     private var shouldAnimateSegmentsOpen: Boolean = true
     private var particlesAppearAnimationAlpha: Float = 1f
     private var shouldAnimateParticlesAppearing: Boolean = true
     private var animateParticles: Boolean = false
     private var animateParticlesPaused: Boolean = false
+    private val cornerRadius = 2.dpToPx()
+    private val angleGapCutoff = 2f
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
 
     init {
@@ -95,7 +96,6 @@ class PieChartView @JvmOverloads constructor(
 
         drawShadow(canvas, w, h, r)
         drawSegments(canvas, w, h, r)
-//        drawDividers(canvas, w, h, r)
         drawIcons(canvas, w, h, r)
     }
 
@@ -168,8 +168,6 @@ class PieChartView @JvmOverloads constructor(
                     getFloat(R.styleable.PieChartView_innerRadiusRatio, 0f)
                 dividerWidth =
                     getDimensionPixelSize(R.styleable.PieChartView_dividerWidth, 0)
-                dividerColor =
-                    getColor(R.styleable.PieChartView_dividerColor, Color.WHITE)
                 iconPadding =
                     getDimensionPixelSize(R.styleable.PieChartView_iconPadding, 0)
                 iconMaxSize =
@@ -188,18 +186,14 @@ class PieChartView @JvmOverloads constructor(
         segmentPaint.apply {
             isAntiAlias = true
             style = Paint.Style.FILL
-//            setPathEffect(CornerPathEffect(4.dpToPx().toFloat()))
+        }
+        segmentPath.apply {
+            segmentPath.fillType = Path.FillType.EVEN_ODD
         }
         shadowPaint.apply {
             isAntiAlias = true
             color = shadowColor
             maskFilter = BlurMaskFilter(12f, BlurMaskFilter.Blur.NORMAL)
-            style = Paint.Style.STROKE
-        }
-        dividerPaint.apply {
-            isAntiAlias = true
-            color = dividerColor
-            strokeWidth = dividerWidth.toFloat()
             style = Paint.Style.STROKE
         }
         particlePaint.apply {
@@ -227,12 +221,10 @@ class PieChartView @JvmOverloads constructor(
 
     @Suppress("DEPRECATION")
     private fun drawSegments(canvas: Canvas, w: Float, h: Float, r: Float) {
-        val cornerRadius = 2.dpToPx()
-        val angleGap = 1
-
         val segmentWidth = r - r * innerRadiusRatio
         val innerRadius = r - segmentWidth
 
+        // Angles used to draw rounded corners.
         val outerRadiusCircumference = 2 * Math.PI * r
         val outerRadiusAngle = (cornerRadius * 360 / outerRadiusCircumference).toFloat()
         val outerRadiusAngleRad = Math.toRadians(outerRadiusAngle.toDouble()).toFloat()
@@ -240,41 +232,82 @@ class PieChartView @JvmOverloads constructor(
         val innerRadiusAngle = (cornerRadius * 360 / innerRadiusCircumference).toFloat()
         val innerRadiusAngleRad = Math.toRadians(innerRadiusAngle.toDouble()).toFloat()
 
+        // Angle that would be used to adjust current sweep angle and sweep angle
+        // to create a gap between segments.
+        val outerAngleGap = (dividerWidth * 360 / outerRadiusCircumference).toFloat()
+        val innerAngleGap = (dividerWidth * 360 / innerRadiusCircumference).toFloat()
+
         var currentSweepAngle = -90f
         var sweepAngle: Float
+
+        // Used to draw rounded corners.
         var cornerControlAngle: Float
         var cornerEndAngle: Float
+
+        // Used to draw arcs.
         var arcStartAngle: Float
         var arcEndAngle: Float
+
+        // Current sweep angle and sweep angle with taking into account gap between segments.
+        var outerCurrentSweepAngle: Float
+        var outerSweepAngle: Float
+        var outerCurrentSweepAngleRad: Float
+        var outerSweepAngleRad: Float
+        var innerCurrentSweepAngle: Float
+        var innerSweepAngle: Float
+        var innerCurrentSweepAngleRad: Float
+        var innerSweepAngleRad: Float
+
+        // Angle gap taking into account gap cutoff,
+        // to prevent segment disappearing because it is smaller than the gap between segments.
+        var actualOuterAngleGap: Float
+        var actualInnerAngleGap: Float
 
         canvas.save()
         canvas.translate(w / 2f, h / 2f)
         layerBounds.set(-r, -r, r, r)
-        segments.forEachIndexed { index, it ->
-//            if (index != 0 && index != 1) return@forEachIndexed
-
+        segments.forEach {
             canvas.saveLayerAlpha(layerBounds, 0xFF, Canvas.ALL_SAVE_FLAG)
             sweepAngle = it.arcPercent * 360f * segmentAnimationScale
             segmentPaint.color = it.color
 
-            // Draw rounded segment shape.
-            val path = Path()
-            path.fillType = Path.FillType.EVEN_ODD
+            actualOuterAngleGap = when {
+                sweepAngle - outerAngleGap > angleGapCutoff -> outerAngleGap
+                sweepAngle - angleGapCutoff > 0 -> sweepAngle - angleGapCutoff
+                else -> 0f
+            }
+            actualInnerAngleGap = when {
+                sweepAngle - innerAngleGap > angleGapCutoff -> innerAngleGap
+                sweepAngle - angleGapCutoff > 0 -> sweepAngle - angleGapCutoff
+                else -> 0f
+            }
+            // Add a gap between segments by shifting start and end angle by some small angle.
+            outerCurrentSweepAngle = currentSweepAngle + actualOuterAngleGap / 2
+            outerCurrentSweepAngleRad = Math.toRadians(outerCurrentSweepAngle.toDouble()).toFloat()
+            outerSweepAngle = sweepAngle - actualOuterAngleGap
+            outerSweepAngleRad = Math.toRadians(outerSweepAngle.toDouble()).toFloat()
 
-            val currentSweepAngleRad = Math.toRadians(currentSweepAngle.toDouble()).toFloat()
-            val sweepAngleRad = Math.toRadians(sweepAngle.toDouble()).toFloat()
+            innerCurrentSweepAngle = currentSweepAngle + actualInnerAngleGap / 2
+            innerCurrentSweepAngleRad = Math.toRadians(innerCurrentSweepAngle.toDouble()).toFloat()
+            innerSweepAngle = sweepAngle - actualInnerAngleGap
+            innerSweepAngleRad = Math.toRadians(innerSweepAngle.toDouble()).toFloat()
+
+            ////////////////////////////////
+            // Draw rounded segment shape //
+            ////////////////////////////////
 
             // Start of corner in top left.
-            path.moveTo(
-                cos(currentSweepAngleRad) * (r - cornerRadius),
-                sin(currentSweepAngleRad) * (r - cornerRadius),
+            segmentPath.reset()
+            segmentPath.moveTo(
+                cos(outerCurrentSweepAngleRad) * (r - cornerRadius),
+                sin(outerCurrentSweepAngleRad) * (r - cornerRadius),
             )
 
             // Round corner in top left.
-            cornerControlAngle = currentSweepAngleRad
-            cornerEndAngle = currentSweepAngleRad + outerRadiusAngleRad
-                .coerceAtMost(sweepAngleRad / 2)
-            path.quadTo(
+            cornerControlAngle = outerCurrentSweepAngleRad
+            cornerEndAngle = outerCurrentSweepAngleRad + outerRadiusAngleRad
+                .coerceAtMost(outerSweepAngleRad / 2)
+            segmentPath.quadTo(
                 cos(cornerControlAngle) * r,
                 sin(cornerControlAngle) * r,
                 cos(cornerEndAngle) * r,
@@ -282,17 +315,17 @@ class PieChartView @JvmOverloads constructor(
             )
 
             // Top arc from left to right.
-            arcStartAngle = currentSweepAngle + outerRadiusAngle
-                .coerceAtMost(sweepAngle / 2)
-            arcEndAngle = sweepAngle - (2 * outerRadiusAngle)
-                .coerceAtMost(sweepAngle)
+            arcStartAngle = outerCurrentSweepAngle + outerRadiusAngle
+                .coerceAtMost(outerSweepAngle / 2)
+            arcEndAngle = outerSweepAngle - (2 * outerRadiusAngle)
+                .coerceAtMost(outerSweepAngle)
             bounds.set(-r, -r, r, r)
-            path.arcTo(bounds, arcStartAngle, arcEndAngle)
+            segmentPath.arcTo(bounds, arcStartAngle, arcEndAngle)
 
             // Round corner in top right.
-            cornerControlAngle = currentSweepAngleRad + sweepAngleRad
-            cornerEndAngle = currentSweepAngleRad + sweepAngleRad
-            path.quadTo(
+            cornerControlAngle = outerCurrentSweepAngleRad + outerSweepAngleRad
+            cornerEndAngle = outerCurrentSweepAngleRad + outerSweepAngleRad
+            segmentPath.quadTo(
                 cos(cornerControlAngle) * r,
                 sin(cornerControlAngle) * r,
                 cos(cornerEndAngle) * (r - cornerRadius),
@@ -300,16 +333,16 @@ class PieChartView @JvmOverloads constructor(
             )
 
             // Right side from top to bottom.
-            path.lineTo(
-                cos(currentSweepAngleRad + sweepAngleRad) * (innerRadius + cornerRadius),
-                sin(currentSweepAngleRad + sweepAngleRad) * (innerRadius + cornerRadius),
+            segmentPath.lineTo(
+                cos(innerCurrentSweepAngleRad + innerSweepAngleRad) * (innerRadius + cornerRadius),
+                sin(innerCurrentSweepAngleRad + innerSweepAngleRad) * (innerRadius + cornerRadius),
             )
 
             // Round corner in bottom right.
-            cornerControlAngle = currentSweepAngleRad + sweepAngleRad
-            cornerEndAngle = currentSweepAngleRad + sweepAngleRad - innerRadiusAngleRad
-                .coerceAtMost(sweepAngleRad / 2)
-            path.quadTo(
+            cornerControlAngle = innerCurrentSweepAngleRad + innerSweepAngleRad
+            cornerEndAngle = innerCurrentSweepAngleRad + innerSweepAngleRad - innerRadiusAngleRad
+                .coerceAtMost(innerSweepAngleRad / 2)
+            segmentPath.quadTo(
                 cos(cornerControlAngle) * innerRadius,
                 sin(cornerControlAngle) * innerRadius,
                 cos(cornerEndAngle) * innerRadius,
@@ -317,17 +350,17 @@ class PieChartView @JvmOverloads constructor(
             )
 
             // Bottom arc from right to left.
-            arcStartAngle = currentSweepAngle + sweepAngle - innerRadiusAngle
-                .coerceAtMost(sweepAngle / 2)
-            arcEndAngle = -sweepAngle + (2 * innerRadiusAngle)
-                .coerceAtMost(sweepAngle)
+            arcStartAngle = innerCurrentSweepAngle + innerSweepAngle - innerRadiusAngle
+                .coerceAtMost(innerSweepAngle / 2)
+            arcEndAngle = -innerSweepAngle + (2 * innerRadiusAngle)
+                .coerceAtMost(innerSweepAngle)
             bounds.set(-innerRadius, -innerRadius, innerRadius, innerRadius)
-            path.arcTo(bounds, arcStartAngle, arcEndAngle)
+            segmentPath.arcTo(bounds, arcStartAngle, arcEndAngle)
 
             // Round corner in bottom left.
-            cornerControlAngle = currentSweepAngleRad
-            cornerEndAngle = currentSweepAngleRad
-            path.quadTo(
+            cornerControlAngle = innerCurrentSweepAngleRad
+            cornerEndAngle = innerCurrentSweepAngleRad
+            segmentPath.quadTo(
                 cos(cornerControlAngle) * innerRadius,
                 sin(cornerControlAngle) * innerRadius,
                 cos(cornerEndAngle) * (innerRadius + cornerRadius),
@@ -335,9 +368,9 @@ class PieChartView @JvmOverloads constructor(
             )
 
             // Left side from bottom to top.
-            path.close()
+            segmentPath.close()
 
-            canvas.drawPath(path, segmentPaint)
+            canvas.drawPath(segmentPath, segmentPaint)
 
             drawParticles(
                 segment = it,
@@ -421,27 +454,6 @@ class PieChartView @JvmOverloads constructor(
         }
 
         if (animateParticles) invalidate()
-    }
-
-    private fun drawDividers(canvas: Canvas, w: Float, h: Float, r: Float) {
-        if (segments.size < 2) return
-
-        var sweepAngle: Float
-
-        canvas.save()
-        canvas.translate(w / 2, h / 2)
-        segments.forEach {
-            sweepAngle = it.arcPercent * 360f * segmentAnimationScale
-            canvas.drawLine(
-                0f,
-                -r * innerRadiusRatio + 1,
-                0f,
-                -r - 1,
-                dividerPaint,
-            )
-            canvas.rotate(sweepAngle)
-        }
-        canvas.restore()
     }
 
     private fun drawIcons(canvas: Canvas, w: Float, h: Float, r: Float) {

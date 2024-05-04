@@ -146,7 +146,6 @@
         <!-- Used for layout preview -->
         <attr name="segmentCount" format="integer" />
         <attr name="dividerWidth" format="dimension" />
-        <attr name="dividerColor" format="color" />
         <attr name="iconPadding" format="dimension" />
         <attr name="iconMaxSize" format="dimension" />
         <attr name="innerRadiusRatio" format="float" />
