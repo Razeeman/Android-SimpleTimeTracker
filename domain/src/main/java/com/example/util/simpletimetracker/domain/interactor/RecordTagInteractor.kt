@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordTag
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeToDefaultTagRepo
@@ -15,6 +16,7 @@ class RecordTagInteractor @Inject constructor(
     private val runningRecordToRecordTagRepo: RunningRecordToRecordTagRepo,
     private val recordTypeToTagRepo: RecordTypeToTagRepo,
     private val recordTypeToDefaultTagRepo: RecordTypeToDefaultTagRepo,
+    private val recordTypeInteractor: RecordTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val sortCardsInteractor: SortCardsInteractor,
 ) {
@@ -24,10 +26,17 @@ class RecordTagInteractor @Inject constructor(
     }
 
     suspend fun getAll(cardOrder: CardOrder? = null): List<RecordTag> {
+        val types = recordTypeInteractor.getAll().associateBy { it.id }
+
         return sortCardsInteractor.sort(
             cardOrder = cardOrder ?: prefsInteractor.getTagOrder(),
             manualOrderProvider = { prefsInteractor.getTagOrderManual() },
-            data = repo.getAll().map(::mapForSort),
+            data = repo.getAll().map {
+                mapForSort(
+                    data = it,
+                    colorSource = types[it.iconColorSource],
+                )
+            },
         ).map { it.data }
     }
 
@@ -59,11 +68,12 @@ class RecordTagInteractor @Inject constructor(
 
     private fun mapForSort(
         data: RecordTag,
+        colorSource: RecordType?,
     ): SortCardsInteractor.DataHolder<RecordTag> {
         return SortCardsInteractor.DataHolder(
             id = data.id,
             name = data.name,
-            color = data.color,
+            color = colorSource?.color ?: data.color,
             data = data,
         )
     }
