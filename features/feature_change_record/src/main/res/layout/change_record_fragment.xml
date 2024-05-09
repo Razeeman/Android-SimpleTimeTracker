@@ -28,17 +28,6 @@
         android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@id/previewChangeRecord" />
 
-    <View
-        android:id="@+id/viewChangeRecordPreviewBackground"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:alpha="0.1"
-        android:background="@drawable/background_gradient"
-        android:rotation="180"
-        app:layout_constraintBottom_toBottomOf="@id/previewChangeRecord"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:backgroundTint="@color/black" />
-
     <include
         android:id="@+id/layoutChangeRecordCore"
         layout="@layout/change_record_core_layout"

@@ -277,8 +277,6 @@ class ChangeRecordTypeFragment :
             itemColor = item.color
         }
         with(binding) {
-            viewChangeRecordTypePreviewBackground.backgroundTintList =
-                ColorStateList.valueOf(item.color)
             layoutChangeRecordTypeColorPreview.setCardBackgroundColor(item.color)
             layoutChangeRecordTypeIconPreview.setCardBackgroundColor(item.color)
             iconChangeRecordTypeIconPreview.itemIcon = item.iconId
@@ -300,8 +298,6 @@ class ChangeRecordTypeFragment :
                 itemIcon = it.iconId.toViewData()
                 itemColor = it.color
 
-                binding.viewChangeRecordTypePreviewBackground.backgroundTintList =
-                    ColorStateList.valueOf(it.color)
                 binding.layoutChangeRecordTypeColorPreview.setCardBackgroundColor(it.color)
                 binding.layoutChangeRecordTypeIconPreview.setCardBackgroundColor(it.color)
                 binding.iconChangeRecordTypeIconPreview.itemIcon = it.iconId.toViewData()

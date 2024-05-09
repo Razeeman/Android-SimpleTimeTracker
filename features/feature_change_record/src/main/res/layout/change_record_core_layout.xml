@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toTopOf="@id/dividerChangeRecordButton"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -570,7 +570,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/dividerChangeRecordButton"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordMain"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"

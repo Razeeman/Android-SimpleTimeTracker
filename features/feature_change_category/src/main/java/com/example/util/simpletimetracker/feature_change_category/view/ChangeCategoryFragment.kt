@@ -187,8 +187,6 @@ class ChangeCategoryFragment :
                 itemName = it.name
                 itemColor = it.color
 
-                binding.viewChangeCategoryPreviewBackground.backgroundTintList =
-                    ColorStateList.valueOf(it.color)
                 binding.layoutChangeCategoryColorPreview.setCardBackgroundColor(it.color)
                 binding.layoutChangeCategoryTypePreview.setCardBackgroundColor(it.color)
                 binding.layoutChangeCategoryGoalPreview.setCardBackgroundColor(it.color)
@@ -202,8 +200,6 @@ class ChangeCategoryFragment :
             itemColor = item.color
         }
         with(binding) {
-            viewChangeCategoryPreviewBackground.backgroundTintList =
-                ColorStateList.valueOf(item.color)
             layoutChangeCategoryColorPreview.setCardBackgroundColor(item.color)
             layoutChangeCategoryTypePreview.setCardBackgroundColor(item.color)
             layoutChangeCategoryGoalPreview.setCardBackgroundColor(item.color)

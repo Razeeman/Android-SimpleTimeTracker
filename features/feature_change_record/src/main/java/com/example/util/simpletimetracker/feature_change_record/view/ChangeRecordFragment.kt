@@ -123,8 +123,6 @@ class ChangeRecordFragment :
             comment = preview.comment,
         ).let(::updatePreview)
 
-        binding.viewChangeRecordPreviewBackground.backgroundTintList =
-            ColorStateList.valueOf(preview.color)
         core.onSetPreview(
             binding = binding.layoutChangeRecordCore,
             color = preview.color,
@@ -150,10 +148,6 @@ class ChangeRecordFragment :
         tvChangeRecordChangeCurrentPreviewTimeStarted.text = item.dateTimeStarted.time
         tvChangeRecordChangeCurrentPreviewTimeEnded.text = item.dateTimeFinished.time
 
-        with(binding) {
-            viewChangeRecordPreviewBackground.backgroundTintList =
-                ColorStateList.valueOf(item.color)
-        }
         core.onSetPreview(
             binding = this,
             color = item.color,

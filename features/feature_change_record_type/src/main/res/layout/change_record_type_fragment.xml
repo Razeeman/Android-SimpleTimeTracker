@@ -34,17 +34,6 @@
                 android:layout_width="match_parent"
                 app:layout_constraintTop_toBottomOf="@id/previewChangeRecordType" />
 
-            <View
-                android:id="@+id/viewChangeRecordTypePreviewBackground"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:alpha="0.1"
-                android:background="@drawable/background_gradient"
-                android:rotation="180"
-                app:layout_constraintBottom_toBottomOf="@id/previewChangeRecordType"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:backgroundTint="@color/black" />
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/btnChangeRecordTypeStatistics"
                 style="@style/EditScreenControlButton"

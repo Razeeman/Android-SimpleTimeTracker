@@ -117,8 +117,6 @@ class ChangeRunningRecordFragment :
             dateTimeStarted = preview.timeStartedDateTime.toViewData(),
         ).let(::updatePreview)
 
-        binding.viewChangeRunningRecordPreviewBackground.backgroundTintList =
-            ColorStateList.valueOf(preview.color)
         core.onSetPreview(
             binding = binding.layoutChangeRunningRecordCore,
             color = preview.color,
@@ -146,8 +144,6 @@ class ChangeRunningRecordFragment :
             itemNowIconVisible = item.recordPreview.nowIconVisible
         }
 
-        binding.viewChangeRunningRecordPreviewBackground.backgroundTintList =
-            ColorStateList.valueOf(item.recordPreview.color)
         core.onSetPreview(
             binding = this,
             color = item.recordPreview.color,

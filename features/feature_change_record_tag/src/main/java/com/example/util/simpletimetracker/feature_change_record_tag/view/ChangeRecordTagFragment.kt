@@ -249,8 +249,6 @@ class ChangeRecordTagFragment :
                     binding.layoutChangeRecordTagIconPreview.isVisible = false
                 }
 
-                binding.viewChangeRecordTagPreviewBackground.backgroundTintList =
-                    ColorStateList.valueOf(it.color)
                 binding.layoutChangeRecordTagColorPreview.setCardBackgroundColor(it.color)
                 binding.layoutChangeRecordTagIconPreview.setCardBackgroundColor(it.color)
                 binding.layoutChangeRecordTagTypesPreview.setCardBackgroundColor(it.color)
@@ -275,8 +273,6 @@ class ChangeRecordTagFragment :
             }
         }
         with(binding) {
-            viewChangeRecordTagPreviewBackground.backgroundTintList =
-                ColorStateList.valueOf(item.color)
             layoutChangeRecordTagColorPreview.setCardBackgroundColor(item.color)
             layoutChangeRecordTagIconPreview.setCardBackgroundColor(item.color)
             layoutChangeRecordTagTypesPreview.setCardBackgroundColor(item.color)

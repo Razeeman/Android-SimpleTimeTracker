@@ -145,8 +145,6 @@ class ChangeActivityFilterFragment :
                 itemName = it.name
                 itemColor = it.color
 
-                binding.viewChangeChangeActivityPreviewBackground.backgroundTintList =
-                    ColorStateList.valueOf(it.color)
                 binding.layoutChangeActivityFilterColorPreview.setCardBackgroundColor(it.color)
                 binding.layoutChangeActivityFilterTypePreview.setCardBackgroundColor(it.color)
             }
@@ -158,8 +156,6 @@ class ChangeActivityFilterFragment :
             itemName = item.name
             itemColor = item.color
             with(binding) {
-                viewChangeChangeActivityPreviewBackground.backgroundTintList =
-                    ColorStateList.valueOf(item.color)
                 layoutChangeActivityFilterColorPreview.setCardBackgroundColor(item.color)
                 layoutChangeActivityFilterTypePreview.setCardBackgroundColor(item.color)
             }
