@@ -81,7 +81,7 @@ class RecordAdjustTimeTest : BaseUiTest() {
         // Change record
         longClickOnView(allOf(withText(name2), isCompletelyDisplayed()))
         clickOnViewWithText("-30")
-        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordTimeEndedAdjust))
+        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordChangeCurrentPreviewTimeEndedAdjust))
         tryAction { clickOnViewWithText("+30") }
         clickOnViewWithText("+30")
         clickOnViewWithText(coreR.string.change_record_actions_hint)
@@ -166,7 +166,7 @@ class RecordAdjustTimeTest : BaseUiTest() {
         )
         clickOnViewWithText("-1")
         clickOnViewWithText("-1")
-        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordTimeEndedAdjust))
+        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordChangeCurrentPreviewTimeEndedAdjust))
         tryAction { clickOnViewWithText("+1") }
         clickOnViewWithText(coreR.string.change_record_type_field)
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name2))

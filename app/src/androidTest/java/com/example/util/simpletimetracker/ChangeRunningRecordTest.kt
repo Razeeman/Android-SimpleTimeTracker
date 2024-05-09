@@ -76,7 +76,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         tryAction { clickOnViewWithText(name1) }
         val currentTime = System.currentTimeMillis()
         var timeStartedTimestamp = currentTime
-        var timeStarted = timeMapper.formatDateTime(
+        var timeStarted = timeMapper.getFormattedDateTime(
             time = timeStartedTimestamp, useMilitaryTime = true, showSeconds = false,
         )
         var timeStartedPreview = timeStartedTimestamp
@@ -96,12 +96,14 @@ class ChangeRunningRecordTest : BaseUiTest() {
         longClickOnView(allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(name1)))
 
         // View is set up
-        checkViewIsDisplayed(withId(changeRunningRecordR.id.btnChangeRunningRecordDelete))
+        checkViewIsDisplayed(withId(changeRunningRecordR.id.btnChangeRecordDelete))
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordType))
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordCategories))
-        checkViewIsDisplayed(withId(changeRecordR.id.containerChangeRecordTimeAdjust))
+        checkViewIsDisplayed(withId(changeRecordR.id.containerChangeRecordTimeStartedAdjust))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.containerChangeRecordTimeEndedAdjust))
         checkViewIsNotDisplayed(allOf(withId(changeRecordR.id.etChangeRecordComment), withText("")))
-        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStartedDate), withText(timeStarted.date)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStartedTime), withText(timeStarted.time)))
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(name1)))
@@ -125,7 +127,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeStarted)
+        clickOnViewWithId(changeRecordR.id.fieldChangeRecordTimeStarted)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourStarted, minutesStarted))
         clickOnViewWithText(coreR.string.date_time_dialog_date)
@@ -142,11 +144,12 @@ class ChangeRunningRecordTest : BaseUiTest() {
             timeInMillis
         }
         timeStarted = timeStartedTimestamp
-            .let { timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
+            .let { timeMapper.getFormattedDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
         timeStartedPreview = timeStartedTimestamp
             .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
 
-        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStartedDate), withText(timeStarted.date)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStartedTime), withText(timeStarted.time)))
         clickOnViewWithText(coreR.string.change_record_comment_field)
         typeTextIntoView(changeRecordR.id.etChangeRecordComment, comment)
         clickOnViewWithText(coreR.string.change_record_comment_field)
@@ -258,18 +261,15 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         tryAction { clickOnViewWithText(name) }
         longClickOnView(allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(name)))
-        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeStarted)
+        clickOnViewWithId(changeRecordR.id.fieldChangeRecordTimeStarted)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(hourStarted, minutesStarted))
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         checkAfterTimeAdjustment(timeStarted = "00:00")
 
         // Check visibility
-        checkViewIsDisplayed(withId(changeRecordR.id.containerChangeRecordTimeAdjust))
-        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordTimeStartedAdjust))
-        checkViewIsNotDisplayed(withId(changeRecordR.id.containerChangeRecordTimeAdjust))
-        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordTimeStartedAdjust))
-        checkViewIsDisplayed(withId(changeRecordR.id.containerChangeRecordTimeAdjust))
+        checkViewIsDisplayed(withId(changeRecordR.id.containerChangeRecordTimeStartedAdjust))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.containerChangeRecordTimeEndedAdjust))
 
         // Check time adjustments
         clickOnViewWithText("+30")
@@ -440,7 +440,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkPreviewUpdated(
             hasDescendant(allOf(withId(changeRecordR.id.tvRunningRecordItemTimeStarted), withText(timeStarted))),
         )
-        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStarted), withSubstring(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStartedTime), withSubstring(timeStarted)))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

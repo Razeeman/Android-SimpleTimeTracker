@@ -39,15 +39,15 @@ class PrefsRepoImpl @Inject constructor(
     )
 
     override var cardOrder: Int by prefs.delegate(
-        KEY_CARD_ORDER, 0,
+        KEY_CARD_ORDER, 0, // Default to name sort.
     )
 
     override var categoryOrder: Int by prefs.delegate(
-        KEY_CATEGORY_ORDER, 0,
+        KEY_CATEGORY_ORDER, 0, // Default to name sort.
     )
 
     override var tagOrder: Int by prefs.delegate(
-        KEY_TAG_ORDER, 0,
+        KEY_TAG_ORDER, 3, // Default to activity sort.
     )
 
     override var statisticsRange: Int by prefs.delegate(

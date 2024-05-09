@@ -255,8 +255,9 @@ class CustomColorTest : BaseUiTest() {
             colorSaturation = 75,
             colorValue = 65,
         )
-        pressBack()
-        pressBack()
+        pressBack() // Close custom color
+        pressBack() // Close color dropdown
+        pressBack() // Close edit screen
 
         // Check record
         testUtils.addRecord(name)
@@ -380,9 +381,10 @@ class CustomColorTest : BaseUiTest() {
             colorSaturation = 75,
             colorValue = 65,
         )
-        pressBack()
-        pressBack()
-        pressBack()
+        pressBack() // Close custom color
+        pressBack() // Close color dropdown
+        pressBack() // Close edit screen
+        pressBack() // Close categories screen
 
         // Check statistics
         testUtils.addActivity(name = name, categories = listOf(categoryName))
@@ -450,6 +452,7 @@ class CustomColorTest : BaseUiTest() {
                 withParent(withId(dialogsR.id.layoutColorPaletteItem)),
             ),
         )
+        clickOnViewWithText(coreR.string.change_category_color_hint)
 
         // Save tag
         typeTextIntoView(changeRecordTagR.id.etChangeRecordTagName, tagName)

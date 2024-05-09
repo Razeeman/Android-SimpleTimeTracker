@@ -43,7 +43,11 @@ class RecordTagInteractor @Inject constructor(
             tags.associate { tag ->
                 val mainTypeId = tagsToAssignedTypes[tag.id]?.firstOrNull().orZero()
                 val type = typesMap[mainTypeId]
-                tag.id to types.indexOf(type).toLong()
+                val index = types.indexOf(type).toLong()
+                    // Put general tags at the end.
+                    .takeUnless { it == -1L }
+                    ?: Long.MAX_VALUE
+                tag.id to index
             }
         }
 

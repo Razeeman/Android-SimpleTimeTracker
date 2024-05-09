@@ -117,6 +117,7 @@ class RecordActionsSplitTest : BaseUiTest() {
         timePreview = timeEndedTimestamp.formatDateTime()
         checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeSplit), withText(timePreview)))
         pressBack()
+        pressBack()
 
         // Check running record limits
         timeStartedTimestamp = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1)
@@ -315,7 +316,7 @@ class RecordActionsSplitTest : BaseUiTest() {
         longClickOnView(withText(fullName))
         clickOnViewWithText("-30")
         clickOnViewWithText("-30")
-        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordTimeStartedAdjust))
+        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordChangeCurrentPreviewTimeStartedAdjust))
 
         // Check time split set to time started
         clickOnViewWithText(coreR.string.change_record_actions_hint)

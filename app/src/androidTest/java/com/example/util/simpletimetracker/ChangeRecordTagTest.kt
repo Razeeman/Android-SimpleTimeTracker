@@ -47,11 +47,14 @@ class ChangeRecordTagTest : BaseUiTest() {
 
         // View is set up
         checkViewIsDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagDelete))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvIconSelection))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagColor))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagType))
-        checkViewIsNotDisplayed(withId(changeRecordTagR.id.buttonsChangeRecordTagType))
-        checkViewIsNotDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagColor))
-        checkViewIsNotDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagType))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagDefaultType))
+        checkViewIsDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagIcon))
+        checkViewIsDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagColor))
+        checkViewIsDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagType))
+        checkViewIsDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagDefaultType))
         checkViewIsDisplayed(allOf(withId(changeRecordTagR.id.etChangeRecordTagName), withText(name)))
 
         // Preview is updated
@@ -86,11 +89,14 @@ class ChangeRecordTagTest : BaseUiTest() {
 
         // View is set up
         checkViewIsDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagDelete))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvIconSelection))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagColor))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagType))
-        checkViewIsNotDisplayed(withId(changeRecordTagR.id.buttonsChangeRecordTagType))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagDefaultType))
+        checkViewIsDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagIcon))
         checkViewIsDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagColor))
-        checkViewIsNotDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagType))
+        checkViewIsDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagType))
+        checkViewIsDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagDefaultType))
         checkViewIsDisplayed(allOf(withId(changeRecordTagR.id.etChangeRecordTagName), withText(name)))
 
         // Preview is updated

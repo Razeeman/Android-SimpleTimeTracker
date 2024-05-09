@@ -61,6 +61,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         checkViewIsNotDisplayed(withText(coreR.string.change_record_duplicate))
         pressBack()
+        pressBack()
 
         // Record - shown
         NavUtils.openRecordsScreen()

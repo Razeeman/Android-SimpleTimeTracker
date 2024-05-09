@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.utils
 import android.widget.DatePicker
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.contrib.PickerActions.setDate
 import androidx.test.espresso.contrib.PickerActions.setTime
@@ -122,14 +123,14 @@ object NavUtils {
         // Icon
         if (icon != null) {
             clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
-            scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeIcon, hasDescendant(withTag(icon)))
-            clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeIcon, withTag(icon))
+            scrollRecyclerToView(changeRecordTypeR.id.rvIconSelection, hasDescendant(withTag(icon)))
+            clickOnRecyclerItem(changeRecordTypeR.id.rvIconSelection, withTag(icon))
             clickOnViewWithId(changeRecordTypeR.id.fieldChangeRecordTypeIcon)
         } else if (text != null) {
             clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
-            onView(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
-            scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeIcon, hasDescendant(withText(text)))
-            clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeIcon, withText(text))
+            onView(withId(changeRecordTypeR.id.rvIconSelection)).perform(collapseToolbar())
+            scrollRecyclerToView(changeRecordTypeR.id.rvIconSelection, hasDescendant(withText(text)))
+            clickOnRecyclerItem(changeRecordTypeR.id.rvIconSelection, withText(text))
             clickOnViewWithId(changeRecordTypeR.id.fieldChangeRecordTypeIcon)
         }
 
@@ -251,12 +252,6 @@ object NavUtils {
 
         // Color
         if (color != null) {
-            clickOnView(
-                allOf(
-                    isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
-                    withText(coreR.string.change_record_tag_type_general),
-                ),
-            )
             clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagColor)
             scrollRecyclerToView(changeRecordTagR.id.rvChangeRecordTagColor, withCardColor(color))
             clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagColor, withCardColor(color))
@@ -264,15 +259,12 @@ object NavUtils {
 
         // Activity
         if (!activity.isNullOrEmpty()) {
-            clickOnView(
-                allOf(
-                    isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
-                    withText(coreR.string.change_record_tag_type_typed),
-                ),
-            )
             clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
             scrollRecyclerToView(changeRecordTagR.id.rvChangeRecordTagType, hasDescendant(withText(activity)))
             clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagType, withText(activity))
+            pressBack()
+            clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagSelectActivity)
+            clickOnRecyclerItem(dialogsR.id.rvTypesSelectionContainer, withText(activity))
         }
 
         closeSoftKeyboard()
@@ -301,13 +293,13 @@ object NavUtils {
         tryAction { clickOnViewWithId(recordsR.id.btnRecordAdd) }
 
         // Time started
-        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeStarted)
+        clickOnViewWithId(changeRecordR.id.fieldChangeRecordTimeStarted)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourStarted, minutesStarted))
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         // Time ended
-        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeEnded)
+        clickOnViewWithId(changeRecordR.id.fieldChangeRecordTimeEnded)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourEnded, minutesEnded))
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
@@ -348,6 +340,7 @@ object NavUtils {
             clickOnViewWithText(coreR.string.change_category_color_hint)
             scrollRecyclerToView(changeActivityFilterR.id.rvChangeActivityFilterColor, withCardColor(color))
             clickOnRecyclerItem(changeActivityFilterR.id.rvChangeActivityFilterColor, withCardColor(color))
+            clickOnViewWithText(coreR.string.change_category_color_hint)
         }
 
         // Activity

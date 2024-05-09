@@ -61,7 +61,7 @@ class AddRecordTypeTest : BaseUiTest() {
         // View is set up
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeDelete))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeColor))
-        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon))
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvIconSelection))
 
         // Name is not selected
         closeSoftKeyboard()
@@ -74,7 +74,7 @@ class AddRecordTypeTest : BaseUiTest() {
         // Open color chooser
         clickOnViewWithText(coreR.string.change_record_type_color_hint)
         checkViewIsDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeColor))
-        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon))
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvIconSelection))
 
         // Selecting color
         clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColor(firstColor))
@@ -95,22 +95,22 @@ class AddRecordTypeTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_type_color_hint)
         clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeColor))
-        checkViewIsDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon))
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.rvIconSelection))
 
         // Selecting icon
-        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeIcon, withTag(firstIcon))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvIconSelection, withTag(firstIcon))
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
 
         // Selecting icon
-        onView(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
-        scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
-        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeIcon, withTag(lastIcon))
+        onView(withId(changeRecordTypeR.id.rvIconSelection)).perform(collapseToolbar())
+        scrollRecyclerToView(changeRecordTypeR.id.rvIconSelection, hasDescendant(withTag(lastIcon)))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvIconSelection, withTag(lastIcon))
         checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
 
         // Open category chooser
         clickOnViewWithId(changeRecordTypeR.id.fieldChangeRecordTypeIcon)
         clickOnViewWithText(coreR.string.category_hint)
-        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon))
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvIconSelection))
         checkViewIsDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeCategories))
         checkViewIsDisplayed(withText(categoryName1))
         checkViewIsDisplayed(withText(categoryName2))

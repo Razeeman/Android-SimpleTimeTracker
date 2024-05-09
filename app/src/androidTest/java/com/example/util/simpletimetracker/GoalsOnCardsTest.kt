@@ -46,7 +46,7 @@ class GoalsOnCardsTest : BaseUiTest() {
         // Add data
         testUtils.addActivity(
             name = durationGoal,
-            goals = listOf(GoalsTestUtils.getDailyDurationGoal(2)),
+            goals = listOf(GoalsTestUtils.getDailyDurationGoal(120)),
         )
         testUtils.addActivity(
             name = countGoal,
@@ -63,7 +63,7 @@ class GoalsOnCardsTest : BaseUiTest() {
         val current = System.currentTimeMillis()
         testUtils.addRecord(
             typeName = durationGoal,
-            timeStarted = current - TimeUnit.SECONDS.toMillis(1),
+            timeStarted = current - TimeUnit.MINUTES.toMillis(1),
             timeEnded = current,
         )
         testUtils.addRecord(
@@ -79,7 +79,7 @@ class GoalsOnCardsTest : BaseUiTest() {
         NavUtils.openRecordsScreen()
         testUtils.addRecord(
             typeName = durationGoal,
-            timeStarted = current - TimeUnit.SECONDS.toMillis(1),
+            timeStarted = current - TimeUnit.MINUTES.toMillis(1),
             timeEnded = current,
         )
         testUtils.addRecord(

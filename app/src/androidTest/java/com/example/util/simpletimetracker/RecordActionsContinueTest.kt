@@ -243,14 +243,20 @@ class RecordActionsContinueTest : BaseUiTest() {
         // Snackbar is in the way of Add button
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         pressBack()
+        pressBack()
+
+        fun adjust(text: String) {
+            val containerId = changeRecordR.id.containerChangeRecordTimeStartedAdjust
+            clickOnView(allOf(isDescendantOfA(withId(containerId)), withText(text)))
+        }
 
         // Try continue from add record
         clickOnViewWithId(recordsR.id.btnRecordAdd)
         clickOnViewWithText(coreR.string.change_record_type_field)
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
-        clickOnViewWithText("+30")
-        clickOnViewWithText("+30")
-        clickOnViewWithText("+5")
+        adjust("+30")
+        adjust("+30")
+        adjust("+5")
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         onView(withText(coreR.string.change_record_continue)).perform(nestedScrollTo(), click())
 

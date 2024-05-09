@@ -30,6 +30,7 @@ import org.junit.Rule
 import java.util.Calendar
 import javax.inject.Inject
 
+@Suppress("ReplaceGetOrSet")
 @HiltAndroidTest
 open class BaseUiTest {
 
@@ -66,19 +67,21 @@ open class BaseUiTest {
         get() = ColorMapper.getAvailableColors().last()
     val firstIcon: Int
         get() = iconImageMapper.getAvailableImages(loadSearchHints = false)
-            .toList().first()
-            .let { (_, imagesMap) -> imagesMap.first().iconResId }
+            .get(iconImageMapper.getAvailableCategories(hasFavourites = false).first())
+            .orEmpty().first().iconResId
     val lastIcon: Int
         get() = iconImageMapper.getAvailableImages(loadSearchHints = false)
-            .toList().last()
-            .let { (_, imagesMap) -> imagesMap.last().iconResId }
+            .get(iconImageMapper.getAvailableCategories(hasFavourites = false).last())
+            .orEmpty().last().iconResId
     val firstEmoji: String
         get() = iconEmojiMapper
-            .getAvailableEmojis(loadSearchHints = false)[iconEmojiMapper.getAvailableEmojiCategories().first()]
+            .getAvailableEmojis(loadSearchHints = false)
+            .get(iconEmojiMapper.getAvailableEmojiCategories(hasFavourites = false).first())
             ?.first()?.emojiCode.orEmpty()
     val lastEmoji: String
         get() = iconEmojiMapper
-            .getAvailableEmojis(loadSearchHints = false)[iconEmojiMapper.getAvailableEmojiCategories().last()]
+            .getAvailableEmojis(loadSearchHints = false)
+            .get(iconEmojiMapper.getAvailableEmojiCategories(hasFavourites = false).last())
             ?.last()?.emojiCode.orEmpty()
 
     val hourString: String by lazy { getString(R.string.time_hour) }

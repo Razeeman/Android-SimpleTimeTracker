@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
+import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
@@ -92,9 +93,10 @@ class ActivityFilterTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(withId(changeActivityFilterR.id.viewColorItemSelected), withParent(withCardColor(lastColor))),
         )
+        clickOnViewWithText(coreR.string.change_category_color_hint)
 
         // Open activity chooser
-        clickOnViewWithText(coreR.string.activity_hint)
+        clickOnViewWithId(changeActivityFilterR.id.fieldChangeActivityFilterType)
         checkViewIsNotDisplayed(withId(changeActivityFilterR.id.rvChangeActivityFilterColor))
         checkViewIsDisplayed(withId(changeActivityFilterR.id.rvChangeActivityFilterType))
         checkViewIsDisplayed(withText(typeName1))
@@ -244,6 +246,7 @@ class ActivityFilterTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(withId(changeActivityFilterR.id.viewColorItemSelected), withParent(withCardColor(lastColor))),
         )
+        clickOnViewWithText(coreR.string.change_category_color_hint)
 
         // Change types
         clickOnViewWithText(coreR.string.activity_hint)

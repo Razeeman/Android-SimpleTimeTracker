@@ -51,7 +51,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         // View is set up
         checkViewIsDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeDelete))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeColor))
-        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon))
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvIconSelection))
         checkViewIsDisplayed(allOf(withId(changeRecordTypeR.id.etChangeRecordTypeName), withText(name)))
 
         // Preview is updated
@@ -76,9 +76,9 @@ class ChangeRecordTypeTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_type_color_hint)
 
         clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
-        onView(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
-        scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
-        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeIcon, withTag(lastIcon))
+        onView(withId(changeRecordTypeR.id.rvIconSelection)).perform(collapseToolbar())
+        scrollRecyclerToView(changeRecordTypeR.id.rvIconSelection, hasDescendant(withTag(lastIcon)))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvIconSelection, withTag(lastIcon))
         checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
 
         clickOnViewWithText(coreR.string.change_record_type_save)
@@ -93,7 +93,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.btnChangeRecordTypeIconSwitch)),
+                isDescendantOfA(withId(changeRecordTypeR.id.btnIconSelectionSwitch)),
                 withText(coreR.string.change_record_type_icon_emoji_hint),
             ),
         )
@@ -141,9 +141,9 @@ class ChangeRecordTypeTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_type_color_hint)
 
         clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
-        onView(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
-        scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeIcon, hasDescendant(withTag(lastIcon)))
-        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeIcon, withTag(lastIcon))
+        onView(withId(changeRecordTypeR.id.rvIconSelection)).perform(collapseToolbar())
+        scrollRecyclerToView(changeRecordTypeR.id.rvIconSelection, hasDescendant(withTag(lastIcon)))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvIconSelection, withTag(lastIcon))
         clickOnViewWithId(changeRecordTypeR.id.fieldChangeRecordTypeIcon)
 
         clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)

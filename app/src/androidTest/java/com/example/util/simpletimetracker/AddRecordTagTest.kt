@@ -10,6 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -19,8 +20,11 @@ import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.collapseToolbar
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.recyclerItemCount
+import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
+import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
@@ -45,6 +49,7 @@ class AddRecordTagTest : BaseUiTest() {
     fun addRecordTag() {
         val name = "Test"
         val typeName = "Type"
+        val lastColorPosition = ColorMapper.getAvailableColors().size - 1
 
         // Add activities
         testUtils.addActivity(name = typeName, color = firstColor, icon = firstIcon)
@@ -54,18 +59,12 @@ class AddRecordTagTest : BaseUiTest() {
         checkViewIsDisplayed(withText(coreR.string.categories_record_type_hint))
         clickOnViewWithText(coreR.string.categories_add_record_tag)
         closeSoftKeyboard()
-        clickOnView(
-            allOf(
-                isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
-                withText(coreR.string.change_record_tag_type_typed),
-            ),
-        )
 
         // View is set up
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagDelete))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagColor))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagType))
-        checkViewIsNotDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagColor))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagDefaultType))
         checkViewIsDisplayed(
             allOf(withId(changeRecordTagR.id.fieldChangeRecordTagType), withCardColor(viewsR.color.colorBackground)),
         )
@@ -77,18 +76,80 @@ class AddRecordTagTest : BaseUiTest() {
         typeTextIntoView(changeRecordTagR.id.etChangeRecordTagName, name)
         tryAction { checkPreviewUpdated(hasDescendant(withText(name))) }
 
+        // Open color chooser
+        clickOnViewWithText(coreR.string.change_category_color_hint)
+        checkViewIsDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagColor))
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagColor), withCardColor(viewsR.color.inputFieldBorder)),
+        )
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvIconSelection))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagType))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagDefaultType))
+
+        // Selecting color
+        clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagColor, withCardColor(firstColor))
+        checkPreviewUpdated(withCardColor(firstColor))
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTagR.id.viewColorItemSelected), withParent(withCardColor(firstColor))),
+        )
+
+        // Selecting color
+        scrollRecyclerToPosition(changeRecordTagR.id.rvChangeRecordTagColor, lastColorPosition)
+        clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagColor, withCardColor(lastColor))
+        checkPreviewUpdated(withCardColor(lastColor))
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTagR.id.viewColorItemSelected), withParent(withCardColor(lastColor))),
+        )
+
+        // Close color selection
+        clickOnViewWithText(coreR.string.change_category_color_hint)
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagColor), withCardColor(viewsR.color.colorBackground)),
+        )
+
+        // Open icon chooser
+        clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
+        checkViewIsDisplayed(withId(changeRecordTagR.id.rvIconSelection))
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagIcon), withCardColor(viewsR.color.inputFieldBorder)),
+        )
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagColor))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagType))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagDefaultType))
+
+        // Selecting icon
+        clickOnRecyclerItem(changeRecordTagR.id.rvIconSelection, withTag(firstIcon))
+        checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
+
+        // Selecting icon
+        onView(withId(changeRecordTagR.id.rvIconSelection)).perform(
+            collapseToolbar()
+        )
+        scrollRecyclerToView(changeRecordTagR.id.rvIconSelection, hasDescendant(withTag(lastIcon)))
+        clickOnRecyclerItem(changeRecordTagR.id.rvIconSelection, withTag(lastIcon))
+        checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
+
+        // Close icon selection
+        clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagIcon)
+        checkViewIsDisplayed(
+            allOf(withId(changeRecordTagR.id.fieldChangeRecordTagIcon), withCardColor(viewsR.color.colorBackground)),
+        )
+
         // Open activity chooser
         clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
         checkViewIsDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagType))
         checkViewIsDisplayed(
             allOf(withId(changeRecordTagR.id.fieldChangeRecordTagType), withCardColor(viewsR.color.inputFieldBorder)),
         )
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvIconSelection))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagColor))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagDefaultType))
 
         // Selecting activity
         clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagType, withText(typeName))
         checkPreviewUpdated(hasDescendant(withText(name)))
-        checkPreviewUpdated(withCardColor(firstColor))
-        checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
+        checkPreviewUpdated(withCardColor(lastColor))
+        checkViewIsDisplayed(allOf(withId(changeRecordTagR.id.tvChangeRecordTagTypesPreview), withText("1")))
         clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
         checkViewIsDisplayed(
             allOf(withId(changeRecordTagR.id.fieldChangeRecordTagType), withCardColor(viewsR.color.colorBackground)),
@@ -98,13 +159,13 @@ class AddRecordTagTest : BaseUiTest() {
 
         // Tag added
         checkViewIsDisplayed(withText(name))
-        checkViewIsDisplayed(withCardColor(firstColor))
+        checkViewIsDisplayed(withCardColor(lastColor))
 
         // Check tag saved
         longClickOnView(withText(name))
         checkPreviewUpdated(hasDescendant(withText(name)))
-        checkPreviewUpdated(withCardColor(firstColor))
-        checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
+        checkPreviewUpdated(withCardColor(lastColor))
+        checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
         checkViewIsDisplayed(allOf(withId(changeRecordTagR.id.etChangeRecordTagName), withText(name)))
     }
 
@@ -126,7 +187,7 @@ class AddRecordTagTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagDelete))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagColor))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagType))
-        checkViewIsNotDisplayed(withId(changeRecordTagR.id.fieldChangeRecordTagType))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagDefaultType))
         checkViewIsDisplayed(
             allOf(withId(changeRecordTagR.id.fieldChangeRecordTagColor), withCardColor(viewsR.color.colorBackground)),
         )
@@ -177,12 +238,6 @@ class AddRecordTagTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.categories_add_record_tag)
 
         // Open activity chooser
-        clickOnView(
-            allOf(
-                isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
-                withText(coreR.string.change_record_tag_type_typed),
-            ),
-        )
         clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
         checkViewIsDisplayed(withText(coreR.string.record_types_empty))
     }
@@ -206,17 +261,11 @@ class AddRecordTagTest : BaseUiTest() {
         // Add another tag
         clickOnViewWithText(coreR.string.categories_add_record_tag)
         typeTextIntoView(changeRecordTagR.id.etChangeRecordTagName, tagNameActivity)
-        clickOnView(
-            allOf(
-                isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
-                withText(coreR.string.change_record_tag_type_typed),
-            ),
-        )
         clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
         clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagType, withText(typeName))
         clickOnViewWithText(coreR.string.change_record_type_save)
 
-        onView(withId(categoriesR.id.rvCategoriesList)).check(recyclerItemCount(7))
+        onView(withId(categoriesR.id.rvCategoriesList)).check(recyclerItemCount(8))
 
         // Add another general tag
         clickOnViewWithText(coreR.string.categories_add_record_tag)
@@ -224,7 +273,7 @@ class AddRecordTagTest : BaseUiTest() {
         closeSoftKeyboard()
         clickOnViewWithText(coreR.string.change_record_type_save)
 
-        onView(withId(categoriesR.id.rvCategoriesList)).check(recyclerItemCount(7))
+        onView(withId(categoriesR.id.rvCategoriesList)).check(recyclerItemCount(9))
     }
 
     @Test
@@ -273,6 +322,7 @@ class AddRecordTagTest : BaseUiTest() {
 
         // Add data
         testUtils.addActivity(typeName)
+        Thread.sleep(1000)
         tryAction { clickOnViewWithText(typeName) }
         longClickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(typeName)))
 

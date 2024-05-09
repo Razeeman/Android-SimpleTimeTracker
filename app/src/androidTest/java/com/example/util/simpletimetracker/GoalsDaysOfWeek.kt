@@ -215,6 +215,7 @@ class GoalsDaysOfWeek : BaseUiTest() {
         checkTypeDay(stringResId = R.string.day_of_week_friday, colorResId = R.color.colorInactive)
         checkTypeDay(stringResId = R.string.day_of_week_saturday, colorResId = R.color.colorActive)
         pressBack()
+        pressBack()
 
         tryAction { longClickOnView(withText(name2)) }
         clickOnViewWithText(R.string.change_record_type_goal_time_hint)
@@ -260,13 +261,13 @@ class GoalsDaysOfWeek : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         checkNoStatisticsGoal(name1)
         scrollTo(name2)
-        checkStatisticsGoal(name2, secondString, "$goalHint - 1$hourString 0$minuteString")
+        checkStatisticsGoal(name2, minuteString, "$goalHint - 1$hourString 0$minuteString")
 
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerPrevious)
         scrollTo(name1)
-        checkStatisticsGoal(name1, "0$secondString", "$goalHint - 1$hourString 0$minuteString")
+        checkStatisticsGoal(name1, "0$minuteString", "$goalHint - 1$hourString 0$minuteString")
         scrollTo(name2)
-        checkStatisticsGoal(name2, "0$secondString", "$goalHint - 1$hourString 0$minuteString")
+        checkStatisticsGoal(name2, "0$minuteString", "$goalHint - 1$hourString 0$minuteString")
     }
 
     private fun checkTypeDay(

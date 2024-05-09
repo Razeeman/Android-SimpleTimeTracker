@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.domain.model.IconEmojiType
+import com.example.util.simpletimetracker.domain.model.IconImageType
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
@@ -53,7 +54,7 @@ class IconTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.btnChangeRecordTypeIconSwitch)),
+                isDescendantOfA(withId(changeRecordTypeR.id.btnIconSelectionSwitch)),
                 withText(coreR.string.change_record_type_icon_emoji_hint),
             ),
         )
@@ -167,11 +168,11 @@ class IconTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.btnChangeRecordTypeIconSwitch)),
+                isDescendantOfA(withId(changeRecordTypeR.id.btnIconSelectionSwitch)),
                 withText(coreR.string.change_record_type_icon_text_hint),
             ),
         )
-        tryAction { typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeIconText, firstIconText) }
+        tryAction { typeTextIntoView(changeRecordTypeR.id.etIconSelectionText, firstIconText) }
 
         // Preview is updated
         checkViewIsDisplayed(
@@ -278,16 +279,18 @@ class IconTest : BaseUiTest() {
 
         // Check categories
         iconImageMapper.getAvailableImages(loadSearchHints = false).forEach { (category, images) ->
+            if (category.type == IconImageType.FAVOURITES) return@forEach
+
             checkViewIsDisplayed(withTag(category.categoryIcon))
             clickOnView(withTag(category.categoryIcon))
             val firstImage = images.first().iconResId
 
-            if (category == iconImageMapper.getAvailableCategories().last()) {
+            if (category == iconImageMapper.getAvailableCategories(hasFavourites = false).last()) {
                 onView(
-                    withId(changeRecordTypeR.id.rvChangeRecordTypeIcon),
+                    withId(changeRecordTypeR.id.rvIconSelection),
                 ).perform(collapseToolbar())
                 onView(
-                    withId(changeRecordTypeR.id.rvChangeRecordTypeIcon),
+                    withId(changeRecordTypeR.id.rvIconSelection),
                 ).perform(swipeUp(50))
             }
 
@@ -307,13 +310,15 @@ class IconTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.btnChangeRecordTypeIconSwitch)),
+                isDescendantOfA(withId(changeRecordTypeR.id.btnIconSelectionSwitch)),
                 withText(coreR.string.change_record_type_icon_emoji_hint),
             ),
         )
 
         // Check categories
         iconEmojiMapper.getAvailableEmojis(loadSearchHints = false).forEach { (category, emojis) ->
+            if (category.type == IconEmojiType.FAVOURITES) return@forEach
+
             checkViewIsDisplayed(withTag(category.categoryIcon))
             clickOnView(withTag(category.categoryIcon))
             val firstEmoji = iconEmojiMapper.toEmojiString(emojis.first().emojiCode)
@@ -328,7 +333,7 @@ class IconTest : BaseUiTest() {
     @Test
     fun skinToneSelectionDialog() {
         val name = "name"
-        val category = iconEmojiMapper.getAvailableEmojiCategories()
+        val category = iconEmojiMapper.getAvailableEmojiCategories(hasFavourites = false)
             .first { it.type == IconEmojiType.PEOPLE }
         val emoji = iconEmojiMapper.getAvailableEmojis(loadSearchHints = false)[category]
             ?.first()?.emojiCode
@@ -345,13 +350,14 @@ class IconTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.btnChangeRecordTypeIconSwitch)),
+                isDescendantOfA(withId(changeRecordTypeR.id.btnIconSelectionSwitch)),
                 withText(coreR.string.change_record_type_icon_emoji_hint),
             ),
         )
-        onView(withId(changeRecordTypeR.id.rvChangeRecordTypeIcon)).perform(collapseToolbar())
-        scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeIcon, hasDescendant(withText(emojiDefault)))
-        clickOnRecyclerItem(changeRecordTypeR.id.rvChangeRecordTypeIcon, withText(emojiDefault))
+        onView(withId(changeRecordTypeR.id.rvIconSelection)).perform(collapseToolbar())
+        Thread.sleep(1000)
+        scrollRecyclerToView(changeRecordTypeR.id.rvIconSelection, hasDescendant(withText(emojiDefault)))
+        clickOnRecyclerItem(changeRecordTypeR.id.rvIconSelection, withText(emojiDefault))
 
         // Check dialog
         onView(withId(dialogsR.id.rvEmojiSelectionContainer)).check(recyclerItemCount(6))

@@ -62,6 +62,7 @@ class ArchiveTest : BaseUiTest() {
         checkTypeVisible(name1)
         checkTypeNotVisible(name2)
         pressBack()
+        pressBack()
 
         // Still shown in stat filter
         NavUtils.openStatisticsScreen()
@@ -87,21 +88,17 @@ class ArchiveTest : BaseUiTest() {
         checkTypeVisible(name1)
         checkTypeNotVisible(name2)
         pressBack()
+        pressBack()
 
         // Not shown in record tag selection
         clickOnViewWithText(coreR.string.categories_add_record_tag)
         closeSoftKeyboard()
-        clickOnView(
-            allOf(
-                isDescendantOfA(withId(changeRecordTagR.id.buttonsChangeRecordTagType)),
-                withText(coreR.string.change_record_tag_type_typed),
-            ),
-        )
         clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
         checkTypeVisible(name1)
         checkTypeNotVisible(name2)
-        pressBack()
-        pressBack()
+        pressBack() // Close dropdown
+        pressBack() // Close edit screen
+        pressBack() // Close categories screen
 
         // Not shown in card size
         NavUtils.openSettingsDisplay()
@@ -185,6 +182,7 @@ class ArchiveTest : BaseUiTest() {
         checkTagNotVisible(tag2)
         checkTagVisible(tag3)
         checkTagNotVisible(tag4)
+        pressBack()
         pressBack()
 
         // Still shown in stat detail filter
@@ -300,13 +298,6 @@ class ArchiveTest : BaseUiTest() {
                 hasDescendant(withText("6")),
             ),
         )
-        checkViewIsDisplayed(
-            allOf(
-                withId(dialogsR.id.layoutArchiveDialogInfoItem),
-                hasDescendant(withText(coreR.string.archive_record_tags_count)),
-                hasDescendant(withText("2")),
-            ),
-        )
         pressBack()
 
         // Check activity with no data
@@ -315,13 +306,6 @@ class ArchiveTest : BaseUiTest() {
             allOf(
                 withId(dialogsR.id.layoutArchiveDialogInfoItem),
                 hasDescendant(withText(coreR.string.archive_records_count)),
-                hasDescendant(withText("0")),
-            ),
-        )
-        checkViewIsDisplayed(
-            allOf(
-                withId(dialogsR.id.layoutArchiveDialogInfoItem),
-                hasDescendant(withText(coreR.string.archive_record_tags_count)),
                 hasDescendant(withText("0")),
             ),
         )

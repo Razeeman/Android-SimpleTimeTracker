@@ -60,6 +60,7 @@ class RecordActionsMergeTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         checkViewIsNotDisplayed(withText(coreR.string.change_record_merge))
         pressBack()
+        pressBack()
 
         // Record - not shown
         NavUtils.openRecordsScreen()

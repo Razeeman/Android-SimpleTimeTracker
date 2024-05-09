@@ -64,10 +64,10 @@ class ChangeRecordTest : BaseUiTest() {
         val currentTime = System.currentTimeMillis()
         var timeStartedTimestamp = currentTime - 60 * 60 * 1000
         var timeEndedTimestamp = currentTime
-        var timeStarted = timeMapper.formatDateTime(
+        var timeStarted = timeMapper.getFormattedDateTime(
             time = timeStartedTimestamp, useMilitaryTime = true, showSeconds = false,
         )
-        var timeEnded = timeMapper.formatDateTime(
+        var timeEnded = timeMapper.getFormattedDateTime(
             time = timeEndedTimestamp, useMilitaryTime = true, showSeconds = false,
         )
         var timeStartedPreview = timeStartedTimestamp
@@ -95,8 +95,10 @@ class ChangeRecordTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordType))
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordCategories))
         checkViewIsNotDisplayed(allOf(withId(changeRecordR.id.etChangeRecordComment), withText(comment)))
-        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStarted), withText(timeStarted)))
-        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeEnded), withText(timeEnded)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStartedDate), withText(timeStarted.date)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStartedTime), withText(timeStarted.time)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeEndedDate), withText(timeEnded.date)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeEndedTime), withText(timeEnded.time)))
 
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(fullName1)))
@@ -124,7 +126,7 @@ class ChangeRecordTest : BaseUiTest() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeStarted)
+        clickOnViewWithId(changeRecordR.id.fieldChangeRecordTimeStarted)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(PickerActions.setTime(hourStarted, minutesStarted))
         clickOnViewWithText(coreR.string.date_time_dialog_date)
@@ -132,7 +134,7 @@ class ChangeRecordTest : BaseUiTest() {
             .perform(PickerActions.setDate(year, month + 1, day))
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
-        clickOnViewWithId(changeRecordR.id.tvChangeRecordTimeEnded)
+        clickOnViewWithId(changeRecordR.id.fieldChangeRecordTimeEnded)
         onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(PickerActions.setTime(hourEnded, minutesEnded))
         clickOnViewWithText(coreR.string.date_time_dialog_date)
@@ -157,9 +159,9 @@ class ChangeRecordTest : BaseUiTest() {
             timeInMillis
         }
         timeStarted = timeStartedTimestamp
-            .let { timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
+            .let { timeMapper.getFormattedDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
         timeEnded = timeEndedTimestamp
-            .let { timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
+            .let { timeMapper.getFormattedDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
         timeStartedPreview = timeStartedTimestamp
             .let { timeMapper.formatTime(time = it, useMilitaryTime = true, showSeconds = false) }
         timeEndedPreview = timeEndedTimestamp
@@ -167,8 +169,10 @@ class ChangeRecordTest : BaseUiTest() {
         timeRangePreview = (timeEndedTimestamp - timeStartedTimestamp)
             .let { timeMapper.formatInterval(interval = it, forceSeconds = false, useProportionalMinutes = false) }
 
-        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStarted), withText(timeStarted)))
-        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeEnded), withText(timeEnded)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStartedDate), withText(timeStarted.date)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStartedTime), withText(timeStarted.time)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeEndedDate), withText(timeEnded.date)))
+        checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeEndedTime), withText(timeEnded.time)))
 
         clickOnViewWithText(coreR.string.change_record_comment_field)
         typeTextIntoView(changeRecordR.id.etChangeRecordComment, newComment)
