@@ -23,14 +23,10 @@ class RecordDataLocalMapper @Inject constructor() {
         return RecordDBO(
             id = domain.id,
             typeId = domain.typeId,
-            timeStarted = formatMillis(domain.timeStarted),
-            timeEnded = formatMillis(domain.timeEnded),
+            timeStarted = domain.timeStarted.dropMillis(),
+            timeEnded = domain.timeEnded.dropMillis(),
             comment = domain.comment,
             tagId = 0,
         )
-    }
-
-    private fun formatMillis(time: Long): Long {
-        return time.dropMillis()
     }
 }

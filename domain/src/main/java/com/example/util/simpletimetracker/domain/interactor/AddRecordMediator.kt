@@ -11,7 +11,6 @@ class AddRecordMediator @Inject constructor(
     private val widgetInteractor: WidgetInteractor,
 ) {
 
-    // Use unadjusted records to avoid time without seconds overriding time with seconds.
     suspend fun add(
         record: Record,
     ) {

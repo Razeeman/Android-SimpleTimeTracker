@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.domain.extension.hasNoComment
 import com.example.util.simpletimetracker.domain.extension.hasUntaggedItem
 import com.example.util.simpletimetracker.domain.extension.hasUntrackedFilter
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.extension.toRange
 import com.example.util.simpletimetracker.domain.interactor.GetMultitaskRecordsInteractor
 import com.example.util.simpletimetracker.domain.interactor.GetUntrackedRecordsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -112,7 +113,7 @@ class RecordFilterInteractor @Inject constructor(
             filters.hasUntrackedFilter() -> {
                 val range = ranges.firstOrNull() ?: Range(0, 0)
                 val records = getAllRecords(range, runningRecords)
-                    .map { Range(it.timeStarted, it.timeEnded) }
+                    .map(RecordBase::toRange)
                 getUntrackedRecordsInteractor.get(range, records)
             }
             filters.hasMultitaskFilter() -> {

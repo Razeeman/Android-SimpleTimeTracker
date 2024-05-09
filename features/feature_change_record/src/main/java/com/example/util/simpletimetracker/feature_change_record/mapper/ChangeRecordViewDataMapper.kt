@@ -2,9 +2,9 @@ package com.example.util.simpletimetracker.feature_change_record.mapper
 
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.extension.dropSeconds
 import com.example.util.simpletimetracker.domain.extension.getFullName
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -19,6 +19,7 @@ class ChangeRecordViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo,
+    private val recordViewDataMapper: RecordViewDataMapper,
 ) {
 
     fun map(
@@ -56,11 +57,10 @@ class ChangeRecordViewDataMapper @Inject constructor(
                 showSeconds = showSeconds,
             ),
             duration = timeMapper.formatInterval(
-                interval = if (showSeconds) {
-                    record.timeEnded - record.timeStarted
-                } else {
-                    record.timeEnded.dropSeconds() - record.timeStarted.dropSeconds()
-                },
+                interval = recordViewDataMapper.mapDuration(
+                    record = record,
+                    showSeconds = showSeconds,
+                ),
                 forceSeconds = showSeconds,
                 useProportionalMinutes = useProportionalMinutes,
             ),

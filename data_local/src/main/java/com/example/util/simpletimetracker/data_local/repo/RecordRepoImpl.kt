@@ -6,7 +6,6 @@ import com.example.util.simpletimetracker.data_local.mapper.RecordDataLocalMappe
 import com.example.util.simpletimetracker.data_local.model.RecordWithRecordTagsDBO
 import com.example.util.simpletimetracker.data_local.utils.logDataAccess
 import com.example.util.simpletimetracker.data_local.utils.withLockedCache
-import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
@@ -36,24 +35,24 @@ class RecordRepoImpl @Inject constructor(
 
     override suspend fun getAll(): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("getAll")
-        recordDao.getAll().map { mapItem(it) }
+        recordDao.getAll().map(::mapItem)
     }
 
     override suspend fun getByType(typeIds: List<Long>): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("getByType")
-        recordDao.getByType(typeIds).map { mapItem(it) }
+        recordDao.getByType(typeIds).map(::mapItem)
     }
 
     override suspend fun getByTypeWithAnyComment(typeIds: List<Long>): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("getByTypeWithAnyComment")
-        recordDao.getByTypeWithAnyComment(typeIds).map { mapItem(it) }
+        recordDao.getByTypeWithAnyComment(typeIds).map(::mapItem)
     }
 
     override suspend fun searchComment(
         text: String,
     ): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("searchComment")
-        recordDao.searchComment(text).map { mapItem(it) }
+        recordDao.searchComment(text).map(::mapItem)
     }
 
     override suspend fun searchByTypeWithComment(
@@ -61,17 +60,17 @@ class RecordRepoImpl @Inject constructor(
         text: String,
     ): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("searchByTypeWithComment")
-        recordDao.searchByTypeWithComment(typeIds, text).map { mapItem(it) }
+        recordDao.searchByTypeWithComment(typeIds, text).map(::mapItem)
     }
 
     override suspend fun searchAnyComments(): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("searchAnyComments")
-        recordDao.searchAnyComments().map { mapItem(it) }
+        recordDao.searchAnyComments().map(::mapItem)
     }
 
     override suspend fun get(id: Long): Record? = withContext(Dispatchers.IO) {
         logDataAccess("get")
-        recordDao.get(id)?.let { mapItem(it) }
+        recordDao.get(id)?.let(::mapItem)
     }
 
     override suspend fun getFromRange(range: Range): List<Record> {
@@ -83,7 +82,7 @@ class RecordRepoImpl @Inject constructor(
                 recordDao.getFromRange(
                     start = range.timeStarted,
                     end = range.timeEnded,
-                ).map { mapItem(it) }
+                ).map(::mapItem)
             },
             afterSourceAccess = { getFromRangeCache.put(cacheKey, it) },
         )
@@ -99,7 +98,7 @@ class RecordRepoImpl @Inject constructor(
                     typesIds = typeIds,
                     start = range.timeStarted,
                     end = range.timeEnded,
-                ).map { mapItem(it) }
+                ).map(::mapItem)
             },
             afterSourceAccess = { getFromRangeByTypeCache.put(cacheKey, it) },
         )
@@ -107,12 +106,12 @@ class RecordRepoImpl @Inject constructor(
 
     override suspend fun getPrev(timeStarted: Long, limit: Long): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("getPrev")
-        recordDao.getPrev(timeStarted, limit).map { mapItem(it) }
+        recordDao.getPrev(timeStarted, limit).map(::mapItem)
     }
 
     override suspend fun getNext(timeEnded: Long): Record? = withContext(Dispatchers.IO) {
         logDataAccess("getNext")
-        recordDao.getNext(timeEnded)?.let { mapItem(it) }
+        recordDao.getNext(timeEnded)?.let(::mapItem)
     }
 
     override suspend fun add(record: Record): Long = mutex.withLockedCache(
@@ -157,7 +156,7 @@ class RecordRepoImpl @Inject constructor(
         afterSourceAccess = { clearCache() },
     )
 
-    override fun clearCache() {
+    private fun clearCache() {
         getFromRangeCache.evictAll()
         getFromRangeByTypeCache.evictAll()
         isEmpty = null

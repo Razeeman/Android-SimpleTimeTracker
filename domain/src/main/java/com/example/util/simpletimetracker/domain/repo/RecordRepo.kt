@@ -42,6 +42,4 @@ interface RecordRepo {
     suspend fun removeByType(typeId: Long)
 
     suspend fun clear()
-
-    fun clearCache()
 }

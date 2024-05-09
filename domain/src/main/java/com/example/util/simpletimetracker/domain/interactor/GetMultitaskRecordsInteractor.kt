@@ -1,9 +1,9 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.extension.toRange
 import com.example.util.simpletimetracker.domain.mapper.OverlappingRangesMapper
 import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.model.MultitaskRecord
-import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.domain.model.RunningRecord
@@ -31,7 +31,7 @@ class GetMultitaskRecordsInteractor @Inject constructor(
             id to it
         }.toMap()
         val segments = recordsMap.map { (id, record) ->
-            id to Range(record.timeStarted, record.timeEnded)
+            id to record.toRange()
         }
         val overlappedSegments = overlappingRangesMapper.map(segments)
 

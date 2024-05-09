@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.dropSeconds
 import com.example.util.simpletimetracker.domain.extension.getFullName
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -47,7 +48,10 @@ class RecordViewDataMapper @Inject constructor(
                 showSeconds = showSeconds,
             ),
             duration = timeMapper.formatInterval(
-                interval = record.duration,
+                interval = mapDuration(
+                    record = record,
+                    showSeconds = showSeconds,
+                ),
                 forceSeconds = showSeconds,
                 useProportionalMinutes = useProportionalMinutes,
             ),
@@ -83,7 +87,11 @@ class RecordViewDataMapper @Inject constructor(
             ),
             timeEndedTimestamp = timeEnded,
             duration = timeMapper.formatInterval(
-                interval = timeEnded - timeStarted,
+                interval = mapDuration(
+                    timeStarted = timeStarted,
+                    timeEnded = timeEnded,
+                    showSeconds = showSeconds,
+                ),
                 forceSeconds = showSeconds,
                 useProportionalMinutes = useProportionalMinutes,
             ),
@@ -104,5 +112,28 @@ class RecordViewDataMapper @Inject constructor(
             infoIconVisible = true,
             closeIconVisible = false,
         )
+    }
+
+    fun mapDuration(
+        record: Record,
+        showSeconds: Boolean,
+    ): Long {
+        return mapDuration(
+            timeStarted = record.timeStarted,
+            timeEnded = record.timeEnded,
+            showSeconds = showSeconds,
+        )
+    }
+
+    private fun mapDuration(
+        timeStarted: Long,
+        timeEnded: Long,
+        showSeconds: Boolean,
+    ): Long {
+        return if (showSeconds) {
+            timeEnded - timeStarted
+        } else {
+            timeEnded.dropSeconds() - timeStarted.dropSeconds()
+        }
     }
 }

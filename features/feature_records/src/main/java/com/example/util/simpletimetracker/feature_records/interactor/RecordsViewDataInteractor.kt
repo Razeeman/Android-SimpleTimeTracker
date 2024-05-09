@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.domain.extension.toRange
 import com.example.util.simpletimetracker.domain.interactor.GetUntrackedRecordsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -254,18 +255,8 @@ class RecordsViewDataInteractor @Inject constructor(
             }
 
         val untrackedRecordsData = if (showUntrackedInRecords) {
-            val recordRanges = records.map {
-                Range(
-                    timeStarted = it.timeStarted,
-                    timeEnded = it.timeEnded,
-                )
-            }
-            val runningRecordRanges = runningRecords.map {
-                Range(
-                    timeStarted = it.timeStarted,
-                    timeEnded = it.timeEnded,
-                )
-            }
+            val recordRanges = records.map(Record::toRange)
+            val runningRecordRanges = runningRecords.map(RunningRecord::toRange)
             getUntrackedRecordsInteractor.get(
                 range = range,
                 records = recordRanges + runningRecordRanges,

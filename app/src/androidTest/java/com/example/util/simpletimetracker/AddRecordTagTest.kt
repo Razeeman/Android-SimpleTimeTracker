@@ -122,9 +122,7 @@ class AddRecordTagTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
 
         // Selecting icon
-        onView(withId(changeRecordTagR.id.rvIconSelection)).perform(
-            collapseToolbar()
-        )
+        onView(withId(changeRecordTagR.id.rvIconSelection)).perform(collapseToolbar())
         scrollRecyclerToView(changeRecordTagR.id.rvIconSelection, hasDescendant(withTag(lastIcon)))
         clickOnRecyclerItem(changeRecordTagR.id.rvIconSelection, withTag(lastIcon))
         checkPreviewUpdated(hasDescendant(withTag(lastIcon)))

@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.extension.toRange
 import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RecordBase
@@ -89,7 +90,7 @@ class StatisticsInteractor @Inject constructor(
         if (addUntracked) {
             val untrackedRanges = getUntrackedRecordsInteractor.get(
                 range = range,
-                records = records.map { Range(it.timeStarted, it.timeEnded) },
+                records = records.map(RecordBase::toRange),
             )
             val untrackedTime = untrackedRanges.sumOf { it.duration }
             val untrackedCount = untrackedRanges.size

@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.extension.shift
 import com.example.util.simpletimetracker.core.extension.shiftTimeStamp
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.extension.toRange
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.model.Range
@@ -81,7 +82,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             rangeMapper.getRecordsFromRange(records, range)
                 .map { rangeMapper.clampToRange(it, range) }
         } else {
-            records.map { Range(it.timeStarted, it.timeEnded) }
+            records.map(RecordBase::toRange)
         }
         val isVisible = (isForComparison && filter.isNotEmpty()) || !isForComparison
 
@@ -179,7 +180,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             rangeMapper.getRecordsFromRange(records, range)
                 .map { rangeMapper.clampToRange(it, range) }
         } else {
-            records.map { Range(it.timeStarted, it.timeEnded) }
+            records.map(RecordBase::toRange)
         }
     }
 
