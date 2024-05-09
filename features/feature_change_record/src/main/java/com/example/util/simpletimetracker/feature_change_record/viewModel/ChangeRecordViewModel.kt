@@ -223,7 +223,7 @@ class ChangeRecordViewModel @Inject constructor(
         val default = newTimeEnded - ONE_HOUR
 
         return if (daysFromToday == 0) {
-            recordInteractor.getPrev(newTimeEnded, adjusted = false)
+            recordInteractor.getPrev(newTimeEnded)
                 .firstOrNull()
                 ?.timeEnded
                 ?: default
@@ -239,7 +239,7 @@ class ChangeRecordViewModel @Inject constructor(
     override suspend fun initializePreviewViewData() {
         when (extra) {
             is ChangeRecordParams.Tracked -> {
-                recordInteractor.get(recordId.orZero(), adjusted = false)?.let { record ->
+                recordInteractor.get(recordId.orZero())?.let { record ->
                     newTypeId = record.typeId.orZero()
                     newTimeStarted = record.timeStarted
                     newTimeEnded = record.timeEnded

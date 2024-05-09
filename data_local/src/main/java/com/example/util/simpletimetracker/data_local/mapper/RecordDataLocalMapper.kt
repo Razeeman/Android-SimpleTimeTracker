@@ -3,21 +3,17 @@ package com.example.util.simpletimetracker.data_local.mapper
 import com.example.util.simpletimetracker.data_local.model.RecordDBO
 import com.example.util.simpletimetracker.data_local.model.RecordWithRecordTagsDBO
 import com.example.util.simpletimetracker.domain.extension.dropMillis
-import com.example.util.simpletimetracker.domain.extension.dropSeconds
 import com.example.util.simpletimetracker.domain.model.Record
 import javax.inject.Inject
 
 class RecordDataLocalMapper @Inject constructor() {
 
-    fun map(
-        dbo: RecordWithRecordTagsDBO,
-        showSeconds: Boolean,
-    ): Record {
+    fun map(dbo: RecordWithRecordTagsDBO): Record {
         return Record(
             id = dbo.record.id,
             typeId = dbo.record.typeId,
-            timeStarted = formatSeconds(dbo.record.timeStarted, showSeconds),
-            timeEnded = formatSeconds(dbo.record.timeEnded, showSeconds),
+            timeStarted = dbo.record.timeStarted,
+            timeEnded = dbo.record.timeEnded,
             comment = dbo.record.comment,
             tagIds = dbo.recordTags.map { it.id },
         )
@@ -32,10 +28,6 @@ class RecordDataLocalMapper @Inject constructor() {
             comment = domain.comment,
             tagId = 0,
         )
-    }
-
-    private fun formatSeconds(time: Long, showSeconds: Boolean): Long {
-        return if (showSeconds) time else time.dropSeconds()
     }
 
     private fun formatMillis(time: Long): Long {

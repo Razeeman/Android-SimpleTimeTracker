@@ -17,7 +17,7 @@ class RecordInteractor @Inject constructor(
     }
 
     suspend fun getAll(): List<Record> {
-        return recordRepo.getAll(adjusted = true)
+        return recordRepo.getAll()
     }
 
     suspend fun getByType(typeIds: List<Long>): List<Record> {
@@ -40,28 +40,23 @@ class RecordInteractor @Inject constructor(
         return recordRepo.searchAnyComments()
     }
 
-    suspend fun get(id: Long, adjusted: Boolean = true): Record? {
-        return recordRepo.get(id, adjusted)
+    suspend fun get(id: Long): Record? {
+        return recordRepo.get(id)
     }
 
-    suspend fun getPrev(
-        timeStarted: Long,
-        limit: Long = 1,
-        adjusted: Boolean = true,
-    ): List<Record> {
+    suspend fun getPrev(timeStarted: Long, limit: Long = 1): List<Record> {
         return recordRepo.getPrev(
             timeStarted = timeStarted,
             limit = limit,
-            adjusted = adjusted,
         )
     }
 
-    suspend fun getNext(timeEnded: Long, adjusted: Boolean = true): Record? {
-        return recordRepo.getNext(timeEnded, adjusted)
+    suspend fun getNext(timeEnded: Long): Record? {
+        return recordRepo.getNext(timeEnded)
     }
 
-    suspend fun getFromRange(range: Range, adjusted: Boolean = true): List<Record> {
-        return recordRepo.getFromRange(range, adjusted)
+    suspend fun getFromRange(range: Range): List<Record> {
+        return recordRepo.getFromRange(range)
     }
 
     suspend fun getFromRangeByType(typeIds: List<Long>, range: Range): List<Record> {

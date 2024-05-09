@@ -20,14 +20,11 @@ import javax.inject.Singleton
 class RecordRepoImpl @Inject constructor(
     private val recordDao: RecordDao,
     private val recordDataLocalMapper: RecordDataLocalMapper,
-    private val prefsInteractor: PrefsInteractor,
 ) : RecordRepo {
 
-    // Put only adjusted records to cache, unadjusted come from source.
     private var getFromRangeCache = LruCache<GetFromRangeKey, List<Record>>(10)
     private var getFromRangeByTypeCache = LruCache<GetFromRangeByTypeKey, List<Record>>(1)
     private var isEmpty: Boolean? = null
-    private var showSecondsCache: Boolean? = null
     private val mutex: Mutex = Mutex()
 
     override suspend fun isEmpty(): Boolean = mutex.withLockedCache(
@@ -37,9 +34,9 @@ class RecordRepoImpl @Inject constructor(
         afterSourceAccess = { isEmpty = it },
     )
 
-    override suspend fun getAll(adjusted: Boolean): List<Record> = withContext(Dispatchers.IO) {
+    override suspend fun getAll(): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("getAll")
-        recordDao.getAll().map { mapItem(it, adjusted) }
+        recordDao.getAll().map { mapItem(it) }
     }
 
     override suspend fun getByType(typeIds: List<Long>): List<Record> = withContext(Dispatchers.IO) {
@@ -72,23 +69,23 @@ class RecordRepoImpl @Inject constructor(
         recordDao.searchAnyComments().map { mapItem(it) }
     }
 
-    override suspend fun get(id: Long, adjusted: Boolean): Record? = withContext(Dispatchers.IO) {
+    override suspend fun get(id: Long): Record? = withContext(Dispatchers.IO) {
         logDataAccess("get")
-        recordDao.get(id)?.let { mapItem(it, adjusted) }
+        recordDao.get(id)?.let { mapItem(it) }
     }
 
-    override suspend fun getFromRange(range: Range, adjusted: Boolean): List<Record> {
+    override suspend fun getFromRange(range: Range): List<Record> {
         val cacheKey = GetFromRangeKey(range)
         return mutex.withLockedCache(
             logMessage = "getFromRange",
-            accessCache = { if (adjusted) getFromRangeCache.get(cacheKey) else null },
+            accessCache = { getFromRangeCache.get(cacheKey) },
             accessSource = {
                 recordDao.getFromRange(
                     start = range.timeStarted,
                     end = range.timeEnded,
-                ).map { mapItem(it, adjusted) }
+                ).map { mapItem(it) }
             },
-            afterSourceAccess = { if (adjusted) getFromRangeCache.put(cacheKey, it) },
+            afterSourceAccess = { getFromRangeCache.put(cacheKey, it) },
         )
     }
 
@@ -108,21 +105,14 @@ class RecordRepoImpl @Inject constructor(
         )
     }
 
-    override suspend fun getPrev(
-        timeStarted: Long,
-        limit: Long,
-        adjusted: Boolean,
-    ): List<Record> = withContext(Dispatchers.IO) {
+    override suspend fun getPrev(timeStarted: Long, limit: Long): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("getPrev")
-        recordDao.getPrev(timeStarted, limit).map { mapItem(it, adjusted) }
+        recordDao.getPrev(timeStarted, limit).map { mapItem(it) }
     }
 
-    override suspend fun getNext(
-        timeEnded: Long,
-        adjusted: Boolean,
-    ): Record? = withContext(Dispatchers.IO) {
+    override suspend fun getNext(timeEnded: Long): Record? = withContext(Dispatchers.IO) {
         logDataAccess("getNext")
-        recordDao.getNext(timeEnded)?.let { mapItem(it, adjusted) }
+        recordDao.getNext(timeEnded)?.let { mapItem(it) }
     }
 
     override suspend fun add(record: Record): Long = mutex.withLockedCache(
@@ -171,21 +161,12 @@ class RecordRepoImpl @Inject constructor(
         getFromRangeCache.evictAll()
         getFromRangeByTypeCache.evictAll()
         isEmpty = null
-        showSecondsCache = null
     }
 
-    private suspend fun mapItem(
+    private fun mapItem(
         dbo: RecordWithRecordTagsDBO,
-        adjusted: Boolean = true,
     ): Record {
-        val showSeconds = if (adjusted) {
-            showSecondsCache ?: prefsInteractor.getShowSeconds()
-                .also { showSecondsCache = it }
-        } else {
-            true
-        }
-
-        return recordDataLocalMapper.map(dbo, showSeconds)
+        return recordDataLocalMapper.map(dbo)
     }
 
     private data class GetFromRangeByTypeKey(
