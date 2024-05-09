@@ -85,7 +85,6 @@
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">برچسب بایگانی شد</string>
-    <string name="change_record_tag_type_hint">فعالیت</string>
     <string name="change_record_tag_default_hint">به طور پیش فرض اختصاص داده شده است</string>
     <string name="change_record_tag_type_general_hint">می تواند به تاریخچه هر فعالیتی اضافه شود</string>
     <string name="change_record_tag_type_typed_hint">می تواند به تاریخچه های یک فعالیت خاص اصافه شود</string>
@@ -220,6 +219,7 @@
     <string name="settings_sort_by_name">نام</string>
     <string name="settings_sort_by_color">رنگ</string>
     <string name="settings_sort_manually">دستی</string>
+    <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">اولین روز هفته</string>
     <string name="settings_repeat_button_type">دکمه تکرار</string>
     <string name="settings_repeat_last_record">آخرین رکورد را تکرار کنید</string>

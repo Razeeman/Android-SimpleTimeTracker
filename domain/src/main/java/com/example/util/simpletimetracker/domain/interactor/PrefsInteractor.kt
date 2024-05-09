@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.CardOrder
+import com.example.util.simpletimetracker.domain.model.CardTagOrder
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.DaysInCalendar
@@ -82,12 +83,12 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.categoryOrder = mapFromCardOrder(cardOrder)
     }
 
-    suspend fun getTagOrder(): CardOrder = withContext(Dispatchers.IO) {
-        mapToCardOrder(prefsRepo.tagOrder)
+    suspend fun getTagOrder(): CardTagOrder = withContext(Dispatchers.IO) {
+        mapToCardTagOrder(prefsRepo.tagOrder)
     }
 
-    suspend fun setTagOrder(cardOrder: CardOrder) = withContext(Dispatchers.IO) {
-        prefsRepo.tagOrder = mapFromCardOrder(cardOrder)
+    suspend fun setTagOrder(cardOrder: CardTagOrder) = withContext(Dispatchers.IO) {
+        prefsRepo.tagOrder = mapFromCardTagOrder(cardOrder)
     }
 
     suspend fun getStatisticsRange(): RangeLength = withContext(Dispatchers.IO) {
@@ -647,6 +648,25 @@ class PrefsInteractor @Inject constructor(
             CardOrder.NAME -> 0
             CardOrder.COLOR -> 1
             CardOrder.MANUAL -> 2
+        }
+    }
+
+    private fun mapToCardTagOrder(data: Int): CardTagOrder {
+        return when (data) {
+            0 -> CardTagOrder.NAME
+            1 -> CardTagOrder.COLOR
+            2 -> CardTagOrder.MANUAL
+            3 -> CardTagOrder.ACTIVITY
+            else -> CardTagOrder.NAME
+        }
+    }
+
+    private fun mapFromCardTagOrder(data: CardTagOrder): Int {
+        return when (data) {
+            CardTagOrder.NAME -> 0
+            CardTagOrder.COLOR -> 1
+            CardTagOrder.MANUAL -> 2
+            CardTagOrder.ACTIVITY -> 3
         }
     }
 }

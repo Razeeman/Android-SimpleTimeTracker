@@ -85,7 +85,6 @@
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">タグをアーカイブ</string>
-    <string name="change_record_tag_type_hint">アクティビティ</string>
     <string name="change_record_tag_default_hint">デフォルトで割り当てられる</string>
     <string name="change_record_tag_type_general_hint">あらゆるアクティビティに割り当てることができます</string>
     <string name="change_record_tag_type_typed_hint">特定のアクティビティのみに割り当てることができます</string>
@@ -220,6 +219,7 @@
     <string name="settings_sort_by_name">名前</string>
     <string name="settings_sort_by_color">色</string>
     <string name="settings_sort_manually">手動</string>
+    <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">週の始まり</string>
     <string name="settings_repeat_button_type">リピートボタン</string>
     <string name="settings_repeat_last_record">最後のレコードを繰り返す</string>

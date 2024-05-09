@@ -85,7 +85,6 @@
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Тег перемещен в архив</string>
-    <string name="change_record_tag_type_hint">Активность</string>
     <string name="change_record_tag_default_hint">Назначено по умолчанию</string>
     <string name="change_record_tag_type_general_hint">Может быть назначен записям любой активности</string>
     <string name="change_record_tag_type_typed_hint">Может быть назначен только записям определенной активности</string>
@@ -220,6 +219,7 @@
     <string name="settings_sort_by_name">Имя</string>
     <string name="settings_sort_by_color">Цвет</string>
     <string name="settings_sort_manually">Вручную</string>
+    <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Первый день недели</string>
     <string name="settings_repeat_button_type">Кнопка повтора</string>
     <string name="settings_repeat_last_record">Повторить последнюю запись</string>

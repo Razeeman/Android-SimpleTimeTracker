@@ -85,7 +85,6 @@
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Label diarsipkan</string>
-    <string name="change_record_tag_type_hint">Kegiatan</string>
     <string name="change_record_tag_default_hint">Ditugaskan secara default</string>
     <string name="change_record_tag_type_general_hint">Dapat ditugaskan ke catatan aktivitas apa pun</string>
     <string name="change_record_tag_type_typed_hint">Hanya dapat ditetapkan ke catatan aktivitas tertentu</string>
@@ -220,6 +219,7 @@
     <string name="settings_sort_by_name">Nama</string>
     <string name="settings_sort_by_color">Warna</string>
     <string name="settings_sort_manually">Secara manual</string>
+    <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Hari pertama dalam seminggu</string>
     <string name="settings_repeat_button_type">Tombol ulangi</string>
     <string name="settings_repeat_last_record">Ulangi rekaman terakhir</string>

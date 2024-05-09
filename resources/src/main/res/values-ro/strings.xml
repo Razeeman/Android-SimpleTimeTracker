@@ -85,7 +85,6 @@
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Etichetă arhivată</string>
-    <string name="change_record_tag_type_hint">Activitate</string>
     <string name="change_record_tag_default_hint">Atribuit implicit</string>
     <string name="change_record_tag_type_general_hint">Poate fi atribuit înregistrărilor oricărei activități</string>
     <string name="change_record_tag_type_typed_hint">Poate fi atribuit înregistrărilor unei activități specifice</string>
@@ -220,6 +219,7 @@
     <string name="settings_sort_by_name">Nume</string>
     <string name="settings_sort_by_color">Culoare</string>
     <string name="settings_sort_manually">Manual</string>
+    <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Prima zi a săptămânii</string>
     <string name="settings_repeat_button_type">Buton Repetă</string>
     <string name="settings_repeat_last_record">Repetă ultima înregistrare</string>

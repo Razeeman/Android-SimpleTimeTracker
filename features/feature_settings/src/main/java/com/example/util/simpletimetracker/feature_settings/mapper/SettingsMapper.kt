@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.DarkMode
 import com.example.util.simpletimetracker.domain.model.CardOrder
+import com.example.util.simpletimetracker.domain.model.CardTagOrder
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.DaysInCalendar
 import com.example.util.simpletimetracker.domain.model.RepeatButtonType
@@ -51,6 +52,13 @@ class SettingsMapper @Inject constructor(
         CardOrder.NAME,
         CardOrder.COLOR,
         CardOrder.MANUAL,
+    )
+
+    private val cardTagOrderList: List<CardTagOrder> = listOf(
+        CardTagOrder.NAME,
+        CardTagOrder.COLOR,
+        CardTagOrder.ACTIVITY,
+        CardTagOrder.MANUAL,
     )
 
     private val daysInCalendarList: List<DaysInCalendar> = listOf(
@@ -129,8 +137,22 @@ class SettingsMapper @Inject constructor(
         )
     }
 
+    fun toCardTagOrderViewData(currentOrder: CardTagOrder): CardOrderViewData {
+        return CardOrderViewData(
+            items = cardTagOrderList
+                .map(::toCardTagOrderName)
+                .map(CustomSpinner::CustomSpinnerTextItem),
+            selectedPosition = toPosition(currentOrder),
+            isManualConfigButtonVisible = currentOrder == CardTagOrder.MANUAL,
+        )
+    }
+
     fun toCardOrder(position: Int): CardOrder {
         return cardOrderList.getOrElse(position) { cardOrderList.first() }
+    }
+
+    fun toCardTagOrder(position: Int): CardTagOrder {
+        return cardTagOrderList.getOrElse(position) { cardTagOrderList.first() }
     }
 
     fun toDaysInCalendarViewData(currentValue: DaysInCalendar): DaysInCalendarViewData {
@@ -331,11 +353,24 @@ class SettingsMapper @Inject constructor(
         return cardOrderList.indexOf(cardOrder).takeUnless { it == -1 }.orZero()
     }
 
+    private fun toPosition(cardOrder: CardTagOrder): Int {
+        return cardTagOrderList.indexOf(cardOrder).takeUnless { it == -1 }.orZero()
+    }
+
     private fun toCardOrderName(cardOrder: CardOrder): String {
         return when (cardOrder) {
             CardOrder.NAME -> R.string.settings_sort_by_name
             CardOrder.COLOR -> R.string.settings_sort_by_color
             CardOrder.MANUAL -> R.string.settings_sort_manually
+        }.let(resourceRepo::getString)
+    }
+
+    private fun toCardTagOrderName(cardOrder: CardTagOrder): String {
+        return when (cardOrder) {
+            CardTagOrder.NAME -> R.string.settings_sort_by_name
+            CardTagOrder.COLOR -> R.string.settings_sort_by_color
+            CardTagOrder.MANUAL -> R.string.settings_sort_manually
+            CardTagOrder.ACTIVITY -> R.string.settings_sort_activity
         }.let(resourceRepo::getString)
     }
 

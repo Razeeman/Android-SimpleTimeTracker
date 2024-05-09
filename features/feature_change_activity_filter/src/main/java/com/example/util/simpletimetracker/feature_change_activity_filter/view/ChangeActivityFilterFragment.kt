@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_change_activity_filter.view
 
-import android.content.res.ColorStateList
 import com.example.util.simpletimetracker.feature_change_activity_filter.databinding.ChangeActivityFilterFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -172,9 +172,15 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                 subtitle = "",
                 isChecked = prefsInteractor.getShowSeconds(),
             )
-            result += mapOrderData(CardOrderDialogParams.Type.RecordType)
-            result += mapOrderData(CardOrderDialogParams.Type.Category)
-            result += mapOrderData(CardOrderDialogParams.Type.Tag)
+            result += mapOrderData(
+                CardOrderDialogParams.Type.RecordType(prefsInteractor.getCardOrder()),
+            )
+            result += mapOrderData(
+                CardOrderDialogParams.Type.Category(prefsInteractor.getCategoryOrder()),
+            )
+            result += mapOrderData(
+                CardOrderDialogParams.Type.Tag(prefsInteractor.getTagOrder()),
+            )
             result += SettingsTextViewData(
                 block = SettingsBlock.DisplayCardSize,
                 title = resourceRepo.getString(R.string.settings_change_card_size),
@@ -190,14 +196,20 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
         return result
     }
 
-    private suspend fun mapOrderData(
+    private fun mapOrderData(
         type: CardOrderDialogParams.Type,
     ): SettingsSpinnerWithButtonViewData {
         val cardOrderViewData = when (type) {
-            is CardOrderDialogParams.Type.RecordType -> prefsInteractor.getCardOrder()
-            is CardOrderDialogParams.Type.Category -> prefsInteractor.getCategoryOrder()
-            is CardOrderDialogParams.Type.Tag -> prefsInteractor.getTagOrder()
-        }.let(settingsMapper::toCardOrderViewData)
+            is CardOrderDialogParams.Type.RecordType -> {
+                type.order.let(settingsMapper::toCardOrderViewData)
+            }
+            is CardOrderDialogParams.Type.Category -> {
+                type.order.let(settingsMapper::toCardOrderViewData)
+            }
+            is CardOrderDialogParams.Type.Tag -> {
+                type.order.let(settingsMapper::toCardTagOrderViewData)
+            }
+        }
 
         val block = when (type) {
             is CardOrderDialogParams.Type.RecordType -> SettingsBlock.DisplaySortActivities

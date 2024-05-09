@@ -85,7 +85,6 @@
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Étiquettes archivées</string>
-    <string name="change_record_tag_type_hint">Activité</string>
     <string name="change_record_tag_default_hint">Attribué par défaut</string>
     <string name="change_record_tag_type_general_hint">Peut être attribuée aux enregistrements de n\'importe quelle activité</string>
     <string name="change_record_tag_type_typed_hint">Ne peut être attribuée qu\'aux enregistrements d\'une activité spécifique</string>
@@ -220,6 +219,7 @@
     <string name="settings_sort_by_name">Par nom</string>
     <string name="settings_sort_by_color">Par couleur</string>
     <string name="settings_sort_manually">Manuellement</string>
+    <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Premier jour de la semaine</string>
     <string name="settings_repeat_button_type">Bouton de répétition</string>
     <string name="settings_repeat_last_record">Répéter le dernier enregistrement</string>

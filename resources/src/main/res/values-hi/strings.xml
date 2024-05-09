@@ -85,7 +85,6 @@
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">टैग संग्रहीत</string>
-    <string name="change_record_tag_type_hint">गतिविधि</string>
     <string name="change_record_tag_default_hint">डिफ़ॉल्ट रूप से असाइन किया गया</string>
     <string name="change_record_tag_type_general_hint">किसी भी गतिविधि के रिकॉर्ड को सौंपा जा सकता है</string>
     <string name="change_record_tag_type_typed_hint">केवल एक विशिष्ट गतिविधि के रिकॉर्ड को सौंपा जा सकता है</string>
@@ -220,6 +219,7 @@
     <string name="settings_sort_by_name">नाम</string>
     <string name="settings_sort_by_color">रंग</string>
     <string name="settings_sort_manually">हस्तचालन से</string>
+    <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">सप्ताह का पहला दिन</string>
     <string name="settings_repeat_button_type">दोहराएँ बटन</string>
     <string name="settings_repeat_last_record">पिछला रिकॉर्ड दोहराएँ</string>

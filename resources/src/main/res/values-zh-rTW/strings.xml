@@ -85,7 +85,6 @@
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">標記已歸檔</string>
-    <string name="change_record_tag_type_hint">活動</string>
     <string name="change_record_tag_default_hint">預設分配</string>
     <string name="change_record_tag_type_general_hint">已能指派任何活動給紀錄</string>
     <string name="change_record_tag_type_typed_hint">只能指派給指定活動的紀錄</string>
@@ -220,6 +219,7 @@
     <string name="settings_sort_by_name">名稱</string>
     <string name="settings_sort_by_color">顏色</string>
     <string name="settings_sort_manually">手動</string>
+    <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">每周第一天</string>
     <string name="settings_repeat_button_type">重複按鈕</string>
     <string name="settings_repeat_last_record">重複上次記錄</string>

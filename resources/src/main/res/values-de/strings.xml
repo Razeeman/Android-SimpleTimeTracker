@@ -85,7 +85,6 @@
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Tag archiviert</string>
-    <string name="change_record_tag_type_hint">Aktivität</string>
     <string name="change_record_tag_default_hint">Standardmäßig zugewiesen</string>
     <string name="change_record_tag_type_general_hint">Kann Aufzeichnungen beliebiger Aktivitäten zugewiesen werden</string>
     <string name="change_record_tag_type_typed_hint">Kann nur Datensätzen einer bestimmten Aktivität zugeordnet werden</string>
@@ -220,6 +219,7 @@
     <string name="settings_sort_by_name">Name</string>
     <string name="settings_sort_by_color">Farbe</string>
     <string name="settings_sort_manually">Manuell</string>
+    <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Erster Tag der Woche</string>
     <string name="settings_repeat_button_type">Wiederholen-Taste</string>
     <string name="settings_repeat_last_record">Letzte Aufnahme wiederholen</string>

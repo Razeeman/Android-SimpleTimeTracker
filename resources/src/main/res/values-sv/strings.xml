@@ -85,7 +85,6 @@
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Tagg arkiverad</string>
-    <string name="change_record_tag_type_hint">Aktivitet</string>
     <string name="change_record_tag_default_hint">Tilldelad som standard</string>
     <string name="change_record_tag_type_general_hint">Kan tilldelas händelse oavsett aktivitetstyp</string>
     <string name="change_record_tag_type_typed_hint">Kan endast tilldelas händelse av särskild aktivitet</string>
@@ -220,6 +219,7 @@
     <string name="settings_sort_by_name">Namn</string>
     <string name="settings_sort_by_color">Färg</string>
     <string name="settings_sort_manually">Manuellt</string>
+    <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Första veckodagen</string>
     <string name="settings_repeat_button_type">Upprepa knapp</string>
     <string name="settings_repeat_last_record">Upprepa senaste posten</string>

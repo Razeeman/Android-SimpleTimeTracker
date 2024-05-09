@@ -282,7 +282,7 @@
                         style="@style/EditScreenField"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:text="@string/change_record_tag_type_hint"
+                        android:text="@string/change_record_type_field"
                         app:layout_constraintEnd_toStartOf="@id/layoutChangeRecordTagTypesPreview"
                         app:layout_constraintStart_toStartOf="parent" />
 

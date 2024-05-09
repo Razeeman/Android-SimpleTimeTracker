@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.domain.interactor
 
-import com.example.util.simpletimetracker.domain.model.CardOrder
+import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.model.CardTagOrder
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
@@ -25,16 +26,35 @@ class RecordTagInteractor @Inject constructor(
         return repo.isEmpty()
     }
 
-    suspend fun getAll(cardOrder: CardOrder? = null): List<RecordTag> {
-        val types = recordTypeInteractor.getAll().associateBy { it.id }
+    suspend fun getAll(cardOrder: CardTagOrder? = null): List<RecordTag> {
+        val tags = repo.getAll()
+        val types = recordTypeInteractor.getAll()
+        val typesMap = types.associateBy { it.id }
 
-        return sortCardsInteractor.sort(
-            cardOrder = cardOrder ?: prefsInteractor.getTagOrder(),
+        val getActivityOrderProvider: suspend () -> Map<Long, Long> = {
+            val typesToTags = recordTypeToTagRepo.getAll()
+            val tagsToAssignedTypes = typesToTags
+                .groupBy { it.tagId }
+                .mapValues { (_, typeToTag) ->
+                    typeToTag
+                        .map { it.recordTypeId }
+                        .sortedBy { typeId -> types.indexOfFirst { it.id == typeId } }
+                }
+            tags.associate { tag ->
+                val mainTypeId = tagsToAssignedTypes[tag.id]?.firstOrNull().orZero()
+                val type = typesMap[mainTypeId]
+                tag.id to types.indexOf(type).toLong()
+            }
+        }
+
+        return sortCardsInteractor.sortTags(
+            cardTagOrder = cardOrder ?: prefsInteractor.getTagOrder(),
             manualOrderProvider = { prefsInteractor.getTagOrderManual() },
-            data = repo.getAll().map {
+            activityOrderProvider = { getActivityOrderProvider() },
+            data = tags.map {
                 mapForSort(
                     data = it,
-                    colorSource = types[it.iconColorSource],
+                    colorSource = typesMap[it.iconColorSource],
                 )
             },
         ).map { it.data }

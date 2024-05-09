@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.CardOrder
+import com.example.util.simpletimetracker.domain.model.CardTagOrder
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -24,6 +25,24 @@ class SortCardsInteractor @Inject constructor(
                     CardOrder.COLOR -> sortByColor(it)
                     CardOrder.MANUAL -> sortByManualOrder(it, manualOrderProvider)
                     CardOrder.NAME -> it
+                }
+            }
+    }
+
+    suspend fun <T> sortTags(
+        cardTagOrder: CardTagOrder,
+        manualOrderProvider: suspend () -> Map<Long, Long>,
+        activityOrderProvider: suspend () -> Map<Long, Long>,
+        data: List<DataHolder<T>>,
+    ): List<DataHolder<T>> {
+        return data
+            .let(::sortByName)
+            .let {
+                when (cardTagOrder) {
+                    CardTagOrder.COLOR -> sortByColor(it)
+                    CardTagOrder.MANUAL -> sortByManualOrder(it, manualOrderProvider)
+                    CardTagOrder.NAME -> it
+                    CardTagOrder.ACTIVITY -> sortByManualOrder(it, activityOrderProvider)
                 }
             }
     }

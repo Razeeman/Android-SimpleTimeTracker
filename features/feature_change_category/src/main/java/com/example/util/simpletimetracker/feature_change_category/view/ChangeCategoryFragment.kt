@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_change_category.view
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

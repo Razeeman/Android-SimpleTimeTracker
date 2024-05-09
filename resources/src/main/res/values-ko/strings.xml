@@ -85,7 +85,6 @@
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">태그 보관됨</string>
-    <string name="change_record_tag_type_hint">활동</string>
     <string name="change_record_tag_default_hint">기본적으로 할당됨</string>
     <string name="change_record_tag_type_general_hint">어떤 활동에도 추가할 수 있습니다</string>
     <string name="change_record_tag_type_typed_hint">특정 활동에만 추가할 수 있습니다</string>
@@ -220,6 +219,7 @@
     <string name="settings_sort_by_name">이름</string>
     <string name="settings_sort_by_color">색상</string>
     <string name="settings_sort_manually">수동</string>
+    <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">한 주의 시작</string>
     <string name="settings_repeat_button_type">반복 버튼</string>
     <string name="settings_repeat_last_record">이전 기록을 반복합니다</string>

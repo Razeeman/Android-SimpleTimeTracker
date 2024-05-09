@@ -85,7 +85,6 @@
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">تم أرشفة الوسم</string>
-    <string name="change_record_tag_type_hint">النشاط</string>
     <string name="change_record_tag_default_hint">تم تعيينه بشكل افتراضي</string>
     <string name="change_record_tag_type_general_hint">يمكن تعيينه إلى متتبعات أي نشاط</string>
     <string name="change_record_tag_type_typed_hint">لا يمكن تعيينه إلا لمتتبعات نشاط معين</string>
@@ -220,6 +219,7 @@
     <string name="settings_sort_by_name">الاسم</string>
     <string name="settings_sort_by_color">اللون</string>
     <string name="settings_sort_manually">يدويا</string>
+    <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">اليوم الأول من الأسبوع</string>
     <string name="settings_repeat_button_type">زر التكرار</string>
     <string name="settings_repeat_last_record">كرر السجل الأخير</string>

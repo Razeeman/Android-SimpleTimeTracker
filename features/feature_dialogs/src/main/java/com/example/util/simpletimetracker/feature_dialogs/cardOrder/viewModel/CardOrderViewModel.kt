@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
+import com.example.util.simpletimetracker.domain.model.CardTagOrder
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
@@ -70,7 +71,7 @@ class CardOrderViewModel @Inject constructor(
             }
             is CardOrderDialogParams.Type.Tag -> {
                 {
-                    prefsInteractor.setTagOrder(CardOrder.MANUAL)
+                    prefsInteractor.setTagOrder(CardTagOrder.MANUAL)
                     prefsInteractor.setTagOrderManual(it)
                 }
             }
@@ -84,18 +85,20 @@ class CardOrderViewModel @Inject constructor(
     }
 
     private suspend fun loadViewData(): List<ViewHolderType> {
-        return when (extra.type) {
-            is CardOrderDialogParams.Type.RecordType -> loadTypesViewData()
-            is CardOrderDialogParams.Type.Category -> loadCategoriesViewData()
-            is CardOrderDialogParams.Type.Tag -> loadTagsViewData()
+        return when (val type = extra.type) {
+            is CardOrderDialogParams.Type.RecordType -> loadTypesViewData(type.order)
+            is CardOrderDialogParams.Type.Category -> loadCategoriesViewData(type.order)
+            is CardOrderDialogParams.Type.Tag -> loadTagsViewData(type.order)
         }
     }
 
-    private suspend fun loadTypesViewData(): List<ViewHolderType> {
+    private suspend fun loadTypesViewData(
+        initialOrder: CardOrder,
+    ): List<ViewHolderType> {
         val numberOfCards: Int = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        return recordTypeInteractor.getAll(extra.initialOrder)
+        return recordTypeInteractor.getAll(initialOrder)
             .filter { !it.hidden }
             .takeUnless { it.isEmpty() }
             ?.map { type ->
@@ -109,10 +112,12 @@ class CardOrderViewModel @Inject constructor(
             ?: recordTypeViewDataMapper.mapToEmpty()
     }
 
-    private suspend fun loadCategoriesViewData(): List<ViewHolderType> {
+    private suspend fun loadCategoriesViewData(
+        initialOrder: CardOrder,
+    ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        return categoryInteractor.getAll(extra.initialOrder)
+        return categoryInteractor.getAll(initialOrder)
             .takeUnless { it.isEmpty() }
             ?.map { category ->
                 categoryViewDataMapper.mapCategory(
@@ -123,11 +128,13 @@ class CardOrderViewModel @Inject constructor(
             ?: listOf(categoryViewDataMapper.mapToCategoriesEmpty())
     }
 
-    private suspend fun loadTagsViewData(): List<ViewHolderType> {
+    private suspend fun loadTagsViewData(
+        initialOrder: CardTagOrder,
+    ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val types = recordTypeInteractor.getAll().associateBy { it.id }
 
-        return recordTagInteractor.getAll(extra.initialOrder)
+        return recordTagInteractor.getAll(initialOrder)
             .filter { !it.archived }
             .takeUnless { it.isEmpty() }
             ?.map { tag ->
