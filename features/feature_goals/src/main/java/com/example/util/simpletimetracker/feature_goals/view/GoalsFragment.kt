@@ -37,7 +37,7 @@ class GoalsFragment : BaseFragment<Binding>() {
             createLoaderAdapterDelegate(),
             createHintAdapterDelegate(),
             createEmptyAdapterDelegate(),
-            createStatisticsGoalAdapterDelegate(),
+            createStatisticsGoalAdapterDelegate(viewModel::onGoalClick),
         )
     }
 

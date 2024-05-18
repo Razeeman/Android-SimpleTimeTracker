@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
+import com.example.util.simpletimetracker.feature_base_adapter.statisticsGoal.StatisticsGoalViewData
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
 import com.example.util.simpletimetracker.feature_statistics.interactor.StatisticsViewDataInteractor
 import com.example.util.simpletimetracker.navigation.Router
@@ -105,6 +106,13 @@ class StatisticsViewModel @Inject constructor(
             itemName = item.name,
             itemIcon = item.icon,
             itemColor = item.color,
+        )
+    }
+
+    fun onGoalClick(item: StatisticsGoalViewData) = viewModelScope.launch {
+        statisticsDetailNavigationInteractor.navigateByGoal(
+            goalId = item.id,
+            shift = if (prefsInteractor.getKeepStatisticsRange()) shift else 0,
         )
     }
 

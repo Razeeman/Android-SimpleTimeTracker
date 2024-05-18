@@ -296,14 +296,16 @@ class RecordsViewDataInteractor @Inject constructor(
     ): RecordsCalendarViewData.Point {
         // Record data already clamped.
         val timeStartedTimestamp = when (holder.data) {
-            is RecordHolder.Data.RecordData -> holder.timeStartedTimestamp
-                .let { if (showSeconds) it else it.dropSeconds() }
-            is RecordHolder.Data.RunningRecordData -> max(holder.timeStartedTimestamp, rangeStart)
+            is RecordHolder.Data.RecordData ->
+                holder.timeStartedTimestamp.let { if (showSeconds) it else it.dropSeconds() }
+            is RecordHolder.Data.RunningRecordData ->
+                max(holder.timeStartedTimestamp, rangeStart)
         }
         val timeEndedTimestamp = when (holder.data) {
-            is RecordHolder.Data.RecordData -> holder.data.value.timeEndedTimestamp
-                .let { if (showSeconds) it else it.dropSeconds() }
-            is RecordHolder.Data.RunningRecordData -> min(System.currentTimeMillis(), rangeEnd)
+            is RecordHolder.Data.RecordData ->
+                holder.data.value.timeEndedTimestamp.let { if (showSeconds) it else it.dropSeconds() }
+            is RecordHolder.Data.RunningRecordData ->
+                min(System.currentTimeMillis(), rangeEnd)
         }
 
         val start = mapFromStartOfDay(

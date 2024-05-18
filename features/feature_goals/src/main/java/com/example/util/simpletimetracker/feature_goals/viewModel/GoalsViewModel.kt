@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.interactor.StatisticsDetailNavigationInteractor
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
+import com.example.util.simpletimetracker.feature_base_adapter.statisticsGoal.StatisticsGoalViewData
 import com.example.util.simpletimetracker.feature_goals.interactor.GoalsViewDataInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -21,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GoalsViewModel @Inject constructor(
     private val goalsViewDataInteractor: GoalsViewDataInteractor,
+    private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
 ) : ViewModel() {
 
     val goals: LiveData<List<ViewHolderType>> by lazy {
@@ -45,6 +48,13 @@ class GoalsViewModel @Inject constructor(
         if (isVisible && tab is NavigationTab.Goals) {
             resetScreen.set(Unit)
         }
+    }
+
+    fun onGoalClick(item: StatisticsGoalViewData) = viewModelScope.launch {
+        statisticsDetailNavigationInteractor.navigateByGoal(
+            goalId = item.id,
+            shift = 0,
+        )
     }
 
     private fun updateStatistics() = viewModelScope.launch {

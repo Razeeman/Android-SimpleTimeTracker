@@ -27,6 +27,12 @@ class RecordTypeGoalRepoImpl @Inject constructor(
         afterSourceAccess = { cache = it },
     )
 
+    override suspend fun get(id: Long): RecordTypeGoal? = mutex.withLockedCache(
+        logMessage = "get",
+        accessCache = { cache?.firstOrNull { it.id == id } },
+        accessSource = { dao.get(id)?.let(mapper::map) },
+    )
+
     override suspend fun getAllTypeGoals(): List<RecordTypeGoal> = mutex.withLockedCache(
         logMessage = "getAllTypeGoals",
         accessCache = { cache?.filter { it.isType() && it.idData.value != 0L } },

@@ -1,10 +1,13 @@
 package com.example.util.simpletimetracker.feature_base_adapter.statisticsGoal
 
+import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
+import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemStatisticsGoalLayoutBinding as Binding
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsGoal.StatisticsGoalViewData as ViewData
-import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 
-fun createStatisticsGoalAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
+fun createStatisticsGoalAdapterDelegate(
+    onItemClick: (ViewData) -> Unit,
+) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->
 
@@ -24,5 +27,7 @@ fun createStatisticsGoalAdapterDelegate() = createRecyclerBindingAdapterDelegate
         } else {
             itemIconVisible = false
         }
+
+        setOnClickWith(item, onItemClick)
     }
 }

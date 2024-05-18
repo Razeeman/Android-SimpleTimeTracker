@@ -148,7 +148,7 @@ class StatisticsFragment :
             createStatisticsEmptyAdapterDelegate(
                 onFilterClick = viewModel::onFilterClick,
             ),
-            createStatisticsGoalAdapterDelegate(),
+            createStatisticsGoalAdapterDelegate(viewModel::onGoalClick),
             createStatisticsTitleAdapterDelegate(),
             createHintAdapterDelegate(),
             createHintBigAdapterDelegate(),

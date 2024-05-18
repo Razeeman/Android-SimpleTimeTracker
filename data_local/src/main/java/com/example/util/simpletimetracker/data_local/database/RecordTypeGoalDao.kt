@@ -13,6 +13,9 @@ interface RecordTypeGoalDao {
     @Query("SELECT * FROM recordTypeGoals")
     suspend fun getAll(): List<RecordTypeGoalDBO>
 
+    @Query("SELECT * FROM recordTypeGoals WHERE id = :id LIMIT 1")
+    suspend fun get(id: Long): RecordTypeGoalDBO?
+
     @Query("SELECT * FROM recordTypeGoals WHERE type_id != 0")
     suspend fun getAllTypeGoals(): List<RecordTypeGoalDBO>
 
