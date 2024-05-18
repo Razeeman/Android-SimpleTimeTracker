@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.domain.extension.dropSeconds
 import com.example.util.simpletimetracker.domain.extension.toRange
 import com.example.util.simpletimetracker.domain.interactor.GetUntrackedRecordsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -106,6 +107,7 @@ class RecordsViewDataInteractor @Inject constructor(
                     startOfDayShift = startOfDayShift,
                     shift = shift,
                     reverseOrder = reverseOrder,
+                    showSeconds = showSeconds,
                 )
             } else {
                 mapRecordsData(data, shift)
@@ -119,6 +121,7 @@ class RecordsViewDataInteractor @Inject constructor(
         startOfDayShift: Long,
         shift: Int,
         reverseOrder: Boolean,
+        showSeconds: Boolean,
     ): RecordsState.CalendarData {
         val currentTime = if (shift == 0) {
             mapFromStartOfDay(
@@ -149,6 +152,7 @@ class RecordsViewDataInteractor @Inject constructor(
                         startOfDayShift = startOfDayShift,
                         rangeStart = column.rangeStart,
                         rangeEnd = column.rangeEnd,
+                        showSeconds = showSeconds,
                     )
                 }
 
@@ -288,14 +292,17 @@ class RecordsViewDataInteractor @Inject constructor(
         startOfDayShift: Long,
         rangeStart: Long,
         rangeEnd: Long,
+        showSeconds: Boolean,
     ): RecordsCalendarViewData.Point {
         // Record data already clamped.
         val timeStartedTimestamp = when (holder.data) {
             is RecordHolder.Data.RecordData -> holder.timeStartedTimestamp
+                .let { if (showSeconds) it else it.dropSeconds() }
             is RecordHolder.Data.RunningRecordData -> max(holder.timeStartedTimestamp, rangeStart)
         }
         val timeEndedTimestamp = when (holder.data) {
             is RecordHolder.Data.RecordData -> holder.data.value.timeEndedTimestamp
+                .let { if (showSeconds) it else it.dropSeconds() }
             is RecordHolder.Data.RunningRecordData -> min(System.currentTimeMillis(), rangeEnd)
         }
 
