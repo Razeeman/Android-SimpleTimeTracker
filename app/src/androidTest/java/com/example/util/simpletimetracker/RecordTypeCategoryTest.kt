@@ -104,6 +104,7 @@ class RecordTypeCategoryTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_category_types_hint)
         onView(withText(typeName1)).check(isCompletelyBelow(withText(coreR.string.something_selected)))
         onView(withText(typeName2)).check(isCompletelyBelow(withText(typeName1)))
+        clickOnViewWithText(coreR.string.change_category_types_hint)
 
         pressBack()
 

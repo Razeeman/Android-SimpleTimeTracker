@@ -151,7 +151,7 @@ class GoalsTabTest : BaseUiTest() {
 
         // Goals on separate tab
         NavUtils.openGoalsScreen()
-        checkStatisticsGoal(someGoals, "0$minuteString", "$goal - 10$minuteString")
+        tryAction { checkStatisticsGoal(someGoals, "0$minuteString", "$goal - 10$minuteString") }
 
         // No goals in statistics
         onView(withId(mainR.id.mainTabs)).perform(selectTabAtPosition(3))

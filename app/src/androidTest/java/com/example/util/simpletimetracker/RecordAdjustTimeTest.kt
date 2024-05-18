@@ -11,12 +11,11 @@ import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
+import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.getMillis
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.nestedScrollTo
-import com.example.util.simpletimetracker.utils.tryAction
-import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import dagger.hilt.android.testing.HiltAndroidTest
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
@@ -80,10 +79,9 @@ class RecordAdjustTimeTest : BaseUiTest() {
 
         // Change record
         longClickOnView(allOf(withText(name2), isCompletelyDisplayed()))
-        clickOnViewWithText("-30")
-        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordChangeCurrentPreviewTimeEndedAdjust))
-        tryAction { clickOnViewWithText("+30") }
-        clickOnViewWithText("+30")
+        adjust(isStart = true, buttonText = "-30")
+        adjust(isStart = false, buttonText = "+30")
+        adjust(isStart = false, buttonText = "+30")
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         onView(withText(coreR.string.change_record_adjust)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_adjust)
@@ -164,10 +162,9 @@ class RecordAdjustTimeTest : BaseUiTest() {
                 isCompletelyDisplayed(),
             ),
         )
-        clickOnViewWithText("-1")
-        clickOnViewWithText("-1")
-        unconstrainedClickOnView(withId(changeRecordR.id.btnChangeRecordChangeCurrentPreviewTimeEndedAdjust))
-        tryAction { clickOnViewWithText("+1") }
+        adjust(isStart = true, buttonText = "-1")
+        adjust(isStart = true, buttonText = "-1")
+        adjust(isStart = false, buttonText = "+1")
         clickOnViewWithText(coreR.string.change_record_type_field)
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name2))
         clickOnViewWithText(coreR.string.change_record_actions_hint)
@@ -282,5 +279,17 @@ class RecordAdjustTimeTest : BaseUiTest() {
                 isCompletelyDisplayed(),
             ),
         )
+    }
+
+    private fun adjust(
+        isStart: Boolean,
+        buttonText: String,
+    ) {
+        val containerId = if (isStart) {
+            changeRecordR.id.containerChangeRecordTimeStartedAdjust
+        } else {
+            changeRecordR.id.containerChangeRecordTimeEndedAdjust
+        }
+        clickOnView(allOf(isDescendantOfA(withId(containerId)), withText(buttonText)))
     }
 }

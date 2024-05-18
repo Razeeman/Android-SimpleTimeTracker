@@ -359,7 +359,7 @@ class StatisticsDetailTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.statistics_detail_length_hundred)
         checkRangeAverages(
             rangeId = coreR.string.statistics_detail_chart_daily,
-            average = "36$secondString",
+            average = "0$minuteString",
             averageNonEmpty = "1$hourString 0$minuteString",
         )
 
@@ -379,7 +379,7 @@ class StatisticsDetailTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.statistics_detail_length_hundred)
         checkRangeAverages(
             rangeId = coreR.string.statistics_detail_chart_weekly,
-            average = "36$secondString",
+            average = "0$minuteString",
             averageNonEmpty = "1$hourString 0$minuteString",
         )
 
@@ -399,7 +399,7 @@ class StatisticsDetailTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.statistics_detail_length_hundred)
         checkRangeAverages(
             rangeId = coreR.string.statistics_detail_chart_monthly,
-            average = "36$secondString",
+            average = "0$minuteString",
             averageNonEmpty = "1$hourString 0$minuteString",
         )
 
@@ -1310,7 +1310,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
     private fun checkEmptyStatistics() {
         onView(withId(statisticsDetailR.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
-        checkCard(coreR.string.statistics_detail_total_duration, "0$secondString")
+        checkCard(coreR.string.statistics_detail_total_duration, "0$minuteString")
 
         onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkRecordsCard(0)

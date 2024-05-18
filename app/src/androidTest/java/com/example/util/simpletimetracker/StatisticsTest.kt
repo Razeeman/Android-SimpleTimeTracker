@@ -445,7 +445,7 @@ class StatisticsTest : BaseUiTest() {
             allOf(
                 withId(statisticsR.id.layoutStatisticsInfoItem),
                 hasDescendant(withText(coreR.string.statistics_total_tracked)),
-                hasDescendant(withText("0$secondString")),
+                hasDescendant(withText("0$minuteString")),
                 isCompletelyDisplayed(),
             ),
         )
@@ -536,7 +536,7 @@ class StatisticsTest : BaseUiTest() {
             allOf(
                 withId(statisticsR.id.layoutStatisticsInfoItem),
                 hasDescendant(withText(coreR.string.statistics_total_tracked)),
-                hasDescendant(withText("0$secondString")),
+                hasDescendant(withText("0$minuteString")),
                 isCompletelyDisplayed(),
             ),
         )
@@ -627,7 +627,7 @@ class StatisticsTest : BaseUiTest() {
             allOf(
                 withId(statisticsR.id.layoutStatisticsInfoItem),
                 hasDescendant(withText(coreR.string.statistics_total_tracked)),
-                hasDescendant(withText("0$secondString")),
+                hasDescendant(withText("0$minuteString")),
                 isCompletelyDisplayed(),
             ),
         )

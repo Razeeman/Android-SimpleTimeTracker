@@ -1468,7 +1468,7 @@ class SettingsTest : BaseUiTest() {
         val tag = "TagName"
         val tagGeneral = "TagGeneral"
         val fullName = "$name - $tag"
-        val fullName2 = "$name - $tagGeneral, $tag"
+        val fullName2 = "$name - $tag, $tagGeneral"
 
         // Add data
         testUtils.addActivity(name)

@@ -59,7 +59,7 @@ class RecordActionsMergeTest : BaseUiTest() {
         }
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         checkViewIsNotDisplayed(withText(coreR.string.change_record_merge))
-        pressBack()
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
         pressBack()
 
         // Record - not shown
@@ -69,12 +69,14 @@ class RecordActionsMergeTest : BaseUiTest() {
         )
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         checkViewIsNotDisplayed(withText(coreR.string.change_record_merge))
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
         pressBack()
 
         // New record - not shown
         clickOnViewWithId(recordsR.id.btnRecordAdd)
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         checkViewIsNotDisplayed(withText(coreR.string.change_record_merge))
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
         pressBack()
 
         // Untracked and have prev record - shown
@@ -82,6 +84,7 @@ class RecordActionsMergeTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         onView(withText(coreR.string.change_record_merge)).perform(nestedScrollTo())
         checkViewIsDisplayed(withText(coreR.string.change_record_merge))
+        clickOnViewWithText(coreR.string.change_record_actions_hint)
         pressBack()
 
         // Untracked and have no prev record - not shown

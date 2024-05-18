@@ -51,7 +51,7 @@ class ZeroDurationRecordTest : BaseUiTest() {
         val record = allOf(
             withId(baseR.id.viewRecordItem),
             hasDescendant(withText(name)),
-            hasDescendant(withText("0$secondString")),
+            hasDescendant(withText("0$minuteString")),
             isCompletelyDisplayed(),
         )
         checkViewIsDisplayed(record)
