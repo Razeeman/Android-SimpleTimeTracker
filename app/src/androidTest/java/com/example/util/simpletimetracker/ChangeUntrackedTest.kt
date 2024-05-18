@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker
 
 import android.view.View
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -19,15 +20,16 @@ import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
-import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.concurrent.TimeUnit
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
 import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
+import com.example.util.simpletimetracker.feature_statistics_detail.R as statisticsDetailR
 import com.example.util.simpletimetracker.feature_views.R as viewsR
 
 @HiltAndroidTest
@@ -52,8 +54,19 @@ class ChangeUntrackedTest : BaseUiTest() {
 
         // View is set up
         checkViewIsNotDisplayed(withId(changeRecordR.id.btnChangeRecordDelete))
+        checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordStatistics))
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordType))
         checkPreviewUpdated(withCardColor(viewsR.color.colorUntracked))
+
+        // Check statistics navigation
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordStatistics)
+        checkViewIsDisplayed(
+            allOf(
+                withId(statisticsDetailR.id.viewStatisticsDetailItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+            ),
+        )
+        pressBack()
 
         // Change item
         clickOnViewWithText(coreR.string.change_record_type_field)

@@ -35,7 +35,7 @@ import com.example.util.simpletimetracker.feature_settings.R as settingsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-class SettingsCardOrder : BaseUiTest() {
+class SettingsSortActivity : BaseUiTest() {
 
     @Test
     fun cardSizeTest() {
@@ -97,7 +97,7 @@ class SettingsCardOrder : BaseUiTest() {
     }
 
     @Test
-    fun cardOrderByName() {
+    fun sortOrderName() {
         val name1 = "Test1"
         val name2 = "Test2"
         val color1 = firstColor
@@ -120,7 +120,7 @@ class SettingsCardOrder : BaseUiTest() {
     }
 
     @Test
-    fun cardOrderByColor() {
+    fun sortOrderColor() {
         val name = "Test"
 
         val colors = ColorMapper.getAvailableColors()
@@ -186,7 +186,7 @@ class SettingsCardOrder : BaseUiTest() {
     }
 
     @Test
-    fun cardOrderManual() {
+    fun sortOrderManual() {
         val name1 = "Test1"
         val name2 = "Test2"
         val name3 = "Test3"
@@ -238,7 +238,7 @@ class SettingsCardOrder : BaseUiTest() {
     }
 
     @Test
-    fun cardOrderManual2() {
+    fun sortOrderManual2() {
         val name = "Test"
         val cardsCount = 6
 

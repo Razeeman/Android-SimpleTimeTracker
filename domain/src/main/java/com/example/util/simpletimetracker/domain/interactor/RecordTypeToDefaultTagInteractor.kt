@@ -1,16 +1,11 @@
 package com.example.util.simpletimetracker.domain.interactor
 
-import com.example.util.simpletimetracker.domain.model.RecordTypeToDefaultTag
 import com.example.util.simpletimetracker.domain.repo.RecordTypeToDefaultTagRepo
 import javax.inject.Inject
 
 class RecordTypeToDefaultTagInteractor @Inject constructor(
     private val repo: RecordTypeToDefaultTagRepo,
 ) {
-
-    suspend fun getAll(): List<RecordTypeToDefaultTag> {
-        return repo.getAll()
-    }
 
     suspend fun getTags(typeId: Long): Set<Long> {
         return repo.getTagIdsByType(typeId)

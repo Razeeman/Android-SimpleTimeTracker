@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker
 import android.view.View
 import android.widget.DatePicker
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
@@ -25,16 +26,17 @@ import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
-import java.util.Calendar
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.Calendar
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 import com.example.util.simpletimetracker.feature_records.R as recordsR
+import com.example.util.simpletimetracker.feature_statistics_detail.R as statisticsDetailR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -92,6 +94,7 @@ class ChangeRecordTest : BaseUiTest() {
 
         // View is set up
         checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordDelete))
+        checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordStatistics))
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordType))
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordCategories))
         checkViewIsNotDisplayed(allOf(withId(changeRecordR.id.etChangeRecordComment), withText(comment)))
@@ -108,6 +111,16 @@ class ChangeRecordTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withText(timeEndedPreview)))
         checkPreviewUpdated(hasDescendant(withText(timeRangePreview)))
         checkPreviewUpdated(hasDescendant(withText(comment)))
+
+        // Check statistics navigation
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordStatistics)
+        checkViewIsDisplayed(
+            allOf(
+                withId(statisticsDetailR.id.viewStatisticsDetailItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        pressBack()
 
         // Change item
         clickOnViewWithText(coreR.string.change_record_type_field)

@@ -62,6 +62,7 @@ class AddRecordTest : BaseUiTest() {
 
         // View is set up
         checkViewIsNotDisplayed(withId(changeRecordR.id.btnChangeRecordDelete))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.btnChangeRecordStatistics))
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordType))
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordCategories))
         val currentTime = System.currentTimeMillis()

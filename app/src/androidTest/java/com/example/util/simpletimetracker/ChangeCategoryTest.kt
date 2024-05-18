@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker
 
 import android.view.View
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -14,6 +15,7 @@ import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
+import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
@@ -26,6 +28,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_change_category.R as changeCategoryR
+import com.example.util.simpletimetracker.feature_statistics_detail.R as statisticsDetailR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -51,6 +54,7 @@ class ChangeCategoryTest : BaseUiTest() {
 
         // View is set up
         checkViewIsDisplayed(withId(changeCategoryR.id.btnChangeCategoryDelete))
+        checkViewIsDisplayed(withId(changeCategoryR.id.btnChangeCategoryStatistics))
         checkViewIsNotDisplayed(withId(changeCategoryR.id.rvChangeCategoryColor))
         checkViewIsNotDisplayed(withId(changeCategoryR.id.rvChangeCategoryType))
         checkViewIsDisplayed(allOf(withId(changeCategoryR.id.etChangeCategoryName), withText(name)))
@@ -58,6 +62,16 @@ class ChangeCategoryTest : BaseUiTest() {
         // Preview is updated
         checkPreviewUpdated(hasDescendant(withText(name)))
         checkPreviewUpdated(withCardColor(firstColor))
+
+        // Check statistics navigation
+        clickOnViewWithId(changeCategoryR.id.btnChangeCategoryStatistics)
+        checkViewIsDisplayed(
+            allOf(
+                withId(statisticsDetailR.id.viewStatisticsDetailItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        pressBack()
 
         // Change item
         typeTextIntoView(changeCategoryR.id.etChangeCategoryName, newName)

@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker
 
 import android.view.View
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -33,6 +34,7 @@ import org.junit.runner.RunWith
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
+import com.example.util.simpletimetracker.feature_statistics_detail.R as statisticsDetailR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -50,6 +52,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
 
         // View is set up
         checkViewIsDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeDelete))
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeStatistics))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeColor))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvIconSelection))
         checkViewIsDisplayed(allOf(withId(changeRecordTypeR.id.etChangeRecordTypeName), withText(name)))
@@ -58,6 +61,16 @@ class ChangeRecordTypeTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withText(name)))
         checkPreviewUpdated(hasDescendant(withCardColor(firstColor)))
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
+
+        // Check statistics navigation
+        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeStatistics)
+        checkViewIsDisplayed(
+            allOf(
+                withId(statisticsDetailR.id.viewStatisticsDetailItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        pressBack()
 
         // Change item
         typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeName, newName)

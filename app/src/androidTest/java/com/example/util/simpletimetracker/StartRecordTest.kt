@@ -211,4 +211,27 @@ class StartRecordTest : BaseUiTest() {
         clickOnView(allOf(withText(fullName), isCompletelyDisplayed()))
         checkViewIsDisplayed(allOf(withId(changeRecordR.id.previewChangeRecord), hasDescendant(withText(fullName))))
     }
+
+    @Test
+    fun startRecordWithDefaultTag() {
+        val typeName = "typeName"
+        val tagName = "tagName"
+        val fullName = "$typeName - $tagName"
+
+        // Add data
+        testUtils.addActivity(name = typeName)
+        testUtils.addRecordTag(tagName = tagName, defaultTypes = listOf(typeName))
+        Thread.sleep(1000)
+
+        // Start timer
+        tryAction { clickOnViewWithText(typeName) }
+
+        // Check
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewRunningRecordItem),
+                hasDescendant(withText(fullName)),
+            ),
+        )
+    }
 }

@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeToDefaultTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
@@ -35,6 +36,7 @@ class TestUtils @Inject constructor(
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
+    private val recordTypeToDefaultTagInteractor: RecordTypeToDefaultTagInteractor,
     private val activityFilterInteractor: ActivityFilterInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -150,11 +152,16 @@ class TestUtils @Inject constructor(
 
     fun addCategory(
         tagName: String,
+        color: Int? = null,
         goals: List<RecordTypeGoal> = emptyList(),
     ) = runBlocking {
+        val colors = ColorMapper.getAvailableColors()
+        val colorId = colors.indexOf(color).takeUnless { it == -1 }
+            ?: (0..colors.size).random()
+
         val data = Category(
             name = tagName,
-            color = AppColor(colorId = 0, colorInt = ""),
+            color = AppColor(colorId = colorId, colorInt = ""),
         )
 
         val categoryId = categoryInteractor.add(data)
@@ -168,28 +175,37 @@ class TestUtils @Inject constructor(
         tagName: String,
         typeName: String? = null,
         archived: Boolean = false,
+        color: Int? = null,
+        defaultTypes: List<String> = emptyList(),
     ) = runBlocking {
         val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
+
+        val colors = ColorMapper.getAvailableColors()
+        val colorId = colors.indexOf(color).takeUnless { it == -1 }
+            ?: (0..colors.size).random()
 
         val data = RecordTag(
             name = tagName,
             icon = "",
-            color = AppColor(colorId = 0, colorInt = ""),
+            color = AppColor(colorId = colorId, colorInt = ""),
             iconColorSource = type?.id.orZero(),
             archived = archived,
         )
 
         val tagId = recordTagInteractor.add(data)
+        val types = recordTypeInteractor.getAll()
 
-        recordTypeInteractor.getAll()
+        types
             .firstOrNull { it.name == typeName }
             ?.id
             ?.let {
-                recordTypeToTagInteractor.addTypes(
-                    tagId = tagId,
-                    typeIds = listOf(it),
-                )
+                recordTypeToTagInteractor.addTypes(tagId = tagId, typeIds = listOf(it))
             }
+
+        types.filter { it.name in defaultTypes }
+            .map { it.id }
+            .takeUnless { it.isEmpty() }
+            ?.let { recordTypeToDefaultTagInteractor.addTypes(tagId = tagId, typeIds = it) }
     }
 
     fun addActivityFilter(

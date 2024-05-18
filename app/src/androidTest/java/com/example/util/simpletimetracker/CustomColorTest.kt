@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickLocation
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
+import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
@@ -172,6 +173,11 @@ class CustomColorTest : BaseUiTest() {
             colorSaturation = 75,
             colorValue = 65,
         )
+
+        // Check random
+        clickOnViewWithId(dialogsR.id.btnColorSelectionRandom)
+        clickOnViewWithId(dialogsR.id.btnColorSelectionRandom)
+        clickOnViewWithId(dialogsR.id.btnColorSelectionRandom)
     }
 
     @Test

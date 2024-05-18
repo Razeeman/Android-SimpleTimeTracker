@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.DatePicker
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -40,6 +41,7 @@ import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
 import com.example.util.simpletimetracker.feature_change_running_record.R as changeRunningRecordR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
+import com.example.util.simpletimetracker.feature_statistics_detail.R as statisticsDetailR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -96,6 +98,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
 
         // View is set up
         checkViewIsDisplayed(withId(changeRunningRecordR.id.btnChangeRecordDelete))
+        checkViewIsDisplayed(withId(changeRunningRecordR.id.btnChangeRecordStatistics))
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordType))
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordCategories))
         checkViewIsDisplayed(withId(changeRecordR.id.containerChangeRecordTimeStartedAdjust))
@@ -110,6 +113,16 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
         checkPreviewUpdated(hasDescendant(withSubstring(goalString)))
+
+        // Check statistics navigation
+        clickOnViewWithId(changeRunningRecordR.id.btnChangeRecordStatistics)
+        checkViewIsDisplayed(
+            allOf(
+                withId(statisticsDetailR.id.viewStatisticsDetailItem),
+                hasDescendant(withText(name1)),
+            ),
+        )
+        pressBack()
 
         // Change item
         clickOnViewWithText(coreR.string.change_record_type_field)

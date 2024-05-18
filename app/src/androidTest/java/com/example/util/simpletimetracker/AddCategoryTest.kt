@@ -60,6 +60,7 @@ class AddCategoryTest : BaseUiTest() {
 
         // View is set up
         checkViewIsNotDisplayed(withId(changeCategoryR.id.btnChangeCategoryDelete))
+        checkViewIsNotDisplayed(withId(changeCategoryR.id.btnChangeCategoryStatistics))
         checkViewIsNotDisplayed(withId(changeCategoryR.id.rvChangeCategoryColor))
         checkViewIsNotDisplayed(withId(changeCategoryR.id.rvChangeCategoryType))
 

@@ -27,6 +27,7 @@ import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
+import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
@@ -43,6 +44,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
 import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
 import com.example.util.simpletimetracker.feature_goals.R as goalsR
 import com.example.util.simpletimetracker.feature_main.R as mainR
+import com.example.util.simpletimetracker.feature_statistics_detail.R as featureStatisticsDetailR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -329,6 +331,35 @@ class GoalsTabTest : BaseUiTest() {
         scrollTo(goalMonthlyCountFinished)
         checkStatisticsGoal(goalMonthlyCountFinished, "5 Records", "$goal - 3 Records")
         checkStatisticsMark(goalMonthlyCountFinished, isVisible = true)
+    }
+
+    @Test
+    fun goalNavigation() {
+        val typeName = "typeName"
+
+        // Add data
+        testUtils.addActivity(
+            name = typeName,
+            goals = listOf(getDailyDurationGoal(durationInSeconds)),
+        )
+        testUtils.addRecord(typeName)
+
+        // Check
+        NavUtils.openGoalsScreen()
+        scrollTo(typeName)
+        clickOnView(
+            allOf(
+                withId(baseR.id.viewStatisticsGoalItem),
+                hasDescendant(withText(typeName)),
+                isCompletelyDisplayed(),
+            ),
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(featureStatisticsDetailR.id.viewStatisticsDetailItem),
+                hasDescendant(withText(typeName)),
+            ),
+        )
     }
 
     private fun scrollTo(

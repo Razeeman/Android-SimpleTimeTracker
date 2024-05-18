@@ -15,6 +15,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
+import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
@@ -60,6 +61,7 @@ class AddRecordTypeTest : BaseUiTest() {
 
         // View is set up
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeDelete))
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeStatistics))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeColor))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvIconSelection))
 
@@ -189,6 +191,29 @@ class AddRecordTypeTest : BaseUiTest() {
         // Open category chooser
         clickOnViewWithText(coreR.string.category_hint)
         checkViewIsDisplayed(withText(coreR.string.categories_record_type_hint))
+    }
+
+    @Test
+    fun addRecordTypeSameName() {
+        val name = "Test"
+
+        // Add activity
+        testUtils.addActivity(name = name)
+
+        // Add new activity
+        clickOnViewWithText(coreR.string.running_records_add_type)
+        closeSoftKeyboard()
+
+        // No error
+        checkViewDoesNotExist(withText(coreR.string.change_record_message_name_exist))
+
+        // Check same name
+        typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeName, name)
+        checkViewIsDisplayed(withText(coreR.string.change_record_message_name_exist))
+
+        // Check other name
+        typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeName, "$name+")
+        checkViewDoesNotExist(withText(coreR.string.change_record_message_name_exist))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

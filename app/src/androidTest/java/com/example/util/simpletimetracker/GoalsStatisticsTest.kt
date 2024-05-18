@@ -27,6 +27,8 @@ import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyDurationGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyDurationGoalCategory
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
+import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
+import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
@@ -40,6 +42,7 @@ import org.junit.runner.RunWith
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
 import com.example.util.simpletimetracker.feature_statistics.R as statisticsR
+import com.example.util.simpletimetracker.feature_statistics_detail.R as featureStatisticsDetailR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -642,6 +645,35 @@ class GoalsStatisticsTest : BaseUiTest() {
         // Other goals
         scrollBottom()
         checkNoStatisticsGoal(otherGoals)
+    }
+
+    @Test
+    fun goalNavigation() {
+        val typeName = "typeName"
+
+        // Add data
+        testUtils.addActivity(
+            name = typeName,
+            goals = listOf(getDailyDurationGoal(durationInSeconds)),
+        )
+        testUtils.addRecord(typeName)
+
+        // Check
+        NavUtils.openStatisticsScreen()
+        scrollTo(typeName)
+        clickOnView(
+            allOf(
+                withId(baseR.id.viewStatisticsGoalItem),
+                hasDescendant(withText(typeName)),
+                isCompletelyDisplayed(),
+            ),
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(featureStatisticsDetailR.id.viewStatisticsDetailItem),
+                hasDescendant(withText(typeName)),
+            ),
+        )
     }
 
     private fun scrollTo(typeName: String) {
