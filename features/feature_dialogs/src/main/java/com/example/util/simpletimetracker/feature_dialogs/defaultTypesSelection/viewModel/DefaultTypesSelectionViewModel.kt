@@ -82,6 +82,13 @@ class DefaultTypesSelectionViewModel @Inject constructor(
         }
     }
 
+    fun onHideClick() {
+        viewModelScope.launch {
+            prefsInteractor.setDefaultTypesHidden(true)
+            close.set(Unit)
+        }
+    }
+
     private fun updateSaveButtonEnabled() {
         saveButtonEnabled.set(typeIdsSelected.size != 0)
     }

@@ -185,6 +185,7 @@
     <string name="schedule_exact_alarms_open_settings">開ける</string>
 
     <string name="default_types_selection_title">追加するアクティビティを選択</string>
+    <string name="default_types_selection_hide">二度と表示しないでください</string>
 
     <string name="record_tag_selection_exclude_activities_title">アクティビティを除外する</string>
     <string name="record_tag_selection_exclude_activities_hint">選択したアクティビティに対してタグ選択ダイアログは表示されません。</string>

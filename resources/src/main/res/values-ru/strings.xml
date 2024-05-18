@@ -185,6 +185,7 @@
     <string name="schedule_exact_alarms_open_settings">Открыть</string>
 
     <string name="default_types_selection_title">Выберите активности для добавления</string>
+    <string name="default_types_selection_hide">Больше не показывать</string>
 
     <string name="record_tag_selection_exclude_activities_title">Исключить активности</string>
     <string name="record_tag_selection_exclude_activities_hint">Диалог выбора тега не будет отображаться для выбранных активностей.</string>

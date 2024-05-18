@@ -185,6 +185,7 @@
     <string name="schedule_exact_alarms_open_settings">Deschide</string>
 
     <string name="default_types_selection_title">Alege activități pentru a fi adăugate</string>
+    <string name="default_types_selection_hide">Nu mai arăta</string>
 
     <string name="record_tag_selection_exclude_activities_title">Excludeți activități</string>
     <string name="record_tag_selection_exclude_activities_hint">Dialogul de selecție a etichetelor nu va fi afișat pentru activitățile selectate.</string>

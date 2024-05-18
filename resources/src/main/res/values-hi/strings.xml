@@ -185,6 +185,7 @@
     <string name="schedule_exact_alarms_open_settings">खुला</string>
 
     <string name="default_types_selection_title">जोड़ने के लिए गतिविधियों का चयन करें</string>
+    <string name="default_types_selection_hide">दोबारा मत दिखाना</string>
 
     <string name="record_tag_selection_exclude_activities_title">गतिविधियाँ बहिष्कृत करें</string>
     <string name="record_tag_selection_exclude_activities_hint">चयनित गतिविधियों के लिए टैग चयन संवाद नहीं दिखाया जाएगा।</string>

@@ -185,6 +185,7 @@
     <string name="schedule_exact_alarms_open_settings">打开</string>
 
     <string name="default_types_selection_title">选择要添加的活动</string>
+    <string name="default_types_selection_hide">不再显示</string>
 
     <string name="record_tag_selection_exclude_activities_title">排除活动</string>
     <string name="record_tag_selection_exclude_activities_hint">对于选定的活动，不会显示标签选择对话框。</string>

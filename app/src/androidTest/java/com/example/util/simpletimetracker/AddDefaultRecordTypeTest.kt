@@ -105,9 +105,15 @@ class AddDefaultRecordTypeTest : BaseUiTest() {
 
         // Types added
         checkViewIsDisplayed(withText(coreR.string.running_records_add_type))
-        checkViewDoesNotExist(withText(coreR.string.running_records_add_default))
+        checkViewIsDisplayed(withText(coreR.string.running_records_add_default))
         checkActivity(name1, color1)
         checkActivity(name2, color2)
+
+        // Hide button
+        clickOnViewWithText(coreR.string.running_records_add_default)
+        clickOnViewWithText(coreR.string.default_types_selection_hide)
+        Thread.sleep(1000)
+        checkViewDoesNotExist(withText(coreR.string.running_records_add_default))
     }
 
     private fun checkActivity(

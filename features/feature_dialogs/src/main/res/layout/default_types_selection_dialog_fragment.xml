@@ -69,10 +69,24 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDefaultTypesSelectionSave"
             style="@style/AppButtonActive"
-            android:layout_width="match_parent"
-            android:layout_marginHorizontal="8dp"
+            android:layout_width="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
             android:text="@string/duration_dialog_save"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnDefaultTypesSelectionHide"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDefaultTypesSelectionHide"
+            style="@style/AppButton"
+            android:layout_width="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/default_types_selection_hide"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnDefaultTypesSelectionSave" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

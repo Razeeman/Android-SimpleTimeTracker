@@ -185,6 +185,7 @@
     <string name="schedule_exact_alarms_open_settings">開啟</string>
 
     <string name="default_types_selection_title">選擇要添加的活動</string>
+    <string name="default_types_selection_hide">不再顯示</string>
 
     <string name="record_tag_selection_exclude_activities_title">排除活動</string>
     <string name="record_tag_selection_exclude_activities_hint">對於選定的活動，不會顯示標籤選擇對話方塊。</string>

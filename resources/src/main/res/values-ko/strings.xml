@@ -185,6 +185,7 @@
     <string name="schedule_exact_alarms_open_settings">열기</string>
 
     <string name="default_types_selection_title">추가할 활동을 선택하세요</string>
+    <string name="default_types_selection_hide">다시 표시하지 않음</string>
 
     <string name="record_tag_selection_exclude_activities_title">활동 제외</string>
     <string name="record_tag_selection_exclude_activities_hint">선택한 활동에 대해서는 태그 선택 대화 상자가 표시되지 않습니다.</string>

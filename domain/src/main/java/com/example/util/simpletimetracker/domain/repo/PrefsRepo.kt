@@ -115,6 +115,8 @@ interface PrefsRepo {
 
     var widgetBackgroundTransparencyPercent: Long
 
+    var defaultTypesHidden: Boolean
+
     fun setWidget(widgetId: Int, recordType: Long)
 
     fun getWidget(widgetId: Int): Long

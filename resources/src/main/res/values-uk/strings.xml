@@ -185,6 +185,7 @@
     <string name="schedule_exact_alarms_open_settings">Відкрити</string>
 
     <string name="default_types_selection_title">Виберіть дії для додавання</string>
+    <string name="default_types_selection_hide">Більше не показувати</string>
 
     <string name="record_tag_selection_exclude_activities_title">Виключити діяльність</string>
     <string name="record_tag_selection_exclude_activities_hint">Діалогове вікно вибору тегів не відображатиметься для вибраних дій.</string>

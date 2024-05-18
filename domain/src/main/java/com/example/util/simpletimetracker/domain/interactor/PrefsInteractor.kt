@@ -593,6 +593,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.widgetBackgroundTransparencyPercent
     }
 
+    suspend fun getDefaultTypesHidden(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.defaultTypesHidden
+    }
+
+    suspend fun setDefaultTypesHidden(value: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.defaultTypesHidden = value
+    }
+
     suspend fun clear() = withContext(Dispatchers.IO) {
         prefsRepo.clear()
     }

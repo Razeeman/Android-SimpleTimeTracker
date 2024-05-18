@@ -45,6 +45,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val showSeconds = prefsInteractor.getShowSeconds()
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showFirstEnterHint = recordTypes.filterNot(RecordType::hidden).isEmpty()
+        val showDefaultTypesButton = !prefsInteractor.getDefaultTypesHidden()
         val showRepeatButton = recordRepeatInteractor.shouldShowButton()
         val goals = filterGoalsByDayOfWeekInteractor
             .execute(recordTypeGoalInteractor.getAllTypeGoals())
@@ -130,7 +131,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                         numberOfCards = numberOfCards,
                         isDarkTheme = isDarkTheme,
                     ).let(::add)
-                    if (showFirstEnterHint) {
+                    if (showDefaultTypesButton) {
                         recordTypeViewDataMapper.mapToAddDefaultItem(
                             numberOfCards = numberOfCards,
                             isDarkTheme = isDarkTheme,

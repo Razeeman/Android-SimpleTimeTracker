@@ -185,6 +185,7 @@
     <string name="schedule_exact_alarms_open_settings">Open</string>
 
     <string name="default_types_selection_title">Select activities to add</string>
+    <string name="default_types_selection_hide">Don\'t show again</string>
 
     <string name="record_tag_selection_exclude_activities_title">Exclude activities</string>
     <string name="record_tag_selection_exclude_activities_hint">Tag selection dialog will not be shown for selected activities.</string>

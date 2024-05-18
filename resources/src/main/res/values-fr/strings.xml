@@ -185,6 +185,7 @@
     <string name="schedule_exact_alarms_open_settings">Ouvrir</string>
 
     <string name="default_types_selection_title">Sélectionnez les activités à ajouter</string>
+    <string name="default_types_selection_hide">Ne plus montrer</string>
 
     <string name="record_tag_selection_exclude_activities_title">Exclure les activités</string>
     <string name="record_tag_selection_exclude_activities_hint">La boîte de dialogue de sélection de balise ne s\'affichera pas pour les activités sélectionnées.</string>

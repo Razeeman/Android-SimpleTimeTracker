@@ -185,6 +185,7 @@
     <string name="schedule_exact_alarms_open_settings">Açık</string>
 
     <string name="default_types_selection_title">Eklenecek etkinlikleri seçin</string>
+    <string name="default_types_selection_hide">Bir daha gösterme</string>
 
     <string name="record_tag_selection_exclude_activities_title">Etkinlikleri hariç tut</string>
     <string name="record_tag_selection_exclude_activities_hint">Seçilen etkinlikler için etiket seçimi iletişim kutusu gösterilmeyecektir.</string>

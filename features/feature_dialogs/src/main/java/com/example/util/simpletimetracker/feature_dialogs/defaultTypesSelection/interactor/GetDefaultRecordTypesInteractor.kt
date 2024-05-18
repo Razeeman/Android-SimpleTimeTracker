@@ -10,6 +10,7 @@ class GetDefaultRecordTypesInteractor @Inject constructor() {
         return defaultTypes
             .mapIndexed { index, type ->
                 RecordType(
+                    // Add ids for recycler, will be removed later before adding to DB.
                     id = index.toLong(),
                     name = type.name,
                     icon = type.icon,

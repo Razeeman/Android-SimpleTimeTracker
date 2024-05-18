@@ -185,6 +185,7 @@
     <string name="schedule_exact_alarms_open_settings">Mở</string>
 
     <string name="default_types_selection_title">Chọn hoạt động để thêm</string>
+    <string name="default_types_selection_hide">Không hiển thị lại</string>
 
     <string name="record_tag_selection_exclude_activities_title">Loại trừ các hoạt động</string>
     <string name="record_tag_selection_exclude_activities_hint">Hộp thoại chọn thẻ sẽ không được hiển thị cho các hoạt động đã chọn.</string>

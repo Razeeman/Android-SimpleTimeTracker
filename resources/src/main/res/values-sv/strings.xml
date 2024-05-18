@@ -185,6 +185,7 @@
     <string name="schedule_exact_alarms_open_settings">Öppen</string>
 
     <string name="default_types_selection_title">Välj aktiviteter att lägga till</string>
+    <string name="default_types_selection_hide">Visa inte igen</string>
 
     <string name="record_tag_selection_exclude_activities_title">Uteslut aktiviteter</string>
     <string name="record_tag_selection_exclude_activities_hint">Dialogrutan för val av tagg kommer inte att visas för valda aktiviteter.</string>

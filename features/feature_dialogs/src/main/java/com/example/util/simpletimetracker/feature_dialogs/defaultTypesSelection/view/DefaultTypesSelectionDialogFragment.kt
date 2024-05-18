@@ -62,6 +62,7 @@ class DefaultTypesSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
         btnDefaultTypesSelectionShowAll.setOnClick(viewModel::onShowAllClick)
         btnDefaultTypesSelectionHideAll.setOnClick(viewModel::onHideAllClick)
         btnDefaultTypesSelectionSave.setOnClick(viewModel::onSaveClick)
+        btnDefaultTypesSelectionHide.setOnClick(viewModel::onHideClick)
     }
 
     override fun initViewModel(): Unit = with(viewModel) {

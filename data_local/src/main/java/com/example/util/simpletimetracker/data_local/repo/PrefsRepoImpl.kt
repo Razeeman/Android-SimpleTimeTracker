@@ -254,6 +254,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_WIDGET_TRANSPARENCY_PERCENT, 60,
     )
 
+    override var defaultTypesHidden: Boolean by prefs.delegate(
+        KEY_DEFAULT_TYPES_HIDDEN, false
+    )
+
     override fun setWidget(widgetId: Int, recordType: Long) {
         val key = KEY_WIDGET + widgetId
         logPrefsDataAccess("set $key")
@@ -496,6 +500,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_AUTOMATIC_EXPORT_LAST_SAVE_TIME = "automaticExportLastSaveTime"
         private const val KEY_REPEAT_BUTTON_TYPE = "repeatButtonType"
         private const val KEY_WIDGET_TRANSPARENCY_PERCENT = "widgetTransparencyPercent"
+        private const val KEY_DEFAULT_TYPES_HIDDEN = "defaultTypesHidden"
         private const val KEY_WIDGET = "widget_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_TYPES = "statistics_widget_filtered_types_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES = "statistics_widget_filtered_categories_"

@@ -185,6 +185,7 @@
     <string name="schedule_exact_alarms_open_settings">باز کردن</string>
 
     <string name="default_types_selection_title">انتخاب فعالیت ها برای اضافه کردن</string>
+    <string name="default_types_selection_hide">دیگر نشان نده</string>
 
     <string name="record_tag_selection_exclude_activities_title">حذف فعالیت ها</string>
     <string name="record_tag_selection_exclude_activities_hint">گفتگوی انتخاب برچسب برای فعالیت های انتخاب شده نشان داده نخواهد شد.</string>
