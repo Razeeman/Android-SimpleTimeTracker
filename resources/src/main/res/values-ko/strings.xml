@@ -236,6 +236,8 @@
     <string name="settings_days_in_calendar">표시할 일 수</string>
     <string name="settings_widget_transparency">위젯 배경 투명도</string>
     <string name="settings_show_activity_filters">메인 화면에 활동 필터 표시</string>
+    <string name="settings_allow_multiple_activity_filters">여러 활동 필터 허용</string>
+    <string name="settings_allow_multiple_activity_filters_hint">비활성화된 경우 필터를 선택하면 다른 활동 필터가 비활성화됩니다.</string>
     <string name="settings_show_goals_separately">목표 탭 분리</string>
     <string name="settings_allow_multitasking">멀티태스킹 활성화</string>
     <string name="settings_allow_multitasking_hint">비활성화시, 새로운 활동을 시작하면 기존의 활동 기록을 멈춥니다.</string>

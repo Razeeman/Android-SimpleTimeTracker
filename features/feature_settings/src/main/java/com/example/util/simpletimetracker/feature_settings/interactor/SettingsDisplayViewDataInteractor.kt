@@ -115,14 +115,25 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                     processSameItemSelected = false,
                 )
             }
+            val showActivityFilters = prefsInteractor.getShowActivityFilters()
             result += SettingsCheckboxViewData(
                 block = SettingsBlock.DisplayShowActivityFilters,
                 title = resourceRepo.getString(R.string.settings_show_activity_filters),
                 subtitle = "",
-                isChecked = prefsInteractor.getShowActivityFilters(),
+                isChecked = showActivityFilters,
                 bottomSpaceIsVisible = true,
-                dividerIsVisible = true,
+                dividerIsVisible = !showActivityFilters,
             )
+            if (showActivityFilters) {
+                result += SettingsCheckboxViewData(
+                    block = SettingsBlock.DisplayAllowMultipleActivityFilters,
+                    title = resourceRepo.getString(R.string.settings_allow_multiple_activity_filters),
+                    subtitle = resourceRepo.getString(R.string.settings_allow_multiple_activity_filters_hint),
+                    isChecked = prefsInteractor.getAllowMultipleActivityFilters(),
+                    bottomSpaceIsVisible = true,
+                    dividerIsVisible = true,
+                )
+            }
             result += SettingsCheckboxViewData(
                 block = SettingsBlock.DisplayGoalsOnSeparateTabs,
                 title = resourceRepo.getString(R.string.settings_show_goals_separately),

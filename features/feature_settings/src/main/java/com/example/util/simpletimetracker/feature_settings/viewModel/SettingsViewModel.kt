@@ -171,6 +171,8 @@ class SettingsViewModel @Inject constructor(
                 displayDelegate.onReverseOrderInCalendarClicked()
             SettingsBlock.DisplayShowActivityFilters ->
                 displayDelegate.onShowActivityFiltersClicked()
+            SettingsBlock.DisplayAllowMultipleActivityFilters ->
+                displayDelegate.onAllowMultipleActivityFiltersClicked()
             SettingsBlock.DisplayGoalsOnSeparateTabs ->
                 displayDelegate.onShowGoalsSeparatelyClicked()
             SettingsBlock.DisplayKeepScreenOn ->

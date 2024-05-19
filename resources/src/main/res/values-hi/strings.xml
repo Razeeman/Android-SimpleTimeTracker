@@ -236,6 +236,8 @@
     <string name="settings_days_in_calendar">कैलेंडर में दिन</string>
     <string name="settings_widget_transparency">विजेट पृष्ठभूमि पारदर्शिता</string>
     <string name="settings_show_activity_filters">मुख्य स्क्रीन पर गतिविधि फ़िल्टर दिखाएं</string>
+    <string name="settings_allow_multiple_activity_filters">एकाधिक गतिविधि फ़िल्टर की अनुमति दें</string>
+    <string name="settings_allow_multiple_activity_filters_hint">यदि अक्षम किया गया है, तो फ़िल्टर का चयन करने से अन्य गतिविधि फ़िल्टर अक्षम हो जाएंगे।</string>
     <string name="settings_show_goals_separately">एक अलग टैब पर लक्ष्य दिखाएँ</string>
     <string name="settings_allow_multitasking">मल्टीटास्किंग की अनुमति दें</string>
     <string name="settings_allow_multitasking_hint">यदि बंद हे तो नया टाइमर शुरू होने पर यह अन्य स्वचालित गतिविधियों को रोक देगा।</string>

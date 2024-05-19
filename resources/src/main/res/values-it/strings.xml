@@ -236,6 +236,8 @@
     <string name="settings_days_in_calendar">Giorni in calendario</string>
     <string name="settings_widget_transparency">Trasparenza dello sfondo del widget</string>
     <string name="settings_show_activity_filters">Mostra i filtri delle attività sulla schermata principale</string>
+    <string name="settings_allow_multiple_activity_filters">Consenti più filtri di attività</string>
+    <string name="settings_allow_multiple_activity_filters_hint">Se disabilitato, la selezione di un filtro disabiliterà gli altri filtri di attività.</string>
     <string name="settings_show_goals_separately">Mostra gli obiettivi in una scheda separata</string>
     <string name="settings_allow_multitasking">Abilita multitasking</string>
     <string name="settings_allow_multitasking_hint">Se disabilitato, avviare un nuovo timer fermerà automaticamente le altre attività.</string>

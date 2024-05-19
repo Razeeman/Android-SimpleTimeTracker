@@ -236,6 +236,8 @@
     <string name="settings_days_in_calendar">日曆中的天數</string>
     <string name="settings_widget_transparency">小部件背景透明度</string>
     <string name="settings_show_activity_filters">主視窗上顯示活動過濾器</string>
+    <string name="settings_allow_multiple_activity_filters">允許多個活動過濾器</string>
+    <string name="settings_allow_multiple_activity_filters_hint">如果停用，選擇一個過濾器將停用其他活動過濾器。</string>
     <string name="settings_show_goals_separately">在單獨的選項卡上顯示目標</string>
     <string name="settings_allow_multitasking">允許多任務</string>
     <string name="settings_allow_multitasking_hint">如果禁用啟動新計時器將自動停止其他活動。</string>

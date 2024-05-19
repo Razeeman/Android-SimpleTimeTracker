@@ -24,6 +24,9 @@ interface ActivityFilterDao {
     @Query("UPDATE activityFilters SET selected =:selected  WHERE id = :id")
     suspend fun changeSelected(id: Long, selected: Int)
 
+    @Query("UPDATE activityFilters SET selected =:selected")
+    suspend fun changeSelectedAll(selected: Int)
+
     @Query("DELETE FROM activityFilters WHERE id = :id")
     suspend fun delete(id: Long)
 

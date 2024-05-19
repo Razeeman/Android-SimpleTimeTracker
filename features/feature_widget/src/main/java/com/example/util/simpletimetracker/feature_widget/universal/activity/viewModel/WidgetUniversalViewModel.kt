@@ -10,8 +10,8 @@ import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeek
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
-import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.ChangeSelectedActivityFilterMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -40,7 +40,7 @@ class WidgetUniversalViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val activityFilterInteractor: ActivityFilterInteractor,
+    private val changeSelectedActivityFilterMediator: ChangeSelectedActivityFilterMediator,
     private val activityFilterViewDataInteractor: ActivityFilterViewDataInteractor,
     private val widgetUniversalViewDataMapper: WidgetUniversalViewDataMapper,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
@@ -101,7 +101,7 @@ class WidgetUniversalViewModel @Inject constructor(
 
     fun onActivityFilterClick(item: ActivityFilterViewData) {
         viewModelScope.launch {
-            activityFilterInteractor.changeSelected(item.id, !item.selected)
+            changeSelectedActivityFilterMediator.onFilterClicked(item.id, item.selected)
             updateRecordTypesViewData()
         }
     }

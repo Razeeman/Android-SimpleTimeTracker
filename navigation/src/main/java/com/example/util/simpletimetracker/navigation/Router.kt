@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import androidx.activity.ComponentActivity
-import androidx.fragment.app.DialogFragment
 import com.example.util.simpletimetracker.navigation.params.action.ActionParams
 import com.example.util.simpletimetracker.navigation.params.notification.NotificationParams
 import com.example.util.simpletimetracker.navigation.params.screen.ScreenParams

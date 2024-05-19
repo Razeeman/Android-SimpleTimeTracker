@@ -236,6 +236,8 @@
     <string name="settings_days_in_calendar">Takvimdeki günler</string>
     <string name="settings_widget_transparency">Widget arka plan şeffaflığı</string>
     <string name="settings_show_activity_filters">Aktivite filtrelerini ana ekranda göster</string>
+    <string name="settings_allow_multiple_activity_filters">Birden fazla etkinlik filtresine izin ver</string>
+    <string name="settings_allow_multiple_activity_filters_hint">Devre dışı bırakılırsa, bir filtre seçildiğinde diğer etkinlik filtreleri devre dışı bırakılır.</string>
     <string name="settings_show_goals_separately">Hedefleri ayrı bir sekmede göster</string>
     <string name="settings_allow_multitasking">Çoklu göreve izin ver</string>
     <string name="settings_allow_multitasking_hint">Devre dışı bırakılırsa, yeni zamanlayıcı başlatmak diğer aktivitelerin zamanlayıcısını otomatik olarak durdurur.</string>

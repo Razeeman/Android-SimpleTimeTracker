@@ -43,6 +43,8 @@ interface PrefsRepo {
 
     var showActivityFilters: Boolean
 
+    var allowMultipleActivityFilters: Boolean
+
     var showGoalsSeparately: Boolean
 
     var allowMultitasking: Boolean

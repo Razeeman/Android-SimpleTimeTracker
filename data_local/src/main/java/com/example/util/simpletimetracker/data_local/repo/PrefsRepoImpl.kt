@@ -110,6 +110,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_ACTIVITY_FILTERS, false,
     )
 
+    override var allowMultipleActivityFilters: Boolean by prefs.delegate(
+        KEY_ALLOW_MULTIPLE_ACTIVITY_FILTERS, true,
+    )
+
     override var showGoalsSeparately: Boolean by prefs.delegate(
         KEY_SHOW_GOALS_SEPARATELY, false,
     )
@@ -255,7 +259,7 @@ class PrefsRepoImpl @Inject constructor(
     )
 
     override var defaultTypesHidden: Boolean by prefs.delegate(
-        KEY_DEFAULT_TYPES_HIDDEN, false
+        KEY_DEFAULT_TYPES_HIDDEN, false,
     )
 
     override fun setWidget(widgetId: Int, recordType: Long) {
@@ -464,6 +468,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_REVERSE_ORDER_IN_CALENDAR = "reverseOrderInCalendar"
         private const val KEY_DAYS_IN_CALENDAR = "daysInCalendar"
         private const val KEY_SHOW_ACTIVITY_FILTERS = "showActivityFilters"
+        private const val KEY_ALLOW_MULTIPLE_ACTIVITY_FILTERS = "allowMultipleActivityFilters"
         private const val KEY_SHOW_GOALS_SEPARATELY = "showGoalsSeparately"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
         private const val KEY_SHOW_NOTIFICATIONS = "showNotifications"

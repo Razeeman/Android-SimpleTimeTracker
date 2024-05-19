@@ -12,6 +12,8 @@ interface ActivityFilterRepo {
 
     suspend fun changeSelected(id: Long, selected: Boolean)
 
+    suspend fun changeSelectedAll(selected: Boolean)
+
     suspend fun remove(id: Long)
 
     suspend fun clear()

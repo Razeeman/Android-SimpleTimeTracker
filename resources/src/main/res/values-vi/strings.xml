@@ -236,6 +236,8 @@
     <string name="settings_days_in_calendar">Ngày trong lịch</string>
     <string name="settings_widget_transparency">Độ trong suốt của nền tiện ích</string>
     <string name="settings_show_activity_filters">Hiển thị bộ lọc hoạt động trên màn hình chính</string>
+    <string name="settings_allow_multiple_activity_filters">Cho phép nhiều bộ lọc hoạt động</string>
+    <string name="settings_allow_multiple_activity_filters_hint">Nếu bị tắt, việc chọn bộ lọc sẽ tắt các bộ lọc hoạt động khác.</string>
     <string name="settings_show_goals_separately">Hiển thị mục tiêu trên một tab riêng</string>
     <string name="settings_allow_multitasking">Cho phép đa nhiệm</string>
     <string name="settings_allow_multitasking_hint">Nếu bị tắt, việc bắt đầu bộ hẹn giờ mới sẽ tự động dừng các hoạt động khác.</string>

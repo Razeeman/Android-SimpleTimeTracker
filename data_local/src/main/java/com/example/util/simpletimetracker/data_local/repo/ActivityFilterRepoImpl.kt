@@ -44,6 +44,12 @@ class ActivityFilterRepoImpl @Inject constructor(
         afterSourceAccess = { cache = cache?.map { if (it.id == id) it.copy(selected = selected) else it } },
     )
 
+    override suspend fun changeSelectedAll(selected: Boolean) = mutex.withLockedCache(
+        logMessage = "changeSelectedAll",
+        accessSource = { activityFilterDao.changeSelectedAll(if (selected) 1 else 0) },
+        afterSourceAccess = { cache = cache?.map { it.copy(selected = selected) } },
+    )
+
     override suspend fun remove(id: Long) = mutex.withLockedCache(
         logMessage = "remove",
         accessSource = { activityFilterDao.delete(id) },

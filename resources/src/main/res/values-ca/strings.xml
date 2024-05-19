@@ -236,6 +236,8 @@
     <string name="settings_days_in_calendar">Dies al calendari</string>
     <string name="settings_widget_transparency">Transparència de fons del widget</string>
     <string name="settings_show_activity_filters">Mostra els filtres d\'activitat a la pantalla principal.</string>
+    <string name="settings_allow_multiple_activity_filters">Permet diversos filtres d\'activitat</string>
+    <string name="settings_allow_multiple_activity_filters_hint">Si està desactivat, seleccionar un filtre desactivarà altres filtres d\'activitat.</string>
     <string name="settings_show_goals_separately">Mostra els objectius en una pestanya separada</string>
     <string name="settings_allow_multitasking">Permet la multitasca</string>
     <string name="settings_allow_multitasking_hint">Si és desactivat, en començar un nou temporitzador s\'aturaran automàticament les altres activitats.</string>

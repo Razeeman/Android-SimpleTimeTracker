@@ -45,6 +45,7 @@ enum class SettingsBlock {
     DisplayReverseOrder,
     DisplayDaysInCalendar,
     DisplayShowActivityFilters,
+    DisplayAllowMultipleActivityFilters,
     DisplayGoalsOnSeparateTabs,
     DisplayKeepScreenOn,
     DisplayWidgetBackground,

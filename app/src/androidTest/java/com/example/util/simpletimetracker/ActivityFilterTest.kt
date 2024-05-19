@@ -476,6 +476,87 @@ class ActivityFilterTest : BaseUiTest() {
     }
 
     @Test
+    fun filteringAllowMultipleFilters() {
+        showActivityFilters()
+
+        val filter1 = "filterByActivity1"
+        val filter2 = "filterByActivity2"
+        val typeName1 = "Type1"
+        val typeName2 = "Type2"
+
+        val availableTypes = listOf(typeName1, typeName2)
+
+        // Add data
+        testUtils.addActivity(name = typeName1)
+        testUtils.addActivity(name = typeName2)
+        testUtils.addActivityFilter(
+            name = filter1,
+            type = ActivityFilter.Type.Activity,
+            color = firstColor,
+            names = listOf(typeName1),
+        )
+        testUtils.addActivityFilter(
+            name = filter2,
+            type = ActivityFilter.Type.Activity,
+            color = lastColor,
+            names = listOf(typeName2),
+        )
+        Thread.sleep(1000)
+
+        // Check filtering
+        tryAction { checkFilter(filter1, viewsR.color.colorFiltered) }
+        checkFilter(filter2, viewsR.color.colorFiltered)
+        checkTypes(displayed = availableTypes, available = availableTypes)
+
+        // Select two
+        clickOnViewWithText(filter1)
+        checkFilter(filter1, firstColor)
+        checkFilter(filter2, viewsR.color.colorFiltered)
+        checkTypes(displayed = listOf(typeName1), available = availableTypes)
+        clickOnViewWithText(filter2)
+        checkFilter(filter1, firstColor)
+        checkFilter(filter2, lastColor)
+        checkTypes(displayed = listOf(typeName1, typeName2), available = availableTypes)
+        clickOnViewWithText(filter1)
+        clickOnViewWithText(filter2)
+
+        // Change setting
+        runBlocking { prefsInteractor.setAllowMultipleActivityFilters(false) }
+
+        // Check
+        clickOnViewWithText(filter1)
+        checkFilter(filter1, firstColor)
+        checkFilter(filter2, viewsR.color.colorFiltered)
+        checkTypes(displayed = listOf(typeName1), available = availableTypes)
+
+        clickOnViewWithText(filter2)
+        checkFilter(filter1, viewsR.color.colorFiltered)
+        checkFilter(filter2, lastColor)
+        checkTypes(displayed = listOf(typeName2), available = availableTypes)
+
+        clickOnViewWithText(filter1)
+        checkFilter(filter1, firstColor)
+        checkFilter(filter2, viewsR.color.colorFiltered)
+        checkTypes(displayed = listOf(typeName1), available = availableTypes)
+        clickOnViewWithText(filter1)
+
+        // Change back
+        runBlocking { prefsInteractor.setAllowMultipleActivityFilters(true) }
+
+        // Check
+        clickOnViewWithText(filter1)
+        checkFilter(filter1, firstColor)
+        checkFilter(filter2, viewsR.color.colorFiltered)
+        checkTypes(displayed = listOf(typeName1), available = availableTypes)
+        clickOnViewWithText(filter2)
+        checkFilter(filter1, firstColor)
+        checkFilter(filter2, lastColor)
+        checkTypes(displayed = listOf(typeName1, typeName2), available = availableTypes)
+        clickOnViewWithText(filter1)
+        clickOnViewWithText(filter2)
+    }
+
+    @Test
     fun filteringDisabledIfFiltersNotShown() {
         val filterName = "Filter"
         val typeName1 = "Type1"

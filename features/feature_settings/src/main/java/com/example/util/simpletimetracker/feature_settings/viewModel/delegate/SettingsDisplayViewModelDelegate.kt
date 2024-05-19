@@ -201,6 +201,14 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
+    fun onAllowMultipleActivityFiltersClicked() {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getAllowMultipleActivityFilters()
+            prefsInteractor.setAllowMultipleActivityFilters(newValue)
+            parent?.updateContent()
+        }
+    }
+
     fun onShowGoalsSeparatelyClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowGoalsSeparately()

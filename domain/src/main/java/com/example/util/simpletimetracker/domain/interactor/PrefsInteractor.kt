@@ -219,6 +219,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.showActivityFilters = isEnabled
     }
 
+    suspend fun getAllowMultipleActivityFilters(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.allowMultipleActivityFilters
+    }
+
+    suspend fun setAllowMultipleActivityFilters(isAllowed: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.allowMultipleActivityFilters = isAllowed
+    }
+
     suspend fun getShowGoalsSeparately(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.showGoalsSeparately
     }

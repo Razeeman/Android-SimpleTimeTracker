@@ -11,8 +11,8 @@ import com.example.util.simpletimetracker.core.extension.toRunningRecordParams
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.model.NavigationTab
-import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.ChangeSelectedActivityFilterMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
@@ -47,7 +47,7 @@ class RunningRecordsViewModel @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordRepeatInteractor: RecordRepeatInteractor,
     private val runningRecordsViewDataInteractor: RunningRecordsViewDataInteractor,
-    private val activityFilterInteractor: ActivityFilterInteractor,
+    private val changeSelectedActivityFilterMediator: ChangeSelectedActivityFilterMediator,
     private val timeMapper: TimeMapper,
     private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
@@ -164,9 +164,11 @@ class RunningRecordsViewModel @Inject constructor(
         )
     }
 
-    fun onActivityFilterClick(item: ActivityFilterViewData) = viewModelScope.launch {
-        activityFilterInteractor.changeSelected(item.id, !item.selected)
-        updateRunningRecords()
+    fun onActivityFilterClick(item: ActivityFilterViewData) {
+        viewModelScope.launch {
+            changeSelectedActivityFilterMediator.onFilterClicked(item.id, item.selected)
+            updateRunningRecords()
+        }
     }
 
     fun onActivityFilterLongClick(item: ActivityFilterViewData, sharedElements: Pair<Any, String>) {

@@ -236,6 +236,8 @@
     <string name="settings_days_in_calendar">Dagar i kalendern</string>
     <string name="settings_widget_transparency">Transparens för widgetbakgrund</string>
     <string name="settings_show_activity_filters">Visa aktivitetsfilter på huvudskärmen</string>
+    <string name="settings_allow_multiple_activity_filters">Tillåt flera aktivitetsfilter</string>
+    <string name="settings_allow_multiple_activity_filters_hint">Om det är inaktiverat kommer andra aktivitetsfilter att inaktiveras om du väljer ett filter.</string>
     <string name="settings_show_goals_separately">Visa mål på en separat flik</string>
     <string name="settings_allow_multitasking">Tillåt multitasking</string>
     <string name="settings_allow_multitasking_hint">Om inaktiverad så stoppas pågående aktivitet vid start av annan aktivitet.</string>

@@ -236,6 +236,8 @@
     <string name="settings_days_in_calendar">Zile în calendar</string>
     <string name="settings_widget_transparency">Transparență fundal Widget</string>
     <string name="settings_show_activity_filters">Afișează filtrele de activitate pe ecranul principal</string>
+    <string name="settings_allow_multiple_activity_filters">Permite mai multe filtre de activitate</string>
+    <string name="settings_allow_multiple_activity_filters_hint">Dacă este dezactivată, selectarea unui filtru va dezactiva alte filtre de activitate.</string>
     <string name="settings_show_goals_separately">Afișează țelurile într-o foaie separată</string>
     <string name="settings_allow_multitasking">Permite multitasking</string>
     <string name="settings_allow_multitasking_hint">Dacă este dezactivat, activarea unei noi activități va opri alte activități.</string>

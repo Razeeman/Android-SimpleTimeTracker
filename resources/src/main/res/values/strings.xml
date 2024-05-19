@@ -236,9 +236,11 @@
     <string name="settings_days_in_calendar">Days in calendar</string>
     <string name="settings_widget_transparency">Widget background transparency</string>
     <string name="settings_show_activity_filters">Show activity filters on main screen</string>
+    <string name="settings_allow_multiple_activity_filters">Allow multiple activity filters</string>
+    <string name="settings_allow_multiple_activity_filters_hint">If disabled, selecting a filter will disable other activity filters.</string>
     <string name="settings_show_goals_separately">Show goals on a separate tab</string>
     <string name="settings_allow_multitasking">Allow multitasking</string>
-    <string name="settings_allow_multitasking_hint">If disabled starting new timer will automatically stop other activities.</string>
+    <string name="settings_allow_multitasking_hint">If disabled, starting new timer will automatically stop other activities.</string>
     <string name="settings_show_notifications">Show timer notifications</string>
     <string name="settings_show_notifications_hint">Show notifications when timers are running.</string>
     <string name="settings_show_notifications_controls">Enable activity switching from notification</string>

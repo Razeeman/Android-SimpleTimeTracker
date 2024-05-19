@@ -1890,10 +1890,20 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openSettingsDisplay()
         scrollSettingsRecyclerToText(coreR.string.settings_show_activity_filters)
         checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_activity_filters))
+        checkViewDoesNotExist(withText(coreR.string.settings_allow_multiple_activity_filters))
 
         // Change setting
         clickOnSettingsCheckboxBesideText(coreR.string.settings_show_activity_filters)
         checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_activity_filters))
+        scrollSettingsRecyclerToText(coreR.string.settings_allow_multiple_activity_filters)
+        checkViewIsDisplayed(withText(coreR.string.settings_allow_multiple_activity_filters))
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_allow_multiple_activity_filters))
+
+        // Check allow multiple
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_allow_multiple_activity_filters)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_allow_multiple_activity_filters))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_allow_multiple_activity_filters)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_allow_multiple_activity_filters))
 
         // Filters shown
         NavUtils.openRunningRecordsScreen()
