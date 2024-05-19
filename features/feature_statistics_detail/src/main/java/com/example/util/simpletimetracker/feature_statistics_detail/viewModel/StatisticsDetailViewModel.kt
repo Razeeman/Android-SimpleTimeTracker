@@ -539,6 +539,7 @@ class StatisticsDetailViewModel @Inject constructor(
             streaksGoal = streaksGoal,
             dailyGoal = getDailyGoal(),
             compareGoalType = getCompareDailyGoal(),
+            rangeLength = rangeLength,
         )
     }
 

@@ -277,7 +277,7 @@ class GoalsDaysOfWeek : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 withId(R.id.containerDayOfWeekItem),
-                withCardColor(colorResId),
+                hasDescendant(withCardColor(colorResId)),
                 hasDescendant(withText(stringResId)),
             ),
         )

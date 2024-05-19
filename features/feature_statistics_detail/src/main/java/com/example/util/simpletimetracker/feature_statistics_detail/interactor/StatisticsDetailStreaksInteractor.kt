@@ -183,8 +183,12 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         streaksGoal: StreaksGoal,
         dailyGoal: RecordTypeGoal.Type?,
         compareGoalType: RecordTypeGoal.Type?,
+        rangeLength: RangeLength,
     ): List<ViewHolderType> {
         if (dailyGoal == null && compareGoalType == null) {
+            return emptyList()
+        }
+        if (rangeLength is RangeLength.Day) {
             return emptyList()
         }
 

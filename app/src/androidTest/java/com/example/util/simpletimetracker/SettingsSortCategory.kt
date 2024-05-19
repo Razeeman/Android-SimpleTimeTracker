@@ -88,10 +88,10 @@ class SettingsSortCategory : BaseUiTest() {
         val name2 = "2"
         val name3 = "3"
 
-        // Add activities
-        testUtils.addActivity(name1)
-        testUtils.addActivity(name2)
-        testUtils.addActivity(name3)
+        // Add data
+        testUtils.addCategory(name1)
+        testUtils.addCategory(name2)
+        testUtils.addCategory(name3)
 
         // Change settings
         NavUtils.openSettingsScreen()
