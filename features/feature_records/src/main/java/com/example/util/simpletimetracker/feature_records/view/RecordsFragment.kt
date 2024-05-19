@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
@@ -21,8 +22,10 @@ import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoad
 import com.example.util.simpletimetracker.feature_base_adapter.record.createRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.createRunningRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
+import com.example.util.simpletimetracker.feature_records.model.RecordsState
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModel
 import com.example.util.simpletimetracker.feature_views.TransitionNames
+import com.example.util.simpletimetracker.feature_views.extension.animateAlpha
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -81,8 +84,8 @@ class RecordsFragment : BaseFragment<Binding>() {
         with(viewModel) {
             extra = RecordsExtra(shift = arguments?.getInt(ARGS_POSITION).orZero())
             isCalendarView.observe(::switchState)
-            records.observe(recordsAdapter::replace)
-            calendarData.observe(binding.viewRecordsCalendar::setData)
+            records.observe(::setRecordsState)
+            calendarData.observe(::setCalendarState)
             resetScreen.observe {
                 rvRecordsList.smoothScrollToPosition(0)
                 viewRecordsCalendar.reset()
@@ -115,6 +118,28 @@ class RecordsFragment : BaseFragment<Binding>() {
     private fun switchState(isCalendarView: Boolean) = with(binding) {
         groupRecordsList.isVisible = !isCalendarView
         groupRecordsCalendar.isVisible = isCalendarView
+    }
+
+    private fun setRecordsState(
+        state: List<ViewHolderType>,
+    ) {
+        recordsAdapter.replace(state)
+    }
+
+    private fun setCalendarState(
+        state: RecordsState.CalendarData,
+    ) = with(binding) {
+        when (state) {
+            is RecordsState.CalendarData.Loading -> {
+                loaderRecordsCalendar.root.alpha = 1f
+                viewRecordsCalendar.alpha = 0f
+            }
+            is RecordsState.CalendarData.Data -> {
+                loaderRecordsCalendar.root.animateAlpha(isVisible = false, duration = 200)
+                viewRecordsCalendar.animateAlpha(isVisible = true, duration = 100)
+                viewRecordsCalendar.setData(state.data)
+            }
+        }
     }
 
     companion object {

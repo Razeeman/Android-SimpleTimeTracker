@@ -122,7 +122,7 @@ class RecordsViewDataInteractor @Inject constructor(
         shift: Int,
         reverseOrder: Boolean,
         showSeconds: Boolean,
-    ): RecordsState.CalendarData {
+    ): RecordsState.CalendarData.Data {
         val currentTime = if (shift == 0) {
             mapFromStartOfDay(
                 timeStamp = System.currentTimeMillis(),
@@ -170,7 +170,7 @@ class RecordsViewDataInteractor @Inject constructor(
                     shouldDrawTopLegends = shouldMapLegends,
                 )
             }
-            .let(RecordsState::CalendarData)
+            .let(RecordsState.CalendarData::Data)
     }
 
     private suspend fun mapRecordsData(

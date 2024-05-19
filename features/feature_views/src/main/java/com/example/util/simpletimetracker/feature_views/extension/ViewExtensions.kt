@@ -33,6 +33,18 @@ fun View.rotate(from: Float, to: Float, duration: Long = 300) {
     }
 }
 
+fun View.animateAlpha(isVisible: Boolean, duration: Long = 300) {
+    val from = alpha
+    val to = if (isVisible) 1f else 0f
+
+    ObjectAnimator.ofFloat(this, "alpha", from, to).apply {
+        this.duration = duration
+        repeatCount = 0
+        interpolator = LinearInterpolator()
+        start()
+    }
+}
+
 fun View.rotateDown() {
     this.rotate(from = 0f, to = 180f)
 }
@@ -64,7 +76,7 @@ inline fun <T> View.setOnLongClickWith(item: T, crossinline listener: ((T) -> Un
 }
 
 fun TabLayout.onTabSelected(func: (TabLayout.Tab) -> Unit) {
-    this.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+    object : TabLayout.OnTabSelectedListener {
         override fun onTabReselected(tab: TabLayout.Tab?) {
             // Do nothing
         }
@@ -76,7 +88,7 @@ fun TabLayout.onTabSelected(func: (TabLayout.Tab) -> Unit) {
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let(func::invoke)
         }
-    })
+    }.let { addOnTabSelectedListener(it) }
 }
 
 fun AppCompatSpinner.onItemSelected(
@@ -100,7 +112,7 @@ fun AppCompatSpinner.onItemSelected(
 }
 
 fun SeekBar.onProgressChanged(func: (Int) -> Unit) {
-    this.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+    object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
             if (fromUser) func(progress)
         }
@@ -112,7 +124,7 @@ fun SeekBar.onProgressChanged(func: (Int) -> Unit) {
         override fun onStopTrackingTouch(seekBar: SeekBar?) {
             // Do nothing
         }
-    })
+    }.let { setOnSeekBarChangeListener(it) }
 }
 
 fun View.setAllMargins(

@@ -41,6 +41,16 @@
         android:textColor="?appTextHintColor"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <include
+        android:id="@+id/loaderRecordsCalendar"
+        layout="@layout/item_loader_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.Group
         android:id="@+id/groupRecordsList"
         android:layout_width="wrap_content"
@@ -53,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="viewRecordsCalendar, tvRecordsCalendarHint"
+        app:constraint_referenced_ids="viewRecordsCalendar, tvRecordsCalendarHint, loaderRecordsCalendar"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

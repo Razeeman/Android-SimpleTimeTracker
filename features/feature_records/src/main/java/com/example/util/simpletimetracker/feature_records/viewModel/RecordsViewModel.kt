@@ -17,7 +17,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
-import com.example.util.simpletimetracker.feature_records.customView.RecordsCalendarViewData
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.interactor.RecordsViewDataInteractor
 import com.example.util.simpletimetracker.feature_records.model.RecordsState
@@ -48,7 +47,9 @@ class RecordsViewModel @Inject constructor(
     val records: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
-    val calendarData: LiveData<RecordsCalendarViewData> = MutableLiveData()
+    val calendarData: LiveData<RecordsState.CalendarData> by lazy{
+        MutableLiveData(RecordsState.CalendarData.Loading)
+    }
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     private var isVisible: Boolean = false
@@ -173,7 +174,7 @@ class RecordsViewModel @Inject constructor(
 
         when (val state = loadRecordsViewData()) {
             is RecordsState.RecordsData -> records.set(state.data)
-            is RecordsState.CalendarData -> calendarData.set(state.data)
+            is RecordsState.CalendarData -> calendarData.set(state)
         }
     }
 
