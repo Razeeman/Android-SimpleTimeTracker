@@ -1,0 +1,8 @@
+- Change ui on edit screens
+- Change tags creation and edit
+- Add favourite icons
+- Add sorting options for categories and tags
+- Add ability to select tags assigned by default
+- Add option to disable multiple activity filters selection
+- Improve Change action in record edit
+- General bug fixes and improvements
