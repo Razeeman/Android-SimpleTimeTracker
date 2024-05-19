@@ -5,6 +5,7 @@
  */
 package com.example.util.simpletimetracker.presentation.ui.components
 
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -19,6 +20,7 @@ import androidx.wear.compose.material.Checkbox
 import androidx.wear.compose.material.CheckboxDefaults
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ChipDefaults
+import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.SplitToggleChip
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.ToggleChipDefaults
@@ -31,6 +33,7 @@ data class TagChipState(
     val color: Long,
     val checked: Boolean,
     val mode: TagSelectionMode,
+    val isLoading: Boolean = false,
 ) {
     enum class TagSelectionMode {
         SINGLE,
@@ -74,11 +77,17 @@ private fun SingleSelectTagChip(
             .fillMaxWidth(),
         onClick = onClickState,
         label = {
-            Text(
-                text = state.name,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+            if (!state.isLoading) {
+                Text(
+                    text = state.name,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            } else {
+                CircularProgressIndicator(
+                    modifier = Modifier.fillMaxHeight(0.7f),
+                )
+            }
         },
         colors = ChipDefaults.chipColors(
             backgroundColor = Color(state.color),
@@ -105,11 +114,17 @@ private fun MultiSelectTagChip(
         onCheckedChange = onCheckedChange,
         onClick = onClickState,
         label = {
-            Text(
-                text = state.name,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+            if (!state.isLoading) {
+                Text(
+                    text = state.name,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            } else {
+                CircularProgressIndicator(
+                    modifier = Modifier.fillMaxHeight(0.7f),
+                )
+            }
         },
         toggleControl = {
             Checkbox(
@@ -149,6 +164,21 @@ private fun Default() {
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
+private fun Loading() {
+    TagChip(
+        state = TagChipState(
+            id = 123,
+            name = "Sleep",
+            color = 0xFF123456,
+            checked = false,
+            mode = TagChipState.TagSelectionMode.SINGLE,
+            isLoading = true,
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
 private fun MultiSelectMode() {
     TagChip(
         state = TagChipState(
@@ -171,6 +201,21 @@ private fun MultiSelectChecked() {
             color = 0xFF654321,
             checked = true,
             mode = TagChipState.TagSelectionMode.MULTI,
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
+private fun MultiSelectLoading() {
+    MultiSelectTagChip(
+        state = TagChipState(
+            id = 123,
+            name = "Sleep",
+            color = 0xFF654321,
+            checked = false,
+            mode = TagChipState.TagSelectionMode.MULTI,
+            isLoading = true,
         ),
     )
 }

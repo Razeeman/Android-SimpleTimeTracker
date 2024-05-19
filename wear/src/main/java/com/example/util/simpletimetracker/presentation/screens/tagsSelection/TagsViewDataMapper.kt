@@ -5,16 +5,22 @@
  */
 package com.example.util.simpletimetracker.presentation.screens.tagsSelection
 
+import androidx.annotation.StringRes
+import androidx.compose.ui.graphics.Color
 import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.presentation.ui.components.TagChipState
-import com.example.util.simpletimetracker.presentation.ui.components.TagListState
+import com.example.util.simpletimetracker.data.WearResourceRepo
 import com.example.util.simpletimetracker.presentation.theme.ColorActive
 import com.example.util.simpletimetracker.presentation.theme.ColorInactive
+import com.example.util.simpletimetracker.presentation.ui.components.TagChipState
+import com.example.util.simpletimetracker.presentation.ui.components.TagListState
+import com.example.util.simpletimetracker.presentation.ui.components.TagSelectionButtonState
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.example.util.simpletimetracker.wear_api.WearTag
 import javax.inject.Inject
 
-class TagsViewDataMapper @Inject constructor() {
+class TagsViewDataMapper @Inject constructor(
+    private val resourceRepo: WearResourceRepo,
+) {
 
     fun mapErrorState(): TagListState.Error {
         return TagListState.Error(R.string.wear_loading_error)
@@ -24,6 +30,7 @@ class TagsViewDataMapper @Inject constructor() {
         tags: List<WearTag>,
         selectedTagIds: List<Long>,
         settings: WearSettings,
+        loadingState: TagsLoadingState,
     ): TagListState {
         val listState = if (tags.isEmpty()) {
             mapEmptyState()
@@ -32,6 +39,7 @@ class TagsViewDataMapper @Inject constructor() {
                 tags = tags,
                 selectedTagIds = selectedTagIds,
                 settings = settings,
+                loadingState = loadingState,
             )
         }
 
@@ -46,6 +54,7 @@ class TagsViewDataMapper @Inject constructor() {
         tags: List<WearTag>,
         selectedTagIds: List<Long>,
         settings: WearSettings,
+        loadingState: TagsLoadingState,
     ): TagListState.Content {
         val mode = if (settings.recordTagSelectionCloseAfterOne) {
             TagChipState.TagSelectionMode.SINGLE
@@ -54,6 +63,9 @@ class TagsViewDataMapper @Inject constructor() {
         }
 
         val items = tags.map {
+            val isLoading = (loadingState as? TagsLoadingState.LoadingTag)
+                ?.tagId == it.id
+
             TagListState.Item.Tag(
                 tag = TagChipState(
                     id = it.id,
@@ -61,35 +73,55 @@ class TagsViewDataMapper @Inject constructor() {
                     color = it.color,
                     checked = it.id in selectedTagIds,
                     mode = mode,
+                    isLoading = isLoading,
                 ),
             )
         }
 
-        val buttons = if (mode == TagChipState.TagSelectionMode.SINGLE) {
-            listOf(
-                TagListState.Item.Button(
-                    textResId = R.string.change_record_untagged,
-                    color = ColorInactive,
-                    buttonType = TagListState.Item.ButtonType.Untagged,
-                ),
+        val buttons = mutableListOf<TagListState.Item>()
+        if (mode == TagChipState.TagSelectionMode.SINGLE) {
+            buttons += mapButton(
+                textResId = R.string.change_record_untagged,
+                color = ColorInactive,
+                buttonType = TagListState.Item.ButtonType.Untagged,
+                loadingState = loadingState,
             )
         } else {
-            listOf(
-                TagListState.Item.Button(
-                    textResId = R.string.change_record_untagged,
-                    color = ColorInactive,
-                    buttonType = TagListState.Item.ButtonType.Untagged,
-                ),
-                TagListState.Item.Button(
-                    textResId = R.string.duration_dialog_save,
-                    color = ColorActive,
-                    buttonType = TagListState.Item.ButtonType.Complete,
-                ),
+            buttons += mapButton(
+                textResId = R.string.change_record_untagged,
+                color = ColorInactive,
+                buttonType = TagListState.Item.ButtonType.Untagged,
+                loadingState = loadingState,
+            )
+            buttons += mapButton(
+                textResId = R.string.duration_dialog_save,
+                color = ColorActive,
+                buttonType = TagListState.Item.ButtonType.Complete,
+                loadingState = loadingState,
             )
         }
 
         return TagListState.Content(
             items = items + buttons,
+        )
+    }
+
+    private fun mapButton(
+        @StringRes textResId: Int,
+        color: Color,
+        buttonType: TagListState.Item.ButtonType,
+        loadingState: TagsLoadingState,
+    ): TagListState.Item.Button {
+        val isLoading = (loadingState as? TagsLoadingState.LoadingButton)
+            ?.buttonType == buttonType
+
+        return TagListState.Item.Button(
+            TagSelectionButtonState(
+                text = resourceRepo.getString(textResId),
+                color = color,
+                buttonType = buttonType,
+                isLoading = isLoading,
+            ),
         )
     }
 }

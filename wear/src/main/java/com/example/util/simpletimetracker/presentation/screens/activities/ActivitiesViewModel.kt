@@ -56,6 +56,7 @@ class ActivitiesViewModel @Inject constructor(
     }
 
     fun stopActivity(activityId: Long) = viewModelScope.launch {
+        setLoading(activityId, isLoading = true)
         val result = currentActivitiesMediator.stop(activityId)
         if (result.isFailure) showError()
     }
@@ -83,8 +84,24 @@ class ActivitiesViewModel @Inject constructor(
             onRequestTagSelection = {
                 _effects.emit(Effect.OnRequestTagSelection(activityId))
             },
+            onProgressChanged = { isLoading ->
+                setLoading(activityId, isLoading)
+            },
         )
         if (result.isFailure) showError()
+    }
+
+    private fun setLoading(
+        activityId: Long,
+        isLoading: Boolean,
+    ) {
+        // Loading will be set to false when data will be received and update requested.
+        val currentState = _state.value as? ActivitiesListState.Content
+            ?: return
+        val newItems = currentState.items.map {
+            if (it.id == activityId) it.copy(isLoading = isLoading) else it
+        }
+        _state.value = currentState.copy(items = newItems)
     }
 
     private suspend fun loadData(forceReload: Boolean) {

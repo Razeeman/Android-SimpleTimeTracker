@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.ButtonDefaults
+import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
@@ -38,6 +39,7 @@ data class ActivityChipCompatState(
     val icon: WearActivityIcon,
     val color: Long,
     val startedAt: Long? = null,
+    val isLoading: Boolean = false,
 )
 
 @Composable
@@ -52,10 +54,16 @@ fun ActivityChipCompact(
         Button(
             modifier = Modifier.fillMaxSize(),
             content = {
-                ActivityIcon(
-                    activityIcon = state.icon,
-                    modifier = Modifier.fillMaxSize(0.5f),
-                )
+                if (!state.isLoading) {
+                    ActivityIcon(
+                        activityIcon = state.icon,
+                        modifier = Modifier.fillMaxSize(0.5f),
+                    )
+                } else {
+                    CircularProgressIndicator(
+                        modifier = Modifier.fillMaxSize(0.5f),
+                    )
+                }
             },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Color(state.color),
@@ -130,6 +138,21 @@ private fun PreviewIcon() {
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
+private fun PreviewLoading() {
+    ActivityChipCompact(
+        modifier = Modifier.size(48.dp),
+        state = ActivityChipCompatState(
+            id = 0,
+            icon = WearActivityIcon.Image(R.drawable.ic_hotel_24px),
+            color = 0xFFABCDEF,
+            startedAt = null,
+            isLoading = true,
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
 private fun PreviewRunning() {
     ActivityChipCompact(
         modifier = Modifier.size(48.dp),
@@ -138,6 +161,21 @@ private fun PreviewRunning() {
             icon = WearActivityIcon.Text("🎉"),
             color = 0xFF123456,
             startedAt = Instant.now().toEpochMilli() - 36500000,
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
+private fun PreviewRunningLoading() {
+    ActivityChipCompact(
+        modifier = Modifier.size(48.dp),
+        state = ActivityChipCompatState(
+            id = 0,
+            icon = WearActivityIcon.Text("🎉"),
+            color = 0xFF123456,
+            startedAt = Instant.now().toEpochMilli() - 36500000,
+            isLoading = true,
         ),
     )
 }

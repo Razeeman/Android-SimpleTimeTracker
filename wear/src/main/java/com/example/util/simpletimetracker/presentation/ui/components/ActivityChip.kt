@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ChipDefaults
+import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
@@ -36,6 +38,7 @@ data class ActivityChipState(
     val color: Long,
     val startedAt: Long? = null,
     val tagString: String = "",
+    val isLoading: Boolean = false,
 )
 
 @Composable
@@ -54,10 +57,16 @@ fun ActivityChip(
             .height(height.dp)
             .fillMaxWidth(),
         icon = {
-            ActivityIcon(
-                modifier = Modifier.height(20.dp),
-                activityIcon = state.icon,
-            )
+            if (!state.isLoading) {
+                ActivityIcon(
+                    modifier = Modifier.height(20.dp),
+                    activityIcon = state.icon,
+                )
+            } else {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(20.dp),
+                )
+            }
         },
         label = {
             Row(modifier = Modifier.height(IntrinsicSize.Min)) {
@@ -140,6 +149,17 @@ fun SampleIcon() {
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
+fun SampleLoading() {
+    ActivityChip(
+        ActivityChipState(
+            0, "Sleeping", WearActivityIcon.Image(R.drawable.ic_hotel_24px), 0xFFABCDEF,
+            isLoading = true,
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
 fun White() {
     // TODO handle the look of light colored chips
     // Note: A white color is only possible when using the RGB color picker.
@@ -162,12 +182,37 @@ fun CurrentlyRunning() {
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
+fun CurrentlyRunningLoading() {
+    ActivityChip(
+        ActivityChipState(
+            0, "Sleeping", WearActivityIcon.Text("🛏️"), 0xFFABCDEF,
+            startedAt = Instant.now().toEpochMilli() - 365000,
+            isLoading = true,
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
 fun CurrentlyRunningWithTags() {
     ActivityChip(
         ActivityChipState(
             0, "Sleeping", WearActivityIcon.Text("🛏️"), 0xFFABCDEF,
             startedAt = Instant.now().toEpochMilli() - 365000,
             tagString = "Work, Hotel",
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
+fun CurrentlyRunningWithTagsLoading() {
+    ActivityChip(
+        ActivityChipState(
+            0, "Sleeping", WearActivityIcon.Text("🛏️"), 0xFFABCDEF,
+            startedAt = Instant.now().toEpochMilli() - 365000,
+            tagString = "Work, Hotel",
+            isLoading = true,
         ),
     )
 }

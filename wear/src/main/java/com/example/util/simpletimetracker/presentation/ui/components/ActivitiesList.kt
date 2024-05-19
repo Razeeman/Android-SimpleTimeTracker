@@ -218,6 +218,7 @@ private fun ScalingLazyListScope.renderContentCompact(
                                 icon = itemState.icon,
                                 color = itemState.color,
                                 startedAt = itemState.startedAt,
+                                isLoading = itemState.isLoading,
                             ),
                             onClick = onClick,
                         )

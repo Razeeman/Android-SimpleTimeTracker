@@ -57,20 +57,23 @@ class StartActivityMediatorTest {
             ).let(Result.Companion::success),
         )
         var onRequestTagSelectionCalled = false
+        var onProgressChanged = false
 
         // When
         mediator.requestStart(
             activityId = sampleActivity.id,
             onRequestTagSelection = { onRequestTagSelectionCalled = true },
+            onProgressChanged = { onProgressChanged = it },
         )
 
         // Then
         Mockito.verify(currentActivitiesMediator).start(sampleActivity.id)
         assertEquals(false, onRequestTagSelectionCalled)
+        assertEquals(true, onProgressChanged)
     }
 
     @Test
-    fun `tag selection enabled and activity has no tags`() = runTest {
+    fun `tag selection enabled but activity has no tags`() = runTest {
         // Given
         Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
             settings.copy(
@@ -82,16 +85,19 @@ class StartActivityMediatorTest {
             Result.success(emptyList()),
         )
         var onRequestTagSelectionCalled = false
+        var onProgressChanged = false
 
         // When
         mediator.requestStart(
             activityId = sampleActivity.id,
             onRequestTagSelection = { onRequestTagSelectionCalled = true },
+            onProgressChanged = { onProgressChanged = it },
         )
 
         // Then
         Mockito.verify(currentActivitiesMediator).start(sampleActivity.id)
         assertEquals(false, onRequestTagSelectionCalled)
+        assertEquals(true, onProgressChanged)
     }
 
     @Test
@@ -109,16 +115,19 @@ class StartActivityMediatorTest {
             Result.success(listOf(sampleTag)),
         )
         var onRequestTagSelectionCalled = false
+        var onProgressChanged = false
 
         // When
         mediator.requestStart(
             activityId = sampleActivity.id,
             onRequestTagSelection = { onRequestTagSelectionCalled = true },
+            onProgressChanged = { onProgressChanged = it },
         )
 
         // Then
         Mockito.verify(currentActivitiesMediator).start(sampleActivity.id)
         assertEquals(false, onRequestTagSelectionCalled)
+        assertEquals(true, onProgressChanged)
     }
 
     @Test
@@ -136,15 +145,18 @@ class StartActivityMediatorTest {
             Result.success(listOf(sampleTag)),
         )
         var onRequestTagSelectionCalled = false
+        var onProgressChanged = false
 
         // When
         mediator.requestStart(
             activityId = sampleActivity.id,
             onRequestTagSelection = { onRequestTagSelectionCalled = true },
+            onProgressChanged = { onProgressChanged = it },
         )
 
         // Then
         Mockito.verify(currentActivitiesMediator, Mockito.never()).start(sampleActivity.id)
         assertEquals(true, onRequestTagSelectionCalled)
+        assertEquals(false, onProgressChanged)
     }
 }

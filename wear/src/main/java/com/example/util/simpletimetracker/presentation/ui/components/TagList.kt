@@ -10,10 +10,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,9 +47,7 @@ sealed interface TagListState {
         ) : Item
 
         data class Button(
-            @StringRes val textResId: Int,
-            val color: Color,
-            val buttonType: ButtonType,
+            val data: TagSelectionButtonState,
         ) : Item
 
         sealed interface ButtonType {
@@ -144,13 +140,9 @@ private fun ScalingLazyListScope.renderContentState(
                 )
             }
             is TagListState.Item.Button -> item {
-                val onClick = remember(itemState) {
-                    { onButtonClick(itemState.buttonType) }
-                }
                 TagSelectionButton(
-                    text = getString(itemState.textResId),
-                    color = itemState.color,
-                    onClick = onClick,
+                    state = itemState.data,
+                    onClick = onButtonClick,
                 )
             }
         }

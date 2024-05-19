@@ -18,7 +18,10 @@ class StartActivityMediator @Inject constructor(
     suspend fun requestStart(
         activityId: Long,
         onRequestTagSelection: suspend () -> Unit,
+        onProgressChanged: (isLoading: Boolean) -> Unit,
     ): Result<Unit> {
+        onProgressChanged(true)
+
         val settings = wearDataRepo.loadSettings()
             .getOrNull() ?: return Result.failure(WearRPCException)
         val shouldShowTagSelection = shouldShowTagSelection(
@@ -27,6 +30,7 @@ class StartActivityMediator @Inject constructor(
         ).getOrNull() ?: return Result.failure(WearRPCException)
 
         return if (shouldShowTagSelection) {
+            onProgressChanged(false)
             onRequestTagSelection()
             Result.success(Unit)
         } else {

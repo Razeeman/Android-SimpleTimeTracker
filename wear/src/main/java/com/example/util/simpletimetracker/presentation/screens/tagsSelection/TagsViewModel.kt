@@ -8,8 +8,8 @@ package com.example.util.simpletimetracker.presentation.screens.tagsSelection
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.data.WearDataRepo
-import com.example.util.simpletimetracker.presentation.ui.components.TagListState
 import com.example.util.simpletimetracker.domain.mediator.CurrentActivitiesMediator
+import com.example.util.simpletimetracker.presentation.ui.components.TagListState
 import com.example.util.simpletimetracker.wear_api.WearSettings
 import com.example.util.simpletimetracker.wear_api.WearTag
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -63,13 +63,15 @@ class TagsViewModel @Inject constructor(
             is TagListState.Item.ButtonType.Untagged -> {
                 selectedTagsIds = emptyList()
                 if (settings.recordTagSelectionCloseAfterOne) {
-                    startActivity()
+                    val loadingState = TagsLoadingState.LoadingButton(buttonType)
+                    startActivity(loadingState)
                 } else {
                     _state.value = mapState()
                 }
             }
             is TagListState.Item.ButtonType.Complete -> {
-                startActivity()
+                val loadingState = TagsLoadingState.LoadingButton(buttonType)
+                startActivity(loadingState)
             }
         }
     }
@@ -81,7 +83,8 @@ class TagsViewModel @Inject constructor(
         }
 
         if (settings.recordTagSelectionCloseAfterOne) {
-            startActivity()
+            val loadingState = TagsLoadingState.LoadingTag(tagId)
+            startActivity(loadingState)
         } else {
             _state.value = mapState()
         }
@@ -106,8 +109,13 @@ class TagsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun startActivity() {
+    private suspend fun startActivity(
+        loadingState: TagsLoadingState,
+    ) {
         val activityId = this@TagsViewModel.activityId ?: return
+
+        _state.value = mapState(loadingState)
+
         val result = currentActivitiesMediator.start(
             activityId = activityId,
             tags = tags.filter { it.id in selectedTagsIds },
@@ -123,11 +131,14 @@ class TagsViewModel @Inject constructor(
         _state.value = tagsViewDataMapper.mapErrorState()
     }
 
-    private fun mapState(): TagListState {
+    private fun mapState(
+        loadingState: TagsLoadingState = TagsLoadingState.NotLoading,
+    ): TagListState {
         return tagsViewDataMapper.mapState(
             tags = tags,
             selectedTagIds = selectedTagsIds,
             settings = settings,
+            loadingState = loadingState,
         )
     }
 
