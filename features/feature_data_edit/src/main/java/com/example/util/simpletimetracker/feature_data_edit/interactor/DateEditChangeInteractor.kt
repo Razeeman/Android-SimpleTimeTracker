@@ -75,11 +75,15 @@ class DateEditChangeInteractor @Inject constructor(
                 .plus(addTags.orEmpty())
                 .filter { it !in removeTags.orEmpty() }
                 .let { tags ->
-                    filterSelectableTagsInteractor.execute(
-                        tagIds = tags,
-                        typesToTags = typesToTags,
-                        typeIds = listOf(finalTypeId),
-                    )
+                    if (finalTypeId != record.typeId) {
+                        filterSelectableTagsInteractor.execute(
+                            tagIds = tags,
+                            typesToTags = typesToTags,
+                            typeIds = listOf(finalTypeId),
+                        )
+                    } else {
+                        tags
+                    }
                 }
                 .toSet()
 
