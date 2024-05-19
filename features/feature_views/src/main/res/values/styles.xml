@@ -43,6 +43,7 @@
         <item name="appPositiveColor">@color/colorPositive</item>
         <item name="appNegativeColor">@color/colorNegative</item>
         <item name="appInfoColor">@color/colorInfo</item>
+        <item name="appUntrackedColor">@color/colorUntracked</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
@@ -87,6 +88,7 @@
         <item name="appPositiveColor">@color/colorPositiveDark</item>
         <item name="appNegativeColor">@color/colorNegativeDark</item>
         <item name="appInfoColor">@color/colorInfoDark</item>
+        <item name="appUntrackedColor">@color/colorUntrackedDark</item>
     </style>
 
     <style name="AppTheme.Dialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">

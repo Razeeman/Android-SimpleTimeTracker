@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_activity_filter.view
 
+import android.animation.ValueAnimator
 import com.example.util.simpletimetracker.feature_change_activity_filter.databinding.ChangeActivityFilterFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,6 +36,7 @@ import com.example.util.simpletimetracker.feature_change_activity_filter.viewDat
 import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState.State.Type
 import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterTypesViewData
 import com.example.util.simpletimetracker.feature_change_activity_filter.viewModel.ChangeActivityFilterViewModel
+import com.example.util.simpletimetracker.feature_views.extension.animateColor
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityFilterParams
@@ -68,6 +70,7 @@ class ChangeActivityFilterFragment :
             createEmptyAdapterDelegate(),
         )
     }
+    private var typeColorAnimator: ValueAnimator? = null
 
     private val params: ChangeActivityFilterParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChangeActivityFilterParams.New,
@@ -129,6 +132,11 @@ class ChangeActivityFilterFragment :
         }
     }
 
+    override fun onDestroy() {
+        typeColorAnimator?.cancel()
+        super.onDestroy()
+    }
+
     override fun onColorSelected(colorInt: Int) {
         viewModel.onCustomColorSelected(colorInt)
     }
@@ -153,9 +161,17 @@ class ChangeActivityFilterFragment :
     private fun updatePreview(item: ActivityFilterViewData) {
         with(binding.previewChangeActivityFilter) {
             itemName = item.name
-            itemColor = item.color
+
+            typeColorAnimator?.cancel()
+            typeColorAnimator = animateColor(
+                from = itemColor,
+                to = item.color,
+                doOnUpdate = { value ->
+                    itemColor = value
+                    binding.layoutChangeActivityFilterColorPreview.setCardBackgroundColor(value)
+                },
+            )
             with(binding) {
-                layoutChangeActivityFilterColorPreview.setCardBackgroundColor(item.color)
                 layoutChangeActivityFilterTypePreview.setCardBackgroundColor(item.color)
             }
         }

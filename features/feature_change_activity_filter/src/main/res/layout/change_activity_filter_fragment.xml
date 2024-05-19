@@ -25,6 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardElevation="@dimen/record_type_card_elevation"
+                app:itemColor="?appUntrackedColor"
                 app:itemIconVisible="false"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toEndOf="parent"

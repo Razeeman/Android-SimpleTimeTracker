@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_tag.view
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -51,6 +52,7 @@ import com.example.util.simpletimetracker.feature_change_record_tag.viewData.Cha
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.State.Type
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypesViewData
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
+import com.example.util.simpletimetracker.feature_views.extension.animateColor
 import com.example.util.simpletimetracker.feature_views.extension.setCompoundDrawableWithIntrinsicBounds
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
@@ -118,7 +120,9 @@ class ChangeRecordTagFragment :
             createHintBigAdapterDelegate(),
         )
     }
+    private var typeColorAnimator: ValueAnimator? = null
     private var iconsLayoutManager: GridLayoutManager? = null
+
     private val params: ChangeTagData by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChangeTagData.New(),
     )
@@ -214,6 +218,11 @@ class ChangeRecordTagFragment :
         }
     }
 
+    override fun onDestroy() {
+        typeColorAnimator?.cancel()
+        super.onDestroy()
+    }
+
     override fun onColorSelected(colorInt: Int) {
         viewModel.onCustomColorSelected(colorInt)
     }
@@ -259,7 +268,6 @@ class ChangeRecordTagFragment :
     private fun updatePreview(item: CategoryViewData.Record) {
         with(binding.previewChangeRecordTag) {
             itemName = item.name
-            itemColor = item.color
             val icon = item.icon
             if (icon != null) {
                 itemIconVisible = true
@@ -270,9 +278,18 @@ class ChangeRecordTagFragment :
                 itemIconVisible = false
                 binding.layoutChangeRecordTagIconPreview.isVisible = false
             }
+
+            typeColorAnimator?.cancel()
+            typeColorAnimator = animateColor(
+                from = itemColor,
+                to = item.color,
+                doOnUpdate = { value ->
+                    itemColor = value
+                    binding.layoutChangeRecordTagColorPreview.setCardBackgroundColor(value)
+                },
+            )
         }
         with(binding) {
-            layoutChangeRecordTagColorPreview.setCardBackgroundColor(item.color)
             layoutChangeRecordTagIconPreview.setCardBackgroundColor(item.color)
             layoutChangeRecordTagTypesPreview.setCardBackgroundColor(item.color)
             layoutChangeRecordTagDefaultTypePreview.setCardBackgroundColor(item.color)

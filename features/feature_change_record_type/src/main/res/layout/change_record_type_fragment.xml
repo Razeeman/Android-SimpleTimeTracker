@@ -23,6 +23,7 @@
             <com.example.util.simpletimetracker.feature_views.RecordTypeView
                 android:id="@+id/previewChangeRecordType"
                 style="@style/RecordTypeItem"
+                app:itemColor="?appUntrackedColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

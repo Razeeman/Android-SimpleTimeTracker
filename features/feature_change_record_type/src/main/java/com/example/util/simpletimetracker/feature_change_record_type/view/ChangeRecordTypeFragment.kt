@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_type.view
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -56,6 +57,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Icon
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeGoalsViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
+import com.example.util.simpletimetracker.feature_views.extension.animateColor
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
@@ -125,6 +127,8 @@ class ChangeRecordTypeFragment :
         )
     }
     private var iconsLayoutManager: GridLayoutManager? = null
+    private var typeColorAnimator: ValueAnimator? = null
+
     private val params: ChangeRecordTypeParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS,
         default = ChangeRecordTypeParams.New(ChangeRecordTypeParams.SizePreview()),
@@ -239,6 +243,11 @@ class ChangeRecordTypeFragment :
         GoalsViewDelegate.onResume(binding.layoutChangeRecordTypeGoals)
     }
 
+    override fun onDestroy() {
+        typeColorAnimator?.cancel()
+        super.onDestroy()
+    }
+
     override fun onDurationSet(duration: Long, tag: String?) {
         viewModel.onDurationSet(
             tag = tag,
@@ -273,10 +282,18 @@ class ChangeRecordTypeFragment :
         with(binding.previewChangeRecordType) {
             itemName = item.name
             itemIcon = item.iconId
-            itemColor = item.color
+
+            typeColorAnimator?.cancel()
+            typeColorAnimator = animateColor(
+                from = itemColor,
+                to = item.color,
+                doOnUpdate = { value ->
+                    itemColor = value
+                    binding.layoutChangeRecordTypeColorPreview.setCardBackgroundColor(value)
+                },
+            )
         }
         with(binding) {
-            layoutChangeRecordTypeColorPreview.setCardBackgroundColor(item.color)
             layoutChangeRecordTypeIconPreview.setCardBackgroundColor(item.color)
             iconChangeRecordTypeIconPreview.itemIcon = item.iconId
             layoutChangeRecordTypeCategoriesPreview.setCardBackgroundColor(item.color)

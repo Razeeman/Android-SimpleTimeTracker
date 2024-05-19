@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_running_record.view
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordCore
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
+import com.example.util.simpletimetracker.feature_views.extension.animateColor
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
@@ -38,13 +40,12 @@ class ChangeRunningRecordFragment :
 
     private val viewModel: ChangeRunningRecordViewModel by viewModels()
 
+    private var typeColorAnimator: ValueAnimator? = null
+    private val core by lazy { ChangeRecordCore(viewModel = viewModel) }
+
     private val params: ChangeRunningRecordParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChangeRunningRecordParams(),
     )
-
-    private val core by lazy {
-        ChangeRecordCore(viewModel = viewModel)
-    }
 
     override fun initUi(): Unit = with(binding) {
         coreSetup()
@@ -93,6 +94,11 @@ class ChangeRunningRecordFragment :
         viewModel.onHidden()
     }
 
+    override fun onDestroy() {
+        typeColorAnimator?.cancel()
+        super.onDestroy()
+    }
+
     override fun onDateTimeSet(timestamp: Long, tag: String?) {
         viewModel.onDateTimeSet(timestamp, tag)
     }
@@ -114,7 +120,7 @@ class ChangeRunningRecordFragment :
                 nowIconVisible = params.from is ChangeRunningRecordParams.From.Records,
             ),
             dateTimeStarted = preview.timeStartedDateTime.toViewData(),
-        ).let(::updatePreview)
+        ).let { updatePreview(it, animated = false) }
 
         core.onSetPreview(
             binding = binding.layoutChangeRunningRecordCore,
@@ -123,7 +129,10 @@ class ChangeRunningRecordFragment :
         )
     }
 
-    private fun updatePreview(item: ChangeRunningRecordViewData) = with(binding.layoutChangeRunningRecordCore) {
+    private fun updatePreview(
+        item: ChangeRunningRecordViewData,
+        animated: Boolean = true,
+    ) = with(binding.layoutChangeRunningRecordCore) {
         tvChangeRecordTimeStartedDate.text = item.dateTimeStarted.date
         tvChangeRecordTimeStartedTime.text = item.dateTimeStarted.time
         tvChangeRecordChangeCurrentPreviewTimeStarted.text = item.dateTimeStarted.time
@@ -133,7 +142,6 @@ class ChangeRunningRecordFragment :
             itemName = item.recordPreview.name
             itemTagName = item.recordPreview.tagName
             itemIcon = item.recordPreview.iconId
-            itemColor = item.recordPreview.color
             itemTimeStarted = item.recordPreview.timeStarted
             itemTimer = item.recordPreview.timer
             itemTimerTotal = item.recordPreview.timerTotal
@@ -141,6 +149,17 @@ class ChangeRunningRecordFragment :
             itemGoalTimeComplete = item.recordPreview.goalTime.complete
             itemComment = item.recordPreview.comment
             itemNowIconVisible = item.recordPreview.nowIconVisible
+
+            if (animated) {
+                typeColorAnimator?.cancel()
+                typeColorAnimator = animateColor(
+                    from = itemColor,
+                    to = item.recordPreview.color,
+                    doOnUpdate = { value -> itemColor = value },
+                )
+            } else {
+                itemColor = item.recordPreview.color
+            }
         }
 
         core.onSetPreview(

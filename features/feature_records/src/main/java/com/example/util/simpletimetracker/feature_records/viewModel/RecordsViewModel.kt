@@ -47,7 +47,7 @@ class RecordsViewModel @Inject constructor(
     val records: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
-    val calendarData: LiveData<RecordsState.CalendarData> by lazy{
+    val calendarData: LiveData<RecordsState.CalendarData> by lazy {
         MutableLiveData(RecordsState.CalendarData.Loading)
     }
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()

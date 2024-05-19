@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_category.view
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.GoalTime
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Type
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeGoalsViewData
+import com.example.util.simpletimetracker.feature_views.extension.animateColor
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromScreen
@@ -78,6 +80,7 @@ class ChangeCategoryFragment :
             createDayOfWeekAdapterDelegate(viewModel::onDayOfWeekClick),
         )
     }
+    private var typeColorAnimator: ValueAnimator? = null
 
     private val params: ChangeTagData by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChangeTagData.New(),
@@ -159,6 +162,11 @@ class ChangeCategoryFragment :
         GoalsViewDelegate.onResume(binding.layoutChangeCategoryGoals)
     }
 
+    override fun onDestroy() {
+        typeColorAnimator?.cancel()
+        super.onDestroy()
+    }
+
     override fun onColorSelected(colorInt: Int) {
         viewModel.onCustomColorSelected(colorInt)
     }
@@ -196,10 +204,18 @@ class ChangeCategoryFragment :
     private fun updatePreview(item: CategoryViewData) {
         with(binding.previewChangeCategory) {
             itemName = item.name
-            itemColor = item.color
+
+            typeColorAnimator?.cancel()
+            typeColorAnimator = animateColor(
+                from = itemColor,
+                to = item.color,
+                doOnUpdate = { value ->
+                    itemColor = value
+                    binding.layoutChangeCategoryColorPreview.setCardBackgroundColor(value)
+                },
+            )
         }
         with(binding) {
-            layoutChangeCategoryColorPreview.setCardBackgroundColor(item.color)
             layoutChangeCategoryTypePreview.setCardBackgroundColor(item.color)
             layoutChangeCategoryGoalPreview.setCardBackgroundColor(item.color)
         }
