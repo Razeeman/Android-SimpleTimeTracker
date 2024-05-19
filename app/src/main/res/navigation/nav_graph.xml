@@ -205,6 +205,11 @@
         android:label="DefaultTypesSelectionDialogFragment"
         tools:layout="@layout/default_types_selection_dialog_fragment" />
     <dialog
+        android:id="@+id/debugMenuDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_dialogs.debugMenu.DebugMenuDialogFragment"
+        android:label="DebugMenuDialogFragment"
+        tools:layout="@layout/debug_menu_dialog_fragment" />
+    <dialog
         android:id="@+id/typesSelectionDialogFragment"
         android:name="com.example.util.simpletimetracker.feature_dialogs.typesSelection.view.TypesSelectionDialogFragment"
         android:label="RecordTagSelectionTypesDialogFragment"

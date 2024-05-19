@@ -28,6 +28,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.DataEditTagSe
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditTypeSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DebugMenuDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DefaultTypesSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
@@ -92,6 +93,16 @@ class NavigationDialogMapModule {
     fun defaultTypesSelectionDialog(): NavigationData {
         return NavigationData(
             R.id.defaultTypesSelectionDialogFragment,
+            BundleCreator.empty(),
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(DebugMenuDialogParams::class)
+    fun debugMenuDialog(): NavigationData {
+        return NavigationData(
+            R.id.debugMenuDialogFragment,
             BundleCreator.empty(),
         )
     }

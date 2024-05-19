@@ -8,6 +8,7 @@ data class SnackBarParams(
     val actionText: String = "",
     val actionListener: ((TAG?) -> Unit)? = null,
     val margins: Margins = Margins(),
+    val inDialog: Boolean = false,
 ) : NotificationParams {
 
     enum class TAG {

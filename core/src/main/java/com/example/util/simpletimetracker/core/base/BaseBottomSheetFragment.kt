@@ -8,9 +8,14 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.viewbinding.ViewBinding
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.navigation.Router
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import javax.inject.Inject
 
 abstract class BaseBottomSheetFragment<T : ViewBinding> : BottomSheetDialogFragment() {
+
+    @Inject
+    lateinit var router: Router
 
     abstract val inflater: (LayoutInflater, ViewGroup?, Boolean) -> T
     protected val binding: T get() = _binding!!
@@ -36,6 +41,16 @@ abstract class BaseBottomSheetFragment<T : ViewBinding> : BottomSheetDialogFragm
         initUi()
         initUx()
         initViewModel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        router.bindDialog(dialog)
+    }
+
+    override fun onPause() {
+        router.unbindDialog()
+        super.onPause()
     }
 
     override fun onDestroy() {

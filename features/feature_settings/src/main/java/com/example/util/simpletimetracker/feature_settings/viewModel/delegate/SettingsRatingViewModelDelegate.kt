@@ -10,6 +10,8 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
+import com.example.util.simpletimetracker.navigation.params.screen.DebugMenuDialogParams
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SettingsRatingViewModelDelegate @Inject constructor(
@@ -19,8 +21,20 @@ class SettingsRatingViewModelDelegate @Inject constructor(
     private val settingsRatingViewDataInteractor: SettingsRatingViewDataInteractor,
 ) : ViewModelDelegate() {
 
+    private var parent: SettingsParent? = null
+    private var debugUnlocked = false
+    private var debugClicksCount: Int = 0
+
+    fun init(parent: SettingsParent) {
+        this.parent = parent
+    }
+
+    fun onHidden() {
+        debugClicksCount = 0
+    }
+
     fun getViewData(): List<ViewHolderType> {
-        return settingsRatingViewDataInteractor.execute()
+        return settingsRatingViewDataInteractor.execute(debugUnlocked)
     }
 
     fun onRateClick() {
@@ -40,8 +54,24 @@ class SettingsRatingViewModelDelegate @Inject constructor(
         )
     }
 
+    fun onVersionClick() {
+        debugClicksCount += 1
+        if (debugClicksCount >= DEBUG_CLICKS_TO_UNLOCK) {
+            debugUnlocked = true
+            delegateScope.launch { parent?.updateContent() }
+        }
+    }
+
+    fun onDebugMenuClick() {
+        router.navigate(DebugMenuDialogParams)
+    }
+
     private fun showMessage(stringResId: Int) {
         val params = SnackBarParams(message = resourceRepo.getString(stringResId))
         router.show(params)
+    }
+
+    companion object {
+        private const val DEBUG_CLICKS_TO_UNLOCK = 5
     }
 }

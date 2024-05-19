@@ -15,7 +15,9 @@ class SettingsRatingViewDataInteractor @Inject constructor(
     private val applicationDataProvider: ApplicationDataProvider,
 ) {
 
-    fun execute(): List<ViewHolderType> {
+    fun execute(
+        debugUnlocked: Boolean,
+    ): List<ViewHolderType> {
         val result = mutableListOf<ViewHolderType>()
 
         result += SettingsTopViewData(
@@ -38,9 +40,17 @@ class SettingsRatingViewDataInteractor @Inject constructor(
             block = SettingsBlock.Version,
             title = resourceRepo.getString(R.string.settings_version),
             subtitle = loadVersionName(),
-            dividerIsVisible = false,
-            layoutIsClickable = false,
+            dividerIsVisible = debugUnlocked,
         )
+
+        if (debugUnlocked) {
+            result += SettingsTextViewData(
+                block = SettingsBlock.DebugMenu,
+                title = resourceRepo.getString(R.string.debug_menu),
+                subtitle = "",
+                dividerIsVisible = false,
+            )
+        }
 
         result += SettingsBottomViewData(
             block = SettingsBlock.RatingBottom,

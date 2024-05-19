@@ -1,9 +1,11 @@
 package com.example.util.simpletimetracker.navigation
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import androidx.activity.ComponentActivity
+import androidx.fragment.app.DialogFragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.util.simpletimetracker.navigation.params.action.ActionParams
@@ -25,6 +27,7 @@ class RouterImpl @Inject constructor(
 
     private var navController: NavController? = null
     private var activity: Activity? = null
+    private var dialog: Dialog? = null
 
     override fun onCreate(activity: ComponentActivity) {
         actionResolver.registerResultListeners(activity)
@@ -33,6 +36,14 @@ class RouterImpl @Inject constructor(
     override fun bind(activity: Activity) {
         this.navController = activity.findNavController(R.id.container)
         this.activity = activity
+    }
+
+    override fun bindDialog(dialog: Dialog?) {
+        this.dialog = dialog
+    }
+
+    override fun unbindDialog() {
+        this.dialog = null
     }
 
     override fun navigate(data: ScreenParams, sharedElements: Map<Any, String>?) {
@@ -44,7 +55,7 @@ class RouterImpl @Inject constructor(
     }
 
     override fun show(data: NotificationParams, anchor: Any?) {
-        notificationResolver.show(activity, data, anchor)
+        notificationResolver.show(activity, dialog, data, anchor)
     }
 
     override fun setResultListener(key: String, listener: ResultListener) {

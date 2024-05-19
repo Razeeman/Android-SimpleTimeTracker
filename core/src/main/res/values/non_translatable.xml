@@ -17,4 +17,8 @@
     <string name="color_value" translatable="false">V</string>
     <string name="color_hex" translatable="false">Hex</string>
 
+    <string name="debug_menu" translatable="false">Debug menu</string>
+    <string name="debug_menu_hide_default_types" translatable="false">Reset \"Hide default types\" preference</string>
+    <string name="debug_menu_hide_message" translatable="false">Success</string>
+
 </resources>

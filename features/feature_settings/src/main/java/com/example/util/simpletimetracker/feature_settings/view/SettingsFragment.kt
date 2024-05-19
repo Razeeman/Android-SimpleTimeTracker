@@ -103,9 +103,14 @@ class SettingsFragment :
         mainTabsViewModel.tabReselected.observe(viewModel::onTabReselected)
     }
 
-    override fun onResume() = with(binding) {
+    override fun onResume() {
         super.onResume()
         viewModel.onVisible()
+    }
+
+    override fun onPause() {
+        viewModel.onHidden()
+        super.onPause()
     }
 
     override fun onPositiveClick(tag: String?, data: Any?) {

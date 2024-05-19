@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.navigation
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
@@ -28,10 +29,15 @@ class NotificationResolverImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : NotificationResolver {
 
-    override fun show(activity: Activity?, data: NotificationParams, anchor: Any?) {
+    override fun show(
+        activity: Activity?,
+        dialog: Dialog?,
+        data: NotificationParams,
+        anchor: Any?,
+    ) {
         when (data) {
             is ToastParams -> showSystemMessage(data)
-            is SnackBarParams -> showSnackBar(activity, data, anchor)
+            is SnackBarParams -> showSnackBar(activity, dialog, data, anchor)
             is PopupParams -> showPopup(activity, data)
         }
     }
@@ -41,11 +47,20 @@ class NotificationResolverImpl @Inject constructor(
     }
 
     @SuppressLint("WrongConstant")
-    private fun showSnackBar(activity: Activity?, data: SnackBarParams, anchor: Any?) {
-        if (activity == null) return
+    private fun showSnackBar(
+        activity: Activity?,
+        dialog: Dialog?,
+        data: SnackBarParams,
+        anchor: Any?,
+    ) {
+        val view = if (data.inDialog) {
+            dialog?.window?.decorView
+        } else {
+            activity?.findViewById(android.R.id.content)
+        } ?: return
 
         val snackBar = Snackbar.make(
-            activity.findViewById(android.R.id.content),
+            view,
             data.message,
             when (data.duration) {
                 is SnackBarParams.Duration.Short -> SNACK_BAR_SHORT_DURATION_MS

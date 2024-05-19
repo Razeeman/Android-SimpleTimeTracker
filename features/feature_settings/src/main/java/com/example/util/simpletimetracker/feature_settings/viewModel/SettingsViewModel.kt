@@ -54,6 +54,7 @@ class SettingsViewModel @Inject constructor(
         additionalDelegate.init(this)
         backupDelegate.init(this)
         exportDelegate.init(this)
+        ratingDelegate.init(this)
         subscribeToUpdates()
     }
 
@@ -75,6 +76,10 @@ class SettingsViewModel @Inject constructor(
         // Need to update card order because it changes on card order dialog.
         // Update after day changes.
         viewModelScope.launch { updateContent() }
+    }
+
+    fun onHidden() {
+        ratingDelegate.onHidden()
     }
 
     fun onRequestUpdate() {
@@ -128,6 +133,10 @@ class SettingsViewModel @Inject constructor(
                 ratingDelegate.onRateClick()
             SettingsBlock.Feedback ->
                 ratingDelegate.onFeedbackClick()
+            SettingsBlock.Version ->
+                ratingDelegate.onVersionClick()
+            SettingsBlock.DebugMenu ->
+                ratingDelegate.onDebugMenuClick()
             SettingsBlock.DisplayCardSize ->
                 displayDelegate.onChangeCardSizeClick()
             SettingsBlock.DisplaySortActivities ->
