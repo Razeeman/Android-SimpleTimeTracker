@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek
 
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData.Width.MatchParent
@@ -23,12 +24,13 @@ fun createDayOfWeekAdapterDelegate(
             is MatchParent -> ViewGroup.LayoutParams.MATCH_PARENT
             is WrapContent -> ViewGroup.LayoutParams.WRAP_CONTENT
         }
-        containerDayOfWeekItem.setCardBackgroundColor(item.color)
+        cardDayOfWeekItem.setCardBackgroundColor(item.color)
         btnDayOfWeekItem.text = item.text
         btnDayOfWeekItem.setOnClickWith(item, onClick)
         btnDayOfWeekItem.updatePadding(
             left = item.paddingHorizontalDp.dpToPx(),
             right = item.paddingHorizontalDp.dpToPx(),
         )
+        cardDayOfWeekItemSelected.isVisible = item.selected
     }
 }

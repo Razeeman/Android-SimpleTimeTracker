@@ -10,6 +10,7 @@ data class DayOfWeekViewData(
     @ColorInt val color: Int,
     val width: Width,
     val paddingHorizontalDp: Int,
+    val selected: Boolean,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = dayOfWeek.ordinal.toLong()

@@ -28,6 +28,7 @@ class DayOfWeekViewDataMapper @Inject constructor(
                 },
                 width = width,
                 paddingHorizontalDp = paddingHorizontalDp,
+                selected = selected,
             )
         }
     }

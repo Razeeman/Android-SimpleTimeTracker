@@ -1,26 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/containerDayOfWeekItem"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
-    app:cardCornerRadius="@dimen/button_corner_radius"
-    app:cardElevation="2dp"
-    tools:cardBackgroundColor="?appInactiveColor">
+    android:clipToPadding="false"
+    android:padding="2dp">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/btnDayOfWeekItem"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardDayOfWeekItemSelected"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="0dp"
+        android:outlineProvider="none"
+        android:translationY="2dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="?colorAccent"
+        app:cardCornerRadius="@dimen/button_corner_radius"
+        app:layout_constraintBottom_toBottomOf="@id/cardDayOfWeekItem"
+        app:layout_constraintEnd_toEndOf="@id/cardDayOfWeekItem"
+        app:layout_constraintStart_toStartOf="@id/cardDayOfWeekItem"
+        app:layout_constraintTop_toTopOf="@id/cardDayOfWeekItem"
+        tools:visibility="visible" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardDayOfWeekItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?selectableItemBackground"
-        android:gravity="center"
-        android:maxLines="1"
-        android:paddingVertical="8dp"
-        android:textColor="?appLightTextColor"
-        android:textStyle="bold"
-        tools:paddingHorizontal="16dp"
-        tools:text="Sun" />
+        app:cardCornerRadius="@dimen/button_corner_radius"
+        app:cardElevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:cardBackgroundColor="?appInactiveColor">
 
-</androidx.cardview.widget.CardView>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btnDayOfWeekItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingVertical="8dp"
+            android:textColor="?appLightTextColor"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:paddingHorizontal="16dp"
+            tools:text="Sun" />
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
