@@ -9,7 +9,7 @@
     <string name="day_of_week_saturday">Сб</string>
     <string name="day_of_week_sunday">Нд</string>
 
-    <string name="activity_hint">Заняття</string>
+    <string name="activity_hint">Активності</string>
     <string name="category_hint">Категорії</string>
     <string name="record_tag_hint">Теги записів</string>
     <string name="record_tag_hint_short">Теги</string>
@@ -100,21 +100,21 @@
     <string name="change_record_actions_hint">Дії</string>
     <string name="change_record_last_comments_hint">Останні коментарі</string>
     <string name="change_record_favourite_comments_hint">Улюблений</string>
-    <string name="change_record_categories_empty">Теги для активності не додані</string>
+    <string name="change_record_categories_empty">Теги для записів не додані</string>
     <string name="change_record_save">Зберегти</string>
     <string name="change_record_untagged">Без тегу</string>
-    <string name="change_running_record_removed">Поточне заняття видалено</string>
+    <string name="change_running_record_removed">Поточну активність видалено</string>
     <string name="change_record_split">Розділити</string>
-    <string name="change_record_split_hint">Розрізає поточний запис на два у вказаний момент часу</string>
+    <string name="change_record_split_hint">Розріже поточний запис на два у вказаний момент часу</string>
     <string name="change_record_continue">Продовжити</string>
     <string name="change_record_continue_hint">Буде видалено поточний запис і продовжено відстеження цієї діяльності</string>
     <string name="change_record_repeat">@string/running_records_repeat</string>
-    <string name="change_record_repeat_hint">Буде повторювати відстеження цієї діяльності</string>
+    <string name="change_record_repeat_hint">Буде повторено відстеження цієї активності</string>
     <string name="change_record_duplicate">Дублікат</string>
     <string name="change_record_duplicate_hint">Буде створено копію цього запису</string>
     <string name="change_record_merge">Об’єднати</string>
     <string name="change_record_merge_hint">Додасть цей час до попереднього запису</string>
-    <string name="change_record_adjust">Зміна</string>
+    <string name="change_record_adjust">Змінити</string>
     <string name="change_record_change_prev_record">Також змінити час попереднього запису</string>
     <string name="change_record_change_adjacent_records">Також змінити час суміжних записів</string>
     <string name="change_record_change_prev">Попередній</string>
@@ -137,15 +137,15 @@
     <string name="change_record_message_choose_name">Оберіть ім\'я</string>
     <string name="change_record_message_name_exist">Назва вже використана</string>
     <string name="change_record_type_categories_empty">Категорії не додано</string>
-    <string name="change_record_type_goal_time_disabled">Відключено</string>
-    <string name="change_record_type_goal_time_hint">Цільова</string>
-    <string name="change_record_type_goal_time_description">Повідомлення буде показано після досягнення мети</string>
+    <string name="change_record_type_goal_time_disabled">Вимкнено</string>
+    <string name="change_record_type_goal_time_hint">Ціль</string>
+    <string name="change_record_type_goal_time_description">Сповіщення буде показано після досягнення мети</string>
     <string name="change_record_type_session_goal_time">Сесія</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
     <string name="change_record_type_goal_duration">Тривалість</string>
-    <string name="change_record_type_goal_count">Рахувати</string>
+    <string name="change_record_type_goal_count">Кількість</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Фільтр видалений</string>
@@ -202,14 +202,14 @@
     <string name="running_records_has_timers">Натисніть картку, щоб припинити відстеження</string>
     <string name="running_records_empty_hint">Натисність та утримуйте для редагування</string>
     <string name="running_records_add_type">Додати</string>
-    <string name="running_records_add_filter">Додайте фільтр</string>
+    <string name="running_records_add_filter">Додати фільтр</string>
     <string name="running_records_add_default">За замовчуванням</string>
-    <string name="running_records_repeat">Повторіть</string>
+    <string name="running_records_repeat">Повторити</string>
     <string name="running_records_repeat_no_prev_record">Немає попереднього запису для повторного запуску</string>
     <string name="running_records_repeat_already_tracking">Уже відстежуєте цю діяльність</string>
 
     <!--  Settings  -->
-    <string name="settings_display_title">Налаштування дисплея</string>
+    <string name="settings_display_title">Налаштування перегляду</string>
     <string name="settings_additional_title">Додаткові налаштування</string>
     <string name="settings_notification_title">Налаштування сповіщень</string>
     <string name="settings_backup_title">Налаштування резервного копіювання</string>
@@ -224,7 +224,7 @@
     <string name="settings_first_day_of_week">Перший день тижня</string>
     <string name="settings_repeat_button_type">Кнопка повтору</string>
     <string name="settings_repeat_last_record">Повторити останній запис</string>
-    <string name="settings_repeat_one_before_last">Повторіть передостанній запис</string>
+    <string name="settings_repeat_one_before_last">Повторити передостанній запис</string>
     <string name="settings_show_untracked_time">Показувати не відстежений час у записах</string>
     <string name="settings_show_untracked_time_statistics">Показувати не відстежений час у статистиці</string>
     <string name="settings_ignore_short_untracked">Ігноруйте короткий невідстежуваний час</string>
@@ -240,7 +240,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">Якщо вимкнено, вибір фільтра призведе до вимкнення інших фільтрів активності.</string>
     <string name="settings_show_goals_separately">Показати цілі на окремій вкладці</string>
     <string name="settings_allow_multitasking">Дозволити багатозадачність</string>
-    <string name="settings_allow_multitasking_hint">Якщо вимкнено, запуск нового таймера автоматично зупинить інші дії.</string>
+    <string name="settings_allow_multitasking_hint">Якщо вимкнено, запуск нового таймера автоматично зупинить інші активності.</string>
     <string name="settings_show_notifications">Показувати сповіщення таймера</string>
     <string name="settings_show_notifications_hint">Показувати сповіщення, коли таймери працюють.</string>
     <string name="settings_show_notifications_controls">Увімкнути перемикання активності зі сповіщень</string>
@@ -393,9 +393,9 @@
     <string name="statistics_detail_first_record">Перший</string>
     <string name="statistics_detail_last_record">Останній</string>
     <string name="statistics_detail_streaks">Серія</string>
-    <string name="statistics_detail_streaks_longest">Найдовший</string>
-    <string name="statistics_detail_streaks_current">Поточний</string>
-    <string name="statistics_detail_streaks_latest">Останній</string>
+    <string name="statistics_detail_streaks_longest">Найдовша</string>
+    <string name="statistics_detail_streaks_current">Поточна</string>
+    <string name="statistics_detail_streaks_latest">Остання</string>
     <string name="statistics_detail_streaks_any">Будь-яка тривалість</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
     <string name="statistics_detail_activity_split_hint">Розподіл активності</string>
@@ -408,10 +408,10 @@
     <plurals name="statistics_detail_times_tracked">
         <item quantity="zero">Записів</item>
         <item quantity="one">Запис</item>
-        <item quantity="two">записи</item>
-        <item quantity="few">записів</item>
-        <item quantity="many">записів</item>
-        <item quantity="other">записів</item>
+        <item quantity="two">Записи</item>
+        <item quantity="few">Записи</item>
+        <item quantity="many">Записів</item>
+        <item quantity="other">Записів</item>
     </plurals>
 
     <!--  Widget  -->
@@ -458,7 +458,7 @@
     <string name="data_edit_success_message">Дані змінено</string>
 
     <!--  Records filter  -->
-    <string name="records_filter_select_tags">Виберіть теги</string>
+    <string name="records_filter_select_tags">Вибрати теги</string>
     <string name="records_filter_filter_tags">Виключити теги</string>
     <string name="records_filter_manually_filtered">Відфільтрований</string>
     <string name="records_filter_no_comment">Без коментарів</string>
@@ -480,11 +480,11 @@
     <!--  Icon image category  -->
     <string name="imageGroupMaps">Карти</string>
     <string name="imageGroupPlaces">Місця</string>
-    <string name="imageGroupSocial">Активність</string>
+    <string name="imageGroupSocial">Активності</string>
     <string name="imageGroupAction">Дії</string>
     <string name="imageGroupHardware">Обладнання</string>
     <string name="imageGroupAlert">Попередження</string>
-    <string name="imageGroupAv">Авдіо та відео</string>
+    <string name="imageGroupAv">Аудіо та відео</string>
     <string name="imageGroupCommunication">Комунікація</string>
     <string name="imageGroupContent">Контент</string>
     <string name="imageGroupDevice">Пристрій</string>
