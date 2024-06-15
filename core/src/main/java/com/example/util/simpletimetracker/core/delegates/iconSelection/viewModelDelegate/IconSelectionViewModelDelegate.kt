@@ -136,7 +136,11 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
     }
 
     override fun onIconCategoryClick(viewData: IconSelectionCategoryViewData) {
-        if (viewData.getUniqueId() == 0L) {
+        val firstIconCategory = iconCategories.value
+            ?.firstOrNull()
+            as? IconSelectionCategoryViewData
+
+        if (viewData.getUniqueId() == firstIconCategory?.getUniqueId().orZero()) {
             expandIconTypeSwitch.set(Unit)
         }
         // Types in icons and categories should have the same index for this to work.
