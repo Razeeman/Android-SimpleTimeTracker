@@ -34,7 +34,7 @@ class WidgetStatisticsChartView @JvmOverloads constructor(
 
     fun setSegments(
         data: List<PiePortion>,
-        total: String,
+        total: CharSequence,
         backgroundAlpha: Float,
     ) = with(binding) {
         ColorUtils.changeAlpha(

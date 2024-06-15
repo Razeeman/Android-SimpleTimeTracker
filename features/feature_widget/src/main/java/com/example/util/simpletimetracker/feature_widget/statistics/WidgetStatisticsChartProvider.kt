@@ -7,10 +7,12 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RemoteViews
+import androidx.core.text.bold
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -164,8 +166,10 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
             useProportionalMinutes = useProportionalMinutes,
             showSeconds = showSeconds,
         )
-        val totalTracked = resourceRepo.getString(R.string.statistics_total_tracked_short) +
-            "\n" + total
+        val totalTracked = SpannableStringBuilder()
+            .append(resourceRepo.getString(R.string.statistics_total_tracked_short))
+            .append("\n")
+            .bold { append(total) }
 
         return WidgetStatisticsChartView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
             setSegments(

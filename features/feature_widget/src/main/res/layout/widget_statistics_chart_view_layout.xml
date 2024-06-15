@@ -63,7 +63,6 @@
                 android:layout_height="0dp"
                 android:gravity="center"
                 android:textColor="@color/textPrimaryDark"
-                android:textStyle="bold"
                 app:autoSizeMaxTextSize="14sp"
                 app:autoSizeMinTextSize="1sp"
                 app:autoSizeTextType="uniform"
