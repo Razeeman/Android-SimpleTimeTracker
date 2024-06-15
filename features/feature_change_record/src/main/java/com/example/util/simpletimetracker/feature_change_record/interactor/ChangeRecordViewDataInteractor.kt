@@ -129,6 +129,7 @@ class ChangeRecordViewDataInteractor @Inject constructor(
             search.isEmpty() -> emptyList()
             else -> {
                 recordInteractor.searchComment(search)
+                    .sortedByDescending { it.timeStarted }
                     .map { ChangeRecordCommentViewData.Last(it.comment) }
             }
         }.let(items::addAll)
