@@ -13,6 +13,7 @@
     <locale android:name="@string/settings_japanese_tag"/>
     <locale android:name="@string/settings_korean_tag"/>
     <locale android:name="@string/settings_dutch_tag"/>
+    <locale android:name="@string/settings_polish_tag"/>
     <locale android:name="@string/settings_portuguese_tag"/>
     <locale android:name="@string/settings_portuguese_portugal_tag"/>
     <locale android:name="@string/settings_romanian_tag"/>

@@ -38,6 +38,10 @@
     <string name="settings_dutch_language" translatable="false">Nederlands</string>
     <string name="settings_dutch_tag" translatable="false">nl</string>
 
+    <string name="settings_polish_translators" translatable="false">Bartosz Wojciek</string>
+    <string name="settings_polish_language" translatable="false">Polski</string>
+    <string name="settings_polish_tag" translatable="false">pl</string>
+
     <string name="settings_portuguese_translators" translatable="false">Hingrid Correia</string>
     <string name="settings_portuguese_language" translatable="false">Português</string>
     <string name="settings_portuguese_tag" translatable="false">pt</string>
@@ -62,7 +66,7 @@
     <string name="settings_turkish_language" translatable="false">Türkçe</string>
     <string name="settings_turkish_tag" translatable="false">tr</string>
 
-    <string name="settings_ukrainian_translators" translatable="false">Божен Новак</string>
+    <string name="settings_ukrainian_translators" translatable="false">Божен Новак, Володимир\u00A0Зуйков</string>
     <string name="settings_ukrainian_language" translatable="false">Українська</string>
     <string name="settings_ukrainian_tag" translatable="false">uk</string>
 

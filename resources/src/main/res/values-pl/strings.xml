@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">pon.</string>
+    <string name="day_of_week_tuesday">wt.</string>
+    <string name="day_of_week_wednesday">śr.</string>
+    <string name="day_of_week_thursday">czw.</string>
+    <string name="day_of_week_friday">pt.</string>
+    <string name="day_of_week_saturday">sob.</string>
+    <string name="day_of_week_sunday">niedz.</string>
+
+    <string name="activity_hint">Aktywności</string>
+    <string name="category_hint">Kategorie</string>
+    <string name="record_tag_hint">Tagi aktywności</string>
+    <string name="record_tag_hint_short">Tagi</string>
+    <string name="nothing_selected">Nic nie wybrano</string>
+    <string name="something_selected">Wybrane:</string>
+    <string name="select_all">Wybierz wszystko</string>
+    <string name="select_nothing">Odznacz wszystko</string>
+    <string name="no_data">Brak danych</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">Wczoraj</string>
+    <string name="title_today">Dzisiaj</string>
+    <string name="title_tomorrow">Jutro</string>
+    <string name="title_this_week">W tym tygodniu</string>
+    <string name="title_this_month">W tym miesiąc</string>
+    <string name="title_this_year">W tym roku</string>
+
+    <string name="range_day">Dzień</string>
+    <string name="range_week">Tydzień</string>
+    <string name="range_month">Miesiąc</string>
+    <string name="range_year">Rok</string>
+    <string name="range_overall">Cały okres</string>
+    <string name="range_custom">Zakres</string>
+    <string name="range_last">Ostatnie 7 dni</string>
+    <string name="range_select_day">Wybierz dzień</string>
+    <string name="range_select_week">Wybierz tydzień</string>
+    <string name="range_select_month">Wybierz miesiąc</string>
+    <string name="range_select_year">Wybierz rok</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="time_hour">g</string>
+    <string name="time_minute">m</string>
+    <string name="time_second">s</string>
+
+    <string name="untracked_time_name">Nieśledzony</string>
+    <string name="uncategorized_time_name">Bez kategorii</string>
+    <string name="multitask_time_name">Wiele aktywności jednocześnie</string>
+    <string name="running_record_goal_time">cel %s</string>
+    <string name="record_types_empty">Brak dodanych aktywności</string>
+    <string name="record_tag_selection_hint">Wybierz tag aktywności</string>
+    <string name="time_now">Teraz</string>
+    <string name="cannot_be_in_the_future">Nie można wybrać przyszłości</string>
+
+    <!--  Records  -->
+    <string name="record_removed">Zapis %s usunięty</string>
+    <string name="record_removed_undo">Cofnij</string>
+    <string name="records_hint">Kliknij wpis, aby edytować</string>
+    <string name="no_records_exist">Zapisy będą widoczne tutaj</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_total_tracked">Łącznie prześledzone</string>
+    <string name="statistics_total_tracked_short">Łącznie</string>
+    <string name="statistics_hint">Kliknij kartę, aby wyświetlić szczegółowe statystyki</string>
+    <string name="no_statistics_exist">Statystyki będą widoczne tutaj</string>
+
+    <!--  Categories  -->
+    <string name="categories_title">Kategorie i tagi</string>
+    <string name="categories_edit_hint">Kliknij kartę, aby edytować</string>
+    <string name="categories_record_type_hint">Przypisz tę samą kategorię do różnych działań, aby wyświetlić ich pogrupowane statystyki</string>
+    <string name="categories_record_hint">Przypisz różne tagi do zapisów, aby je rozróżnić</string>
+    <string name="categories_add_category">Dodaj kategorię</string>
+    <string name="categories_add_record_tag">Dodaj tag dla aktywności</string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">Kategoria usunięta</string>
+    <string name="change_category_name_hint">Wprowadź nową nazwę</string>
+    <string name="change_category_color_hint">Kolor</string>
+    <string name="change_category_types_hint">Aktywności</string>
+    <string name="change_category_save">Zapisz</string>
+    <string name="change_category_message_choose_name">Wybierz nazwę</string>
+
+    <!--  Change record tag  -->
+    <string name="change_record_tag_archived">Tag zarchiwizowany</string>
+    <string name="change_record_tag_default_hint">Przypisany domyślnie</string>
+    <string name="change_record_tag_type_general_hint">Można przypisać do zapisów dowolnej aktywności</string>
+    <string name="change_record_tag_type_typed_hint">Można je przypisać wyłącznie do zapisów określonej aktywności</string>
+    <string name="change_record_tag_select_activity_hint">Przypisz kolor i ikonę z aktywności</string>
+    <string name="change_record_tag_default_types_hint">Tag zostanie przypisany domyślnie po uruchomieniu stopera z wybranymi czynnościami</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">Wybierz aktywność</string>
+    <string name="change_record_type_field">Aktywność</string>
+    <string name="change_record_tag_field">Tag</string>
+    <string name="change_record_comment_field">Komentarz</string>
+    <string name="change_record_comment_hint">Dodaj nowy komentarz</string>
+    <string name="change_record_actions_hint">Akcje</string>
+    <string name="change_record_last_comments_hint">Ostatni komentarz</string>
+    <string name="change_record_favourite_comments_hint">Ulubione</string>
+    <string name="change_record_categories_empty">Brak dodanych tagów</string>
+    <string name="change_record_save">Zapisz</string>
+    <string name="change_record_untagged">Nieotagowane</string>
+    <string name="change_running_record_removed">Usunięto bieżącą aktywność</string>
+    <string name="change_record_split">Podziel</string>
+    <string name="change_record_split_hint">Podzieli bieżący zapis na dwie części w określonym momencie</string>
+    <string name="change_record_continue">Kontynuuj</string>
+    <string name="change_record_continue_hint">Usunie bieżący zapis i będzie kontynuować śledzenie tej aktywności</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">Śledzenie tej aktywności zostanie powtórzone</string>
+    <string name="change_record_duplicate">Powiel</string>
+    <string name="change_record_duplicate_hint">Utworzy kopię tego zapisu</string>
+    <string name="change_record_merge">Scal</string>
+    <string name="change_record_merge_hint">Doda ten czas do poprzedniego rekordu</string>
+    <string name="change_record_adjust">Zmień</string>
+    <string name="change_record_change_prev_record">Zmień także czas poprzedniego rekordu</string>
+    <string name="change_record_change_adjacent_records">Zmień także czas sąsiadujących rekordów</string>
+    <string name="change_record_change_prev">Poprzedni</string>
+    <string name="change_record_change_next">Następny</string>
+    <string name="change_record_change_overlapped">Pokrywają się</string>
+    <string name="change_record_change_overlapped_hint">Rekordy całkowicie się pokrywają i zostaną usunięte</string>
+    <string name="change_record_untracked_time_hint">Czas nieśledzony to czas, w którym nie śledzono żadnej aktywności.</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">Aktywność zarchiwizowana</string>
+    <string name="change_record_type_name_hint">Wprowadź nową nazwę</string>
+    <string name="change_record_type_new_icon_text_hint">Wprowadź nowy tekst</string>
+    <string name="change_record_type_color_hint">Kolor</string>
+    <string name="change_record_type_icon_image_hint">Ikona</string>
+    <string name="change_record_type_icon_text_hint">Tekst</string>
+    <string name="change_record_type_icon_emoji_hint">Emoji</string>
+    <string name="change_record_type_icon_search_hint">Szukaj (po angielsku)</string>
+    <string name="change_record_type_no_icon">Brak ikony</string>
+    <string name="change_record_type_save">Zapisz</string>
+    <string name="change_record_message_choose_name">Wybierz nazwę</string>
+    <string name="change_record_message_name_exist">Nazwa już używana</string>
+    <string name="change_record_type_categories_empty">Brak dodanej kategorii</string>
+    <string name="change_record_type_goal_time_disabled">Wyłączony</string>
+    <string name="change_record_type_goal_time_hint">Cel</string>
+    <string name="change_record_type_goal_time_description">Powiadomienie wyświetli się po osiągnięciu celu</string>
+    <string name="change_record_type_session_goal_time">Sesja</string>
+    <string name="change_record_type_daily_goal_time">@string/range_day</string>
+    <string name="change_record_type_weekly_goal_time">@string/range_week</string>
+    <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_goal_duration">Czas trwania</string>
+    <string name="change_record_type_goal_count">Liczba wystąpień</string>
+
+    <!--  Activity filters  -->
+    <string name="change_activity_filter_removed">Filtr usunięty</string>
+    <string name="change_activity_filter_save">Zapisz</string>
+    <string name="change_activity_filter_type">Typ filtra</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">Data</string>
+    <string name="date_time_dialog_time">Czas</string>
+    <string name="date_time_dialog_seconds">Sekundy</string>
+
+    <string name="card_size_default">Domyślna szerokość</string>
+    <string name="card_size_hint">Liczba kart w rzędzie</string>
+
+    <string name="card_order_hint">Przeciągnij i upuść, aby zmienić kolejność</string>
+
+    <string name="chart_filter_hint">Filtr</string>
+    <string name="types_compare_hint">Porównanie</string>
+    <string name="types_filter_show_all">Pokaż wszystkie</string>
+    <string name="types_filter_hide_all">Ukryj wszystkie</string>
+    <string name="chart_filter_type_hint">Typ statystyki</string>
+    <string name="chart_filter_categories_empty">Brak dodanych tagów</string>
+
+    <string name="duration_dialog_save">Zapisz</string>
+    <string name="duration_dialog_disable">Wyłącz</string>
+
+    <string name="color_selection_base_color_hint">Wybierz podstawowy kolor</string>
+    <string name="color_selection_adjust_color_hint">Dostosuj kolor</string>
+    <string name="color_selection_final_color_hint">Ostateczny kolor</string>
+
+    <string name="csv_export_settings_range">Zakres</string>
+    <string name="csv_export_settings_all">Wszystko</string>
+    <string name="csv_export_settings_hint">Wybierz zakres lub wyeksportuj wszystkie rekordy</string>
+
+    <string name="schedule_exact_alarms">Aby móc zaplanować alarmy, należy umożliwić to aplikacji w ustawieniach systemowych</string>
+    <string name="post_notifications">Aby ta aplikacja mogła wyświetlać powiadomienia, należy to umożliwić w ustawieniach systemowych</string>
+    <string name="schedule_exact_alarms_open_settings">Otwórz</string>
+
+    <string name="default_types_selection_title">Wybierz aktywności do dodania</string>
+    <string name="default_types_selection_hide">Nie pokazuj ponownie</string>
+
+    <string name="record_tag_selection_exclude_activities_title">Wyklucz aktywności</string>
+    <string name="record_tag_selection_exclude_activities_hint">Okno wyboru tagu nie będzie wyświetlane dla wybranych aktywności.</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">Posortuj rekordy</string>
+    <string name="records_all_sort_time_started">Czas rozpoczęcia</string>
+    <string name="records_all_sort_duration">Czas trwania</string>
+    <string name="records_all_search_comment">Wyszukaj komentarz</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">Aby rozpocząć śledzenie, dodaj aktywność, klikając przycisk %s lub użyj domyślnych, klikając przycisk %s</string>
+    <string name="running_records_empty">Kliknij aktywność, aby rozpocząć śledzenie</string>
+    <string name="running_records_has_timers">Kliknij kartę, aby zatrzymać śledzenie</string>
+    <string name="running_records_empty_hint">Przytrzymaj, aby edytować</string>
+    <string name="running_records_add_type">Dodaj</string>
+    <string name="running_records_add_filter">Dodaj filtr</string>
+    <string name="running_records_add_default">Domyślny</string>
+    <string name="running_records_repeat">Powtórz</string>
+    <string name="running_records_repeat_no_prev_record">Brak poprzedniego rekordu do ponownego uruchomienia</string>
+    <string name="running_records_repeat_already_tracking">Ta aktywność jest już śledzona</string>
+
+    <!--  Settings  -->
+    <string name="settings_display_title">Ustawienia wyświetlania</string>
+    <string name="settings_additional_title">Dodatkowe ustawienia</string>
+    <string name="settings_notification_title">Ustawienia powiadomień</string>
+    <string name="settings_backup_title">Ustawienia kopii zapasowej</string>
+    <string name="settings_export_title">Eksport i import</string>
+    <string name="settings_sort_order">Sortowanie aktywności</string>
+    <string name="settings_sort_order_category">Sortowanie kategorii</string>
+    <string name="settings_sort_order_tag">Sortowanie tagów</string>
+    <string name="settings_sort_by_name">Nazwa</string>
+    <string name="settings_sort_by_color">Kolor</string>
+    <string name="settings_sort_manually">Ręcznie</string>
+    <string name="settings_sort_activity">@string/change_record_type_field</string>
+    <string name="settings_first_day_of_week">Pierwszy dzień tygodnia</string>
+    <string name="settings_repeat_button_type">Przycisk powtarzania</string>
+    <string name="settings_repeat_last_record">Powtórz ostatnią aktywność</string>
+    <string name="settings_repeat_one_before_last">Powtórz przedostatnią aktywność</string>
+    <string name="settings_show_untracked_time">Pokaż nieśledzony czas w zapisach</string>
+    <string name="settings_show_untracked_time_statistics">Pokaż nieśledzony czas w statystykach</string>
+    <string name="settings_ignore_short_untracked">Ignoruj krótki czas braku śledzenia</string>
+    <string name="settings_ignore_short_untracked_hint">Nie pokazuj nieśledzonego czasu, który jest krótszy od wskazanego.</string>
+    <string name="settings_untracked_range">Zakres dla czasu nieśledzonego</string>
+    <string name="settings_untracked_range_hint">Ignoruj czas nieśledzony poza określonym zakresem.</string>
+    <string name="settings_show_records_calendar">Pokaż rekordy w widoku kalendarza</string>
+    <string name="settings_reverse_order_in_calendar">Odwrotna kolejność zapisów</string>
+    <string name="settings_days_in_calendar">Dni w kalendarzu</string>
+    <string name="settings_widget_transparency">Przezroczystość tła widgetu</string>
+    <string name="settings_show_activity_filters">Pokaż filtry aktywności na ekranie głównym</string>
+    <string name="settings_allow_multiple_activity_filters">Zezwalaj na wiele filtrów aktywności</string>
+    <string name="settings_allow_multiple_activity_filters_hint">Jeśli opcja jest wyłączona, wybranie filtra spowoduje wyłączenie innych filtrów aktywności.</string>
+    <string name="settings_show_goals_separately">Pokaż cele na osobnej karcie</string>
+    <string name="settings_allow_multitasking">Zezwalaj na wiele aktywności jednocześnie</string>
+    <string name="settings_allow_multitasking_hint">Jeśli ta opcja jest wyłączona, uruchomienie nowego timera automatycznie zatrzyma inne aktywności.</string>
+    <string name="settings_show_notifications">Pokaż powiadomienia timera</string>
+    <string name="settings_show_notifications_hint">Pokaż powiadomienia, gdy liczniki czasu są uruchomione.</string>
+    <string name="settings_show_notifications_controls">Włącz przełączanie aktywności z poziomu powiadomień</string>
+    <string name="settings_keep_statistics_range">Zachowaj zakres statystyk</string>
+    <string name="settings_keep_statistics_range_hint">Jeśli ta opcja jest włączona, zostaną otwarte szczegółowe statystyki dla tego samego okresu, jaki został wybrany w statystykach.</string>
+    <string name="settings_start_of_day">Przesuń początek dnia</string>
+    <string name="settings_start_of_day_hint">Początek dnia zostanie przesunięty o określony czas, do przodu lub do tyłu, w zależności od znaku.</string>
+    <string name="settings_start_of_day_hint_value">Rozpoczęcie dnia o %s</string>
+    <string name="settings_inactivity_reminder">Pokaż przypomnienie o braku aktywności</string>
+    <string name="settings_inactivity_reminder_hint">Pokaż powiadomienie po określonym czasie, jeśli nie są uruchomione żadne liczniki.</string>
+    <string name="settings_inactivity_reminder_recurrent">Cykliczny</string>
+    <string name="settings_activity_reminder">Pokaż przypomnienie o aktywności</string>
+    <string name="settings_activity_reminder_hint">Pokaż powiadomienie po określonym czasie, jeśli są uruchomione liczniki.</string>
+    <string name="settings_do_not_disturb">Nie przeszkadzać</string>
+    <string name="settings_notifications_system_settings">Ustawienia systemowe</string>
+    <string name="settings_notifications_system_settings_hint">Dźwięk, wibracje, lampa błyskowa i inne</string>
+    <string name="settings_ignore_short_records">Ignoruj krótkie rekordy</string>
+    <string name="settings_ignore_short_records_hint">Nie śledź aktywności krótszych niż podany czas.</string>
+    <string name="settings_inactivity_reminder_disabled">Wyłączony</string>
+    <string name="settings_dark_mode">Tryb ciemny</string>
+    <string name="settings_dark_mode_system">System</string>
+    <string name="settings_dark_mode_enabled">Włączony</string>
+    <string name="settings_language">Język</string>
+    <string name="settings_use_military_time">Użyj formatu 24-godzinnego</string>
+    <string name="settings_use_monthday_time">Użyj formatu daty miesiąc/dzień</string>
+    <string name="settings_use_proportional_minutes">Użyj proporcjonalnego formatu minut</string>
+    <string name="settings_show_seconds">Pokaż sekundy</string>
+    <string name="settings_keep_screen_on">Pozostaw ekran włączony</string>
+    <string name="settings_change_card_size">Zmień rozmiar karty aktywności</string>
+    <string name="settings_archive">Archiwum</string>
+    <string name="settings_data_edit">Edycja danych</string>
+    <string name="settings_edit_categories">Edytuj kategorie i tagi</string>
+    <string name="settings_edit_categories_hint">Przypisz kategorie do aktywności i tagi do rekordów.</string>
+    <string name="settings_show_record_tag_selection">Pokaż wybór tagu dla rekordu</string>
+    <string name="settings_show_record_tag_selection_hint">Jeśli po uruchomieniu timera aktywność ma jakiekolwiek znaczniki rekordu, zostanie wyświetlone okno dialogowe wyboru.</string>
+    <string name="settings_show_record_tag_close_hint">Zamknij po wybraniu jednego tagu</string>
+    <string name="settings_rate">Oceń nas</string>
+    <string name="settings_rate_description">Oceń aplikację i zostaw recenzję.</string>
+    <string name="settings_feedback">Przekaż opinię</string>
+    <string name="settings_feedback_description">Masz sugestię? Widzisz błąd? Chcesz porozmawiać? Napisz do nas!</string>
+    <string name="settings_version">Wersja</string>
+    <string name="settings_email_chooser_title">Wyślij za pomocą…</string>
+    <string name="settings_translators">Tłumacze</string>
+    <string name="settings_contributors">Inni kontrybutorzy</string>
+    <string name="settings_automated_tracking">Automatyczne śledzenie</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+Automatyczne śledzenie możliwe jest dzięki integracji z innymi aplikacjami, które pozwalają na automatyzację działań w oparciu o określone zdarzenia. Aplikacje te, gdy wystąpi określone zdarzenie, mogą wysłać do tej aplikacji wiadomość z prośbą o uruchomienie lub zatrzymanie licznika aktywności.<br/>
+<br/>
+Kilka przykładów wydarzeń:<br/>
+- Uruchomienie określonej aplikacji.<br/>
+- Skanowanie tagu NFC.<br/>
+- Udanie się do określonego miejsca.<br/>
+- W określonych porach dnia.<br/>
+- Połączenie z Bluetooth lub Wi-Fi.<br/>
+<br/>
+Aby włączyć to zachowanie, te aplikacje powinny móc wysyłać tzw. \"intent\" (lub \"broadcast intent\") z następującymi parametrami:<br/>
+<br/>
+<b>Action</b> - \"%s\" lub \"%s\".<br/>
+<b>Extra</b> - \"%s\" z nazwą działania, które należy rozpocząć lub zatrzymać.<br/>
+<b>Package</b> - \"%s\".<br/>
+<br/>
+Opcjonalne parametry do rozpoczęcia aktywności:<br/>
+<br/>
+<b>Extra</b> - \"%s\" z komentarzem do rekordu<br/>
+<b>Extra</b> - \"%s\" z nazwą taga dla rekordu<br/>
+<br/>
+Dodatkowo:<br/>
+<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\".<br/>
+    ]]></string>
+    <string name="settings_automated_tracking_send_events">Wysyłaj zdarzenia</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+Jeśli <b>\"%s\"</b> jest włączone, aplikacja będzie wysyłać zdarzenia dotyczące rozpoczęcia lub zatrzymania aktywności do innych aplikacji w celu automatycznego śledzenia z następującymi parametrami:<br/>
+<br/>
+<b>Action</b> - \"%s\" lub \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+    ]]></string>
+
+    <string name="settings_save_backup">Zapisz kopię zapasową</string>
+    <string name="settings_save_description">Przed zapisaniem upewnij się, że masz zainstalowaną najnowszą wersję aplikacji, aby uniknąć błędów.</string>
+    <string name="settings_automatic_backup">Włącz automatyczną kopię zapasową</string>
+    <string name="settings_automatic_export">Włącz automatyczny eksport do arkusza kalkulacyjnego</string>
+    <string name="settings_automatic_description">Plik zostanie zapisany w wybranej lokalizacji, zastępując poprzednio zapisany plik codziennie o północy.</string>
+    <string name="settings_automatic_last_save">Ostatni zapis:</string>
+    <string name="settings_restore_backup">Przywracanie kopii zapasowej</string>
+    <string name="settings_restore_description">Bieżące dane zostaną utracone.</string>
+    <string name="settings_dialog_message">Przywrócić kopię zapasową?</string>
+    <string name="settings_export_csv">Eksport arkusza kalkulacyjnego</string>
+    <string name="settings_export_csv_description">Eksportuj zapisy aktywności jako plik csv, aby wyświetlić je w preferowanej aplikacji arkusza kalkulacyjnego.</string>
+    <string name="settings_import_csv">Import arkusza kalkulacyjnego</string>
+    <string name="settings_import_csv_description">Importuj zapisy aktywności z pliku csv. Bieżące dane nie zostaną utracone.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+Plik csv musi zawierać następujące kolumny oddzielone przecinkami:<br/>
+<br/>
+- Nazwa aktywności w cudzysłowie.<br/>
+- Czas rozpoczęcia zapisu w formacie \"rrrr-mm-dd gg:mm:ss\"<br/>
+- Godzina zakończenia zapisu w formacie \"rrrr-mm-dd gg:mm:ss\"<br/>
+- Komentarz w cudzysłowie.<br/>
+<br/>
+Przykład:<br/>
+<br/>
+\"Czytanie\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Wspaniała to była lektura, nie zapomnę jej nigdy.\"
+    ]]></string>
+    <string name="settings_export_ics">Eksport ICS</string>
+    <string name="settings_export_warning">Tego pliku nie można używać jako kopii zapasowej.</string>
+    <string name="settings_file_open_error">Błąd podczas otwierania pliku</string>
+    <string name="settings_file_create_error">Błąd podczas tworzenia pliku</string>
+
+    <string name="message_backup_saved">Kopia zapasowa została zapisana</string>
+    <string name="message_backup_restored">Kopia zapasowa przywrócona</string>
+    <string name="message_save_error">Błąd podczas zapisywania kopii zapasowej</string>
+    <string name="message_restore_error">Błąd przywracania kopii zapasowej</string>
+    <string name="message_app_not_found">Aplikacja nie znaleziona</string>
+    <string name="message_export_complete">Eksport zakończony</string>
+    <string name="message_export_error">Błąd eksportu</string>
+    <string name="message_import_complete">Import zakończony</string>
+    <string name="message_import_complete_hint">Dodano rekordy: %s</string>
+    <string name="message_import_error">Błąd importu</string>
+    <string name="message_automatic_backup_error">Wystąpił błąd podczas automatycznego tworzenia kopii zapasowych.</string>
+    <string name="message_automatic_export_error">Wystąpił błąd podczas automatycznego eksportu.</string>
+    <string name="message_automatic_error_hint">Spróbuj wybrać inną lokalizację</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">godzinowo</string>
+    <string name="statistics_detail_chart_daily">dziennie</string>
+    <string name="statistics_detail_chart_weekly">tygodniowo</string>
+    <string name="statistics_detail_chart_monthly">miesięcznie</string>
+    <string name="statistics_detail_chart_yearly">rocznie</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">m</string>
+    <string name="statistics_detail_legend_hour_suffix">g</string>
+
+    <string name="statistics_detail_range_averages_title">Średnia za okres: %s</string>
+    <string name="statistics_detail_range_averages">W całym zakresie</string>
+    <string name="statistics_detail_range_averages_non_empty">Bez pustych okresów</string>
+
+    <string name="statistics_detail_total_duration">Łącznie</string>
+    <string name="statistics_detail_record_length">Długość rekordów</string>
+    <string name="statistics_detail_shortest_record">Najkrótszy</string>
+    <string name="statistics_detail_average_record">Średnio</string>
+    <string name="statistics_detail_longest_record">Najdłuższy</string>
+    <string name="statistics_detail_record_time">Zapisy</string>
+    <string name="statistics_detail_first_record">Pierwszy</string>
+    <string name="statistics_detail_last_record">Ostatni</string>
+    <string name="statistics_detail_streaks">Serie</string>
+    <string name="statistics_detail_streaks_longest">Najdłuższa</string>
+    <string name="statistics_detail_streaks_current">Obecna</string>
+    <string name="statistics_detail_streaks_latest">Ostatnia</string>
+    <string name="statistics_detail_streaks_any">Dowolny czas trwania</string>
+    <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
+    <string name="statistics_detail_activity_split_hint">Podział aktywności</string>
+    <string name="statistics_detail_tag_split_hint">Podział tagów</string>
+    <string name="statistics_detail_day_split_hint">Podział dzienny</string>
+    <string name="statistics_detail_duration_split_hint">Rozkład czasu trwania rekordu</string>
+    <string name="statistics_detail_next_activities_hint">Bezpośrednio przed</string>
+    <string name="statistics_detail_multitasking_activities_hint">Najczęściej razem z</string>
+
+    <plurals name="statistics_detail_times_tracked">
+<!--        <item quantity="zero">rekordów</item>-->
+        <item quantity="one">rekord</item>
+        <item quantity="two">rekordy</item>
+        <item quantity="few">rekordów</item>
+        <item quantity="many">rekordów</item>
+        <item quantity="other">rekordów</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">Pojedyncza aktywność</string>
+    <string name="widget_universal_name">Uniwersalny</string>
+    <string name="widget_statistics_chart_name">Wykres</string>
+    <string name="widget_quick_settings_name">Szybkie ustawienia</string>
+    <string name="widget_load_error">Nie znaleziono</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">Przypomnienie o braku aktywności</string>
+    <string name="notification_inactivity_text">Nie zapomnij śledzić swojego czasu</string>
+    <string name="notification_activity_title">Przypomnienie o aktywności</string>
+    <string name="notification_activity_text">Czy nadal robisz: %s?</string>
+    <string name="notification_goal_time_description">cel osiągnięty</string>
+    <string name="notification_time_started">Rozpoczęto o %s</string>
+    <string name="notification_record_type_stop">Zatrzymaj</string>
+
+    <!--  Archive  -->
+    <string name="something_was_archived_hint">Aby całkowicie usunąć - otwórz archiwum</string>
+    <string name="archive_hint">Kliknij na kartę, aby zobaczyć szczegóły</string>
+    <string name="archive_dialog_delete">Usuń</string>
+    <string name="archive_dialog_restore">Przywróć</string>
+    <string name="archive_empty">Archiwum jest puste</string>
+    <string name="archive_activity_restored">Aktywność przywrócona</string>
+    <string name="archive_tag_restored">Tag przywrócony</string>
+    <string name="archive_activity_deleted">Aktywność usunięta</string>
+    <string name="archive_tag_deleted">Tag usunięty</string>
+    <string name="archive_activity_deletion_message">Wszystkie zapisy dotyczące tej aktywności również zostaną usunięte</string>
+    <string name="archive_tag_deletion_message">Wszystkie rekordy oznaczone tym tagiem staną się nieotagowane</string>
+    <string name="archive_deletion_alert">Na pewno? Tej akcji nie można cofnąć.</string>
+    <string name="archive_records_count">Rekordy</string>
+    <string name="archive_tagged_records_count">Otagowane rekordy</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">Tych zmian nie można cofnąć. Zanim zrobisz cokolwiek, pamiętaj o utworzeniu kopii zapasowej.</string>
+    <string name="data_edit_select_records">Wybierz rekordy</string>
+    <string name="data_edit_change_activity">Zmień aktywność</string>
+    <string name="data_edit_change_activity_hint">Tagi bieżącej aktywności zostaną usunięte.</string>
+    <string name="data_edit_change_comment">Edytuj komentarz</string>
+    <string name="data_edit_change_add_tag">Dodaj tagi</string>
+    <string name="data_edit_change_remove_tag">Usuń tagi</string>
+    <string name="data_edit_button_change">Zmień</string>
+    <string name="data_edit_success_message">Nadpisano</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_select_tags">Wybierz tagi</string>
+    <string name="records_filter_filter_tags">Wyklucz tagi</string>
+    <string name="records_filter_manually_filtered">Odfiltrowane</string>
+    <string name="records_filter_no_comment">Brak komentarza</string>
+    <string name="records_filter_any_comment">Komentarz</string>
+    <string name="records_filter_select">Wybierz</string>
+    <string name="records_filter_invert_selection">Odwróć wybór</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">Buźki i emocje</string>
+    <string name="emojiGroupPeople">Ludzie</string>
+    <string name="emojiGroupAnimals">Zwierzęta i natura</string>
+    <string name="emojiGroupFood">Jedzenie i picie</string>
+    <string name="emojiGroupTravel">Podróże i miejsca</string>
+    <string name="emojiGroupActivities">Aktywności</string>
+    <string name="emojiGroupObjects">Obiekty</string>
+    <string name="emojiGroupSymbols">Symbole</string>
+    <string name="emojiGroupFlags">Flagi</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">Mapy</string>
+    <string name="imageGroupPlaces">Miejsca</string>
+    <string name="imageGroupSocial">Społeczność</string>
+    <string name="imageGroupAction">Akcje</string>
+    <string name="imageGroupHardware">Sprzęt</string>
+    <string name="imageGroupAlert">Alarm</string>
+    <string name="imageGroupAv">Audio video</string>
+    <string name="imageGroupCommunication">Komunikacja</string>
+    <string name="imageGroupContent">Treść</string>
+    <string name="imageGroupDevice">Urządzenia</string>
+    <string name="imageGroupEditor">Edytor</string>
+    <string name="imageGroupFile">Pliki</string>
+    <string name="imageGroupImage">Obrazy</string>
+    <string name="imageGroupNavigation">Nawigacja</string>
+    <string name="imageGroupNotification">Powiadomienia</string>
+    <string name="imageGroupToggle">Przełączniki</string>
+
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_records">Rekordy</string>
+    <string name="shortcut_navigation_statistics">Statystyki</string>
+    <string name="shortcut_navigation_settings">Ustawienia</string>
+
+    <!--  Wear  -->
+    <string name="wear_loading_error">Sprawdź połączenie i spróbuj ponownie</string>
+    <string name="wear_open_on_phone">Otwórz na telefonie</string>
+    <string name="wear_settings_title">Ustawienia</string>
+    <string name="wear_settings_title_show_compact_list">Pokaż listę kompaktową</string>
+
+</resources>

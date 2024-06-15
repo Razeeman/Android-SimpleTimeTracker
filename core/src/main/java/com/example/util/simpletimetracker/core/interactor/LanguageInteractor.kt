@@ -38,6 +38,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Japanese -> R.string.settings_japanese_language
             is AppLanguage.Korean -> R.string.settings_korean_language
             is AppLanguage.Dutch -> R.string.settings_dutch_language
+            is AppLanguage.Polish -> R.string.settings_polish_language
             is AppLanguage.Portuguese -> R.string.settings_portuguese_language
             is AppLanguage.PortuguesePortugal -> R.string.settings_portuguese_portugal_language
             is AppLanguage.Romanian -> R.string.settings_romanian_language
@@ -67,6 +68,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Japanese -> R.string.settings_japanese_tag
             is AppLanguage.Korean -> R.string.settings_korean_tag
             is AppLanguage.Dutch -> R.string.settings_dutch_tag
+            is AppLanguage.Polish -> R.string.settings_polish_tag
             is AppLanguage.Portuguese -> R.string.settings_portuguese_tag
             is AppLanguage.PortuguesePortugal -> R.string.settings_portuguese_portugal_tag
             is AppLanguage.Romanian -> R.string.settings_romanian_tag
@@ -98,6 +100,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Japanese -> R.string.settings_japanese_translators
             is AppLanguage.Korean -> R.string.settings_korean_translators
             is AppLanguage.Dutch -> R.string.settings_dutch_translators
+            is AppLanguage.Polish -> R.string.settings_polish_translators
             is AppLanguage.Portuguese -> R.string.settings_portuguese_translators
             is AppLanguage.PortuguesePortugal -> R.string.settings_portuguese_portugal_translators
             is AppLanguage.Romanian -> R.string.settings_romanian_translators
@@ -136,6 +139,7 @@ class LanguageInteractor @Inject constructor(
             AppLanguage.Japanese,
             AppLanguage.Korean,
             AppLanguage.Dutch,
+            AppLanguage.Polish,
             AppLanguage.Portuguese,
             AppLanguage.PortuguesePortugal,
             AppLanguage.Romanian,
