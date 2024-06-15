@@ -72,13 +72,13 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
         newColor.apply {
             when (update) {
                 HSVUpdate.H -> coerceIn(0, 360).let {
-                    colorHue = newColor.toFloat()
+                    colorHue = it.toFloat()
                 }
                 HSVUpdate.S -> coerceIn(0, 100).let {
-                    colorSaturation = newColor.toFloat() / 100f
+                    colorSaturation = it.toFloat() / 100f
                 }
                 HSVUpdate.V -> coerceIn(0, 100).let {
-                    colorValue = newColor.toFloat() / 100f
+                    colorValue = it.toFloat() / 100f
                 }
             }
         }
