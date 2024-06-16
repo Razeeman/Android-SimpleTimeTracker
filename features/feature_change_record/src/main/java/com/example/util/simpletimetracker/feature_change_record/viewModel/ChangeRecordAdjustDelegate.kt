@@ -206,12 +206,14 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
 
         fun mapItem(
             data: ChangeRecordPreview.Available,
+            isRemoveVisible: Boolean = false,
         ): ViewHolderType {
             return ChangeRecordChangePreviewViewData(
                 id = data.id,
                 before = data.before,
                 after = data.after,
                 isChecked = data.id !in recordsUnmarkedFromAdjustment,
+                isRemoveVisible = isRemoveVisible
             )
         }
 
@@ -231,7 +233,7 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
                 resourceRepo.getString(R.string.change_record_change_overlapped_hint),
                 paddingTop = 0,
             )
-            viewData += overlappedData.map(::mapItem)
+            viewData += overlappedData.map { mapItem(it, isRemoveVisible = true) }
         }
 
         if (prevData.isNotEmpty()) {

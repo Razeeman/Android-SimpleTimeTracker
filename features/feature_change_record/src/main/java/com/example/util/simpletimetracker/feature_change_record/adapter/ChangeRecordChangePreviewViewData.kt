@@ -8,6 +8,7 @@ data class ChangeRecordChangePreviewViewData(
     val before: ChangeRecordSimpleViewData,
     val after: ChangeRecordSimpleViewData,
     val isChecked: Boolean,
+    val isRemoveVisible: Boolean,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = id

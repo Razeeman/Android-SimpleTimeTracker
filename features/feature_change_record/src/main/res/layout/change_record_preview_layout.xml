@@ -41,4 +41,30 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:itemName="Item" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/viewChangeRecordPreviewRemoved"
+        style="@style/SettingsCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:alpha="0.7"
+        android:visibility="gone"
+        app:cardCornerRadius="100dp"
+        app:cardUseCompatPadding="false"
+        app:layout_constraintBottom_toBottomOf="@id/viewChangeRecordPreviewAfter"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@id/viewChangeRecordPreviewAfter"
+        app:layout_constraintStart_toStartOf="@id/viewChangeRecordPreviewAfter"
+        app:layout_constraintTop_toTopOf="@id/viewChangeRecordPreviewAfter"
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:tint="?appTextPrimaryColor"
+            app:srcCompat="@drawable/delete" />
+
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
