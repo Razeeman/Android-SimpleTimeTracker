@@ -84,12 +84,18 @@ class SeriesView @JvmOverloads constructor(
         drawBars(canvas, w)
     }
 
-    fun setData(data: List<ViewData>) {
+    fun setData(
+        data: List<ViewData>,
+        animate: Boolean,
+    ) {
+        val oldData = this.data
         this.data = data.takeUnless { it.isEmpty() }
             ?: listOf(ViewData(value = 0, legendStart = "", legendEnd = ""))
         invalidate()
         requestLayout()
-        if (!isInEditMode) animateBars()
+        if (!isInEditMode && animate && data != oldData) {
+            animateBars()
+        }
     }
 
     fun setBarColor(color: Int) {
@@ -268,7 +274,7 @@ class SeriesView @JvmOverloads constructor(
                         legendEnd = "03.12.2022",
                     )
                 }
-                .let(::setData)
+                .let { setData(it, animate = false) }
         }
     }
 

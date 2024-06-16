@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.rotateLeft
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.model.OneShotValue
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -275,6 +276,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 shouldDrawHorizontalLegends = false,
                 showSelectedBarOnStart = false,
                 goalValue = 0f,
+                animate = OneShotValue(true),
             ),
             compareChartData = StatisticsDetailChartViewData(
                 visible = false,
@@ -284,6 +286,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 shouldDrawHorizontalLegends = false,
                 showSelectedBarOnStart = false,
                 goalValue = 0f,
+                animate = OneShotValue(true),
             ),
             showComparison = false,
             rangeAveragesTitle = " ",
@@ -336,6 +339,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             shouldDrawHorizontalLegends = true,
             showSelectedBarOnStart = false,
             goalValue = 0f,
+            animate = OneShotValue(true),
         )
     }
 
@@ -363,6 +367,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             shouldDrawHorizontalLegends = true,
             showSelectedBarOnStart = false,
             goalValue = 0f,
+            animate = OneShotValue(true),
         )
     }
 
@@ -414,6 +419,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             shouldDrawHorizontalLegends = true,
             showSelectedBarOnStart = false,
             goalValue = 0f,
+            animate = OneShotValue(true),
         )
     }
 
@@ -620,6 +626,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             },
             showSelectedBarOnStart = showSelectedBarOnStart,
             goalValue = formatInterval(goal, isMinutes = isMinutes),
+            animate = OneShotValue(true),
         )
     }
 

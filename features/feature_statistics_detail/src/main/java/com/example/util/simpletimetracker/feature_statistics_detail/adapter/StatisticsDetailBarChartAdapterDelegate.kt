@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_statistics_detail.adapter
 
 import androidx.annotation.ColorInt
 import androidx.core.view.marginTop
+import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
@@ -21,7 +22,7 @@ fun createStatisticsDetailBarChartAdapterDelegate() = createRecyclerBindingAdapt
         setMargins(top = marginTop)
         val viewData = item.data
         showSelectedBarOnStart(viewData.showSelectedBarOnStart)
-        setBars(viewData.data)
+        setBars(data = viewData.data, animate = viewData.animate.getValue().orFalse())
         setLegendTextSuffix(viewData.legendSuffix)
         shouldAddLegendToSelectedBar(viewData.addLegendToSelectedBar)
         shouldDrawHorizontalLegends(viewData.shouldDrawHorizontalLegends)

@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
 import com.example.util.simpletimetracker.domain.extension.getDaily
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Coordinates
+import com.example.util.simpletimetracker.domain.model.OneShotValue
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordBase
@@ -708,7 +709,6 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     // TODO STATS expand appbar on short list.
-    // TODO STATS fix charts always animating on appear
     private fun loadContent(): List<ViewHolderType> {
         val result = mutableListOf<ViewHolderType>()
 
@@ -830,6 +830,7 @@ class StatisticsDetailViewModel @Inject constructor(
                     block = StatisticsDetailBlock.SeriesChart,
                     color = getPreviewColor(),
                     data = viewData.data,
+                    animate = OneShotValue(true),
                 )
             }
             if (viewData.showComparison) {
@@ -837,6 +838,7 @@ class StatisticsDetailViewModel @Inject constructor(
                     block = StatisticsDetailBlock.SeriesChartComparison,
                     color = getPreviewColorComparison(),
                     data = viewData.compareData,
+                    animate = OneShotValue(true),
                 )
             }
             if (viewData.showData) {

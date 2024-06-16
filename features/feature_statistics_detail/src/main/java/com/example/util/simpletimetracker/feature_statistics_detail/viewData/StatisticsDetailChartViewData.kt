@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.viewData
 
+import com.example.util.simpletimetracker.domain.model.OneShotValue
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
 
 data class StatisticsDetailChartViewData(
@@ -10,4 +11,5 @@ data class StatisticsDetailChartViewData(
     val shouldDrawHorizontalLegends: Boolean,
     val showSelectedBarOnStart: Boolean,
     val goalValue: Float,
+    val animate: OneShotValue<Boolean>,
 )
