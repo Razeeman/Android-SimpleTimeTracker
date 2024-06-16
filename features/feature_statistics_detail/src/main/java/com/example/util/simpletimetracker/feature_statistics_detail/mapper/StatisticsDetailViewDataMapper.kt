@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataDuration
+import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataRange
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
@@ -217,13 +218,13 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             data = data,
             goal = goalValue,
             rangeLength = rangeLength,
-            showSelectedBarOnStart = true
+            showSelectedBarOnStart = true,
         )
         val compareChartData = mapChartData(
             data = compareData,
             goal = compareGoalValue,
             rangeLength = rangeLength,
-            showSelectedBarOnStart = false
+            showSelectedBarOnStart = false,
         )
         val (title, rangeAverages) = getRangeAverages(
             data = data,
@@ -260,10 +261,14 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToEmptyChartViewData(): StatisticsDetailChartCompositeViewData {
+    fun mapToEmptyChartViewData(
+        ranges: List<ChartBarDataRange>,
+        availableChartGroupings: List<ChartGrouping>,
+        availableChartLengths: List<ChartLength>,
+    ): StatisticsDetailChartCompositeViewData {
         return StatisticsDetailChartCompositeViewData(
             chartData = StatisticsDetailChartViewData(
-                visible = true,
+                visible = ranges.size > 1,
                 data = emptyList(),
                 legendSuffix = "",
                 addLegendToSelectedBar = false,
@@ -282,13 +287,17 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             ),
             showComparison = false,
             rangeAveragesTitle = " ",
-            rangeAverages = mapToEmptyRangeAverages(),
+            rangeAverages = if (ranges.size < 2) {
+                emptyList()
+            } else {
+                mapToEmptyRangeAverages()
+            },
             appliedChartGrouping = ChartGrouping.DAILY,
             chartGroupingViewData = emptyList(),
-            chartGroupingVisible = true,
+            chartGroupingVisible = availableChartGroupings.size > 1,
             appliedChartLength = ChartLength.TEN,
             chartLengthViewData = emptyList(),
-            chartLengthVisible = true,
+            chartLengthVisible = availableChartLengths.isNotEmpty(),
         )
     }
 

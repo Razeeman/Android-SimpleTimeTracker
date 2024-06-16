@@ -34,8 +34,27 @@ class StatisticsDetailChartInteractor @Inject constructor(
     private val statisticsDetailGetGoalFromFilterInteractor: StatisticsDetailGetGoalFromFilterInteractor,
 ) {
 
-    fun getEmptyChartViewData(): StatisticsDetailChartCompositeViewData {
-        return statisticsDetailViewDataMapper.mapToEmptyChartViewData()
+    // Shouldn't be suspend to avoid blocks jumping on screen open.
+    fun getEmptyChartViewData(
+        currentChartGrouping: ChartGrouping,
+        currentChartLength: ChartLength,
+        rangeLength: RangeLength,
+        rangePosition: Int,
+    ): StatisticsDetailChartCompositeViewData {
+        val (ranges, compositeData) = getRanges(
+            currentChartGrouping = currentChartGrouping,
+            currentChartLength = currentChartLength,
+            rangeLength = rangeLength,
+            rangePosition = rangePosition,
+            firstDayOfWeek = DayOfWeek.MONDAY,
+            startOfDayShift = 0,
+            useMonthDayTimeFormat = false,
+        )
+        return statisticsDetailViewDataMapper.mapToEmptyChartViewData(
+            ranges = ranges,
+            availableChartGroupings = compositeData.availableChartGroupings,
+            availableChartLengths = compositeData.availableChartLengths
+        )
     }
 
     suspend fun getChartViewData(

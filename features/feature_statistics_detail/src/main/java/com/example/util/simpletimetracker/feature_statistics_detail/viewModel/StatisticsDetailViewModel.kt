@@ -587,7 +587,12 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun loadEmptyChartViewData(): StatisticsDetailChartCompositeViewData {
-        return chartInteractor.getEmptyChartViewData()
+        return chartInteractor.getEmptyChartViewData(
+            currentChartGrouping = chartGrouping,
+            currentChartLength = chartLength,
+            rangeLength = rangeLength,
+            rangePosition = rangePosition,
+        )
     }
 
     private suspend fun loadChartViewData(): StatisticsDetailChartCompositeViewData {
