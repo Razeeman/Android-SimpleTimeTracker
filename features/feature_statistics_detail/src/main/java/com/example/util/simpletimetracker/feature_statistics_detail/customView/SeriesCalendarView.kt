@@ -269,11 +269,14 @@ class SeriesCalendarView @JvmOverloads constructor(
             getGlobalVisibleRect(globalRect)
             listener(
                 it.cell,
+                // Calculate from the bottom, because when view is half scrolled on the top,
+                // global rect would be cutoff, and calculation would be wrong.
+                // When vew is half scrolled on the bottom is not so critical.
                 Coordinates(
                     left = globalRect.left + it.boxLeft.toInt(),
-                    top = globalRect.top + it.boxTop.toInt(),
+                    top = globalRect.bottom - height + it.boxTop.toInt(),
                     right = globalRect.left + it.boxRight.toInt(),
-                    bottom = globalRect.top + it.boxBottom.toInt(),
+                    bottom = globalRect.bottom - height + it.boxBottom.toInt(),
                 ),
             )
         }
