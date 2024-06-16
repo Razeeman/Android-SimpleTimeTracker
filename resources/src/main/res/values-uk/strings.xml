@@ -402,7 +402,7 @@
     <string name="statistics_detail_tag_split_hint">Розподіл тегів</string>
     <string name="statistics_detail_day_split_hint">Розподіл протягом дня</string>
     <string name="statistics_detail_duration_split_hint">Розподіл тривалості запису</string>
-    <string name="statistics_detail_next_activities_hint">Топ наступних заходів</string>
+    <string name="statistics_detail_next_activities_hint">Найчастіші наступні активності</string>
     <string name="statistics_detail_multitasking_activities_hint">Топ багатозадачності</string>
 
     <plurals name="statistics_detail_times_tracked">
