@@ -1,11 +1,11 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.viewData
 
-object StatisticsDetailClickableTracked : StatisticsDetailCardViewData.ClickableType
+object StatisticsDetailClickableTracked : StatisticsDetailCardInternalViewData.ClickableType
 
 data class StatisticsDetailClickableShortest(
     val message: String,
-) : StatisticsDetailCardViewData.ClickableType
+) : StatisticsDetailCardInternalViewData.ClickableType
 
 data class StatisticsDetailClickableLongest(
     val message: String,
-) : StatisticsDetailCardViewData.ClickableType
+) : StatisticsDetailCardInternalViewData.ClickableType

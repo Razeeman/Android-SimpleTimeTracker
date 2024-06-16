@@ -11,9 +11,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapt
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.spToPx
 import com.example.util.simpletimetracker.feature_statistics_detail.R
-import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailCardAdapterDelegate
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailCardInternalAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailCardViewBinding
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -31,14 +31,14 @@ class StatisticsDetailCardView @JvmOverloads constructor(
     defStyleAttr,
 ) {
 
-    var listener: (StatisticsDetailCardViewData.ClickableType, Coordinates) -> Unit = { _, _ -> }
+    var listener: (StatisticsDetailCardInternalViewData.ClickableType, Coordinates) -> Unit = { _, _ -> }
     var itemsDescription: String = ""
         set(value) {
             binding.tvStatisticsDetailCardDescription.text = value
             binding.tvStatisticsDetailCardDescription.visible = value.isNotEmpty()
             field = value
         }
-    var items: List<StatisticsDetailCardViewData> = emptyList()
+    var items: List<StatisticsDetailCardInternalViewData> = emptyList()
         set(value) {
             typesAdapter.replace(value)
             field = value
@@ -48,13 +48,9 @@ class StatisticsDetailCardView @JvmOverloads constructor(
         .inflate(LayoutInflater.from(context), this, true)
 
     private var itemsCount: Int
-    private var titleTextSize: Int = DEFAULT_TITLE_TEXT_SIZE.spToPx()
-    private var subtitleTextSize: Int = DEFAULT_SUBTITLE_TEXT_SIZE.spToPx()
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createStatisticsDetailCardAdapterDelegate(
-                titleTextSize = titleTextSize,
-                subtitleTextSize = subtitleTextSize,
+            createStatisticsDetailCardInternalAdapterDelegate(
                 onItemClick = ::onItemClick,
             ),
         )
@@ -87,14 +83,6 @@ class StatisticsDetailCardView @JvmOverloads constructor(
             itemsDescription = getString(
                 R.styleable.StatisticsDetailCardView_itemDescription,
             ).orEmpty()
-            titleTextSize = getDimensionPixelSize(
-                R.styleable.StatisticsDetailCardView_itemTitleTextSize,
-                DEFAULT_TITLE_TEXT_SIZE.spToPx(),
-            )
-            subtitleTextSize = getDimensionPixelSize(
-                R.styleable.StatisticsDetailCardView_itemSubtitleTextSize,
-                DEFAULT_SUBTITLE_TEXT_SIZE.spToPx(),
-            )
             recycle()
         }
 
@@ -111,9 +99,9 @@ class StatisticsDetailCardView @JvmOverloads constructor(
         if (isInEditMode) {
             (1..itemsCount)
                 .map {
-                    StatisticsDetailCardViewData(
+                    StatisticsDetailCardInternalViewData(
                         value = "$DEFAULT_TITLE$it",
-                        valueChange = StatisticsDetailCardViewData.ValueChange.None,
+                        valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
                         secondValue = "",
                         description = "$DEFAULT_SUBTITLE$it",
                     )
@@ -123,7 +111,7 @@ class StatisticsDetailCardView @JvmOverloads constructor(
     }
 
     private fun onItemClick(
-        type: StatisticsDetailCardViewData.ClickableType,
+        type: StatisticsDetailCardInternalViewData.ClickableType,
         coordinates: Coordinates,
     ) {
         listener(type, coordinates)
@@ -133,7 +121,5 @@ class StatisticsDetailCardView @JvmOverloads constructor(
         private const val DEFAULT_ITEM_COUNT = 2
         private const val DEFAULT_TITLE = "Title"
         private const val DEFAULT_SUBTITLE = "Subtitle"
-        private const val DEFAULT_TITLE_TEXT_SIZE = 16
-        private const val DEFAULT_SUBTITLE_TEXT_SIZE = 14
     }
 }

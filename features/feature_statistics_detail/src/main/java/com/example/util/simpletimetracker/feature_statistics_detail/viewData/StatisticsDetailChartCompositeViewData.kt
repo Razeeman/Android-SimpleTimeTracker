@@ -9,9 +9,11 @@ data class StatisticsDetailChartCompositeViewData(
     val compareChartData: StatisticsDetailChartViewData,
     val showComparison: Boolean,
     val rangeAveragesTitle: String,
-    val rangeAverages: List<StatisticsDetailCardViewData>,
+    val rangeAverages: List<StatisticsDetailCardInternalViewData>,
     val appliedChartGrouping: ChartGrouping,
     val chartGroupingViewData: List<ViewHolderType>,
+    val chartGroupingVisible: Boolean,
     val appliedChartLength: ChartLength,
     val chartLengthViewData: List<ViewHolderType>,
+    val chartLengthVisible: Boolean,
 )

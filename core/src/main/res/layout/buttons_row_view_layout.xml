@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:nestedScrollingEnabled="false"
         android:overScrollMode="never"
         tools:itemCount="1"
         tools:listitem="@layout/buttons_row_item_layout" />

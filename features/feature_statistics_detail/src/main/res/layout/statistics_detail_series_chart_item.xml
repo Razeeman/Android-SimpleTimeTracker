@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chartStatisticsStreaks"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    app:seriesBarColor="@color/red_300"
+    app:seriesBarCornerRadius="8dp"
+    app:seriesBarCountInPreview="7"
+    app:seriesBarHeight="20dp"
+    app:seriesDividerHeight="1dp"
+    app:seriesLegendTextColor="@color/textSecondary"
+    app:seriesLegendTextPadding="8dp"
+    app:seriesLegendTextSize="11sp"
+    app:seriesMaxValueInPreview="100"
+    app:seriesValueTextColor="?appLightTextColor"
+    app:seriesValueTextSize="11sp" />

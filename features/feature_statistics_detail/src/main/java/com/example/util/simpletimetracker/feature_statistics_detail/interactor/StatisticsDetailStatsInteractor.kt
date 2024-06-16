@@ -20,7 +20,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsTag.StatisticsTagViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.R
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableLongest
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableShortest
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableTracked
@@ -136,7 +136,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         val emptyValue by lazy {
             resourceRepo.getString(R.string.statistics_detail_empty)
         }
-        val recordsAllIcon = StatisticsDetailCardViewData.Icon(
+        val recordsAllIcon = StatisticsDetailCardInternalViewData.Icon(
             iconDrawable = R.drawable.statistics_detail_records_all,
             iconColor = if (isDarkTheme) {
                 R.color.colorInactiveDark
@@ -257,7 +257,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         compareTotalDuration: String,
         timesTracked: Int?,
         compareTimesTracked: String,
-        timesTrackedIcon: StatisticsDetailCardViewData.Icon?,
+        timesTrackedIcon: StatisticsDetailCardInternalViewData.Icon?,
         shortestRecord: String,
         compareShortestRecord: String,
         shortestRecordDate: String,
@@ -274,18 +274,19 @@ class StatisticsDetailStatsInteractor @Inject constructor(
     ): StatisticsDetailStatsViewData {
         return StatisticsDetailStatsViewData(
             totalDuration = listOf(
-                StatisticsDetailCardViewData(
+                StatisticsDetailCardInternalViewData(
                     value = totalDuration,
-                    valueChange = StatisticsDetailCardViewData.ValueChange.None,
+                    valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
                     secondValue = compareTotalDuration,
                     description = resourceRepo.getString(R.string.statistics_detail_total_duration),
                     accented = true,
+                    titleTextSizeSp = 22,
                 ),
             ),
             timesTracked = listOf(
-                StatisticsDetailCardViewData(
+                StatisticsDetailCardInternalViewData(
                     value = timesTracked?.toString() ?: "",
-                    valueChange = StatisticsDetailCardViewData.ValueChange.None,
+                    valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
                     secondValue = compareTimesTracked,
                     description = resourceRepo.getQuantityString(
                         R.plurals.statistics_detail_times_tracked, timesTracked.orZero(),
@@ -293,40 +294,41 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                     icon = timesTrackedIcon,
                     clickable = StatisticsDetailClickableTracked,
                     accented = true,
+                    titleTextSizeSp = 22,
                 ),
             ),
             averageRecord = listOf(
-                StatisticsDetailCardViewData(
+                StatisticsDetailCardInternalViewData(
                     value = shortestRecord,
-                    valueChange = StatisticsDetailCardViewData.ValueChange.None,
+                    valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
                     secondValue = compareShortestRecord,
                     description = resourceRepo.getString(R.string.statistics_detail_shortest_record),
                     clickable = StatisticsDetailClickableShortest(shortestRecordDate),
                 ),
-                StatisticsDetailCardViewData(
+                StatisticsDetailCardInternalViewData(
                     value = averageRecord,
-                    valueChange = StatisticsDetailCardViewData.ValueChange.None,
+                    valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
                     secondValue = compareAverageRecord,
                     description = resourceRepo.getString(R.string.statistics_detail_average_record),
                 ),
-                StatisticsDetailCardViewData(
+                StatisticsDetailCardInternalViewData(
                     value = longestRecord,
-                    valueChange = StatisticsDetailCardViewData.ValueChange.None,
+                    valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
                     secondValue = compareLongestRecord,
                     description = resourceRepo.getString(R.string.statistics_detail_longest_record),
                     clickable = StatisticsDetailClickableLongest(longestRecordDate),
                 ),
             ),
             datesTracked = listOf(
-                StatisticsDetailCardViewData(
+                StatisticsDetailCardInternalViewData(
                     value = firstRecord,
-                    valueChange = StatisticsDetailCardViewData.ValueChange.None,
+                    valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
                     secondValue = compareFirstRecord,
                     description = resourceRepo.getString(R.string.statistics_detail_first_record),
                 ),
-                StatisticsDetailCardViewData(
+                StatisticsDetailCardInternalViewData(
                     value = lastRecord,
-                    valueChange = StatisticsDetailCardViewData.ValueChange.None,
+                    valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
                     secondValue = compareLastRecord,
                     description = resourceRepo.getString(R.string.statistics_detail_last_record),
                 ),

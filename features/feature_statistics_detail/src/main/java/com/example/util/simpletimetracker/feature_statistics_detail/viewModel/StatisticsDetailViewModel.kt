@@ -1,9 +1,11 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.viewModel
 
+import android.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.BaseViewModel
+import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.extension.toParams
@@ -26,6 +28,16 @@ import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBarChartViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailButtonsRowViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardDoubleViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailHintViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailNextActivitiesViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailPreviewsViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesCalendarViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailAdjacentActivitiesInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor
@@ -40,7 +52,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartL
 import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.StreaksGoal
 import com.example.util.simpletimetracker.feature_statistics_detail.model.StreaksType
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
@@ -87,64 +99,56 @@ class StatisticsDetailViewModel @Inject constructor(
     private val mapper: StatisticsDetailViewDataMapper,
     private val rangeViewDataMapper: RangeViewDataMapper,
     private val timeMapper: TimeMapper,
-) : ViewModel() {
+) : BaseViewModel() {
 
-    val previewViewData: LiveData<StatisticsDetailPreviewCompositeViewData> by lazy {
-        return@lazy MutableLiveData<StatisticsDetailPreviewCompositeViewData>().let { initial ->
-            viewModelScope.launch { initial.value = loadPreviewViewData() }
-            initial
-        }
+    val previewViewData: LiveData<StatisticsDetailPreviewCompositeViewData> by lazySuspend {
+        loadPreviewViewData().also { updateContent() }
     }
-    val statsViewData: LiveData<StatisticsDetailStatsViewData> by lazy {
-        return@lazy MutableLiveData(loadEmptyStatsViewData())
-    }
-    val streaksViewData: LiveData<StatisticsDetailStreaksViewData> by lazy {
-        return@lazy MutableLiveData(loadEmptyStreaksViewData())
-    }
-    val streaksTypeViewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData(loadStreaksTypeViewData())
-    }
-    val streaksGoalViewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch { initial.value = loadStreaksGoalViewData() }
-            initial
-        }
-    }
-    val chartViewData: LiveData<StatisticsDetailChartCompositeViewData> by lazy {
-        return@lazy MutableLiveData()
-    }
-    val emptyRangeAveragesData: LiveData<List<StatisticsDetailCardViewData>> by lazy {
-        return@lazy MutableLiveData(loadEmptyRangeAveragesData())
-    }
-    val splitChartGroupingViewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData(loadSplitChartGroupingViewData())
-    }
-    val nextActivitiesViewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData(emptyList())
-    }
-    val splitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
-        return@lazy MutableLiveData()
-    }
-    val comparisonSplitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
-        return@lazy MutableLiveData()
-    }
-    val durationSplitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
-        return@lazy MutableLiveData()
-    }
-    val comparisonDurationSplitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
-        return@lazy MutableLiveData()
-    }
-    val title: LiveData<String> by lazy {
-        return@lazy MutableLiveData<String>().let { initial ->
-            viewModelScope.launch { initial.value = loadTitle() }
-            initial
-        }
+    val title: LiveData<String> by lazySuspend {
+        loadTitle()
     }
     val rangeItems: LiveData<RangesViewData> by lazy {
         return@lazy MutableLiveData(loadRanges())
     }
     val rangeButtonsVisibility: LiveData<Boolean> by lazy {
         return@lazy MutableLiveData(loadButtonsVisibility())
+    }
+    val content: LiveData<List<ViewHolderType>> by lazySuspend {
+        loadContent()
+    }
+
+    private val statsViewData: LiveData<StatisticsDetailStatsViewData> by lazySuspend {
+        loadEmptyStatsViewData().also { updateContent() }
+    }
+    private val streaksViewData: LiveData<StatisticsDetailStreaksViewData> by lazySuspend {
+        loadEmptyStreaksViewData().also { updateContent() }
+    }
+    private val streaksTypeViewData: LiveData<List<ViewHolderType>> by lazySuspend {
+        loadStreaksTypeViewData().also { updateContent() }
+    }
+    private val streaksGoalViewData: LiveData<List<ViewHolderType>> by lazySuspend {
+        loadStreaksGoalViewData().also { updateContent() }
+    }
+    private val chartViewData: LiveData<StatisticsDetailChartCompositeViewData> by lazySuspend {
+        loadEmptyChartViewData().also { updateContent() }
+    }
+    private val splitChartGroupingViewData: LiveData<List<ViewHolderType>> by lazySuspend {
+        loadSplitChartGroupingViewData().also { updateContent() }
+    }
+    private val nextActivitiesViewData: LiveData<List<ViewHolderType>> by lazy {
+        return@lazy MutableLiveData()
+    }
+    private val splitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
+        return@lazy MutableLiveData()
+    }
+    private val comparisonSplitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
+        return@lazy MutableLiveData()
+    }
+    private val durationSplitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
+        return@lazy MutableLiveData()
+    }
+    private val comparisonDurationSplitChartViewData: LiveData<StatisticsDetailChartViewData> by lazy {
+        return@lazy MutableLiveData()
     }
 
     private lateinit var extra: StatisticsDetailParams
@@ -228,33 +232,46 @@ class StatisticsDetailViewModel @Inject constructor(
         }
     }
 
-    fun onStreaksTypeClick(viewData: ButtonsRowViewData) {
+    private fun onStreaksTypeClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailStreaksTypeViewData) return
         streaksType = viewData.type
         updateStreaksTypeViewData()
         updateStreaksViewData()
     }
 
-    fun onStreaksGoalClick(viewData: ButtonsRowViewData) {
+    private fun onStreaksGoalClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailStreaksGoalViewData) return
         streaksGoal = viewData.type
         updateStreaksGoalViewData()
         updateStreaksViewData()
     }
 
-    fun onChartGroupingClick(viewData: ButtonsRowViewData) {
+    fun onButtonsRowClick(block: StatisticsDetailBlock, viewData: ButtonsRowViewData) {
+        when (block) {
+            StatisticsDetailBlock.ChartGrouping -> onChartGroupingClick(viewData)
+            StatisticsDetailBlock.ChartLength -> onChartLengthClick(viewData)
+            StatisticsDetailBlock.SeriesGoal -> onStreaksGoalClick(viewData)
+            StatisticsDetailBlock.SeriesType -> onStreaksTypeClick(viewData)
+            StatisticsDetailBlock.SplitChartGrouping -> onSplitChartGroupingClick(viewData)
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    private fun onChartGroupingClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailGroupingViewData) return
         this.chartGrouping = viewData.chartGrouping
         updateChartViewData()
     }
 
-    fun onChartLengthClick(viewData: ButtonsRowViewData) {
+    private fun onChartLengthClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailChartLengthViewData) return
         this.chartLength = viewData.chartLength
         updateChartViewData()
     }
 
-    fun onSplitChartGroupingClick(viewData: ButtonsRowViewData) {
+    private fun onSplitChartGroupingClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailSplitGroupingViewData) return
         this.splitChartGrouping = viewData.splitChartGrouping
         updateSplitChartGroupingViewData()
@@ -262,7 +279,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     fun onCardClick(
-        type: StatisticsDetailCardViewData.ClickableType,
+        type: StatisticsDetailCardInternalViewData.ClickableType,
         coordinates: Coordinates,
     ) {
         when (type) {
@@ -335,18 +352,8 @@ class StatisticsDetailViewModel @Inject constructor(
         coordinates: Coordinates,
     ) {
         PopupParams(
-            timeMapper.formatDayDateYear(viewData.rangeStart),
-            coordinates,
-        ).let(router::show)
-    }
-
-    fun onComparisonStreaksCalendarClick(
-        viewData: SeriesCalendarView.ViewData,
-        coordinates: Coordinates,
-    ) {
-        PopupParams(
-            timeMapper.formatDayDateYear(viewData.rangeStart),
-            coordinates,
+            message = timeMapper.formatDayDateYear(viewData.rangeStart),
+            anchorCoordinates = coordinates,
         ).let(router::show)
     }
 
@@ -393,6 +400,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private fun onRangeChanged() {
         viewModelScope.launch { prefsInteractor.setStatisticsDetailRange(rangeLength) }
         updateSplitChartGroupingViewData()
+        updateStreaksGoalViewData()
         updatePosition(0)
     }
 
@@ -486,6 +494,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun updatePreviewViewData() = viewModelScope.launch {
         previewViewData.set(loadPreviewViewData())
+        updateContent()
     }
 
     private suspend fun loadPreviewViewData(): StatisticsDetailPreviewCompositeViewData {
@@ -506,6 +515,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun updateStatsViewData() = viewModelScope.launch {
         statsViewData.set(loadStatsViewData())
+        updateContent()
     }
 
     private fun loadEmptyStatsViewData(): StatisticsDetailStatsViewData {
@@ -524,6 +534,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun updateStreaksTypeViewData() {
         streaksTypeViewData.set(loadStreaksTypeViewData())
+        updateContent()
     }
 
     private fun loadStreaksTypeViewData(): List<ViewHolderType> {
@@ -532,6 +543,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun updateStreaksGoalViewData() = viewModelScope.launch {
         streaksGoalViewData.set(loadStreaksGoalViewData())
+        updateContent()
     }
 
     private suspend fun loadStreaksGoalViewData(): List<ViewHolderType> {
@@ -545,6 +557,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun updateStreaksViewData() = viewModelScope.launch {
         streaksViewData.set(loadStreaksViewData())
+        updateContent()
     }
 
     private fun loadEmptyStreaksViewData(): StatisticsDetailStreaksViewData {
@@ -570,10 +583,11 @@ class StatisticsDetailViewModel @Inject constructor(
         chartViewData.set(data)
         chartGrouping = data.appliedChartGrouping
         chartLength = data.appliedChartLength
+        updateContent()
     }
 
-    private fun loadEmptyRangeAveragesData(): List<StatisticsDetailCardViewData> {
-        return chartInteractor.getEmptyRangeAveragesData()
+    private fun loadEmptyChartViewData(): StatisticsDetailChartCompositeViewData {
+        return chartInteractor.getEmptyChartViewData()
     }
 
     private suspend fun loadChartViewData(): StatisticsDetailChartCompositeViewData {
@@ -592,6 +606,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private fun updateSplitChartViewData() = viewModelScope.launch {
         splitChartViewData.set(loadSplitChartViewData(isForComparison = false))
         comparisonSplitChartViewData.set(loadSplitChartViewData(isForComparison = true))
+        updateContent()
     }
 
     private suspend fun loadSplitChartViewData(isForComparison: Boolean): StatisticsDetailChartViewData {
@@ -614,6 +629,7 @@ class StatisticsDetailViewModel @Inject constructor(
             .set(loadDurationSplitChartViewData(isForComparison = false))
         comparisonDurationSplitChartViewData
             .set(loadDurationSplitChartViewData(isForComparison = true))
+        updateContent()
     }
 
     private suspend fun loadDurationSplitChartViewData(isForComparison: Boolean): StatisticsDetailChartViewData {
@@ -628,6 +644,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun updateSplitChartGroupingViewData() {
         splitChartGroupingViewData.set(loadSplitChartGroupingViewData())
+        updateContent()
     }
 
     private fun loadSplitChartGroupingViewData(): List<ViewHolderType> {
@@ -636,6 +653,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     private fun updateNextActivitiesViewData() = viewModelScope.launch {
         nextActivitiesViewData.set(loadNextActivitiesViewData())
+        updateContent()
     }
 
     private suspend fun loadNextActivitiesViewData(): List<ViewHolderType> {
@@ -678,6 +696,243 @@ class StatisticsDetailViewModel @Inject constructor(
             is RangeLength.All, is RangeLength.Custom, is RangeLength.Last -> false
             else -> true
         }
+    }
+
+    private fun updateContent() {
+        content.set(loadContent())
+    }
+
+    // TODO STATS expand appbar on short list.
+    // TODO STATS fix charts always animating on appear
+    private fun loadContent(): List<ViewHolderType> {
+        val result = mutableListOf<ViewHolderType>()
+
+        fun getPreviewColor(): Int {
+            return previewViewData.value
+                ?.data?.color
+                ?: Color.BLACK
+        }
+
+        fun getPreviewColorComparison(): Int {
+            return previewViewData.value
+                ?.comparisonData
+                ?.filterIsInstance<StatisticsDetailPreviewViewData>()
+                ?.firstOrNull()
+                ?.color
+                ?: Color.BLACK
+        }
+
+        previewViewData.value?.let { viewData ->
+            val rest: List<ViewHolderType> = viewData.additionalData + viewData.comparisonData
+            result += StatisticsDetailPreviewsViewData(
+                block = StatisticsDetailBlock.PreviewItems,
+                data = rest,
+            )
+        }
+
+        chartViewData.value?.let { viewData ->
+            val comparisonChartIsVisible = viewData.showComparison &&
+                viewData.chartData.visible &&
+                viewData.compareChartData.visible
+
+            if (viewData.chartData.visible) {
+                result += StatisticsDetailBarChartViewData(
+                    block = StatisticsDetailBlock.ChartData,
+                    color = getPreviewColor(),
+                    marginTopDp = 16,
+                    data = viewData.chartData,
+                )
+            }
+
+            if (viewData.compareChartData.visible && comparisonChartIsVisible) {
+                result += StatisticsDetailBarChartViewData(
+                    block = StatisticsDetailBlock.ChartDataComparison,
+                    color = getPreviewColorComparison(),
+                    marginTopDp = 16,
+                    data = viewData.compareChartData,
+                )
+            }
+
+            if (viewData.chartGroupingVisible) {
+                result += StatisticsDetailButtonsRowViewData(
+                    block = StatisticsDetailBlock.ChartGrouping,
+                    marginTopDp = 4,
+                    data = viewData.chartGroupingViewData,
+                )
+            }
+
+            if (viewData.chartLengthVisible) {
+                result += StatisticsDetailButtonsRowViewData(
+                    block = StatisticsDetailBlock.ChartLength,
+                    marginTopDp = -10,
+                    data = viewData.chartLengthViewData,
+                )
+            }
+
+            val rangeAveragesData = viewData.rangeAverages
+            if (rangeAveragesData.isNotEmpty()) {
+                result += StatisticsDetailCardViewData(
+                    block = StatisticsDetailBlock.RangeAverages,
+                    title = viewData.rangeAveragesTitle,
+                    marginTopDp = 0,
+                    data = rangeAveragesData,
+                )
+            }
+        }
+
+        statsViewData.value?.let { viewData ->
+            result += StatisticsDetailCardDoubleViewData(
+                block = StatisticsDetailBlock.Total,
+                first = viewData.totalDuration,
+                second = viewData.timesTracked,
+            )
+            result += StatisticsDetailCardViewData(
+                block = StatisticsDetailBlock.Average,
+                title = resourceRepo.getString(R.string.statistics_detail_record_length),
+                marginTopDp = 4,
+                data = viewData.averageRecord,
+            )
+            result += StatisticsDetailCardViewData(
+                block = StatisticsDetailBlock.Dates,
+                title = resourceRepo.getString(R.string.statistics_detail_record_time),
+                marginTopDp = 4,
+                data = viewData.datesTracked,
+            )
+        }
+
+        streaksViewData.value?.let { viewData ->
+            result += StatisticsDetailCardViewData(
+                block = StatisticsDetailBlock.Series,
+                title = resourceRepo.getString(R.string.statistics_detail_streaks),
+                marginTopDp = 4,
+                data = viewData.streaks,
+            )
+        }
+
+        streaksGoalViewData.value?.let { viewData ->
+            if (viewData.isNotEmpty()) {
+                result += StatisticsDetailButtonsRowViewData(
+                    block = StatisticsDetailBlock.SeriesGoal,
+                    marginTopDp = 0,
+                    data = viewData,
+                )
+            }
+        }
+
+        streaksViewData.value?.let { viewData ->
+            if (viewData.showData) {
+                result += StatisticsDetailSeriesChartViewData(
+                    block = StatisticsDetailBlock.SeriesChart,
+                    color = getPreviewColor(),
+                    data = viewData.data,
+                )
+            }
+            if (viewData.showComparison) {
+                result += StatisticsDetailSeriesChartViewData(
+                    block = StatisticsDetailBlock.SeriesChartComparison,
+                    color = getPreviewColorComparison(),
+                    data = viewData.compareData,
+                )
+            }
+            if (viewData.showData) {
+                result += StatisticsDetailButtonsRowViewData(
+                    block = StatisticsDetailBlock.SeriesType,
+                    marginTopDp = 4,
+                    data = streaksTypeViewData.value.orEmpty(),
+                )
+            }
+            if (viewData.showCalendar) {
+                result += StatisticsDetailSeriesCalendarViewData(
+                    block = StatisticsDetailBlock.SeriesCalendar,
+                    color = getPreviewColor(),
+                    data = viewData.calendarData,
+                )
+            }
+            if (viewData.showComparisonCalendar) {
+                result += StatisticsDetailSeriesCalendarViewData(
+                    block = StatisticsDetailBlock.SeriesCalendarComparison,
+                    color = getPreviewColorComparison(),
+                    data = viewData.compareCalendarData,
+                )
+            }
+        }
+
+        splitChartViewData.value?.let { viewData ->
+            if (viewData.visible) {
+                result += StatisticsDetailHintViewData(
+                    block = StatisticsDetailBlock.SplitHint,
+                    text = resourceRepo.getString(R.string.statistics_detail_day_split_hint),
+                )
+                result += StatisticsDetailBarChartViewData(
+                    block = StatisticsDetailBlock.SplitChart,
+                    color = getPreviewColor(),
+                    marginTopDp = 0,
+                    data = viewData,
+                )
+            }
+        }
+
+        comparisonSplitChartViewData.value?.let { viewData ->
+            if (viewData.visible) {
+                result += StatisticsDetailBarChartViewData(
+                    block = StatisticsDetailBlock.SplitChartComparison,
+                    color = getPreviewColorComparison(),
+                    marginTopDp = 0,
+                    data = viewData,
+                )
+            }
+        }
+
+        splitChartGroupingViewData.value?.let { viewData ->
+            if (viewData.isNotEmpty()) {
+                result += StatisticsDetailButtonsRowViewData(
+                    block = StatisticsDetailBlock.SplitChartGrouping,
+                    marginTopDp = 4,
+                    data = viewData,
+                )
+            }
+        }
+
+        durationSplitChartViewData.value?.let { viewData ->
+            if (viewData.visible) {
+                result += StatisticsDetailHintViewData(
+                    block = StatisticsDetailBlock.DurationSplitHint,
+                    text = resourceRepo.getString(R.string.statistics_detail_duration_split_hint),
+                )
+                result += StatisticsDetailBarChartViewData(
+                    block = StatisticsDetailBlock.DurationSplitChart,
+                    color = getPreviewColor(),
+                    marginTopDp = 0,
+                    data = viewData,
+                )
+            }
+        }
+
+        comparisonDurationSplitChartViewData.value?.let { viewData ->
+            if (viewData.visible) {
+                result += StatisticsDetailBarChartViewData(
+                    block = StatisticsDetailBlock.DurationSplitChartComparison,
+                    color = getPreviewColorComparison(),
+                    marginTopDp = 0,
+                    data = viewData,
+                )
+            }
+        }
+
+        nextActivitiesViewData.value?.let { viewData ->
+            if (viewData.isNotEmpty()) {
+                result += StatisticsDetailNextActivitiesViewData(
+                    block = StatisticsDetailBlock.NextActivities,
+                    data = viewData,
+                )
+            }
+        }
+
+        statsViewData.value?.let { viewData ->
+            result += viewData.splitData
+        }
+
+        return result
     }
 
     companion object {

@@ -19,13 +19,12 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartB
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartBarDataRange
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 import javax.inject.Inject
 import kotlin.math.abs
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class StatisticsDetailChartInteractor @Inject constructor(
     private val timeMapper: TimeMapper,
@@ -34,6 +33,10 @@ class StatisticsDetailChartInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val statisticsDetailGetGoalFromFilterInteractor: StatisticsDetailGetGoalFromFilterInteractor,
 ) {
+
+    fun getEmptyChartViewData(): StatisticsDetailChartCompositeViewData {
+        return statisticsDetailViewDataMapper.mapToEmptyChartViewData()
+    }
 
     suspend fun getChartViewData(
         records: List<RecordBase>,
@@ -103,10 +106,6 @@ class StatisticsDetailChartInteractor @Inject constructor(
             showSeconds = showSeconds,
             isDarkTheme = isDarkTheme,
         )
-    }
-
-    fun getEmptyRangeAveragesData(): List<StatisticsDetailCardViewData> {
-        return statisticsDetailViewDataMapper.mapToEmptyRangeAverages()
     }
 
     private suspend fun getGoalValue(

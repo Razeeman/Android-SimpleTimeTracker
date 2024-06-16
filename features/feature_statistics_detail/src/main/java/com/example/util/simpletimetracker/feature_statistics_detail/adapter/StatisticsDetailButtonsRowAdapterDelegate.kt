@@ -1,15 +1,14 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.adapter
 
-import com.example.util.simpletimetracker.domain.model.Coordinates
+import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_views.extension.setMargins
-import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardViewData as ViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailCardItemBinding as Binding
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailButtonsRowViewData as ViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailButtonsRowItemBinding as Binding
 
-fun createStatisticsDetailCardAdapterDelegate(
-    onClick: (StatisticsDetailCardInternalViewData.ClickableType, Coordinates) -> Unit,
+fun createStatisticsDetailButtonsRowAdapterDelegate(
+    onClick: (StatisticsDetailBlock, ButtonsRowViewData) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->
@@ -18,17 +17,15 @@ fun createStatisticsDetailCardAdapterDelegate(
         item as ViewData
 
         setMargins(top = item.marginTopDp)
-        itemsDescription = item.title
-        items = item.data
-        listener = onClick
+        adapter.replace(item.data)
+        listener = { onClick(item.block, it) }
     }
 }
 
-data class StatisticsDetailCardViewData(
+data class StatisticsDetailButtonsRowViewData(
     val block: StatisticsDetailBlock,
-    val title: String,
     val marginTopDp: Int,
-    val data: List<StatisticsDetailCardInternalViewData>,
+    val data: List<ViewHolderType>,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = block.ordinal.toLong()

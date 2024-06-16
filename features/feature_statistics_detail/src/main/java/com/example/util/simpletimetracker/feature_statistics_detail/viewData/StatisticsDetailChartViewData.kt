@@ -8,5 +8,6 @@ data class StatisticsDetailChartViewData(
     val legendSuffix: String,
     val addLegendToSelectedBar: Boolean,
     val shouldDrawHorizontalLegends: Boolean,
+    val showSelectedBarOnStart: Boolean,
     val goalValue: Float,
 )

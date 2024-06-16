@@ -155,7 +155,7 @@ class BarChartView @JvmOverloads constructor(
     fun setBars(data: List<ViewData>) {
         bars = data.takeUnless { it.isEmpty() } ?: listOf(ViewData(0f, "", ""))
         maxValue = data.maxOfOrNull(ViewData::value) ?: 1f
-        if (showSelectedBarOnStart && !selectedBarWasShownOnStart) {
+        if (data.isNotEmpty() && showSelectedBarOnStart && !selectedBarWasShownOnStart) {
             selectedBar = bars.size - 1
             selectedBarWasShownOnStart = true
         } else {
@@ -189,6 +189,10 @@ class BarChartView @JvmOverloads constructor(
     fun setGoalValue(value: Float) {
         goalValue = value
         invalidate()
+    }
+
+    fun showSelectedBarOnStart(shouldShow: Boolean) {
+        showSelectedBarOnStart = shouldShow
     }
 
     private fun initArgs(

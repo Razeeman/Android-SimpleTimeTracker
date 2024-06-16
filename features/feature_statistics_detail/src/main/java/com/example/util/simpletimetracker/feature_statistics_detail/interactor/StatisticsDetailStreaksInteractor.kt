@@ -20,7 +20,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.customView.S
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesView
 import com.example.util.simpletimetracker.feature_statistics_detail.model.StreaksGoal
 import com.example.util.simpletimetracker.feature_statistics_detail.model.StreaksType
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksGoalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksTypeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksViewData
@@ -369,17 +369,17 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         compareLongestStreak: String,
         currentStreak: String,
         compareCurrentStreak: String,
-    ): List<StatisticsDetailCardViewData> {
+    ): List<StatisticsDetailCardInternalViewData> {
         return listOf(
-            StatisticsDetailCardViewData(
+            StatisticsDetailCardInternalViewData(
                 value = longestStreak,
-                valueChange = StatisticsDetailCardViewData.ValueChange.None,
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
                 secondValue = compareLongestStreak,
                 description = resourceRepo.getString(R.string.statistics_detail_streaks_longest),
             ),
-            StatisticsDetailCardViewData(
+            StatisticsDetailCardInternalViewData(
                 value = currentStreak,
-                valueChange = StatisticsDetailCardViewData.ValueChange.None,
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
                 secondValue = compareCurrentStreak,
                 description = resourceRepo.getString(R.string.statistics_detail_streaks_current),
             ),

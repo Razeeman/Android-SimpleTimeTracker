@@ -1,0 +1,28 @@
+package com.example.util.simpletimetracker.feature_statistics_detail.adapter
+
+enum class StatisticsDetailBlock {
+    PreviewItems,
+    ChartData,
+    ChartDataComparison,
+    ChartGrouping,
+    ChartLength,
+    RangeAverages,
+    Total,
+    Average,
+    Dates,
+    Series,
+    SeriesGoal,
+    SeriesChart,
+    SeriesChartComparison,
+    SeriesType,
+    SeriesCalendar,
+    SeriesCalendarComparison,
+    SplitHint,
+    SplitChart,
+    SplitChartComparison,
+    SplitChartGrouping,
+    DurationSplitHint,
+    DurationSplitChart,
+    DurationSplitChartComparison,
+    NextActivities,
+}

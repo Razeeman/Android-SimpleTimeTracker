@@ -67,6 +67,7 @@ class SeriesCalendarView @JvmOverloads constructor(
     init {
         initArgs(context, attrs, defStyleAttr)
         initPaint()
+        initEditMode()
     }
 
     override fun onSaveInstanceState(): Parcelable {
@@ -170,6 +171,14 @@ class SeriesCalendarView @JvmOverloads constructor(
             isAntiAlias = true
             color = legendTextColor
             textSize = legendTextSize
+        }
+    }
+
+    private fun initEditMode() {
+        if (isInEditMode) {
+            (30 downTo 1).toList()
+                .map { ViewData.Present(0, "") }
+                .let(::setData)
         }
     }
 

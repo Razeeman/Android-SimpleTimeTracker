@@ -1,92 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.util.simpletimetracker.feature_statistics_detail.customView.StatisticsDetailCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
-    android:orientation="vertical"
-    android:padding="8dp">
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvStatisticsDetailCardValue"
-        style="@style/StatisticsText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toStartOf="@id/tvStatisticsDetailCardValueChange"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Value" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvStatisticsDetailCardValueChange"
-        style="@style/StatisticsText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:gravity="center"
-        android:includeFontPadding="false"
-        android:textColor="?appPositiveColor"
-        android:textSize="12sp"
-        android:visibility="gone"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvStatisticsDetailCardValue"
-        app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailCardIcon"
-        app:layout_constraintStart_toEndOf="@id/tvStatisticsDetailCardValue"
-        tools:text="+10.5%"
-        tools:visibility="visible" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvStatisticsDetailCardSecondValue"
-        style="@style/StatisticsSecondaryText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailCardIcon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvStatisticsDetailCardValue"
-        tools:text="(Value)"
-        tools:visibility="visible" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvStatisticsDetailCardDescription"
-        style="@style/StatisticsSecondaryText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        app:layout_constraintEnd_toStartOf="@id/cardStatisticsDetailCardIcon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvStatisticsDetailCardSecondValue"
-        tools:text="Description" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardStatisticsDetailCardIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:foreground="?selectableItemBackground"
-        android:visibility="gone"
-        app:cardBackgroundColor="?appButtonOnCardBackgroundColor"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="2dp"
-        app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="true"
-        app:contentPadding="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivStatisticsDetailCardIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:src="@drawable/ic_list_24px"
-            tools:tint="?appInactiveColor" />
-
-    </androidx.cardview.widget.CardView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    app:itemCount="2"
+    tools:itemDescription="Title"
+    tools:layout_marginTop="4dp" />

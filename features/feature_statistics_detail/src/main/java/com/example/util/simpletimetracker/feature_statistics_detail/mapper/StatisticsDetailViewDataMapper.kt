@@ -23,7 +23,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartB
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
@@ -213,8 +213,18 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         showSeconds: Boolean,
         isDarkTheme: Boolean,
     ): StatisticsDetailChartCompositeViewData {
-        val chartData = mapChartData(data, goalValue, rangeLength)
-        val compareChartData = mapChartData(compareData, compareGoalValue, rangeLength)
+        val chartData = mapChartData(
+            data = data,
+            goal = goalValue,
+            rangeLength = rangeLength,
+            showSelectedBarOnStart = true
+        )
+        val compareChartData = mapChartData(
+            data = compareData,
+            goal = compareGoalValue,
+            rangeLength = rangeLength,
+            showSelectedBarOnStart = false
+        )
         val (title, rangeAverages) = getRangeAverages(
             data = data,
             prevData = prevData,
@@ -226,6 +236,14 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             showSeconds = showSeconds,
             isDarkTheme = isDarkTheme,
         )
+        val chartGroupingViewData = mapToChartGroupingViewData(
+            availableChartGroupings = availableChartGroupings,
+            appliedChartGrouping = appliedChartGrouping,
+        )
+        val chartLengthViewData = mapToChartLengthViewData(
+            availableChartLengths = availableChartLengths,
+            appliedChartLength = appliedChartLength,
+        )
 
         return StatisticsDetailChartCompositeViewData(
             chartData = chartData,
@@ -234,34 +252,43 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             rangeAveragesTitle = title,
             rangeAverages = rangeAverages,
             appliedChartGrouping = appliedChartGrouping,
-            chartGroupingViewData = mapToChartGroupingViewData(
-                availableChartGroupings = availableChartGroupings,
-                appliedChartGrouping = appliedChartGrouping,
-            ),
+            chartGroupingViewData = chartGroupingViewData,
+            chartGroupingVisible = chartGroupingViewData.size > 1,
             appliedChartLength = appliedChartLength,
-            chartLengthViewData = mapToChartLengthViewData(
-                availableChartLengths = availableChartLengths,
-                appliedChartLength = appliedChartLength,
-            ),
+            chartLengthViewData = chartLengthViewData,
+            chartLengthVisible = chartLengthViewData.isNotEmpty(),
         )
     }
 
-    fun mapToEmptyRangeAverages(): List<StatisticsDetailCardViewData> {
-        val emptyValue by lazy { resourceRepo.getString(R.string.statistics_detail_empty) }
-
-        return listOf(
-            StatisticsDetailCardViewData(
-                value = emptyValue,
-                valueChange = StatisticsDetailCardViewData.ValueChange.None,
-                secondValue = "",
-                description = resourceRepo.getString(R.string.statistics_detail_range_averages),
+    fun mapToEmptyChartViewData(): StatisticsDetailChartCompositeViewData {
+        return StatisticsDetailChartCompositeViewData(
+            chartData = StatisticsDetailChartViewData(
+                visible = true,
+                data = emptyList(),
+                legendSuffix = "",
+                addLegendToSelectedBar = false,
+                shouldDrawHorizontalLegends = false,
+                showSelectedBarOnStart = false,
+                goalValue = 0f,
             ),
-            StatisticsDetailCardViewData(
-                value = emptyValue,
-                valueChange = StatisticsDetailCardViewData.ValueChange.None,
-                secondValue = "",
-                description = resourceRepo.getString(R.string.statistics_detail_range_averages_non_empty),
+            compareChartData = StatisticsDetailChartViewData(
+                visible = false,
+                data = emptyList(),
+                legendSuffix = "",
+                addLegendToSelectedBar = false,
+                shouldDrawHorizontalLegends = false,
+                showSelectedBarOnStart = false,
+                goalValue = 0f,
             ),
+            showComparison = false,
+            rangeAveragesTitle = " ",
+            rangeAverages = mapToEmptyRangeAverages(),
+            appliedChartGrouping = ChartGrouping.DAILY,
+            chartGroupingViewData = emptyList(),
+            chartGroupingVisible = true,
+            appliedChartLength = ChartLength.TEN,
+            chartLengthViewData = emptyList(),
+            chartLengthVisible = true,
         )
     }
 
@@ -298,6 +325,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             legendSuffix = SPLIT_CHART_LEGEND,
             addLegendToSelectedBar = false,
             shouldDrawHorizontalLegends = true,
+            showSelectedBarOnStart = false,
             goalValue = 0f,
         )
     }
@@ -324,6 +352,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             legendSuffix = SPLIT_CHART_LEGEND,
             addLegendToSelectedBar = false,
             shouldDrawHorizontalLegends = true,
+            showSelectedBarOnStart = false,
             goalValue = 0f,
         )
     }
@@ -369,11 +398,12 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             }
 
         return StatisticsDetailChartViewData(
-            visible = isVisible, // viewData.isNotEmpty(),
+            visible = isVisible,
             data = viewData,
             legendSuffix = SPLIT_CHART_LEGEND,
             addLegendToSelectedBar = true,
             shouldDrawHorizontalLegends = true,
+            showSelectedBarOnStart = false,
             goalValue = 0f,
         )
     }
@@ -388,7 +418,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
         isDarkTheme: Boolean,
-    ): Pair<String, List<StatisticsDetailCardViewData>> {
+    ): Pair<String, List<StatisticsDetailCardInternalViewData>> {
         // No reason to show average of one value.
         if (data.size < 2 && compareData.size < 2) return "" to emptyList()
 
@@ -415,7 +445,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
 
         val rangeAverages = listOf(
-            StatisticsDetailCardViewData(
+            StatisticsDetailCardInternalViewData(
                 value = average.let {
                     timeMapper.formatInterval(
                         interval = it,
@@ -441,8 +471,10 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                     .takeIf { showComparison }
                     .orEmpty(),
                 description = resourceRepo.getString(R.string.statistics_detail_range_averages),
+                titleTextSizeSp = 14,
+                subtitleTextSizeSp = 12,
             ),
-            StatisticsDetailCardViewData(
+            StatisticsDetailCardInternalViewData(
                 value = averageByNonEmpty.let {
                     timeMapper.formatInterval(
                         interval = it,
@@ -468,10 +500,35 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                     .takeIf { showComparison }
                     .orEmpty(),
                 description = resourceRepo.getString(R.string.statistics_detail_range_averages_non_empty),
+                titleTextSizeSp = 14,
+                subtitleTextSizeSp = 12,
             ),
         )
 
         return title to rangeAverages
+    }
+
+    private fun mapToEmptyRangeAverages(): List<StatisticsDetailCardInternalViewData> {
+        val emptyValue by lazy { resourceRepo.getString(R.string.statistics_detail_empty) }
+
+        return listOf(
+            StatisticsDetailCardInternalViewData(
+                value = emptyValue,
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
+                secondValue = "",
+                description = resourceRepo.getString(R.string.statistics_detail_range_averages),
+                titleTextSizeSp = 14,
+                subtitleTextSizeSp = 12,
+            ),
+            StatisticsDetailCardInternalViewData(
+                value = emptyValue,
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
+                secondValue = "",
+                description = resourceRepo.getString(R.string.statistics_detail_range_averages_non_empty),
+                titleTextSizeSp = 14,
+                subtitleTextSizeSp = 12,
+            ),
+        )
     }
 
     private fun mapValueChange(
@@ -479,9 +536,9 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         prevAverage: Long,
         rangeLength: RangeLength,
         isDarkTheme: Boolean,
-    ): StatisticsDetailCardViewData.ValueChange {
+    ): StatisticsDetailCardInternalViewData.ValueChange {
         if (rangeLength == RangeLength.All) {
-            return StatisticsDetailCardViewData.ValueChange.None
+            return StatisticsDetailCardInternalViewData.ValueChange.None
         }
 
         val change: Float = when {
@@ -506,7 +563,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             return if (value >= 0) "+$text%" else "-$text%"
         }
 
-        return StatisticsDetailCardViewData.ValueChange.Present(
+        return StatisticsDetailCardInternalViewData.ValueChange.Present(
             text = formatChange(change),
             color = if (change >= 0f) {
                 colorMapper.toPositiveColor(isDarkTheme)
@@ -520,6 +577,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         data: List<ChartBarDataDuration>,
         goal: Long,
         rangeLength: RangeLength,
+        showSelectedBarOnStart: Boolean,
     ): StatisticsDetailChartViewData {
         val isMinutes = data.maxOfOrNull(ChartBarDataDuration::duration)
             .orZero()
@@ -551,6 +609,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 is RangeLength.Last,
                 -> data.size <= 10
             },
+            showSelectedBarOnStart = showSelectedBarOnStart,
             goalValue = formatInterval(goal, isMinutes = isMinutes),
         )
     }
