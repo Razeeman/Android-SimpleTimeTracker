@@ -122,6 +122,8 @@
     <string name="change_record_change_overlapped">Overlapt</string>
     <string name="change_record_change_overlapped_hint">Records overlappen elkaar volledig en worden verwijderd</string>
     <string name="change_record_untracked_time_hint">Niet-bijgehouden tijd is de tijd waarin geen activiteit is bijgehouden.</string>
+    <string name="change_record_previous_not_found">Vorig record niet gevonden</string>
+    <string name="change_record_next_not_found">Volgende record niet gevonden</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activiteit gearchiveerd</string>

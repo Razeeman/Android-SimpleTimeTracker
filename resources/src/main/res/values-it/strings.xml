@@ -122,6 +122,8 @@
     <string name="change_record_change_overlapped">Sovrapposto</string>
     <string name="change_record_change_overlapped_hint">I record sono completamente sovrapposti e verranno rimossi</string>
     <string name="change_record_untracked_time_hint">Il tempo non tracciato è il tempo in cui non è stata tracciata alcuna attività.</string>
+    <string name="change_record_previous_not_found">Record precedente non trovato</string>
+    <string name="change_record_next_not_found">Record successivo non trovato</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Attività archiviata</string>

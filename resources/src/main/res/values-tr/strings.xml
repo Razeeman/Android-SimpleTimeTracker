@@ -122,6 +122,8 @@
     <string name="change_record_change_overlapped">Üst üste binmiş</string>
     <string name="change_record_change_overlapped_hint">Kayıtlar tamamen çakışıyor ve kaldırılacak</string>
     <string name="change_record_untracked_time_hint">Takip edilmeyen zaman, hiçbir aktivitenin takip edilmediği zamandır.</string>
+    <string name="change_record_previous_not_found">Önceki kayıt bulunamadı</string>
+    <string name="change_record_next_not_found">Sonraki kayıt bulunamadı</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivite arşivlendi</string>

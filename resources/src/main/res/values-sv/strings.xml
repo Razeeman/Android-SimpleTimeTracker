@@ -122,6 +122,8 @@
     <string name="change_record_change_overlapped">Överlappade</string>
     <string name="change_record_change_overlapped_hint">Posterna är helt överlappade och kommer att tas bort</string>
     <string name="change_record_untracked_time_hint">Ospårad tid är tid då ingen aktivitet spårades.</string>
+    <string name="change_record_previous_not_found">Tidigare post hittades inte</string>
+    <string name="change_record_next_not_found">Nästa post hittades inte</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivitet arkiverad</string>

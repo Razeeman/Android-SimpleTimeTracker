@@ -122,6 +122,8 @@
     <string name="change_record_change_overlapped">Pokrywają się</string>
     <string name="change_record_change_overlapped_hint">Rekordy całkowicie się pokrywają i zostaną usunięte</string>
     <string name="change_record_untracked_time_hint">Czas nieśledzony to czas, w którym nie śledzono żadnej aktywności.</string>
+    <string name="change_record_previous_not_found">Nie znaleziono poprzedniego rekordu</string>
+    <string name="change_record_next_not_found">Nie znaleziono następnego rekordu</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktywność zarchiwizowana</string>

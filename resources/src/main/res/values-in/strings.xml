@@ -122,6 +122,8 @@
     <string name="change_record_change_overlapped">Tumpang tindih</string>
     <string name="change_record_change_overlapped_hint">Catatan sepenuhnya tumpang tindih dan akan dihapus</string>
     <string name="change_record_untracked_time_hint">Waktu yang tidak terlacak adalah waktu ketika tidak ada aktivitas yang terlacak.</string>
+    <string name="change_record_previous_not_found">Catatan sebelumnya tidak ditemukan</string>
+    <string name="change_record_next_not_found">Catatan berikutnya tidak ditemukan</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Kegiatan dihapuskan</string>

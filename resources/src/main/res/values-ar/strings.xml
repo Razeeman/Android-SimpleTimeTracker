@@ -122,6 +122,8 @@
     <string name="change_record_change_overlapped">متداخلة</string>
     <string name="change_record_change_overlapped_hint">السجلات متداخلة تمامًا وستتم إزالتها</string>
     <string name="change_record_untracked_time_hint">الوقت غير المُتعقب هو الوقت الذي لم يتم فيه تعقب أي نشاط.</string>
+    <string name="change_record_previous_not_found">لم يتم العثور على السجل السابق</string>
+    <string name="change_record_next_not_found">لم يتم العثور على السجل التالي</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">تم أرشفة النشاط</string>

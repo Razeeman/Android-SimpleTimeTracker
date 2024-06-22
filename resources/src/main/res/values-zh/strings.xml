@@ -122,6 +122,8 @@
     <string name="change_record_change_overlapped">重叠</string>
     <string name="change_record_change_overlapped_hint">记录完全重叠，将被删除</string>
 `    <string name="change_record_untracked_time_hint">未跟踪时间是指没有跟踪任何活动的时间。可以在设置中禁用它</string>
+    <string name="change_record_previous_not_found">未找到之前的记录</string>
+    <string name="change_record_next_not_found">未找到下一条记录</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">活动已存档</string>

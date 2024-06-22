@@ -161,6 +161,10 @@ class ChangeRecordCore(
         fieldChangeRecordAction.setOnClick(viewModel::onActionChooserClick)
         fieldChangeRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
         fieldChangeRecordTimeEnded.setOnClick(viewModel::onTimeEndedClick)
+        btnChangeRecordTimeStartedPrev.setOnClick(viewModel::onTimeStartedPrevClick)
+        btnChangeRecordTimeStartedNext.setOnClick(viewModel::onTimeStartedNextClick)
+        btnChangeRecordTimeEndedPrev.setOnClick(viewModel::onTimeEndedPrevClick)
+        btnChangeRecordTimeEndedNext.setOnClick(viewModel::onTimeEndedNextClick)
         fieldChangeRecordTimeSplit.setOnClick(viewModel::onTimeSplitClick)
         containerChangeRecordTimeStartedAdjust.listener = viewModel::onAdjustTimeStartedItemClick
         containerChangeRecordTimeEndedAdjust.listener = viewModel::onAdjustTimeEndedItemClick
@@ -370,6 +374,8 @@ class ChangeRecordCore(
         binding: ChangeRecordCoreLayoutBinding,
     ) {
         binding.fieldChangeRecordTimeEnded.isVisible = isVisible
+        binding.btnChangeRecordTimeEndedPrev.isVisible = isVisible
+        binding.btnChangeRecordTimeEndedNext.isVisible = isVisible
         binding.containerChangeRecordTimeEndedAdjust.isVisible = isVisible
 
         binding.fieldChangeRecordChangeCurrentPreviewTimeEnded.isVisible = isVisible

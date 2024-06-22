@@ -122,6 +122,8 @@
     <string name="change_record_change_overlapped">Superposats</string>
     <string name="change_record_change_overlapped_hint">Els registres es superposen completament i s\'eliminaran</string>
     <string name="change_record_untracked_time_hint">El temps sense seguiment és el temps en què no s\'ha fet el seguiment de cap activitat.</string>
+    <string name="change_record_previous_not_found">No s\'ha trobat el registre anterior</string>
+    <string name="change_record_next_not_found">No s\'ha trobat el següent registre</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activitat arxivada</string>

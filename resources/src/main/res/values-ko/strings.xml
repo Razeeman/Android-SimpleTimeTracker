@@ -122,6 +122,8 @@
     <string name="change_record_change_overlapped">중복됨</string>
     <string name="change_record_change_overlapped_hint">기록이 완전히 중복되어 삭제됩니다.</string>
     <string name="change_record_untracked_time_hint">추적되지 않은 시간은 활동이 추적되지 않은 시간입니다.</string>
+    <string name="change_record_previous_not_found">이전 기록을 찾을 수 없습니다</string>
+    <string name="change_record_next_not_found">다음 레코드를 찾을 수 없습니다</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">활동 보관됨</string>
