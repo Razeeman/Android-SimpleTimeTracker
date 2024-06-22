@@ -4,6 +4,7 @@
     <declare-styleable name="RecordsCalendarView">
         <!-- Used for layout preview -->
         <attr name="calendarRecordsCount" format="integer" />
+        <attr name="calendarColumnsCount" format="integer" />
         <attr name="calendarTextSize" format="dimension" />
         <attr name="calendarTextColor" format="color" />
         <attr name="calendarTagColor" format="color" />

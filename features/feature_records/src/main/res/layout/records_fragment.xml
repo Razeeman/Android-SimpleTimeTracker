@@ -28,6 +28,7 @@
         app:calendarTextSize="12sp"
         app:layout_constraintBottom_toTopOf="@id/tvRecordsCalendarHint"
         app:layout_constraintTop_toTopOf="parent"
+        tools:calendarColumnsCount="3"
         tools:calendarRecordsCount="5"
         tools:calendarReverseOrder="false" />
 

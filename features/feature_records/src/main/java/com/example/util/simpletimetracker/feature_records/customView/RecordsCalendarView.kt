@@ -62,6 +62,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var iconMaxSize: Int = 0
     private var reverseOrder: Boolean = false
     private var recordsCount: Int = 0
+    private var columnsCount: Int = 0
     // End of attrs
 
     private var isScaling: Boolean = false
@@ -112,7 +113,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         getTextView(
             textColor = nameTextColor,
             typeface = Typeface.DEFAULT_BOLD,
-            widthLayoutParams = ViewGroup.LayoutParams.MATCH_PARENT,
+            widthLayoutParams = ViewGroup.LayoutParams.WRAP_CONTENT,
         )
     }
     private val durationTextView: AppCompatTextView by lazy {
@@ -289,6 +290,10 @@ class RecordsCalendarView @JvmOverloads constructor(
                     recordsCount = getInt(R.styleable.RecordsCalendarView_calendarRecordsCount, 0)
                 }
 
+                if (hasValue(R.styleable.RecordsCalendarView_calendarColumnsCount)) {
+                    columnsCount = getInt(R.styleable.RecordsCalendarView_calendarColumnsCount, 0)
+                }
+
                 recycle()
             }
     }
@@ -363,6 +368,8 @@ class RecordsCalendarView @JvmOverloads constructor(
         isFirst: Boolean,
         isLast: Boolean,
     ) {
+        val ellipsizedNameCutoff = iconMaxSize * 2
+
         var boxHeight: Float
         var boxShift: Float
         var boxWidth: Float
@@ -388,6 +395,8 @@ class RecordsCalendarView @JvmOverloads constructor(
         data.forEach { item ->
             var iconDrawn = false
             var timesDrawn = false
+            var durationInSeparateLine = false
+            var nameIsEllipsized = false
 
             /************
              * Draw box *
@@ -449,6 +458,41 @@ class RecordsCalendarView @JvmOverloads constructor(
                 iconDrawn = true
                 availableWidth = (availableWidth - iconMaxSize - recordHorizontalPadding)
                     .coerceAtLeast(0f)
+                availableHeight = (availableHeight - iconMaxSize - recordVerticalPadding)
+                    .coerceAtLeast(0f)
+            }
+
+            /*************
+             * Draw name *
+             *************/
+            nameTextView.text = getItemName(item.point.data)
+            nameTextView.measureText(
+                width = 0,
+                widthSpec = MeasureSpec.UNSPECIFIED,
+            )
+            if (nameTextView.measuredWidth > availableWidth) {
+                nameIsEllipsized = true
+                nameTextView.measureText(
+                    width = availableWidth.toInt(),
+                    widthSpec = MeasureSpec.EXACTLY,
+                )
+            }
+            // If can fit into box.
+            if (
+                iconDrawn &&
+                (nameTextView.measuredWidth > ellipsizedNameCutoff || !nameIsEllipsized) &&
+                (nameTextView.measuredWidth < availableWidth || nameIsEllipsized)
+            ) {
+                textLeft = recordBounds.left + iconMaxSize + 2 * recordHorizontalPadding
+                textTop = recordBounds.top + recordVerticalPadding
+
+                canvas.save()
+                canvas.translate(textLeft, textTop)
+                nameTextView.draw(canvas)
+                canvas.restore()
+
+                availableWidth = (availableWidth - nameTextView.measuredWidth - recordHorizontalPadding)
+                    .coerceAtLeast(0f)
             }
 
             /*****************
@@ -463,7 +507,6 @@ class RecordsCalendarView @JvmOverloads constructor(
             // If can fit into box.
             if (
                 iconDrawn &&
-                textHeight < availableHeight &&
                 durationTextView.measuredWidth < availableWidth
             ) {
                 textLeft = recordBounds.right - recordHorizontalPadding - durationTextView.measuredWidth
@@ -473,37 +516,30 @@ class RecordsCalendarView @JvmOverloads constructor(
                 canvas.translate(textLeft, textTop)
                 durationTextView.draw(canvas)
                 canvas.restore()
-
-                availableWidth = (availableWidth - durationTextView.measuredWidth - recordHorizontalPadding)
-                    .coerceAtLeast(0f)
-            }
-
-            /*************
-             * Draw name *
-             *************/
-            nameTextView.text = getItemName(item.point.data)
-            nameTextView.measureText(
-                width = availableWidth.toInt(),
-                widthSpec = MeasureSpec.EXACTLY,
-            )
-            textHeight = nameTextView.measuredHeight
-            // If can fit into box.
-            if (
+            } else if (
                 iconDrawn &&
                 textHeight < availableHeight
             ) {
-                textLeft = recordBounds.left + iconMaxSize + 2 * recordHorizontalPadding
-                textTop = recordBounds.top + recordVerticalPadding
+                // Try to draw on separate line.
+                val newAvailableWidth = recordBounds.width() - 2 * recordHorizontalPadding
+                durationTextView.measureText(
+                    width = 0,
+                    widthSpec = MeasureSpec.UNSPECIFIED,
+                )
+                textHeight = durationTextView.measuredHeight
+                if (durationTextView.measuredWidth < newAvailableWidth) {
+                    durationInSeparateLine = true
+                    textLeft = recordBounds.left + recordHorizontalPadding
+                    textTop = recordBounds.top + recordVerticalPadding + iconMaxSize
 
-                canvas.save()
-                canvas.translate(textLeft, textTop)
-                nameTextView.draw(canvas)
-                canvas.restore()
-            }
+                    canvas.save()
+                    canvas.translate(textLeft, textTop)
+                    durationTextView.draw(canvas)
+                    canvas.restore()
 
-            if (iconDrawn) {
-                availableHeight = (availableHeight - iconMaxSize - recordVerticalPadding)
-                    .coerceAtLeast(0f)
+                    availableHeight = (availableHeight - textHeight - recordVerticalPadding)
+                        .coerceAtLeast(0f)
+                }
             }
 
             /**************
@@ -523,7 +559,8 @@ class RecordsCalendarView @JvmOverloads constructor(
                 timesTextHeight < availableHeight
             ) {
                 textLeft = recordBounds.left + recordHorizontalPadding
-                textTop = recordBounds.top + recordVerticalPadding + iconMaxSize
+                textTop = recordBounds.top + recordVerticalPadding + iconMaxSize +
+                    textHeight.takeIf { durationInSeparateLine }.orZero()
 
                 canvas.save()
                 canvas.translate(textLeft, textTop)
@@ -560,8 +597,8 @@ class RecordsCalendarView @JvmOverloads constructor(
                     commentTextView.measuredHeight < availableHeight
                 ) {
                     textLeft = recordBounds.left + recordHorizontalPadding
-                    textTop = recordBounds.top + recordVerticalPadding +
-                        iconMaxSize +
+                    textTop = recordBounds.top + recordVerticalPadding + iconMaxSize +
+                        textHeight.takeIf { durationInSeparateLine }.orZero() +
                         timesTextHeight.takeIf { timesDrawn }.orZero()
 
                     canvas.save()
@@ -718,6 +755,7 @@ class RecordsCalendarView @JvmOverloads constructor(
 
     private fun initEditMode() {
         val records = recordsCount.takeIf { it != 0 } ?: 5
+        val columns = columnsCount.takeIf { it != 0 } ?: 1
         if (isInEditMode) {
             var currentStart = 0L
             (0 until records)
@@ -744,10 +782,11 @@ class RecordsCalendarView @JvmOverloads constructor(
                         data = RecordsCalendarViewData.Point.Data.RecordData(record),
                     )
                 }.let {
+                    val points = RecordsCalendarViewData.Points("Sun", it)
                     RecordsCalendarViewData(
                         currentTime = 18 * hourInMillis,
                         startOfDayShift = 0,
-                        points = listOf(RecordsCalendarViewData.Points("Sun", it)),
+                        points = List(columns) { points },
                         reverseOrder = reverseOrder,
                         shouldDrawTopLegends = true,
                     )
