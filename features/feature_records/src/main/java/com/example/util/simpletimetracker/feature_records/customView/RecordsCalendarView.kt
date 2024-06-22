@@ -212,8 +212,6 @@ class RecordsCalendarView @JvmOverloads constructor(
                 canvas = canvas,
                 data = column.data,
                 index = index,
-                isFirst = index == 0,
-                isLast = index == this.data.size - 1,
             )
         }
     }
@@ -365,8 +363,6 @@ class RecordsCalendarView @JvmOverloads constructor(
         canvas: Canvas,
         data: List<Data>,
         index: Int,
-        isFirst: Boolean,
-        isLast: Boolean,
     ) {
         val ellipsizedNameCutoff = iconMaxSize * 2
 
@@ -423,9 +419,9 @@ class RecordsCalendarView @JvmOverloads constructor(
             item.boxBottom = boxBottom
 
             recordBounds.set(
-                boxLeft + (paddingBetweenDays / 2).takeUnless { isFirst }.orZero(),
+                boxLeft + (paddingBetweenDays / 2),
                 boxTop,
-                boxRight - (paddingBetweenDays / 2).takeUnless { isLast }.orZero(),
+                boxRight - (paddingBetweenDays / 2),
                 boxBottom,
             )
             canvas.drawRoundRect(
