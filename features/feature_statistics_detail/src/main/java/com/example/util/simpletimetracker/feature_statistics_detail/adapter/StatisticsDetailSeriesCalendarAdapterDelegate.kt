@@ -18,7 +18,7 @@ fun createStatisticsDetailSeriesCalendarAdapterDelegate(
         item as ViewData
 
         setCellColor(item.color)
-        setData(item.data)
+        setData(item.data, item.rowsCount)
         setClickListener(onClick)
     }
 }
@@ -27,6 +27,7 @@ data class StatisticsDetailSeriesCalendarViewData(
     val block: StatisticsDetailBlock,
     @ColorInt val color: Int,
     val data: List<SeriesCalendarView.ViewData>,
+    val rowsCount: Int,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = block.ordinal.toLong()

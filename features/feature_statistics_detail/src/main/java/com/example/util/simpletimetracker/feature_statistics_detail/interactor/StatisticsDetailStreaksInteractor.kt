@@ -24,11 +24,11 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksGoalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksTypeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksViewData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 import javax.inject.Inject
 import kotlin.math.abs
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class StatisticsDetailStreaksInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
@@ -52,6 +52,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             showComparison = false,
             compareData = emptyList(),
             showCalendar = false,
+            calendarRowsCount = 1, // Doesn't matter, calendar is hidden.
             calendarData = emptyList(),
             showComparisonCalendar = false,
             compareCalendarData = emptyList(),
@@ -130,18 +131,13 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 .let(::processComparisonString),
         )
 
-        val streaksCalendarCanBeShown = when (rangeLength) {
-            is RangeLength.Month,
-            is RangeLength.Year,
-            -> true
+        val streaksCalendarCanBeShown = statsData.calendarData.size > 1
+        val isCalendarShownInOneRow = isCalendarShownInOneRow(
+            dataSize = statsData.calendarData.size,
+            rangeLength = rangeLength,
+        )
+        val calendarRowsCount = if (isCalendarShownInOneRow) 1 else 7
 
-            is RangeLength.All -> {
-                statsData.calendarData.size > RANGE_ALL_STREAKS_CALENDAR_CUTOFF ||
-                    compareStatsData?.calendarData?.size.orZero() > RANGE_ALL_STREAKS_CALENDAR_CUTOFF
-            }
-
-            else -> false
-        }
         val streaksCanBeShown = rangeLength !is RangeLength.Day // No point count streak of one day.
         val hasDataToShow = streaksCanBeShown &&
             statsData.rangeCurrentData.size > 1 // one data point would be the same as Longest streak card.
@@ -156,6 +152,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             showComparison = showComparison && hasData,
             compareData = compareStatsData?.rangeCurrentData.orEmpty(),
             showCalendar = streaksCalendarCanBeShown,
+            calendarRowsCount = calendarRowsCount,
             calendarData = statsData.calendarData,
             showComparisonCalendar = showComparison && streaksCalendarCanBeShown,
             compareCalendarData = compareStatsData?.calendarData.orEmpty(),
@@ -238,6 +235,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             streaksType = streaksType,
             streaksGoal = streaksGoal,
             goalType = goalType,
+            rangeLength = rangeLength,
         )
 
         // If range is not all data - calculate current streak on all data.
@@ -252,6 +250,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 streaksType = streaksType,
                 streaksGoal = streaksGoal,
                 goalType = goalType,
+                rangeLength = rangeLength,
             ).currentStreak
             stats.copy(currentStreak = currentStreak)
         }
@@ -265,6 +264,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         streaksType: StreaksType,
         streaksGoal: StreaksGoal,
         goalType: RecordTypeGoal.Type?,
+        rangeLength: RangeLength,
     ): IntermediateData {
         val defaultGoal = RecordTypeGoal.Type.Duration(1)
         val goal = if (streaksGoal == StreaksGoal.GOAL) {
@@ -360,6 +360,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 firstDayOfWeek = firstDayOfWeek,
                 startOfDayShift = startOfDayShift,
                 goalValue = goalValue,
+                rangeLength = rangeLength,
             ),
         )
     }
@@ -455,6 +456,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
         goalValue: Long,
+        rangeLength: RangeLength,
     ): List<SeriesCalendarView.ViewData> {
         val days = listOf(
             DayOfWeek.MONDAY,
@@ -482,13 +484,22 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 .let(timeMapper::toDayOfWeek)
         }
         // If for example today is wednesday - need to add 4 dummy days to show correct position on view.
-        val daysToAdd = days.indexOfFirst { it == endDayOfWeek }.takeUnless { it == -1 }.orZero()
+        val isCalendarShownInOneRow = isCalendarShownInOneRow(data.size, rangeLength)
+        val daysToAdd = if (!isCalendarShownInOneRow) {
+            days.indexOfFirst { it == endDayOfWeek }.takeUnless { it == -1 }.orZero()
+        } else {
+            0
+        }
         val dummyDays = List(daysToAdd) { SeriesCalendarView.ViewData.Dummy }
 
         return dummyDays + data
             .map {
                 val rangeStart = calendar.shiftTimeStamp(it.first, -startOfDayShift)
-                val monthLegend = timeMapper.formatShortMonth(rangeStart)
+                val monthLegend = if (!isCalendarShownInOneRow) {
+                    timeMapper.formatShortMonth(rangeStart)
+                } else {
+                    ""
+                }
                 if (it.second >= goalValue) {
                     SeriesCalendarView.ViewData.Present(rangeStart, monthLegend)
                 } else {
@@ -496,6 +507,24 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 }
             }
             .reversed()
+    }
+
+    private fun isCalendarShownInOneRow(
+        dataSize: Int,
+        rangeLength: RangeLength,
+    ): Boolean {
+        return when (rangeLength) {
+            is RangeLength.Day,
+            is RangeLength.Week,
+            is RangeLength.Last,
+            -> true
+            is RangeLength.Month,
+            is RangeLength.Year,
+            -> false
+            is RangeLength.All,
+            is RangeLength.Custom,
+            -> dataSize <= RANGE_ALL_STREAKS_CALENDAR_CUTOFF
+        }
     }
 
     private data class IntermediateData(

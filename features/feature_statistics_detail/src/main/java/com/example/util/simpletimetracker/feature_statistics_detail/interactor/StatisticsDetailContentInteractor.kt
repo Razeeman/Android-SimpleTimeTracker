@@ -185,6 +185,7 @@ class StatisticsDetailContentInteractor @Inject constructor(
                     block = StatisticsDetailBlock.SeriesCalendar,
                     color = getPreviewColor(),
                     data = viewData.calendarData,
+                    rowsCount = viewData.calendarRowsCount,
                 )
             }
             if (viewData.showComparisonCalendar) {
@@ -192,6 +193,7 @@ class StatisticsDetailContentInteractor @Inject constructor(
                     block = StatisticsDetailBlock.SeriesCalendarComparison,
                     color = getPreviewColorComparison(),
                     data = viewData.compareCalendarData,
+                    rowsCount = viewData.calendarRowsCount,
                 )
             }
         }

@@ -38,7 +38,7 @@ class SeriesCalendarView @JvmOverloads constructor(
     // Attrs
 
     private val columnsCount: Int = 26
-    private val rowsCount: Int = 7
+    private var rowsCount: Int = 7
     private val cellPadding: Float = 0.5f.dpToPx().toFloat()
     private val cellRadius: Float = 4f.dpToPx().toFloat()
     private var cellSize: Float = 0f
@@ -121,13 +121,17 @@ class SeriesCalendarView @JvmOverloads constructor(
         this.listener = listener
     }
 
-    fun setData(viewData: List<ViewData>) {
+    fun setData(
+        viewData: List<ViewData>,
+        rowsCount: Int,
+    ) {
         if (data.size != viewData.size) {
             panFactor = 0f
             lastPanFactor = 0f
         }
+        this.rowsCount = rowsCount
         data = viewData.map { Data(cell = it) }
-        invalidate()
+        requestLayout()
     }
 
     fun setCellColor(@ColorInt color: Int) {
@@ -178,7 +182,7 @@ class SeriesCalendarView @JvmOverloads constructor(
         if (isInEditMode) {
             (30 downTo 1).toList()
                 .map { ViewData.Present(0, "") }
-                .let(::setData)
+                .let { setData(it, rowsCount) }
         }
     }
 
