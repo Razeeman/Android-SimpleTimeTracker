@@ -397,6 +397,9 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="statistics_detail_streaks">Diziler</string>
     <string name="statistics_detail_streaks_longest">En uzun</string>
     <string name="statistics_detail_streaks_current">Akım</string>
+    <string name="statistics_detail_streaks_completion">Tamamlama oranı</string>
+    <string name="statistics_detail_streaks_completion_percentage">Yüzde</string>
+    <string name="statistics_detail_streaks_completion_count">Saymak</string>
     <string name="statistics_detail_streaks_latest">En sonuncu</string>
     <string name="statistics_detail_streaks_any">Herhangi bir süre</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>

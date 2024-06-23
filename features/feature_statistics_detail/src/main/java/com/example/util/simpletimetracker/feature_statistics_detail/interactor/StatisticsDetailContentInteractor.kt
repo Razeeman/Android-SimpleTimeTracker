@@ -196,6 +196,14 @@ class StatisticsDetailContentInteractor @Inject constructor(
                     rowsCount = viewData.calendarRowsCount,
                 )
             }
+            if (viewData.completion.isNotEmpty()) {
+                result += StatisticsDetailCardViewData(
+                    block = StatisticsDetailBlock.SeriesCompletion,
+                    title = resourceRepo.getString(R.string.statistics_detail_streaks_completion),
+                    marginTopDp = 8,
+                    data = viewData.completion,
+                )
+            }
         }
 
         splitChartViewData?.let { viewData ->

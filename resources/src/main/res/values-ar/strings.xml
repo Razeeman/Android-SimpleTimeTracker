@@ -397,6 +397,9 @@
     <string name="statistics_detail_streaks">السللة</string>
     <string name="statistics_detail_streaks_longest">أطول</string>
     <string name="statistics_detail_streaks_current">حالي</string>
+    <string name="statistics_detail_streaks_completion">معدل الإنجاز</string>
+    <string name="statistics_detail_streaks_completion_percentage">نسبة مئوية</string>
+    <string name="statistics_detail_streaks_completion_count">عدد</string>
     <string name="statistics_detail_streaks_latest">آخر</string>
     <string name="statistics_detail_streaks_any">أي مدة</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>

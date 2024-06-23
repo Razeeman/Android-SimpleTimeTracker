@@ -397,6 +397,9 @@ Voorbeeld:<br/>
     <string name="statistics_detail_streaks">Serie</string>
     <string name="statistics_detail_streaks_longest">Langste</string>
     <string name="statistics_detail_streaks_current">Huidig</string>
+    <string name="statistics_detail_streaks_completion">Voltooiingspercentage</string>
+    <string name="statistics_detail_streaks_completion_percentage">Percentage</string>
+    <string name="statistics_detail_streaks_completion_count">Graaf</string>
     <string name="statistics_detail_streaks_latest">Laatste</string>
     <string name="statistics_detail_streaks_any">Elke duur</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>

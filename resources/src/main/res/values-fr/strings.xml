@@ -397,6 +397,9 @@ Exemple:<br/>
     <string name="statistics_detail_streaks">Série</string>
     <string name="statistics_detail_streaks_longest">La plus longue</string>
     <string name="statistics_detail_streaks_current">Série en cours</string>
+    <string name="statistics_detail_streaks_completion">Taux d\'achèvement</string>
+    <string name="statistics_detail_streaks_completion_percentage">Pourcentage</string>
+    <string name="statistics_detail_streaks_completion_count">Compter</string>
     <string name="statistics_detail_streaks_latest">Dernière</string>
     <string name="statistics_detail_streaks_any">Toute durée</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>

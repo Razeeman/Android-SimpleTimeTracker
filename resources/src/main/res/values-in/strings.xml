@@ -397,6 +397,9 @@ Contoh:<br/>
     <string name="statistics_detail_streaks">Seri</string>
     <string name="statistics_detail_streaks_longest">Terlama</string>
     <string name="statistics_detail_streaks_current">Saat ini</string>
+    <string name="statistics_detail_streaks_completion">Tingkat penyelesaian</string>
+    <string name="statistics_detail_streaks_completion_percentage">Persentase</string>
+    <string name="statistics_detail_streaks_completion_count">Menghitung</string>
     <string name="statistics_detail_streaks_latest">Terbaru</string>
     <string name="statistics_detail_streaks_any">Durasi berapa pun</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>

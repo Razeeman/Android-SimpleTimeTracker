@@ -397,6 +397,9 @@
     <string name="statistics_detail_streaks">Серія</string>
     <string name="statistics_detail_streaks_longest">Найдовша</string>
     <string name="statistics_detail_streaks_current">Поточна</string>
+    <string name="statistics_detail_streaks_completion">Швидкість виконання</string>
+    <string name="statistics_detail_streaks_completion_percentage">Відсоток</string>
+    <string name="statistics_detail_streaks_completion_count">Рахувати</string>
     <string name="statistics_detail_streaks_latest">Остання</string>
     <string name="statistics_detail_streaks_any">Будь-яка тривалість</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>

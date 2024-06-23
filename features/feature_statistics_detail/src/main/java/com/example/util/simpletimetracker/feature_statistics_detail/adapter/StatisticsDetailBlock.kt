@@ -17,6 +17,7 @@ enum class StatisticsDetailBlock {
     SeriesType,
     SeriesCalendar,
     SeriesCalendarComparison,
+    SeriesCompletion,
     SplitHint,
     SplitChart,
     SplitChartComparison,

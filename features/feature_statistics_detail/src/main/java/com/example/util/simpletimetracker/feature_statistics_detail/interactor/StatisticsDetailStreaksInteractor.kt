@@ -29,6 +29,7 @@ import kotlinx.coroutines.withContext
 import java.util.Calendar
 import javax.inject.Inject
 import kotlin.math.abs
+import kotlin.math.roundToLong
 
 class StatisticsDetailStreaksInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
@@ -56,6 +57,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             calendarData = emptyList(),
             showComparisonCalendar = false,
             compareCalendarData = emptyList(),
+            completion = emptyList(),
         )
     }
 
@@ -105,32 +107,6 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             null
         }
 
-        fun processLongestStreak(value: Long): String {
-            // No point count streak of one day.
-            return value.takeUnless { rangeLength is RangeLength.Day }
-                ?.toString()
-                ?: emptyValue
-        }
-
-        fun processComparisonString(value: String?): String {
-            return value
-                ?.let { "($it)" }
-                .orEmpty()
-        }
-
-        val streaks = mapToStatsViewData(
-            longestStreak = statsData.longestStreak
-                .let(::processLongestStreak),
-            compareLongestStreak = compareStatsData?.longestStreak
-                ?.let(::processLongestStreak)
-                .let(::processComparisonString),
-            currentStreak = statsData.currentStreak
-                .toString(),
-            compareCurrentStreak = compareStatsData?.currentStreak
-                ?.toString()
-                .let(::processComparisonString),
-        )
-
         val streaksCalendarCanBeShown = statsData.calendarData.size > 1
         val isCalendarShownInOneRow = isCalendarShownInOneRow(
             dataSize = statsData.calendarData.size,
@@ -139,11 +115,25 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         val calendarRowsCount = if (isCalendarShownInOneRow) 1 else 7
 
         val streaksCanBeShown = rangeLength !is RangeLength.Day // No point count streak of one day.
+
         val hasDataToShow = streaksCanBeShown &&
             statsData.rangeCurrentData.size > 1 // one data point would be the same as Longest streak card.
+
         val hasComparisonDataToShow = streaksCanBeShown &&
             compareStatsData?.rangeCurrentData.orEmpty().size > 1
+
         val hasData = hasDataToShow || hasComparisonDataToShow
+
+        val streaks = mapToStreaks(
+            statsData = statsData,
+            compareStatsData = compareStatsData,
+            rangeLength = rangeLength,
+        )
+
+        val completion = mapCalendarCompletionPercentage(
+            statsData = statsData,
+            compareStatsData = compareStatsData,
+        ).takeIf { streaksCalendarCanBeShown }.orEmpty()
 
         return@withContext StatisticsDetailStreaksViewData(
             streaks = streaks,
@@ -156,6 +146,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             calendarData = statsData.calendarData,
             showComparisonCalendar = showComparison && streaksCalendarCanBeShown,
             compareCalendarData = compareStatsData?.calendarData.orEmpty(),
+            completion = completion,
         )
     }
 
@@ -342,48 +333,28 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             StreaksType.LONGEST -> data.sortByDescending { it.first }
             StreaksType.LATEST -> data.sortByDescending { it.third }
         }
+        val rangeCurrentData = data.take(MAX_STREAKS_IN_CHART).map {
+            SeriesView.ViewData(
+                value = it.first,
+                legendStart = calendar.shiftTimeStamp(it.second, -startOfDayShift)
+                    .let(timeMapper::formatDateYear),
+                legendEnd = calendar.shiftTimeStamp(it.third, -startOfDayShift)
+                    .let(timeMapper::formatDateYear),
+            )
+        }
+        val calendarData = mapDurationsToCalendarData(
+            data = durations,
+            firstDayOfWeek = firstDayOfWeek,
+            startOfDayShift = startOfDayShift,
+            goalValue = goalValue,
+            rangeLength = rangeLength,
+        )
 
         return IntermediateData(
             longestStreak = longestStreak.takeIf { it > 1 }.orZero(), // Series of one day makes no sense.
             currentStreak = counter.takeIf { it > 1 }.orZero(),
-            rangeCurrentData = data.take(MAX_STREAKS_IN_CHART).map {
-                SeriesView.ViewData(
-                    value = it.first,
-                    legendStart = calendar.shiftTimeStamp(it.second, -startOfDayShift)
-                        .let(timeMapper::formatDateYear),
-                    legendEnd = calendar.shiftTimeStamp(it.third, -startOfDayShift)
-                        .let(timeMapper::formatDateYear),
-                )
-            },
-            calendarData = mapDurationsToCalendarData(
-                data = durations,
-                firstDayOfWeek = firstDayOfWeek,
-                startOfDayShift = startOfDayShift,
-                goalValue = goalValue,
-                rangeLength = rangeLength,
-            ),
-        )
-    }
-
-    private fun mapToStatsViewData(
-        longestStreak: String,
-        compareLongestStreak: String,
-        currentStreak: String,
-        compareCurrentStreak: String,
-    ): List<StatisticsDetailCardInternalViewData> {
-        return listOf(
-            StatisticsDetailCardInternalViewData(
-                value = longestStreak,
-                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
-                secondValue = compareLongestStreak,
-                description = resourceRepo.getString(R.string.statistics_detail_streaks_longest),
-            ),
-            StatisticsDetailCardInternalViewData(
-                value = currentStreak,
-                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
-                secondValue = compareCurrentStreak,
-                description = resourceRepo.getString(R.string.statistics_detail_streaks_current),
-            ),
+            rangeCurrentData = rangeCurrentData,
+            calendarData = calendarData,
         )
     }
 
@@ -507,6 +478,134 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 }
             }
             .reversed()
+    }
+
+    private fun mapToStreaks(
+        statsData: IntermediateData,
+        compareStatsData: IntermediateData?,
+        rangeLength: RangeLength,
+    ): List<StatisticsDetailCardInternalViewData> {
+        fun processLongestStreak(value: Long): String {
+            // No point count streak of one day.
+            return value.takeUnless { rangeLength is RangeLength.Day }
+                ?.toString()
+                ?: emptyValue
+        }
+
+        fun processComparisonString(value: String?): String {
+            return value
+                ?.let { "($it)" }
+                .orEmpty()
+        }
+
+        return mapToStatsViewData(
+            longestStreak = statsData.longestStreak
+                .let(::processLongestStreak),
+            compareLongestStreak = compareStatsData?.longestStreak
+                ?.let(::processLongestStreak)
+                .let(::processComparisonString),
+            currentStreak = statsData.currentStreak
+                .toString(),
+            compareCurrentStreak = compareStatsData?.currentStreak
+                ?.toString()
+                .let(::processComparisonString),
+        )
+    }
+
+    private fun mapToStatsViewData(
+        longestStreak: String,
+        compareLongestStreak: String,
+        currentStreak: String,
+        compareCurrentStreak: String,
+    ): List<StatisticsDetailCardInternalViewData> {
+        return listOf(
+            StatisticsDetailCardInternalViewData(
+                value = longestStreak,
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
+                secondValue = compareLongestStreak,
+                description = resourceRepo.getString(R.string.statistics_detail_streaks_longest),
+            ),
+            StatisticsDetailCardInternalViewData(
+                value = currentStreak,
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
+                secondValue = compareCurrentStreak,
+                description = resourceRepo.getString(R.string.statistics_detail_streaks_current),
+            ),
+        )
+    }
+
+    private fun mapCalendarCompletionPercentage(
+        statsData: IntermediateData,
+        compareStatsData: IntermediateData?,
+    ): List<StatisticsDetailCardInternalViewData> {
+        fun processComparisonString(value: String?): String {
+            return value
+                ?.let { "($it)" }
+                .orEmpty()
+        }
+
+        fun processPercentageString(value: Float): String {
+            val text = when {
+                value >= 10 -> value.toLong()
+                (value * 10).roundToLong() % 10L == 0L -> value.toLong()
+                else -> String.format("%.1f", value)
+            }
+            return "$text%"
+        }
+
+        fun getPercentage(
+            data: List<SeriesCalendarView.ViewData>,
+        ): String {
+            val total = data.filter { it !is SeriesCalendarView.ViewData.Dummy }.size
+            val completed = data.filterIsInstance<SeriesCalendarView.ViewData.Present>().size
+
+            return if (total != 0) {
+                processPercentageString(completed * 100f / total)
+            } else {
+                emptyValue
+            }
+        }
+
+        fun getTotal(
+            data: List<SeriesCalendarView.ViewData>,
+        ): String {
+            val total = data.filter { it !is SeriesCalendarView.ViewData.Dummy }.size
+            val completed = data.filterIsInstance<SeriesCalendarView.ViewData.Present>().size
+            return "$completed/$total"
+        }
+
+        return mapToCalendarCompletionViewData(
+            completionPercentage = getPercentage(statsData.calendarData),
+            compareCompletionPercentage = compareStatsData?.calendarData
+                ?.let(::getPercentage)
+                .let(::processComparisonString),
+            completionCount = getTotal(statsData.calendarData),
+            compareCompletionCount = compareStatsData?.calendarData
+                ?.let(::getTotal)
+                .let(::processComparisonString),
+        )
+    }
+
+    private fun mapToCalendarCompletionViewData(
+        completionPercentage: String,
+        compareCompletionPercentage: String,
+        completionCount: String,
+        compareCompletionCount: String,
+    ): List<StatisticsDetailCardInternalViewData> {
+        return listOf(
+            StatisticsDetailCardInternalViewData(
+                value = completionPercentage,
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
+                secondValue = compareCompletionPercentage,
+                description = resourceRepo.getString(R.string.statistics_detail_streaks_completion_percentage),
+            ),
+            StatisticsDetailCardInternalViewData(
+                value = completionCount,
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
+                secondValue = compareCompletionCount,
+                description = resourceRepo.getString(R.string.statistics_detail_streaks_completion_count),
+            ),
+        )
     }
 
     private fun isCalendarShownInOneRow(

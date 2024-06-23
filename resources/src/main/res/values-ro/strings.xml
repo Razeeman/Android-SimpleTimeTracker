@@ -397,6 +397,9 @@ Examplu:<br/>
     <string name="statistics_detail_streaks">Serie</string>
     <string name="statistics_detail_streaks_longest">Cel mai lung</string>
     <string name="statistics_detail_streaks_current">Curent</string>
+    <string name="statistics_detail_streaks_completion">Rata de finalizare</string>
+    <string name="statistics_detail_streaks_completion_percentage">Procent</string>
+    <string name="statistics_detail_streaks_completion_count">Numara</string>
     <string name="statistics_detail_streaks_latest">Ultimul</string>
     <string name="statistics_detail_streaks_any">Orice durata</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>

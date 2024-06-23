@@ -397,6 +397,9 @@
     <string name="statistics_detail_streaks">ردیفی</string>
     <string name="statistics_detail_streaks_longest">طولانی ترین</string>
     <string name="statistics_detail_streaks_current">فعلی</string>
+    <string name="statistics_detail_streaks_completion">نرخ تکمیل</string>
+    <string name="statistics_detail_streaks_completion_percentage">درصد</string>
+    <string name="statistics_detail_streaks_completion_count">شمردن</string>
     <string name="statistics_detail_streaks_latest">آخرین</string>
     <string name="statistics_detail_streaks_any">هر مدت</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>

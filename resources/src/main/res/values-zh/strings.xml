@@ -397,6 +397,9 @@ csv 文件必须包含以逗号分隔的这些列：<br/>
     <string name="statistics_detail_streaks">系列</string>
     <string name="statistics_detail_streaks_longest">最长</string>
     <string name="statistics_detail_streaks_current">当前的</string>
+    <string name="statistics_detail_streaks_completion">完成率</string>
+    <string name="statistics_detail_streaks_completion_percentage">百分比</string>
+    <string name="statistics_detail_streaks_completion_count">数数</string>
     <string name="statistics_detail_streaks_latest">最新的</string>
     <string name="statistics_detail_streaks_any">任何持续时间</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>

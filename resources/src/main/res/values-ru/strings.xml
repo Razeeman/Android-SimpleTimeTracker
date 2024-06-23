@@ -397,6 +397,9 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="statistics_detail_streaks">Серии</string>
     <string name="statistics_detail_streaks_longest">Самая длинная</string>
     <string name="statistics_detail_streaks_current">Текущая</string>
+    <string name="statistics_detail_streaks_completion">Завершенность</string>
+    <string name="statistics_detail_streaks_completion_percentage">Процент</string>
+    <string name="statistics_detail_streaks_completion_count">Число</string>
     <string name="statistics_detail_streaks_latest">Последние</string>
     <string name="statistics_detail_streaks_any">Любая продолжительность</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
