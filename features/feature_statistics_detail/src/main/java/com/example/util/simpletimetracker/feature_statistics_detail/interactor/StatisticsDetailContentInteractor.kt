@@ -60,6 +60,7 @@ class StatisticsDetailContentInteractor @Inject constructor(
 
         previewViewData?.let { viewData ->
             val rest: List<ViewHolderType> = viewData.additionalData + viewData.comparisonData
+            if (rest.isEmpty()) return@let
             result += StatisticsDetailPreviewsViewData(
                 block = StatisticsDetailBlock.PreviewItems,
                 data = rest,

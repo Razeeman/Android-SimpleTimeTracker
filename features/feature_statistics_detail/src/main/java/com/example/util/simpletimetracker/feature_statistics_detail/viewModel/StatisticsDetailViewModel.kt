@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_statistics_detail.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.BaseViewModel
+import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
@@ -16,6 +17,7 @@ import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailPreviewsViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailContentInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
@@ -58,6 +60,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val filterDelegate: StatisticsDetailFilterViewModelDelegate,
 ) : BaseViewModel() {
 
+    val scrollToTop: LiveData<Unit> = SingleLiveEvent()
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
     val title: LiveData<String> by rangeDelegate::title
     val rangeItems: LiveData<RangesViewData> by rangeDelegate::rangeItems
@@ -196,6 +199,17 @@ class StatisticsDetailViewModel @Inject constructor(
         }
     }
 
+    private fun checkTopScroll(
+        oldData: List<ViewHolderType>,
+        newData: List<ViewHolderType>,
+    ) {
+        val previewsWillBeShown = oldData.none { it is StatisticsDetailPreviewsViewData } &&
+            newData.any { it is StatisticsDetailPreviewsViewData }
+        if (previewsWillBeShown) {
+            scrollToTop.set(Unit)
+        }
+    }
+
     private fun updateViewData() {
         statsDelegate.updateViewData()
         streaksDelegate.updateStreaksViewData()
@@ -206,7 +220,10 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateContent() {
-        content.set(loadContent())
+        val oldData = content.value.orEmpty()
+        val data = loadContent()
+        content.set(data)
+        checkTopScroll(oldData, data)
     }
 
     // TODO move to delegates

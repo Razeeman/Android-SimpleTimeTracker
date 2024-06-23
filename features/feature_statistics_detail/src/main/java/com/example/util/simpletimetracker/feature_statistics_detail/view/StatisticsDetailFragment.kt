@@ -110,6 +110,7 @@ class StatisticsDetailFragment :
         initialize(params)
 
         // TODO expand appbar on short list.
+        scrollToTop.observe { scrollToTop() }
         content.observe(contentAdapter::replace)
         previewViewData.observe(::setPreviewViewData)
         title.observe(binding.btnStatisticsDetailToday::setText)
@@ -166,6 +167,11 @@ class StatisticsDetailFragment :
     private fun updateRangeButtonsVisibility(isVisible: Boolean) = with(binding) {
         btnStatisticsDetailPrevious.visible = isVisible
         btnStatisticsDetailNext.visible = isVisible
+    }
+
+    private fun scrollToTop() {
+        binding.appBarStatisticsDetail.setExpanded(true)
+        binding.rvStatisticsDetailContent.apply { post { smoothScrollToPosition(0) } }
     }
 
     companion object {
