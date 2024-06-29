@@ -18,9 +18,23 @@ class DebugMenuViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
 ) : ViewModel() {
 
+    fun onResetPrefsClicked() {
+        viewModelScope.launch {
+            prefsInteractor.clear()
+            router.restartApp()
+        }
+    }
+
     fun onResetHideDefaultTypesClick() {
         viewModelScope.launch {
-            prefsInteractor.setDefaultTypesHidden(false)
+            prefsInteractor.clearDefaultTypesHidden()
+            showSuccessMessage()
+        }
+    }
+
+    fun onResetPomodoroSettingsClick() {
+        viewModelScope.launch {
+            prefsInteractor.clearPomodoroSettingsClick()
             showSuccessMessage()
         }
     }

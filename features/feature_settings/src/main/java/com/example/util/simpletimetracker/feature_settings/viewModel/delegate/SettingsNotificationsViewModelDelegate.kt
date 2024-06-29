@@ -82,7 +82,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         fun openDialog() {
             DurationDialogParams(
                 tag = SettingsViewModel.INACTIVITY_DURATION_DIALOG_TAG,
-                duration = duration,
+                value = DurationDialogParams.Value.Duration(duration),
             ).let(router::navigate)
         }
 
@@ -131,7 +131,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         fun openDialog() {
             DurationDialogParams(
                 tag = SettingsViewModel.ACTIVITY_DURATION_DIALOG_TAG,
-                duration = duration,
+                value = DurationDialogParams.Value.Duration(duration),
             ).let(router::navigate)
         }
 

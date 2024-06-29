@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_pomodoro.view
+package com.example.util.simpletimetracker.feature_pomodoro.timer.view
 
 import android.animation.ValueAnimator
 import android.view.LayoutInflater
@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
-import com.example.util.simpletimetracker.feature_pomodoro.model.PomodoroButtonState
-import com.example.util.simpletimetracker.feature_pomodoro.model.PomodoroTimerState
-import com.example.util.simpletimetracker.feature_pomodoro.viewModel.PomodoroViewModel
+import com.example.util.simpletimetracker.feature_pomodoro.timer.model.PomodoroButtonState
+import com.example.util.simpletimetracker.feature_pomodoro.timer.model.PomodoroTimerState
+import com.example.util.simpletimetracker.feature_pomodoro.timer.viewModel.PomodoroViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import dagger.hilt.android.AndroidEntryPoint

@@ -477,6 +477,10 @@ Example:<br/>
     <string name="pomodoro_state_focus">Focus</string>
     <string name="pomodoro_state_break">Break</string>
     <string name="pomodoro_state_long_break">Long break</string>
+    <string name="pomodoro_settings_focus_time">Focus time</string>
+    <string name="pomodoro_settings_break_time">Break time</string>
+    <string name="pomodoro_settings_long_break_time">Long break time</string>
+    <string name="pomodoro_settings_periods_until_long_break">Periods until long break</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotion</string>

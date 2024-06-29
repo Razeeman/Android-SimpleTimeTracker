@@ -235,6 +235,38 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.pomodoroModeStartedTimestamp = timestampMs
     }
 
+    suspend fun getPomodoroFocusTime(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroFocusTime
+    }
+
+    suspend fun setPomodoroFocusTime(duration: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroFocusTime = duration
+    }
+
+    suspend fun getPomodoroBreakTime(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroBreakTime
+    }
+
+    suspend fun setPomodoroBreakTime(duration: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroBreakTime = duration
+    }
+
+    suspend fun getPomodoroLongBreakTime(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroLongBreakTime
+    }
+
+    suspend fun setPomodoroLongBreakTime(duration: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroLongBreakTime = duration
+    }
+
+    suspend fun getPomodoroPeriodsUntilLongBreak(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroPeriodsUntilLongBreak
+    }
+
+    suspend fun setPomodoroPeriodsUntilLongBreak(value: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroPeriodsUntilLongBreak = value
+    }
+
     suspend fun getAllowMultipleActivityFilters(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.allowMultipleActivityFilters
     }
@@ -627,6 +659,14 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun clear() = withContext(Dispatchers.IO) {
         prefsRepo.clear()
+    }
+
+    suspend fun clearDefaultTypesHidden() = withContext(Dispatchers.IO) {
+        prefsRepo.clearDefaultTypesHidden()
+    }
+
+    suspend fun clearPomodoroSettingsClick() = withContext(Dispatchers.IO) {
+        prefsRepo.clearPomodoroSettingsClick()
     }
 
     private fun mapToRange(value: Int, forDetail: Boolean): RangeLength {

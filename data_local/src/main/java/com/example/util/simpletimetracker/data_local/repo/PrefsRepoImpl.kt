@@ -118,6 +118,22 @@ class PrefsRepoImpl @Inject constructor(
         KEY_POMODORO_MODE_STARTED_TIMESTAMP, 0,
     )
 
+    override var pomodoroFocusTime: Long by prefs.delegate(
+        KEY_POMODORO_FOCUS_TIME, POMODORO_DEFAULT_FOCUS_TIME_SEC,
+    )
+
+    override var pomodoroBreakTime: Long by prefs.delegate(
+        KEY_POMODORO_BREAK_TIME, POMODORO_DEFAULT_BREAK_TIME_SEC,
+    )
+
+    override var pomodoroLongBreakTime: Long by prefs.delegate(
+        KEY_POMODORO_LONG_BREAK_TIME, POMODORO_DEFAULT_LONG_BREAK_TIME_SEC,
+    )
+
+    override var pomodoroPeriodsUntilLongBreak: Long by prefs.delegate(
+        KEY_POMODORO_PERIODS_UNTIL_LONG_BREAK, POMODORO_DEFAULT_UNTIL_LONG_BREAK,
+    )
+
     override var allowMultipleActivityFilters: Boolean by prefs.delegate(
         KEY_ALLOW_MULTIPLE_ACTIVITY_FILTERS, true,
     )
@@ -418,6 +434,17 @@ class PrefsRepoImpl @Inject constructor(
         prefs.edit().clear().apply()
     }
 
+    override fun clearDefaultTypesHidden() {
+        prefs.edit().remove(KEY_DEFAULT_TYPES_HIDDEN).apply()
+    }
+
+    override fun clearPomodoroSettingsClick() {
+        prefs.edit().remove(KEY_POMODORO_FOCUS_TIME).apply()
+        prefs.edit().remove(KEY_POMODORO_BREAK_TIME).apply()
+        prefs.edit().remove(KEY_POMODORO_LONG_BREAK_TIME).apply()
+        prefs.edit().remove(KEY_POMODORO_PERIODS_UNTIL_LONG_BREAK).apply()
+    }
+
     private fun setOrderManual(
         key: String,
         cardOrder: Map<Long, Long>,
@@ -453,6 +480,10 @@ class PrefsRepoImpl @Inject constructor(
         private const val DO_NOT_DISTURB_PERIOD_START: Long = 0 // midnight
         private const val DO_NOT_DISTURB_PERIOD_END: Long = 1000 * 60 * 60 * 8 // 8 hours in the morning
         private const val CARDS_ORDER_DELIMITER = "_"
+        private const val POMODORO_DEFAULT_FOCUS_TIME_SEC: Long = 60 * 25 // 25 min
+        private const val POMODORO_DEFAULT_BREAK_TIME_SEC: Long = 60 * 5 // 5 min
+        private const val POMODORO_DEFAULT_LONG_BREAK_TIME_SEC: Long = 60 * 15 // 15 min
+        private const val POMODORO_DEFAULT_UNTIL_LONG_BREAK: Long = 4
 
         private const val KEY_RECORD_TYPES_FILTERED_ON_CHART = "recordTypesFilteredOnChart"
         private const val KEY_CATEGORIES_TYPES_FILTERED_ON_CHART = "categoriesFilteredOnChart"
@@ -478,6 +509,10 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_SHOW_ACTIVITY_FILTERS = "showActivityFilters"
         private const val KEY_ENABLE_POMODORO_MODE = "enablePomodoroMode"
         private const val KEY_POMODORO_MODE_STARTED_TIMESTAMP = "pomodoroModeStartedTimestamp"
+        private const val KEY_POMODORO_FOCUS_TIME = "pomodoroFocusTime"
+        private const val KEY_POMODORO_BREAK_TIME = "pomodoroBreakTime"
+        private const val KEY_POMODORO_LONG_BREAK_TIME = "pomodoroLongBreakTime"
+        private const val KEY_POMODORO_PERIODS_UNTIL_LONG_BREAK = "pomodoroPeriodsUntilLongBreak"
         private const val KEY_ALLOW_MULTIPLE_ACTIVITY_FILTERS = "allowMultipleActivityFilters"
         private const val KEY_SHOW_GOALS_SEPARATELY = "showGoalsSeparately"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"

@@ -47,6 +47,14 @@ interface PrefsRepo {
 
     var pomodoroModeStartedTimestamp: Long // in milliseconds, 0 - disabled
 
+    var pomodoroFocusTime: Long // in seconds, 0 - disabled
+
+    var pomodoroBreakTime: Long // in seconds, 0 - disabled
+
+    var pomodoroLongBreakTime: Long // in seconds, 0 - disabled
+
+    var pomodoroPeriodsUntilLongBreak: Long // 0 - disabled
+
     var allowMultipleActivityFilters: Boolean
 
     var showGoalsSeparately: Boolean
@@ -154,4 +162,6 @@ interface PrefsRepo {
     fun getTagOrderManual(): Map<Long, Long>
 
     fun clear()
+    fun clearDefaultTypesHidden()
+    fun clearPomodoroSettingsClick()
 }

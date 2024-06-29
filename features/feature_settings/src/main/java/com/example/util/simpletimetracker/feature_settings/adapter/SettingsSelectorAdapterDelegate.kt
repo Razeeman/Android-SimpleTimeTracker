@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.Space
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.cardview.widget.CardView
 import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
@@ -29,6 +30,7 @@ fun createSettingsSelectorAdapterDelegate(
             space = spaceItemSettingsBottom,
             divider = viewItemSettingsDivider,
             group = groupItemSettingsSelector,
+            background = backgroundItemSettings,
             onClick = onClick,
         )
     }
@@ -42,6 +44,7 @@ fun selectorAdapterBindDelegate(
     space: Space,
     divider: View,
     group: LinearLayoutCompat,
+    background: CardView,
     onClick: (SettingsBlock) -> Unit,
 ) {
     title.text = item.title
@@ -54,6 +57,7 @@ fun selectorAdapterBindDelegate(
     value.text = item.selectedValue
     space.visible = item.bottomSpaceIsVisible
     divider.visible = item.dividerIsVisible
+    background.visible = item.backgroundIsVisible
     group.setOnClick { onClick(item.block) }
 }
 
@@ -64,6 +68,7 @@ data class SettingsSelectorViewData(
     val selectedValue: String,
     val bottomSpaceIsVisible: Boolean = true,
     val dividerIsVisible: Boolean = true,
+    val backgroundIsVisible: Boolean = true,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = block.ordinal.toLong()

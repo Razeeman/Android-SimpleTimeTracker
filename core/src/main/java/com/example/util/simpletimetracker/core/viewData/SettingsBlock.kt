@@ -102,4 +102,9 @@ enum class SettingsBlock {
     ContributorsTop,
     ContributorsTitle,
     ContributorsBottom,
+
+    PomodoroFocusTime,
+    PomodoroBreakTime,
+    PomodoroLongBreakTime,
+    PomodoroPeriodsUntilLongBreak,
 }

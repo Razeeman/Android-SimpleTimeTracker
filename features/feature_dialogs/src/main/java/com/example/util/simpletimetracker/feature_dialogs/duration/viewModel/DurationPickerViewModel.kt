@@ -4,33 +4,31 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.BaseViewModel
+import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.padDuration
 import com.example.util.simpletimetracker.feature_dialogs.duration.customView.DurationView
 import com.example.util.simpletimetracker.feature_dialogs.duration.customView.NumberKeyboardView
-import com.example.util.simpletimetracker.feature_dialogs.duration.extra.DurationPickerExtra
+import com.example.util.simpletimetracker.feature_dialogs.duration.model.DurationDialogState
+import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
-class DurationPickerViewModel @Inject constructor() : ViewModel() {
+class DurationPickerViewModel @Inject constructor() : BaseViewModel() {
 
-    lateinit var extra: DurationPickerExtra
+    lateinit var extra: DurationDialogParams
 
-    val durationViewData: LiveData<DurationView.ViewData> by lazy {
-        MutableLiveData<DurationView.ViewData>().let { initial ->
-            viewModelScope.launch {
-                reformattedDuration = reformatDuration(extra.duration)
-                initial.value = loadDurationViewData()
-            }
-            initial
-        }
+    val stateViewData: LiveData<DurationDialogState> by lazySuspend {
+        reformattedValue = reformatValue(extra.value)
+        loadViewData()
     }
 
-    private var reformattedDuration: Long = 0
+    private var reformattedValue: Long = 0
 
     fun onButtonPressed(button: NumberKeyboardView.Button) {
         when (button) {
@@ -44,27 +42,18 @@ class DurationPickerViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun onNumberPressed(number: Int) {
-        if (reformattedDuration <= 999_99_99) {
-            reformattedDuration = reformattedDuration * 10 + number
-            updateDurationViewData()
+        if (reformattedValue <= 999_99_99) {
+            reformattedValue = reformattedValue * 10 + number
+            updateViewData()
         }
     }
 
     private fun onNumberDelete() {
-        reformattedDuration /= 10
-        updateDurationViewData()
+        reformattedValue /= 10
+        updateViewData()
     }
 
-    private fun updateDurationViewData() {
-        val data = loadDurationViewData()
-        durationViewData.set(data)
-    }
-
-    private fun loadDurationViewData(): DurationView.ViewData {
-        return mapToViewData(reformattedDuration)
-    }
-
-    private fun mapToViewData(durationString: Long): DurationView.ViewData {
+    private fun mapToDurationViewData(durationString: Long): DurationView.ViewData {
         val hours = durationString / 10000
         val minutes = (durationString / 100) % 100
         val seconds = durationString % 100
@@ -72,7 +61,14 @@ class DurationPickerViewModel @Inject constructor() : ViewModel() {
         return DurationView.ViewData(hours, minutes, seconds)
     }
 
-    private fun reformatDuration(duration: Long): Long {
+    private fun reformatValue(value: DurationDialogParams.Value): Long {
+        return when (value) {
+            is DurationDialogParams.Value.Duration -> reformatDurationValue(value.duration)
+            is DurationDialogParams.Value.Count -> value.count
+        }
+    }
+
+    private fun reformatDurationValue(duration: Long): Long {
         fun format(value: Long): String = value.toString().padDuration()
 
         val hr = duration
@@ -83,5 +79,30 @@ class DurationPickerViewModel @Inject constructor() : ViewModel() {
             .let(TimeUnit.SECONDS::toSeconds)
 
         return (format(hr) + format(min) + format(sec)).toLongOrNull().orZero()
+    }
+
+    private fun updateViewData() {
+        val data = loadViewData()
+        stateViewData.set(data)
+    }
+
+    private fun loadViewData(): DurationDialogState {
+        val state = when (extra.value) {
+            is DurationDialogParams.Value.Duration -> {
+                DurationDialogState.Value.Duration(
+                    data = mapToDurationViewData(reformattedValue),
+                )
+            }
+            is DurationDialogParams.Value.Count -> {
+                DurationDialogState.Value.Count(
+                    data = reformattedValue.toString(),
+                )
+            }
+        }
+
+        return DurationDialogState(
+            isDisableButtonVisible = !extra.hideDisableButton,
+            value = state,
+        )
     }
 }

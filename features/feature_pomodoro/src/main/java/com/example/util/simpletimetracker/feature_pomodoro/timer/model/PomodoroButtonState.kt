@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_pomodoro.model
+package com.example.util.simpletimetracker.feature_pomodoro.timer.model
 
 import androidx.annotation.DrawableRes
 

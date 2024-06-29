@@ -33,6 +33,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.DefaultTypesS
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.PomodoroSettingsParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
@@ -244,6 +245,16 @@ class NavigationDialogMapModule {
         return NavigationData(
             R.id.recordsFilterDialogFragment,
             bundleCreatorDelegate(RecordsFilterFragment::createBundle),
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(PomodoroSettingsParams::class)
+    fun pomodoroSettings(): NavigationData {
+        return NavigationData(
+            R.id.action_to_pomodoroSettingsFragment,
+            BundleCreator.empty(),
         )
     }
 }

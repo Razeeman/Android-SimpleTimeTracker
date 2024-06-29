@@ -25,6 +25,7 @@ fun createSettingsSelectorWithButtonAdapterDelegate(
             space = spaceItemSettingsBottom,
             divider = viewItemSettingsDivider,
             group = groupItemSettingsSelector,
+            background = backgroundItemSettings,
             onClick = onClick,
         )
 

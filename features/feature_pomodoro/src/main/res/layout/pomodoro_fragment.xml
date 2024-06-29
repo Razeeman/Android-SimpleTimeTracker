@@ -85,7 +85,7 @@
             android:fontFamily="sans-serif-condensed"
             android:includeFontPadding="false"
             android:textColor="?appTextPrimaryColor"
-            android:textSize="32sp"
+            android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvPomodoroTimerHoursDelimiter"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -102,11 +102,12 @@
             android:paddingHorizontal="2dp"
             android:text=":"
             android:textColor="?appTextPrimaryColor"
-            android:textSize="32sp"
+            android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvPomodoroTimerMinutes"
             app:layout_constraintStart_toEndOf="@id/tvPomodoroTimerHours"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPomodoroTimerMinutesLegend"
@@ -128,7 +129,7 @@
             android:fontFamily="sans-serif-condensed"
             android:includeFontPadding="false"
             android:textColor="?appTextPrimaryColor"
-            android:textSize="32sp"
+            android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvPomodoroTimerMinutesDelimiter"
             app:layout_constraintStart_toEndOf="@id/tvPomodoroTimerHoursDelimiter"
@@ -148,7 +149,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvPomodoroTimerSeconds"
             app:layout_constraintStart_toEndOf="@id/tvPomodoroTimerMinutes"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPomodoroTimerSecondsLegend"
@@ -187,8 +189,8 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPomodoroCycleHint"
             android:layout_width="0dp"
-            android:fontFamily="sans-serif-condensed"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
             android:gravity="center"
             android:textColor="?appTextHintColor"
             app:layout_constraintEnd_toEndOf="parent"
@@ -221,7 +223,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/btnPomodoroStart"
         style="@style/SettingsCard"
-        android:layout_width="64dp"
+        android:layout_width="80dp"
         android:layout_height="64dp"
         android:layout_marginBottom="64dp"
         android:foreground="?selectableItemBackground"

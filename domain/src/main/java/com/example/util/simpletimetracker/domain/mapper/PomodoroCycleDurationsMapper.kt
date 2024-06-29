@@ -28,39 +28,47 @@ class PomodoroCycleDurationsMapper @Inject constructor(
         } else {
             focusTimeSec + breakTimeSec
         }
+        if (periodDuration == 0L) {
+            // Avoid divide by zero just in case.
+            return Result(
+                cycleType = PomodoroCycleType.Focus,
+                cycleDuration = 0L,
+                currentCycleDuration = 0L,
+            )
+        }
         val currentPeriodDuration = currentDuration % periodDuration
         val currentShortPeriodDuration = currentPeriodDuration % (focusTimeSec + breakTimeSec)
 
         return if (periodsUntilLongBreak > 0) {
             when {
                 currentPeriodDuration >= periodDuration - longBreakTimeSec -> Result(
+                    cycleType = PomodoroCycleType.LongBreak,
                     cycleDuration = longBreakTimeSec,
                     currentCycleDuration = currentPeriodDuration - (periodDuration - longBreakTimeSec),
-                    cycleType = PomodoroCycleType.LongBreak,
                 )
                 currentShortPeriodDuration < focusTimeSec -> Result(
+                    cycleType = PomodoroCycleType.Focus,
                     cycleDuration = focusTimeSec,
                     currentCycleDuration = currentShortPeriodDuration,
-                    cycleType = PomodoroCycleType.Focus,
                 )
                 else -> Result(
+                    cycleType = PomodoroCycleType.Break,
                     cycleDuration = breakTimeSec,
                     currentCycleDuration = currentShortPeriodDuration - focusTimeSec,
-                    cycleType = PomodoroCycleType.Break,
                 )
             }
         } else {
             if (currentPeriodDuration < focusTimeSec) {
                 Result(
+                    cycleType = PomodoroCycleType.Focus,
                     cycleDuration = focusTimeSec,
                     currentCycleDuration = currentPeriodDuration,
-                    cycleType = PomodoroCycleType.Focus,
                 )
             } else {
                 Result(
+                    cycleType = PomodoroCycleType.Break,
                     cycleDuration = breakTimeSec,
                     currentCycleDuration = currentPeriodDuration - focusTimeSec,
-                    cycleType = PomodoroCycleType.Break,
                 )
             }
         }

@@ -6,10 +6,12 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/backgroundItemSettings"
         style="@style/SettingsCard"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scaleY="@integer/settings_card_scale"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_pomodoro.viewModel
+package com.example.util.simpletimetracker.feature_pomodoro.timer.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -6,9 +6,12 @@ import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.feature_pomodoro.mapper.PomodoroViewDataMapper
-import com.example.util.simpletimetracker.feature_pomodoro.model.PomodoroButtonState
-import com.example.util.simpletimetracker.feature_pomodoro.model.PomodoroTimerState
+import com.example.util.simpletimetracker.domain.model.PomodoroCycleSettings
+import com.example.util.simpletimetracker.feature_pomodoro.timer.mapper.PomodoroViewDataMapper
+import com.example.util.simpletimetracker.feature_pomodoro.timer.model.PomodoroButtonState
+import com.example.util.simpletimetracker.feature_pomodoro.timer.model.PomodoroTimerState
+import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.PomodoroSettingsParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
@@ -19,6 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PomodoroViewModel @Inject constructor(
+    private val router: Router,
     private val pomodoroViewDataMapper: PomodoroViewDataMapper,
     private val prefsInteractor: PrefsInteractor,
 ) : BaseViewModel() {
@@ -37,7 +41,7 @@ class PomodoroViewModel @Inject constructor(
     }
 
     fun onSettingsClicked() {
-        // TODO POM
+        router.navigate(PomodoroSettingsParams)
     }
 
     fun onStartStopClicked() = viewModelScope.launch {
@@ -94,6 +98,12 @@ class PomodoroViewModel @Inject constructor(
             isStarted = isStarted(),
             timeStartedMs = prefsInteractor.getPomodoroModeStartedTimestampMs(),
             timerUpdateMs = TIMER_UPDATE_MS,
+            settings = PomodoroCycleSettings(
+                focusTimeMs = prefsInteractor.getPomodoroFocusTime() * 1000L,
+                breakTimeMs = prefsInteractor.getPomodoroBreakTime() * 1000L,
+                longBreakTimeMs = prefsInteractor.getPomodoroLongBreakTime() * 1000L,
+                periodsUntilLongBreak = prefsInteractor.getPomodoroPeriodsUntilLongBreak(),
+            ),
         )
     }
 

@@ -17,6 +17,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":feature_settings")) // TODO POM remove feature dependency
     implementation(Deps.Google.dagger)
     kapt(Deps.Kapt.dagger)
 }

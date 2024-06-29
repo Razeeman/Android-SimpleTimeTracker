@@ -566,12 +566,16 @@ class RecordsFilterViewModel @Inject constructor(
         when (fieldType) {
             RecordsFilterRangeViewData.FieldType.TIME_STARTED -> DurationDialogParams(
                 tag = DURATION_FROM_TAG,
-                duration = range.timeStarted / 1000,
+                value = DurationDialogParams.Value.Duration(
+                    duration = range.timeStarted / 1000,
+                ),
                 hideDisableButton = true,
             )
             RecordsFilterRangeViewData.FieldType.TIME_ENDED -> DurationDialogParams(
                 tag = DURATION_TO_TAG,
-                duration = range.timeEnded / 1000,
+                value = DurationDialogParams.Value.Duration(
+                    duration = range.timeEnded / 1000,
+                ),
                 hideDisableButton = true,
             )
         }.let(router::navigate)

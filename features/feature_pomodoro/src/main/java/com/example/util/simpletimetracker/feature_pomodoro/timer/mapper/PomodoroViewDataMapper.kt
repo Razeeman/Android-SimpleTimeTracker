@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_pomodoro.mapper
+package com.example.util.simpletimetracker.feature_pomodoro.timer.mapper
 
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.dropMillis
@@ -7,8 +7,8 @@ import com.example.util.simpletimetracker.domain.mapper.PomodoroCycleDurationsMa
 import com.example.util.simpletimetracker.domain.model.PomodoroCycleSettings
 import com.example.util.simpletimetracker.domain.model.PomodoroCycleType
 import com.example.util.simpletimetracker.feature_pomodoro.R
-import com.example.util.simpletimetracker.feature_pomodoro.model.PomodoroButtonState
-import com.example.util.simpletimetracker.feature_pomodoro.model.PomodoroTimerState
+import com.example.util.simpletimetracker.feature_pomodoro.timer.model.PomodoroButtonState
+import com.example.util.simpletimetracker.feature_pomodoro.timer.model.PomodoroTimerState
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -35,17 +35,12 @@ class PomodoroViewDataMapper @Inject constructor(
         isStarted: Boolean,
         timeStartedMs: Long,
         timerUpdateMs: Long,
+        settings: PomodoroCycleSettings,
     ): PomodoroTimerState {
         // Min increment of one pixel.
         val maxProgress = 1024 * Math.PI
 
         return if (isStarted) {
-            val settings = PomodoroCycleSettings(
-                focusTimeMs = focusTimeMs,
-                breakTimeMs = breakTimeMs,
-                longBreakTimeMs = longBreakTimeMs,
-                periodsUntilLongBreak = periodsUntilLongBreak,
-            )
             val result = pomodoroCycleDurationsMapper.map(
                 timeStartedMs = timeStartedMs.dropMillis(),
                 settings = settings,
@@ -67,7 +62,7 @@ class PomodoroViewDataMapper @Inject constructor(
                 currentCycleHint = mapCurrentStateHint(currentCycle),
             )
         } else {
-            val times = formatInterval(focusTimeMs)
+            val times = formatInterval(settings.focusTimeMs)
             val currentCycle = PomodoroCycleType.Focus
 
             PomodoroTimerState(
@@ -123,17 +118,4 @@ class PomodoroViewDataMapper @Inject constructor(
         val min: Long,
         val sec: Long,
     )
-
-    companion object {
-        // TODO POM remove mocks
-        private val focusTimeMs = TimeUnit.SECONDS.toMillis(10)
-        private val breakTimeMs = TimeUnit.SECONDS.toMillis(2)
-        private val longBreakTimeMs = TimeUnit.SECONDS.toMillis(3)
-        private const val periodsUntilLongBreak = 2L
-
-//        private val focusTimeMs = TimeUnit.MINUTES.toMillis(25)
-//        private val breakTimeMs = TimeUnit.MINUTES.toMillis(5)
-//        private val longBreakTimeMs = TimeUnit.MINUTES.toMillis(15)
-//        private const val periodsUntilLongBreak = 4L
-    }
 }

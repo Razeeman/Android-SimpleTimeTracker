@@ -144,7 +144,9 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         delegateScope.launch {
             DurationDialogParams(
                 tag = SettingsViewModel.IGNORE_SHORT_UNTRACKED_DIALOG_TAG,
-                duration = prefsInteractor.getIgnoreShortUntrackedDuration(),
+                value = DurationDialogParams.Value.Duration(
+                    duration = prefsInteractor.getIgnoreShortUntrackedDuration()
+                ),
             ).let(router::navigate)
         }
     }
