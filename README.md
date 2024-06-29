@@ -129,6 +129,7 @@ Simple app that helps track how much time you spend on all the useless activitie
     │   ├── feature_goals                     # Separate screen for goals.
     │   ├── feature_main                      # Main screen with tabs.
     │   ├── feature_notification              # Notifications.
+    │   ├── feature_pomodoro                  # Pomodoro mode.
     │   ├── feature_records                   # One of main tabs, records list.
     │   ├── feature_records_all               # Screen showing all records.
     │   ├── feature_records_filter            # Dialog for records filters.

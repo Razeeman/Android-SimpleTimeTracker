@@ -219,6 +219,22 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.showActivityFilters = isEnabled
     }
 
+    suspend fun getEnablePomodoroMode(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.enablePomodoroMode
+    }
+
+    suspend fun setEnablePomodoroMode(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.enablePomodoroMode = isEnabled
+    }
+
+    suspend fun getPomodoroModeStartedTimestampMs(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroModeStartedTimestamp
+    }
+
+    suspend fun setPomodoroModeStartedTimestampMs(timestampMs: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroModeStartedTimestamp = timestampMs
+    }
+
     suspend fun getAllowMultipleActivityFilters(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.allowMultipleActivityFilters
     }

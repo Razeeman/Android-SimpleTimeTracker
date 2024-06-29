@@ -171,6 +171,10 @@ class SettingsViewModel @Inject constructor(
                 displayDelegate.onReverseOrderInCalendarClicked()
             SettingsBlock.DisplayShowActivityFilters ->
                 displayDelegate.onShowActivityFiltersClicked()
+            SettingsBlock.DisplayEnablePomodoroMode ->
+                displayDelegate.onEnablePomodoroModeClicked()
+            SettingsBlock.DisplayPomodoroModeActivities ->
+                displayDelegate.onPomodoroModeActivitiesClicked()
             SettingsBlock.DisplayAllowMultipleActivityFilters ->
                 displayDelegate.onAllowMultipleActivityFiltersClicked()
             SettingsBlock.DisplayGoalsOnSeparateTabs ->

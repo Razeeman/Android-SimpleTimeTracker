@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.loc
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.minuteInMs
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.resourceRepo
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.secondInMs
-import com.example.util.simpletimetracker.core.provider.CurrentTimestampProvider
+import com.example.util.simpletimetracker.domain.provider.CurrentTimestampProvider
 import com.example.util.simpletimetracker.core.provider.LocaleProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import org.junit.AfterClass

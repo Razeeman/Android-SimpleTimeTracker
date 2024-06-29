@@ -42,11 +42,11 @@ class MainTabsProvider @Inject constructor(
         if (tab == null) return R.drawable.unknown
 
         return when (tab) {
-            NavigationTab.RunningRecords -> R.drawable.ic_tab_running_records
-            NavigationTab.Records -> R.drawable.ic_tab_records
-            NavigationTab.Statistics -> R.drawable.ic_tab_statistics
-            NavigationTab.Settings -> R.drawable.ic_tab_settings
-            NavigationTab.Goals -> R.drawable.ic_tab_goals
+            NavigationTab.RunningRecords -> R.drawable.tab_running_records
+            NavigationTab.Records -> R.drawable.tab_records
+            NavigationTab.Statistics -> R.drawable.tab_statistics
+            NavigationTab.Settings -> R.drawable.tab_settings
+            NavigationTab.Goals -> R.drawable.tab_goals
         }
     }
 

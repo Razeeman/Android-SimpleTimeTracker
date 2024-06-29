@@ -35,6 +35,8 @@ class RunningRecordViewDataMapper @Inject constructor(
         nowIconVisible: Boolean,
         goalsVisible: Boolean,
         totalDurationVisible: Boolean,
+        pomodoroEnabled: Boolean,
+        pomodoroRunning: Boolean,
     ): RunningRecordViewData {
         val currentDuration = System.currentTimeMillis() - runningRecord.timeStarted
 
@@ -71,6 +73,8 @@ class RunningRecordViewDataMapper @Inject constructor(
             color = colorMapper.mapToColorInt(recordType.color, isDarkTheme),
             comment = runningRecord.comment,
             nowIconVisible = nowIconVisible,
+            pomodoroIconVisible = pomodoroEnabled,
+            pomodoroIsRunning = pomodoroRunning,
         )
     }
 

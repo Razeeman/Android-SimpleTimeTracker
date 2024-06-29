@@ -13,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.example.util.simpletimetracker.clickOnSettingsRecyclerText
+import com.example.util.simpletimetracker.domain.extension.padDuration
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import com.example.util.simpletimetracker.scrollSettingsRecyclerToText
@@ -408,7 +409,7 @@ object NavUtils {
     private fun enterDuration(
         value: Long,
     ) {
-        fun Long.padWithZeroes() = this.toString().padStart(2, '0')
+        fun Long.padWithZeroes() = this.toString().padDuration()
 
         val hr = value / 3600
         val min = (value - hr * 3600) / 60

@@ -110,6 +110,14 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_ACTIVITY_FILTERS, false,
     )
 
+    override var enablePomodoroMode: Boolean by prefs.delegate(
+        KEY_ENABLE_POMODORO_MODE, false,
+    )
+
+    override var pomodoroModeStartedTimestamp: Long by prefs.delegate(
+        KEY_POMODORO_MODE_STARTED_TIMESTAMP, 0,
+    )
+
     override var allowMultipleActivityFilters: Boolean by prefs.delegate(
         KEY_ALLOW_MULTIPLE_ACTIVITY_FILTERS, true,
     )
@@ -468,6 +476,8 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_REVERSE_ORDER_IN_CALENDAR = "reverseOrderInCalendar"
         private const val KEY_DAYS_IN_CALENDAR = "daysInCalendar"
         private const val KEY_SHOW_ACTIVITY_FILTERS = "showActivityFilters"
+        private const val KEY_ENABLE_POMODORO_MODE = "enablePomodoroMode"
+        private const val KEY_POMODORO_MODE_STARTED_TIMESTAMP = "pomodoroModeStartedTimestamp"
         private const val KEY_ALLOW_MULTIPLE_ACTIVITY_FILTERS = "allowMultipleActivityFilters"
         private const val KEY_SHOW_GOALS_SEPARATELY = "showGoalsSeparately"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"

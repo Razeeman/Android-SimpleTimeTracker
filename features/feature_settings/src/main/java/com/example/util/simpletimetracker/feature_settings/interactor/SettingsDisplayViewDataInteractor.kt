@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsBottomViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxViewData
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxWithButtonViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxWithRangeViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxWithRangeViewData.RangeViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCollapseViewData
@@ -121,7 +122,7 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                 title = resourceRepo.getString(R.string.settings_show_activity_filters),
                 subtitle = "",
                 isChecked = showActivityFilters,
-                bottomSpaceIsVisible = true,
+                bottomSpaceIsVisible = !showActivityFilters,
                 dividerIsVisible = !showActivityFilters,
             )
             if (showActivityFilters) {
@@ -134,6 +135,20 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                     dividerIsVisible = true,
                 )
             }
+            // TODO POM add translations
+            val enablePomodoroMode = prefsInteractor.getEnablePomodoroMode()
+            result += SettingsCheckboxWithButtonViewData(
+                data = SettingsCheckboxViewData(
+                    block = SettingsBlock.DisplayEnablePomodoroMode,
+                    title = resourceRepo.getString(R.string.settings_enable_pomodoro_mode),
+                    subtitle = "",
+                    isChecked = enablePomodoroMode,
+                    bottomSpaceIsVisible = true,
+                    dividerIsVisible = true,
+                ),
+                buttonBlock = SettingsBlock.DisplayPomodoroModeActivities,
+                isButtonVisible = enablePomodoroMode,
+            )
             result += SettingsCheckboxViewData(
                 block = SettingsBlock.DisplayGoalsOnSeparateTabs,
                 title = resourceRepo.getString(R.string.settings_show_goals_separately),

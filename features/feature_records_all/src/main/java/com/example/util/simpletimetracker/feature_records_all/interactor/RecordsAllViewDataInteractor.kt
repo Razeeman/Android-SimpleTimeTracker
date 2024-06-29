@@ -86,6 +86,8 @@ class RecordsAllViewDataInteractor @Inject constructor(
                         useMilitaryTime = useMilitaryTime,
                         useProportionalMinutes = useProportionalMinutes,
                         showSeconds = showSeconds,
+                        pomodoroEnabled = false,
+                        pomodoroRunning = false,
                     )
                     is MultitaskRecord -> multitaskRecordViewDataMapper.map(
                         multitaskRecord = record,

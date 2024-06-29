@@ -1,12 +1,13 @@
 package com.example.util.simpletimetracker.feature_base_adapter.runningRecord
 
-import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemRunningRecordLayoutBinding as Binding
-import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData as ViewData
 import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
+import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemRunningRecordLayoutBinding as Binding
+import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData as ViewData
 
 fun createRunningRecordAdapterDelegate(
     transitionNamePrefix: String,
@@ -54,9 +55,22 @@ fun createRunningRecordAdapterDelegate(
         if (rebind || updates.contains(ViewData.UPDATE_NOW_ICON).orFalse()) {
             itemNowIconVisible = item.nowIconVisible
         }
+        if (rebind || updates.contains(ViewData.UPDATE_POMODORO_ICON_VISIBLE).orFalse()) {
+            itemPomodoroIconVisible = item.pomodoroIconVisible
+        }
+        if (rebind || updates.contains(ViewData.UPDATE_POMODORO_ICON_RUNNING).orFalse()) {
+            itemPomodoroIsRunning = item.pomodoroIsRunning
+        }
         if (rebind) {
-            setOnClick { onItemClick(item, this to transitionName) }
-            setOnLongClick { onItemLongClick(item, this to transitionName) }
+            this.binding.cardRecordItemContainer
+                .setOnClick { onItemClick(item, this to transitionName) }
+            this.binding.cardRecordItemContainer
+                .setOnLongClick { onItemLongClick(item, this to transitionName) }
+            this.binding.cardRunningRecordItemPomodoro
+                .setOnClick {
+                    // TODO POM
+                }
+
             ViewCompat.setTransitionName(this, transitionName)
         }
     }

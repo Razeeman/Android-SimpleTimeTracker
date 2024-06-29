@@ -118,6 +118,8 @@ class ChangeRunningRecordFragment :
                 color = preview.color,
                 comment = preview.comment,
                 nowIconVisible = params.from is ChangeRunningRecordParams.From.Records,
+                pomodoroIconVisible = false, // TODO POM
+                pomodoroIsRunning = false, // TODO POM
             ),
             dateTimeStarted = preview.timeStartedDateTime.toViewData(),
         ).let { updatePreview(it, animated = false) }

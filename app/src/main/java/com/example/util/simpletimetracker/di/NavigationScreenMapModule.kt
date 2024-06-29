@@ -26,6 +26,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordT
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordFromMainParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordFromRecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
+import com.example.util.simpletimetracker.navigation.params.screen.PomodoroParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import dagger.Module
@@ -215,6 +216,16 @@ class NavigationScreenMapModule {
         return NavigationData(
             R.id.action_mainFragment_to_changeActivityFilterFragment,
             bundleCreatorDelegate(ChangeActivityFilterFragment::createBundle),
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(PomodoroParams::class)
+    fun pomodoro(): NavigationData {
+        return NavigationData(
+            R.id.action_to_pomodoroFragment,
+            BundleCreator.empty(),
         )
     }
 }

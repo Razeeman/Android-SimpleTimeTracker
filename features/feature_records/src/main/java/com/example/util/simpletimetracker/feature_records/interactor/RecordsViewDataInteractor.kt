@@ -250,6 +250,8 @@ class RecordsViewDataInteractor @Inject constructor(
                     useMilitaryTime = useMilitaryTime,
                     useProportionalMinutes = useProportionalMinutes,
                     showSeconds = showSeconds,
+                    pomodoroEnabled = false,
+                    pomodoroRunning = false,
                 ).let {
                     RecordHolder(
                         timeStartedTimestamp = runningRecord.timeStarted,

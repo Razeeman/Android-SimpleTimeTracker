@@ -30,6 +30,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordT
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordFromMainParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.DefaultTypesSelectionDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.PomodoroParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -117,6 +118,9 @@ class RunningRecordsViewModel @Inject constructor(
             }
             is RunningRecordTypeSpecialViewData.Type.Repeat -> viewModelScope.launch {
                 recordRepeatInteractor.repeat()
+            }
+            is RunningRecordTypeSpecialViewData.Type.Pomodoro -> {
+                router.navigate(PomodoroParams)
             }
         }
     }

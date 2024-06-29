@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
-        app:cardElevation="@dimen/record_type_card_elevation"
         app:itemColor="?appUntrackedColor"
         app:itemTagColor="@color/white_alpha_60"
         app:layout_constrainedHeight="true"

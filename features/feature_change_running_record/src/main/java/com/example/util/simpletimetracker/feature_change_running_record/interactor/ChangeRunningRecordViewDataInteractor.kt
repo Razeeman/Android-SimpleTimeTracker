@@ -49,6 +49,8 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
                 useMilitaryTime = useMilitaryTime,
                 useProportionalMinutes = useProportionalMinutes,
                 showSeconds = showSeconds,
+                pomodoroEnabled = false,
+                pomodoroRunning = false,
             )
         } else {
             null

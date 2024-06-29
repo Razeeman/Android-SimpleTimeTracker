@@ -99,6 +99,7 @@ class RecordTypeViewDataMapper @Inject constructor(
             icon = RecordTypeIcon.Image(R.drawable.add),
             numberOfCards = numberOfCards,
             isDarkTheme = isDarkTheme,
+            isChecked = null,
         )
     }
 
@@ -112,6 +113,7 @@ class RecordTypeViewDataMapper @Inject constructor(
             icon = RecordTypeIcon.Image(R.drawable.add),
             numberOfCards = numberOfCards,
             isDarkTheme = isDarkTheme,
+            isChecked = null,
         )
     }
 
@@ -125,6 +127,23 @@ class RecordTypeViewDataMapper @Inject constructor(
             icon = RecordTypeIcon.Image(R.drawable.repeat),
             numberOfCards = numberOfCards,
             isDarkTheme = isDarkTheme,
+            isChecked = null,
+        )
+    }
+
+    fun mapToPomodoroItem(
+        numberOfCards: Int,
+        isDarkTheme: Boolean,
+        isPomodoroStarted: Boolean,
+    ): RunningRecordTypeSpecialViewData {
+        return mapToSpecial(
+            type = RunningRecordTypeSpecialViewData.Type.Pomodoro,
+            name = R.string.running_records_pomodoro,
+            icon = RecordTypeIcon.Image(R.drawable.pomodoro),
+            numberOfCards = numberOfCards,
+            isDarkTheme = isDarkTheme,
+            // Somewhat weird logic, null - means do not show, false - red dot not checked.
+            isChecked = if (isPomodoroStarted) false else null,
         )
     }
 
@@ -164,6 +183,7 @@ class RecordTypeViewDataMapper @Inject constructor(
         icon: RecordTypeIcon,
         numberOfCards: Int,
         isDarkTheme: Boolean,
+        isChecked: Boolean?,
     ): RunningRecordTypeSpecialViewData {
         return RunningRecordTypeSpecialViewData(
             type = type,
@@ -173,6 +193,7 @@ class RecordTypeViewDataMapper @Inject constructor(
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
             asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards),
+            isChecked = isChecked,
         )
     }
 

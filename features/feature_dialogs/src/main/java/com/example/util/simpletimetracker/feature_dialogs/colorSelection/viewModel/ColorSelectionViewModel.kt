@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.domain.extension.padDuration
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.HSVUpdate
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.RGBUpdate
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.viewData.ColorSelectionViewData
@@ -174,11 +175,11 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
 
     private fun mapColorToHex(@ColorInt colorInt: Int): String {
         val currentRed = Color.red(colorInt)
-            .let(Integer::toHexString).padStart(2, '0')
+            .let(Integer::toHexString).padDuration()
         val currentGreen = Color.green(colorInt)
-            .let(Integer::toHexString).padStart(2, '0')
+            .let(Integer::toHexString).padDuration()
         val currentBlue = Color.blue(colorInt)
-            .let(Integer::toHexString).padStart(2, '0')
+            .let(Integer::toHexString).padDuration()
 
         return "#$currentRed$currentGreen$currentBlue"
     }

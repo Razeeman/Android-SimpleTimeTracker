@@ -4,179 +4,231 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="4dp"
-    android:layout_marginEnd="4dp"
-    app:cardBackgroundColor="@color/red_600"
-    app:cardCornerRadius="@dimen/record_type_card_corner_radius"
-    app:cardElevation="@dimen/record_type_card_elevation"
-    app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true"
-    tools:parentTag="androidx.cardview.widget.CardView">
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardRecordItemContainer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
+        android:translationZ="1dp"
+        app:cardBackgroundColor="@color/red_600"
+        app:cardCornerRadius="@dimen/record_type_card_corner_radius"
+        app:cardElevation="@dimen/record_type_card_elevation"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toStartOf="@id/spaceRunningRecordItemPomodoro"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:foreground="?selectableItemBackground"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            tools:ignore="UnusedAttribute">
+
+            <View
+                android:id="@+id/viewRecordItemStripeStart"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:rotation="30"
+                android:scaleY="10"
+                android:translationX="-20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.3"
+                tools:background="@color/red_500" />
+
+            <View
+                android:id="@+id/viewRecordItemStripeEnd"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:rotation="30"
+                android:scaleY="10"
+                android:translationX="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.2"
+                tools:background="@color/red_500" />
+
+            <com.example.util.simpletimetracker.feature_views.IconView
+                android:id="@+id/ivRunningRecordItemIcon"
+                android:layout_width="24dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="h,1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRunningRecordItemName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="?appLightTextColor"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemTimeStarted"
+                app:layout_constraintEnd_toStartOf="@id/barrierRunningRecord"
+                app:layout_constraintStart_toEndOf="@id/ivRunningRecordItemIcon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Item name" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRunningRecordItemTimeStarted"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="?appLightTextColor"
+                app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemComment"
+                app:layout_constraintEnd_toStartOf="@id/barrierRunningRecord"
+                app:layout_constraintStart_toEndOf="@id/ivRunningRecordItemIcon"
+                app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemName"
+                tools:text="07:35" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRunningRecordItemTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:textColor="?appLightTextColor"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemTimerTotal"
+                app:layout_constraintEnd_toStartOf="@id/tvRunningRecordItemNow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_goneMarginEnd="8dp"
+                tools:text="1h 5m 14s" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRunningRecordItemTimerTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:textColor="?appLightTextColor"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemGoalTime"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemTimer"
+                app:layout_goneMarginEnd="8dp"
+                tools:text="total 1h 5m 14s"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/tvRunningRecordItemNow"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/bg_rounded_corners"
+                android:gravity="center"
+                android:padding="2dp"
+                android:visibility="gone"
+                app:backgroundTint="@color/red_600"
+                app:layout_constraintBottom_toBottomOf="@id/tvRunningRecordItemTimer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvRunningRecordItemTimer"
+                app:srcCompat="@drawable/ic_running_record_now"
+                app:tint="@color/white"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRunningRecordItemGoalTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:textColor="?appLightTextColor"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ivRunningRecordItemGoalTimeCheck"
+                app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemTimerTotal"
+                app:layout_goneMarginEnd="8dp"
+                tools:text="goal 30m 10s"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivRunningRecordItemGoalTimeCheck"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/tvRunningRecordItemGoalTime"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvRunningRecordItemGoalTime"
+                app:srcCompat="@drawable/spinner_check_mark"
+                tools:visibility="visible" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrierRunningRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="start"
+                app:constraint_referenced_ids="tvRunningRecordItemTimer, tvRunningRecordItemTimerTotal, tvRunningRecordItemGoalTime" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRunningRecordItemComment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="?appLightTextColor"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/barrierRunningRecord"
+                app:layout_constraintStart_toEndOf="@id/ivRunningRecordItemIcon"
+                app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemTimeStarted"
+                tools:text="Record comment record comment record comment record comment"
+                tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Space
+        android:id="@+id/spaceRunningRecordItemPomodoro"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardRunningRecordItemPomodoro"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
         android:foreground="?selectableItemBackground"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        tools:ignore="UnusedAttribute">
+        app:cardBackgroundColor="?appInactiveColor"
+        app:cardCornerRadius="@dimen/record_type_card_corner_radius"
+        app:cardElevation="@dimen/record_type_card_elevation"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/viewRecordItemStripeStart"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:rotation="30"
-            android:scaleY="10"
-            android:translationX="-20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.3"
-            tools:background="@color/red_500" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivRunningRecordItemPomodoro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="26dp"
+        android:scaleType="center"
+        android:src="@drawable/pomodoro"
+        android:tint="?appLightTextColor"
+        android:translationZ="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
-        <View
-            android:id="@+id/viewRecordItemStripeEnd"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:rotation="30"
-            android:scaleY="10"
-            android:translationX="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.2"
-            tools:background="@color/red_500" />
-
-        <com.example.util.simpletimetracker.feature_views.IconView
-            android:id="@+id/ivRunningRecordItemIcon"
-            android:layout_width="24dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="h,1:1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvRunningRecordItemName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textColor="?appLightTextColor"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemTimeStarted"
-            app:layout_constraintEnd_toStartOf="@id/barrierRunningRecord"
-            app:layout_constraintStart_toEndOf="@id/ivRunningRecordItemIcon"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Item name" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvRunningRecordItemTimeStarted"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textColor="?appLightTextColor"
-            app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemComment"
-            app:layout_constraintEnd_toStartOf="@id/barrierRunningRecord"
-            app:layout_constraintStart_toEndOf="@id/ivRunningRecordItemIcon"
-            app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemName"
-            tools:text="07:35" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvRunningRecordItemTimer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
-            android:textColor="?appLightTextColor"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemTimerTotal"
-            app:layout_constraintEnd_toStartOf="@id/tvRunningRecordItemNow"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_goneMarginEnd="8dp"
-            tools:text="1h 5m 14s" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvRunningRecordItemTimerTotal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:textColor="?appLightTextColor"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemGoalTime"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemTimer"
-            app:layout_goneMarginEnd="8dp"
-            tools:text="total 1h 5m 14s"
-            tools:visibility="visible" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/tvRunningRecordItemNow"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginEnd="6dp"
-            android:background="@drawable/bg_rounded_corners"
-            android:gravity="center"
-            android:padding="2dp"
-            android:visibility="gone"
-            app:backgroundTint="@color/red_600"
-            app:layout_constraintBottom_toBottomOf="@id/tvRunningRecordItemTimer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvRunningRecordItemTimer"
-            app:srcCompat="@drawable/ic_running_record_now"
-            app:tint="@color/white"
-            tools:visibility="visible" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvRunningRecordItemGoalTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:textColor="?appLightTextColor"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ivRunningRecordItemGoalTimeCheck"
-            app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemTimerTotal"
-            app:layout_goneMarginEnd="8dp"
-            tools:text="goal 30m 10s"
-            tools:visibility="visible" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivRunningRecordItemGoalTimeCheck"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_marginEnd="8dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/tvRunningRecordItemGoalTime"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvRunningRecordItemGoalTime"
-            app:srcCompat="@drawable/spinner_check_mark"
-            tools:visibility="visible" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrierRunningRecord"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="start"
-            app:constraint_referenced_ids="tvRunningRecordItemTimer, tvRunningRecordItemTimerTotal, tvRunningRecordItemGoalTime" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvRunningRecordItemComment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textColor="?appLightTextColor"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/barrierRunningRecord"
-            app:layout_constraintStart_toEndOf="@id/ivRunningRecordItemIcon"
-            app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemTimeStarted"
-            tools:text="Record comment record comment record comment record comment"
-            tools:visibility="visible" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupRunningRecordItemPomodoro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="cardRunningRecordItemPomodoro, ivRunningRecordItemPomodoro, spaceRunningRecordItemPomodoro"
+        tools:visibility="visible" />
 
 </merge>

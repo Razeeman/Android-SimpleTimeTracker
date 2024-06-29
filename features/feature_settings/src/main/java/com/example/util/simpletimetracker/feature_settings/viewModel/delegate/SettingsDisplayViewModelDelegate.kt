@@ -209,6 +209,19 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
+    fun onEnablePomodoroModeClicked() {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getEnablePomodoroMode()
+            prefsInteractor.setEnablePomodoroMode(newValue)
+            onPomodoroModeActivitiesClicked()
+            parent?.updateContent()
+        }
+    }
+
+    fun onPomodoroModeActivitiesClicked() {
+        // TODO POM open dialog
+    }
+
     fun onShowGoalsSeparatelyClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowGoalsSeparately()

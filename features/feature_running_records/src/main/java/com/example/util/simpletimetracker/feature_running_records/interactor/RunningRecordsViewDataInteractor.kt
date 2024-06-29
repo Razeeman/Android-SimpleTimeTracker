@@ -47,6 +47,8 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val showFirstEnterHint = recordTypes.filterNot(RecordType::hidden).isEmpty()
         val showDefaultTypesButton = !prefsInteractor.getDefaultTypesHidden()
         val showRepeatButton = recordRepeatInteractor.shouldShowButton()
+        val showPomodoroButton = prefsInteractor.getEnablePomodoroMode()
+        val isPomodoroStarted = prefsInteractor.getPomodoroModeStartedTimestampMs() != 0L
         val goals = filterGoalsByDayOfWeekInteractor
             .execute(recordTypeGoalInteractor.getAllTypeGoals())
             .groupBy { it.idData.value }
@@ -125,6 +127,13 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                         recordTypeViewDataMapper.mapToRepeatItem(
                             numberOfCards = numberOfCards,
                             isDarkTheme = isDarkTheme,
+                        ).let(::add)
+                    }
+                    if (showPomodoroButton) {
+                        recordTypeViewDataMapper.mapToPomodoroItem(
+                            numberOfCards = numberOfCards,
+                            isDarkTheme = isDarkTheme,
+                            isPomodoroStarted = isPomodoroStarted,
                         ).let(::add)
                     }
                     recordTypeViewDataMapper.mapToAddItem(

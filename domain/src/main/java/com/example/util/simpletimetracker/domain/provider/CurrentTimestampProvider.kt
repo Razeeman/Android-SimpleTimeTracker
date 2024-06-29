@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.core.provider
+package com.example.util.simpletimetracker.domain.provider
 
 import javax.inject.Inject
 

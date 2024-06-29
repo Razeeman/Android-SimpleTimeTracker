@@ -207,6 +207,7 @@
     <string name="running_records_add_filter">Add filter</string>
     <string name="running_records_add_default">Default</string>
     <string name="running_records_repeat">Repeat</string>
+    <string name="running_records_pomodoro">Pomodoro</string>
     <string name="running_records_repeat_no_prev_record">No previous record to restart</string>
     <string name="running_records_repeat_already_tracking">Already tracking this activity</string>
 
@@ -240,6 +241,7 @@
     <string name="settings_show_activity_filters">Show activity filters on main screen</string>
     <string name="settings_allow_multiple_activity_filters">Allow multiple activity filters</string>
     <string name="settings_allow_multiple_activity_filters_hint">If disabled, selecting a filter will disable other activity filters.</string>
+    <string name="settings_enable_pomodoro_mode">Show pomodoro button on main screen</string>
     <string name="settings_show_goals_separately">Show goals on a separate tab</string>
     <string name="settings_allow_multitasking">Allow multitasking</string>
     <string name="settings_allow_multitasking_hint">If disabled, starting new timer will automatically stop other activities.</string>
@@ -470,6 +472,11 @@ Example:<br/>
     <string name="records_filter_any_comment">Any comment</string>
     <string name="records_filter_select">Select</string>
     <string name="records_filter_invert_selection">Invert selection</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Focus</string>
+    <string name="pomodoro_state_break">Break</string>
+    <string name="pomodoro_state_long_break">Long break</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotion</string>

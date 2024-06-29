@@ -43,6 +43,10 @@ interface PrefsRepo {
 
     var showActivityFilters: Boolean
 
+    var enablePomodoroMode: Boolean
+
+    var pomodoroModeStartedTimestamp: Long // in milliseconds, 0 - disabled
+
     var allowMultipleActivityFilters: Boolean
 
     var showGoalsSeparately: Boolean
