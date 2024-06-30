@@ -1,9 +1,6 @@
 package com.example.util.simpletimetracker.feature_dialogs.duration.viewModel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
@@ -14,7 +11,6 @@ import com.example.util.simpletimetracker.feature_dialogs.duration.customView.Nu
 import com.example.util.simpletimetracker.feature_dialogs.duration.model.DurationDialogState
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

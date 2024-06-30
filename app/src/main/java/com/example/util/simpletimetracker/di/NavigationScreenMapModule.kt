@@ -27,7 +27,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunning
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordFromRecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
 import com.example.util.simpletimetracker.navigation.params.screen.PomodoroParams
-import com.example.util.simpletimetracker.navigation.params.screen.PomodoroSettingsParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import dagger.Module

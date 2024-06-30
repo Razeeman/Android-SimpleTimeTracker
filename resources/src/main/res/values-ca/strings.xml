@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">Exclou activitats</string>
     <string name="record_tag_selection_exclude_activities_hint">El diàleg de selecció d\'etiquetes no es mostrarà per a les activitats seleccionades.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Seleccioneu activitats</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro s\'iniciarà automàticament quan s\'iniciïn les activitats seleccionades.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Endreça els enregistraments</string>
     <string name="records_all_sort_time_started">Temps d\'inici</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">Mostra els filtres d\'activitat a la pantalla principal.</string>
     <string name="settings_allow_multiple_activity_filters">Permet diversos filtres d\'activitat</string>
     <string name="settings_allow_multiple_activity_filters_hint">Si està desactivat, seleccionar un filtre desactivarà altres filtres d\'activitat.</string>
+    <string name="settings_enable_pomodoro_mode">Mostra el botó Pomodoro a la pantalla principal</string>
     <string name="settings_show_goals_separately">Mostra els objectius en una pestanya separada</string>
     <string name="settings_allow_multitasking">Permet la multitasca</string>
     <string name="settings_allow_multitasking_hint">Si és desactivat, en començar un nou temporitzador s\'aturaran automàticament les altres activitats.</string>
@@ -434,6 +438,7 @@ Exemple:<br/>
     <string name="notification_goal_time_description">Heu assolit l\'objectiu</string>
     <string name="notification_time_started">Començat a %s</string>
     <string name="notification_record_type_stop">Atura</string>
+    <string name="notification_pomodoro_subtitle">Inici: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Per eliminar completament: obriu l\'arxiu</string>
@@ -470,6 +475,12 @@ Exemple:<br/>
     <string name="records_filter_any_comment">Qualsevol comentari</string>
     <string name="records_filter_select">Seleccioneu</string>
     <string name="records_filter_invert_selection">Inverteix la selecció</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Enfocament</string>
+    <string name="pomodoro_state_break">Pausa</string>
+    <string name="pomodoro_state_long_break">Pausa llarga</string>
+    <string name="pomodoro_settings_periods_until_long_break">Períodes fins a una pausa llarga</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Emoticones i Emocions</string>

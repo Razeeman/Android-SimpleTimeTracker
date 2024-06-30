@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">استبعاد الأنشطة</string>
     <string name="record_tag_selection_exclude_activities_hint">لن يتم عرض مربع حوار تحديد العلامة للأنشطة المحددة.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">حدد الأنشطة</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">سيتم بدء تشغيل بومودورو تلقائيًا عند بدء الأنشطة المحددة.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">فرز التتبعات</string>
     <string name="records_all_sort_time_started">بدأ الوقت</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">إظهار عوامل تصفية النشاط على الشاشة الرئيسية</string>
     <string name="settings_allow_multiple_activity_filters">السماح بمرشحات أنشطة متعددة</string>
     <string name="settings_allow_multiple_activity_filters_hint">في حالة التعطيل، سيؤدي تحديد عامل التصفية إلى تعطيل عوامل تصفية الأنشطة الأخرى.</string>
+    <string name="settings_enable_pomodoro_mode">إظهار زر بومودورو على الشاشة الرئيسية</string>
     <string name="settings_show_goals_separately">إظهار الأهداف في علامة تبويب منفصلة</string>
     <string name="settings_allow_multitasking">السماح بتعدد المهام</string>
     <string name="settings_allow_multitasking_hint">ًإذا كان غير مفعل، فبدء تشغيل مهمة جديدة سيوقف الأنشطة الأخرى تلقائيا.</string>
@@ -434,6 +438,7 @@
     <string name="notification_goal_time_description">تم الوصول للهدف</string>
     <string name="notification_time_started">بُدء في %s</string>
     <string name="notification_record_type_stop">أوقف</string>
+    <string name="notification_pomodoro_subtitle">البدء: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">للإزالة بالكامل - افتح الأرشيف</string>
@@ -470,6 +475,12 @@
     <string name="records_filter_any_comment">أي تعليق</string>
     <string name="records_filter_select">اختيار</string>
     <string name="records_filter_invert_selection">عكس الاختيار</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">التركيز</string>
+    <string name="pomodoro_state_break">فاصل</string>
+    <string name="pomodoro_state_long_break">استراحة طويلة</string>
+    <string name="pomodoro_settings_periods_until_long_break">الفترات حتى الفاصل الطويل</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">ابتسامات &amp; مشاعر</string>

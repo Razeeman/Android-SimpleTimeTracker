@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
 import com.example.util.simpletimetracker.feature_pomodoro.settings.viewModel.PomodoroSettingsViewModel
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsBottomAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxAdapterDelegate
@@ -42,6 +43,7 @@ class PomodoroSettingsDialogFragment :
     // TODO remove duplicate with settings
     private val contentAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createHintBigAdapterDelegate(onActionClick = viewModel::onHintActionClicked),
             createSettingsTopAdapterDelegate(),
             createSettingsBottomAdapterDelegate(),
             createSettingsTranslatorAdapterDelegate(),
@@ -77,6 +79,11 @@ class PomodoroSettingsDialogFragment :
 
     override fun initViewModel() {
         viewModel.content.observe(contentAdapter::replaceAsNew)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onVisible()
     }
 
     override fun onDurationSet(duration: Long, tag: String?) {

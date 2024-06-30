@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">Etkinlikleri hariç tut</string>
     <string name="record_tag_selection_exclude_activities_hint">Seçilen etkinlikler için etiket seçimi iletişim kutusu gösterilmeyecektir.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Etkinlikleri seçin</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Seçilen aktiviteler başlatıldığında Pomodoro otomatik olarak başlatılacaktır.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Kayıtları sırala</string>
     <string name="records_all_sort_time_started">Başlangıç zamanı</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">Aktivite filtrelerini ana ekranda göster</string>
     <string name="settings_allow_multiple_activity_filters">Birden fazla etkinlik filtresine izin ver</string>
     <string name="settings_allow_multiple_activity_filters_hint">Devre dışı bırakılırsa, bir filtre seçildiğinde diğer etkinlik filtreleri devre dışı bırakılır.</string>
+    <string name="settings_enable_pomodoro_mode">Pomodoro butonunu ana ekranda göster</string>
     <string name="settings_show_goals_separately">Hedefleri ayrı bir sekmede göster</string>
     <string name="settings_allow_multitasking">Çoklu göreve izin ver</string>
     <string name="settings_allow_multitasking_hint">Devre dışı bırakılırsa, yeni zamanlayıcı başlatmak diğer aktivitelerin zamanlayıcısını otomatik olarak durdurur.</string>
@@ -434,6 +438,7 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="notification_goal_time_description">hedef ulaşıldı</string>
     <string name="notification_time_started">Başlangıç zamanı %s</string>
     <string name="notification_record_type_stop">Durmak</string>
+    <string name="notification_pomodoro_subtitle">Başlangıç: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Tamamen kaldırmak için arşivi açın</string>
@@ -470,6 +475,12 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="records_filter_any_comment">Herhangi bir yorum</string>
     <string name="records_filter_select">Seçme</string>
     <string name="records_filter_invert_selection">Zıt seçim</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Odaklanma</string>
+    <string name="pomodoro_state_break">Ara</string>
+    <string name="pomodoro_state_long_break">Uzun ara</string>
+    <string name="pomodoro_settings_periods_until_long_break">Uzun araya kalan dönemler</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">İfadeler</string>

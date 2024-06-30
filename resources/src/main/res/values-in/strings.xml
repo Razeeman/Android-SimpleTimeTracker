@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">Kecualikan aktivitas</string>
     <string name="record_tag_selection_exclude_activities_hint">Dialog pemilihan tag tidak akan ditampilkan untuk aktivitas yang dipilih.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Pilih aktivitas</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro akan dimulai secara otomatis ketika aktivitas yang dipilih dimulai.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Urutkan rekor</string>
     <string name="records_all_sort_time_started">Waktu dimulai</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">Tampilkan filter aktivitas di layar utama</string>
     <string name="settings_allow_multiple_activity_filters">Izinkan beberapa filter aktivitas</string>
     <string name="settings_allow_multiple_activity_filters_hint">Jika dinonaktifkan, memilih filter akan menonaktifkan filter aktivitas lainnya.</string>
+    <string name="settings_enable_pomodoro_mode">Tampilkan tombol Pomodoro di layar utama</string>
     <string name="settings_show_goals_separately">Tampilkan sasaran di tab terpisah</string>
     <string name="settings_allow_multitasking">Izinkan tugas ganda</string>
     <string name="settings_allow_multitasking_hint">Jika dinonaktifkan memulai pewaktu baru akan secara otomatis menghentikan kegiatan-kegiatan lain.</string>
@@ -434,6 +438,7 @@ Contoh:<br/>
     <string name="notification_goal_time_description">tujuan tercapai</string>
     <string name="notification_time_started">Dimulai pada %s</string>
     <string name="notification_record_type_stop">Berhenti</string>
+    <string name="notification_pomodoro_subtitle">Mulai: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Untuk menghapus sepenuhnya - buka arsip</string>
@@ -470,6 +475,12 @@ Contoh:<br/>
     <string name="records_filter_any_comment">Ada komentar</string>
     <string name="records_filter_select">Pilih</string>
     <string name="records_filter_invert_selection">Pilihan sebaliknya</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Fokus</string>
+    <string name="pomodoro_state_break">Istirahat</string>
+    <string name="pomodoro_state_long_break">Istirahat panjang</string>
+    <string name="pomodoro_settings_periods_until_long_break">Periode hingga jeda panjang</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Senyuman &amp; Emosi</string>

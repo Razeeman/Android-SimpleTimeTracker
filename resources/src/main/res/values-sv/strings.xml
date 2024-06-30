@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">Uteslut aktiviteter</string>
     <string name="record_tag_selection_exclude_activities_hint">Dialogrutan för val av tagg kommer inte att visas för valda aktiviteter.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Välj aktiviteter</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro kommer att startas automatiskt när valda aktiviteter startas.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Sortera händelser</string>
     <string name="records_all_sort_time_started">Starttid</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">Visa aktivitetsfilter på huvudskärmen</string>
     <string name="settings_allow_multiple_activity_filters">Tillåt flera aktivitetsfilter</string>
     <string name="settings_allow_multiple_activity_filters_hint">Om det är inaktiverat kommer andra aktivitetsfilter att inaktiveras om du väljer ett filter.</string>
+    <string name="settings_enable_pomodoro_mode">Visa Pomodoro-knappen på huvudskärmen</string>
     <string name="settings_show_goals_separately">Visa mål på en separat flik</string>
     <string name="settings_allow_multitasking">Tillåt multitasking</string>
     <string name="settings_allow_multitasking_hint">Om inaktiverad så stoppas pågående aktivitet vid start av annan aktivitet.</string>
@@ -434,6 +438,7 @@ Exempel:<br/>
     <string name="notification_goal_time_description">mål uppnått</string>
     <string name="notification_time_started">Påbörjade %s</string>
     <string name="notification_record_type_stop">Sluta</string>
+    <string name="notification_pomodoro_subtitle">Startar: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">För att ta bort helt - öppna arkivet</string>
@@ -470,6 +475,12 @@ Exempel:<br/>
     <string name="records_filter_any_comment">Någon kommentar</string>
     <string name="records_filter_select">Välj</string>
     <string name="records_filter_invert_selection">Invertera urval</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Fokus</string>
+    <string name="pomodoro_state_break">Paus</string>
+    <string name="pomodoro_state_long_break">Lång paus</string>
+    <string name="pomodoro_settings_periods_until_long_break">Perioder till lång paus</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Ansiktsuttryck &amp; Känslor</string>

@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">Excluir actividades</string>
     <string name="record_tag_selection_exclude_activities_hint">El cuadro de diálogo de selección de etiquetas no se mostrará para las actividades seleccionadas.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Seleccionar actividades</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro se iniciará automáticamente cuando se inicien las actividades seleccionadas.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Ordenar los registros</string>
     <string name="records_all_sort_time_started">Tiempo de inicio</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">Mostrar filtros de actividad en la pantalla principal</string>
     <string name="settings_allow_multiple_activity_filters">Permitir múltiples filtros de actividad</string>
     <string name="settings_allow_multiple_activity_filters_hint">Si está deshabilitado, al seleccionar un filtro se deshabilitarán otros filtros de actividad.</string>
+    <string name="settings_enable_pomodoro_mode">Mostrar el botón Pomodoro en la pantalla principal</string>
     <string name="settings_show_goals_separately">Mostrar objetivos en una pestaña separada</string>
     <string name="settings_allow_multitasking">Permitir el registro multitarea</string>
     <string name="settings_allow_multitasking_hint">Si está deshabilitado, al iniciar un nuevo temporizador se detendrá automáticamente el de las otras actividades.</string>
@@ -434,6 +438,7 @@ Ejemplo:<br/>
     <string name="notification_goal_time_description">objetivo alcanzado</string>
     <string name="notification_time_started">Comenzó en %s</string>
     <string name="notification_record_type_stop">Detener</string>
+    <string name="notification_pomodoro_subtitle">Inicio: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Para eliminar por completo: abra el archivo</string>
@@ -470,6 +475,12 @@ Ejemplo:<br/>
     <string name="records_filter_any_comment">Cualquier comentario</string>
     <string name="records_filter_select">Seleccionar</string>
     <string name="records_filter_invert_selection">Invertir selección</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Enfoque</string>
+    <string name="pomodoro_state_break">Descanso</string>
+    <string name="pomodoro_state_long_break">Largo descanso</string>
+    <string name="pomodoro_settings_periods_until_long_break">Períodos hasta un descanso largo</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Emoticonos y Emociones</string>

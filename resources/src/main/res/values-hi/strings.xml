@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">गतिविधियाँ बहिष्कृत करें</string>
     <string name="record_tag_selection_exclude_activities_hint">चयनित गतिविधियों के लिए टैग चयन संवाद नहीं दिखाया जाएगा।</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">गतिविधियाँ चुनें</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">चयनित गतिविधियाँ शुरू होने पर पोमोडोरो स्वचालित रूप से शुरू हो जाएगा।</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">क्रमबद्ध अभिलेख</string>
     <string name="records_all_sort_time_started">समय शुरू हुआ</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">मुख्य स्क्रीन पर गतिविधि फ़िल्टर दिखाएं</string>
     <string name="settings_allow_multiple_activity_filters">एकाधिक गतिविधि फ़िल्टर की अनुमति दें</string>
     <string name="settings_allow_multiple_activity_filters_hint">यदि अक्षम किया गया है, तो फ़िल्टर का चयन करने से अन्य गतिविधि फ़िल्टर अक्षम हो जाएंगे।</string>
+    <string name="settings_enable_pomodoro_mode">मुख्य स्क्रीन पर पोमोडोरो बटन दिखाएँ</string>
     <string name="settings_show_goals_separately">एक अलग टैब पर लक्ष्य दिखाएँ</string>
     <string name="settings_allow_multitasking">मल्टीटास्किंग की अनुमति दें</string>
     <string name="settings_allow_multitasking_hint">यदि बंद हे तो नया टाइमर शुरू होने पर यह अन्य स्वचालित गतिविधियों को रोक देगा।</string>
@@ -434,6 +438,7 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="notification_goal_time_description">लक्ष्य तक पहुंच गया</string>
     <string name="notification_time_started">%s पर शुरू किया</string>
     <string name="notification_record_type_stop">रुकना</string>
+    <string name="notification_pomodoro_subtitle">आरंभ: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">पूरी तरह से हटाने के लिए - संग्रह खोलें</string>
@@ -470,6 +475,12 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="records_filter_any_comment">कोई टिप्पणी</string>
     <string name="records_filter_select">चुनना</string>
     <string name="records_filter_invert_selection">उलट चयन</string>
+
+    <!--  Pomodoro  -->
+    <string name='pomodoro_state_focus'>फोकस</string>
+    <string name='pomodoro_state_break'>ब्रेक</string>
+    <string name='pomodoro_state_long_break'>लंबा ब्रेक</string>
+    <string name='pomodoro_settings_periods_until_long_break'>लंबे ब्रेक तक की अवधि</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">स्माइली और इमोशन</string>

@@ -22,8 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="24dp"
         android:overScrollMode="never"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="3"
         tools:listitem="@layout/item_settings_text" />

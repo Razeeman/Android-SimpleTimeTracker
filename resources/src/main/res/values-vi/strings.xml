@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">Loại trừ các hoạt động</string>
     <string name="record_tag_selection_exclude_activities_hint">Hộp thoại chọn thẻ sẽ không được hiển thị cho các hoạt động đã chọn.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Chọn hoạt động</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro sẽ tự động bắt đầu khi các hoạt động được chọn được bắt đầu.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Sắp xếp bản ghi</string>
     <string name="records_all_sort_time_started">Thời gian bắt đầu</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">Hiển thị bộ lọc hoạt động trên màn hình chính</string>
     <string name="settings_allow_multiple_activity_filters">Cho phép nhiều bộ lọc hoạt động</string>
     <string name="settings_allow_multiple_activity_filters_hint">Nếu bị tắt, việc chọn bộ lọc sẽ tắt các bộ lọc hoạt động khác.</string>
+    <string name="settings_enable_pomodoro_mode">Hiển thị nút Pomodoro trên màn hình chính</string>
     <string name="settings_show_goals_separately">Hiển thị mục tiêu trên một tab riêng</string>
     <string name="settings_allow_multitasking">Cho phép đa nhiệm</string>
     <string name="settings_allow_multitasking_hint">Nếu bị tắt, việc bắt đầu bộ hẹn giờ mới sẽ tự động dừng các hoạt động khác.</string>
@@ -434,6 +438,7 @@ Ví dụ:<br/>
     <string name="notification_goal_time_description">đã đạt mục tiêu</string>
     <string name="notification_time_started">Bắt đầu lúc %s</string>
     <string name="notification_record_type_stop">Dừng lại</string>
+    <string name="notification_pomodoro_subtitle">Đang bắt đầu: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Để xóa hoàn toàn - hãy mở kho lưu trữ</string>
@@ -470,6 +475,12 @@ Ví dụ:<br/>
     <string name="records_filter_any_comment">Mọi nhận xét</string>
     <string name="records_filter_select">Chọn</string>
     <string name="records_filter_invert_selection">Đảo ngược lựa chọn</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Tiêu điểm</string>
+    <string name="pomodoro_state_break">Nghỉ</string>
+    <string name="pomodoro_state_long_break">Nghỉ dài</string>
+    <string name="pomodoro_settings_periods_until_long_break">Thời gian cho đến kỳ nghỉ dài</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Mặt cười &amp; Cảm xúc</string>

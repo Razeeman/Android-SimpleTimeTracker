@@ -16,7 +16,7 @@ sealed interface AppLanguage {
     object Japanese : AppLanguage
     object Korean : AppLanguage
     object Dutch : AppLanguage
-    object Polish: AppLanguage
+    object Polish : AppLanguage
     object Portuguese : AppLanguage
     object PortuguesePortugal : AppLanguage
     object Romanian : AppLanguage

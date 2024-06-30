@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">Виключити активність</string>
     <string name="record_tag_selection_exclude_activities_hint">Діалогове вікно вибору тегів не відображатиметься для вибраних дій.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Виберіть активність</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro буде запущено автоматично, коли розпочнуться вибрані дії.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Сортувати записи</string>
     <string name="records_all_sort_time_started">Початок</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">Показувати фільтри активності на головному екрані</string>
     <string name="settings_allow_multiple_activity_filters">Дозволити вибір декількох фільтрів активності</string>
     <string name="settings_allow_multiple_activity_filters_hint">Якщо вимкнено, вибір фільтра призведе до вимкнення інших фільтрів активності.</string>
+    <string name="settings_enable_pomodoro_mode">Показати кнопку Pomodoro на головному екрані</string>
     <string name="settings_show_goals_separately">Показувати цілі на окремій вкладці</string>
     <string name="settings_allow_multitasking">Дозволити багатозадачність</string>
     <string name="settings_allow_multitasking_hint">Якщо вимкнено, запуск нового таймера автоматично зупинить інші активності.</string>
@@ -434,6 +438,7 @@
     <string name="notification_goal_time_description">ціль досягнута</string>
     <string name="notification_time_started">Почато в %s</string>
     <string name="notification_record_type_stop">Стоп</string>
+    <string name="notification_pomodoro_subtitle">Початок: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Для повного видалення - відкрити архів</string>
@@ -470,6 +475,12 @@
     <string name="records_filter_any_comment">Будь-який коментар</string>
     <string name="records_filter_select">Виберіть</string>
     <string name="records_filter_invert_selection">Інвертувати виділення</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Фокус</string>
+    <string name="pomodoro_state_break">Перерва</string>
+    <string name="pomodoro_state_long_break">Довга перерва</string>
+    <string name="pomodoro_settings_periods_until_long_break">Місячні до тривалої перерви</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайли та емоції</string>

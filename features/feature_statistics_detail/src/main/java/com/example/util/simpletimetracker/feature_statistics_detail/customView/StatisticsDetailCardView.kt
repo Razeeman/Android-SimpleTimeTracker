@@ -9,7 +9,6 @@ import androidx.core.view.updatePadding
 import com.example.util.simpletimetracker.domain.model.Coordinates
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
-import com.example.util.simpletimetracker.feature_views.extension.spToPx
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailCardInternalAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailCardViewBinding

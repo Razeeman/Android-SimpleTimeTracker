@@ -6,10 +6,14 @@ import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.viewData.SettingsBlock
+import com.example.util.simpletimetracker.domain.interactor.PomodoroCycleNotificationInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.hintBig.HintBigViewData
 import com.example.util.simpletimetracker.feature_pomodoro.settings.interactor.PomodoroSettingsViewDataInteractor
+import com.example.util.simpletimetracker.feature_pomodoro.settings.model.PomodoroHintButtonType
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.action.OpenSystemSettings
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,12 +24,25 @@ class PomodoroSettingsViewModel @Inject constructor(
     private val router: Router,
     private val prefsInteractor: PrefsInteractor,
     private val pomodoroSettingsViewDataInteractor: PomodoroSettingsViewDataInteractor,
+    private val pomodoroCycleNotificationInteractor: PomodoroCycleNotificationInteractor,
 ) : BaseViewModel() {
 
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
 
-    // TODO POM show exact alarms message somewhere
-    // TODO POM show notification message somewhere
+    fun onVisible() = viewModelScope.launch {
+        updateContent()
+    }
+
+    fun onHintActionClicked(type: HintBigViewData.ButtonType?) {
+        when (type) {
+            is PomodoroHintButtonType.PostPermissions -> {
+                router.execute(OpenSystemSettings.Notifications)
+            }
+            is PomodoroHintButtonType.ExactAlarms -> {
+                router.execute(OpenSystemSettings.ExactAlarms)
+            }
+        }
+    }
 
     fun onBlockClicked(block: SettingsBlock) {
         when (block) {
@@ -52,9 +69,7 @@ class PomodoroSettingsViewModel @Inject constructor(
     fun onDurationSet(tag: String?, duration: Long) = viewModelScope.launch {
         when (tag) {
             FOCUS_TIME_DURATION_DIALOG_TAG -> {
-                if (duration != 0L) {
-                    prefsInteractor.setPomodoroFocusTime(duration)
-                }
+                if (duration != 0L) prefsInteractor.setPomodoroFocusTime(duration)
             }
             BREAK_TIME_DURATION_DIALOG_TAG -> {
                 prefsInteractor.setPomodoroBreakTime(duration)
@@ -64,6 +79,7 @@ class PomodoroSettingsViewModel @Inject constructor(
             }
         }
         updateContent()
+        pomodoroCycleNotificationInteractor.checkAndReschedule()
     }
 
     fun onCountSet(tag: String?, count: Long) = viewModelScope.launch {
@@ -73,6 +89,7 @@ class PomodoroSettingsViewModel @Inject constructor(
             }
         }
         updateContent()
+        pomodoroCycleNotificationInteractor.checkAndReschedule()
     }
 
     fun onDurationDisabled(tag: String?) = viewModelScope.launch {
@@ -92,6 +109,7 @@ class PomodoroSettingsViewModel @Inject constructor(
             }
         }
         updateContent()
+        pomodoroCycleNotificationInteractor.checkAndReschedule()
     }
 
     private fun onFocusTimeClicked() = viewModelScope.launch {
@@ -123,7 +141,7 @@ class PomodoroSettingsViewModel @Inject constructor(
         val count = prefsInteractor.getPomodoroPeriodsUntilLongBreak()
         DurationDialogParams(
             tag = PERIODS_UNTIL_LONG_BREAK_DIALOG_TAG,
-            value = DurationDialogParams.Value.Count(count)
+            value = DurationDialogParams.Value.Count(count),
         ).let(router::navigate)
     }
 

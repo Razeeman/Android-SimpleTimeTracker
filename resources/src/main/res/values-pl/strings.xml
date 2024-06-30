@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">Wyklucz aktywności</string>
     <string name="record_tag_selection_exclude_activities_hint">Okno wyboru tagu nie będzie wyświetlane dla wybranych aktywności.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Wybierz aktywności</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro zostanie automatycznie uruchomione po rozpoczęciu wybranych czynności.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Posortuj rekordy</string>
     <string name="records_all_sort_time_started">Czas rozpoczęcia</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">Pokaż filtry aktywności na ekranie głównym</string>
     <string name="settings_allow_multiple_activity_filters">Zezwalaj na wiele filtrów aktywności</string>
     <string name="settings_allow_multiple_activity_filters_hint">Jeśli opcja jest wyłączona, wybranie filtra spowoduje wyłączenie innych filtrów aktywności.</string>
+    <string name="settings_enable_pomodoro_mode">Pokaż przycisk Pomodoro na ekranie głównym</string>
     <string name="settings_show_goals_separately">Pokaż cele na osobnej karcie</string>
     <string name="settings_allow_multitasking">Zezwalaj na wiele aktywności jednocześnie</string>
     <string name="settings_allow_multitasking_hint">Jeśli ta opcja jest wyłączona, uruchomienie nowego timera automatycznie zatrzyma inne aktywności.</string>
@@ -434,6 +438,7 @@ Przykład:<br/>
     <string name="notification_goal_time_description">cel osiągnięty</string>
     <string name="notification_time_started">Rozpoczęto o %s</string>
     <string name="notification_record_type_stop">Zatrzymaj</string>
+    <string name="notification_pomodoro_subtitle">Rozpoczęcie: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Aby całkowicie usunąć - otwórz archiwum</string>
@@ -470,6 +475,12 @@ Przykład:<br/>
     <string name="records_filter_any_comment">Komentarz</string>
     <string name="records_filter_select">Wybierz</string>
     <string name="records_filter_invert_selection">Odwróć wybór</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Skupienie</string>
+    <string name="pomodoro_state_break">Przerwa</string>
+    <string name="pomodoro_state_long_break">Długa przerwa</string>
+    <string name="pomodoro_settings_periods_until_long_break">Okresy do długiej przerwy</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Buźki i emocje</string>

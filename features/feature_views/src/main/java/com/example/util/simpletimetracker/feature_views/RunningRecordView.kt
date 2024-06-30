@@ -10,11 +10,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.annotation.ColorInt
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.feature_views.databinding.RecordRunningViewLayoutBinding
-import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 

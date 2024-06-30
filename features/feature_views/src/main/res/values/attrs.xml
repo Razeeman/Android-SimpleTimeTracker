@@ -158,5 +158,7 @@
         <attr name="itemHintText" format="reference" />
         <attr name="itemInfoIconVisible" format="boolean" />
         <attr name="itemCloseIconVisible" format="boolean" />
+        <attr name="itemActionButtonVisible" format="boolean" />
+        <attr name="itemActionButtonText" format="string" />
     </declare-styleable>
 </resources>

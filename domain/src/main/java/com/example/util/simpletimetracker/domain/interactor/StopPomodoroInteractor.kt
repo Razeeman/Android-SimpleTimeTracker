@@ -5,7 +5,13 @@ import javax.inject.Inject
 class StopPomodoroInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val pomodoroCycleNotificationInteractor: PomodoroCycleNotificationInteractor,
 ) {
+
+    suspend fun stop() {
+        prefsInteractor.setPomodoroModeStartedTimestampMs(0)
+        pomodoroCycleNotificationInteractor.cancel()
+    }
 
     suspend fun checkAndStop(typeId: Long) {
         if (!prefsInteractor.getEnablePomodoroMode()) return
@@ -17,7 +23,7 @@ class StopPomodoroInteractor @Inject constructor(
         if (typeId in typesWithAutoStart &&
             currentRunningRecords.none { it in typesWithAutoStart }
         ) {
-            prefsInteractor.setPomodoroModeStartedTimestampMs(0)
+            stop()
         }
     }
 }

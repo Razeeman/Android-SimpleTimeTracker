@@ -1,21 +1,15 @@
 package com.example.util.simpletimetracker.feature_pomodoro.settings.interactor
 
-import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
+import com.example.util.simpletimetracker.core.repo.PermissionRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.hintBig.HintBigViewData
+import com.example.util.simpletimetracker.feature_pomodoro.settings.model.PomodoroHintButtonType
 import com.example.util.simpletimetracker.feature_settings.R
-import com.example.util.simpletimetracker.core.viewData.SettingsBlock
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsBottomViewData
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSelectorViewData
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSpinnerNotCheckableViewData
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSpinnerViewData
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTextViewData
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTopViewData
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
-import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.LanguageViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
 import javax.inject.Inject
 
@@ -23,16 +17,39 @@ class PomodoroSettingsViewDataInteractor @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val settingsMapper: SettingsMapper,
     private val prefsInteractor: PrefsInteractor,
+    private val permissionRepo: PermissionRepo,
 ) {
 
     suspend fun execute(): List<ViewHolderType> {
         val result = mutableListOf<ViewHolderType>()
 
+        if (!permissionRepo.areNotificationsEnabled()) {
+            result += HintBigViewData(
+                text = resourceRepo.getString(R.string.post_notifications),
+                infoIconVisible = false,
+                closeIconVisible = false,
+                button = HintBigViewData.Button.Present(
+                    text = resourceRepo.getString(R.string.schedule_exact_alarms_open_settings),
+                    type = PomodoroHintButtonType.PostPermissions,
+                ),
+            )
+        } else if (!permissionRepo.canScheduleExactAlarms()) {
+            result += HintBigViewData(
+                text = resourceRepo.getString(R.string.schedule_exact_alarms),
+                infoIconVisible = false,
+                closeIconVisible = false,
+                button = HintBigViewData.Button.Present(
+                    text = resourceRepo.getString(R.string.schedule_exact_alarms_open_settings),
+                    type = PomodoroHintButtonType.ExactAlarms,
+                ),
+            )
+        }
+
         val focusViewData = prefsInteractor.getPomodoroFocusTime()
             .let(::mapDuration)
         result += SettingsSelectorViewData(
             block = SettingsBlock.PomodoroFocusTime,
-            title = resourceRepo.getString(R.string.pomodoro_settings_focus_time),
+            title = resourceRepo.getString(R.string.pomodoro_state_focus),
             subtitle = "",
             selectedValue = focusViewData.text,
             bottomSpaceIsVisible = true,
@@ -44,7 +61,7 @@ class PomodoroSettingsViewDataInteractor @Inject constructor(
             .let(::mapDuration)
         result += SettingsSelectorViewData(
             block = SettingsBlock.PomodoroBreakTime,
-            title = resourceRepo.getString(R.string.pomodoro_settings_break_time),
+            title = resourceRepo.getString(R.string.pomodoro_state_break),
             subtitle = "",
             selectedValue = breakViewData.text,
             bottomSpaceIsVisible = true,
@@ -60,7 +77,7 @@ class PomodoroSettingsViewDataInteractor @Inject constructor(
                 .let(::mapDuration)
             result += SettingsSelectorViewData(
                 block = SettingsBlock.PomodoroLongBreakTime,
-                title = resourceRepo.getString(R.string.pomodoro_settings_long_break_time),
+                title = resourceRepo.getString(R.string.pomodoro_state_long_break),
                 subtitle = "",
                 selectedValue = longBreakViewData.text,
                 bottomSpaceIsVisible = true,

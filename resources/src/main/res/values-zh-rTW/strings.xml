@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">排除活動</string>
     <string name="record_tag_selection_exclude_activities_hint">對於選定的活動，不會顯示標籤選擇對話方塊。</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">選擇活動</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">當選定的活動開始時，番茄工作法將自動啟動。</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">排序紀錄</string>
     <string name="records_all_sort_time_started">開始時間</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">主視窗上顯示活動過濾器</string>
     <string name="settings_allow_multiple_activity_filters">允許多個活動過濾器</string>
     <string name="settings_allow_multiple_activity_filters_hint">如果停用，選擇一個過濾器將停用其他活動過濾器。</string>
+    <string name="settings_enable_pomodoro_mode">在主畫面上顯示番茄鐘按鈕</string>
     <string name="settings_show_goals_separately">在單獨的選項卡上顯示目標</string>
     <string name="settings_allow_multitasking">允許多任務</string>
     <string name="settings_allow_multitasking_hint">如果禁用啟動新計時器將自動停止其他活動。</string>
@@ -434,6 +438,7 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="notification_goal_time_description">目標時達成</string>
     <string name="notification_time_started">開始於 %s</string>
     <string name="notification_record_type_stop">停止</string>
+    <string name="notification_pomodoro_subtitle">開始：%s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">要完全刪除 - 開啟存檔</string>
@@ -470,6 +475,12 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="records_filter_any_comment">任何意見</string>
     <string name="records_filter_select">選擇</string>
     <string name="records_filter_invert_selection">反轉選擇</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">焦點</string>
+    <string name="pomodoro_state_break">中斷</string>
+    <string name="pomodoro_state_long_break">長時間休息</string>
+    <string name="pomodoro_settings_periods_until_long_break">長時間休息前的時間</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">表情</string>

@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">حذف فعالیت ها</string>
     <string name="record_tag_selection_exclude_activities_hint">گفتگوی انتخاب برچسب برای فعالیت های انتخاب شده نشان داده نخواهد شد.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">فعالیت ها را انتخاب کنید</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">با شروع فعالیت های انتخاب شده، پومودورو به طور خودکار شروع می شود.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">مرتب کردن تاریخچه ها</string>
     <string name="records_all_sort_time_started">زمان شروع</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">فیلتر فعالیت ها را در صفحه اصلی نمایش بده</string>
     <string name="settings_allow_multiple_activity_filters">فیلترهای فعالیت چندگانه مجاز است</string>
     <string name="settings_allow_multiple_activity_filters_hint">اگر غیرفعال باشد، انتخاب فیلتر، سایر فیلترهای فعالیت را غیرفعال می کند.</string>
+    <string name="settings_enable_pomodoro_mode">نمایش دکمه Pomodoro در صفحه اصلی</string>
     <string name="settings_show_goals_separately">نمایش اهداف در یک برگه جداگانه</string>
     <string name="settings_allow_multitasking">انجام دادن همزمان فعالیت ها</string>
     <string name="settings_allow_multitasking_hint">اگر غیر فعال باشد شروع تایمر های جدید فعالیت های دیگر را متوقف می کند</string>
@@ -434,6 +438,7 @@
     <string name="notification_goal_time_description">به هدف خود رسیدید</string>
     <string name="notification_time_started">شروع شده در %s</string>
     <string name="notification_record_type_stop">توقف</string>
+    <string name="notification_pomodoro_subtitle">شروع: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">برای حذف کامل - بایگانی را باز کنید</string>
@@ -470,6 +475,12 @@
     <string name="records_filter_any_comment">هر نظری</string>
     <string name="records_filter_select">انتخاب</string>
     <string name="records_filter_invert_selection">معکوس کردن موارد انتخابی</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">تمرکز</string>
+    <string name="pomodoro_state_break">شکستن</string>
+    <string name="pomodoro_state_long_break">وقفه طولانی</string>
+    <string name="pomodoro_settings_periods_until_long_break">دوره های زمانی تا وقفه طولانی</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">شکلک ها و احساسات</string>

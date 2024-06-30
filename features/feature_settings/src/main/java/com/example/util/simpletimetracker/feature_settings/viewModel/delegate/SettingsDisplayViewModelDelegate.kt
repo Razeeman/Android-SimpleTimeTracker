@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.StopPomodoroInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.CardTagOrder
@@ -34,6 +35,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val settingsDisplayViewDataInteractor: SettingsDisplayViewDataInteractor,
+    private val stopPomodoroInteractor: StopPomodoroInteractor,
 ) : ViewModelDelegate() {
 
     val keepScreenOnCheckbox: LiveData<Boolean>
@@ -219,6 +221,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         delegateScope.launch {
             val newValue = !prefsInteractor.getEnablePomodoroMode()
             prefsInteractor.setEnablePomodoroMode(newValue)
+            if (!newValue) stopPomodoroInteractor.stop()
             parent?.updateContent()
         }
     }

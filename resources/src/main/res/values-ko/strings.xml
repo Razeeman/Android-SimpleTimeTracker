@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">활동 제외</string>
     <string name="record_tag_selection_exclude_activities_hint">선택한 활동에 대해서는 태그 선택 대화 상자가 표시되지 않습니다.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">활동 선택</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">선택한 활동이 시작되면 Pomodoro가 자동으로 시작됩니다.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">기록 정렬</string>
     <string name="records_all_sort_time_started">시작한 시간</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">메인 화면에 활동 필터 표시</string>
     <string name="settings_allow_multiple_activity_filters">여러 활동 필터 허용</string>
     <string name="settings_allow_multiple_activity_filters_hint">비활성화된 경우 필터를 선택하면 다른 활동 필터가 비활성화됩니다.</string>
+    <string name="settings_enable_pomodoro_mode">메인 화면에 뽀모도로 버튼 표시</string>
     <string name="settings_show_goals_separately">목표 탭 분리</string>
     <string name="settings_allow_multitasking">멀티태스킹 활성화</string>
     <string name="settings_allow_multitasking_hint">비활성화시, 새로운 활동을 시작하면 기존의 활동 기록을 멈춥니다.</string>
@@ -434,6 +438,7 @@ csv 파일은 다음과 같은 열(column)들을 가져야합니다:<br/>
     <string name="notification_goal_time_description">목표 달성</string>
     <string name="notification_time_started">%s에 시작함</string>
     <string name="notification_record_type_stop">정지</string>
+    <string name="notification_pomodoro_subtitle">시작: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">완전히 제거하려면 - 아카이브 열기</string>
@@ -470,6 +475,12 @@ csv 파일은 다음과 같은 열(column)들을 가져야합니다:<br/>
     <string name="records_filter_any_comment">어떤 코멘트</string>
     <string name="records_filter_select">선택</string>
     <string name="records_filter_invert_selection">선택 반전</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">초점</string>
+    <string name="pomodoro_state_break">중단</string>
+    <string name="pomodoro_state_long_break">긴 휴식</string>
+    <string name="pomodoro_settings_periods_until_long_break">긴 휴식까지의 기간</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">스마일리 &amp; 감정</string>

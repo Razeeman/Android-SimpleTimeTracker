@@ -5,7 +5,6 @@ import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
-import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemRunningRecordLayoutBinding as Binding
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData as ViewData
 

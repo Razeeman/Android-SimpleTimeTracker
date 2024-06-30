@@ -76,7 +76,8 @@ object GoalsViewDelegate {
         initUx(RecordTypeGoal.Range.Daily, layoutChangeRecordTypeGoalDaily)
         initUx(RecordTypeGoal.Range.Weekly, layoutChangeRecordTypeGoalWeekly)
         initUx(RecordTypeGoal.Range.Monthly, layoutChangeRecordTypeGoalMonthly)
-        btnChangeRecordTypeGoalNotificationsHint.setOnClick(viewModel::onNotificationsHintClick)
+        containerChangeRecordTypeGoalNotificationsHint
+            .setOnActionClick(viewModel::onNotificationsHintClick)
     }
 
     fun onResume(

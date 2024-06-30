@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">排除活动</string>
     <string name="record_tag_selection_exclude_activities_hint">对于选定的活动，不会显示标签选择对话框。</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">选择活动</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">当选定的活动开始时，番茄工作法将自动启动。</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">对记录排序</string>
     <string name="records_all_sort_time_started">开始时间</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">在主屏幕上显示活动过滤器</string>
     <string name="settings_allow_multiple_activity_filters">允许多个活动过滤器</string>
     <string name="settings_allow_multiple_activity_filters_hint">如果禁用，选择一个过滤器将禁用其他活动过滤器。</string>
+    <string name="settings_enable_pomodoro_mode">在主屏幕上显示番茄钟按钮</string>
     <string name="settings_show_goals_separately">在单独的选项卡上显示目标</string>
     <string name="settings_allow_multitasking">允许同时对多个活动进行追踪</string>
     <string name="settings_allow_multitasking_hint">如果不启用，启动新活动追踪时，将自动停止追踪其他活动。</string>
@@ -434,6 +438,7 @@ csv 文件必须包含以逗号分隔的这些列：<br/>
     <string name="notification_goal_time_description">达到的目标</string>
     <string name="notification_time_started">从 %s 开始</string>
     <string name="notification_record_type_stop">停止</string>
+    <string name="notification_pomodoro_subtitle">开始：%s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">要完全删除 - 打开存档</string>
@@ -470,6 +475,12 @@ csv 文件必须包含以逗号分隔的这些列：<br/>
     <string name="records_filter_any_comment">任何意见</string>
     <string name="records_filter_select">选择</string>
     <string name="records_filter_invert_selection">反转选择</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">焦点</string>
+    <string name="pomodoro_state_break">中断</string>
+    <string name="pomodoro_state_long_break">长时间休息</string>
+    <string name="pomodoro_settings_periods_until_long_break">长时间休息前的时间</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">微笑与情感</string>

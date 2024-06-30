@@ -34,14 +34,16 @@
         android:id="@+id/tvHintBigText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:gravity="center"
         android:textColor="?appLightTextColor"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnHintBigAction"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivHintBigIcon"
+        app:layout_goneMarginEnd="24dp"
         app:layout_goneMarginTop="16dp"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc hendrerit, orci id consectetur consectetur, neque enim gravida quam, quis pellentesque enim velit quis lorem. Morbi sit amet efficitur turpis." />
 
@@ -55,6 +57,21 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btnHintBigAction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:textAllCaps="true"
+        android:textColor="?colorSecondary"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Button"
         tools:visibility="visible" />
 
 </merge>

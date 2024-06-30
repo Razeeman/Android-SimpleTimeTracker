@@ -53,7 +53,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         return statisticsDetailViewDataMapper.mapToEmptyChartViewData(
             ranges = ranges,
             availableChartGroupings = compositeData.availableChartGroupings,
-            availableChartLengths = compositeData.availableChartLengths
+            availableChartLengths = compositeData.availableChartLengths,
         )
     }
 

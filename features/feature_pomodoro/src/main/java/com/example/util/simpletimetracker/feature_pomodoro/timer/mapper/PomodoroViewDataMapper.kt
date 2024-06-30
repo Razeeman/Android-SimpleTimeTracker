@@ -46,8 +46,8 @@ class PomodoroViewDataMapper @Inject constructor(
                 settings = settings,
             )
             val currentCycle = result.cycleType
-            val cycleDuration = result.cycleDuration
-            val currentCycleDuration = result.currentCycleDuration
+            val cycleDuration = result.cycleDurationMs
+            val currentCycleDuration = result.currentCycleDurationMs
 
             val timeLeft = cycleDuration - currentCycleDuration
             val progression = (currentCycleDuration + timerUpdateMs) *

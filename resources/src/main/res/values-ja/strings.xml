@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">アクティビティを除外する</string>
     <string name="record_tag_selection_exclude_activities_hint">選択したアクティビティに対してタグ選択ダイアログは表示されません。</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">アクティビティを選択する</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">選択したアクティビティが開始されると、ポモドーロが自動的に開始されます。</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">計測記録をソート</string>
     <string name="records_all_sort_time_started">時間の開始</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">メイン画面にアクティビティ フィルタを表示する</string>
     <string name="settings_allow_multiple_activity_filters">複数のアクティビティフィルターを許可する</string>
     <string name="settings_allow_multiple_activity_filters_hint">無効にした場合、フィルターを選択すると他のアクティビティ フィルターが無効になります。</string>
+    <string name="settings_enable_pomodoro_mode">メイン画面にポモドーロボタンを表示</string>
     <string name="settings_show_goals_separately">別のタブに目標を表示する</string>
     <string name="settings_allow_multitasking">マルチタスクを可能にする</string>
     <string name="settings_allow_multitasking_hint">無効の場合、新しいタイマーを開始すると、他のアクティビティが自動的に停止します。</string>
@@ -434,6 +438,7 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <string name="notification_goal_time_description">目標到達</string>
     <string name="notification_time_started">%s に開始</string>
     <string name="notification_record_type_stop">ストップ</string>
+    <string name="notification_pomodoro_subtitle">開始中: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">完全に削除するには - アーカイブを開きます</string>
@@ -470,6 +475,12 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <string name="records_filter_any_comment">任意のコメント</string>
     <string name="records_filter_select">選択する</string>
     <string name="records_filter_invert_selection">選択範囲を反転する</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">フォーカス</string>
+    <string name="pomodoro_state_break">休憩</string>
+    <string name="pomodoro_state_long_break">長期休暇</string>
+    <string name="pomodoro_settings_periods_until_long_break">長期休暇までの期間</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">顔文字とエモート</string>

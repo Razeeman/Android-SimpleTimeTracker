@@ -103,7 +103,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             DurationDialogParams(
                 tag = SettingsViewModel.IGNORE_SHORT_RECORDS_DIALOG_TAG,
                 value = DurationDialogParams.Value.Duration(
-                    duration = prefsInteractor.getIgnoreShortRecordsDuration()
+                    duration = prefsInteractor.getIgnoreShortRecordsDuration(),
                 ),
             ).let(router::navigate)
         }

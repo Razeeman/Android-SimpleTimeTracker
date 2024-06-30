@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">Excludeți activități</string>
     <string name="record_tag_selection_exclude_activities_hint">Dialogul de selecție a etichetelor nu va fi afișat pentru activitățile selectate.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Selectați activități</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro va fi pornit automat atunci când activitățile selectate sunt pornite.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Sortează înregistrările</string>
     <string name="records_all_sort_time_started">Ora de început</string>
@@ -240,6 +243,7 @@
     <string name="settings_show_activity_filters">Afișează filtrele de activitate pe ecranul principal</string>
     <string name="settings_allow_multiple_activity_filters">Permite mai multe filtre de activitate</string>
     <string name="settings_allow_multiple_activity_filters_hint">Dacă este dezactivată, selectarea unui filtru va dezactiva alte filtre de activitate.</string>
+    <string name="settings_enable_pomodoro_mode">Afișați butonul Pomodoro pe ecranul principal</string>
     <string name="settings_show_goals_separately">Afișează țelurile într-o foaie separată</string>
     <string name="settings_allow_multitasking">Permite multitasking</string>
     <string name="settings_allow_multitasking_hint">Dacă este dezactivat, activarea unei noi activități va opri alte activități.</string>
@@ -434,6 +438,7 @@ Examplu:<br/>
     <string name="notification_goal_time_description">Țel atins</string>
     <string name="notification_time_started">Început la %s</string>
     <string name="notification_record_type_stop">Stop</string>
+    <string name="notification_pomodoro_subtitle">Începând: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Pentru a șterge complet - deshide arhiva</string>
@@ -470,6 +475,12 @@ Examplu:<br/>
     <string name="records_filter_any_comment">Orice comentariu</string>
     <string name="records_filter_select">Alege</string>
     <string name="records_filter_invert_selection">Inversează selecția</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Concentrare</string>
+    <string name="pomodoro_state_break">Pauza</string>
+    <string name="pomodoro_state_long_break">Pauză lungă</string>
+    <string name="pomodoro_settings_periods_until_long_break">Perioade până la pauză lungă</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emoție</string>
