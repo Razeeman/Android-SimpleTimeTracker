@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_notification.pomodoro.interactor
 
-import com.example.util.simpletimetracker.domain.extension.dropMillis
 import com.example.util.simpletimetracker.domain.interactor.GetPomodoroSettingsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PomodoroCycleNotificationInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -24,7 +23,7 @@ class PomodoroCycleNotificationInteractorImpl @Inject constructor(
         if (timeStartedMs == 0L) return
 
         val result = pomodoroCycleDurationsMapper.map(
-            timeStartedMs = timeStartedMs.dropMillis(),
+            timeStartedMs = timeStartedMs,
             settings = getPomodoroSettingsInteractor.execute(),
         )
 

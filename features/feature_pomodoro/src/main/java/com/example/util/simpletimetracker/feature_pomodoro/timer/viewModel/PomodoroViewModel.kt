@@ -125,6 +125,6 @@ class PomodoroViewModel @Inject constructor(
     }
 
     companion object {
-        private const val TIMER_UPDATE_MS = 1000L
+        private const val TIMER_UPDATE_MS = 250L
     }
 }

@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.domain.interactor
 
-import com.example.util.simpletimetracker.domain.extension.dropMillis
 import com.example.util.simpletimetracker.domain.mapper.PomodoroCycleDurationsMapper
 import javax.inject.Inject
 
@@ -17,7 +16,7 @@ class PomodoroNextCycleInteractor @Inject constructor(
         if (timeStartedMs == 0L) return
 
         val result = pomodoroCycleDurationsMapper.map(
-            timeStartedMs = timeStartedMs.dropMillis(),
+            timeStartedMs = timeStartedMs,
             settings = getPomodoroSettingsInteractor.execute(),
         )
 

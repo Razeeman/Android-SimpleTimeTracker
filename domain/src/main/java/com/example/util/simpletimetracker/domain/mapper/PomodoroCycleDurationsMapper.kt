@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.domain.mapper
 
-import com.example.util.simpletimetracker.domain.extension.dropMillis
 import com.example.util.simpletimetracker.domain.model.PomodoroCycleSettings
 import com.example.util.simpletimetracker.domain.model.PomodoroCycleType
 import com.example.util.simpletimetracker.domain.provider.CurrentTimestampProvider
@@ -19,7 +18,7 @@ class PomodoroCycleDurationsMapper @Inject constructor(
         val longBreakTime = settings.longBreakTimeMs
         val periodsUntilLongBreak = settings.periodsUntilLongBreak
 
-        val currentTime = currentTimestampProvider.get().dropMillis()
+        val currentTime = currentTimestampProvider.get()
         val currentDuration = currentTime - timeStartedMs
         val periodDuration = if (periodsUntilLongBreak > 0) {
             focusTime * periodsUntilLongBreak +
