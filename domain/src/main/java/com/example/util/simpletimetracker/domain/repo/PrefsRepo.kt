@@ -111,6 +111,8 @@ interface PrefsRepo {
 
     var recordTagSelectionExcludeActivities: Set<String>
 
+    var autostartPomodoroActivities: Set<String>
+
     var automatedTrackingSendEvents: Boolean
 
     var automaticBackupUri: String

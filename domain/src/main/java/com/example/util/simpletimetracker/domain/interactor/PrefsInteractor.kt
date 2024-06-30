@@ -510,6 +510,16 @@ class PrefsInteractor @Inject constructor(
             .map(Long::toString).toSet()
     }
 
+    suspend fun getAutostartPomodoroActivities(): List<Long> = withContext(Dispatchers.IO) {
+        prefsRepo.autostartPomodoroActivities
+            .mapNotNull(String::toLongOrNull)
+    }
+
+    suspend fun setAutostartPomodoroActivities(value: List<Long>) = withContext(Dispatchers.IO) {
+        prefsRepo.autostartPomodoroActivities = value
+            .map(Long::toString).toSet()
+    }
+
     suspend fun getAutomatedTrackingSendEvents(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.automatedTrackingSendEvents
     }

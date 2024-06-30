@@ -15,6 +15,7 @@ class RemoveRunningRecordMediator @Inject constructor(
     private val wearInteractor: WearInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
+    private val stopPomodoroInteractor: StopPomodoroInteractor,
 ) {
 
     suspend fun removeWithRecordAdd(
@@ -35,6 +36,7 @@ class RemoveRunningRecordMediator @Inject constructor(
             comment = runningRecord.comment,
         )
         remove(runningRecord.id, updateWidgets)
+        stopPomodoroInteractor.checkAndStop(runningRecord.id)
     }
 
     suspend fun remove(

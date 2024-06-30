@@ -17,6 +17,7 @@ class AddRunningRecordMediator @Inject constructor(
     private val wearInteractor: WearInteractor,
     private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
     private val shouldShowTagSelectionInteractor: ShouldShowTagSelectionInteractor,
+    private val startPomodoroInteractor: StartPomodoroInteractor,
 ) {
 
     /**
@@ -43,9 +44,10 @@ class AddRunningRecordMediator @Inject constructor(
         tagIds: List<Long>,
         comment: String,
         timeStarted: Long? = null,
+        checkMultitasking: Boolean = true,
     ) {
         // Check if multitasking disabled
-        if (!prefsInteractor.getAllowMultitasking()) {
+        if (!prefsInteractor.getAllowMultitasking() && checkMultitasking) {
             // Widgets will update on adding.
             runningRecordInteractor.getAll()
                 .filter { it.id != typeId }
@@ -64,6 +66,7 @@ class AddRunningRecordMediator @Inject constructor(
         )
         // Show goal count only on timer start, otherwise it would show on change also.
         notificationGoalCountInteractor.checkAndShow(typeId)
+        startPomodoroInteractor.checkAndStart(typeId)
     }
 
     suspend fun add(

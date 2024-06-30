@@ -1,9 +1,9 @@
 package com.example.util.simpletimetracker.feature_pomodoro.timer.viewModel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.BaseViewModel
-import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.PomodoroCycleSettings
@@ -27,13 +27,13 @@ class PomodoroViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
 ) : BaseViewModel() {
 
-    val buttonState: LiveData<PomodoroButtonState> by lazySuspend { loadButtonState() }
-    val timerState: LiveData<PomodoroTimerState> by lazySuspend { loadTimerState() }
+    val buttonState: LiveData<PomodoroButtonState> = MutableLiveData()
+    val timerState: LiveData<PomodoroTimerState> = MutableLiveData()
 
     private var timerJob: Job? = null
 
-    fun onVisible() = viewModelScope.launch {
-        checkIfNeedToStartUpdate()
+    fun onVisible() {
+        startUpdate()
     }
 
     fun onHidden() {
@@ -48,7 +48,6 @@ class PomodoroViewModel @Inject constructor(
         // 0 - disabled.
         val newValue = if (isStarted()) 0 else System.currentTimeMillis()
         prefsInteractor.setPomodoroModeStartedTimestampMs(newValue)
-        checkIfNeedToStartUpdate()
         updateButtonState()
         updateTimerState()
     }
@@ -57,14 +56,11 @@ class PomodoroViewModel @Inject constructor(
         return prefsInteractor.getPomodoroModeStartedTimestampMs() != 0L
     }
 
-    private suspend fun checkIfNeedToStartUpdate() {
-        if (isStarted()) startUpdate() else stopUpdate()
-    }
-
     private fun startUpdate() {
         timerJob = viewModelScope.launch {
             timerJob?.cancelAndJoin()
             while (isActive) {
+                updateButtonState()
                 updateTimerState()
                 delay(TIMER_UPDATE_MS)
             }

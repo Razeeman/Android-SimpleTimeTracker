@@ -246,6 +246,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES, emptySet(),
     )
 
+    override var autostartPomodoroActivities: Set<String> by prefs.delegate(
+        KEY_AUTOSTART_POMODORO_ACTIVITIES, emptySet(),
+    )
+
     override var automatedTrackingSendEvents: Boolean by prefs.delegate(
         KEY_AUTOMATED_TRACKING_SEND_EVENTS, false,
     )
@@ -540,6 +544,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_KEEP_SCREEN_ON = "keepScreenOn"
         private const val KEY_SHOW_RECORD_TAG_SELECTION = "showRecordTagSelection"
         private const val KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES = "showRecordTagSelectionExcludeActivities"
+        private const val KEY_AUTOSTART_POMODORO_ACTIVITIES = "autostartPomodoroActivities"
         private const val KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE = "recordTagSelectionCloseAfterOne"
         private const val KEY_AUTOMATED_TRACKING_SEND_EVENTS = "automatedTrackingSendEvents"
         private const val KEY_AUTOMATIC_BACKUP_URI = "automaticBackupUri"

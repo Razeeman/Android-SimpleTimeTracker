@@ -88,9 +88,11 @@ class WearCommunicationInteractor @Inject constructor(
             removeRunningRecordMediator.get().removeWithRecordAdd(it)
         }
         started.forEach { record ->
-            addRunningRecordMediator.get().add(
+            addRunningRecordMediator.get().startTimer(
                 typeId = record.id,
                 tagIds = record.tags.map(WearTag::id),
+                comment = "",
+                checkMultitasking = false,
             )
         }
     }

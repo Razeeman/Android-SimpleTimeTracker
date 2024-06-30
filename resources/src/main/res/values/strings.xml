@@ -192,6 +192,9 @@
     <string name="record_tag_selection_exclude_activities_title">Exclude activities</string>
     <string name="record_tag_selection_exclude_activities_hint">Tag selection dialog will not be shown for selected activities.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Select activities</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro will be automatically started when selected activities are started.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Sort records</string>
     <string name="records_all_sort_time_started">Time started</string>
