@@ -28,6 +28,7 @@ class PomodoroViewDataMapper @Inject constructor(
 
         return PomodoroButtonState(
             iconResId = iconResId,
+            additionalButtonsVisible = isStarted,
         )
     }
 

@@ -4,4 +4,5 @@ import androidx.annotation.DrawableRes
 
 data class PomodoroButtonState(
     @DrawableRes val iconResId: Int,
+    val additionalButtonsVisible: Boolean,
 )

@@ -6,9 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.domain.interactor.GetPomodoroSettingsInteractor
+import com.example.util.simpletimetracker.domain.interactor.PomodoroNextCycleInteractor
+import com.example.util.simpletimetracker.domain.interactor.PomodoroRestartCycleInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.StartPomodoroInteractor
-import com.example.util.simpletimetracker.domain.interactor.StopPomodoroInteractor
+import com.example.util.simpletimetracker.domain.interactor.PomodoroStartInteractor
+import com.example.util.simpletimetracker.domain.interactor.PomodoroStopInteractor
 import com.example.util.simpletimetracker.feature_pomodoro.timer.mapper.PomodoroViewDataMapper
 import com.example.util.simpletimetracker.feature_pomodoro.timer.model.PomodoroButtonState
 import com.example.util.simpletimetracker.feature_pomodoro.timer.model.PomodoroTimerState
@@ -27,8 +29,10 @@ class PomodoroViewModel @Inject constructor(
     private val router: Router,
     private val pomodoroViewDataMapper: PomodoroViewDataMapper,
     private val prefsInteractor: PrefsInteractor,
-    private val startPomodoroInteractor: StartPomodoroInteractor,
-    private val stopPomodoroInteractor: StopPomodoroInteractor,
+    private val pomodoroStartInteractor: PomodoroStartInteractor,
+    private val pomodoroStopInteractor: PomodoroStopInteractor,
+    private val pomodoroNextCycleInteractor: PomodoroNextCycleInteractor,
+    private val pomodoroRestartCycleInteractor: PomodoroRestartCycleInteractor,
     private val getPomodoroSettingsInteractor: GetPomodoroSettingsInteractor,
 ) : BaseViewModel() {
 
@@ -52,11 +56,25 @@ class PomodoroViewModel @Inject constructor(
     fun onStartStopClicked() = viewModelScope.launch {
         // 0 - disabled.
         if (isStarted()) {
-            stopPomodoroInteractor.stop()
+            pomodoroStopInteractor.stop()
         } else {
-            startPomodoroInteractor.start()
+            pomodoroStartInteractor.start()
         }
         updateButtonState()
+        updateTimerState()
+    }
+
+    fun onRestartClicked() = viewModelScope.launch {
+        pomodoroRestartCycleInteractor.execute()
+        // Reset animation.
+        timerState.value?.copy(progress = 0)?.let(timerState::set)
+        updateTimerState()
+    }
+
+    fun onNextClicked() = viewModelScope.launch {
+        pomodoroNextCycleInteractor.execute()
+        // Reset animation.
+        timerState.value?.copy(progress = 0)?.let(timerState::set)
         updateTimerState()
     }
 

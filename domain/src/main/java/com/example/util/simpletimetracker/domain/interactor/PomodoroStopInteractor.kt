@@ -2,7 +2,7 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import javax.inject.Inject
 
-class StopPomodoroInteractor @Inject constructor(
+class PomodoroStopInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val pomodoroCycleNotificationInteractor: PomodoroCycleNotificationInteractor,

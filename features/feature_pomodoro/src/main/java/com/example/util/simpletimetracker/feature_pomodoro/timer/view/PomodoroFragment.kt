@@ -27,6 +27,8 @@ class PomodoroFragment : BaseFragment<Binding>() {
     override fun initUx() = with(binding) {
         btnPomodoroSettings.setOnClick(viewModel::onSettingsClicked)
         btnPomodoroStart.setOnClick(viewModel::onStartStopClicked)
+        btnPomodoroRestart.setOnClick(viewModel::onRestartClicked)
+        btnPomodoroNext.setOnClick(viewModel::onNextClicked)
     }
 
     override fun initViewModel() = with(binding) {
@@ -48,6 +50,8 @@ class PomodoroFragment : BaseFragment<Binding>() {
 
     private fun setButtonState(state: PomodoroButtonState) = with(binding) {
         ivPomodoroButton.setImageResource(state.iconResId)
+        btnPomodoroRestart.visible = state.additionalButtonsVisible
+        btnPomodoroNext.visible = state.additionalButtonsVisible
     }
 
     private fun setTimerState(state: PomodoroTimerState) = with(binding) {

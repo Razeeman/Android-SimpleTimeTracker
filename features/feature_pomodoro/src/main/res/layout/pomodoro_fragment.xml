@@ -30,8 +30,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@id/viewPomodoroTimer"
-        app:layout_constraintEnd_toEndOf="@id/viewPomodoroTimer"
-        app:layout_constraintStart_toStartOf="@id/viewPomodoroTimer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/viewPomodoroTimer">
 
         <androidx.constraintlayout.widget.Group
@@ -198,6 +198,29 @@
         tools:progress="75" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/btnPomodoroRestart"
+        style="@style/SettingsCard"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginHorizontal="20dp"
+        android:foreground="?selectableItemBackground"
+        app:cardCornerRadius="100dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnPomodoroStart"
+        app:layout_constraintEnd_toStartOf="@id/btnPomodoroStart"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnPomodoroStart">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:tint="?appContrastColor"
+            app:srcCompat="@drawable/button_restart" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/btnPomodoroStart"
         style="@style/SettingsCard"
         android:layout_width="80dp"
@@ -216,6 +239,29 @@
             android:layout_margin="12dp"
             android:tint="?appContrastColor"
             app:srcCompat="@drawable/button_play" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnPomodoroNext"
+        style="@style/SettingsCard"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginHorizontal="20dp"
+        android:foreground="?selectableItemBackground"
+        app:cardCornerRadius="100dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnPomodoroStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/btnPomodoroStart"
+        app:layout_constraintTop_toTopOf="@id/btnPomodoroStart">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:tint="?appContrastColor"
+            app:srcCompat="@drawable/button_next" />
 
     </androidx.cardview.widget.CardView>
 

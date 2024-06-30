@@ -18,6 +18,7 @@ class PomodoroCycleNotificationInteractorImpl @Inject constructor(
 ) : PomodoroCycleNotificationInteractor {
 
     override suspend fun checkAndReschedule() {
+        scheduler.cancelSchedule()
         if (!prefsInteractor.getEnablePomodoroMode()) return
         val timeStartedMs = prefsInteractor.getPomodoroModeStartedTimestampMs()
         if (timeStartedMs == 0L) return
