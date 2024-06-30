@@ -26,8 +26,6 @@ class GetRunningRecordViewDataMediator @Inject constructor(
         useMilitaryTime: Boolean,
         useProportionalMinutes: Boolean,
         showSeconds: Boolean,
-        pomodoroEnabled: Boolean = false, // TODO POM remove?
-        pomodoroRunning: Boolean = false,
     ): RunningRecordViewData {
         val dailyCurrent = if ((goals.getDaily() != null && goalsVisible) || totalDurationVisible) {
             getCurrentRecordsDurationInteractor.getDailyCurrent(record)
@@ -48,8 +46,6 @@ class GetRunningRecordViewDataMediator @Inject constructor(
             nowIconVisible = nowIconVisible,
             goalsVisible = goalsVisible,
             totalDurationVisible = totalDurationVisible,
-            pomodoroEnabled = pomodoroEnabled,
-            pomodoroRunning = pomodoroRunning,
         )
     }
 }

@@ -26,29 +26,6 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!--  TODO POM remove title and divider?  -->
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvPomodoroTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
-        android:paddingHorizontal="16dp"
-        android:text="@string/running_records_pomodoro"
-        android:textColor="?appTextPrimaryColor"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.example.util.simpletimetracker.feature_views.DividerView
-        android:id="@+id/dividerPomodoro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/tvPomodoroTitle" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -213,7 +190,7 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dividerPomodoro"
+        app:layout_constraintTop_toTopOf="parent"
         app:trackColor="?appDividerColor"
         app:trackCornerRadius="0dp"
         app:trackThickness="1dp"

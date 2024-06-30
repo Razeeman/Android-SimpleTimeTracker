@@ -55,22 +55,9 @@ fun createRunningRecordAdapterDelegate(
         if (rebind || updates.contains(ViewData.UPDATE_NOW_ICON).orFalse()) {
             itemNowIconVisible = item.nowIconVisible
         }
-        if (rebind || updates.contains(ViewData.UPDATE_POMODORO_ICON_VISIBLE).orFalse()) {
-            itemPomodoroIconVisible = item.pomodoroIconVisible
-        }
-        if (rebind || updates.contains(ViewData.UPDATE_POMODORO_ICON_RUNNING).orFalse()) {
-            itemPomodoroIsRunning = item.pomodoroIsRunning
-        }
         if (rebind) {
-            this.binding.cardRecordItemContainer
-                .setOnClick { onItemClick(item, this to transitionName) }
-            this.binding.cardRecordItemContainer
-                .setOnLongClick { onItemLongClick(item, this to transitionName) }
-            this.binding.cardRunningRecordItemPomodoro
-                .setOnClick {
-                    // TODO POM
-                }
-
+            setOnClick { onItemClick(item, this to transitionName) }
+            setOnLongClick { onItemLongClick(item, this to transitionName) }
             ViewCompat.setTransitionName(this, transitionName)
         }
     }

@@ -17,9 +17,6 @@ data class RunningRecordViewData(
     @ColorInt val color: Int,
     val comment: String,
     val nowIconVisible: Boolean,
-    val pomodoroIconVisible: Boolean,
-    // TODO POM add animated pomodoro icon when running
-    val pomodoroIsRunning: Boolean,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = id
@@ -39,8 +36,6 @@ data class RunningRecordViewData(
         if (this.goalTime != other.goalTime) updates.add(UPDATE_GOAL_TIME)
         if (this.comment != other.comment) updates.add(UPDATE_COMMENT)
         if (this.nowIconVisible != other.nowIconVisible) updates.add(UPDATE_NOW_ICON)
-        if (this.pomodoroIconVisible != other.pomodoroIconVisible) updates.add(UPDATE_POMODORO_ICON_VISIBLE)
-        if (this.pomodoroIsRunning != other.pomodoroIsRunning) updates.add(UPDATE_POMODORO_ICON_RUNNING)
 
         return updates.takeIf { it.isNotEmpty() }
     }
@@ -56,7 +51,5 @@ data class RunningRecordViewData(
         const val UPDATE_COMMENT = 8
         const val UPDATE_TAG_NAME = 9
         const val UPDATE_NOW_ICON = 10
-        const val UPDATE_POMODORO_ICON_VISIBLE = 11
-        const val UPDATE_POMODORO_ICON_RUNNING = 12
     }
 }

@@ -117,8 +117,6 @@
         <attr name="itemTimerDay" format="string" />
         <attr name="itemGoalTime" format="string" />
         <attr name="itemNowIconVisible" format="boolean" />
-        <attr name="itemPomodoroIconVisible" format="boolean" />
-        <attr name="itemPomodoroIsRunning" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="CategoryView">

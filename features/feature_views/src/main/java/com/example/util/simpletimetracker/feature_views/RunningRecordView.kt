@@ -9,7 +9,9 @@ import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.annotation.ColorInt
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.feature_views.databinding.RecordRunningViewLayoutBinding
 import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
@@ -20,13 +22,13 @@ class RunningRecordView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
-) : ConstraintLayout(
+) : CardView(
     context,
     attrs,
     defStyleAttr,
 ) {
 
-    val binding: RecordRunningViewLayoutBinding = RecordRunningViewLayoutBinding
+    private val binding: RecordRunningViewLayoutBinding = RecordRunningViewLayoutBinding
         .inflate(LayoutInflater.from(context), this)
 
     var itemName: String = ""
@@ -44,10 +46,9 @@ class RunningRecordView @JvmOverloads constructor(
     var itemColor: Int = 0
         set(value) {
             field = value
-            binding.cardRecordItemContainer.setCardBackgroundColor(value)
+            setCardBackgroundColor(value)
             setStripesColor(value)
             setNowIconColor(value)
-            setPomodoroBackground()
         }
 
     var itemTagColor: Int = Color.WHITE
@@ -107,20 +108,18 @@ class RunningRecordView @JvmOverloads constructor(
             field = value
         }
 
-    var itemPomodoroIconVisible: Boolean = false
-        set(value) {
-            binding.groupRunningRecordItemPomodoro.visible = value
-            field = value
-        }
-
-    var itemPomodoroIsRunning: Boolean = false
-        set(value) {
-            field = value
-            setPomodoroBackground()
-        }
-
     init {
+        initProps()
         initAttrs(context, attrs, defStyleAttr)
+    }
+
+    private fun initProps() {
+        ContextCompat.getColor(context, R.color.black).let(::setCardBackgroundColor)
+        radius = resources.getDimensionPixelOffset(R.dimen.record_type_card_corner_radius).toFloat()
+        // TODO doesn't work here for some reason, need to set in the layout
+        cardElevation = resources.getDimensionPixelOffset(R.dimen.record_type_card_elevation).toFloat()
+        preventCornerOverlap = false
+        useCompatPadding = true
     }
 
     private fun initAttrs(
@@ -180,18 +179,6 @@ class RunningRecordView @JvmOverloads constructor(
                     itemNowIconVisible = getBoolean(R.styleable.RunningRecordView_itemNowIconVisible, false)
                 }
 
-                if (hasValue(R.styleable.RunningRecordView_itemPomodoroIconVisible)) {
-                    itemPomodoroIconVisible = getBoolean(
-                        R.styleable.RunningRecordView_itemPomodoroIconVisible, false,
-                    )
-                }
-
-                if (hasValue(R.styleable.RunningRecordView_itemPomodoroIsRunning)) {
-                    itemPomodoroIsRunning = getBoolean(
-                        R.styleable.RunningRecordView_itemPomodoroIsRunning, false,
-                    )
-                }
-
                 recycle()
             }
     }
@@ -221,14 +208,5 @@ class RunningRecordView @JvmOverloads constructor(
         ColorUtils.darkenColor(value)
             .let(ColorStateList::valueOf)
             .let { ViewCompat.setBackgroundTintList(binding.tvRunningRecordItemNow, it) }
-    }
-
-    private fun setPomodoroBackground() {
-        val color = if (itemPomodoroIsRunning) {
-            itemColor
-        } else {
-            context.getThemedAttr(R.attr.appInactiveColor)
-        }
-        binding.cardRunningRecordItemPomodoro.setCardBackgroundColor(color)
     }
 }

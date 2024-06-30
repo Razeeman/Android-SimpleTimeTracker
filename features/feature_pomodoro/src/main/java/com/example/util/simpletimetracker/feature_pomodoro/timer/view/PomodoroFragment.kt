@@ -24,10 +24,6 @@ class PomodoroFragment : BaseFragment<Binding>() {
 
     private var timerUpdateAnimator: ValueAnimator? = null
 
-    override fun initUi(): Unit = with(binding) {
-        // TODO POM
-    }
-
     override fun initUx() = with(binding) {
         btnPomodoroSettings.setOnClick(viewModel::onSettingsClicked)
         btnPomodoroStart.setOnClick(viewModel::onStartStopClicked)
