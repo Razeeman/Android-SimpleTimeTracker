@@ -136,9 +136,7 @@ class ArchiveViewModel @Inject constructor(
         val params = SnackBarParams(
             message = string,
             duration = SnackBarParams.Duration.Short,
-            margins = SnackBarParams.Margins(
-                bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
-            ),
+            marginBottomDp = resourceRepo.getDimenInDp(R.dimen.button_height),
         )
         router.show(params)
     }

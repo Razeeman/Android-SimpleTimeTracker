@@ -43,9 +43,7 @@ class SharingInteractor @Inject constructor(
     private fun showMessage(stringResId: Int) {
         val params = SnackBarParams(
             message = resourceRepo.getString(stringResId),
-            margins = SnackBarParams.Margins(
-                bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
-            ),
+            marginBottomDp = resourceRepo.getDimenInDp(R.dimen.button_height),
         )
         router.show(params)
     }

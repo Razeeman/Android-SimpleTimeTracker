@@ -16,9 +16,7 @@ class SnackBarMessageNavigationInteractor @Inject constructor(
         val params = SnackBarParams(
             message = resourceRepo.getString(stringResId),
             duration = SnackBarParams.Duration.Short,
-            margins = SnackBarParams.Margins(
-                bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
-            ),
+            marginBottomDp = resourceRepo.getDimenInDp(R.dimen.button_height),
         )
         router.show(params)
     }
@@ -31,9 +29,7 @@ class SnackBarMessageNavigationInteractor @Inject constructor(
         val params = SnackBarParams(
             message = message,
             duration = SnackBarParams.Duration.Long,
-            margins = SnackBarParams.Margins(
-                bottom = resourceRepo.getDimenInDp(R.dimen.button_height),
-            ),
+            marginBottomDp = resourceRepo.getDimenInDp(R.dimen.button_height),
             actionText = resourceRepo.getString(R.string.settings_archive),
             actionListener = {
                 router.navigate(ArchiveParams)
