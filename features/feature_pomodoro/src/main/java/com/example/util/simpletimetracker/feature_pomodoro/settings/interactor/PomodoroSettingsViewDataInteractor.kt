@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_pomodoro.settings.interactor
 
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.PermissionRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.SettingsBlock
@@ -18,6 +19,7 @@ class PomodoroSettingsViewDataInteractor @Inject constructor(
     private val settingsMapper: SettingsMapper,
     private val prefsInteractor: PrefsInteractor,
     private val permissionRepo: PermissionRepo,
+    private val timeMapper: TimeMapper,
 ) {
 
     suspend fun execute(): List<ViewHolderType> {
@@ -100,7 +102,10 @@ class PomodoroSettingsViewDataInteractor @Inject constructor(
     }
 
     private fun mapDuration(value: Long): SettingsDurationViewData {
-        return value.let(settingsMapper::toDurationViewData)
+        return SettingsDurationViewData(
+            text = timeMapper.formatDuration(value),
+            enabled = value > 0,
+        )
     }
 
     private fun mapCount(value: Long): SettingsDurationViewData {

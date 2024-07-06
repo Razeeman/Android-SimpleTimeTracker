@@ -43,7 +43,7 @@ fun withCardColorInt(@ColorInt colorInt: Int): Matcher<View> =
         }
     }
 
-fun withTag(tagValueMatcher: Int): Matcher<View> =
+fun withTag(tagValueMatcher: Any): Matcher<View> =
     withTagValue(equalTo(tagValueMatcher))
 
 fun isToast(): Matcher<Root> {

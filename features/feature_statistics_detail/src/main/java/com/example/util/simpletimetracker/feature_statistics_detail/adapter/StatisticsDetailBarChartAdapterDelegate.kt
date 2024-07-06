@@ -19,6 +19,7 @@ fun createStatisticsDetailBarChartAdapterDelegate() = createRecyclerBindingAdapt
 
         setBarColor(item.color)
 
+        tag = item.block
         setMargins(top = marginTop)
         val viewData = item.data
         showSelectedBarOnStart(viewData.showSelectedBarOnStart)

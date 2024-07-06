@@ -954,7 +954,13 @@ class SettingsTest : BaseUiTest() {
             NavUtils.openStatisticsScreen()
             checkView(baseR.id.viewStatisticsItem, timeString)
             tryAction { clickOnView(allOf(withText(name), isCompletelyDisplayed())) }
-            checkView(statisticsDetailR.id.cardStatisticsDetailTotal, timeString)
+            checkViewIsDisplayed(
+                allOf(
+                    withId(statisticsDetailR.id.containerStatisticsDetailCard),
+                    hasDescendant(withText(R.string.statistics_detail_total_duration)),
+                    hasDescendant(withText(timeString)),
+                ),
+            )
             pressBack()
         }
 
@@ -1956,6 +1962,113 @@ class SettingsTest : BaseUiTest() {
         tryAction {
             checkViewIsDisplayed(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withText(type2))))
         }
+    }
+
+    @Test
+    fun pomodoroMode() {
+        // Check
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
+        scrollSettingsRecyclerToText(coreR.string.settings_enable_pomodoro_mode)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode))
+        NavUtils.openRunningRecordsScreen()
+        tryAction {
+            checkViewDoesNotExist(
+                allOf(
+                    withId(R.id.viewRecordTypeItem),
+                    hasDescendant(withText(R.string.running_records_pomodoro)),
+                ),
+            )
+        }
+
+        // Change
+        NavUtils.openSettingsScreen()
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode))
+        NavUtils.openRunningRecordsScreen()
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRecordTypeItem),
+                    hasDescendant(withText(R.string.running_records_pomodoro)),
+                ),
+            )
+        }
+
+        // Change
+        NavUtils.openSettingsScreen()
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode))
+        NavUtils.openRunningRecordsScreen()
+        tryAction {
+            checkViewDoesNotExist(
+                allOf(
+                    withId(R.id.viewRecordTypeItem),
+                    hasDescendant(withText(R.string.running_records_pomodoro)),
+                ),
+            )
+        }
+    }
+
+    @Test
+    fun pomodoroAutostartActivities() {
+        val name1 = "TypeName1"
+        val name2 = "TypeName2"
+        val name3 = "TypeName3"
+
+        // Add data
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
+        testUtils.addActivity(name3)
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
+        scrollSettingsRecyclerToText(coreR.string.settings_enable_pomodoro_mode)
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode)
+        scrollSettingsRecyclerToText(coreR.string.settings_enable_pomodoro_mode)
+        clickOnSettingsButtonBesideText(coreR.string.settings_enable_pomodoro_mode)
+        Thread.sleep(1000)
+        clickOnViewWithText(name1)
+        clickOnViewWithText(name2)
+        clickOnViewWithText(coreR.string.duration_dialog_save)
+
+        fun checkRunningMark(isVisible: Boolean) {
+            val name = getString(R.string.running_records_pomodoro)
+            tryAction {
+                if (isVisible) {
+                    GoalsTestUtils.checkTypeMark(name, isVisible = false)
+                } else {
+                    GoalsTestUtils.checkNoTypeMark(name)
+                }
+            }
+        }
+
+        // Not running
+        NavUtils.openRunningRecordsScreen()
+        checkRunningMark(false)
+
+        // Start not selected - not running
+        clickOnViewWithText(name3)
+        checkRunningMark(false)
+
+        // Start selected - running
+        clickOnViewWithText(name1)
+        checkRunningMark(true)
+        clickOnViewWithText(name2)
+        checkRunningMark(true)
+
+        // Stop one - still running
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name3)))
+        checkRunningMark(true)
+
+        // Stop auto started
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name1)))
+        checkRunningMark(true)
+
+        // Stop last auto started - not running
+        clickOnView(allOf(isDescendantOfA(withId(R.id.viewRunningRecordItem)), withText(name2)))
+        checkRunningMark(false)
     }
 
     private fun clearDuration() {

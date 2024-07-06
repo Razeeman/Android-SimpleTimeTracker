@@ -75,7 +75,11 @@ object GoalsTestUtils {
         }.timeInMillis
         val thisWeek = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 15)
-            val dateShift = if (get(Calendar.DAY_OF_WEEK) == firstDayOfWeek) +1 else -1
+            val dateShift = when {
+                get(Calendar.DAY_OF_WEEK) == firstDayOfWeek -> +1
+                get(Calendar.DAY_OF_MONTH) == 1 -> +1
+                else -> -1
+            }
             add(Calendar.DATE, dateShift)
         }.timeInMillis
         val thisMonth = Calendar.getInstance().apply {
@@ -176,7 +180,7 @@ object GoalsTestUtils {
             isDescendantOfA(withId(R.id.viewRunningRecordItem)),
             hasSibling(withText(typeName)),
             withId(R.id.tvRunningRecordItemGoalTime),
-            ViewMatchers.withSubstring(goal),
+            withSubstring(goal),
         ).let(::checkViewIsDisplayed)
     }
 

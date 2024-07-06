@@ -17,6 +17,7 @@ fun createStatisticsDetailCardDoubleAdapterDelegate(
     with(binding) {
         item as ViewData
 
+        root.tag = item.block
         cardStatisticsDetailFirst.items = item.first
         cardStatisticsDetailFirst.listener = onFirstClick
         cardStatisticsDetailSecond.items = item.second

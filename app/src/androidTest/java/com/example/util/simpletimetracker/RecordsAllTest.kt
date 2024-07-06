@@ -3,6 +3,8 @@ package com.example.util.simpletimetracker
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.swipeDown
+import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.hasSibling
@@ -13,6 +15,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.feature_statistics_detail.R
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -21,7 +25,9 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
-import com.example.util.simpletimetracker.utils.nestedScrollTo
+import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
+import com.example.util.simpletimetracker.utils.scrollToBottom
+import com.example.util.simpletimetracker.utils.swipeUp
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withPluralText
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -101,7 +107,8 @@ class RecordsAllTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_overall)
 
         // Open records all
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
+        clickOnStatDetailRecycler(withPluralText(coreR.plurals.statistics_detail_times_tracked, 2))
 
         // Records shown
         checkViewIsDisplayed(firstRecord)
@@ -167,16 +174,12 @@ class RecordsAllTest : BaseUiTest() {
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
         clickOnViewWithIdOnPager(statisticsDetailR.id.btnStatisticsDetailToday)
         clickOnViewWithText(coreR.string.range_overall)
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
-        checkViewIsDisplayed(
-            allOf(
-                withPluralText(coreR.plurals.statistics_detail_times_tracked, 2),
-                hasSibling(withText("2")),
-            ),
-        )
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
+        checkViewIsDisplayed(allOf(withPluralText(coreR.plurals.statistics_detail_times_tracked, 2), hasSibling(withText("2"))))
 
         // Open records all
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
+        clickOnStatDetailRecycler(withPluralText(coreR.plurals.statistics_detail_times_tracked, 2))
 
         // Records shown
         tryAction { checkViewIsDisplayed(firstRecord) }
@@ -203,7 +206,7 @@ class RecordsAllTest : BaseUiTest() {
 
         // Check detailed statistics
         pressBack()
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
         checkViewIsDisplayed(
             allOf(
                 withPluralText(coreR.plurals.statistics_detail_times_tracked, 1),
@@ -283,7 +286,8 @@ class RecordsAllTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_overall)
 
         // Open records all
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
+        clickOnStatDetailRecycler(withPluralText(coreR.plurals.statistics_detail_times_tracked, 2))
 
         // Records shown
         tryAction { checkViewIsDisplayed(firstRecord) }
@@ -320,7 +324,8 @@ class RecordsAllTest : BaseUiTest() {
         clickOnView(allOf(withText(name1), isCompletelyDisplayed()))
         clickOnViewWithIdOnPager(statisticsDetailR.id.btnStatisticsDetailToday)
         clickOnViewWithText(coreR.string.range_overall)
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
+        clickOnStatDetailRecycler(withPluralText(coreR.plurals.statistics_detail_times_tracked, 1))
 
         // Check records
         val record1 = allOf(withText(name1), isCompletelyDisplayed())
@@ -333,6 +338,7 @@ class RecordsAllTest : BaseUiTest() {
 
         // Change filter
         pressBack()
+        onView(withId(statisticsDetailR.id.containerStatisticsDetailContent)).perform(swipeDown())
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         checkViewIsDisplayed(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name1)))
         checkViewIsDisplayed(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name2)))
@@ -341,20 +347,23 @@ class RecordsAllTest : BaseUiTest() {
         pressBack()
 
         // Check records
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
+        clickOnStatDetailRecycler(withPluralText(coreR.plurals.statistics_detail_times_tracked, 2))
         checkViewIsDisplayed(record1)
         checkViewIsDisplayed(record2)
         checkViewDoesNotExist(record3)
 
         // Change filter
         pressBack()
+        onView(withId(statisticsDetailR.id.containerStatisticsDetailContent)).perform(swipeDown())
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name1)))
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name2)))
         pressBack()
 
         // Check records
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
+        clickOnStatDetailRecycler(withPluralText(coreR.plurals.statistics_detail_times_tracked, 0))
         checkViewDoesNotExist(record1)
         checkViewDoesNotExist(record2)
         checkViewDoesNotExist(record3)

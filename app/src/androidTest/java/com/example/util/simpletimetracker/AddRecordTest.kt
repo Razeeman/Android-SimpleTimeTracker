@@ -22,6 +22,8 @@ import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.getMillis
+import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
@@ -31,8 +33,10 @@ import java.util.Calendar
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.concurrent.TimeUnit
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
@@ -518,6 +522,125 @@ class AddRecordTest : BaseUiTest() {
         adjust(isStart = false, buttonText = "-30")
         checkAfterTimeAdjustment(
             timeStarted = "15:30", timeEnded = "15:30", duration = "0$minuteString",
+        )
+    }
+
+    @Test
+    fun addRecordPrevNext() {
+        // Add data
+        val type1 = "type1"
+        val type2 = "type2"
+        val calendar = Calendar.getInstance()
+
+        testUtils.addActivity(type1)
+        testUtils.addActivity(type2)
+
+        testUtils.addRecord(
+            typeName = type1,
+            timeStarted = calendar.getMillis(hour = 10),
+            timeEnded = calendar.getMillis(hour = 11),
+        )
+        testUtils.addRecord(
+            typeName = type1,
+            timeStarted = calendar.getMillis(hour = 12),
+            timeEnded = calendar.getMillis(hour = 13),
+        )
+        testUtils.addRecord(
+            typeName = type2,
+            timeStarted = calendar.getMillis(hour = 14),
+            timeEnded = calendar.getMillis(hour = 15),
+        )
+        testUtils.addRecord(
+            typeName = type1,
+            timeStarted = calendar.getMillis(hour = 16),
+            timeEnded = calendar.getMillis(hour = 17),
+        )
+        testUtils.addRecord(
+            typeName = type1,
+            timeStarted = calendar.getMillis(hour = 18),
+            timeEnded = calendar.getMillis(hour = 19),
+        )
+
+        NavUtils.openRecordsScreen()
+        clickOnView(allOf(withText(type2), isCompletelyDisplayed()))
+
+        // Check visibility
+        checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordTimeStartedPrev))
+        checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordTimeStartedNext))
+        checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordTimeEndedPrev))
+        checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordTimeEndedNext))
+
+        fun checkTimes(started: Int, ended: Int) {
+            checkAfterTimeAdjustment(
+                calendar.getMillis(started).formatTime(),
+                calendar.getMillis(ended).formatTime(),
+                TimeUnit.HOURS.toMillis(ended.toLong() - started).formatInterval(),
+            )
+        }
+
+        // Check times
+        checkTimes(14, 15)
+
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedPrev)
+        checkTimes(13, 15)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedPrev)
+        checkTimes(11, 15)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedPrev)
+        checkViewIsDisplayed(
+            Matchers.allOf(
+                withText(coreR.string.change_record_previous_not_found),
+                withId(com.google.android.material.R.id.snackbar_text),
+            ),
+        )
+
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedNext)
+        checkTimes(13, 15)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedNext)
+        checkTimes(15, 15)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedNext)
+        checkTimes(17, 17)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedNext)
+        checkTimes(19, 19)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedNext)
+        checkViewIsDisplayed(
+            Matchers.allOf(
+                withText(coreR.string.change_record_next_not_found),
+                withId(com.google.android.material.R.id.snackbar_text),
+            ),
+        )
+
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeEndedPrev)
+        checkTimes(18, 18)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeEndedPrev)
+        checkTimes(16, 16)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeEndedPrev)
+        checkTimes(14, 14)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeEndedPrev)
+        checkTimes(12, 12)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeEndedPrev)
+        checkTimes(10, 10)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeEndedPrev)
+        checkViewIsDisplayed(
+            Matchers.allOf(
+                withText(coreR.string.change_record_previous_not_found),
+                withId(com.google.android.material.R.id.snackbar_text),
+            ),
+        )
+
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeEndedNext)
+        checkTimes(10, 12)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeEndedNext)
+        checkTimes(10, 14)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeEndedNext)
+        checkTimes(10, 16)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeEndedNext)
+        checkTimes(10, 18)
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeEndedNext)
+        checkViewIsDisplayed(
+            Matchers.allOf(
+                withText(coreR.string.change_record_next_not_found),
+                withId(com.google.android.material.R.id.snackbar_text),
+            ),
         )
     }
 

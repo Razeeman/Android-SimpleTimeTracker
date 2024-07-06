@@ -10,6 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
@@ -70,7 +71,7 @@ class ZeroDurationRecordTest : BaseUiTest() {
 
         // Check detailed statistics
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
         checkViewIsDisplayed(
             allOf(
                 withPluralText(coreR.plurals.statistics_detail_times_tracked, 1),
@@ -79,7 +80,8 @@ class ZeroDurationRecordTest : BaseUiTest() {
         )
 
         // Check records all
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
+        clickOnStatDetailRecycler(withPluralText(R.plurals.statistics_detail_times_tracked, 1))
         checkViewIsDisplayed(record)
     }
 }

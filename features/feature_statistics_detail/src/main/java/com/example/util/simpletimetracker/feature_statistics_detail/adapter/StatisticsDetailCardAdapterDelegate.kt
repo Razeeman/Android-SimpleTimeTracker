@@ -17,6 +17,7 @@ fun createStatisticsDetailCardAdapterDelegate(
     with(binding.root) {
         item as ViewData
 
+        tag = item.block
         setMargins(top = item.marginTopDp)
         itemsDescription = item.title
         items = item.data

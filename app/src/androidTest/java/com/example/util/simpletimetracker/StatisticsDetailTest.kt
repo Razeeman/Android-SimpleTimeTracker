@@ -11,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -22,6 +23,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.recyclerItemCount
+import com.example.util.simpletimetracker.utils.scrollToBottom
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withPluralText
@@ -122,20 +124,19 @@ class StatisticsDetailTest : BaseUiTest() {
             allOf(withId(statisticsDetailR.id.btnStatisticsDetailNext), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetail), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartData), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartGrouping), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartLength), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.cardStatisticsDetailRangeAverage), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.RangeAverages), isCompletelyDisplayed()),
         )
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
         checkCard(coreR.string.statistics_detail_total_duration, "1$hourString 0$minuteString")
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkRecordsCard(1)
 
         // Check two days
@@ -149,23 +150,23 @@ class StatisticsDetailTest : BaseUiTest() {
             monthEnded = calendarToday.get(Calendar.MONTH),
             dayEnded = calendarToday.get(Calendar.DAY_OF_MONTH),
         )
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetail), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartData), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartGrouping), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartLength), isCompletelyDisplayed()),
         )
         checkRangeAverages(
             rangeId = coreR.string.statistics_detail_chart_daily,
             average = "1$hourString 30$minuteString",
             averageNonEmpty = "1$hourString 30$minuteString",
         )
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
         checkCard(coreR.string.statistics_detail_total_duration, "3$hourString 0$minuteString")
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkRecordsCard(2)
 
         // Check weeks
@@ -179,14 +180,15 @@ class StatisticsDetailTest : BaseUiTest() {
             monthEnded = calendarToday.get(Calendar.MONTH),
             dayEnded = calendarToday.get(Calendar.DAY_OF_MONTH),
         )
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetail), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartData), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartGrouping), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartLength), isCompletelyDisplayed()),
         )
         clickOnChartGrouping(coreR.string.statistics_detail_chart_daily)
         checkRangeAverages(
@@ -200,9 +202,8 @@ class StatisticsDetailTest : BaseUiTest() {
             average = "3$hourString 0$minuteString",
             averageNonEmpty = "3$hourString 0$minuteString",
         )
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
         checkCard(coreR.string.statistics_detail_total_duration, "6$hourString 0$minuteString")
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkRecordsCard(3)
 
         // Check months
@@ -216,14 +217,15 @@ class StatisticsDetailTest : BaseUiTest() {
             monthEnded = calendarToday.get(Calendar.MONTH),
             dayEnded = calendarToday.get(Calendar.DAY_OF_MONTH),
         )
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetail), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartData), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartGrouping), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartLength), isCompletelyDisplayed()),
         )
         clickOnChartGrouping(coreR.string.statistics_detail_chart_daily)
         checkRangeAverages(
@@ -243,9 +245,8 @@ class StatisticsDetailTest : BaseUiTest() {
             average = "5$hourString 0$minuteString",
             averageNonEmpty = "5$hourString 0$minuteString",
         )
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
         checkCard(coreR.string.statistics_detail_total_duration, "10$hourString 0$minuteString")
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkRecordsCard(4)
 
         // Check years
@@ -259,14 +260,15 @@ class StatisticsDetailTest : BaseUiTest() {
             monthEnded = calendarToday.get(Calendar.MONTH),
             dayEnded = calendarToday.get(Calendar.DAY_OF_MONTH),
         )
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetail), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartData), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartGrouping), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartLength), isCompletelyDisplayed()),
         )
         clickOnChartGrouping(coreR.string.statistics_detail_chart_daily)
         checkRangeAverages(
@@ -292,9 +294,8 @@ class StatisticsDetailTest : BaseUiTest() {
             average = "7$hourString 30$minuteString",
             averageNonEmpty = "7$hourString 30$minuteString",
         )
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
         checkCard(coreR.string.statistics_detail_total_duration, "15$hourString 0$minuteString")
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
         checkRecordsCard(5)
     }
 
@@ -341,7 +342,10 @@ class StatisticsDetailTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withId(statisticsDetailR.id.btnStatisticsDetailNext), isCompletelyDisplayed()))
 
         // Bar chart
-        checkViewIsDisplayed(allOf(withId(statisticsDetailR.id.chartStatisticsDetail), isCompletelyDisplayed()))
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)
+        checkViewIsDisplayed(
+            allOf(withTag(StatisticsDetailBlock.ChartData), isCompletelyDisplayed()),
+        )
 
         clickOnChartGrouping(coreR.string.statistics_detail_chart_daily)
         clickOnViewWithText(coreR.string.statistics_detail_length_ten)
@@ -428,24 +432,27 @@ class StatisticsDetailTest : BaseUiTest() {
         checkCards()
 
         // Split chart
-        onView(withId(statisticsDetailR.id.chartStatisticsDetailSplit)).perform(nestedScrollTo())
-        checkViewIsDisplayed(allOf(withId(statisticsDetailR.id.chartStatisticsDetailSplit), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withId(statisticsDetailR.id.tvStatisticsDetailSplitHint), isCompletelyDisplayed()))
-        onView(withId(statisticsDetailR.id.buttonsStatisticsDetailSplitGrouping)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.SplitChart)
+        checkViewIsDisplayed(
+            allOf(withTag(StatisticsDetailBlock.SplitChart), isCompletelyDisplayed()),
+        )
+        checkViewIsDisplayed(
+            allOf(withId(statisticsDetailR.id.tvStatisticsDetailSplitHint), isCompletelyDisplayed()),
+        )
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.SplitChartGrouping)
         clickOnSplitChartGrouping(coreR.string.statistics_detail_chart_hourly)
         clickOnSplitChartGrouping(coreR.string.statistics_detail_chart_daily)
 
         // Duration chart
-        onView(withId(statisticsDetailR.id.chartStatisticsDetailDurationSplit)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.DurationSplitChart)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetailDurationSplit), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.DurationSplitChart), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.tvStatisticsDetailDurationSplitHint), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.DurationSplitHint), isCompletelyDisplayed()),
         )
 
         // Tag split
-        onView(withId(statisticsDetailR.id.rvStatisticsDetailSplit)).perform(nestedScrollTo())
         checkTagItem(color, tag, "2$hourString 0$minuteString", "67%")
         checkTagItem(
             viewsR.color.colorUntracked,
@@ -503,47 +510,46 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Bar chart
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetail), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartData), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartGrouping), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartLength), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.cardStatisticsDetailRangeAverage), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.RangeAverages), isCompletelyDisplayed()),
         )
 
         // Cards
         checkCards()
 
         // Split chart
-        onView(withId(statisticsDetailR.id.chartStatisticsDetailSplit)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.SplitChart)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetailSplit), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.SplitChart), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
             allOf(withId(statisticsDetailR.id.tvStatisticsDetailSplitHint), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailSplitGrouping), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.SplitChartGrouping), isCompletelyDisplayed()),
         )
 
         // Duration chart
-        onView(withId(statisticsDetailR.id.chartStatisticsDetailDurationSplit)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.DurationSplitChart)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetailDurationSplit), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.DurationSplitChart), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.tvStatisticsDetailDurationSplitHint), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.DurationSplitHint), isCompletelyDisplayed()),
         )
 
         // All records
         checkAllRecords(3)
 
         // Tag split
-        onView(withId(statisticsDetailR.id.rvStatisticsDetailSplit)).perform(nestedScrollTo())
         checkNoTagItem(tag)
         checkTagItem(
             viewsR.color.colorUntracked,
@@ -602,14 +608,15 @@ class StatisticsDetailTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_week)
 
         // Bar chart
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetail), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartData), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartGrouping), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartLength), isCompletelyDisplayed()),
         )
         checkRangeAverages(
             rangeId = coreR.string.statistics_detail_chart_daily,
@@ -628,31 +635,30 @@ class StatisticsDetailTest : BaseUiTest() {
         checkCards()
 
         // Split chart
-        onView(withId(statisticsDetailR.id.chartStatisticsDetailSplit)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.SplitChart)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetailSplit), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.SplitChart), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
             allOf(withId(statisticsDetailR.id.tvStatisticsDetailSplitHint), isCompletelyDisplayed()),
         )
-        onView(withId(statisticsDetailR.id.buttonsStatisticsDetailSplitGrouping)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.SplitChartGrouping)
         clickOnSplitChartGrouping(coreR.string.statistics_detail_chart_hourly)
         clickOnSplitChartGrouping(coreR.string.statistics_detail_chart_daily)
 
         // Duration chart
-        onView(withId(statisticsDetailR.id.chartStatisticsDetailDurationSplit)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.DurationSplitChart)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetailDurationSplit), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.DurationSplitChart), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.tvStatisticsDetailDurationSplitHint), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.DurationSplitHint), isCompletelyDisplayed()),
         )
 
         // All records
         checkAllRecords(3)
 
         // Tag split
-        onView(withId(statisticsDetailR.id.rvStatisticsDetailSplit)).perform(nestedScrollTo())
         checkTagItem(color, tag, "3$hourString 0$minuteString", "100%")
         checkNoTagItem(getString(coreR.string.change_record_untagged))
 
@@ -708,7 +714,10 @@ class StatisticsDetailTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_month)
 
         // Bar chart
-        checkViewIsDisplayed(allOf(withId(statisticsDetailR.id.chartStatisticsDetail), isCompletelyDisplayed()))
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)
+        checkViewIsDisplayed(
+            allOf(withTag(StatisticsDetailBlock.ChartData), isCompletelyDisplayed()),
+        )
         clickOnChartGrouping(coreR.string.statistics_detail_chart_daily)
         checkRangeAverages(
             rangeId = coreR.string.statistics_detail_chart_daily,
@@ -743,34 +752,37 @@ class StatisticsDetailTest : BaseUiTest() {
             allOf(withText(coreR.string.statistics_detail_chart_yearly), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartLength), isCompletelyDisplayed()),
         )
 
         // Cards
         checkCards()
 
         // Split chart
-        onView(withId(statisticsDetailR.id.chartStatisticsDetailSplit)).perform(nestedScrollTo())
-        checkViewIsDisplayed(allOf(withId(statisticsDetailR.id.chartStatisticsDetailSplit), isCompletelyDisplayed()))
-        checkViewIsDisplayed(allOf(withId(statisticsDetailR.id.tvStatisticsDetailSplitHint), isCompletelyDisplayed()))
-        onView(withId(statisticsDetailR.id.buttonsStatisticsDetailSplitGrouping)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.SplitChart)
+        checkViewIsDisplayed(
+            allOf(withTag(StatisticsDetailBlock.SplitChart), isCompletelyDisplayed()),
+        )
+        checkViewIsDisplayed(
+            allOf(withTag(StatisticsDetailBlock.SplitHint), isCompletelyDisplayed()),
+        )
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.SplitChartGrouping)
         clickOnSplitChartGrouping(coreR.string.statistics_detail_chart_hourly)
         clickOnSplitChartGrouping(coreR.string.statistics_detail_chart_daily)
 
         // Duration chart
-        onView(withId(statisticsDetailR.id.chartStatisticsDetailDurationSplit)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.DurationSplitChart)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetailDurationSplit), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.DurationSplitChart), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.tvStatisticsDetailDurationSplitHint), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.DurationSplitHint), isCompletelyDisplayed()),
         )
 
         // All records
         checkAllRecords(3)
 
         // Tag split
-        onView(withId(statisticsDetailR.id.rvStatisticsDetailSplit)).perform(nestedScrollTo())
         checkTagItem(color, tag1, "1$hourString 0$minuteString", "33%")
         checkTagItem(color, tag2, "2$hourString 0$minuteString", "67%")
         checkNoTagItem("Untagged")
@@ -821,7 +833,10 @@ class StatisticsDetailTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_year)
 
         // Bar chart
-        checkViewIsDisplayed(allOf(withId(statisticsDetailR.id.chartStatisticsDetail), isCompletelyDisplayed()))
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)
+        checkViewIsDisplayed(
+            allOf(withTag(StatisticsDetailBlock.ChartData), isCompletelyDisplayed()),
+        )
         clickOnChartGrouping(coreR.string.statistics_detail_chart_daily)
         checkRangeAverages(
             rangeId = coreR.string.statistics_detail_chart_daily,
@@ -865,31 +880,31 @@ class StatisticsDetailTest : BaseUiTest() {
             allOf(withText(coreR.string.statistics_detail_chart_yearly), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartLength), isCompletelyDisplayed()),
         )
 
         // Cards
         checkCards()
 
         // Split chart
-        onView(withId(statisticsDetailR.id.chartStatisticsDetailSplit)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.SplitChart)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetailSplit), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.SplitChart), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
             allOf(withId(statisticsDetailR.id.tvStatisticsDetailSplitHint), isCompletelyDisplayed()),
         )
-        onView(withId(statisticsDetailR.id.buttonsStatisticsDetailSplitGrouping)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.SplitChartGrouping)
         clickOnSplitChartGrouping(coreR.string.statistics_detail_chart_hourly)
         clickOnSplitChartGrouping(coreR.string.statistics_detail_chart_daily)
 
         // Duration chart
-        onView(withId(statisticsDetailR.id.chartStatisticsDetailDurationSplit)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.DurationSplitChart)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetailDurationSplit), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.DurationSplitChart), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.tvStatisticsDetailDurationSplitHint), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.DurationSplitHint), isCompletelyDisplayed()),
         )
 
         // All records
@@ -947,14 +962,15 @@ class StatisticsDetailTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_last)
 
         // Bar chart
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetail), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartData), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailGrouping), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartGrouping), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
-            allOf(withId(statisticsDetailR.id.buttonsStatisticsDetailLength), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.ChartLength), isCompletelyDisplayed()),
         )
         checkRangeAverages(
             rangeId = coreR.string.statistics_detail_chart_daily,
@@ -966,31 +982,30 @@ class StatisticsDetailTest : BaseUiTest() {
         checkCards()
 
         // Split chart
-        onView(withId(statisticsDetailR.id.chartStatisticsDetailSplit)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.SplitChart)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetailSplit), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.SplitChart), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
             allOf(withId(statisticsDetailR.id.tvStatisticsDetailSplitHint), isCompletelyDisplayed()),
         )
-        onView(withId(statisticsDetailR.id.buttonsStatisticsDetailSplitGrouping)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.SplitChartGrouping)
         clickOnSplitChartGrouping(coreR.string.statistics_detail_chart_hourly)
         clickOnSplitChartGrouping(coreR.string.statistics_detail_chart_daily)
 
         // Duration chart
-        onView(withId(statisticsDetailR.id.chartStatisticsDetailDurationSplit)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.DurationSplitChart)
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.chartStatisticsDetailDurationSplit), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.DurationSplitChart), isCompletelyDisplayed()),
         )
         checkViewIsDisplayed(
-            allOf(withId(statisticsDetailR.id.tvStatisticsDetailDurationSplitHint), isCompletelyDisplayed()),
+            allOf(withTag(StatisticsDetailBlock.DurationSplitHint), isCompletelyDisplayed()),
         )
 
         // All records
         checkAllRecords(4)
 
         // Tag split
-        onView(withId(statisticsDetailR.id.rvStatisticsDetailSplit)).perform(nestedScrollTo())
         checkTagItem(color, tag, "3$hourString 0$minuteString", "100%")
         checkNoTagItem(getString(coreR.string.change_record_untagged))
     }
@@ -1055,22 +1070,22 @@ class StatisticsDetailTest : BaseUiTest() {
         clickOnViewWithIdOnPager(statisticsDetailR.id.btnStatisticsDetailToday)
         clickOnViewWithText(coreR.string.range_overall)
 
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailStreaks)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Series)
         checkCard(coreR.string.statistics_detail_streaks_longest, "5")
         checkCard(coreR.string.statistics_detail_streaks_current, "3")
 
         // Streak type
-        onView(withId(statisticsDetailR.id.buttonsStatisticsDetailStreaksType)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.SeriesType)
         clickOnView(
             allOf(
                 withText(coreR.string.statistics_detail_streaks_longest),
-                isDescendantOfA(withId(statisticsDetailR.id.buttonsStatisticsDetailStreaksType)),
+                isDescendantOfA(withTag(StatisticsDetailBlock.SeriesType)),
             ),
         )
         clickOnView(
             allOf(
                 withText(coreR.string.statistics_detail_streaks_latest),
-                isDescendantOfA(withId(statisticsDetailR.id.buttonsStatisticsDetailStreaksType)),
+                isDescendantOfA(withTag(StatisticsDetailBlock.SeriesType)),
             ),
         )
     }
@@ -1144,7 +1159,8 @@ class StatisticsDetailTest : BaseUiTest() {
         checkCard(coreR.string.statistics_detail_total_duration, "1$hourString 0$minuteString")
 
         // Check record
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
+        clickOnStatDetailRecycler(withPluralText(R.plurals.statistics_detail_times_tracked, 1))
         val started = timeMapper.formatTime(
             time = time + TimeUnit.HOURS.toMillis(1),
             useMilitaryTime = true,
@@ -1202,7 +1218,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Check detailed statistics
         tryAction { clickOnView(allOf(withText(name), isCompletelyDisplayed())) }
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
         checkCard(coreR.string.statistics_detail_total_duration, "2$hourString 0$minuteString")
         checkRecordsCard(2)
     }
@@ -1222,7 +1238,7 @@ class StatisticsDetailTest : BaseUiTest() {
     private fun clickOnChartGrouping(withTextId: Int) {
         clickOnView(
             allOf(
-                isDescendantOfA(withId(statisticsDetailR.id.buttonsStatisticsDetailGrouping)),
+                isDescendantOfA(withTag(StatisticsDetailBlock.ChartGrouping)),
                 withText(withTextId),
             ),
         )
@@ -1231,7 +1247,7 @@ class StatisticsDetailTest : BaseUiTest() {
     private fun clickOnSplitChartGrouping(withTextId: Int) {
         clickOnView(
             allOf(
-                isDescendantOfA(withId(statisticsDetailR.id.buttonsStatisticsDetailSplitGrouping)),
+                isDescendantOfA(withTag(StatisticsDetailBlock.SplitChartGrouping)),
                 withText(withTextId),
             ),
         )
@@ -1258,18 +1274,18 @@ class StatisticsDetailTest : BaseUiTest() {
     }
 
     private fun checkCards() {
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
         checkCard(coreR.string.statistics_detail_total_duration, "3$hourString 0$minuteString")
 
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
         checkRecordsCard(2)
 
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailAverage)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Average)
         checkCard(coreR.string.statistics_detail_shortest_record, "1$hourString 0$minuteString")
         checkCard(coreR.string.statistics_detail_average_record, "1$hourString 30$minuteString")
         checkCard(coreR.string.statistics_detail_longest_record, "2$hourString 0$minuteString")
 
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailDates)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Dates)
         checkViewIsDisplayed(withText(coreR.string.statistics_detail_first_record))
         checkViewIsDisplayed(withText(coreR.string.statistics_detail_last_record))
     }
@@ -1285,7 +1301,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
         checkViewIsDisplayed(
             allOf(
-                withId(statisticsDetailR.id.cardStatisticsDetailRangeAverage),
+                withTag(StatisticsDetailBlock.RangeAverages),
                 hasDescendant(withText(title)),
                 if (checkAverage) {
                     hasDescendant(
@@ -1309,39 +1325,42 @@ class StatisticsDetailTest : BaseUiTest() {
     }
 
     private fun checkEmptyStatistics() {
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailTotal)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
         checkCard(coreR.string.statistics_detail_total_duration, "0$minuteString")
 
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
         checkRecordsCard(0)
 
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailAverage)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Average)
         checkCard(coreR.string.statistics_detail_shortest_record, "-")
         checkCard(coreR.string.statistics_detail_average_record, "-")
         checkViewIsDisplayed(
             allOf(
-                isDescendantOfA(withId(statisticsDetailR.id.cardStatisticsDetailAverage)),
+                isDescendantOfA(withTag(StatisticsDetailBlock.Average)),
                 withText(coreR.string.statistics_detail_longest_record),
                 hasSibling(withText("-")),
                 isCompletelyDisplayed(),
             ),
         )
 
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailDates)).perform(nestedScrollTo())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Average)
         checkCard(coreR.string.statistics_detail_first_record, "-")
         checkCard(coreR.string.statistics_detail_last_record, "-")
 
-        checkViewIsNotDisplayed(withId(statisticsDetailR.id.rvStatisticsDetailSplit))
+        checkViewDoesNotExist(withText(R.string.statistics_detail_activity_split_hint))
+        checkViewDoesNotExist(withText(R.string.statistics_detail_tag_split_hint))
     }
 
     private fun checkAllRecords(count: Int) {
-        onView(withId(statisticsDetailR.id.cardStatisticsDetailRecords)).perform(nestedScrollTo(), click())
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
+        clickOnStatDetailRecycler(withPluralText(R.plurals.statistics_detail_times_tracked, count))
         tryAction { onView(withId(recordsAllR.id.rvRecordsAllList)).check(recyclerItemCount(count)) }
         pressBack()
     }
 
     private fun checkTagItem(color: Int, name: String, duration: String, percentage: String) {
-        checkViewIsDisplayed(
+        // If scroll is not possible - view is not displayed.
+        scrollStatDetailRecycler(
             allOf(
                 withId(baseR.id.viewStatisticsTagItem),
                 withCardColor(color),

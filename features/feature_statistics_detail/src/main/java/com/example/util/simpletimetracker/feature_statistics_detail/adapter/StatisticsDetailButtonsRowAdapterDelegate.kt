@@ -16,6 +16,7 @@ fun createStatisticsDetailButtonsRowAdapterDelegate(
     with(binding.root) {
         item as ViewData
 
+        tag = item.block
         setMargins(top = item.marginTopDp)
         adapter.replace(item.data)
         listener = { onClick(item.block, it) }
