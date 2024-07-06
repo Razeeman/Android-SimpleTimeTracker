@@ -135,7 +135,6 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                     dividerIsVisible = true,
                 )
             }
-            // TODO POM add translations
             val enablePomodoroMode = prefsInteractor.getEnablePomodoroMode()
             result += SettingsCheckboxWithButtonViewData(
                 data = SettingsCheckboxViewData(

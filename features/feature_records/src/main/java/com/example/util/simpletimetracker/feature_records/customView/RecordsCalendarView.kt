@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.feature_records.customView
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
@@ -31,6 +33,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import com.example.util.simpletimetracker.feature_records.R
+import com.example.util.simpletimetracker.feature_views.ColorUtils
 import com.example.util.simpletimetracker.feature_views.IconView
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
@@ -89,6 +92,8 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val paddingBetweenDays: Float = 1.dpToPx().toFloat()
     private val dayInMillis = TimeUnit.DAYS.toMillis(1)
     private val hourInMillis = TimeUnit.HOURS.toMillis(1)
+    private var selectedRecord: RecordsCalendarViewData.Point.Data? = null
+    private var selectedRecordColor: Int = 0
 
     private val recordPaint: Paint = Paint()
     private val legendTextPaint: Paint = Paint()
@@ -151,18 +156,18 @@ class RecordsCalendarView @JvmOverloads constructor(
 
     private val singleTapDetector = SingleTapDetector(
         context = context,
-        onSingleTap = ::onTouch,
+        onSingleTap = ::onEventTouch,
     )
     private val scaleDetector = ScaleDetector(
         context = context,
-        onScaleStart = ::onScaleStart,
-        onScaleChanged = ::onScaleChanged,
-        onScaleStop = ::onScaleStop,
+        onScaleStart = ::onEventScaleStart,
+        onScaleChanged = ::onEventScaleChanged,
+        onScaleStop = ::onEventScaleStop,
     )
     private val swipeDetector = SwipeDetector(
         context = context,
-        onSlide = ::onSwipe,
-        onSlideStop = ::onSwipeStop,
+        onSlide = ::onEventSwipe,
+        onSlideStop = ::onEventSwipeStop,
     )
 
     init {
@@ -397,7 +402,13 @@ class RecordsCalendarView @JvmOverloads constructor(
             /************
              * Draw box *
              ************/
-            recordPaint.color = item.point.data.color
+            recordPaint.color = item.point.data.color.let {
+                if (selectedRecord == item.point.data) {
+                    selectedRecordColor
+                } else {
+                    it
+                }
+            }
             boxHeight = chartHeight * (item.point.end - item.point.start) / dayInMillis
             boxShift = chartHeight * item.point.start / dayInMillis
             boxWidth = columnWidth / item.columnCount
@@ -890,20 +901,18 @@ class RecordsCalendarView @JvmOverloads constructor(
         }
     }
 
-    private fun onTouch(event: MotionEvent) {
-        val x = event.x
-        val y = event.y
-
-        data.map(Column::data).flatten().firstOrNull {
-            it.boxLeft < x && it.boxTop < y && it.boxRight > x && it.boxBottom > y
-        }?.point?.data?.value?.let(listener)
+    private fun onEventTouch(event: MotionEvent) {
+        val selected = findDataPoint(x = event.x, y = event.y)?.point?.data
+        selectedRecord = selected
+        selected?.let(::animateSelectedRecord)
+        selected?.value?.let(listener)
     }
 
-    private fun onScaleStart() {
+    private fun onEventScaleStart() {
         isScaling = true
     }
 
-    private fun onScaleChanged(newScale: Float) {
+    private fun onEventScaleChanged(newScale: Float) {
         parent.requestDisallowInterceptTouchEvent(true)
         scaleFactor *= newScale
         scaleFactor = scaleFactor.coerceAtLeast(1f)
@@ -913,7 +922,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         invalidate()
     }
 
-    private fun onScaleStop() {
+    private fun onEventScaleStop() {
         parent.requestDisallowInterceptTouchEvent(false)
         lastScaleFactor = scaleFactor
         lastPanFactor = panFactor
@@ -921,7 +930,11 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     @Suppress("UNUSED_PARAMETER")
-    private fun onSwipe(offset: Float, direction: SwipeDetector.Direction, event: MotionEvent) {
+    private fun onEventSwipe(
+        offset: Float,
+        direction: SwipeDetector.Direction,
+        event: MotionEvent,
+    ) {
         if (!direction.isHorizontal() && !isScaling) {
             parent.requestDisallowInterceptTouchEvent(true)
             panFactor = lastPanFactor + offset
@@ -930,7 +943,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         }
     }
 
-    private fun onSwipeStop() {
+    private fun onEventSwipeStop() {
         if (isScaling) return
         parent.requestDisallowInterceptTouchEvent(false)
         lastPanFactor = panFactor
@@ -939,6 +952,15 @@ class RecordsCalendarView @JvmOverloads constructor(
     private fun coercePan() {
         val maxPanAvailable = chartHeight * scaleFactor - chartHeight
         panFactor = panFactor.coerceIn(-maxPanAvailable, 0f)
+    }
+
+    private fun findDataPoint(
+        x: Float,
+        y: Float,
+    ): Data? {
+        return data.map(Column::data).flatten().firstOrNull {
+            it.boxLeft < x && it.boxTop < y && it.boxRight > x && it.boxBottom > y
+        }
     }
 
     private fun getTextView(
@@ -956,6 +978,24 @@ class RecordsCalendarView @JvmOverloads constructor(
                 widthLayoutParams, ViewGroup.LayoutParams.WRAP_CONTENT,
             )
         }
+    }
+
+    private fun animateSelectedRecord(
+        selectedRecord: RecordsCalendarViewData.Point.Data,
+    ) {
+        val from = selectedRecord.color
+        val to = ColorUtils.normalizeLightness(selectedRecord.color)
+        val animator = ValueAnimator.ofObject(ArgbEvaluator(), from, to)
+
+        animator.duration = CLICK_ANIMATION_DURATION_MS
+        animator.repeatCount = 1
+        animator.repeatMode = ValueAnimator.REVERSE
+        animator.addUpdateListener {
+            selectedRecordColor = it.animatedValue as? Int
+                ?: return@addUpdateListener
+            invalidate()
+        }
+        animator.start()
     }
 
     private fun View.measureText(
@@ -994,4 +1034,8 @@ class RecordsCalendarView @JvmOverloads constructor(
         val panFactor: Float,
         val lastPanFactor: Float,
     ) : BaseSavedState(superSavedState)
+
+    companion object {
+        private const val CLICK_ANIMATION_DURATION_MS: Long = 250L
+    }
 }
