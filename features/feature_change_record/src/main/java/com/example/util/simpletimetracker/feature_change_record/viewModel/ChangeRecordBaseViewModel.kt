@@ -223,42 +223,6 @@ abstract class ChangeRecordBaseViewModel(
         onTimeClick(tag = TIME_SPLIT_TAG, timestamp = newTimeSplit)
     }
 
-    fun onTimeStartedPrevClick() = viewModelScope.launch {
-        recordInteractor.getPrevTimeEnded(newTimeStarted)?.let {
-            newTimeStarted = it
-            onTimeStartedChanged()
-        } ?: run {
-            showMessage(R.string.change_record_previous_not_found)
-        }
-    }
-
-    fun onTimeStartedNextClick() = viewModelScope.launch {
-        recordInteractor.getNextTimeEnded(newTimeStarted)?.let {
-            newTimeStarted = it
-            onTimeStartedChanged()
-        } ?: run {
-            showMessage(R.string.change_record_next_not_found)
-        }
-    }
-
-    fun onTimeEndedPrevClick() = viewModelScope.launch {
-        recordInteractor.getPrevTimeStarted(newTimeEnded)?.let {
-            newTimeEnded = it
-            onTimeEndedChanged()
-        } ?: run {
-            showMessage(R.string.change_record_previous_not_found)
-        }
-    }
-
-    fun onTimeEndedNextClick() = viewModelScope.launch {
-        recordInteractor.getNextTimeStarted(newTimeEnded)?.let {
-            newTimeEnded = it
-            onTimeEndedChanged()
-        } ?: run {
-            showMessage(R.string.change_record_next_not_found)
-        }
-    }
-
     fun onSaveClick() {
         onRecordChangeButtonClick(
             onProceed = ::onSaveClickDelegate,

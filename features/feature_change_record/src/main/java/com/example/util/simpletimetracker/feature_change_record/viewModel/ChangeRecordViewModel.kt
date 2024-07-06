@@ -219,8 +219,17 @@ class ChangeRecordViewModel @Inject constructor(
         return timeMapper.toTimestampShifted(daysFromToday, RangeLength.Day)
     }
 
-    private fun getInitialTimeStarted(): Long {
-        return newTimeEnded - ONE_HOUR
+    private suspend fun getInitialTimeStarted(daysFromToday: Int): Long {
+        val default = newTimeEnded - ONE_HOUR
+
+        return if (daysFromToday == 0) {
+            recordInteractor.getPrev(newTimeEnded)
+                .firstOrNull()
+                ?.timeEnded
+                ?: default
+        } else {
+            default
+        }
     }
 
     override suspend fun updatePreview() {
@@ -245,7 +254,7 @@ class ChangeRecordViewModel @Inject constructor(
             is ChangeRecordParams.New -> {
                 val daysFromToday = (extra as ChangeRecordParams.New).daysFromToday
                 newTimeEnded = getInitialTimeEnded(daysFromToday)
-                newTimeStarted = getInitialTimeStarted()
+                newTimeStarted = getInitialTimeStarted(daysFromToday)
             }
         }
         newTimeSplit = newTimeStarted

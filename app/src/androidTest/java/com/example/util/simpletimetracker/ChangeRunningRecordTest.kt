@@ -24,18 +24,14 @@ import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
-import com.example.util.simpletimetracker.utils.getMillis
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
-import com.google.android.material.R
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -106,11 +102,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordType))
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordCategories))
         checkViewIsDisplayed(withId(changeRecordR.id.containerChangeRecordTimeStartedAdjust))
-        checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordTimeStartedPrev))
-        checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordTimeStartedNext))
         checkViewIsNotDisplayed(withId(changeRecordR.id.containerChangeRecordTimeEndedAdjust))
-        checkViewIsNotDisplayed(withId(changeRecordR.id.btnChangeRecordTimeEndedPrev))
-        checkViewIsNotDisplayed(withId(changeRecordR.id.btnChangeRecordTimeEndedNext))
         checkViewIsNotDisplayed(allOf(withId(changeRecordR.id.etChangeRecordComment), withText("")))
         checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStartedDate), withText(timeStarted.date)))
         checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimeStartedTime), withText(timeStarted.time)))
@@ -313,75 +305,6 @@ class ChangeRunningRecordTest : BaseUiTest() {
         clickOnViewWithText("+30")
         checkPreviewUpdated(
             hasDescendant(allOf(withId(changeRecordR.id.tvRunningRecordItemTimer), withText("0$secondString"))),
-        )
-    }
-
-    @Test
-    fun changeRunningRecordPrevNext() {
-        // Add data
-        val type1 = "type1"
-        val type2 = "type2"
-        val calendar = Calendar.getInstance()
-            .apply { add(Calendar.DATE, -1) }
-
-        testUtils.addActivity(type1)
-        testUtils.addActivity(type2)
-
-        testUtils.addRecord(
-            typeName = type1,
-            timeStarted = calendar.getMillis(hour = 10),
-            timeEnded = calendar.getMillis(hour = 11),
-        )
-        testUtils.addRecord(
-            typeName = type1,
-            timeStarted = calendar.getMillis(hour = 12),
-            timeEnded = calendar.getMillis(hour = 13),
-        )
-        testUtils.addRecord(
-            typeName = type1,
-            timeStarted = calendar.getMillis(hour = 14),
-            timeEnded = calendar.getMillis(hour = 15),
-        )
-
-        Thread.sleep(1000)
-        tryAction { clickOnViewWithText(type2) }
-        longClickOnView(allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(type2)))
-
-        // Check visibility
-        checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordTimeStartedPrev))
-        checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordTimeStartedNext))
-        checkViewIsNotDisplayed(withId(changeRecordR.id.btnChangeRecordTimeEndedPrev))
-        checkViewIsNotDisplayed(withId(changeRecordR.id.btnChangeRecordTimeEndedNext))
-
-        fun checkTimes(started: Int) {
-            checkAfterTimeAdjustment(calendar.getMillis(started).formatTime())
-        }
-
-        // Check times
-        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedPrev)
-        checkTimes(15)
-        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedPrev)
-        checkTimes(13)
-        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedPrev)
-        checkTimes(11)
-        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedPrev)
-        checkViewIsDisplayed(
-            allOf(
-                withText(coreR.string.change_record_previous_not_found),
-                withId(R.id.snackbar_text),
-            ),
-        )
-
-        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedNext)
-        checkTimes(13)
-        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedNext)
-        checkTimes(15)
-        clickOnViewWithId(changeRecordR.id.btnChangeRecordTimeStartedNext)
-        checkViewIsDisplayed(
-            allOf(
-                withText(coreR.string.change_record_next_not_found),
-                withId(R.id.snackbar_text),
-            ),
         )
     }
 
