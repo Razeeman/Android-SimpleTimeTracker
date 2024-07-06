@@ -112,7 +112,8 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var currentTime: Long? = null
     private var startOfDayShift: Long = 0
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
-    private var listener: (ViewHolderType) -> Unit = {}
+    private var clickListener: (ViewHolderType) -> Unit = {}
+    private var longClickListener: (ViewHolderType) -> Unit = {}
 
     private val nameTextView: AppCompatTextView by lazy {
         getTextView(
@@ -156,7 +157,8 @@ class RecordsCalendarView @JvmOverloads constructor(
 
     private val singleTapDetector = SingleTapDetector(
         context = context,
-        onSingleTap = ::onEventTouch,
+        onSingleTap = ::onEventClick,
+        onLongPress = ::onEventLongClick,
     )
     private val scaleDetector = ScaleDetector(
         context = context,
@@ -236,7 +238,11 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     fun setClickListener(listener: (ViewHolderType) -> Unit) {
-        this.listener = listener
+        this.clickListener = listener
+    }
+
+    fun setLongClickListener(listener: (ViewHolderType) -> Unit) {
+        this.longClickListener = listener
     }
 
     fun setData(viewData: RecordsCalendarViewData) {
@@ -901,11 +907,20 @@ class RecordsCalendarView @JvmOverloads constructor(
         }
     }
 
-    private fun onEventTouch(event: MotionEvent) {
-        val selected = findDataPoint(x = event.x, y = event.y)?.point?.data
+    private fun onEventClick(event: MotionEvent) {
+        onClick(event)?.value?.let(clickListener)
+    }
+
+    private fun onEventLongClick(event: MotionEvent) {
+        onClick(event)?.value?.let(longClickListener)
+    }
+
+    private fun onClick(event: MotionEvent): RecordsCalendarViewData.Point.Data? {
+        val selected = findDataPoint(x = event.x, y = event.y)
+            ?.point?.data
         selectedRecord = selected
-        selected?.let(::animateSelectedRecord)
-        selected?.value?.let(listener)
+        if (selected != null) animateSelectedRecord(selected)
+        return selected
     }
 
     private fun onEventScaleStart() {

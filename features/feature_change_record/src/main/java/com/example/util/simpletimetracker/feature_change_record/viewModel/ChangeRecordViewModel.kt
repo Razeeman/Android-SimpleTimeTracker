@@ -12,6 +12,8 @@ import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.RecordActionContinueMediator
+import com.example.util.simpletimetracker.domain.interactor.RecordActionDuplicateMediator
 import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
@@ -20,6 +22,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.RecordActionRepeatMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
@@ -58,6 +61,9 @@ class ChangeRecordViewModel @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val timeMapper: TimeMapper,
     private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
+    private val recordActionDuplicateMediator: RecordActionDuplicateMediator,
+    private val recordActionRepeatMediator: RecordActionRepeatMediator,
+    private val recordActionContinueMediator: RecordActionContinueMediator,
 ) : ChangeRecordBaseViewModel(
     router = router,
     snackBarMessageNavigationInteractor = snackBarMessageNavigationInteractor,
@@ -151,17 +157,8 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     override suspend fun onContinueClickDelegate() {
-        // Remove current record if exist.
-        recordId?.let {
-            val typeId = recordInteractor.get(it)?.typeId.orZero()
-            removeRecordMediator.remove(it, typeId)
-        }
-        // Stop same type running record if exist (only one of the same type can run at once).
-        // Widgets will update on adding.
-        runningRecordInteractor.get(newTypeId)
-            ?.let { removeRunningRecordMediator.removeWithRecordAdd(it, updateWidgets = false) }
-        // Add new running record.
-        addRunningRecordMediator.startTimer(
+        recordActionContinueMediator.execute(
+            recordId = recordId,
             typeId = newTypeId,
             timeStarted = newTimeStarted,
             comment = newComment,
@@ -172,12 +169,7 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     override suspend fun onRepeatClickDelegate() {
-        // Stop same type running record if exist (only one of the same type can run at once).
-        // Widgets will update on adding.
-        runningRecordInteractor.get(newTypeId)
-            ?.let { removeRunningRecordMediator.removeWithRecordAdd(it, updateWidgets = false) }
-        // Add new running record.
-        addRunningRecordMediator.startTimer(
+        recordActionRepeatMediator.execute(
             typeId = newTypeId,
             comment = newComment,
             tagIds = newCategoryIds,
@@ -187,15 +179,13 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     override suspend fun onDuplicateClickDelegate() {
-        Record(
+        recordActionDuplicateMediator.execute(
             typeId = newTypeId,
             timeStarted = newTimeStarted,
             timeEnded = newTimeEnded,
             comment = newComment,
-            tagIds = newCategoryIds,
-        ).let {
-            addRecordMediator.add(it)
-        }
+            tagIds = newCategoryIds
+        )
         onSaveClickDelegate()
     }
 

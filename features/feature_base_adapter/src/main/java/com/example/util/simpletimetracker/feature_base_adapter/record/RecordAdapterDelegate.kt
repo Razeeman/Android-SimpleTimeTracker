@@ -4,11 +4,13 @@ import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemRecordLayoutBinding as Binding
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData as ViewData
 
 fun createRecordAdapterDelegate(
     onItemClick: ((ViewData, Pair<Any, String>) -> Unit),
+    onItemLongClick: ((ViewData, Pair<Any, String>) -> Unit) = { _, _ -> },
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->
@@ -27,6 +29,7 @@ fun createRecordAdapterDelegate(
         itemComment = item.comment
 
         setOnClick { onItemClick(item, this to transitionName) }
+        setOnLongClick { onItemLongClick(item, this to transitionName) }
         ViewCompat.setTransitionName(this, transitionName)
     }
 }

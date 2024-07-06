@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.RecordQuickActionDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -31,7 +32,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RecordsFragment : BaseFragment<Binding>() {
+class RecordsFragment :
+    BaseFragment<Binding>(),
+    RecordQuickActionDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -54,8 +57,12 @@ class RecordsFragment : BaseFragment<Binding>() {
             createRunningRecordAdapterDelegate(
                 transitionNamePrefix = TransitionNames.RUNNING_RECORD_FROM_RECORDS,
                 onItemClick = throttle(viewModel::onRunningRecordClick),
+                onItemLongClick = throttle(viewModel::onRunningRecordLongClick),
             ),
-            createRecordAdapterDelegate(throttle(viewModel::onRecordClick)),
+            createRecordAdapterDelegate(
+                onItemClick = throttle(viewModel::onRecordClick),
+                onItemLongClick = throttle(viewModel::onRecordLongClick),
+            ),
             createEmptyAdapterDelegate(),
             createLoaderAdapterDelegate(),
             createHintAdapterDelegate(),
@@ -78,6 +85,7 @@ class RecordsFragment : BaseFragment<Binding>() {
 
     override fun initUx() {
         binding.viewRecordsCalendar.setClickListener(throttle(viewModel::onCalendarClick))
+        binding.viewRecordsCalendar.setLongClickListener(throttle(viewModel::onCalendarLongClick))
     }
 
     override fun initViewModel() = with(binding) {
@@ -113,6 +121,10 @@ class RecordsFragment : BaseFragment<Binding>() {
     override fun onPause() {
         super.onPause()
         viewModel.onHidden()
+    }
+
+    override fun onUpdate() {
+        viewModel.onNeedUpdate()
     }
 
     private fun switchState(isCalendarView: Boolean) = with(binding) {

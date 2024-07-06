@@ -300,4 +300,9 @@
         android:name="com.example.util.simpletimetracker.feature_pomodoro.settings.view.PomodoroSettingsDialogFragment"
         android:label="PomodoroSettingsFragment"
         tools:layout="@layout/pomodoro_settings_fragment" />
+    <dialog
+        android:id="@+id/recordQuickActionsDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_dialogs.recordQuickActions.view.RecordQuickActionsDialogFragment"
+        android:label="RecordQuickActionsDialogFragment"
+        tools:layout="@layout/record_quick_actions_dialog_fragment" />
 </navigation>
