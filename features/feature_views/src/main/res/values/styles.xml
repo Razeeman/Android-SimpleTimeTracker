@@ -411,4 +411,9 @@
         <item name="autoSizeTextType">uniform</item>
     </style>
 
+    <style name="AppFabButton" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/button_corner_radius</item>
+    </style>
+
 </resources>

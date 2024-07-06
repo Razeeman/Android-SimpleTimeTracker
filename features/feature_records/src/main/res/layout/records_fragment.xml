@@ -9,6 +9,8 @@
         android:id="@+id/rvRecordsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="36dp"
         tools:itemCount="15"
         tools:listitem="@layout/item_record_layout" />
 
