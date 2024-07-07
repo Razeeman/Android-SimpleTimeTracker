@@ -85,7 +85,7 @@ class RecordActionsAdjustTest : BaseUiTest() {
         )
 
         // Change record
-        longClickOnView(allOf(withText(name2), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(name2), isCompletelyDisplayed()))
         adjust(isStart = true, buttonText = "-30")
         adjust(isStart = false, buttonText = "+30")
         adjust(isStart = false, buttonText = "+30")
@@ -160,7 +160,7 @@ class RecordActionsAdjustTest : BaseUiTest() {
         )
 
         // Change record
-        longClickOnView(
+        clickOnView(
             allOf(
                 withId(baseR.id.viewRecordItem),
                 hasDescendant(withText(coreR.string.untracked_time_name)),
@@ -285,7 +285,7 @@ class RecordActionsAdjustTest : BaseUiTest() {
         checkRecord(name3, calendar.getMillis(hour = 17).formatTime(), calendar.getMillis(hour = 18).formatTime())
 
         // Change record
-        longClickOnView(allOf(withText(name2), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(name2), isCompletelyDisplayed()))
         adjust(isStart = true, buttonText = "-30")
         adjust(isStart = true, buttonText = "-30")
         adjust(isStart = false, buttonText = "+30")
@@ -357,7 +357,7 @@ class RecordActionsAdjustTest : BaseUiTest() {
         checkRecord(name5, calendar.getMillis(hour = 19).formatTime(), calendar.getMillis(hour = 20).formatTime())
 
         // Change record
-        longClickOnView(allOf(withText(name3), isCompletelyDisplayed()))
+        clickOnView(allOf(withText(name3), isCompletelyDisplayed()))
         adjust(isStart = true, buttonText = "-30")
         adjust(isStart = true, buttonText = "-30")
         adjust(isStart = true, buttonText = "-30")

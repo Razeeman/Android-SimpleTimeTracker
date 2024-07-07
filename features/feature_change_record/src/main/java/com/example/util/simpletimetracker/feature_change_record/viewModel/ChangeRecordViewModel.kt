@@ -184,7 +184,7 @@ class ChangeRecordViewModel @Inject constructor(
             timeStarted = newTimeStarted,
             timeEnded = newTimeEnded,
             comment = newComment,
-            tagIds = newCategoryIds
+            tagIds = newCategoryIds,
         )
         onSaveClickDelegate()
     }

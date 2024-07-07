@@ -8,6 +8,7 @@ import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.contrib.PickerActions
 import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -18,6 +19,7 @@ import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import com.example.util.simpletimetracker.utils.BaseUiTest
+import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
@@ -113,16 +115,6 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withTag(firstIcon)))
         checkPreviewUpdated(hasDescendant(withText(timeStartedPreview)))
         checkPreviewUpdated(hasDescendant(withSubstring(goalString)))
-
-        // Check statistics navigation
-        clickOnViewWithId(changeRunningRecordR.id.btnChangeRecordStatistics)
-        checkViewIsDisplayed(
-            allOf(
-                withId(statisticsDetailR.id.viewStatisticsDetailItem),
-                hasDescendant(withText(name1)),
-            ),
-        )
-        pressBack()
 
         // Change item
         clickOnViewWithText(coreR.string.change_record_type_field)
@@ -446,6 +438,39 @@ class ChangeRunningRecordTest : BaseUiTest() {
                 ),
             )
         }
+    }
+
+    @Test
+    fun statisticsNavigation() {
+        val name = "Test"
+
+        // Add activities
+        testUtils.addActivity(name)
+        Thread.sleep(1000)
+        tryAction { clickOnViewWithText(name) }
+
+        // Check statistics navigation
+        longClickOnView(allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(name)))
+        clickOnViewWithId(changeRunningRecordR.id.btnChangeRecordStatistics)
+        checkViewIsDisplayed(
+            allOf(
+                withId(statisticsDetailR.id.viewStatisticsDetailItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        pressBack()
+        pressBack()
+
+        // From quick actions
+        NavUtils.openRecordsScreen()
+        longClickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnViewWithId(dialogsR.id.btnRecordQuickActionsStatistics)
+        checkViewIsDisplayed(
+            allOf(
+                withId(statisticsDetailR.id.viewStatisticsDetailItem),
+                hasDescendant(withText(name)),
+            ),
+        )
     }
 
     private fun checkAfterTimeAdjustment(timeStarted: String) {

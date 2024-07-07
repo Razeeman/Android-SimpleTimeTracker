@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
@@ -111,16 +112,6 @@ class ChangeRecordTest : BaseUiTest() {
         checkPreviewUpdated(hasDescendant(withText(timeEndedPreview)))
         checkPreviewUpdated(hasDescendant(withText(timeRangePreview)))
         checkPreviewUpdated(hasDescendant(withText(comment)))
-
-        // Check statistics navigation
-        clickOnViewWithId(changeRecordR.id.btnChangeRecordStatistics)
-        checkViewIsDisplayed(
-            allOf(
-                withId(statisticsDetailR.id.viewStatisticsDetailItem),
-                hasDescendant(withText(name)),
-            ),
-        )
-        pressBack()
 
         // Change item
         clickOnViewWithText(coreR.string.change_record_type_field)
@@ -287,6 +278,38 @@ class ChangeRecordTest : BaseUiTest() {
                 ),
             )
         }
+    }
+
+    @Test
+    fun statisticsNavigation() {
+        val name = "Test"
+
+        // Add activities
+        testUtils.addActivity(name)
+        testUtils.addRecord(name)
+
+        // Check statistics navigation
+        NavUtils.openRecordsScreen()
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordStatistics)
+        checkViewIsDisplayed(
+            allOf(
+                withId(statisticsDetailR.id.viewStatisticsDetailItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        pressBack()
+        pressBack()
+
+        // From quick actions
+        longClickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnViewWithId(dialogsR.id.btnRecordQuickActionsStatistics)
+        checkViewIsDisplayed(
+            allOf(
+                withId(statisticsDetailR.id.viewStatisticsDetailItem),
+                hasDescendant(withText(name)),
+            ),
+        )
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
@@ -29,6 +30,7 @@ import java.util.concurrent.TimeUnit
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
 import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 import com.example.util.simpletimetracker.feature_statistics_detail.R as statisticsDetailR
 import com.example.util.simpletimetracker.feature_views.R as viewsR
 
@@ -57,16 +59,6 @@ class ChangeUntrackedTest : BaseUiTest() {
         checkViewIsDisplayed(withId(changeRecordR.id.btnChangeRecordStatistics))
         checkViewIsNotDisplayed(withId(changeRecordR.id.rvChangeRecordType))
         checkPreviewUpdated(withCardColor(viewsR.color.colorUntracked))
-
-        // Check statistics navigation
-        clickOnViewWithId(changeRecordR.id.btnChangeRecordStatistics)
-        checkViewIsDisplayed(
-            allOf(
-                withId(statisticsDetailR.id.viewStatisticsDetailItem),
-                hasDescendant(withText(coreR.string.untracked_time_name)),
-            ),
-        )
-        pressBack()
 
         // Change item
         clickOnViewWithText(coreR.string.change_record_type_field)
@@ -99,6 +91,40 @@ class ChangeUntrackedTest : BaseUiTest() {
         // Untracked is back
         tryAction { checkViewDoesNotExist(allOf(withText(name), isCompletelyDisplayed())) }
         checkViewIsDisplayed(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun statisticsNavigation() {
+        val name = "Test"
+
+        // Add activities
+        runBlocking { prefsInteractor.setShowUntrackedInRecords(true) }
+        testUtils.addActivity(name)
+        val yesterday = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)
+        testUtils.addRecord(typeName = name, timeStarted = yesterday, timeEnded = yesterday)
+
+        // Check statistics navigation
+        NavUtils.openRecordsScreen()
+        clickOnView(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
+        clickOnViewWithId(changeRecordR.id.btnChangeRecordStatistics)
+        checkViewIsDisplayed(
+            allOf(
+                withId(statisticsDetailR.id.viewStatisticsDetailItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+            ),
+        )
+        pressBack()
+        pressBack()
+
+        // From quick actions
+        longClickOnView(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
+        clickOnViewWithId(dialogsR.id.btnRecordQuickActionsStatistics)
+        checkViewIsDisplayed(
+            allOf(
+                withId(statisticsDetailR.id.viewStatisticsDetailItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+            ),
+        )
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
