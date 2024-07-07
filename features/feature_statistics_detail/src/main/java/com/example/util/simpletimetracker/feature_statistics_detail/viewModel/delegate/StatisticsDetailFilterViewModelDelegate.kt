@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilter
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterResultParams
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,6 +30,7 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
     private var records: List<RecordBase> = emptyList() // all records with selected ids
     private var compareRecords: List<RecordBase> = emptyList() // all records with selected ids
     private var loadJob: Job? = null
+    private var firstLoad: Boolean = true
 
     override fun attach(parent: StatisticsDetailViewModelDelegate.Parent) {
         this.parent = parent
@@ -37,6 +39,7 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
     fun onVisible() {
         loadJob?.cancel()
         loadJob = delegateScope.launch {
+            delayLoadIfNeeded()
             loadRecordsCache()
             parent?.updateViewData()
         }
@@ -120,6 +123,17 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
                     .map(RecordsFilter::toParams).toList(),
             ),
         )
+    }
+
+    // Delay data load until screen transition finishes
+    // to avoid lagging while recycler is inflating views.
+    // Only done when no shared transitions, they delay onResume.
+    private suspend fun delayLoadIfNeeded() {
+        val extra = parent?.extra ?: return
+        if (extra.transitionName.isEmpty() && firstLoad) {
+            delay(300)
+            firstLoad = false
+        }
     }
 
     private suspend fun loadRecordsCache() {
