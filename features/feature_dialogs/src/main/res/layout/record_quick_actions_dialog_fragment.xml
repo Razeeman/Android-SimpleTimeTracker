@@ -111,7 +111,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="5dp"
-        android:layout_marginTop="16dp"
         app:flexWrap="wrap"
         app:justifyContent="center"
         app:layout_constraintTop_toBottomOf="@id/btnRecordQuickActionsDelete">
@@ -129,7 +128,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivRecordQuickActionsContinue"
-                    style="@style/EditScreenControlButtonImage"
+                    style="@style/RecordQuickActionButtonImage"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/action_continue"
@@ -140,7 +139,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvRecordQuickActionsContinue"
-                    style="@style/EditScreenControlButtonText"
+                    style="@style/RecordQuickActionButtonText"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@string/change_record_continue"
@@ -164,7 +163,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivRecordQuickActionsRepeat"
-                    style="@style/EditScreenControlButtonImage"
+                    style="@style/RecordQuickActionButtonImage"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/repeat"
@@ -175,7 +174,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvRecordQuickActionsRepeat"
-                    style="@style/EditScreenControlButtonText"
+                    style="@style/RecordQuickActionButtonText"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@string/change_record_repeat"
@@ -200,7 +199,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivRecordQuickActionsDuplicate"
-                    style="@style/EditScreenControlButtonImage"
+                    style="@style/RecordQuickActionButtonImage"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/action_copy"
@@ -211,7 +210,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvRecordQuickActionsDuplicate"
-                    style="@style/EditScreenControlButtonText"
+                    style="@style/RecordQuickActionButtonText"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@string/change_record_duplicate"
@@ -235,7 +234,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivRecordQuickActionsMerge"
-                    style="@style/EditScreenControlButtonImage"
+                    style="@style/RecordQuickActionButtonImage"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/action_merge"
@@ -246,7 +245,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvRecordQuickActionsMerge"
-                    style="@style/EditScreenControlButtonText"
+                    style="@style/RecordQuickActionButtonText"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@string/change_record_merge"

@@ -418,7 +418,15 @@
 
     <style name="RecordQuickActionButton" parent="EditScreenControlButton">
         <item name="android:layout_height">68dp</item>
-        <item name="cardBackgroundColor">?appBackgroundColor</item>
+        <item name="cardBackgroundColor">?appActiveColor</item>
+    </style>
+
+    <style name="RecordQuickActionButtonImage" parent="EditScreenControlButtonImage">
+        <item name="android:tint">?appLightTextColor</item>
+    </style>
+
+    <style name="RecordQuickActionButtonText" parent="EditScreenControlButtonText">
+        <item name="android:textColor">?appLightTextColor</item>
     </style>
 
 </resources>
