@@ -1,0 +1,5 @@
+- Add setting to enable pomodoro mode
+- Add access to quick actions by long clicking on a record
+- Add more detailed statistics
+- Add some translations
+- General bug fixes and improvements
