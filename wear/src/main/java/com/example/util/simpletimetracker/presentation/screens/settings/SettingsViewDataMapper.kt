@@ -5,6 +5,7 @@
  */
 package com.example.util.simpletimetracker.presentation.screens.settings
 
+import com.example.util.simpletimetracker.BuildConfig
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.data.WearResourceRepo
 import com.example.util.simpletimetracker.presentation.ui.components.SettingsItem
@@ -40,9 +41,23 @@ class SettingsViewDataMapper @Inject constructor(
             text = resourceRepo.getString(R.string.wear_settings_title_show_compact_list),
             checked = showCompactList,
         )
+        items += SettingsItem.Version(
+            type = SettingsItemType.Version,
+            text = getAppVersion(),
+        )
 
         return SettingsListState.Content(
             items = items,
         )
+    }
+
+    private fun getAppVersion(): String {
+        val versionText = resourceRepo.getString(R.string.settings_version)
+        val appVersion = "$versionText ${BuildConfig.VERSION_NAME}"
+        return if (BuildConfig.DEBUG) {
+            "$appVersion ${BuildConfig.BUILD_TYPE}"
+        } else {
+            appVersion
+        }
     }
 }

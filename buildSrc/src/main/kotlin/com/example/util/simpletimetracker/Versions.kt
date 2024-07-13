@@ -32,7 +32,7 @@ object Versions {
     const val navigationKtx = "2.3.5"
 
     const val compose_version = "1.3.1"
-    const val wear_compose_version = "1.1.0"
+    const val wear_compose_version = "1.2.1"
     const val compose_icons = "1.6.1"
     const val wear_compose_tooling_preview = "1.0.0"
     const val horologist = "0.2.7"

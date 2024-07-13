@@ -113,9 +113,10 @@ private fun ScalingLazyListScope.renderContent(
                     )
                 }
                 is SettingsItem.Hint -> {
-                    SettingsHint(
-                        state = item,
-                    )
+                    SettingsHint(item)
+                }
+                is SettingsItem.Version -> {
+                    SettingsVersion(item)
                 }
             }
         }
@@ -143,6 +144,10 @@ private fun Content() {
             type = SettingsItemType.AllowMultitaskingHint,
             hint = "Hint",
         ),
+        SettingsItem.Version(
+            type = SettingsItemType.Version,
+            text = "Version 1.43",
+        ),
     )
     SettingsList(
         state = SettingsListState.Content(
@@ -167,6 +172,10 @@ private fun ContentLong() {
         SettingsItem.Hint(
             type = SettingsItemType.AllowMultitaskingHint,
             hint = "Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint ",
+        ),
+        SettingsItem.Version(
+            type = SettingsItemType.Version,
+            text = "Version 1.43",
         ),
     )
     SettingsList(

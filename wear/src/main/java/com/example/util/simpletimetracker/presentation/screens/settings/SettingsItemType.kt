@@ -10,4 +10,5 @@ interface SettingsItemType {
     object AllowMultitasking : SettingsItemType
     object AllowMultitaskingHint : SettingsItemType
     object ShowCompactList : SettingsItemType
+    object Version : SettingsItemType
 }
