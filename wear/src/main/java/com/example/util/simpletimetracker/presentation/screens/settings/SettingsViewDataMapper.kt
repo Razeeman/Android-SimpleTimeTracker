@@ -29,14 +29,15 @@ class SettingsViewDataMapper @Inject constructor(
         items += SettingsItem.CheckBox(
             type = SettingsItemType.AllowMultitasking,
             text = resourceRepo.getString(R.string.settings_allow_multitasking),
-            hint = resourceRepo.getString(R.string.settings_allow_multitasking_hint),
             checked = wearSettings.allowMultitasking,
         )
-
+        items += SettingsItem.Hint(
+            type = SettingsItemType.AllowMultitaskingHint,
+            hint = resourceRepo.getString(R.string.settings_allow_multitasking_hint),
+        )
         items += SettingsItem.CheckBox(
             type = SettingsItemType.ShowCompactList,
             text = resourceRepo.getString(R.string.wear_settings_title_show_compact_list),
-            hint = "",
             checked = showCompactList,
         )
 

@@ -24,14 +24,19 @@ import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.presentation.screens.settings.SettingsItemType
 import com.example.util.simpletimetracker.presentation.theme.ColorAccent
 
+// TODO split into separate files
 sealed interface SettingsItem {
     val type: SettingsItemType
 
     data class CheckBox(
         override val type: SettingsItemType,
         val text: String,
-        val hint: String,
         val checked: Boolean,
+    ) : SettingsItem
+
+    data class Hint(
+        override val type: SettingsItemType,
+        val hint: String,
     ) : SettingsItem
 }
 
@@ -56,14 +61,6 @@ fun SettingsCheckbox(
                 text = state.text,
                 fontWeight = FontWeight.Medium,
             )
-            if (state.hint.isNotEmpty()) {
-                Text(
-                    text = state.hint,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 11.sp,
-                    lineHeight = 11.sp,
-                )
-            }
         }
         Checkbox(
             modifier = Modifier,
@@ -78,6 +75,25 @@ fun SettingsCheckbox(
     }
 }
 
+@Composable
+fun SettingsHint(
+    state: SettingsItem.Hint,
+) {
+    Column(
+        Modifier
+            .padding(bottom = 3.dp)
+            .padding(horizontal = 4.dp)
+            .fillMaxWidth(),
+    ) {
+        Text(
+            text = state.hint,
+            fontWeight = FontWeight.Light,
+            fontSize = 11.sp,
+            lineHeight = 11.sp,
+        )
+    }
+}
+
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun SettingsCheckboxPreview() {
@@ -85,7 +101,6 @@ private fun SettingsCheckboxPreview() {
         state = SettingsItem.CheckBox(
             type = SettingsItemType.ShowCompactList,
             text = "Check box",
-            hint = "",
             checked = false,
         ),
     )
@@ -98,7 +113,6 @@ private fun SettingsCheckboxCheckedPreview() {
         state = SettingsItem.CheckBox(
             type = SettingsItemType.ShowCompactList,
             text = "Check box",
-            hint = "Check box hint",
             checked = true,
         ),
     )
@@ -111,7 +125,6 @@ private fun SettingsCheckboxHintPreview() {
         state = SettingsItem.CheckBox(
             type = SettingsItemType.ShowCompactList,
             text = "Check box",
-            hint = "Check box hint",
             checked = false,
         ),
     )
@@ -124,8 +137,29 @@ private fun SettingsCheckboxLongPreview() {
         state = SettingsItem.CheckBox(
             type = SettingsItemType.ShowCompactList,
             text = "Check box Check box Check box Check box Check box Check box Check box Check box ",
-            hint = "Check box hint Check box hint Check box hint Check box hint Check box hint ",
             checked = false,
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
+private fun SettingsHintPreview() {
+    SettingsHint(
+        state = SettingsItem.Hint(
+            type = SettingsItemType.AllowMultitaskingHint,
+            hint = "Check box hint",
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND)
+@Composable
+private fun SettingsHintLongPreview() {
+    SettingsHint(
+        state = SettingsItem.Hint(
+            type = SettingsItemType.AllowMultitaskingHint,
+            hint = "Check box hint Check box hint Check box hint Check box hint Check box hint ",
         ),
     )
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.AutoCenteringParams
 import androidx.wear.compose.material.MaterialTheme
@@ -27,6 +28,7 @@ import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
 @Composable
 fun ScrollingColumn(
     startItemIndex: Int,
+    spacedBy: Dp,
     scrollState: ScalingLazyListState = rememberScalingLazyListState(),
     content: ScalingLazyListScope.() -> Unit,
 ) {
@@ -41,7 +43,7 @@ fun ScrollingColumn(
         autoCentering = AutoCenteringParams(
             itemIndex = startItemIndex,
         ),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(spacedBy),
         state = scrollState,
         content = content,
     )
