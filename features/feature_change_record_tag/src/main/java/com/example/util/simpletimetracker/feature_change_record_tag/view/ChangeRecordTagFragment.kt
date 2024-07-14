@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionStateViewData
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewDelegate.IconSelectionViewDelegate
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
+import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.addOnBackPressedListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
@@ -69,6 +70,7 @@ import com.example.util.simpletimetracker.feature_change_record_tag.databinding.
 @AndroidEntryPoint
 class ChangeRecordTagFragment :
     BaseFragment<Binding>(),
+    EmojiSelectionDialogListener,
     ColorSelectionDialogListener,
     TypesSelectionDialogListener {
 
@@ -221,6 +223,10 @@ class ChangeRecordTagFragment :
     override fun onDestroy() {
         typeColorAnimator?.cancel()
         super.onDestroy()
+    }
+
+    override fun onEmojiSelected(emojiText: String) {
+        viewModel.onEmojiSelected(emojiText)
     }
 
     override fun onColorSelected(colorInt: Int) {
