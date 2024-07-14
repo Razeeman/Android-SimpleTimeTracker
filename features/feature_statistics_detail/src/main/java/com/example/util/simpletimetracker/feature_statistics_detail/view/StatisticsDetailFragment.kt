@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.dialog.CustomRangeSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
+import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.RecordsFilterListener
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.toViewData
@@ -40,6 +41,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.databinding.
 class StatisticsDetailFragment :
     BaseFragment<Binding>(),
     DateTimeDialogListener,
+    DurationDialogListener,
     CustomRangeSelectionDialogListener,
     RecordsFilterListener {
 
@@ -104,6 +106,10 @@ class StatisticsDetailFragment :
 
     override fun onCustomRangeSelected(range: Range) {
         viewModel.onCustomRangeSelected(range)
+    }
+
+    override fun onCountSet(count: Long, tag: String?) {
+        viewModel.onCountSet(count, tag)
     }
 
     override fun initViewModel(): Unit = with(viewModel) {

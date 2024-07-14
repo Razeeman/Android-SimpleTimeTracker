@@ -33,11 +33,19 @@
     <string name="range_year">Année</string>
     <string name="range_overall">Global</string>
     <string name="range_custom">Intervalle</string>
-    <string name="range_last">Les 7 derniers jours</string>
     <string name="range_select_day">Sélectionner une date</string>
     <string name="range_select_week">Sélectionner une semaine</string>
     <string name="range_select_month">Sélectionner un mois</string>
     <string name="range_select_year">Sélectionner une année</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Les %s derniers jours</item>-->
+        <item quantity="one">Les %s dernier jour</item>
+        <!--        <item quantity="two">Les %s derniers jours</item>-->
+        <!--        <item quantity="few">Les %s derniers jours</item>-->
+        <item quantity="many">Les %s derniers jours</item>
+        <item quantity="other">Les %s derniers jours</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Annuler</string>
@@ -416,10 +424,10 @@ Exemple:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Top multitâche</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--         <item quantity="zero">Enregistrement</item> -->
+        <!--         <item quantity="zero">Enregistrement</item> -->
         <item quantity="one">Enregistrement</item>
-<!--         <item quantity="two">Enregistrements</item> -->
-<!--         <item quantity="few">Enregistrements</item> -->
+        <!--         <item quantity="two">Enregistrements</item> -->
+        <!--         <item quantity="few">Enregistrements</item> -->
         <item quantity="many">Enregistrements</item>
         <item quantity="other">Enregistrements</item>
     </plurals>

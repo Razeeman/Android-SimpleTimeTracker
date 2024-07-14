@@ -40,6 +40,6 @@ data class StatisticsDetailParams(
         data class Custom(val start: Long, val end: Long) : RangeLengthParams()
 
         @Parcelize
-        object Last : RangeLengthParams()
+        data class Last(val days: Int) : RangeLengthParams()
     }
 }

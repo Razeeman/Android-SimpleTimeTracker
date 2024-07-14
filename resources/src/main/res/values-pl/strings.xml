@@ -33,11 +33,19 @@
     <string name="range_year">Rok</string>
     <string name="range_overall">Cały okres</string>
     <string name="range_custom">Zakres</string>
-    <string name="range_last">Ostatnie 7 dni</string>
     <string name="range_select_day">Wybierz dzień</string>
     <string name="range_select_week">Wybierz tydzień</string>
     <string name="range_select_month">Wybierz miesiąc</string>
     <string name="range_select_year">Wybierz rok</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Ostatnie %s dni</item>-->
+        <item quantity="one">Ostatni %s dzień</item>
+        <!--        <item quantity="two">Ostatnie %s dni</item>-->
+        <item quantity="few">Ostatnie %s dni</item>
+        <item quantity="many">Ostatnie %s dni</item>
+        <item quantity="other">Ostatnie %s dni</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -416,9 +424,9 @@ Przykład:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Najczęściej razem z</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">rekordów</item>-->
+        <!--        <item quantity="zero">rekordów</item>-->
         <item quantity="one">rekord</item>
-        <item quantity="two">rekordy</item>
+        <!--        <item quantity="two">rekordy</item>-->
         <item quantity="few">rekordów</item>
         <item quantity="many">rekordów</item>
         <item quantity="other">rekordów</item>

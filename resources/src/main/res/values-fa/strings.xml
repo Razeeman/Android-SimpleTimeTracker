@@ -33,11 +33,19 @@
     <string name="range_year">سال</string>
     <string name="range_overall">به طور کلی</string>
     <string name="range_custom">محدوده</string>
-    <string name="range_last">7 روز قبلی</string>
     <string name="range_select_day">انتخاب تاریخ</string>
     <string name="range_select_week">انتخاب هفته</string>
     <string name="range_select_month">انتخاب ماه</string>
     <string name="range_select_year">انتخاب سال</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">%s روز قبلی</item>-->
+        <item quantity="one">%s روز قبلی</item>
+        <!--        <item quantity="two">%s روز قبلی</item>-->
+        <!--        <item quantity="few">%s روز قبلی</item>-->
+        <!--        <item quantity="many">%s روز قبلی</item>-->
+        <!--        <item quantity="other">%s روز قبلی</item>-->
+    </plurals>
 
     <string name="ok">موافقت</string>
     <string name="cancel">لغو</string>
@@ -416,11 +424,11 @@
     <string name="statistics_detail_multitasking_activities_hint">چند کاره برتر</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">بدون تاریخچه</item>-->
+        <!--        <item quantity="zero">بدون تاریخچه</item>-->
         <item quantity="one">تاریخچه</item>
-<!--        <item quantity="two">دو تاریخچه</item>-->
-<!--        <item quantity="few">تعداد کمی تاریخچه</item>-->
-<!--        <item quantity="many">تعداد زیادی تاریخچه</item>-->
+        <!--        <item quantity="two">دو تاریخچه</item>-->
+        <!--        <item quantity="few">تعداد کمی تاریخچه</item>-->
+        <!--        <item quantity="many">تعداد زیادی تاریخچه</item>-->
         <item quantity="other">تاریخچه</item>
     </plurals>
 

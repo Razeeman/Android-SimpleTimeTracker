@@ -6,4 +6,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:defaultNavHost="true"
-    app:navGraph="@navigation/widget_universal_nav_graph" />
+    app:navGraph="@navigation/widget_statistics_nav_graph" />

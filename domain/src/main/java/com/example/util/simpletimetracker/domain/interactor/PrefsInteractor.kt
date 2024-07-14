@@ -102,6 +102,13 @@ class PrefsInteractor @Inject constructor(
             prefsRepo.statisticsRangeCustomStart = rangeLength.range.timeStarted
             prefsRepo.statisticsRangeCustomEnd = rangeLength.range.timeEnded
         }
+        if (rangeLength is RangeLength.Last) {
+            prefsRepo.statisticsRangeLastDays = rangeLength.days
+        }
+    }
+
+    suspend fun getStatisticsLastDays(): Int = withContext(Dispatchers.IO) {
+        prefsRepo.statisticsRangeLastDays
     }
 
     suspend fun getStatisticsDetailRange(): RangeLength = withContext(Dispatchers.IO) {
@@ -115,6 +122,13 @@ class PrefsInteractor @Inject constructor(
             prefsRepo.statisticsDetailRangeCustomStart = rangeLength.range.timeStarted
             prefsRepo.statisticsDetailRangeCustomEnd = rangeLength.range.timeEnded
         }
+        if (rangeLength is RangeLength.Last) {
+            prefsRepo.statisticsDetailRangeLastDays = rangeLength.days
+        }
+    }
+
+    suspend fun getStatisticsDetailLastDays(): Int = withContext(Dispatchers.IO) {
+        prefsRepo.statisticsDetailRangeLastDays
     }
 
     suspend fun getKeepStatisticsRange(): Boolean = withContext(Dispatchers.IO) {
@@ -548,6 +562,10 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.getStatisticsWidget(widgetId)
     }
 
+    suspend fun getStatisticsWidgetLastDays(widgetId: Int): Int = withContext(Dispatchers.IO) {
+        prefsRepo.getStatisticsWidgetLastDays(widgetId)
+    }
+
     suspend fun removeStatisticsWidget(widgetId: Int) = withContext(Dispatchers.IO) {
         prefsRepo.removeStatisticsWidget(widgetId)
     }
@@ -707,7 +725,13 @@ class PrefsInteractor @Inject constructor(
                     )
                 }.let(RangeLength::Custom)
             }
-            6 -> RangeLength.Last
+            6 -> {
+                if (forDetail) {
+                    prefsRepo.statisticsDetailRangeLastDays
+                } else {
+                    prefsRepo.statisticsRangeLastDays
+                }.let(RangeLength::Last)
+            }
             else -> RangeLength.Day
         }
     }

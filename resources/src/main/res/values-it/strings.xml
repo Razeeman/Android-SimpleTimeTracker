@@ -33,11 +33,19 @@
     <string name="range_year">Anno</string>
     <string name="range_overall">Totale</string>
     <string name="range_custom">Intervallo</string>
-    <string name="range_last">Ultimi 7 giorni</string>
     <string name="range_select_day">Seleziona data</string>
     <string name="range_select_week">Seleziona settimana</string>
     <string name="range_select_month">Seleziona mese</string>
     <string name="range_select_year">Seleziona anno</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Ultimi %s giorni</item>-->
+        <item quantity="one">Ultimo %s giorno</item>
+        <!--        <item quantity="two">Ultimi %s giorni</item>-->
+        <!--        <item quantity="few">Ultimi %s giorni</item>-->
+        <item quantity="many">Ultimi %s giorni</item>
+        <item quantity="other">Ultimi %s giorni</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Annulla</string>
@@ -416,11 +424,11 @@ Esempio:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Il massimo del multitasking</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">Registrazioni</item>-->
+        <!--        <item quantity="zero">Registrazioni</item>-->
         <item quantity="one">Registrazione</item>
-<!--        <item quantity="two">Registrazioni</item>-->
-<!--        <item quantity="few">Registrazioni</item>-->
-<!--        <item quantity="many">Registrazioni</item>-->
+        <!--        <item quantity="two">Registrazioni</item>-->
+        <!--        <item quantity="few">Registrazioni</item>-->
+        <item quantity="many">Registrazioni</item>
         <item quantity="other">Registrazioni</item>
     </plurals>
 

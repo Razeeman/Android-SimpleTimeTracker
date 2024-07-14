@@ -33,11 +33,19 @@
     <string name="range_year">Ano</string>
     <string name="range_overall">Total</string>
     <string name="range_custom">Período</string>
-    <string name="range_last">Últimos 7 dias</string>
     <string name="range_select_day">Selecionar data</string>
     <string name="range_select_week">Selecionar semana</string>
     <string name="range_select_month">Selecionar mês</string>
     <string name="range_select_year">Selecionar ano</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Últimos %s dias</item>-->
+        <item quantity="one">Último %s dia</item>
+        <!--        <item quantity="two">Últimos %s dias</item>-->
+        <!--        <item quantity="few">Últimos %s dias</item>-->
+        <item quantity="many">Últimos %s dias</item>
+        <item quantity="other">Últimos %s dias</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Cancelar</string>
@@ -416,11 +424,11 @@ Exemplo:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Principais multitarefas</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">Registos</item>-->
+        <!--        <item quantity="zero">Registos</item>-->
         <item quantity="one">Registo</item>
-<!--        <item quantity="two">Registos</item>-->
-<!--        <item quantity="few">Registos</item>-->
-<!--        <item quantity="many">Registos</item>-->
+        <!--        <item quantity="two">Registos</item>-->
+        <!--        <item quantity="few">Registos</item>-->
+        <!--        <item quantity="many">Registos</item>-->
         <item quantity="other">Registos</item>
     </plurals>
 
@@ -431,7 +439,7 @@ Exemplo:<br/>
     <string name="widget_quick_settings_name">Definições rápidas</string>
     <string name="widget_load_error">Não encontrado</string>
 
-    <!--  Notification  --> 
+    <!--  Notification  -->
     <string name="notification_inactivity_title">Notificação de inatividade</string>
     <string name="notification_inactivity_text">Não esqueçer de registar o tempo</string>
     <string name="notification_activity_title">Notificação de atividade</string>

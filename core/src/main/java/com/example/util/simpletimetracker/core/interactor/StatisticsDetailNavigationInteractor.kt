@@ -61,7 +61,9 @@ class StatisticsDetailNavigationInteractor @Inject constructor(
                         start = rangeLength.range.timeStarted,
                         end = rangeLength.range.timeEnded,
                     )
-                    is RangeLength.Last -> StatisticsDetailParams.RangeLengthParams.Last
+                    is RangeLength.Last -> StatisticsDetailParams.RangeLengthParams.Last(
+                        days = rangeLength.days,
+                    )
                 },
                 shift = shift,
                 preview = StatisticsDetailParams.Preview(

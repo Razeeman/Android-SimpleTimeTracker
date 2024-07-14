@@ -33,11 +33,19 @@
     <string name="range_year">Год</string>
     <string name="range_overall">Все время</string>
     <string name="range_custom">Диапазон</string>
-    <string name="range_last">Последние 7 дней</string>
     <string name="range_select_day">Выберите дату</string>
     <string name="range_select_week">Выберите неделю</string>
     <string name="range_select_month">Выберите месяц</string>
     <string name="range_select_year">Выберите год</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Последние %s дней</item>-->
+        <item quantity="one">Последний %s день</item>
+        <!--        <item quantity="two">Последние %s дней</item>-->
+        <item quantity="few">Последние %s дня</item>
+        <item quantity="many">Последние %s дней</item>
+        <item quantity="other">Последние %s дней</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
@@ -416,9 +424,9 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="statistics_detail_multitasking_activities_hint">Топ многозадачности</string>
 
     <plurals name="statistics_detail_times_tracked">
-        <item quantity="zero">Записей</item>
+        <!--        <item quantity="zero">Записей</item>-->
         <item quantity="one">Запись</item>
-        <item quantity="two">Записи</item>
+        <!--        <item quantity="two">Записи</item>-->
         <item quantity="few">Записи</item>
         <item quantity="many">Записей</item>
         <item quantity="other">Записей</item>

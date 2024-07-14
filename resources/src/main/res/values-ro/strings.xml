@@ -33,11 +33,19 @@
     <string name="range_year">An</string>
     <string name="range_overall">Toate</string>
     <string name="range_custom">Interval</string>
-    <string name="range_last">Ultimele 7 zile</string>
     <string name="range_select_day">Alege ziua</string>
     <string name="range_select_week">Alege săptămâna</string>
     <string name="range_select_month">Alege luna</string>
     <string name="range_select_year">Alege anul</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Ultimele %s zile</item>-->
+        <item quantity="one">Ultima %s zi</item>
+        <!--        <item quantity="two">Ultimele %s zile</item>-->
+        <item quantity="few">Ultimele %s zile</item>
+        <!--        <item quantity="many">Ultimele %s zile</item>-->
+        <item quantity="other">Ultimele %s zile</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Anulează</string>
@@ -416,11 +424,11 @@ Examplu:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Top multitasked</string>
 
     <plurals name="statistics_detail_times_tracked">
-        <item quantity="zero">Înregistrări</item>
+        <!--        <item quantity="zero">Înregistrări</item>-->
         <item quantity="one">Înregistrări</item>
-        <item quantity="two">Înregistrări</item>
+        <!--        <item quantity="two">Înregistrări</item>-->
         <item quantity="few">Înregistrări</item>
-        <item quantity="many">Înregistrări</item>
+        <!--        <item quantity="many">Înregistrări</item>-->
         <item quantity="other">Înregistrări</item>
     </plurals>
 

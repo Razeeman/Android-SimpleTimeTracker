@@ -10,7 +10,9 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
+import com.example.util.simpletimetracker.core.viewData.SelectLastDaysViewData
 import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
+import com.example.util.simpletimetracker.domain.interactor.GetProcessedLastDaysCountInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
@@ -20,6 +22,7 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
+import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,6 +33,7 @@ class StatisticsDetailRangeViewModelDelegate @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
     private val recordFilterInteractor: RecordFilterInteractor,
+    private val getProcessedLastDaysCountInteractor: GetProcessedLastDaysCountInteractor,
 ) : StatisticsDetailViewModelDelegate, ViewModelDelegate() {
 
     val title: LiveData<String> by lazySuspend { loadTitle() }
@@ -71,6 +75,10 @@ class StatisticsDetailRangeViewModelDelegate @Inject constructor(
                 onSelectRangeClick()
                 updateRanges()
             }
+            is SelectLastDaysViewData -> {
+                onSelectLastDaysClick()
+                updateRanges()
+            }
             is RangeViewData -> {
                 rangeLength = item.range
                 onRangeChanged()
@@ -92,6 +100,14 @@ class StatisticsDetailRangeViewModelDelegate @Inject constructor(
 
     fun onCustomRangeSelected(range: Range) {
         rangeLength = RangeLength.Custom(range)
+        onRangeChanged()
+    }
+
+    fun onCountSet(count: Long, tag: String?) {
+        if (tag != LAST_DAYS_COUNT_TAG) return
+
+        val lastDaysCount = getProcessedLastDaysCountInteractor.execute(count)
+        rangeLength = RangeLength.Last(lastDaysCount)
         onRangeChanged()
     }
 
@@ -131,7 +147,9 @@ class StatisticsDetailRangeViewModelDelegate @Inject constructor(
             is StatisticsDetailParams.RangeLengthParams.Custom -> Range(
                 timeStarted = range.start, timeEnded = range.end,
             ).let(RangeLength::Custom)
-            is StatisticsDetailParams.RangeLengthParams.Last -> RangeLength.Last
+            is StatisticsDetailParams.RangeLengthParams.Last -> RangeLength.Last(
+                days = range.days,
+            )
         }
     }
 
@@ -152,8 +170,24 @@ class StatisticsDetailRangeViewModelDelegate @Inject constructor(
         ).let(router::navigate)
     }
 
-    private fun onRangeChanged() {
-        delegateScope.launch { prefsInteractor.setStatisticsDetailRange(rangeLength) }
+    // TODO add custom range reopen same as last days
+    private fun onSelectLastDaysClick() = delegateScope.launch {
+        DurationDialogParams(
+            tag = LAST_DAYS_COUNT_TAG,
+            value = DurationDialogParams.Value.Count(
+                getCurrentLastDaysCount().toLong(),
+            ),
+            hideDisableButton = true,
+        ).let(router::navigate)
+    }
+
+    private suspend fun getCurrentLastDaysCount(): Int {
+        return (rangeLength as? RangeLength.Last)?.days
+            ?: prefsInteractor.getStatisticsDetailLastDays()
+    }
+
+    private fun onRangeChanged() = delegateScope.launch {
+        prefsInteractor.setStatisticsDetailRange(rangeLength)
         parent?.onRangeChanged()
         updatePosition(0)
     }
@@ -181,12 +215,16 @@ class StatisticsDetailRangeViewModelDelegate @Inject constructor(
         )
     }
 
-    private fun updateRanges() {
+    private fun updateRanges() = delegateScope.launch {
         rangeItems.set(loadRanges())
     }
 
-    private fun loadRanges(): RangesViewData {
-        return rangeViewDataMapper.mapToRanges(rangeLength)
+    private suspend fun loadRanges(): RangesViewData {
+        return rangeViewDataMapper.mapToRanges(
+            currentRange = rangeLength,
+            addSelection = true,
+            lastDaysCount = getCurrentLastDaysCount(),
+        )
     }
 
     private fun updateButtonsVisibility() {
@@ -204,6 +242,7 @@ class StatisticsDetailRangeViewModelDelegate @Inject constructor(
     }
 
     companion object {
-        const val DATE_TAG = "statistics_detail_date_tag"
+        private const val LAST_DAYS_COUNT_TAG = "statistics_detail_last_days_count_tag"
+        private const val DATE_TAG = "statistics_detail_date_tag"
     }
 }

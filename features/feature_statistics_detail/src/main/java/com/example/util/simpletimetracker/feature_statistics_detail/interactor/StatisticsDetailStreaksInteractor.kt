@@ -615,12 +615,12 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         return when (rangeLength) {
             is RangeLength.Day,
             is RangeLength.Week,
-            is RangeLength.Last,
             -> true
             is RangeLength.Month,
             is RangeLength.Year,
             -> false
             is RangeLength.All,
+            is RangeLength.Last,
             is RangeLength.Custom,
             -> dataSize <= RANGE_ALL_STREAKS_CALENDAR_CUTOFF
         }

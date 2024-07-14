@@ -33,11 +33,19 @@
     <string name="range_year">Year</string>
     <string name="range_overall">Overall</string>
     <string name="range_custom">Range</string>
-    <string name="range_last">Last 7 days</string>
     <string name="range_select_day">Select date</string>
     <string name="range_select_week">Select week</string>
     <string name="range_select_month">Select month</string>
     <string name="range_select_year">Select year</string>
+
+    <plurals name="range_last">
+        <item quantity="zero">Last %s days</item>
+        <item quantity="one">Last %s day</item>
+        <item quantity="two">Last %s days</item>
+        <item quantity="few">Last %s days</item>
+        <item quantity="many">Last %s days</item>
+        <item quantity="other">Last %s days</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>

@@ -33,11 +33,19 @@
     <string name="range_year">سنة</string>
     <string name="range_overall">كامل</string>
     <string name="range_custom">الفترة الزمنية</string>
-    <string name="range_last">آخر ٧ أيام</string>
     <string name="range_select_day">اختر تاريخ</string>
     <string name="range_select_week">اختر أسبوع</string>
     <string name="range_select_month">اختر شهر</string>
     <string name="range_select_year">اختر سنة</string>
+
+    <plurals name="range_last">
+        <item quantity="zero">آخر %s أيام</item>
+        <item quantity="one">آخر %s أيام</item>
+        <item quantity="two">آخر %s أيام</item>
+        <item quantity="few">آخر %s أيام</item>
+        <item quantity="many">آخر %s أيام</item>
+        <item quantity="other">آخر %s أيام</item>
+    </plurals>
 
     <string name="ok">حسناً</string>
     <string name="cancel">إلغاء</string>

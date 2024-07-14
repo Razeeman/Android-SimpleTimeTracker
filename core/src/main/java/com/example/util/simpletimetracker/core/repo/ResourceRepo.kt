@@ -35,6 +35,10 @@ class ResourceRepo @Inject constructor(
         return context.resources.getQuantityString(stringResId, quantity)
     }
 
+    fun getQuantityString(@PluralsRes stringResId: Int, quantity: Int, vararg args: Any): String {
+        return context.resources.getQuantityString(stringResId, quantity, *args)
+    }
+
     fun getDimenInDp(@DimenRes dimenResId: Int): Int {
         return context.resources.getDimension(dimenResId).pxToDp()
     }

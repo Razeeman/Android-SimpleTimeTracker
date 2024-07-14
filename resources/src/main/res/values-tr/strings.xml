@@ -33,11 +33,19 @@
     <string name="range_year">Yıl</string>
     <string name="range_overall">Tümü</string>
     <string name="range_custom">Tarih aralığı</string>
-    <string name="range_last">Son 7 gün</string>
     <string name="range_select_day">Tarih seçin</string>
     <string name="range_select_week">Hafta seçin</string>
     <string name="range_select_month">Ay seçin</string>
     <string name="range_select_year">Yıl seçin</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Son %s gün</item>-->
+        <item quantity="one">Son %s gün</item>
+        <!--        <item quantity="two">Son %s gün</item>-->
+        <!--        <item quantity="few">Son %s gün</item>-->
+        <!--        <item quantity="many">Son %s gün</item>-->
+        <item quantity="other">Son %s gün</item>
+    </plurals>
 
     <string name="ok">Tamam</string>
     <string name="cancel">İptal</string>
@@ -416,11 +424,11 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="statistics_detail_multitasking_activities_hint">En iyi çoklu görev</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">Kayıt</item>-->
+        <!--        <item quantity="zero">Kayıt</item>-->
         <item quantity="one">Kayıt</item>
-<!--        <item quantity="two">Kayıt</item>-->
-<!--        <item quantity="few">Kayıt</item>-->
-<!--        <item quantity="many">Kayıt</item>-->
+        <!--        <item quantity="two">Kayıt</item>-->
+        <!--        <item quantity="few">Kayıt</item>-->
+        <!--        <item quantity="many">Kayıt</item>-->
         <item quantity="other">Kayıt</item>
     </plurals>
 

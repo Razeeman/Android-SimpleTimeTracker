@@ -33,11 +33,19 @@
     <string name="range_year">Any</string>
     <string name="range_overall">Global</string>
     <string name="range_custom">Rang</string>
-    <string name="range_last">Últims 7 dies</string>
     <string name="range_select_day">Seleccioneu una data</string>
     <string name="range_select_week">Seleccioneu una setmana</string>
     <string name="range_select_month">Seleccioneu un mes</string>
     <string name="range_select_year">Seleccioneu un any</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Últims %s dies</item>-->
+        <item quantity="one">Últim %s dia</item>
+        <!--        <item quantity="two">Últims %s dies</item>-->
+        <!--        <item quantity="few">Últims %s dies</item>-->
+        <item quantity="many">Últims %s dies</item>
+        <item quantity="other">Últims %s dies</item>
+    </plurals>
 
     <string name="ok">D\'acord</string>
     <string name="cancel">Cancel·la</string>
@@ -416,11 +424,11 @@ Exemple:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Top multitasca</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">Enregistraments</item>-->
+        <!--        <item quantity="zero">Enregistraments</item>-->
         <item quantity="one">Enregistrament</item>
-<!--        <item quantity="two">Enregistraments</item>-->
-<!--        <item quantity="few">Enregistraments</item>-->
-<!--        <item quantity="many">Enregistraments</item>-->
+        <!--        <item quantity="two">Enregistraments</item>-->
+        <!--        <item quantity="few">Enregistraments</item>-->
+        <item quantity="many">Enregistraments</item>
         <item quantity="other">Enregistraments</item>
     </plurals>
 

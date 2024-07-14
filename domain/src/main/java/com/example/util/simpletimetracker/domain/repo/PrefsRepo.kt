@@ -20,10 +20,12 @@ interface PrefsRepo {
     var statisticsRange: Int
     var statisticsRangeCustomStart: Long
     var statisticsRangeCustomEnd: Long
+    var statisticsRangeLastDays: Int
 
     var statisticsDetailRange: Int
     var statisticsDetailRangeCustomStart: Long
     var statisticsDetailRangeCustomEnd: Long
+    var statisticsDetailRangeLastDays: Int
 
     var keepStatisticsRange: Boolean
 
@@ -144,6 +146,8 @@ interface PrefsRepo {
     fun setStatisticsWidget(widgetId: Int, data: StatisticsWidgetData)
 
     fun getStatisticsWidget(widgetId: Int): StatisticsWidgetData
+
+    fun getStatisticsWidgetLastDays(widgetId: Int): Int
 
     fun removeStatisticsWidget(widgetId: Int)
 

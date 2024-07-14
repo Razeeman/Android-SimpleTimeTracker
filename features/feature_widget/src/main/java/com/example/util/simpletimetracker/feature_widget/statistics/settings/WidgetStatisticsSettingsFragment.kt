@@ -1,35 +1,36 @@
 package com.example.util.simpletimetracker.feature_widget.statistics.settings
 
-import android.app.Activity
 import android.appwidget.AppWidgetManager
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.viewModels
-import com.example.util.simpletimetracker.core.base.BaseActivity
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.manager.ThemeManager
-import com.example.util.simpletimetracker.core.provider.ContextProvider
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_widget.databinding.WidgetStatisticsSettingsActivityBinding
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_widget.databinding.WidgetStatisticsSettingsFragmentBinding as Binding
 
 @AndroidEntryPoint
-class WidgetStatisticsSettingsActivity : BaseActivity() {
+class WidgetStatisticsSettingsFragment :
+    BaseFragment<Binding>(),
+    DurationDialogListener {
+
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
+        Binding::inflate
 
     @Inject
     lateinit var themeManager: ThemeManager
-
-    @Inject
-    lateinit var contextProvider: ContextProvider
 
     private val viewModel: WidgetStatisticsSettingsViewModel by viewModels()
 
@@ -42,33 +43,18 @@ class WidgetStatisticsSettingsActivity : BaseActivity() {
         )
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        contextProvider.attach(this)
-
-        // Set the result to CANCELED.  This will cause the widget host to cancel
-        // out of the widget placement if they press the back button.
-        setResult(RESULT_CANCELED)
-
-        initUi()
-    }
-
-    private fun initUi() {
-        themeManager.setTheme(this)
-        val binding = WidgetStatisticsSettingsActivityBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        // Ui
+    override fun initUi() {
         binding.rvWidgetStatisticsFilterContainer.apply {
-            layoutManager = FlexboxLayoutManager(this@WidgetStatisticsSettingsActivity).apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.CENTER
                 flexWrap = FlexWrap.WRAP
             }
             adapter = recordTypesAdapter
         }
+    }
 
-        // Ux
+    override fun initUx() {
         with(binding) {
             buttonsWidgetStatisticsSettingsFilterType.listener = viewModel::onFilterTypeClick
             btnWidgetStatisticsShowAll.setOnClick(viewModel::onShowAllClick)
@@ -79,10 +65,11 @@ class WidgetStatisticsSettingsActivity : BaseActivity() {
             }
             btnWidgetStatisticsSettingsRange.setOnClick { spinnerWidgetStatisticsSettingsRange.performClick() }
         }
+    }
 
-        // ViewModel
+    override fun initViewModel() {
         with(viewModel) {
-            val widgetId = intent?.extras
+            val widgetId = activity?.intent?.extras
                 ?.getInt(
                     AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID,
@@ -98,11 +85,12 @@ class WidgetStatisticsSettingsActivity : BaseActivity() {
         }
     }
 
+    override fun onCountSet(count: Long, tag: String?) {
+        viewModel.onCountSet(count, tag)
+    }
+
+    // TODO refactor to shared viewModel to pass data?
     private fun exit(widgetId: Int) {
-        val resultValue = Intent().apply {
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
-        }
-        setResult(Activity.RESULT_OK, resultValue)
-        finish()
+        (activity as? WidgetStatisticsActivity)?.exit(widgetId)
     }
 }

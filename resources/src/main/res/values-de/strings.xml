@@ -33,11 +33,19 @@
     <string name="range_year">Jahr</string>
     <string name="range_overall">Gesamt</string>
     <string name="range_custom">Intervall</string>
-    <string name="range_last">Letzten 7 Tage</string>
     <string name="range_select_day">Wähle Datum</string>
     <string name="range_select_week">Wähle Woche</string>
     <string name="range_select_month">Wähle Monat</string>
     <string name="range_select_year">Wähle Jahr</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Letzten %s Tage</item>-->
+        <item quantity="one">Letzter %s Tag</item>
+        <!--        <item quantity="two">Letzten %s Tage</item>-->
+        <!--        <item quantity="few">Letzten %s Tage</item>-->
+        <!--        <item quantity="many">Letzten %s Tage</item>-->
+        <item quantity="other">Letzten %s Tage</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>

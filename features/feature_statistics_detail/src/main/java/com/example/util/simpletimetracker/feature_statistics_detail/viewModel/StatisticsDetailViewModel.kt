@@ -182,6 +182,10 @@ class StatisticsDetailViewModel @Inject constructor(
         rangeDelegate.onCustomRangeSelected(range)
     }
 
+    fun onCountSet(count: Long, tag: String?) = viewModelScope.launch {
+        rangeDelegate.onCountSet(count, tag)
+    }
+
     fun onStreaksCalendarClick(
         viewData: SeriesCalendarView.ViewData,
         coordinates: Coordinates,

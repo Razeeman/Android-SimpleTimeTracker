@@ -33,11 +33,19 @@
     <string name="range_year">Tahun</string>
     <string name="range_overall">Keseluruhan</string>
     <string name="range_custom">Rentang</string>
-    <string name="range_last">7 hari terakhir</string>
     <string name="range_select_day">Pilih tanggal</string>
     <string name="range_select_week">Pilih minggu</string>
     <string name="range_select_month">Pilih bulan</string>
     <string name="range_select_year">Pilih tahun</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">%s hari terakhir</item>-->
+        <!--        <item quantity="one">%s hari terakhir</item>-->
+        <!--        <item quantity="two">%s hari terakhir</item>-->
+        <!--        <item quantity="few">%s hari terakhir</item>-->
+        <!--        <item quantity="many">%s hari terakhir</item>-->
+        <item quantity="other">%s hari terakhir</item>
+    </plurals>
 
     <string name="ok">Oke</string>
     <string name="cancel">Batal</string>
@@ -416,11 +424,11 @@ Contoh:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Multitugas teratas</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">Rekor</item>-->
-<!--        <item quantity="one">Rekor</item>-->
-<!--        <item quantity="two">Rekor</item>-->
-<!--        <item quantity="few">Rekor</item>-->
-<!--        <item quantity="many">Rekor</item>-->
+        <!--        <item quantity="zero">Rekor</item>-->
+        <!--        <item quantity="one">Rekor</item>-->
+        <!--        <item quantity="two">Rekor</item>-->
+        <!--        <item quantity="few">Rekor</item>-->
+        <!--        <item quantity="many">Rekor</item>-->
         <item quantity="other">Rekor</item>
     </plurals>
 

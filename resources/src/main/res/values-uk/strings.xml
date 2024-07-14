@@ -33,11 +33,19 @@
     <string name="range_year">Рік</string>
     <string name="range_overall">Весь час</string>
     <string name="range_custom">Діапазон</string>
-    <string name="range_last">Останні 7 днів</string>
     <string name="range_select_day">Обрати дату</string>
     <string name="range_select_week">Обрати тиждень</string>
     <string name="range_select_month">Обрати місяць</string>
     <string name="range_select_year">Обрати рік</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Останні %s днів</item>-->
+        <item quantity="one">Останній %s день</item>
+        <!--        <item quantity="two">Останні %s днів</item>-->
+        <item quantity="few">Останні %s дні</item>
+        <item quantity="many">Останні %s днів</item>
+        <item quantity="other">Останні %s днів</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Скасувати</string>
@@ -416,9 +424,9 @@
     <string name="statistics_detail_multitasking_activities_hint">Топ багатозадачності</string>
 
     <plurals name="statistics_detail_times_tracked">
-        <item quantity="zero">Записів</item>
+        <!--        <item quantity="zero">Записів</item>-->
         <item quantity="one">Запис</item>
-        <item quantity="two">Записи</item>
+        <!--        <item quantity="two">Записи</item>-->
         <item quantity="few">Записи</item>
         <item quantity="many">Записів</item>
         <item quantity="other">Записів</item>

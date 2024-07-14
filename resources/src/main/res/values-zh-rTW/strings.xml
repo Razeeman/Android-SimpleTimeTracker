@@ -33,11 +33,19 @@
     <string name="range_year">年</string>
     <string name="range_overall">全部</string>
     <string name="range_custom">範圍</string>
-    <string name="range_last">最後 7 天</string>
     <string name="range_select_day">選擇日</string>
     <string name="range_select_week">選擇周</string>
     <string name="range_select_month">選擇月</string>
     <string name="range_select_year">選擇年</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">最後 %s 天</item>-->
+        <!--        <item quantity="one">最後 %s 天</item>-->
+        <!--        <item quantity="two">最後 %s 天</item>-->
+        <!--        <item quantity="few">最後 %s 天</item>-->
+        <!--        <item quantity="many">最後 %s 天</item>-->
+        <item quantity="other">最後 %s 天</item>
+    </plurals>
 
     <string name="ok">確定</string>
     <string name="cancel">取消</string>
@@ -416,11 +424,11 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="statistics_detail_multitasking_activities_hint">頂級多工處理</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">紀錄</item>-->
-<!--        <item quantity="one">紀錄</item>-->
-<!--        <item quantity="two">紀錄</item>-->
-<!--        <item quantity="few">紀錄</item>-->
-<!--        <item quantity="many">紀錄</item>-->
+        <!--        <item quantity="zero">紀錄</item>-->
+        <!--        <item quantity="one">紀錄</item>-->
+        <!--        <item quantity="two">紀錄</item>-->
+        <!--        <item quantity="few">紀錄</item>-->
+        <!--        <item quantity="many">紀錄</item>-->
         <item quantity="other">紀錄</item>
     </plurals>
 

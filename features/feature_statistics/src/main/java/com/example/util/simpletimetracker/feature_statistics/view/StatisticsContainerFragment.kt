@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.CustomRangeSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
+import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.view.SafeFragmentStateAdapter
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.domain.model.Range
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class StatisticsContainerFragment :
     BaseFragment<Binding>(),
     DateTimeDialogListener,
+    DurationDialogListener,
     CustomRangeSelectionDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
@@ -63,6 +65,10 @@ class StatisticsContainerFragment :
 
     override fun onCustomRangeSelected(range: Range) {
         settingsViewModel.onCustomRangeSelected(range)
+    }
+
+    override fun onCountSet(count: Long, tag: String?) {
+        settingsViewModel.onCountSet(count, tag)
     }
 
     override fun initViewModel() {

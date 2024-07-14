@@ -33,11 +33,19 @@
     <string name="range_year">साल</string>
     <string name="range_overall">कुल मिलाकर</string>
     <string name="range_custom">सीमा</string>
-    <string name="range_last">पिछले 7 दिन</string>
     <string name="range_select_day">तारीख़ चुनें</string>
     <string name="range_select_week">सप्ताह का चयन करें</string>
     <string name="range_select_month">महीना चुनिए</string>
     <string name="range_select_year">वर्ष का चयन करें</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">पिछले %s दिन</item>-->
+        <item quantity="one">अंतिम %s दिन</item>
+        <!--        <item quantity="two">पिछले %s दिन</item>-->
+        <!--        <item quantity="few">पिछले %s दिन</item>-->
+        <!--        <item quantity="many">पिछले %s दिन</item>-->
+        <item quantity="other">पिछले %s दिन</item>
+    </plurals>
 
     <string name="ok">ठीक है</string>
     <string name="cancel">रद्द करे</string>
@@ -416,11 +424,11 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="statistics_detail_multitasking_activities_hint">शीर्ष मल्टीटास्कड</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">अभिलेख</item>-->
+        <!--        <item quantity="zero">अभिलेख</item>-->
         <item quantity="one">रिकॉर्ड</item>
-<!--        <item quantity="two">अभिलेख</item>-->
-<!--        <item quantity="few">अभिलेख</item>-->
-<!--        <item quantity="many">अभिलेख</item>-->
+        <!--        <item quantity="two">अभिलेख</item>-->
+        <!--        <item quantity="few">अभिलेख</item>-->
+        <!--        <item quantity="many">अभिलेख</item>-->
         <item quantity="other">अभिलेख</item>
     </plurals>
 

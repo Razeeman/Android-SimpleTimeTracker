@@ -33,11 +33,19 @@
     <string name="range_year">Năm</string>
     <string name="range_overall">Tổng thể</string>
     <string name="range_custom">Phạm vi</string>
-    <string name="range_last">7 ngày qua</string>
     <string name="range_select_day">Chọn ngày</string>
     <string name="range_select_week">Chọn tuần</string>
     <string name="range_select_month">Chọn tháng</string>
     <string name="range_select_year">Chọn năm</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">%s ngày qua</item>-->
+        <!--        <item quantity="one">%s ngày qua</item>-->
+        <!--        <item quantity="two">%s ngày qua</item>-->
+        <!--        <item quantity="few">%s ngày qua</item>-->
+        <!--        <item quantity="many">%s ngày qua</item>-->
+        <item quantity="other">%s ngày qua</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Hủy</string>
@@ -416,11 +424,11 @@ Ví dụ:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Đa nhiệm hàng đầu</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">Bản ghi</item>-->
-<!--        <item quantity="one">Bản ghi</item>-->
-<!--        <item quantity="two">Bản ghi</item>-->
-<!--        <item quantity="few">Bản ghi</item>-->
-<!--        <item quantity="many">Bản ghi</item>-->
+        <!--        <item quantity="zero">Bản ghi</item>-->
+        <!--        <item quantity="one">Bản ghi</item>-->
+        <!--        <item quantity="two">Bản ghi</item>-->
+        <!--        <item quantity="few">Bản ghi</item>-->
+        <!--        <item quantity="many">Bản ghi</item>-->
         <item quantity="other">Bản ghi</item>
     </plurals>
 
