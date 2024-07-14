@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_change_record_tag.view
 
 import android.animation.ValueAnimator
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -122,8 +123,9 @@ class ChangeRecordTagFragment :
             createHintBigAdapterDelegate(),
         )
     }
-    private var typeColorAnimator: ValueAnimator? = null
     private var iconsLayoutManager: GridLayoutManager? = null
+    private var typeColorAnimator: ValueAnimator? = null
+    private var iconTextWatcher: TextWatcher? = null
 
     private val params: ChangeTagData by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChangeTagData.New(),
@@ -220,6 +222,14 @@ class ChangeRecordTagFragment :
         }
     }
 
+    override fun onDestroyView() {
+        IconSelectionViewDelegate.onDestroyView(
+            textWatcher = iconTextWatcher,
+            layout = binding.containerChangeRecordTypeIcon,
+        )
+        super.onDestroyView()
+    }
+
     override fun onDestroy() {
         typeColorAnimator?.cancel()
         super.onDestroy()
@@ -240,7 +250,7 @@ class ChangeRecordTagFragment :
     private fun updateUi(item: CategoryViewData.Record) = with(binding) {
         etChangeRecordTagName.setText(item.name)
         etChangeRecordTagName.setSelection(item.name.length)
-        IconSelectionViewDelegate.updateUi(
+        iconTextWatcher = IconSelectionViewDelegate.updateUi(
             icon = item.icon,
             viewModel = viewModel,
             layout = containerChangeRecordTypeIcon,
