@@ -59,10 +59,10 @@ fun isToast(): Matcher<Root> {
     }
 }
 
-fun withPluralText(@PluralsRes expectedId: Int, quantity: Int): Matcher<View> =
+fun withPluralText(@PluralsRes expectedId: Int, quantity: Int, vararg: Any? = null): Matcher<View> =
     object : BoundedMatcher<View, TextView>(TextView::class.java) {
         override fun matchesSafely(view: TextView): Boolean {
-            val text: String = view.context.resources.getQuantityString(expectedId, quantity)
+            val text: String = view.context.resources.getQuantityString(expectedId, quantity, vararg)
             return view.text == text
         }
 

@@ -955,7 +955,8 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Switch range
         clickOnViewWithIdOnPager(statisticsDetailR.id.btnStatisticsDetailToday)
-        clickOnViewWithText(coreR.string.range_last)
+        clickOnView(withPluralText(coreR.plurals.range_last, 7, 7))
+        clickOnViewWithText(coreR.string.duration_dialog_save)
 
         // Bar chart
         scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)

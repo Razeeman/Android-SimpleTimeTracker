@@ -238,6 +238,12 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     fun onDurationSet(duration: Long, tag: String?) {
+        val requestedTags = listOf(
+            DURATION_FROM_TAG,
+            DURATION_TO_TAG,
+        )
+        if (tag !in requestedTags) return
+
         val durationInMillis = duration * 1000
         var (rangeStart, rangeEnd) = filters.getDuration() ?: defaultDurationRange
 

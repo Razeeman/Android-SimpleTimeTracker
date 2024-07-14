@@ -4,11 +4,10 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
-import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
@@ -30,24 +29,14 @@ class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     private val viewModel: DurationPickerViewModel by viewModels()
 
-    private var dialogListener: DurationDialogListener? = null
+    private val listeners: MutableList<DurationDialogListener> = mutableListOf()
     private val params: DurationDialogParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = DurationDialogParams(),
     )
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        when (context) {
-            is DurationDialogListener -> {
-                dialogListener = context
-                return
-            }
-            is AppCompatActivity -> {
-                context.getAllFragments()
-                    .firstOrNull { it is DurationDialogListener && it.isResumed }
-                    ?.let { dialogListener = it as? DurationDialogListener }
-            }
-        }
+        listeners += context.findListeners<DurationDialogListener>()
     }
 
     override fun initDialog() {
@@ -89,11 +78,11 @@ class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
                 is DurationDialogState.Value.Duration -> {
                     val data = state.value.data
                     val duration = data.seconds + data.minutes * 60L + data.hours * 3600L
-                    dialogListener?.onDurationSet(duration, params.tag)
+                    listeners.forEach { it.onDurationSet(duration, params.tag) }
                 }
                 is DurationDialogState.Value.Count -> {
                     val data = state.value.data.toLongOrNull().orZero()
-                    dialogListener?.onCountSet(data, params.tag)
+                    listeners.forEach { it.onCountSet(data, params.tag) }
                 }
             }
             dismiss()
@@ -101,7 +90,7 @@ class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     private fun onDisableClick() {
-        dialogListener?.onDisable(params.tag)
+        listeners.forEach { it.onDisable(params.tag) }
         dismiss()
     }
 
