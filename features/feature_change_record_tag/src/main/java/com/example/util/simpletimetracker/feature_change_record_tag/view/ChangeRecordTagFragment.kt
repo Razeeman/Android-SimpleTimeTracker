@@ -176,7 +176,7 @@ class ChangeRecordTagFragment :
         }
     }
 
-    override fun initUx() = with(binding) {
+    override fun initUx(): Unit = with(binding) {
         etChangeRecordTagName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
         fieldChangeRecordTagColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTagIcon.setOnClick(viewModel::onIconChooserClick)

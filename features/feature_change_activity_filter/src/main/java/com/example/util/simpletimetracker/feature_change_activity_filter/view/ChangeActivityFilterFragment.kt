@@ -104,7 +104,7 @@ class ChangeActivityFilterFragment :
         }
     }
 
-    override fun initUx() = with(binding) {
+    override fun initUx(): Unit = with(binding) {
         etChangeActivityFilterName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
         fieldChangeActivityFilterColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeActivityFilterType.setOnClick(viewModel::onTypeChooserClick)

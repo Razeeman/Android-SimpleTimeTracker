@@ -14,30 +14,46 @@ import kotlinx.coroutines.Job
 abstract class BaseFragment<T : ViewBinding> : Fragment(), Throttler {
 
     abstract val inflater: (LayoutInflater, ViewGroup?, Boolean) -> T
-    protected val binding: T get() = _binding!!
+    override var throttleJob: Job? = null
+    protected open val binding: T get() = _binding!!
     private var _binding: T? = null
     private var preDrawListeners: MutableList<OnPreDrawListener> = mutableListOf()
-    override var throttleJob: Job? = null
+    private var initialized: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        _binding = inflater(inflater, container, false)
-        return binding.root
+        // Use previously saved view to avoid whole screen reinflating on back navigation,
+        // because of android nav component using fragment.replace internally.
+        // This also somehow fixes memory leaks occurring on navigation
+        // from main to some edit screen and back.
+        // If this ever changes - need to also fix these memory leaks.
+        return _binding?.root?.also {
+            initialized = true
+        } ?: run {
+            initialized = false
+            _binding = inflater(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initUi()
-        initUx()
+        if (!initialized) {
+            initUi()
+            initUx()
+        }
+        // Need to observe ViewModel again because LiveData.observe() uses fragment lifecycle,
+        // meaning that the subscriptions are removed on view destroy event.
         initViewModel()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         preDrawListeners.forEach { view?.viewTreeObserver?.removeOnPreDrawListener(it) }
+        preDrawListeners.clear()
         _binding = null
     }
 

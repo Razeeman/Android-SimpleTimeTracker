@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.extension.addOnBackPressedListener
 import com.example.util.simpletimetracker.core.extension.addOnPageChangeCallback
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_KEY
@@ -48,7 +49,7 @@ class MainFragment : BaseFragment<Binding>() {
 
     private val selectedColorFilter by lazy { getColorFilter(R.attr.appTabSelectedColor) }
     private val unselectedColorFilter by lazy { getColorFilter(R.attr.appTabUnselectedColor) }
-    private val backPressedCallback: OnBackPressedCallback = getOnBackPressedCallback()
+    private var backPressedCallback: OnBackPressedCallback? = null
     private var shortcutNavigationHandled = false
     private val mainPagePosition by lazy {
         mainTabsProvider.mainTab.let(mainTabsProvider::mapTabToPosition)
@@ -57,7 +58,10 @@ class MainFragment : BaseFragment<Binding>() {
     override fun initUi() {
         setupPager()
         checkForShortcutNavigation()
-        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, backPressedCallback)
+    }
+
+    override fun initUx() {
+        backPressedCallback = addOnBackPressedListener(false, ::onBackPressed)
     }
 
     override fun initViewModel() {
@@ -102,7 +106,7 @@ class MainFragment : BaseFragment<Binding>() {
 
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     tab?.icon?.colorFilter = selectedColorFilter
-                    backPressedCallback.isEnabled = tab?.position.orZero() != mainPagePosition
+                    backPressedCallback?.isEnabled = tab?.position.orZero() != mainPagePosition
                 }
             },
         )
@@ -132,12 +136,8 @@ class MainFragment : BaseFragment<Binding>() {
         }.let(mainTabs::setSelectedTabIndicatorGravity)
     }
 
-    private fun getOnBackPressedCallback(): OnBackPressedCallback {
-        return object : OnBackPressedCallback(false) {
-            override fun handleOnBackPressed() {
-                binding.mainPager.setCurrentItem(mainPagePosition, true)
-            }
-        }
+    private fun onBackPressed() {
+        binding.mainPager.setCurrentItem(mainPagePosition, true)
     }
 
     private fun checkForShortcutNavigation() = with(binding) {
