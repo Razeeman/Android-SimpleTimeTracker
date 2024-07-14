@@ -14,65 +14,23 @@ Simple app that helps track how much time you spend on all the useless activitie
 
 <img src="dev_files/preview.gif" width="300"/>
 
-## Track different activities
-
-[![main_thumb]][main]
 <br>
 
-## Add, change or delete activities
-
-[![change_record_type_thumb]][change_record_type]
-[![change_record_type_color_thumb]][change_record_type_color]
-[![change_record_type_icon_thumb]][change_record_type_icon]
-<br>
-
-## View previous records
-
-[![records_thumb]][records]
-<br>
-
-## Add, change or delete records
-
-[![change_record_thumb]][change_record]
-[![change_record_activity_thumb]][change_record_activity]
-<br>
-
-## Views statistics on different time ranges
-
-[![statistics_thumb]][statistics]
-<br>
-
-## View detailed statistics
-
-[![statistics_detail1_thumb]][statistics_detail1]
-[![statistics_detail2_thumb]][statistics_detail2]
-<br>
-
-## Widgets
-
-[![widgets_thumb]][widgets]
-[![widget_universal_thumb]][widget_universal]
-<br>
-
-## Notifications
-
-[![notifications_types_thumb]][notifications_types]
-[![notifications_inactivity_thumb]][notifications_inactivity]
-<br>
-
-## Dark mode
-
-[![darkmode1_thumb]][darkmode1]
-[![darkmode2_thumb]][darkmode2]
-[![darkmode3_thumb]][darkmode3]
-<br>
+<p>
+<img src="metadata/en-US/images/phoneScreenshots/1.png" width="225"/>
+<img src="metadata/en-US/images/phoneScreenshots/2.png" width="225"/>
+<img src="metadata/en-US/images/phoneScreenshots/3.png" width="225"/>
+<img src="metadata/en-US/images/phoneScreenshots/4.png" width="225"/>
+<img src="metadata/en-US/images/phoneScreenshots/5.png" width="225"/>
+<img src="metadata/en-US/images/phoneScreenshots/6.png" width="225"/>
+</p>
 
 ## Wear OS
 
-[![wear1_thumb]][wear1]
-[![wear2_thumb]][wear2]
-[![wearos_demo]][wearos_demo]
-<br>
+<p>
+<img src="dev_files/publish/wear_play.png" width="200"/>
+<img src="dev_files/publish/wear_play_complication.png" width="200"/>
+</p>
 
 ## Technology stack
 - Kotlin
@@ -170,54 +128,3 @@ Joseph Hale https://jhale.dev, [@kantahrek](https://github.com/kantahrek), Anton
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at https://mozilla.org/MPL/2.0/.
-
-
-[change_record_thumb]: dev_files/screens/change_record_thumb.png
-[change_record]: dev_files/screens/change_record.png
-[change_record_activity_thumb]: dev_files/screens/change_record_activity_thumb.png
-[change_record_activity]: dev_files/screens/change_record_activity.png
-
-[change_record_type_thumb]: dev_files/screens/change_record_type_thumb.png
-[change_record_type]: dev_files/screens/change_record_type.png
-[change_record_type_color_thumb]: dev_files/screens/change_record_type_color_thumb.png
-[change_record_type_color]: dev_files/screens/change_record_type_color.png
-[change_record_type_icon_thumb]: dev_files/screens/change_record_type_icon_thumb.png
-[change_record_type_icon]: dev_files/screens/change_record_type_icon.png
-
-[main_thumb]: dev_files/screens/main_thumb.png
-[main]: dev_files/screens/main.png
-
-[records_thumb]: dev_files/screens/records_thumb.png
-[records]: dev_files/screens/records.png
-
-[statistics_thumb]: dev_files/screens/statistics_thumb.png
-[statistics]: dev_files/screens/statistics.png
-
-[statistics_detail1_thumb]: dev_files/screens/statistics_detail1_thumb.png
-[statistics_detail1]: dev_files/screens/statistics_detail1.png
-[statistics_detail2_thumb]: dev_files/screens/statistics_detail2_thumb.png
-[statistics_detail2]: dev_files/screens/statistics_detail2.png
-
-[widgets_thumb]: dev_files/screens/widgets_thumb.png
-[widgets]: dev_files/screens/widgets.png
-
-[widget_universal_thumb]: dev_files/screens/widget_universal_thumb.png
-[widget_universal]: dev_files/screens/widget_universal.png
-
-[notifications_types_thumb]: dev_files/screens/notifications_types_thumb.png
-[notifications_types]: dev_files/screens/notifications_types.png
-[notifications_inactivity_thumb]: dev_files/screens/notifications_inactivity_thumb.png
-[notifications_inactivity]: dev_files/screens/notifications_inactivity.png
-
-[darkmode1_thumb]: dev_files/screens/darkmode1_thumb.png
-[darkmode1]: dev_files/screens/darkmode1.png
-[darkmode2_thumb]: dev_files/screens/darkmode2_thumb.png
-[darkmode2]: dev_files/screens/darkmode2.png
-[darkmode3_thumb]: dev_files/screens/darkmode3_thumb.png
-[darkmode3]: dev_files/screens/darkmode3.png
-
-[wear1_thumb]: dev_files/screens/wear1_thumb.png
-[wear1]: dev_files/screens/wear1.png
-[wear2_thumb]: dev_files/screens/wear2_thumb.png
-[wear2]: dev_files/screens/wear2.png
-[wearos_demo]: dev_files/wearos_demo.gif
