@@ -1,13 +1,13 @@
 Simple Time Tracker pomaga śledzić, ile czasu spędzasz w ciągu dnia na różnych czynnościach. Rozpocznij nowe działania jednym kliknięciem. Przeglądaj poprzednie rekordy i statystyki na przestrzeni czasu. Aplikacja jest bezpłatna i jest oprogramowaniem open source. Posiada widżety, kopie zapasowe, powiadomienia i tryb ciemny.
 
-<b>Prosty interfejs</b>
+• <b>Prosty interfejs</b>
 Aplikacja posiada minimalistyczny interfejs, który jest bardzo łatwy w użyciu.
 
-<b>Widżety</b>
+• <b>Widżety</b>
 Śledź swoje działania bezpośrednio z ekranu głównego.
 
-<b>Działa offline i szanuje Twoją prywatność</b>
+• <b>Działa offline i szanuje Twoją prywatność</b>
 Aplikacja nie wymaga połączenia z Internetem ani rejestracji konta. Twoje dane nigdy nie opuszczą Twojego telefonu. Ani deweloperzy, ani strony trzecie nie mają do nich dostępu.
 
-<b>Darmowa i open source</b>
+• <b>Darmowa i open source</b>
 Nie ma reklam, zakupów w aplikacji ani natrętnego wymuszania nadania uprawnień. Dostępny jest również pełny kod źródłowy.

@@ -1,13 +1,13 @@
 Simple Time Tracker helps you track how much time you spend during the day on different activities. Start new activities with one click. View previous records and statistics over time. The app is free and open source. Also widgets, backups, notifications and dark mode. Also supports watches with Wear OS and has complication.
 
-<b>Simple interface</b>
+• <b>Simple interface</b>
 App has a minimalistic interface that is very easy to use.
 
-<b>Widgets</b>
+• <b>Widgets</b>
 Track your activities directly from your home screen.
 
-<b>Works offline and respects your privacy</b>
+• <b>Works offline and respects your privacy</b>
 App doesn't require an Internet connection or account registration. Your data never leaves your phone. Neither the developers nor any third-parties have access to it.
 
-<b>Free and open source</b>
+• <b>Free and open source</b>
 There are no advertisements, in-app purchases or intrusive permissions. The complete source code is also available.

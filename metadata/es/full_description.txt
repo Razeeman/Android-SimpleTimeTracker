@@ -1,13 +1,13 @@
 Simple Time Tracker le ayudará a saber cuánto tiempo dedica a sus diferentes actividades durante el día. Registre nuevas actividades con un solo clic. Visualice los registros previos y sus estadísticas a lo largo del tiempo. La aplicación es gratuita y de código abierto. Además de widgets, copias de seguridad, notificaciones y tema oscuro. También admite relojes con Wear OS y tiene complicación.
 
-<b>Interfaz sencilla</b>
+• <b>Interfaz sencilla</b>
 La App tiene una interfaz minimalista muy fácil de usar.
 
-<b>Widgets</b>
+• <b>Widgets</b>
 Registre sus actividades directamente desde la pantalla principal.
 
-<b>Trabaja sin conexión y respeta su privacidad</b>
+• <b>Trabaja sin conexión y respeta su privacidad</b>
 Esta App no requiere conexión a Internet ni necesita registrarse. Sus datos nunca abandonan su dispositivo. Ni los desarrolladores ni otros terceros tienen acceso a ellos.
 
-<b>Gratis y de código abierto</b>
+• <b>Gratis y de código abierto</b>
 Sin anuncios, compras en la App, ni permisos intrusivos. El código fuente también está disponible.
