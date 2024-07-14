@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">Jika dinonaktifkan, memilih filter akan menonaktifkan filter aktivitas lainnya.</string>
     <string name="settings_enable_pomodoro_mode">Tampilkan tombol Pomodoro di layar utama</string>
     <string name="settings_show_goals_separately">Tampilkan sasaran di tab terpisah</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Tampilkan bilah navigasi di bagian bawah</string>
     <string name="settings_allow_multitasking">Izinkan tugas ganda</string>
     <string name="settings_allow_multitasking_hint">Jika dinonaktifkan memulai pewaktu baru akan secara otomatis menghentikan kegiatan-kegiatan lain.</string>
     <string name="settings_show_notifications">Tampilkan notifikasi pewaktu</string>

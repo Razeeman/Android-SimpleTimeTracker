@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">Si está deshabilitado, al seleccionar un filtro se deshabilitarán otros filtros de actividad.</string>
     <string name="settings_enable_pomodoro_mode">Mostrar el botón Pomodoro en la pantalla principal</string>
     <string name="settings_show_goals_separately">Mostrar objetivos en una pestaña separada</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Mostrar barra de navegación en la parte inferior</string>
     <string name="settings_allow_multitasking">Permitir el registro multitarea</string>
     <string name="settings_allow_multitasking_hint">Si está deshabilitado, al iniciar un nuevo temporizador se detendrá automáticamente el de las otras actividades.</string>
     <string name="settings_show_notifications">Mostrar notificaciones del temporizador</string>

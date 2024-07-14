@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">Dacă este dezactivată, selectarea unui filtru va dezactiva alte filtre de activitate.</string>
     <string name="settings_enable_pomodoro_mode">Afișați butonul Pomodoro pe ecranul principal</string>
     <string name="settings_show_goals_separately">Afișează țelurile într-o foaie separată</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Afișați bara de navigare în partea de jos</string>
     <string name="settings_allow_multitasking">Permite multitasking</string>
     <string name="settings_allow_multitasking_hint">Dacă este dezactivat, activarea unei noi activități va opri alte activități.</string>
     <string name="settings_show_notifications">Arată notificările cronometrului</string>

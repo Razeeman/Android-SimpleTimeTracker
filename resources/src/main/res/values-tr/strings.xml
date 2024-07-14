@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">Devre dışı bırakılırsa, bir filtre seçildiğinde diğer etkinlik filtreleri devre dışı bırakılır.</string>
     <string name="settings_enable_pomodoro_mode">Pomodoro butonunu ana ekranda göster</string>
     <string name="settings_show_goals_separately">Hedefleri ayrı bir sekmede göster</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Gezinme çubuğunu altta göster</string>
     <string name="settings_allow_multitasking">Çoklu göreve izin ver</string>
     <string name="settings_allow_multitasking_hint">Devre dışı bırakılırsa, yeni zamanlayıcı başlatmak diğer aktivitelerin zamanlayıcısını otomatik olarak durdurur.</string>
     <string name="settings_show_notifications">Zamanlayıcı bildirimlerini göster</string>

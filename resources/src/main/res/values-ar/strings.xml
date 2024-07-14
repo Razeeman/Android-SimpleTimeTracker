@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">في حالة التعطيل، سيؤدي تحديد عامل التصفية إلى تعطيل عوامل تصفية الأنشطة الأخرى.</string>
     <string name="settings_enable_pomodoro_mode">إظهار زر بومودورو على الشاشة الرئيسية</string>
     <string name="settings_show_goals_separately">إظهار الأهداف في علامة تبويب منفصلة</string>
+    <string name="settings_show_nav_bar_at_the_bottom">إظهار شريط التنقل في الأسفل</string>
     <string name="settings_allow_multitasking">السماح بتعدد المهام</string>
     <string name="settings_allow_multitasking_hint">ًإذا كان غير مفعل، فبدء تشغيل مهمة جديدة سيوقف الأنشطة الأخرى تلقائيا.</string>
     <string name="settings_show_notifications">إظهار إشعارات المؤقت</string>

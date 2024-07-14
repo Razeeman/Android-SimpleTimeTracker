@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">Nếu bị tắt, việc chọn bộ lọc sẽ tắt các bộ lọc hoạt động khác.</string>
     <string name="settings_enable_pomodoro_mode">Hiển thị nút Pomodoro trên màn hình chính</string>
     <string name="settings_show_goals_separately">Hiển thị mục tiêu trên một tab riêng</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Hiển thị thanh điều hướng ở phía dưới</string>
     <string name="settings_allow_multitasking">Cho phép đa nhiệm</string>
     <string name="settings_allow_multitasking_hint">Nếu bị tắt, việc bắt đầu bộ hẹn giờ mới sẽ tự động dừng các hoạt động khác.</string>
     <string name="settings_show_notifications">Hiển thị thông báo hẹn giờ</string>

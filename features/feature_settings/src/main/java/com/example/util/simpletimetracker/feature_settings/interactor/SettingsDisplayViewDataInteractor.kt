@@ -157,6 +157,14 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                 dividerIsVisible = true,
             )
             result += SettingsCheckboxViewData(
+                block = SettingsBlock.DisplayNavBarAtTheBottom,
+                title = resourceRepo.getString(R.string.settings_show_nav_bar_at_the_bottom),
+                subtitle = "",
+                isChecked = prefsInteractor.getIsNavBarAtTheBottom(),
+                bottomSpaceIsVisible = true,
+                dividerIsVisible = true,
+            )
+            result += SettingsCheckboxViewData(
                 block = SettingsBlock.DisplayKeepScreenOn,
                 title = resourceRepo.getString(R.string.settings_keep_screen_on),
                 subtitle = "",

@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">비활성화된 경우 필터를 선택하면 다른 활동 필터가 비활성화됩니다.</string>
     <string name="settings_enable_pomodoro_mode">메인 화면에 뽀모도로 버튼 표시</string>
     <string name="settings_show_goals_separately">목표 탭 분리</string>
+    <string name="settings_show_nav_bar_at_the_bottom">하단에 탐색바 표시</string>
     <string name="settings_allow_multitasking">멀티태스킹 활성화</string>
     <string name="settings_allow_multitasking_hint">비활성화시, 새로운 활동을 시작하면 기존의 활동 기록을 멈춥니다.</string>
     <string name="settings_show_notifications">타이머 알림 표기</string>

@@ -667,6 +667,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.defaultTypesHidden = value
     }
 
+    suspend fun getIsNavBarAtTheBottom(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.isNavBarAtTheBottom
+    }
+
+    suspend fun setIsNavBarAtTheBottom(value: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.isNavBarAtTheBottom = value
+    }
+
     suspend fun clear() = withContext(Dispatchers.IO) {
         prefsRepo.clear()
     }

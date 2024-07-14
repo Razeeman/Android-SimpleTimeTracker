@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">Se desativado, a seleção de um filtro desativará outros filtros de atividades.</string>
     <string name="settings_enable_pomodoro_mode">Mostrar botão Pomodoro na tela principal</string>
     <string name="settings_show_goals_separately">Mostrar metas em uma guia separada</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Mostrar barra de navegação na parte inferior</string>
     <string name="settings_allow_multitasking">Permitir atividades simultâneas</string>
     <string name="settings_allow_multitasking_hint">Se desativado, iniciar um novo timer interromperá automaticamente outras atividades.</string>
     <string name="settings_show_notifications">Mostrar notificações de timer</string>

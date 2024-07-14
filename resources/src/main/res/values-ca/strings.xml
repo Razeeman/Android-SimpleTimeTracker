@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">Si està desactivat, seleccionar un filtre desactivarà altres filtres d\'activitat.</string>
     <string name="settings_enable_pomodoro_mode">Mostra el botó Pomodoro a la pantalla principal</string>
     <string name="settings_show_goals_separately">Mostra els objectius en una pestanya separada</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Mostra la barra de navegació a la part inferior</string>
     <string name="settings_allow_multitasking">Permet la multitasca</string>
     <string name="settings_allow_multitasking_hint">Si és desactivat, en començar un nou temporitzador s\'aturaran automàticament les altres activitats.</string>
     <string name="settings_show_notifications">Mostra notificacions del temporitzador</string>

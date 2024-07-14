@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">If disabled, selecting a filter will disable other activity filters.</string>
     <string name="settings_enable_pomodoro_mode">Show Pomodoro button on main screen</string>
     <string name="settings_show_goals_separately">Show goals on a separate tab</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Show navigation bar at the bottom</string>
     <string name="settings_allow_multitasking">Allow multitasking</string>
     <string name="settings_allow_multitasking_hint">If disabled, starting new timer will automatically stop other activities.</string>
     <string name="settings_show_notifications">Show timer notifications</string>

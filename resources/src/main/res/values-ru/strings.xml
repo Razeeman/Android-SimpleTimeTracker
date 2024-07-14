@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">Если отключено, выбор фильтра приведет к отключению других фильтров активности.</string>
     <string name="settings_enable_pomodoro_mode">Показывать кнопку Pomodoro на главном экране</string>
     <string name="settings_show_goals_separately">Показывать цели на отдельной вкладке</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Показывать панель навигации внизу</string>
     <string name="settings_allow_multitasking">Разрешить многозадачность</string>
     <string name="settings_allow_multitasking_hint">Если отключено, запуск нового таймера автоматически остановит другие активности.</string>
     <string name="settings_show_notifications">Показывать уведомления таймера</string>

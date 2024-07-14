@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.AttrRes
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.activityViewModels
@@ -17,11 +18,11 @@ import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_KEY
 import com.example.util.simpletimetracker.core.view.SafeFragmentStateAdapter
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.example.util.simpletimetracker.feature_main.R
 import com.example.util.simpletimetracker.feature_main.adapter.MainContentAdapter
 import com.example.util.simpletimetracker.feature_main.provider.MainTabsProvider
 import com.example.util.simpletimetracker.feature_main.viewModel.MainViewModel
+import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -61,6 +62,7 @@ class MainFragment : BaseFragment<Binding>() {
 
     override fun initViewModel() {
         viewModel.initialize
+        viewModel.isNavBatAtTheBottom.observe(::updateNavBarPosition)
     }
 
     private fun setupPager() = with(binding) {
@@ -105,6 +107,29 @@ class MainFragment : BaseFragment<Binding>() {
             },
         )
         mainPager.setCurrentItem(mainPagePosition, false)
+    }
+
+    private fun updateNavBarPosition(isAtTheBottom: Boolean) = with(binding) {
+        val set = ConstraintSet()
+        set.clone(binding.containerMain)
+        if (isAtTheBottom) {
+            set.clear(R.id.mainTabs, ConstraintSet.TOP)
+            set.connect(R.id.mainTabs, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+            set.connect(R.id.mainPager, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+            set.connect(R.id.mainPager, ConstraintSet.BOTTOM, R.id.mainTabs, ConstraintSet.TOP)
+        } else {
+            set.clear(R.id.mainTabs, ConstraintSet.BOTTOM)
+            set.connect(R.id.mainTabs, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+            set.connect(R.id.mainPager, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+            set.connect(R.id.mainPager, ConstraintSet.TOP, R.id.mainTabs, ConstraintSet.BOTTOM)
+        }
+        set.applyTo(binding.containerMain)
+
+        if (isAtTheBottom) {
+            TabLayout.INDICATOR_GRAVITY_TOP
+        } else {
+            TabLayout.INDICATOR_GRAVITY_BOTTOM
+        }.let(mainTabs::setSelectedTabIndicatorGravity)
     }
 
     private fun getOnBackPressedCallback(): OnBackPressedCallback {

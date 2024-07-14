@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">Indien uitgeschakeld, zal het selecteren van een filter andere activiteitsfilters uitschakelen.</string>
     <string name="settings_enable_pomodoro_mode">Toon de Pomodoro-knop op het hoofdscherm</string>
     <string name="settings_show_goals_separately">Toon doelen op een apart tabblad</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Toon navigatiebalk onderaan</string>
     <string name="settings_allow_multitasking">Multitasking toestaan</string>
     <string name="settings_allow_multitasking_hint">Indien uitgeschakeld, zal het starten van een nieuwe timer automatisch andere activiteiten stoppen.</string>
     <string name="settings_show_notifications">Timer-meldingen tonen</string>

@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">如果停用，選擇一個過濾器將停用其他活動過濾器。</string>
     <string name="settings_enable_pomodoro_mode">在主畫面上顯示番茄鐘按鈕</string>
     <string name="settings_show_goals_separately">在單獨的選項卡上顯示目標</string>
+    <string name="settings_show_nav_bar_at_the_bottom">在底部顯示導覽列</string>
     <string name="settings_allow_multitasking">允許多任務</string>
     <string name="settings_allow_multitasking_hint">如果禁用啟動新計時器將自動停止其他活動。</string>
     <string name="settings_show_notifications">顯示計時器提醒</string>

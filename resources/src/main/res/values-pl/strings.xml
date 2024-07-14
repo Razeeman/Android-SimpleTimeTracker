@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">Jeśli opcja jest wyłączona, wybranie filtra spowoduje wyłączenie innych filtrów aktywności.</string>
     <string name="settings_enable_pomodoro_mode">Pokaż przycisk Pomodoro na ekranie głównym</string>
     <string name="settings_show_goals_separately">Pokaż cele na osobnej karcie</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Pokaż pasek nawigacyjny na dole</string>
     <string name="settings_allow_multitasking">Zezwalaj na wiele aktywności jednocześnie</string>
     <string name="settings_allow_multitasking_hint">Jeśli ta opcja jest wyłączona, uruchomienie nowego timera automatycznie zatrzyma inne aktywności.</string>
     <string name="settings_show_notifications">Pokaż powiadomienia timera</string>

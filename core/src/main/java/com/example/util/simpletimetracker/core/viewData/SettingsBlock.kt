@@ -49,6 +49,7 @@ enum class SettingsBlock {
     DisplayEnablePomodoroMode,
     DisplayPomodoroModeActivities,
     DisplayGoalsOnSeparateTabs,
+    DisplayNavBarAtTheBottom,
     DisplayKeepScreenOn,
     DisplayWidgetBackground,
     DisplayMilitaryFormat,

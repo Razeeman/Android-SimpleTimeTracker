@@ -179,6 +179,8 @@ class SettingsViewModel @Inject constructor(
                 displayDelegate.onAllowMultipleActivityFiltersClicked()
             SettingsBlock.DisplayGoalsOnSeparateTabs ->
                 displayDelegate.onShowGoalsSeparatelyClicked()
+            SettingsBlock.DisplayNavBarAtTheBottom ->
+                displayDelegate.onShowNavBarAtTheBottomClicked()
             SettingsBlock.DisplayKeepScreenOn ->
                 displayDelegate.onKeepScreenOnClicked()
             SettingsBlock.DisplayMilitaryFormat ->

@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">اگر غیرفعال باشد، انتخاب فیلتر، سایر فیلترهای فعالیت را غیرفعال می کند.</string>
     <string name="settings_enable_pomodoro_mode">نمایش دکمه Pomodoro در صفحه اصلی</string>
     <string name="settings_show_goals_separately">نمایش اهداف در یک برگه جداگانه</string>
+    <string name="settings_show_nav_bar_at_the_bottom">نمایش نوار پیمایش در پایین</string>
     <string name="settings_allow_multitasking">انجام دادن همزمان فعالیت ها</string>
     <string name="settings_allow_multitasking_hint">اگر غیر فعال باشد شروع تایمر های جدید فعالیت های دیگر را متوقف می کند</string>
     <string name="settings_show_notifications">تایمر را در اعلان ها نمایش بده</string>

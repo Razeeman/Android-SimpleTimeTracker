@@ -245,6 +245,7 @@
     <string name="settings_allow_multiple_activity_filters_hint">如果禁用，选择一个过滤器将禁用其他活动过滤器。</string>
     <string name="settings_enable_pomodoro_mode">在主屏幕上显示番茄钟按钮</string>
     <string name="settings_show_goals_separately">在单独的选项卡上显示目标</string>
+    <string name="settings_show_nav_bar_at_the_bottom">在底部显示导航栏</string>
     <string name="settings_allow_multitasking">允许同时对多个活动进行追踪</string>
     <string name="settings_allow_multitasking_hint">如果不启用，启动新活动追踪时，将自动停止追踪其他活动。</string>
     <string name="settings_show_notifications">显示计时通知</string>

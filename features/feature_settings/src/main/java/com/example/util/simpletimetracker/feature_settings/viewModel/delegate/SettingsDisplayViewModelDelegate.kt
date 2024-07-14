@@ -253,6 +253,15 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
+    fun onShowNavBarAtTheBottomClicked() {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getIsNavBarAtTheBottom()
+            prefsInteractor.setIsNavBarAtTheBottom(newValue)
+            parent?.updateContent()
+            router.restartApp()
+        }
+    }
+
     fun onUseMilitaryTimeClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getUseMilitaryTimeFormat()
