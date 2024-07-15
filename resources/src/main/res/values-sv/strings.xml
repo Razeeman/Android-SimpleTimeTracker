@@ -33,11 +33,19 @@
     <string name="range_year">År</string>
     <string name="range_overall">Allt</string>
     <string name="range_custom">Intervall</string>
-    <string name="range_last">Senaste 7 dagarna</string>
     <string name="range_select_day">Välj dag</string>
     <string name="range_select_week">Välj vecka</string>
     <string name="range_select_month">Välj månad</string>
     <string name="range_select_year">Välj år</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Senaste %s dagarna</item>-->
+        <item quantity="one">Senaste %s dag</item>
+        <!--        <item quantity="two">Senaste %s dagarna</item>-->
+        <!--        <item quantity="few">Senaste %s dagarna</item>-->
+        <!--        <item quantity="many">Senaste %s dagarna</item>-->
+        <item quantity="other">Senaste %s dagarna</item>
+    </plurals>
 
     <string name="ok">Ok</string>
     <string name="cancel">Avbryt</string>
@@ -122,6 +130,8 @@
     <string name="change_record_change_overlapped">Överlappade</string>
     <string name="change_record_change_overlapped_hint">Posterna är helt överlappade och kommer att tas bort</string>
     <string name="change_record_untracked_time_hint">Ospårad tid är tid då ingen aktivitet spårades.</string>
+    <string name="change_record_previous_not_found">Tidigare post hittades inte</string>
+    <string name="change_record_next_not_found">Nästa post hittades inte</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivitet arkiverad</string>
@@ -190,6 +200,9 @@
     <string name="record_tag_selection_exclude_activities_title">Uteslut aktiviteter</string>
     <string name="record_tag_selection_exclude_activities_hint">Dialogrutan för val av tagg kommer inte att visas för valda aktiviteter.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Välj aktiviteter</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro kommer att startas automatiskt när valda aktiviteter startas.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Sortera händelser</string>
     <string name="records_all_sort_time_started">Starttid</string>
@@ -238,7 +251,9 @@
     <string name="settings_show_activity_filters">Visa aktivitetsfilter på huvudskärmen</string>
     <string name="settings_allow_multiple_activity_filters">Tillåt flera aktivitetsfilter</string>
     <string name="settings_allow_multiple_activity_filters_hint">Om det är inaktiverat kommer andra aktivitetsfilter att inaktiveras om du väljer ett filter.</string>
+    <string name="settings_enable_pomodoro_mode">Visa Pomodoro-knappen på huvudskärmen</string>
     <string name="settings_show_goals_separately">Visa mål på en separat flik</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Visa navigeringsfältet längst ned</string>
     <string name="settings_allow_multitasking">Tillåt multitasking</string>
     <string name="settings_allow_multitasking_hint">Om inaktiverad så stoppas pågående aktivitet vid start av annan aktivitet.</string>
     <string name="settings_show_notifications">Visa aktivitetsaviseringar</string>
@@ -395,6 +410,9 @@ Exempel:<br/>
     <string name="statistics_detail_streaks">Serier</string>
     <string name="statistics_detail_streaks_longest">Längsta</string>
     <string name="statistics_detail_streaks_current">Nuvarande</string>
+    <string name="statistics_detail_streaks_completion">Färdigställandegrad</string>
+    <string name="statistics_detail_streaks_completion_percentage">Procentsats</string>
+    <string name="statistics_detail_streaks_completion_count">Räkna</string>
     <string name="statistics_detail_streaks_latest">Senast</string>
     <string name="statistics_detail_streaks_any">Vilken varaktighet som helst</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -406,11 +424,11 @@ Exempel:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Top multitasked</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">händelser</item>-->
+        <!--        <item quantity="zero">händelser</item>-->
         <item quantity="one">Händelse</item>
-<!--        <item quantity="two">händelser</item>-->
-<!--        <item quantity="few">händelser</item>-->
-<!--        <item quantity="many">händelser</item>-->
+        <!--        <item quantity="two">händelser</item>-->
+        <!--        <item quantity="few">händelser</item>-->
+        <!--        <item quantity="many">händelser</item>-->
         <item quantity="other">Händelser</item>
     </plurals>
 
@@ -429,6 +447,7 @@ Exempel:<br/>
     <string name="notification_goal_time_description">mål uppnått</string>
     <string name="notification_time_started">Påbörjade %s</string>
     <string name="notification_record_type_stop">Sluta</string>
+    <string name="notification_pomodoro_subtitle">Startar: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">För att ta bort helt - öppna arkivet</string>
@@ -465,6 +484,12 @@ Exempel:<br/>
     <string name="records_filter_any_comment">Någon kommentar</string>
     <string name="records_filter_select">Välj</string>
     <string name="records_filter_invert_selection">Invertera urval</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Fokus</string>
+    <string name="pomodoro_state_break">Paus</string>
+    <string name="pomodoro_state_long_break">Lång paus</string>
+    <string name="pomodoro_settings_periods_until_long_break">Perioder till lång paus</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Ansiktsuttryck &amp; Känslor</string>

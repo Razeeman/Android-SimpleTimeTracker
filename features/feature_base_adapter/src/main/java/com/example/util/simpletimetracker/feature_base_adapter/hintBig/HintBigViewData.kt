@@ -6,7 +6,19 @@ data class HintBigViewData(
     val text: String,
     val infoIconVisible: Boolean,
     val closeIconVisible: Boolean,
+    val button: Button = Button.Hidden,
 ) : ViewHolderType {
+
+    sealed interface Button {
+        object Hidden : Button
+
+        data class Present(
+            val text: String,
+            val type: ButtonType,
+        ) : Button
+    }
+
+    interface ButtonType
 
     override fun getUniqueId(): Long = text.hashCode().toLong()
 

@@ -102,6 +102,13 @@ class PrefsInteractor @Inject constructor(
             prefsRepo.statisticsRangeCustomStart = rangeLength.range.timeStarted
             prefsRepo.statisticsRangeCustomEnd = rangeLength.range.timeEnded
         }
+        if (rangeLength is RangeLength.Last) {
+            prefsRepo.statisticsRangeLastDays = rangeLength.days
+        }
+    }
+
+    suspend fun getStatisticsLastDays(): Int = withContext(Dispatchers.IO) {
+        prefsRepo.statisticsRangeLastDays
     }
 
     suspend fun getStatisticsDetailRange(): RangeLength = withContext(Dispatchers.IO) {
@@ -115,6 +122,13 @@ class PrefsInteractor @Inject constructor(
             prefsRepo.statisticsDetailRangeCustomStart = rangeLength.range.timeStarted
             prefsRepo.statisticsDetailRangeCustomEnd = rangeLength.range.timeEnded
         }
+        if (rangeLength is RangeLength.Last) {
+            prefsRepo.statisticsDetailRangeLastDays = rangeLength.days
+        }
+    }
+
+    suspend fun getStatisticsDetailLastDays(): Int = withContext(Dispatchers.IO) {
+        prefsRepo.statisticsDetailRangeLastDays
     }
 
     suspend fun getKeepStatisticsRange(): Boolean = withContext(Dispatchers.IO) {
@@ -217,6 +231,54 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun setShowActivityFilters(isEnabled: Boolean) = withContext(Dispatchers.IO) {
         prefsRepo.showActivityFilters = isEnabled
+    }
+
+    suspend fun getEnablePomodoroMode(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.enablePomodoroMode
+    }
+
+    suspend fun setEnablePomodoroMode(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.enablePomodoroMode = isEnabled
+    }
+
+    suspend fun getPomodoroModeStartedTimestampMs(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroModeStartedTimestamp
+    }
+
+    suspend fun setPomodoroModeStartedTimestampMs(timestampMs: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroModeStartedTimestamp = timestampMs
+    }
+
+    suspend fun getPomodoroFocusTime(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroFocusTime
+    }
+
+    suspend fun setPomodoroFocusTime(duration: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroFocusTime = duration
+    }
+
+    suspend fun getPomodoroBreakTime(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroBreakTime
+    }
+
+    suspend fun setPomodoroBreakTime(duration: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroBreakTime = duration
+    }
+
+    suspend fun getPomodoroLongBreakTime(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroLongBreakTime
+    }
+
+    suspend fun setPomodoroLongBreakTime(duration: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroLongBreakTime = duration
+    }
+
+    suspend fun getPomodoroPeriodsUntilLongBreak(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroPeriodsUntilLongBreak
+    }
+
+    suspend fun setPomodoroPeriodsUntilLongBreak(value: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.pomodoroPeriodsUntilLongBreak = value
     }
 
     suspend fun getAllowMultipleActivityFilters(): Boolean = withContext(Dispatchers.IO) {
@@ -462,6 +524,16 @@ class PrefsInteractor @Inject constructor(
             .map(Long::toString).toSet()
     }
 
+    suspend fun getAutostartPomodoroActivities(): List<Long> = withContext(Dispatchers.IO) {
+        prefsRepo.autostartPomodoroActivities
+            .mapNotNull(String::toLongOrNull)
+    }
+
+    suspend fun setAutostartPomodoroActivities(value: List<Long>) = withContext(Dispatchers.IO) {
+        prefsRepo.autostartPomodoroActivities = value
+            .map(Long::toString).toSet()
+    }
+
     suspend fun getAutomatedTrackingSendEvents(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.automatedTrackingSendEvents
     }
@@ -488,6 +560,10 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun getStatisticsWidget(widgetId: Int): StatisticsWidgetData = withContext(Dispatchers.IO) {
         prefsRepo.getStatisticsWidget(widgetId)
+    }
+
+    suspend fun getStatisticsWidgetLastDays(widgetId: Int): Int = withContext(Dispatchers.IO) {
+        prefsRepo.getStatisticsWidgetLastDays(widgetId)
     }
 
     suspend fun removeStatisticsWidget(widgetId: Int) = withContext(Dispatchers.IO) {
@@ -609,8 +685,24 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.defaultTypesHidden = value
     }
 
+    suspend fun getIsNavBarAtTheBottom(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.isNavBarAtTheBottom
+    }
+
+    suspend fun setIsNavBarAtTheBottom(value: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.isNavBarAtTheBottom = value
+    }
+
     suspend fun clear() = withContext(Dispatchers.IO) {
         prefsRepo.clear()
+    }
+
+    suspend fun clearDefaultTypesHidden() = withContext(Dispatchers.IO) {
+        prefsRepo.clearDefaultTypesHidden()
+    }
+
+    suspend fun clearPomodoroSettingsClick() = withContext(Dispatchers.IO) {
+        prefsRepo.clearPomodoroSettingsClick()
     }
 
     private fun mapToRange(value: Int, forDetail: Boolean): RangeLength {
@@ -633,7 +725,13 @@ class PrefsInteractor @Inject constructor(
                     )
                 }.let(RangeLength::Custom)
             }
-            6 -> RangeLength.Last
+            6 -> {
+                if (forDetail) {
+                    prefsRepo.statisticsDetailRangeLastDays
+                } else {
+                    prefsRepo.statisticsRangeLastDays
+                }.let(RangeLength::Last)
+            }
             else -> RangeLength.Day
         }
     }

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnPomodoroSettings"
+        style="@style/SettingsCard"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_margin="8dp"
+        android:foreground="?selectableItemBackground"
+        app:cardBackgroundColor="?appCardBackgroundColor"
+        app:layout_constraintDimensionRatio="h,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:tint="?appInactiveColor"
+            app:srcCompat="@drawable/tab_settings" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/viewPomodoroTimer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/viewPomodoroTimer">
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupPomodoroTimerHours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="tvPomodoroTimerHours, tvPomodoroTimerHoursDelimiter, tvPomodoroTimerHoursLegend"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPomodoroTimerHoursLegend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:text="@string/time_hour"
+            android:textColor="?appTextHintColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/tvPomodoroTimerHours"
+            app:layout_constraintEnd_toEndOf="@id/tvPomodoroTimerHours"
+            app:layout_constraintStart_toStartOf="@id/tvPomodoroTimerHours" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPomodoroTimerHours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:textColor="?appTextPrimaryColor"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvPomodoroTimerHoursDelimiter"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="12" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPomodoroTimerHoursDelimiter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed-light"
+            android:includeFontPadding="false"
+            android:paddingHorizontal="2dp"
+            android:text=":"
+            android:textColor="?appTextPrimaryColor"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvPomodoroTimerMinutes"
+            app:layout_constraintStart_toEndOf="@id/tvPomodoroTimerHours"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPomodoroTimerMinutesLegend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:text="@string/time_minute"
+            android:textColor="?appTextHintColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/tvPomodoroTimerMinutes"
+            app:layout_constraintEnd_toEndOf="@id/tvPomodoroTimerMinutes"
+            app:layout_constraintStart_toStartOf="@id/tvPomodoroTimerMinutes" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPomodoroTimerMinutes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:textColor="?appTextPrimaryColor"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvPomodoroTimerMinutesDelimiter"
+            app:layout_constraintStart_toEndOf="@id/tvPomodoroTimerHoursDelimiter"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="34" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPomodoroTimerMinutesDelimiter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed-light"
+            android:includeFontPadding="false"
+            android:paddingHorizontal="2dp"
+            android:text=":"
+            android:textColor="?appTextPrimaryColor"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvPomodoroTimerSeconds"
+            app:layout_constraintStart_toEndOf="@id/tvPomodoroTimerMinutes"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPomodoroTimerSecondsLegend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:text="@string/time_second"
+            android:textColor="?appTextHintColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/tvPomodoroTimerSeconds"
+            app:layout_constraintEnd_toEndOf="@id/tvPomodoroTimerSeconds"
+            app:layout_constraintStart_toStartOf="@id/tvPomodoroTimerSeconds" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPomodoroTimerSeconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:textColor="?appTextPrimaryColor"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvPomodoroTimerMinutesDelimiter"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="56" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierPomodoroTimes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="tvPomodoroTimerHours, tvPomodoroTimerMinutes, tvPomodoroTimerSeconds" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPomodoroCycleHint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:textColor="?appTextHintColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrierPomodoroTimes"
+            tools:text="@string/pomodoro_state_focus" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/viewPomodoroTimer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:indicatorColor="?colorSecondary"
+        app:indicatorInset="0dp"
+        app:layout_constraintBottom_toTopOf="@id/btnPomodoroStart"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:trackColor="?appDividerColor"
+        app:trackCornerRadius="0dp"
+        app:trackThickness="1dp"
+        tools:max="100"
+        tools:progress="75" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnPomodoroRestart"
+        style="@style/SettingsCard"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginHorizontal="20dp"
+        android:foreground="?selectableItemBackground"
+        app:cardCornerRadius="100dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnPomodoroStart"
+        app:layout_constraintEnd_toStartOf="@id/btnPomodoroStart"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnPomodoroStart">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:tint="?appContrastColor"
+            app:srcCompat="@drawable/button_restart" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnPomodoroStart"
+        style="@style/SettingsCard"
+        android:layout_width="80dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="64dp"
+        android:foreground="?selectableItemBackground"
+        app:cardCornerRadius="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivPomodoroButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="12dp"
+            android:tint="?appContrastColor"
+            app:srcCompat="@drawable/button_play" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnPomodoroNext"
+        style="@style/SettingsCard"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginHorizontal="20dp"
+        android:foreground="?selectableItemBackground"
+        app:cardCornerRadius="100dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnPomodoroStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/btnPomodoroStart"
+        app:layout_constraintTop_toTopOf="@id/btnPomodoroStart">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:tint="?appContrastColor"
+            app:srcCompat="@drawable/button_next" />
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

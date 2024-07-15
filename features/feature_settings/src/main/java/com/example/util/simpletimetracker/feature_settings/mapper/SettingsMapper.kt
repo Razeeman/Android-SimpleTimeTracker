@@ -261,6 +261,20 @@ class SettingsMapper @Inject constructor(
         }
     }
 
+    fun toCountViewData(count: Long): SettingsDurationViewData {
+        return if (count > 0) {
+            SettingsDurationViewData(
+                text = count.toString(),
+                enabled = true,
+            )
+        } else {
+            SettingsDurationViewData(
+                text = resourceRepo.getString(R.string.settings_inactivity_reminder_disabled),
+                enabled = false,
+            )
+        }
+    }
+
     fun toStartOfDayShift(
         timestamp: Long,
         wasPositive: Boolean,

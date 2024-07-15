@@ -17,45 +17,19 @@
         android:text="@string/change_record_type_goal_time_description"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.example.util.simpletimetracker.feature_views.HintBigView
         android:id="@+id/containerChangeRecordTypeGoalNotificationsHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
         android:layout_marginTop="8dp"
-        android:background="@drawable/bg_rounded_corners"
-        android:backgroundTint="?appActiveColor"
-        android:padding="16dp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/tvChangeRecordTypeGoalTimeDescription"
-        tools:visibility="visible">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeRecordTypeGoalNotificationsHint"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:gravity="center"
-            android:text="@string/post_notifications"
-            android:textColor="?appLightTextColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnChangeRecordTypeGoalNotificationsHint"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/btnChangeRecordTypeGoalNotificationsHint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/schedule_exact_alarms_open_settings"
-            android:textAllCaps="true"
-            android:textColor="?colorSecondary"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:itemActionButtonText="@string/schedule_exact_alarms_open_settings"
+        app:itemActionButtonVisible="true"
+        app:itemCloseIconVisible="false"
+        app:itemHintText="@string/post_notifications"
+        app:itemInfoIconVisible="false"
+        tools:visibility="visible" />
 
     <include
         android:id="@+id/layoutChangeRecordTypeGoalSession"

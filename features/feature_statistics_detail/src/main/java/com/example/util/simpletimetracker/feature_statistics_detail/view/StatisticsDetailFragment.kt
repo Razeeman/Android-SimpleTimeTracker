@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.dialog.CustomRangeSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
+import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.RecordsFilterListener
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.toViewData
@@ -25,8 +26,6 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.crea
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailPreviewsAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailSeriesCalendarAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailSeriesChartAdapterDelegate
-import com.example.util.simpletimetracker.feature_statistics_detail.customView.BarChartView
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
@@ -42,6 +41,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.databinding.
 class StatisticsDetailFragment :
     BaseFragment<Binding>(),
     DateTimeDialogListener,
+    DurationDialogListener,
     CustomRangeSelectionDialogListener,
     RecordsFilterListener {
 
@@ -108,10 +108,16 @@ class StatisticsDetailFragment :
         viewModel.onCustomRangeSelected(range)
     }
 
+    override fun onCountSet(count: Long, tag: String?) {
+        viewModel.onCountSet(count, tag)
+    }
+
     override fun initViewModel(): Unit = with(viewModel) {
         initialize(params)
 
-        viewModel.content.observe(contentAdapter::replace)
+        // TODO expand appbar on short list.
+        scrollToTop.observe { scrollToTop() }
+        content.observe(contentAdapter::replace)
         previewViewData.observe(::setPreviewViewData)
         title.observe(binding.btnStatisticsDetailToday::setText)
         rangeItems.observe(::updateRangeItems)
@@ -147,8 +153,8 @@ class StatisticsDetailFragment :
         ).let(::setPreviewViewData)
     }
 
-    private fun setPreviewViewData(viewData: StatisticsDetailPreviewCompositeViewData) = with(binding) {
-        val first = viewData.data ?: return@with
+    private fun setPreviewViewData(viewData: StatisticsDetailPreviewCompositeViewData?) = with(binding) {
+        val first = viewData?.data ?: return@with
 
         viewStatisticsDetailItem.itemName = first.name
         viewStatisticsDetailItem.itemColor = first.color
@@ -167,6 +173,11 @@ class StatisticsDetailFragment :
     private fun updateRangeButtonsVisibility(isVisible: Boolean) = with(binding) {
         btnStatisticsDetailPrevious.visible = isVisible
         btnStatisticsDetailNext.visible = isVisible
+    }
+
+    private fun scrollToTop() {
+        binding.appBarStatisticsDetail.setExpanded(true)
+        binding.rvStatisticsDetailContent.apply { post { smoothScrollToPosition(0) } }
     }
 
     companion object {

@@ -10,7 +10,9 @@ data class StatisticsDetailStreaksViewData(
     val showComparison: Boolean,
     val compareData: List<SeriesView.ViewData>,
     val showCalendar: Boolean,
+    val calendarRowsCount: Int,
     val calendarData: List<SeriesCalendarView.ViewData>,
     val showComparisonCalendar: Boolean,
     val compareCalendarData: List<SeriesCalendarView.ViewData>,
+    val completion: List<StatisticsDetailCardInternalViewData>,
 )

@@ -33,11 +33,19 @@
     <string name="range_year">年</string>
     <string name="range_overall">全部</string>
     <string name="range_custom">範圍</string>
-    <string name="range_last">最後 7 天</string>
     <string name="range_select_day">選擇日</string>
     <string name="range_select_week">選擇周</string>
     <string name="range_select_month">選擇月</string>
     <string name="range_select_year">選擇年</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">最後 %s 天</item>-->
+        <!--        <item quantity="one">最後 %s 天</item>-->
+        <!--        <item quantity="two">最後 %s 天</item>-->
+        <!--        <item quantity="few">最後 %s 天</item>-->
+        <!--        <item quantity="many">最後 %s 天</item>-->
+        <item quantity="other">最後 %s 天</item>
+    </plurals>
 
     <string name="ok">確定</string>
     <string name="cancel">取消</string>
@@ -122,6 +130,8 @@
     <string name="change_record_change_overlapped">重疊</string>
     <string name="change_record_change_overlapped_hint">記錄完全重疊，將刪除</string>
     <string name="change_record_untracked_time_hint">未追蹤時間是指沒有追蹤任何活動的時間。</string>
+    <string name="change_record_previous_not_found">未找到先前的記錄</string>
+    <string name="change_record_next_not_found">未找到下一紀錄</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">已備存活動</string>
@@ -190,6 +200,9 @@
     <string name="record_tag_selection_exclude_activities_title">排除活動</string>
     <string name="record_tag_selection_exclude_activities_hint">對於選定的活動，不會顯示標籤選擇對話方塊。</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">選擇活動</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">當選定的活動開始時，番茄工作法將自動啟動。</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">排序紀錄</string>
     <string name="records_all_sort_time_started">開始時間</string>
@@ -238,7 +251,9 @@
     <string name="settings_show_activity_filters">主視窗上顯示活動過濾器</string>
     <string name="settings_allow_multiple_activity_filters">允許多個活動過濾器</string>
     <string name="settings_allow_multiple_activity_filters_hint">如果停用，選擇一個過濾器將停用其他活動過濾器。</string>
+    <string name="settings_enable_pomodoro_mode">在主畫面上顯示番茄鐘按鈕</string>
     <string name="settings_show_goals_separately">在單獨的選項卡上顯示目標</string>
+    <string name="settings_show_nav_bar_at_the_bottom">在底部顯示導覽列</string>
     <string name="settings_allow_multitasking">允許多任務</string>
     <string name="settings_allow_multitasking_hint">如果禁用啟動新計時器將自動停止其他活動。</string>
     <string name="settings_show_notifications">顯示計時器提醒</string>
@@ -395,6 +410,9 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="statistics_detail_streaks">系列</string>
     <string name="statistics_detail_streaks_longest">最久</string>
     <string name="statistics_detail_streaks_current">現在</string>
+    <string name="statistics_detail_streaks_completion">完成率</string>
+    <string name="statistics_detail_streaks_completion_percentage">百分比</string>
+    <string name="statistics_detail_streaks_completion_count">數數</string>
     <string name="statistics_detail_streaks_latest">最新</string>
     <string name="statistics_detail_streaks_any">任何持續時間</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -406,11 +424,11 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="statistics_detail_multitasking_activities_hint">頂級多工處理</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">紀錄</item>-->
-<!--        <item quantity="one">紀錄</item>-->
-<!--        <item quantity="two">紀錄</item>-->
-<!--        <item quantity="few">紀錄</item>-->
-<!--        <item quantity="many">紀錄</item>-->
+        <!--        <item quantity="zero">紀錄</item>-->
+        <!--        <item quantity="one">紀錄</item>-->
+        <!--        <item quantity="two">紀錄</item>-->
+        <!--        <item quantity="few">紀錄</item>-->
+        <!--        <item quantity="many">紀錄</item>-->
         <item quantity="other">紀錄</item>
     </plurals>
 
@@ -429,6 +447,7 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="notification_goal_time_description">目標時達成</string>
     <string name="notification_time_started">開始於 %s</string>
     <string name="notification_record_type_stop">停止</string>
+    <string name="notification_pomodoro_subtitle">開始：%s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">要完全刪除 - 開啟存檔</string>
@@ -465,6 +484,12 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="records_filter_any_comment">任何意見</string>
     <string name="records_filter_select">選擇</string>
     <string name="records_filter_invert_selection">反轉選擇</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">焦點</string>
+    <string name="pomodoro_state_break">中斷</string>
+    <string name="pomodoro_state_long_break">長時間休息</string>
+    <string name="pomodoro_settings_periods_until_long_break">長時間休息前的時間</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">表情</string>

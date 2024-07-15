@@ -76,15 +76,8 @@ class NotificationResolverImpl @Inject constructor(
             maxLines = 5
         }
 
-        snackBar.view.apply {
-            post {
-                setMargins(
-                    top = data.margins.top,
-                    bottom = data.margins.bottom,
-                    start = data.margins.left,
-                    end = data.margins.right,
-                )
-            }
+        if (data.marginBottomDp != null) {
+            snackBar.view.apply { post { setMargins(bottom = data.marginBottomDp) } }
         }
 
         if (anchor is View) {

@@ -12,7 +12,7 @@
         android:clipToPadding="false"
         android:paddingVertical="20dp"
         tools:itemCount="30"
-        tools:listitem="@layout/item_widget_record_type_layout" />
+        tools:listitem="@layout/item_record_type_layout" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"

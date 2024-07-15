@@ -37,6 +37,22 @@
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
 
+    <action
+        android:id="@+id/action_to_pomodoroFragment"
+        app:destination="@id/pomodoroFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+
+    <action
+        android:id="@+id/action_to_pomodoroSettingsFragment"
+        app:destination="@id/pomodoroSettingsDialogFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.util.simpletimetracker.feature_main.view.MainFragment"
@@ -180,6 +196,11 @@
         android:name="com.example.util.simpletimetracker.feature_change_activity_filter.view.ChangeActivityFilterFragment"
         android:label="ChangeActivityFilterFragment"
         tools:layout="@layout/change_activity_filter_fragment" />
+    <fragment
+        android:id="@+id/pomodoroFragment"
+        android:name="com.example.util.simpletimetracker.feature_pomodoro.timer.view.PomodoroFragment"
+        android:label="PomodoroFragment"
+        tools:layout="@layout/pomodoro_fragment" />
     <dialog
         android:id="@+id/dateTimeDialog"
         android:name="com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialogFragment"
@@ -274,4 +295,14 @@
         android:name="com.example.util.simpletimetracker.feature_records_filter.view.RecordsFilterFragment"
         android:label="RecordsFilterFragment"
         tools:layout="@layout/records_filter_fragment" />
+    <dialog
+        android:id="@+id/pomodoroSettingsDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_pomodoro.settings.view.PomodoroSettingsDialogFragment"
+        android:label="PomodoroSettingsFragment"
+        tools:layout="@layout/pomodoro_settings_fragment" />
+    <dialog
+        android:id="@+id/recordQuickActionsDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_dialogs.recordQuickActions.view.RecordQuickActionsDialogFragment"
+        android:label="RecordQuickActionsDialogFragment"
+        tools:layout="@layout/record_quick_actions_dialog_fragment" />
 </navigation>

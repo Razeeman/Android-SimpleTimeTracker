@@ -6,18 +6,22 @@
 package com.example.util.simpletimetracker.presentation.ui.layout
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.ScalingLazyListScope
 import androidx.wear.compose.material.rememberScalingLazyListState
 
 @Composable
 fun ScaffoldedScrollingColumn(
     startItemIndex: Int,
+    spacedBy: Dp = 10.dp,
     content: ScalingLazyListScope.() -> Unit,
 ) {
     val scrollState = rememberScalingLazyListState()
     Scaffolding(scrollState) {
         ScrollingColumn(
             startItemIndex = startItemIndex,
+            spacedBy = spacedBy,
             scrollState = scrollState,
             content = content,
         )

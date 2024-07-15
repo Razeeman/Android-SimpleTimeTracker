@@ -33,11 +33,19 @@
     <string name="range_year">年</string>
     <string name="range_overall">全部</string>
     <string name="range_custom">间隔</string>
-    <string name="range_last">最近 7 天</string>
     <string name="range_select_day">选择日期</string>
     <string name="range_select_week">选择星期</string>
     <string name="range_select_month">选择月份</string>
     <string name="range_select_year">选择年份</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">最近 %s 天</item>-->
+        <!--        <item quantity="one">最近 %s 天</item>-->
+        <!--        <item quantity="two">最近 %s 天</item>-->
+        <!--        <item quantity="few">最近 %s 天</item>-->
+        <!--        <item quantity="many">最近 %s 天</item>-->
+        <item quantity="other">最近 %s 天</item>
+    </plurals>
 
     <string name="ok">确认</string>
     <string name="cancel">取消</string>
@@ -121,7 +129,9 @@
     <string name="change_record_change_next">下一个</string>
     <string name="change_record_change_overlapped">重叠</string>
     <string name="change_record_change_overlapped_hint">记录完全重叠，将被删除</string>
-`    <string name="change_record_untracked_time_hint">未跟踪时间是指没有跟踪任何活动的时间。可以在设置中禁用它</string>
+    <string name="change_record_untracked_time_hint">未跟踪时间是指没有跟踪任何活动的时间。可以在设置中禁用它</string>
+    <string name="change_record_previous_not_found">未找到之前的记录</string>
+    <string name="change_record_next_not_found">未找到下一条记录</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">活动已存档</string>
@@ -190,6 +200,9 @@
     <string name="record_tag_selection_exclude_activities_title">排除活动</string>
     <string name="record_tag_selection_exclude_activities_hint">对于选定的活动，不会显示标签选择对话框。</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">选择活动</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">当选定的活动开始时，番茄工作法将自动启动。</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">对记录排序</string>
     <string name="records_all_sort_time_started">开始时间</string>
@@ -238,7 +251,9 @@
     <string name="settings_show_activity_filters">在主屏幕上显示活动过滤器</string>
     <string name="settings_allow_multiple_activity_filters">允许多个活动过滤器</string>
     <string name="settings_allow_multiple_activity_filters_hint">如果禁用，选择一个过滤器将禁用其他活动过滤器。</string>
+    <string name="settings_enable_pomodoro_mode">在主屏幕上显示番茄钟按钮</string>
     <string name="settings_show_goals_separately">在单独的选项卡上显示目标</string>
+    <string name="settings_show_nav_bar_at_the_bottom">在底部显示导航栏</string>
     <string name="settings_allow_multitasking">允许同时对多个活动进行追踪</string>
     <string name="settings_allow_multitasking_hint">如果不启用，启动新活动追踪时，将自动停止追踪其他活动。</string>
     <string name="settings_show_notifications">显示计时通知</string>
@@ -395,6 +410,9 @@ csv 文件必须包含以逗号分隔的这些列：<br/>
     <string name="statistics_detail_streaks">系列</string>
     <string name="statistics_detail_streaks_longest">最长</string>
     <string name="statistics_detail_streaks_current">当前的</string>
+    <string name="statistics_detail_streaks_completion">完成率</string>
+    <string name="statistics_detail_streaks_completion_percentage">百分比</string>
+    <string name="statistics_detail_streaks_completion_count">数数</string>
     <string name="statistics_detail_streaks_latest">最新的</string>
     <string name="statistics_detail_streaks_any">任何持续时间</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -429,6 +447,7 @@ csv 文件必须包含以逗号分隔的这些列：<br/>
     <string name="notification_goal_time_description">达到的目标</string>
     <string name="notification_time_started">从 %s 开始</string>
     <string name="notification_record_type_stop">停止</string>
+    <string name="notification_pomodoro_subtitle">开始：%s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">要完全删除 - 打开存档</string>
@@ -465,6 +484,12 @@ csv 文件必须包含以逗号分隔的这些列：<br/>
     <string name="records_filter_any_comment">任何意见</string>
     <string name="records_filter_select">选择</string>
     <string name="records_filter_invert_selection">反转选择</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">焦点</string>
+    <string name="pomodoro_state_break">中断</string>
+    <string name="pomodoro_state_long_break">长时间休息</string>
+    <string name="pomodoro_settings_periods_until_long_break">长时间休息前的时间</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">微笑与情感</string>

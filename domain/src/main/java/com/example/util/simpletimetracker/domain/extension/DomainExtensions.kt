@@ -37,3 +37,11 @@ fun Long.dropSeconds(): Long {
 fun Long.dropMillis(): Long {
     return this / SECOND_IN_MILLIS * SECOND_IN_MILLIS
 }
+
+fun Long.toDuration(): String {
+    return this.toString().padDuration()
+}
+
+fun String.padDuration(): String {
+    return this.padStart(2, '0')
+}

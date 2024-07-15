@@ -411,4 +411,22 @@
         <item name="autoSizeTextType">uniform</item>
     </style>
 
+    <style name="AppFabButton" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/button_corner_radius</item>
+    </style>
+
+    <style name="RecordQuickActionButton" parent="EditScreenControlButton">
+        <item name="android:layout_height">68dp</item>
+        <item name="cardBackgroundColor">?appActiveColor</item>
+    </style>
+
+    <style name="RecordQuickActionButtonImage" parent="EditScreenControlButtonImage">
+        <item name="android:tint">?appLightTextColor</item>
+    </style>
+
+    <style name="RecordQuickActionButtonText" parent="EditScreenControlButtonText">
+        <item name="android:textColor">?appLightTextColor</item>
+    </style>
+
 </resources>

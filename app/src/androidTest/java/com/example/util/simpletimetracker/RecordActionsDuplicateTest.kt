@@ -114,7 +114,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
             comment,
         )
 
-        // Continue
+        // Duplicate
         clickOnViewWithText(fullName)
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         onView(withText(coreR.string.change_record_duplicate)).perform(nestedScrollTo(), click())
@@ -256,6 +256,36 @@ class RecordActionsDuplicateTest : BaseUiTest() {
                 timeRangePreview,
                 comment,
             )
+        }
+    }
+
+    @Test
+    fun duplicateFromQuickActions() {
+        val name = "Name"
+
+        // Setup
+        testUtils.addActivity(name)
+        testUtils.addRecord(name)
+
+        // Check record
+        NavUtils.openRecordsScreen()
+        onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
+            .check(recyclerItemCount(2))
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(name)),
+                isCompletelyDisplayed(),
+            ),
+        )
+
+        // Duplicate
+        longClickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnViewWithText(coreR.string.change_record_duplicate)
+
+        tryAction {
+            onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
+                .check(recyclerItemCount(3))
         }
     }
 

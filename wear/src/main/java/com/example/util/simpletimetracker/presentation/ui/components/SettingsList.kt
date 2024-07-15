@@ -47,6 +47,7 @@ fun SettingsList(
 ) {
     ScaffoldedScrollingColumn(
         startItemIndex = 0,
+        spacedBy = 0.dp,
     ) {
         when (state) {
             is SettingsListState.Loading -> item {
@@ -111,6 +112,12 @@ private fun ScalingLazyListScope.renderContent(
                         onClick = onClick,
                     )
                 }
+                is SettingsItem.Hint -> {
+                    SettingsHint(item)
+                }
+                is SettingsItem.Version -> {
+                    SettingsVersion(item)
+                }
             }
         }
     }
@@ -131,8 +138,44 @@ private fun Content() {
         SettingsItem.CheckBox(
             type = SettingsItemType.ShowCompactList,
             text = "Setting",
-            hint = "",
             checked = true,
+        ),
+        SettingsItem.Hint(
+            type = SettingsItemType.AllowMultitaskingHint,
+            hint = "Hint",
+        ),
+        SettingsItem.Version(
+            type = SettingsItemType.Version,
+            text = "Version 1.43",
+        ),
+    )
+    SettingsList(
+        state = SettingsListState.Content(
+            items = items,
+        ),
+    )
+}
+
+@Preview(
+    device = WearDevices.LARGE_ROUND,
+    showSystemUi = true,
+    fontScale = 1.5f,
+)
+@Composable
+private fun ContentLong() {
+    val items = listOf(
+        SettingsItem.CheckBox(
+            type = SettingsItemType.ShowCompactList,
+            text = "Setting Setting Setting Setting Setting",
+            checked = true,
+        ),
+        SettingsItem.Hint(
+            type = SettingsItemType.AllowMultitaskingHint,
+            hint = "Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint Hint ",
+        ),
+        SettingsItem.Version(
+            type = SettingsItemType.Version,
+            text = "Version 1.43",
         ),
     )
     SettingsList(

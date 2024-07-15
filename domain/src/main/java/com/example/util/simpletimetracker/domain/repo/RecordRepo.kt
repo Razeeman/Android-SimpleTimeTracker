@@ -29,6 +29,14 @@ interface RecordRepo {
 
     suspend fun getNext(timeEnded: Long): Record?
 
+    suspend fun getPrevTimeStarted(fromTimestamp: Long): Long?
+
+    suspend fun getNextTimeStarted(fromTimestamp: Long): Long?
+
+    suspend fun getPrevTimeEnded(fromTimestamp: Long): Long?
+
+    suspend fun getNextTimeEnded(fromTimestamp: Long): Long?
+
     suspend fun add(record: Record): Long
 
     suspend fun update(

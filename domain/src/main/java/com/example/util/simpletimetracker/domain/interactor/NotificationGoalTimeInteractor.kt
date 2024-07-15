@@ -8,6 +8,7 @@ interface NotificationGoalTimeInteractor {
 
     fun cancel(idData: RecordTypeGoal.IdData)
 
+    // TODO move to notification module, also check other interactors.
     suspend fun show(
         idData: RecordTypeGoal.IdData,
         goalRange: RecordTypeGoal.Range,

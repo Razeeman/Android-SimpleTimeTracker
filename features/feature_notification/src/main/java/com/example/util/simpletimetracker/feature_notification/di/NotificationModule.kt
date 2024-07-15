@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationActivity
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalCountInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalRangeEndInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.PomodoroCycleNotificationInteractor
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.interactor.AutomaticBackupInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.repo.AutomaticBackupRepoImpl
 import com.example.util.simpletimetracker.feature_notification.automaticExport.interactor.AutomaticExportInteractorImpl
@@ -20,6 +21,7 @@ import com.example.util.simpletimetracker.feature_notification.inactivity.intera
 import com.example.util.simpletimetracker.feature_notification.activity.interactor.NotificationActivityInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.goalTime.interactor.NotificationGoalCountInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.goalTime.interactor.NotificationGoalRangeEndInteractorImpl
+import com.example.util.simpletimetracker.feature_notification.pomodoro.interactor.PomodoroCycleNotificationInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.recordType.interactor.ActivityStartedStoppedBroadcastInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.recordType.interactor.NotificationTypeInteractorImpl
 import dagger.Binds
@@ -57,11 +59,14 @@ interface NotificationModule {
     fun AutomaticBackupInteractorImpl.bindAutomaticBackupInteractor(): AutomaticBackupInteractor
 
     @Binds
-    @Singleton
-    fun AutomaticBackupRepoImpl.bindAutomaticBackupRepo(): AutomaticBackupRepo
+    fun PomodoroCycleNotificationInteractorImpl.bindPomodoroCycleNotificationInteractor(): PomodoroCycleNotificationInteractor
 
     @Binds
     fun AutomaticExportInteractorImpl.bindAutomaticExportInteractor(): AutomaticExportInteractor
+
+    @Binds
+    @Singleton
+    fun AutomaticBackupRepoImpl.bindAutomaticBackupRepo(): AutomaticBackupRepo
 
     @Binds
     @Singleton

@@ -18,10 +18,12 @@ import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
+import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.tryAction
+import com.example.util.simpletimetracker.utils.withPluralText
 import dagger.hilt.android.testing.HiltAndroidTest
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -132,7 +134,8 @@ class StatisticsRangesTest : BaseUiTest() {
         checkViewDoesNotExist(withText(coreR.string.range_select_week))
         checkViewDoesNotExist(withText(coreR.string.range_select_month))
         checkViewDoesNotExist(withText(coreR.string.range_select_year))
-        clickOnViewWithText(coreR.string.range_last)
+        clickOnView(withPluralText(coreR.plurals.range_last, 7, 7))
+        clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
         checkViewIsNotDisplayed(withId(statisticsR.id.btnStatisticsContainerPrevious))
         checkViewIsNotDisplayed(withId(statisticsR.id.btnStatisticsContainerNext))
@@ -785,9 +788,13 @@ class StatisticsRangesTest : BaseUiTest() {
         // Select range
         NavUtils.openStatisticsScreen()
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
-        clickOnViewWithText(coreR.string.range_last)
+        clickOnView(withPluralText(coreR.plurals.range_last, 7, 7))
+        clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.btnStatisticsContainerToday), withText(coreR.string.range_last)),
+            allOf(
+                withId(statisticsR.id.btnStatisticsContainerToday),
+                withPluralText(coreR.plurals.range_last, 7, 7),
+            ),
         )
         checkStatisticsItem(name = name1, hours = 2)
     }

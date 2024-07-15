@@ -344,6 +344,48 @@ class RecordActionsContinueTest : BaseUiTest() {
         )
     }
 
+    @Test
+    fun continueFromQuickActions() {
+        val name = "Name"
+
+        // Setup
+        testUtils.addActivity(name = name)
+        testUtils.addRecord(name)
+
+        // Check record
+        NavUtils.openRecordsScreen()
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(name)),
+                isCompletelyDisplayed(),
+            ),
+        )
+
+        // Continue
+        longClickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnViewWithText(coreR.string.change_record_continue)
+
+        // Check no record
+        checkViewDoesNotExist(
+            allOf(
+                withText(name),
+                isDescendantOfA(withId(baseR.id.viewRecordItem)),
+                isCompletelyDisplayed(),
+            ),
+        )
+
+        // Check running record
+        NavUtils.openRunningRecordsScreen()
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewRunningRecordItem),
+                hasDescendant(withText(name)),
+                isCompletelyDisplayed(),
+            ),
+        )
+    }
+
     @Suppress("SameParameterValue")
     private fun checkRecord(
         name: String,

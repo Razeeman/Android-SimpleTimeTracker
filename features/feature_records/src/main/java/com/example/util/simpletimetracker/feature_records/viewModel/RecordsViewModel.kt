@@ -25,13 +25,14 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordF
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordFromMainParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordQuickActionsParams
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class RecordsViewModel @Inject constructor(
@@ -60,6 +61,13 @@ class RecordsViewModel @Inject constructor(
         when (item) {
             is RecordViewData -> onRecordClick(item)
             is RunningRecordViewData -> onRunningRecordClick(item)
+        }
+    }
+
+    fun onCalendarLongClick(item: ViewHolderType) {
+        when (item) {
+            is RecordViewData -> onRecordLongClick(item)
+            is RunningRecordViewData -> onRunningRecordLongClick(item)
         }
     }
 
@@ -143,6 +151,47 @@ class RecordsViewModel @Inject constructor(
             data = ChangeRecordFromMainParams(params),
             sharedElements = sharedElements?.let(::mapOf).orEmpty(),
         )
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    fun onRunningRecordLongClick(
+        item: RunningRecordViewData,
+        sharedElements: Pair<Any, String>? = null,
+    ) {
+        RecordQuickActionsParams(
+            type = RecordQuickActionsParams.Type.RecordRunning(
+                id = item.id,
+            ),
+            preview = RecordQuickActionsParams.Preview(
+                name = item.name,
+                iconId = item.iconId.toParams(),
+                color = item.color,
+            ),
+        ).let(router::navigate)
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    fun onRecordLongClick(
+        item: RecordViewData,
+        sharedElements: Pair<Any, String>? = null,
+    ) {
+        val type = when (item) {
+            is RecordViewData.Tracked -> RecordQuickActionsParams.Type.RecordTracked(
+                id = item.id,
+            )
+            is RecordViewData.Untracked -> RecordQuickActionsParams.Type.RecordUntracked(
+                timeStarted = item.timeStartedTimestamp,
+                timeEnded = item.timeEndedTimestamp,
+            )
+        }
+        RecordQuickActionsParams(
+            type = type,
+            preview = RecordQuickActionsParams.Preview(
+                name = item.name,
+                iconId = item.iconId.toParams(),
+                color = item.color,
+            ),
+        ).let(router::navigate)
     }
 
     fun onVisible() {

@@ -35,13 +35,16 @@ inline fun Fragment.setSharedTransitions(
     ViewCompat.setTransitionName(sharedView, transitionName)
 }
 
-fun Fragment.addOnBackPressedListener(isEnabled: Boolean = true, action: () -> Unit) {
-    activity?.onBackPressedDispatcher?.addCallback(
-        this,
-        object : OnBackPressedCallback(isEnabled) {
-            override fun handleOnBackPressed() = action()
-        },
-    )
+fun Fragment.addOnBackPressedListener(
+    isEnabled: Boolean = true,
+    action: () -> Unit,
+): OnBackPressedCallback {
+    val callback = object : OnBackPressedCallback(isEnabled) {
+        override fun handleOnBackPressed() = action()
+    }
+    // Using fragment lifecycle to avoid listener removed on view destroy event.
+    activity?.onBackPressedDispatcher?.addCallback(this, callback)
+    return callback
 }
 
 fun Fragment.getDrawable(@DrawableRes resId: Int): Drawable? {

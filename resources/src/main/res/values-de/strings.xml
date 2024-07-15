@@ -33,11 +33,19 @@
     <string name="range_year">Jahr</string>
     <string name="range_overall">Gesamt</string>
     <string name="range_custom">Intervall</string>
-    <string name="range_last">Letzten 7 Tage</string>
     <string name="range_select_day">Wähle Datum</string>
     <string name="range_select_week">Wähle Woche</string>
     <string name="range_select_month">Wähle Monat</string>
     <string name="range_select_year">Wähle Jahr</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Letzten %s Tage</item>-->
+        <item quantity="one">Letzter %s Tag</item>
+        <!--        <item quantity="two">Letzten %s Tage</item>-->
+        <!--        <item quantity="few">Letzten %s Tage</item>-->
+        <!--        <item quantity="many">Letzten %s Tage</item>-->
+        <item quantity="other">Letzten %s Tage</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
@@ -122,6 +130,8 @@
     <string name="change_record_change_overlapped">Überlappend</string>
     <string name="change_record_change_overlapped_hint">Datensätze überschneiden sich vollständig und werden entfernt</string>
     <string name="change_record_untracked_time_hint">Die nicht erfasste Zeit ist die Zeit, in der keine Aktivität erfasst wurde.</string>
+    <string name="change_record_previous_not_found">Vorheriger Datensatz nicht gefunden</string>
+    <string name="change_record_next_not_found">Nächster Datensatz nicht gefunden</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivität archiviert</string>
@@ -190,6 +200,9 @@
     <string name="record_tag_selection_exclude_activities_title">Aktivitäten ausschließen</string>
     <string name="record_tag_selection_exclude_activities_hint">Der Tag-Auswahldialog wird für ausgewählte Aktivitäten nicht angezeigt.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Wählen Sie Aktivitäten aus</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro wird automatisch gestartet, wenn ausgewählte Aktivitäten gestartet werden.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Einträge sortieren</string>
     <string name="records_all_sort_time_started">Zeit gestartet</string>
@@ -238,7 +251,9 @@
     <string name="settings_show_activity_filters">Aktivitätsfilter auf dem Hauptbildschirm anzeigen</string>
     <string name="settings_allow_multiple_activity_filters">Erlauben Sie mehrere Aktivitätsfilter</string>
     <string name="settings_allow_multiple_activity_filters_hint">Wenn die Option deaktiviert ist, werden durch die Auswahl eines Filters andere Aktivitätsfilter deaktiviert.</string>
+    <string name="settings_enable_pomodoro_mode">Pomodoro-Schaltfläche auf dem Hauptbildschirm anzeigen</string>
     <string name="settings_show_goals_separately">Ziele auf einer separaten Registerkarte anzeigen</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Navigationsleiste unten anzeigen</string>
     <string name="settings_allow_multitasking">Multitasking erlauben</string>
     <string name="settings_allow_multitasking_hint">Wenn diese Funktion deaktiviert ist, werden beim Starten eines neuen Timers andere Aktivitäten automatisch gestoppt.</string>
     <string name="settings_show_notifications">Timer-Benachrichtigungen anzeigen</string>
@@ -395,6 +410,9 @@ Beispiel:<br/>
     <string name="statistics_detail_streaks">Serie</string>
     <string name="statistics_detail_streaks_longest">Längste</string>
     <string name="statistics_detail_streaks_current">Aktuell</string>
+    <string name="statistics_detail_streaks_completion">Abschlussquote</string>
+    <string name="statistics_detail_streaks_completion_percentage">Prozentsatz</string>
+    <string name="statistics_detail_streaks_completion_count">Zählen</string>
     <string name="statistics_detail_streaks_latest">Neueste</string>
     <string name="statistics_detail_streaks_any">Beliebige Dauer</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -429,6 +447,7 @@ Beispiel:<br/>
     <string name="notification_goal_time_description">ziel erreicht</string>
     <string name="notification_time_started">Gestartet bei %s</string>
     <string name="notification_record_type_stop">Stoppen</string>
+    <string name="notification_pomodoro_subtitle">Startet: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Um es vollständig zu entfernen, öffnen Sie das Archiv</string>
@@ -465,6 +484,12 @@ Beispiel:<br/>
     <string name="records_filter_any_comment">Jeglicher Kommentar</string>
     <string name="records_filter_select">Wählen</string>
     <string name="records_filter_invert_selection">Auswahl umkehren</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Fokus</string>
+    <string name="pomodoro_state_break">Pause</string>
+    <string name="pomodoro_state_long_break">Lange Pause</string>
+    <string name="pomodoro_settings_periods_until_long_break">Zeiträume bis zur langen Pause</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Lächeln &amp; Stimmung</string>

@@ -33,11 +33,19 @@
     <string name="range_year">Ano</string>
     <string name="range_overall">Total</string>
     <string name="range_custom">Período</string>
-    <string name="range_last">Últimos 7 dias</string>
     <string name="range_select_day">Selecionar data</string>
     <string name="range_select_week">Selecionar semana</string>
     <string name="range_select_month">Selecionar mês</string>
     <string name="range_select_year">Selecionar ano</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Últimos %s dias</item>-->
+        <item quantity="one">Último %s dia</item>
+        <!--        <item quantity="two">Últimos %s dias</item>-->
+        <!--        <item quantity="few">Últimos %s dias</item>-->
+        <item quantity="many">Últimos %s dias</item>
+        <item quantity="other">Últimos %s dias</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Cancelar</string>
@@ -122,6 +130,8 @@
     <string name="change_record_change_overlapped">Sobreposto</string>
     <string name="change_record_change_overlapped_hint">Os registros estão completamente sobrepostos e serão removidos</string>
     <string name="change_record_untracked_time_hint">O tempo não registado é o tempo em que nenhuma atividade foi registada.</string>
+    <string name="change_record_previous_not_found">Registro anterior não encontrado</string>
+    <string name="change_record_next_not_found">Próximo registro não encontrado</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Atividade arquivada</string>
@@ -190,6 +200,9 @@
     <string name="record_tag_selection_exclude_activities_title">Excluir atividades</string>
     <string name="record_tag_selection_exclude_activities_hint">A caixa de diálogo de seleção de tags não será exibida para atividades selecionadas.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Selecione atividades</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">O Pomodoro será iniciado automaticamente quando as atividades selecionadas forem iniciadas.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Organizar registos</string>
     <string name="records_all_sort_time_started">Hora de início</string>
@@ -238,7 +251,9 @@
     <string name="settings_show_activity_filters">Mostrar filtros de atividade no ecrã principal</string>
     <string name="settings_allow_multiple_activity_filters">Permitir vários filtros de atividades</string>
     <string name="settings_allow_multiple_activity_filters_hint">Se desativado, a seleção de um filtro desativará outros filtros de atividades.</string>
+    <string name="settings_enable_pomodoro_mode">Mostrar botão Pomodoro na tela principal</string>
     <string name="settings_show_goals_separately">Mostrar metas num separador à parte</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Mostrar barra de navegação na parte inferior</string>
     <string name="settings_allow_multitasking">Permitir atividades simultâneas</string>
     <string name="settings_allow_multitasking_hint">Se desativado, iniciar um novo temporizador interromperá automaticamente outras atividades.</string>
     <string name="settings_show_notifications">Mostrar notificações do temporizador</string>
@@ -395,6 +410,9 @@ Exemplo:<br/>
     <string name="statistics_detail_streaks">Rondas</string>
     <string name="statistics_detail_streaks_longest">Maior</string>
     <string name="statistics_detail_streaks_current">Atual</string>
+    <string name="statistics_detail_streaks_completion">Taxa de realizaçao</string>
+    <string name="statistics_detail_streaks_completion_percentage">Percentagem</string>
+    <string name="statistics_detail_streaks_completion_count">Contar</string>
     <string name="statistics_detail_streaks_latest">Mais recentes</string>
     <string name="statistics_detail_streaks_any">Qualquer duração</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -406,11 +424,11 @@ Exemplo:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Principais multitarefas</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">Registos</item>-->
+        <!--        <item quantity="zero">Registos</item>-->
         <item quantity="one">Registo</item>
-<!--        <item quantity="two">Registos</item>-->
-<!--        <item quantity="few">Registos</item>-->
-<!--        <item quantity="many">Registos</item>-->
+        <!--        <item quantity="two">Registos</item>-->
+        <!--        <item quantity="few">Registos</item>-->
+        <!--        <item quantity="many">Registos</item>-->
         <item quantity="other">Registos</item>
     </plurals>
 
@@ -421,7 +439,7 @@ Exemplo:<br/>
     <string name="widget_quick_settings_name">Definições rápidas</string>
     <string name="widget_load_error">Não encontrado</string>
 
-    <!--  Notification  --> 
+    <!--  Notification  -->
     <string name="notification_inactivity_title">Notificação de inatividade</string>
     <string name="notification_inactivity_text">Não esqueçer de registar o tempo</string>
     <string name="notification_activity_title">Notificação de atividade</string>
@@ -429,6 +447,7 @@ Exemplo:<br/>
     <string name="notification_goal_time_description">meta atingida</string>
     <string name="notification_time_started">Iniciado às %s</string>
     <string name="notification_record_type_stop">Parar</string>
+    <string name="notification_pomodoro_subtitle">Iniciando: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Para remover completamente - abrir o ficheiro</string>
@@ -465,6 +484,12 @@ Exemplo:<br/>
     <string name="records_filter_any_comment">Qualquer comentário</string>
     <string name="records_filter_select">Selecionar</string>
     <string name="records_filter_invert_selection">Seleção invertida</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Foco</string>
+    <string name="pomodoro_state_break">Pausa</string>
+    <string name="pomodoro_state_long_break">Pausa longa</string>
+    <string name="pomodoro_settings_periods_until_long_break">Períodos até uma pausa longa</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emoções</string>

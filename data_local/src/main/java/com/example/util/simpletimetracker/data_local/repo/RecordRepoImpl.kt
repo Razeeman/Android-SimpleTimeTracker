@@ -114,6 +114,26 @@ class RecordRepoImpl @Inject constructor(
         recordDao.getNext(timeEnded)?.let(::mapItem)
     }
 
+    override suspend fun getPrevTimeStarted(fromTimestamp: Long): Long? = withContext(Dispatchers.IO) {
+        logDataAccess("getPrevTimeStarted")
+        recordDao.getPrevTimeStarted(fromTimestamp)
+    }
+
+    override suspend fun getNextTimeStarted(fromTimestamp: Long): Long? = withContext(Dispatchers.IO) {
+        logDataAccess("getNextTimeStarted")
+        recordDao.getNextTimeStarted(fromTimestamp)
+    }
+
+    override suspend fun getPrevTimeEnded(fromTimestamp: Long): Long? = withContext(Dispatchers.IO) {
+        logDataAccess("getPrevTimeEnded")
+        recordDao.getPrevTimeEnded(fromTimestamp)
+    }
+
+    override suspend fun getNextTimeEnded(fromTimestamp: Long): Long? = withContext(Dispatchers.IO) {
+        logDataAccess("getNextTimeEnded")
+        recordDao.getNextTimeEnded(fromTimestamp)
+    }
+
     override suspend fun add(record: Record): Long = mutex.withLockedCache(
         logMessage = "add",
         accessSource = {

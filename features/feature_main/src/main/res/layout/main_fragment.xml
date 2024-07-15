@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/containerMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,10 +13,12 @@
         app:tabIndicatorColor="?appTabSelectedColor"
         app:tabRippleColor="@color/tab_ripple" />
 
+    <!--  Small margin is added to prevent shared transition going under new screen  -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/mainPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="0.1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mainTabs" />
 

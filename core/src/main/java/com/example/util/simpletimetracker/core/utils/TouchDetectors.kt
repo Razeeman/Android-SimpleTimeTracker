@@ -38,6 +38,7 @@ class HoldDetector(
 class SingleTapDetector(
     context: Context,
     onSingleTap: (MotionEvent) -> Unit,
+    onLongPress: (MotionEvent) -> Unit = {},
 ) {
 
     private val detector = GestureDetectorCompat(
@@ -46,6 +47,11 @@ class SingleTapDetector(
             override fun onSingleTapUp(e: MotionEvent): Boolean {
                 onSingleTap(e)
                 return super.onSingleTapUp(e)
+            }
+
+            override fun onLongPress(e: MotionEvent) {
+                onLongPress(e)
+                super.onLongPress(e)
             }
         },
     )

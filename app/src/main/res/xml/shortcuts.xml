@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_tab_records"
+        android:icon="@drawable/tab_records"
         android:shortcutId="recordsTab"
         android:shortcutShortLabel="@string/shortcut_navigation_records"
         tools:targetApi="n_mr1">
@@ -18,7 +18,7 @@
     </shortcut>
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_tab_statistics"
+        android:icon="@drawable/tab_statistics"
         android:shortcutId="statisticsTab"
         android:shortcutShortLabel="@string/shortcut_navigation_statistics"
         tools:targetApi="n_mr1">
@@ -33,7 +33,7 @@
     </shortcut>
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_tab_settings"
+        android:icon="@drawable/tab_settings"
         android:shortcutId="settingsTab"
         android:shortcutShortLabel="@string/shortcut_navigation_settings"
         tools:targetApi="n_mr1">

@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
 import com.example.util.simpletimetracker.core.viewData.SelectDateViewData
+import com.example.util.simpletimetracker.core.viewData.SelectLastDaysViewData
 import com.example.util.simpletimetracker.core.viewData.SelectRangeViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -18,6 +19,7 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
+import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -83,6 +85,10 @@ class StatisticsContainerViewModel @Inject constructor(
                 onSelectRangeClick()
                 updateRanges()
             }
+            is SelectLastDaysViewData -> {
+                onSelectLastDaysClick()
+                updateRanges()
+            }
         }
     }
 
@@ -134,6 +140,20 @@ class StatisticsContainerViewModel @Inject constructor(
         ).let(router::navigate)
     }
 
+    private fun onSelectLastDaysClick() = viewModelScope.launch {
+        DurationDialogParams(
+            tag = LAST_DAYS_COUNT_TAG,
+            value = DurationDialogParams.Value.Count(
+                getCurrentLastDaysCount().toLong(),
+            ),
+            hideDisableButton = true,
+        ).let(router::navigate)
+    }
+
+    private suspend fun getCurrentLastDaysCount(): Int {
+        return prefsInteractor.getStatisticsLastDays()
+    }
+
     private suspend fun getRangeLength(): RangeLength {
         return rangeLength ?: prefsInteractor.getStatisticsRange()
     }
@@ -164,7 +184,11 @@ class StatisticsContainerViewModel @Inject constructor(
     }
 
     private suspend fun loadRanges(): RangesViewData {
-        return rangeViewDataMapper.mapToRanges(getRangeLength())
+        return rangeViewDataMapper.mapToRanges(
+            currentRange = getRangeLength(),
+            addSelection = true,
+            lastDaysCount = getCurrentLastDaysCount(),
+        )
     }
 
     private fun updateNavButtonsVisibility() = viewModelScope.launch {
@@ -179,6 +203,7 @@ class StatisticsContainerViewModel @Inject constructor(
     }
 
     companion object {
+        const val LAST_DAYS_COUNT_TAG = "statistics_last_days_count_tag"
         private const val DATE_TAG = "statistics_date_tag"
     }
 }

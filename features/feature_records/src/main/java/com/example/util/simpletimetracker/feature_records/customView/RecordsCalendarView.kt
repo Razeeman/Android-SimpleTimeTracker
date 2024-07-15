@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.feature_records.customView
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
@@ -31,6 +33,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import com.example.util.simpletimetracker.feature_records.R
+import com.example.util.simpletimetracker.feature_views.ColorUtils
 import com.example.util.simpletimetracker.feature_views.IconView
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
@@ -62,6 +65,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var iconMaxSize: Int = 0
     private var reverseOrder: Boolean = false
     private var recordsCount: Int = 0
+    private var columnsCount: Int = 0
     // End of attrs
 
     private var isScaling: Boolean = false
@@ -88,6 +92,8 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val paddingBetweenDays: Float = 1.dpToPx().toFloat()
     private val dayInMillis = TimeUnit.DAYS.toMillis(1)
     private val hourInMillis = TimeUnit.HOURS.toMillis(1)
+    private var selectedRecord: RecordsCalendarViewData.Point.Data? = null
+    private var selectedRecordColor: Int = 0
 
     private val recordPaint: Paint = Paint()
     private val legendTextPaint: Paint = Paint()
@@ -106,13 +112,14 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var currentTime: Long? = null
     private var startOfDayShift: Long = 0
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
-    private var listener: (ViewHolderType) -> Unit = {}
+    private var clickListener: (ViewHolderType) -> Unit = {}
+    private var longClickListener: (ViewHolderType) -> Unit = {}
 
     private val nameTextView: AppCompatTextView by lazy {
         getTextView(
             textColor = nameTextColor,
             typeface = Typeface.DEFAULT_BOLD,
-            widthLayoutParams = ViewGroup.LayoutParams.MATCH_PARENT,
+            widthLayoutParams = ViewGroup.LayoutParams.WRAP_CONTENT,
         )
     }
     private val durationTextView: AppCompatTextView by lazy {
@@ -150,18 +157,19 @@ class RecordsCalendarView @JvmOverloads constructor(
 
     private val singleTapDetector = SingleTapDetector(
         context = context,
-        onSingleTap = ::onTouch,
+        onSingleTap = ::onEventClick,
+        onLongPress = ::onEventLongClick,
     )
     private val scaleDetector = ScaleDetector(
         context = context,
-        onScaleStart = ::onScaleStart,
-        onScaleChanged = ::onScaleChanged,
-        onScaleStop = ::onScaleStop,
+        onScaleStart = ::onEventScaleStart,
+        onScaleChanged = ::onEventScaleChanged,
+        onScaleStop = ::onEventScaleStop,
     )
     private val swipeDetector = SwipeDetector(
         context = context,
-        onSlide = ::onSwipe,
-        onSlideStop = ::onSwipeStop,
+        onSlide = ::onEventSwipe,
+        onSlideStop = ::onEventSwipeStop,
     )
 
     init {
@@ -211,8 +219,6 @@ class RecordsCalendarView @JvmOverloads constructor(
                 canvas = canvas,
                 data = column.data,
                 index = index,
-                isFirst = index == 0,
-                isLast = index == this.data.size - 1,
             )
         }
     }
@@ -232,7 +238,11 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     fun setClickListener(listener: (ViewHolderType) -> Unit) {
-        this.listener = listener
+        this.clickListener = listener
+    }
+
+    fun setLongClickListener(listener: (ViewHolderType) -> Unit) {
+        this.longClickListener = listener
     }
 
     fun setData(viewData: RecordsCalendarViewData) {
@@ -287,6 +297,10 @@ class RecordsCalendarView @JvmOverloads constructor(
 
                 if (hasValue(R.styleable.RecordsCalendarView_calendarRecordsCount)) {
                     recordsCount = getInt(R.styleable.RecordsCalendarView_calendarRecordsCount, 0)
+                }
+
+                if (hasValue(R.styleable.RecordsCalendarView_calendarColumnsCount)) {
+                    columnsCount = getInt(R.styleable.RecordsCalendarView_calendarColumnsCount, 0)
                 }
 
                 recycle()
@@ -360,9 +374,9 @@ class RecordsCalendarView @JvmOverloads constructor(
         canvas: Canvas,
         data: List<Data>,
         index: Int,
-        isFirst: Boolean,
-        isLast: Boolean,
     ) {
+        val ellipsizedNameCutoff = iconMaxSize * 2
+
         var boxHeight: Float
         var boxShift: Float
         var boxWidth: Float
@@ -388,11 +402,19 @@ class RecordsCalendarView @JvmOverloads constructor(
         data.forEach { item ->
             var iconDrawn = false
             var timesDrawn = false
+            var durationInSeparateLine = false
+            var nameIsEllipsized = false
 
             /************
              * Draw box *
              ************/
-            recordPaint.color = item.point.data.color
+            recordPaint.color = item.point.data.color.let {
+                if (selectedRecord == item.point.data) {
+                    selectedRecordColor
+                } else {
+                    it
+                }
+            }
             boxHeight = chartHeight * (item.point.end - item.point.start) / dayInMillis
             boxShift = chartHeight * item.point.start / dayInMillis
             boxWidth = columnWidth / item.columnCount
@@ -414,9 +436,9 @@ class RecordsCalendarView @JvmOverloads constructor(
             item.boxBottom = boxBottom
 
             recordBounds.set(
-                boxLeft + (paddingBetweenDays / 2).takeUnless { isFirst }.orZero(),
+                boxLeft + (paddingBetweenDays / 2),
                 boxTop,
-                boxRight - (paddingBetweenDays / 2).takeUnless { isLast }.orZero(),
+                boxRight - (paddingBetweenDays / 2),
                 boxBottom,
             )
             canvas.drawRoundRect(
@@ -449,6 +471,41 @@ class RecordsCalendarView @JvmOverloads constructor(
                 iconDrawn = true
                 availableWidth = (availableWidth - iconMaxSize - recordHorizontalPadding)
                     .coerceAtLeast(0f)
+                availableHeight = (availableHeight - iconMaxSize - recordVerticalPadding)
+                    .coerceAtLeast(0f)
+            }
+
+            /*************
+             * Draw name *
+             *************/
+            nameTextView.text = getItemName(item.point.data)
+            nameTextView.measureText(
+                width = 0,
+                widthSpec = MeasureSpec.UNSPECIFIED,
+            )
+            if (nameTextView.measuredWidth > availableWidth) {
+                nameIsEllipsized = true
+                nameTextView.measureText(
+                    width = availableWidth.toInt(),
+                    widthSpec = MeasureSpec.EXACTLY,
+                )
+            }
+            // If can fit into box.
+            if (
+                iconDrawn &&
+                (nameTextView.measuredWidth > ellipsizedNameCutoff || !nameIsEllipsized) &&
+                (nameTextView.measuredWidth < availableWidth || nameIsEllipsized)
+            ) {
+                textLeft = recordBounds.left + iconMaxSize + 2 * recordHorizontalPadding
+                textTop = recordBounds.top + recordVerticalPadding
+
+                canvas.save()
+                canvas.translate(textLeft, textTop)
+                nameTextView.draw(canvas)
+                canvas.restore()
+
+                availableWidth = (availableWidth - nameTextView.measuredWidth - recordHorizontalPadding)
+                    .coerceAtLeast(0f)
             }
 
             /*****************
@@ -463,7 +520,6 @@ class RecordsCalendarView @JvmOverloads constructor(
             // If can fit into box.
             if (
                 iconDrawn &&
-                textHeight < availableHeight &&
                 durationTextView.measuredWidth < availableWidth
             ) {
                 textLeft = recordBounds.right - recordHorizontalPadding - durationTextView.measuredWidth
@@ -473,37 +529,30 @@ class RecordsCalendarView @JvmOverloads constructor(
                 canvas.translate(textLeft, textTop)
                 durationTextView.draw(canvas)
                 canvas.restore()
-
-                availableWidth = (availableWidth - durationTextView.measuredWidth - recordHorizontalPadding)
-                    .coerceAtLeast(0f)
-            }
-
-            /*************
-             * Draw name *
-             *************/
-            nameTextView.text = getItemName(item.point.data)
-            nameTextView.measureText(
-                width = availableWidth.toInt(),
-                widthSpec = MeasureSpec.EXACTLY,
-            )
-            textHeight = nameTextView.measuredHeight
-            // If can fit into box.
-            if (
+            } else if (
                 iconDrawn &&
                 textHeight < availableHeight
             ) {
-                textLeft = recordBounds.left + iconMaxSize + 2 * recordHorizontalPadding
-                textTop = recordBounds.top + recordVerticalPadding
+                // Try to draw on separate line.
+                val newAvailableWidth = recordBounds.width() - 2 * recordHorizontalPadding
+                durationTextView.measureText(
+                    width = 0,
+                    widthSpec = MeasureSpec.UNSPECIFIED,
+                )
+                textHeight = durationTextView.measuredHeight
+                if (durationTextView.measuredWidth < newAvailableWidth) {
+                    durationInSeparateLine = true
+                    textLeft = recordBounds.left + recordHorizontalPadding
+                    textTop = recordBounds.top + recordVerticalPadding + iconMaxSize
 
-                canvas.save()
-                canvas.translate(textLeft, textTop)
-                nameTextView.draw(canvas)
-                canvas.restore()
-            }
+                    canvas.save()
+                    canvas.translate(textLeft, textTop)
+                    durationTextView.draw(canvas)
+                    canvas.restore()
 
-            if (iconDrawn) {
-                availableHeight = (availableHeight - iconMaxSize - recordVerticalPadding)
-                    .coerceAtLeast(0f)
+                    availableHeight = (availableHeight - textHeight - recordVerticalPadding)
+                        .coerceAtLeast(0f)
+                }
             }
 
             /**************
@@ -523,7 +572,8 @@ class RecordsCalendarView @JvmOverloads constructor(
                 timesTextHeight < availableHeight
             ) {
                 textLeft = recordBounds.left + recordHorizontalPadding
-                textTop = recordBounds.top + recordVerticalPadding + iconMaxSize
+                textTop = recordBounds.top + recordVerticalPadding + iconMaxSize +
+                    textHeight.takeIf { durationInSeparateLine }.orZero()
 
                 canvas.save()
                 canvas.translate(textLeft, textTop)
@@ -560,8 +610,8 @@ class RecordsCalendarView @JvmOverloads constructor(
                     commentTextView.measuredHeight < availableHeight
                 ) {
                     textLeft = recordBounds.left + recordHorizontalPadding
-                    textTop = recordBounds.top + recordVerticalPadding +
-                        iconMaxSize +
+                    textTop = recordBounds.top + recordVerticalPadding + iconMaxSize +
+                        textHeight.takeIf { durationInSeparateLine }.orZero() +
                         timesTextHeight.takeIf { timesDrawn }.orZero()
 
                     canvas.save()
@@ -718,6 +768,7 @@ class RecordsCalendarView @JvmOverloads constructor(
 
     private fun initEditMode() {
         val records = recordsCount.takeIf { it != 0 } ?: 5
+        val columns = columnsCount.takeIf { it != 0 } ?: 1
         if (isInEditMode) {
             var currentStart = 0L
             (0 until records)
@@ -744,10 +795,11 @@ class RecordsCalendarView @JvmOverloads constructor(
                         data = RecordsCalendarViewData.Point.Data.RecordData(record),
                     )
                 }.let {
+                    val points = RecordsCalendarViewData.Points("Sun", it)
                     RecordsCalendarViewData(
                         currentTime = 18 * hourInMillis,
                         startOfDayShift = 0,
-                        points = listOf(RecordsCalendarViewData.Points("Sun", it)),
+                        points = List(columns) { points },
                         reverseOrder = reverseOrder,
                         shouldDrawTopLegends = true,
                     )
@@ -855,20 +907,27 @@ class RecordsCalendarView @JvmOverloads constructor(
         }
     }
 
-    private fun onTouch(event: MotionEvent) {
-        val x = event.x
-        val y = event.y
-
-        data.map(Column::data).flatten().firstOrNull {
-            it.boxLeft < x && it.boxTop < y && it.boxRight > x && it.boxBottom > y
-        }?.point?.data?.value?.let(listener)
+    private fun onEventClick(event: MotionEvent) {
+        onClick(event)?.value?.let(clickListener)
     }
 
-    private fun onScaleStart() {
+    private fun onEventLongClick(event: MotionEvent) {
+        onClick(event)?.value?.let(longClickListener)
+    }
+
+    private fun onClick(event: MotionEvent): RecordsCalendarViewData.Point.Data? {
+        val selected = findDataPoint(x = event.x, y = event.y)
+            ?.point?.data
+        selectedRecord = selected
+        if (selected != null) animateSelectedRecord(selected)
+        return selected
+    }
+
+    private fun onEventScaleStart() {
         isScaling = true
     }
 
-    private fun onScaleChanged(newScale: Float) {
+    private fun onEventScaleChanged(newScale: Float) {
         parent.requestDisallowInterceptTouchEvent(true)
         scaleFactor *= newScale
         scaleFactor = scaleFactor.coerceAtLeast(1f)
@@ -878,7 +937,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         invalidate()
     }
 
-    private fun onScaleStop() {
+    private fun onEventScaleStop() {
         parent.requestDisallowInterceptTouchEvent(false)
         lastScaleFactor = scaleFactor
         lastPanFactor = panFactor
@@ -886,7 +945,11 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     @Suppress("UNUSED_PARAMETER")
-    private fun onSwipe(offset: Float, direction: SwipeDetector.Direction, event: MotionEvent) {
+    private fun onEventSwipe(
+        offset: Float,
+        direction: SwipeDetector.Direction,
+        event: MotionEvent,
+    ) {
         if (!direction.isHorizontal() && !isScaling) {
             parent.requestDisallowInterceptTouchEvent(true)
             panFactor = lastPanFactor + offset
@@ -895,7 +958,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         }
     }
 
-    private fun onSwipeStop() {
+    private fun onEventSwipeStop() {
         if (isScaling) return
         parent.requestDisallowInterceptTouchEvent(false)
         lastPanFactor = panFactor
@@ -904,6 +967,15 @@ class RecordsCalendarView @JvmOverloads constructor(
     private fun coercePan() {
         val maxPanAvailable = chartHeight * scaleFactor - chartHeight
         panFactor = panFactor.coerceIn(-maxPanAvailable, 0f)
+    }
+
+    private fun findDataPoint(
+        x: Float,
+        y: Float,
+    ): Data? {
+        return data.map(Column::data).flatten().firstOrNull {
+            it.boxLeft < x && it.boxTop < y && it.boxRight > x && it.boxBottom > y
+        }
     }
 
     private fun getTextView(
@@ -921,6 +993,24 @@ class RecordsCalendarView @JvmOverloads constructor(
                 widthLayoutParams, ViewGroup.LayoutParams.WRAP_CONTENT,
             )
         }
+    }
+
+    private fun animateSelectedRecord(
+        selectedRecord: RecordsCalendarViewData.Point.Data,
+    ) {
+        val from = selectedRecord.color
+        val to = ColorUtils.normalizeLightness(selectedRecord.color)
+        val animator = ValueAnimator.ofObject(ArgbEvaluator(), from, to)
+
+        animator.duration = CLICK_ANIMATION_DURATION_MS
+        animator.repeatCount = 1
+        animator.repeatMode = ValueAnimator.REVERSE
+        animator.addUpdateListener {
+            selectedRecordColor = it.animatedValue as? Int
+                ?: return@addUpdateListener
+            invalidate()
+        }
+        animator.start()
     }
 
     private fun View.measureText(
@@ -959,4 +1049,8 @@ class RecordsCalendarView @JvmOverloads constructor(
         val panFactor: Float,
         val lastPanFactor: Float,
     ) : BaseSavedState(superSavedState)
+
+    companion object {
+        private const val CLICK_ANIMATION_DURATION_MS: Long = 250L
+    }
 }

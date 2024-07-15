@@ -13,9 +13,11 @@ import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowVie
 import com.example.util.simpletimetracker.core.viewData.ChartFilterTypeViewData
 import com.example.util.simpletimetracker.core.viewData.RangeViewData
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
+import com.example.util.simpletimetracker.core.viewData.SelectLastDaysViewData
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
+import com.example.util.simpletimetracker.domain.interactor.GetProcessedLastDaysCountInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -31,12 +33,15 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.Category
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class WidgetStatisticsSettingsViewModel @Inject constructor(
+    private val router: Router,
     private val prefsInteractor: PrefsInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
@@ -45,6 +50,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
     private val chartFilterViewDataMapper: ChartFilterViewDataMapper,
     private val rangeViewDataMapper: RangeViewDataMapper,
     private val chartFilterViewDataInteractor: ChartFilterViewDataInteractor,
+    private val getProcessedLastDaysCountInteractor: GetProcessedLastDaysCountInteractor,
 ) : ViewModel() {
 
     lateinit var extra: WidgetStatisticsSettingsExtra
@@ -199,7 +205,20 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
                 updateTitle()
                 updateRanges()
             }
+            is SelectLastDaysViewData -> {
+                onSelectLastDaysClick()
+            }
         }
+    }
+
+    fun onCountSet(count: Long, tag: String?) = viewModelScope.launch {
+        if (tag != LAST_DAYS_COUNT_TAG) return@launch
+
+        val lastDaysCount = getProcessedLastDaysCountInteractor.execute(count)
+        val newRange = RangeLength.Last(lastDaysCount)
+        widgetData = widgetData.copy(rangeLength = newRange)
+        updateTitle()
+        updateRanges()
     }
 
     fun onSaveClick() {
@@ -208,6 +227,21 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
             widgetInteractor.updateStatisticsWidget(extra.widgetId)
             (handled as MutableLiveData).value = extra.widgetId
         }
+    }
+
+    private fun onSelectLastDaysClick() = viewModelScope.launch {
+        DurationDialogParams(
+            tag = LAST_DAYS_COUNT_TAG,
+            value = DurationDialogParams.Value.Count(
+                getCurrentLastDaysCount().toLong(),
+            ),
+            hideDisableButton = true,
+        ).let(router::navigate)
+    }
+
+    private suspend fun getCurrentLastDaysCount(): Int {
+        return (widgetData.rangeLength as? RangeLength.Last)?.days
+            ?: prefsInteractor.getStatisticsWidgetLastDays(extra.widgetId)
     }
 
     private suspend fun initializeWidgetData() {
@@ -319,7 +353,15 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
         rangeItems.set(loadRanges())
     }
 
-    private fun loadRanges(): RangesViewData {
-        return rangeViewDataMapper.mapToRanges(widgetData.rangeLength, addSelection = false)
+    private suspend fun loadRanges(): RangesViewData {
+        return rangeViewDataMapper.mapToRanges(
+            currentRange = widgetData.rangeLength,
+            addSelection = false,
+            lastDaysCount = getCurrentLastDaysCount(),
+        )
+    }
+
+    companion object {
+        private const val LAST_DAYS_COUNT_TAG = "widget_statistics_last_days_count_tag"
     }
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.AttrRes
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.activityViewModels
@@ -12,16 +13,17 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.extension.addOnBackPressedListener
 import com.example.util.simpletimetracker.core.extension.addOnPageChangeCallback
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_KEY
 import com.example.util.simpletimetracker.core.view.SafeFragmentStateAdapter
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.example.util.simpletimetracker.feature_main.R
 import com.example.util.simpletimetracker.feature_main.adapter.MainContentAdapter
 import com.example.util.simpletimetracker.feature_main.provider.MainTabsProvider
 import com.example.util.simpletimetracker.feature_main.viewModel.MainViewModel
+import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,7 +49,7 @@ class MainFragment : BaseFragment<Binding>() {
 
     private val selectedColorFilter by lazy { getColorFilter(R.attr.appTabSelectedColor) }
     private val unselectedColorFilter by lazy { getColorFilter(R.attr.appTabUnselectedColor) }
-    private val backPressedCallback: OnBackPressedCallback = getOnBackPressedCallback()
+    private var backPressedCallback: OnBackPressedCallback? = null
     private var shortcutNavigationHandled = false
     private val mainPagePosition by lazy {
         mainTabsProvider.mainTab.let(mainTabsProvider::mapTabToPosition)
@@ -56,11 +58,15 @@ class MainFragment : BaseFragment<Binding>() {
     override fun initUi() {
         setupPager()
         checkForShortcutNavigation()
-        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, backPressedCallback)
+    }
+
+    override fun initUx() {
+        backPressedCallback = addOnBackPressedListener(false, ::onBackPressed)
     }
 
     override fun initViewModel() {
         viewModel.initialize
+        viewModel.isNavBatAtTheBottom.observe(::updateNavBarPosition)
     }
 
     private fun setupPager() = with(binding) {
@@ -100,19 +106,38 @@ class MainFragment : BaseFragment<Binding>() {
 
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     tab?.icon?.colorFilter = selectedColorFilter
-                    backPressedCallback.isEnabled = tab?.position.orZero() != mainPagePosition
+                    backPressedCallback?.isEnabled = tab?.position.orZero() != mainPagePosition
                 }
             },
         )
         mainPager.setCurrentItem(mainPagePosition, false)
     }
 
-    private fun getOnBackPressedCallback(): OnBackPressedCallback {
-        return object : OnBackPressedCallback(false) {
-            override fun handleOnBackPressed() {
-                binding.mainPager.setCurrentItem(mainPagePosition, true)
-            }
+    private fun updateNavBarPosition(isAtTheBottom: Boolean) = with(binding) {
+        val set = ConstraintSet()
+        set.clone(binding.containerMain)
+        if (isAtTheBottom) {
+            set.clear(R.id.mainTabs, ConstraintSet.TOP)
+            set.connect(R.id.mainTabs, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+            set.connect(R.id.mainPager, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+            set.connect(R.id.mainPager, ConstraintSet.BOTTOM, R.id.mainTabs, ConstraintSet.TOP)
+        } else {
+            set.clear(R.id.mainTabs, ConstraintSet.BOTTOM)
+            set.connect(R.id.mainTabs, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+            set.connect(R.id.mainPager, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+            set.connect(R.id.mainPager, ConstraintSet.TOP, R.id.mainTabs, ConstraintSet.BOTTOM)
         }
+        set.applyTo(binding.containerMain)
+
+        if (isAtTheBottom) {
+            TabLayout.INDICATOR_GRAVITY_TOP
+        } else {
+            TabLayout.INDICATOR_GRAVITY_BOTTOM
+        }.let(mainTabs::setSelectedTabIndicatorGravity)
+    }
+
+    private fun onBackPressed() {
+        binding.mainPager.setCurrentItem(mainPagePosition, true)
     }
 
     private fun checkForShortcutNavigation() = with(binding) {

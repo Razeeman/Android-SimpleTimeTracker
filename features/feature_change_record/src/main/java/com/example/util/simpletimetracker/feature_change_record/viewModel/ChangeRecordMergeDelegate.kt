@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.feature_change_record.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.RecordActionMergeMediator
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
@@ -16,7 +16,7 @@ interface ChangeRecordMergeDelegate {
 
 class ChangeRecordMergeDelegateImpl @Inject constructor(
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
-    private val addRecordMediator: AddRecordMediator,
+    private val recordActionMergeMediator: RecordActionMergeMediator,
     private val changeRecordViewDataMapper: ChangeRecordViewDataMapper,
 ) : ChangeRecordMergeDelegate {
 
@@ -28,13 +28,11 @@ class ChangeRecordMergeDelegateImpl @Inject constructor(
         newTimeEnded: Long,
         onMergeComplete: () -> Unit,
     ) {
-        // If merge would be available but only for untracked - add removal of current record
-        prevRecord?.copy(
-            timeEnded = newTimeEnded,
-        )?.let {
-            addRecordMediator.add(it)
-            onMergeComplete()
-        }
+        recordActionMergeMediator.execute(
+            prevRecord = prevRecord,
+            newTimeEnded = newTimeEnded,
+            onMergeComplete = onMergeComplete,
+        )
     }
 
     private fun getChangedRecord(

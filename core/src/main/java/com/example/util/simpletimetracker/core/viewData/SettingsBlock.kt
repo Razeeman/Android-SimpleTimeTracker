@@ -46,7 +46,10 @@ enum class SettingsBlock {
     DisplayDaysInCalendar,
     DisplayShowActivityFilters,
     DisplayAllowMultipleActivityFilters,
+    DisplayEnablePomodoroMode,
+    DisplayPomodoroModeActivities,
     DisplayGoalsOnSeparateTabs,
+    DisplayNavBarAtTheBottom,
     DisplayKeepScreenOn,
     DisplayWidgetBackground,
     DisplayMilitaryFormat,
@@ -100,4 +103,9 @@ enum class SettingsBlock {
     ContributorsTop,
     ContributorsTitle,
     ContributorsBottom,
+
+    PomodoroFocusTime,
+    PomodoroBreakTime,
+    PomodoroLongBreakTime,
+    PomodoroPeriodsUntilLongBreak,
 }

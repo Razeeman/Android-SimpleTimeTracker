@@ -33,11 +33,19 @@
     <string name="range_year">Any</string>
     <string name="range_overall">Global</string>
     <string name="range_custom">Rang</string>
-    <string name="range_last">Últims 7 dies</string>
     <string name="range_select_day">Seleccioneu una data</string>
     <string name="range_select_week">Seleccioneu una setmana</string>
     <string name="range_select_month">Seleccioneu un mes</string>
     <string name="range_select_year">Seleccioneu un any</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Últims %s dies</item>-->
+        <item quantity="one">Últim %s dia</item>
+        <!--        <item quantity="two">Últims %s dies</item>-->
+        <!--        <item quantity="few">Últims %s dies</item>-->
+        <item quantity="many">Últims %s dies</item>
+        <item quantity="other">Últims %s dies</item>
+    </plurals>
 
     <string name="ok">D\'acord</string>
     <string name="cancel">Cancel·la</string>
@@ -122,6 +130,8 @@
     <string name="change_record_change_overlapped">Superposats</string>
     <string name="change_record_change_overlapped_hint">Els registres es superposen completament i s\'eliminaran</string>
     <string name="change_record_untracked_time_hint">El temps sense seguiment és el temps en què no s\'ha fet el seguiment de cap activitat.</string>
+    <string name="change_record_previous_not_found">No s\'ha trobat el registre anterior</string>
+    <string name="change_record_next_not_found">No s\'ha trobat el següent registre</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activitat arxivada</string>
@@ -190,6 +200,9 @@
     <string name="record_tag_selection_exclude_activities_title">Exclou activitats</string>
     <string name="record_tag_selection_exclude_activities_hint">El diàleg de selecció d\'etiquetes no es mostrarà per a les activitats seleccionades.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Seleccioneu activitats</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro s\'iniciarà automàticament quan s\'iniciïn les activitats seleccionades.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Endreça els enregistraments</string>
     <string name="records_all_sort_time_started">Temps d\'inici</string>
@@ -238,7 +251,9 @@
     <string name="settings_show_activity_filters">Mostra els filtres d\'activitat a la pantalla principal.</string>
     <string name="settings_allow_multiple_activity_filters">Permet diversos filtres d\'activitat</string>
     <string name="settings_allow_multiple_activity_filters_hint">Si està desactivat, seleccionar un filtre desactivarà altres filtres d\'activitat.</string>
+    <string name="settings_enable_pomodoro_mode">Mostra el botó Pomodoro a la pantalla principal</string>
     <string name="settings_show_goals_separately">Mostra els objectius en una pestanya separada</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Mostra la barra de navegació a la part inferior</string>
     <string name="settings_allow_multitasking">Permet la multitasca</string>
     <string name="settings_allow_multitasking_hint">Si és desactivat, en començar un nou temporitzador s\'aturaran automàticament les altres activitats.</string>
     <string name="settings_show_notifications">Mostra notificacions del temporitzador</string>
@@ -395,6 +410,9 @@ Exemple:<br/>
     <string name="statistics_detail_streaks">Sèrie</string>
     <string name="statistics_detail_streaks_longest">Més llarga</string>
     <string name="statistics_detail_streaks_current">Actual</string>
+    <string name="statistics_detail_streaks_completion">Taxa de finalització</string>
+    <string name="statistics_detail_streaks_completion_percentage">Percentatge</string>
+    <string name="statistics_detail_streaks_completion_count">Compte</string>
     <string name="statistics_detail_streaks_latest">Última</string>
     <string name="statistics_detail_streaks_any">Qualsevol durada</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -406,11 +424,11 @@ Exemple:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Top multitasca</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">Enregistraments</item>-->
+        <!--        <item quantity="zero">Enregistraments</item>-->
         <item quantity="one">Enregistrament</item>
-<!--        <item quantity="two">Enregistraments</item>-->
-<!--        <item quantity="few">Enregistraments</item>-->
-<!--        <item quantity="many">Enregistraments</item>-->
+        <!--        <item quantity="two">Enregistraments</item>-->
+        <!--        <item quantity="few">Enregistraments</item>-->
+        <item quantity="many">Enregistraments</item>
         <item quantity="other">Enregistraments</item>
     </plurals>
 
@@ -429,6 +447,7 @@ Exemple:<br/>
     <string name="notification_goal_time_description">Heu assolit l\'objectiu</string>
     <string name="notification_time_started">Començat a %s</string>
     <string name="notification_record_type_stop">Atura</string>
+    <string name="notification_pomodoro_subtitle">Inici: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Per eliminar completament: obriu l\'arxiu</string>
@@ -465,6 +484,12 @@ Exemple:<br/>
     <string name="records_filter_any_comment">Qualsevol comentari</string>
     <string name="records_filter_select">Seleccioneu</string>
     <string name="records_filter_invert_selection">Inverteix la selecció</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Enfocament</string>
+    <string name="pomodoro_state_break">Pausa</string>
+    <string name="pomodoro_state_long_break">Pausa llarga</string>
+    <string name="pomodoro_settings_periods_until_long_break">Períodes fins a una pausa llarga</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Emoticones i Emocions</string>

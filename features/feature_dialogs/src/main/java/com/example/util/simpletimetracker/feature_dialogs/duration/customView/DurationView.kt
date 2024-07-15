@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
+import com.example.util.simpletimetracker.domain.extension.toDuration
 import com.example.util.simpletimetracker.feature_dialogs.R
 import java.lang.Float.min
 
@@ -156,7 +157,7 @@ class DurationView @JvmOverloads constructor(
     }
 
     private fun Long.format(): String {
-        return this.toString().padStart(2, '0')
+        return this.toDuration()
     }
 
     data class ViewData(

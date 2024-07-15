@@ -3,9 +3,10 @@ package com.example.util.simpletimetracker.core.mapper
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.extension.shift
-import com.example.util.simpletimetracker.core.provider.CurrentTimestampProvider
+import com.example.util.simpletimetracker.domain.provider.CurrentTimestampProvider
 import com.example.util.simpletimetracker.core.provider.LocaleProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.padDuration
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
@@ -345,10 +346,10 @@ class TimeMapper @Inject constructor(
 
         val hrString = "$hr$hourString"
         val minString = min.toString().let {
-            if (hr != 0L) it.padStart(2, '0') else it
+            if (hr != 0L) it.padDuration() else it
         } + minuteString
         val secString = sec.toString().let {
-            if (hr != 0L || min != 0L) it.padStart(2, '0') else it
+            if (hr != 0L || min != 0L) it.padDuration() else it
         } + secondString
 
         var res = ""
@@ -443,7 +444,7 @@ class TimeMapper @Inject constructor(
 
             is RangeLength.Last -> {
                 rangeEnd = calendar.apply { add(Calendar.DATE, 1) }.timeInMillis
-                rangeStart = calendar.apply { add(Calendar.DATE, -rangeLength.DAYS) }.timeInMillis
+                rangeStart = calendar.apply { add(Calendar.DATE, -rangeLength.days) }.timeInMillis
             }
         }
 

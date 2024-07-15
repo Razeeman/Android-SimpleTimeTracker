@@ -213,7 +213,7 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
                 before = data.before,
                 after = data.after,
                 isChecked = data.id !in recordsUnmarkedFromAdjustment,
-                isRemoveVisible = isRemoveVisible
+                isRemoveVisible = isRemoveVisible,
             )
         }
 

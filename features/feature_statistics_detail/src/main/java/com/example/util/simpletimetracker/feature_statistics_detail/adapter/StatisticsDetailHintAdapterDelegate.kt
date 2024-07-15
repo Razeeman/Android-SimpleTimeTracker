@@ -12,6 +12,7 @@ fun createStatisticsDetailHintAdapterDelegate() = createRecyclerBindingAdapterDe
     with(binding.root) {
         item as ViewData
 
+        tag = item.block
         text = item.text
     }
 }

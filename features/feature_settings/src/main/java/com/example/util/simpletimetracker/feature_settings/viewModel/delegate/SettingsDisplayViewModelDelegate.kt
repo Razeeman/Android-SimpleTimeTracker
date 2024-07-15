@@ -4,15 +4,18 @@ import androidx.lifecycle.LiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.PomodoroStopInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.CardTagOrder
 import com.example.util.simpletimetracker.domain.model.WidgetTransparencyPercent
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsDisplayViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
@@ -20,16 +23,19 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SettingsDisplayViewModelDelegate @Inject constructor(
     private val router: Router,
+    private val resourceRepo: ResourceRepo,
     private val prefsInteractor: PrefsInteractor,
     private val settingsMapper: SettingsMapper,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val settingsDisplayViewDataInteractor: SettingsDisplayViewDataInteractor,
+    private val pomodoroStopInteractor: PomodoroStopInteractor,
 ) : ViewModelDelegate() {
 
     val keepScreenOnCheckbox: LiveData<Boolean>
@@ -144,7 +150,9 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         delegateScope.launch {
             DurationDialogParams(
                 tag = SettingsViewModel.IGNORE_SHORT_UNTRACKED_DIALOG_TAG,
-                duration = prefsInteractor.getIgnoreShortUntrackedDuration(),
+                value = DurationDialogParams.Value.Duration(
+                    duration = prefsInteractor.getIgnoreShortUntrackedDuration(),
+                ),
             ).let(router::navigate)
         }
     }
@@ -209,10 +217,46 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
+    fun onEnablePomodoroModeClicked() {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getEnablePomodoroMode()
+            prefsInteractor.setEnablePomodoroMode(newValue)
+            if (!newValue) pomodoroStopInteractor.stop()
+            parent?.updateContent()
+        }
+    }
+
+    fun onPomodoroModeActivitiesClicked() = delegateScope.launch {
+        TypesSelectionDialogParams(
+            tag = SettingsViewModel.SELECT_ACTIVITIES_TO_AUTOSTART_POMODORO,
+            title = resourceRepo.getString(
+                R.string.select_activities_to_autostart_pomodoro_title,
+            ),
+            subtitle = resourceRepo.getString(
+                R.string.select_activities_to_autostart_pomodoro_hint,
+            ),
+            selectedTypeIds = prefsInteractor.getAutostartPomodoroActivities(),
+            isMultiSelectAvailable = true,
+        ).let(router::navigate)
+    }
+
+    fun onTypesSelected(typeIds: List<Long>) = delegateScope.launch {
+        prefsInteractor.setAutostartPomodoroActivities(typeIds)
+    }
+
     fun onShowGoalsSeparatelyClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowGoalsSeparately()
             prefsInteractor.setShowGoalsSeparately(newValue)
+            parent?.updateContent()
+            router.restartApp()
+        }
+    }
+
+    fun onShowNavBarAtTheBottomClicked() {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getIsNavBarAtTheBottom()
+            prefsInteractor.setIsNavBarAtTheBottom(newValue)
             parent?.updateContent()
             router.restartApp()
         }

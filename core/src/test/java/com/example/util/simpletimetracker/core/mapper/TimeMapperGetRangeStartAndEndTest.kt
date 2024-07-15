@@ -4,7 +4,7 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapperGetRangeStartAnd
 import com.example.util.simpletimetracker.core.mapper.TimeMapperGetRangeStartAndEndTest.Subject.hourInMs
 import com.example.util.simpletimetracker.core.mapper.TimeMapperGetRangeStartAndEndTest.Subject.localeProvider
 import com.example.util.simpletimetracker.core.mapper.TimeMapperGetRangeStartAndEndTest.Subject.resourceRepo
-import com.example.util.simpletimetracker.core.provider.CurrentTimestampProvider
+import com.example.util.simpletimetracker.domain.provider.CurrentTimestampProvider
 import com.example.util.simpletimetracker.core.provider.LocaleProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.DayOfWeek

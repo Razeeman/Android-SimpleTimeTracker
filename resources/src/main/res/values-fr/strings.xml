@@ -33,11 +33,19 @@
     <string name="range_year">Année</string>
     <string name="range_overall">Global</string>
     <string name="range_custom">Intervalle</string>
-    <string name="range_last">Les 7 derniers jours</string>
     <string name="range_select_day">Sélectionner une date</string>
     <string name="range_select_week">Sélectionner une semaine</string>
     <string name="range_select_month">Sélectionner un mois</string>
     <string name="range_select_year">Sélectionner une année</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Les %s derniers jours</item>-->
+        <item quantity="one">Les %s dernier jour</item>
+        <!--        <item quantity="two">Les %s derniers jours</item>-->
+        <!--        <item quantity="few">Les %s derniers jours</item>-->
+        <item quantity="many">Les %s derniers jours</item>
+        <item quantity="other">Les %s derniers jours</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Annuler</string>
@@ -122,6 +130,8 @@
     <string name="change_record_change_overlapped">Chevauché</string>
     <string name="change_record_change_overlapped_hint">Les enregistrements se chevauchent complètement et seront supprimés</string>
     <string name="change_record_untracked_time_hint">Le temps non suivi est le temps pendant lequel aucune activité n\'a été suivie.</string>
+    <string name="change_record_previous_not_found">Enregistrement précédent introuvable</string>
+    <string name="change_record_next_not_found">Enregistrement suivant introuvable</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activité archivée</string>
@@ -190,6 +200,9 @@
     <string name="record_tag_selection_exclude_activities_title">Exclure les activités</string>
     <string name="record_tag_selection_exclude_activities_hint">La boîte de dialogue de sélection de balise ne s\'affichera pas pour les activités sélectionnées.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Sélectionner des activités</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro sera automatiquement démarré lorsque les activités sélectionnées seront démarrées.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Trier les enregistrements</string>
     <string name="records_all_sort_time_started">Heure de début</string>
@@ -238,7 +251,9 @@
     <string name="settings_show_activity_filters">Afficher les filtres d\'activité sur l\'écran principal</string>
     <string name="settings_allow_multiple_activity_filters">Autoriser plusieurs filtres d\'activité</string>
     <string name="settings_allow_multiple_activity_filters_hint">S\'il est désactivé, la sélection d\'un filtre désactivera les autres filtres d\'activité.</string>
+    <string name="settings_enable_pomodoro_mode">Afficher le bouton Pomodoro sur l\'écran principal</string>
     <string name="settings_show_goals_separately">Afficher les objectifs dans un onglet séparé</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Afficher la barre de navigation en bas</string>
     <string name="settings_allow_multitasking">Autoriser le multitâche</string>
     <string name="settings_allow_multitasking_hint">Si désactivé, le démarrage d\'une nouvelle activité arrêtera automatiquement les autres activités en cours.</string>
     <string name="settings_show_notifications">Afficher les notifications d\'activité</string>
@@ -395,6 +410,9 @@ Exemple:<br/>
     <string name="statistics_detail_streaks">Série</string>
     <string name="statistics_detail_streaks_longest">La plus longue</string>
     <string name="statistics_detail_streaks_current">Série en cours</string>
+    <string name="statistics_detail_streaks_completion">Taux d\'achèvement</string>
+    <string name="statistics_detail_streaks_completion_percentage">Pourcentage</string>
+    <string name="statistics_detail_streaks_completion_count">Compter</string>
     <string name="statistics_detail_streaks_latest">Dernière</string>
     <string name="statistics_detail_streaks_any">Toute durée</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -406,10 +424,10 @@ Exemple:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Top multitâche</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--         <item quantity="zero">Enregistrement</item> -->
+        <!--         <item quantity="zero">Enregistrement</item> -->
         <item quantity="one">Enregistrement</item>
-<!--         <item quantity="two">Enregistrements</item> -->
-<!--         <item quantity="few">Enregistrements</item> -->
+        <!--         <item quantity="two">Enregistrements</item> -->
+        <!--         <item quantity="few">Enregistrements</item> -->
         <item quantity="many">Enregistrements</item>
         <item quantity="other">Enregistrements</item>
     </plurals>
@@ -429,6 +447,7 @@ Exemple:<br/>
     <string name="notification_goal_time_description">objectif atteint</string>
     <string name="notification_time_started">Commencé à %s</string>
     <string name="notification_record_type_stop">Arrêt</string>
+    <string name="notification_pomodoro_subtitle">Début : %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Pour supprimer complètement - ouvrez l\'archive</string>
@@ -465,6 +484,12 @@ Exemple:<br/>
     <string name="records_filter_any_comment">Avez-vous des commentaires</string>
     <string name="records_filter_select">Sélectionner</string>
     <string name="records_filter_invert_selection">Inverser la sélection</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Concentration</string>
+    <string name="pomodoro_state_break">Pause</string>
+    <string name="pomodoro_state_long_break">Longue pause</string>
+    <string name="pomodoro_settings_periods_until_long_break">Périodes jusqu\'à une longue pause</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Émotions</string>

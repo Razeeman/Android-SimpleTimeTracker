@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.withCardColor
+import com.example.util.simpletimetracker.utils.withPluralText
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
 import java.util.concurrent.TimeUnit
@@ -68,11 +69,12 @@ class StatisticsTest : BaseUiTest() {
 
         // Switch to last days range
         clickOnView(allOf(withText(coreR.string.title_this_year), isCompletelyDisplayed()))
-        clickOnViewWithText(coreR.string.range_last)
+        clickOnView(withPluralText(coreR.plurals.range_last, 7, 7))
+        clickOnViewWithText(coreR.string.duration_dialog_save)
         checkRecordsRange(firstColor, lastColor, firstIcon, lastIcon, name, newName, checkPrevious = false)
 
         // Switch to overall range
-        clickOnView(allOf(withText(coreR.string.range_last), isCompletelyDisplayed()))
+        clickOnView(allOf(withPluralText(coreR.plurals.range_last, 7, 7), isCompletelyDisplayed()))
         clickOnViewWithText(coreR.string.range_overall)
         Thread.sleep(1000)
 
@@ -185,11 +187,12 @@ class StatisticsTest : BaseUiTest() {
 
         // Switch to last days range
         clickOnView(allOf(withText(coreR.string.title_this_year), isCompletelyDisplayed()))
-        clickOnViewWithText(coreR.string.range_last)
+        clickOnView(withPluralText(coreR.plurals.range_last, 7, 7))
+        clickOnViewWithText(coreR.string.duration_dialog_save)
         checkCategoryRange(firstColor, lastColor, categoryName1, categoryName2, categoryName3, checkPrevious = false)
 
         // Switch to overall range
-        clickOnView(allOf(withText(coreR.string.range_last), isCompletelyDisplayed()))
+        clickOnView(allOf(withPluralText(coreR.plurals.range_last, 7, 7), isCompletelyDisplayed()))
         clickOnViewWithText(coreR.string.range_overall)
         Thread.sleep(1000)
 
@@ -312,11 +315,12 @@ class StatisticsTest : BaseUiTest() {
 
         // Switch to last days range
         clickOnView(allOf(withText(coreR.string.title_this_year), isCompletelyDisplayed()))
-        clickOnViewWithText(coreR.string.range_last)
+        clickOnView(withPluralText(coreR.plurals.range_last, 7, 7))
+        clickOnViewWithText(coreR.string.duration_dialog_save)
         checkTagRange(firstColor, lastColor, tagName1, tagName2, tagName3, checkPrevious = false)
 
         // Switch to overall range
-        clickOnView(allOf(withText(coreR.string.range_last), isCompletelyDisplayed()))
+        clickOnView(allOf(withPluralText(coreR.plurals.range_last, 7, 7), isCompletelyDisplayed()))
         clickOnViewWithText(coreR.string.range_overall)
         Thread.sleep(1000)
 

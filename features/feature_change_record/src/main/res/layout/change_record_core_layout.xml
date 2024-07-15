@@ -643,6 +643,7 @@
                     app:icon="@drawable/action_divide"
                     app:iconGravity="textStart"
                     app:iconSize="18dp"
+                    app:iconTint="?appLightTextColor"
                     app:layout_constraintTop_toBottomOf="@id/containerChangeRecordSplitPreview" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -814,6 +815,7 @@
                     app:icon="@drawable/action_change"
                     app:iconGravity="textStart"
                     app:iconSize="28dp"
+                    app:iconTint="?appLightTextColor"
                     app:layout_constraintTop_toBottomOf="@id/rvChangeRecordChangePreviews" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -848,6 +850,7 @@
                     android:text="@string/change_record_continue"
                     app:icon="@drawable/action_continue"
                     app:iconGravity="textStart"
+                    app:iconTint="?appLightTextColor"
                     app:layout_constraintTop_toBottomOf="@id/tvChangeRecordContinueHint" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -882,6 +885,7 @@
                     android:text="@string/change_record_repeat"
                     app:icon="@drawable/repeat"
                     app:iconGravity="textStart"
+                    app:iconTint="?appLightTextColor"
                     app:layout_constraintTop_toBottomOf="@id/tvChangeRecordRepeatHint" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -917,6 +921,7 @@
                     app:icon="@drawable/action_copy"
                     app:iconGravity="textStart"
                     app:iconSize="20dp"
+                    app:iconTint="?appLightTextColor"
                     app:layout_constraintTop_toBottomOf="@id/tvChangeRecordDuplicateHint" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -958,6 +963,7 @@
                     android:text="@string/change_record_merge"
                     app:icon="@drawable/action_merge"
                     app:iconGravity="textStart"
+                    app:iconTint="?appLightTextColor"
                     app:layout_constraintTop_toBottomOf="@id/containerChangeRecordMergePreview" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

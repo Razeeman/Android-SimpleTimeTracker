@@ -170,4 +170,65 @@ class RecordActionsMergeTest : BaseUiTest() {
             ),
         )
     }
+
+    @Test
+    fun fromQuickActions() {
+        val name = "Name"
+        val calendar = Calendar.getInstance()
+
+        // Setup
+        val current = calendar.timeInMillis
+        val timeStartedTimestamp = current - TimeUnit.MINUTES.toMillis(15)
+        val timeEndedTimestamp = current - TimeUnit.MINUTES.toMillis(5)
+        testUtils.addActivity(name)
+        testUtils.addRecord(typeName = name, timeStarted = timeStartedTimestamp, timeEnded = timeEndedTimestamp)
+        runBlocking { prefsInteractor.setShowUntrackedInRecords(true) }
+        NavUtils.openRecordsScreen()
+
+        // Check records
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(baseR.id.viewRecordItem),
+                    hasDescendant(withText(coreR.string.untracked_time_name)),
+                    isCompletelyDisplayed(),
+                ),
+            )
+        }
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(name)),
+                isCompletelyDisplayed(),
+            ),
+        )
+
+        // Merge
+        longClickOnView(
+            allOf(
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+                isCompletelyDisplayed(),
+            ),
+        )
+        clickOnViewWithText(coreR.string.change_record_merge)
+
+        // Check records
+        checkViewDoesNotExist(
+            allOf(
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+                isCompletelyDisplayed(),
+            ),
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(name)),
+                hasDescendant(withText(timeStartedTimestamp.formatTime())),
+                hasDescendant(withText(current.formatTime())),
+                isCompletelyDisplayed(),
+            ),
+        )
+    }
 }

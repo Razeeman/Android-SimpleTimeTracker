@@ -27,12 +27,12 @@ import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
-import java.util.Calendar
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.Calendar
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR

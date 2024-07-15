@@ -33,11 +33,19 @@
     <string name="range_year">Tahun</string>
     <string name="range_overall">Keseluruhan</string>
     <string name="range_custom">Rentang</string>
-    <string name="range_last">7 hari terakhir</string>
     <string name="range_select_day">Pilih tanggal</string>
     <string name="range_select_week">Pilih minggu</string>
     <string name="range_select_month">Pilih bulan</string>
     <string name="range_select_year">Pilih tahun</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">%s hari terakhir</item>-->
+        <!--        <item quantity="one">%s hari terakhir</item>-->
+        <!--        <item quantity="two">%s hari terakhir</item>-->
+        <!--        <item quantity="few">%s hari terakhir</item>-->
+        <!--        <item quantity="many">%s hari terakhir</item>-->
+        <item quantity="other">%s hari terakhir</item>
+    </plurals>
 
     <string name="ok">Oke</string>
     <string name="cancel">Batal</string>
@@ -122,6 +130,8 @@
     <string name="change_record_change_overlapped">Tumpang tindih</string>
     <string name="change_record_change_overlapped_hint">Catatan sepenuhnya tumpang tindih dan akan dihapus</string>
     <string name="change_record_untracked_time_hint">Waktu yang tidak terlacak adalah waktu ketika tidak ada aktivitas yang terlacak.</string>
+    <string name="change_record_previous_not_found">Catatan sebelumnya tidak ditemukan</string>
+    <string name="change_record_next_not_found">Catatan berikutnya tidak ditemukan</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Kegiatan dihapuskan</string>
@@ -190,6 +200,9 @@
     <string name="record_tag_selection_exclude_activities_title">Kecualikan aktivitas</string>
     <string name="record_tag_selection_exclude_activities_hint">Dialog pemilihan tag tidak akan ditampilkan untuk aktivitas yang dipilih.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Pilih aktivitas</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro akan dimulai secara otomatis ketika aktivitas yang dipilih dimulai.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Urutkan rekor</string>
     <string name="records_all_sort_time_started">Waktu dimulai</string>
@@ -238,7 +251,9 @@
     <string name="settings_show_activity_filters">Tampilkan filter aktivitas di layar utama</string>
     <string name="settings_allow_multiple_activity_filters">Izinkan beberapa filter aktivitas</string>
     <string name="settings_allow_multiple_activity_filters_hint">Jika dinonaktifkan, memilih filter akan menonaktifkan filter aktivitas lainnya.</string>
+    <string name="settings_enable_pomodoro_mode">Tampilkan tombol Pomodoro di layar utama</string>
     <string name="settings_show_goals_separately">Tampilkan sasaran di tab terpisah</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Tampilkan bilah navigasi di bagian bawah</string>
     <string name="settings_allow_multitasking">Izinkan tugas ganda</string>
     <string name="settings_allow_multitasking_hint">Jika dinonaktifkan memulai pewaktu baru akan secara otomatis menghentikan kegiatan-kegiatan lain.</string>
     <string name="settings_show_notifications">Tampilkan notifikasi pewaktu</string>
@@ -395,6 +410,9 @@ Contoh:<br/>
     <string name="statistics_detail_streaks">Seri</string>
     <string name="statistics_detail_streaks_longest">Terlama</string>
     <string name="statistics_detail_streaks_current">Saat ini</string>
+    <string name="statistics_detail_streaks_completion">Tingkat penyelesaian</string>
+    <string name="statistics_detail_streaks_completion_percentage">Persentase</string>
+    <string name="statistics_detail_streaks_completion_count">Menghitung</string>
     <string name="statistics_detail_streaks_latest">Terbaru</string>
     <string name="statistics_detail_streaks_any">Durasi berapa pun</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -406,11 +424,11 @@ Contoh:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Multitugas teratas</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">Rekor</item>-->
-<!--        <item quantity="one">Rekor</item>-->
-<!--        <item quantity="two">Rekor</item>-->
-<!--        <item quantity="few">Rekor</item>-->
-<!--        <item quantity="many">Rekor</item>-->
+        <!--        <item quantity="zero">Rekor</item>-->
+        <!--        <item quantity="one">Rekor</item>-->
+        <!--        <item quantity="two">Rekor</item>-->
+        <!--        <item quantity="few">Rekor</item>-->
+        <!--        <item quantity="many">Rekor</item>-->
         <item quantity="other">Rekor</item>
     </plurals>
 
@@ -429,6 +447,7 @@ Contoh:<br/>
     <string name="notification_goal_time_description">tujuan tercapai</string>
     <string name="notification_time_started">Dimulai pada %s</string>
     <string name="notification_record_type_stop">Berhenti</string>
+    <string name="notification_pomodoro_subtitle">Mulai: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Untuk menghapus sepenuhnya - buka arsip</string>
@@ -465,6 +484,12 @@ Contoh:<br/>
     <string name="records_filter_any_comment">Ada komentar</string>
     <string name="records_filter_select">Pilih</string>
     <string name="records_filter_invert_selection">Pilihan sebaliknya</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Fokus</string>
+    <string name="pomodoro_state_break">Istirahat</string>
+    <string name="pomodoro_state_long_break">Istirahat panjang</string>
+    <string name="pomodoro_settings_periods_until_long_break">Periode hingga jeda panjang</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Senyuman &amp; Emosi</string>

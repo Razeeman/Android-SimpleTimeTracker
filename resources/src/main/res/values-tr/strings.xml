@@ -33,11 +33,19 @@
     <string name="range_year">Yıl</string>
     <string name="range_overall">Tümü</string>
     <string name="range_custom">Tarih aralığı</string>
-    <string name="range_last">Son 7 gün</string>
     <string name="range_select_day">Tarih seçin</string>
     <string name="range_select_week">Hafta seçin</string>
     <string name="range_select_month">Ay seçin</string>
     <string name="range_select_year">Yıl seçin</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Son %s gün</item>-->
+        <item quantity="one">Son %s gün</item>
+        <!--        <item quantity="two">Son %s gün</item>-->
+        <!--        <item quantity="few">Son %s gün</item>-->
+        <!--        <item quantity="many">Son %s gün</item>-->
+        <item quantity="other">Son %s gün</item>
+    </plurals>
 
     <string name="ok">Tamam</string>
     <string name="cancel">İptal</string>
@@ -122,6 +130,8 @@
     <string name="change_record_change_overlapped">Üst üste binmiş</string>
     <string name="change_record_change_overlapped_hint">Kayıtlar tamamen çakışıyor ve kaldırılacak</string>
     <string name="change_record_untracked_time_hint">Takip edilmeyen zaman, hiçbir aktivitenin takip edilmediği zamandır.</string>
+    <string name="change_record_previous_not_found">Önceki kayıt bulunamadı</string>
+    <string name="change_record_next_not_found">Sonraki kayıt bulunamadı</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivite arşivlendi</string>
@@ -190,6 +200,9 @@
     <string name="record_tag_selection_exclude_activities_title">Etkinlikleri hariç tut</string>
     <string name="record_tag_selection_exclude_activities_hint">Seçilen etkinlikler için etiket seçimi iletişim kutusu gösterilmeyecektir.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Etkinlikleri seçin</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Seçilen aktiviteler başlatıldığında Pomodoro otomatik olarak başlatılacaktır.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Kayıtları sırala</string>
     <string name="records_all_sort_time_started">Başlangıç zamanı</string>
@@ -238,7 +251,9 @@
     <string name="settings_show_activity_filters">Aktivite filtrelerini ana ekranda göster</string>
     <string name="settings_allow_multiple_activity_filters">Birden fazla etkinlik filtresine izin ver</string>
     <string name="settings_allow_multiple_activity_filters_hint">Devre dışı bırakılırsa, bir filtre seçildiğinde diğer etkinlik filtreleri devre dışı bırakılır.</string>
+    <string name="settings_enable_pomodoro_mode">Pomodoro butonunu ana ekranda göster</string>
     <string name="settings_show_goals_separately">Hedefleri ayrı bir sekmede göster</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Gezinme çubuğunu altta göster</string>
     <string name="settings_allow_multitasking">Çoklu göreve izin ver</string>
     <string name="settings_allow_multitasking_hint">Devre dışı bırakılırsa, yeni zamanlayıcı başlatmak diğer aktivitelerin zamanlayıcısını otomatik olarak durdurur.</string>
     <string name="settings_show_notifications">Zamanlayıcı bildirimlerini göster</string>
@@ -395,6 +410,9 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="statistics_detail_streaks">Diziler</string>
     <string name="statistics_detail_streaks_longest">En uzun</string>
     <string name="statistics_detail_streaks_current">Akım</string>
+    <string name="statistics_detail_streaks_completion">Tamamlama oranı</string>
+    <string name="statistics_detail_streaks_completion_percentage">Yüzde</string>
+    <string name="statistics_detail_streaks_completion_count">Saymak</string>
     <string name="statistics_detail_streaks_latest">En sonuncu</string>
     <string name="statistics_detail_streaks_any">Herhangi bir süre</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -406,11 +424,11 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="statistics_detail_multitasking_activities_hint">En iyi çoklu görev</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">Kayıt</item>-->
+        <!--        <item quantity="zero">Kayıt</item>-->
         <item quantity="one">Kayıt</item>
-<!--        <item quantity="two">Kayıt</item>-->
-<!--        <item quantity="few">Kayıt</item>-->
-<!--        <item quantity="many">Kayıt</item>-->
+        <!--        <item quantity="two">Kayıt</item>-->
+        <!--        <item quantity="few">Kayıt</item>-->
+        <!--        <item quantity="many">Kayıt</item>-->
         <item quantity="other">Kayıt</item>
     </plurals>
 
@@ -429,6 +447,7 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="notification_goal_time_description">hedef ulaşıldı</string>
     <string name="notification_time_started">Başlangıç zamanı %s</string>
     <string name="notification_record_type_stop">Durmak</string>
+    <string name="notification_pomodoro_subtitle">Başlangıç: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Tamamen kaldırmak için arşivi açın</string>
@@ -465,6 +484,12 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="records_filter_any_comment">Herhangi bir yorum</string>
     <string name="records_filter_select">Seçme</string>
     <string name="records_filter_invert_selection">Zıt seçim</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Odaklanma</string>
+    <string name="pomodoro_state_break">Ara</string>
+    <string name="pomodoro_state_long_break">Uzun ara</string>
+    <string name="pomodoro_settings_periods_until_long_break">Uzun araya kalan dönemler</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">İfadeler</string>

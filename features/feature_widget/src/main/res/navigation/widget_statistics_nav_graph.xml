@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_nav_graph"
+    app:startDestination="@id/widgetStatisticsFragment">
+
+    <fragment
+        android:id="@+id/widgetStatisticsFragment"
+        android:name="com.example.util.simpletimetracker.feature_widget.statistics.settings.WidgetStatisticsSettingsFragment"
+        android:label="WidgetStatisticsFragment"
+        tools:layout="@layout/widget_statistics_settings_fragment" />
+    <!--  TODO looks like a hack, copy from the main graph with
+            the same id allows to use same router,
+            but navigating to other direction would result in a crash,
+            because destinations are not here.
+            Fix somehow?  -->
+    <dialog
+        android:id="@+id/durationDialog"
+        android:name="com.example.util.simpletimetracker.feature_dialogs.duration.view.DurationDialogFragment"
+        android:label="DurationDialog"
+        tools:layout="@layout/duration_dialog_fragment" />
+</navigation>

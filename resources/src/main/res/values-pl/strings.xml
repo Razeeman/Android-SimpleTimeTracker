@@ -33,11 +33,19 @@
     <string name="range_year">Rok</string>
     <string name="range_overall">Cały okres</string>
     <string name="range_custom">Zakres</string>
-    <string name="range_last">Ostatnie 7 dni</string>
     <string name="range_select_day">Wybierz dzień</string>
     <string name="range_select_week">Wybierz tydzień</string>
     <string name="range_select_month">Wybierz miesiąc</string>
     <string name="range_select_year">Wybierz rok</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Ostatnie %s dni</item>-->
+        <item quantity="one">Ostatni %s dzień</item>
+        <!--        <item quantity="two">Ostatnie %s dni</item>-->
+        <item quantity="few">Ostatnie %s dni</item>
+        <item quantity="many">Ostatnie %s dni</item>
+        <item quantity="other">Ostatnie %s dni</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -122,6 +130,8 @@
     <string name="change_record_change_overlapped">Pokrywają się</string>
     <string name="change_record_change_overlapped_hint">Rekordy całkowicie się pokrywają i zostaną usunięte</string>
     <string name="change_record_untracked_time_hint">Czas nieśledzony to czas, w którym nie śledzono żadnej aktywności.</string>
+    <string name="change_record_previous_not_found">Nie znaleziono poprzedniego rekordu</string>
+    <string name="change_record_next_not_found">Nie znaleziono następnego rekordu</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktywność zarchiwizowana</string>
@@ -190,6 +200,9 @@
     <string name="record_tag_selection_exclude_activities_title">Wyklucz aktywności</string>
     <string name="record_tag_selection_exclude_activities_hint">Okno wyboru tagu nie będzie wyświetlane dla wybranych aktywności.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Wybierz aktywności</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro zostanie automatycznie uruchomione po rozpoczęciu wybranych czynności.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Posortuj rekordy</string>
     <string name="records_all_sort_time_started">Czas rozpoczęcia</string>
@@ -238,7 +251,9 @@
     <string name="settings_show_activity_filters">Pokaż filtry aktywności na ekranie głównym</string>
     <string name="settings_allow_multiple_activity_filters">Zezwalaj na wiele filtrów aktywności</string>
     <string name="settings_allow_multiple_activity_filters_hint">Jeśli opcja jest wyłączona, wybranie filtra spowoduje wyłączenie innych filtrów aktywności.</string>
+    <string name="settings_enable_pomodoro_mode">Pokaż przycisk Pomodoro na ekranie głównym</string>
     <string name="settings_show_goals_separately">Pokaż cele na osobnej karcie</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Pokaż pasek nawigacyjny na dole</string>
     <string name="settings_allow_multitasking">Zezwalaj na wiele aktywności jednocześnie</string>
     <string name="settings_allow_multitasking_hint">Jeśli ta opcja jest wyłączona, uruchomienie nowego timera automatycznie zatrzyma inne aktywności.</string>
     <string name="settings_show_notifications">Pokaż powiadomienia timera</string>
@@ -395,6 +410,9 @@ Przykład:<br/>
     <string name="statistics_detail_streaks">Serie</string>
     <string name="statistics_detail_streaks_longest">Najdłuższa</string>
     <string name="statistics_detail_streaks_current">Obecna</string>
+    <string name="statistics_detail_streaks_completion">Stopień ukonczenia</string>
+    <string name="statistics_detail_streaks_completion_percentage">Odsetek</string>
+    <string name="statistics_detail_streaks_completion_count">Liczyć</string>
     <string name="statistics_detail_streaks_latest">Ostatnia</string>
     <string name="statistics_detail_streaks_any">Dowolny czas trwania</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -406,9 +424,9 @@ Przykład:<br/>
     <string name="statistics_detail_multitasking_activities_hint">Najczęściej razem z</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">rekordów</item>-->
+        <!--        <item quantity="zero">rekordów</item>-->
         <item quantity="one">rekord</item>
-        <item quantity="two">rekordy</item>
+        <!--        <item quantity="two">rekordy</item>-->
         <item quantity="few">rekordów</item>
         <item quantity="many">rekordów</item>
         <item quantity="other">rekordów</item>
@@ -429,6 +447,7 @@ Przykład:<br/>
     <string name="notification_goal_time_description">cel osiągnięty</string>
     <string name="notification_time_started">Rozpoczęto o %s</string>
     <string name="notification_record_type_stop">Zatrzymaj</string>
+    <string name="notification_pomodoro_subtitle">Rozpoczęcie: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Aby całkowicie usunąć - otwórz archiwum</string>
@@ -465,6 +484,12 @@ Przykład:<br/>
     <string name="records_filter_any_comment">Komentarz</string>
     <string name="records_filter_select">Wybierz</string>
     <string name="records_filter_invert_selection">Odwróć wybór</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Skupienie</string>
+    <string name="pomodoro_state_break">Przerwa</string>
+    <string name="pomodoro_state_long_break">Długa przerwa</string>
+    <string name="pomodoro_settings_periods_until_long_break">Okresy do długiej przerwy</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Buźki i emocje</string>

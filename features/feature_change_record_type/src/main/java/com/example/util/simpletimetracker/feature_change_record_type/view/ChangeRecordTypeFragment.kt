@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_change_record_type.view
 
 import android.animation.ValueAnimator
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -128,6 +129,7 @@ class ChangeRecordTypeFragment :
     }
     private var iconsLayoutManager: GridLayoutManager? = null
     private var typeColorAnimator: ValueAnimator? = null
+    private var iconTextWatcher: TextWatcher? = null
 
     private val params: ChangeRecordTypeParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS,
@@ -182,7 +184,7 @@ class ChangeRecordTypeFragment :
         }
     }
 
-    override fun initUx() = with(binding) {
+    override fun initUx(): Unit = with(binding) {
         etChangeRecordTypeName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
         fieldChangeRecordTypeColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
@@ -243,6 +245,14 @@ class ChangeRecordTypeFragment :
         GoalsViewDelegate.onResume(binding.layoutChangeRecordTypeGoals)
     }
 
+    override fun onDestroyView() {
+        IconSelectionViewDelegate.onDestroyView(
+            textWatcher = iconTextWatcher,
+            layout = binding.containerChangeRecordTypeIcon,
+        )
+        super.onDestroyView()
+    }
+
     override fun onDestroy() {
         typeColorAnimator?.cancel()
         super.onDestroy()
@@ -271,7 +281,7 @@ class ChangeRecordTypeFragment :
     private fun updateUi(item: RecordTypeViewData) = with(binding) {
         etChangeRecordTypeName.setText(item.name)
         etChangeRecordTypeName.setSelection(item.name.length)
-        IconSelectionViewDelegate.updateUi(
+        iconTextWatcher = IconSelectionViewDelegate.updateUi(
             icon = item.iconId,
             viewModel = viewModel,
             layout = containerChangeRecordTypeIcon,

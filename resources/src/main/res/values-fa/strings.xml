@@ -33,11 +33,19 @@
     <string name="range_year">سال</string>
     <string name="range_overall">به طور کلی</string>
     <string name="range_custom">محدوده</string>
-    <string name="range_last">7 روز قبلی</string>
     <string name="range_select_day">انتخاب تاریخ</string>
     <string name="range_select_week">انتخاب هفته</string>
     <string name="range_select_month">انتخاب ماه</string>
     <string name="range_select_year">انتخاب سال</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">%s روز قبلی</item>-->
+        <item quantity="one">%s روز قبلی</item>
+        <!--        <item quantity="two">%s روز قبلی</item>-->
+        <!--        <item quantity="few">%s روز قبلی</item>-->
+        <!--        <item quantity="many">%s روز قبلی</item>-->
+        <!--        <item quantity="other">%s روز قبلی</item>-->
+    </plurals>
 
     <string name="ok">موافقت</string>
     <string name="cancel">لغو</string>
@@ -122,6 +130,8 @@
     <string name="change_record_change_overlapped">همپوشانی دارند</string>
     <string name="change_record_change_overlapped_hint">سوابق کاملاً همپوشانی دارند و حذف خواهند شد</string>
     <string name="change_record_untracked_time_hint">زمان ردیابی نشده زمانی است که هیچ فعالیتی ردیابی نشده است.</string>
+    <string name="change_record_previous_not_found">رکورد قبلی پیدا نشد</string>
+    <string name="change_record_next_not_found">رکورد بعدی پیدا نشد</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">فعالیت بایگانی شد</string>
@@ -190,6 +200,9 @@
     <string name="record_tag_selection_exclude_activities_title">حذف فعالیت ها</string>
     <string name="record_tag_selection_exclude_activities_hint">گفتگوی انتخاب برچسب برای فعالیت های انتخاب شده نشان داده نخواهد شد.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">فعالیت ها را انتخاب کنید</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">با شروع فعالیت های انتخاب شده، پومودورو به طور خودکار شروع می شود.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">مرتب کردن تاریخچه ها</string>
     <string name="records_all_sort_time_started">زمان شروع</string>
@@ -238,7 +251,9 @@
     <string name="settings_show_activity_filters">فیلتر فعالیت ها را در صفحه اصلی نمایش بده</string>
     <string name="settings_allow_multiple_activity_filters">فیلترهای فعالیت چندگانه مجاز است</string>
     <string name="settings_allow_multiple_activity_filters_hint">اگر غیرفعال باشد، انتخاب فیلتر، سایر فیلترهای فعالیت را غیرفعال می کند.</string>
+    <string name="settings_enable_pomodoro_mode">نمایش دکمه Pomodoro در صفحه اصلی</string>
     <string name="settings_show_goals_separately">نمایش اهداف در یک برگه جداگانه</string>
+    <string name="settings_show_nav_bar_at_the_bottom">نمایش نوار پیمایش در پایین</string>
     <string name="settings_allow_multitasking">انجام دادن همزمان فعالیت ها</string>
     <string name="settings_allow_multitasking_hint">اگر غیر فعال باشد شروع تایمر های جدید فعالیت های دیگر را متوقف می کند</string>
     <string name="settings_show_notifications">تایمر را در اعلان ها نمایش بده</string>
@@ -395,6 +410,9 @@
     <string name="statistics_detail_streaks">ردیفی</string>
     <string name="statistics_detail_streaks_longest">طولانی ترین</string>
     <string name="statistics_detail_streaks_current">فعلی</string>
+    <string name="statistics_detail_streaks_completion">نرخ تکمیل</string>
+    <string name="statistics_detail_streaks_completion_percentage">درصد</string>
+    <string name="statistics_detail_streaks_completion_count">شمردن</string>
     <string name="statistics_detail_streaks_latest">آخرین</string>
     <string name="statistics_detail_streaks_any">هر مدت</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -406,11 +424,11 @@
     <string name="statistics_detail_multitasking_activities_hint">چند کاره برتر</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">بدون تاریخچه</item>-->
+        <!--        <item quantity="zero">بدون تاریخچه</item>-->
         <item quantity="one">تاریخچه</item>
-<!--        <item quantity="two">دو تاریخچه</item>-->
-<!--        <item quantity="few">تعداد کمی تاریخچه</item>-->
-<!--        <item quantity="many">تعداد زیادی تاریخچه</item>-->
+        <!--        <item quantity="two">دو تاریخچه</item>-->
+        <!--        <item quantity="few">تعداد کمی تاریخچه</item>-->
+        <!--        <item quantity="many">تعداد زیادی تاریخچه</item>-->
         <item quantity="other">تاریخچه</item>
     </plurals>
 
@@ -429,6 +447,7 @@
     <string name="notification_goal_time_description">به هدف خود رسیدید</string>
     <string name="notification_time_started">شروع شده در %s</string>
     <string name="notification_record_type_stop">توقف</string>
+    <string name="notification_pomodoro_subtitle">شروع: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">برای حذف کامل - بایگانی را باز کنید</string>
@@ -465,6 +484,12 @@
     <string name="records_filter_any_comment">هر نظری</string>
     <string name="records_filter_select">انتخاب</string>
     <string name="records_filter_invert_selection">معکوس کردن موارد انتخابی</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">تمرکز</string>
+    <string name="pomodoro_state_break">شکستن</string>
+    <string name="pomodoro_state_long_break">وقفه طولانی</string>
+    <string name="pomodoro_settings_periods_until_long_break">دوره های زمانی تا وقفه طولانی</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">شکلک ها و احساسات</string>

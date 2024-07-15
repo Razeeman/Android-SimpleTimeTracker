@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.core.delegates.iconSelection.viewDele
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
+import android.text.TextWatcher
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
@@ -90,11 +91,20 @@ object IconSelectionViewDelegate {
         )
     }
 
+    fun onDestroyView(
+        textWatcher: TextWatcher?,
+        layout: IconSelectionLayoutBinding,
+    ) = with(layout) {
+        // Remove textWatcher because it will be set again on init ViewModel,
+        // to avoid several watcher being set on screen navigation forward and backward.
+        textWatcher?.let(etIconSelectionText::removeTextChangedListener)
+    }
+
     fun updateUi(
         icon: RecordTypeIcon?,
         viewModel: IconSelectionViewModelDelegate,
         layout: IconSelectionLayoutBinding,
-    ) = with(layout) {
+    ): TextWatcher = with(layout) {
         (icon as? RecordTypeIcon.Text)?.text?.let {
             etIconSelectionText.setText(it)
         }

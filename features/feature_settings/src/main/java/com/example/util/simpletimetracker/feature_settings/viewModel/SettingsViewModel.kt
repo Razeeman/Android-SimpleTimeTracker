@@ -171,10 +171,16 @@ class SettingsViewModel @Inject constructor(
                 displayDelegate.onReverseOrderInCalendarClicked()
             SettingsBlock.DisplayShowActivityFilters ->
                 displayDelegate.onShowActivityFiltersClicked()
+            SettingsBlock.DisplayEnablePomodoroMode ->
+                displayDelegate.onEnablePomodoroModeClicked()
+            SettingsBlock.DisplayPomodoroModeActivities ->
+                displayDelegate.onPomodoroModeActivitiesClicked()
             SettingsBlock.DisplayAllowMultipleActivityFilters ->
                 displayDelegate.onAllowMultipleActivityFiltersClicked()
             SettingsBlock.DisplayGoalsOnSeparateTabs ->
                 displayDelegate.onShowGoalsSeparatelyClicked()
+            SettingsBlock.DisplayNavBarAtTheBottom ->
+                displayDelegate.onShowNavBarAtTheBottomClicked()
             SettingsBlock.DisplayKeepScreenOn ->
                 displayDelegate.onKeepScreenOnClicked()
             SettingsBlock.DisplayMilitaryFormat ->
@@ -273,6 +279,8 @@ class SettingsViewModel @Inject constructor(
         when (tag) {
             EXCLUDE_ACTIVITIES_TYPES_SELECTION,
             -> additionalDelegate.onTypesSelected(typeIds)
+            SELECT_ACTIVITIES_TO_AUTOSTART_POMODORO,
+            -> displayDelegate.onTypesSelected(typeIds)
         }
     }
 
@@ -332,5 +340,6 @@ class SettingsViewModel @Inject constructor(
         const val UNTRACKED_RANGE_END_DIALOG_TAG = "untracked_range_end_dialog_tag"
         const val START_OF_DAY_DIALOG_TAG = "start_of_day_dialog_tag"
         const val EXCLUDE_ACTIVITIES_TYPES_SELECTION = "exclude_activities_types_selection"
+        const val SELECT_ACTIVITIES_TO_AUTOSTART_POMODORO = "select_activities_to_autostart_pomodoro"
     }
 }

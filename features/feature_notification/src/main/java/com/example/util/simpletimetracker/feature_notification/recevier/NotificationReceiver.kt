@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.feature_notification.automaticBackup.c
 import com.example.util.simpletimetracker.feature_notification.automaticExport.controller.AutomaticExportBroadcastController
 import com.example.util.simpletimetracker.feature_notification.goalTime.controller.NotificationGoalTimeBroadcastController
 import com.example.util.simpletimetracker.feature_notification.inactivity.controller.NotificationInactivityBroadcastController
+import com.example.util.simpletimetracker.feature_notification.pomodoro.controller.NotificationPomodoroBroadcastController
 import com.example.util.simpletimetracker.feature_notification.recordType.controller.NotificationTypeBroadcastController
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_STOP
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TAGS_NEXT
@@ -57,6 +58,9 @@ class NotificationReceiver : BroadcastReceiver() {
     @Inject
     lateinit var automaticExportController: AutomaticExportBroadcastController
 
+    @Inject
+    lateinit var pomodoroController: NotificationPomodoroBroadcastController
+
     override fun onReceive(context: Context?, intent: Intent?) {
         val action = intent?.action
         if (context == null || intent == null || action == null) return
@@ -67,6 +71,10 @@ class NotificationReceiver : BroadcastReceiver() {
             }
             ACTION_ACTIVITY_REMINDER -> {
                 activityController.onActivityReminder()
+            }
+            ACTION_POMODORO_REMINDER -> {
+                val cycleType = intent.getLongExtra(EXTRA_POMODORO_CYCLE_TYPE, 0)
+                pomodoroController.onReminder(cycleType)
             }
             ACTION_GOAL_TIME_REMINDER_SESSION,
             ACTION_GOAL_TIME_REMINDER_CATEGORY_SESSION,
@@ -193,6 +201,7 @@ class NotificationReceiver : BroadcastReceiver() {
             }
             AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED -> {
                 goalTimeController.onExactAlarmPermissionStateChanged()
+                pomodoroController.onExactAlarmPermissionStateChanged()
             }
         }
     }
@@ -204,6 +213,7 @@ class NotificationReceiver : BroadcastReceiver() {
         typeController.onBootCompleted()
         automaticBackupController.onBootCompleted()
         automaticExportController.onBootCompleted()
+        pomodoroController.onBootCompleted()
     }
 
     companion object {
@@ -233,6 +243,8 @@ class NotificationReceiver : BroadcastReceiver() {
             "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_WEEK_END"
         const val ACTION_GOAL_TIME_REMINDER_MONTH_END =
             "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_MONTH_END"
+        const val ACTION_POMODORO_REMINDER =
+            "com.razeeman.util.simpletimetracker.ACTION_POMODORO_REMINDER"
         const val ACTION_AUTOMATIC_BACKUP =
             "com.razeeman.util.simpletimetracker.ACTION_AUTOMATIC_BACKUP"
         const val ACTION_AUTOMATIC_EXPORT =
@@ -242,5 +254,7 @@ class NotificationReceiver : BroadcastReceiver() {
             "extra_goal_time_type_id"
         const val EXTRA_GOAL_TIME_CATEGORY_ID =
             "extra_goal_time_category_id"
+        const val EXTRA_POMODORO_CYCLE_TYPE =
+            "extra_pomodoro_cycle_type"
     }
 }

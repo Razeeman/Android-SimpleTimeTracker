@@ -304,6 +304,48 @@ class RecordActionsRepeatTest : BaseUiTest() {
         )
     }
 
+    @Test
+    fun repeatFromQuickActions() {
+        val name = "Name"
+
+        // Setup
+        testUtils.addActivity(name)
+        testUtils.addRecord(name)
+
+        // Check record
+        NavUtils.openRecordsScreen()
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(name)),
+                isCompletelyDisplayed(),
+            ),
+        )
+
+        // Repeat
+        longClickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        clickOnViewWithText(coreR.string.change_record_repeat)
+
+        // Check record still there
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(name)),
+                isCompletelyDisplayed(),
+            ),
+        )
+
+        // Check running record
+        NavUtils.openRunningRecordsScreen()
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewRunningRecordItem),
+                hasDescendant(withText(name)),
+                isCompletelyDisplayed(),
+            ),
+        )
+    }
+
     @Suppress("SameParameterValue")
     private fun checkRecord(
         name: String,

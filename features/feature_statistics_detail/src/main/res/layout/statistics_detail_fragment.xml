@@ -9,7 +9,6 @@
         android:id="@+id/containerStatisticsDetailContent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:descendantFocusability="blocksDescendants"
         app:layout_constraintBottom_toTopOf="@id/btnStatisticsDetailToday"
         app:layout_constraintTop_toTopOf="parent">
 

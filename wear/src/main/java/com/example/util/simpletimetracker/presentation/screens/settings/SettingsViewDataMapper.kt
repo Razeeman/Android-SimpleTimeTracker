@@ -5,6 +5,7 @@
  */
 package com.example.util.simpletimetracker.presentation.screens.settings
 
+import com.example.util.simpletimetracker.BuildConfig
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.data.WearResourceRepo
 import com.example.util.simpletimetracker.presentation.ui.components.SettingsItem
@@ -29,19 +30,34 @@ class SettingsViewDataMapper @Inject constructor(
         items += SettingsItem.CheckBox(
             type = SettingsItemType.AllowMultitasking,
             text = resourceRepo.getString(R.string.settings_allow_multitasking),
-            hint = resourceRepo.getString(R.string.settings_allow_multitasking_hint),
             checked = wearSettings.allowMultitasking,
         )
-
+        items += SettingsItem.Hint(
+            type = SettingsItemType.AllowMultitaskingHint,
+            hint = resourceRepo.getString(R.string.settings_allow_multitasking_hint),
+        )
         items += SettingsItem.CheckBox(
             type = SettingsItemType.ShowCompactList,
             text = resourceRepo.getString(R.string.wear_settings_title_show_compact_list),
-            hint = "",
             checked = showCompactList,
+        )
+        items += SettingsItem.Version(
+            type = SettingsItemType.Version,
+            text = getAppVersion(),
         )
 
         return SettingsListState.Content(
             items = items,
         )
+    }
+
+    private fun getAppVersion(): String {
+        val versionText = resourceRepo.getString(R.string.settings_version)
+        val appVersion = "$versionText ${BuildConfig.VERSION_NAME}"
+        return if (BuildConfig.DEBUG) {
+            "$appVersion ${BuildConfig.BUILD_TYPE}"
+        } else {
+            appVersion
+        }
     }
 }

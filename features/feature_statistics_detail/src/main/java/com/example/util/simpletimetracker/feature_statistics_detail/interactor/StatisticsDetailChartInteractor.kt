@@ -53,7 +53,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         return statisticsDetailViewDataMapper.mapToEmptyChartViewData(
             ranges = ranges,
             availableChartGroupings = compositeData.availableChartGroupings,
-            availableChartLengths = compositeData.availableChartLengths
+            availableChartLengths = compositeData.availableChartLengths,
         )
     }
 
@@ -257,7 +257,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
             is RangeLength.Custom -> {
                 customRangeGroupings.first { it.first == appliedChartGrouping }.second
             }
-            is RangeLength.Last -> rangeLength.DAYS
+            is RangeLength.Last -> rangeLength.days
         }
 
         return when (appliedChartGrouping) {

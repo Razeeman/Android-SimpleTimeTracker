@@ -14,6 +14,7 @@ import kotlinx.parcelize.Parcelize
  * Object definitions for records sent between Wear/Mobile
  */
 
+// TODO add Response postfix, add domain model, add mapping to avoid crashes.
 @Parcelize
 data class WearActivity(
     val id: Long,

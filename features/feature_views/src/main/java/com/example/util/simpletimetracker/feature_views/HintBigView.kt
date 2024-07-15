@@ -39,12 +39,28 @@ class HintBigView @JvmOverloads constructor(
             binding.btnHintBigClose.isVisible = value
         }
 
+    var itemActionButtonVisible: Boolean = false
+        set(value) {
+            field = value
+            binding.btnHintBigAction.isVisible = value
+        }
+
+    var itemActionButtonText: String = ""
+        set(value) {
+            field = value
+            binding.btnHintBigAction.text = value
+        }
+
     init {
         initAttrs(context, attrs, defStyleAttr)
     }
 
     fun setOnCloseClick(action: () -> Unit) {
         binding.btnHintBigClose.setOnClick(action)
+    }
+
+    fun setOnActionClick(action: () -> Unit) {
+        binding.btnHintBigAction.setOnClick(action)
     }
 
     private fun initAttrs(
@@ -55,15 +71,33 @@ class HintBigView @JvmOverloads constructor(
         context.obtainStyledAttributes(attrs, R.styleable.HintBigView, defStyleAttr, 0)
             .run {
                 if (hasValue(R.styleable.HintBigView_itemHintText)) {
-                    itemText = getString(R.styleable.HintBigView_itemHintText).orEmpty()
+                    itemText = getString(
+                        R.styleable.HintBigView_itemHintText,
+                    ).orEmpty()
                 }
 
                 if (hasValue(R.styleable.HintBigView_itemInfoIconVisible)) {
-                    itemInfoIconVisible = getBoolean(R.styleable.HintBigView_itemInfoIconVisible, false)
+                    itemInfoIconVisible = getBoolean(
+                        R.styleable.HintBigView_itemInfoIconVisible, false,
+                    )
                 }
 
                 if (hasValue(R.styleable.HintBigView_itemCloseIconVisible)) {
-                    itemCloseIconVisible = getBoolean(R.styleable.HintBigView_itemCloseIconVisible, false)
+                    itemCloseIconVisible = getBoolean(
+                        R.styleable.HintBigView_itemCloseIconVisible, false,
+                    )
+                }
+
+                if (hasValue(R.styleable.HintBigView_itemActionButtonVisible)) {
+                    itemActionButtonVisible = getBoolean(
+                        R.styleable.HintBigView_itemActionButtonVisible, false,
+                    )
+                }
+
+                if (hasValue(R.styleable.HintBigView_itemActionButtonText)) {
+                    itemActionButtonText = getString(
+                        R.styleable.HintBigView_itemActionButtonText,
+                    ).orEmpty()
                 }
 
                 recycle()

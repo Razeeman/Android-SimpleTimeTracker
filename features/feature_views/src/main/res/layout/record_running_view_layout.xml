@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="4dp"
-    android:layout_marginEnd="4dp"
     app:cardBackgroundColor="@color/red_600"
     app:cardCornerRadius="@dimen/record_type_card_corner_radius"
     app:cardElevation="@dimen/record_type_card_elevation"

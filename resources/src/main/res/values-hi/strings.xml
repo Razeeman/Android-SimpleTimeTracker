@@ -33,11 +33,19 @@
     <string name="range_year">साल</string>
     <string name="range_overall">कुल मिलाकर</string>
     <string name="range_custom">सीमा</string>
-    <string name="range_last">पिछले 7 दिन</string>
     <string name="range_select_day">तारीख़ चुनें</string>
     <string name="range_select_week">सप्ताह का चयन करें</string>
     <string name="range_select_month">महीना चुनिए</string>
     <string name="range_select_year">वर्ष का चयन करें</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">पिछले %s दिन</item>-->
+        <item quantity="one">अंतिम %s दिन</item>
+        <!--        <item quantity="two">पिछले %s दिन</item>-->
+        <!--        <item quantity="few">पिछले %s दिन</item>-->
+        <!--        <item quantity="many">पिछले %s दिन</item>-->
+        <item quantity="other">पिछले %s दिन</item>
+    </plurals>
 
     <string name="ok">ठीक है</string>
     <string name="cancel">रद्द करे</string>
@@ -122,6 +130,8 @@
     <string name="change_record_change_overlapped">ओवरलैप</string>
     <string name="change_record_change_overlapped_hint">रिकॉर्ड पूरी तरह से ओवरलैप हो गए हैं और उन्हें हटा दिया जाएगा</string>
     <string name="change_record_untracked_time_hint">अनट्रैक्ड टाइम वह समय है जब किसी भी गतिविधि को ट्रैक नहीं किया गया था।</string>
+    <string name="change_record_previous_not_found">पिछला रिकॉर्ड नहीं मिला</string>
+    <string name="change_record_next_not_found">अगला रिकॉर्ड नहीं मिला</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">संग्रहीत गतिविधि</string>
@@ -190,6 +200,9 @@
     <string name="record_tag_selection_exclude_activities_title">गतिविधियाँ बहिष्कृत करें</string>
     <string name="record_tag_selection_exclude_activities_hint">चयनित गतिविधियों के लिए टैग चयन संवाद नहीं दिखाया जाएगा।</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">गतिविधियाँ चुनें</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">चयनित गतिविधियाँ शुरू होने पर पोमोडोरो स्वचालित रूप से शुरू हो जाएगा।</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">क्रमबद्ध अभिलेख</string>
     <string name="records_all_sort_time_started">समय शुरू हुआ</string>
@@ -238,7 +251,9 @@
     <string name="settings_show_activity_filters">मुख्य स्क्रीन पर गतिविधि फ़िल्टर दिखाएं</string>
     <string name="settings_allow_multiple_activity_filters">एकाधिक गतिविधि फ़िल्टर की अनुमति दें</string>
     <string name="settings_allow_multiple_activity_filters_hint">यदि अक्षम किया गया है, तो फ़िल्टर का चयन करने से अन्य गतिविधि फ़िल्टर अक्षम हो जाएंगे।</string>
+    <string name="settings_enable_pomodoro_mode">मुख्य स्क्रीन पर पोमोडोरो बटन दिखाएँ</string>
     <string name="settings_show_goals_separately">एक अलग टैब पर लक्ष्य दिखाएँ</string>
+    <string name="settings_show_nav_bar_at_the_bottom">सबसे नीचे नेविगेशन बार दिखाएँ</string>
     <string name="settings_allow_multitasking">मल्टीटास्किंग की अनुमति दें</string>
     <string name="settings_allow_multitasking_hint">यदि बंद हे तो नया टाइमर शुरू होने पर यह अन्य स्वचालित गतिविधियों को रोक देगा।</string>
     <string name="settings_show_notifications">टाइमर नोटिफिकेशन दिखाएं</string>
@@ -395,6 +410,9 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="statistics_detail_streaks">श्रृंखला</string>
     <string name="statistics_detail_streaks_longest">सबसे लंबे समय तक</string>
     <string name="statistics_detail_streaks_current">मौजूदा</string>
+    <string name="statistics_detail_streaks_completion">समापन दर</string>
+    <string name="statistics_detail_streaks_completion_percentage">प्रतिशत</string>
+    <string name="statistics_detail_streaks_completion_count">गिनती करना</string>
     <string name="statistics_detail_streaks_latest">नवीनतम</string>
     <string name="statistics_detail_streaks_any">कोई भी अवधि</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -406,11 +424,11 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="statistics_detail_multitasking_activities_hint">शीर्ष मल्टीटास्कड</string>
 
     <plurals name="statistics_detail_times_tracked">
-<!--        <item quantity="zero">अभिलेख</item>-->
+        <!--        <item quantity="zero">अभिलेख</item>-->
         <item quantity="one">रिकॉर्ड</item>
-<!--        <item quantity="two">अभिलेख</item>-->
-<!--        <item quantity="few">अभिलेख</item>-->
-<!--        <item quantity="many">अभिलेख</item>-->
+        <!--        <item quantity="two">अभिलेख</item>-->
+        <!--        <item quantity="few">अभिलेख</item>-->
+        <!--        <item quantity="many">अभिलेख</item>-->
         <item quantity="other">अभिलेख</item>
     </plurals>
 
@@ -429,6 +447,7 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="notification_goal_time_description">लक्ष्य तक पहुंच गया</string>
     <string name="notification_time_started">%s पर शुरू किया</string>
     <string name="notification_record_type_stop">रुकना</string>
+    <string name="notification_pomodoro_subtitle">आरंभ: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">पूरी तरह से हटाने के लिए - संग्रह खोलें</string>
@@ -465,6 +484,12 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="records_filter_any_comment">कोई टिप्पणी</string>
     <string name="records_filter_select">चुनना</string>
     <string name="records_filter_invert_selection">उलट चयन</string>
+
+    <!--  Pomodoro  -->
+    <string name='pomodoro_state_focus'>फोकस</string>
+    <string name='pomodoro_state_break'>ब्रेक</string>
+    <string name='pomodoro_state_long_break'>लंबा ब्रेक</string>
+    <string name='pomodoro_settings_periods_until_long_break'>लंबे ब्रेक तक की अवधि</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">स्माइली और इमोशन</string>

@@ -33,11 +33,19 @@
     <string name="range_year">Jaar</string>
     <string name="range_overall">Algemeen</string>
     <string name="range_custom">Bereik</string>
-    <string name="range_last">Laatste 7 dagen</string>
     <string name="range_select_day">Selecteer dag</string>
     <string name="range_select_week">Selecteer week</string>
     <string name="range_select_month">Selecteer maand</string>
     <string name="range_select_year">Selecteer jaar</string>
+
+    <plurals name="range_last">
+        <!--        <item quantity="zero">Laatste %s dagen</item>-->
+        <item quantity="one">Laatste %s dag</item>
+        <!--        <item quantity="two">Laatste %s dagen</item>-->
+        <!--        <item quantity="few">Laatste %s dagen</item>-->
+        <!--        <item quantity="many">Laatste %s dagen</item>-->
+        <item quantity="other">Laatste %s dagen</item>
+    </plurals>
 
     <string name="ok">OK</string>
     <string name="cancel">Annuleren</string>
@@ -122,6 +130,8 @@
     <string name="change_record_change_overlapped">Overlapt</string>
     <string name="change_record_change_overlapped_hint">Records overlappen elkaar volledig en worden verwijderd</string>
     <string name="change_record_untracked_time_hint">Niet-bijgehouden tijd is de tijd waarin geen activiteit is bijgehouden.</string>
+    <string name="change_record_previous_not_found">Vorig record niet gevonden</string>
+    <string name="change_record_next_not_found">Volgende record niet gevonden</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activiteit gearchiveerd</string>
@@ -190,6 +200,9 @@
     <string name="record_tag_selection_exclude_activities_title">Exclusief activiteiten</string>
     <string name="record_tag_selection_exclude_activities_hint">Het dialoogvenster voor tagselectie wordt niet weergegeven voor geselecteerde activiteiten.</string>
 
+    <string name="select_activities_to_autostart_pomodoro_title">Selecteer activiteiten</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro wordt automatisch gestart wanneer geselecteerde activiteiten worden gestart.</string>
+
     <!--  Records all  -->
     <string name="records_all_sort_order">Records sorteren</string>
     <string name="records_all_sort_time_started">Tijd begonnen</string>
@@ -238,7 +251,9 @@
     <string name="settings_show_activity_filters">Activiteitsfilters weergeven op hoofdscherm</string>
     <string name="settings_allow_multiple_activity_filters">Sta meerdere activiteitsfilters toe</string>
     <string name="settings_allow_multiple_activity_filters_hint">Indien uitgeschakeld, zal het selecteren van een filter andere activiteitsfilters uitschakelen.</string>
+    <string name="settings_enable_pomodoro_mode">Toon de Pomodoro-knop op het hoofdscherm</string>
     <string name="settings_show_goals_separately">Toon doelen op een apart tabblad</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Toon navigatiebalk onderaan</string>
     <string name="settings_allow_multitasking">Multitasking toestaan</string>
     <string name="settings_allow_multitasking_hint">Indien uitgeschakeld, zal het starten van een nieuwe timer automatisch andere activiteiten stoppen.</string>
     <string name="settings_show_notifications">Timer-meldingen tonen</string>
@@ -395,6 +410,9 @@ Voorbeeld:<br/>
     <string name="statistics_detail_streaks">Serie</string>
     <string name="statistics_detail_streaks_longest">Langste</string>
     <string name="statistics_detail_streaks_current">Huidig</string>
+    <string name="statistics_detail_streaks_completion">Voltooiingspercentage</string>
+    <string name="statistics_detail_streaks_completion_percentage">Percentage</string>
+    <string name="statistics_detail_streaks_completion_count">Graaf</string>
     <string name="statistics_detail_streaks_latest">Laatste</string>
     <string name="statistics_detail_streaks_any">Elke duur</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -429,6 +447,7 @@ Voorbeeld:<br/>
     <string name="notification_goal_time_description">doel bereikt</string>
     <string name="notification_time_started">Gestart om %s</string>
     <string name="notification_record_type_stop">Beëindigen</string>
+    <string name="notification_pomodoro_subtitle">Beginnend: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Om volledig te verwijderen: open het archief</string>
@@ -465,6 +484,12 @@ Voorbeeld:<br/>
     <string name="records_filter_any_comment">Elke opmerking</string>
     <string name="records_filter_select">Selecteer</string>
     <string name="records_filter_invert_selection">Omgekeerde selectie</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Focus</string>
+    <string name="pomodoro_state_break">Pauze</string>
+    <string name="pomodoro_state_long_break">Lange pauze</string>
+    <string name="pomodoro_settings_periods_until_long_break">Perioden tot lange pauze</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Smileys &amp; Emotie</string>

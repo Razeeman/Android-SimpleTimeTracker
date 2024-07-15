@@ -35,13 +35,33 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDebugMenuResetPrefs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:background="?selectableItemBackground"
+                android:padding="8dp"
+                android:text="@string/debug_menu_reset_prefs"
+                android:textColor="?appTextPrimaryColor" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvDebugMenuResetHideDefaultTypes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:background="?selectableItemBackground"
                 android:padding="8dp"
-                android:text="@string/debug_menu_hide_default_types"
+                android:text="@string/debug_menu_reset_hide_default_types"
+                android:textColor="?appTextPrimaryColor" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDebugMenuResetPomodoroSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:background="?selectableItemBackground"
+                android:padding="8dp"
+                android:text="@string/debug_menu_reset_pomodoro_settings"
                 android:textColor="?appTextPrimaryColor" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

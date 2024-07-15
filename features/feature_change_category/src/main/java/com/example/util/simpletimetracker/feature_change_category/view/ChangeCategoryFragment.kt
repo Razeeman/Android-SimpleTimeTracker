@@ -119,7 +119,7 @@ class ChangeCategoryFragment :
         )
     }
 
-    override fun initUx() = with(binding) {
+    override fun initUx(): Unit = with(binding) {
         etChangeCategoryName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
         fieldChangeCategoryColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeCategoryType.setOnClick(viewModel::onTypeChooserClick)

@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.feature_dialogs.dateTime.DateTimeDialo
 import com.example.util.simpletimetracker.feature_dialogs.duration.view.DurationDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.emojiSelection.view.EmojiSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.helpDialog.HelpDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.recordQuickActions.view.RecordQuickActionsDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.RecordTagSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.typesSelection.view.TypesSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
@@ -33,6 +34,8 @@ import com.example.util.simpletimetracker.navigation.params.screen.DefaultTypesS
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.PomodoroSettingsParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordQuickActionsParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
@@ -244,6 +247,26 @@ class NavigationDialogMapModule {
         return NavigationData(
             R.id.recordsFilterDialogFragment,
             bundleCreatorDelegate(RecordsFilterFragment::createBundle),
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(PomodoroSettingsParams::class)
+    fun pomodoroSettings(): NavigationData {
+        return NavigationData(
+            R.id.action_to_pomodoroSettingsFragment,
+            BundleCreator.empty(),
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(RecordQuickActionsParams::class)
+    fun recordQuickActionsDialog(): NavigationData {
+        return NavigationData(
+            R.id.recordQuickActionsDialogFragment,
+            bundleCreatorDelegate(RecordQuickActionsDialogFragment::createBundle),
         )
     }
 }

@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_change_record_tag.view
 
 import android.animation.ValueAnimator
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionStateViewData
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewDelegate.IconSelectionViewDelegate
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
+import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.addOnBackPressedListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
@@ -69,6 +71,7 @@ import com.example.util.simpletimetracker.feature_change_record_tag.databinding.
 @AndroidEntryPoint
 class ChangeRecordTagFragment :
     BaseFragment<Binding>(),
+    EmojiSelectionDialogListener,
     ColorSelectionDialogListener,
     TypesSelectionDialogListener {
 
@@ -120,8 +123,9 @@ class ChangeRecordTagFragment :
             createHintBigAdapterDelegate(),
         )
     }
-    private var typeColorAnimator: ValueAnimator? = null
     private var iconsLayoutManager: GridLayoutManager? = null
+    private var typeColorAnimator: ValueAnimator? = null
+    private var iconTextWatcher: TextWatcher? = null
 
     private val params: ChangeTagData by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChangeTagData.New(),
@@ -174,7 +178,7 @@ class ChangeRecordTagFragment :
         }
     }
 
-    override fun initUx() = with(binding) {
+    override fun initUx(): Unit = with(binding) {
         etChangeRecordTagName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
         fieldChangeRecordTagColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTagIcon.setOnClick(viewModel::onIconChooserClick)
@@ -218,9 +222,21 @@ class ChangeRecordTagFragment :
         }
     }
 
+    override fun onDestroyView() {
+        IconSelectionViewDelegate.onDestroyView(
+            textWatcher = iconTextWatcher,
+            layout = binding.containerChangeRecordTypeIcon,
+        )
+        super.onDestroyView()
+    }
+
     override fun onDestroy() {
         typeColorAnimator?.cancel()
         super.onDestroy()
+    }
+
+    override fun onEmojiSelected(emojiText: String) {
+        viewModel.onEmojiSelected(emojiText)
     }
 
     override fun onColorSelected(colorInt: Int) {
@@ -234,7 +250,7 @@ class ChangeRecordTagFragment :
     private fun updateUi(item: CategoryViewData.Record) = with(binding) {
         etChangeRecordTagName.setText(item.name)
         etChangeRecordTagName.setSelection(item.name.length)
-        IconSelectionViewDelegate.updateUi(
+        iconTextWatcher = IconSelectionViewDelegate.updateUi(
             icon = item.icon,
             viewModel = viewModel,
             layout = containerChangeRecordTypeIcon,

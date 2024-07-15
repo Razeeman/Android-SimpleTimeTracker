@@ -11,7 +11,7 @@
         </activity>
 
         <activity
-            android:name=".statistics.settings.WidgetStatisticsSettingsActivity"
+            android:name=".statistics.settings.WidgetStatisticsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />

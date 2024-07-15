@@ -62,6 +62,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_STATISTICS_RANGE_CUSTOM_END, 0,
     )
 
+    override var statisticsRangeLastDays: Int by prefs.delegate(
+        KEY_STATISTICS_RANGE_LAST_DAYS, RANGE_LAST_DAYS_DEFAULT,
+    )
+
     override var statisticsDetailRange: Int by prefs.delegate(
         KEY_STATISTICS_DETAIL_RANGE, 0,
     )
@@ -72,6 +76,10 @@ class PrefsRepoImpl @Inject constructor(
 
     override var statisticsDetailRangeCustomEnd: Long by prefs.delegate(
         KEY_STATISTICS_DETAIL_RANGE_CUSTOM_END, 0,
+    )
+
+    override var statisticsDetailRangeLastDays: Int by prefs.delegate(
+        KEY_STATISTICS_DETAIL_RANGE_LAST_DAYS, RANGE_LAST_DAYS_DEFAULT,
     )
 
     override var keepStatisticsRange: Boolean by prefs.delegate(
@@ -108,6 +116,30 @@ class PrefsRepoImpl @Inject constructor(
 
     override var showActivityFilters: Boolean by prefs.delegate(
         KEY_SHOW_ACTIVITY_FILTERS, false,
+    )
+
+    override var enablePomodoroMode: Boolean by prefs.delegate(
+        KEY_ENABLE_POMODORO_MODE, false,
+    )
+
+    override var pomodoroModeStartedTimestamp: Long by prefs.delegate(
+        KEY_POMODORO_MODE_STARTED_TIMESTAMP, 0,
+    )
+
+    override var pomodoroFocusTime: Long by prefs.delegate(
+        KEY_POMODORO_FOCUS_TIME, POMODORO_DEFAULT_FOCUS_TIME_SEC,
+    )
+
+    override var pomodoroBreakTime: Long by prefs.delegate(
+        KEY_POMODORO_BREAK_TIME, POMODORO_DEFAULT_BREAK_TIME_SEC,
+    )
+
+    override var pomodoroLongBreakTime: Long by prefs.delegate(
+        KEY_POMODORO_LONG_BREAK_TIME, POMODORO_DEFAULT_LONG_BREAK_TIME_SEC,
+    )
+
+    override var pomodoroPeriodsUntilLongBreak: Long by prefs.delegate(
+        KEY_POMODORO_PERIODS_UNTIL_LONG_BREAK, POMODORO_DEFAULT_UNTIL_LONG_BREAK,
     )
 
     override var allowMultipleActivityFilters: Boolean by prefs.delegate(
@@ -222,6 +254,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES, emptySet(),
     )
 
+    override var autostartPomodoroActivities: Set<String> by prefs.delegate(
+        KEY_AUTOSTART_POMODORO_ACTIVITIES, emptySet(),
+    )
+
     override var automatedTrackingSendEvents: Boolean by prefs.delegate(
         KEY_AUTOMATED_TRACKING_SEND_EVENTS, false,
     )
@@ -262,6 +298,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_DEFAULT_TYPES_HIDDEN, false,
     )
 
+    override var isNavBarAtTheBottom: Boolean by prefs.delegate(
+        KEY_IS_NAV_BAR_AT_THE_BOTTOM, false,
+    )
+
     override fun setWidget(widgetId: Int, recordType: Long) {
         val key = KEY_WIDGET + widgetId
         logPrefsDataAccess("set $key")
@@ -296,6 +336,7 @@ class PrefsRepoImpl @Inject constructor(
             is RangeLength.Last -> 5
             is RangeLength.Custom -> 0 // Not possible
         }
+        val rangeDataLastDays = (data.rangeLength as? RangeLength.Last)?.days
         val filteredTypesData = data.filteredTypes.map(Long::toString).toSet()
         val filteredCategoriesData = data.filteredCategories.map(Long::toString).toSet()
         val filteredTagsData = data.filteredTags.map(Long::toString).toSet()
@@ -303,6 +344,11 @@ class PrefsRepoImpl @Inject constructor(
         prefs.edit()
             .putInt(KEY_STATISTICS_WIDGET_FILTER_TYPE + widgetId, filterTypeData)
             .putInt(KEY_STATISTICS_WIDGET_RANGE + widgetId, rangeData)
+            .apply {
+                if (rangeDataLastDays != null) {
+                    putInt(KEY_STATISTICS_WIDGET_RANGE_LAST_DAYS + widgetId, rangeDataLastDays)
+                }
+            }
             .putStringSet(KEY_STATISTICS_WIDGET_FILTERED_TYPES + widgetId, filteredTypesData)
             .putStringSet(KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES + widgetId, filteredCategoriesData)
             .putStringSet(KEY_STATISTICS_WIDGET_FILTERED_TAGS + widgetId, filteredTagsData)
@@ -323,7 +369,9 @@ class PrefsRepoImpl @Inject constructor(
             2 -> RangeLength.Month
             3 -> RangeLength.Year
             4 -> RangeLength.All
-            5 -> RangeLength.Last
+            5 -> RangeLength.Last(
+                days = getStatisticsWidgetLastDays(widgetId),
+            )
             else -> RangeLength.Day
         }
         val filteredTypes = prefs
@@ -345,11 +393,19 @@ class PrefsRepoImpl @Inject constructor(
         )
     }
 
+    override fun getStatisticsWidgetLastDays(widgetId: Int): Int {
+        return prefs.getInt(
+            KEY_STATISTICS_WIDGET_RANGE_LAST_DAYS + widgetId,
+            RANGE_LAST_DAYS_DEFAULT,
+        )
+    }
+
     override fun removeStatisticsWidget(widgetId: Int) {
         logPrefsDataAccess("removeStatisticsWidget $widgetId")
         prefs.edit()
             .remove(KEY_STATISTICS_WIDGET_FILTER_TYPE + widgetId)
             .remove(KEY_STATISTICS_WIDGET_RANGE + widgetId)
+            .remove(KEY_STATISTICS_WIDGET_RANGE_LAST_DAYS + widgetId)
             .remove(KEY_STATISTICS_WIDGET_FILTERED_TYPES + widgetId)
             .remove(KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES + widgetId)
             .remove(KEY_STATISTICS_WIDGET_FILTERED_TAGS + widgetId)
@@ -410,6 +466,17 @@ class PrefsRepoImpl @Inject constructor(
         prefs.edit().clear().apply()
     }
 
+    override fun clearDefaultTypesHidden() {
+        prefs.edit().remove(KEY_DEFAULT_TYPES_HIDDEN).apply()
+    }
+
+    override fun clearPomodoroSettingsClick() {
+        prefs.edit().remove(KEY_POMODORO_FOCUS_TIME).apply()
+        prefs.edit().remove(KEY_POMODORO_BREAK_TIME).apply()
+        prefs.edit().remove(KEY_POMODORO_LONG_BREAK_TIME).apply()
+        prefs.edit().remove(KEY_POMODORO_PERIODS_UNTIL_LONG_BREAK).apply()
+    }
+
     private fun setOrderManual(
         key: String,
         cardOrder: Map<Long, Long>,
@@ -445,6 +512,11 @@ class PrefsRepoImpl @Inject constructor(
         private const val DO_NOT_DISTURB_PERIOD_START: Long = 0 // midnight
         private const val DO_NOT_DISTURB_PERIOD_END: Long = 1000 * 60 * 60 * 8 // 8 hours in the morning
         private const val CARDS_ORDER_DELIMITER = "_"
+        private const val POMODORO_DEFAULT_FOCUS_TIME_SEC: Long = 60 * 25 // 25 min
+        private const val POMODORO_DEFAULT_BREAK_TIME_SEC: Long = 60 * 5 // 5 min
+        private const val POMODORO_DEFAULT_LONG_BREAK_TIME_SEC: Long = 60 * 15 // 15 min
+        private const val POMODORO_DEFAULT_UNTIL_LONG_BREAK: Long = 4
+        private const val RANGE_LAST_DAYS_DEFAULT: Int = 7
 
         private const val KEY_RECORD_TYPES_FILTERED_ON_CHART = "recordTypesFilteredOnChart"
         private const val KEY_CATEGORIES_TYPES_FILTERED_ON_CHART = "categoriesFilteredOnChart"
@@ -456,9 +528,11 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_STATISTICS_RANGE = "statisticsRange"
         private const val KEY_STATISTICS_RANGE_CUSTOM_START = "statisticsRangeCustomStart"
         private const val KEY_STATISTICS_RANGE_CUSTOM_END = "statisticsRangeCustomEnd"
+        private const val KEY_STATISTICS_RANGE_LAST_DAYS = "statisticsRangeLastDays"
         private const val KEY_STATISTICS_DETAIL_RANGE = "statisticsDetailRange"
         private const val KEY_STATISTICS_DETAIL_RANGE_CUSTOM_START = "statisticsDetailRangeCustomStart"
         private const val KEY_STATISTICS_DETAIL_RANGE_CUSTOM_END = "statisticsDetailRangeCustomEnd"
+        private const val KEY_STATISTICS_DETAIL_RANGE_LAST_DAYS = "statisticsDetailRangeLastDays"
         private const val KEY_KEEP_STATISTICS_RANGE = "keepStatisticsRange"
         private const val KEY_FIRST_DAY_OF_WEEK = "firstDayOfWeek"
         private const val KEY_START_OF_DAY_SHIFT = "startOfDayShift"
@@ -468,6 +542,12 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_REVERSE_ORDER_IN_CALENDAR = "reverseOrderInCalendar"
         private const val KEY_DAYS_IN_CALENDAR = "daysInCalendar"
         private const val KEY_SHOW_ACTIVITY_FILTERS = "showActivityFilters"
+        private const val KEY_ENABLE_POMODORO_MODE = "enablePomodoroMode"
+        private const val KEY_POMODORO_MODE_STARTED_TIMESTAMP = "pomodoroModeStartedTimestamp"
+        private const val KEY_POMODORO_FOCUS_TIME = "pomodoroFocusTime"
+        private const val KEY_POMODORO_BREAK_TIME = "pomodoroBreakTime"
+        private const val KEY_POMODORO_LONG_BREAK_TIME = "pomodoroLongBreakTime"
+        private const val KEY_POMODORO_PERIODS_UNTIL_LONG_BREAK = "pomodoroPeriodsUntilLongBreak"
         private const val KEY_ALLOW_MULTIPLE_ACTIVITY_FILTERS = "allowMultipleActivityFilters"
         private const val KEY_SHOW_GOALS_SEPARATELY = "showGoalsSeparately"
         private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
@@ -495,6 +575,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_KEEP_SCREEN_ON = "keepScreenOn"
         private const val KEY_SHOW_RECORD_TAG_SELECTION = "showRecordTagSelection"
         private const val KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES = "showRecordTagSelectionExcludeActivities"
+        private const val KEY_AUTOSTART_POMODORO_ACTIVITIES = "autostartPomodoroActivities"
         private const val KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE = "recordTagSelectionCloseAfterOne"
         private const val KEY_AUTOMATED_TRACKING_SEND_EVENTS = "automatedTrackingSendEvents"
         private const val KEY_AUTOMATIC_BACKUP_URI = "automaticBackupUri"
@@ -506,12 +587,14 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_REPEAT_BUTTON_TYPE = "repeatButtonType"
         private const val KEY_WIDGET_TRANSPARENCY_PERCENT = "widgetTransparencyPercent"
         private const val KEY_DEFAULT_TYPES_HIDDEN = "defaultTypesHidden"
+        private const val KEY_IS_NAV_BAR_AT_THE_BOTTOM = "isNavBarAtTheBottom"
         private const val KEY_WIDGET = "widget_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_TYPES = "statistics_widget_filtered_types_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES = "statistics_widget_filtered_categories_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_TAGS = "statistics_widget_filtered_tags_"
         private const val KEY_STATISTICS_WIDGET_FILTER_TYPE = "statistics_widget_filter_type_"
         private const val KEY_STATISTICS_WIDGET_RANGE = "statistics_widget_range_"
+        private const val KEY_STATISTICS_WIDGET_RANGE_LAST_DAYS = "statistics_widget_range_last_days_"
         private const val KEY_QUICK_SETTINGS_WIDGET_TYPE = "quick_settings_widget_type_"
         private const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"
         private const val KEY_CATEGORY_ORDER_MANUAL = "categoryOrderManual"

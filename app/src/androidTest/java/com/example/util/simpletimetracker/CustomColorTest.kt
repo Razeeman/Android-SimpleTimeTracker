@@ -138,6 +138,19 @@ class CustomColorTest : BaseUiTest() {
             colorValue = 65,
         )
 
+        typeTextIntoView(dialogsR.id.etColorSelectionRed, "999")
+        typeTextIntoView(dialogsR.id.etColorSelectionGreen, "999")
+        typeTextIntoView(dialogsR.id.etColorSelectionBlue, "999")
+        checkColorState(
+            finalColorInt = 0xffffffff.toInt(),
+            colorRed = 255,
+            colorGreen = 255,
+            colorBlue = 255,
+            colorHue = 0,
+            colorSaturation = 0,
+            colorValue = 100,
+        )
+
         // Change HSV
         typeTextIntoView(dialogsR.id.etColorSelectionHue, "0")
         typeTextIntoView(dialogsR.id.etColorSelectionSaturation, "100")
@@ -172,6 +185,19 @@ class CustomColorTest : BaseUiTest() {
             colorHue = 156,
             colorSaturation = 75,
             colorValue = 65,
+        )
+
+        typeTextIntoView(dialogsR.id.etColorSelectionHue, "999")
+        typeTextIntoView(dialogsR.id.etColorSelectionSaturation, "999")
+        typeTextIntoView(dialogsR.id.etColorSelectionValue, "999")
+        checkColorState(
+            finalColorInt = 0xffff0000.toInt(),
+            colorRed = 255,
+            colorGreen = 0,
+            colorBlue = 0,
+            colorHue = 360,
+            colorSaturation = 100,
+            colorValue = 100,
         )
 
         // Check random
