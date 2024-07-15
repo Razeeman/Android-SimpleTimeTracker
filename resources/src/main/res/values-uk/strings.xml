@@ -489,7 +489,7 @@
     <string name="pomodoro_state_focus">Фокус</string>
     <string name="pomodoro_state_break">Перерва</string>
     <string name="pomodoro_state_long_break">Тривала перерва</string>
-    <string name="pomodoro_settings_periods_until_long_break">Періоди до тривалої перерви</string>
+    <string name="pomodoro_settings_periods_until_long_break">Циклів до тривалої перерви</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайли та емоції</string>
