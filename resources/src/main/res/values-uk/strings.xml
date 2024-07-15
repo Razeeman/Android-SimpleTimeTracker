@@ -447,7 +447,7 @@
     <string name="notification_goal_time_description">ціль досягнута</string>
     <string name="notification_time_started">Почато в %s</string>
     <string name="notification_record_type_stop">Стоп</string>
-    <string name="notification_pomodoro_subtitle">Початок: %s (%s)</string>
+    <string name="notification_pomodoro_subtitle">Починається: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Для повного видалення - відкрити архів</string>
