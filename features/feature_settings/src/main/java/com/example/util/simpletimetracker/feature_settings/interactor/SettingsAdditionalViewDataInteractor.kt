@@ -103,17 +103,6 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
                 processSameItemSelected = false,
             )
 
-            val repeatButtonViewData = loadRepeatButtonViewData()
-            result += SettingsSpinnerViewData(
-                block = SettingsBlock.AdditionalRepeatButton,
-                title = resourceRepo.getString(R.string.settings_repeat_button_type),
-                value = repeatButtonViewData.items
-                    .getOrNull(repeatButtonViewData.selectedPosition)?.text.orEmpty(),
-                items = repeatButtonViewData.items,
-                selectedPosition = repeatButtonViewData.selectedPosition,
-                processSameItemSelected = false,
-            ).let(::SettingsSpinnerEvenViewData)
-
             val startOfDayViewData = loadStartOfDayViewData()
             result += SettingsSelectorWithButtonViewData(
                 data = SettingsSelectorViewData(
@@ -169,11 +158,6 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
     private suspend fun loadFirstDayOfWeekViewData(): FirstDayOfWeekViewData {
         return prefsInteractor.getFirstDayOfWeek()
             .let(settingsMapper::toFirstDayOfWeekViewData)
-    }
-
-    private suspend fun loadRepeatButtonViewData(): RepeatButtonViewData {
-        return prefsInteractor.getRepeatButtonType()
-            .let(settingsMapper::toRepeatButtonViewData)
     }
 
     private suspend fun loadStartOfDayViewData(): SettingsStartOfDayViewData {

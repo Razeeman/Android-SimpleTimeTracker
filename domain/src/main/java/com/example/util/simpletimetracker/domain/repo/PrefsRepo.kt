@@ -45,6 +45,8 @@ interface PrefsRepo {
 
     var showActivityFilters: Boolean
 
+    var enableRepeatButton: Boolean
+
     var enablePomodoroMode: Boolean
 
     var pomodoroModeStartedTimestamp: Long // in milliseconds, 0 - disabled

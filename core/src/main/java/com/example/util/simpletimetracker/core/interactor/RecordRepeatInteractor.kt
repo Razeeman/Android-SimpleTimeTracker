@@ -21,10 +21,6 @@ class RecordRepeatInteractor @Inject constructor(
     private val resourceRepo: ResourceRepo,
 ) {
 
-    suspend fun shouldShowButton(): Boolean {
-        return !recordInteractor.isEmpty()
-    }
-
     suspend fun repeat(): Boolean {
         return execute { messageResId ->
             SnackBarParams(

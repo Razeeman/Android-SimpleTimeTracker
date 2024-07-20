@@ -173,6 +173,8 @@ class SettingsViewModel @Inject constructor(
                 displayDelegate.onShowActivityFiltersClicked()
             SettingsBlock.DisplayEnablePomodoroMode ->
                 displayDelegate.onEnablePomodoroModeClicked()
+            SettingsBlock.DisplayEnableRepeatButton ->
+                displayDelegate.onEnableRepeatButtonClicked()
             SettingsBlock.DisplayPomodoroModeActivities ->
                 displayDelegate.onPomodoroModeActivitiesClicked()
             SettingsBlock.DisplayAllowMultipleActivityFilters ->
@@ -223,10 +225,10 @@ class SettingsViewModel @Inject constructor(
                 displayDelegate.onCategoryOrderSelected(position)
             SettingsBlock.DisplaySortTags ->
                 displayDelegate.onTagOrderSelected(position)
+            SettingsBlock.DisplayRepeatButtonMode ->
+                additionalDelegate.onRepeatButtonSelected(position)
             SettingsBlock.AdditionalFirstDayOfWeek ->
                 additionalDelegate.onFirstDayOfWeekSelected(position)
-            SettingsBlock.AdditionalRepeatButton ->
-                additionalDelegate.onRepeatButtonSelected(position)
             else -> {
                 // Do nothing
             }

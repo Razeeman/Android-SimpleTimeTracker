@@ -14,12 +14,14 @@ import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheck
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCollapseViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsHintViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSelectorViewData
+import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSpinnerEvenViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSpinnerViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSpinnerWithButtonViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTextViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTopViewData
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
+import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButtonViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.WidgetTransparencyViewData
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import javax.inject.Inject
@@ -134,6 +136,29 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                     bottomSpaceIsVisible = true,
                     dividerIsVisible = true,
                 )
+            }
+            val enableRepeatButton = prefsInteractor.getEnableRepeatButton()
+            result += SettingsCheckboxViewData(
+                block = SettingsBlock.DisplayEnableRepeatButton,
+                title = "Show repeat button on main screen", // TODO NEW add resource
+                subtitle = "",
+                isChecked = enableRepeatButton,
+                bottomSpaceIsVisible = !enableRepeatButton,
+                dividerIsVisible = !enableRepeatButton,
+            )
+            // TODO NEW fix tests, add more
+            // TODO NEW move some settings from display, too much
+            if (enableRepeatButton) {
+                val repeatButtonViewData = loadRepeatButtonViewData()
+                result += SettingsSpinnerViewData(
+                    block = SettingsBlock.DisplayRepeatButtonMode,
+                    title = resourceRepo.getString(R.string.settings_repeat_button_type), // TODO NEW rename to mode
+                    value = repeatButtonViewData.items
+                        .getOrNull(repeatButtonViewData.selectedPosition)?.text.orEmpty(),
+                    items = repeatButtonViewData.items,
+                    selectedPosition = repeatButtonViewData.selectedPosition,
+                    processSameItemSelected = false,
+                ).let(::SettingsSpinnerEvenViewData)
             }
             val enablePomodoroMode = prefsInteractor.getEnablePomodoroMode()
             result += SettingsCheckboxWithButtonViewData(
@@ -316,5 +341,10 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
     private suspend fun loadUseProportionalMinutesViewData(): String {
         return prefsInteractor.getUseProportionalMinutes()
             .let(settingsMapper::toUseProportionalMinutesHint)
+    }
+
+    private suspend fun loadRepeatButtonViewData(): RepeatButtonViewData {
+        return prefsInteractor.getRepeatButtonType()
+            .let(settingsMapper::toRepeatButtonViewData)
     }
 }
