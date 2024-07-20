@@ -494,7 +494,7 @@ class TimeMapper @Inject constructor(
         val willShowMinutes: Boolean
         val willShowSeconds: Boolean
 
-        if (forceSeconds) {
+        if (forceSeconds || (hr == 0L && min == 0L)) {
             willShowHours = hr != 0L
             willShowMinutes = willShowHours || min != 0L
             willShowSeconds = true
