@@ -14,14 +14,12 @@ import com.example.util.simpletimetracker.feature_settings.adapter.SettingsColla
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsHintViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSelectorViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSelectorWithButtonViewData
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSpinnerEvenViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSpinnerViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTextViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTextWithButtonViewData
 import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTopViewData
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButtonViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.SettingsStartOfDayViewData
 import java.util.Calendar
 import javax.inject.Inject

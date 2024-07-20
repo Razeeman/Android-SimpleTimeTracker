@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fieldChangeRecordTimePreviewItem"
+    style="@style/InputFieldCard"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/input_field_height"
+    android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvChangeRecordTimePreviewItem"
+        style="@style/EditScreenField"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?appInputFieldBorder"
+        android:gravity="center"
+        app:autoSizeMaxTextSize="16sp"
+        app:autoSizeMinTextSize="1sp"
+        app:autoSizeTextType="uniform"
+        tools:text="15.02.2020 07:35" />
+
+</androidx.cardview.widget.CardView>

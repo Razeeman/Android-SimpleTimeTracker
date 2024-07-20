@@ -11,19 +11,12 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
-import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
-import com.example.util.simpletimetracker.domain.interactor.RecordActionContinueMediator
-import com.example.util.simpletimetracker.domain.interactor.RecordActionDuplicateMediator
 import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
-import com.example.util.simpletimetracker.domain.interactor.RemoveRecordMediator
-import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
-import com.example.util.simpletimetracker.domain.interactor.RecordActionRepeatMediator
-import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
@@ -44,26 +37,17 @@ class ChangeRecordViewModel @Inject constructor(
     recordTagViewDataInteractor: RecordTagViewDataInteractor,
     prefsInteractor: PrefsInteractor,
     snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
-    changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
-    changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
-    changeRecordAdjustDelegate: ChangeRecordAdjustDelegateImpl,
+    changeRecordActionsDelegate: ChangeRecordActionsDelegateImpl,
     recordTypeToTagInteractor: RecordTypeToTagInteractor,
     favouriteCommentInteractor: FavouriteCommentInteractor,
     private val router: Router,
     private val recordInteractor: RecordInteractor,
     private val addRecordMediator: AddRecordMediator,
-    private val removeRecordMediator: RemoveRecordMediator,
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
-    private val runningRecordInteractor: RunningRecordInteractor,
-    private val addRunningRecordMediator: AddRunningRecordMediator,
-    private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val timeMapper: TimeMapper,
     private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
-    private val recordActionDuplicateMediator: RecordActionDuplicateMediator,
-    private val recordActionRepeatMediator: RecordActionRepeatMediator,
-    private val recordActionContinueMediator: RecordActionContinueMediator,
 ) : ChangeRecordBaseViewModel(
     router = router,
     snackBarMessageNavigationInteractor = snackBarMessageNavigationInteractor,
@@ -74,9 +58,7 @@ class ChangeRecordViewModel @Inject constructor(
     recordInteractor = recordInteractor,
     recordTypeToTagInteractor = recordTypeToTagInteractor,
     favouriteCommentInteractor = favouriteCommentInteractor,
-    changeRecordMergeDelegate = changeRecordMergeDelegate,
-    changeRecordSplitDelegate = changeRecordSplitDelegate,
-    changeRecordAdjustDelegate = changeRecordAdjustDelegate,
+    changeRecordActionsDelegate = changeRecordActionsDelegate,
 ) {
 
     lateinit var extra: ChangeRecordParams
@@ -89,6 +71,7 @@ class ChangeRecordViewModel @Inject constructor(
     override val showTimeEndedOnAdjustPreview: Boolean get() = true
     override val adjustNextRecordAvailable: Boolean get() = true
     override val isTimeEndedAvailable: Boolean get() = true
+    override val isAdditionalActionsAvailable: Boolean get() = true
     override val isDeleteButtonVisible: Boolean get() = recordId.orZero() != 0L
     override val isStatisticsButtonVisible: Boolean
         get() = extra is ChangeRecordParams.Tracked ||
@@ -154,39 +137,6 @@ class ChangeRecordViewModel @Inject constructor(
             }
             router.back()
         }
-    }
-
-    override suspend fun onContinueClickDelegate() {
-        recordActionContinueMediator.execute(
-            recordId = recordId,
-            typeId = newTypeId,
-            timeStarted = newTimeStarted,
-            comment = newComment,
-            tagIds = newCategoryIds,
-        )
-        // Exit.
-        router.back()
-    }
-
-    override suspend fun onRepeatClickDelegate() {
-        recordActionRepeatMediator.execute(
-            typeId = newTypeId,
-            comment = newComment,
-            tagIds = newCategoryIds,
-        )
-        // Exit.
-        onSaveClickDelegate()
-    }
-
-    override suspend fun onDuplicateClickDelegate() {
-        recordActionDuplicateMediator.execute(
-            typeId = newTypeId,
-            timeStarted = newTimeStarted,
-            timeEnded = newTimeEnded,
-            comment = newComment,
-            tagIds = newCategoryIds,
-        )
-        onSaveClickDelegate()
     }
 
     override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {

@@ -13,7 +13,7 @@ abstract class ViewModelDelegate : ScopeHolder {
         return delegateScope
     }
 
-    fun clear() {
+    open fun clear() {
         delegateScope.cancel()
     }
 }

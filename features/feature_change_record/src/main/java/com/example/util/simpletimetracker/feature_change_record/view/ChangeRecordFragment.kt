@@ -15,7 +15,6 @@ import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
@@ -50,7 +49,6 @@ class ChangeRecordFragment :
     )
 
     override fun initUi(): Unit = with(binding) {
-        coreSetup()
         postponeEnterTransition()
 
         setPreview()
@@ -164,20 +162,12 @@ class ChangeRecordFragment :
         tvChangeRecordTimeStartedTime.text = item.dateTimeStarted.time
         tvChangeRecordTimeEndedDate.text = item.dateTimeFinished.date
         tvChangeRecordTimeEndedTime.text = item.dateTimeFinished.time
-        tvChangeRecordChangeCurrentPreviewTimeStarted.text = item.dateTimeStarted.time
-        tvChangeRecordChangeCurrentPreviewTimeEnded.text = item.dateTimeFinished.time
 
         core.onSetPreview(
             binding = this,
             color = item.color,
             iconId = item.iconId,
         )
-    }
-
-    private fun coreSetup() = with(binding) {
-        // TODO move to view model
-        context?.getString(R.string.change_record_change_adjacent_records)
-            ?.let(layoutChangeRecordCore.tvChangeRecordChangeHint::setText)
     }
 
     companion object {

@@ -126,7 +126,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                     data.let(::addAll)
                     // If no records yet - don't show additional options,
                     // kind of like an onboarding, to not overload new user with options.
-                    if (showRepeatButton&& hasAnyRecords) {
+                    if (showRepeatButton && hasAnyRecords) {
                         recordTypeViewDataMapper.mapToRepeatItem(
                             numberOfCards = numberOfCards,
                             isDarkTheme = isDarkTheme,
