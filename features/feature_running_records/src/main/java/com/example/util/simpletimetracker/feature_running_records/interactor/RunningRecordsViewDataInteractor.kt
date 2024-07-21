@@ -6,7 +6,6 @@ import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurat
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -23,7 +22,6 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
-    private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val activityFilterViewDataInteractor: ActivityFilterViewDataInteractor,
     private val mapper: RunningRecordsViewDataMapper,
@@ -46,7 +44,6 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val useProportionalMinutes = prefsInteractor.getUseProportionalMinutes()
         val showFirstEnterHint = recordTypes.filterNot(RecordType::hidden).isEmpty()
         val showDefaultTypesButton = !prefsInteractor.getDefaultTypesHidden()
-        val hasAnyRecords = !recordInteractor.isEmpty()
         val showPomodoroButton = prefsInteractor.getEnablePomodoroMode()
         val showRepeatButton = prefsInteractor.getEnableRepeatButton()
         val isPomodoroStarted = prefsInteractor.getPomodoroModeStartedTimestampMs() != 0L
@@ -124,15 +121,13 @@ class RunningRecordsViewDataInteractor @Inject constructor(
             .let { data ->
                 mutableListOf<ViewHolderType>().apply {
                     data.let(::addAll)
-                    // If no records yet - don't show additional options,
-                    // kind of like an onboarding, to not overload new user with options.
-                    if (showRepeatButton && hasAnyRecords) {
+                    if (showRepeatButton) {
                         recordTypeViewDataMapper.mapToRepeatItem(
                             numberOfCards = numberOfCards,
                             isDarkTheme = isDarkTheme,
                         ).let(::add)
                     }
-                    if (showPomodoroButton && hasAnyRecords) {
+                    if (showPomodoroButton) {
                         recordTypeViewDataMapper.mapToPomodoroItem(
                             numberOfCards = numberOfCards,
                             isDarkTheme = isDarkTheme,

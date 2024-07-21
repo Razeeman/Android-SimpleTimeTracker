@@ -30,9 +30,6 @@ class PomodoroTest : BaseUiTest() {
     override fun setUp() {
         super.setUp()
         runBlocking {
-            val name = "name"
-            testUtils.addActivity(name)
-            testUtils.addRecord(name)
             prefsInteractor.setEnablePomodoroMode(true)
         }
     }
