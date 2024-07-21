@@ -183,7 +183,7 @@ class SettingsViewModel @Inject constructor(
                 displayDelegate.onShowGoalsSeparatelyClicked()
             SettingsBlock.DisplayNavBarAtTheBottom ->
                 displayDelegate.onShowNavBarAtTheBottomClicked()
-            SettingsBlock.DisplayKeepScreenOn ->
+            SettingsBlock.AdditionalKeepScreenOn ->
                 displayDelegate.onKeepScreenOnClicked()
             SettingsBlock.DisplayMilitaryFormat ->
                 displayDelegate.onUseMilitaryTimeClicked()

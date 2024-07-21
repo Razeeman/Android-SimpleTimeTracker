@@ -402,7 +402,6 @@ class ChangeRecordActionsAdjustDelegate @Inject constructor(
             other -> delegateScope.launch {
                 timeChangeAdjustmentState = TimeAdjustmentState.HIDDEN
                 parent?.update()
-                // TODO ACT sometimes adjust items are not visible
                 delay(300)
                 timeChangeAdjustmentState = clicked
                 parent?.update()

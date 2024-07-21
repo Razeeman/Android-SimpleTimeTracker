@@ -6,7 +6,6 @@ import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.extension.addOnBackPressedListener
@@ -14,6 +13,7 @@ import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.utils.setChooserColor
+import com.example.util.simpletimetracker.core.view.LinearLayoutManagerWithExtraLayoutSpace
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -151,7 +151,7 @@ class ChangeRecordCore(
             adapter = searchCommentsAdapter
         }
         rvChangeRecordAction.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManagerWithExtraLayoutSpace(context)
             adapter = actionsAdapter
         }
     }

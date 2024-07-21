@@ -235,7 +235,8 @@
     <string name="settings_sort_manually">Secara manual</string>
     <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Hari pertama dalam seminggu</string>
-    <string name="settings_repeat_button_type">Tombol ulangi</string>
+    <string name="settings_show_repeat_button">Tampilkan tombol ulangi di layar utama</string>
+    <string name="settings_repeat_button_type">Mode</string>
     <string name="settings_repeat_last_record">Ulangi rekaman terakhir</string>
     <string name="settings_repeat_one_before_last">Ulangi rekaman sebelum yang terakhir</string>
     <string name="settings_show_untracked_time">Tampilkan waktu tak terlacak dalam rekor</string>

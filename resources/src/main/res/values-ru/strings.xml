@@ -235,7 +235,8 @@
     <string name="settings_sort_manually">Вручную</string>
     <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Первый день недели</string>
-    <string name="settings_repeat_button_type">Кнопка повтора</string>
+    <string name="settings_show_repeat_button">Показывать кнопку повтора на главном экране</string>
+    <string name="settings_repeat_button_type">Режим</string>
     <string name="settings_repeat_last_record">Повторить последнюю запись</string>
     <string name="settings_repeat_one_before_last">Повторить запись перед последней</string>
     <string name="settings_show_untracked_time">Показывать неотслеженное время в записях</string>

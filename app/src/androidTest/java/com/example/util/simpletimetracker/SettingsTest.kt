@@ -1012,7 +1012,7 @@ class SettingsTest : BaseUiTest() {
     fun keepScreenOn() {
         // Check settings
         NavUtils.openSettingsScreen()
-        NavUtils.openSettingsDisplay()
+        NavUtils.openSettingsAdditional()
         scrollSettingsRecyclerToText(coreR.string.settings_keep_screen_on)
         checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_keep_screen_on))
 
@@ -1918,6 +1918,64 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
+    fun showRepeat() {
+        val name = "ActivityFilter"
+
+        // Add data
+        testUtils.addActivity(name)
+
+        // Check settings
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
+        scrollSettingsRecyclerToText(coreR.string.settings_show_repeat_button)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_repeat_button))
+        scrollSettingsRecyclerToText(coreR.string.settings_repeat_button_type)
+        checkViewIsDisplayed(withText(coreR.string.settings_repeat_button_type))
+
+        // Check not visible
+        NavUtils.openRunningRecordsScreen()
+        tryAction {
+            checkViewDoesNotExist(
+                allOf(
+                    withId(R.id.viewRecordTypeItem),
+                    hasDescendant(withText(R.string.running_records_repeat)),
+                ),
+            )
+        }
+
+        // Add record
+        NavUtils.openRecordsScreen()
+        testUtils.addRecord(name)
+
+        // Check visible
+        NavUtils.openRunningRecordsScreen()
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRecordTypeItem),
+                    hasDescendant(withText(R.string.running_records_repeat)),
+                ),
+            )
+        }
+
+        // Change setting
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_repeat_button)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_repeat_button))
+        checkViewDoesNotExist(withText(coreR.string.settings_repeat_button_type))
+
+        // Check not visible
+        NavUtils.openRunningRecordsScreen()
+        tryAction {
+            checkViewDoesNotExist(
+                allOf(
+                    withId(R.id.viewRecordTypeItem),
+                    hasDescendant(withText(R.string.running_records_repeat)),
+                ),
+            )
+        }
+    }
+
+    @Test
     fun repeatType() {
         val type1 = "type1"
         val type2 = "type2"
@@ -1939,7 +1997,7 @@ class SettingsTest : BaseUiTest() {
 
         // Check
         NavUtils.openSettingsScreen()
-        NavUtils.openSettingsAdditional()
+        NavUtils.openSettingsDisplay()
         scrollSettingsRecyclerToText(coreR.string.settings_repeat_button_type)
         checkViewIsDisplayed(
             settingsSpinnerValueBesideText(
@@ -1966,10 +2024,44 @@ class SettingsTest : BaseUiTest() {
 
     @Test
     fun pomodoroMode() {
-        // Check
+        val name = "ActivityFilter"
+
+        // Add data
+        testUtils.addActivity(name)
+
+        // Check setting
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
         scrollSettingsRecyclerToText(coreR.string.settings_enable_pomodoro_mode)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode))
+
+        // Not visible
+        NavUtils.openRunningRecordsScreen()
+        tryAction {
+            checkViewDoesNotExist(
+                allOf(
+                    withId(R.id.viewRecordTypeItem),
+                    hasDescendant(withText(R.string.running_records_pomodoro)),
+                ),
+            )
+        }
+
+        // Add record
+        NavUtils.openRecordsScreen()
+        testUtils.addRecord(name)
+        NavUtils.openRunningRecordsScreen()
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRecordTypeItem),
+                    hasDescendant(withText(R.string.running_records_pomodoro)),
+                ),
+            )
+        }
+
+        // Change
+        NavUtils.openSettingsScreen()
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode)
         checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode))
         NavUtils.openRunningRecordsScreen()
         tryAction {
@@ -1994,20 +2086,6 @@ class SettingsTest : BaseUiTest() {
                 ),
             )
         }
-
-        // Change
-        NavUtils.openSettingsScreen()
-        clickOnSettingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode)
-        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode))
-        NavUtils.openRunningRecordsScreen()
-        tryAction {
-            checkViewDoesNotExist(
-                allOf(
-                    withId(R.id.viewRecordTypeItem),
-                    hasDescendant(withText(R.string.running_records_pomodoro)),
-                ),
-            )
-        }
     }
 
     @Test
@@ -2020,12 +2098,11 @@ class SettingsTest : BaseUiTest() {
         testUtils.addActivity(name1)
         testUtils.addActivity(name2)
         testUtils.addActivity(name3)
+        testUtils.addRecord(name1)
 
         // Change setting
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        scrollSettingsRecyclerToText(coreR.string.settings_enable_pomodoro_mode)
-        clickOnSettingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode)
         scrollSettingsRecyclerToText(coreR.string.settings_enable_pomodoro_mode)
         clickOnSettingsButtonBesideText(coreR.string.settings_enable_pomodoro_mode)
         Thread.sleep(1000)

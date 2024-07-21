@@ -235,7 +235,8 @@
     <string name="settings_sort_manually">수동</string>
     <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">한 주의 시작</string>
-    <string name="settings_repeat_button_type">반복 버튼</string>
+    <string name="settings_show_repeat_button">메인 화면에 반복 버튼 표시</string>
+    <string name="settings_repeat_button_type">방법</string>
     <string name="settings_repeat_last_record">이전 기록을 반복합니다</string>
     <string name="settings_repeat_one_before_last">마지막 기록 직전의 기록을 반복합니다</string>
     <string name="settings_show_untracked_time">기록되지 않은 시간 보기</string>

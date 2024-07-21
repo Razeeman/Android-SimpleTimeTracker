@@ -90,6 +90,15 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
                 dividerIsVisible = true,
             )
 
+            result += SettingsCheckboxViewData(
+                block = SettingsBlock.AdditionalKeepScreenOn,
+                title = resourceRepo.getString(R.string.settings_keep_screen_on),
+                subtitle = "",
+                isChecked = prefsInteractor.getKeepScreenOn(),
+                bottomSpaceIsVisible = true,
+                dividerIsVisible = true,
+            )
+
             val firstDayOfWeekViewData = loadFirstDayOfWeekViewData()
             result += SettingsSpinnerViewData(
                 block = SettingsBlock.AdditionalFirstDayOfWeek,

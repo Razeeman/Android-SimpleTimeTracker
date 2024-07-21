@@ -999,7 +999,10 @@ class RecordsCalendarView @JvmOverloads constructor(
         selectedRecord: RecordsCalendarViewData.Point.Data,
     ) {
         val from = selectedRecord.color
-        val to = ColorUtils.normalizeLightness(selectedRecord.color)
+        val to = ColorUtils.normalizeLightness(
+            color = selectedRecord.color,
+            factor = 0.2f,
+        )
         val animator = ValueAnimator.ofObject(ArgbEvaluator(), from, to)
 
         animator.duration = CLICK_ANIMATION_DURATION_MS
