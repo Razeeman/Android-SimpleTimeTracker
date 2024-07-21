@@ -22,10 +22,16 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record.R
+import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordButtonViewData
+import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordChangePreviewViewData
+import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordCommentViewData
+import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordTimeAdjustmentViewData
+import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordTimeDoublePreviewViewData
+import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordTimePreviewViewData
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
+import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordActionsBlock
 import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
-import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordCommentViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordFavCommentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSearchCommentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTagsViewData
@@ -34,10 +40,10 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordT
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
-import kotlinx.coroutines.Job
 
 abstract class ChangeRecordBaseViewModel(
     private val router: Router,
@@ -49,13 +55,9 @@ abstract class ChangeRecordBaseViewModel(
     private val recordInteractor: RecordInteractor,
     private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
     private val favouriteCommentInteractor: FavouriteCommentInteractor,
-    private val changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
-    private val changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
-    private val changeRecordAdjustDelegate: ChangeRecordAdjustDelegateImpl,
+    private val changeRecordActionsDelegate: ChangeRecordActionsDelegateImpl,
 ) : ViewModel(),
-    ChangeRecordMergeDelegate by changeRecordMergeDelegate,
-    ChangeRecordSplitDelegate by changeRecordSplitDelegate,
-    ChangeRecordAdjustDelegate by changeRecordAdjustDelegate {
+    ChangeRecordActionsDelegate by changeRecordActionsDelegate {
 
     val types: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -123,9 +125,6 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract suspend fun updatePreview()
     protected abstract fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen
     protected abstract suspend fun onSaveClickDelegate()
-    protected open suspend fun onContinueClickDelegate() {}
-    protected open suspend fun onRepeatClickDelegate() {}
-    protected open suspend fun onDuplicateClickDelegate() {}
     protected abstract val mergeAvailable: Boolean
     protected abstract val splitPreviewTimeEnded: Long
     protected abstract val showTimeEndedOnSplitPreview: Boolean
@@ -134,6 +133,7 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract val showTimeEndedOnAdjustPreview: Boolean
     protected abstract val adjustNextRecordAvailable: Boolean
     protected abstract val isTimeEndedAvailable: Boolean
+    protected abstract val isAdditionalActionsAvailable: Boolean
     protected abstract val isDeleteButtonVisible: Boolean
     protected abstract val isStatisticsButtonVisible: Boolean
 
@@ -142,11 +142,11 @@ abstract class ChangeRecordBaseViewModel(
     private var searchLoadJob: Job? = null
 
     init {
-        changeRecordAdjustDelegate.attach(getAdjustDelegateParent())
+        changeRecordActionsDelegate.attach(getActionsDelegateParent())
     }
 
     override fun onCleared() {
-        changeRecordAdjustDelegate.clear()
+        changeRecordActionsDelegate.clear()
         super.onCleared()
     }
 
@@ -158,41 +158,16 @@ abstract class ChangeRecordBaseViewModel(
 
     protected open suspend fun onTimeStartedChanged() {
         updatePreview()
-        updateTimeSplitData()
-        updateAdjustData()
+        updateActionsData()
     }
 
     protected open suspend fun onTimeEndedChanged() {
         updatePreview()
-        updateTimeSplitData()
-        updateAdjustData()
+        updateActionsData()
     }
 
-    protected suspend fun updateTimeSplitData() {
-        changeRecordSplitDelegate.updateTimeSplitValue(
-            newTimeSplit = newTimeSplit,
-        )
-        changeRecordSplitDelegate.updateSplitPreviewViewData(
-            newTypeId = newTypeId,
-            newTimeStarted = newTimeStarted,
-            newTimeSplit = newTimeSplit,
-            newTimeEnded = splitPreviewTimeEnded,
-            showTimeEnded = showTimeEndedOnSplitPreview,
-        )
-    }
-
-    protected suspend fun updateAdjustData() {
-        changeRecordAdjustDelegate.updateAdjustPreviewViewData(
-            recordId = originalRecordId,
-            adjustNextRecordAvailable = adjustNextRecordAvailable,
-            newTypeId = newTypeId,
-            newTimeStarted = newTimeStarted,
-            newTimeEnded = adjustPreviewTimeEnded,
-            originalTypeId = originalTypeId,
-            originalTimeStarted = originalTimeStarted,
-            originalTimeEnded = adjustPreviewOriginalTimeEnded,
-            showTimeEnded = showTimeEndedOnAdjustPreview,
-        )
+    protected suspend fun updateActionsData() {
+        changeRecordActionsDelegate.updateViewData()
     }
 
     fun onTypeChooserClick() {
@@ -219,8 +194,46 @@ abstract class ChangeRecordBaseViewModel(
         onTimeClick(tag = TIME_ENDED_TAG, timestamp = newTimeEnded)
     }
 
-    fun onTimeSplitClick() {
-        onTimeClick(tag = TIME_SPLIT_TAG, timestamp = newTimeSplit)
+    fun onItemTimePreviewClick(data: ChangeRecordTimePreviewViewData) {
+        when (data.block) {
+            ChangeRecordActionsBlock.SplitTimePreview ->
+                onTimeSplitClick()
+            else -> {
+                // Do nothing.
+            }
+        }
+    }
+
+    fun onItemTimeStartedClick(data: ChangeRecordTimeDoublePreviewViewData) {
+        when (data.block) {
+            ChangeRecordActionsBlock.AdjustTimePreview ->
+                onTimeStartedClick()
+            else -> {
+                // Do nothing.
+            }
+        }
+    }
+
+    fun onItemTimeEndedClick(data: ChangeRecordTimeDoublePreviewViewData) {
+        when (data.block) {
+            ChangeRecordActionsBlock.AdjustTimePreview ->
+                onTimeEndedClick()
+            else -> {
+                // Do nothing.
+            }
+        }
+    }
+
+    fun onItemAdjustTimeStartedClick(data: ChangeRecordTimeDoublePreviewViewData) {
+        changeRecordActionsDelegate.onItemAdjustTimeStartedClick(data)
+    }
+
+    fun onItemAdjustTimeEndedClick(data: ChangeRecordTimeDoublePreviewViewData) {
+        changeRecordActionsDelegate.onItemAdjustTimeEndedClick(data)
+    }
+
+    fun onChangePreviewCheckClick(item: ChangeRecordChangePreviewViewData) {
+        changeRecordActionsDelegate.onChangePreviewCheckClick(item)
     }
 
     fun onSaveClick() {
@@ -229,76 +242,8 @@ abstract class ChangeRecordBaseViewModel(
         )
     }
 
-    fun onSplitClick() {
-        onRecordChangeButtonClick(
-            onProceed = {
-                changeRecordSplitDelegate.onSplitClickDelegate(
-                    newTypeId = newTypeId,
-                    newTimeStarted = newTimeStarted,
-                    newTimeSplit = newTimeSplit,
-                    newComment = newComment,
-                    newCategoryIds = newCategoryIds,
-                    onSplitComplete = {
-                        newTimeStarted = newTimeSplit
-                        onSaveClick()
-                    },
-                )
-            },
-        )
-    }
-
-    fun onChangeClick() {
-        onRecordChangeButtonClick(
-            onProceed = {
-                changeRecordAdjustDelegate.onAdjustClickDelegate(
-                    recordId = originalRecordId,
-                    adjustNextRecordAvailable = adjustNextRecordAvailable,
-                    newTimeStarted = newTimeStarted,
-                    newTimeEnded = newTimeEnded,
-                    onAdjustComplete = {
-                        onSaveClick()
-                    },
-                )
-            },
-        )
-    }
-
-    fun onContinueClick() {
-        // Can't continue future record
-        if (newTimeStarted > System.currentTimeMillis()) {
-            showMessage(R.string.cannot_be_in_the_future)
-            return
-        }
-        onRecordChangeButtonClick(
-            onProceed = ::onContinueClickDelegate,
-        )
-    }
-
-    fun onRepeatClick() {
-        onRecordChangeButtonClick(
-            onProceed = ::onRepeatClickDelegate,
-        )
-    }
-
-    fun onDuplicateClick() {
-        onRecordChangeButtonClick(
-            onProceed = ::onDuplicateClickDelegate,
-        )
-    }
-
-    fun onMergeClick() {
-        onRecordChangeButtonClick(
-            onProceed = {
-                changeRecordMergeDelegate.onMergeClickDelegate(
-                    prevRecord = prevRecord,
-                    newTimeEnded = newTimeEnded,
-                    onMergeComplete = {
-                        router.back()
-                    },
-                )
-            },
-            checkTypeSelected = false,
-        )
+    fun onItemButtonClick(viewData: ChangeRecordButtonViewData) {
+        changeRecordActionsDelegate.onItemButtonClick(viewData)
     }
 
     fun onTypeClick(item: RecordTypeViewData) {
@@ -309,9 +254,7 @@ abstract class ChangeRecordBaseViewModel(
                 updatePreview()
                 updateCategoriesViewData()
                 updateLastCommentsViewData()
-                updateTimeSplitData()
-                updateAdjustData()
-                updateMergeData()
+                updateActionsData()
             }
 
             // Close type selection after type is selected
@@ -448,6 +391,21 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
+    fun onTimeAdjustmentClick(
+        data: ChangeRecordTimeAdjustmentViewData,
+        viewData: TimeAdjustmentView.ViewData,
+    ) {
+        when (data.block) {
+            ChangeRecordActionsBlock.SplitTimeAdjustment ->
+                onAdjustTimeSplitItemClick(viewData)
+            ChangeRecordActionsBlock.AdjustTimeAdjustment ->
+                onAdjustTimeChangeClick(viewData)
+            else -> {
+                // Do nothing.
+            }
+        }
+    }
+
     fun onAdjustTimeStartedItemClick(viewData: TimeAdjustmentView.ViewData) {
         onAdjustTimeItemClick(TimeAdjustmentState.TIME_STARTED, viewData)
     }
@@ -456,8 +414,16 @@ abstract class ChangeRecordBaseViewModel(
         onAdjustTimeItemClick(TimeAdjustmentState.TIME_ENDED, viewData)
     }
 
-    fun onAdjustTimeChangeClick(viewData: TimeAdjustmentView.ViewData) {
-        when (timeChangeAdjustmentState.value) {
+    fun onBackPressed() {
+        if (chooserState.value?.current !is ChangeRecordChooserState.State.Closed) {
+            onNewChooserState(ChangeRecordChooserState.State.Closed)
+        } else {
+            router.back()
+        }
+    }
+
+    private fun onAdjustTimeChangeClick(viewData: TimeAdjustmentView.ViewData) {
+        when (changeRecordActionsDelegate.timeChangeAdjustmentState) {
             TimeAdjustmentState.TIME_STARTED -> {
                 onAdjustTimeItemClick(TimeAdjustmentState.TIME_STARTED, viewData)
             }
@@ -470,7 +436,11 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
-    fun onAdjustTimeSplitItemClick(viewData: TimeAdjustmentView.ViewData) {
+    private fun onTimeSplitClick() {
+        onTimeClick(tag = TIME_SPLIT_TAG, timestamp = newTimeSplit)
+    }
+
+    private fun onAdjustTimeSplitItemClick(viewData: TimeAdjustmentView.ViewData) {
         viewModelScope.launch {
             when (viewData) {
                 is TimeAdjustmentView.ViewData.Now -> {
@@ -485,22 +455,6 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
-    fun onBackPressed() {
-        if (chooserState.value?.current !is ChangeRecordChooserState.State.Closed) {
-            onNewChooserState(ChangeRecordChooserState.State.Closed)
-        } else {
-            router.back()
-        }
-    }
-
-    private suspend fun updateMergeData() {
-        changeRecordMergeDelegate.updateMergePreviewViewData(
-            mergeAvailable = mergeAvailable,
-            prevRecord = prevRecord,
-            newTimeEnded = newTimeEnded,
-        )
-    }
-
     private fun onRecordChangeButtonClick(
         onProceed: suspend () -> Unit,
         checkTypeSelected: Boolean = true,
@@ -511,6 +465,7 @@ abstract class ChangeRecordBaseViewModel(
         }
         viewModelScope.launch {
             saveButtonEnabled.set(false)
+            changeRecordActionsDelegate.updateViewData()
             onProceed()
         }
     }
@@ -613,22 +568,91 @@ abstract class ChangeRecordBaseViewModel(
 
     private suspend fun onTimeSplitChanged() {
         newTimeSplit = newTimeSplit.coerceIn(newTimeStarted..splitPreviewTimeEnded)
-        updateTimeSplitData()
+        updateActionsData()
     }
 
-    private fun getAdjustDelegateParent(): ChangeRecordAdjustDelegate.Parent {
-        return object : ChangeRecordAdjustDelegate.Parent {
-            override suspend fun update() {
-                updateAdjustData()
+    private fun getActionsDelegateParent(): ChangeRecordActionsDelegateImpl.Parent {
+        return object : ChangeRecordActionsDelegateImpl.Parent {
+            override fun getSplitViewDataParams(): ChangeRecordActionsSplitDelegate.Parent.ViewDataParams {
+                return ChangeRecordActionsSplitDelegate.Parent.ViewDataParams(
+                    newTypeId = newTypeId,
+                    newTimeStarted = newTimeStarted,
+                    newTimeSplit = newTimeSplit,
+                    newTimeEnded = splitPreviewTimeEnded,
+                    newComment = newComment,
+                    newCategoryIds = newCategoryIds,
+                    showTimeEnded = showTimeEndedOnSplitPreview,
+                    isButtonEnabled = saveButtonEnabled.value.orFalse(),
+                )
+            }
+
+            override fun getAdjustViewDataParams(): ChangeRecordActionsAdjustDelegate.Parent.ViewDataParams {
+                return ChangeRecordActionsAdjustDelegate.Parent.ViewDataParams(
+                    recordId = originalRecordId,
+                    adjustNextRecordAvailable = adjustNextRecordAvailable,
+                    newTypeId = newTypeId,
+                    newTimeStarted = newTimeStarted,
+                    newTimeEnded = newTimeEnded,
+                    adjustPreviewTimeEnded = adjustPreviewTimeEnded,
+                    originalTypeId = originalTypeId,
+                    originalTimeStarted = originalTimeStarted,
+                    originalTimeEnded = adjustPreviewOriginalTimeEnded,
+                    showTimeEnded = showTimeEndedOnAdjustPreview,
+                    isTimeEndedAvailable = isTimeEndedAvailable,
+                    isButtonEnabled = saveButtonEnabled.value.orFalse(),
+                )
+            }
+
+            override fun getAdditionalViewDataParams(): ChangeRecordActionsAdditionalDelegate.Parent.ViewDataParams? {
+                if (!isAdditionalActionsAvailable) return null
+                return ChangeRecordActionsAdditionalDelegate.Parent.ViewDataParams(
+                    recordId = originalRecordId,
+                    newTypeId = newTypeId,
+                    newTimeStarted = newTimeStarted,
+                    newTimeEnded = newTimeEnded,
+                    newComment = newComment,
+                    newCategoryIds = newCategoryIds,
+                    isButtonEnabled = saveButtonEnabled.value.orFalse(),
+                )
+            }
+
+            override fun getMergeViewDataParams(): ChangeRecordActionsMergeDelegate.Parent.ViewDataParams {
+                return ChangeRecordActionsMergeDelegate.Parent.ViewDataParams(
+                    mergeAvailable = mergeAvailable,
+                    prevRecord = prevRecord,
+                    newTimeEnded = newTimeEnded,
+                    isButtonEnabled = saveButtonEnabled.value.orFalse(),
+                )
+            }
+
+            override fun onRecordChangeButtonClick(
+                onProceed: suspend () -> Unit,
+                checkTypeSelected: Boolean,
+            ) {
+                this@ChangeRecordBaseViewModel.onRecordChangeButtonClick(
+                    onProceed = onProceed,
+                    checkTypeSelected = checkTypeSelected,
+                )
+            }
+
+            override suspend fun onSaveClickDelegate() {
+                this@ChangeRecordBaseViewModel.onSaveClickDelegate()
+            }
+
+            override suspend fun onSplitComplete() {
+                newTimeStarted = newTimeSplit
+                onSaveClickDelegate()
+            }
+
+            override fun showMessage(stringResId: Int) {
+                this@ChangeRecordBaseViewModel.showMessage(stringResId)
             }
         }
     }
 
     private suspend fun initializeActions() {
         initializePrevRecord()
-        updateTimeSplitData()
-        updateMergeData()
-        updateAdjustData()
+        updateActionsData()
     }
 
     private suspend fun initializePrevRecord() {

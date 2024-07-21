@@ -217,6 +217,15 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
+    fun onEnableRepeatButtonClicked() {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getEnableRepeatButton()
+            prefsInteractor.setEnableRepeatButton(newValue)
+            notificationTypeInteractor.updateNotifications()
+            parent?.updateContent()
+        }
+    }
+
     fun onEnablePomodoroModeClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getEnablePomodoroMode()

@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -11,14 +10,13 @@ import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
-import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
-import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.recyclerItemCount
+import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withTag
@@ -73,7 +71,8 @@ class RecordActionsRepeatTest : BaseUiTest() {
         // Repeat
         clickOnViewWithText(fullName)
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_repeat)).perform(nestedScrollTo(), click())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_repeat))
+        clickOnViewWithText(coreR.string.change_record_repeat)
 
         // Check record still there
         checkRecord(fullName, timeStartedPreview, timeEndedPreview, timeRangePreview, comment)
@@ -118,7 +117,8 @@ class RecordActionsRepeatTest : BaseUiTest() {
 
         // Repeat untracked doesn't work
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_repeat)).perform(nestedScrollTo(), click())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_repeat))
+        clickOnViewWithText(coreR.string.change_record_repeat)
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
@@ -128,7 +128,8 @@ class RecordActionsRepeatTest : BaseUiTest() {
 
         // Repeat
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_repeat)).perform(nestedScrollTo(), click())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_repeat))
+        clickOnViewWithText(coreR.string.change_record_repeat)
         val runningRecordTimeStartedPreview = System.currentTimeMillis().formatTime()
 
         checkViewIsDisplayed(
@@ -175,7 +176,8 @@ class RecordActionsRepeatTest : BaseUiTest() {
 
         // Repeat untracked doesn't work
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_repeat)).perform(nestedScrollTo(), click())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_repeat))
+        clickOnViewWithText(coreR.string.change_record_repeat)
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
@@ -185,7 +187,8 @@ class RecordActionsRepeatTest : BaseUiTest() {
 
         // Repeat
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_repeat)).perform(nestedScrollTo(), click())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_repeat))
+        clickOnViewWithText(coreR.string.change_record_repeat)
         val runningRecordTimeStartedPreview = System.currentTimeMillis().formatTime()
 
         checkViewIsDisplayed(
@@ -239,7 +242,7 @@ class RecordActionsRepeatTest : BaseUiTest() {
 
         // Try continue record
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        checkViewIsNotDisplayed(withText(coreR.string.change_record_repeat))
+        checkViewDoesNotExist(withText(coreR.string.change_record_repeat))
     }
 
     @Test
@@ -256,7 +259,8 @@ class RecordActionsRepeatTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_type_field)
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_repeat)).perform(nestedScrollTo(), click())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_repeat))
+        clickOnViewWithText(coreR.string.change_record_repeat)
         val runningRecordTimeStartedPreview = System.currentTimeMillis().formatTime()
 
         // Running record stopped
@@ -292,7 +296,8 @@ class RecordActionsRepeatTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_type_field)
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name2))
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_repeat)).perform(nestedScrollTo(), click())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_repeat))
+        clickOnViewWithText(coreR.string.change_record_repeat)
 
         // Running record stopped
         checkViewIsDisplayed(allOf(withText(name1), isCompletelyDisplayed()))

@@ -4,7 +4,6 @@ import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
@@ -13,7 +12,6 @@ import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
-import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordCore
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
@@ -48,7 +46,6 @@ class ChangeRunningRecordFragment :
     )
 
     override fun initUi(): Unit = with(binding) {
-        coreSetup()
         postponeEnterTransition()
 
         setPreview()
@@ -135,7 +132,6 @@ class ChangeRunningRecordFragment :
     ) = with(binding.layoutChangeRunningRecordCore) {
         tvChangeRecordTimeStartedDate.text = item.dateTimeStarted.date
         tvChangeRecordTimeStartedTime.text = item.dateTimeStarted.time
-        tvChangeRecordChangeCurrentPreviewTimeStarted.text = item.dateTimeStarted.time
 
         if (item.recordPreview == null) return
         with(binding.previewChangeRunningRecord) {
@@ -174,19 +170,6 @@ class ChangeRunningRecordFragment :
             router.show(message, binding.layoutChangeRunningRecordCore.btnChangeRecordSave)
             viewModel.onMessageShown()
         }
-    }
-
-    private fun coreSetup() = with(binding) {
-        // TODO move to view model
-        // Can't continue running record.
-        layoutChangeRunningRecordCore.containerChangeRecordContinue.isVisible = false
-        // Can't repeat running record.
-        layoutChangeRunningRecordCore.containerChangeRecordRepeat.isVisible = false
-        // Can't duplicate running record.
-        layoutChangeRunningRecordCore.containerChangeRecordDuplicate.isVisible = false
-
-        context?.getString(R.string.change_record_change_prev_record)
-            ?.let(layoutChangeRunningRecordCore.tvChangeRecordChangeHint::setText)
     }
 
     companion object {

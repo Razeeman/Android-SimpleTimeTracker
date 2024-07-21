@@ -66,6 +66,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
         val showControls = prefsInteractor.getShowNotificationsControls()
+        val showRepeatButton = prefsInteractor.getEnableRepeatButton()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val range = timeMapper.getRangeStartAndEnd(
@@ -109,6 +110,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
             getControls(
                 isDarkTheme = isDarkTheme,
                 types = recordTypes.values.toList(),
+                showRepeatButton = showRepeatButton,
                 typesShift = typesShift,
                 tags = viewedTags,
                 tagsShift = tagsShift,
@@ -155,6 +157,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
         val showControls = prefsInteractor.getShowNotificationsControls()
+        val showRepeatButton = prefsInteractor.getEnableRepeatButton()
         val goals = filterGoalsByDayOfWeekInteractor
             .execute(recordTypeGoalInteractor.getAllTypeGoals())
             .groupBy { it.idData.value }
@@ -171,6 +174,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
             getControls(
                 isDarkTheme = isDarkTheme,
                 types = recordTypes.values.toList(),
+                showRepeatButton = showRepeatButton,
                 goals = goals,
                 allDailyCurrents = allDailyCurrents,
             )
@@ -248,6 +252,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
     private fun getControls(
         isDarkTheme: Boolean,
         types: List<RecordType>,
+        showRepeatButton: Boolean,
         typesShift: Int = 0,
         tags: List<RecordTag> = emptyList(),
         tagsShift: Int = 0,
@@ -256,57 +261,65 @@ class NotificationTypeInteractorImpl @Inject constructor(
         allDailyCurrents: Map<Long, GetCurrentRecordsDurationInteractor.Result>,
     ): NotificationTypeParams.Controls {
         val typesMap = types.associateBy { it.id }
-        return NotificationTypeParams.Controls.Enabled(
-            types = run {
-                val viewData = recordTypeViewDataMapper.mapToRepeatItem(
-                    numberOfCards = 0,
-                    isDarkTheme = isDarkTheme,
-                )
+
+        val repeatButtonViewData = if (showRepeatButton) {
+            val viewData = recordTypeViewDataMapper.mapToRepeatItem(
+                numberOfCards = 0,
+                isDarkTheme = isDarkTheme,
+            )
+            NotificationTypeParams.Type(
+                id = REPEAT_BUTTON_ITEM_ID,
+                icon = viewData.iconId,
+                color = viewData.color,
+                isChecked = null,
+            ).let(::listOf)
+        } else {
+            emptyList()
+        }
+
+        val typesViewData = types
+            .filter { !it.hidden }
+            .map { type ->
                 NotificationTypeParams.Type(
-                    id = REPEAT_BUTTON_ITEM_ID,
-                    icon = viewData.iconId,
-                    color = viewData.color,
-                    isChecked = null,
-                ).let(::listOf)
-            } + types
-                .filter { !it.hidden }
-                .map { type ->
-                    NotificationTypeParams.Type(
-                        id = type.id,
-                        icon = type.icon.let(iconMapper::mapIcon),
-                        color = type.color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
-                        isChecked = recordTypeViewDataMapper.mapGoalCheckmark(
-                            type = type,
-                            goals = goals,
-                            allDailyCurrents = allDailyCurrents,
-                        ),
-                    )
-                },
-            typesShift = typesShift,
-            tags = tags
-                .filter { !it.archived }
-                .map { tag ->
-                    NotificationTypeParams.Tag(
-                        id = tag.id,
-                        text = tag.name,
-                        color = recordTagViewDataMapper.mapColor(
-                            tag = tag,
-                            types = typesMap,
-                        ).let { colorMapper.mapToColorInt(it, isDarkTheme) },
-                    )
+                    id = type.id,
+                    icon = type.icon.let(iconMapper::mapIcon),
+                    color = type.color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
+                    isChecked = recordTypeViewDataMapper.mapGoalCheckmark(
+                        type = type,
+                        goals = goals,
+                        allDailyCurrents = allDailyCurrents,
+                    ),
+                )
+            }
+
+        val tagsViewData = tags
+            .filter { !it.archived }
+            .map { tag ->
+                NotificationTypeParams.Tag(
+                    id = tag.id,
+                    text = tag.name,
+                    color = recordTagViewDataMapper.mapColor(
+                        tag = tag,
+                        types = typesMap,
+                    ).let { colorMapper.mapToColorInt(it, isDarkTheme) },
+                )
+            }
+            .let {
+                if (it.isNotEmpty()) {
+                    val untagged = NotificationTypeParams.Tag(
+                        id = 0L,
+                        text = R.string.change_record_untagged.let(resourceRepo::getString),
+                        color = colorMapper.toUntrackedColor(isDarkTheme),
+                    ).let(::listOf)
+                    untagged + it
+                } else {
+                    it
                 }
-                .let {
-                    if (it.isNotEmpty()) {
-                        val untagged = NotificationTypeParams.Tag(
-                            id = 0L,
-                            text = R.string.change_record_untagged.let(resourceRepo::getString),
-                            color = colorMapper.toUntrackedColor(isDarkTheme),
-                        ).let(::listOf)
-                        untagged + it
-                    } else {
-                        it
-                    }
-                },
+            }
+        return NotificationTypeParams.Controls.Enabled(
+            types = repeatButtonViewData + typesViewData,
+            typesShift = typesShift,
+            tags = tagsViewData,
             tagsShift = tagsShift,
             controlIconPrev = RecordTypeIcon.Image(R.drawable.arrow_left),
             controlIconNext = RecordTypeIcon.Image(R.drawable.arrow_right),

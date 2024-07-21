@@ -1,16 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <include
-        android:id="@+id/containerChangeRecordPreviewItem"
-        layout="@layout/change_record_preview_layout"
+    <com.example.util.simpletimetracker.feature_views.RecordSimpleView
+        android:id="@+id/viewChangeRecordPreviewBefore"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/edit_screen_margin_horizontal"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.7"
+        app:layout_constraintEnd_toStartOf="@id/ivChangeRecordPreviewCompare"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemName="Item" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivChangeRecordPreviewCompare"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:alpha="0.7"
+        android:src="@drawable/arrow_right"
+        android:tint="?appTextPrimaryColor"
+        app:layout_constraintBottom_toBottomOf="@id/viewChangeRecordPreviewBefore"
+        app:layout_constraintEnd_toStartOf="@id/viewChangeRecordPreviewAfter"
+        app:layout_constraintStart_toEndOf="@id/viewChangeRecordPreviewBefore"
+        app:layout_constraintTop_toTopOf="@id/viewChangeRecordPreviewBefore" />
+
+    <com.example.util.simpletimetracker.feature_views.RecordSimpleView
+        android:id="@+id/viewChangeRecordPreviewAfter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="@dimen/edit_screen_margin_horizontal"
+        android:alpha="0.7"
         app:layout_constraintEnd_toStartOf="@id/checkChangeRecordPreviewItem"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/ivChangeRecordPreviewCompare"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemName="Item" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/viewChangeRecordPreviewRemoved"
+        style="@style/SettingsCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:alpha="0.7"
+        android:visibility="gone"
+        app:cardCornerRadius="100dp"
+        app:cardUseCompatPadding="false"
+        app:layout_constraintBottom_toBottomOf="@id/viewChangeRecordPreviewAfter"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@id/viewChangeRecordPreviewAfter"
+        app:layout_constraintStart_toStartOf="@id/viewChangeRecordPreviewAfter"
+        app:layout_constraintTop_toTopOf="@id/viewChangeRecordPreviewAfter"
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:tint="?appTextPrimaryColor"
+            app:srcCompat="@drawable/delete" />
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/checkChangeRecordPreviewItem"
@@ -18,8 +73,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/edit_screen_margin_horizontal"
         android:minWidth="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/containerChangeRecordPreviewItem"
+        app:layout_constraintBottom_toBottomOf="@id/viewChangeRecordPreviewBefore"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/containerChangeRecordPreviewItem" />
+        app:layout_constraintTop_toTopOf="@id/viewChangeRecordPreviewBefore" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

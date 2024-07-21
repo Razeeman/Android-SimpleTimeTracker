@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -11,17 +10,17 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
+import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
-import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.getMillis
 import com.example.util.simpletimetracker.utils.longClickOnView
-import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.nthChildOf
 import com.example.util.simpletimetracker.utils.recyclerItemCount
+import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColor
@@ -59,7 +58,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
             )
         }
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        checkViewIsNotDisplayed(withText(coreR.string.change_record_duplicate))
+        checkViewDoesNotExist(withText(coreR.string.change_record_duplicate))
         pressBack()
         pressBack()
 
@@ -69,7 +68,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
             allOf(withId(baseR.id.viewRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed()),
         )
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_duplicate)).perform(nestedScrollTo())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_duplicate))
         checkViewIsDisplayed(withText(coreR.string.change_record_duplicate))
     }
 
@@ -117,7 +116,8 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         // Duplicate
         clickOnViewWithText(fullName)
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_duplicate)).perform(nestedScrollTo(), click())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_duplicate))
+        clickOnViewWithText(coreR.string.change_record_duplicate)
 
         tryAction {
             onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
@@ -171,7 +171,8 @@ class RecordActionsDuplicateTest : BaseUiTest() {
 
         // Duplicate untracked doesn't work
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_duplicate)).perform(nestedScrollTo(), click())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_duplicate))
+        clickOnViewWithText(coreR.string.change_record_duplicate)
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
@@ -185,7 +186,8 @@ class RecordActionsDuplicateTest : BaseUiTest() {
 
         // Duplicate
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_duplicate)).perform(nestedScrollTo(), click())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_duplicate))
+        clickOnViewWithText(coreR.string.change_record_duplicate)
 
         tryAction {
             onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))
@@ -227,7 +229,8 @@ class RecordActionsDuplicateTest : BaseUiTest() {
 
         // Duplicate untracked doesn't work
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_duplicate)).perform(nestedScrollTo(), click())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_duplicate))
+        clickOnViewWithText(coreR.string.change_record_duplicate)
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
@@ -241,7 +244,8 @@ class RecordActionsDuplicateTest : BaseUiTest() {
 
         // Duplicate
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_duplicate)).perform(nestedScrollTo(), click())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_duplicate))
+        clickOnViewWithText(coreR.string.change_record_duplicate)
 
         tryAction {
             onView(allOf(withId(recordsR.id.rvRecordsList), isCompletelyDisplayed()))

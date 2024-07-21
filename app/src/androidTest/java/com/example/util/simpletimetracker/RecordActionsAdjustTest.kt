@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker
 
+import android.view.View
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
@@ -22,10 +23,11 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.getMillis
 import com.example.util.simpletimetracker.utils.longClickOnView
-import com.example.util.simpletimetracker.utils.nestedScrollTo
+import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Calendar
@@ -90,7 +92,7 @@ class RecordActionsAdjustTest : BaseUiTest() {
         adjust(isStart = false, buttonText = "+30")
         adjust(isStart = false, buttonText = "+30")
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_adjust)).perform(nestedScrollTo())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_adjust))
         clickOnViewWithText(coreR.string.change_record_adjust)
 
         // Check records
@@ -175,7 +177,7 @@ class RecordActionsAdjustTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_type_field)
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name2))
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_adjust)).perform(nestedScrollTo())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_adjust))
         clickOnViewWithText(coreR.string.change_record_adjust)
 
         // Check records
@@ -239,7 +241,7 @@ class RecordActionsAdjustTest : BaseUiTest() {
         )
         clickOnViewWithText("-5")
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_adjust)).perform(nestedScrollTo())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_adjust))
         clickOnViewWithText(coreR.string.change_record_adjust)
 
         // Check records
@@ -291,7 +293,7 @@ class RecordActionsAdjustTest : BaseUiTest() {
         adjust(isStart = false, buttonText = "+30")
         adjust(isStart = false, buttonText = "+30")
         clickOnViewWithText(coreR.string.change_record_actions_hint)
-        onView(withText(coreR.string.change_record_adjust)).perform(nestedScrollTo())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_adjust))
         clickOnViewWithText(coreR.string.change_record_adjust)
 
         // Check records
@@ -365,37 +367,49 @@ class RecordActionsAdjustTest : BaseUiTest() {
         adjust(isStart = false, buttonText = "+30")
         adjust(isStart = false, buttonText = "+30")
 
-        fun onAdjustPreview(typeName: String): ViewInteraction {
-            return onView(
-                allOf(
-                    withId(changeRecordR.id.checkChangeRecordPreviewItem),
-                    hasSibling(
+        fun previewCheckMatcher(typeName: String): Matcher<View> {
+            return allOf(
+                withId(changeRecordR.id.checkChangeRecordPreviewItem),
+                hasSibling(
+                    allOf(
+                        withId(changeRecordR.id.viewChangeRecordPreviewBefore),
                         hasDescendant(withText(typeName)),
                     ),
                 ),
             )
         }
 
+        fun onPreviewCheck(typeName: String): ViewInteraction {
+            return onView(previewCheckMatcher(typeName))
+        }
+
+        fun scrollToView(typeName: String) {
+            scrollRecyclerToView(
+                changeRecordR.id.rvChangeRecordAction,
+                hasDescendant(previewCheckMatcher(typeName)),
+            )
+        }
+
         // Deselect
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
-        onAdjustPreview(name5).perform(nestedScrollTo())
-        onAdjustPreview(name5).check(matches(isChecked()))
+        scrollToView(name5)
+        onPreviewCheck(name5).check(matches(isChecked()))
 
-        onAdjustPreview(name4).perform(nestedScrollTo())
-        onAdjustPreview(name4).check(matches(isChecked()))
+        scrollToView(name4)
+        onPreviewCheck(name4).check(matches(isChecked()))
 
-        onAdjustPreview(name2).perform(nestedScrollTo())
-        onAdjustPreview(name2).check(matches(isChecked()))
-        onAdjustPreview(name2).perform(click())
-        onAdjustPreview(name2).check(matches(isNotChecked()))
+        scrollToView(name2)
+        onPreviewCheck(name2).check(matches(isChecked()))
+        onPreviewCheck(name2).perform(click())
+        onPreviewCheck(name2).check(matches(isNotChecked()))
 
-        onAdjustPreview(name1).perform(nestedScrollTo())
-        onAdjustPreview(name1).check(matches(isChecked()))
-        onAdjustPreview(name1).perform(click())
-        onAdjustPreview(name1).check(matches(isNotChecked()))
+        scrollToView(name1)
+        onPreviewCheck(name1).check(matches(isChecked()))
+        onPreviewCheck(name1).perform(click())
+        onPreviewCheck(name1).check(matches(isNotChecked()))
 
-        onView(withText(coreR.string.change_record_adjust)).perform(nestedScrollTo())
+        scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_adjust))
         clickOnViewWithText(coreR.string.change_record_adjust)
 
         // Check records

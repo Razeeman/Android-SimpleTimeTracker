@@ -118,8 +118,12 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_ACTIVITY_FILTERS, false,
     )
 
+    override var enableRepeatButton: Boolean by prefs.delegate(
+        KEY_ENABLE_REPEAT_BUTTON, true,
+    )
+
     override var enablePomodoroMode: Boolean by prefs.delegate(
-        KEY_ENABLE_POMODORO_MODE, false,
+        KEY_ENABLE_POMODORO_MODE, true,
     )
 
     override var pomodoroModeStartedTimestamp: Long by prefs.delegate(
@@ -542,6 +546,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_REVERSE_ORDER_IN_CALENDAR = "reverseOrderInCalendar"
         private const val KEY_DAYS_IN_CALENDAR = "daysInCalendar"
         private const val KEY_SHOW_ACTIVITY_FILTERS = "showActivityFilters"
+        private const val KEY_ENABLE_REPEAT_BUTTON = "enableRepeatButton"
         private const val KEY_ENABLE_POMODORO_MODE = "enablePomodoroMode"
         private const val KEY_POMODORO_MODE_STARTED_TIMESTAMP = "pomodoroModeStartedTimestamp"
         private const val KEY_POMODORO_FOCUS_TIME = "pomodoroFocusTime"

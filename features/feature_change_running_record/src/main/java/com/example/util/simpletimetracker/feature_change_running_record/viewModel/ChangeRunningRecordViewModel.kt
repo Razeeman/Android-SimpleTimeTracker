@@ -21,10 +21,8 @@ import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
-import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordAdjustDelegateImpl
+import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordActionsDelegateImpl
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
-import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordMergeDelegateImpl
-import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordSplitDelegateImpl
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
@@ -48,9 +46,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     recordTagViewDataInteractor: RecordTagViewDataInteractor,
     prefsInteractor: PrefsInteractor,
     changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
-    changeRecordMergeDelegate: ChangeRecordMergeDelegateImpl,
-    changeRecordSplitDelegate: ChangeRecordSplitDelegateImpl,
-    changeRecordAdjustDelegate: ChangeRecordAdjustDelegateImpl,
+    changeRecordActionsDelegate: ChangeRecordActionsDelegateImpl,
     recordInteractor: RecordInteractor,
     recordTypeToTagInteractor: RecordTypeToTagInteractor,
     favouriteCommentInteractor: FavouriteCommentInteractor,
@@ -72,9 +68,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     recordInteractor = recordInteractor,
     recordTypeToTagInteractor = recordTypeToTagInteractor,
     favouriteCommentInteractor = favouriteCommentInteractor,
-    changeRecordMergeDelegate = changeRecordMergeDelegate,
-    changeRecordSplitDelegate = changeRecordSplitDelegate,
-    changeRecordAdjustDelegate = changeRecordAdjustDelegate,
+    changeRecordActionsDelegate = changeRecordActionsDelegate,
 ) {
 
     lateinit var extra: ChangeRunningRecordParams
@@ -87,6 +81,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     override val adjustPreviewOriginalTimeEnded: Long get() = System.currentTimeMillis()
     override val showTimeEndedOnAdjustPreview: Boolean get() = false
     override val isTimeEndedAvailable: Boolean get() = false
+    override val isAdditionalActionsAvailable: Boolean get() = false
     override val isDeleteButtonVisible: Boolean get() = true
     override val isStatisticsButtonVisible: Boolean get() = true
 
@@ -207,8 +202,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
                 updatePreview()
                 // Update split preview only if it is visible
                 if (chooserState.value?.current is ChangeRecordChooserState.State.Action) {
-                    updateTimeSplitData()
-                    updateAdjustData()
+                    updateActionsData()
                 }
                 delay(TIMER_UPDATE)
             }

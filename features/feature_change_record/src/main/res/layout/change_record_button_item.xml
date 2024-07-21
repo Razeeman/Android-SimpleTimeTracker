@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/btnChangeRecordButtonItem"
+    style="@style/AppButtonActive"
+    android:layout_width="match_parent"
+    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
+    app:iconGravity="textStart"
+    app:iconSize="18dp"
+    app:iconTint="?appLightTextColor"
+    tools:icon="@drawable/action_divide"
+    tools:text="@string/change_record_split" />

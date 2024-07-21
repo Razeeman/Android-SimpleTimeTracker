@@ -233,6 +233,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.showActivityFilters = isEnabled
     }
 
+    suspend fun getEnableRepeatButton(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.enableRepeatButton
+    }
+
+    suspend fun setEnableRepeatButton(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.enableRepeatButton = isEnabled
+    }
+
     suspend fun getEnablePomodoroMode(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.enablePomodoroMode
     }

@@ -1,12 +1,11 @@
 package com.example.util.simpletimetracker.feature_change_record.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.addOrRemove
-import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRecordMediator
 import com.example.util.simpletimetracker.domain.model.Range
@@ -15,9 +14,13 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintAccentViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_change_record.R
+import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordButtonViewData
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordChangePreviewViewData
+import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordTimeAdjustmentViewData
+import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordTimeDoublePreviewViewData
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
+import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordActionsBlock
 import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordAdjustState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
@@ -25,65 +28,41 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-interface ChangeRecordAdjustDelegate {
-    val adjustPreview: LiveData<ChangeRecordAdjustState>
-    val timeChangeAdjustmentItems: LiveData<List<ViewHolderType>>
-    val timeChangeAdjustmentState: LiveData<TimeAdjustmentState>
-
-    fun attach(parent: Parent)
-    fun onAdjustTimeStartedClick()
-    fun onAdjustTimeEndedClick()
-    fun onChangePreviewCheckClick(item: ChangeRecordChangePreviewViewData)
-
-    interface Parent {
-        suspend fun update()
-    }
-}
-
-class ChangeRecordAdjustDelegateImpl @Inject constructor(
+class ChangeRecordActionsAdjustDelegate @Inject constructor(
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val addRecordMediator: AddRecordMediator,
     private val removeRecordMediator: RemoveRecordMediator,
     private val changeRecordViewDataMapper: ChangeRecordViewDataMapper,
     private val resourceRepo: ResourceRepo,
     private val recordInteractor: RecordInteractor,
-) : ChangeRecordAdjustDelegate, ViewModelDelegate() {
+    private val timeMapper: TimeMapper,
+    private val prefsInteractor: PrefsInteractor,
+) : ViewModelDelegate() {
 
-    override val adjustPreview: LiveData<ChangeRecordAdjustState> =
-        MutableLiveData(
-            ChangeRecordAdjustState(
-                currentData = ChangeRecordPreview.NotAvailable,
-                changesPreview = emptyList(),
-            ),
-        )
-    override val timeChangeAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
-        MutableLiveData(loadTimeAdjustmentItems())
-    }
-    override val timeChangeAdjustmentState: LiveData<TimeAdjustmentState> =
-        MutableLiveData(TimeAdjustmentState.TIME_STARTED)
+    var timeChangeAdjustmentState: TimeAdjustmentState = TimeAdjustmentState.TIME_STARTED
 
-    private var parent: ChangeRecordAdjustDelegate.Parent? = null
+    private var parent: Parent? = null
     private var recordsUnmarkedFromAdjustment: List<Long> = emptyList()
 
-    override fun attach(parent: ChangeRecordAdjustDelegate.Parent) {
+    fun attach(parent: Parent) {
         this.parent = parent
     }
 
-    override fun onAdjustTimeStartedClick() {
+    fun onAdjustTimeStartedClick() {
         updateAdjustTimeState(
             clicked = TimeAdjustmentState.TIME_STARTED,
             other = TimeAdjustmentState.TIME_ENDED,
         )
     }
 
-    override fun onAdjustTimeEndedClick() {
+    fun onAdjustTimeEndedClick() {
         updateAdjustTimeState(
             clicked = TimeAdjustmentState.TIME_ENDED,
             other = TimeAdjustmentState.TIME_STARTED,
         )
     }
 
-    override fun onChangePreviewCheckClick(item: ChangeRecordChangePreviewViewData) {
+    fun onChangePreviewCheckClick(item: ChangeRecordChangePreviewViewData) {
         delegateScope.launch {
             recordsUnmarkedFromAdjustment = recordsUnmarkedFromAdjustment
                 .toMutableList()
@@ -92,18 +71,81 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
         }
     }
 
-    suspend fun onAdjustClickDelegate(
-        recordId: Long,
-        adjustNextRecordAvailable: Boolean,
-        newTimeStarted: Long,
-        newTimeEnded: Long,
-        onAdjustComplete: () -> Unit,
-    ) {
+    suspend fun getViewData(): List<ViewHolderType> {
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val showSeconds = prefsInteractor.getShowSeconds()
+        val params = parent?.getViewDataParams()
+            ?: return emptyList()
+
+        val result = mutableListOf<ViewHolderType>()
+        val hintText = if (params.isTimeEndedAvailable) {
+            R.string.change_record_change_adjacent_records
+        } else {
+            R.string.change_record_change_prev_record
+        }.let(resourceRepo::getString)
+        result += HintViewData(hintText)
+        val state = loadViewData(
+            recordId = params.recordId,
+            adjustNextRecordAvailable = params.adjustNextRecordAvailable,
+            newTypeId = params.newTypeId,
+            newTimeStarted = params.newTimeStarted,
+            adjustPreviewTimeEnded = params.adjustPreviewTimeEnded,
+            originalTypeId = params.originalTypeId,
+            originalTimeStarted = params.originalTimeStarted,
+            originalTimeEnded = params.originalTimeEnded,
+            showTimeEnded = params.showTimeEnded,
+        )
+        val previewData = state.currentData
+        result += ChangeRecordChangePreviewViewData(
+            id = previewData.id,
+            before = previewData.before,
+            after = previewData.after,
+            isChecked = false,
+            marginTopDp = 0,
+            isRemoveVisible = false,
+            isCheckVisible = false,
+            isCompareVisible = true,
+        )
+        result += ChangeRecordTimeDoublePreviewViewData(
+            block = ChangeRecordActionsBlock.AdjustTimePreview,
+            dateTimeStarted = timeMapper.getFormattedDateTime(
+                time = params.newTimeStarted,
+                useMilitaryTime = useMilitaryTime,
+                showSeconds = showSeconds,
+            ).time,
+            dateTimeFinished = timeMapper.getFormattedDateTime(
+                time = params.adjustPreviewTimeEnded,
+                useMilitaryTime = useMilitaryTime,
+                showSeconds = showSeconds,
+            ).time,
+            isTimeEndedAvailable = params.isTimeEndedAvailable,
+            state = timeChangeAdjustmentState,
+        )
+        if (timeChangeAdjustmentState != TimeAdjustmentState.HIDDEN) {
+            result += ChangeRecordTimeAdjustmentViewData(
+                block = ChangeRecordActionsBlock.AdjustTimeAdjustment,
+                items = loadTimeAdjustmentItems(),
+            )
+        }
+        result += state.changesPreview
+        result += ChangeRecordButtonViewData(
+            block = ChangeRecordActionsBlock.AdjustButton,
+            text = resourceRepo.getString(R.string.change_record_adjust),
+            icon = R.drawable.action_change,
+            iconSizeDp = 28,
+            isEnabled = params.isButtonEnabled,
+        )
+        return result
+    }
+
+    suspend fun onAdjustClickDelegate() {
+        val params = parent?.getViewDataParams() ?: return
+
         val adjacentRecords = getAdjacentRecords(
-            recordId = recordId,
-            newTimeStarted = newTimeStarted,
-            newTimeEnded = newTimeEnded,
-            adjustNextRecordAvailable = adjustNextRecordAvailable,
+            recordId = params.recordId,
+            newTimeStarted = params.newTimeStarted,
+            newTimeEnded = params.newTimeEnded,
+            adjustNextRecordAvailable = params.adjustNextRecordAvailable,
         )
 
         adjacentRecords.previous
@@ -111,7 +153,7 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
             .forEach { prevRecord ->
                 getChangedPrevRecord(
                     record = prevRecord,
-                    newTimeStarted = newTimeStarted,
+                    newTimeStarted = params.newTimeStarted,
                 ).let { addRecordMediator.add(it) }
             }
 
@@ -129,28 +171,28 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
             .forEach { nextRecord ->
                 getChangedNextRecord(
                     record = nextRecord,
-                    newTimeEnded = newTimeEnded,
+                    newTimeEnded = params.newTimeEnded,
                 ).let { addRecordMediator.add(it) }
             }
 
-        onAdjustComplete()
+        parent?.onAdjustComplete()
     }
 
-    suspend fun updateAdjustPreviewViewData(
+    private suspend fun loadViewData(
         recordId: Long,
         adjustNextRecordAvailable: Boolean,
         newTypeId: Long,
         newTimeStarted: Long,
-        newTimeEnded: Long,
+        adjustPreviewTimeEnded: Long,
         originalTypeId: Long,
         originalTimeStarted: Long,
         originalTimeEnded: Long,
         showTimeEnded: Boolean,
-    ) {
+    ): ChangeRecordAdjustState {
         val adjacentRecords = getAdjacentRecords(
             recordId = recordId,
             newTimeStarted = newTimeStarted,
-            newTimeEnded = newTimeEnded,
+            newTimeEnded = adjustPreviewTimeEnded,
             adjustNextRecordAvailable = adjustNextRecordAvailable,
         )
 
@@ -166,7 +208,7 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
                 id = 0,
                 typeId = newTypeId,
                 timeStarted = newTimeStarted,
-                timeEnded = newTimeEnded,
+                timeEnded = adjustPreviewTimeEnded,
                 comment = "",
             ),
             showTimeEnded = showTimeEnded,
@@ -196,7 +238,7 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
                 record = nextRecord,
                 changedRecord = getChangedNextRecord(
                     record = nextRecord,
-                    newTimeEnded = newTimeEnded,
+                    newTimeEnded = adjustPreviewTimeEnded,
                 ),
                 showTimeEnded = true,
             )
@@ -205,7 +247,7 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
         val viewData = mutableListOf<ViewHolderType>()
 
         fun mapItem(
-            data: ChangeRecordPreview.Available,
+            data: ChangeRecordPreview,
             isRemoveVisible: Boolean = false,
         ): ViewHolderType {
             return ChangeRecordChangePreviewViewData(
@@ -213,7 +255,10 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
                 before = data.before,
                 after = data.after,
                 isChecked = data.id !in recordsUnmarkedFromAdjustment,
+                marginTopDp = 0,
                 isRemoveVisible = isRemoveVisible,
+                isCheckVisible = true,
+                isCompareVisible = true,
             )
         }
 
@@ -249,12 +294,10 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
             )
         }
 
-        val data = ChangeRecordAdjustState(
+        return ChangeRecordAdjustState(
             currentData = currentData,
             changesPreview = viewData,
         )
-
-        adjustPreview.set(data)
     }
 
     private suspend fun getAdjacentRecords(
@@ -296,13 +339,13 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
         record: Record,
         changedRecord: Record,
         showTimeEnded: Boolean,
-    ): ChangeRecordPreview.Available {
+    ): ChangeRecordPreview {
         val previousRecordPreview = changeRecordViewDataInteractor
             .getPreviewViewData(record)
         val changedRecordPreview = changeRecordViewDataInteractor
             .getPreviewViewData(changedRecord)
 
-        return ChangeRecordPreview.Available(
+        return ChangeRecordPreview(
             id = record.id,
             before = changeRecordViewDataMapper.mapSimple(
                 preview = previousRecordPreview,
@@ -346,18 +389,23 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
     private fun updateAdjustTimeState(
         clicked: TimeAdjustmentState,
         other: TimeAdjustmentState,
-    ) {
-        when (timeChangeAdjustmentState.value) {
+    ) = delegateScope.launch {
+        when (timeChangeAdjustmentState) {
             TimeAdjustmentState.HIDDEN -> {
-                timeChangeAdjustmentState.set(clicked)
+                timeChangeAdjustmentState = clicked
+                parent?.update()
             }
             clicked -> {
-                timeChangeAdjustmentState.set(TimeAdjustmentState.HIDDEN)
+                timeChangeAdjustmentState = TimeAdjustmentState.HIDDEN
+                parent?.update()
             }
             other -> delegateScope.launch {
-                timeChangeAdjustmentState.set(TimeAdjustmentState.HIDDEN)
+                timeChangeAdjustmentState = TimeAdjustmentState.HIDDEN
+                parent?.update()
+                // TODO ACT sometimes adjust items are not visible
                 delay(300)
-                timeChangeAdjustmentState.set(clicked)
+                timeChangeAdjustmentState = clicked
+                parent?.update()
             }
             else -> {
                 // Do nothing
@@ -374,4 +422,26 @@ class ChangeRecordAdjustDelegateImpl @Inject constructor(
         val overlapped: List<Record>,
         val next: List<Record>,
     )
+
+    interface Parent {
+
+        fun getViewDataParams(): ViewDataParams?
+        suspend fun update()
+        suspend fun onAdjustComplete()
+
+        data class ViewDataParams(
+            val recordId: Long,
+            val adjustNextRecordAvailable: Boolean,
+            val newTypeId: Long,
+            val newTimeStarted: Long,
+            val newTimeEnded: Long,
+            val adjustPreviewTimeEnded: Long,
+            val originalTypeId: Long,
+            val originalTimeStarted: Long,
+            val originalTimeEnded: Long,
+            val showTimeEnded: Boolean,
+            val isTimeEndedAvailable: Boolean,
+            val isButtonEnabled: Boolean,
+        )
+    }
 }
