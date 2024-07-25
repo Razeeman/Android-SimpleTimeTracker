@@ -55,6 +55,7 @@ class TimeAdjustmentView @JvmOverloads constructor(
                 flexWrap = FlexWrap.NOWRAP
             }
             adapter = this@TimeAdjustmentView.adapter
+            itemAnimator = null
         }
     }
 
@@ -89,7 +90,7 @@ class TimeAdjustmentView @JvmOverloads constructor(
     sealed class ViewData : ViewHolderType {
         abstract val text: String
 
-        override fun getUniqueId(): Long = 0L
+        override fun getUniqueId(): Long = text.hashCode().toLong()
         override fun isValidType(other: ViewHolderType): Boolean = false
 
         data class Now(

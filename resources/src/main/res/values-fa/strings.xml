@@ -235,7 +235,8 @@
     <string name="settings_sort_manually">دستی</string>
     <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">اولین روز هفته</string>
-    <string name="settings_repeat_button_type">دکمه تکرار</string>
+    <string name="settings_show_repeat_button">نمایش دکمه تکرار در صفحه اصلی</string>
+    <string name="settings_repeat_button_type">حالت</string>
     <string name="settings_repeat_last_record">آخرین رکورد را تکرار کنید</string>
     <string name="settings_repeat_one_before_last">تکرار رکورد قبل از آخرین</string>
     <string name="settings_show_untracked_time">زمان اندازه گیری نشده را در تاریخچه نمایش بده</string>

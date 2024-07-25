@@ -235,7 +235,8 @@
     <string name="settings_sort_manually">Manual</string>
     <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Prima zi a săptămânii</string>
-    <string name="settings_repeat_button_type">Buton Repetă</string>
+    <string name="settings_show_repeat_button">Afișați butonul de repetare pe ecranul principal</string>
+    <string name="settings_repeat_button_type">Modul</string>
     <string name="settings_repeat_last_record">Repetă ultima înregistrare</string>
     <string name="settings_repeat_one_before_last">Repetă penultima înregistrare</string>
     <string name="settings_show_untracked_time">Arată timpul neurmărit în înregistrări</string>

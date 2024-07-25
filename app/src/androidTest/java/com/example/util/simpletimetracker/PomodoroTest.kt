@@ -29,7 +29,9 @@ class PomodoroTest : BaseUiTest() {
 
     override fun setUp() {
         super.setUp()
-        runBlocking { prefsInteractor.setEnablePomodoroMode(true) }
+        runBlocking {
+            prefsInteractor.setEnablePomodoroMode(true)
+        }
     }
 
     @Test

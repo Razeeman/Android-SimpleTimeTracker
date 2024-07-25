@@ -235,7 +235,8 @@
     <string name="settings_sort_manually">Manuell</string>
     <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Erster Tag der Woche</string>
-    <string name="settings_repeat_button_type">Wiederholen-Taste</string>
+    <string name="settings_show_repeat_button">Wiederholungsschaltfläche auf dem Hauptbildschirm anzeigen</string>
+    <string name="settings_repeat_button_type">Modus</string>
     <string name="settings_repeat_last_record">Letzte Aufnahme wiederholen</string>
     <string name="settings_repeat_one_before_last">Vorletzte Aufnahme wiederholen</string>
     <string name="settings_show_untracked_time">Nicht verfolgte Zeit in Datensätzen anzeigen</string>

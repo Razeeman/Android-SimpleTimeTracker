@@ -119,11 +119,11 @@ class PrefsRepoImpl @Inject constructor(
     )
 
     override var enableRepeatButton: Boolean by prefs.delegate(
-        KEY_ENABLE_REPEAT_BUTTON, true,
+        KEY_ENABLE_REPEAT_BUTTON, false,
     )
 
     override var enablePomodoroMode: Boolean by prefs.delegate(
-        KEY_ENABLE_POMODORO_MODE, true,
+        KEY_ENABLE_POMODORO_MODE, false,
     )
 
     override var pomodoroModeStartedTimestamp: Long by prefs.delegate(

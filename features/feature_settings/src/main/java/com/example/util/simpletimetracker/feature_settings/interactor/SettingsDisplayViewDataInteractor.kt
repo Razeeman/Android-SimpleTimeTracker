@@ -95,7 +95,7 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                 title = resourceRepo.getString(R.string.settings_show_records_calendar),
                 subtitle = "",
                 isChecked = showRecordsCalendar,
-                bottomSpaceIsVisible = true,
+                bottomSpaceIsVisible = !showRecordsCalendar,
                 dividerIsVisible = !showRecordsCalendar,
             )
             if (showRecordsCalendar) {
@@ -104,7 +104,7 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                     title = resourceRepo.getString(R.string.settings_reverse_order_in_calendar),
                     subtitle = "",
                     isChecked = prefsInteractor.getReverseOrderInCalendar(),
-                    bottomSpaceIsVisible = true,
+                    bottomSpaceIsVisible = false,
                     dividerIsVisible = false,
                 )
                 val daysInCalendarViewData = loadDaysInCalendarViewData()
@@ -140,19 +140,17 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
             val enableRepeatButton = prefsInteractor.getEnableRepeatButton()
             result += SettingsCheckboxViewData(
                 block = SettingsBlock.DisplayEnableRepeatButton,
-                title = "Show repeat button on main screen", // TODO NEW add resource
+                title = resourceRepo.getString(R.string.settings_show_repeat_button),
                 subtitle = "",
                 isChecked = enableRepeatButton,
                 bottomSpaceIsVisible = !enableRepeatButton,
                 dividerIsVisible = !enableRepeatButton,
             )
-            // TODO NEW fix tests, add more
-            // TODO NEW move some settings from display, too much
             if (enableRepeatButton) {
                 val repeatButtonViewData = loadRepeatButtonViewData()
                 result += SettingsSpinnerViewData(
                     block = SettingsBlock.DisplayRepeatButtonMode,
-                    title = resourceRepo.getString(R.string.settings_repeat_button_type), // TODO NEW rename to mode
+                    title = resourceRepo.getString(R.string.settings_repeat_button_type),
                     value = repeatButtonViewData.items
                         .getOrNull(repeatButtonViewData.selectedPosition)?.text.orEmpty(),
                     items = repeatButtonViewData.items,
@@ -186,14 +184,6 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                 title = resourceRepo.getString(R.string.settings_show_nav_bar_at_the_bottom),
                 subtitle = "",
                 isChecked = prefsInteractor.getIsNavBarAtTheBottom(),
-                bottomSpaceIsVisible = true,
-                dividerIsVisible = true,
-            )
-            result += SettingsCheckboxViewData(
-                block = SettingsBlock.DisplayKeepScreenOn,
-                title = resourceRepo.getString(R.string.settings_keep_screen_on),
-                subtitle = "",
-                isChecked = prefsInteractor.getKeepScreenOn(),
                 bottomSpaceIsVisible = true,
                 dividerIsVisible = true,
             )

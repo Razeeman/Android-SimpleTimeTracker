@@ -235,7 +235,8 @@
     <string name="settings_sort_manually">Handmatig</string>
     <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Eerste dag van de week</string>
-    <string name="settings_repeat_button_type">Herhaal knop</string>
+    <string name="settings_show_repeat_button">Toon de herhaalknop op het hoofdscherm</string>
+    <string name="settings_repeat_button_type">Modus</string>
     <string name="settings_repeat_last_record">Herhaal de laatste opname</string>
     <string name="settings_repeat_one_before_last">Herhaal record voor het laatst</string>
     <string name="settings_show_untracked_time">Toon niet-gevolgde tijd in records</string>

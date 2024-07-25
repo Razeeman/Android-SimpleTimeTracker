@@ -235,7 +235,8 @@
     <string name="settings_sort_manually">手動</string>
     <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">每周第一天</string>
-    <string name="settings_repeat_button_type">重複按鈕</string>
+    <string name="settings_show_repeat_button">在主畫面上顯示重複按鈕</string>
+    <string name="settings_repeat_button_type">模式</string>
     <string name="settings_repeat_last_record">重複上次記錄</string>
     <string name="settings_repeat_one_before_last">重複上次之前的記錄</string>
     <string name="settings_show_untracked_time">顯示紀錄未追蹤時間</string>

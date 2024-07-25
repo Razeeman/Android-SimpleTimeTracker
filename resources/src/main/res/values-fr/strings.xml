@@ -235,7 +235,8 @@
     <string name="settings_sort_manually">Manuellement</string>
     <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Premier jour de la semaine</string>
-    <string name="settings_repeat_button_type">Bouton de répétition</string>
+    <string name="settings_show_repeat_button">Afficher le bouton de répétition sur l\'écran principal</string>
+    <string name="settings_repeat_button_type">Mode</string>
     <string name="settings_repeat_last_record">Répéter le dernier enregistrement</string>
     <string name="settings_repeat_one_before_last">Répéter l\'enregistrement avant le dernier</string>
     <string name="settings_show_untracked_time">Afficher le temps non suivi dans la liste des enregistrements</string>

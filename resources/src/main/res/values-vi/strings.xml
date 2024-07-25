@@ -235,7 +235,8 @@
     <string name="settings_sort_manually">Thủ công</string>
     <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Ngày đầu tuần</string>
-    <string name="settings_repeat_button_type">Nút lặp lại</string>
+    <string name="settings_show_repeat_button">Hiển thị nút lặp lại trên màn hình chính</string>
+    <string name="settings_repeat_button_type">Cách thức</string>
     <string name="settings_repeat_last_record">Lặp lại bản ghi cuối cùng</string>
     <string name="settings_repeat_one_before_last">Lặp lại bản ghi trước lần cuối cùng</string>
     <string name="settings_show_untracked_time">Hiển thị thời gian không được theo dõi trong bản ghi</string>

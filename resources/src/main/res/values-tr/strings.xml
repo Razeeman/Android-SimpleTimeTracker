@@ -235,7 +235,8 @@
     <string name="settings_sort_manually">Elle</string>
     <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Haftanın ilk günü</string>
-    <string name="settings_repeat_button_type">Tekrar düğmesi</string>
+    <string name="settings_show_repeat_button">Ana ekranda tekrarla düğmesini göster</string>
+    <string name="settings_repeat_button_type">Mod</string>
     <string name="settings_repeat_last_record">Son kaydı tekrarla</string>
     <string name="settings_repeat_one_before_last">Sondan önceki kaydı tekrarla</string>
     <string name="settings_show_untracked_time">Kayıtlarda takipsiz zamanı göster</string>
