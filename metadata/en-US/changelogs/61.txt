@@ -1,0 +1,2 @@
+- Improve app performance and memory usage
+- General bug fixes and improvements
