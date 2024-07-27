@@ -44,7 +44,7 @@
         <!--        <item quantity="two">%s روز قبلی</item>-->
         <!--        <item quantity="few">%s روز قبلی</item>-->
         <!--        <item quantity="many">%s روز قبلی</item>-->
-        <!--        <item quantity="other">%s روز قبلی</item>-->
+        <item quantity="other">%s روز قبلی</item>
     </plurals>
 
     <string name="ok">موافقت</string>
