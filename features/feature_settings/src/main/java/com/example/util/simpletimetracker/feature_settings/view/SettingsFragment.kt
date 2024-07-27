@@ -97,8 +97,8 @@ class SettingsFragment :
             rvSettingsContent.smoothScrollToPosition(0)
             mainTabsViewModel.onHandled()
         }
-        viewModel.mainDelegate.themeChanged.observe(::changeTheme)
-        viewModel.displayDelegate.keepScreenOnCheckbox.observe(::setKeepScreenOn)
+        viewModel.themeChanged.observe(::changeTheme)
+        viewModel.keepScreenOnCheckbox.observe(::setKeepScreenOn)
         backupViewModel.requestScreenUpdate.observe { viewModel.onRequestUpdate() }
         mainTabsViewModel.tabReselected.observe(viewModel::onTabReselected)
     }

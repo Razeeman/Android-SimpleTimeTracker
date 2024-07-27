@@ -69,12 +69,6 @@ class SettingsMainViewDataInteractor @Inject constructor(
             block = SettingsBlock.Archive,
             title = resourceRepo.getString(R.string.settings_archive),
             subtitle = "",
-        )
-
-        result += SettingsTextViewData(
-            block = SettingsBlock.DataEdit,
-            title = resourceRepo.getString(R.string.settings_data_edit),
-            subtitle = "",
             dividerIsVisible = false,
         )
 

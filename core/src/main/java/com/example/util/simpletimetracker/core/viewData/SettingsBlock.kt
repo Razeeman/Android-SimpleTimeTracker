@@ -7,7 +7,6 @@ enum class SettingsBlock {
     Language,
     Categories,
     Archive,
-    DataEdit,
     MainBottom,
 
     RatingTop,
@@ -78,6 +77,7 @@ enum class SettingsBlock {
     AdditionalShiftStartOfDayHint,
     AdditionalAutomatedTracking,
     AdditionalSendEvents,
+    AdditionalDataEdit,
     AdditionalBottom,
 
     BackupTop,

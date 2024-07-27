@@ -30,8 +30,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    val mainDelegate: SettingsMainViewModelDelegate,
-    val displayDelegate: SettingsDisplayViewModelDelegate,
+    private val mainDelegate: SettingsMainViewModelDelegate,
+    private val displayDelegate: SettingsDisplayViewModelDelegate,
     private val router: Router,
     private val settingsMapper: SettingsMapper,
     private val ratingDelegate: SettingsRatingViewModelDelegate,
@@ -46,6 +46,8 @@ class SettingsViewModel @Inject constructor(
 
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val keepScreenOnCheckbox: LiveData<Boolean> by additionalDelegate::keepScreenOnCheckbox
+    val themeChanged: SingleLiveEvent<Boolean> by mainDelegate::themeChanged
 
     init {
         mainDelegate.init(this)
@@ -86,206 +88,47 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch { updateContent() }
     }
 
-    // TODO move to delegates
+    // TODO move data edit to additional
     fun onBlockClicked(block: SettingsBlock) {
-        when (block) {
-            SettingsBlock.NotificationsCollapse ->
-                notificationsDelegate.onCollapseClick()
-            SettingsBlock.DisplayCollapse ->
-                displayDelegate.onCollapseClick()
-            SettingsBlock.AdditionalCollapse ->
-                additionalDelegate.onCollapseClick()
-            SettingsBlock.BackupCollapse ->
-                backupDelegate.onCollapseClick()
-            SettingsBlock.ExportCollapse ->
-                exportDelegate.onCollapseClick()
-            SettingsBlock.NotificationsInactivity ->
-                notificationsDelegate.onInactivityReminderClicked()
-            SettingsBlock.NotificationsActivity ->
-                notificationsDelegate.onActivityReminderClicked()
-            SettingsBlock.DisplayUntrackedIgnoreShort ->
-                displayDelegate.onIgnoreShortUntrackedClicked()
-            SettingsBlock.AdditionalIgnoreShort ->
-                additionalDelegate.onIgnoreShortRecordsClicked()
-            SettingsBlock.AdditionalShiftStartOfDay ->
-                additionalDelegate.onStartOfDayClicked()
-            SettingsBlock.NotificationsInactivityDoNotDisturbStart ->
-                notificationsDelegate.onInactivityReminderDoNotDisturbStartClicked()
-            SettingsBlock.NotificationsInactivityDoNotDisturbEnd ->
-                notificationsDelegate.onInactivityReminderDoNotDisturbEndClicked()
-            SettingsBlock.NotificationsActivityDoNotDisturbStart ->
-                notificationsDelegate.onActivityReminderDoNotDisturbStartClicked()
-            SettingsBlock.NotificationsActivityDoNotDisturbEnd ->
-                notificationsDelegate.onActivityReminderDoNotDisturbEndClicked()
-            SettingsBlock.NotificationsSystemSettings ->
-                notificationsDelegate.onSystemSettingsClicked()
-            SettingsBlock.DisplayUntrackedRangeStart ->
-                displayDelegate.onUntrackedRangeStartClicked()
-            SettingsBlock.DisplayUntrackedRangeEnd ->
-                displayDelegate.onUntrackedRangeEndClicked()
-            SettingsBlock.Categories ->
-                mainDelegate.onEditCategoriesClick()
-            SettingsBlock.Archive ->
-                mainDelegate.onArchiveClick()
-            SettingsBlock.DataEdit ->
-                mainDelegate.onDataEditClick()
-            SettingsBlock.RateUs ->
-                ratingDelegate.onRateClick()
-            SettingsBlock.Feedback ->
-                ratingDelegate.onFeedbackClick()
-            SettingsBlock.Version ->
-                ratingDelegate.onVersionClick()
-            SettingsBlock.DebugMenu ->
-                ratingDelegate.onDebugMenuClick()
-            SettingsBlock.DisplayCardSize ->
-                displayDelegate.onChangeCardSizeClick()
-            SettingsBlock.DisplaySortActivities ->
-                displayDelegate.onCardOrderManualClick()
-            SettingsBlock.DisplaySortCategories ->
-                displayDelegate.onCategoryOrderManualClick()
-            SettingsBlock.DisplaySortTags ->
-                displayDelegate.onTagOrderManualClick()
-            SettingsBlock.AdditionalShiftStartOfDayButton ->
-                additionalDelegate.onStartOfDaySignClicked()
-            SettingsBlock.AdditionalAutomatedTracking ->
-                additionalDelegate.onAutomatedTrackingHelpClick()
-            SettingsBlock.AllowMultitasking ->
-                mainDelegate.onAllowMultitaskingClicked()
-            SettingsBlock.NotificationsShow ->
-                notificationsDelegate.onShowNotificationsClicked()
-            SettingsBlock.NotificationsShowControls ->
-                notificationsDelegate.onShowNotificationsControlsClicked()
-            SettingsBlock.NotificationsInactivityRecurrent ->
-                notificationsDelegate.onInactivityReminderRecurrentClicked()
-            SettingsBlock.NotificationsActivityRecurrent ->
-                notificationsDelegate.onActivityReminderRecurrentClicked()
-            SettingsBlock.DisplayUntrackedInRecords ->
-                displayDelegate.onShowUntrackedInRecordsClicked()
-            SettingsBlock.DisplayUntrackedInStatistics ->
-                displayDelegate.onShowUntrackedInStatisticsClicked()
-            SettingsBlock.DisplayUntrackedRangeCheckbox ->
-                displayDelegate.onUntrackedRangeClicked()
-            SettingsBlock.DisplayCalendarView ->
-                displayDelegate.onShowRecordsCalendarClicked()
-            SettingsBlock.DisplayCalendarButtonOnRecordsTab ->
-                displayDelegate.onShowCalendarButtonOnRecordsTabClicked()
-            SettingsBlock.DisplayReverseOrder ->
-                displayDelegate.onReverseOrderInCalendarClicked()
-            SettingsBlock.DisplayShowActivityFilters ->
-                displayDelegate.onShowActivityFiltersClicked()
-            SettingsBlock.DisplayEnablePomodoroMode ->
-                displayDelegate.onEnablePomodoroModeClicked()
-            SettingsBlock.DisplayEnableRepeatButton ->
-                displayDelegate.onEnableRepeatButtonClicked()
-            SettingsBlock.DisplayPomodoroModeActivities ->
-                displayDelegate.onPomodoroModeActivitiesClicked()
-            SettingsBlock.DisplayAllowMultipleActivityFilters ->
-                displayDelegate.onAllowMultipleActivityFiltersClicked()
-            SettingsBlock.DisplayGoalsOnSeparateTabs ->
-                displayDelegate.onShowGoalsSeparatelyClicked()
-            SettingsBlock.DisplayNavBarAtTheBottom ->
-                displayDelegate.onShowNavBarAtTheBottomClicked()
-            SettingsBlock.AdditionalKeepScreenOn ->
-                displayDelegate.onKeepScreenOnClicked()
-            SettingsBlock.DisplayMilitaryFormat ->
-                displayDelegate.onUseMilitaryTimeClicked()
-            SettingsBlock.DisplayMonthDayFormat ->
-                displayDelegate.onUseMonthDayTimeClicked()
-            SettingsBlock.DisplayProportionalFormat ->
-                displayDelegate.onUseProportionalMinutesClicked()
-            SettingsBlock.DisplayShowSeconds ->
-                displayDelegate.onShowSecondsClicked()
-            SettingsBlock.AdditionalShowTagSelection ->
-                additionalDelegate.onShowRecordTagSelectionClicked()
-            SettingsBlock.AdditionalCloseAfterOneTag ->
-                additionalDelegate.onRecordTagSelectionCloseClicked()
-            SettingsBlock.AdditionalTagSelectionExcludeActivities ->
-                additionalDelegate.onRecordTagSelectionExcludeActivitiesClicked()
-            SettingsBlock.AdditionalKeepStatisticsRange ->
-                additionalDelegate.onKeepStatisticsRangeClicked()
-            SettingsBlock.AdditionalSendEvents ->
-                additionalDelegate.onAutomatedTrackingSendEventsClicked()
-            else -> {
-                // Do nothing
-            }
-        }
+        mainDelegate.onBlockClicked(block)
+        notificationsDelegate.onBlockClicked(block)
+        displayDelegate.onBlockClicked(block)
+        additionalDelegate.onBlockClicked(block)
+        backupDelegate.onBlockClicked(block)
+        exportDelegate.onBlockClicked(block)
+        ratingDelegate.onBlockClicked(block)
     }
 
     fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
-        when (block) {
-            SettingsBlock.DarkMode ->
-                mainDelegate.onDarkModeSelected(position)
-            SettingsBlock.Language ->
-                mainDelegate.onLanguageSelected(position)
-            SettingsBlock.DisplayDaysInCalendar ->
-                displayDelegate.onDaysInCalendarSelected(position)
-            SettingsBlock.DisplayWidgetBackground ->
-                displayDelegate.onWidgetTransparencySelected(position)
-            SettingsBlock.DisplaySortActivities ->
-                displayDelegate.onRecordTypeOrderSelected(position)
-            SettingsBlock.DisplaySortCategories ->
-                displayDelegate.onCategoryOrderSelected(position)
-            SettingsBlock.DisplaySortTags ->
-                displayDelegate.onTagOrderSelected(position)
-            SettingsBlock.DisplayRepeatButtonMode ->
-                additionalDelegate.onRepeatButtonSelected(position)
-            SettingsBlock.AdditionalFirstDayOfWeek ->
-                additionalDelegate.onFirstDayOfWeekSelected(position)
-            else -> {
-                // Do nothing
-            }
-        }
+        displayDelegate.onSpinnerPositionSelected(block, position)
+        additionalDelegate.onSpinnerPositionSelected(block, position)
+        mainDelegate.onSpinnerPositionSelected(block, position)
     }
 
     fun onDurationSet(tag: String?, duration: Long) {
-        when (tag) {
-            INACTIVITY_DURATION_DIALOG_TAG,
-            ACTIVITY_DURATION_DIALOG_TAG,
-            -> notificationsDelegate.onDurationSet(tag, duration)
-            IGNORE_SHORT_RECORDS_DIALOG_TAG,
-            -> additionalDelegate.onDurationSet(tag, duration)
-            IGNORE_SHORT_UNTRACKED_DIALOG_TAG,
-            -> displayDelegate.onDurationSet(tag, duration)
-        }
+        notificationsDelegate.onDurationSet(tag, duration)
+        displayDelegate.onDurationSet(tag, duration)
+        additionalDelegate.onDurationSet(tag, duration)
     }
 
     fun onDurationDisabled(tag: String?) {
-        when (tag) {
-            INACTIVITY_DURATION_DIALOG_TAG,
-            ACTIVITY_DURATION_DIALOG_TAG,
-            -> notificationsDelegate.onDurationDisabled(tag)
-            IGNORE_SHORT_RECORDS_DIALOG_TAG,
-            -> additionalDelegate.onDurationDisabled(tag)
-            IGNORE_SHORT_UNTRACKED_DIALOG_TAG,
-            -> displayDelegate.onDurationDisabled(tag)
-        }
+        notificationsDelegate.onDurationDisabled(tag)
+        displayDelegate.onDurationDisabled(tag)
+        additionalDelegate.onDurationDisabled(tag)
     }
 
     fun onDateTimeSet(timestamp: Long, tag: String?) {
-        when (tag) {
-            START_OF_DAY_DIALOG_TAG,
-            -> additionalDelegate.onDateTimeSet(timestamp, tag)
-            INACTIVITY_REMINDER_DND_START_DIALOG_TAG,
-            INACTIVITY_REMINDER_DND_END_DIALOG_TAG,
-            ACTIVITY_REMINDER_DND_START_DIALOG_TAG,
-            ACTIVITY_REMINDER_DND_END_DIALOG_TAG,
-            -> notificationsDelegate.onDateTimeSet(timestamp, tag)
-            UNTRACKED_RANGE_START_DIALOG_TAG,
-            UNTRACKED_RANGE_END_DIALOG_TAG,
-            -> displayDelegate.onDateTimeSet(timestamp, tag)
-        }
+        notificationsDelegate.onDateTimeSet(timestamp, tag)
+        displayDelegate.onDateTimeSet(timestamp, tag)
+        additionalDelegate.onDateTimeSet(timestamp, tag)
     }
 
     fun onTypesSelected(
         typeIds: List<Long>,
         tag: String?,
     ) {
-        when (tag) {
-            EXCLUDE_ACTIVITIES_TYPES_SELECTION,
-            -> additionalDelegate.onTypesSelected(typeIds)
-            SELECT_ACTIVITIES_TO_AUTOSTART_POMODORO,
-            -> displayDelegate.onTypesSelected(typeIds)
-        }
+        displayDelegate.onTypesSelected(typeIds, tag)
+        additionalDelegate.onTypesSelected(typeIds, tag)
     }
 
     fun onTabReselected(tab: NavigationTab?) {

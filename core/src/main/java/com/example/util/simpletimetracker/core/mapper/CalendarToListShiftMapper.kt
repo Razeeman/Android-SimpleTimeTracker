@@ -5,7 +5,6 @@ import kotlin.math.ceil
 
 class CalendarToListShiftMapper @Inject constructor() {
 
-    // TODO CAL move data edit to additonal settings
     fun mapCalendarToListShift(calendarShift: Int, calendarDayCount: Int): CalendarRange {
         if (calendarDayCount == 0) return CalendarRange(0, 0)
 

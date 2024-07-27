@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
+import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.WidgetType
@@ -38,19 +39,36 @@ class SettingsMainViewModelDelegate @Inject constructor(
         return settingsMainViewDataInteractor.execute()
     }
 
-    fun onEditCategoriesClick() {
+    fun onBlockClicked(block: SettingsBlock) {
+        when (block) {
+            SettingsBlock.Categories -> onEditCategoriesClick()
+            SettingsBlock.Archive -> onArchiveClick()
+            SettingsBlock.AllowMultitasking -> onAllowMultitaskingClicked()
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
+        when (block) {
+            SettingsBlock.DarkMode -> onDarkModeSelected(position)
+            SettingsBlock.Language -> onLanguageSelected(position)
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    private fun onEditCategoriesClick() {
         router.navigate(CategoriesParams)
     }
 
-    fun onArchiveClick() {
+    private fun onArchiveClick() {
         router.navigate(ArchiveParams)
     }
 
-    fun onDataEditClick() {
-        router.navigate(DataEditParams)
-    }
-
-    fun onAllowMultitaskingClicked() {
+    private fun onAllowMultitaskingClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getAllowMultitasking()
             prefsInteractor.setAllowMultitasking(newValue)
@@ -59,7 +77,7 @@ class SettingsMainViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDarkModeSelected(position: Int) {
+    private fun onDarkModeSelected(position: Int) {
         delegateScope.launch {
             val currentMode = prefsInteractor.getSelectedDarkMode()
             val newMode = settingsMapper.toDarkMode(position)
@@ -71,7 +89,7 @@ class SettingsMainViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onLanguageSelected(position: Int) {
+    private fun onLanguageSelected(position: Int) {
         delegateScope.launch {
             val newLanguage = settingsMapper.toLanguage(position)
             languageInteractor.setLanguage(newLanguage)

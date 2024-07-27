@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
+import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsExportViewDataInteractor
@@ -24,7 +25,16 @@ class SettingsExportViewModelDelegate @Inject constructor(
         )
     }
 
-    fun onCollapseClick() = delegateScope.launch {
+    fun onBlockClicked(block: SettingsBlock) {
+        when (block) {
+            SettingsBlock.ExportCollapse -> onCollapseClick()
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    private fun onCollapseClick() = delegateScope.launch {
         isCollapsed = isCollapsed.flip()
         parent?.updateContent()
     }

@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsRatingViewDataInteractor
@@ -37,13 +38,25 @@ class SettingsRatingViewModelDelegate @Inject constructor(
         return settingsRatingViewDataInteractor.execute(debugUnlocked)
     }
 
-    fun onRateClick() {
+    fun onBlockClicked(block: SettingsBlock) {
+        when (block) {
+            SettingsBlock.RateUs -> onRateClick()
+            SettingsBlock.Feedback -> onFeedbackClick()
+            SettingsBlock.Version -> onVersionClick()
+            SettingsBlock.DebugMenu -> onDebugMenuClick()
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    private fun onRateClick() {
         router.execute(
             OpenMarketParams(packageName = applicationDataProvider.getPackageName()),
         )
     }
 
-    fun onFeedbackClick() {
+    private fun onFeedbackClick() {
         router.execute(
             data = SendEmailParams(
                 email = resourceRepo.getString(R.string.support_email),
@@ -54,7 +67,7 @@ class SettingsRatingViewModelDelegate @Inject constructor(
         )
     }
 
-    fun onVersionClick() {
+    private fun onVersionClick() {
         debugClicksCount += 1
         if (debugClicksCount >= DEBUG_CLICKS_TO_UNLOCK) {
             debugUnlocked = true
@@ -62,7 +75,7 @@ class SettingsRatingViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDebugMenuClick() {
+    private fun onDebugMenuClick() {
         router.navigate(DebugMenuDialogParams)
     }
 

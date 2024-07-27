@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermissionInteractor
 import com.example.util.simpletimetracker.core.interactor.CheckNotificationsPermissionInteractor
+import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.interactor.NotificationActivityInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationInactivityInteractor
@@ -43,12 +44,44 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         )
     }
 
-    fun onCollapseClick() = delegateScope.launch {
+    fun onBlockClicked(block: SettingsBlock) {
+        when (block) {
+            SettingsBlock.NotificationsCollapse -> onCollapseClick()
+            SettingsBlock.NotificationsInactivity -> onInactivityReminderClicked()
+            SettingsBlock.NotificationsActivity -> onActivityReminderClicked()
+            SettingsBlock.NotificationsInactivityDoNotDisturbStart -> onInactivityReminderDoNotDisturbStartClicked()
+            SettingsBlock.NotificationsInactivityDoNotDisturbEnd -> onInactivityReminderDoNotDisturbEndClicked()
+            SettingsBlock.NotificationsActivityDoNotDisturbStart -> onActivityReminderDoNotDisturbStartClicked()
+            SettingsBlock.NotificationsActivityDoNotDisturbEnd -> onActivityReminderDoNotDisturbEndClicked()
+            SettingsBlock.NotificationsSystemSettings -> onSystemSettingsClicked()
+            SettingsBlock.NotificationsShow -> onShowNotificationsClicked()
+            SettingsBlock.NotificationsShowControls -> onShowNotificationsControlsClicked()
+            SettingsBlock.NotificationsInactivityRecurrent -> onInactivityReminderRecurrentClicked()
+            SettingsBlock.NotificationsActivityRecurrent -> onActivityReminderRecurrentClicked()
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    fun onDurationSet(tag: String?, duration: Long) {
+        onDurationSetDelegate(tag, duration)
+    }
+
+    fun onDurationDisabled(tag: String?) {
+        onDurationDisabledDelegate(tag)
+    }
+
+    fun onDateTimeSet(timestamp: Long, tag: String?) {
+        onDateTimeSetDelegate(timestamp, tag)
+    }
+
+    private fun onCollapseClick() = delegateScope.launch {
         isCollapsed = isCollapsed.flip()
         parent?.updateContent()
     }
 
-    fun onShowNotificationsClicked() {
+    private fun onShowNotificationsClicked() {
         fun updateValue(newValue: Boolean) = delegateScope.launch {
             prefsInteractor.setShowNotifications(newValue)
             parent?.updateContent()
@@ -67,7 +100,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onShowNotificationsControlsClicked() {
+    private fun onShowNotificationsControlsClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowNotificationsControls()
             prefsInteractor.setShowNotificationsControls(newValue)
@@ -76,7 +109,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onInactivityReminderClicked() = delegateScope.launch {
+    private fun onInactivityReminderClicked() = delegateScope.launch {
         val duration = prefsInteractor.getInactivityReminderDuration()
 
         fun openDialog() {
@@ -95,7 +128,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onInactivityReminderRecurrentClicked() {
+    private fun onInactivityReminderRecurrentClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getInactivityReminderRecurrent()
             prefsInteractor.setInactivityReminderRecurrent(newValue)
@@ -105,7 +138,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onInactivityReminderDoNotDisturbStartClicked() {
+    private fun onInactivityReminderDoNotDisturbStartClicked() {
         delegateScope.launch {
             parent?.openDateTimeDialog(
                 tag = SettingsViewModel.INACTIVITY_REMINDER_DND_START_DIALOG_TAG,
@@ -115,7 +148,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onInactivityReminderDoNotDisturbEndClicked() {
+    private fun onInactivityReminderDoNotDisturbEndClicked() {
         delegateScope.launch {
             parent?.openDateTimeDialog(
                 tag = SettingsViewModel.INACTIVITY_REMINDER_DND_END_DIALOG_TAG,
@@ -125,7 +158,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onActivityReminderClicked() = delegateScope.launch {
+    private fun onActivityReminderClicked() = delegateScope.launch {
         val duration = prefsInteractor.getActivityReminderDuration()
 
         fun openDialog() {
@@ -142,7 +175,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onActivityReminderRecurrentClicked() {
+    private fun onActivityReminderRecurrentClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getActivityReminderRecurrent()
             prefsInteractor.setActivityReminderRecurrent(newValue)
@@ -152,7 +185,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onActivityReminderDoNotDisturbStartClicked() {
+    private fun onActivityReminderDoNotDisturbStartClicked() {
         delegateScope.launch {
             parent?.openDateTimeDialog(
                 tag = SettingsViewModel.ACTIVITY_REMINDER_DND_START_DIALOG_TAG,
@@ -162,7 +195,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onActivityReminderDoNotDisturbEndClicked() {
+    private fun onActivityReminderDoNotDisturbEndClicked() {
         delegateScope.launch {
             parent?.openDateTimeDialog(
                 tag = SettingsViewModel.ACTIVITY_REMINDER_DND_END_DIALOG_TAG,
@@ -172,7 +205,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDurationSet(tag: String?, duration: Long) {
+    private fun onDurationSetDelegate(tag: String?, duration: Long) {
         when (tag) {
             SettingsViewModel.INACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setInactivityReminderDuration(duration)
@@ -191,7 +224,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDurationDisabled(tag: String?) {
+    private fun onDurationDisabledDelegate(tag: String?) {
         when (tag) {
             SettingsViewModel.INACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setInactivityReminderDuration(0)
@@ -207,7 +240,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDateTimeSet(timestamp: Long, tag: String?) = delegateScope.launch {
+    private fun onDateTimeSetDelegate(timestamp: Long, tag: String?) = delegateScope.launch {
         when (tag) {
             SettingsViewModel.INACTIVITY_REMINDER_DND_START_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
@@ -243,7 +276,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onSystemSettingsClicked() {
+    private fun onSystemSettingsClicked() {
         router.execute(OpenSystemSettings.Notifications)
     }
 }

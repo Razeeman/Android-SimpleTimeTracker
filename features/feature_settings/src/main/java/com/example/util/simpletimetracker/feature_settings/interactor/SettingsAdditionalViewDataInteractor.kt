@@ -145,6 +145,11 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
                 subtitle = "",
                 isChecked = prefsInteractor.getAutomatedTrackingSendEvents(),
                 topSpaceIsVisible = false,
+            )
+            result += SettingsTextViewData(
+                block = SettingsBlock.AdditionalDataEdit,
+                title = resourceRepo.getString(R.string.settings_data_edit),
+                subtitle = "",
                 dividerIsVisible = false,
             )
         }

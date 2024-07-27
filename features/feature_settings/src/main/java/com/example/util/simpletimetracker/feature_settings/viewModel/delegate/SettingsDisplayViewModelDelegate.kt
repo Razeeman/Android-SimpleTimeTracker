@@ -1,14 +1,12 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 
-import androidx.lifecycle.LiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
-import com.example.util.simpletimetracker.core.extension.lazySuspend
-import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
-import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PomodoroStopInteractor
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordsContainerUpdateInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
@@ -40,9 +38,6 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
     private val recordsContainerUpdateInteractor: RecordsContainerUpdateInteractor,
 ) : ViewModelDelegate() {
 
-    val keepScreenOnCheckbox: LiveData<Boolean>
-        by lazySuspend { prefsInteractor.getKeepScreenOn() }
-
     private var parent: SettingsParent? = null
     private var isCollapsed: Boolean = true
 
@@ -56,12 +51,74 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         )
     }
 
-    fun onCollapseClick() = delegateScope.launch {
+    fun onBlockClicked(block: SettingsBlock) {
+        when (block) {
+            SettingsBlock.DisplayCollapse -> onCollapseClick()
+            SettingsBlock.DisplayUntrackedIgnoreShort -> onIgnoreShortUntrackedClicked()
+            SettingsBlock.DisplayUntrackedRangeStart -> onUntrackedRangeStartClicked()
+            SettingsBlock.DisplayUntrackedRangeEnd -> onUntrackedRangeEndClicked()
+            SettingsBlock.DisplayCardSize -> onChangeCardSizeClick()
+            SettingsBlock.DisplaySortActivities -> onCardOrderManualClick()
+            SettingsBlock.DisplaySortCategories -> onCategoryOrderManualClick()
+            SettingsBlock.DisplaySortTags -> onTagOrderManualClick()
+            SettingsBlock.DisplayUntrackedInRecords -> onShowUntrackedInRecordsClicked()
+            SettingsBlock.DisplayUntrackedInStatistics -> onShowUntrackedInStatisticsClicked()
+            SettingsBlock.DisplayUntrackedRangeCheckbox -> onUntrackedRangeClicked()
+            SettingsBlock.DisplayCalendarView -> onShowRecordsCalendarClicked()
+            SettingsBlock.DisplayCalendarButtonOnRecordsTab -> onShowCalendarButtonOnRecordsTabClicked()
+            SettingsBlock.DisplayReverseOrder -> onReverseOrderInCalendarClicked()
+            SettingsBlock.DisplayShowActivityFilters -> onShowActivityFiltersClicked()
+            SettingsBlock.DisplayEnablePomodoroMode -> onEnablePomodoroModeClicked()
+            SettingsBlock.DisplayEnableRepeatButton -> onEnableRepeatButtonClicked()
+            SettingsBlock.DisplayPomodoroModeActivities -> onPomodoroModeActivitiesClicked()
+            SettingsBlock.DisplayAllowMultipleActivityFilters -> onAllowMultipleActivityFiltersClicked()
+            SettingsBlock.DisplayGoalsOnSeparateTabs -> onShowGoalsSeparatelyClicked()
+            SettingsBlock.DisplayNavBarAtTheBottom -> onShowNavBarAtTheBottomClicked()
+            SettingsBlock.DisplayMilitaryFormat -> onUseMilitaryTimeClicked()
+            SettingsBlock.DisplayMonthDayFormat -> onUseMonthDayTimeClicked()
+            SettingsBlock.DisplayProportionalFormat -> onUseProportionalMinutesClicked()
+            SettingsBlock.DisplayShowSeconds -> onShowSecondsClicked()
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
+        when (block) {
+            SettingsBlock.DisplayDaysInCalendar -> onDaysInCalendarSelected(position)
+            SettingsBlock.DisplayWidgetBackground -> onWidgetTransparencySelected(position)
+            SettingsBlock.DisplaySortActivities -> onRecordTypeOrderSelected(position)
+            SettingsBlock.DisplaySortCategories -> onCategoryOrderSelected(position)
+            SettingsBlock.DisplaySortTags -> onTagOrderSelected(position)
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    fun onDurationSet(tag: String?, duration: Long) {
+        onDurationSetDelegate(tag, duration)
+    }
+
+    fun onDurationDisabled(tag: String?) {
+        onDurationDisabledDelegate(tag)
+    }
+
+    fun onDateTimeSet(timestamp: Long, tag: String?) {
+        onDateTimeSetDelegate(timestamp, tag)
+    }
+
+    fun onTypesSelected(typeIds: List<Long>, tag: String?) {
+        onTypesSelectedDelegate(typeIds, tag)
+    }
+
+    private fun onCollapseClick() = delegateScope.launch {
         isCollapsed = isCollapsed.flip()
         parent?.updateContent()
     }
 
-    fun onDaysInCalendarSelected(position: Int) {
+    private fun onDaysInCalendarSelected(position: Int) {
         delegateScope.launch {
             val currentValue = prefsInteractor.getDaysInCalendar()
             val newValue = settingsMapper.toDaysInCalendar(position)
@@ -72,7 +129,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onWidgetTransparencySelected(position: Int) {
+    private fun onWidgetTransparencySelected(position: Int) {
         delegateScope.launch {
             val currentValue = prefsInteractor.getWidgetBackgroundTransparencyPercent()
                 .let(::WidgetTransparencyPercent)
@@ -84,7 +141,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onRecordTypeOrderSelected(position: Int) {
+    private fun onRecordTypeOrderSelected(position: Int) {
         onOrderSelected(
             type = CardOrderDialogParams.Type.RecordType(
                 order = settingsMapper.toCardOrder(position),
@@ -92,7 +149,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         )
     }
 
-    fun onCategoryOrderSelected(position: Int) {
+    private fun onCategoryOrderSelected(position: Int) {
         onOrderSelected(
             type = CardOrderDialogParams.Type.Category(
                 order = settingsMapper.toCardOrder(position),
@@ -100,7 +157,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         )
     }
 
-    fun onTagOrderSelected(position: Int) {
+    private fun onTagOrderSelected(position: Int) {
         onOrderSelected(
             type = CardOrderDialogParams.Type.Tag(
                 order = settingsMapper.toCardTagOrder(position),
@@ -108,7 +165,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         )
     }
 
-    fun onCardOrderManualClick() {
+    private fun onCardOrderManualClick() {
         openOrderDialog(
             type = CardOrderDialogParams.Type.RecordType(
                 order = CardOrder.MANUAL,
@@ -116,7 +173,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         )
     }
 
-    fun onCategoryOrderManualClick() {
+    private fun onCategoryOrderManualClick() {
         openOrderDialog(
             type = CardOrderDialogParams.Type.Category(
                 order = CardOrder.MANUAL,
@@ -124,7 +181,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         )
     }
 
-    fun onTagOrderManualClick() {
+    private fun onTagOrderManualClick() {
         openOrderDialog(
             type = CardOrderDialogParams.Type.Tag(
                 order = CardTagOrder.MANUAL,
@@ -132,7 +189,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         )
     }
 
-    fun onShowUntrackedInRecordsClicked() {
+    private fun onShowUntrackedInRecordsClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowUntrackedInRecords()
             prefsInteractor.setShowUntrackedInRecords(newValue)
@@ -140,7 +197,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onShowUntrackedInStatisticsClicked() {
+    private fun onShowUntrackedInStatisticsClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowUntrackedInStatistics()
             prefsInteractor.setShowUntrackedInStatistics(newValue)
@@ -149,7 +206,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onIgnoreShortUntrackedClicked() {
+    private fun onIgnoreShortUntrackedClicked() {
         delegateScope.launch {
             DurationDialogParams(
                 tag = SettingsViewModel.IGNORE_SHORT_UNTRACKED_DIALOG_TAG,
@@ -160,7 +217,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onUntrackedRangeClicked() {
+    private fun onUntrackedRangeClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getUntrackedRangeEnabled()
             prefsInteractor.setUntrackedRangeEnabled(newValue)
@@ -168,7 +225,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onUntrackedRangeStartClicked() {
+    private fun onUntrackedRangeStartClicked() {
         delegateScope.launch {
             parent?.openDateTimeDialog(
                 tag = SettingsViewModel.UNTRACKED_RANGE_START_DIALOG_TAG,
@@ -178,7 +235,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onUntrackedRangeEndClicked() {
+    private fun onUntrackedRangeEndClicked() {
         delegateScope.launch {
             parent?.openDateTimeDialog(
                 tag = SettingsViewModel.UNTRACKED_RANGE_END_DIALOG_TAG,
@@ -188,7 +245,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onShowRecordsCalendarClicked() {
+    private fun onShowRecordsCalendarClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowRecordsCalendar()
             prefsInteractor.setShowRecordsCalendar(newValue)
@@ -197,7 +254,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onShowCalendarButtonOnRecordsTabClicked() {
+    private fun onShowCalendarButtonOnRecordsTabClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowCalendarButtonOnRecordsTab()
             prefsInteractor.setShowCalendarButtonOnRecordsTab(newValue)
@@ -206,7 +263,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onReverseOrderInCalendarClicked() {
+    private fun onReverseOrderInCalendarClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getReverseOrderInCalendar()
             prefsInteractor.setReverseOrderInCalendar(newValue)
@@ -214,7 +271,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onShowActivityFiltersClicked() {
+    private fun onShowActivityFiltersClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowActivityFilters()
             prefsInteractor.setShowActivityFilters(newValue)
@@ -222,7 +279,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onAllowMultipleActivityFiltersClicked() {
+    private fun onAllowMultipleActivityFiltersClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getAllowMultipleActivityFilters()
             prefsInteractor.setAllowMultipleActivityFilters(newValue)
@@ -230,7 +287,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onEnableRepeatButtonClicked() {
+    private fun onEnableRepeatButtonClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getEnableRepeatButton()
             prefsInteractor.setEnableRepeatButton(newValue)
@@ -239,7 +296,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onEnablePomodoroModeClicked() {
+    private fun onEnablePomodoroModeClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getEnablePomodoroMode()
             prefsInteractor.setEnablePomodoroMode(newValue)
@@ -248,7 +305,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onPomodoroModeActivitiesClicked() = delegateScope.launch {
+    private fun onPomodoroModeActivitiesClicked() = delegateScope.launch {
         TypesSelectionDialogParams(
             tag = SettingsViewModel.SELECT_ACTIVITIES_TO_AUTOSTART_POMODORO,
             title = resourceRepo.getString(
@@ -262,11 +319,15 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         ).let(router::navigate)
     }
 
-    fun onTypesSelected(typeIds: List<Long>) = delegateScope.launch {
-        prefsInteractor.setAutostartPomodoroActivities(typeIds)
+    private fun onTypesSelectedDelegate(typeIds: List<Long>, tag: String?) = delegateScope.launch {
+        when (tag) {
+            SettingsViewModel.SELECT_ACTIVITIES_TO_AUTOSTART_POMODORO -> {
+                prefsInteractor.setAutostartPomodoroActivities(typeIds)
+            }
+        }
     }
 
-    fun onShowGoalsSeparatelyClicked() {
+    private fun onShowGoalsSeparatelyClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowGoalsSeparately()
             prefsInteractor.setShowGoalsSeparately(newValue)
@@ -275,7 +336,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onShowNavBarAtTheBottomClicked() {
+    private fun onShowNavBarAtTheBottomClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getIsNavBarAtTheBottom()
             prefsInteractor.setIsNavBarAtTheBottom(newValue)
@@ -284,7 +345,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onUseMilitaryTimeClicked() {
+    private fun onUseMilitaryTimeClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getUseMilitaryTimeFormat()
             prefsInteractor.setUseMilitaryTimeFormat(newValue)
@@ -293,7 +354,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onUseMonthDayTimeClicked() {
+    private fun onUseMonthDayTimeClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getUseMonthDayTimeFormat()
             prefsInteractor.setUseMonthDayTimeFormat(newValue)
@@ -301,7 +362,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onUseProportionalMinutesClicked() {
+    private fun onUseProportionalMinutesClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getUseProportionalMinutes()
             prefsInteractor.setUseProportionalMinutes(newValue)
@@ -311,7 +372,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onShowSecondsClicked() {
+    private fun onShowSecondsClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowSeconds()
             prefsInteractor.setShowSeconds(newValue)
@@ -321,20 +382,11 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onKeepScreenOnClicked() {
-        delegateScope.launch {
-            val newValue = !prefsInteractor.getKeepScreenOn()
-            prefsInteractor.setKeepScreenOn(newValue)
-            keepScreenOnCheckbox.set(newValue)
-            parent?.updateContent()
-        }
-    }
-
-    fun onChangeCardSizeClick() {
+    private fun onChangeCardSizeClick() {
         router.navigate(CardSizeDialogParams)
     }
 
-    fun onDurationSet(tag: String?, duration: Long) {
+    private fun onDurationSetDelegate(tag: String?, duration: Long) {
         when (tag) {
             SettingsViewModel.IGNORE_SHORT_UNTRACKED_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setIgnoreShortUntrackedDuration(duration)
@@ -343,7 +395,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDurationDisabled(tag: String?) {
+    private fun onDurationDisabledDelegate(tag: String?) {
         when (tag) {
             SettingsViewModel.IGNORE_SHORT_UNTRACKED_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setIgnoreShortUntrackedDuration(0)
@@ -352,7 +404,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDateTimeSet(timestamp: Long, tag: String?) = delegateScope.launch {
+    private fun onDateTimeSetDelegate(timestamp: Long, tag: String?) = delegateScope.launch {
         when (tag) {
             SettingsViewModel.UNTRACKED_RANGE_START_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)

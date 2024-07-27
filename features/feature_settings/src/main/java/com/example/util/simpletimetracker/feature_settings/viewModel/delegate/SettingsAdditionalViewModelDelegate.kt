@@ -1,7 +1,11 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 
+import androidx.lifecycle.LiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
+import com.example.util.simpletimetracker.core.extension.lazySuspend
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
@@ -14,6 +18,7 @@ import com.example.util.simpletimetracker.feature_settings.interactor.SettingsAd
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import kotlinx.coroutines.launch
@@ -30,6 +35,9 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
     private val settingsAdditionalViewDataInteractor: SettingsAdditionalViewDataInteractor,
 ) : ViewModelDelegate() {
 
+    val keepScreenOnCheckbox: LiveData<Boolean>
+        by lazySuspend { prefsInteractor.getKeepScreenOn() }
+
     private var parent: SettingsParent? = null
     private var isCollapsed: Boolean = true
 
@@ -43,12 +51,59 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         )
     }
 
-    fun onCollapseClick() = delegateScope.launch {
+    fun onBlockClicked(block: SettingsBlock) {
+        when (block) {
+            SettingsBlock.AdditionalCollapse -> onCollapseClick()
+            SettingsBlock.AdditionalIgnoreShort -> onIgnoreShortRecordsClicked()
+            SettingsBlock.AdditionalShiftStartOfDay -> onStartOfDayClicked()
+            SettingsBlock.AdditionalShiftStartOfDayButton -> onStartOfDaySignClicked()
+            SettingsBlock.AdditionalAutomatedTracking -> onAutomatedTrackingHelpClick()
+            SettingsBlock.AdditionalShowTagSelection -> onShowRecordTagSelectionClicked()
+            SettingsBlock.AdditionalCloseAfterOneTag -> onRecordTagSelectionCloseClicked()
+            SettingsBlock.AdditionalTagSelectionExcludeActivities -> onRecordTagSelectionExcludeActivitiesClicked()
+            SettingsBlock.AdditionalKeepStatisticsRange -> onKeepStatisticsRangeClicked()
+            SettingsBlock.AdditionalSendEvents -> onAutomatedTrackingSendEventsClicked()
+            SettingsBlock.AdditionalKeepScreenOn -> onKeepScreenOnClicked()
+            SettingsBlock.AdditionalDataEdit -> onDataEditClick()
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
+        when (block) {
+            SettingsBlock.DisplayRepeatButtonMode -> onRepeatButtonSelected(position)
+            SettingsBlock.AdditionalFirstDayOfWeek -> onFirstDayOfWeekSelected(position)
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
+    fun onDurationSet(tag: String?, duration: Long) {
+        onDurationSetDelegate(tag, duration)
+    }
+
+    fun onDurationDisabled(tag: String?) {
+        onDurationDisabledDelegate(tag)
+    }
+
+    fun onDateTimeSet(timestamp: Long, tag: String?) {
+        onDateTimeSetDelegate(timestamp, tag)
+    }
+
+    fun onTypesSelected(typeIds: List<Long>, tag: String?) {
+        onTypesSelectedDelegate(typeIds, tag)
+    }
+
+
+    private fun onCollapseClick() = delegateScope.launch {
         isCollapsed = isCollapsed.flip()
         parent?.updateContent()
     }
 
-    fun onFirstDayOfWeekSelected(position: Int) {
+    private fun onFirstDayOfWeekSelected(position: Int) {
         val newDayOfWeek = settingsMapper.toDayOfWeek(position)
 
         delegateScope.launch {
@@ -59,7 +114,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onRepeatButtonSelected(position: Int) {
+    private fun onRepeatButtonSelected(position: Int) {
         val newType = settingsMapper.toRepeatButtonType(position)
 
         delegateScope.launch {
@@ -68,7 +123,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onStartOfDayClicked() {
+    private fun onStartOfDayClicked() {
         delegateScope.launch {
             parent?.openDateTimeDialog(
                 tag = SettingsViewModel.START_OF_DAY_DIALOG_TAG,
@@ -78,7 +133,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onStartOfDaySignClicked() {
+    private fun onStartOfDaySignClicked() {
         delegateScope.launch {
             val newValue = prefsInteractor.getStartOfDayShift() * -1
             prefsInteractor.setStartOfDayShift(newValue)
@@ -90,7 +145,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onKeepStatisticsRangeClicked() {
+    private fun onKeepStatisticsRangeClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getKeepStatisticsRange()
             prefsInteractor.setKeepStatisticsRange(newValue)
@@ -98,7 +153,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onIgnoreShortRecordsClicked() {
+    private fun onIgnoreShortRecordsClicked() {
         delegateScope.launch {
             DurationDialogParams(
                 tag = SettingsViewModel.IGNORE_SHORT_RECORDS_DIALOG_TAG,
@@ -109,7 +164,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onShowRecordTagSelectionClicked() {
+    private fun onShowRecordTagSelectionClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowRecordTagSelection()
             prefsInteractor.setShowRecordTagSelection(newValue)
@@ -118,7 +173,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onRecordTagSelectionCloseClicked() {
+    private fun onRecordTagSelectionCloseClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getRecordTagSelectionCloseAfterOne()
             prefsInteractor.setRecordTagSelectionCloseAfterOne(newValue)
@@ -126,7 +181,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onRecordTagSelectionExcludeActivitiesClicked() = delegateScope.launch {
+    private fun onRecordTagSelectionExcludeActivitiesClicked() = delegateScope.launch {
         TypesSelectionDialogParams(
             tag = SettingsViewModel.EXCLUDE_ACTIVITIES_TYPES_SELECTION,
             title = resourceRepo.getString(
@@ -140,7 +195,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         ).let(router::navigate)
     }
 
-    fun onAutomatedTrackingSendEventsClicked() {
+    private fun onAutomatedTrackingSendEventsClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getAutomatedTrackingSendEvents()
             prefsInteractor.setAutomatedTrackingSendEvents(newValue)
@@ -148,13 +203,26 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onAutomatedTrackingHelpClick() {
+    private fun onKeepScreenOnClicked() {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getKeepScreenOn()
+            prefsInteractor.setKeepScreenOn(newValue)
+            keepScreenOnCheckbox.set(newValue)
+            parent?.updateContent()
+        }
+    }
+
+    private fun onDataEditClick() {
+        router.navigate(DataEditParams)
+    }
+
+    private fun onAutomatedTrackingHelpClick() {
         router.navigate(
             settingsMapper.toAutomatedTrackingHelpDialog(),
         )
     }
 
-    fun onDurationSet(tag: String?, duration: Long) {
+    private fun onDurationSetDelegate(tag: String?, duration: Long) {
         when (tag) {
             SettingsViewModel.IGNORE_SHORT_RECORDS_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setIgnoreShortRecordsDuration(duration)
@@ -163,7 +231,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDurationDisabled(tag: String?) {
+    private fun onDurationDisabledDelegate(tag: String?) {
         when (tag) {
             SettingsViewModel.IGNORE_SHORT_RECORDS_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setIgnoreShortRecordsDuration(0)
@@ -172,7 +240,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDateTimeSet(timestamp: Long, tag: String?) = delegateScope.launch {
+    private fun onDateTimeSetDelegate(timestamp: Long, tag: String?) = delegateScope.launch {
         when (tag) {
             SettingsViewModel.START_OF_DAY_DIALOG_TAG -> {
                 val wasPositive = prefsInteractor.getStartOfDayShift() >= 0
@@ -187,7 +255,11 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onTypesSelected(typeIds: List<Long>) = delegateScope.launch {
-        prefsInteractor.setRecordTagSelectionExcludeActivities(typeIds)
+    private fun onTypesSelectedDelegate(typeIds: List<Long>, tag: String?) = delegateScope.launch {
+        when (tag) {
+            SettingsViewModel.EXCLUDE_ACTIVITIES_TYPES_SELECTION -> {
+                prefsInteractor.setRecordTagSelectionExcludeActivities(typeIds)
+            }
+        }
     }
 }
