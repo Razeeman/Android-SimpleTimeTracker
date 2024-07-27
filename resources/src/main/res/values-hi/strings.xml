@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">अनट्रैक रेंज</string>
     <string name="settings_untracked_range_hint">निर्दिष्ट सीमा के बाहर अनट्रैक समय पर ध्यान न दें।</string>
     <string name="settings_show_records_calendar">कैलेंडर दृश्य में रिकॉर्ड दिखाएं</string>
+    <string name="settings_show_calendar_button_on_records_tab">टैब पर बटन दिखाएँ</string>
     <string name="settings_reverse_order_in_calendar">अभिलेखों का उल्टा क्रम</string>
     <string name="settings_days_in_calendar">कैलेंडर में दिन</string>
     <string name="settings_widget_transparency">विजेट पृष्ठभूमि पारदर्शिता</string>

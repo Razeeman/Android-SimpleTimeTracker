@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">Невідстежуваний діапазон</string>
     <string name="settings_untracked_range_hint">Ігнорувати невідстежуваний час поза вказаним діапазоном.</string>
     <string name="settings_show_records_calendar">Показувати записи в календарі</string>
+    <string name="settings_show_calendar_button_on_records_tab">Показувати кнопку на вкладці</string>
     <string name="settings_reverse_order_in_calendar">Зворотний порядок записів</string>
     <string name="settings_days_in_calendar">Днів в календарі</string>
     <string name="settings_widget_transparency">Прозорість фону віджета</string>

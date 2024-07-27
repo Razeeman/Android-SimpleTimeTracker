@@ -95,6 +95,14 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                 title = resourceRepo.getString(R.string.settings_show_records_calendar),
                 subtitle = "",
                 isChecked = showRecordsCalendar,
+                bottomSpaceIsVisible = false,
+                dividerIsVisible = false,
+            )
+            result += SettingsCheckboxViewData(
+                block = SettingsBlock.DisplayCalendarButtonOnRecordsTab,
+                title = resourceRepo.getString(R.string.settings_show_calendar_button_on_records_tab),
+                subtitle = "",
+                isChecked = prefsInteractor.getShowCalendarButtonOnRecordsTab(),
                 bottomSpaceIsVisible = !showRecordsCalendar,
                 dividerIsVisible = !showRecordsCalendar,
             )

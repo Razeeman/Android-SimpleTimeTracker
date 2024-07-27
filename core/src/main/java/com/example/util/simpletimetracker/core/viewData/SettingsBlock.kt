@@ -42,6 +42,7 @@ enum class SettingsBlock {
     DisplayUntrackedRangeStart,
     DisplayUntrackedRangeEnd,
     DisplayCalendarView,
+    DisplayCalendarButtonOnRecordsTab,
     DisplayReverseOrder,
     DisplayDaysInCalendar,
     DisplayShowActivityFilters,

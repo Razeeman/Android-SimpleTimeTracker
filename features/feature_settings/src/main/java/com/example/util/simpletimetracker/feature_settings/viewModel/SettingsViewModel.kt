@@ -167,6 +167,8 @@ class SettingsViewModel @Inject constructor(
                 displayDelegate.onUntrackedRangeClicked()
             SettingsBlock.DisplayCalendarView ->
                 displayDelegate.onShowRecordsCalendarClicked()
+            SettingsBlock.DisplayCalendarButtonOnRecordsTab ->
+                displayDelegate.onShowCalendarButtonOnRecordsTabClicked()
             SettingsBlock.DisplayReverseOrder ->
                 displayDelegate.onReverseOrderInCalendarClicked()
             SettingsBlock.DisplayShowActivityFilters ->

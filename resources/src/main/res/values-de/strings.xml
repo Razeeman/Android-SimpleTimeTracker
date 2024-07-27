@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">Unverfolgter Bereich</string>
     <string name="settings_untracked_range_hint">Nicht verfolgte Zeit außerhalb des angegebenen Bereichs ignorieren.</string>
     <string name="settings_show_records_calendar">Datensätze in der Kalenderansicht anzeigen</string>
+    <string name="settings_show_calendar_button_on_records_tab">Schaltfläche Anzeigen auf der Registerkarte</string>
     <string name="settings_reverse_order_in_calendar">Umgekehrte Reihenfolge der Aufzeichnungen</string>
     <string name="settings_days_in_calendar">Tage im Kalender</string>
     <string name="settings_widget_transparency">Widget-Hintergrundtransparenz</string>

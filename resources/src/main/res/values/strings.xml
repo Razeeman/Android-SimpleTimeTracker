@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">Untracked range</string>
     <string name="settings_untracked_range_hint">Ignore untracked time outside of specified range.</string>
     <string name="settings_show_records_calendar">Show records in calendar view</string>
+    <string name="settings_show_calendar_button_on_records_tab">Show button on the tab</string>
     <string name="settings_reverse_order_in_calendar">Reverse order of records</string>
     <string name="settings_days_in_calendar">Days in calendar</string>
     <string name="settings_widget_transparency">Widget background transparency</string>

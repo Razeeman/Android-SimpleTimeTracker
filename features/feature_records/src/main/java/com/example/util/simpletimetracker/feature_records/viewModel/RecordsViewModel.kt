@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordsUpdateInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
@@ -40,6 +41,7 @@ class RecordsViewModel @Inject constructor(
     private val recordsViewDataInteractor: RecordsViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
+    private val recordsUpdateInteractor: RecordsUpdateInteractor,
 ) : ViewModel() {
 
     var extra: RecordsExtra? = null
@@ -56,6 +58,10 @@ class RecordsViewModel @Inject constructor(
     private var isVisible: Boolean = false
     private var timerJob: Job? = null
     private val shift: Int get() = extra?.shift.orZero()
+
+    init {
+        subscribeToUpdates()
+    }
 
     fun onCalendarClick(item: ViewHolderType) {
         when (item) {
@@ -215,6 +221,12 @@ class RecordsViewModel @Inject constructor(
     fun onTabReselected(tab: NavigationTab?) {
         if (isVisible && tab is NavigationTab.Records) {
             resetScreen.set(Unit)
+        }
+    }
+
+    private fun subscribeToUpdates() = viewModelScope.launch {
+        recordsUpdateInteractor.dataUpdated.collect {
+            if (isVisible) updateRecords()
         }
     }
 

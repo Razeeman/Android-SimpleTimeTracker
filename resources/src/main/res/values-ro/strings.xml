@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">Interval neurmărit</string>
     <string name="settings_untracked_range_hint">Ignoră timpul neurmărit din afara intervalului specificat.</string>
     <string name="settings_show_records_calendar">Arată înregistrările în vederea calendar</string>
+    <string name="settings_show_calendar_button_on_records_tab">Afișați butonul de pe filă</string>
     <string name="settings_reverse_order_in_calendar">Inversează ordinea înregistrărilor</string>
     <string name="settings_days_in_calendar">Zile în calendar</string>
     <string name="settings_widget_transparency">Transparență fundal Widget</string>

@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">Rango sin seguimiento</string>
     <string name="settings_untracked_range_hint">Ignorar el tiempo sin seguimiento fuera del rango especificado.</string>
     <string name="settings_show_records_calendar">Mostrar registros en la vista de calendario</string>
+    <string name="settings_show_calendar_button_on_records_tab">Mostrar botón en la pestaña</string>
     <string name="settings_reverse_order_in_calendar">Orden inverso de registros</string>
     <string name="settings_days_in_calendar">Días en el calendario</string>
     <string name="settings_widget_transparency">Transparencia del fondo del widget</string>

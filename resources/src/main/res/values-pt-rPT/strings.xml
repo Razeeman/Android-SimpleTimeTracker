@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">Período não registado</string>
     <string name="settings_untracked_range_hint">Ignorar o tempo não registado fora do intervalo especificado.</string>
     <string name="settings_show_records_calendar">Mostrar registos na visualização de calendário</string>
+    <string name="settings_show_calendar_button_on_records_tab">Mostrar botão na guia</string>
     <string name="settings_reverse_order_in_calendar">Ordem inversa dos registos</string>
     <string name="settings_days_in_calendar">Dias no calendário</string>
     <string name="settings_widget_transparency">Transparência de fundo do widget</string>

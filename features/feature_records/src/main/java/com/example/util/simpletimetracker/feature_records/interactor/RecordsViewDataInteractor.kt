@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.core.mapper.CalendarToListShiftMapper
 import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
@@ -50,6 +51,7 @@ class RecordsViewDataInteractor @Inject constructor(
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper,
     private val getRunningRecordViewDataMediator: GetRunningRecordViewDataMediator,
+    private val calendarToListShiftMapper: CalendarToListShiftMapper,
 ) {
 
     suspend fun getViewData(shift: Int): RecordsState = withContext(Dispatchers.Default) {
@@ -70,7 +72,10 @@ class RecordsViewDataInteractor @Inject constructor(
         val daysCountInShift = if (isCalendarView) calendarDayCount else 1
 
         return@withContext (daysCountInShift - 1 downTo 0).map { dayInShift ->
-            val actualShift = shift * daysCountInShift - dayInShift
+            val actualShift = calendarToListShiftMapper.mapCalendarToListShift(
+                calendarShift = shift,
+                calendarDayCount = daysCountInShift
+            ).end - dayInShift
 
             val range = timeMapper.getRangeStartAndEnd(
                 rangeLength = RangeLength.Day,

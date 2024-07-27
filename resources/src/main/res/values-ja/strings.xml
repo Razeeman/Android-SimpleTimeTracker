@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">追跡されていない範囲</string>
     <string name="settings_untracked_range_hint">指定された範囲外の追跡されていない時間を無視します。</string>
     <string name="settings_show_records_calendar">カレンダービューで計測記録を表示</string>
+    <string name="settings_show_calendar_button_on_records_tab">タブにボタンを表示</string>
     <string name="settings_reverse_order_in_calendar">レコードの逆順</string>
     <string name="settings_days_in_calendar">カレンダーの日数</string>
     <string name="settings_widget_transparency">ウィジェットの背景の透明度</string>

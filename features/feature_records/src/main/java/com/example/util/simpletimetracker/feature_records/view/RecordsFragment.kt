@@ -123,7 +123,7 @@ class RecordsFragment :
         viewModel.onHidden()
     }
 
-    override fun onUpdate() {
+    override fun onActionComplete() {
         viewModel.onNeedUpdate()
     }
 

@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_records.mapper
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.mapper.CalendarToListShiftMapper
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -19,6 +20,7 @@ class RecordsViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val recordViewDataMapper: RecordViewDataMapper,
     private val timeMapper: TimeMapper,
+    private val calendarToListShiftMapper: CalendarToListShiftMapper,
 ) {
 
     fun map(
@@ -80,12 +82,14 @@ class RecordsViewDataMapper @Inject constructor(
         calendarDayCount: Int,
     ): String {
         return if (isCalendarView && calendarDayCount > 1) {
-            val start = shift * calendarDayCount - calendarDayCount + 1
-            val end = shift * calendarDayCount
+            val calendarRange = calendarToListShiftMapper.mapCalendarToListShift(
+                calendarShift = shift,
+                calendarDayCount = calendarDayCount
+            )
 
-            timeMapper.toDayShortDateTitle(start, startOfDayShift) +
+            timeMapper.toDayShortDateTitle(calendarRange.start, startOfDayShift) +
                 " - " +
-                timeMapper.toDayShortDateTitle(end, startOfDayShift)
+                timeMapper.toDayShortDateTitle(calendarRange.end, startOfDayShift)
         } else {
             timeMapper.toDayTitle(shift, startOfDayShift)
         }

@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PomodoroStopInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordsContainerUpdateInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.CardTagOrder
@@ -36,6 +37,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
     private val widgetInteractor: WidgetInteractor,
     private val settingsDisplayViewDataInteractor: SettingsDisplayViewDataInteractor,
     private val pomodoroStopInteractor: PomodoroStopInteractor,
+    private val recordsContainerUpdateInteractor: RecordsContainerUpdateInteractor,
 ) : ViewModelDelegate() {
 
     val keepScreenOnCheckbox: LiveData<Boolean>
@@ -66,6 +68,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             if (newValue == currentValue) return@launch
             prefsInteractor.setDaysInCalendar(newValue)
             parent?.updateContent()
+            recordsContainerUpdateInteractor.sendCalendarDaysUpdated()
         }
     }
 
@@ -190,6 +193,16 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             val newValue = !prefsInteractor.getShowRecordsCalendar()
             prefsInteractor.setShowRecordsCalendar(newValue)
             parent?.updateContent()
+            recordsContainerUpdateInteractor.sendShowCalendarUpdated()
+        }
+    }
+
+    fun onShowCalendarButtonOnRecordsTabClicked() {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getShowCalendarButtonOnRecordsTab()
+            prefsInteractor.setShowCalendarButtonOnRecordsTab(newValue)
+            parent?.updateContent()
+            recordsContainerUpdateInteractor.sendShowCalendarSwitchUpdated()
         }
     }
 

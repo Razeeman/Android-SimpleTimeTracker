@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">محدوده اندازه گیری نشده</string>
     <string name="settings_untracked_range_hint">در محدوده مشخص شده از زمان اندازه گیری نشده چشم پوشی کن</string>
     <string name="settings_show_records_calendar">نمایش تاریخچه ها در نمای تقویم</string>
+    <string name="settings_show_calendar_button_on_records_tab">دکمه نمایش در برگه</string>
     <string name="settings_reverse_order_in_calendar">ترتیب برعکس  تاریخچه ها</string>
     <string name="settings_days_in_calendar">روزها در تقویم</string>
     <string name="settings_widget_transparency">شفافیت پس زمینه ویجت</string>

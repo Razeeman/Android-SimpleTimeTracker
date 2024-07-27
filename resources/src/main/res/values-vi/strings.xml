@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">Phạm vi không bị theo dõi</string>
     <string name="settings_untracked_range_hint">Bỏ qua thời gian không được theo dõi ngoài phạm vi được chỉ định.</string>
     <string name="settings_show_records_calendar">Hiển thị bản ghi trong chế độ xem lịch</string>
+    <string name="settings_show_calendar_button_on_records_tab">Hiển thị nút trên tab</string>
     <string name="settings_reverse_order_in_calendar">Đảo ngược thứ tự các bản ghi</string>
     <string name="settings_days_in_calendar">Ngày trong lịch</string>
     <string name="settings_widget_transparency">Độ trong suốt của nền tiện ích</string>

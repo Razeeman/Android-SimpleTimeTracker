@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">未追踪範圍</string>
     <string name="settings_untracked_range_hint">忽略指定範圍之外的未跟踪時間。</string>
     <string name="settings_show_records_calendar">顯示月曆檢視紀錄</string>
+    <string name="settings_show_calendar_button_on_records_tab">在選項卡上顯示按鈕</string>
     <string name="settings_reverse_order_in_calendar">反轉記錄順序</string>
     <string name="settings_days_in_calendar">日曆中的天數</string>
     <string name="settings_widget_transparency">小部件背景透明度</string>

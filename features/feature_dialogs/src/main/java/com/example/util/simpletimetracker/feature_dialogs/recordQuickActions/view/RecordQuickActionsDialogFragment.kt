@@ -70,7 +70,7 @@ class RecordQuickActionsDialogFragment : BaseBottomSheetFragment<Binding>() {
         extra = params
         state.observe(::updateState)
         buttonsEnabled.observe(::updateButtonsEnabled)
-        requestUpdate.observe { requestUpdate() }
+        actionComplete.observe { onActionComplete() }
         prepareRemoveRecordViewModel()
     }
 
@@ -102,8 +102,8 @@ class RecordQuickActionsDialogFragment : BaseBottomSheetFragment<Binding>() {
         removeRecordViewModel.prepare(recordId)
     }
 
-    private fun requestUpdate() {
-        listener?.onUpdate()
+    private fun onActionComplete() {
+        listener?.onActionComplete()
     }
 
     private fun getButtonsList(): List<Pair<CardView, Class<out RecordQuickActionsState.Button>>> = with(binding) {

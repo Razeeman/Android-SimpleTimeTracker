@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">النظاق الزمني لغير المتعقب</string>
     <string name="settings_untracked_range_hint">تجاهل الوقت غير المتعقب خارج النطاق المحدد.</string>
     <string name="settings_show_records_calendar">إظهار المتتبعات في عرض تقويم</string>
+    <string name="settings_show_calendar_button_on_records_tab">إظهار الزر في علامة التبويب</string>
     <string name="settings_reverse_order_in_calendar">ترتيب عكسي للمتتبعات</string>
     <string name="settings_days_in_calendar">الأيام في التقويم</string>
     <string name="settings_widget_transparency">القطعة شفافية الخلفية</string>

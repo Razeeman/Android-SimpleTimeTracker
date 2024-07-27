@@ -1,8 +1,8 @@
 package com.example.util.simpletimetracker.feature_records.view
 
-import com.example.util.simpletimetracker.feature_records.databinding.RecordsContainerFragmentBinding as Binding
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
@@ -11,13 +11,17 @@ import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.core.view.SafeFragmentStateAdapter
 import com.example.util.simpletimetracker.feature_records.adapter.RecordsContainerAdapter
+import com.example.util.simpletimetracker.feature_records.model.RecordsCalendarSwitchState
+import com.example.util.simpletimetracker.feature_records.model.RecordsContainerPosition
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsContainerViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_records.databinding.RecordsContainerFragmentBinding as Binding
 
 @AndroidEntryPoint
 class RecordsContainerFragment :
@@ -48,6 +52,7 @@ class RecordsContainerFragment :
 
     override fun initUx() = with(binding) {
         btnRecordAdd.setOnClick(throttle(viewModel::onRecordAddClick))
+        btnRecordsContainerCalendarSwitch.setOnClick(viewModel::onCalendarSwitchClick)
         btnRecordsContainerPrevious.setOnClick(viewModel::onPreviousClick)
         btnRecordsContainerNext.setOnClick(viewModel::onNextClick)
         btnRecordsContainerToday.setOnClick(viewModel::onTodayClick)
@@ -57,21 +62,12 @@ class RecordsContainerFragment :
     override fun initViewModel() = with(binding) {
         with(viewModel) {
             title.observe(::updateTitle)
-            position.observe {
-                pagerRecordsContainer.setCurrentItem(
-                    it + RecordsContainerAdapter.FIRST,
-                    viewPagerSmoothScroll,
-                )
-            }
+            position.observe(::setPosition)
+            calendarSwitchState.observe(::setCalendarSwitchState)
         }
         with(removeRecordViewModel) {
             message.observe(::showMessage)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onVisible()
     }
 
     override fun onDateTimeSet(timestamp: Long, tag: String?) {
@@ -89,8 +85,26 @@ class RecordsContainerFragment :
         }
     }
 
+    private fun setPosition(data: RecordsContainerPosition) = with(binding) {
+        pagerRecordsContainer.setCurrentItem(
+            data.position + RecordsContainerAdapter.FIRST,
+            data.animate && viewPagerSmoothScroll,
+        )
+    }
+
+    private fun setCalendarSwitchState(
+        data: RecordsCalendarSwitchState,
+    ) = with(binding) {
+        btnRecordsContainerCalendarSwitch.visible = data is RecordsCalendarSwitchState.Visible
+        if (data is RecordsCalendarSwitchState.Visible) {
+            ivRecordsContainerCalendarSwitch.setImageResource(data.iconResId)
+        }
+    }
+
     companion object {
+        @VisibleForTesting
         var viewPagerSmoothScroll: Boolean = true
+
         fun newInstance() = RecordsContainerFragment()
     }
 }

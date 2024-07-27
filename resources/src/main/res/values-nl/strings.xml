@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">Ongevolgd bereik</string>
     <string name="settings_untracked_range_hint">Negeer niet-gevolgde tijd buiten het opgegeven bereik.</string>
     <string name="settings_show_records_calendar">Toon records in kalenderweergave</string>
+    <string name="settings_show_calendar_button_on_records_tab">Knop Tonen op het tabblad</string>
     <string name="settings_reverse_order_in_calendar">Omgekeerde volgorde van records</string>
     <string name="settings_days_in_calendar">Dagen in kalender</string>
     <string name="settings_widget_transparency">Widgetachtergrondtransparantie</string>

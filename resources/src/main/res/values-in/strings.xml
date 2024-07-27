@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">Rentang yang tidak terlacak</string>
     <string name="settings_untracked_range_hint">Abaikan waktu yang tidak terlacak di luar rentang yang ditentukan.</string>
     <string name="settings_show_records_calendar">Tampilkan rekor dalam tampilan kalender</string>
+    <string name="settings_show_calendar_button_on_records_tab">Tampilkan tombol di tab</string>
     <string name="settings_reverse_order_in_calendar">Urutan terbalik catatan</string>
     <string name="settings_days_in_calendar">Hari dalam kalender</string>
     <string name="settings_widget_transparency">Transparansi latar belakang widget</string>

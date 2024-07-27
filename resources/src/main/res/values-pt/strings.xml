@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">Faixa não rastreada</string>
     <string name="settings_untracked_range_hint">Ignora o tempo não rastreado fora do intervalo especificado.</string>
     <string name="settings_show_records_calendar">Mostrar registros na visualização de calendário</string>
+    <string name="settings_show_calendar_button_on_records_tab">Mostrar botão na guia</string>
     <string name="settings_reverse_order_in_calendar">Ordem inversa dos registros</string>
     <string name="settings_days_in_calendar">Dias no calendário</string>
     <string name="settings_widget_transparency">Transparência de fundo do widget</string>

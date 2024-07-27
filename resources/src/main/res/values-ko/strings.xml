@@ -246,6 +246,7 @@
     <string name="settings_untracked_range">기록 제외 시간</string>
     <string name="settings_untracked_range_hint">일정 시간 범위 밖의 기록되지 않은 시간을 무시합니다.</string>
     <string name="settings_show_records_calendar">기록을 캘린더 형식으로 보기</string>
+    <string name="settings_show_calendar_button_on_records_tab">탭에 버튼 표시</string>
     <string name="settings_reverse_order_in_calendar">순서 뒤집기</string>
     <string name="settings_days_in_calendar">표시할 일 수</string>
     <string name="settings_widget_transparency">위젯 배경 투명도</string>

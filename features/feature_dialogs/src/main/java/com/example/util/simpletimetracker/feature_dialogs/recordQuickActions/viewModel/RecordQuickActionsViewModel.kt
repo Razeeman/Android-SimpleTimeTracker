@@ -46,7 +46,7 @@ class RecordQuickActionsViewModel @Inject constructor(
 
     val state: LiveData<RecordQuickActionsState> by lazySuspend { loadState() }
     val buttonsEnabled: LiveData<Boolean> = MutableLiveData(true)
-    val requestUpdate: LiveData<Unit> = SingleLiveEvent<Unit>()
+    val actionComplete: LiveData<Unit> = SingleLiveEvent<Unit>()
 
     fun onStatisticsClicked() {
         onButtonClick(onProceed = ::goToStatistics)
@@ -196,7 +196,7 @@ class RecordQuickActionsViewModel @Inject constructor(
     }
 
     private fun exit() {
-        requestUpdate.set(Unit)
+        actionComplete.set(Unit)
         router.back()
     }
 

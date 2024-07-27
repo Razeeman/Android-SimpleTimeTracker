@@ -198,6 +198,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.showRecordsCalendar = isEnabled
     }
 
+    suspend fun getShowCalendarButtonOnRecordsTab(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.showCalendarButtonOnRecordsTab
+    }
+
+    suspend fun setShowCalendarButtonOnRecordsTab(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.showCalendarButtonOnRecordsTab = isEnabled
+    }
+
     suspend fun getReverseOrderInCalendar(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.reverseOrderInCalendar
     }
