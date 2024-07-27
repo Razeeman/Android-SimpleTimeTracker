@@ -267,7 +267,9 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         val durations = getRanges(
             range = if (range.timeStarted == 0L && range.timeEnded == 0L) {
                 Range(
-                    timeStarted = records.minByOrNull { it.timeStarted }?.timeStarted ?: 0,
+                    timeStarted = records.minByOrNull { it.timeStarted }
+                        ?.timeStarted
+                        ?: System.currentTimeMillis(),
                     timeEnded = System.currentTimeMillis(),
                 )
             } else {
