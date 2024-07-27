@@ -102,6 +102,8 @@
         style="@style/ContainerRangeButton"
         android:layout_width="0dp"
         android:layout_marginStart="8dp"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="@id/btnStatisticsDetailToday"
         app:layout_constraintEnd_toStartOf="@id/btnStatisticsDetailToday"
         app:layout_constraintStart_toStartOf="parent" />
@@ -130,7 +132,8 @@
         android:layout_width="0dp"
         android:layout_marginEnd="8dp"
         app:icon="@drawable/arrow_right"
-        app:iconGravity="end"
+        app:iconGravity="textEnd"
+        app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="@id/btnStatisticsDetailToday"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnStatisticsDetailToday" />
