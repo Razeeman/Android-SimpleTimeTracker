@@ -13,10 +13,10 @@
     <string name="category_hint">Категорії</string>
     <string name="record_tag_hint">Теги записів</string>
     <string name="record_tag_hint_short">Теги</string>
-    <string name="nothing_selected">Нічого не вибрано</string>
-    <string name="something_selected">Вибрано:</string>
-    <string name="select_all">Вибрати все</string>
-    <string name="select_nothing">Нічого не вибирайте</string>
+    <string name="nothing_selected">Нічого не обрано</string>
+    <string name="something_selected">Обрано:</string>
+    <string name="select_all">Обрати все</string>
+    <string name="select_nothing">Нічого не обирати</string>
     <string name="no_data">Немає даних</string>
 
     <!--  Range selection  -->
@@ -39,12 +39,12 @@
     <string name="range_select_year">Обрати рік</string>
 
     <plurals name="range_last">
-        <!--        <item quantity="zero">Останні %s днів</item>-->
+        <!--        <item quantity="zero">Останніх %s днів</item>-->
         <item quantity="one">Останній %s день</item>
         <!--        <item quantity="two">Останні %s днів</item>-->
         <item quantity="few">Останні %s дні</item>
-        <item quantity="many">Останні %s днів</item>
-        <item quantity="other">Останні %s днів</item>
+        <item quantity="many">Останніх %s днів</item>
+        <item quantity="other">Останніх %s днів</item>
     </plurals>
 
     <string name="ok">OK</string>
@@ -107,7 +107,7 @@
     <string name="change_record_comment_hint">Введіть новий коментар</string>
     <string name="change_record_actions_hint">Дії</string>
     <string name="change_record_last_comments_hint">Останні коментарі</string>
-    <string name="change_record_favourite_comments_hint">Улюблений</string>
+    <string name="change_record_favourite_comments_hint">Обрані</string>
     <string name="change_record_categories_empty">Теги для записів не додані</string>
     <string name="change_record_save">Зберегти</string>
     <string name="change_record_untagged">Без тегу</string>
@@ -200,7 +200,7 @@
     <string name="record_tag_selection_exclude_activities_title">Виключити активність</string>
     <string name="record_tag_selection_exclude_activities_hint">Діалогове вікно вибору тегів не відображатиметься для вибраних дій.</string>
 
-    <string name="select_activities_to_autostart_pomodoro_title">Виберіть активність</string>
+    <string name="select_activities_to_autostart_pomodoro_title">Вибрати активності</string>
     <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro буде запущено автоматично, коли розпочнуться вибрані дії.</string>
 
     <!--  Records all  -->
@@ -235,7 +235,7 @@
     <string name="settings_sort_manually">Вручну</string>
     <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Перший день тижня</string>
-    <string name="settings_show_repeat_button">Показати кнопку повтору на головному екрані</string>
+    <string name="settings_show_repeat_button">Показувати кнопку повтору на головному екрані</string>
     <string name="settings_repeat_button_type">Режим</string>
     <string name="settings_repeat_last_record">Повторити останній запис</string>
     <string name="settings_repeat_one_before_last">Повторити передостанній запис</string>
@@ -252,9 +252,9 @@
     <string name="settings_show_activity_filters">Показувати фільтри активності на головному екрані</string>
     <string name="settings_allow_multiple_activity_filters">Дозволити вибір декількох фільтрів активності</string>
     <string name="settings_allow_multiple_activity_filters_hint">Якщо вимкнено, вибір фільтра призведе до вимкнення інших фільтрів активності.</string>
-    <string name="settings_enable_pomodoro_mode">Показати кнопку Pomodoro на головному екрані</string>
+    <string name="settings_enable_pomodoro_mode">Показувати кнопку Pomodoro на головному екрані</string>
     <string name="settings_show_goals_separately">Показувати цілі на окремій вкладці</string>
-    <string name="settings_show_nav_bar_at_the_bottom">Показати панель навігації внизу</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Показувати панель навігації внизу</string>
     <string name="settings_allow_multitasking">Дозволити багатозадачність</string>
     <string name="settings_allow_multitasking_hint">Якщо вимкнено, запуск нового таймера автоматично зупинить інші активності.</string>
     <string name="settings_show_notifications">Показувати сповіщення таймера</string>
@@ -411,9 +411,9 @@
     <string name="statistics_detail_streaks">Серія</string>
     <string name="statistics_detail_streaks_longest">Найдовша</string>
     <string name="statistics_detail_streaks_current">Поточна</string>
-    <string name="statistics_detail_streaks_completion">Швидкість виконання</string>
+    <string name="statistics_detail_streaks_completion">Статус виконання</string>
     <string name="statistics_detail_streaks_completion_percentage">Відсоток</string>
-    <string name="statistics_detail_streaks_completion_count">Рахувати</string>
+    <string name="statistics_detail_streaks_completion_count">Кількість</string>
     <string name="statistics_detail_streaks_latest">Остання</string>
     <string name="statistics_detail_streaks_any">Будь-яка тривалість</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -421,7 +421,7 @@
     <string name="statistics_detail_tag_split_hint">Розподіл тегів</string>
     <string name="statistics_detail_day_split_hint">Розподіл протягом дня</string>
     <string name="statistics_detail_duration_split_hint">Розподіл тривалості запису</string>
-    <string name="statistics_detail_next_activities_hint">Топ наступних заходів</string>
+    <string name="statistics_detail_next_activities_hint">Найчастіші наступні активності</string>
     <string name="statistics_detail_multitasking_activities_hint">Топ багатозадачності</string>
 
     <plurals name="statistics_detail_times_tracked">
@@ -448,7 +448,7 @@
     <string name="notification_goal_time_description">ціль досягнута</string>
     <string name="notification_time_started">Почато в %s</string>
     <string name="notification_record_type_stop">Стоп</string>
-    <string name="notification_pomodoro_subtitle">Початок: %s (%s)</string>
+    <string name="notification_pomodoro_subtitle">Починається: %s (%s)</string>
 
     <!--  Archive  -->
     <string name="something_was_archived_hint">Для повного видалення - відкрити архів</string>
@@ -489,8 +489,8 @@
     <!--  Pomodoro  -->
     <string name="pomodoro_state_focus">Фокус</string>
     <string name="pomodoro_state_break">Перерва</string>
-    <string name="pomodoro_state_long_break">Довга перерва</string>
-    <string name="pomodoro_settings_periods_until_long_break">Місячні до тривалої перерви</string>
+    <string name="pomodoro_state_long_break">Тривала перерва</string>
+    <string name="pomodoro_settings_periods_until_long_break">Циклів до тривалої перерви</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">Смайли та емоції</string>
