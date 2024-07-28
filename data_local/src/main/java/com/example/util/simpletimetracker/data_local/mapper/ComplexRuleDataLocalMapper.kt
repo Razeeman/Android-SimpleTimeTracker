@@ -10,10 +10,11 @@ class ComplexRuleDataLocalMapper @Inject constructor() {
     fun map(dbo: ComplexRuleDBO): ComplexRule {
         return ComplexRule(
             id = dbo.id,
-            action = mapActionType(dbo.actionType),
-            actionSetTagIds = mapIds(dbo.actionSetTags),
-            conditionStartingTypeIds = mapIds(dbo.conditionStartingActivity),
-            conditionCurrentTypeIds = mapIds(dbo.conditionCurrentActivity),
+            disabled = dbo.disabled,
+            action = mapActionType(dbo.action),
+            actionAssignTagIds = mapIds(dbo.actionSetTagIds),
+            conditionStartingTypeIds = mapIds(dbo.conditionStartingTypeIds),
+            conditionCurrentTypeIds = mapIds(dbo.conditionCurrentTypeIds),
             conditionDaysOfWeek = mapDaysOfWeek(dbo.conditionDaysOfWeek),
         )
     }
@@ -21,10 +22,11 @@ class ComplexRuleDataLocalMapper @Inject constructor() {
     fun map(domain: ComplexRule): ComplexRuleDBO {
         return ComplexRuleDBO(
             id = domain.id,
-            actionType = mapActionType(domain.action),
-            actionSetTags = mapIds(domain.actionSetTagIds),
-            conditionStartingActivity = mapIds(domain.conditionStartingTypeIds),
-            conditionCurrentActivity = mapIds(domain.conditionCurrentTypeIds),
+            disabled = domain.disabled,
+            action = mapActionType(domain.action),
+            actionSetTagIds = mapIds(domain.actionAssignTagIds),
+            conditionStartingTypeIds = mapIds(domain.conditionStartingTypeIds),
+            conditionCurrentTypeIds = mapIds(domain.conditionCurrentTypeIds),
             conditionDaysOfWeek = mapDaysOfWeek(domain.conditionDaysOfWeek),
         )
     }
@@ -37,20 +39,24 @@ class ComplexRuleDataLocalMapper @Inject constructor() {
         return domain.joinToString(separator = ",")
     }
 
-    private fun mapActionType(dbo: Long): ComplexRule.Action {
+    private fun mapActionType(
+        dbo: Long,
+    ): ComplexRule.Action {
         return when (dbo) {
             0L -> ComplexRule.Action.AllowMultitasking
             1L -> ComplexRule.Action.DisallowMultitasking
-            2L -> ComplexRule.Action.SetTag
+            2L -> ComplexRule.Action.AssignTag
             else -> ComplexRule.Action.AllowMultitasking
         }
     }
 
-    private fun mapActionType(domain: ComplexRule.Action): Long {
+    private fun mapActionType(
+        domain: ComplexRule.Action,
+    ): Long {
         return when (domain) {
             is ComplexRule.Action.AllowMultitasking -> 0L
             is ComplexRule.Action.DisallowMultitasking -> 1L
-            is ComplexRule.Action.SetTag -> 2L
+            is ComplexRule.Action.AssignTag -> 2L
         }
     }
 

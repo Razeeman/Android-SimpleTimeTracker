@@ -19,6 +19,12 @@ class ComplexRuleRepoImpl @Inject constructor(
     private var cache: List<ComplexRule>? = null
     private val mutex: Mutex = Mutex()
 
+    override suspend fun isEmpty(): Boolean = mutex.withLockedCache(
+        logMessage = "isEmpty",
+        accessCache = { cache?.isEmpty() },
+        accessSource = { dao.isEmpty() == 0L },
+    )
+
     override suspend fun getAll(): List<ComplexRule> = mutex.withLockedCache(
         logMessage = "getAll",
         accessCache = { cache },
@@ -36,6 +42,18 @@ class ComplexRuleRepoImpl @Inject constructor(
         logMessage = "add",
         accessSource = { dao.insert(favouriteIcon.let(mapper::map)) },
         afterSourceAccess = { cache = null },
+    )
+
+    override suspend fun disable(id: Long) = mutex.withLockedCache(
+        logMessage = "disable",
+        accessSource = { dao.disable(id) },
+        afterSourceAccess = { cache = cache?.map { if (it.id == id) it.copy(disabled = true) else it } },
+    )
+
+    override suspend fun enable(id: Long) = mutex.withLockedCache(
+        logMessage = "enable",
+        accessSource = { dao.enable(id) },
+        afterSourceAccess = { cache = cache?.map { if (it.id == id) it.copy(disabled = false) else it } },
     )
 
     override suspend fun remove(id: Long) = mutex.withLockedCache(

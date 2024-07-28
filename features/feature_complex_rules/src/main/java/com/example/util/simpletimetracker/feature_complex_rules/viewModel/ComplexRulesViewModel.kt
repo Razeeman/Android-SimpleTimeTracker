@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.domain.interactor.ComplexRuleInteractor
 import com.example.util.simpletimetracker.domain.interactor.ComplexRulesDataUpdateInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
@@ -19,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ComplexRulesViewModel @Inject constructor(
     private val router: Router,
+    private val complexRuleInteractor: ComplexRuleInteractor,
     private val complexRulesViewDataInteractor: ComplexRulesViewDataInteractor,
     private val complexRulesDataUpdateInteractor: ComplexRulesDataUpdateInteractor,
 ) : BaseViewModel() {
@@ -37,6 +39,18 @@ class ComplexRulesViewModel @Inject constructor(
                 id = item.id,
             ),
         )
+    }
+
+    fun onRuleDisableClick(item: ComplexRuleViewData) {
+        viewModelScope.launch {
+            val rule = complexRuleInteractor.get(item.id) ?: return@launch
+            if (rule.disabled) {
+                complexRuleInteractor.enable(item.id)
+            } else {
+                complexRuleInteractor.disable(item.id)
+            }
+            updateViewData()
+        }
     }
 
     fun onAddRuleClick() {

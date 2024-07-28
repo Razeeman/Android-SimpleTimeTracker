@@ -14,12 +14,12 @@ class ChangeComplexRuleViewDataMapper @Inject constructor(
         action: ComplexRule.Action,
     ): ChangeComplexRuleActionViewData.Type {
         return when (action) {
-            ComplexRule.Action.AllowMultitasking ->
+            is ComplexRule.Action.AllowMultitasking ->
                 ChangeComplexRuleActionViewData.Type.AllowMultitasking
-            ComplexRule.Action.DisallowMultitasking ->
+            is ComplexRule.Action.DisallowMultitasking ->
                 ChangeComplexRuleActionViewData.Type.DisallowMultitasking
-            ComplexRule.Action.SetTag ->
-                ChangeComplexRuleActionViewData.Type.SetTag
+            is ComplexRule.Action.AssignTag ->
+                ChangeComplexRuleActionViewData.Type.AssignTag
         }
     }
 
@@ -31,28 +31,29 @@ class ChangeComplexRuleViewDataMapper @Inject constructor(
                 ComplexRule.Action.AllowMultitasking
             ChangeComplexRuleActionViewData.Type.DisallowMultitasking ->
                 ComplexRule.Action.DisallowMultitasking
-            ChangeComplexRuleActionViewData.Type.SetTag ->
-                ComplexRule.Action.SetTag
+            ChangeComplexRuleActionViewData.Type.AssignTag ->
+                ComplexRule.Action.AssignTag
         }
     }
 
     fun mapActionTitle(
         action: ComplexRule.Action?,
-        tagIds: Set<Long>,
+        assignTagIds: Set<Long>,
     ): String {
         return when (action) {
             null -> {
                 resourceRepo.getString(R.string.change_complex_rule_choose_action)
             }
-            ComplexRule.Action.AllowMultitasking -> {
+            is ComplexRule.Action.AllowMultitasking -> {
                 resourceRepo.getString(R.string.settings_allow_multitasking)
             }
-            ComplexRule.Action.DisallowMultitasking -> {
+            is ComplexRule.Action.DisallowMultitasking -> {
                 resourceRepo.getString(R.string.settings_disallow_multitasking)
             }
-            ComplexRule.Action.SetTag -> {
-                val title = resourceRepo.getString(R.string.change_complex_action_set_tag)
-                val selectedTags = tagIds.size
+            is ComplexRule.Action.AssignTag -> {
+                val title = resourceRepo.getString(R.string.change_complex_action_assign_tag)
+                val selectedTags = assignTagIds
+                    .size
                     .takeIf { it != 0 }
                     ?.let { "($it)" }
                 if (selectedTags != null) {

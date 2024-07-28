@@ -170,6 +170,7 @@ class ChangeRecordTagViewModel @Inject constructor(
             type = TypesSelectionDialogParams.Type.Activity,
             selectedTypeIds = listOf(newIconColorSource),
             isMultiSelectAvailable = false,
+            idsShouldBeVisible = listOf(newIconColorSource),
         ).let(router::navigate)
     }
 

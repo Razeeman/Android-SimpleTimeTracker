@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_complex_rules.adapter.createComplexRuleAdapterDelegate
 import com.example.util.simpletimetracker.feature_complex_rules.adapter.createComplexRuleAddAdapterDelegate
@@ -23,8 +24,12 @@ class ComplexRulesFragment : BaseFragment<Binding>() {
 
     private val rulesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createHintAdapterDelegate(),
             createLoaderAdapterDelegate(),
-            createComplexRuleAdapterDelegate(throttle(viewModel::onRuleClick)),
+            createComplexRuleAdapterDelegate(
+                onItemClick = throttle(viewModel::onRuleClick),
+                onDisableClick = viewModel::onRuleDisableClick,
+            ),
             createComplexRuleAddAdapterDelegate(throttle(viewModel::onAddRuleClick)),
         )
     }

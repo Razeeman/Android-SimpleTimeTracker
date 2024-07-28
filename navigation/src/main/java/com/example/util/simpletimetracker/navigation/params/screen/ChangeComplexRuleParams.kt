@@ -9,7 +9,6 @@ sealed interface ChangeComplexRuleParams : ScreenParams, Parcelable {
     data class Change(
         val id: Long,
     ) : ChangeComplexRuleParams
-    // TODO RULES add preview?
 
     @Parcelize
     object New : ChangeComplexRuleParams

@@ -4,27 +4,29 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-// TODO RULES rename actionSetTags to actionSetTagIds etc.
 @Entity(tableName = "complexRules")
 data class ComplexRuleDBO(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Long,
 
+    @ColumnInfo(name = "disabled")
+    val disabled: Boolean,
+
     @ColumnInfo(name = "actionType")
-    val actionType: Long,
+    val action: Long,
 
     // Longs stored in string comma separated
-    @ColumnInfo(name = "actionSetTags")
-    val actionSetTags: String,
+    @ColumnInfo(name = "actionSetTagIds")
+    val actionSetTagIds: String,
 
     // Longs stored in string comma separated
-    @ColumnInfo(name = "conditionStartingActivity")
-    val conditionStartingActivity: String,
+    @ColumnInfo(name = "conditionStartingTypeIds")
+    val conditionStartingTypeIds: String,
 
     // Longs stored in string comma separated
-    @ColumnInfo(name = "conditionCurrentActivity")
-    val conditionCurrentActivity: String,
+    @ColumnInfo(name = "conditionCurrentTypeIds")
+    val conditionCurrentTypeIds: String,
 
     // Days of week stored in string comma separated
     @ColumnInfo(name = "conditionDaysOfWeek")

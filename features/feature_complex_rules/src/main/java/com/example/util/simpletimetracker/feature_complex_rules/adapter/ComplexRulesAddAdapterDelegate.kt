@@ -17,7 +17,7 @@ fun createComplexRuleAddAdapterDelegate(
         item as ViewData
 
         containerComplexRuleItem.setCardBackgroundColor(item.color)
-        tvComplexRuleItemActionTitle.text = item.name
+        tvComplexRuleItemAddTitle.text = item.name
 
         containerComplexRuleItem.setOnClick(onItemClick)
     }

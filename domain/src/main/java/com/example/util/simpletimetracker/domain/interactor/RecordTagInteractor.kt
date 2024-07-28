@@ -17,6 +17,7 @@ class RecordTagInteractor @Inject constructor(
     private val runningRecordToRecordTagRepo: RunningRecordToRecordTagRepo,
     private val recordTypeToTagRepo: RecordTypeToTagRepo,
     private val recordTypeToDefaultTagRepo: RecordTypeToDefaultTagRepo,
+    private val complexRuleInteractor: ComplexRuleInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val sortCardsInteractor: SortCardsInteractor,
@@ -88,6 +89,7 @@ class RecordTagInteractor @Inject constructor(
         runningRecordToRecordTagRepo.removeAllByTagId(id)
         recordTypeToTagRepo.removeAll(id)
         recordTypeToDefaultTagRepo.removeAll(id)
+        complexRuleInteractor.removeTagId(id)
     }
 
     private fun mapForSort(

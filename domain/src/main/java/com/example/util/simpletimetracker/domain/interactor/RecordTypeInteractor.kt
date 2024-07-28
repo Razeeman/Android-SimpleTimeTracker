@@ -21,6 +21,7 @@ class RecordTypeInteractor @Inject constructor(
     private val recordTypeToTagRepo: RecordTypeToTagRepo,
     private val recordTypeToDefaultTagRepo: RecordTypeToDefaultTagRepo,
     private val recordTypeGoalRepo: RecordTypeGoalRepo,
+    private val complexRuleInteractor: ComplexRuleInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val sortCardsInteractor: SortCardsInteractor,
 ) {
@@ -80,6 +81,7 @@ class RecordTypeInteractor @Inject constructor(
         recordTypeToTagRepo.removeAllByType(id)
         recordTypeToDefaultTagRepo.removeAllByType(id)
         recordTypeGoalRepo.removeByType(id)
+        complexRuleInteractor.removeTypeId(id)
         recordTypeRepo.remove(id)
     }
 

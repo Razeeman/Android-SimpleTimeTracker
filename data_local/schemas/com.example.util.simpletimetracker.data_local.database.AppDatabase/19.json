@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "ad241e6d14d6cdd126148f53774f2570",
+    "identityHash": "a4d6c87d535bb337cf75d6af25b61350",
     "entities": [
       {
         "tableName": "records",
@@ -543,7 +543,7 @@
       },
       {
         "tableName": "complexRules",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `actionType` INTEGER NOT NULL, `actionSetTags` TEXT NOT NULL, `conditionStartingActivity` TEXT NOT NULL, `conditionCurrentActivity` TEXT NOT NULL, `conditionDaysOfWeek` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `disabled` INTEGER NOT NULL, `actionType` INTEGER NOT NULL, `actionSetTagIds` TEXT NOT NULL, `conditionStartingTypeIds` TEXT NOT NULL, `conditionCurrentTypeIds` TEXT NOT NULL, `conditionDaysOfWeek` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -552,26 +552,32 @@
             "notNull": true
           },
           {
-            "fieldPath": "actionType",
+            "fieldPath": "disabled",
+            "columnName": "disabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "action",
             "columnName": "actionType",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "actionSetTags",
-            "columnName": "actionSetTags",
+            "fieldPath": "actionSetTagIds",
+            "columnName": "actionSetTagIds",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "conditionStartingActivity",
-            "columnName": "conditionStartingActivity",
+            "fieldPath": "conditionStartingTypeIds",
+            "columnName": "conditionStartingTypeIds",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "conditionCurrentActivity",
-            "columnName": "conditionCurrentActivity",
+            "fieldPath": "conditionCurrentTypeIds",
+            "columnName": "conditionCurrentTypeIds",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -595,7 +601,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ad241e6d14d6cdd126148f53774f2570')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a4d6c87d535bb337cf75d6af25b61350')"
     ]
   }
 }

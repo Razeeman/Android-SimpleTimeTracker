@@ -1,9 +1,11 @@
 package com.example.util.simpletimetracker.di
 
-import com.example.util.simpletimetracker.core.interactor.IsSystemInInDarkModeInteractorImpl
+import com.example.util.simpletimetracker.core.interactor.GetCurrentDayInteractorImpl
+import com.example.util.simpletimetracker.core.interactor.IsSystemInDarkModeInteractorImpl
 import com.example.util.simpletimetracker.core.interactor.GetUntrackedRecordsInteractorImpl
 import com.example.util.simpletimetracker.core.mapper.AppColorMapperImpl
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
+import com.example.util.simpletimetracker.domain.interactor.GetCurrentDayInteractor
 import com.example.util.simpletimetracker.domain.interactor.IsSystemInDarkModeInteractor
 import com.example.util.simpletimetracker.domain.interactor.GetUntrackedRecordsInteractor
 import com.example.util.simpletimetracker.domain.mapper.AppColorMapper
@@ -32,5 +34,9 @@ interface AppModuleBinds {
 
     @Binds
     @Singleton
-    fun IsSystemInInDarkModeInteractorImpl.bindIsSystemInDarkModeInteractor(): IsSystemInDarkModeInteractor
+    fun IsSystemInDarkModeInteractorImpl.bindIsSystemInDarkModeInteractor(): IsSystemInDarkModeInteractor
+
+    @Binds
+    @Singleton
+    fun GetCurrentDayInteractorImpl.bindGetCurrentDayInteractor(): GetCurrentDayInteractor
 }

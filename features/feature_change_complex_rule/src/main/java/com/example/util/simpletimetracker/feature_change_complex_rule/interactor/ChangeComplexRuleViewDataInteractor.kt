@@ -29,32 +29,26 @@ class ChangeComplexRuleViewDataInteractor @Inject constructor(
 
     fun getActionViewData(
         newActionType: ComplexRule.Action?,
-        newActionSetTagIds: Set<Long>,
+        newAssignTagIds: Set<Long>,
     ): ChangeComplexRuleActionChooserViewData {
         val items = listOf(
             ComplexRule.Action.AllowMultitasking,
             ComplexRule.Action.DisallowMultitasking,
-            ComplexRule.Action.SetTag,
+            ComplexRule.Action.AssignTag,
         ).map {
             ChangeComplexRuleActionViewData(
                 type = changeComplexRuleViewDataMapper.mapAction(it),
-                text = changeComplexRuleViewDataMapper.mapActionTitle(
-                    action = it,
-                    tagIds = newActionSetTagIds
-                ),
+                text = changeComplexRuleViewDataMapper.mapActionTitle(it, newAssignTagIds),
             )
         }
-        val selectedCount = if (newActionType is ComplexRule.Action.SetTag) {
-            newActionSetTagIds.size
+        val selectedCount = if (newActionType is ComplexRule.Action.AssignTag) {
+            newAssignTagIds.size
         } else {
             0
         }
 
         return ChangeComplexRuleActionChooserViewData(
-            title = changeComplexRuleViewDataMapper.mapActionTitle(
-                action = newActionType,
-                tagIds = newActionSetTagIds
-            ),
+            title = changeComplexRuleViewDataMapper.mapActionTitle(newActionType, newAssignTagIds),
             selectedCount = selectedCount,
             viewData = items,
         )
@@ -62,11 +56,12 @@ class ChangeComplexRuleViewDataInteractor @Inject constructor(
 
     suspend fun getTypesViewData(
         selectedIds: Set<Long>,
+        originalSelectedIds: Set<Long>,
     ): ChangeComplexRuleTypesChooserViewData {
         val numberOfCards = prefsInteractor.getNumberOfCards()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val data = recordTypeInteractor.getAll()
-            .filter { !it.hidden }
+            .filter { !it.hidden || it.id in originalSelectedIds }
             .map {
                 it.id to recordTypeViewDataMapper.map(
                     recordType = it,

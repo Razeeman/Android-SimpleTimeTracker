@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.BaseViewModel
-import com.example.util.simpletimetracker.core.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
+import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.ComplexRuleInteractor
 import com.example.util.simpletimetracker.domain.interactor.ComplexRulesDataUpdateInteractor
@@ -56,11 +56,15 @@ class ChangeComplexRuleViewModel @Inject constructor(
 
     private val ruleId: Long get() = (extra as? ChangeComplexRuleParams.Change)?.id.orZero()
     private var initialized: Boolean = false
-    private var newActionType: ComplexRule.Action? = null
-    private var newActionSetTagIds: Set<Long> = emptySet()
+    private var newAction: ComplexRule.Action? = null
+    private var newAssignTagIds: Set<Long> = emptySet()
+    private var originalAssignTagIds: Set<Long> = emptySet()
     private var newStartingTypeIds: Set<Long> = emptySet()
+    private var originalStartingTypeIds: Set<Long> = emptySet()
     private var newCurrentTypeIds: Set<Long> = emptySet()
+    private var originalCurrentTypeIds: Set<Long> = emptySet()
     private var newDaysOfWeek: Set<DayOfWeek> = emptySet()
+    private var newDisabled: Boolean = false
 
     fun initialize() = viewModelScope.launch {
         if (initialized) return@launch
@@ -91,40 +95,37 @@ class ChangeComplexRuleViewModel @Inject constructor(
     fun onActionClick(item: ChangeComplexRuleActionViewData) {
         when (item.type) {
             ChangeComplexRuleActionViewData.Type.AllowMultitasking -> {
-                newActionType = changeComplexRuleViewDataMapper.mapAction(item.type)
+                newAction = changeComplexRuleViewDataMapper.mapAction(item.type)
                 updateActionViewData()
                 onActionTypeChooserClick()
             }
             ChangeComplexRuleActionViewData.Type.DisallowMultitasking -> {
-                newActionType = changeComplexRuleViewDataMapper.mapAction(item.type)
+                newAction = changeComplexRuleViewDataMapper.mapAction(item.type)
                 updateActionViewData()
                 onActionTypeChooserClick()
             }
-            ChangeComplexRuleActionViewData.Type.SetTag -> {
+            ChangeComplexRuleActionViewData.Type.AssignTag -> {
                 TypesSelectionDialogParams(
                     tag = RECORD_TAG_SELECTION_DIALOG_TAG,
                     title = "",
                     subtitle = "",
                     type = TypesSelectionDialogParams.Type.Tag,
-                    selectedTypeIds = newActionSetTagIds.toList(),
+                    selectedTypeIds = newAssignTagIds.toList(),
                     isMultiSelectAvailable = true,
+                    idsShouldBeVisible = originalAssignTagIds.toList()
                 ).let(router::navigate)
             }
         }
     }
 
     fun onStartingTypeClick(item: RecordTypeViewData) {
-        viewModelScope.launch {
-            newStartingTypeIds = newStartingTypeIds.toMutableSet().apply { addOrRemove(item.id) }
-            updateStartingTypesViewData()
-        }
+        newStartingTypeIds = newStartingTypeIds.toMutableSet().apply { addOrRemove(item.id) }
+        updateStartingTypesViewData()
     }
 
     fun onCurrentTypeClick(item: RecordTypeViewData) {
-        viewModelScope.launch {
-            newCurrentTypeIds = newCurrentTypeIds.toMutableSet().apply { addOrRemove(item.id) }
-            updateCurrentTypesViewData()
-        }
+        newCurrentTypeIds = newCurrentTypeIds.toMutableSet().apply { addOrRemove(item.id) }
+        updateCurrentTypesViewData()
     }
 
     fun onDayOfWeekClick(data: DayOfWeekViewData) {
@@ -135,12 +136,12 @@ class ChangeComplexRuleViewModel @Inject constructor(
     fun onDataSelected(dataIds: List<Long>, tag: String?) {
         when (tag) {
             RECORD_TAG_SELECTION_DIALOG_TAG -> {
-                newActionType = if (dataIds.isNotEmpty()) {
-                    ComplexRule.Action.SetTag
+                if (dataIds.isNotEmpty()) {
+                    newAction = ComplexRule.Action.AssignTag
+                    newAssignTagIds = dataIds.toSet()
                 } else {
-                    ComplexRule.Action.AllowMultitasking
+                    newAction = ComplexRule.Action.AllowMultitasking
                 }
-                newActionSetTagIds = dataIds.toSet()
                 updateActionViewData()
                 onActionTypeChooserClick()
             }
@@ -159,17 +160,14 @@ class ChangeComplexRuleViewModel @Inject constructor(
         }
     }
 
-    // TODO RULES check change screen and list screen when tag or type is removed.
     fun onSaveClick() {
-        val newActionType = this.newActionType
-        if (newActionType == null) {
+        val newAction = this.newAction
+        if (newAction == null) {
             showMessage(R.string.change_complex_rule_choose_action)
             return
         }
 
-        val isConditionsSelected = newStartingTypeIds.isNotEmpty() ||
-            newCurrentTypeIds.isNotEmpty() ||
-            newDaysOfWeek.isNotEmpty()
+        val isConditionsSelected = getCurrentRule(newAction).hasConditions
         if (!isConditionsSelected) {
             showMessage(R.string.change_complex_rule_choose_condition)
             return
@@ -177,14 +175,7 @@ class ChangeComplexRuleViewModel @Inject constructor(
 
         saveButtonEnabled.set(false)
         viewModelScope.launch {
-            ComplexRule(
-                id = ruleId,
-                action = newActionType,
-                actionSetTagIds = newActionSetTagIds,
-                conditionStartingTypeIds = newStartingTypeIds,
-                conditionCurrentTypeIds = newCurrentTypeIds,
-                conditionDaysOfWeek = newDaysOfWeek,
-            ).let {
+            getCurrentRule(newAction).let {
                 complexRuleInteractor.add(it)
                 complexRulesDataUpdateInteractor.send()
                 router.back()
@@ -198,6 +189,20 @@ class ChangeComplexRuleViewModel @Inject constructor(
         } else {
             router.back()
         }
+    }
+
+    private fun getCurrentRule(
+        action: ComplexRule.Action,
+    ): ComplexRule {
+        return ComplexRule(
+            id = ruleId,
+            disabled = newDisabled,
+            action = action,
+            actionAssignTagIds = newAssignTagIds,
+            conditionStartingTypeIds = newStartingTypeIds,
+            conditionCurrentTypeIds = newCurrentTypeIds,
+            conditionDaysOfWeek = newDaysOfWeek,
+        )
     }
 
     private fun onNewChooserState(
@@ -225,11 +230,15 @@ class ChangeComplexRuleViewModel @Inject constructor(
 
     private suspend fun initializeData() {
         val rule = complexRuleInteractor.get(ruleId) ?: return
-        newActionType = rule.action
-        newActionSetTagIds = rule.actionSetTagIds
+        newAction = rule.action
+        newAssignTagIds = rule.actionAssignTagIds
+        originalAssignTagIds = rule.actionAssignTagIds
         newStartingTypeIds = rule.conditionStartingTypeIds
+        originalStartingTypeIds = rule.conditionStartingTypeIds
         newCurrentTypeIds = rule.conditionCurrentTypeIds
+        originalCurrentTypeIds = rule.conditionCurrentTypeIds
         newDaysOfWeek = rule.conditionDaysOfWeek
+        newDisabled = rule.disabled
     }
 
     private fun updateActionViewData() = viewModelScope.launch {
@@ -239,8 +248,8 @@ class ChangeComplexRuleViewModel @Inject constructor(
 
     private fun loadActionViewData(): ChangeComplexRuleActionChooserViewData {
         return changeComplexRuleViewDataInteractor.getActionViewData(
-            newActionType = newActionType,
-            newActionSetTagIds = newActionSetTagIds,
+            newActionType = newAction,
+            newAssignTagIds = newAssignTagIds,
         )
     }
 
@@ -252,6 +261,7 @@ class ChangeComplexRuleViewModel @Inject constructor(
     private suspend fun loadStartingTypesViewData(): ChangeComplexRuleTypesChooserViewData {
         return changeComplexRuleViewDataInteractor.getTypesViewData(
             selectedIds = newStartingTypeIds,
+            originalSelectedIds = originalStartingTypeIds,
         )
     }
 
@@ -263,6 +273,7 @@ class ChangeComplexRuleViewModel @Inject constructor(
     private suspend fun loadCurrentTypesViewData(): ChangeComplexRuleTypesChooserViewData {
         return changeComplexRuleViewDataInteractor.getTypesViewData(
             selectedIds = newCurrentTypeIds,
+            originalSelectedIds = originalCurrentTypeIds,
         )
     }
 

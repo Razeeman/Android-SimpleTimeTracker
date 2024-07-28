@@ -317,6 +317,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             type = TypesSelectionDialogParams.Type.Activity,
             selectedTypeIds = prefsInteractor.getAutostartPomodoroActivities(),
             isMultiSelectAvailable = true,
+            idsShouldBeVisible = emptyList(),
         ).let(router::navigate)
     }
 

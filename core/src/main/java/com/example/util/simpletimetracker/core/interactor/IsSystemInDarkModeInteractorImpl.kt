@@ -6,7 +6,7 @@ import com.example.util.simpletimetracker.domain.interactor.IsSystemInDarkModeIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class IsSystemInInDarkModeInteractorImpl @Inject constructor(
+class IsSystemInDarkModeInteractorImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : IsSystemInDarkModeInteractor {
 

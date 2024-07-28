@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.feature_complex_rules.databinding.Item
 
 fun createComplexRuleAdapterDelegate(
     onItemClick: ((ViewData) -> Unit),
+    onDisableClick: ((ViewData) -> Unit),
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->
@@ -28,8 +29,9 @@ fun createComplexRuleAdapterDelegate(
             }
         }
 
-        // TODO RULES move text to res from layout
         containerComplexRuleItem.setCardBackgroundColor(item.color)
+        btnComplexRuleButtonDisable.setCardBackgroundColor(item.disableButtonColor)
+        tvComplexRuleButtonDisable.text = item.disableButtonText
         viewComplexRuleItemDivider.setBackgroundColor(ColorUtils.normalizeLightness(item.color))
         tvComplexRuleItemAction.text = item.actionTitle
         tvComplexRuleItemStartingTypes.setData(item.startingTypes)
@@ -37,6 +39,7 @@ fun createComplexRuleAdapterDelegate(
         tvComplexRuleItemDayOfWeek.setData(item.daysOfWeek)
 
         containerComplexRuleItem.setOnClickWith(item, onItemClick)
+        btnComplexRuleButtonDisable.setOnClickWith(item, onDisableClick)
     }
 }
 
@@ -47,6 +50,8 @@ data class ComplexRuleViewData(
     val currentTypes: String,
     val daysOfWeek: String,
     @ColorInt val color: Int,
+    @ColorInt val disableButtonColor: Int,
+    val disableButtonText: String,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = id

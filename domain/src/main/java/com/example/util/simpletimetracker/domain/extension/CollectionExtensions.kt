@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.core.extension
+package com.example.util.simpletimetracker.domain.extension
 
 /**
  * Adds item if it not in the list, otherwise removes it from the list.

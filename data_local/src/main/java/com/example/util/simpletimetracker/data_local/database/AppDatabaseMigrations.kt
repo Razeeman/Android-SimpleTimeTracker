@@ -251,7 +251,7 @@ class AppDatabaseMigrations {
         private val migration_18_19 = object : Migration(18, 19) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
-                    "CREATE TABLE IF NOT EXISTS `complexRules` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `actionType` INTEGER NOT NULL, `actionSetTags` TEXT NOT NULL, `conditionStartingActivity` TEXT NOT NULL, `conditionCurrentActivity` TEXT NOT NULL, `conditionDaysOfWeek` TEXT NOT NULL)",
+                    "CREATE TABLE IF NOT EXISTS `complexRules` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `disabled` INTEGER NOT NULL, `actionType` INTEGER NOT NULL, `actionSetTagIds` TEXT NOT NULL, `conditionStartingTypeIds` TEXT NOT NULL, `conditionCurrentTypeIds` TEXT NOT NULL, `conditionDaysOfWeek` TEXT NOT NULL)",
                 )
             }
         }

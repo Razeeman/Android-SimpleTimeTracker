@@ -38,7 +38,21 @@ class ComplexRulesViewDataMapper @Inject constructor(
             startingTypes = mapStartingTypes(rule, typesMap),
             currentTypes = mapCurrentTypes(rule, typesMap),
             daysOfWeek = mapDaysOfWeek(rule),
-            color = colorMapper.toInactiveColor(isDarkTheme),
+            color = if (rule.disabled) {
+                colorMapper.toInactiveColor(isDarkTheme)
+            } else {
+                colorMapper.toActiveColor(isDarkTheme)
+            },
+            disableButtonColor = if (rule.disabled) {
+                colorMapper.toActiveColor(isDarkTheme)
+            } else {
+                colorMapper.toInactiveColor(isDarkTheme)
+            },
+            disableButtonText = if (rule.disabled) {
+                R.string.complex_rules_enable
+            } else {
+                R.string.complex_rules_disable
+            }.let(resourceRepo::getString),
         )
     }
 
@@ -47,18 +61,31 @@ class ComplexRulesViewDataMapper @Inject constructor(
         tagsMap: Map<Long, RecordTag>,
     ): String {
         val action = rule.action
+        val baseTitle = mapBaseTitle(action)
         return when (action) {
-            ComplexRule.Action.AllowMultitasking -> {
-                resourceRepo.getString(R.string.settings_allow_multitasking)
-            }
-            ComplexRule.Action.DisallowMultitasking -> {
-                resourceRepo.getString(R.string.settings_disallow_multitasking)
-            }
-            ComplexRule.Action.SetTag -> getFinalText(
-                baseTitle = resourceRepo.getString(R.string.change_complex_action_set_tag),
-                data = rule.actionSetTagIds.mapNotNull { tagsMap[it]?.name },
+            is ComplexRule.Action.AllowMultitasking,
+            is ComplexRule.Action.DisallowMultitasking,
+            -> baseTitle
+            is ComplexRule.Action.AssignTag -> getFinalText(
+                baseTitle = baseTitle,
+                data = rule.actionAssignTagIds.mapNotNull { tagsMap[it]?.name }
+                    // Just in case where is a deleted id.
+                    .ifEmpty { listOf("") },
             )
         }
+    }
+
+    fun mapBaseTitle(
+        action: ComplexRule.Action,
+    ): String {
+        return when (action) {
+            is ComplexRule.Action.AllowMultitasking ->
+                R.string.settings_allow_multitasking
+            is ComplexRule.Action.DisallowMultitasking ->
+                R.string.settings_disallow_multitasking
+            is ComplexRule.Action.AssignTag ->
+                R.string.change_complex_action_assign_tag
+        }.let(resourceRepo::getString)
     }
 
     private fun mapStartingTypes(

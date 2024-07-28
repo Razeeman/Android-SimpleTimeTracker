@@ -194,6 +194,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             type = TypesSelectionDialogParams.Type.Activity,
             selectedTypeIds = prefsInteractor.getRecordTagSelectionExcludeActivities(),
             isMultiSelectAvailable = true,
+            idsShouldBeVisible = emptyList(),
         ).let(router::navigate)
     }
 

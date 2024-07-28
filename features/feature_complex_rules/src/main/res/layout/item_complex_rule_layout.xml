@@ -7,13 +7,13 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="4dp"
     android:layout_marginEnd="4dp"
-    app:cardBackgroundColor="@color/black"
     app:cardCornerRadius="@dimen/record_type_card_corner_radius"
     app:cardElevation="@dimen/record_type_card_elevation"
     app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="true"
+    tools:cardBackgroundColor="?appActiveColor">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
@@ -24,18 +24,44 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvComplexRuleItemActionTitle"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/change_complex_actions_title"
             android:textColor="?appLightTextColor"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/btnComplexRuleButtonDisable"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnComplexRuleButtonDisable"
+            style="@style/SettingsCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foreground="?selectableItemBackground"
+            app:cardUseCompatPadding="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:cardBackgroundColor="?appInactiveColor">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvComplexRuleButtonDisable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textColor="?appLightTextColor"
+                android:textSize="12sp"
+                tools:text="Disable" />
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvComplexRuleItemAction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="?appLightTextColor"
+            app:layout_constraintTop_toBottomOf="@id/tvComplexRuleItemActionTitle"
             tools:text="Allow multitasking" />
 
         <View
@@ -44,6 +70,7 @@
             android:layout_height="2dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="6dp"
+            app:layout_constraintTop_toBottomOf="@id/tvComplexRuleItemAction"
             tools:background="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -53,13 +80,15 @@
             android:text="@string/change_complex_conditions_title"
             android:textColor="?appLightTextColor"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/viewComplexRuleItemDivider" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvComplexRuleItemStartingTypes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="?appLightTextColor"
+            app:layout_constraintTop_toBottomOf="@id/tvComplexRuleItemConditionsTitle"
             tools:text="Starting activity: Read" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -67,6 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="?appLightTextColor"
+            app:layout_constraintTop_toBottomOf="@id/tvComplexRuleItemStartingTypes"
             tools:text="Current activity: Commute" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -74,8 +104,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="?appLightTextColor"
+            app:layout_constraintTop_toBottomOf="@id/tvComplexRuleItemCurrentTypes"
             tools:text="Day of week: Mon, Tue, Wed" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

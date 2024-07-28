@@ -29,14 +29,14 @@ class TypesSelectionViewDataInteractor @Inject constructor(
     ): List<TypesSelectionCacheHolder> {
         return when (extra.type) {
             is TypesSelectionDialogParams.Type.Activity -> {
-                types
-                    .filter { !it.hidden }
-                    .map(TypesSelectionCacheHolder::Type)
+                types.filter {
+                    !it.hidden || it.id in extra.idsShouldBeVisible
+                }.map(TypesSelectionCacheHolder::Type)
             }
             is TypesSelectionDialogParams.Type.Tag -> {
-                recordTagInteractor.getAll()
-                    .filter { !it.archived }
-                    .map(TypesSelectionCacheHolder::Tag)
+                recordTagInteractor.getAll().filter {
+                    !it.archived || it.id in extra.idsShouldBeVisible
+                }.map(TypesSelectionCacheHolder::Tag)
             }
         }
     }

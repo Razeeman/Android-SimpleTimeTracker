@@ -11,6 +11,7 @@ data class TypesSelectionDialogParams(
     val type: Type,
     val selectedTypeIds: List<Long>,
     val isMultiSelectAvailable: Boolean,
+    val idsShouldBeVisible: List<Long>,
 ) : Parcelable, ScreenParams {
 
     sealed interface Type : Parcelable {
@@ -29,6 +30,7 @@ data class TypesSelectionDialogParams(
             selectedTypeIds = emptyList(),
             type = Type.Activity,
             isMultiSelectAvailable = false,
+            idsShouldBeVisible = emptyList(),
         )
     }
 }

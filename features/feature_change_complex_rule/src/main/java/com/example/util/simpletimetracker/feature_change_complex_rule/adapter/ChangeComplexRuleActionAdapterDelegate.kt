@@ -33,6 +33,6 @@ data class ChangeComplexRuleActionViewData(
     enum class Type {
         AllowMultitasking,
         DisallowMultitasking,
-        SetTag,
+        AssignTag,
     }
 }

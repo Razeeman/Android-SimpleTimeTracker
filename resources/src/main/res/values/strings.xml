@@ -160,10 +160,12 @@
     <!--  TODO RULES add to drive file   -->
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Allows for more fine tuned application of some settings</string>
+    <string name="complex_rules_disable">Disable</string>
+    <string name="complex_rules_enable">Enable</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Action</string>
-    <string name="change_complex_action_set_tag">Set tag</string>
+    <string name="change_complex_action_assign_tag">Assign tag</string>
     <string name="change_complex_conditions_title">Conditions</string>
     <string name="change_complex_starting_activity">Starting activity</string>
     <string name="change_complex_previous_activity">Previous activity</string>

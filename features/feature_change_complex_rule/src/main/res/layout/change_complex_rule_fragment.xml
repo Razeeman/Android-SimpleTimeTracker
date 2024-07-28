@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--  TODO RULES move string to res  -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/containerChangeActivityFilterMain"
         android:layout_width="match_parent"

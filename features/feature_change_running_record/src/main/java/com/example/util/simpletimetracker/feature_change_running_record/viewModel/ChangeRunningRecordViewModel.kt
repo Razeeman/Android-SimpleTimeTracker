@@ -125,7 +125,12 @@ class ChangeRunningRecordViewModel @Inject constructor(
     override suspend fun onSaveClickDelegate() {
         // Widgets will update on adding.
         removeRunningRecordMediator.remove(extra.id, updateWidgets = false)
-        addRunningRecordMediator.add(newTypeId, newTimeStarted, newComment, newCategoryIds)
+        addRunningRecordMediator.add(
+            typeId = newTypeId,
+            timeStarted = newTimeStarted,
+            comment = newComment,
+            tagIds = newCategoryIds
+        )
         router.back()
     }
 

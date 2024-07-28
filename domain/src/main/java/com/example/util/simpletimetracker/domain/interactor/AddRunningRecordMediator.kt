@@ -1,11 +1,14 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.model.Range
+import com.example.util.simpletimetracker.domain.model.ResultContainer
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import javax.inject.Inject
 
 class AddRunningRecordMediator @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
+    private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordTypeToDefaultTagInteractor: RecordTypeToDefaultTagInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
@@ -18,6 +21,7 @@ class AddRunningRecordMediator @Inject constructor(
     private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
     private val shouldShowTagSelectionInteractor: ShouldShowTagSelectionInteractor,
     private val pomodoroStartInteractor: PomodoroStartInteractor,
+    private val complexRuleProcessActionInteractor: ComplexRuleProcessActionInteractor,
 ) {
 
     /**
@@ -46,23 +50,31 @@ class AddRunningRecordMediator @Inject constructor(
         timeStarted: Long? = null,
         checkMultitasking: Boolean = true,
     ) {
-        // Check if multitasking disabled
-        if (!prefsInteractor.getAllowMultitasking() && checkMultitasking) {
-            // Widgets will update on adding.
-            runningRecordInteractor.getAll()
-                .filter { it.id != typeId }
-                .forEach { removeRunningRecordMediator.removeWithRecordAdd(it, updateWidgets = false) }
-        }
-        activityStartedStoppedBroadcastInteractor.onActionActivityStarted(
+        val actualTimeStarted = timeStarted ?: System.currentTimeMillis()
+        val rulesResult = processRules(
+            typeId = typeId,
+            timeStarted = actualTimeStarted,
+        )
+        processMultitasking(
+            typeId = typeId,
+            isMultitaskingAllowedByRules = rulesResult.isMultitaskingAllowed,
+            checkMultitasking = checkMultitasking,
+        )
+        val actualTags = getAllTags(
             typeId = typeId,
             tagIds = tagIds,
+            tagIdsFromRules = rulesResult.tagsIds,
+        )
+        activityStartedStoppedBroadcastInteractor.onActionActivityStarted(
+            typeId = typeId,
+            tagIds = actualTags,
             comment = comment,
         )
         add(
             typeId = typeId,
             comment = comment,
-            tagIds = tagIds,
-            timeStarted = timeStarted,
+            tagIds = actualTags,
+            timeStarted = actualTimeStarted,
         )
         // Show goal count only on timer start, otherwise it would show on change also.
         notificationGoalCountInteractor.checkAndShow(typeId)
@@ -71,17 +83,16 @@ class AddRunningRecordMediator @Inject constructor(
 
     suspend fun add(
         typeId: Long,
-        timeStarted: Long? = null,
-        comment: String = "",
-        tagIds: List<Long> = emptyList(),
+        timeStarted: Long,
+        comment: String,
+        tagIds: List<Long>,
     ) {
         if (runningRecordInteractor.get(typeId) == null && typeId > 0L) {
-            val defaultTags = recordTypeToDefaultTagInteractor.getTags(typeId)
             RunningRecord(
                 id = typeId,
-                timeStarted = timeStarted ?: System.currentTimeMillis(),
+                timeStarted = timeStarted,
                 comment = comment,
-                tagIds = (tagIds + defaultTags).toSet().toList(),
+                tagIds = tagIds,
             ).let {
                 runningRecordInteractor.add(it)
                 notificationTypeInteractor.checkAndShow(typeId)
@@ -93,5 +104,68 @@ class AddRunningRecordMediator @Inject constructor(
                 wearInteractor.update()
             }
         }
+    }
+
+    private suspend fun processRules(
+        typeId: Long,
+        timeStarted: Long,
+    ): ComplexRuleProcessActionInteractor.Result {
+        // If no rules - no need to check them.
+        return if (complexRuleProcessActionInteractor.hasRules()) {
+            // Check running records but also record that are recorded for this time.
+            val currentRecords = runningRecordInteractor.getAll() +
+                recordInteractor.getFromRange(Range(timeStarted, timeStarted))
+
+            // If no current records - check closest previous.
+            val prevRecord = if (currentRecords.isEmpty()) {
+                recordInteractor.getPrev(timeStarted = timeStarted, limit = 1)
+            } else {
+                emptySet()
+            }
+
+            val currentTypeIds = (currentRecords + prevRecord)
+                .map { it.typeIds }
+                .flatten()
+                .toSet()
+
+            complexRuleProcessActionInteractor.processRules(
+                timeStarted = timeStarted,
+                startingTypeId = typeId,
+                currentTypeIds = currentTypeIds,
+            )
+        } else {
+            ComplexRuleProcessActionInteractor.Result(
+                isMultitaskingAllowed = ResultContainer.Undefined,
+                tagsIds = emptySet(),
+            )
+        }
+    }
+
+    private suspend fun processMultitasking(
+        typeId: Long,
+        isMultitaskingAllowedByRules: ResultContainer<Boolean>,
+        checkMultitasking: Boolean,
+    ) {
+        val isMultitaskingAllowedByDefault = prefsInteractor.getAllowMultitasking()
+        val isMultitaskingAllowed = isMultitaskingAllowedByRules.getValueOrNull()
+            ?: isMultitaskingAllowedByDefault
+
+        // TODO RULES fix wear
+        // Stop running records if multitasking is disabled.
+        if (!isMultitaskingAllowed && checkMultitasking) {
+            // Widgets will update on adding.
+            runningRecordInteractor.getAll()
+                .filter { it.id != typeId }
+                .forEach { removeRunningRecordMediator.removeWithRecordAdd(it, updateWidgets = false) }
+        }
+    }
+
+    private suspend fun getAllTags(
+        typeId: Long,
+        tagIds: List<Long>,
+        tagIdsFromRules: Set<Long>,
+    ): List<Long> {
+        val defaultTags = recordTypeToDefaultTagInteractor.getTags(typeId)
+        return (tagIds + defaultTags + tagIdsFromRules).toSet().toList()
     }
 }
