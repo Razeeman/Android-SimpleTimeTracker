@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--  TODO RULES move string to res  -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/containerChangeActivityFilterMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:translationZ="1dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeComplexRuleButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnChangeComplexRuleDelete"
+                style="@style/EditScreenControlButton"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/edit_screen_button_margin_horizontal"
+                android:layout_marginEnd="@dimen/edit_screen_button_margin_horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvBtnChangeComplexRuleDelete"
+                        style="@style/EditScreenControlButtonText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/archive_dialog_delete"
+                        app:layout_constraintEnd_toStartOf="@id/ivBtnChangeComplexRuleDelete"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivBtnChangeComplexRuleDelete"
+                        style="@style/EditScreenControlButtonImage"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/delete"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tvBtnChangeComplexRuleDelete"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrierChangeRecordTypeButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="btnChangeComplexRuleDelete" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvChangeComplexRuleAction"
+                style="@style/InputFieldCardText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="12dp"
+                android:text="@string/change_complex_actions_title"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/barrierChangeRecordTypeButtons" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fieldChangeComplexRuleAction"
+                style="@style/InputFieldCard"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/input_field_height"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                android:layout_marginTop="3dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvChangeComplexRuleAction"
+                app:layout_goneMarginTop="@dimen/edit_screen_field_top_margin">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?appInputFieldBorder">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutChangeComplexRuleActionPreview"
+                        style="@style/EditScreenPreview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        app:cardBackgroundColor="?appInactiveColor"
+                        app:layout_constraintEnd_toStartOf="@id/arrowChangeComplexRuleAction">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeComplexRuleActionPreview"
+                            style="@style/EditScreenPreviewText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:text="2" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/etComplexRuleAction"
+                        style="@style/EditScreenField"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toStartOf="@id/layoutChangeComplexRuleActionPreview"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="Select action" />
+
+                    <ImageView
+                        android:id="@+id/arrowChangeComplexRuleAction"
+                        style="@style/EditScreenFieldArrow"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:id="@+id/dividerChangeComplexRuleAction"
+                style="@style/EditScreenDivider"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/edit_screen_field_top_margin"
+                app:layout_constraintTop_toBottomOf="@id/fieldChangeComplexRuleAction" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvChangeComplexRuleConditions"
+                style="@style/InputFieldCardText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="12dp"
+                android:text="@string/change_complex_conditions_title"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/dividerChangeComplexRuleAction" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fieldChangeComplexRuleStartingTypes"
+                style="@style/InputFieldCard"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/input_field_height"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvChangeComplexRuleConditions"
+                app:layout_goneMarginTop="@dimen/edit_screen_field_top_margin">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?appInputFieldBorder">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutChangeComplexRuleStartingTypesPreview"
+                        style="@style/EditScreenPreview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="?appInactiveColor"
+                        app:layout_constraintEnd_toStartOf="@id/arrowChangeComplexRuleStartingTypes"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeComplexRuleStartingTypesPreview"
+                            style="@style/EditScreenPreviewText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:text="2" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/EditScreenField"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/change_complex_starting_activity"
+                        app:layout_constraintEnd_toStartOf="@id/layoutChangeComplexRuleStartingTypesPreview"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/arrowChangeComplexRuleStartingTypes"
+                        style="@style/EditScreenFieldArrow"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fieldChangeComplexRuleCurrentTypes"
+                style="@style/InputFieldCard"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/input_field_height"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fieldChangeComplexRuleStartingTypes"
+                app:layout_goneMarginTop="@dimen/edit_screen_field_top_margin">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?appInputFieldBorder">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutChangeComplexRuleCurrentTypesPreview"
+                        style="@style/EditScreenPreview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="?appInactiveColor"
+                        app:layout_constraintEnd_toStartOf="@id/arrowChangeComplexRuleCurrentTypes"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeComplexRuleCurrentTypesPreview"
+                            style="@style/EditScreenPreviewText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:text="2" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/EditScreenField"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/change_complex_previous_activity"
+                        app:layout_constraintEnd_toStartOf="@id/layoutChangeComplexRuleCurrentTypesPreview"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/arrowChangeComplexRuleCurrentTypes"
+                        style="@style/EditScreenFieldArrow"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fieldChangeComplexRuleDaysOfWeek"
+                style="@style/InputFieldCard"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/input_field_height"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fieldChangeComplexRuleCurrentTypes"
+                app:layout_goneMarginTop="@dimen/edit_screen_field_top_margin">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?appInputFieldBorder">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutChangeComplexRuleDaysOfWeekPreview"
+                        style="@style/EditScreenPreview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="?appInactiveColor"
+                        app:layout_constraintEnd_toStartOf="@id/arrowChangeComplexRuleDaysOfWeek"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeComplexRuleDaysOfWeekPreview"
+                            style="@style/EditScreenPreviewText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:text="2" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/EditScreenField"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/range_day"
+                        app:layout_constraintEnd_toStartOf="@id/layoutChangeComplexRuleDaysOfWeekPreview"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/arrowChangeComplexRuleDaysOfWeek"
+                        style="@style/EditScreenFieldArrow"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:id="@+id/dividerChangeComplexRuleBottom"
+                style="@style/EditScreenDivider"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/edit_screen_field_top_margin"
+                app:layout_constraintTop_toBottomOf="@id/fieldChangeComplexRuleDaysOfWeek" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChangeComplexRuleActionType"
+        style="@style/EditScreenContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:overScrollMode="never"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeComplexRuleButton"
+        app:layout_constraintTop_toBottomOf="@id/containerChangeActivityFilterMain"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_record_type_layout"
+        tools:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChangeComplexRuleStartingTypes"
+        style="@style/EditScreenContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:overScrollMode="never"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeComplexRuleButton"
+        app:layout_constraintTop_toBottomOf="@id/containerChangeActivityFilterMain"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_record_type_layout"
+        tools:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChangeComplexRuleCurrentTypes"
+        style="@style/EditScreenContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:overScrollMode="never"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeComplexRuleButton"
+        app:layout_constraintTop_toBottomOf="@id/containerChangeActivityFilterMain"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_record_type_layout"
+        tools:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChangeComplexRuleDaysOfWeek"
+        style="@style/EditScreenContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="6dp"
+        android:layout_marginTop="8dp"
+        android:overScrollMode="never"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeComplexRuleButton"
+        app:layout_constraintTop_toBottomOf="@id/containerChangeActivityFilterMain"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_day_of_week"
+        tools:visibility="visible" />
+
+    <View
+        android:id="@+id/dividerChangeComplexRuleButton"
+        style="@style/EditScreenDivider"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toTopOf="@id/btnChangeComplexRuleSave" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnChangeComplexRuleSave"
+        style="@style/AppButtonActive"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
+        android:text="@string/change_activity_filter_save"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

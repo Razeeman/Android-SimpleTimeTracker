@@ -314,6 +314,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             subtitle = resourceRepo.getString(
                 R.string.select_activities_to_autostart_pomodoro_hint,
             ),
+            type = TypesSelectionDialogParams.Type.Activity,
             selectedTypeIds = prefsInteractor.getAutostartPomodoroActivities(),
             isMultiSelectAvailable = true,
         ).let(router::navigate)

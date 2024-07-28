@@ -157,6 +157,20 @@
     <string name="change_record_type_goal_duration">Duration</string>
     <string name="change_record_type_goal_count">Count</string>
 
+    <!--  TODO RULES add to drive file   -->
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Allows for more fine tuned application of some settings</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Action</string>
+    <string name="change_complex_action_set_tag">Set tag</string>
+    <string name="change_complex_conditions_title">Conditions</string>
+    <string name="change_complex_starting_activity">Starting activity</string>
+    <string name="change_complex_previous_activity">Previous activity</string>
+    <string name="change_complex_rule_removed">Rule removed</string>
+    <string name="change_complex_rule_choose_action">Select action</string>
+    <string name="change_complex_rule_choose_condition">Select conditions</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filter removed</string>
     <string name="change_activity_filter_save">Save</string>
@@ -257,6 +271,7 @@
     <string name="settings_show_goals_separately">Show goals on a separate tab</string>
     <string name="settings_show_nav_bar_at_the_bottom">Show navigation bar at the bottom</string>
     <string name="settings_allow_multitasking">Allow multitasking</string>
+    <string name="settings_disallow_multitasking">Disallow multitasking</string>
     <string name="settings_allow_multitasking_hint">If disabled, starting new timer will automatically stop other activities.</string>
     <string name="settings_show_notifications">Show timer notifications</string>
     <string name="settings_show_notifications_hint">Show notifications when timers are running.</string>
@@ -289,6 +304,7 @@
     <string name="settings_change_card_size">Change activity card size</string>
     <string name="settings_archive">Archive</string>
     <string name="settings_data_edit">Data edit</string>
+    <string name="settings_complex_rules">Complex rules</string>
     <string name="settings_edit_categories">Edit categories and tags</string>
     <string name="settings_edit_categories_hint">Assign categories to activities and tags to records.</string>
     <string name="settings_show_record_tag_selection">Show record tag selection</string>

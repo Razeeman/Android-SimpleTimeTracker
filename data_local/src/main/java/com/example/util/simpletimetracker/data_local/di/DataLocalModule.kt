@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.data_local.database.ActivityFilterDao
 import com.example.util.simpletimetracker.data_local.database.AppDatabase
 import com.example.util.simpletimetracker.data_local.database.AppDatabaseMigrations
 import com.example.util.simpletimetracker.data_local.database.CategoryDao
+import com.example.util.simpletimetracker.data_local.database.ComplexRulesDao
 import com.example.util.simpletimetracker.data_local.database.FavouriteCommentDao
 import com.example.util.simpletimetracker.data_local.database.FavouriteIconDao
 import com.example.util.simpletimetracker.data_local.database.RecordDao
@@ -139,5 +140,11 @@ class DataLocalModule {
     @Singleton
     fun getRecordTypeGoalDao(database: AppDatabase): RecordTypeGoalDao {
         return database.recordTypeGoalDao()
+    }
+
+    @Provides
+    @Singleton
+    fun getComplexRulesDao(database: AppDatabase): ComplexRulesDao {
+        return database.complexRulesDao()
     }
 }

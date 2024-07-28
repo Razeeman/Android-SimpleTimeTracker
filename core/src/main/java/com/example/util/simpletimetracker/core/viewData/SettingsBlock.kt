@@ -78,6 +78,7 @@ enum class SettingsBlock {
     AdditionalAutomatedTracking,
     AdditionalSendEvents,
     AdditionalDataEdit,
+    AdditionalComplexRules,
     AdditionalBottom,
 
     BackupTop,

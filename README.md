@@ -78,10 +78,12 @@ Simple app that helps track how much time you spend on all the useless activitie
     │   ├── feature_categories                # Screen for categories and tags.
     │   ├── feature_change_activity_filter    # Edit activity filter screen.
     │   ├── feature_change_category           # Edit category screen.
+    │   ├── feature_change_complex_rule       # Edit complex rule screen.
     │   ├── feature_change_record             # Edit record screen.
     │   ├── feature_change_record_tag         # Edit tag screen.
     │   ├── feature_change_record_type        # Edit type screen.
     │   ├── feature_change_running_record     # Edit timer screen.
+    │   ├── feature_complex_rules             # Screen for complex rules list.
     │   ├── feature_date_edit                 # Data edit screen.
     │   ├── feature_dialogs                   # Dialogs.
     │   ├── feature_goals                     # Separate screen for goals.

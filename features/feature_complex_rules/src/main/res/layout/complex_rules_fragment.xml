@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvComplexRulesTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:text="@string/settings_complex_rules"
+        android:textColor="?appTextPrimaryColor"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvComplexRulesHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:gravity="center"
+        android:text="@string/complex_rules_hint"
+        android:textColor="?appTextHintColor"
+        app:layout_constraintTop_toBottomOf="@id/tvComplexRulesTitle" />
+
+    <com.example.util.simpletimetracker.feature_views.DividerView
+        android:id="@+id/dividerComplexRules"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvComplexRulesHint" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvComplexRulesList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dividerComplexRules"
+        tools:listitem="@layout/item_complex_rule_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -150,6 +150,11 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
                 block = SettingsBlock.AdditionalDataEdit,
                 title = resourceRepo.getString(R.string.settings_data_edit),
                 subtitle = "",
+            )
+            result += SettingsTextViewData(
+                block = SettingsBlock.AdditionalComplexRules,
+                title = resourceRepo.getString(R.string.settings_complex_rules),
+                subtitle = "",
                 dividerIsVisible = false,
             )
         }

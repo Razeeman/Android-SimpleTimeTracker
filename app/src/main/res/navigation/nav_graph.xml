@@ -30,6 +30,14 @@
         app:popExitAnim="@anim/slide_out_right" />
 
     <action
+        android:id="@+id/action_to_complexRulesFragment"
+        app:destination="@id/complexRulesFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+
+    <action
         android:id="@+id/action_to_statisticsDetailFragment"
         app:destination="@id/statisticsDetailFragment"
         app:enterAnim="@anim/slide_in_right"
@@ -48,6 +56,14 @@
     <action
         android:id="@+id/action_to_pomodoroSettingsFragment"
         app:destination="@id/pomodoroSettingsDialogFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+
+    <action
+        android:id="@+id/action_to_changeComplexRuleFragment"
+        app:destination="@id/changeComplexRuleFragment"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
@@ -191,6 +207,16 @@
         android:name="com.example.util.simpletimetracker.feature_data_edit.view.DataEditFragment"
         android:label="DataEditFragment"
         tools:layout="@layout/data_edit_fragment" />
+    <fragment
+        android:id="@+id/complexRulesFragment"
+        android:name="com.example.util.simpletimetracker.feature_complex_rules.view.ComplexRulesFragment"
+        android:label="DataEditFragment"
+        tools:layout="@layout/complex_rules_fragment" />
+    <fragment
+        android:id="@+id/changeComplexRuleFragment"
+        android:name="com.example.util.simpletimetracker.feature_change_complex_rule.view.ChangeComplexRuleFragment"
+        android:label="ChangeComplexRuleFragment"
+        tools:layout="@layout/change_complex_rule_fragment" />
     <fragment
         android:id="@+id/changeActivityFilterFragment"
         android:name="com.example.util.simpletimetracker.feature_change_activity_filter.view.ChangeActivityFilterFragment"

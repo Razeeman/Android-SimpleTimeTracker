@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.feature_settings.interactor.SettingsAd
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.ComplexRulesParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
@@ -65,6 +66,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             SettingsBlock.AdditionalSendEvents -> onAutomatedTrackingSendEventsClicked()
             SettingsBlock.AdditionalKeepScreenOn -> onKeepScreenOnClicked()
             SettingsBlock.AdditionalDataEdit -> onDataEditClick()
+            SettingsBlock.AdditionalComplexRules -> onComplexRulesClick()
             else -> {
                 // Do nothing
             }
@@ -96,7 +98,6 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
     fun onTypesSelected(typeIds: List<Long>, tag: String?) {
         onTypesSelectedDelegate(typeIds, tag)
     }
-
 
     private fun onCollapseClick() = delegateScope.launch {
         isCollapsed = isCollapsed.flip()
@@ -190,6 +191,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             subtitle = resourceRepo.getString(
                 R.string.record_tag_selection_exclude_activities_hint,
             ),
+            type = TypesSelectionDialogParams.Type.Activity,
             selectedTypeIds = prefsInteractor.getRecordTagSelectionExcludeActivities(),
             isMultiSelectAvailable = true,
         ).let(router::navigate)
@@ -214,6 +216,10 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
 
     private fun onDataEditClick() {
         router.navigate(DataEditParams)
+    }
+
+    private fun onComplexRulesClick() {
+        router.navigate(ComplexRulesParams)
     }
 
     private fun onAutomatedTrackingHelpClick() {

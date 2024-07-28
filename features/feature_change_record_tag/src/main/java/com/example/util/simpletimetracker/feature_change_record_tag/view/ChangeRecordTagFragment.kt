@@ -243,8 +243,8 @@ class ChangeRecordTagFragment :
         viewModel.onCustomColorSelected(colorInt)
     }
 
-    override fun onTypesSelected(typeIds: List<Long>, tag: String?) {
-        viewModel.onTypesSelected(typeIds, tag)
+    override fun onDataSelected(dataIds: List<Long>, tag: String?) {
+        viewModel.onTypesSelected(dataIds, tag)
     }
 
     private fun updateUi(item: CategoryViewData.Record) = with(binding) {

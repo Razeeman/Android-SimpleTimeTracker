@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
@@ -39,9 +40,10 @@ class TypesSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     private val viewModel: TypesSelectionViewModel by viewModels()
 
-    private val recordTypesAdapter: BaseRecyclerAdapter by lazy {
+    private val viewDataAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
+            createCategoryAdapterDelegate(viewModel::onCategoryClick),
             createLoaderAdapterDelegate(),
             createDividerAdapterDelegate(),
             createInfoAdapterDelegate(),
@@ -49,7 +51,7 @@ class TypesSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
         )
     }
     private val extra: TypesSelectionDialogParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = TypesSelectionDialogParams(),
+        key = ARGS_PARAMS, default = TypesSelectionDialogParams.Empty,
     )
     private var listener: TypesSelectionDialogListener? = null
 
@@ -71,7 +73,7 @@ class TypesSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
                 justifyContent = JustifyContent.CENTER
                 flexWrap = FlexWrap.WRAP
             }
-            adapter = recordTypesAdapter
+            adapter = viewDataAdapter
         }
     }
 
@@ -84,20 +86,25 @@ class TypesSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     override fun initViewModel(): Unit = with(viewModel) {
         extra = this@TypesSelectionDialogFragment.extra
         viewState.observe(::updateViewState)
-        types.observe(recordTypesAdapter::replace)
+        viewData.observe(viewDataAdapter::replace)
         saveButtonEnabled.observe(binding.btnTypesSelectionSave::setEnabled)
-        onTypesSelected.observeOnce(viewLifecycleOwner, ::onTypesSelected)
+        onDataSelected.observeOnce(viewLifecycleOwner, ::onDataSelected)
     }
 
     private fun updateViewState(data: TypesSelectionDialogViewData) = with(binding) {
         tvTypesSelectionDialogTitle.text = data.title
+        tvTypesSelectionDialogTitle.isVisible = data.title.isNotEmpty()
+
         tvTypesSelectionDialogSubtitle.text = data.subtitle
         tvTypesSelectionDialogSubtitle.isVisible = data.subtitle.isNotEmpty()
+
+        viewTypesSelectionDialogDivider.isVisible =
+            data.title.isNotEmpty() || data.subtitle.isNotEmpty()
         containerTypesSelectionButtons.isVisible = data.isButtonsVisible
     }
 
-    private fun onTypesSelected(typeIds: List<Long>) {
-        listener?.onTypesSelected(typeIds, extra.tag)
+    private fun onDataSelected(typeIds: List<Long>) {
+        listener?.onDataSelected(typeIds, extra.tag)
         dismiss()
     }
 

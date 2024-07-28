@@ -1,0 +1,129 @@
+package com.example.util.simpletimetracker.feature_change_complex_rule.interactor
+
+import com.example.util.simpletimetracker.core.mapper.DayOfWeekViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.ComplexRule
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
+import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
+import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
+import com.example.util.simpletimetracker.feature_change_complex_rule.R
+import com.example.util.simpletimetracker.feature_change_complex_rule.adapter.ChangeComplexRuleActionViewData
+import com.example.util.simpletimetracker.feature_change_complex_rule.mapper.ChangeComplexRuleViewDataMapper
+import com.example.util.simpletimetracker.feature_change_complex_rule.viewData.ChangeComplexRuleActionChooserViewData
+import com.example.util.simpletimetracker.feature_change_complex_rule.viewData.ChangeComplexRuleTypesChooserViewData
+import javax.inject.Inject
+
+class ChangeComplexRuleViewDataInteractor @Inject constructor(
+    private val resourceRepo: ResourceRepo,
+    private val prefsInteractor: PrefsInteractor,
+    private val recordTypeInteractor: RecordTypeInteractor,
+    private val dayOfWeekViewDataMapper: DayOfWeekViewDataMapper,
+    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
+    private val changeComplexRuleViewDataMapper: ChangeComplexRuleViewDataMapper,
+) {
+
+    fun getActionViewData(
+        newActionType: ComplexRule.Action?,
+        newActionSetTagIds: Set<Long>,
+    ): ChangeComplexRuleActionChooserViewData {
+        val items = listOf(
+            ComplexRule.Action.AllowMultitasking,
+            ComplexRule.Action.DisallowMultitasking,
+            ComplexRule.Action.SetTag,
+        ).map {
+            ChangeComplexRuleActionViewData(
+                type = changeComplexRuleViewDataMapper.mapAction(it),
+                text = changeComplexRuleViewDataMapper.mapActionTitle(
+                    action = it,
+                    tagIds = newActionSetTagIds
+                ),
+            )
+        }
+        val selectedCount = if (newActionType is ComplexRule.Action.SetTag) {
+            newActionSetTagIds.size
+        } else {
+            0
+        }
+
+        return ChangeComplexRuleActionChooserViewData(
+            title = changeComplexRuleViewDataMapper.mapActionTitle(
+                action = newActionType,
+                tagIds = newActionSetTagIds
+            ),
+            selectedCount = selectedCount,
+            viewData = items,
+        )
+    }
+
+    suspend fun getTypesViewData(
+        selectedIds: Set<Long>,
+    ): ChangeComplexRuleTypesChooserViewData {
+        val numberOfCards = prefsInteractor.getNumberOfCards()
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        val data = recordTypeInteractor.getAll()
+            .filter { !it.hidden }
+            .map {
+                it.id to recordTypeViewDataMapper.map(
+                    recordType = it,
+                    numberOfCards = numberOfCards,
+                    isDarkTheme = isDarkTheme,
+                    isChecked = null,
+                )
+            }
+
+        return if (data.isNotEmpty()) {
+            val selected = data.filter { it.first in selectedIds }.map { it.second }
+            val available = data.filter { it.first !in selectedIds }.map { it.second }
+            val viewData = mutableListOf<ViewHolderType>()
+            mapSelectedTypesHint(
+                isEmpty = selected.isEmpty(),
+            ).let(viewData::add)
+            selected.let(viewData::addAll)
+            DividerViewData(1)
+                .takeUnless { available.isEmpty() }
+                ?.let(viewData::add)
+            available.let(viewData::addAll)
+
+            ChangeComplexRuleTypesChooserViewData(
+                selectedCount = selected.size,
+                viewData = viewData,
+            )
+        } else {
+            ChangeComplexRuleTypesChooserViewData(
+                selectedCount = 0,
+                viewData = recordTypeViewDataMapper.mapToEmpty(),
+            )
+        }
+    }
+
+    suspend fun getDaysOfWeek(
+        daysOfWeek: Set<DayOfWeek>,
+    ): ChangeComplexRuleTypesChooserViewData {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        val viewData = dayOfWeekViewDataMapper.mapViewData(
+            selectedDaysOfWeek = daysOfWeek.toList(),
+            isDarkTheme = isDarkTheme,
+            width = DayOfWeekViewData.Width.MatchParent,
+            paddingHorizontalDp = 2,
+        )
+        return ChangeComplexRuleTypesChooserViewData(
+            selectedCount = daysOfWeek.size,
+            viewData = viewData,
+        )
+    }
+
+    private fun mapSelectedTypesHint(isEmpty: Boolean): ViewHolderType {
+        return InfoViewData(
+            text = if (isEmpty) {
+                R.string.nothing_selected
+            } else {
+                R.string.something_selected
+            }.let(resourceRepo::getString),
+        )
+    }
+}

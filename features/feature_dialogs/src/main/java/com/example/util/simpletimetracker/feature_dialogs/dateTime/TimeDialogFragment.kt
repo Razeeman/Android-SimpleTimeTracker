@@ -48,6 +48,7 @@ class TimeDialogFragment : BaseFragment<Binding>() {
         }
 
         inputTimePickerSeconds.isVisible = showSeconds
+        inputTimePickerSeconds.requestFocus()
         etTimePickerSeconds.filters = listOf(MinMaxFilter(0, 59)).toTypedArray()
         etTimePickerSeconds.setText(calendar.get(Calendar.SECOND).toString())
         etTimePickerSeconds.doAfterTextChanged {

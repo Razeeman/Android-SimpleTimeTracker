@@ -133,8 +133,8 @@ class SettingsFragment :
         backupViewModel.onDataExportSettingsSelected(data)
     }
 
-    override fun onTypesSelected(typeIds: List<Long>, tag: String?) {
-        viewModel.onTypesSelected(typeIds, tag)
+    override fun onDataSelected(dataIds: List<Long>, tag: String?) {
+        viewModel.onTypesSelected(dataIds, tag)
     }
 
     private fun onBlockClicked(block: SettingsBlock) {

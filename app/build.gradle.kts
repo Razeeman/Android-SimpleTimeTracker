@@ -112,6 +112,8 @@ dependencies {
     implementation(project(":feature_records_filter"))
     implementation(project(":feature_goals"))
     implementation(project(":feature_pomodoro"))
+    implementation(project(":feature_complex_rules"))
+    implementation(project(":feature_change_complex_rule"))
     "playImplementation"(project(":feature_wear"))
 
     implementation(Deps.Androidx.room)

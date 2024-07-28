@@ -66,8 +66,4 @@ class CategoriesFragment : BaseFragment<Binding>() {
         super.onResume()
         viewModel.onVisible()
     }
-
-    companion object {
-        fun newInstance() = CategoriesFragment()
-    }
 }

@@ -25,6 +25,7 @@ class AppDatabaseMigrations {
                 migration_15_16,
                 migration_16_17,
                 migration_17_18,
+                migration_18_19,
             )
 
         private val migration_1_2 = object : Migration(1, 2) {
@@ -243,6 +244,14 @@ class AppDatabaseMigrations {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
                     "CREATE TABLE IF NOT EXISTS `favouriteIcons` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `icon` TEXT NOT NULL)",
+                )
+            }
+        }
+
+        private val migration_18_19 = object : Migration(18, 19) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `complexRules` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `actionType` INTEGER NOT NULL, `actionSetTags` TEXT NOT NULL, `conditionStartingActivity` TEXT NOT NULL, `conditionCurrentActivity` TEXT NOT NULL, `conditionDaysOfWeek` TEXT NOT NULL)",
                 )
             }
         }

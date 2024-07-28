@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerComplexRuleItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    app:cardBackgroundColor="@color/black"
+    app:cardCornerRadius="@dimen/record_type_card_corner_radius"
+    app:cardElevation="@dimen/record_type_card_elevation"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:orientation="vertical"
+        android:paddingHorizontal="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvComplexRuleItemActionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/change_complex_actions_title"
+            android:textColor="?appLightTextColor"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvComplexRuleItemAction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?appLightTextColor"
+            tools:text="Allow multitasking" />
+
+        <View
+            android:id="@+id/viewComplexRuleItemDivider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="6dp"
+            tools:background="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvComplexRuleItemConditionsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/change_complex_conditions_title"
+            android:textColor="?appLightTextColor"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvComplexRuleItemStartingTypes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?appLightTextColor"
+            tools:text="Starting activity: Read" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvComplexRuleItemCurrentTypes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?appLightTextColor"
+            tools:text="Current activity: Commute" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvComplexRuleItemDayOfWeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?appLightTextColor"
+            tools:text="Day of week: Mon, Tue, Wed" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>

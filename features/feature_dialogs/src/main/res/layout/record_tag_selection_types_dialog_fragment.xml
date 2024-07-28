@@ -33,6 +33,7 @@
         tools:text="Subtitle" />
 
     <com.example.util.simpletimetracker.feature_views.DividerView
+        android:id="@+id/viewTypesSelectionDialogDivider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
