@@ -17,7 +17,7 @@
     <string name="something_selected">Selectat:</string>
     <string name="select_all">Selectează toate</string>
     <string name="select_nothing">Nu selecta nimic</string>
-    <string name="no_data">Nu există date</string>
+    <string name="no_data">Nu există informații</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Ieri</string>
@@ -25,7 +25,7 @@
     <string name="title_tomorrow">Mâine</string>
     <string name="title_this_week">Săptămâna curentă</string>
     <string name="title_this_month">Luna curentă</string>
-    <string name="title_this_year">Anul curentă</string>
+    <string name="title_this_year">Anul curent</string>
 
     <string name="range_day">Zi</string>
     <string name="range_week">Săptămână</string>
@@ -85,7 +85,7 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">Categorie ștearsă</string>
-    <string name="change_category_name_hint">Introdu nume now</string>
+    <string name="change_category_name_hint">Introdu nume nou</string>
     <string name="change_category_color_hint">Culoare</string>
     <string name="change_category_types_hint">Activități</string>
     <string name="change_category_save">Salvează</string>
@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">Durata</string>
     <string name="change_record_type_goal_count">Număr</string>
 
+    <!--  TODO RULES add to drive file   -->
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Permite o modificare fină a unor setări</string>
+    <string name="complex_rules_disable">Dezactivează</string>
+    <string name="complex_rules_enable">Activează</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Acțiune</string>
+    <string name="change_complex_action_assign_tag">Atribuie etichetă</string>
+    <string name="change_complex_conditions_title">Condiții</string>
+    <string name="change_complex_starting_activity">Activitatea de inceput</string>
+    <string name="change_complex_previous_activity">Activitatea anterioară</string>
+    <string name="change_complex_rule_removed">Regulă stearsă</string>
+    <string name="change_complex_rule_choose_action">Alege ațiuneas</string>
+    <string name="change_complex_rule_choose_condition">Alege condițiile</string>
+    
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filtru scos</string>
     <string name="change_activity_filter_save">Salvează</string>
@@ -182,7 +198,7 @@
     <string name="duration_dialog_save">Salvează</string>
     <string name="duration_dialog_disable">Dezactivează</string>
 
-    <string name="color_selection_base_color_hint">Alege culoearea de bază</string>
+    <string name="color_selection_base_color_hint">Alege culoarea de bază</string>
     <string name="color_selection_adjust_color_hint">Ajustează culoarea</string>
     <string name="color_selection_final_color_hint">Culoarea finală</string>
 
@@ -236,7 +252,7 @@
     <string name="settings_sort_activity">@string/change_record_type_field</string>
     <string name="settings_first_day_of_week">Prima zi a săptămânii</string>
     <string name="settings_show_repeat_button">Afișați butonul de repetare pe ecranul principal</string>
-    <string name="settings_repeat_button_type">Modul</string>
+    <string name="settings_repeat_button_type">Mod</string>
     <string name="settings_repeat_last_record">Repetă ultima înregistrare</string>
     <string name="settings_repeat_one_before_last">Repetă penultima înregistrare</string>
     <string name="settings_show_untracked_time">Arată timpul neurmărit în înregistrări</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">Afișează țelurile într-o foaie separată</string>
     <string name="settings_show_nav_bar_at_the_bottom">Afișați bara de navigare în partea de jos</string>
     <string name="settings_allow_multitasking">Permite multitasking</string>
+    <string name="settings_disallow_multitasking">Nu permite multitasking</string>
     <string name="settings_allow_multitasking_hint">Dacă este dezactivat, activarea unei noi activități va opri alte activități.</string>
     <string name="settings_show_notifications">Arată notificările cronometrului</string>
     <string name="settings_show_notifications_hint">Arată notificări când cronometrul este pornit.</string>
@@ -275,7 +292,7 @@
     <string name="settings_notifications_system_settings">Setări de sistem</string>
     <string name="settings_notifications_system_settings_hint">Sunet, vibrație, flash și altele</string>
     <string name="settings_ignore_short_records">Ignoră înregistrările scurte</string>
-    <string name="settings_ignore_short_records_hint">Nu urmări activitățo care sunt mai scurte decât timpul specificat.</string>
+    <string name="settings_ignore_short_records_hint">Nu urmări activități care sunt mai scurte decât timpul specificat.</string>
     <string name="settings_inactivity_reminder_disabled">Dezactivează</string>
     <string name="settings_dark_mode">Mod întunecat</string>
     <string name="settings_dark_mode_system">Sistem</string>
@@ -414,7 +431,7 @@ Examplu:<br/>
     <string name="statistics_detail_streaks_current">Curent</string>
     <string name="statistics_detail_streaks_completion">Rata de finalizare</string>
     <string name="statistics_detail_streaks_completion_percentage">Procent</string>
-    <string name="statistics_detail_streaks_completion_count">Numara</string>
+    <string name="statistics_detail_streaks_completion_count">Număr</string>
     <string name="statistics_detail_streaks_latest">Ultimul</string>
     <string name="statistics_detail_streaks_any">Orice durata</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
