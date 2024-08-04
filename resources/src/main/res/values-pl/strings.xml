@@ -348,6 +348,7 @@ Dodatkowo:<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\" z dodatkami: \"%s\", \"%s\", \"%s\" i \"%s\", \"%s\" w formacie \"rrrr-mm-dd gg:mm:ss\" lub sygnatura czasowa UTC.<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Wysyłaj zdarzenia</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

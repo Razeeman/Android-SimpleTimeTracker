@@ -348,6 +348,7 @@
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\" अतिरिक्त के साथ: \"%s\", \"%s\", \"%s\" और \"%s\", \"%s\" प्रारूप में \"yyyy-MM-dd HH:mm:ss\" या UTC टाइमस्टैम्प।<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">घटनाएँ भेजें</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

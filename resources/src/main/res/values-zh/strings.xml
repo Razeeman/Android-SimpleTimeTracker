@@ -348,6 +348,7 @@
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\" 以及附加功能：\"%s\"、\"%s\"、\"%s\" 和 \"%s\"、\"%s\" 格式为 \"yyyy-MM-dd HH:mm:ss\" 或 UTC 时间戳。<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">发送事件</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

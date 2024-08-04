@@ -348,6 +348,7 @@
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\" と追加機能: \"%s\"、\"%s\"、\"%s\" および \"%s\"、\"%s\" 形式は 「yyyy-MM-dd HH:mm:ss」 または UTC タイムスタンプです。<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">イベントを送信する</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

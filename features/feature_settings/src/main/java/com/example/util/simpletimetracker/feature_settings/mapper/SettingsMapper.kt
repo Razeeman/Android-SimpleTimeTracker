@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.utils.ACTION_ADD_RECORD
 import com.example.util.simpletimetracker.core.utils.ACTION_RESTART_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_START_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_STOP_ACTIVITY
@@ -16,6 +17,8 @@ import com.example.util.simpletimetracker.core.utils.EVENT_STOPPED_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
+import com.example.util.simpletimetracker.core.utils.EXTRA_TIME_ENDED
+import com.example.util.simpletimetracker.core.utils.EXTRA_TIME_STARTED
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.DarkMode
 import com.example.util.simpletimetracker.domain.model.CardOrder
@@ -99,9 +102,8 @@ class SettingsMapper @Inject constructor(
     )
 
     fun toAutomatedTrackingHelpDialog(): HelpDialogParams {
-        return HelpDialogParams(
-            title = resourceRepo.getString(R.string.settings_automated_tracking),
-            text = resourceRepo.getString(
+        val mainText = runCatching {
+            resourceRepo.getString(
                 R.string.settings_automated_tracking_text,
             ).format(
                 ACTION_START_ACTIVITY,
@@ -114,7 +116,17 @@ class SettingsMapper @Inject constructor(
                 ACTION_STOP_SHORTEST_ACTIVITY,
                 ACTION_STOP_LONGEST_ACTIVITY,
                 ACTION_RESTART_ACTIVITY,
-            ) + "<br/>" + resourceRepo.getString(
+                ACTION_ADD_RECORD,
+                EXTRA_ACTIVITY_NAME,
+                EXTRA_RECORD_COMMENT,
+                EXTRA_RECORD_TAG_NAME,
+                EXTRA_TIME_STARTED,
+                EXTRA_TIME_ENDED,
+            )
+        }.getOrNull().orEmpty()
+
+        val sendEventsText = runCatching {
+            resourceRepo.getString(
                 R.string.settings_automated_tracking_send_events_text,
             ).format(
                 resourceRepo.getString(R.string.settings_automated_tracking_send_events),
@@ -123,7 +135,12 @@ class SettingsMapper @Inject constructor(
                 EXTRA_ACTIVITY_NAME,
                 EXTRA_RECORD_COMMENT,
                 EXTRA_RECORD_TAG_NAME,
-            ),
+            )
+        }.getOrNull().orEmpty()
+
+        return HelpDialogParams(
+            title = resourceRepo.getString(R.string.settings_automated_tracking),
+            text = "$mainText<br/>$sendEventsText",
         )
     }
 

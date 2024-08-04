@@ -348,6 +348,7 @@
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\" 추가 항목 포함: \"%s\", \"%s\", \"%s\" 및 \"%s\", \"%s\" 형식은 \"yyyy-MM-dd HH:mm:ss\" 또는 UTC 타임스탬프입니다.<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">이벤트 보내기</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

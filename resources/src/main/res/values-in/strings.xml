@@ -348,6 +348,7 @@ Tambahan:<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\" dengan tambahan: \"%s\", \"%s\", \"%s\" dan \"%s\", \"%s\" dalam format \"yyyy-MM-dd HH:mm:ss\" atau stempel waktu UTC.<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Kirim acara</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

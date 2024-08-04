@@ -348,6 +348,7 @@ Ytterligare:<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\" med extrafunktioner: \"%s\", \"%s\", \"%s\" och \"%s\", \"%s\" i formatet \"åååå-MM-dd HH:mm:ss\" eller UTC-tidsstämpel.<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Skicka händelser</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

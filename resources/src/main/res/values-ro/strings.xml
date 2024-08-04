@@ -348,6 +348,7 @@ Adițional:<br/>
 <b>Acțiune</b> - \"%s\".<br/>
 <b>Acțiune</b> - \"%s\".<br/>
 <b>Acțiune</b> - \"%s\".<br/>
+<b>Acțiune</b> - \"%s\" cu extra: \"%s\", \"%s\", \"%s\" și \"%s\", \"%s\" în formatul \"aaaa-ll-zz HH:mm:ss\" sau marcaj orar UTC.<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Trimite eveniment</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

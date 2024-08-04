@@ -2,24 +2,31 @@ package com.example.util.simpletimetracker.feature_notification.recordType.inter
 
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.domain.REPEAT_BUTTON_ITEM_ID
+import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.GetSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordsUpdateInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.Record
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
 
 class ActivityStartStopFromBroadcastInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val addRunningRecordMediator: AddRunningRecordMediator,
+    private val addRecordMediator: AddRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordInteractor: RecordInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val recordRepeatInteractor: RecordRepeatInteractor,
     private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
+    private val recordsUpdateInteractor: RecordsUpdateInteractor,
 ) {
 
     suspend fun onActionActivityStart(
@@ -94,6 +101,31 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         )
     }
 
+    suspend fun onRecordAdd(
+        name: String,
+        timeStarted: String,
+        timeEnded: String,
+        comment: String?,
+        tagName: String?,
+    ) {
+        val typeId = getTypeIdByName(name) ?: return
+        val newTimeStarted = parseTimestamp(timeStarted) ?: return
+        val newTimeEnded = parseTimestamp(timeEnded) ?: return
+        val tagId = findTagIdByName(tagName, typeId)
+
+        Record(
+            id = 0, // Zero creates new record.
+            typeId = typeId,
+            timeStarted = newTimeStarted,
+            timeEnded = newTimeEnded,
+            comment = comment.orEmpty(),
+            tagIds = listOfNotNull(tagId),
+        ).let {
+            addRecordMediator.add(it)
+            recordsUpdateInteractor.send()
+        }
+    }
+
     suspend fun onActionTypeClick(
         typeId: Long,
         selectedTypeId: Long,
@@ -146,5 +178,27 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         name ?: return null
         return getSelectableTagsInteractor.execute(typeId)
             .firstOrNull { it.name == name && !it.archived }?.id
+    }
+
+    /**
+     * Supported formats:
+     * [dateTimeFormat],
+     * UTC timestamp in milliseconds.
+     */
+    private fun parseTimestamp(timeString: String): Long? {
+        return parseDateTime(timeString)
+            ?: timeString.toLongOrNull()
+    }
+
+    private fun parseDateTime(timeString: String): Long? {
+        return synchronized(dateTimeFormat) {
+            runCatching {
+                dateTimeFormat.parse(timeString)
+            }.getOrNull()?.time
+        }
+    }
+
+    companion object {
+        private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
     }
 }

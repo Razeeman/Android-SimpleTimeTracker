@@ -73,6 +73,27 @@ class NotificationTypeBroadcastController @Inject constructor(
         }
     }
 
+    fun onActionRecordAdd(
+        name: String?,
+        timeStarted: String?,
+        timeEnded: String?,
+        comment: String?,
+        tagName: String?,
+    ) {
+        name ?: return
+        timeStarted ?: return
+        timeEnded ?: return
+        GlobalScope.launch {
+            activityStartStopFromBroadcastInteractor.onRecordAdd(
+                name = name,
+                timeStarted = timeStarted,
+                timeEnded = timeEnded,
+                comment = comment,
+                tagName = tagName,
+            )
+        }
+    }
+
     fun onActionTypeClick(
         typeId: Long,
         selectedTypeId: Long,

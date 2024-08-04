@@ -348,6 +348,7 @@ Aanvullend:<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\" met extra\'s: \"%s\", \"%s\", \"%s\" en \"%s\", \"%s\" in de notatie \"jjjj-MM-dd HH:mm:ss\" of UTC-tijdstempel.<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Stuur evenementen</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

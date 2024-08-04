@@ -348,6 +348,7 @@ Ek olarak:<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\" ve ekstralar: \"%s\", \"%s\", \"%s\" ve \"%s\", \"%s\" \"yyyy-AA-gg SS:dd:ss\" veya UTC zaman damgası biçiminde.<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Etkinlikleri gönder</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

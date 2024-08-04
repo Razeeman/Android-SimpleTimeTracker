@@ -348,6 +348,7 @@
 <b>عمل</b> - \"%s\".<br/>
 <b>عمل</b> - \"%s\".<br/>
 <b>عمل</b> - \"%s\".<br/>
+<b>عمل</b> - \"%s\" با موارد اضافی: \"%s\"، \"%s\"، \"%s\" و \"%s\"، \"%s\" در قالب \"yyyy-MM-dd HH:mm:ss\" یا مهر زمانی UTC.<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">ارسال اتفاقات</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

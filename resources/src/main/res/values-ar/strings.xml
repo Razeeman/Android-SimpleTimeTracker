@@ -348,6 +348,7 @@
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\" مع الإضافات: \"%s\"، \"%s\"، \"%s\" و \"%s\"، \"%s\" بالتنسيق \"yyyy-MM-dd HH:mm:ss\" أو الطابع الزمني UTC.<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">إرسال اﻷحداث</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

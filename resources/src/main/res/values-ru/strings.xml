@@ -348,6 +348,7 @@
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
+<b>Action</b> – \"%s\" с дополнительными функциями: \"%s\", \"%s\", \"%s\" и \"%s\", \"%s\" в формате \"гггг-ММ-дд ЧЧ:мм:сс\" или временной метке UTC.<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Отправлять события</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

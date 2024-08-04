@@ -348,6 +348,7 @@ Ngoài ra:<br/>
 <b>Hành động</b> - \"%s\".<br/>
 <b>Hành động</b> - \"%s\".<br/>
 <b>Hành động</b> - \"%s\".<br/>
+<b>Hành động</b> - \"%s\" với các tính năng bổ sung: \"%s\", \"%s\", \"%s\" và \"%s\", \"%s\" ở định dạng \"yyyy-MM-dd HH:mm:ss\" hoặc dấu thời gian UTC.<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Gửi sự kiện</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[

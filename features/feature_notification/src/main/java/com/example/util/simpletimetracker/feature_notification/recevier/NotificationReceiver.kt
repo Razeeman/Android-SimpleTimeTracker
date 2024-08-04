@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.example.util.simpletimetracker.core.extension.goAsync
+import com.example.util.simpletimetracker.core.utils.ACTION_ADD_RECORD
 import com.example.util.simpletimetracker.core.utils.ACTION_RESTART_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_START_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_STOP_ACTIVITY
@@ -14,6 +15,8 @@ import com.example.util.simpletimetracker.core.utils.ACTION_STOP_SHORTEST_ACTIVI
 import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
+import com.example.util.simpletimetracker.core.utils.EXTRA_TIME_ENDED
+import com.example.util.simpletimetracker.core.utils.EXTRA_TIME_STARTED
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.activity.controller.NotificationActivityBroadcastController
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.controller.AutomaticBackupBroadcastController
@@ -150,6 +153,20 @@ class NotificationReceiver : BroadcastReceiver() {
                 val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
                 val tagName = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
                 typeController.onActionActivityRestart(
+                    comment = comment,
+                    tagName = tagName,
+                )
+            }
+            ACTION_ADD_RECORD -> {
+                val name = intent.getStringExtra(EXTRA_ACTIVITY_NAME)
+                val timeStarted = intent.getStringExtra(EXTRA_TIME_STARTED)
+                val timeEnded = intent.getStringExtra(EXTRA_TIME_ENDED)
+                val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
+                val tagName = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
+                typeController.onActionRecordAdd(
+                    name = name,
+                    timeStarted = timeStarted,
+                    timeEnded = timeEnded,
                     comment = comment,
                     tagName = tagName,
                 )

@@ -348,6 +348,7 @@
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
+<b>Action</b> - \"%s\" з додатками: \"%s\", \"%s\", \"%s\" і \"%s\", \"%s\" у форматі \"рррр-ММ-дд ГГ:хх:сс\" або часову позначку UTC.<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Надсилати події</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
