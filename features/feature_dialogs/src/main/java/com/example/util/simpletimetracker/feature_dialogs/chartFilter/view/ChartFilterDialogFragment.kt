@@ -1,17 +1,17 @@
 package com.example.util.simpletimetracker.feature_dialogs.chartFilter.view
 
-import com.example.util.simpletimetracker.feature_dialogs.databinding.ChartFilterDialogFragmentBinding as Binding
 import android.content.Context
 import android.content.DialogInterface
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
-import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.core.extension.findListener
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
+import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
@@ -19,11 +19,14 @@ import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoad
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.chartFilter.viewModel.ChartFilterViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDialogParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.util.simpletimetracker.feature_dialogs.databinding.ChartFilterDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
 class ChartFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
@@ -41,22 +44,14 @@ class ChartFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
             createEmptyAdapterDelegate(),
         )
     }
-
+    private val params: ChartFilterDialogParams by fragmentArgumentDelegate(
+        key = ARGS_PARAMS, default = ChartFilterDialogParams.Empty,
+    )
     private var chartFilterDialogListener: ChartFilterDialogListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        when (context) {
-            is ChartFilterDialogListener -> {
-                chartFilterDialogListener = context
-                return
-            }
-            is AppCompatActivity -> {
-                context.getAllFragments()
-                    .firstOrNull { it is ChartFilterDialogListener && it.isResumed }
-                    ?.let { chartFilterDialogListener = it as? ChartFilterDialogListener }
-            }
-        }
+        chartFilterDialogListener = context.findListener<ChartFilterDialogListener>()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -78,6 +73,7 @@ class ChartFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
             }
             adapter = recordTypesAdapter
         }
+        updateState()
     }
 
     override fun initUx(): Unit = with(binding) {
@@ -87,7 +83,21 @@ class ChartFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
+        extra = params
         filterTypeViewData.observe(binding.buttonsChartFilterType.adapter::replace)
         types.observe(recordTypesAdapter::replace)
+    }
+
+    private fun updateState() = with(binding) {
+        tvChartFilterTypeHint.visible = params.type is ChartFilterDialogParams.Type.Statistics
+        buttonsChartFilterType.visible = params.type is ChartFilterDialogParams.Type.Statistics
+    }
+
+    companion object {
+        private const val ARGS_PARAMS = "args_params"
+
+        fun createBundle(data: ChartFilterDialogParams): Bundle = Bundle().apply {
+            putParcelable(ARGS_PARAMS, data)
+        }
     }
 }

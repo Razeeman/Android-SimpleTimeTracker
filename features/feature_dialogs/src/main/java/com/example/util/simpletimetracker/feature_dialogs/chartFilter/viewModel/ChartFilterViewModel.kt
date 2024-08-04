@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ChartFilterViewDataInteractor
 import com.example.util.simpletimetracker.core.mapper.ChartFilterViewDataMapper
@@ -12,8 +11,8 @@ import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowVie
 import com.example.util.simpletimetracker.core.viewData.ChartFilterTypeViewData
 import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
+import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
-import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.Category
@@ -24,19 +23,23 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_dialogs.chartFilter.interactor.ChartFilterInteractor
+import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class ChartFilterViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val categoryInteractor: CategoryInteractor,
     private val recordTagInteractor: RecordTagInteractor,
-    private val prefsInteractor: PrefsInteractor,
     private val chartFilterViewDataMapper: ChartFilterViewDataMapper,
+    private val chartFilterInteractor: ChartFilterInteractor,
     private val chartFilterViewDataInteractor: ChartFilterViewDataInteractor,
 ) : ViewModel() {
+
+    lateinit var extra: ChartFilterDialogParams
 
     val filterTypeViewData: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -66,13 +69,13 @@ class ChartFilterViewModel @Inject constructor(
 
     private var typeIdsFiltered: MutableList<Long> = mutableListOf()
     private var categoryIdsFiltered: MutableList<Long> = mutableListOf()
-    private var recordTagsFiltered: MutableList<Long> = mutableListOf()
+    private var recordTagIdsFiltered: MutableList<Long> = mutableListOf()
 
     fun onFilterTypeClick(viewData: ButtonsRowViewData) {
         viewModelScope.launch {
             if (viewData !is ChartFilterTypeViewData) return@launch
             filterType = viewData.filterType
-            prefsInteractor.setChartFilterType(filterType)
+            chartFilterInteractor.setChartFilterType(extra, filterType)
             updateFilterTypeViewData()
             updateTypesViewData()
         }
@@ -80,7 +83,7 @@ class ChartFilterViewModel @Inject constructor(
 
     fun onRecordTypeClick(item: RecordTypeViewData) = viewModelScope.launch {
         typeIdsFiltered.addOrRemove(item.id)
-        prefsInteractor.setFilteredTypes(typeIdsFiltered)
+        chartFilterInteractor.setFilteredTypes(extra, typeIdsFiltered)
         updateRecordTypesViewData()
     }
 
@@ -88,12 +91,12 @@ class ChartFilterViewModel @Inject constructor(
         when (item) {
             is CategoryViewData.Category -> {
                 categoryIdsFiltered.addOrRemove(item.id)
-                prefsInteractor.setFilteredCategories(categoryIdsFiltered)
+                chartFilterInteractor.setFilteredCategories(extra, categoryIdsFiltered)
                 updateCategoriesViewData()
             }
             is CategoryViewData.Record -> {
-                recordTagsFiltered.addOrRemove(item.id)
-                prefsInteractor.setFilteredTags(recordTagsFiltered)
+                recordTagIdsFiltered.addOrRemove(item.id)
+                chartFilterInteractor.setFilteredTags(extra, recordTagIdsFiltered)
                 updateTagsViewData()
             }
         }
@@ -103,15 +106,15 @@ class ChartFilterViewModel @Inject constructor(
         when (filterType) {
             ChartFilterType.ACTIVITY -> {
                 typeIdsFiltered.clear()
-                prefsInteractor.setFilteredTypes(typeIdsFiltered)
+                chartFilterInteractor.setFilteredTypes(extra, typeIdsFiltered)
             }
             ChartFilterType.CATEGORY -> {
                 categoryIdsFiltered.clear()
-                prefsInteractor.setFilteredCategories(categoryIdsFiltered)
+                chartFilterInteractor.setFilteredCategories(extra, categoryIdsFiltered)
             }
             ChartFilterType.RECORD_TAG -> {
-                recordTagsFiltered.clear()
-                prefsInteractor.setFilteredTags(recordTagsFiltered)
+                recordTagIdsFiltered.clear()
+                chartFilterInteractor.setFilteredTags(extra, recordTagIdsFiltered)
             }
         }
         updateTypesViewData()
@@ -122,29 +125,29 @@ class ChartFilterViewModel @Inject constructor(
             ChartFilterType.ACTIVITY -> {
                 getTypesCache().map { it.id }.let(typeIdsFiltered::addAll)
                 typeIdsFiltered.add(UNTRACKED_ITEM_ID)
-                prefsInteractor.setFilteredTypes(typeIdsFiltered)
+                chartFilterInteractor.setFilteredTypes(extra, typeIdsFiltered)
             }
             ChartFilterType.CATEGORY -> {
                 getCategoriesCache().map { it.id }.let(categoryIdsFiltered::addAll)
                 categoryIdsFiltered.add(UNTRACKED_ITEM_ID)
                 categoryIdsFiltered.add(UNCATEGORIZED_ITEM_ID)
-                prefsInteractor.setFilteredCategories(categoryIdsFiltered)
+                chartFilterInteractor.setFilteredCategories(extra, categoryIdsFiltered)
             }
             ChartFilterType.RECORD_TAG -> {
-                getTagsCache().map { it.id }.let(recordTagsFiltered::addAll)
-                recordTagsFiltered.add(UNTRACKED_ITEM_ID)
-                recordTagsFiltered.add(UNCATEGORIZED_ITEM_ID)
-                prefsInteractor.setFilteredTags(recordTagsFiltered)
+                getTagsCache().map { it.id }.let(recordTagIdsFiltered::addAll)
+                recordTagIdsFiltered.add(UNTRACKED_ITEM_ID)
+                recordTagIdsFiltered.add(UNCATEGORIZED_ITEM_ID)
+                chartFilterInteractor.setFilteredTags(extra, recordTagIdsFiltered)
             }
         }
         updateTypesViewData()
     }
 
     private suspend fun initializeChartFilterType() {
-        filterType = prefsInteractor.getChartFilterType()
-        typeIdsFiltered = prefsInteractor.getFilteredTypes().toMutableList()
-        categoryIdsFiltered = prefsInteractor.getFilteredCategories().toMutableList()
-        recordTagsFiltered = prefsInteractor.getFilteredTags().toMutableList()
+        filterType = chartFilterInteractor.getChartFilterType(extra)
+        typeIdsFiltered = chartFilterInteractor.getFilteredTypes(extra).toMutableList()
+        categoryIdsFiltered = chartFilterInteractor.getFilteredCategories(extra).toMutableList()
+        recordTagIdsFiltered = chartFilterInteractor.getFilteredTags(extra).toMutableList()
     }
 
     private suspend fun getTypesCache(): List<RecordType> {
@@ -223,7 +226,7 @@ class ChartFilterViewModel @Inject constructor(
         return chartFilterViewDataInteractor.loadTagsViewData(
             tags = getTagsCache(),
             types = getTypesCache(),
-            recordTagsFiltered = recordTagsFiltered,
+            recordTagsFiltered = recordTagIdsFiltered,
         )
     }
 }

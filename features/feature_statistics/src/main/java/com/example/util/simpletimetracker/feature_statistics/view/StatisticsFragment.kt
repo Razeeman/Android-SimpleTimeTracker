@@ -107,6 +107,10 @@ class StatisticsFragment :
         viewModel.onHidden()
     }
 
+    override fun onChartFilterDialogDismissed() {
+        viewModel.onFilterApplied()
+    }
+
     private fun setAnimateParticles(animate: Boolean) {
         statisticsAdapter.currentList
             .indexOfFirst { it is StatisticsChartViewData }
@@ -116,10 +120,6 @@ class StatisticsFragment :
                     ?.itemView?.findViewById<PieChartView>(R.id.chartStatisticsItem)
             }
             ?.setAnimateParticles(animate)
-    }
-
-    override fun onChartFilterDialogDismissed() {
-        viewModel.onFilterApplied()
     }
 
     private fun onNewSharingData(data: List<ViewHolderType>) {

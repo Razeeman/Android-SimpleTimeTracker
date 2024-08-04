@@ -83,7 +83,7 @@ class StatisticsViewModel @Inject constructor(
     }
 
     fun onFilterClick() {
-        router.navigate(ChartFilterDialogParams)
+        router.navigate(ChartFilterDialogParams(ChartFilterDialogParams.Type.Statistics))
         isChartFilterOpened = true
         updateAnimateChartParticles()
     }
@@ -123,7 +123,7 @@ class StatisticsViewModel @Inject constructor(
     }
 
     fun onShareView(view: Any) = viewModelScope.launch {
-        sharingInteractor.execute(view, SHARING_NAME)
+        sharingInteractor.execute(view = view, filename = SHARING_NAME)
     }
 
     fun onTabReselected(tab: NavigationTab?) {

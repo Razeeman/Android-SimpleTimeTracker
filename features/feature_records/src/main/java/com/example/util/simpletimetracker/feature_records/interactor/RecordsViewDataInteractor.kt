@@ -2,8 +2,10 @@ package com.example.util.simpletimetracker.feature_records.interactor
 
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
+import com.example.util.simpletimetracker.core.mapper.CalendarToListShiftMapper
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.dropSeconds
 import com.example.util.simpletimetracker.domain.extension.toRange
 import com.example.util.simpletimetracker.domain.interactor.GetUntrackedRecordsInteractor
@@ -13,7 +15,6 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.core.mapper.CalendarToListShiftMapper
 import com.example.util.simpletimetracker.domain.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
@@ -54,7 +55,10 @@ class RecordsViewDataInteractor @Inject constructor(
     private val calendarToListShiftMapper: CalendarToListShiftMapper,
 ) {
 
-    suspend fun getViewData(shift: Int): RecordsState = withContext(Dispatchers.Default) {
+    suspend fun getViewData(
+        shift: Int,
+        forSharing: Boolean,
+    ): RecordsState = withContext(Dispatchers.Default) {
         val calendar = Calendar.getInstance()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
@@ -64,6 +68,7 @@ class RecordsViewDataInteractor @Inject constructor(
         val showUntrackedInRecords = prefsInteractor.getShowUntrackedInRecords()
         val reverseOrder = prefsInteractor.getReverseOrderInCalendar()
         val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
+        val recordTypeIdsFiltered = prefsInteractor.getFilteredTypesOnList()
         val recordTags = recordTagInteractor.getAll()
         val goals = recordTypeGoalInteractor.getAllTypeGoals().groupBy { it.idData.value }
         val runningRecords = runningRecordInteractor.getAll()
@@ -89,6 +94,7 @@ class RecordsViewDataInteractor @Inject constructor(
                 records = records,
                 runningRecords = runningRecords,
                 recordTypes = recordTypes,
+                recordTypeIdsFiltered = recordTypeIdsFiltered,
                 recordTags = recordTags,
                 goals = goals,
                 range = range,
@@ -115,7 +121,11 @@ class RecordsViewDataInteractor @Inject constructor(
                     showSeconds = showSeconds,
                 )
             } else {
-                mapRecordsData(data, shift)
+                mapRecordsData(
+                    data = data,
+                    shift = shift,
+                    forSharing = forSharing,
+                )
             }
         }
     }
@@ -181,6 +191,7 @@ class RecordsViewDataInteractor @Inject constructor(
     private suspend fun mapRecordsData(
         data: List<ViewDataIntermediate>,
         shift: Int,
+        forSharing: Boolean,
     ): RecordsState.RecordsData {
         val records = data.firstOrNull()?.records.orEmpty()
 
@@ -193,23 +204,31 @@ class RecordsViewDataInteractor @Inject constructor(
             else -> recordInteractor.isEmpty() && runningRecordInteractor.isEmpty()
         }
 
-        return records
-            .sortedByDescending { it.timeStartedTimestamp }
-            .map { it.data.value }
-            .let {
-                when {
-                    showFirstEnterHint -> listOf(recordViewDataMapper.mapToNoRecords())
-                    it.isEmpty() -> listOf(recordViewDataMapper.mapToEmpty())
-                    else -> it + recordsViewDataMapper.mapToHint()
-                }
+        val hint = if (!forSharing) {
+            recordsViewDataMapper.mapToHint()
+        } else {
+            null
+        }
+
+        val items = when {
+            showFirstEnterHint -> listOf(recordViewDataMapper.mapToNoRecords())
+            records.isEmpty() -> listOf(recordViewDataMapper.mapToEmpty())
+            else -> {
+                records
+                    .sortedByDescending { it.timeStartedTimestamp }
+                    .map { it.data.value } +
+                    listOfNotNull(hint)
             }
-            .let(RecordsState::RecordsData)
+        }
+
+        return RecordsState.RecordsData(items)
     }
 
     private suspend fun getRecordsViewData(
         records: List<Record>,
         runningRecords: List<RunningRecord>,
         recordTypes: Map<Long, RecordType>,
+        recordTypeIdsFiltered: List<Long>,
         recordTags: List<RecordTag>,
         goals: Map<Long, List<RecordTypeGoal>>,
         range: Range,
@@ -233,7 +252,10 @@ class RecordsViewDataInteractor @Inject constructor(
                 ).let {
                     RecordHolder(
                         timeStartedTimestamp = it.timeStartedTimestamp,
-                        data = RecordHolder.Data.RecordData(it),
+                        data = RecordHolder.Data.RecordData(
+                            value = it,
+                            typeId = record.typeId,
+                        ),
                     )
                 }
             }
@@ -258,12 +280,18 @@ class RecordsViewDataInteractor @Inject constructor(
                 ).let {
                     RecordHolder(
                         timeStartedTimestamp = runningRecord.timeStarted,
-                        data = RecordHolder.Data.RunningRecordData(it),
+                        data = RecordHolder.Data.RunningRecordData(
+                            value = it,
+                            typeId = runningRecord.id,
+                        ),
                     )
                 }
             }
 
-        val untrackedRecordsData = if (showUntrackedInRecords) {
+        val untrackedRecordsData = if (
+            showUntrackedInRecords &&
+            UNTRACKED_ITEM_ID !in recordTypeIdsFiltered
+        ) {
             val recordRanges = records.map(Record::toRange)
             val runningRecordRanges = runningRecords.map(RunningRecord::toRange)
             getUntrackedRecordsInteractor.get(
@@ -280,7 +308,10 @@ class RecordsViewDataInteractor @Inject constructor(
                 ).let {
                     RecordHolder(
                         timeStartedTimestamp = it.timeStartedTimestamp,
-                        data = RecordHolder.Data.RecordData(it),
+                        data = RecordHolder.Data.RecordData(
+                            value = it,
+                            typeId = UNTRACKED_ITEM_ID,
+                        ),
                     )
                 }
             }
@@ -288,7 +319,8 @@ class RecordsViewDataInteractor @Inject constructor(
             emptyList()
         }
 
-        return trackedRecordsData + runningRecordsData + untrackedRecordsData
+        return (trackedRecordsData + runningRecordsData + untrackedRecordsData)
+            .filter { it.data.typeId !in recordTypeIdsFiltered }
     }
 
     private fun mapToCalendarPoint(
@@ -357,9 +389,17 @@ class RecordsViewDataInteractor @Inject constructor(
     ) {
         sealed interface Data {
             val value: ViewHolderType
+            val typeId: Long
 
-            data class RecordData(override val value: RecordViewData) : Data
-            data class RunningRecordData(override val value: RunningRecordViewData) : Data
+            data class RecordData(
+                override val value: RecordViewData,
+                override val typeId: Long,
+            ) : Data
+
+            data class RunningRecordData(
+                override val value: RunningRecordViewData,
+                override val typeId: Long,
+            ) : Data
         }
     }
 

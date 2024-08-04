@@ -1,9 +1,9 @@
 package com.example.util.simpletimetracker.feature_records.mapper
 
+import com.example.util.simpletimetracker.core.mapper.CalendarToListShiftMapper
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.core.mapper.CalendarToListShiftMapper
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_records.R
+import com.example.util.simpletimetracker.feature_records.model.RecordsOptionsSwitchState
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
@@ -93,6 +94,34 @@ class RecordsViewDataMapper @Inject constructor(
         } else {
             timeMapper.toDayTitle(shift, startOfDayShift)
         }
+    }
+
+    fun mapOptionsSwitchState(
+        optionsOpened: Boolean,
+        isCalendarSwitchVisible: Boolean,
+        isCalendar: Boolean,
+    ): RecordsOptionsSwitchState {
+        val moreIconResId = if (optionsOpened) {
+            R.drawable.close
+        } else {
+            R.drawable.more
+        }
+        val state = if (optionsOpened) {
+            RecordsOptionsSwitchState.State.Opened
+        } else {
+            RecordsOptionsSwitchState.State.Closed
+        }
+        val calendarSwitchState = if (isCalendarSwitchVisible) {
+            val iconResId = if (isCalendar) R.drawable.list else R.drawable.calendar
+            RecordsOptionsSwitchState.CalendarSwitchState.Visible(iconResId)
+        } else {
+            RecordsOptionsSwitchState.CalendarSwitchState.Hidden
+        }
+        return RecordsOptionsSwitchState(
+            moreIconResId = moreIconResId,
+            state = state,
+            calendarSwitchState = calendarSwitchState,
+        )
     }
 
     private fun clampToRange(

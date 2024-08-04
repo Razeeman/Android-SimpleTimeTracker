@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.feature_data_edit.dialog.DataEditTagSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.archive.view.ArchiveDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.view.CardOrderDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.chartFilter.view.ChartFilterDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.view.ColorSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.view.CsvExportSettingsDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.customRangeSelection.view.CustomRangeSelectionDialogFragment
@@ -86,7 +87,7 @@ class NavigationDialogMapModule {
     fun chartFilterDialog(): NavigationData {
         return NavigationData(
             R.id.chartFilerDialogFragment,
-            BundleCreator.empty(),
+            bundleCreatorDelegate(ChartFilterDialogFragment::createBundle),
         )
     }
 

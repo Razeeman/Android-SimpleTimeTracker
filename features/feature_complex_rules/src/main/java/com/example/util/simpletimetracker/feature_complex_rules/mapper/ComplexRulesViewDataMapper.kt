@@ -89,9 +89,11 @@ class ComplexRulesViewDataMapper @Inject constructor(
             is ComplexRule.Action.AllowMultitasking,
             is ComplexRule.Action.DisallowMultitasking,
             -> emptyList()
-            is ComplexRule.Action.AssignTag -> rule.actionAssignTagIds
-                .sortedBy { tagsOrder.indexOf(it) }
-                .mapNotNull { tagsMap[it] }
+            is ComplexRule.Action.AssignTag -> {
+                rule.actionAssignTagIds
+                    .sortedBy { tagsOrder.indexOf(it) }
+                    .mapNotNull { tagsMap[it] }
+            }
         }
         val result = mutableListOf<ViewHolderType>()
         result += ComplexRuleElementTitleViewData(

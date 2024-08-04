@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_records.view
 
-import com.example.util.simpletimetracker.feature_records.databinding.RecordsFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
+import com.example.util.simpletimetracker.core.dialog.ChartFilterDialogListener
 import com.example.util.simpletimetracker.core.dialog.RecordQuickActionDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
@@ -22,19 +22,26 @@ import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHin
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.record.createRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.createRunningRecordAdapterDelegate
+import com.example.util.simpletimetracker.feature_records.R
+import com.example.util.simpletimetracker.feature_records.databinding.RecordsFragmentShareBinding
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
+import com.example.util.simpletimetracker.feature_records.model.RecordsShareState
 import com.example.util.simpletimetracker.feature_records.model.RecordsState
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsViewModel
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.feature_views.extension.animateAlpha
+import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.example.util.simpletimetracker.feature_records.databinding.RecordsFragmentBinding as Binding
 
 @AndroidEntryPoint
 class RecordsFragment :
     BaseFragment<Binding>(),
-    RecordQuickActionDialogListener {
+    RecordQuickActionDialogListener,
+    ChartFilterDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -52,23 +59,7 @@ class RecordsFragment :
     private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
         factoryProducer = { mainTabsViewModelFactory },
     )
-    private val recordsAdapter: BaseRecyclerAdapter by lazy {
-        BaseRecyclerAdapter(
-            createRunningRecordAdapterDelegate(
-                transitionNamePrefix = TransitionNames.RUNNING_RECORD_FROM_RECORDS,
-                onItemClick = throttle(viewModel::onRunningRecordClick),
-                onItemLongClick = throttle(viewModel::onRunningRecordLongClick),
-            ),
-            createRecordAdapterDelegate(
-                onItemClick = throttle(viewModel::onRecordClick),
-                onItemLongClick = throttle(viewModel::onRecordLongClick),
-            ),
-            createEmptyAdapterDelegate(),
-            createLoaderAdapterDelegate(),
-            createHintAdapterDelegate(),
-            createHintBigAdapterDelegate(),
-        )
-    }
+    private val recordsAdapter: BaseRecyclerAdapter by lazy { buildAdapter() }
 
     override fun initUi(): Unit = with(binding) {
         parentFragment?.postponeEnterTransition()
@@ -84,8 +75,8 @@ class RecordsFragment :
     }
 
     override fun initUx() {
-        binding.viewRecordsCalendar.setClickListener(throttle(viewModel::onCalendarClick))
-        binding.viewRecordsCalendar.setLongClickListener(throttle(viewModel::onCalendarLongClick))
+        binding.viewRecordsCalendar.root.setClickListener(throttle(viewModel::onCalendarClick))
+        binding.viewRecordsCalendar.root.setLongClickListener(throttle(viewModel::onCalendarLongClick))
     }
 
     override fun initViewModel() = with(binding) {
@@ -94,11 +85,8 @@ class RecordsFragment :
             isCalendarView.observe(::switchState)
             records.observe(::setRecordsState)
             calendarData.observe(::setCalendarState)
-            resetScreen.observe {
-                rvRecordsList.smoothScrollToPosition(0)
-                viewRecordsCalendar.reset()
-                mainTabsViewModel.onHandled()
-            }
+            resetScreen.observe { resetScreen() }
+            sharingData.observe(::onNewSharingData)
         }
         with(removeRecordViewModel) {
             needUpdate.observe {
@@ -127,6 +115,10 @@ class RecordsFragment :
         viewModel.onNeedUpdate()
     }
 
+    override fun onChartFilterDialogDismissed() {
+        viewModel.onNeedUpdate()
+    }
+
     private fun switchState(isCalendarView: Boolean) = with(binding) {
         groupRecordsList.isVisible = !isCalendarView
         groupRecordsCalendar.isVisible = isCalendarView
@@ -144,14 +136,73 @@ class RecordsFragment :
         when (state) {
             is RecordsState.CalendarData.Loading -> {
                 loaderRecordsCalendar.root.alpha = 1f
-                viewRecordsCalendar.alpha = 0f
+                viewRecordsCalendar.root.alpha = 0f
             }
             is RecordsState.CalendarData.Data -> {
                 loaderRecordsCalendar.root.animateAlpha(isVisible = false, duration = 200)
-                viewRecordsCalendar.animateAlpha(isVisible = true, duration = 100)
-                viewRecordsCalendar.setData(state.data)
+                viewRecordsCalendar.root.animateAlpha(isVisible = true, duration = 100)
+                viewRecordsCalendar.root.setData(state.data)
             }
         }
+    }
+
+    private fun resetScreen() = with(binding) {
+        rvRecordsList.smoothScrollToPosition(0)
+        viewRecordsCalendar.root.reset()
+        mainTabsViewModel.onHandled()
+    }
+
+    private fun onNewSharingData(data: RecordsShareState) {
+        val context = binding.root.context
+        val view = RecordsFragmentShareBinding.inflate(layoutInflater)
+        context.getThemedAttr(R.attr.appBackgroundColor).let(view.root::setBackgroundColor)
+        val originalCalendar = binding.viewRecordsCalendar.root
+        view.tvRecordsShareTitle.visible = true
+        view.viewRecordsShareDivider.visible = true
+        view.tvRecordsShareTitle.text = data.shareTitle
+        view.rvRecordsList.visible = false
+        view.viewRecordsCalendar.root.visible = false
+
+        when (data.state) {
+            is RecordsShareState.State.Records -> {
+                view.rvRecordsList.apply {
+                    layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                    visible = true
+                    val adapter = buildAdapter()
+                    adapter.replace(data.state.data)
+                    layoutManager = LinearLayoutManager(context)
+                    this.adapter = adapter
+                }
+            }
+            is RecordsShareState.State.Calendar -> {
+                view.viewRecordsCalendar.root.apply {
+                    visible = true
+                    layoutParams.height = originalCalendar.height
+                    setData(data.state.data)
+                    setScaleState(originalCalendar.getScaleState())
+                }
+            }
+        }
+
+        viewModel.onShareView(view.root)
+    }
+
+    private fun buildAdapter(): BaseRecyclerAdapter {
+        return BaseRecyclerAdapter(
+            createRunningRecordAdapterDelegate(
+                transitionNamePrefix = TransitionNames.RUNNING_RECORD_FROM_RECORDS,
+                onItemClick = throttle(viewModel::onRunningRecordClick),
+                onItemLongClick = throttle(viewModel::onRunningRecordLongClick),
+            ),
+            createRecordAdapterDelegate(
+                onItemClick = throttle(viewModel::onRecordClick),
+                onItemLongClick = throttle(viewModel::onRecordLongClick),
+            ),
+            createEmptyAdapterDelegate(),
+            createLoaderAdapterDelegate(),
+            createHintAdapterDelegate(),
+            createHintBigAdapterDelegate(),
+        )
     }
 
     companion object {

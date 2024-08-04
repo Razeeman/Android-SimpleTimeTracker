@@ -139,8 +139,9 @@ fun View.measureExactly(width: Int, height: Int = width) {
 }
 
 fun View.measureForSharing(): View {
-    // Measure with width matched to screen width and height as wrap content.
-    val specWidth = MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.widthPixels, MeasureSpec.EXACTLY)
+    // Measure with width matched to screen width and height as wrap content or other height.
+    val displayMetrics = context.resources.displayMetrics
+    val specWidth = MeasureSpec.makeMeasureSpec(displayMetrics.widthPixels, MeasureSpec.EXACTLY)
     val specHeight = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
     measure(specWidth, specHeight)
     layout(0, 0, measuredWidth, measuredHeight)

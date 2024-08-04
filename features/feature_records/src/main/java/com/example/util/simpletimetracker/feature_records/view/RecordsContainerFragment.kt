@@ -11,8 +11,8 @@ import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.core.view.SafeFragmentStateAdapter
 import com.example.util.simpletimetracker.feature_records.adapter.RecordsContainerAdapter
-import com.example.util.simpletimetracker.feature_records.model.RecordsCalendarSwitchState
 import com.example.util.simpletimetracker.feature_records.model.RecordsContainerPosition
+import com.example.util.simpletimetracker.feature_records.model.RecordsOptionsSwitchState
 import com.example.util.simpletimetracker.feature_records.viewModel.RecordsContainerViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
@@ -52,6 +52,9 @@ class RecordsContainerFragment :
 
     override fun initUx() = with(binding) {
         btnRecordAdd.setOnClick(throttle(viewModel::onRecordAddClick))
+        btnRecordsContainerOptions.setOnClick(viewModel::onOptionsClick)
+        btnRecordsContainerFilter.setOnClick(throttle(viewModel::onFilterClick))
+        btnRecordsContainerShare.setOnClick(throttle(viewModel::onShareClick))
         btnRecordsContainerCalendarSwitch.setOnClick(viewModel::onCalendarSwitchClick)
         btnRecordsContainerPrevious.setOnClick(viewModel::onPreviousClick)
         btnRecordsContainerNext.setOnClick(viewModel::onNextClick)
@@ -59,11 +62,11 @@ class RecordsContainerFragment :
         btnRecordsContainerToday.setOnLongClick(viewModel::onTodayLongClick)
     }
 
-    override fun initViewModel() = with(binding) {
+    override fun initViewModel() {
         with(viewModel) {
             title.observe(::updateTitle)
             position.observe(::setPosition)
-            calendarSwitchState.observe(::setCalendarSwitchState)
+            optionsSwitchState.observe(::setOptionsSwitchState)
         }
         with(removeRecordViewModel) {
             message.observe(::showMessage)
@@ -92,12 +95,26 @@ class RecordsContainerFragment :
         )
     }
 
-    private fun setCalendarSwitchState(
-        data: RecordsCalendarSwitchState,
+    private fun setOptionsSwitchState(
+        data: RecordsOptionsSwitchState,
     ) = with(binding) {
-        btnRecordsContainerCalendarSwitch.visible = data is RecordsCalendarSwitchState.Visible
-        if (data is RecordsCalendarSwitchState.Visible) {
-            ivRecordsContainerCalendarSwitch.setImageResource(data.iconResId)
+        when (data.state) {
+            is RecordsOptionsSwitchState.State.Opened -> {
+                btnRecordsContainerFilter.visible = true
+                btnRecordsContainerShare.visible = true
+                btnRecordsContainerCalendarSwitch.visible =
+                    data.calendarSwitchState is RecordsOptionsSwitchState.CalendarSwitchState.Visible
+            }
+            is RecordsOptionsSwitchState.State.Closed -> {
+                btnRecordsContainerFilter.visible = false
+                btnRecordsContainerShare.visible = false
+                btnRecordsContainerCalendarSwitch.visible = false
+            }
+        }
+
+        ivRecordsContainerOptions.setImageResource(data.moreIconResId)
+        if (data.calendarSwitchState is RecordsOptionsSwitchState.CalendarSwitchState.Visible) {
+            ivRecordsContainerCalendarSwitch.setImageResource(data.calendarSwitchState.iconResId)
         }
     }
 

@@ -9,17 +9,24 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.extension.toRecordParams
 import com.example.util.simpletimetracker.core.extension.toRunningRecordParams
+import com.example.util.simpletimetracker.core.interactor.SharingInteractor
+import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordsShareUpdateInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordsUpdateInteractor
+import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.count
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import com.example.util.simpletimetracker.feature_records.extra.RecordsExtra
 import com.example.util.simpletimetracker.feature_records.interactor.RecordsViewDataInteractor
+import com.example.util.simpletimetracker.feature_records.mapper.RecordsViewDataMapper
+import com.example.util.simpletimetracker.feature_records.model.RecordsShareState
 import com.example.util.simpletimetracker.feature_records.model.RecordsState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordFromMainParams
@@ -42,6 +49,10 @@ class RecordsViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
     private val recordsUpdateInteractor: RecordsUpdateInteractor,
+    private val recordsShareUpdateInteractor: RecordsShareUpdateInteractor,
+    private val sharingInteractor: SharingInteractor,
+    private val rangeViewDataMapper: RangeViewDataMapper,
+    private val recordsViewDataMapper: RecordsViewDataMapper,
 ) : ViewModel() {
 
     var extra: RecordsExtra? = null
@@ -53,6 +64,7 @@ class RecordsViewModel @Inject constructor(
     val calendarData: LiveData<RecordsState.CalendarData> by lazy {
         MutableLiveData(RecordsState.CalendarData.Loading)
     }
+    val sharingData: SingleLiveEvent<RecordsShareState> = SingleLiveEvent()
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     private var isVisible: Boolean = false
@@ -224,10 +236,51 @@ class RecordsViewModel @Inject constructor(
         }
     }
 
-    private fun subscribeToUpdates() = viewModelScope.launch {
-        recordsUpdateInteractor.dataUpdated.collect {
-            if (isVisible) updateRecords()
+    fun onShareView(view: Any) = viewModelScope.launch {
+        sharingInteractor.execute(view = view, filename = SHARING_NAME)
+    }
+
+    private fun subscribeToUpdates() {
+        viewModelScope.launch {
+            recordsUpdateInteractor.dataUpdated.collect {
+                if (isVisible) updateRecords()
+            }
         }
+        viewModelScope.launch {
+            recordsShareUpdateInteractor.shareClicked.collect {
+                if (isVisible) onShareClicked()
+            }
+        }
+    }
+
+    private suspend fun onShareClicked() {
+        val state = loadRecordsViewData(true)
+        val data = when (state) {
+            is RecordsState.RecordsData -> {
+                RecordsShareState(
+                    rangeViewDataMapper.mapToShareTitle(
+                        rangeLength = RangeLength.Day,
+                        position = shift,
+                        startOfDayShift = prefsInteractor.getStartOfDayShift(),
+                        firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
+                    ),
+                    RecordsShareState.State.Records(state.data),
+                )
+            }
+            is RecordsState.CalendarData.Data -> {
+                RecordsShareState(
+                    recordsViewDataMapper.mapTitle(
+                        shift = shift,
+                        startOfDayShift = prefsInteractor.getStartOfDayShift(),
+                        isCalendarView = prefsInteractor.getShowRecordsCalendar(),
+                        calendarDayCount = prefsInteractor.getDaysInCalendar().count,
+                    ),
+                    RecordsShareState.State.Calendar(state.data),
+                )
+            }
+            else -> return
+        }
+        sharingData.set(data)
     }
 
     private fun updateRecords() = viewModelScope.launch {
@@ -239,8 +292,11 @@ class RecordsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun loadRecordsViewData(): RecordsState {
-        return recordsViewDataInteractor.getViewData(shift)
+    private suspend fun loadRecordsViewData(forSharing: Boolean = false): RecordsState {
+        return recordsViewDataInteractor.getViewData(
+            shift = shift,
+            forSharing = forSharing,
+        )
     }
 
     private fun startUpdate() {
@@ -261,5 +317,6 @@ class RecordsViewModel @Inject constructor(
 
     companion object {
         private const val TIMER_UPDATE = 1000L
+        private const val SHARING_NAME = "stt_records"
     }
 }

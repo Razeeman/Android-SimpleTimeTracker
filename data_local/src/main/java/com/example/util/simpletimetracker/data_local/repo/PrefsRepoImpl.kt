@@ -22,6 +22,10 @@ class PrefsRepoImpl @Inject constructor(
         Calendar.getInstance().firstDayOfWeek
     }
 
+    override var recordTypesFilteredOnList: Set<String> by prefs.delegate(
+        KEY_RECORD_TYPES_FILTERED_ON_LIST, emptySet(),
+    )
+
     override var recordTypesFilteredOnChart: Set<String> by prefs.delegate(
         KEY_RECORD_TYPES_FILTERED_ON_CHART, emptySet(),
     )
@@ -526,6 +530,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val POMODORO_DEFAULT_UNTIL_LONG_BREAK: Long = 4
         private const val RANGE_LAST_DAYS_DEFAULT: Int = 7
 
+        private const val KEY_RECORD_TYPES_FILTERED_ON_LIST = "recordTypesFilteredOnList"
         private const val KEY_RECORD_TYPES_FILTERED_ON_CHART = "recordTypesFilteredOnChart"
         private const val KEY_CATEGORIES_TYPES_FILTERED_ON_CHART = "categoriesFilteredOnChart"
         private const val KEY_TAGS_FILTERED_ON_CHART = "tagsFilteredOnChart"

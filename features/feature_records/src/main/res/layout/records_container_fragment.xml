@@ -22,13 +22,11 @@
             style="@style/SettingsCard"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="8dp"
             android:foreground="?selectableItemBackground"
             android:visibility="gone"
             app:cardBackgroundColor="?appFabBackgroundColor"
-            app:layout_constraintBottom_toTopOf="@id/btnRecordAdd"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btnRecordsContainerFilter"
+            app:layout_constraintStart_toStartOf="@id/btnRecordsContainerOptions"
             tools:visibility="visible">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -36,8 +34,74 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"
-                tools:src="@drawable/calendar"
-                android:tint="?appFabContentColor" />
+                android:tint="?appFabContentColor"
+                tools:src="@drawable/calendar" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnRecordsContainerFilter"
+            style="@style/SettingsCard"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:foreground="?selectableItemBackground"
+            android:visibility="gone"
+            app:cardBackgroundColor="?appFabBackgroundColor"
+            app:layout_constraintBottom_toTopOf="@id/btnRecordsContainerShare"
+            app:layout_constraintStart_toStartOf="@id/btnRecordsContainerOptions"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivRecordsContainerFilter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="6dp"
+                android:tint="?appFabContentColor"
+                app:srcCompat="@drawable/filter" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnRecordsContainerShare"
+            style="@style/SettingsCard"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:foreground="?selectableItemBackground"
+            android:visibility="gone"
+            app:cardBackgroundColor="?appFabBackgroundColor"
+            app:layout_constraintBottom_toTopOf="@id/btnRecordsContainerOptions"
+            app:layout_constraintStart_toStartOf="@id/btnRecordsContainerOptions"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivRecordsContainerShare"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="6dp"
+                android:tint="?appFabContentColor"
+                app:srcCompat="@drawable/share" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnRecordsContainerOptions"
+            style="@style/SettingsCard"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="2dp"
+            android:foreground="?selectableItemBackground"
+            app:cardBackgroundColor="?appFabBackgroundColor"
+            app:layout_constraintBottom_toTopOf="@id/btnRecordsContainerToday"
+            app:layout_constraintEnd_toStartOf="@id/btnRecordAdd">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivRecordsContainerOptions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="6dp"
+                android:tint="?appFabContentColor"
+                tools:src="@drawable/more" />
 
         </androidx.cardview.widget.CardView>
 

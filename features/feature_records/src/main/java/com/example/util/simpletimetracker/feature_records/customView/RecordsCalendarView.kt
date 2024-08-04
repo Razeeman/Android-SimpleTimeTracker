@@ -262,6 +262,21 @@ class RecordsCalendarView @JvmOverloads constructor(
         invalidate()
     }
 
+    fun getScaleState(): ScaleState {
+        return ScaleState(
+            scaleFactor = scaleFactor,
+            panFactor = panFactor,
+        )
+    }
+
+    fun setScaleState(state: ScaleState) {
+        scaleFactor = state.scaleFactor
+        lastScaleFactor = state.scaleFactor
+        panFactor = state.panFactor
+        lastPanFactor = state.panFactor
+        invalidate()
+    }
+
     private fun initArgs(
         context: Context,
         attrs: AttributeSet? = null,
@@ -1052,6 +1067,11 @@ class RecordsCalendarView @JvmOverloads constructor(
         val panFactor: Float,
         val lastPanFactor: Float,
     ) : BaseSavedState(superSavedState)
+
+    data class ScaleState(
+        val scaleFactor: Float,
+        val panFactor: Float,
+    )
 
     companion object {
         private const val CLICK_ANIMATION_DURATION_MS: Long = 250L

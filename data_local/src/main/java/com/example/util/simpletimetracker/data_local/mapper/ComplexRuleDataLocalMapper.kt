@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.data_local.mapper
 
 import com.example.util.simpletimetracker.data_local.model.ComplexRuleDBO
 import com.example.util.simpletimetracker.domain.model.ComplexRule
-import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import javax.inject.Inject
 
 class ComplexRuleDataLocalMapper @Inject constructor(

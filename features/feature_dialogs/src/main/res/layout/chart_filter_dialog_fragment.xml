@@ -35,6 +35,7 @@
         tools:listitem="@layout/item_record_type_layout" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvChartFilterTypeHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

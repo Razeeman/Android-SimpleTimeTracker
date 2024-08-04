@@ -5,6 +5,8 @@ import com.example.util.simpletimetracker.domain.model.StatisticsWidgetData
 
 interface PrefsRepo {
 
+    var recordTypesFilteredOnList: Set<String>
+
     var recordTypesFilteredOnChart: Set<String>
 
     var categoriesFilteredOnChart: Set<String>

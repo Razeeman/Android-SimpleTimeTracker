@@ -14,25 +14,13 @@
         tools:itemCount="15"
         tools:listitem="@layout/item_record_layout" />
 
-    <com.example.util.simpletimetracker.feature_records.customView.RecordsCalendarView
+    <include
         android:id="@+id/viewRecordsCalendar"
+        layout="@layout/records_calendar_item"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:calendarCurrentTimeLegendColor="?colorSecondary"
-        app:calendarCurrentTimeLegendWidth="2dp"
-        app:calendarIconMaxSize="16dp"
-        app:calendarLegendLineColor="?appLegendColor"
-        app:calendarLegendLineSecondaryColor="?appLegendSecondaryColor"
-        app:calendarLegendTextColor="@color/textSecondary"
-        app:calendarLegendTextSize="12sp"
-        app:calendarTagColor="@color/white_alpha_60"
-        app:calendarTextColor="?appLightTextColor"
-        app:calendarTextSize="12sp"
         app:layout_constraintBottom_toTopOf="@id/tvRecordsCalendarHint"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:calendarColumnsCount="3"
-        tools:calendarRecordsCount="5"
-        tools:calendarReverseOrder="false" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvRecordsCalendarHint"

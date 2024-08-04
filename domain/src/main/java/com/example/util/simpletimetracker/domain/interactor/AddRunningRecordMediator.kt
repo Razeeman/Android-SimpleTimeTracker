@@ -49,10 +49,9 @@ class AddRunningRecordMediator @Inject constructor(
         comment: String,
         timeStarted: Long? = null,
     ) {
-        val actualTimeStarted = timeStarted ?: System.currentTimeMillis()
         val rulesResult = processRules(
             typeId = typeId,
-            timeStarted = actualTimeStarted,
+            timeStarted = timeStarted ?: System.currentTimeMillis(),
         )
         processMultitasking(
             typeId = typeId,
@@ -72,7 +71,7 @@ class AddRunningRecordMediator @Inject constructor(
             typeId = typeId,
             comment = comment,
             tagIds = actualTags,
-            timeStarted = actualTimeStarted,
+            timeStarted = timeStarted ?: System.currentTimeMillis(),
         )
         // Show goal count only on timer start, otherwise it would show on change also.
         notificationGoalCountInteractor.checkAndShow(typeId)

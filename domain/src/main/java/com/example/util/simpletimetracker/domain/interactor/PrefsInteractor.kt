@@ -20,6 +20,16 @@ class PrefsInteractor @Inject constructor(
     private val isSystemInDarkModeInteractor: IsSystemInDarkModeInteractor,
 ) {
 
+    suspend fun getFilteredTypesOnList(): List<Long> = withContext(Dispatchers.IO) {
+        prefsRepo.recordTypesFilteredOnList
+            .mapNotNull(String::toLongOrNull)
+    }
+
+    suspend fun setFilteredTypesOnList(typeIdsFiltered: List<Long>) = withContext(Dispatchers.IO) {
+        prefsRepo.recordTypesFilteredOnList = typeIdsFiltered
+            .map(Long::toString).toSet()
+    }
+
     suspend fun getFilteredTypes(): List<Long> = withContext(Dispatchers.IO) {
         prefsRepo.recordTypesFilteredOnChart
             .mapNotNull(String::toLongOrNull)
