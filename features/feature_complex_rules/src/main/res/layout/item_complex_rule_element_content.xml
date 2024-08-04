@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cvComplexRuleElementItemContent"
+    android:layout_width="wrap_content"
+    android:layout_height="20dp"
+    android:layout_marginHorizontal="2dp"
+    android:elevation="0dp"
+    app:cardCornerRadius="@dimen/record_type_card_corner_radius"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="false"
+    tools:cardBackgroundColor="@color/black">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <com.example.util.simpletimetracker.feature_views.IconView
+            android:id="@+id/ivComplexRuleElementItemContent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="4dp"
+            android:layout_marginStart="4dp"
+            android:visibility="gone"
+            app:itemIconColor="?appIconColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemIcon="@drawable/ic_book_24px"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvComplexRuleElementItemContent"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="6dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:textColor="?appLightTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivComplexRuleElementItemContent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginStart="6dp"
+            tools:text="Read" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

@@ -17,6 +17,8 @@
     <attr name="appInputFieldBorderTimeDialogColor" format="reference" />
     <attr name="appPieChartDividerColor" format="reference" />
     <attr name="appCardBackgroundColor" format="reference" />
+    <attr name="appFabBackgroundColor" format="reference" />
+    <attr name="appFabContentColor" format="reference" />
     <attr name="appButtonOnCardBackgroundColor" format="reference" />
     <attr name="appPopupBackground" format="reference" />
     <attr name="appPopupItemBackground" format="reference" />

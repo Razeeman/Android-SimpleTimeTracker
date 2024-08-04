@@ -26,7 +26,7 @@
             android:layout_marginBottom="8dp"
             android:foreground="?selectableItemBackground"
             android:visibility="gone"
-            app:cardBackgroundColor="?appCardBackgroundColor"
+            app:cardBackgroundColor="?appFabBackgroundColor"
             app:layout_constraintBottom_toTopOf="@id/btnRecordAdd"
             app:layout_constraintEnd_toEndOf="parent"
             tools:visibility="visible">
@@ -37,7 +37,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"
                 tools:src="@drawable/calendar"
-                android:tint="?appInactiveColor" />
+                android:tint="?appFabContentColor" />
 
         </androidx.cardview.widget.CardView>
 
@@ -49,12 +49,12 @@
             android:layout_marginBottom="8dp"
             android:contentDescription="Add record"
             android:src="@drawable/add"
-            app:backgroundTint="?appCardBackgroundColor"
+            app:backgroundTint="?appFabBackgroundColor"
             app:fabSize="normal"
             app:layout_constraintBottom_toTopOf="@id/btnRecordsContainerToday"
             app:layout_constraintEnd_toEndOf="parent"
             app:shapeAppearanceOverlay="@style/AppFabButton"
-            app:tint="?appInactiveColor"
+            app:tint="?appFabContentColor"
             app:useCompatPadding="false" />
 
         <com.google.android.material.button.MaterialButton

@@ -1,20 +1,27 @@
 package com.example.util.simpletimetracker.feature_complex_rules.mapper
 
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.ComplexRule
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_complex_rules.R
 import com.example.util.simpletimetracker.feature_complex_rules.adapter.ComplexRuleAddViewData
+import com.example.util.simpletimetracker.feature_complex_rules.adapter.ComplexRuleElementContentViewData
+import com.example.util.simpletimetracker.feature_complex_rules.adapter.ComplexRuleElementTitleViewData
 import com.example.util.simpletimetracker.feature_complex_rules.adapter.ComplexRuleViewData
 import javax.inject.Inject
 
 class ComplexRulesViewDataMapper @Inject constructor(
     private val timeMapper: TimeMapper,
+    private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val resourceRepo: ResourceRepo,
+    private val recordTagViewDataMapper: RecordTagViewDataMapper,
 ) {
 
     fun mapAddItem(
@@ -34,24 +41,24 @@ class ComplexRulesViewDataMapper @Inject constructor(
         typesOrder: List<Long>,
         tagsOrder: List<Long>,
     ): ComplexRuleViewData {
+        val actionItems = mapActions(
+            rule = rule,
+            isDarkTheme = isDarkTheme,
+            typesMap = typesMap,
+            tagsMap = tagsMap,
+            tagsOrder = tagsOrder,
+        )
+        val conditionItems = mapConditions(
+            rule = rule,
+            isDarkTheme = isDarkTheme,
+            typesMap = typesMap,
+            typesOrder = typesOrder,
+        )
+
         return ComplexRuleViewData(
             id = rule.id,
-            actionTitle = mapActionTitle(
-                rule = rule,
-                tagsMap = tagsMap,
-                tagsOrder = tagsOrder,
-            ),
-            startingTypes = mapStartingTypes(
-                rule = rule,
-                typesMap = typesMap,
-                typesOrder = typesOrder,
-            ),
-            currentTypes = mapCurrentTypes(
-                rule = rule,
-                typesMap = typesMap,
-                typesOrder = typesOrder,
-            ),
-            daysOfWeek = mapDaysOfWeek(rule),
+            actionItems = actionItems,
+            conditionItems = conditionItems,
             color = if (rule.disabled) {
                 colorMapper.toInactiveColor(isDarkTheme)
             } else {
@@ -70,29 +77,68 @@ class ComplexRulesViewDataMapper @Inject constructor(
         )
     }
 
-    private fun mapActionTitle(
+    private fun mapActions(
         rule: ComplexRule,
+        isDarkTheme: Boolean,
+        typesMap: Map<Long, RecordType>,
         tagsMap: Map<Long, RecordTag>,
         tagsOrder: List<Long>,
-    ): String {
+    ): List<ViewHolderType> {
         val action = rule.action
-        val baseTitle = mapBaseTitle(action)
-        return when (action) {
+        val data = when (action) {
             is ComplexRule.Action.AllowMultitasking,
             is ComplexRule.Action.DisallowMultitasking,
-            -> baseTitle
-            is ComplexRule.Action.AssignTag -> getFinalText(
-                baseTitle = baseTitle,
-                data = rule.actionAssignTagIds
-                    .sortedBy { tagsOrder.indexOf(it) }
-                    .mapNotNull { tagsMap[it]?.name }
-                    // Just in case where is a deleted id.
-                    .ifEmpty { listOf("") },
+            -> emptyList()
+            is ComplexRule.Action.AssignTag -> rule.actionAssignTagIds
+                .sortedBy { tagsOrder.indexOf(it) }
+                .mapNotNull { tagsMap[it] }
+        }
+        val result = mutableListOf<ViewHolderType>()
+        result += ComplexRuleElementTitleViewData(
+            text = mapActionTitle(action),
+        )
+        result += data.map {
+            ComplexRuleElementContentViewData(
+                text = it.name,
+                icon = recordTagViewDataMapper.mapIcon(
+                    tag = it,
+                    type = typesMap[it.iconColorSource],
+                )?.let(iconMapper::mapIcon),
+                color = colorMapper.mapToColorInt(
+                    color = it.color,
+                    isDarkTheme = isDarkTheme,
+                ),
             )
         }
+        return result
     }
 
-    fun mapBaseTitle(
+    private fun mapConditions(
+        rule: ComplexRule,
+        isDarkTheme: Boolean,
+        typesMap: Map<Long, RecordType>,
+        typesOrder: List<Long>,
+    ): List<ViewHolderType> {
+        val conditionItems = mutableListOf<ViewHolderType>()
+        conditionItems += mapTypes(
+            typeIds = rule.conditionStartingTypeIds,
+            title = resourceRepo.getString(R.string.change_complex_starting_activity),
+            isDarkTheme = isDarkTheme,
+            typesMap = typesMap,
+            typesOrder = typesOrder,
+        )
+        conditionItems += mapTypes(
+            typeIds = rule.conditionCurrentTypeIds,
+            title = resourceRepo.getString(R.string.change_complex_previous_activity),
+            isDarkTheme = isDarkTheme,
+            typesMap = typesMap,
+            typesOrder = typesOrder,
+        )
+        conditionItems += mapDaysOfWeek(rule)
+        return conditionItems
+    }
+
+    fun mapActionTitle(
         action: ComplexRule.Action,
     ): String {
         return when (action) {
@@ -105,49 +151,51 @@ class ComplexRulesViewDataMapper @Inject constructor(
         }.let(resourceRepo::getString)
     }
 
-    private fun mapStartingTypes(
-        rule: ComplexRule,
+    private fun mapTypes(
+        typeIds: Set<Long>,
+        title: String,
+        isDarkTheme: Boolean,
         typesMap: Map<Long, RecordType>,
         typesOrder: List<Long>,
-    ): String {
-        return getFinalText(
-            baseTitle = resourceRepo.getString(R.string.change_complex_starting_activity),
-            data = rule.conditionStartingTypeIds
-                .sortedBy { typesOrder.indexOf(it) }
-                .mapNotNull { typesMap[it]?.name },
-        )
-    }
+    ): List<ViewHolderType> {
+        val data = typeIds
+            .sortedBy { typesOrder.indexOf(it) }
+            .mapNotNull { typesMap[it] }
+        if (data.isEmpty()) return emptyList()
 
-    private fun mapCurrentTypes(
-        rule: ComplexRule,
-        typesMap: Map<Long, RecordType>,
-        typesOrder: List<Long>,
-    ): String {
-        return getFinalText(
-            baseTitle = resourceRepo.getString(R.string.change_complex_previous_activity),
-            data = rule.conditionCurrentTypeIds
-                .sortedBy { typesOrder.indexOf(it) }
-                .mapNotNull { typesMap[it]?.name },
-        )
+        val result = mutableListOf<ViewHolderType>()
+        result += ComplexRuleElementTitleViewData(title)
+        result += data.map {
+            ComplexRuleElementContentViewData(
+                text = it.name,
+                icon = iconMapper.mapIcon(it.icon),
+                color = colorMapper.mapToColorInt(
+                    color = it.color,
+                    isDarkTheme = isDarkTheme,
+                ),
+            )
+        }
+        return result
     }
 
     private fun mapDaysOfWeek(
         rule: ComplexRule,
-    ): String {
-        return getFinalText(
-            baseTitle = resourceRepo.getString(R.string.range_day),
-            data = rule.conditionDaysOfWeek.map { timeMapper.toShortDayOfWeekName(it) },
-        )
-    }
+    ): List<ViewHolderType> {
+        val data = rule.conditionDaysOfWeek
+            .map { timeMapper.toShortDayOfWeekName(it) }
+        if (data.isEmpty()) return emptyList()
 
-    private fun getFinalText(
-        baseTitle: String,
-        data: List<String>,
-    ): String {
-        return if (data.isNotEmpty()) {
-            "$baseTitle : ${data.joinToString(separator = ", ")}"
-        } else {
-            ""
+        val result = mutableListOf<ViewHolderType>()
+        result += ComplexRuleElementTitleViewData(
+            text = resourceRepo.getString(R.string.range_day),
+        )
+        result += data.map {
+            ComplexRuleElementContentViewData(
+                text = it,
+                icon = null,
+                color = resourceRepo.getColor(R.color.colorSecondary),
+            )
         }
+        return result
     }
 }

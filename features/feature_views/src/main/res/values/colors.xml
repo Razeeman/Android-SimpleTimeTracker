@@ -81,4 +81,9 @@
     <color name="colorInfo">@color/blue_600</color>
     <color name="colorInfoDark">@color/blue_700</color>
 
+    <color name="colorFabBackground">@color/cardBackground</color>
+    <color name="colorFabBackgroundDark">@color/cardBackgroundDark</color>
+    <color name="colorFabContent">@color/colorInactive</color>
+    <color name="colorFabContentDark">@color/blue_grey_200</color>
+
 </resources>
