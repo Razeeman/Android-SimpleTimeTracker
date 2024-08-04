@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_complex_rule.interactor
 
+import com.example.util.simpletimetracker.core.mapper.CommonViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.DayOfWeekViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -10,7 +11,7 @@ import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
-import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
+import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_change_complex_rule.R
 import com.example.util.simpletimetracker.feature_change_complex_rule.adapter.ChangeComplexRuleActionViewData
 import com.example.util.simpletimetracker.feature_change_complex_rule.mapper.ChangeComplexRuleViewDataMapper
@@ -25,12 +26,14 @@ class ChangeComplexRuleViewDataInteractor @Inject constructor(
     private val dayOfWeekViewDataMapper: DayOfWeekViewDataMapper,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val changeComplexRuleViewDataMapper: ChangeComplexRuleViewDataMapper,
+    private val commonViewDataMapper: CommonViewDataMapper,
 ) {
 
     fun getActionViewData(
         newActionType: ComplexRule.Action?,
         newAssignTagIds: Set<Long>,
     ): ChangeComplexRuleActionChooserViewData {
+        val hint = HintViewData(resourceRepo.getString(R.string.change_complex_actions_hint))
         val items = listOf(
             ComplexRule.Action.AllowMultitasking,
             ComplexRule.Action.DisallowMultitasking,
@@ -50,7 +53,7 @@ class ChangeComplexRuleViewDataInteractor @Inject constructor(
         return ChangeComplexRuleActionChooserViewData(
             title = changeComplexRuleViewDataMapper.mapActionTitle(newActionType, newAssignTagIds),
             selectedCount = selectedCount,
-            viewData = items,
+            viewData = listOf(hint) + items,
         )
     }
 
@@ -75,7 +78,7 @@ class ChangeComplexRuleViewDataInteractor @Inject constructor(
             val selected = data.filter { it.first in selectedIds }.map { it.second }
             val available = data.filter { it.first !in selectedIds }.map { it.second }
             val viewData = mutableListOf<ViewHolderType>()
-            mapSelectedTypesHint(
+            commonViewDataMapper.mapSelectedHint(
                 isEmpty = selected.isEmpty(),
             ).let(viewData::add)
             selected.let(viewData::addAll)
@@ -109,16 +112,6 @@ class ChangeComplexRuleViewDataInteractor @Inject constructor(
         return ChangeComplexRuleTypesChooserViewData(
             selectedCount = daysOfWeek.size,
             viewData = viewData,
-        )
-    }
-
-    private fun mapSelectedTypesHint(isEmpty: Boolean): ViewHolderType {
-        return InfoViewData(
-            text = if (isEmpty) {
-                R.string.nothing_selected
-            } else {
-                R.string.something_selected
-            }.let(resourceRepo::getString),
         )
     }
 }

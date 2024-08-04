@@ -5,7 +5,9 @@ import com.example.util.simpletimetracker.domain.model.ComplexRule
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import javax.inject.Inject
 
-class ComplexRuleDataLocalMapper @Inject constructor() {
+class ComplexRuleDataLocalMapper @Inject constructor(
+    private val daysOfWeekDataLocalMapper: DaysOfWeekDataLocalMapper,
+) {
 
     fun map(dbo: ComplexRuleDBO): ComplexRule {
         return ComplexRule(
@@ -15,7 +17,8 @@ class ComplexRuleDataLocalMapper @Inject constructor() {
             actionAssignTagIds = mapIds(dbo.actionSetTagIds),
             conditionStartingTypeIds = mapIds(dbo.conditionStartingTypeIds),
             conditionCurrentTypeIds = mapIds(dbo.conditionCurrentTypeIds),
-            conditionDaysOfWeek = mapDaysOfWeek(dbo.conditionDaysOfWeek),
+            conditionDaysOfWeek = daysOfWeekDataLocalMapper
+                .mapDaysOfWeek(dbo.conditionDaysOfWeek).toSet(),
         )
     }
 
@@ -27,7 +30,8 @@ class ComplexRuleDataLocalMapper @Inject constructor() {
             actionSetTagIds = mapIds(domain.actionAssignTagIds),
             conditionStartingTypeIds = mapIds(domain.conditionStartingTypeIds),
             conditionCurrentTypeIds = mapIds(domain.conditionCurrentTypeIds),
-            conditionDaysOfWeek = mapDaysOfWeek(domain.conditionDaysOfWeek),
+            conditionDaysOfWeek = daysOfWeekDataLocalMapper
+                .mapDaysOfWeek(domain.conditionDaysOfWeek.toList()),
         )
     }
 
@@ -58,27 +62,5 @@ class ComplexRuleDataLocalMapper @Inject constructor() {
             is ComplexRule.Action.DisallowMultitasking -> 1L
             is ComplexRule.Action.AssignTag -> 2L
         }
-    }
-
-    private fun mapDaysOfWeek(dbo: String): Set<DayOfWeek> {
-        return dbo.split(',').mapNotNull(daysOfWeekMapReversed::get).toSet()
-    }
-
-    private fun mapDaysOfWeek(domain: Set<DayOfWeek>): String {
-        return domain.mapNotNull(daysOfWeekMap::get).joinToString(separator = ",")
-    }
-
-    companion object {
-        private val daysOfWeekMap = mapOf(
-            DayOfWeek.SUNDAY to "SUNDAY",
-            DayOfWeek.MONDAY to "MONDAY",
-            DayOfWeek.TUESDAY to "TUESDAY",
-            DayOfWeek.WEDNESDAY to "WEDNESDAY",
-            DayOfWeek.THURSDAY to "THURSDAY",
-            DayOfWeek.FRIDAY to "FRIDAY",
-            DayOfWeek.SATURDAY to "SATURDAY",
-        )
-        val daysOfWeekMapReversed = daysOfWeekMap.entries
-            .associate { (key, value) -> value to key }
     }
 }

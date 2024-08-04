@@ -6,7 +6,9 @@ import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import javax.inject.Inject
 
-class RecordTypeGoalDataLocalMapper @Inject constructor() {
+class RecordTypeGoalDataLocalMapper @Inject constructor(
+    private val daysOfWeekDataLocalMapper: DaysOfWeekDataLocalMapper,
+) {
 
     fun map(dbo: RecordTypeGoalDBO): RecordTypeGoal {
         return RecordTypeGoal(
@@ -28,7 +30,7 @@ class RecordTypeGoalDataLocalMapper @Inject constructor() {
                 1L -> RecordTypeGoal.Type.Count(dbo.value)
                 else -> RecordTypeGoal.Type.Duration(dbo.value)
             },
-            daysOfWeek = mapDaysOfWeek(dbo.daysOfWeek),
+            daysOfWeek = daysOfWeekDataLocalMapper.mapDaysOfWeek(dbo.daysOfWeek),
         )
     }
 
@@ -48,39 +50,7 @@ class RecordTypeGoalDataLocalMapper @Inject constructor() {
             },
             value = domain.type.value,
             categoryId = (domain.idData as? RecordTypeGoal.IdData.Category)?.value.orZero(),
-            daysOfWeek = mapDaysOfWeek(domain.daysOfWeek),
-        )
-    }
-
-    fun mapDaysOfWeek(dbo: String): List<DayOfWeek> {
-        return daysOfWeek.mapIndexedNotNull { index, dayOfWeek ->
-            when (dbo.getOrNull(index)) {
-                // Selected days are marked with 1, days that are not selected - with 0,
-                // if string is empty - assume day is selected to support old app versions.
-                '1' -> dayOfWeek
-                null -> dayOfWeek
-                '0' -> null
-                else -> null
-            }
-        }
-    }
-
-    fun mapDaysOfWeek(domain: List<DayOfWeek>): String {
-        return daysOfWeek.map { dayOfWeek ->
-            if (dayOfWeek in domain) '1' else '0'
-        }.joinToString(separator = "")
-    }
-
-    companion object {
-        // Do not change order, this values saved in database accordingly.
-        private val daysOfWeek = listOf(
-            DayOfWeek.SUNDAY,
-            DayOfWeek.MONDAY,
-            DayOfWeek.TUESDAY,
-            DayOfWeek.WEDNESDAY,
-            DayOfWeek.THURSDAY,
-            DayOfWeek.FRIDAY,
-            DayOfWeek.SATURDAY,
+            daysOfWeek = daysOfWeekDataLocalMapper.mapDaysOfWeek(domain.daysOfWeek),
         )
     }
 }

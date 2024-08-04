@@ -6,11 +6,10 @@
 package com.example.util.simpletimetracker.wear
 
 import com.example.util.simpletimetracker.data.WearDataRepo
-import com.example.util.simpletimetracker.domain.mediator.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.domain.mediator.StartActivityMediator
-import com.example.util.simpletimetracker.wear_api.WearActivity
-import com.example.util.simpletimetracker.wear_api.WearSettings
-import com.example.util.simpletimetracker.wear_api.WearTag
+import com.example.util.simpletimetracker.domain.model.WearActivity
+import com.example.util.simpletimetracker.domain.model.WearSettings
+import com.example.util.simpletimetracker.domain.model.WearTag
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -19,10 +18,8 @@ import org.mockito.Mockito
 
 class StartActivityMediatorTest {
     private val wearDataRepo: WearDataRepo = Mockito.mock()
-    private val currentActivitiesMediator: CurrentActivitiesMediator = Mockito.mock()
     private val mediator = StartActivityMediator(
         wearDataRepo = wearDataRepo,
-        currentActivitiesMediator = currentActivitiesMediator,
     )
 
     private val sampleActivity = WearActivity(
@@ -38,24 +35,19 @@ class StartActivityMediatorTest {
     )
     private val settings = WearSettings(
         allowMultitasking = false,
-        showRecordTagSelection = false,
         recordTagSelectionCloseAfterOne = false,
-        recordTagSelectionExcludedActivities = emptyList(),
     )
 
     @Before
     fun setup() {
-        Mockito.reset(wearDataRepo, currentActivitiesMediator)
+        Mockito.reset(wearDataRepo)
     }
 
     @Test
     fun `tag selection disabled`() = runTest {
         // Given
-        Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
-            settings.copy(
-                showRecordTagSelection = false,
-            ).let(Result.Companion::success),
-        )
+        Mockito.`when`(wearDataRepo.loadShouldShowTagSelection(sampleActivity.id))
+            .thenReturn(Result.success(false))
         var onRequestTagSelectionCalled = false
         var onProgressChanged = false
 
@@ -67,23 +59,16 @@ class StartActivityMediatorTest {
         )
 
         // Then
-        Mockito.verify(currentActivitiesMediator).start(sampleActivity.id)
+        Mockito.verify(wearDataRepo).startActivity(sampleActivity.id, emptyList())
         assertEquals(false, onRequestTagSelectionCalled)
         assertEquals(true, onProgressChanged)
     }
 
     @Test
-    fun `tag selection enabled but activity has no tags`() = runTest {
+    fun `tag selection enabled`() = runTest {
         // Given
-        Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
-            settings.copy(
-                showRecordTagSelection = true,
-                recordTagSelectionExcludedActivities = emptyList(),
-            ).let(Result.Companion::success),
-        )
-        Mockito.`when`(wearDataRepo.loadTagsForActivity(Mockito.anyLong())).thenReturn(
-            Result.success(emptyList()),
-        )
+        Mockito.`when`(wearDataRepo.loadShouldShowTagSelection(sampleActivity.id))
+            .thenReturn(Result.success(true))
         var onRequestTagSelectionCalled = false
         var onProgressChanged = false
 
@@ -95,67 +80,7 @@ class StartActivityMediatorTest {
         )
 
         // Then
-        Mockito.verify(currentActivitiesMediator).start(sampleActivity.id)
-        assertEquals(false, onRequestTagSelectionCalled)
-        assertEquals(true, onProgressChanged)
-    }
-
-    @Test
-    fun `tag selection enabled, but not for this activity`() = runTest {
-        // Given
-        Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
-            Result.success(
-                settings.copy(
-                    showRecordTagSelection = true,
-                    recordTagSelectionExcludedActivities = listOf(sampleActivity.id),
-                ),
-            ),
-        )
-        Mockito.`when`(wearDataRepo.loadTagsForActivity(Mockito.anyLong())).thenReturn(
-            Result.success(listOf(sampleTag)),
-        )
-        var onRequestTagSelectionCalled = false
-        var onProgressChanged = false
-
-        // When
-        mediator.requestStart(
-            activityId = sampleActivity.id,
-            onRequestTagSelection = { onRequestTagSelectionCalled = true },
-            onProgressChanged = { onProgressChanged = it },
-        )
-
-        // Then
-        Mockito.verify(currentActivitiesMediator).start(sampleActivity.id)
-        assertEquals(false, onRequestTagSelectionCalled)
-        assertEquals(true, onProgressChanged)
-    }
-
-    @Test
-    fun `tag selection enabled, activity has tags`() = runTest {
-        // Given
-        Mockito.`when`(wearDataRepo.loadSettings()).thenReturn(
-            Result.success(
-                settings.copy(
-                    showRecordTagSelection = true,
-                    recordTagSelectionExcludedActivities = emptyList(),
-                ),
-            ),
-        )
-        Mockito.`when`(wearDataRepo.loadTagsForActivity(Mockito.anyLong())).thenReturn(
-            Result.success(listOf(sampleTag)),
-        )
-        var onRequestTagSelectionCalled = false
-        var onProgressChanged = false
-
-        // When
-        mediator.requestStart(
-            activityId = sampleActivity.id,
-            onRequestTagSelection = { onRequestTagSelectionCalled = true },
-            onProgressChanged = { onProgressChanged = it },
-        )
-
-        // Then
-        Mockito.verify(currentActivitiesMediator, Mockito.never()).start(sampleActivity.id)
+        Mockito.verify(wearDataRepo, Mockito.never()).startActivity(sampleActivity.id, emptyList())
         assertEquals(true, onRequestTagSelectionCalled)
         assertEquals(false, onProgressChanged)
     }

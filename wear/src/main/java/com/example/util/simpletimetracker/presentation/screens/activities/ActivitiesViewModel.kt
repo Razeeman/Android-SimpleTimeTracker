@@ -11,7 +11,6 @@ import com.example.util.simpletimetracker.complication.WearComplicationManager
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.domain.interactor.WearCheckNotificationsPermissionInteractor
 import com.example.util.simpletimetracker.domain.interactor.WearPrefsInteractor
-import com.example.util.simpletimetracker.domain.mediator.CurrentActivitiesMediator
 import com.example.util.simpletimetracker.domain.mediator.StartActivityMediator
 import com.example.util.simpletimetracker.notification.WearNotificationManager
 import com.example.util.simpletimetracker.presentation.ui.components.ActivitiesListState
@@ -32,7 +31,6 @@ class ActivitiesViewModel @Inject constructor(
     private val wearComplicationManager: WearComplicationManager,
     private val wearNotificationManager: WearNotificationManager,
     private val startActivitiesMediator: StartActivityMediator,
-    private val currentActivitiesMediator: CurrentActivitiesMediator,
     private val activitiesViewDataMapper: ActivitiesViewDataMapper,
     private val wearPrefsInteractor: WearPrefsInteractor,
     private val wearCheckNotificationsPermissionInteractor: WearCheckNotificationsPermissionInteractor,
@@ -57,7 +55,7 @@ class ActivitiesViewModel @Inject constructor(
 
     fun stopActivity(activityId: Long) = viewModelScope.launch {
         setLoading(activityId, isLoading = true)
-        val result = currentActivitiesMediator.stop(activityId)
+        val result = startActivitiesMediator.stop(activityId)
         if (result.isFailure) showError()
     }
 

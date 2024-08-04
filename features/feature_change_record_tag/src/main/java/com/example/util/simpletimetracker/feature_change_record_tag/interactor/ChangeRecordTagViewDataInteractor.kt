@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_tag.interactor
 
+import com.example.util.simpletimetracker.core.mapper.CommonViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -14,6 +15,7 @@ class ChangeRecordTagViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val changeRecordTagMapper: ChangeRecordTagMapper,
+    private val commonViewDataMapper: CommonViewDataMapper,
 ) {
 
     suspend fun getTypesViewData(
@@ -55,7 +57,7 @@ class ChangeRecordTagViewDataInteractor @Inject constructor(
 
             hintViewDataProvider(selected.isEmpty()).let(viewData::add)
 
-            changeRecordTagMapper.mapSelectedTypesHint(
+            commonViewDataMapper.mapSelectedHint(
                 isEmpty = selected.isEmpty(),
             ).let(viewData::add)
 

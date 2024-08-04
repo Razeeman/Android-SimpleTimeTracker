@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">期间</string>
     <string name="change_record_type_goal_count">数数</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">允许对某些设置进行更精细的调整</string>
+    <string name="complex_rules_disable">禁用</string>
+    <string name="complex_rules_enable">使能够</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">行动</string>
+    <string name="change_complex_actions_hint">将应用于起始活动</string>
+    <string name="change_complex_action_assign_tag">分配标签</string>
+    <string name="change_complex_conditions_title">状况</string>
+    <string name="change_complex_starting_activity">起始活动</string>
+    <string name="change_complex_previous_activity">之前的活动</string>
+    <string name="change_complex_rule_removed">规则已删除</string>
+    <string name="change_complex_rule_choose_action">选择行动</string>
+    <string name="change_complex_rule_choose_condition">选择条件</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">过滤器已移除</string>
     <string name="change_activity_filter_save">保存</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">在单独的选项卡上显示目标</string>
     <string name="settings_show_nav_bar_at_the_bottom">在底部显示导航栏</string>
     <string name="settings_allow_multitasking">允许同时对多个活动进行追踪</string>
+    <string name="settings_disallow_multitasking">禁止多任务处理</string>
     <string name="settings_allow_multitasking_hint">如果不启用，启动新活动追踪时，将自动停止追踪其他活动。</string>
     <string name="settings_show_notifications">显示计时通知</string>
     <string name="settings_show_notifications_hint">追踪活动多长时间后显示通知。</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">更改活动卡片大小</string>
     <string name="settings_archive">存档</string>
     <string name="settings_data_edit">数据编辑</string>
+    <string name="settings_complex_rules">复杂的规则</string>
     <string name="settings_edit_categories">编辑类别和标签</string>
     <string name="settings_edit_categories_hint">将类别分配给活动，将标签分配给记录。</string>
     <string name="settings_show_record_tag_selection">显示记录标签选择</string>

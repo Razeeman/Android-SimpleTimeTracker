@@ -74,7 +74,7 @@ class RecordsViewDataInteractor @Inject constructor(
         return@withContext (daysCountInShift - 1 downTo 0).map { dayInShift ->
             val actualShift = calendarToListShiftMapper.mapCalendarToListShift(
                 calendarShift = shift,
-                calendarDayCount = daysCountInShift
+                calendarDayCount = daysCountInShift,
             ).end - dayInShift
 
             val range = timeMapper.getRangeStartAndEnd(

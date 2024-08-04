@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapt
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.createDayOfWeekAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_complex_rule.adapter.createComplexRuleActionAdapterDelegate
@@ -53,6 +54,7 @@ class ChangeComplexRuleFragment :
 
     private val actionAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createHintAdapterDelegate(),
             createComplexRuleActionAdapterDelegate(viewModel::onActionClick),
         )
     }

@@ -5,17 +5,22 @@
  */
 package com.example.util.simpletimetracker.data
 
-import com.example.util.simpletimetracker.wear_api.WearActivity
+import com.example.util.simpletimetracker.wear_api.WearActivityDTO
 import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
-import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
+import com.example.util.simpletimetracker.wear_api.WearCurrentActivityDTO
 import com.example.util.simpletimetracker.wear_api.WearRequests
-import com.example.util.simpletimetracker.wear_api.WearSettings
-import com.example.util.simpletimetracker.wear_api.WearTag
+import com.example.util.simpletimetracker.wear_api.WearSettingsDTO
+import com.example.util.simpletimetracker.wear_api.WearShouldShowTagSelectionRequest
+import com.example.util.simpletimetracker.wear_api.WearShouldShowTagSelectionResponse
+import com.example.util.simpletimetracker.wear_api.WearStartActivityRequest
+import com.example.util.simpletimetracker.wear_api.WearStopActivityRequest
+import com.example.util.simpletimetracker.wear_api.WearTagDTO
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import javax.inject.Inject
 import javax.inject.Singleton
 
+// Watch side.
 @Singleton
 class WearRPCClient @Inject constructor(
     private val messenger: WearMessenger,
@@ -23,43 +28,57 @@ class WearRPCClient @Inject constructor(
 
     private val gson = Gson()
 
-    override suspend fun queryActivities(): List<WearActivity> {
-        val response: List<WearActivity>? = messenger
+    override suspend fun queryActivities(): List<WearActivityDTO> {
+        val response: List<WearActivityDTO>? = messenger
             .send(WearRequests.QUERY_ACTIVITIES)
             ?.let(::mapFromBytes)
 
         return response ?: throw WearRPCException
     }
 
-    override suspend fun queryCurrentActivities(): List<WearCurrentActivity> {
-        val response: List<WearCurrentActivity>? = messenger
+    override suspend fun queryCurrentActivities(): List<WearCurrentActivityDTO> {
+        val response: List<WearCurrentActivityDTO>? = messenger
             .send(WearRequests.QUERY_CURRENT_ACTIVITIES)
             ?.let(::mapFromBytes)
 
         return response ?: throw WearRPCException
     }
 
-    override suspend fun setCurrentActivities(starting: List<WearCurrentActivity>) {
-        messenger.send(WearRequests.SET_CURRENT_ACTIVITIES, mapToBytes(starting))
+    override suspend fun startActivity(request: WearStartActivityRequest) {
+        messenger.send(WearRequests.START_ACTIVITY, mapToBytes(request))
     }
 
-    override suspend fun queryTagsForActivity(activityId: Long): List<WearTag> {
-        val response: List<WearTag>? = messenger
+    override suspend fun stopActivity(request: WearStopActivityRequest) {
+        messenger.send(WearRequests.STOP_ACTIVITY, mapToBytes(request))
+    }
+
+    override suspend fun queryTagsForActivity(activityId: Long): List<WearTagDTO> {
+        val response: List<WearTagDTO>? = messenger
             .send(WearRequests.QUERY_TAGS_FOR_ACTIVITY, mapToBytes(activityId))
             ?.let(::mapFromBytes)
 
         return response ?: throw WearRPCException
     }
 
-    override suspend fun querySettings(): WearSettings {
-        val response: WearSettings? = messenger
+    override suspend fun queryShouldShowTagSelection(
+        request: WearShouldShowTagSelectionRequest,
+    ): WearShouldShowTagSelectionResponse {
+        val response: WearShouldShowTagSelectionResponse? = messenger
+            .send(WearRequests.QUERY_SHOULD_SHOW_TAG_SELECTION, mapToBytes(request))
+            ?.let(::mapFromBytes)
+
+        return response ?: throw WearRPCException
+    }
+
+    override suspend fun querySettings(): WearSettingsDTO {
+        val response: WearSettingsDTO? = messenger
             .send(WearRequests.QUERY_SETTINGS)
             ?.let(::mapFromBytes)
 
         return response ?: throw WearRPCException
     }
 
-    override suspend fun setSettings(settings: WearSettings) {
+    override suspend fun setSettings(settings: WearSettingsDTO) {
         messenger.send(WearRequests.SET_SETTINGS, mapToBytes(settings))
     }
 

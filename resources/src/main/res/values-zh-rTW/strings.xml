@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">期間</string>
     <string name="change_record_type_goal_count">數數</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">允許對某些設定進行更精細的調整</string>
+    <string name="complex_rules_disable">停用</string>
+    <string name="complex_rules_enable">使能夠</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">行動</string>
+    <string name="change_complex_actions_hint">將應用於起始活動</string>
+    <string name="change_complex_action_assign_tag">分配標籤</string>
+    <string name="change_complex_conditions_title">狀況</string>
+    <string name="change_complex_starting_activity">起始活動</string>
+    <string name="change_complex_previous_activity">之前的活動</string>
+    <string name="change_complex_rule_removed">規則已刪除</string>
+    <string name="change_complex_rule_choose_action">選擇行動</string>
+    <string name="change_complex_rule_choose_condition">選擇條件</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">過濾已移除</string>
     <string name="change_activity_filter_save">儲存</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">在單獨的選項卡上顯示目標</string>
     <string name="settings_show_nav_bar_at_the_bottom">在底部顯示導覽列</string>
     <string name="settings_allow_multitasking">允許多任務</string>
+    <string name="settings_disallow_multitasking">禁止多工處理</string>
     <string name="settings_allow_multitasking_hint">如果禁用啟動新計時器將自動停止其他活動。</string>
     <string name="settings_show_notifications">顯示計時器提醒</string>
     <string name="settings_show_notifications_hint">當計時器正在跑時，顯示提醒</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">改變活動卡片尺寸</string>
     <string name="settings_archive">備存</string>
     <string name="settings_data_edit">數據編輯</string>
+    <string name="settings_complex_rules">複雜的規則</string>
     <string name="settings_edit_categories">編輯類別和標籤</string>
     <string name="settings_edit_categories_hint">為活動分配類別，為記錄分配標籤。</string>
     <string name="settings_show_record_tag_selection">顯示記錄標籤選擇</string>

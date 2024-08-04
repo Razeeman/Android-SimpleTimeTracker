@@ -6,6 +6,7 @@
 package com.example.util.simpletimetracker.wear_api
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -14,33 +15,68 @@ import kotlinx.parcelize.Parcelize
  * Object definitions for records sent between Wear/Mobile
  */
 
-// TODO add Response postfix, add domain model, add mapping to avoid crashes.
 @Parcelize
-data class WearActivity(
+data class WearActivityDTO(
+    @SerializedName("id")
     val id: Long,
+    @SerializedName("name")
     val name: String,
+    @SerializedName("icon")
     val icon: String,
+    @SerializedName("color")
     val color: Long,
 ) : Parcelable
 
 @Parcelize
-data class WearCurrentActivity(
+data class WearCurrentActivityDTO(
+    @SerializedName("id")
     val id: Long,
+    @SerializedName("startedAt")
     val startedAt: Long,
-    val tags: List<WearTag>,
+    @SerializedName("tags")
+    val tags: List<WearTagDTO>,
 ) : Parcelable
 
 @Parcelize
-data class WearTag(
+data class WearTagDTO(
+    @SerializedName("id")
     val id: Long,
+    @SerializedName("name")
     val name: String,
+    @SerializedName("color")
     val color: Long,
 ) : Parcelable
 
 @Parcelize
-data class WearSettings(
+data class WearSettingsDTO(
+    @SerializedName("allowMultitasking")
     val allowMultitasking: Boolean,
-    val showRecordTagSelection: Boolean,
+    @SerializedName("recordTagSelectionCloseAfterOne")
     val recordTagSelectionCloseAfterOne: Boolean,
-    val recordTagSelectionExcludedActivities: List<Long>,
+) : Parcelable
+
+@Parcelize
+data class WearStartActivityRequest(
+    @SerializedName("id")
+    val id: Long,
+    @SerializedName("tagIds")
+    val tagIds: List<Long>,
+) : Parcelable
+
+@Parcelize
+data class WearStopActivityRequest(
+    @SerializedName("id")
+    val id: Long,
+) : Parcelable
+
+@Parcelize
+data class WearShouldShowTagSelectionRequest(
+    @SerializedName("id")
+    val id: Long,
+) : Parcelable
+
+@Parcelize
+data class WearShouldShowTagSelectionResponse(
+    @SerializedName("shouldShow")
+    val shouldShow: Boolean,
 ) : Parcelable

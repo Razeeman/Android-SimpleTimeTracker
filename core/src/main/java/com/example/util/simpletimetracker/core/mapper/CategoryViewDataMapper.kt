@@ -206,16 +206,6 @@ class CategoryViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapSelectedCategoriesHint(isEmpty: Boolean): ViewHolderType {
-        return InfoViewData(
-            text = if (isEmpty) {
-                R.string.nothing_selected
-            } else {
-                R.string.something_selected
-            }.let(resourceRepo::getString),
-        )
-    }
-
     fun getTextColor(
         isDarkTheme: Boolean,
         isFiltered: Boolean,

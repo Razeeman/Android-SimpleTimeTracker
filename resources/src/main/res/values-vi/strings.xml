@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">Thời lượng</string>
     <string name="change_record_type_goal_count">Đếm</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Cho phép ứng dụng tinh chỉnh hơn của một số cài đặt</string>
+    <string name="complex_rules_disable">Vô hiệu hóa</string>
+    <string name="complex_rules_enable">Cho phép</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Hoạt động</string>
+    <string name="change_complex_actions_hint">Sẽ được áp dụng cho hoạt động bắt đầu</string>
+    <string name="change_complex_action_assign_tag">Gán thẻ</string>
+    <string name="change_complex_conditions_title">Điều kiện</string>
+    <string name="change_complex_starting_activity">Hoạt động khởi đầu</string>
+    <string name="change_complex_previous_activity">Hoạt động trước</string>
+    <string name="change_complex_rule_removed">Đã xóa quy tắc</string>
+    <string name="change_complex_rule_choose_action">Chọn hành động</string>
+    <string name="change_complex_rule_choose_condition">Chọn điều kiện</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Đã xóa bộ lọc</string>
     <string name="change_activity_filter_save">Lưu</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">Hiển thị mục tiêu trên một tab riêng</string>
     <string name="settings_show_nav_bar_at_the_bottom">Hiển thị thanh điều hướng ở phía dưới</string>
     <string name="settings_allow_multitasking">Cho phép đa nhiệm</string>
+    <string name="settings_disallow_multitasking">Không cho phép đa nhiệm</string>
     <string name="settings_allow_multitasking_hint">Nếu bị tắt, việc bắt đầu bộ hẹn giờ mới sẽ tự động dừng các hoạt động khác.</string>
     <string name="settings_show_notifications">Hiển thị thông báo hẹn giờ</string>
     <string name="settings_show_notifications_hint">Hiển thị thông báo khi đồng hồ hẹn giờ đang chạy.</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">Thay đổi kích thước thẻ hoạt động</string>
     <string name="settings_archive">Lưu trữ</string>
     <string name="settings_data_edit">Chỉnh sửa dữ liệu</string>
+    <string name="settings_complex_rules">Quy tắc phức tạp</string>
     <string name="settings_edit_categories">Chỉnh sửa danh mục và thẻ</string>
     <string name="settings_edit_categories_hint">Gán danh mục cho hoạt động và gắn thẻ cho bản ghi.</string>
     <string name="settings_show_record_tag_selection">Hiển thị lựa chọn thẻ bản ghi</string>

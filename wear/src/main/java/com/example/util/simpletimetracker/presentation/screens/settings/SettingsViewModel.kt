@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.domain.interactor.WearPrefsInteractor
+import com.example.util.simpletimetracker.domain.model.WearSettings
 import com.example.util.simpletimetracker.presentation.ui.components.SettingsListState
-import com.example.util.simpletimetracker.wear_api.WearSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

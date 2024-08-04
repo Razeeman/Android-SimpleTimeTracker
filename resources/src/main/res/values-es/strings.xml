@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">Duración</string>
     <string name="change_record_type_goal_count">Contar</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Permite una aplicación más precisa de algunas configuraciones</string>
+    <string name="complex_rules_disable">Desactivar</string>
+    <string name="complex_rules_enable">Permitir</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Acción</string>
+    <string name="change_complex_actions_hint">Se aplicará a la actividad inicial</string>
+    <string name="change_complex_action_assign_tag">Asignar etiqueta</string>
+    <string name="change_complex_conditions_title">Condiciones</string>
+    <string name="change_complex_starting_activity">La actividad inicial</string>
+    <string name="change_complex_previous_activity">Actividad previa</string>
+    <string name="change_complex_rule_removed">Regla eliminada</string>
+    <string name="change_complex_rule_choose_action">Elige Acción</string>
+    <string name="change_complex_rule_choose_condition">Elige condiciones</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filtro eliminado</string>
     <string name="change_activity_filter_save">Guardar</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">Mostrar objetivos en una pestaña separada</string>
     <string name="settings_show_nav_bar_at_the_bottom">Mostrar barra de navegación en la parte inferior</string>
     <string name="settings_allow_multitasking">Permitir el registro multitarea</string>
+    <string name="settings_disallow_multitasking">No permitir la multitarea</string>
     <string name="settings_allow_multitasking_hint">Si está deshabilitado, al iniciar un nuevo temporizador se detendrá automáticamente el de las otras actividades.</string>
     <string name="settings_show_notifications">Mostrar notificaciones del temporizador</string>
     <string name="settings_show_notifications_hint">Mostrar notificaciones cuando el temporizador esté activo.</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">Cambiar el tamaño de la tarjeta de actividad</string>
     <string name="settings_archive">Archivar</string>
     <string name="settings_data_edit">Edición de datos</string>
+    <string name="settings_complex_rules">Reglas complejas</string>
     <string name="settings_edit_categories">Editar categorías y etiquetas</string>
     <string name="settings_edit_categories_hint">Asigne categorías a actividades y etiquetas a registros.</string>
     <string name="settings_show_record_tag_selection">Mostrar selección de etiqueta de registro</string>

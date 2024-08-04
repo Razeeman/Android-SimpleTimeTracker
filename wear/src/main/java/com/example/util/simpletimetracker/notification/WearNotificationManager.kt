@@ -17,10 +17,10 @@ import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.data.WearIconMapper
 import com.example.util.simpletimetracker.data.WearPermissionRepo
+import com.example.util.simpletimetracker.domain.model.WearActivity
 import com.example.util.simpletimetracker.domain.model.WearActivityIcon
+import com.example.util.simpletimetracker.domain.model.WearCurrentActivity
 import com.example.util.simpletimetracker.utils.getMainStartIntent
-import com.example.util.simpletimetracker.wear_api.WearActivity
-import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

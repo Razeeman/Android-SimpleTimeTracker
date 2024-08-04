@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.domain.repo
 
 import com.example.util.simpletimetracker.domain.model.ComplexRule
 
-// TODO RULES add to backup
 interface ComplexRuleRepo {
 
     suspend fun isEmpty(): Boolean

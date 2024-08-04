@@ -8,9 +8,9 @@ package com.example.util.simpletimetracker.presentation.screens.settings
 import com.example.util.simpletimetracker.BuildConfig
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.data.WearResourceRepo
+import com.example.util.simpletimetracker.domain.model.WearSettings
 import com.example.util.simpletimetracker.presentation.ui.components.SettingsItem
 import com.example.util.simpletimetracker.presentation.ui.components.SettingsListState
-import com.example.util.simpletimetracker.wear_api.WearSettings
 import javax.inject.Inject
 
 class SettingsViewDataMapper @Inject constructor(

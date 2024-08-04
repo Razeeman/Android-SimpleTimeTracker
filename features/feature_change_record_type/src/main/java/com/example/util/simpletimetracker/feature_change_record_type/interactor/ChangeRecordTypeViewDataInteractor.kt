@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_change_record_type.interactor
 
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.CommonViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -12,6 +13,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val categoryInteractor: CategoryInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
+    private val commonViewDataMapper: CommonViewDataMapper,
 ) {
 
     suspend fun getCategoriesViewData(
@@ -29,7 +31,7 @@ class ChangeRecordTypeViewDataInteractor @Inject constructor(
 
             DividerViewData(1).let(viewData::add)
 
-            categoryViewDataMapper.mapSelectedCategoriesHint(
+            commonViewDataMapper.mapSelectedHint(
                 isEmpty = selected.isEmpty(),
             ).let(viewData::add)
 

@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.core.interactor
 
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.CommonViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.GetSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
@@ -15,6 +16,7 @@ class RecordTagViewDataInteractor @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
+    private val commonViewDataMapper: CommonViewDataMapper,
 ) {
 
     suspend fun getViewData(
@@ -42,7 +44,7 @@ class RecordTagViewDataInteractor @Inject constructor(
                 DividerViewData(1),
             ).takeIf { showAddButton }?.let(viewData::addAll)
 
-            categoryViewDataMapper.mapSelectedCategoriesHint(
+            commonViewDataMapper.mapSelectedHint(
                 isEmpty = selected.isEmpty(),
             ).takeIf { multipleChoiceAvailable }?.let(viewData::add)
 

@@ -7,9 +7,11 @@ package com.example.util.simpletimetracker.feature_wear
 
 import android.content.Context
 import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
-import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 import com.example.util.simpletimetracker.wear_api.WearRequests
-import com.example.util.simpletimetracker.wear_api.WearSettings
+import com.example.util.simpletimetracker.wear_api.WearSettingsDTO
+import com.example.util.simpletimetracker.wear_api.WearShouldShowTagSelectionRequest
+import com.example.util.simpletimetracker.wear_api.WearStartActivityRequest
+import com.example.util.simpletimetracker.wear_api.WearStopActivityRequest
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.Wearable
 import com.google.gson.Gson
@@ -20,9 +22,10 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
+// Application side.
 class WearRPCServer @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val api: WearCommunicationAPI,
+    private val repo: WearCommunicationAPI,
 ) {
 
     private val gson = Gson()
@@ -32,8 +35,10 @@ class WearRPCServer @Inject constructor(
             when (path) {
                 WearRequests.QUERY_ACTIVITIES -> onQueryActivities()
                 WearRequests.QUERY_CURRENT_ACTIVITIES -> onQueryCurrentActivities()
-                WearRequests.SET_CURRENT_ACTIVITIES -> onSetCurrentActivities(request)
+                WearRequests.START_ACTIVITY -> onStartActivity(request)
+                WearRequests.STOP_ACTIVITY -> onStopActivity(request)
                 WearRequests.QUERY_TAGS_FOR_ACTIVITY -> onQueryTagsForActivity(request)
+                WearRequests.QUERY_SHOULD_SHOW_TAG_SELECTION -> onQueryShouldShowTagSelection(request)
                 WearRequests.QUERY_SETTINGS -> onQuerySettings()
                 WearRequests.SET_SETTINGS -> onSetSettings(request)
                 WearRequests.OPEN_PHONE_APP -> onOpenPhoneApp()
@@ -71,35 +76,46 @@ class WearRPCServer @Inject constructor(
 
     private suspend fun onQueryTagsForActivity(request: ByteArray): ByteArray? {
         val activityId: Long = mapFromBytes(request) ?: return null
-        return mapToBytes(api.queryTagsForActivity(activityId))
+        return mapToBytes(repo.queryTagsForActivity(activityId))
     }
 
-    private suspend fun onSetCurrentActivities(request: ByteArray): ByteArray? {
-        val activities: List<WearCurrentActivity> = mapFromBytes(request) ?: return null
-        api.setCurrentActivities(activities)
+    private suspend fun onQueryShouldShowTagSelection(request: ByteArray): ByteArray? {
+        val data: WearShouldShowTagSelectionRequest = mapFromBytes(request) ?: return null
+        return mapToBytes(repo.queryShouldShowTagSelection(data))
+    }
+
+    private suspend fun onStartActivity(request: ByteArray): ByteArray? {
+        val data: WearStartActivityRequest = mapFromBytes(request) ?: return null
+        repo.startActivity(data)
+        return ByteArray(0)
+    }
+
+    private suspend fun onStopActivity(request: ByteArray): ByteArray? {
+        val data: WearStopActivityRequest = mapFromBytes(request) ?: return null
+        repo.stopActivity(data)
         return ByteArray(0)
     }
 
     private suspend fun onQueryActivities(): ByteArray {
-        return mapToBytes(api.queryActivities())
+        return mapToBytes(repo.queryActivities())
     }
 
     private suspend fun onQueryCurrentActivities(): ByteArray {
-        return mapToBytes(api.queryCurrentActivities())
+        return mapToBytes(repo.queryCurrentActivities())
     }
 
     private suspend fun onQuerySettings(): ByteArray {
-        return mapToBytes(api.querySettings())
+        return mapToBytes(repo.querySettings())
     }
 
     private suspend fun onSetSettings(request: ByteArray): ByteArray? {
-        val settings: WearSettings = mapFromBytes(request) ?: return null
-        api.setSettings(settings)
+        val settings: WearSettingsDTO = mapFromBytes(request) ?: return null
+        repo.setSettings(settings)
         return ByteArray(0)
     }
 
     private suspend fun onOpenPhoneApp(): ByteArray? {
-        api.openPhoneApp()
+        repo.openPhoneApp()
         return null
     }
 

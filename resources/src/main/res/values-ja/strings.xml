@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">間隔</string>
     <string name="change_record_type_goal_count">カウント</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">一部の設定をより細かく適用できるようになります</string>
+    <string name="complex_rules_disable">無効にする</string>
+    <string name="complex_rules_enable">有効にする</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">アクション</string>
+    <string name="change_complex_actions_hint">開始アクティビティに適用されます</string>
+    <string name="change_complex_action_assign_tag">タグの割り当て</string>
+    <string name="change_complex_conditions_title">条件</string>
+    <string name="change_complex_starting_activity">始まりのアクティビティ</string>
+    <string name="change_complex_previous_activity">以前の活動</string>
+    <string name="change_complex_rule_removed">ルールが削除されました</string>
+    <string name="change_complex_rule_choose_action">アクションを選択してください</string>
+    <string name="change_complex_rule_choose_condition">条件を選択してください</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">フィルタを取り外しました</string>
     <string name="change_activity_filter_save">保存</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">別のタブに目標を表示する</string>
     <string name="settings_show_nav_bar_at_the_bottom">下部にナビゲーションバーを表示</string>
     <string name="settings_allow_multitasking">マルチタスクを可能にする</string>
+    <string name="settings_disallow_multitasking">マルチタスクを禁止する</string>
     <string name="settings_allow_multitasking_hint">無効の場合、新しいタイマーを開始すると、他のアクティビティが自動的に停止します。</string>
     <string name="settings_show_notifications">タイマーの通知を表示する</string>
     <string name="settings_show_notifications_hint">タイマー作動時に通知を表示する。</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">アクティビティカードのサイズを変更する</string>
     <string name="settings_archive">アーカイブ</string>
     <string name="settings_data_edit">データ編集</string>
+    <string name="settings_complex_rules">複雑なルール</string>
     <string name="settings_edit_categories">カテゴリとタグを編集する</string>
     <string name="settings_edit_categories_hint">アクティビティにカテゴリを割り当て、レコードにタグを割り当てます。</string>
     <string name="settings_show_record_tag_selection">記録タグの選択を表示</string>

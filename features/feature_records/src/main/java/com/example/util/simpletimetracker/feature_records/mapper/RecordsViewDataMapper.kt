@@ -84,7 +84,7 @@ class RecordsViewDataMapper @Inject constructor(
         return if (isCalendarView && calendarDayCount > 1) {
             val calendarRange = calendarToListShiftMapper.mapCalendarToListShift(
                 calendarShift = shift,
-                calendarDayCount = calendarDayCount
+                calendarDayCount = calendarDayCount,
             )
 
             timeMapper.toDayShortDateTitle(calendarRange.start, startOfDayShift) +

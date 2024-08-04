@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">Durasi</string>
     <string name="change_record_type_goal_count">Menghitung</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Memungkinkan penerapan beberapa pengaturan yang lebih baik</string>
+    <string name="complex_rules_disable">Cacat</string>
+    <string name="complex_rules_enable">Memungkinkan</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Tindakan</string>
+    <string name="change_complex_actions_hint">Akan diterapkan pada aktivitas awal</string>
+    <string name="change_complex_action_assign_tag">Tetapkan tanda</string>
+    <string name="change_complex_conditions_title">Kondisi</string>
+    <string name="change_complex_starting_activity">Kegiatan awal</string>
+    <string name="change_complex_previous_activity">Aktivitas sebelumnya</string>
+    <string name="change_complex_rule_removed">Aturan dihapus</string>
+    <string name="change_complex_rule_choose_action">Pilih tindakan</string>
+    <string name="change_complex_rule_choose_condition">Pilih kondisi</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filter dihapus</string>
     <string name="change_activity_filter_save">Simpan</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">Tampilkan sasaran di tab terpisah</string>
     <string name="settings_show_nav_bar_at_the_bottom">Tampilkan bilah navigasi di bagian bawah</string>
     <string name="settings_allow_multitasking">Izinkan tugas ganda</string>
+    <string name="settings_disallow_multitasking">Larang multitugas</string>
     <string name="settings_allow_multitasking_hint">Jika dinonaktifkan memulai pewaktu baru akan secara otomatis menghentikan kegiatan-kegiatan lain.</string>
     <string name="settings_show_notifications">Tampilkan notifikasi pewaktu</string>
     <string name="settings_show_notifications_hint">Tampilkan notifikasi saat pewaktu berjalan.</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">Ubah ukuran kartu kegiatan</string>
     <string name="settings_archive">Arsip</string>
     <string name="settings_data_edit">Pengeditan data</string>
+    <string name="settings_complex_rules">Aturan yang rumit</string>
     <string name="settings_edit_categories">Sunting kategori dan label</string>
     <string name="settings_edit_categories_hint">Tetapkan kategori untuk aktivitas dan label untuk rekaman.</string>
     <string name="settings_show_record_tag_selection">Tampilkan pilihan label rekor</string>

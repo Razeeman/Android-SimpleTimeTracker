@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">Dauer</string>
     <string name="change_record_type_goal_count">Zählen</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Ermöglicht eine genauere Anwendung einiger Einstellungen</string>
+    <string name="complex_rules_disable">Deaktivieren</string>
+    <string name="complex_rules_enable">Aktivieren</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Aktion</string>
+    <string name="change_complex_actions_hint">Wird auf die Startaktivität angewendet</string>
+    <string name="change_complex_action_assign_tag">Tag zuweisen</string>
+    <string name="change_complex_conditions_title">Bedingungen</string>
+    <string name="change_complex_starting_activity">Die Startaktivität</string>
+    <string name="change_complex_previous_activity">Vorherige Aktivität</string>
+    <string name="change_complex_rule_removed">Regel entfernt</string>
+    <string name="change_complex_rule_choose_action">Aktion wählen</string>
+    <string name="change_complex_rule_choose_condition">Wählen Sie Bedingungen</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filter entfernt</string>
     <string name="change_activity_filter_save">Speichern</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">Ziele auf einer separaten Registerkarte anzeigen</string>
     <string name="settings_show_nav_bar_at_the_bottom">Navigationsleiste unten anzeigen</string>
     <string name="settings_allow_multitasking">Multitasking erlauben</string>
+    <string name="settings_disallow_multitasking">Multitasking verbieten</string>
     <string name="settings_allow_multitasking_hint">Wenn diese Funktion deaktiviert ist, werden beim Starten eines neuen Timers andere Aktivitäten automatisch gestoppt.</string>
     <string name="settings_show_notifications">Timer-Benachrichtigungen anzeigen</string>
     <string name="settings_show_notifications_hint">Benachrichtigungen anzeigen, wenn die Zeiten laufen.</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">Aktivitätskartengröße ändern</string>
     <string name="settings_archive">Archiv</string>
     <string name="settings_data_edit">Daten bearbeiten</string>
+    <string name="settings_complex_rules">Komplexe Regeln</string>
     <string name="settings_edit_categories">Kategorien und Tags bearbeiten</string>
     <string name="settings_edit_categories_hint">Weisen Sie Aktivitäten Kategorien und Datensätzen Tags zu.</string>
     <string name="settings_show_record_tag_selection">Datensatz-Tag-Auswahl zeigen</string>

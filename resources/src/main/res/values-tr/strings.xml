@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">Süre</string>
     <string name="change_record_type_goal_count">Saymak</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Bazı ayarların daha ince ayarlı uygulanmasına olanak tanır</string>
+    <string name="complex_rules_disable">Devre dışı bırakmak</string>
+    <string name="complex_rules_enable">Olanak vermek</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Aksiyon</string>
+    <string name="change_complex_actions_hint">Başlangıç etkinliğine uygulanacak</string>
+    <string name="change_complex_action_assign_tag">Etiket ata</string>
+    <string name="change_complex_conditions_title">Koşullar</string>
+    <string name="change_complex_starting_activity">Başlangıç etkinliği</string>
+    <string name="change_complex_previous_activity">Önceki etkinlik</string>
+    <string name="change_complex_rule_removed">Kural kaldırıldı</string>
+    <string name="change_complex_rule_choose_action">Eylem seçin</string>
+    <string name="change_complex_rule_choose_condition">Koşulları seçin</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filtre kaldırıldı</string>
     <string name="change_activity_filter_save">Kaydet</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">Hedefleri ayrı bir sekmede göster</string>
     <string name="settings_show_nav_bar_at_the_bottom">Gezinme çubuğunu altta göster</string>
     <string name="settings_allow_multitasking">Çoklu göreve izin ver</string>
+    <string name="settings_disallow_multitasking">Çoklu göreve izin verme</string>
     <string name="settings_allow_multitasking_hint">Devre dışı bırakılırsa, yeni zamanlayıcı başlatmak diğer aktivitelerin zamanlayıcısını otomatik olarak durdurur.</string>
     <string name="settings_show_notifications">Zamanlayıcı bildirimlerini göster</string>
     <string name="settings_show_notifications_hint">Zamanlayıcılar çalışırken bildirim göster.</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">Aktivite kartı boyutunu değiştir</string>
     <string name="settings_archive">Arşiv</string>
     <string name="settings_data_edit">Veri düzenleme</string>
+    <string name="settings_complex_rules">Karmaşık kurallar</string>
     <string name="settings_edit_categories">Kategorileri ve etiketleri düzenle</string>
     <string name="settings_edit_categories_hint">Etkinliklere kategoriler ve kayıtlara etiketler atayın.</string>
     <string name="settings_show_record_tag_selection">Kayıt etiketi seçimini göster</string>

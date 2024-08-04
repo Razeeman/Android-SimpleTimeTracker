@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">시간</string>
     <string name="change_record_type_goal_count">횟수</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">일부 설정을 보다 세밀하게 적용할 수 있습니다.</string>
+    <string name="complex_rules_disable">장애를 입히다</string>
+    <string name="complex_rules_enable">할 수 있게 하다</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">행동</string>
+    <string name="change_complex_actions_hint">시작 활동에 적용됩니다.</string>
+    <string name="change_complex_action_assign_tag">태그 할당</string>
+    <string name="change_complex_conditions_title">정황</string>
+    <string name="change_complex_starting_activity">시작 활동</string>
+    <string name="change_complex_previous_activity">이전 활동</string>
+    <string name="change_complex_rule_removed">규칙이 삭제되었습니다.</string>
+    <string name="change_complex_rule_choose_action">작업 선택</string>
+    <string name="change_complex_rule_choose_condition">조건을 선택하세요</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">필터 삭제됨</string>
     <string name="change_activity_filter_save">저장</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">목표 탭 분리</string>
     <string name="settings_show_nav_bar_at_the_bottom">하단에 탐색바 표시</string>
     <string name="settings_allow_multitasking">멀티태스킹 활성화</string>
+    <string name="settings_disallow_multitasking">멀티태스킹 금지</string>
     <string name="settings_allow_multitasking_hint">비활성화시, 새로운 활동을 시작하면 기존의 활동 기록을 멈춥니다.</string>
     <string name="settings_show_notifications">타이머 알림 표기</string>
     <string name="settings_show_notifications_hint">타이머 활성화시 알림창에 표시합니다.</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">활동 카드 크기 변경</string>
     <string name="settings_archive">보관</string>
     <string name="settings_data_edit">데이터 수정</string>
+    <string name="settings_complex_rules">복잡한 규칙</string>
     <string name="settings_edit_categories">카테고리와 태그 수정</string>
     <string name="settings_edit_categories_hint">활동에 카테고리를 할당하고 기록에 태그를 지정합니다.</string>
     <string name="settings_show_record_tag_selection">기록 태그 선택 표시</string>

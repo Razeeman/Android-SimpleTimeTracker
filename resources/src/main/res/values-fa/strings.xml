@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">مدت زمان</string>
     <string name="change_record_type_goal_count">شمردن</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">اجازه می دهد تا برای اعمال دقیق تر تنظیمات برخی از تنظیمات</string>
+    <string name="complex_rules_disable">غیر فعال کردن</string>
+    <string name="complex_rules_enable">فعال کردن</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">عمل</string>
+    <string name="change_complex_actions_hint">برای شروع فعالیت اعمال خواهد شد</string>
+    <string name="change_complex_action_assign_tag">تگ اختصاص دهید</string>
+    <string name="change_complex_conditions_title">شرایط</string>
+    <string name="change_complex_starting_activity">شروع فعالیت</string>
+    <string name="change_complex_previous_activity">فعالیت قبلی</string>
+    <string name="change_complex_rule_removed">قانون حذف شد</string>
+    <string name="change_complex_rule_choose_action">اقدام را انتخاب کنید</string>
+    <string name="change_complex_rule_choose_condition">شرایط را انتخاب کنید</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">فیلتر حذف شد</string>
     <string name="change_activity_filter_save">ذخیره</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">نمایش اهداف در یک برگه جداگانه</string>
     <string name="settings_show_nav_bar_at_the_bottom">نمایش نوار پیمایش در پایین</string>
     <string name="settings_allow_multitasking">انجام دادن همزمان فعالیت ها</string>
+    <string name="settings_disallow_multitasking">چندوظیفه ای را ممنوع کنید</string>
     <string name="settings_allow_multitasking_hint">اگر غیر فعال باشد شروع تایمر های جدید فعالیت های دیگر را متوقف می کند</string>
     <string name="settings_show_notifications">تایمر را در اعلان ها نمایش بده</string>
     <string name="settings_show_notifications_hint">هنگام در جریان بودن تایمر ها اعلان نشان بده</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">سایز کارت فعالیت ها را تغییر دهید</string>
     <string name="settings_archive">بایگانی</string>
     <string name="settings_data_edit">ویرایش اطلاعات</string>
+    <string name="settings_complex_rules">قوانین پیچیده</string>
     <string name="settings_edit_categories">ویرایش دسته بندی ها و برچسب ها</string>
     <string name="settings_edit_categories_hint">اختصاص دسته بندی ها به فعالیت ها و برچسب ها به تاریخچه ها</string>
     <string name="settings_show_record_tag_selection">نمایش برچسب تاریخچه انتخابی</string>

@@ -9,13 +9,13 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.data.WearResourceRepo
+import com.example.util.simpletimetracker.domain.model.WearSettings
+import com.example.util.simpletimetracker.domain.model.WearTag
 import com.example.util.simpletimetracker.presentation.theme.ColorActive
 import com.example.util.simpletimetracker.presentation.theme.ColorInactive
 import com.example.util.simpletimetracker.presentation.ui.components.TagChipState
 import com.example.util.simpletimetracker.presentation.ui.components.TagListState
 import com.example.util.simpletimetracker.presentation.ui.components.TagSelectionButtonState
-import com.example.util.simpletimetracker.wear_api.WearSettings
-import com.example.util.simpletimetracker.wear_api.WearTag
 import javax.inject.Inject
 
 class TagsViewDataMapper @Inject constructor(

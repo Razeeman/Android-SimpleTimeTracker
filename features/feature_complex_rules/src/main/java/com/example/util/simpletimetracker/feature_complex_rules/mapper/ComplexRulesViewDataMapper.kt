@@ -31,12 +31,26 @@ class ComplexRulesViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         typesMap: Map<Long, RecordType>,
         tagsMap: Map<Long, RecordTag>,
+        typesOrder: List<Long>,
+        tagsOrder: List<Long>,
     ): ComplexRuleViewData {
         return ComplexRuleViewData(
             id = rule.id,
-            actionTitle = mapActionTitle(rule, tagsMap),
-            startingTypes = mapStartingTypes(rule, typesMap),
-            currentTypes = mapCurrentTypes(rule, typesMap),
+            actionTitle = mapActionTitle(
+                rule = rule,
+                tagsMap = tagsMap,
+                tagsOrder = tagsOrder,
+            ),
+            startingTypes = mapStartingTypes(
+                rule = rule,
+                typesMap = typesMap,
+                typesOrder = typesOrder,
+            ),
+            currentTypes = mapCurrentTypes(
+                rule = rule,
+                typesMap = typesMap,
+                typesOrder = typesOrder,
+            ),
             daysOfWeek = mapDaysOfWeek(rule),
             color = if (rule.disabled) {
                 colorMapper.toInactiveColor(isDarkTheme)
@@ -59,6 +73,7 @@ class ComplexRulesViewDataMapper @Inject constructor(
     private fun mapActionTitle(
         rule: ComplexRule,
         tagsMap: Map<Long, RecordTag>,
+        tagsOrder: List<Long>,
     ): String {
         val action = rule.action
         val baseTitle = mapBaseTitle(action)
@@ -68,7 +83,9 @@ class ComplexRulesViewDataMapper @Inject constructor(
             -> baseTitle
             is ComplexRule.Action.AssignTag -> getFinalText(
                 baseTitle = baseTitle,
-                data = rule.actionAssignTagIds.mapNotNull { tagsMap[it]?.name }
+                data = rule.actionAssignTagIds
+                    .sortedBy { tagsOrder.indexOf(it) }
+                    .mapNotNull { tagsMap[it]?.name }
                     // Just in case where is a deleted id.
                     .ifEmpty { listOf("") },
             )
@@ -91,20 +108,26 @@ class ComplexRulesViewDataMapper @Inject constructor(
     private fun mapStartingTypes(
         rule: ComplexRule,
         typesMap: Map<Long, RecordType>,
+        typesOrder: List<Long>,
     ): String {
         return getFinalText(
             baseTitle = resourceRepo.getString(R.string.change_complex_starting_activity),
-            data = rule.conditionStartingTypeIds.mapNotNull { typesMap[it]?.name },
+            data = rule.conditionStartingTypeIds
+                .sortedBy { typesOrder.indexOf(it) }
+                .mapNotNull { typesMap[it]?.name },
         )
     }
 
     private fun mapCurrentTypes(
         rule: ComplexRule,
         typesMap: Map<Long, RecordType>,
+        typesOrder: List<Long>,
     ): String {
         return getFinalText(
             baseTitle = resourceRepo.getString(R.string.change_complex_previous_activity),
-            data = rule.conditionCurrentTypeIds.mapNotNull { typesMap[it]?.name },
+            data = rule.conditionCurrentTypeIds
+                .sortedBy { typesOrder.indexOf(it) }
+                .mapNotNull { typesMap[it]?.name },
         )
     }
 

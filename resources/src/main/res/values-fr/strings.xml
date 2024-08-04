@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">Durée</string>
     <string name="change_record_type_goal_count">Compter</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Permet une application plus fine de certains paramètres</string>
+    <string name="complex_rules_disable">Désactiver</string>
+    <string name="complex_rules_enable">Activer</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Action</string>
+    <string name="change_complex_actions_hint">Sera appliqué à l\'activité de démarrage</string>
+    <string name="change_complex_action_assign_tag">Attribuer une balise</string>
+    <string name="change_complex_conditions_title">Conditions</string>
+    <string name="change_complex_starting_activity">L\'activité de départ</string>
+    <string name="change_complex_previous_activity">Activité précédente</string>
+    <string name="change_complex_rule_removed">Règle supprimée</string>
+    <string name="change_complex_rule_choose_action">Choisir une action</string>
+    <string name="change_complex_rule_choose_condition">Choisissez les conditions</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filtre supprimé</string>
     <string name="change_activity_filter_save">Sauvegarder</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">Afficher les objectifs dans un onglet séparé</string>
     <string name="settings_show_nav_bar_at_the_bottom">Afficher la barre de navigation en bas</string>
     <string name="settings_allow_multitasking">Autoriser le multitâche</string>
+    <string name="settings_disallow_multitasking">Interdire le multitâche</string>
     <string name="settings_allow_multitasking_hint">Si désactivé, le démarrage d\'une nouvelle activité arrêtera automatiquement les autres activités en cours.</string>
     <string name="settings_show_notifications">Afficher les notifications d\'activité</string>
     <string name="settings_show_notifications_hint">Afficher une notification pour chaque activité en cours.</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">Modifier la taille des cartes d\'activité</string>
     <string name="settings_archive">Éléments archivés</string>
     <string name="settings_data_edit">Modification des données</string>
+    <string name="settings_complex_rules">Des règles complexes</string>
     <string name="settings_edit_categories">Édition les catégories et les étiquettes</string>
     <string name="settings_edit_categories_hint">Attribuez des catégories aux activités et des étiquettes aux enregistrements.</string>
     <string name="settings_show_record_tag_selection">Afficher la sélection d\'étiquette d\'enregistrement</string>

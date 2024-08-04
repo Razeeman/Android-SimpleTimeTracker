@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">अवधि</string>
     <string name="change_record_type_goal_count">गिनती करना</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">कुछ सेटिंग्स के अधिक सुव्यवस्थित अनुप्रयोग की अनुमति देता है</string>
+    <string name="complex_rules_disable">अक्षम करना</string>
+    <string name="complex_rules_enable">सक्षम</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">कार्रवाई</string>
+    <string name="change_complex_actions_hint">आरंभिक गतिविधि पर लागू किया जाएगा</string>
+    <string name="change_complex_action_assign_tag">टैग निर्दिष्ट करें</string>
+    <string name="change_complex_conditions_title">स्थितियाँ</string>
+    <string name="change_complex_starting_activity">आरंभिक गतिविधि</string>
+    <string name="change_complex_previous_activity">पिछली गतिविधि</string>
+    <string name="change_complex_rule_removed">नियम हटा दिया गया</string>
+    <string name="change_complex_rule_choose_action">कार्रवाई का चयन</string>
+    <string name="change_complex_rule_choose_condition">शर्तें चुनें</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">फ़िल्टर हटा दिया गया</string>
     <string name="change_activity_filter_save">सुरक्षित रखना</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">एक अलग टैब पर लक्ष्य दिखाएँ</string>
     <string name="settings_show_nav_bar_at_the_bottom">सबसे नीचे नेविगेशन बार दिखाएँ</string>
     <string name="settings_allow_multitasking">मल्टीटास्किंग की अनुमति दें</string>
+    <string name="settings_disallow_multitasking">मल्टीटास्किंग की अनुमति न दें</string>
     <string name="settings_allow_multitasking_hint">यदि बंद हे तो नया टाइमर शुरू होने पर यह अन्य स्वचालित गतिविधियों को रोक देगा।</string>
     <string name="settings_show_notifications">टाइमर नोटिफिकेशन दिखाएं</string>
     <string name="settings_show_notifications_hint">जब टाइमर चल रहे हों तो सूचनाएं दिखाएं।</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">गतिविधि कार्ड का आकार बदलें</string>
     <string name="settings_archive">संग्रहालय</string>
     <string name="settings_data_edit">डेटा संपादित करें</string>
+    <string name="settings_complex_rules">जटिल नियम</string>
     <string name="settings_edit_categories">श्रेणियां और टैग संपादित करें</string>
     <string name="settings_edit_categories_hint">गतिविधियों और टैग को दर्कज करने के लिए श्रेणियां नियुक्त करें।</string>
     <string name="settings_show_record_tag_selection">चयन रिकॉर्ड टैग दिखाएं</string>
@@ -488,10 +506,10 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="records_filter_invert_selection">उलट चयन</string>
 
     <!--  Pomodoro  -->
-    <string name='pomodoro_state_focus'>फोकस</string>
-    <string name='pomodoro_state_break'>ब्रेक</string>
-    <string name='pomodoro_state_long_break'>लंबा ब्रेक</string>
-    <string name='pomodoro_settings_periods_until_long_break'>लंबे ब्रेक तक की अवधि</string>
+    <string name="pomodoro_state_focus">फोकस</string>
+    <string name="pomodoro_state_break">ब्रेक</string>
+    <string name="pomodoro_state_long_break">लंबा ब्रेक</string>
+    <string name="pomodoro_settings_periods_until_long_break">लंबे ब्रेक तक की अवधि</string>
 
     <!--  Icon emoji category  -->
     <string name="emojiGroupSmileys">स्माइली और इमोशन</string>

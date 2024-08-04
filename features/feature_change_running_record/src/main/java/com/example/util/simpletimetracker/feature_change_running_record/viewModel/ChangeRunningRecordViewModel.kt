@@ -129,7 +129,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             typeId = newTypeId,
             timeStarted = newTimeStarted,
             comment = newComment,
-            tagIds = newCategoryIds
+            tagIds = newCategoryIds,
         )
         router.back()
     }

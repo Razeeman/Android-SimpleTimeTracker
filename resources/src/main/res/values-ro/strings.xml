@@ -157,7 +157,6 @@
     <string name="change_record_type_goal_duration">Durata</string>
     <string name="change_record_type_goal_count">Număr</string>
 
-    <!--  TODO RULES add to drive file   -->
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Permite o modificare fină a unor setări</string>
     <string name="complex_rules_disable">Dezactivează</string>
@@ -165,6 +164,7 @@
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Acțiune</string>
+    <string name="change_complex_actions_hint">Se va aplica la activitatea de pornire</string>
     <string name="change_complex_action_assign_tag">Atribuie etichetă</string>
     <string name="change_complex_conditions_title">Condiții</string>
     <string name="change_complex_starting_activity">Activitatea de inceput</string>
@@ -172,7 +172,7 @@
     <string name="change_complex_rule_removed">Regulă stearsă</string>
     <string name="change_complex_rule_choose_action">Alege ațiuneas</string>
     <string name="change_complex_rule_choose_condition">Alege condițiile</string>
-    
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filtru scos</string>
     <string name="change_activity_filter_save">Salvează</string>
@@ -306,6 +306,7 @@
     <string name="settings_change_card_size">Modifică dimensiunea carților de activitate</string>
     <string name="settings_archive">Arhivă</string>
     <string name="settings_data_edit">Editează informațiile</string>
+    <string name="settings_complex_rules">Reguli complexe</string>
     <string name="settings_edit_categories">Editează categoriile si etichetele</string>
     <string name="settings_edit_categories_hint">Atribuiți categorii activităților și etichete înregistrărilor.</string>
     <string name="settings_show_record_tag_selection">Arată etichetele atașate</string>

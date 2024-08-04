@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">Тривалість</string>
     <string name="change_record_type_goal_count">Кількість</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Дозволяє більш точно налаштувати застосування деяких параметрів</string>
+    <string name="complex_rules_disable">Вимкнути</string>
+    <string name="complex_rules_enable">Увімкнути</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Дія</string>
+    <string name="change_complex_actions_hint">Буде застосовано до початкової діяльністї</string>
+    <string name="change_complex_action_assign_tag">Призначити тег</string>
+    <string name="change_complex_conditions_title">Умови</string>
+    <string name="change_complex_starting_activity">Стартова діяльність</string>
+    <string name="change_complex_previous_activity">Попередня діяльність</string>
+    <string name="change_complex_rule_removed">Правило видалено</string>
+    <string name="change_complex_rule_choose_action">Виберіть дію</string>
+    <string name="change_complex_rule_choose_condition">Виберіть умови</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Фільтр видалений</string>
     <string name="change_activity_filter_save">Зберегти</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">Показувати цілі на окремій вкладці</string>
     <string name="settings_show_nav_bar_at_the_bottom">Показувати панель навігації внизу</string>
     <string name="settings_allow_multitasking">Дозволити багатозадачність</string>
+    <string name="settings_disallow_multitasking">Заборонити багатозадачність</string>
     <string name="settings_allow_multitasking_hint">Якщо вимкнено, запуск нового таймера автоматично зупинить інші активності.</string>
     <string name="settings_show_notifications">Показувати сповіщення таймера</string>
     <string name="settings_show_notifications_hint">Показувати сповіщення, коли таймери працюють.</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">Змінити розмір картки активності</string>
     <string name="settings_archive">Архів</string>
     <string name="settings_data_edit">Редагування даних</string>
+    <string name="settings_complex_rules">Складні правила</string>
     <string name="settings_edit_categories">Редагувати категорії та теги</string>
     <string name="settings_edit_categories_hint">Призначайте категорії діям і теги записам.</string>
     <string name="settings_show_record_tag_selection">Показувати діалог вибору тега для запису</string>

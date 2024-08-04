@@ -241,7 +241,7 @@ class RecordsContainerViewModel @Inject constructor(
     private suspend fun loadCalendarSwitchState(): RecordsCalendarSwitchState {
         return if (prefsInteractor.getShowCalendarButtonOnRecordsTab()) {
             val isCalendar = prefsInteractor.getShowRecordsCalendar()
-            val iconResId = if (isCalendar) R.drawable.calendar else R.drawable.list
+            val iconResId = if (isCalendar) R.drawable.list else R.drawable.calendar
             RecordsCalendarSwitchState.Visible(iconResId)
         } else {
             RecordsCalendarSwitchState.Hidden

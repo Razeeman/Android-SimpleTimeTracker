@@ -22,18 +22,19 @@ class ComplexRulesViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
         val rules = complexRuleInteractor.getAll()
         val result: MutableList<ViewHolderType> = mutableListOf()
-        val typesMap = recordTypeInteractor.getAll().associateBy { it.id }
-        val tagsMap = recordTagInteractor.getAll().associateBy { it.id }
+        val types = recordTypeInteractor.getAll()
+        val typesMap = types.associateBy { it.id }
+        val typeIds = types.map { it.id }
+        val tags = recordTagInteractor.getAll()
+        val tagsMap = tags.associateBy { it.id }
+        val tagIds = tags.map { it.id }
 
         val sortByActionsList = listOf(
             ComplexRule.Action.AllowMultitasking,
             ComplexRule.Action.DisallowMultitasking,
             ComplexRule.Action.AssignTag,
         )
-        // TODO RULES add negate of rule (ex. Set tag on starting Read while Not Commute).
-
-        val ruleGroups = rules
-            .groupBy { it.action }
+        val ruleGroups = rules.groupBy { it.action }
         val shouldAddHints = ruleGroups.size > 1
 
         result += complexRulesViewDataMapper.mapAddItem(isDarkTheme)
@@ -53,6 +54,8 @@ class ComplexRulesViewDataInteractor @Inject constructor(
                     isDarkTheme = isDarkTheme,
                     typesMap = typesMap,
                     tagsMap = tagsMap,
+                    typesOrder = typeIds,
+                    tagsOrder = tagIds,
                 )
             }
         }

@@ -8,10 +8,10 @@ package com.example.util.simpletimetracker.presentation.screens.tagsSelection
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.data.WearDataRepo
-import com.example.util.simpletimetracker.domain.mediator.CurrentActivitiesMediator
+import com.example.util.simpletimetracker.domain.mediator.StartActivityMediator
+import com.example.util.simpletimetracker.domain.model.WearSettings
+import com.example.util.simpletimetracker.domain.model.WearTag
 import com.example.util.simpletimetracker.presentation.ui.components.TagListState
-import com.example.util.simpletimetracker.wear_api.WearSettings
-import com.example.util.simpletimetracker.wear_api.WearTag
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,7 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TagsViewModel @Inject constructor(
     private val wearDataRepo: WearDataRepo,
-    private val currentActivitiesMediator: CurrentActivitiesMediator,
+    private val startActivityMediator: StartActivityMediator,
     private val tagsViewDataMapper: TagsViewDataMapper,
 ) : ViewModel() {
 
@@ -45,9 +45,7 @@ class TagsViewModel @Inject constructor(
     private var selectedTagsIds: List<Long> = emptyList()
     private var settings: WearSettings = WearSettings(
         allowMultitasking = false,
-        showRecordTagSelection = false,
         recordTagSelectionCloseAfterOne = false,
-        recordTagSelectionExcludedActivities = emptyList(),
     )
 
     // TODO switch to savedStateHandle
@@ -116,9 +114,9 @@ class TagsViewModel @Inject constructor(
 
         _state.value = mapState(loadingState)
 
-        val result = currentActivitiesMediator.start(
+        val result = startActivityMediator.start(
             activityId = activityId,
-            tags = tags.filter { it.id in selectedTagsIds },
+            tagIds = selectedTagsIds,
         )
         if (result.isFailure) {
             showError()

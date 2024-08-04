@@ -112,7 +112,7 @@ class ChangeComplexRuleViewModel @Inject constructor(
                     type = TypesSelectionDialogParams.Type.Tag,
                     selectedTypeIds = newAssignTagIds.toList(),
                     isMultiSelectAvailable = true,
-                    idsShouldBeVisible = originalAssignTagIds.toList()
+                    idsShouldBeVisible = originalAssignTagIds.toList(),
                 ).let(router::navigate)
             }
         }

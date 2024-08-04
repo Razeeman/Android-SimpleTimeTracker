@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">Varaktighet</string>
     <string name="change_record_type_goal_count">Räkna</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Möjliggör mer finjusterad tillämpning av vissa inställningar</string>
+    <string name="complex_rules_disable">Inaktivera</string>
+    <string name="complex_rules_enable">Gör det möjligt</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Handling</string>
+    <string name="change_complex_actions_hint">Kommer att tillämpas på startaktiviteten</string>
+    <string name="change_complex_action_assign_tag">Tilldela tagg</string>
+    <string name="change_complex_conditions_title">Betingelser</string>
+    <string name="change_complex_starting_activity">Startaktiviteten</string>
+    <string name="change_complex_previous_activity">Tidigare aktivitet</string>
+    <string name="change_complex_rule_removed">Regel borttagen</string>
+    <string name="change_complex_rule_choose_action">Välj åtgärd</string>
+    <string name="change_complex_rule_choose_condition">Välj villkor</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filter borttaget</string>
     <string name="change_activity_filter_save">Spara</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">Visa mål på en separat flik</string>
     <string name="settings_show_nav_bar_at_the_bottom">Visa navigeringsfältet längst ned</string>
     <string name="settings_allow_multitasking">Tillåt multitasking</string>
+    <string name="settings_disallow_multitasking">Tillåt inte multitasking</string>
     <string name="settings_allow_multitasking_hint">Om inaktiverad så stoppas pågående aktivitet vid start av annan aktivitet.</string>
     <string name="settings_show_notifications">Visa aktivitetsaviseringar</string>
     <string name="settings_show_notifications_hint">Visa notis när tidtagning av aktivitet pågår.</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">Ändra storlek på aktivitetskort</string>
     <string name="settings_archive">Arkiv</string>
     <string name="settings_data_edit">Dataredigering</string>
+    <string name="settings_complex_rules">Komplicerade regler</string>
     <string name="settings_edit_categories">Redigera kategorier och taggar</string>
     <string name="settings_edit_categories_hint">Tilldela kategorier till aktiviteter och taggar till poster.</string>
     <string name="settings_show_record_tag_selection">Dialog för händelsetagg</string>

@@ -16,5 +16,5 @@ import dagger.hilt.components.SingletonComponent
 interface WearModule {
 
     @Binds
-    fun WearCommunicationInteractor.bindWearCommunicationInteractor(): WearCommunicationAPI
+    fun WearDataRepo.bindDataRepo(): WearCommunicationAPI
 }

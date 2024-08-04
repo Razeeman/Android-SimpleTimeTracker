@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">Czas trwania</string>
     <string name="change_record_type_goal_count">Liczba wystąpień</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Umożliwia bardziej precyzyjne zastosowanie niektórych ustawień</string>
+    <string name="complex_rules_disable">Wyłączyć</string>
+    <string name="complex_rules_enable">Włączać</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Działanie</string>
+    <string name="change_complex_actions_hint">Zostanie zastosowany do działania początkowego</string>
+    <string name="change_complex_action_assign_tag">Przypisz tag</string>
+    <string name="change_complex_conditions_title">Warunki</string>
+    <string name="change_complex_starting_activity">Aktywność początkowa</string>
+    <string name="change_complex_previous_activity">Poprzednia aktywność</string>
+    <string name="change_complex_rule_removed">Reguła usunięta</string>
+    <string name="change_complex_rule_choose_action">Wybrać działanie</string>
+    <string name="change_complex_rule_choose_condition">Wybierz warunki</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filtr usunięty</string>
     <string name="change_activity_filter_save">Zapisz</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">Pokaż cele na osobnej karcie</string>
     <string name="settings_show_nav_bar_at_the_bottom">Pokaż pasek nawigacyjny na dole</string>
     <string name="settings_allow_multitasking">Zezwalaj na wiele aktywności jednocześnie</string>
+    <string name="settings_disallow_multitasking">Nie zezwalaj na wielozadaniowość</string>
     <string name="settings_allow_multitasking_hint">Jeśli ta opcja jest wyłączona, uruchomienie nowego timera automatycznie zatrzyma inne aktywności.</string>
     <string name="settings_show_notifications">Pokaż powiadomienia timera</string>
     <string name="settings_show_notifications_hint">Pokaż powiadomienia, gdy liczniki czasu są uruchomione.</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">Zmień rozmiar karty aktywności</string>
     <string name="settings_archive">Archiwum</string>
     <string name="settings_data_edit">Edycja danych</string>
+    <string name="settings_complex_rules">Złożone zasady</string>
     <string name="settings_edit_categories">Edytuj kategorie i tagi</string>
     <string name="settings_edit_categories_hint">Przypisz kategorie do aktywności i tagi do rekordów.</string>
     <string name="settings_show_record_tag_selection">Pokaż wybór tagu dla rekordu</string>

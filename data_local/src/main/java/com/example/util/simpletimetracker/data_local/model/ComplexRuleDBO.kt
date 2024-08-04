@@ -28,7 +28,10 @@ data class ComplexRuleDBO(
     @ColumnInfo(name = "conditionCurrentTypeIds")
     val conditionCurrentTypeIds: String,
 
-    // Days of week stored in string comma separated
+    // Stored as "0000000" string, where each number is a day,
+    // 0 - not selected, 1 - selected,
+    // starting from sunday.
+    // For example, "0111110" - only work days selected.
     @ColumnInfo(name = "conditionDaysOfWeek")
     val conditionDaysOfWeek: String,
 )

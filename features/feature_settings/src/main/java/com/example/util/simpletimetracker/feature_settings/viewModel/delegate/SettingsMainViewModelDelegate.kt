@@ -14,7 +14,6 @@ import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
 import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
-import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

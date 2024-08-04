@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">Durada</string>
     <string name="change_record_type_goal_count">Compte</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Permet una aplicació més afinada d\'alguns paràmetres</string>
+    <string name="complex_rules_disable">Desactivar</string>
+    <string name="complex_rules_enable">Activa</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Acció</string>
+    <string name="change_complex_actions_hint">S\'aplicarà a l\'activitat inicial</string>
+    <string name="change_complex_action_assign_tag">Assigna una etiqueta</string>
+    <string name="change_complex_conditions_title">Condicions</string>
+    <string name="change_complex_starting_activity">L\'activitat inicial</string>
+    <string name="change_complex_previous_activity">Activitat prèvia</string>
+    <string name="change_complex_rule_removed">Regla eliminada</string>
+    <string name="change_complex_rule_choose_action">Trieu l\'acció</string>
+    <string name="change_complex_rule_choose_condition">Trieu condicions</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filtre suprimit</string>
     <string name="change_activity_filter_save">Desa</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">Mostra els objectius en una pestanya separada</string>
     <string name="settings_show_nav_bar_at_the_bottom">Mostra la barra de navegació a la part inferior</string>
     <string name="settings_allow_multitasking">Permet la multitasca</string>
+    <string name="settings_disallow_multitasking">No permetre la multitasca</string>
     <string name="settings_allow_multitasking_hint">Si és desactivat, en començar un nou temporitzador s\'aturaran automàticament les altres activitats.</string>
     <string name="settings_show_notifications">Mostra notificacions del temporitzador</string>
     <string name="settings_show_notifications_hint">Mostra notificacions quan el temporitzador sigui actiu.</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">Canvia la mida de la targeta d\'activitat</string>
     <string name="settings_archive">Arxiu</string>
     <string name="settings_data_edit">Edició de dades</string>
+    <string name="settings_complex_rules">Regles complexes</string>
     <string name="settings_edit_categories">Edita les categories i etiquetes</string>
     <string name="settings_edit_categories_hint">Assigneu categories a activitats i etiquetes als enregistraments.</string>
     <string name="settings_show_record_tag_selection">Mostra selecció d\'etiquetes d\'enregistrament</string>

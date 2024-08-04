@@ -48,7 +48,6 @@ class AddRunningRecordMediator @Inject constructor(
         tagIds: List<Long>,
         comment: String,
         timeStarted: Long? = null,
-        checkMultitasking: Boolean = true,
     ) {
         val actualTimeStarted = timeStarted ?: System.currentTimeMillis()
         val rulesResult = processRules(
@@ -58,7 +57,6 @@ class AddRunningRecordMediator @Inject constructor(
         processMultitasking(
             typeId = typeId,
             isMultitaskingAllowedByRules = rulesResult.isMultitaskingAllowed,
-            checkMultitasking = checkMultitasking,
         )
         val actualTags = getAllTags(
             typeId = typeId,
@@ -144,15 +142,13 @@ class AddRunningRecordMediator @Inject constructor(
     private suspend fun processMultitasking(
         typeId: Long,
         isMultitaskingAllowedByRules: ResultContainer<Boolean>,
-        checkMultitasking: Boolean,
     ) {
         val isMultitaskingAllowedByDefault = prefsInteractor.getAllowMultitasking()
         val isMultitaskingAllowed = isMultitaskingAllowedByRules.getValueOrNull()
             ?: isMultitaskingAllowedByDefault
 
-        // TODO RULES fix wear
         // Stop running records if multitasking is disabled.
-        if (!isMultitaskingAllowed && checkMultitasking) {
+        if (!isMultitaskingAllowed) {
             // Widgets will update on adding.
             runningRecordInteractor.getAll()
                 .filter { it.id != typeId }

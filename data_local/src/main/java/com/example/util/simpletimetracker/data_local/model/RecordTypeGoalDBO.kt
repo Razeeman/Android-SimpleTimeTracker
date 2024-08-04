@@ -37,7 +37,7 @@ data class RecordTypeGoalDBO(
     // Stored as "0000000" string, where each number is a day,
     // 0 - not selected, 1 - selected,
     // starting from sunday.
-    // For example, "1111100" - only work days selected.
+    // For example, "0111110" - only work days selected.
     @ColumnInfo(name = "days_of_week")
     val daysOfWeek: String,
 )

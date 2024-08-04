@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">Duração</string>
     <string name="change_record_type_goal_count">Contar</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Permite uma aplicação mais precisa de algumas configurações</string>
+    <string name="complex_rules_disable">Desativar</string>
+    <string name="complex_rules_enable">Habilitar</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Ação</string>
+    <string name="change_complex_actions_hint">Será aplicado à atividade inicial</string>
+    <string name="change_complex_action_assign_tag">Atribuir etiqueta</string>
+    <string name="change_complex_conditions_title">Condições</string>
+    <string name="change_complex_starting_activity">A atividade inicial</string>
+    <string name="change_complex_previous_activity">Atividade anterior</string>
+    <string name="change_complex_rule_removed">Regra removida</string>
+    <string name="change_complex_rule_choose_action">Escolher ação</string>
+    <string name="change_complex_rule_choose_condition">Escolher condições</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filtro removido</string>
     <string name="change_activity_filter_save">Salvar</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">Mostrar metas em uma guia separada</string>
     <string name="settings_show_nav_bar_at_the_bottom">Mostrar barra de navegação na parte inferior</string>
     <string name="settings_allow_multitasking">Permitir atividades simultâneas</string>
+    <string name="settings_disallow_multitasking">Proibir multitarefa</string>
     <string name="settings_allow_multitasking_hint">Se desativado, iniciar um novo timer interromperá automaticamente outras atividades.</string>
     <string name="settings_show_notifications">Mostrar notificações de timer</string>
     <string name="settings_show_notifications_hint">Mostrar notificações quando timers estiverem em execução.</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">Alterar o tamanho do cartão de atividade</string>
     <string name="settings_archive">Arquivo</string>
     <string name="settings_data_edit">Edição de dados</string>
+    <string name="settings_complex_rules">Regras complexas</string>
     <string name="settings_edit_categories">Editar categorias e tags</string>
     <string name="settings_edit_categories_hint">Atribua categorias a atividades e tags a registros.</string>
     <string name="settings_show_record_tag_selection">Mostrar seleção de tag de registro</string>

@@ -11,42 +11,58 @@ interface WearCommunicationAPI {
      *
      * Retrieves a list of all the time-tracking activities available for selection
      */
-    suspend fun queryActivities(): List<WearActivity>
+    suspend fun queryActivities(): List<WearActivityDTO>
 
     /**
      * [WearRequests.QUERY_CURRENT_ACTIVITIES]
      *
      * Retrieves a list of the currently running activity/activities
      */
-    suspend fun queryCurrentActivities(): List<WearCurrentActivity>
+    suspend fun queryCurrentActivities(): List<WearCurrentActivityDTO>
 
     /**
-     * [WearRequests.SET_CURRENT_ACTIVITIES]
+     * [WearRequests.START_ACTIVITY]
      *
-     * Replaces the currently running activity/activities with the given activities
+     * Starts new timer.
      */
-    suspend fun setCurrentActivities(starting: List<WearCurrentActivity>)
+    suspend fun startActivity(request: WearStartActivityRequest)
+
+    /**
+     * [WearRequests.STOP_ACTIVITY]
+     *
+     * Stops timer.
+     */
+    suspend fun stopActivity(request: WearStopActivityRequest)
 
     /**
      * [WearRequests.QUERY_TAGS_FOR_ACTIVITY]
      *
      * Retrieves the tags available for association with the activity with the given ID
      */
-    suspend fun queryTagsForActivity(activityId: Long): List<WearTag>
+    suspend fun queryTagsForActivity(activityId: Long): List<WearTagDTO>
+
+    /**
+     * [WearRequests.QUERY_SHOULD_SHOW_TAG_SELECTION]
+     *
+     * Decides if should show tag selection on activity click.
+     */
+    suspend fun queryShouldShowTagSelection(
+        request: WearShouldShowTagSelectionRequest,
+    ): WearShouldShowTagSelectionResponse
 
     /**
      * [WearRequests.QUERY_SETTINGS]
      *
      * Retrieves the settings relevant to time tracking behavior
      */
-    suspend fun querySettings(): WearSettings
+    suspend fun querySettings(): WearSettingsDTO
 
     /**
      * [WearRequests.SET_SETTINGS]
      *
      * Set app settings from wear.
      */
-    suspend fun setSettings(settings: WearSettings)
+    suspend fun setSettings(settings: WearSettingsDTO)
 
     /**
      * [WearRequests.OPEN_PHONE_APP]

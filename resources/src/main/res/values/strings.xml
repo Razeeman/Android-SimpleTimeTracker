@@ -157,7 +157,6 @@
     <string name="change_record_type_goal_duration">Duration</string>
     <string name="change_record_type_goal_count">Count</string>
 
-    <!--  TODO RULES add to drive file   -->
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Allows for more fine tuned application of some settings</string>
     <string name="complex_rules_disable">Disable</string>
@@ -165,13 +164,14 @@
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Action</string>
+    <string name="change_complex_actions_hint">Will be applied to the starting activity</string>
     <string name="change_complex_action_assign_tag">Assign tag</string>
     <string name="change_complex_conditions_title">Conditions</string>
     <string name="change_complex_starting_activity">Starting activity</string>
     <string name="change_complex_previous_activity">Previous activity</string>
     <string name="change_complex_rule_removed">Rule removed</string>
-    <string name="change_complex_rule_choose_action">Select action</string>
-    <string name="change_complex_rule_choose_condition">Select conditions</string>
+    <string name="change_complex_rule_choose_action">Choose action</string>
+    <string name="change_complex_rule_choose_condition">Choose conditions</string>
 
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filter removed</string>

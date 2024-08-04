@@ -5,12 +5,13 @@ import android.net.Uri
 import android.os.ParcelFileDescriptor
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.data_local.mapper.RecordTypeGoalDataLocalMapper
+import com.example.util.simpletimetracker.data_local.mapper.DaysOfWeekDataLocalMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.ClearDataInteractor
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.ComplexRule
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.FavouriteComment
 import com.example.util.simpletimetracker.domain.model.FavouriteIcon
@@ -24,6 +25,7 @@ import com.example.util.simpletimetracker.domain.model.RecordTypeToDefaultTag
 import com.example.util.simpletimetracker.domain.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
+import com.example.util.simpletimetracker.domain.repo.ComplexRuleRepo
 import com.example.util.simpletimetracker.domain.repo.FavouriteCommentRepo
 import com.example.util.simpletimetracker.domain.repo.FavouriteIconRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
@@ -67,9 +69,10 @@ class BackupRepoImpl @Inject constructor(
     private val favouriteCommentRepo: FavouriteCommentRepo,
     private val favouriteIconRepo: FavouriteIconRepo,
     private val recordTypeGoalRepo: RecordTypeGoalRepo,
+    private val complexRuleRepo: ComplexRuleRepo,
     private val clearDataInteractor: ClearDataInteractor,
     private val resourceRepo: ResourceRepo,
-    private val recordTypeGoalDataLocalMapper: RecordTypeGoalDataLocalMapper,
+    private val daysOfWeekDataLocalMapper: DaysOfWeekDataLocalMapper,
 ) : BackupRepo {
 
     override suspend fun saveBackupFile(
@@ -90,64 +93,43 @@ class BackupRepoImpl @Inject constructor(
 
             // Write data
             recordTypeRepo.getAll().forEach {
-                fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray(),
-                )
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
             recordRepo.getAll().forEach {
-                fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray(),
-                )
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
             categoryRepo.getAll().forEach {
-                fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray(),
-                )
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
             recordTypeCategoryRepo.getAll().forEach {
-                fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray(),
-                )
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
             recordTagRepo.getAll().forEach {
-                fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray(),
-                )
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
             recordToRecordTagRepo.getAll().forEach {
-                fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray(),
-                )
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
             recordTypeToTagRepo.getAll().forEach {
-                fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray(),
-                )
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
             recordTypeToDefaultTagRepo.getAll().forEach {
-                fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray(),
-                )
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
             activityFilterRepo.getAll().forEach {
-                fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray(),
-                )
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
             favouriteCommentRepo.getAll().forEach {
-                fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray(),
-                )
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
             favouriteIconRepo.getAll().forEach {
-                fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray(),
-                )
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
             recordTypeGoalRepo.getAll().forEach {
-                fileOutputStream?.write(
-                    it.let(::toBackupString).toByteArray(),
-                )
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+            }
+            complexRuleRepo.getAll().forEach {
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
 
             fileOutputStream?.close()
@@ -277,6 +259,12 @@ class BackupRepoImpl @Inject constructor(
                     ROW_RECORD_TYPE_GOAL -> {
                         recordTypeGoalFromBackupString(parts).let {
                             recordTypeGoalRepo.add(it)
+                        }
+                    }
+
+                    ROW_COMPLEX_RULE -> {
+                        complexRuleFromBackupString(parts).let {
+                            complexRuleRepo.add(it)
                         }
                     }
                 }
@@ -425,7 +413,7 @@ class BackupRepoImpl @Inject constructor(
             is RecordTypeGoal.Type.Duration -> 0L
             is RecordTypeGoal.Type.Count -> 1L
         }.toString()
-        val daysOfWeekString = recordTypeGoalDataLocalMapper
+        val daysOfWeekString = daysOfWeekDataLocalMapper
             .mapDaysOfWeek(recordTypeGoal.daysOfWeek)
 
         return String.format(
@@ -436,6 +424,27 @@ class BackupRepoImpl @Inject constructor(
             typeString,
             recordTypeGoal.type.value.toString(),
             (recordTypeGoal.idData as? RecordTypeGoal.IdData.Category)?.value.orZero(),
+            daysOfWeekString,
+        )
+    }
+
+    private fun toBackupString(complexRule: ComplexRule): String {
+        val actionString = when (complexRule.action) {
+            is ComplexRule.Action.AllowMultitasking -> 0L
+            is ComplexRule.Action.DisallowMultitasking -> 1L
+            is ComplexRule.Action.AssignTag -> 2L
+        }.toString()
+        val daysOfWeekString = daysOfWeekDataLocalMapper
+            .mapDaysOfWeek(complexRule.conditionDaysOfWeek.toList())
+
+        return String.format(
+            "$ROW_COMPLEX_RULE\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+            complexRule.id.toString(),
+            (if (complexRule.disabled) 1 else 0).toString(),
+            actionString,
+            complexRule.actionAssignTagIds.joinToString(separator = ","),
+            complexRule.conditionStartingTypeIds.joinToString(separator = ","),
+            complexRule.conditionCurrentTypeIds.joinToString(separator = ","),
             daysOfWeekString,
         )
     }
@@ -647,7 +656,29 @@ class BackupRepoImpl @Inject constructor(
                     else -> RecordTypeGoal.Type.Duration(value)
                 }
             },
-            daysOfWeek = recordTypeGoalDataLocalMapper.mapDaysOfWeek(daysOfWeekString),
+            daysOfWeek = daysOfWeekDataLocalMapper.mapDaysOfWeek(daysOfWeekString),
+        )
+    }
+
+    private fun complexRuleFromBackupString(parts: List<String>): ComplexRule {
+        return ComplexRule(
+            id = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            disabled = parts.getOrNull(2)?.toIntOrNull() == 1,
+            action = when (parts.getOrNull(3)?.toLongOrNull()) {
+                0L -> ComplexRule.Action.AllowMultitasking
+                1L -> ComplexRule.Action.DisallowMultitasking
+                2L -> ComplexRule.Action.AssignTag
+                else -> ComplexRule.Action.AllowMultitasking
+            },
+            actionAssignTagIds = parts.getOrNull(4)?.split(",")
+                ?.mapNotNull { it.toLongOrNull() }.orEmpty().toSet(),
+            conditionStartingTypeIds = parts.getOrNull(5)?.split(",")
+                ?.mapNotNull { it.toLongOrNull() }.orEmpty().toSet(),
+            conditionCurrentTypeIds = parts.getOrNull(6)?.split(",")
+                ?.mapNotNull { it.toLongOrNull() }.orEmpty().toSet(),
+            conditionDaysOfWeek = daysOfWeekDataLocalMapper.mapDaysOfWeek(
+                parts.getOrNull(7).orEmpty(),
+            ).toSet(),
         )
     }
 
@@ -697,5 +728,6 @@ class BackupRepoImpl @Inject constructor(
         private const val ROW_FAVOURITE_COMMENT = "favouriteComment"
         private const val ROW_FAVOURITE_ICON = "favouriteIcon"
         private const val ROW_RECORD_TYPE_GOAL = "recordTypeGoal"
+        private const val ROW_COMPLEX_RULE = "complexRule"
     }
 }

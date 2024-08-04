@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">Durata</string>
     <string name="change_record_type_goal_count">Contare</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Consente un\'applicazione più precisa di alcune impostazioni</string>
+    <string name="complex_rules_disable">Disattivare</string>
+    <string name="complex_rules_enable">Abilitare</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Azione</string>
+    <string name="change_complex_actions_hint">Verrà applicato all\'attività iniziale</string>
+    <string name="change_complex_action_assign_tag">Assegna etichetta</string>
+    <string name="change_complex_conditions_title">Condizioni</string>
+    <string name="change_complex_starting_activity">L\'attività iniziale</string>
+    <string name="change_complex_previous_activity">Attività precedente</string>
+    <string name="change_complex_rule_removed">Regola rimossa</string>
+    <string name="change_complex_rule_choose_action">Scegli un\'azione</string>
+    <string name="change_complex_rule_choose_condition">Scegli le condizioni</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filtro rimosso</string>
     <string name="change_activity_filter_save">Salva</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">Mostra gli obiettivi in una scheda separata</string>
     <string name="settings_show_nav_bar_at_the_bottom">Mostra la barra di navigazione in basso</string>
     <string name="settings_allow_multitasking">Abilita multitasking</string>
+    <string name="settings_disallow_multitasking">Non consentire il multitasking</string>
     <string name="settings_allow_multitasking_hint">Se disabilitato, avviare un nuovo timer fermerà automaticamente le altre attività.</string>
     <string name="settings_show_notifications">Mostra le notifiche relative al timer.</string>
     <string name="settings_show_notifications_hint">Mostra le notifiche quando i timer sono in esecuzione.</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">Cambia la dimensione della carta attività</string>
     <string name="settings_archive">Archivio</string>
     <string name="settings_data_edit">Modifica dati</string>
+    <string name="settings_complex_rules">Regole complesse</string>
     <string name="settings_edit_categories">Modifica categorie ed etichette</string>
     <string name="settings_edit_categories_hint">Assegna categorie alle attività ed etichette ai record.</string>
     <string name="settings_show_record_tag_selection">Mostra la selezione delle etichette relative alle registrazioni</string>

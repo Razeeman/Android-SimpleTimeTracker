@@ -1,16 +1,14 @@
 package com.example.util.simpletimetracker.feature_change_activity_filter.interactor
 
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.CommonViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
-import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
-import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
-import com.example.util.simpletimetracker.feature_change_activity_filter.R
 import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterTypesViewData
 import javax.inject.Inject
 
@@ -20,7 +18,7 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val categoryViewDataMapper: CategoryViewDataMapper,
-    private val resourceRepo: ResourceRepo,
+    private val commonViewDataMapper: CommonViewDataMapper,
 ) {
 
     suspend fun getTypesViewData(
@@ -57,7 +55,7 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
             val selected = data.filter { it.first in selectedIds }.map { it.second }
             val available = data.filter { it.first !in selectedIds }.map { it.second }
             val viewData = mutableListOf<ViewHolderType>()
-            mapSelectedTypesHint(
+            commonViewDataMapper.mapSelectedHint(
                 isEmpty = selected.isEmpty(),
             ).let(viewData::add)
             selected.let(viewData::addAll)
@@ -83,15 +81,5 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
                 },
             )
         }
-    }
-
-    private fun mapSelectedTypesHint(isEmpty: Boolean): ViewHolderType {
-        return InfoViewData(
-            text = if (isEmpty) {
-                R.string.nothing_selected
-            } else {
-                R.string.something_selected
-            }.let(resourceRepo::getString),
-        )
     }
 }

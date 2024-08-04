@@ -1,11 +1,11 @@
 package com.example.util.simpletimetracker.feature_change_category.interactor
 
+import com.example.util.simpletimetracker.core.mapper.CommonViewDataMapper
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.feature_change_category.mapper.ChangeCategoryMapper
 import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryTypesViewData
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ class ChangeCategoryViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-    private val changeCategoryMapper: ChangeCategoryMapper,
+    private val commonViewDataMapper: CommonViewDataMapper,
 ) {
 
     suspend fun getTypesViewData(selectedTypes: List<Long>): ChangeCategoryTypesViewData {
@@ -27,7 +27,7 @@ class ChangeCategoryViewDataInteractor @Inject constructor(
             val available = types.filter { it.id !in selectedTypes }
             val viewData = mutableListOf<ViewHolderType>()
 
-            changeCategoryMapper.mapSelectedTypesHint(
+            commonViewDataMapper.mapSelectedHint(
                 isEmpty = selected.isEmpty(),
             ).let(viewData::add)
 

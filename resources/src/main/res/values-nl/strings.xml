@@ -157,6 +157,22 @@
     <string name="change_record_type_goal_duration">Duur</string>
     <string name="change_record_type_goal_count">Graaf</string>
 
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Maakt een meer verfijnde toepassing van sommige instellingen mogelijk</string>
+    <string name="complex_rules_disable">Uitzetten</string>
+    <string name="complex_rules_enable">Inschakelen</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Actie</string>
+    <string name="change_complex_actions_hint">Wordt toegepast op de startactiviteit</string>
+    <string name="change_complex_action_assign_tag">Label toewijzen</string>
+    <string name="change_complex_conditions_title">Voorwaarden</string>
+    <string name="change_complex_starting_activity">De startactiviteit</string>
+    <string name="change_complex_previous_activity">Vorige activiteit</string>
+    <string name="change_complex_rule_removed">Regel verwijderd</string>
+    <string name="change_complex_rule_choose_action">Kies actie</string>
+    <string name="change_complex_rule_choose_condition">Kies voorwaarden</string>
+
     <!--  Activity filters  -->
     <string name="change_activity_filter_removed">Filter verwijderd</string>
     <string name="change_activity_filter_save">Opslaan</string>
@@ -257,6 +273,7 @@
     <string name="settings_show_goals_separately">Toon doelen op een apart tabblad</string>
     <string name="settings_show_nav_bar_at_the_bottom">Toon navigatiebalk onderaan</string>
     <string name="settings_allow_multitasking">Multitasking toestaan</string>
+    <string name="settings_disallow_multitasking">Multitasking niet toestaan</string>
     <string name="settings_allow_multitasking_hint">Indien uitgeschakeld, zal het starten van een nieuwe timer automatisch andere activiteiten stoppen.</string>
     <string name="settings_show_notifications">Timer-meldingen tonen</string>
     <string name="settings_show_notifications_hint">Toon meldingen wanneer timers lopen.</string>
@@ -289,6 +306,7 @@
     <string name="settings_change_card_size">Grootte activiteitskaart wijzigen</string>
     <string name="settings_archive">Archief</string>
     <string name="settings_data_edit">Gegevens bewerken</string>
+    <string name="settings_complex_rules">Complexe regels</string>
     <string name="settings_edit_categories">Categorieën en labels bewerken</string>
     <string name="settings_edit_categories_hint">Wijs categorieën toe aan activiteiten en labels aan records.</string>
     <string name="settings_show_record_tag_selection">Toon opname label selectie</string>

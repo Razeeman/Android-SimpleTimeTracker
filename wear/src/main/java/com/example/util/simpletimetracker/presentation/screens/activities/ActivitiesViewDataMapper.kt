@@ -7,10 +7,10 @@ package com.example.util.simpletimetracker.presentation.screens.activities
 
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.data.WearIconMapper
+import com.example.util.simpletimetracker.domain.model.WearActivity
+import com.example.util.simpletimetracker.domain.model.WearCurrentActivity
 import com.example.util.simpletimetracker.presentation.ui.components.ActivitiesListState
 import com.example.util.simpletimetracker.presentation.ui.components.ActivityChipState
-import com.example.util.simpletimetracker.wear_api.WearActivity
-import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
 import javax.inject.Inject
 
 class ActivitiesViewDataMapper @Inject constructor(

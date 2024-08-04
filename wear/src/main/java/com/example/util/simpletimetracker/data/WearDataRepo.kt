@@ -6,11 +6,16 @@
 package com.example.util.simpletimetracker.data
 
 import com.example.util.simpletimetracker.complication.WearComplicationManager
+import com.example.util.simpletimetracker.domain.model.WearActivity
+import com.example.util.simpletimetracker.domain.model.WearCurrentActivity
+import com.example.util.simpletimetracker.domain.model.WearSettings
+import com.example.util.simpletimetracker.domain.model.WearTag
 import com.example.util.simpletimetracker.notification.WearNotificationManager
-import com.example.util.simpletimetracker.wear_api.WearActivity
-import com.example.util.simpletimetracker.wear_api.WearCurrentActivity
-import com.example.util.simpletimetracker.wear_api.WearSettings
-import com.example.util.simpletimetracker.wear_api.WearTag
+import com.example.util.simpletimetracker.wear_api.WearActivityDTO
+import com.example.util.simpletimetracker.wear_api.WearCurrentActivityDTO
+import com.example.util.simpletimetracker.wear_api.WearShouldShowTagSelectionRequest
+import com.example.util.simpletimetracker.wear_api.WearStartActivityRequest
+import com.example.util.simpletimetracker.wear_api.WearStopActivityRequest
 import dagger.Lazy
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
@@ -30,6 +35,7 @@ class WearDataRepo @Inject constructor(
     private val wearRPCClient: WearRPCClient,
     private val wearComplicationManager: WearComplicationManager,
     private val wearNotificationManager: Lazy<WearNotificationManager>,
+    private val wearDataLocalMapper: WearDataLocalMapper,
 ) {
 
     val dataUpdated: SharedFlow<Unit> get() = _dataUpdated.asSharedFlow()
@@ -39,8 +45,8 @@ class WearDataRepo @Inject constructor(
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
 
-    private var activitiesCache: List<WearActivity>? = null
-    private var currentActivitiesCache: List<WearCurrentActivity>? = null
+    private var activitiesCache: List<WearActivityDTO>? = null
+    private var currentActivitiesCache: List<WearCurrentActivityDTO>? = null
     private val mutex: Mutex = Mutex()
 
     init {
@@ -61,9 +67,10 @@ class WearDataRepo @Inject constructor(
         forceReload: Boolean,
     ): Result<List<WearActivity>> = mutex.withLock {
         return runCatching {
-            activitiesCache.takeUnless { forceReload }
+            val data = activitiesCache.takeUnless { forceReload }
                 ?: wearRPCClient.queryActivities()
                     .also { activitiesCache = it }
+            data.map(wearDataLocalMapper::map)
         }
     }
 
@@ -71,26 +78,53 @@ class WearDataRepo @Inject constructor(
         forceReload: Boolean,
     ): Result<List<WearCurrentActivity>> = mutex.withLock {
         return runCatching {
-            currentActivitiesCache.takeUnless { forceReload }
+            val data = currentActivitiesCache.takeUnless { forceReload }
                 ?: wearRPCClient.queryCurrentActivities()
                     .also { currentActivitiesCache = it }
+            data.map(wearDataLocalMapper::map)
         }
     }
 
-    suspend fun setCurrentActivities(starting: List<WearCurrentActivity>): Result<Unit> = mutex.withLock {
-        return runCatching { wearRPCClient.setCurrentActivities(starting) }
+    suspend fun startActivity(id: Long, tagIds: List<Long>): Result<Unit> = mutex.withLock {
+        return runCatching {
+            val request = WearStartActivityRequest(id, tagIds)
+            wearRPCClient.startActivity(request)
+        }
+    }
+
+    suspend fun stopActivity(id: Long): Result<Unit> = mutex.withLock {
+        return runCatching {
+            val request = WearStopActivityRequest(id)
+            wearRPCClient.stopActivity(request)
+        }
     }
 
     suspend fun loadTagsForActivity(activityId: Long): Result<List<WearTag>> = mutex.withLock {
-        return runCatching { wearRPCClient.queryTagsForActivity(activityId) }
+        return runCatching {
+            val data = wearRPCClient.queryTagsForActivity(activityId)
+            data.map(wearDataLocalMapper::map)
+        }
+    }
+
+    suspend fun loadShouldShowTagSelection(activityId: Long): Result<Boolean> = mutex.withLock {
+        return runCatching {
+            val request = WearShouldShowTagSelectionRequest(activityId)
+            wearRPCClient.queryShouldShowTagSelection(request).shouldShow
+        }
     }
 
     suspend fun loadSettings(): Result<WearSettings> = mutex.withLock {
-        return runCatching { wearRPCClient.querySettings() }
+        return runCatching {
+            val data = wearRPCClient.querySettings()
+            wearDataLocalMapper.map(data)
+        }
     }
 
     suspend fun setSettings(settings: WearSettings): Result<Unit> = mutex.withLock {
-        return runCatching { wearRPCClient.setSettings(settings) }
+        return runCatching {
+            val data = wearDataLocalMapper.map(settings)
+            wearRPCClient.setSettings(data)
+        }
     }
 
     suspend fun openAppPhone(): Result<Unit> = mutex.withLock {
