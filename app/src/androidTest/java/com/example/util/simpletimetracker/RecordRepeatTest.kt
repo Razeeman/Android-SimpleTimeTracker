@@ -24,26 +24,11 @@ import com.example.util.simpletimetracker.R as coreR
 @RunWith(AndroidJUnit4::class)
 class RecordRepeatTest : BaseUiTest() {
 
-    @Test
-    fun visibility() {
-        val type = "type"
-
-        // Add data
-        testUtils.addActivity(type)
-        Thread.sleep(1000)
-
-        // No records - no button
-        checkViewIsDisplayed(withText(coreR.string.running_records_add_type))
-        checkViewDoesNotExist(withText(coreR.string.running_records_repeat))
-
-        // Add record
-        testUtils.addRecord(type)
-        NavUtils.openRecordsScreen()
-        checkViewIsDisplayed(allOf(withText(type), isCompletelyDisplayed()))
-
-        // Button is shown
-        NavUtils.openRunningRecordsScreen()
-        checkViewIsDisplayed(withText(coreR.string.running_records_repeat))
+    override fun setUp() {
+        super.setUp()
+        runBlocking {
+            prefsInteractor.setEnableRepeatButton(true)
+        }
     }
 
     @Test

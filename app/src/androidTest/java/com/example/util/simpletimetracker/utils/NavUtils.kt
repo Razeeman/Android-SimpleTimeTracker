@@ -93,6 +93,7 @@ object NavUtils {
     }
 
     fun openDataEditScreen() {
+        openSettingsAdditional()
         scrollSettingsRecyclerToText(coreR.string.settings_data_edit)
         clickOnSettingsRecyclerText(coreR.string.settings_data_edit)
     }

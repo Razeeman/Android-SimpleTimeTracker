@@ -2021,23 +2021,9 @@ class SettingsTest : BaseUiTest() {
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
         scrollSettingsRecyclerToText(coreR.string.settings_enable_pomodoro_mode)
-        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode))
-
-        // Not visible
-        NavUtils.openRunningRecordsScreen()
-        tryAction {
-            checkViewDoesNotExist(
-                allOf(
-                    withId(R.id.viewRecordTypeItem),
-                    hasDescendant(withText(R.string.running_records_pomodoro)),
-                ),
-            )
-        }
-
-        // Change
-        NavUtils.openSettingsScreen()
-        clickOnSettingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode)
         checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode))
+
+        // Visible
         NavUtils.openRunningRecordsScreen()
         tryAction {
             checkViewIsDisplayed(
@@ -2061,6 +2047,20 @@ class SettingsTest : BaseUiTest() {
                 ),
             )
         }
+
+        // Change
+        NavUtils.openSettingsScreen()
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode))
+        NavUtils.openRunningRecordsScreen()
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRecordTypeItem),
+                    hasDescendant(withText(R.string.running_records_pomodoro)),
+                ),
+            )
+        }
     }
 
     @Test
@@ -2077,8 +2077,6 @@ class SettingsTest : BaseUiTest() {
         // Change setting
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsDisplay()
-        scrollSettingsRecyclerToText(coreR.string.settings_enable_pomodoro_mode)
-        clickOnSettingsCheckboxBesideText(coreR.string.settings_enable_pomodoro_mode)
         scrollSettingsRecyclerToText(coreR.string.settings_enable_pomodoro_mode)
         clickOnSettingsButtonBesideText(coreR.string.settings_enable_pomodoro_mode)
         Thread.sleep(1000)

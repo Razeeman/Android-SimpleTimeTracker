@@ -131,7 +131,7 @@ class PrefsRepoImpl @Inject constructor(
     )
 
     override var enablePomodoroMode: Boolean by prefs.delegate(
-        KEY_ENABLE_POMODORO_MODE, false,
+        KEY_ENABLE_POMODORO_MODE, true,
     )
 
     override var pomodoroModeStartedTimestamp: Long by prefs.delegate(

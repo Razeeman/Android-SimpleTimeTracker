@@ -40,7 +40,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.R as statist
 @Suppress("SameParameterValue")
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-class RecordsFilterTest : BaseUiTest() {
+class StatisticsDetailFilterTest : BaseUiTest() {
 
     @Test
     fun filterByType() {
