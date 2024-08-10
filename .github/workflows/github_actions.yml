@@ -17,11 +17,12 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Java
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v4
         with:
+          distribution: 'zulu'
           java-version: '17'
 
       - name: Run style check
@@ -31,7 +32,7 @@ jobs:
         run: ./gradlew testDebugUnitTest --stacktrace
 
   android_tests:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     timeout-minutes: 120
     strategy:
       fail-fast: false
@@ -40,21 +41,28 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         
       - name: Setup Java
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v4
         with:
+          distribution: 'zulu'
           java-version: '17'
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
 
       - name: Run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
           target: google_apis
-          arch: x86
+          arch: x86_64
           disable-animations: true
-          script: ./gradlew app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=com.example.util.simpletimetracker.utils.Widget --stacktrace
+          script: ./gradlew app:connectedPlayDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=com.example.util.simpletimetracker.utils.Widget --stacktrace
 
       # For some reason widget tests make other tests to fail, so run them separately.
       - name: Run widget tests
@@ -62,9 +70,9 @@ jobs:
         with:
           api-level: ${{ matrix.api-level }}
           target: google_apis
-          arch: x86
+          arch: x86_64
           disable-animations: true
-          script: ./gradlew app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.annotation=com.example.util.simpletimetracker.utils.Widget --stacktrace
+          script: ./gradlew app:connectedPlayDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.annotation=com.example.util.simpletimetracker.utils.Widget --stacktrace
 
       - name: Upload tests results
         if: ${{ failure() }}
