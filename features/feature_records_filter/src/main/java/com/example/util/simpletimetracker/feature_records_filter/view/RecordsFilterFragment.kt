@@ -37,6 +37,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.createD
 import com.example.util.simpletimetracker.feature_records_filter.adapter.createRecordsFilterRangeAdapterDelegate
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.viewModel.RecordsFilterViewModel
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -135,16 +136,18 @@ class RecordsFilterFragment :
         }
     }
 
+    override fun initUx() = with(binding) {
+        ivRecordsFilterShowList.setOnClick(viewModel::onShowRecordsListClick)
+    }
+
     override fun initViewModel(): Unit = with(viewModel) {
-        with(binding) {
-            init(params)
-            filtersViewData.observe(filtersAdapter::replace)
-            filterSelectionContent.observe(filterSelectionAdapter::replace)
-            recordsViewData.observe(::setSelectedRecords)
-            filterSelectionVisibility.observe(::setFilterSelectionVisibility)
-            keyboardVisibility.observe(::showKeyboard)
-            changedFilters.observe { listener?.onFilterChanged(it) }
-        }
+        init(params)
+        filtersViewData.observe(filtersAdapter::replace)
+        filterSelectionContent.observe(filterSelectionAdapter::replace)
+        recordsViewData.observe(::setSelectedRecords)
+        filterSelectionVisibility.observe(::setFilterSelectionVisibility)
+        keyboardVisibility.observe(::showKeyboard)
+        changedFilters.observe { listener?.onFilterChanged(it) }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -171,6 +174,7 @@ class RecordsFilterFragment :
         loaderRecordsFilter.isVisible = viewData.isLoading
         tvRecordsFilterTitle.isInvisible = viewData.isLoading
         tvRecordsFilterTitle.text = viewData.selectedRecordsCount
+        ivRecordsFilterShowList.isVisible = !viewData.isLoading && viewData.showListButtonIsVisible
         recordsAdapter.replaceAsNew(viewData.recordsViewData)
     }
 

@@ -220,14 +220,16 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             .sortedByDescending { (timeStarted, _) -> timeStarted }
             .let(dateDividerViewDataMapper::addDateViewData)
             .ifEmpty { listOf(recordViewDataMapper.mapToEmpty()) }
+        val filterSelected = count != 0 || finalFilters.isNotEmpty()
 
         return@withContext RecordsFilterSelectedRecordsViewData(
             isLoading = false,
             selectedRecordsCount = mapper.mapRecordsCount(
                 extra = extra,
                 count = count,
-                filter = finalFilters,
+                filterSelected = filterSelected
             ),
+            showListButtonIsVisible = filterSelected,
             recordsViewData = viewData,
         )
     }

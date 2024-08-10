@@ -303,6 +303,12 @@ class RecordsFilterViewModel @Inject constructor(
         updateRecords()
     }
 
+    fun onShowRecordsListClick() {
+        filterSelectionState = RecordsFilterSelectionState.Hidden
+        updateFilters()
+        updateFilterSelectionVisibility()
+    }
+
     private suspend fun handleTypeClick(id: Long) {
         val currentIds = filters.getTypeIds().toMutableList()
         val currentIdsFromCategories = filters.getTypeIdsFromCategories(

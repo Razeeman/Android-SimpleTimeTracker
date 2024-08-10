@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderView
 data class RecordsFilterSelectedRecordsViewData(
     val isLoading: Boolean,
     val selectedRecordsCount: String,
+    val showListButtonIsVisible: Boolean,
     val recordsViewData: List<ViewHolderType>,
 ) {
 
@@ -13,6 +14,7 @@ data class RecordsFilterSelectedRecordsViewData(
         val Loading = RecordsFilterSelectedRecordsViewData(
             isLoading = true,
             selectedRecordsCount = "",
+            showListButtonIsVisible = false,
             recordsViewData = listOf(LoaderViewData()),
         )
     }
