@@ -21,15 +21,25 @@ class ChangeRecordActionsMergeDelegate @Inject constructor(
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val recordActionMergeMediator: RecordActionMergeMediator,
     private val changeRecordViewDataMapper: ChangeRecordViewDataMapper,
-) {
+) : ChangeRecordActionsSubDelegate<ChangeRecordActionsMergeDelegate.Parent> {
 
     private var parent: Parent? = null
+    private var viewData: List<ViewHolderType> = emptyList()
 
-    fun attach(parent: Parent) {
+    override fun attach(parent: Parent) {
         this.parent = parent
     }
 
-    suspend fun getViewData(): List<ViewHolderType> {
+    override fun getViewData(): List<ViewHolderType> {
+        return viewData
+    }
+
+    override suspend fun updateViewData() {
+        viewData = loadViewData()
+        parent?.update()
+    }
+
+    private suspend fun loadViewData(): List<ViewHolderType> {
         val params = parent?.getViewDataParams()
             ?: return emptyList()
 
@@ -117,6 +127,7 @@ class ChangeRecordActionsMergeDelegate @Inject constructor(
     interface Parent {
 
         fun getViewDataParams(): ViewDataParams?
+        fun update()
 
         data class ViewDataParams(
             val mergeAvailable: Boolean,

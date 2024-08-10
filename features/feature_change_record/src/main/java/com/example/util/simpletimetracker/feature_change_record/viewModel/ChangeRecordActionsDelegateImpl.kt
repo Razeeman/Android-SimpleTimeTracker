@@ -10,33 +10,42 @@ import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRe
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordChangePreviewViewData
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordTimeDoublePreviewViewData
 import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordActionsBlock
+import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-interface ChangeRecordActionsDelegate {
-    val actionsViewData: LiveData<List<ViewHolderType>>
-}
 
 class ChangeRecordActionsDelegateImpl @Inject constructor(
     private val mergeDelegate: ChangeRecordActionsMergeDelegate,
     private val splitDelegate: ChangeRecordActionsSplitDelegate,
     private val adjustDelegate: ChangeRecordActionsAdjustDelegate,
-    private val additionalDelegate: ChangeRecordActionsAdditionalDelegate,
-) : ChangeRecordActionsDelegate, ViewModelDelegate() {
+    private val continueDelegate: ChangeRecordActionsContinueDelegate,
+    private val repeatDelegate: ChangeRecordActionsRepeatDelegate,
+    private val duplicateDelegate: ChangeRecordActionsDuplicateDelegate,
+) : ChangeRecordActionsDelegateBase, ViewModelDelegate() {
 
     override val actionsViewData: LiveData<List<ViewHolderType>> by lazySuspend { loadViewData() }
 
     val timeChangeAdjustmentState get() = adjustDelegate.timeChangeAdjustmentState
 
-    private var parent: Parent? = null
+    private var parent: ChangeRecordActionsDelegateBase.Parent? = null
+    private val delegatesList = listOf(
+        splitDelegate,
+        adjustDelegate,
+        continueDelegate,
+        repeatDelegate,
+        duplicateDelegate,
+        mergeDelegate,
+    )
 
     init {
         splitDelegate.attach(getSplitDelegateParent())
         adjustDelegate.attach(getAdjustDelegateParent())
-        additionalDelegate.attach(getAdditionalActionsDelegateParent())
+        continueDelegate.attach(getContinueActionsDelegateParent())
+        repeatDelegate.attach(getRepeatActionsDelegateParent())
+        duplicateDelegate.attach(getDuplicateActionsDelegateParent())
         mergeDelegate.attach(getMergeDelegateParent())
     }
 
-    fun attach(parent: Parent) {
+    fun attach(parent: ChangeRecordActionsDelegateBase.Parent) {
         this.parent = parent
     }
 
@@ -45,9 +54,10 @@ class ChangeRecordActionsDelegateImpl @Inject constructor(
         super.clear()
     }
 
-    suspend fun updateViewData() {
-        val data = loadViewData()
-        actionsViewData.set(data)
+    fun updateData() {
+        delegatesList.forEach { delegate ->
+            delegateScope.launch { delegate.updateViewData() }
+        }
     }
 
     fun onItemAdjustTimeStartedClick(data: ChangeRecordTimeDoublePreviewViewData) {
@@ -95,21 +105,21 @@ class ChangeRecordActionsDelegateImpl @Inject constructor(
     }
 
     private fun onContinueClick() {
-        if (!additionalDelegate.canContinue()) return
+        if (!continueDelegate.canContinue()) return
         parent?.onRecordChangeButtonClick(
-            onProceed = additionalDelegate::onContinueClickDelegate,
+            onProceed = continueDelegate::onContinueClickDelegate,
         )
     }
 
     private fun onRepeatClick() {
         parent?.onRecordChangeButtonClick(
-            onProceed = additionalDelegate::onRepeatClickDelegate,
+            onProceed = repeatDelegate::onRepeatClickDelegate,
         )
     }
 
     private fun onDuplicateClick() {
         parent?.onRecordChangeButtonClick(
-            onProceed = additionalDelegate::onDuplicateClickDelegate,
+            onProceed = duplicateDelegate::onDuplicateClickDelegate,
         )
     }
 
@@ -128,10 +138,33 @@ class ChangeRecordActionsDelegateImpl @Inject constructor(
         )
     }
 
+    private fun updateViewData() {
+        val data = loadViewData()
+        actionsViewData.set(data)
+    }
+
+    private fun loadViewData(): List<ViewHolderType> {
+        val result = mutableListOf<ViewHolderType>()
+
+        delegatesList.map {
+            it.getViewData()
+        }.forEachIndexed { index, items ->
+            if (items.isEmpty()) return@forEachIndexed
+            if (index != 0) result += DividerViewData(index.toLong())
+            result += items
+        }
+
+        return result
+    }
+
     private fun getSplitDelegateParent(): ChangeRecordActionsSplitDelegate.Parent {
         return object : ChangeRecordActionsSplitDelegate.Parent {
             override fun getViewDataParams(): ChangeRecordActionsSplitDelegate.Parent.ViewDataParams? {
                 return parent?.getSplitViewDataParams()
+            }
+
+            override fun update() {
+                updateViewData()
             }
 
             override suspend fun onSplitComplete() {
@@ -146,7 +179,7 @@ class ChangeRecordActionsDelegateImpl @Inject constructor(
                 return parent?.getAdjustViewDataParams()
             }
 
-            override suspend fun update() {
+            override fun update() {
                 updateViewData()
             }
 
@@ -156,10 +189,14 @@ class ChangeRecordActionsDelegateImpl @Inject constructor(
         }
     }
 
-    private fun getAdditionalActionsDelegateParent(): ChangeRecordActionsAdditionalDelegate.Parent {
-        return object : ChangeRecordActionsAdditionalDelegate.Parent {
-            override fun getViewDataParams(): ChangeRecordActionsAdditionalDelegate.Parent.ViewDataParams? {
-                return parent?.getAdditionalViewDataParams()
+    private fun getContinueActionsDelegateParent(): ChangeRecordActionsContinueDelegate.Parent {
+        return object : ChangeRecordActionsContinueDelegate.Parent {
+            override fun getViewDataParams(): ChangeRecordActionsContinueDelegate.Parent.ViewDataParams? {
+                return parent?.getContinueViewDataParams()
+            }
+
+            override fun update() {
+                updateViewData()
             }
 
             override suspend fun onSaveClickDelegate() {
@@ -172,48 +209,47 @@ class ChangeRecordActionsDelegateImpl @Inject constructor(
         }
     }
 
+    private fun getRepeatActionsDelegateParent(): ChangeRecordActionsRepeatDelegate.Parent {
+        return object : ChangeRecordActionsRepeatDelegate.Parent {
+            override fun getViewDataParams(): ChangeRecordActionsRepeatDelegate.Parent.ViewDataParams? {
+                return parent?.getRepeatViewDataParams()
+            }
+
+            override fun update() {
+                updateViewData()
+            }
+
+            override suspend fun onSaveClickDelegate() {
+                parent?.onSaveClickDelegate()
+            }
+        }
+    }
+
+    private fun getDuplicateActionsDelegateParent(): ChangeRecordActionsDuplicateDelegate.Parent {
+        return object : ChangeRecordActionsDuplicateDelegate.Parent {
+            override fun getViewDataParams(): ChangeRecordActionsDuplicateDelegate.Parent.ViewDataParams? {
+                return parent?.getDuplicateViewDataParams()
+            }
+
+            override fun update() {
+                updateViewData()
+            }
+
+            override suspend fun onSaveClickDelegate() {
+                parent?.onSaveClickDelegate()
+            }
+        }
+    }
+
     private fun getMergeDelegateParent(): ChangeRecordActionsMergeDelegate.Parent {
         return object : ChangeRecordActionsMergeDelegate.Parent {
             override fun getViewDataParams(): ChangeRecordActionsMergeDelegate.Parent.ViewDataParams? {
                 return parent?.getMergeViewDataParams()
             }
+
+            override fun update() {
+                updateViewData()
+            }
         }
-    }
-
-    private suspend fun loadViewData(): List<ViewHolderType> {
-        val result = mutableListOf<ViewHolderType>()
-
-        listOf(
-            splitDelegate.getViewData(),
-            adjustDelegate.getViewData(),
-            additionalDelegate.getContinueViewData(),
-            additionalDelegate.getRepeatViewData(),
-            additionalDelegate.getDuplicateViewData(),
-            mergeDelegate.getViewData(),
-        ).forEachIndexed { index, items ->
-            if (items.isEmpty()) return@forEachIndexed
-            if (index != 0) result += DividerViewData(index.toLong())
-            result += items
-        }
-
-        return result
-    }
-
-    interface Parent {
-        fun getSplitViewDataParams(): ChangeRecordActionsSplitDelegate.Parent.ViewDataParams
-        fun getAdjustViewDataParams(): ChangeRecordActionsAdjustDelegate.Parent.ViewDataParams
-        fun getAdditionalViewDataParams(): ChangeRecordActionsAdditionalDelegate.Parent.ViewDataParams?
-        fun getMergeViewDataParams(): ChangeRecordActionsMergeDelegate.Parent.ViewDataParams
-
-        fun onRecordChangeButtonClick(
-            onProceed: suspend () -> Unit,
-            checkTypeSelected: Boolean = true,
-        )
-
-        suspend fun onSaveClickDelegate()
-
-        suspend fun onSplitComplete()
-
-        fun showMessage(stringResId: Int)
     }
 }

@@ -37,15 +37,26 @@ class ChangeRecordActionsAdjustDelegate @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val timeMapper: TimeMapper,
     private val prefsInteractor: PrefsInteractor,
-) : ViewModelDelegate() {
+) : ViewModelDelegate(),
+    ChangeRecordActionsSubDelegate<ChangeRecordActionsAdjustDelegate.Parent> {
 
     var timeChangeAdjustmentState: TimeAdjustmentState = TimeAdjustmentState.TIME_STARTED
 
     private var parent: Parent? = null
+    private var viewData: List<ViewHolderType> = emptyList()
     private var recordsUnmarkedFromAdjustment: List<Long> = emptyList()
 
-    fun attach(parent: Parent) {
+    override fun attach(parent: Parent) {
         this.parent = parent
+    }
+
+    override fun getViewData(): List<ViewHolderType> {
+        return viewData
+    }
+
+    override suspend fun updateViewData() {
+        viewData = loadViewData()
+        parent?.update()
     }
 
     fun onAdjustTimeStartedClick() {
@@ -67,11 +78,11 @@ class ChangeRecordActionsAdjustDelegate @Inject constructor(
             recordsUnmarkedFromAdjustment = recordsUnmarkedFromAdjustment
                 .toMutableList()
                 .apply { addOrRemove(item.id) }
-            parent?.update()
+            updateViewData()
         }
     }
 
-    suspend fun getViewData(): List<ViewHolderType> {
+    private suspend fun loadViewData(): List<ViewHolderType> {
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
         val params = parent?.getViewDataParams()
@@ -393,18 +404,18 @@ class ChangeRecordActionsAdjustDelegate @Inject constructor(
         when (timeChangeAdjustmentState) {
             TimeAdjustmentState.HIDDEN -> {
                 timeChangeAdjustmentState = clicked
-                parent?.update()
+                updateViewData()
             }
             clicked -> {
                 timeChangeAdjustmentState = TimeAdjustmentState.HIDDEN
-                parent?.update()
+                updateViewData()
             }
             other -> delegateScope.launch {
                 timeChangeAdjustmentState = TimeAdjustmentState.HIDDEN
-                parent?.update()
+                updateViewData()
                 delay(300)
                 timeChangeAdjustmentState = clicked
-                parent?.update()
+                updateViewData()
             }
             else -> {
                 // Do nothing
@@ -425,7 +436,7 @@ class ChangeRecordActionsAdjustDelegate @Inject constructor(
     interface Parent {
 
         fun getViewDataParams(): ViewDataParams?
-        suspend fun update()
+        fun update()
         suspend fun onAdjustComplete()
 
         data class ViewDataParams(

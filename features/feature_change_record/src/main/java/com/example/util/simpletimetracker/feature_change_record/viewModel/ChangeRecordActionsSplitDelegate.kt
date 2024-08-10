@@ -21,15 +21,41 @@ class ChangeRecordActionsSplitDelegate @Inject constructor(
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
     private val addRecordMediator: AddRecordMediator,
     private val changeRecordViewDataMapper: ChangeRecordViewDataMapper,
-) {
+) : ChangeRecordActionsSubDelegate<ChangeRecordActionsSplitDelegate.Parent> {
 
     private var parent: Parent? = null
+    private var viewData: List<ViewHolderType> = emptyList()
 
-    fun attach(parent: Parent) {
+    override fun attach(parent: Parent) {
         this.parent = parent
     }
 
-    suspend fun getViewData(): List<ViewHolderType> {
+    override fun getViewData(): List<ViewHolderType> {
+        return viewData
+    }
+
+    override suspend fun updateViewData() {
+        viewData = loadViewData()
+        parent?.update()
+    }
+
+    suspend fun onSplitClickDelegate() {
+        val params = parent?.getViewDataParams() ?: return
+
+        Record(
+            id = 0L, // Zero id creates new record
+            typeId = params.newTypeId,
+            timeStarted = params.newTimeStarted,
+            timeEnded = params.newTimeSplit,
+            comment = params.newComment,
+            tagIds = params.newCategoryIds,
+        ).let {
+            addRecordMediator.add(it)
+        }
+        parent?.onSplitComplete()
+    }
+
+    private suspend fun loadViewData(): List<ViewHolderType> {
         val params = parent?.getViewDataParams()
             ?: return emptyList()
         val newTimeSplit = params.newTimeSplit
@@ -74,22 +100,6 @@ class ChangeRecordActionsSplitDelegate @Inject constructor(
             isEnabled = isButtonEnabled,
         )
         return result
-    }
-
-    suspend fun onSplitClickDelegate() {
-        val params = parent?.getViewDataParams() ?: return
-
-        Record(
-            id = 0L, // Zero id creates new record
-            typeId = params.newTypeId,
-            timeStarted = params.newTimeStarted,
-            timeEnded = params.newTimeSplit,
-            comment = params.newComment,
-            tagIds = params.newCategoryIds,
-        ).let {
-            addRecordMediator.add(it)
-        }
-        parent?.onSplitComplete()
     }
 
     private fun loadTimeSplitAdjustmentItems(): List<ViewHolderType> {
@@ -146,6 +156,7 @@ class ChangeRecordActionsSplitDelegate @Inject constructor(
     interface Parent {
 
         fun getViewDataParams(): ViewDataParams?
+        fun update()
         suspend fun onSplitComplete()
 
         data class ViewDataParams(
