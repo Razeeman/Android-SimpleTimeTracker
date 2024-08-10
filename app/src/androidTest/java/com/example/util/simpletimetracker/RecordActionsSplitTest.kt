@@ -276,6 +276,7 @@ class RecordActionsSplitTest : BaseUiTest() {
             tagNames = listOf(tag),
             comment = comment,
         )
+        Thread.sleep(1000)
 
         // Check record
         tryAction { checkRunningRecord(fullName, timeStartedPreview, comment) }

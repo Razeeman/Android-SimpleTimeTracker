@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.ClearDataInteractor
+import com.example.util.simpletimetracker.domain.interactor.ComplexRuleInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
@@ -18,6 +19,7 @@ import com.example.util.simpletimetracker.domain.interactor.RunningRecordInterac
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.ComplexRule
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
@@ -39,6 +41,7 @@ class TestUtils @Inject constructor(
     private val recordTypeToDefaultTagInteractor: RecordTypeToDefaultTagInteractor,
     private val activityFilterInteractor: ActivityFilterInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
+    private val complexRuleInteractor: ComplexRuleInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val iconImageMapper: IconImageMapper,
     private val clearDataInteractor: ClearDataInteractor,
@@ -221,22 +224,17 @@ class TestUtils @Inject constructor(
             ?: (0..colors.size).random()
         val availableCategories = categoryInteractor.getAll()
         val availableTypes = recordTypeInteractor.getAll()
-        val selectedIds = names
-            .mapNotNull { name ->
-                when (type) {
-                    is ActivityFilter.Type.Activity -> {
-                        availableTypes.firstOrNull { it.name == name }?.id
-                    }
+        val selectedIds = names.mapNotNull { name ->
+            when (type) {
+                is ActivityFilter.Type.Activity -> {
+                    availableTypes.firstOrNull { it.name == name }?.id
+                }
 
-                    is ActivityFilter.Type.Category -> {
-                        availableCategories.firstOrNull { it.name == name }?.id
-                    }
+                is ActivityFilter.Type.Category -> {
+                    availableCategories.firstOrNull { it.name == name }?.id
                 }
             }
-            .takeUnless {
-                it.isEmpty()
-            }
-            .orEmpty()
+        }
 
         val data = ActivityFilter(
             selectedIds = selectedIds,
@@ -247,5 +245,37 @@ class TestUtils @Inject constructor(
         )
 
         activityFilterInteractor.add(data)
+    }
+
+    fun addComplexRule(
+        action: ComplexRule.Action,
+        assignTagNames: List<String> = emptyList(),
+        startingTypeNames: List<String> = emptyList(),
+        currentTypeNames: List<String> = emptyList(),
+        daysOfWeek: List<DayOfWeek> = emptyList(),
+    ) = runBlocking {
+        val availableTypes = recordTypeInteractor.getAll()
+
+        fun getTypeIds(names: List<String>): Set<Long> {
+            return names.mapNotNull { name ->
+                availableTypes.firstOrNull { it.name == name }?.id
+            }.toSet()
+        }
+
+        val assignTagIds = recordTagInteractor.getAll()
+            .filter { it.name in assignTagNames }
+            .map { it.id }
+            .toSet()
+
+        val data = ComplexRule(
+            disabled = false,
+            action = action,
+            actionAssignTagIds = assignTagIds,
+            conditionStartingTypeIds = getTypeIds(startingTypeNames),
+            conditionCurrentTypeIds = getTypeIds(currentTypeNames),
+            conditionDaysOfWeek = daysOfWeek.toSet(),
+        )
+
+        complexRuleInteractor.add(data)
     }
 }

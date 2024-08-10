@@ -16,7 +16,9 @@ import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.utils.CountingIdlingResourceProvider
 import com.example.util.simpletimetracker.core.utils.TestUtils
+import com.example.util.simpletimetracker.domain.interactor.ComplexRuleInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.repo.ComplexRuleRepo
 import com.example.util.simpletimetracker.feature_records.view.RecordsContainerFragment
 import com.example.util.simpletimetracker.feature_statistics.view.StatisticsContainerFragment
 import com.example.util.simpletimetracker.feature_views.pieChart.PieChartView
@@ -51,6 +53,9 @@ open class BaseUiTest {
 
     @Inject
     lateinit var languageInteractor: LanguageInteractor
+
+    @Inject
+    lateinit var complexRuleRepo: ComplexRuleRepo
 
     @get:Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)

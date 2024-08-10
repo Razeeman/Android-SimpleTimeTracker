@@ -95,11 +95,13 @@ class ChangeComplexRuleViewModel @Inject constructor(
     fun onActionClick(item: ChangeComplexRuleActionViewData) {
         when (item.type) {
             ChangeComplexRuleActionViewData.Type.AllowMultitasking -> {
+                newAssignTagIds = emptySet()
                 newAction = changeComplexRuleViewDataMapper.mapAction(item.type)
                 updateActionViewData()
                 onActionTypeChooserClick()
             }
             ChangeComplexRuleActionViewData.Type.DisallowMultitasking -> {
+                newAssignTagIds = emptySet()
                 newAction = changeComplexRuleViewDataMapper.mapAction(item.type)
                 updateActionViewData()
                 onActionTypeChooserClick()

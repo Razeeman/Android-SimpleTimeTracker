@@ -98,6 +98,11 @@ object NavUtils {
         clickOnSettingsRecyclerText(coreR.string.settings_data_edit)
     }
 
+    fun openComplexRules() {
+        scrollSettingsRecyclerToText(coreR.string.settings_complex_rules)
+        clickOnSettingsRecyclerText(coreR.string.settings_complex_rules)
+    }
+
     fun openCardSizeScreen() {
         scrollSettingsRecyclerToText(coreR.string.settings_change_card_size)
         clickOnSettingsRecyclerText(coreR.string.settings_change_card_size)

@@ -1801,6 +1801,40 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
+    fun showCalendarSwitchOnTheSameTab() {
+        // Check setting
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
+        scrollSettingsRecyclerToText(coreR.string.settings_show_calendar_button_on_records_tab)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_calendar_button_on_records_tab))
+
+        // Check not shown
+        NavUtils.openRecordsScreen()
+        clickOnViewWithId(recordsR.id.btnRecordsContainerOptions)
+        checkViewIsNotDisplayed(withId(recordsR.id.btnRecordsContainerCalendarSwitch))
+
+        // Change settings
+        NavUtils.openSettingsScreen()
+        scrollSettingsRecyclerToText(coreR.string.settings_show_calendar_button_on_records_tab)
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_calendar_button_on_records_tab)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_calendar_button_on_records_tab))
+
+        // Check shown
+        NavUtils.openRecordsScreen()
+        checkViewIsDisplayed(withId(recordsR.id.btnRecordsContainerCalendarSwitch))
+
+        // Change back
+        NavUtils.openSettingsScreen()
+        scrollSettingsRecyclerToText(coreR.string.settings_show_calendar_button_on_records_tab)
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_calendar_button_on_records_tab)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_show_calendar_button_on_records_tab))
+
+        // Check not shown
+        NavUtils.openRecordsScreen()
+        checkViewIsNotDisplayed(withId(recordsR.id.btnRecordsContainerCalendarSwitch))
+    }
+
+    @Test
     fun keepStatisticsRange() {
         val name = "Test"
 

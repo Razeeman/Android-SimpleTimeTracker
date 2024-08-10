@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.domain.model
 
 data class ComplexRule(
-    val id: Long,
+    val id: Long = 0L,
     val disabled: Boolean,
     val action: Action,
     val actionAssignTagIds: Set<Long>,

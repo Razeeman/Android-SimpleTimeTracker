@@ -669,12 +669,13 @@ class StatisticsDetailTest : BaseUiTest() {
         val tag1 = "TagName1"
         val tag2 = "TagName2"
         val color = firstColor
+        val lastColor = lastColor
         val icon = firstIcon
 
         // Add activity
         testUtils.addActivity(name = name, color = color, icon = icon)
         testUtils.addRecordTag(tag1, name)
-        testUtils.addRecordTag(tag2)
+        testUtils.addRecordTag(tag2, color = lastColor)
 
         // Add records
         var calendar = Calendar.getInstance()
@@ -780,7 +781,7 @@ class StatisticsDetailTest : BaseUiTest() {
 
         // Tag split
         checkTagItem(color, tag1, "1$hourString 0$minuteString", "33%")
-        checkTagItem(color, tag2, "2$hourString 0$minuteString", "67%")
+        checkTagItem(lastColor, tag2, "2$hourString 0$minuteString", "67%")
         checkNoTagItem("Untagged")
 
         // Next month

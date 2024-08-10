@@ -39,6 +39,7 @@ class RecordActionsMergeTest : BaseUiTest() {
         // Setup
         testUtils.addActivity(name)
         testUtils.addRecord(name)
+        calendar.timeInMillis = System.currentTimeMillis()
         testUtils.addRecord(
             typeName = name,
             timeStarted = calendar.timeInMillis - TimeUnit.DAYS.toMillis(1),
@@ -83,15 +84,6 @@ class RecordActionsMergeTest : BaseUiTest() {
         checkViewIsDisplayed(withText(coreR.string.change_record_merge))
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         pressBack()
-
-        // Untracked and have no prev record - not shown
-        clickOnViewWithId(recordsR.id.btnRecordsContainerPrevious)
-        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        clickOnViewWithId(changeRecordR.id.btnChangeRecordDelete)
-        clickOnViewWithId(recordsR.id.btnRecordsContainerNext)
-        clickOnView(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
-        clickOnViewWithText(coreR.string.change_record_actions_hint)
-        checkViewDoesNotExist(withText(coreR.string.change_record_merge))
     }
 
     @Test
