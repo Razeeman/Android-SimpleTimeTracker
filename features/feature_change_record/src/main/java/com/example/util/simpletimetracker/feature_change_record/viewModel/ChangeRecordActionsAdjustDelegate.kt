@@ -96,15 +96,15 @@ class ChangeRecordActionsAdjustDelegate @Inject constructor(
         }.let(resourceRepo::getString)
         result += HintViewData(hintText)
         val state = loadViewData(
-            recordId = params.recordId,
+            recordId = params.originalRecordId,
             adjustNextRecordAvailable = params.adjustNextRecordAvailable,
             newTypeId = params.newTypeId,
             newTimeStarted = params.newTimeStarted,
             adjustPreviewTimeEnded = params.adjustPreviewTimeEnded,
             originalTypeId = params.originalTypeId,
             originalTimeStarted = params.originalTimeStarted,
-            originalTimeEnded = params.originalTimeEnded,
-            showTimeEnded = params.showTimeEnded,
+            originalTimeEnded = params.adjustPreviewOriginalTimeEnded,
+            showTimeEnded = params.showTimeEndedOnAdjustPreview,
         )
         val previewData = state.currentData
         result += ChangeRecordChangePreviewViewData(
@@ -153,7 +153,7 @@ class ChangeRecordActionsAdjustDelegate @Inject constructor(
         val params = parent?.getViewDataParams() ?: return
 
         val adjacentRecords = getAdjacentRecords(
-            recordId = params.recordId,
+            recordId = params.originalRecordId,
             newTimeStarted = params.newTimeStarted,
             newTimeEnded = params.newTimeEnded,
             adjustNextRecordAvailable = params.adjustNextRecordAvailable,
@@ -440,7 +440,7 @@ class ChangeRecordActionsAdjustDelegate @Inject constructor(
         suspend fun onAdjustComplete()
 
         data class ViewDataParams(
-            val recordId: Long,
+            val originalRecordId: Long,
             val adjustNextRecordAvailable: Boolean,
             val newTypeId: Long,
             val newTimeStarted: Long,
@@ -448,8 +448,8 @@ class ChangeRecordActionsAdjustDelegate @Inject constructor(
             val adjustPreviewTimeEnded: Long,
             val originalTypeId: Long,
             val originalTimeStarted: Long,
-            val originalTimeEnded: Long,
-            val showTimeEnded: Boolean,
+            val adjustPreviewOriginalTimeEnded: Long,
+            val showTimeEndedOnAdjustPreview: Boolean,
             val isTimeEndedAvailable: Boolean,
             val isButtonEnabled: Boolean,
         )

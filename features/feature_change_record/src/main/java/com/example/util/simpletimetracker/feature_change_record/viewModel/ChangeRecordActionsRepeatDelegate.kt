@@ -44,6 +44,7 @@ class ChangeRecordActionsRepeatDelegate @Inject constructor(
     private fun loadRepeatViewData(): List<ViewHolderType> {
         val params = parent?.getViewDataParams()
             ?: return emptyList()
+        if (!params.isAdditionalActionsAvailable) return emptyList()
 
         val result = mutableListOf<ViewHolderType>()
         result += HintViewData(
@@ -69,6 +70,7 @@ class ChangeRecordActionsRepeatDelegate @Inject constructor(
             val newTypeId: Long,
             val newComment: String,
             val newCategoryIds: List<Long>,
+            val isAdditionalActionsAvailable: Boolean,
             val isButtonEnabled: Boolean,
         )
     }

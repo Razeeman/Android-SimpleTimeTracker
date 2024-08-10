@@ -57,7 +57,7 @@ abstract class ChangeRecordBaseViewModel(
     private val favouriteCommentInteractor: FavouriteCommentInteractor,
     private val changeRecordActionsDelegate: ChangeRecordActionsDelegateImpl,
 ) : ViewModel(),
-    ChangeRecordActionsDelegateBase by changeRecordActionsDelegate {
+    ChangeRecordActionsDelegate by changeRecordActionsDelegate {
 
     val types: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
@@ -114,7 +114,7 @@ abstract class ChangeRecordBaseViewModel(
     protected var newTypeId: Long = 0
     protected var newTimeEnded: Long = 0
     protected var newTimeStarted: Long = 0
-    protected var newTimeSplit: Long = 0 // TODO move to split action delegate
+    protected var newTimeSplit: Long = 0
     protected var newComment: String = ""
     protected var newCategoryIds: MutableList<Long> = mutableListOf()
     protected var originalRecordId: Long = 0
@@ -575,79 +575,52 @@ abstract class ChangeRecordBaseViewModel(
         updateActionsData()
     }
 
-    private fun getActionsDelegateParent(): ChangeRecordActionsDelegateBase.Parent {
-        return object : ChangeRecordActionsDelegateBase.Parent {
-            override fun getSplitViewDataParams(): ChangeRecordActionsSplitDelegate.Parent.ViewDataParams {
-                return ChangeRecordActionsSplitDelegate.Parent.ViewDataParams(
-                    newTypeId = newTypeId,
-                    newTimeStarted = newTimeStarted,
-                    newTimeSplit = newTimeSplit,
-                    newTimeEnded = splitPreviewTimeEnded,
-                    newComment = newComment,
-                    newCategoryIds = newCategoryIds,
-                    showTimeEnded = showTimeEndedOnSplitPreview,
-                    isButtonEnabled = saveButtonEnabled.value.orFalse(),
+    private fun getActionsDelegateParent(): ChangeRecordActionsDelegate.Parent {
+        return object : ChangeRecordActionsDelegate.Parent {
+            override fun getViewDataParams(): ChangeRecordActionsDelegate.Parent.ViewDataParams {
+                return ChangeRecordActionsDelegate.Parent.ViewDataParams(
+                    baseParams = ChangeRecordActionsDelegate.Parent.ViewDataParams.BaseParams(
+                        newTypeId = newTypeId,
+                        newTimeStarted = newTimeStarted,
+                        newTimeEnded = newTimeEnded,
+                        newComment = newComment,
+                        newCategoryIds = newCategoryIds,
+                        isButtonEnabled = saveButtonEnabled.value.orFalse(),
+                    ),
+                    splitParams = ChangeRecordActionsDelegate.Parent.ViewDataParams.SplitParams(
+                        newTimeSplit = newTimeSplit,
+                        splitPreviewTimeEnded = splitPreviewTimeEnded,
+                        showTimeEndedOnSplitPreview = showTimeEndedOnSplitPreview,
+                    ),
+                    duplicateParams = ChangeRecordActionsDelegate.Parent.ViewDataParams.DuplicateParams(
+                        isAdditionalActionsAvailable = isAdditionalActionsAvailable,
+                    ),
+                    continueParams = ChangeRecordActionsDelegate.Parent.ViewDataParams.ContinueParams(
+                        originalRecordId = originalRecordId,
+                        isAdditionalActionsAvailable = isAdditionalActionsAvailable,
+                    ),
+                    repeatParams = ChangeRecordActionsDelegate.Parent.ViewDataParams.RepeatParams(
+                        isAdditionalActionsAvailable = isAdditionalActionsAvailable,
+                    ),
+                    adjustParams = ChangeRecordActionsDelegate.Parent.ViewDataParams.AdjustParams(
+                        originalRecordId = originalRecordId,
+                        originalTypeId = originalTypeId,
+                        originalTimeStarted = originalTimeStarted,
+                        adjustNextRecordAvailable = adjustNextRecordAvailable,
+                        adjustPreviewTimeEnded = adjustPreviewTimeEnded,
+                        adjustPreviewOriginalTimeEnded = adjustPreviewOriginalTimeEnded,
+                        showTimeEndedOnAdjustPreview = showTimeEndedOnAdjustPreview,
+                        isTimeEndedAvailable = isTimeEndedAvailable,
+                    ),
+                    mergeParams = ChangeRecordActionsDelegate.Parent.ViewDataParams.MergeParams(
+                        mergeAvailable = mergeAvailable,
+                        prevRecord = prevRecord,
+                    )
                 )
             }
 
-            override fun getAdjustViewDataParams(): ChangeRecordActionsAdjustDelegate.Parent.ViewDataParams {
-                return ChangeRecordActionsAdjustDelegate.Parent.ViewDataParams(
-                    recordId = originalRecordId,
-                    adjustNextRecordAvailable = adjustNextRecordAvailable,
-                    newTypeId = newTypeId,
-                    newTimeStarted = newTimeStarted,
-                    newTimeEnded = newTimeEnded,
-                    adjustPreviewTimeEnded = adjustPreviewTimeEnded,
-                    originalTypeId = originalTypeId,
-                    originalTimeStarted = originalTimeStarted,
-                    originalTimeEnded = adjustPreviewOriginalTimeEnded,
-                    showTimeEnded = showTimeEndedOnAdjustPreview,
-                    isTimeEndedAvailable = isTimeEndedAvailable,
-                    isButtonEnabled = saveButtonEnabled.value.orFalse(),
-                )
-            }
-
-            override fun getContinueViewDataParams(): ChangeRecordActionsContinueDelegate.Parent.ViewDataParams? {
-                if (!isAdditionalActionsAvailable) return null
-                return ChangeRecordActionsContinueDelegate.Parent.ViewDataParams(
-                    recordId = originalRecordId,
-                    newTypeId = newTypeId,
-                    newTimeStarted = newTimeStarted,
-                    newComment = newComment,
-                    newCategoryIds = newCategoryIds,
-                    isButtonEnabled = saveButtonEnabled.value.orFalse(),
-                )
-            }
-
-            override fun getRepeatViewDataParams(): ChangeRecordActionsRepeatDelegate.Parent.ViewDataParams? {
-                if (!isAdditionalActionsAvailable) return null
-                return ChangeRecordActionsRepeatDelegate.Parent.ViewDataParams(
-                    newTypeId = newTypeId,
-                    newComment = newComment,
-                    newCategoryIds = newCategoryIds,
-                    isButtonEnabled = saveButtonEnabled.value.orFalse(),
-                )
-            }
-
-            override fun getDuplicateViewDataParams(): ChangeRecordActionsDuplicateDelegate.Parent.ViewDataParams? {
-                if (!isAdditionalActionsAvailable) return null
-                return ChangeRecordActionsDuplicateDelegate.Parent.ViewDataParams(
-                    newTypeId = newTypeId,
-                    newTimeStarted = newTimeStarted,
-                    newTimeEnded = newTimeEnded,
-                    newComment = newComment,
-                    newCategoryIds = newCategoryIds,
-                    isButtonEnabled = saveButtonEnabled.value.orFalse(),
-                )
-            }
-
-            override fun getMergeViewDataParams(): ChangeRecordActionsMergeDelegate.Parent.ViewDataParams {
-                return ChangeRecordActionsMergeDelegate.Parent.ViewDataParams(
-                    mergeAvailable = mergeAvailable,
-                    prevRecord = prevRecord,
-                    newTimeEnded = newTimeEnded,
-                    isButtonEnabled = saveButtonEnabled.value.orFalse(),
-                )
+            override fun updateViewData() {
+                changeRecordActionsDelegate.updateViewData()
             }
 
             override fun onRecordChangeButtonClick(

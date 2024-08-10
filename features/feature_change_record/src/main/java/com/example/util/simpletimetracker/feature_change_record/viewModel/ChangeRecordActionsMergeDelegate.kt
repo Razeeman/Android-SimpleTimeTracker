@@ -42,10 +42,10 @@ class ChangeRecordActionsMergeDelegate @Inject constructor(
     private suspend fun loadViewData(): List<ViewHolderType> {
         val params = parent?.getViewDataParams()
             ?: return emptyList()
+        if (!params.mergeAvailable) return emptyList()
 
         val result = mutableListOf<ViewHolderType>()
         val previewData = loadMergePreviewViewData(
-            mergeAvailable = params.mergeAvailable,
             prevRecord = params.prevRecord,
             newTimeEnded = params.newTimeEnded,
         )
@@ -93,13 +93,10 @@ class ChangeRecordActionsMergeDelegate @Inject constructor(
     }
 
     private suspend fun loadMergePreviewViewData(
-        mergeAvailable: Boolean,
         prevRecord: Record?,
         newTimeEnded: Long,
     ): ChangeRecordPreview? {
-        if (!mergeAvailable || prevRecord == null) {
-            return null
-        }
+        if (prevRecord == null) return null
 
         val changedRecord = getChangedRecord(prevRecord, newTimeEnded)
         val previousRecordPreview = changeRecordViewDataInteractor

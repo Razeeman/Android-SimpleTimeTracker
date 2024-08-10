@@ -35,7 +35,7 @@ class ChangeRecordActionsContinueDelegate @Inject constructor(
     suspend fun onContinueClickDelegate() {
         val params = parent?.getViewDataParams() ?: return
         recordActionContinueMediator.execute(
-            recordId = params.recordId,
+            recordId = params.originalRecordId,
             typeId = params.newTypeId,
             timeStarted = params.newTimeStarted,
             comment = params.newComment,
@@ -60,6 +60,7 @@ class ChangeRecordActionsContinueDelegate @Inject constructor(
     private fun loadContinueViewData(): List<ViewHolderType> {
         val params = parent?.getViewDataParams()
             ?: return emptyList()
+        if (!params.isAdditionalActionsAvailable) return emptyList()
 
         val result = mutableListOf<ViewHolderType>()
         result += HintViewData(
@@ -83,11 +84,12 @@ class ChangeRecordActionsContinueDelegate @Inject constructor(
         fun showMessage(stringResId: Int)
 
         data class ViewDataParams(
-            val recordId: Long,
+            val originalRecordId: Long,
             val newTypeId: Long,
             val newTimeStarted: Long,
             val newComment: String,
             val newCategoryIds: List<Long>,
+            val isAdditionalActionsAvailable: Boolean,
             val isButtonEnabled: Boolean,
         )
     }

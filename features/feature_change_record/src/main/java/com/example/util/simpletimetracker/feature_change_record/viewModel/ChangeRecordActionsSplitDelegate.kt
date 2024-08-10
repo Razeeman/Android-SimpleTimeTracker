@@ -61,8 +61,8 @@ class ChangeRecordActionsSplitDelegate @Inject constructor(
         val newTimeSplit = params.newTimeSplit
         val newTypeId = params.newTypeId
         val newTimeStarted = params.newTimeStarted
-        val newTimeEnded = params.newTimeEnded
-        val showTimeEnded = params.showTimeEnded
+        val newTimeEnded = params.splitPreviewTimeEnded
+        val showTimeEnded = params.showTimeEndedOnSplitPreview
         val isButtonEnabled = params.isButtonEnabled
 
         val result = mutableListOf<ViewHolderType>()
@@ -163,10 +163,10 @@ class ChangeRecordActionsSplitDelegate @Inject constructor(
             val newTimeSplit: Long,
             val newTypeId: Long,
             val newTimeStarted: Long,
-            val newTimeEnded: Long,
+            val splitPreviewTimeEnded: Long,
             val newComment: String,
             val newCategoryIds: List<Long>,
-            val showTimeEnded: Boolean,
+            val showTimeEndedOnSplitPreview: Boolean,
             val isButtonEnabled: Boolean,
         )
     }
