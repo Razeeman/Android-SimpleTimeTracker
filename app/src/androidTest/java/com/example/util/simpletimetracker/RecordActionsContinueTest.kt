@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.recyclerItemCount
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
@@ -72,6 +73,7 @@ class RecordActionsContinueTest : BaseUiTest() {
 
         // Continue
         clickOnViewWithText(fullName)
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_continue))
         clickOnViewWithText(coreR.string.change_record_continue)
@@ -120,10 +122,12 @@ class RecordActionsContinueTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.untracked_time_name)
 
         // Continue untracked doesn't work
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_continue))
         clickOnViewWithText(coreR.string.change_record_continue)
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         // Select activity
@@ -131,6 +135,7 @@ class RecordActionsContinueTest : BaseUiTest() {
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
 
         // Continue
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_continue))
         clickOnViewWithText(coreR.string.change_record_continue)
@@ -178,10 +183,12 @@ class RecordActionsContinueTest : BaseUiTest() {
         clickOnViewWithId(recordsR.id.btnRecordAdd)
 
         // Continue untracked doesn't work
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_continue))
         clickOnViewWithText(coreR.string.change_record_continue)
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         // Select activity
@@ -189,6 +196,7 @@ class RecordActionsContinueTest : BaseUiTest() {
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
 
         // Continue
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_continue))
         clickOnViewWithText(coreR.string.change_record_continue)
@@ -241,6 +249,7 @@ class RecordActionsContinueTest : BaseUiTest() {
         // Try continue record
         NavUtils.openRecordsScreen()
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_continue))
         clickOnViewWithText(coreR.string.change_record_continue)
@@ -261,6 +270,7 @@ class RecordActionsContinueTest : BaseUiTest() {
         adjust("+30")
         adjust("+30")
         adjust("+5")
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_continue))
         clickOnViewWithText(coreR.string.change_record_continue)
@@ -288,6 +298,7 @@ class RecordActionsContinueTest : BaseUiTest() {
         }
 
         // Try continue record
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         checkViewDoesNotExist(withText(coreR.string.change_record_continue))
     }
@@ -305,6 +316,7 @@ class RecordActionsContinueTest : BaseUiTest() {
         clickOnViewWithId(recordsR.id.btnRecordAdd)
         clickOnViewWithText(coreR.string.change_record_type_field)
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_continue))
         clickOnViewWithText(coreR.string.change_record_continue)
@@ -337,6 +349,7 @@ class RecordActionsContinueTest : BaseUiTest() {
         clickOnViewWithId(recordsR.id.btnRecordAdd)
         clickOnViewWithText(coreR.string.change_record_type_field)
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name2))
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_continue))
         clickOnViewWithText(coreR.string.change_record_continue)

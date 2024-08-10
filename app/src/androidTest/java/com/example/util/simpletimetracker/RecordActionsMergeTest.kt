@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker
 
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
@@ -14,6 +15,7 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -55,8 +57,10 @@ class RecordActionsMergeTest : BaseUiTest() {
                 allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed()),
             )
         }
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         checkViewDoesNotExist(withText(coreR.string.change_record_merge))
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         pressBack()
 
@@ -65,23 +69,29 @@ class RecordActionsMergeTest : BaseUiTest() {
         clickOnView(
             allOf(withId(baseR.id.viewRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed()),
         )
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         checkViewDoesNotExist(withText(coreR.string.change_record_merge))
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         pressBack()
 
         // New record - not shown
         clickOnViewWithId(recordsR.id.btnRecordAdd)
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         checkViewDoesNotExist(withText(coreR.string.change_record_merge))
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         pressBack()
 
         // Untracked and have prev record - shown
         clickOnView(allOf(withText(coreR.string.untracked_time_name), isCompletelyDisplayed()))
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_merge))
         checkViewIsDisplayed(withText(coreR.string.change_record_merge))
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         pressBack()
     }
@@ -135,6 +145,7 @@ class RecordActionsMergeTest : BaseUiTest() {
                 isCompletelyDisplayed(),
             ),
         )
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_merge))
         clickOnViewWithText(coreR.string.change_record_merge)

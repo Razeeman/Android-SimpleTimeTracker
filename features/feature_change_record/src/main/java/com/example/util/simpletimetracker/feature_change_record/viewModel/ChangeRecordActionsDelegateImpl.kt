@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record.viewModel
 
 import androidx.lifecycle.LiveData
-import com.example.util.simpletimetracker.core.base.ScopeHolder
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
@@ -10,7 +9,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerVi
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordButtonViewData
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordChangePreviewViewData
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordTimeDoublePreviewViewData
-import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordActionsDelegateMapper
 import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordActionsBlock
 import kotlinx.coroutines.launch
 import javax.inject.Inject

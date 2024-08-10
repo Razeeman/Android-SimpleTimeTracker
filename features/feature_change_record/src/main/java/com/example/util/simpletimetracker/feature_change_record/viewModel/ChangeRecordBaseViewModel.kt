@@ -615,7 +615,7 @@ abstract class ChangeRecordBaseViewModel(
                     mergeParams = ChangeRecordActionsDelegate.Parent.ViewDataParams.MergeParams(
                         mergeAvailable = mergeAvailable,
                         prevRecord = prevRecord,
-                    )
+                    ),
                 )
             }
 

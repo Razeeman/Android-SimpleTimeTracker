@@ -149,6 +149,7 @@ class AddCategoryTest : BaseUiTest() {
 
         // Check types saved
         longClickOnView(withText(name))
+        Thread.sleep(1000)
         clickOnViewWithText(coreR.string.change_category_types_hint)
         checkViewIsDisplayed(withText(coreR.string.something_selected))
         checkViewIsDisplayed(withId(baseR.id.viewDividerItem))
@@ -157,6 +158,7 @@ class AddCategoryTest : BaseUiTest() {
 
         // Check goals saved
         clickOnViewWithText(coreR.string.change_category_types_hint)
+        Thread.sleep(1000)
         clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
         checkViewIsDisplayed(withText("10$minuteString"))
     }
@@ -197,6 +199,7 @@ class AddCategoryTest : BaseUiTest() {
         tryAction { longClickOnView(withText(typeName1)) }
 
         // Add category
+        Thread.sleep(1000)
         clickOnViewWithText(coreR.string.category_hint)
         clickOnViewWithText(coreR.string.categories_add_category)
         typeTextIntoView(changeCategoryR.id.etChangeCategoryName, categoryName1)

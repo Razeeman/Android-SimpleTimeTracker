@@ -30,6 +30,7 @@ import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.selectTabAtPosition
 import com.example.util.simpletimetracker.utils.tryAction
@@ -91,6 +92,7 @@ class GoalsTabTest : BaseUiTest() {
                 is RecordTypeGoal.Type.Count -> goal.value.toString()
             }
 
+            onView(withId(layout)).perform(nestedScrollTo())
             checkViewIsDisplayed(
                 allOf(
                     isDescendantOfA(withId(layout)),
@@ -107,6 +109,7 @@ class GoalsTabTest : BaseUiTest() {
         goals.forEach { goalsToAdd ->
             // Add goals
             tryAction { longClickOnView(withText(type)) }
+            onView(withText(coreR.string.change_record_type_goal_time_hint)).perform(nestedScrollTo())
             clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
             goalsToAdd.forEach { goal ->
                 NavUtils.addGoalToActivity(goal)
@@ -116,6 +119,7 @@ class GoalsTabTest : BaseUiTest() {
 
             // Check goals saved
             longClickOnView(withText(type))
+            onView(withText(coreR.string.change_record_type_goal_time_hint)).perform(nestedScrollTo())
             clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
             goalsToAdd.forEach { goal ->
                 checkGoal(goal)

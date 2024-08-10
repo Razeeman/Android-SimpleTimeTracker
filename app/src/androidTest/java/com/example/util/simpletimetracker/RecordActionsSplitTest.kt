@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.getMillis
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.recyclerItemCount
 import com.example.util.simpletimetracker.utils.setPickerTime
 import com.example.util.simpletimetracker.utils.tryAction
@@ -55,6 +56,7 @@ class RecordActionsSplitTest : BaseUiTest() {
         // Open record
         NavUtils.openRecordsScreen()
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         // Check new time set
@@ -90,6 +92,7 @@ class RecordActionsSplitTest : BaseUiTest() {
         // Check record limits
         NavUtils.openRecordsScreen()
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         repeat(4) { clickOnAdjustment("-30") }
@@ -106,6 +109,7 @@ class RecordActionsSplitTest : BaseUiTest() {
         testUtils.addRunningRecord(typeName = name, timeStarted = timeStartedTimestamp)
         NavUtils.openRunningRecordsScreen()
         longClickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name)))
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         repeat(4) { clickOnAdjustment("-30") }
@@ -149,6 +153,7 @@ class RecordActionsSplitTest : BaseUiTest() {
 
         // Check time split set to time started
         clickOnViewWithText(fullName)
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         timeStartedPreview = timeStartedTimestamp.formatDateTime()
         checkViewIsDisplayed(
@@ -197,8 +202,11 @@ class RecordActionsSplitTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.untracked_time_name)
 
         // Split untracked doesn't work
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         clickOnViewWithText(coreR.string.change_record_split)
+        clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         // Select activity
@@ -206,6 +214,7 @@ class RecordActionsSplitTest : BaseUiTest() {
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
 
         // Split
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         clickOnAdjustment("+1")
         clickOnViewWithText(coreR.string.change_record_split)
@@ -235,8 +244,10 @@ class RecordActionsSplitTest : BaseUiTest() {
         clickOnViewWithId(recordsR.id.btnRecordAdd)
 
         // Split untracked doesn't work
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         clickOnViewWithText(coreR.string.change_record_split)
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         // Select activity
@@ -244,6 +255,7 @@ class RecordActionsSplitTest : BaseUiTest() {
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
 
         // Split
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         clickOnViewWithText(coreR.string.change_record_split)
 
@@ -285,6 +297,7 @@ class RecordActionsSplitTest : BaseUiTest() {
         clickOnViewWithText("-30")
 
         // Check time split set to time started
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         timeStartedPreview = currentTime.formatDateTime()
         checkViewIsDisplayed(

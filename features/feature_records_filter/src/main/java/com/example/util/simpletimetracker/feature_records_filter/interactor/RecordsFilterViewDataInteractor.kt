@@ -227,7 +227,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             selectedRecordsCount = mapper.mapRecordsCount(
                 extra = extra,
                 count = count,
-                filterSelected = filterSelected
+                filterSelected = filterSelected,
             ),
             showListButtonIsVisible = filterSelected,
             recordsViewData = viewData,

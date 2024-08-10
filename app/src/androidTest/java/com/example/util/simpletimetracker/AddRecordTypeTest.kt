@@ -176,6 +176,7 @@ class AddRecordTypeTest : BaseUiTest() {
     @Test
     fun addRecordTypeEmpty() {
         tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
+        closeSoftKeyboard()
 
         // Goal time is disabled
         clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)

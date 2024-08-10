@@ -39,7 +39,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
     fun mapRecordsCount(
         extra: RecordsFilterParams,
         count: Int,
-        filterSelected: Boolean
+        filterSelected: Boolean,
     ): String {
         if (!filterSelected) return extra.title
 

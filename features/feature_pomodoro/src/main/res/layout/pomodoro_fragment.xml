@@ -204,7 +204,7 @@
         android:layout_height="54dp"
         android:layout_marginHorizontal="20dp"
         android:foreground="?selectableItemBackground"
-        app:cardCornerRadius="100dp"
+        app:cardCornerRadius="27dp"
         app:layout_constraintBottom_toBottomOf="@id/btnPomodoroStart"
         app:layout_constraintEnd_toStartOf="@id/btnPomodoroStart"
         app:layout_constraintHorizontal_bias="1"
@@ -214,7 +214,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:scaleType="center"
             android:tint="?appContrastColor"
             app:srcCompat="@drawable/button_restart" />
 
@@ -227,7 +227,7 @@
         android:layout_height="64dp"
         android:layout_marginBottom="64dp"
         android:foreground="?selectableItemBackground"
-        app:cardCornerRadius="100dp"
+        app:cardCornerRadius="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -236,7 +236,7 @@
             android:id="@+id/ivPomodoroButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="12dp"
+            android:scaleType="center"
             android:tint="?appContrastColor"
             app:srcCompat="@drawable/button_play" />
 
@@ -249,7 +249,7 @@
         android:layout_height="54dp"
         android:layout_marginHorizontal="20dp"
         android:foreground="?selectableItemBackground"
-        app:cardCornerRadius="100dp"
+        app:cardCornerRadius="27dp"
         app:layout_constraintBottom_toBottomOf="@id/btnPomodoroStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
@@ -259,7 +259,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:scaleType="center"
             android:tint="?appContrastColor"
             app:srcCompat="@drawable/button_next" />
 

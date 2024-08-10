@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker
 
 import android.view.View
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -24,6 +25,7 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.scrollRecyclerInPagerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
@@ -68,8 +70,10 @@ class GoalsDaysOfWeek : BaseUiTest() {
 
         // Check
         tryAction { longClickOnView(withText(name)) }
+        onView(withText(R.string.change_record_type_goal_time_hint)).perform(nestedScrollTo())
         clickOnViewWithText(R.string.change_record_type_goal_time_hint)
 
+        onView(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalSession)).perform(nestedScrollTo())
         checkString(
             changeRecordTypeR.id.layoutChangeRecordTypeGoalSession,
             withText("1$secondString"),
@@ -81,6 +85,7 @@ class GoalsDaysOfWeek : BaseUiTest() {
             ::checkViewDoesNotExist,
         )
 
+        onView(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalDaily)).perform(nestedScrollTo())
         checkString(
             changeRecordTypeR.id.layoutChangeRecordTypeGoalDaily,
             withText("1$secondString"),
@@ -92,6 +97,7 @@ class GoalsDaysOfWeek : BaseUiTest() {
             ::checkViewIsDisplayed,
         )
 
+        onView(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalWeekly)).perform(nestedScrollTo())
         checkString(
             changeRecordTypeR.id.layoutChangeRecordTypeGoalWeekly,
             withText("1$secondString"),
@@ -103,6 +109,7 @@ class GoalsDaysOfWeek : BaseUiTest() {
             ::checkViewDoesNotExist,
         )
 
+        onView(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalMonthly)).perform(nestedScrollTo())
         checkString(
             changeRecordTypeR.id.layoutChangeRecordTypeGoalMonthly,
             withText("1$secondString"),
@@ -125,6 +132,7 @@ class GoalsDaysOfWeek : BaseUiTest() {
         tryAction { longClickOnView(withText(name)) }
 
         // No days by default
+        onView(withText(R.string.change_record_type_goal_time_hint)).perform(nestedScrollTo())
         clickOnViewWithText(R.string.change_record_type_goal_time_hint)
         checkViewDoesNotExist(withText(R.string.day_of_week_sunday))
 
@@ -198,6 +206,7 @@ class GoalsDaysOfWeek : BaseUiTest() {
 
         // Change days
         tryAction { longClickOnView(withText(name1)) }
+        onView(withText(R.string.change_record_type_goal_time_hint)).perform(nestedScrollTo())
         clickOnViewWithText(R.string.change_record_type_goal_time_hint)
         clickOnView(withText(R.string.day_of_week_monday))
         clickOnView(withText(R.string.day_of_week_wednesday))
@@ -206,6 +215,7 @@ class GoalsDaysOfWeek : BaseUiTest() {
 
         // Days are saved
         tryAction { longClickOnView(withText(name1)) }
+        onView(withText(R.string.change_record_type_goal_time_hint)).perform(nestedScrollTo())
         clickOnViewWithText(R.string.change_record_type_goal_time_hint)
         checkTypeDay(stringResId = R.string.day_of_week_sunday, colorResId = R.color.colorActive)
         checkTypeDay(stringResId = R.string.day_of_week_monday, colorResId = R.color.colorInactive)
@@ -218,6 +228,7 @@ class GoalsDaysOfWeek : BaseUiTest() {
         pressBack()
 
         tryAction { longClickOnView(withText(name2)) }
+        onView(withText(R.string.change_record_type_goal_time_hint)).perform(nestedScrollTo())
         clickOnViewWithText(R.string.change_record_type_goal_time_hint)
         daysResIdList.forEach { checkTypeDay(stringResId = it, colorResId = R.color.colorActive) }
     }

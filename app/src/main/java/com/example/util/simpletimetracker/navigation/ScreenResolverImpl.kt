@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.navigation
 
 import android.view.View
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.FragmentNavigator
 import com.example.util.simpletimetracker.BuildConfig
@@ -24,13 +25,26 @@ class ScreenResolverImpl @Inject constructor(
                 navController?.navigate(
                     it.navId,
                     it.bundleCreator.createBundle(data),
-                    null,
+                    getBuilderWithAdditionalNavOptions(),
                     navExtras,
                 )
             }
             ?: run {
                 if (BuildConfig.DEBUG) error("Navigation error, unknown screen data: $data")
             }
+    }
+
+    private fun getBuilderWithAdditionalNavOptions(): NavOptions? {
+        return if (ScreenResolver.disableAnimationsForTest) {
+            NavOptions.Builder()
+                .setEnterAnim(0)
+                .setExitAnim(0)
+                .setPopEnterAnim(0)
+                .setPopExitAnim(0)
+                .build()
+        } else {
+            null
+        }
     }
 
     private fun toNavExtras(sharedElements: Map<Any, String>?): Navigator.Extras {

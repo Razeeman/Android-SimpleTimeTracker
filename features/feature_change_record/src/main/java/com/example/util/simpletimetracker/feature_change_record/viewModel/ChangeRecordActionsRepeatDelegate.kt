@@ -12,7 +12,7 @@ import javax.inject.Inject
 class ChangeRecordActionsRepeatDelegate @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val recordActionRepeatMediator: RecordActionRepeatMediator,
-): ChangeRecordActionsSubDelegate<ChangeRecordActionsRepeatDelegate.Parent> {
+) : ChangeRecordActionsSubDelegate<ChangeRecordActionsRepeatDelegate.Parent> {
 
     private var parent: Parent? = null
     private var viewData: List<ViewHolderType> = emptyList()

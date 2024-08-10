@@ -23,6 +23,7 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.getMillis
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
@@ -91,6 +92,7 @@ class RecordActionsAdjustTest : BaseUiTest() {
         adjust(isStart = true, buttonText = "-30")
         adjust(isStart = false, buttonText = "+30")
         adjust(isStart = false, buttonText = "+30")
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_adjust))
         clickOnViewWithText(coreR.string.change_record_adjust)
@@ -176,6 +178,7 @@ class RecordActionsAdjustTest : BaseUiTest() {
         adjust(isStart = false, buttonText = "+1")
         clickOnViewWithText(coreR.string.change_record_type_field)
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name2))
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_adjust))
         clickOnViewWithText(coreR.string.change_record_adjust)
@@ -240,6 +243,7 @@ class RecordActionsAdjustTest : BaseUiTest() {
             allOf(isDescendantOfA(withId(baseR.id.viewRunningRecordItem)), withText(name2), isCompletelyDisplayed()),
         )
         clickOnViewWithText("-5")
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_adjust))
         clickOnViewWithText(coreR.string.change_record_adjust)
@@ -292,6 +296,7 @@ class RecordActionsAdjustTest : BaseUiTest() {
         adjust(isStart = true, buttonText = "-30")
         adjust(isStart = false, buttonText = "+30")
         adjust(isStart = false, buttonText = "+30")
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_adjust))
         clickOnViewWithText(coreR.string.change_record_adjust)
@@ -391,6 +396,7 @@ class RecordActionsAdjustTest : BaseUiTest() {
         }
 
         // Deselect
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         scrollToView(name5)

@@ -10,4 +10,8 @@ interface ScreenResolver {
         data: ScreenParams,
         sharedElements: Map<Any, String>?,
     )
+
+    companion object {
+        var disableAnimationsForTest: Boolean = false
+    }
 }

@@ -329,6 +329,7 @@ class AddRecordTagTest : BaseUiTest() {
 
         NavUtils.openRunningRecordsScreen()
         longClickOnView(withText(typeName1))
+        Thread.sleep(1000)
         clickOnViewWithText(coreR.string.change_record_type_icon_image_hint)
         clickOnRecyclerItem(changeRecordTagR.id.rvIconSelection, withTag(newIcon))
         pressBack()

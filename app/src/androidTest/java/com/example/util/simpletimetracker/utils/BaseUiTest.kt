@@ -16,12 +16,12 @@ import com.example.util.simpletimetracker.core.mapper.IconImageMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.utils.CountingIdlingResourceProvider
 import com.example.util.simpletimetracker.core.utils.TestUtils
-import com.example.util.simpletimetracker.domain.interactor.ComplexRuleInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.repo.ComplexRuleRepo
 import com.example.util.simpletimetracker.feature_records.view.RecordsContainerFragment
 import com.example.util.simpletimetracker.feature_statistics.view.StatisticsContainerFragment
 import com.example.util.simpletimetracker.feature_views.pieChart.PieChartView
+import com.example.util.simpletimetracker.navigation.ScreenResolver
 import com.example.util.simpletimetracker.ui.MainActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -154,12 +154,14 @@ open class BaseUiTest {
         RecordsContainerFragment.viewPagerSmoothScroll = false
         StatisticsContainerFragment.viewPagerSmoothScroll = false
         PieChartView.disableAnimationsForTest = true
+        ScreenResolver.disableAnimationsForTest = true
     }
 
     private fun enableAnimations() {
         RecordsContainerFragment.viewPagerSmoothScroll = true
         StatisticsContainerFragment.viewPagerSmoothScroll = true
         PieChartView.disableAnimationsForTest = false
+        ScreenResolver.disableAnimationsForTest = false
     }
 
     private fun registerIdlingResource() {

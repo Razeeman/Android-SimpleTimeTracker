@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.recyclerItemCount
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
@@ -70,6 +71,7 @@ class RecordActionsRepeatTest : BaseUiTest() {
 
         // Repeat
         clickOnViewWithText(fullName)
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_repeat))
         clickOnViewWithText(coreR.string.change_record_repeat)
@@ -116,10 +118,12 @@ class RecordActionsRepeatTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.untracked_time_name)
 
         // Repeat untracked doesn't work
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_repeat))
         clickOnViewWithText(coreR.string.change_record_repeat)
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         // Select activity
@@ -127,6 +131,7 @@ class RecordActionsRepeatTest : BaseUiTest() {
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
 
         // Repeat
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_repeat))
         clickOnViewWithText(coreR.string.change_record_repeat)
@@ -175,10 +180,12 @@ class RecordActionsRepeatTest : BaseUiTest() {
         clickOnViewWithId(recordsR.id.btnRecordAdd)
 
         // Repeat untracked doesn't work
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_repeat))
         clickOnViewWithText(coreR.string.change_record_repeat)
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         // Select activity
@@ -186,6 +193,7 @@ class RecordActionsRepeatTest : BaseUiTest() {
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
 
         // Repeat
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_repeat))
         clickOnViewWithText(coreR.string.change_record_repeat)
@@ -241,6 +249,7 @@ class RecordActionsRepeatTest : BaseUiTest() {
         }
 
         // Try continue record
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         checkViewDoesNotExist(withText(coreR.string.change_record_repeat))
     }
@@ -258,6 +267,7 @@ class RecordActionsRepeatTest : BaseUiTest() {
         clickOnViewWithId(recordsR.id.btnRecordAdd)
         clickOnViewWithText(coreR.string.change_record_type_field)
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name))
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_repeat))
         clickOnViewWithText(coreR.string.change_record_repeat)
@@ -295,6 +305,7 @@ class RecordActionsRepeatTest : BaseUiTest() {
         clickOnViewWithId(recordsR.id.btnRecordAdd)
         clickOnViewWithText(coreR.string.change_record_type_field)
         clickOnRecyclerItem(changeRecordR.id.rvChangeRecordType, withText(name2))
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_repeat))
         clickOnViewWithText(coreR.string.change_record_repeat)

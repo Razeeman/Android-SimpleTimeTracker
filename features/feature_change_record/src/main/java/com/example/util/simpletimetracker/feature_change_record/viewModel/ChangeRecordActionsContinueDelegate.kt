@@ -14,7 +14,7 @@ class ChangeRecordActionsContinueDelegate @Inject constructor(
     private val router: Router,
     private val resourceRepo: ResourceRepo,
     private val recordActionContinueMediator: RecordActionContinueMediator,
-): ChangeRecordActionsSubDelegate<ChangeRecordActionsContinueDelegate.Parent> {
+) : ChangeRecordActionsSubDelegate<ChangeRecordActionsContinueDelegate.Parent> {
 
     private var parent: Parent? = null
     private var viewData: List<ViewHolderType> = emptyList()

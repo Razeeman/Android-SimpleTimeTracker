@@ -37,7 +37,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api-level: [21, 28, 29]
+        api-level: [21, 23, 29, 32, 34]
 
     steps:
       - name: Check out code
@@ -55,6 +55,9 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -62,21 +65,8 @@ jobs:
           target: google_apis
           arch: x86_64
           disable-animations: true
-          script: ./gradlew app:connectedPlayDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=com.example.util.simpletimetracker.utils.Widget --stacktrace
-
-      # For some reason widget tests make other tests to fail, so run them separately.
-      - name: Run widget tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          target: google_apis
-          arch: x86_64
-          disable-animations: true
-          script: ./gradlew app:connectedPlayDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.annotation=com.example.util.simpletimetracker.utils.Widget --stacktrace
-
-      - name: Upload tests results
-        if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: android_tests_results
-          path: app/build/reports/androidTests/connected
+          script: |
+            adb shell settings put global window_animation_scale 0
+            adb shell settings put global transition_animation_scale 0
+            adb shell settings put global animator_duration_scale 0
+            ./gradlew app:connectedPlayDebugAndroidTest --stacktrace

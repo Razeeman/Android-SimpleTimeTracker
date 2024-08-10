@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.getMillis
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.nthChildOf
 import com.example.util.simpletimetracker.utils.recyclerItemCount
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
@@ -57,6 +58,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
                 allOf(withId(baseR.id.viewRunningRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed()),
             )
         }
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         checkViewDoesNotExist(withText(coreR.string.change_record_duplicate))
         pressBack()
@@ -67,6 +69,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         clickOnView(
             allOf(withId(baseR.id.viewRecordItem), hasDescendant(withText(name)), isCompletelyDisplayed()),
         )
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_duplicate))
         checkViewIsDisplayed(withText(coreR.string.change_record_duplicate))
@@ -115,6 +118,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
 
         // Duplicate
         clickOnViewWithText(fullName)
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_duplicate))
         clickOnViewWithText(coreR.string.change_record_duplicate)
@@ -170,10 +174,12 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.untracked_time_name)
 
         // Duplicate untracked doesn't work
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_duplicate))
         clickOnViewWithText(coreR.string.change_record_duplicate)
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         // Select activity
@@ -185,6 +191,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_comment_field)
 
         // Duplicate
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_duplicate))
         clickOnViewWithText(coreR.string.change_record_duplicate)
@@ -232,6 +239,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_duplicate))
         clickOnViewWithText(coreR.string.change_record_duplicate)
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
 
         // Select activity
@@ -243,6 +251,7 @@ class RecordActionsDuplicateTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_comment_field)
 
         // Duplicate
+        onView(withText(coreR.string.change_record_actions_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_actions_hint)
         scrollRecyclerToView(changeRecordR.id.rvChangeRecordAction, withText(coreR.string.change_record_duplicate))
         clickOnViewWithText(coreR.string.change_record_duplicate)
