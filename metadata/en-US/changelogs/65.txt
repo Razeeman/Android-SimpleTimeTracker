@@ -1,0 +1,4 @@
+- Improve app performance and memory usage
+- Add setting to switch between list and calendar from the records tab
+- Add complex rules available from Additional settings
+- General bug fixes and improvements
