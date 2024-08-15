@@ -164,11 +164,11 @@
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Дія</string>
-    <string name="change_complex_actions_hint">Буде застосовано до початкової діяльністї</string>
+    <string name="change_complex_actions_hint">Буде застосовано до початкової активності</string>
     <string name="change_complex_action_assign_tag">Призначити тег</string>
     <string name="change_complex_conditions_title">Умови</string>
-    <string name="change_complex_starting_activity">Стартова діяльність</string>
-    <string name="change_complex_previous_activity">Попередня діяльність</string>
+    <string name="change_complex_starting_activity">Початкова активність</string>
+    <string name="change_complex_previous_activity">Попередня активність</string>
     <string name="change_complex_rule_removed">Правило видалено</string>
     <string name="change_complex_rule_choose_action">Виберіть дію</string>
     <string name="change_complex_rule_choose_condition">Виберіть умови</string>
@@ -348,7 +348,7 @@
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
 <b>Action</b> - \"%s\".<br/>
-<b>Action</b> - \"%s\" з додатками: \"%s\", \"%s\", \"%s\" і \"%s\", \"%s\" у форматі \"рррр-ММ-дд ГГ:хх:сс\" або часову позначку UTC.<br/>
+<b>Action</b> - \"%s\" з додатками: \"%s\", \"%s\", \"%s\" і \"%s\", \"%s\" у форматі \"рррр-ММ-дд ГГ:хх:сс\" або у форматі часової позначки UTC.<br/>
     ]]></string>
     <string name="settings_automated_tracking_send_events">Надсилати події</string>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
