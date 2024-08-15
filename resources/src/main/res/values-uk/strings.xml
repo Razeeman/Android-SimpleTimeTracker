@@ -164,10 +164,10 @@
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Дія</string>
-    <string name="change_complex_actions_hint">Буде застосовано до початкової активності</string>
+    <string name="change_complex_actions_hint">Буде застосовано до активності, що починається</string>
     <string name="change_complex_action_assign_tag">Призначити тег</string>
     <string name="change_complex_conditions_title">Умови</string>
-    <string name="change_complex_starting_activity">Початкова активність</string>
+    <string name="change_complex_starting_activity">Активність, що починається</string>
     <string name="change_complex_previous_activity">Попередня активність</string>
     <string name="change_complex_rule_removed">Правило видалено</string>
     <string name="change_complex_rule_choose_action">Виберіть дію</string>
