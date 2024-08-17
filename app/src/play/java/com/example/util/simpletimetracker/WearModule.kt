@@ -12,5 +12,5 @@ import dagger.hilt.components.SingletonComponent
 interface WearModule {
 
     @Binds
-    fun WearInteractorImpl.bindWearInteractor(): WearInteractor
+    fun bindWearInteractor(impl: WearInteractorImpl): WearInteractor
 }

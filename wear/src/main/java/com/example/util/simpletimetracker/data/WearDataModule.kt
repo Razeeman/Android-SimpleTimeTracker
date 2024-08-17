@@ -22,7 +22,7 @@ interface WearDataModule {
 
     @Binds
     @Singleton
-    fun WearPrefsRepoImpl.bindPrefsRepo(): WearPrefsRepo
+    fun bindPrefsRepo(impl: WearPrefsRepoImpl): WearPrefsRepo
 
     companion object {
         private const val PREFS_NAME = "prefs_simple_time_tracker_wear"

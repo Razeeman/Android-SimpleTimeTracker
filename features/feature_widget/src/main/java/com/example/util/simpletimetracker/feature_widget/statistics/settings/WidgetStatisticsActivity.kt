@@ -7,7 +7,8 @@ import android.os.Bundle
 import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.core.provider.ContextProvider
-import com.example.util.simpletimetracker.feature_widget.R
+import com.example.util.simpletimetracker.core.utils.applySystemBarInsets
+import com.example.util.simpletimetracker.feature_widget.databinding.WidgetStatisticsActivityBinding
 import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -33,7 +34,9 @@ class WidgetStatisticsActivity : BaseActivity() {
         setResult(RESULT_CANCELED)
 
         themeManager.setTheme(this)
-        setContentView(R.layout.widget_statistics_activity)
+        val binding = WidgetStatisticsActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.root.applySystemBarInsets()
         router.bind(this)
     }
 

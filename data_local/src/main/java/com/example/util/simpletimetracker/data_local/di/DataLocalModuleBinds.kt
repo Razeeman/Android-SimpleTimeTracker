@@ -54,85 +54,85 @@ interface DataLocalModuleBinds {
 
     @Binds
     @Singleton
-    fun RecordRepoImpl.bindRecordRepo(): RecordRepo
+    fun bindRecordRepo(impl: RecordRepoImpl): RecordRepo
 
     @Binds
     @Singleton
-    fun RecordTypeRepoImpl.bindRecordTypeRepo(): RecordTypeRepo
+    fun bindRecordTypeRepo(impl: RecordTypeRepoImpl): RecordTypeRepo
 
     @Binds
     @Singleton
-    fun RunningRecordRepoImpl.bindRunningRecordRepo(): RunningRecordRepo
+    fun bindRunningRecordRepo(impl: RunningRecordRepoImpl): RunningRecordRepo
 
     @Binds
     @Singleton
-    fun PrefsRepoImpl.bindPrefsRepo(): PrefsRepo
+    fun bindPrefsRepo(impl: PrefsRepoImpl): PrefsRepo
 
     @Binds
     @Singleton
-    fun BackupRepoImpl.bindBackupRepo(): BackupRepo
+    fun bindBackupRepo(impl: BackupRepoImpl): BackupRepo
 
     @Binds
     @Singleton
-    fun CsvRepoImpl.bindCsvRepo(): CsvRepo
+    fun bindCsvRepo(impl: CsvRepoImpl): CsvRepo
 
     @Binds
     @Singleton
-    fun IcsRepoImpl.bindIcsRepo(): IcsRepo
+    fun bindIcsRepo(impl: IcsRepoImpl): IcsRepo
 
     @Binds
     @Singleton
-    fun SharingRepoImpl.bindSharingRepo(): SharingRepo
+    fun bindSharingRepo(impl: SharingRepoImpl): SharingRepo
 
     @Binds
     @Singleton
-    fun CategoryRepoImpl.bindCategoryRepo(): CategoryRepo
+    fun bindCategoryRepo(impl: CategoryRepoImpl): CategoryRepo
 
     @Binds
     @Singleton
-    fun RecordTagRepoImpl.bindRecordTagRepo(): RecordTagRepo
+    fun bindRecordTagRepo(impl: RecordTagRepoImpl): RecordTagRepo
 
     @Binds
     @Singleton
-    fun RecordTypeCategoryRepoImpl.bindRecordTypeCategoryRepo(): RecordTypeCategoryRepo
+    fun bindRecordTypeCategoryRepo(impl: RecordTypeCategoryRepoImpl): RecordTypeCategoryRepo
 
     @Binds
     @Singleton
-    fun RecordTypeToTagRepoImpl.bindRecordTypeToTagRepo(): RecordTypeToTagRepo
+    fun bindRecordTypeToTagRepo(impl: RecordTypeToTagRepoImpl): RecordTypeToTagRepo
 
     @Binds
     @Singleton
-    fun RecordTypeToDefaultTagRepoImpl.bindRecordTypeToDefaultTagRepo(): RecordTypeToDefaultTagRepo
+    fun bindRecordTypeToDefaultTagRepo(impl: RecordTypeToDefaultTagRepoImpl): RecordTypeToDefaultTagRepo
 
     @Binds
     @Singleton
-    fun RecordToRecordTagRepoImpl.bindRecordToRecordTagRepo(): RecordToRecordTagRepo
+    fun bindRecordToRecordTagRepo(impl: RecordToRecordTagRepoImpl): RecordToRecordTagRepo
 
     @Binds
     @Singleton
-    fun RunningRecordToRecordTagRepoImpl.bindRunningRecordToRecordTagRepo(): RunningRecordToRecordTagRepo
+    fun bindRunningRecordToRecordTagRepo(impl: RunningRecordToRecordTagRepoImpl): RunningRecordToRecordTagRepo
 
     @Binds
     @Singleton
-    fun ActivityFilterRepoImpl.bindActivityFilterRepo(): ActivityFilterRepo
+    fun bindActivityFilterRepo(impl: ActivityFilterRepoImpl): ActivityFilterRepo
 
     @Binds
     @Singleton
-    fun FavouriteCommentRepoImpl.bindFavouriteCommentRepo(): FavouriteCommentRepo
+    fun bindFavouriteCommentRepo(impl: FavouriteCommentRepoImpl): FavouriteCommentRepo
 
     @Binds
     @Singleton
-    fun RecordTypeGoalRepoImpl.bindRecordTypeGoalRepo(): RecordTypeGoalRepo
+    fun bindRecordTypeGoalRepo(impl: RecordTypeGoalRepoImpl): RecordTypeGoalRepo
 
     @Binds
     @Singleton
-    fun DataEditRepoImpl.bindDataEditRepo(): DataEditRepo
+    fun bindDataEditRepo(impl: DataEditRepoImpl): DataEditRepo
 
     @Binds
     @Singleton
-    fun FavouriteIconRepoImpl.bindFavouriteIconRepo(): FavouriteIconRepo
+    fun bindFavouriteIconRepo(impl: FavouriteIconRepoImpl): FavouriteIconRepo
 
     @Binds
     @Singleton
-    fun ComplexRuleRepoImpl.bindComplexRuleRepo(): ComplexRuleRepo
+    fun bindComplexRuleRepo(impl: ComplexRuleRepoImpl): ComplexRuleRepo
 }

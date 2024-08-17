@@ -37,6 +37,7 @@ dependencies {
     api(Deps.Ktx.liveDataCore)
     api(Deps.Ktx.liveData)
     api(Deps.Ktx.viewModel)
+    api(Deps.Ktx.activity)
     api(Deps.UiTest.espressoIdling)
 
     testImplementation(Deps.Test.junit)

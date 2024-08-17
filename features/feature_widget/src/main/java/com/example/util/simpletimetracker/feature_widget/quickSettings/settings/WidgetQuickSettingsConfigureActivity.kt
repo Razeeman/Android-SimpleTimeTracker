@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.core.provider.ContextProvider
+import com.example.util.simpletimetracker.core.utils.applySystemBarInsets
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_widget.databinding.WidgetQuickSettingsConfigureActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,6 +41,7 @@ class WidgetQuickSettingsConfigureActivity : BaseActivity() {
         themeManager.setTheme(this)
         val binding = WidgetQuickSettingsConfigureActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySystemBarInsets()
 
         // Ux
         binding.layoutWidgetQuickSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)

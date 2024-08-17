@@ -28,6 +28,7 @@ inline fun Fragment.setSharedTransitions(
     transitionName: String,
     sharedView: View,
 ) {
+    val context = this.context ?: return
     if (BuildVersions.isLollipopOrHigher() && additionalCondition.invoke()) {
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)

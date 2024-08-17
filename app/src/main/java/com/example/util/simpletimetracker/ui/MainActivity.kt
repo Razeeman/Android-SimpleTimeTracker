@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.core.provider.ContextProvider
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
+import com.example.util.simpletimetracker.core.utils.applySystemBarInsets
 import com.example.util.simpletimetracker.databinding.MainActivityBinding
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.Router
@@ -50,6 +51,7 @@ class MainActivity : BaseActivity() {
         themeManager.setTheme(this)
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySystemBarInsets()
         router.bind(this)
         router.onCreate(this)
     }

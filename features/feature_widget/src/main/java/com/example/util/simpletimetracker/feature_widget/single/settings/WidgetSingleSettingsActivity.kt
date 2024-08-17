@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.core.provider.ContextProvider
+import com.example.util.simpletimetracker.core.utils.applySystemBarInsets
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
@@ -57,6 +58,7 @@ class WidgetSingleSettingsActivity : BaseActivity() {
         themeManager.setTheme(this)
         val binding = WidgetSingleConfigureActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySystemBarInsets()
 
         binding.rvWidgetSingleConfigureRecordType.apply {
             layoutManager = FlexboxLayoutManager(context).apply {

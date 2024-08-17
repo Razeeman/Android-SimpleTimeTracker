@@ -15,7 +15,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), Throttler {
 
     abstract val inflater: (LayoutInflater, ViewGroup?, Boolean) -> T
     override var throttleJob: Job? = null
-    protected open val binding: T get() = _binding!!
+    protected val binding: T get() = _binding!!
     private var _binding: T? = null
     private var preDrawListeners: MutableList<OnPreDrawListener> = mutableListOf()
     private var initialized: Boolean = false

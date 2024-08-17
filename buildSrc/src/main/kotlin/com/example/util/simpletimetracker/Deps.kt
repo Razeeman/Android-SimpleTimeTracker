@@ -64,6 +64,8 @@ object Deps {
             "androidx.navigation:navigation-fragment-ktx:${Versions.navigationKtx}"
         const val navigationUi =
             "androidx.navigation:navigation-ui-ktx:${Versions.navigationKtx}"
+        const val activity =
+            "androidx.activity:activity-ktx:${Versions.activityKtx}"
     }
 
     object Compose {

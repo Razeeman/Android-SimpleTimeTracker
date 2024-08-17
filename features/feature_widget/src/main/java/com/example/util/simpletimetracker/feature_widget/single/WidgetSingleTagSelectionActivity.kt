@@ -9,7 +9,9 @@ import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.core.provider.ContextProvider
 import com.example.util.simpletimetracker.core.utils.activityArgumentDelegate
+import com.example.util.simpletimetracker.core.utils.applySystemBarInsets
 import com.example.util.simpletimetracker.feature_widget.R
+import com.example.util.simpletimetracker.feature_widget.databinding.WidgetTagSelectionActivityBinding
 import com.example.util.simpletimetracker.navigation.ScreenFactory
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +40,9 @@ class WidgetSingleTagSelectionActivity :
         contextProvider.attach(this)
 
         themeManager.setTheme(this)
-        setContentView(R.layout.widget_tag_selection_activity)
+        val binding = WidgetTagSelectionActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.root.applySystemBarInsets()
 
         screenFactory.getFragment(params)?.let {
             supportFragmentManager.commit {

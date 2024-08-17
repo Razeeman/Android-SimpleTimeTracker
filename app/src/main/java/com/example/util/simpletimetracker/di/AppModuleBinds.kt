@@ -22,21 +22,21 @@ interface AppModuleBinds {
 
     @Binds
     @Singleton
-    fun AppColorMapperImpl.bindAppColorMapper(): AppColorMapper
+    fun bindAppColorMapper(impl: AppColorMapperImpl): AppColorMapper
 
     @Binds
     @Singleton
-    fun ApplicationDataProviderImpl.bindApplicationDataProvider(): ApplicationDataProvider
+    fun bindApplicationDataProvider(impl: ApplicationDataProviderImpl): ApplicationDataProvider
 
     @Binds
     @Singleton
-    fun GetUntrackedRecordsInteractorImpl.bindGetUntrackedRecordsInteractor(): GetUntrackedRecordsInteractor
+    fun bindGetUntrackedRecordsInteractor(impl: GetUntrackedRecordsInteractorImpl): GetUntrackedRecordsInteractor
 
     @Binds
     @Singleton
-    fun IsSystemInDarkModeInteractorImpl.bindIsSystemInDarkModeInteractor(): IsSystemInDarkModeInteractor
+    fun bindIsSystemInDarkModeInteractor(impl: IsSystemInDarkModeInteractorImpl): IsSystemInDarkModeInteractor
 
     @Binds
     @Singleton
-    fun GetCurrentDayInteractorImpl.bindGetCurrentDayInteractor(): GetCurrentDayInteractor
+    fun bindGetCurrentDayInteractor(impl: GetCurrentDayInteractorImpl): GetCurrentDayInteractor
 }

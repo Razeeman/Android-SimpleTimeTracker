@@ -35,40 +35,40 @@ import javax.inject.Singleton
 interface NotificationModule {
 
     @Binds
-    fun NotificationTypeInteractorImpl.bindNotificationTypeInteractor(): NotificationTypeInteractor
+    fun bindNotificationTypeInteractor(impl: NotificationTypeInteractorImpl): NotificationTypeInteractor
 
     @Binds
-    fun NotificationInactivityInteractorImpl.bindNotificationInactivityInteractor(): NotificationInactivityInteractor
+    fun bindNotificationInactivityInteractor(impl: NotificationInactivityInteractorImpl): NotificationInactivityInteractor
 
     @Binds
-    fun NotificationActivityInteractorImpl.bindNotificationActivityInteractor(): NotificationActivityInteractor
+    fun bindNotificationActivityInteractor(impl: NotificationActivityInteractorImpl): NotificationActivityInteractor
 
     @Binds
-    fun NotificationGoalTimeInteractorImpl.bindNotificationGoalTimeInteractor(): NotificationGoalTimeInteractor
+    fun bindNotificationGoalTimeInteractor(impl: NotificationGoalTimeInteractorImpl): NotificationGoalTimeInteractor
 
     @Binds
-    fun NotificationGoalCountInteractorImpl.bindNotificationGoalCountInteractor(): NotificationGoalCountInteractor
+    fun bindNotificationGoalCountInteractor(impl: NotificationGoalCountInteractorImpl): NotificationGoalCountInteractor
 
     @Binds
-    fun NotificationGoalRangeEndInteractorImpl.bindNotificationGoalRangeEndInteractor(): NotificationGoalRangeEndInteractor
+    fun bindNotificationGoalRangeEndInteractor(impl: NotificationGoalRangeEndInteractorImpl): NotificationGoalRangeEndInteractor
 
     @Binds
-    fun ActivityStartedStoppedBroadcastInteractorImpl.bindActivityStartedStoppedBroadcastInteractorImpl(): ActivityStartedStoppedBroadcastInteractor
+    fun bindActivityStartedStoppedBroadcastInteractorImpl(impl: ActivityStartedStoppedBroadcastInteractorImpl): ActivityStartedStoppedBroadcastInteractor
 
     @Binds
-    fun AutomaticBackupInteractorImpl.bindAutomaticBackupInteractor(): AutomaticBackupInteractor
+    fun bindAutomaticBackupInteractor(impl: AutomaticBackupInteractorImpl): AutomaticBackupInteractor
 
     @Binds
-    fun PomodoroCycleNotificationInteractorImpl.bindPomodoroCycleNotificationInteractor(): PomodoroCycleNotificationInteractor
+    fun bindPomodoroCycleNotificationInteractor(impl: PomodoroCycleNotificationInteractorImpl): PomodoroCycleNotificationInteractor
 
     @Binds
-    fun AutomaticExportInteractorImpl.bindAutomaticExportInteractor(): AutomaticExportInteractor
-
-    @Binds
-    @Singleton
-    fun AutomaticBackupRepoImpl.bindAutomaticBackupRepo(): AutomaticBackupRepo
+    fun bindAutomaticExportInteractor(impl: AutomaticExportInteractorImpl): AutomaticExportInteractor
 
     @Binds
     @Singleton
-    fun AutomaticExportRepoImpl.bindAutomaticExportRepo(): AutomaticExportRepo
+    fun bindAutomaticBackupRepo(impl: AutomaticBackupRepoImpl): AutomaticBackupRepo
+
+    @Binds
+    @Singleton
+    fun bindAutomaticExportRepo(impl: AutomaticExportRepoImpl): AutomaticExportRepo
 }
