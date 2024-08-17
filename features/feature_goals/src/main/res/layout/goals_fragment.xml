@@ -4,5 +4,6 @@
     android:id="@+id/rvGoalsList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
     tools:itemCount="15"
     tools:listitem="@layout/item_statistics_goal_layout" />

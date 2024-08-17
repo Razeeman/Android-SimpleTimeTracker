@@ -9,11 +9,14 @@ import android.view.ViewTreeObserver.OnPreDrawListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.viewbinding.ViewBinding
+import com.example.util.simpletimetracker.core.utils.InsetConfiguration
+import com.example.util.simpletimetracker.core.utils.applyNavBarInsets
 import kotlinx.coroutines.Job
 
 abstract class BaseFragment<T : ViewBinding> : Fragment(), Throttler {
 
     abstract val inflater: (LayoutInflater, ViewGroup?, Boolean) -> T
+    abstract val insetConfiguration: InsetConfiguration
     override var throttleJob: Job? = null
     protected val binding: T get() = _binding!!
     private var _binding: T? = null
@@ -42,6 +45,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), Throttler {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (!initialized) {
+            initInsets()
             initUi()
             initUx()
         }
@@ -86,6 +90,17 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), Throttler {
         }
         preDrawListeners.add(listener)
         view?.viewTreeObserver?.addOnPreDrawListener(listener)
+    }
+
+    private fun initInsets() {
+        when (val config = insetConfiguration) {
+            is InsetConfiguration.DoNotApply -> {
+                // Do nothing
+            }
+            is InsetConfiguration.ApplyToView -> {
+                config.view().applyNavBarInsets()
+            }
+        }
     }
 
     inline fun <T> LiveData<T>.observe(

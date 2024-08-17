@@ -4,6 +4,7 @@
     android:id="@+id/rvWidgetUniversalRecordType"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
     android:paddingVertical="20dp"
     tools:itemCount="30"
     tools:listitem="@layout/item_record_type_layout" />

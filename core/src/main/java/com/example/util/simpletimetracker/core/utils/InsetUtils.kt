@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.example.util.simpletimetracker.core.utils
 
 import android.view.View
@@ -39,4 +41,9 @@ fun WindowInsetsCompat.getNavBarInsets(): Insets {
 
 fun WindowInsetsCompat.getSystemBarInsets(): Insets {
     return getInsets(WindowInsetsCompat.Type.systemBars())
+}
+
+sealed interface InsetConfiguration {
+    object DoNotApply : InsetConfiguration
+    data class ApplyToView(val view: () -> View) : InsetConfiguration
 }

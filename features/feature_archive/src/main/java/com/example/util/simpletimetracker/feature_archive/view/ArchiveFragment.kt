@@ -21,6 +21,7 @@ import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.util.simpletimetracker.feature_archive.databinding.ArchiveFragmentBinding as Binding
 import androidx.core.view.isVisible
+import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 
 @AndroidEntryPoint
 class ArchiveFragment :
@@ -30,6 +31,9 @@ class ArchiveFragment :
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
+
+    override val insetConfiguration: InsetConfiguration =
+        InsetConfiguration.ApplyToView { binding.rvArchiveList }
 
     private val viewModel: ArchiveViewModel by viewModels()
 

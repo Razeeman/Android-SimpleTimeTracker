@@ -41,6 +41,7 @@
         android:id="@+id/rvCategoriesList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dividerCategories"
         tools:listitem="@layout/item_category_layout" />

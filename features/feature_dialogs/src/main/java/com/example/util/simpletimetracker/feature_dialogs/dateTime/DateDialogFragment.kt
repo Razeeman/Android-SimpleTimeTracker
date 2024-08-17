@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.utils.BuildVersions
+import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.domain.extension.orZero
 import java.util.Calendar
 import com.example.util.simpletimetracker.feature_dialogs.databinding.DateDialogFragmentBinding as Binding
@@ -13,6 +14,9 @@ class DateDialogFragment : BaseFragment<Binding>() {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
+
+    override val insetConfiguration: InsetConfiguration =
+        InsetConfiguration.DoNotApply
 
     interface OnDateSetListener {
         fun onDateSet(year: Int, monthOfYear: Int, dayOfMonth: Int)

@@ -9,6 +9,7 @@ import androidx.viewbinding.ViewBinding
 import com.example.util.simpletimetracker.core.extension.allowDiskWrite
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.core.provider.ContextProvider
+import com.example.util.simpletimetracker.core.utils.applyStatusBarInsets
 import com.example.util.simpletimetracker.core.utils.applySystemBarInsets
 
 abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
@@ -31,7 +32,7 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
         themeManager.setTheme(this)
         _binding = inflater(layoutInflater)
         setContentView(binding.root)
-        binding.root.applySystemBarInsets()
+        binding.root.applyStatusBarInsets()
         initUi()
         initUx()
         initViewModel()
