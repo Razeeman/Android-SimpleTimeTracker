@@ -16,7 +16,7 @@ object Versions {
     const val room = "2.4.3"
     const val dagger = "2.52"
     const val viewpager2 = "1.0.0"
-    const val flexBox = "2.0.1"
+    const val flexBox = "3.0.0"
     const val services = "18.0.0"
     const val gson = "2.10.1"
     const val desugaring = "1.1.6"

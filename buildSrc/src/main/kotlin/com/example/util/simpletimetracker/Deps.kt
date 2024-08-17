@@ -33,7 +33,7 @@ object Deps {
         const val dagger =
             "com.google.dagger:hilt-android:${Versions.dagger}"
         const val flexBox =
-            "com.google.android:flexbox:${Versions.flexBox}"
+            "com.google.android.flexbox:flexbox:${Versions.flexBox}"
         const val services =
             "com.google.android.gms:play-services-wearable:${Versions.services}"
         const val gson =

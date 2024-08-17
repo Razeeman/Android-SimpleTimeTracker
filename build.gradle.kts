@@ -3,7 +3,7 @@
 buildscript {
     repositories {
         google()
-        jcenter() // jcenter will keep repos indefinitely and some repos wasn't moved yet (ex. flexbox)
+        mavenCentral()
         maven("https://plugins.gradle.org/m2/")
     }
     dependencies {
@@ -20,7 +20,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
