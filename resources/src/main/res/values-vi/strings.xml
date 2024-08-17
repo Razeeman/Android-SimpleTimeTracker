@@ -149,6 +149,9 @@
     <string name="change_record_type_categories_empty">Chưa thêm danh mục nào</string>
     <string name="change_record_type_goal_time_disabled">Đã tắt</string>
     <string name="change_record_type_goal_time_hint">Mục tiêu</string>
+    <string name="change_record_type_additional_hint">Thêm vào</string>
+    <string name="change_record_type_instant">Lập tức</string>
+    <string name="change_record_type_instant_hint">Hoạt động tức thì không có thời lượng và được theo dõi ngay lập tức khi nhấp chuột.</string>
     <string name="change_record_type_goal_time_description">Thông báo sẽ được hiển thị sau khi đạt được mục tiêu</string>
     <string name="change_record_type_session_goal_time">Phiên</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>

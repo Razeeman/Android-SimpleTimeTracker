@@ -8,13 +8,14 @@ import com.example.util.simpletimetracker.core.delegates.colorSelection.ColorSel
 import com.example.util.simpletimetracker.core.delegates.colorSelection.ColorSelectionViewModelDelegateImpl
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewModelDelegate.IconSelectionViewModelDelegate
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewModelDelegate.IconSelectionViewModelDelegateImpl
-import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsDetailNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -34,6 +35,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegateImpl
 import com.example.util.simpletimetracker.feature_change_record_type.interactor.ChangeRecordTypeViewDataInteractor
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeAdditionalState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeCategoriesViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
 import com.example.util.simpletimetracker.navigation.Router
@@ -54,6 +56,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val viewDataInteractor: ChangeRecordTypeViewDataInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
+    private val activityFilterInteractor: ActivityFilterInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val wearInteractor: WearInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
@@ -96,8 +99,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
             previous = ChangeRecordTypeChooserState.State.Closed,
         ),
     )
+    val additionalState: LiveData<ChangeRecordTypeAdditionalState> = MutableLiveData(
+        ChangeRecordTypeAdditionalState(
+            isDuplicateVisible = false,
+            isInstantChecked = false,
+        ),
+    )
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
+    val duplicateButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val nameErrorMessage: LiveData<String> = MutableLiveData("")
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId != 0L) }
     val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId != 0L) }
@@ -107,6 +117,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private var initialCategories: Set<Long> = emptySet()
     private var newName: String = ""
     private var newCategories: MutableList<Long> = mutableListOf()
+    private var newIsInstant: Boolean = false
 
     init {
         colorSelectionViewModelDelegateImpl.attach(getColorSelectionDelegateParent())
@@ -160,6 +171,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onGoalTimeChooserClick() {
         onNewChooserState(ChangeRecordTypeChooserState.State.GoalTime)
+    }
+
+    fun onAdditionalChooserClick() {
+        onNewChooserState(ChangeRecordTypeChooserState.State.Additional)
     }
 
     fun onCategoryClick(item: CategoryViewData) {
@@ -229,10 +244,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onSaveClick() {
-        if (newName.isEmpty()) {
-            showMessage(coreR.string.change_record_message_choose_name)
-            return
-        }
+        if (isNameEmpty()) return
         saveButtonEnabled.set(false)
         viewModelScope.launch {
             val addedId = saveRecordType()
@@ -252,6 +264,38 @@ class ChangeRecordTypeViewModel @Inject constructor(
             onNewChooserState(ChangeRecordTypeChooserState.State.Closed)
         } else {
             router.back()
+        }
+    }
+
+    // TODO INSTANT add translations
+    fun onDuplicateClick() {
+        if (isNameEmpty()) return
+        duplicateButtonEnabled.set(false)
+        viewModelScope.launch {
+            val addedId = duplicateRecordType()
+            recordTypeCategoryInteractor.addCategories(addedId, newCategories)
+            goalsViewModelDelegate.saveGoals(RecordTypeGoal.IdData.Type(addedId))
+            activityFilterInteractor.getByTypeId(recordTypeId).forEach { filter ->
+                val newFilter = filter.copy(
+                    selectedIds = (filter.selectedIds + addedId).toSet().toList(),
+                )
+                activityFilterInteractor.add(newFilter)
+            }
+            onSaveClick()
+        }
+    }
+
+    fun onInstantClick() = viewModelScope.launch {
+        newIsInstant = !newIsInstant
+        updateAdditionalState()
+    }
+
+    private fun isNameEmpty(): Boolean {
+        return if (newName.isEmpty()) {
+            showMessage(coreR.string.change_record_message_choose_name)
+            true
+        } else {
+            false
         }
     }
 
@@ -285,6 +329,33 @@ class ChangeRecordTypeViewModel @Inject constructor(
             name = newName,
             icon = iconSelectionViewModelDelegateImpl.newIcon,
             color = colorSelectionViewModelDelegateImpl.newColor,
+            instant = newIsInstant,
+        )
+
+        return recordTypeInteractor.add(recordType)
+    }
+
+    private suspend fun duplicateRecordType(): Long {
+        // Copy will have a name like "type (2)",
+        // if already exist - "type (3)" etc.
+        val typeNames = recordTypeInteractor.getAll().map { it.name }
+        var index = 2
+        var name: String
+
+        while (true) {
+            name = "$newName ($index)"
+            if (name in typeNames && index < 100) {
+                index += 1
+            } else {
+                break
+            }
+        }
+
+        val recordType = RecordType(
+            name = name,
+            icon = iconSelectionViewModelDelegateImpl.newIcon,
+            color = colorSelectionViewModelDelegateImpl.newColor,
+            instant = newIsInstant
         )
 
         return recordTypeInteractor.add(recordType)
@@ -301,11 +372,13 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private suspend fun initializeRecordTypeData() {
         recordTypeInteractor.get(recordTypeId)?.let {
             newName = it.name
+            newIsInstant = it.instant
             iconSelectionViewModelDelegateImpl.newIcon = it.icon
             colorSelectionViewModelDelegateImpl.newColor = it.color
             goalsViewModelDelegate.initialize(RecordTypeGoal.IdData.Type(it.id))
             iconSelectionViewModelDelegateImpl.update()
             colorSelectionViewModelDelegateImpl.update()
+            updateAdditionalState()
         }
     }
 
@@ -342,6 +415,14 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
+    private fun showMessage(stringResId: Int) {
+        snackBarMessageNavigationInteractor.showMessage(stringResId)
+    }
+
+    private fun showArchivedMessage(stringResId: Int) {
+        snackBarMessageNavigationInteractor.showArchiveMessage(stringResId)
+    }
+
     private suspend fun updateRecordPreviewViewData() {
         val data = loadRecordPreviewViewData()
         recordType.set(data)
@@ -354,6 +435,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             name = newName,
             icon = iconSelectionViewModelDelegateImpl.newIcon,
             color = colorSelectionViewModelDelegateImpl.newColor,
+            instant = newIsInstant,
         ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
     }
 
@@ -366,11 +448,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
         return viewDataInteractor.getCategoriesViewData(newCategories)
     }
 
-    private fun showMessage(stringResId: Int) {
-        snackBarMessageNavigationInteractor.showMessage(stringResId)
+    private fun updateAdditionalState() {
+        val data = loadAdditionalState()
+        additionalState.set(data)
     }
 
-    private fun showArchivedMessage(stringResId: Int) {
-        snackBarMessageNavigationInteractor.showArchiveMessage(stringResId)
+    private fun loadAdditionalState(): ChangeRecordTypeAdditionalState {
+        return ChangeRecordTypeAdditionalState(
+            isDuplicateVisible = extra is ChangeRecordTypeParams.Change,
+            isInstantChecked = newIsInstant,
+        )
     }
 }

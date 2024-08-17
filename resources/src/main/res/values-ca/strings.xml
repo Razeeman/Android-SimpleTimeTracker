@@ -149,6 +149,9 @@
     <string name="change_record_type_categories_empty">No s\'han afegit categories</string>
     <string name="change_record_type_goal_time_disabled">Desactivat</string>
     <string name="change_record_type_goal_time_hint">Objectiu</string>
+    <string name="change_record_type_additional_hint">Addicional</string>
+    <string name="change_record_type_instant">Instant</string>
+    <string name="change_record_type_instant_hint">Les activitats instantànies no tenen durada i es fan un seguiment immediatament en fer clic.</string>
     <string name="change_record_type_goal_time_description">La notificació es mostrarà després d\'arribar a l\'objectiu</string>
     <string name="change_record_type_session_goal_time">Sessió</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>

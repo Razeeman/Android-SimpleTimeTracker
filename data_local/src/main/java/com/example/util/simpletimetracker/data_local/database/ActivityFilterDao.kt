@@ -18,6 +18,10 @@ interface ActivityFilterDao {
     @Query("SELECT * FROM activityFilters WHERE id = :id LIMIT 1")
     suspend fun get(id: Long): ActivityFilterDBO?
 
+    @Transaction
+    @Query("SELECT * FROM activityFilters WHERE :typeId in (selectedIds)")
+    suspend fun getByTypeId(typeId: Long): List<ActivityFilterDBO>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(activityFilter: ActivityFilterDBO): Long
 

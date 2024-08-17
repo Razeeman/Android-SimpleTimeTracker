@@ -149,6 +149,9 @@
     <string name="change_record_type_categories_empty">دسته بندی ای اضافه نشد</string>
     <string name="change_record_type_goal_time_disabled">غیر فعال</string>
     <string name="change_record_type_goal_time_hint">هدف</string>
+    <string name="change_record_type_additional_hint">اضافی</string>
+    <string name="change_record_type_instant">فوری</string>
+    <string name="change_record_type_instant_hint">فعالیت های فوری مدت زمان ندارند و بلافاصله با کلیک ردیابی می شوند.</string>
     <string name="change_record_type_goal_time_description">اعلان پس از رسیدن به هدف نشان داده می شود</string>
     <string name="change_record_type_session_goal_time">جلسه</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>

@@ -286,7 +286,7 @@ class BackupRepoImpl @Inject constructor(
 
     private fun toBackupString(recordType: RecordType): String {
         return String.format(
-            "$ROW_RECORD_TYPE\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+            "$ROW_RECORD_TYPE\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
             recordType.id.toString(),
             recordType.name.clean(),
             recordType.icon,
@@ -296,7 +296,8 @@ class BackupRepoImpl @Inject constructor(
             recordType.color.colorInt,
             "", // daily goal time is moved to separate table
             "", // weekly goal time is moved to separate table
-            "", // monthly goal time is moved to separate table
+            "", // monthly goal time is moved to separate table,
+            (if (recordType.instant) 1 else 0).toString(),
         )
     }
 
@@ -508,7 +509,8 @@ class BackupRepoImpl @Inject constructor(
             // parts[6] - goal time is moved to separate table
             // parts[8] - daily time is moved to separate table
             // parts[9] - weekly time is moved to separate table
-            // parts[10] - monthly time is moved to separate table
+            // parts[10] - monthly time is moved to separate table,
+            instant = parts.getOrNull(11)?.toIntOrNull() == 1,
         ) to goalTimes
     }
 

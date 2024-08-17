@@ -352,12 +352,48 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fieldChangeRecordTypeAdditional"
+                style="@style/InputFieldCard"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/input_field_height"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTypeGoalTime"
+                app:layout_goneMarginTop="@dimen/edit_screen_field_top_margin">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?appInputFieldBorder">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/EditScreenField"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/change_record_type_additional_hint"
+                        app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTypeAdditional"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/arrowChangeRecordTypeAdditional"
+                        style="@style/EditScreenFieldArrow"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
             <View
                 android:id="@+id/dividerChangeRecordTypeBottom"
                 style="@style/EditScreenDivider"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/edit_screen_field_top_margin"
-                app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTypeGoalTime" />
+                app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTypeAdditional" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -418,6 +454,25 @@
         <include
             android:id="@+id/layoutChangeRecordTypeGoals"
             layout="@layout/goals_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/containerChangeRecordTypeAdditional"
+        style="@style/EditScreenContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeRecordTypeButton"
+        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTypeMain"
+        tools:visibility="gone">
+
+        <include
+            android:id="@+id/layoutChangeRecordTypeAdditional"
+            layout="@layout/change_record_type_additional_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

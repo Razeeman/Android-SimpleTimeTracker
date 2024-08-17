@@ -149,6 +149,9 @@
     <string name="change_record_type_categories_empty">沒有新增分類</string>
     <string name="change_record_type_goal_time_disabled">關閉</string>
     <string name="change_record_type_goal_time_hint">目標</string>
+    <string name="change_record_type_additional_hint">額外的</string>
+    <string name="change_record_type_instant">立即的</string>
+    <string name="change_record_type_instant_hint">即時活動沒有持續時間，點擊後立即進行追蹤。</string>
     <string name="change_record_type_goal_time_description">達到目標後將顯示通知</string>
     <string name="change_record_type_session_goal_time">節段</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>

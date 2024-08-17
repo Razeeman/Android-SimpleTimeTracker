@@ -8,6 +8,8 @@ interface ActivityFilterRepo {
 
     suspend fun get(id: Long): ActivityFilter?
 
+    suspend fun getByTypeId(typeId: Long): List<ActivityFilter>
+
     suspend fun add(activityFilter: ActivityFilter): Long
 
     suspend fun changeSelected(id: Long, selected: Boolean)

@@ -49,9 +49,11 @@ import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAd
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewDelegate
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeAdditionalState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeCategoriesViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Additional
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Category
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Closed
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Color
@@ -194,9 +196,14 @@ class ChangeRecordTypeFragment :
         fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
         fieldChangeRecordTypeCategory.setOnClick(viewModel::onCategoryChooserClick)
         fieldChangeRecordTypeGoalTime.setOnClick(viewModel::onGoalTimeChooserClick)
+        fieldChangeRecordTypeAdditional.setOnClick(viewModel::onAdditionalChooserClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
         btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
         btnChangeRecordTypeStatistics.setOnClick(viewModel::onStatisticsClick)
+        layoutChangeRecordTypeAdditional.btnChangeRecordTypeAdditionalDuplicate
+            .setOnClick(viewModel::onDuplicateClick)
+        layoutChangeRecordTypeAdditional.checkboxChangeRecordTypeAdditionalInstant
+            .setOnClick(viewModel::onInstantClick)
         IconSelectionViewDelegate.initUx(
             viewModel = viewModel,
             layout = containerChangeRecordTypeIcon,
@@ -227,6 +234,10 @@ class ChangeRecordTypeFragment :
             categories.observe(::updateCategories)
             goalsViewData.observe(::updateGoalsState)
             nameErrorMessage.observe(::updateNameErrorMessage)
+            additionalState.observe(::updateAdditionalState)
+            duplicateButtonEnabled.observe(
+                layoutChangeRecordTypeAdditional.btnChangeRecordTypeAdditionalDuplicate::setEnabled,
+            )
             notificationsHintVisible.observe(
                 layoutChangeRecordTypeGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set,
             )
@@ -362,6 +373,12 @@ class ChangeRecordTypeFragment :
             chooserView = fieldChangeRecordTypeGoalTime,
             chooserArrow = arrowChangeRecordTypeGoalTime,
         )
+        updateChooser<Additional>(
+            state = state,
+            chooserData = containerChangeRecordTypeAdditional,
+            chooserView = fieldChangeRecordTypeAdditional,
+            chooserArrow = arrowChangeRecordTypeAdditional,
+        )
 
         val isClosed = state.current is Closed
         inputChangeRecordTypeName.isVisible = isClosed
@@ -376,6 +393,7 @@ class ChangeRecordTypeFragment :
         fieldChangeRecordTypeIcon.isVisible = isClosed || state.current is Icon
         fieldChangeRecordTypeCategory.isVisible = isClosed || state.current is Category
         fieldChangeRecordTypeGoalTime.isVisible = isClosed || state.current is GoalTime
+        fieldChangeRecordTypeAdditional.isVisible = isClosed || state.current is Additional
     }
 
     private fun updateGoalsState(state: ChangeRecordTypeGoalsViewData) = with(binding) {
@@ -435,6 +453,15 @@ class ChangeRecordTypeFragment :
     private fun updateNameErrorMessage(error: String) = with(binding) {
         inputChangeRecordTypeName.error = error
         inputChangeRecordTypeName.isErrorEnabled = error.isNotEmpty()
+    }
+
+    private fun updateAdditionalState(
+        data: ChangeRecordTypeAdditionalState,
+    ) = with(binding.layoutChangeRecordTypeAdditional) {
+        btnChangeRecordTypeAdditionalDuplicate.isVisible = data.isDuplicateVisible
+        if (data.isInstantChecked != checkboxChangeRecordTypeAdditionalInstant.isChecked) {
+            checkboxChangeRecordTypeAdditionalInstant.isChecked = data.isInstantChecked
+        }
     }
 
     private inline fun <reified T : State> updateChooser(

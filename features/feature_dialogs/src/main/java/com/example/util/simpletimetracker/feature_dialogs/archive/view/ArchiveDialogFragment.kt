@@ -91,13 +91,13 @@ class ArchiveDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     private fun onDeleteClick() {
-        MainScope().launch { archiveDialogListener?.onDeleteClick(params) }
         dismiss()
+        MainScope().launch { archiveDialogListener?.onDeleteClick(params) }
     }
 
     private fun onRestoreClick() {
-        MainScope().launch { archiveDialogListener?.onRestoreClick(params) }
         dismiss()
+        MainScope().launch { archiveDialogListener?.onRestoreClick(params) }
     }
 
     companion object {

@@ -18,6 +18,10 @@ class ActivityFilterInteractor @Inject constructor(
         return activityFilterRepo.get(id)
     }
 
+    suspend fun getByTypeId(id: Long): List<ActivityFilter> {
+        return activityFilterRepo.getByTypeId(id)
+    }
+
     suspend fun add(record: ActivityFilter) {
         activityFilterRepo.add(record)
     }
@@ -32,5 +36,16 @@ class ActivityFilterInteractor @Inject constructor(
 
     suspend fun remove(id: Long) {
         activityFilterRepo.remove(id)
+    }
+
+    suspend fun removeTypeId(id: Long) {
+        getByTypeId(id).forEach { filter ->
+            val newFilter = filter.copy(
+                selectedIds = filter.selectedIds
+                    .toMutableList()
+                    .apply { removeAll { it == id } },
+            )
+            add(newFilter)
+        }
     }
 }

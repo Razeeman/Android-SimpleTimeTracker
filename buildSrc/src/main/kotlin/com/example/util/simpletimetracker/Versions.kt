@@ -9,7 +9,7 @@ object Versions {
     const val timber = "4.7.1"
     const val javax = "1"
 
-    const val appcompat = "1.6.0"
+    const val appcompat = "1.7.0"
     const val constraintLayout = "2.1.4"
     const val recyclerView = "1.1.0"
     const val lifecycleExtensions = "2.2.0"

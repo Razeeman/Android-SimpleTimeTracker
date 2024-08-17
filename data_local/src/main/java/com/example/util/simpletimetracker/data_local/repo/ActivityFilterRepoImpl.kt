@@ -32,6 +32,12 @@ class ActivityFilterRepoImpl @Inject constructor(
         accessSource = { activityFilterDao.get(id)?.let(activityFilterDataLocalMapper::map) },
     )
 
+    override suspend fun getByTypeId(typeId: Long): List<ActivityFilter> = mutex.withLockedCache(
+        logMessage = "getByTypeId",
+        accessCache = { cache?.filter { typeId in it.selectedIds } },
+        accessSource = { activityFilterDao.getByTypeId(typeId).map(activityFilterDataLocalMapper::map) },
+    )
+
     override suspend fun add(activityFilter: ActivityFilter): Long = mutex.withLockedCache(
         logMessage = "add",
         accessSource = { activityFilterDao.insert(activityFilter.let(activityFilterDataLocalMapper::map)) },

@@ -25,4 +25,7 @@ data class RecordTypeDBO(
 
     @ColumnInfo(name = "hidden")
     val hidden: Boolean,
+
+    @ColumnInfo(name = "instant")
+    val instant: Boolean,
 )

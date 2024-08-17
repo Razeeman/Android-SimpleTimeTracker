@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnChangeRecordTypeAdditionalDuplicate"
+        style="@style/AppButtonActive"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
+        android:text="@string/change_record_duplicate"
+        app:iconGravity="textStart"
+        app:iconSize="18dp"
+        app:iconTint="?appLightTextColor"
+        tools:icon="@drawable/action_copy" />
+
+    <com.example.util.simpletimetracker.feature_views.DividerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeRecordTypeAdditionalInstantTitle"
+            style="@style/SettingsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:text="@string/change_record_type_instant"
+            app:layout_constraintBottom_toTopOf="@id/tvChangeRecordTypeAdditionalInstantSubtitle"
+            app:layout_constraintEnd_toStartOf="@id/checkboxChangeRecordTypeAdditionalInstant"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeRecordTypeAdditionalInstantSubtitle"
+            style="@style/SettingsSecondaryText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:text="@string/change_record_type_instant_hint"
+            app:layout_constraintEnd_toStartOf="@id/checkboxChangeRecordTypeAdditionalInstant"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvChangeRecordTypeAdditionalInstantTitle" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkboxChangeRecordTypeAdditionalInstant"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/tvChangeRecordTypeAdditionalInstantTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvChangeRecordTypeAdditionalInstantTitle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
