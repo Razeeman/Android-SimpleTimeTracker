@@ -23,6 +23,15 @@ inline fun <T, R> T.allowDiskWrite(block: T.() -> R): R {
     }
 }
 
+inline fun <T, R> T.allowDiskRead(block: T.() -> R): R {
+    val oldPolicy = StrictMode.allowThreadDiskReads()
+    try {
+        return block()
+    } finally {
+        StrictMode.setThreadPolicy(oldPolicy)
+    }
+}
+
 fun Calendar.setWeekToFirstDay() {
     val another = Calendar.getInstance()
     another.timeInMillis = timeInMillis

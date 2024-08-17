@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_main.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.BaseViewModel
+import com.example.util.simpletimetracker.core.extension.allowDiskRead
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -24,7 +25,7 @@ class MainViewModel @Inject constructor(
     val isNavBatAtTheBottom: LiveData<Boolean> by lazySuspend { loadIsNavBatAtTheBottom() }
 
     private fun syncState() {
-        viewModelScope.launch {
+        allowDiskRead { viewModelScope }.launch {
             notificationTypeInteractor.updateNotifications()
             widgetInteractor.updateWidgets()
             wearInteractor.update()
