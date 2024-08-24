@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewDa
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.HintBigViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
+import java.util.SortedMap
 import javax.inject.Inject
 
 class CategoryViewDataMapper @Inject constructor(
@@ -97,6 +98,18 @@ class CategoryViewDataMapper @Inject constructor(
             color = getColor(color, isDarkTheme, isFiltered),
             icon = icon,
         )
+    }
+
+    private fun mapRecordTagToTagGroupName(
+        tag: RecordTag,
+    ): String {
+        return tag.name.substringBefore("::", "")
+    }
+
+    fun groupToTagGroups(
+        tags: Iterable<RecordTag>,
+    ): SortedMap<String, List<RecordTag>> {
+        return tags.groupBy { mapRecordTagToTagGroupName(it) }.toSortedMap()
     }
 
     fun mapToUntaggedItem(

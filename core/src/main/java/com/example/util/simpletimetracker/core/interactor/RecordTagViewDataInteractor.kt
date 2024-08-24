@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
+import com.example.util.simpletimetracker.feature_base_adapter.info.InfoViewData
 import javax.inject.Inject
 
 class RecordTagViewDataInteractor @Inject constructor(
@@ -61,13 +62,27 @@ class RecordTagViewDataInteractor @Inject constructor(
                 .takeIf { multipleChoiceAvailable }
                 ?.let(viewData::add)
 
-            available.map {
-                categoryViewDataMapper.mapRecordTag(
-                    tag = it,
-                    type = types[it.iconColorSource],
-                    isDarkTheme = isDarkTheme,
-                )
-            }.let(viewData::addAll)
+//            available.map {
+//                categoryViewDataMapper.mapRecordTag(
+//                    tag = it,
+//                    type = types[it.iconColorSource],
+//                    isDarkTheme = isDarkTheme,
+//                )
+//            }.let(viewData::addAll)
+
+            categoryViewDataMapper.groupToTagGroups(available).forEach { group ->
+                if (group.key.isNotEmpty()) {
+                    viewData.add(InfoViewData(text = group.key))
+                }
+
+                group.value.map {
+                    categoryViewDataMapper.mapRecordTag(
+                        tag = it,
+                        type = types[it.iconColorSource],
+                        isDarkTheme = isDarkTheme,
+                    )
+                }.let(viewData::addAll)
+            }
 
             if (showUntaggedButton) {
                 if (selected.isNotEmpty() || available.isNotEmpty()) {
