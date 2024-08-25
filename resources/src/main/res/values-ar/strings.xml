@@ -18,6 +18,7 @@
     <string name="select_all">اختر الكل</string>
     <string name="select_nothing">لا تختار شيئا</string>
     <string name="no_data">لايوجد بيانات</string>
+    <string name="general_error">حدث خطأ ما. يرجى المحاولة مرة أخرى أو إعادة تشغيل التطبيق.</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">اﻷمس</string>

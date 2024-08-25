@@ -18,6 +18,7 @@
     <string name="select_all">Pilih Semua</string>
     <string name="select_nothing">Pilih apa pun</string>
     <string name="no_data">Tidak ada data</string>
+    <string name="general_error">Ada yang tidak beres. Silakan coba lagi atau mulai ulang aplikasi.</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Kemarin</string>

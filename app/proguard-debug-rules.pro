@@ -14,3 +14,8 @@
 -keep class androidx.test.espresso.IdlingResource { *; }
 -keep class androidx.test.espresso.IdlingResource$ResourceCallback { void onTransitionToIdle(); }
 -keep class com.google.gson.** { *; }
+-keep class androidx.concurrent.futures.CallbackToFutureAdapter$Resolver { *; }
+-keep class androidx.concurrent.futures.CallbackToFutureAdapter$Completer { *; }
+-keep class androidx.concurrent.futures.CallbackToFutureAdapter { *; }
+-keep class androidx.concurrent.futures.ResolvableFuture { *; }
+-keep class com.google.common.util.concurrent.ListenableFuture { *; }

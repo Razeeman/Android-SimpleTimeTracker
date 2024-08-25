@@ -18,6 +18,7 @@
     <string name="select_all">انتخاب همه</string>
     <string name="select_nothing">چیزی را انتخاب نکنید</string>
     <string name="no_data">اطلاعاتی وجود ندارد</string>
+    <string name="general_error">مشکلی پیش آمد. لطفاً دوباره امتحان کنید یا برنامه را دوباره راه اندازی کنید.</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">روز قبل</string>

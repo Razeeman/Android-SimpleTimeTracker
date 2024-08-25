@@ -18,6 +18,7 @@
     <string name="select_all">सबका चयन करें</string>
     <string name="select_nothing">कुछ भी नहीं चुनें</string>
     <string name="no_data">कोई डेटा नहीं</string>
+    <string name="general_error">कुछ गलत हो गया। कृपया पुनः प्रयास करें या ऐप को पुनरारंभ करें।</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">कल</string>

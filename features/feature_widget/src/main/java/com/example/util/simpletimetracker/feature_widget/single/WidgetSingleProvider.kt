@@ -196,7 +196,9 @@ class WidgetSingleProvider : AppWidgetProvider() {
             views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
             views.setOnClickPendingIntent(R.id.btnWidget, getPendingSelfIntent(context, appWidgetId))
 
-            appWidgetManager.updateAppWidget(appWidgetId, views)
+            runCatching {
+                appWidgetManager.updateAppWidget(appWidgetId, views)
+            }
         }
     }
 

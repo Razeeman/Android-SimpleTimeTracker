@@ -112,7 +112,9 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
             views.setViewVisibility(R.id.ivRefresh, View.VISIBLE)
             views.setViewVisibility(R.id.btnRefresh, View.VISIBLE)
 
-            appWidgetManager.updateAppWidget(appWidgetId, views)
+            runCatching {
+                appWidgetManager.updateAppWidget(appWidgetId, views)
+            }
         }
     }
 

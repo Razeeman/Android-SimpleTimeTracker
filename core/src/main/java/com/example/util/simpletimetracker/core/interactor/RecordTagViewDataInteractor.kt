@@ -62,20 +62,12 @@ class RecordTagViewDataInteractor @Inject constructor(
                 .takeIf { multipleChoiceAvailable }
                 ?.let(viewData::add)
 
-//            available.map {
-//                categoryViewDataMapper.mapRecordTag(
-//                    tag = it,
-//                    type = types[it.iconColorSource],
-//                    isDarkTheme = isDarkTheme,
-//                )
-//            }.let(viewData::addAll)
-
-            categoryViewDataMapper.groupToTagGroups(available).forEach { group ->
-                if (group.key.isNotEmpty()) {
-                    viewData.add(InfoViewData(text = group.key))
+            categoryViewDataMapper.groupToTagGroups(available).forEach { (groupName, tags) ->
+                if (groupName.isNotEmpty()) {
+                    viewData.add(InfoViewData(text = groupName))
                 }
 
-                group.value.map {
+                tags.map {
                     categoryViewDataMapper.mapRecordTag(
                         tag = it,
                         type = types[it.iconColorSource],

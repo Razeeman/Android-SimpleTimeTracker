@@ -18,6 +18,7 @@
     <string name="select_all">Wählen Sie Alle</string>
     <string name="select_nothing">Nichts auswählen</string>
     <string name="no_data">Keine Daten</string>
+    <string name="general_error">Etwas ist schief gelaufen. Bitte versuchen Sie es erneut oder starten Sie die App neu.</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Gestern</string>

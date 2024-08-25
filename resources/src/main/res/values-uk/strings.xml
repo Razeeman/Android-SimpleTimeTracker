@@ -18,6 +18,7 @@
     <string name="select_all">Обрати все</string>
     <string name="select_nothing">Нічого не обирати</string>
     <string name="no_data">Немає даних</string>
+    <string name="general_error">Щось пішло не так. Повторіть спробу або перезапустіть програму.</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Вчора</string>

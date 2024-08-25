@@ -366,7 +366,7 @@ class NotificationTypeManager @Inject constructor(
         icon: RecordTypeIcon,
         color: Int,
         isChecked: Boolean? = null,
-    ): Bitmap {
+    ): Bitmap = synchronized(iconView) {
         return iconView.apply {
             itemIcon = icon
             itemColor = color

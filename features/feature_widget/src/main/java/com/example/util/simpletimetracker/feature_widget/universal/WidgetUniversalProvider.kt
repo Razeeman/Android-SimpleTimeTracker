@@ -96,7 +96,9 @@ class WidgetUniversalProvider : AppWidgetProvider() {
             views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
             views.setOnClickPendingIntent(R.id.btnWidget, getPendingIntent(context))
 
-            appWidgetManager.updateAppWidget(appWidgetId, views)
+            runCatching {
+                appWidgetManager.updateAppWidget(appWidgetId, views)
+            }
         }
     }
 

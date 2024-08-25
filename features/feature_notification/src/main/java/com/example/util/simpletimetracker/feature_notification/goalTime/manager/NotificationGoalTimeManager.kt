@@ -110,14 +110,18 @@ class NotificationGoalTimeManager @Inject constructor(
     }
 
     private fun prepareView(params: NotificationGoalTimeParams): RemoteViews {
-        val iconBitmap = iconView.apply {
-            itemIcon = params.icon
-            itemColor = params.color
-            measureExactly(iconSize)
-        }.getBitmapFromView()
-        val checkBitmap = checkView.apply {
-            setBackgroundResource(R.drawable.spinner_check_mark)
-        }.getBitmapFromView()
+        val iconBitmap = synchronized(iconView) {
+            iconView.apply {
+                itemIcon = params.icon
+                itemColor = params.color
+                measureExactly(iconSize)
+            }.getBitmapFromView()
+        }
+        val checkBitmap = synchronized(checkView) {
+            checkView.apply {
+                setBackgroundResource(R.drawable.spinner_check_mark)
+            }.getBitmapFromView()
+        }
 
         return RemoteViews(context.packageName, R.layout.notification_goal_time_layout).apply {
             setTextViewText(R.id.tvNotificationGoalTimeText, params.text)

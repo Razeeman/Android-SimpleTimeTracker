@@ -18,6 +18,7 @@
     <string name="select_all">Chọn tất cả</string>
     <string name="select_nothing">Không chọn gì</string>
     <string name="no_data">Không dữ liệu</string>
+    <string name="general_error">Đã xảy ra lỗi. Vui lòng thử lại hoặc khởi động lại ứng dụng.</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Hôm qua</string>

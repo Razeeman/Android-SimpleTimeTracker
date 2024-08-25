@@ -100,15 +100,10 @@ class CategoryViewDataMapper @Inject constructor(
         )
     }
 
-    private fun mapRecordTagToTagGroupName(
-        tag: RecordTag,
-    ): String {
-        return tag.name.substringBefore("::", "")
-    }
-
     fun groupToTagGroups(
-        tags: Iterable<RecordTag>,
-    ): SortedMap<String, List<RecordTag>> {
+        tags: List<RecordTag>,
+    ): Map<String, List<RecordTag>> {
+        // Sorted by group name.
         return tags.groupBy { mapRecordTagToTagGroupName(it) }.toSortedMap()
     }
 
@@ -252,5 +247,11 @@ class CategoryViewDataMapper @Inject constructor(
             name = name,
             color = colorMapper.toInactiveColor(isDarkTheme),
         )
+    }
+
+    private fun mapRecordTagToTagGroupName(
+        tag: RecordTag,
+    ): String {
+        return tag.name.substringBefore("::", "")
     }
 }

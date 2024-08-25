@@ -18,6 +18,7 @@
     <string name="select_all">Hepsini seç</string>
     <string name="select_nothing">Hiçbir şey seçme</string>
     <string name="no_data">Veri yok</string>
+    <string name="general_error">Bir şeyler ters gitti. Lütfen tekrar deneyin veya uygulamayı yeniden başlatın.</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Dün</string>

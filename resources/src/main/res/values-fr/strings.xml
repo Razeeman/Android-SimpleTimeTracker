@@ -18,6 +18,7 @@
     <string name="select_all">Tout sélectionner</string>
     <string name="select_nothing">Ne rien sélectionner</string>
     <string name="no_data">Pas de données</string>
+    <string name="general_error">Quelque chose s\'est mal passé. Veuillez réessayer ou redémarrer l\'application.</string>
 
     <!--  Range selection  -->
     <string name="title_yesterday">Hier</string>
