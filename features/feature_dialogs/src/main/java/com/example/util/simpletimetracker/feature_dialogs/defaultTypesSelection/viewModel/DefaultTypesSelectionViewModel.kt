@@ -76,7 +76,9 @@ class DefaultTypesSelectionViewModel @Inject constructor(
                 // Remove ids for correct adding in database.
                 recordTypeInteractor.add(it.copy(id = 0))
             }
-            prefsInteractor.setCardOrder(CardOrder.COLOR)
+            if (!prefsInteractor.hasCardOrder()) {
+                prefsInteractor.setCardOrder(CardOrder.COLOR)
+            }
             wearInteractor.update()
             close.set(Unit)
         }

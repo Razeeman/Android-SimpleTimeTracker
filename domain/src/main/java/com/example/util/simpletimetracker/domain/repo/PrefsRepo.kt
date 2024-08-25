@@ -16,6 +16,7 @@ interface PrefsRepo {
     var chartFilterType: Int
 
     var cardOrder: Int
+    val hasCardOrder: Boolean
     var categoryOrder: Int
     var tagOrder: Int
 

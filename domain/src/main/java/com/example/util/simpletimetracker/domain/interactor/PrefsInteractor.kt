@@ -85,6 +85,10 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.cardOrder = mapFromCardOrder(cardOrder)
     }
 
+    suspend fun hasCardOrder(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.hasCardOrder
+    }
+
     suspend fun getCategoryOrder(): CardOrder = withContext(Dispatchers.IO) {
         mapToCardOrder(prefsRepo.categoryOrder)
     }

@@ -46,6 +46,9 @@ class PrefsRepoImpl @Inject constructor(
         KEY_CARD_ORDER, 0, // Default to name sort.
     )
 
+    override val hasCardOrder: Boolean
+        get() = prefs.contains(KEY_CARD_ORDER)
+
     override var categoryOrder: Int by prefs.delegate(
         KEY_CATEGORY_ORDER, 0, // Default to name sort.
     )
