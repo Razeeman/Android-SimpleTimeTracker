@@ -9,6 +9,8 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
+import com.example.util.simpletimetracker.core.utils.updateRunningRecordPreview
+import com.example.util.simpletimetracker.domain.interactor.UpdateRunningRecordFromChangeScreenInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.createActivityFilterAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.createActivityFilterAddAdapterDelegate
@@ -93,10 +95,8 @@ class RunningRecordsFragment :
     override fun initViewModel() = with(binding) {
         with(viewModel) {
             runningRecords.observe(runningRecordsAdapter::replace)
-            resetScreen.observe {
-                rvRunningRecordsList.smoothScrollToPosition(0)
-                mainTabsViewModel.onHandled()
-            }
+            resetScreen.observe { resetScreen() }
+            previewUpdate.observe(::onPreviewUpdate)
         }
         with(mainTabsViewModel) {
             tabReselected.observe(viewModel::onTabReselected)
@@ -115,6 +115,19 @@ class RunningRecordsFragment :
 
     override fun onTagSelected() {
         viewModel.onTagSelected()
+    }
+
+    private fun resetScreen() = with(binding) {
+        rvRunningRecordsList.smoothScrollToPosition(0)
+        mainTabsViewModel.onHandled()
+    }
+
+    private fun onPreviewUpdate(update: UpdateRunningRecordFromChangeScreenInteractor.Update) {
+        updateRunningRecordPreview(
+            currentList = runningRecordsAdapter.currentList,
+            recyclerView = binding.rvRunningRecordsList,
+            update = update,
+        )
     }
 
     companion object {

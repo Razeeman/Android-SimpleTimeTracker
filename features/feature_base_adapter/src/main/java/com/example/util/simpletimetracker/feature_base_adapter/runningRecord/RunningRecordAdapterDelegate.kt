@@ -54,10 +54,9 @@ fun createRunningRecordAdapterDelegate(
         if (rebind || updates.contains(ViewData.UPDATE_NOW_ICON).orFalse()) {
             itemNowIconVisible = item.nowIconVisible
         }
-        if (rebind) {
-            setOnClick { onItemClick(item, this to transitionName) }
-            setOnLongClick { onItemLongClick(item, this to transitionName) }
-            ViewCompat.setTransitionName(this, transitionName)
-        }
+
+        setOnClick { onItemClick(item, this to transitionName) }
+        setOnLongClick { onItemLongClick(item, this to transitionName) }
+        ViewCompat.setTransitionName(this, transitionName)
     }
 }

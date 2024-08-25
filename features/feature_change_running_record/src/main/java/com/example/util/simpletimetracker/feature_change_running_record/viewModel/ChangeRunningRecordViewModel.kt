@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.UpdateRunningRecordFromChangeScreenInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
@@ -25,6 +26,7 @@ import com.example.util.simpletimetracker.feature_change_record.viewModel.Change
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
+import com.example.util.simpletimetracker.feature_change_running_record.mapper.ChangeRunningRecordMapper
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
@@ -58,6 +60,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private val changeRunningRecordViewDataInteractor: ChangeRunningRecordViewDataInteractor,
     private val resourceRepo: ResourceRepo,
     private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
+    private val changeRunningRecordMapper: ChangeRunningRecordMapper,
+    private val updateRunningRecordFromChangeScreenInteractor: UpdateRunningRecordFromChangeScreenInteractor,
 ) : ChangeRecordBaseViewModel(
     router = router,
     snackBarMessageNavigationInteractor = snackBarMessageNavigationInteractor,
@@ -131,7 +135,17 @@ class ChangeRunningRecordViewModel @Inject constructor(
             comment = newComment,
             tagIds = newCategoryIds,
         )
+        sendPreviewUpdate(fullUpdate = true)
         router.back()
+    }
+
+    override suspend fun sendPreviewUpdate(fullUpdate: Boolean) {
+        val recordPreview = record.value?.recordPreview ?: return
+        val update = changeRunningRecordMapper.map(
+            fullUpdate = fullUpdate,
+            recordPreview = recordPreview,
+        )
+        updateRunningRecordFromChangeScreenInteractor.send(update)
     }
 
     override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {

@@ -125,6 +125,7 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract suspend fun updatePreview()
     protected abstract fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen
     protected abstract suspend fun onSaveClickDelegate()
+    protected open suspend fun sendPreviewUpdate(fullUpdate: Boolean) {}
     protected abstract val mergeAvailable: Boolean
     protected abstract val splitPreviewTimeEnded: Long
     protected abstract val showTimeEndedOnSplitPreview: Boolean
@@ -420,7 +421,13 @@ abstract class ChangeRecordBaseViewModel(
         if (chooserState.value?.current !is ChangeRecordChooserState.State.Closed) {
             onNewChooserState(ChangeRecordChooserState.State.Closed)
         } else {
-            router.back()
+            viewModelScope.launch {
+                // Send only if not changed and update only time.
+                if (newTimeStarted == originalTimeStarted) {
+                    sendPreviewUpdate(fullUpdate = false)
+                }
+                router.back()
+            }
         }
     }
 

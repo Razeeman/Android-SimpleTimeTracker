@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.domain.interactor.ChangeSelectedActivi
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.UpdateRunningRecordFromChangeScreenInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
@@ -51,14 +52,20 @@ class RunningRecordsViewModel @Inject constructor(
     private val changeSelectedActivityFilterMediator: ChangeSelectedActivityFilterMediator,
     private val timeMapper: TimeMapper,
     private val prefsInteractor: PrefsInteractor,
+    private val updateRunningRecordFromChangeScreenInteractor: UpdateRunningRecordFromChangeScreenInteractor,
 ) : ViewModel() {
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val previewUpdate: SingleLiveEvent<UpdateRunningRecordFromChangeScreenInteractor.Update> = SingleLiveEvent()
 
     private var timerJob: Job? = null
+
+    init {
+        subscribeToUpdates()
+    }
 
     fun onRecordTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
@@ -215,6 +222,20 @@ class RunningRecordsViewModel @Inject constructor(
 
     private fun showTagSelection(typeId: Long) {
         router.navigate(RecordTagSelectionParams(typeId))
+    }
+
+    private fun subscribeToUpdates() {
+        viewModelScope.launch {
+            updateRunningRecordFromChangeScreenInteractor.dataUpdated.collect {
+                onUpdateReceived(it)
+            }
+        }
+    }
+
+    private fun onUpdateReceived(
+        update: UpdateRunningRecordFromChangeScreenInteractor.Update,
+    ) {
+        previewUpdate.set(update)
     }
 
     private fun updateRunningRecords() = viewModelScope.launch {

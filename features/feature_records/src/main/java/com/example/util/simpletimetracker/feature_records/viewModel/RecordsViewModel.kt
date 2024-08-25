@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordsShareUpdateInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordsUpdateInteractor
+import com.example.util.simpletimetracker.domain.interactor.UpdateRunningRecordFromChangeScreenInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.count
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -53,6 +54,7 @@ class RecordsViewModel @Inject constructor(
     private val sharingInteractor: SharingInteractor,
     private val rangeViewDataMapper: RangeViewDataMapper,
     private val recordsViewDataMapper: RecordsViewDataMapper,
+    private val updateRunningRecordFromChangeScreenInteractor: UpdateRunningRecordFromChangeScreenInteractor,
 ) : ViewModel() {
 
     var extra: RecordsExtra? = null
@@ -66,6 +68,7 @@ class RecordsViewModel @Inject constructor(
     }
     val sharingData: SingleLiveEvent<RecordsShareState> = SingleLiveEvent()
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val previewUpdate: SingleLiveEvent<UpdateRunningRecordFromChangeScreenInteractor.Update> = SingleLiveEvent()
 
     private var isVisible: Boolean = false
     private var timerJob: Job? = null
@@ -251,8 +254,23 @@ class RecordsViewModel @Inject constructor(
                 if (isVisible) onShareClicked()
             }
         }
+        viewModelScope.launch {
+            updateRunningRecordFromChangeScreenInteractor.dataUpdated.collect {
+                onUpdateReceived(it)
+            }
+        }
     }
 
+    private fun onUpdateReceived(
+        update: UpdateRunningRecordFromChangeScreenInteractor.Update,
+    ) {
+        // No need to update.
+        if (shift != 0) return
+
+        previewUpdate.set(update)
+    }
+
+    @Suppress("MoveVariableDeclarationIntoWhen")
     private suspend fun onShareClicked() {
         val state = loadRecordsViewData(true)
         val data = when (state) {

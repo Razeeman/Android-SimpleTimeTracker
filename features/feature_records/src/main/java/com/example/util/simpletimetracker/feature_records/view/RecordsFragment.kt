@@ -14,7 +14,9 @@ import com.example.util.simpletimetracker.core.dialog.RecordQuickActionDialogLis
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
+import com.example.util.simpletimetracker.core.utils.updateRunningRecordPreview
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.UpdateRunningRecordFromChangeScreenInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
@@ -91,6 +93,7 @@ class RecordsFragment :
             calendarData.observe(::setCalendarState)
             resetScreen.observe { resetScreen() }
             sharingData.observe(::onNewSharingData)
+            previewUpdate.observe(::onPreviewUpdate)
         }
         with(removeRecordViewModel) {
             needUpdate.observe {
@@ -189,6 +192,14 @@ class RecordsFragment :
         }
 
         viewModel.onShareView(view.root)
+    }
+
+    private fun onPreviewUpdate(update: UpdateRunningRecordFromChangeScreenInteractor.Update) {
+        updateRunningRecordPreview(
+            currentList = recordsAdapter.currentList,
+            recyclerView = binding.rvRecordsList,
+            update = update,
+        )
     }
 
     private fun buildAdapter(): BaseRecyclerAdapter {
