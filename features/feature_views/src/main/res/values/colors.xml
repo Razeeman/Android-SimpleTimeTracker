@@ -19,6 +19,8 @@
     <color name="colorBackground">@color/white</color>
     <color name="colorBackgroundDark">@color/grey_950</color>
 
+    <color name="colorSplashBackground">@color/colorBackground</color>
+
     <color name="pieChartDivider">#EEEEEE</color>
     <color name="pieChartDividerDark">@color/grey_950</color>
 
