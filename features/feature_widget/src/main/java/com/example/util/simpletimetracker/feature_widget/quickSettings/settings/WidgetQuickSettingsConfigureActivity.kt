@@ -34,7 +34,7 @@ class WidgetQuickSettingsConfigureActivity : BaseActivity<Binding>() {
         setResult(RESULT_CANCELED)
     }
 
-    override fun initUx() = with(binding){
+    override fun initUx() = with(binding) {
         layoutWidgetQuickSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
         layoutWidgetQuickSettingsShowTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
     }

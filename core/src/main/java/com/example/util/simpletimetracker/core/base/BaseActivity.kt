@@ -10,7 +10,6 @@ import com.example.util.simpletimetracker.core.extension.allowDiskWrite
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.core.provider.ContextProvider
 import com.example.util.simpletimetracker.core.utils.applyStatusBarInsets
-import com.example.util.simpletimetracker.core.utils.applySystemBarInsets
 
 abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
 

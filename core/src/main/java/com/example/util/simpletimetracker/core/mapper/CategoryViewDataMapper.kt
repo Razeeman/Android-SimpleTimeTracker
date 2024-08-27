@@ -17,7 +17,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewDa
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.HintBigViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
-import java.util.SortedMap
 import javax.inject.Inject
 
 class CategoryViewDataMapper @Inject constructor(

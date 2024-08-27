@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.RecordType
-import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo

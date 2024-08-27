@@ -355,7 +355,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             name = name,
             icon = iconSelectionViewModelDelegateImpl.newIcon,
             color = colorSelectionViewModelDelegateImpl.newColor,
-            instant = newIsInstant
+            instant = newIsInstant,
         )
 
         return recordTypeInteractor.add(recordType)
