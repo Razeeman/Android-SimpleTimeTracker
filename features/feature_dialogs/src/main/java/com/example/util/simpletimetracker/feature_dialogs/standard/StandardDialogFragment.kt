@@ -5,10 +5,9 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
-import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 
@@ -16,7 +15,7 @@ class StandardDialogFragment :
     AppCompatDialogFragment(),
     DialogInterface.OnClickListener {
 
-    private var standardDialogListener: StandardDialogListener? = null
+    private var listeners: List<StandardDialogListener> = emptyList()
     private val params: StandardDialogParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS,
         default = StandardDialogParams(),
@@ -47,26 +46,14 @@ class StandardDialogFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        when (context) {
-            is StandardDialogListener -> {
-                standardDialogListener = context
-                return
-            }
-            is AppCompatActivity -> {
-                context.getAllFragments()
-                    .firstOrNull { it is StandardDialogListener }
-                    ?.let { standardDialogListener = it as? StandardDialogListener }
-            }
-        }
+        listeners += context.findListeners<StandardDialogListener>()
     }
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
-        when (which) {
-            DialogInterface.BUTTON_POSITIVE -> {
-                standardDialogListener?.onPositiveClick(dialogTag, data)
-            }
-            DialogInterface.BUTTON_NEGATIVE -> {
-                standardDialogListener?.onNegativeClick(dialogTag, data)
+        listeners.forEach {
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> it.onPositiveClick(dialogTag, data)
+                DialogInterface.BUTTON_NEGATIVE -> it.onNegativeClick(dialogTag, data)
             }
         }
     }

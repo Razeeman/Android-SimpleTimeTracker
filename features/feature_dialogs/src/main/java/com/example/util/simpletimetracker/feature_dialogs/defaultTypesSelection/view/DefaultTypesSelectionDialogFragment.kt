@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
+import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setFullScreen
@@ -25,7 +26,9 @@ import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DefaultTypesSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
+class DefaultTypesSelectionDialogFragment :
+    BaseBottomSheetFragment<Binding>(),
+    StandardDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -69,6 +72,10 @@ class DefaultTypesSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
         types.observe(recordTypesAdapter::replace)
         saveButtonEnabled.observe(::bindSaveButtonState)
         close.observeOnce(viewLifecycleOwner) { dismiss() }
+    }
+
+    override fun onPositiveClick(tag: String?, data: Any?) {
+        viewModel.onPositiveDialogClick(tag)
     }
 
     private fun bindSaveButtonState(enabled: Boolean) = with(binding) {

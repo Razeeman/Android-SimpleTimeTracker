@@ -20,12 +20,15 @@ import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderView
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.defaultTypesSelection.interactor.GetDefaultRecordTypesInteractor
+import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DefaultTypesSelectionViewModel @Inject constructor(
+    private val router: Router,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
@@ -85,6 +88,23 @@ class DefaultTypesSelectionViewModel @Inject constructor(
     }
 
     fun onHideClick() {
+        router.navigate(
+            StandardDialogParams(
+                tag = HIDE_ALERT_DIALOG_TAG,
+                message = resourceRepo.getString(R.string.archive_deletion_alert),
+                btnPositive = resourceRepo.getString(R.string.ok),
+                btnNegative = resourceRepo.getString(R.string.cancel),
+            ),
+        )
+    }
+
+    fun onPositiveDialogClick(tag: String?) {
+        when (tag) {
+            HIDE_ALERT_DIALOG_TAG -> hide()
+        }
+    }
+
+    private fun hide() {
         viewModelScope.launch {
             prefsInteractor.setDefaultTypesHidden(true)
             close.set(Unit)
@@ -140,5 +160,9 @@ class DefaultTypesSelectionViewModel @Inject constructor(
 
     private fun loadRecordTypes(): List<RecordType> {
         return getDefaultRecordTypesInteractor.execute()
+    }
+
+    companion object {
+        private const val HIDE_ALERT_DIALOG_TAG = "hide_alert_dialog_tag"
     }
 }
