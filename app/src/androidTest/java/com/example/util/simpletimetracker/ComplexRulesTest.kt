@@ -568,12 +568,12 @@ class ComplexRulesTest : BaseUiTest() {
         // Archive
         NavUtils.openRunningRecordsScreen()
         longClickOnView(withText(typeName1))
-        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeDelete)
+        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeArchive)
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
         clickOnView(withText(tagName1))
-        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagDelete)
+        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagArchive)
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         pressBack()
 

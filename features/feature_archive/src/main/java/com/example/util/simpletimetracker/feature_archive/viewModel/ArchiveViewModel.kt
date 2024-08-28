@@ -6,15 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.RemoveRecordTagMediator
+import com.example.util.simpletimetracker.domain.interactor.RemoveRecordTypeMediator
 import com.example.util.simpletimetracker.domain.interactor.WearInteractor
-import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
-import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
-import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_archive.R
 import com.example.util.simpletimetracker.feature_archive.interactor.ArchiveViewDataInteractor
 import com.example.util.simpletimetracker.feature_archive.viewData.ArchiveViewData
@@ -37,10 +34,9 @@ class ArchiveViewModel @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
-    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
-    private val widgetInteractor: WidgetInteractor,
     private val wearInteractor: WearInteractor,
-    private val runningRecordInteractor: RunningRecordInteractor,
+    private val removeRecordTypeMediator: RemoveRecordTypeMediator,
+    private val removeRecordTagMediator: RemoveRecordTagMediator,
 ) : ViewModel() {
 
     val viewData: LiveData<ArchiveViewData> by lazy {
@@ -112,17 +108,11 @@ class ArchiveViewModel @Inject constructor(
         viewModelScope.launch {
             val message = when (params) {
                 is ArchiveDialogParams.Activity -> {
-                    recordTypeInteractor.remove(params.id)
-                    val runningRecordIds = runningRecordInteractor.getAll().map { it.id }
-                    notificationGoalTimeInteractor.cancel(RecordTypeGoal.IdData.Type(params.id))
-                    notificationGoalTimeInteractor.checkAndReschedule(runningRecordIds + params.id)
-                    widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
-                    wearInteractor.update()
+                    removeRecordTypeMediator.remove(params.id)
                     resourceRepo.getString(R.string.archive_activity_deleted)
                 }
                 is ArchiveDialogParams.RecordTag -> {
-                    recordTagInteractor.remove(params.id)
-                    wearInteractor.update()
+                    removeRecordTagMediator.remove(params.id)
                     resourceRepo.getString(R.string.archive_tag_deleted)
                 }
             }

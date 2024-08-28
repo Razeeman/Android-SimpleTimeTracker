@@ -160,6 +160,7 @@
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
     <string name="change_record_type_goal_duration">अवधि</string>
     <string name="change_record_type_goal_count">गिनती करना</string>
+    <string name="change_record_type_delete_alert">मिटाना?</string>
 
     <!--  Complex rules  -->
     <string name="complex_rules_hint">कुछ सेटिंग्स के अधिक सुव्यवस्थित अनुप्रयोग की अनुमति देता है</string>

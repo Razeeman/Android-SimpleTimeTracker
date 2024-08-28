@@ -20,6 +20,9 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToDefaultTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.RemoveRecordTagMediator
+import com.example.util.simpletimetracker.domain.interactor.RemoveRecordTypeMediator
+import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.WearInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
@@ -32,6 +35,7 @@ import com.example.util.simpletimetracker.feature_change_record_tag.viewData.Cha
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypesViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
+import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -52,6 +56,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private val categoryViewDataMapper: CategoryViewDataMapper,
     private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
+    private val removeRecordTagMediator: RemoveRecordTagMediator,
     private val colorSelectionViewModelDelegateImpl: ColorSelectionViewModelDelegateImpl,
     private val iconSelectionViewModelDelegateImpl: IconSelectionViewModelDelegateImpl,
 ) : ViewModel(),
@@ -93,9 +98,11 @@ class ChangeRecordTagViewModel @Inject constructor(
             previous = ChangeRecordTagChooserState.State.Closed,
         ),
     )
+    val archiveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val iconColorSourceSelected: LiveData<Boolean> = MutableLiveData(false)
+    val archiveIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId != 0L) }
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId != 0L) }
     val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId == 0L) }
@@ -188,8 +195,8 @@ class ChangeRecordTagViewModel @Inject constructor(
         updateIconColorSourceSelected()
     }
 
-    fun onDeleteClick() {
-        deleteButtonEnabled.set(false)
+    fun onArchiveClick() {
+        archiveButtonEnabled.set(false)
         viewModelScope.launch {
             if (recordTagId != 0L) {
                 recordTagInteractor.archive(recordTagId)
@@ -200,6 +207,18 @@ class ChangeRecordTagViewModel @Inject constructor(
                 router.back()
             }
         }
+    }
+
+    fun onDeleteClick() {
+        router.navigate(
+            StandardDialogParams(
+                tag = DELETE_ALERT_DIALOG_TAG,
+                title = resourceRepo.getString(R.string.change_record_type_delete_alert),
+                message = resourceRepo.getString(R.string.archive_deletion_alert),
+                btnPositive = resourceRepo.getString(R.string.ok),
+                btnNegative = resourceRepo.getString(R.string.cancel),
+            ),
+        )
     }
 
     fun onStatisticsClick() = viewModelScope.launch {
@@ -249,6 +268,26 @@ class ChangeRecordTagViewModel @Inject constructor(
             onNewChooserState(ChangeRecordTagChooserState.State.Closed)
         } else {
             router.back()
+        }
+    }
+
+    fun onPositiveDialogClick(tag: String?) {
+        when (tag) {
+            DELETE_ALERT_DIALOG_TAG -> delete()
+        }
+    }
+
+    private fun delete() {
+        router.back() // Close dialog.
+        deleteButtonEnabled.set(false)
+        viewModelScope.launch {
+            if (recordTagId != 0L) {
+                removeRecordTagMediator.remove(recordTagId)
+                notificationTypeInteractor.updateNotifications()
+                showMessage(R.string.archive_tag_deleted)
+                keyboardVisibility.set(false)
+                router.back()
+            }
         }
     }
 
@@ -449,5 +488,6 @@ class ChangeRecordTagViewModel @Inject constructor(
 
     companion object {
         private const val TYPE_SELECTION_TAG = "types_selection_tag"
+        private const val DELETE_ALERT_DIALOG_TAG = "delete_alert_dialog_tag"
     }
 }

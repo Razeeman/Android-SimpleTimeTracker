@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInte
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.RemoveRecordTypeMediator
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.WearInteractor
@@ -42,6 +43,7 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromChangeActivityParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
+import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -65,6 +67,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
+    private val removeRecordTypeMediator: RemoveRecordTypeMediator,
     private val goalsViewModelDelegate: GoalsViewModelDelegateImpl,
     private val colorSelectionViewModelDelegateImpl: ColorSelectionViewModelDelegateImpl,
     private val iconSelectionViewModelDelegateImpl: IconSelectionViewModelDelegateImpl,
@@ -105,10 +108,12 @@ class ChangeRecordTypeViewModel @Inject constructor(
             isInstantChecked = false,
         ),
     )
+    val archiveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val duplicateButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val nameErrorMessage: LiveData<String> = MutableLiveData("")
+    val archiveIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId != 0L) }
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId != 0L) }
     val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTypeId == 0L) }
@@ -210,8 +215,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
         )
     }
 
-    fun onDeleteClick() {
-        deleteButtonEnabled.set(false)
+    fun onArchiveClick() {
+        archiveButtonEnabled.set(false)
         viewModelScope.launch {
             if (recordTypeId != 0L) {
                 recordTypeInteractor.archive(recordTypeId)
@@ -225,6 +230,18 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 router.back()
             }
         }
+    }
+
+    fun onDeleteClick() {
+        router.navigate(
+            StandardDialogParams(
+                tag = DELETE_ALERT_DIALOG_TAG,
+                title = resourceRepo.getString(R.string.change_record_type_delete_alert),
+                message = resourceRepo.getString(R.string.archive_deletion_alert),
+                btnPositive = resourceRepo.getString(R.string.ok),
+                btnNegative = resourceRepo.getString(R.string.cancel),
+            ),
+        )
     }
 
     fun onStatisticsClick() = viewModelScope.launch {
@@ -267,7 +284,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
-    // TODO INSTANT add translations
     fun onDuplicateClick() {
         if (isNameEmpty()) return
         duplicateButtonEnabled.set(false)
@@ -288,6 +304,29 @@ class ChangeRecordTypeViewModel @Inject constructor(
     fun onInstantClick() = viewModelScope.launch {
         newIsInstant = !newIsInstant
         updateAdditionalState()
+    }
+
+    fun onPositiveDialogClick(tag: String?) {
+        when (tag) {
+            DELETE_ALERT_DIALOG_TAG -> delete()
+        }
+    }
+
+    // TODO check all after actions that need to be done after type delete,
+    //  also tag, category, record, running record etc.
+    private fun delete() {
+        router.back() // Close dialog.
+        deleteButtonEnabled.set(false)
+        viewModelScope.launch {
+            if (recordTypeId != 0L) {
+                removeRunningRecordMediator.remove(recordTypeId, updateWidgets = true)
+                removeRecordTypeMediator.remove(recordTypeId)
+                notificationTypeInteractor.updateNotifications()
+                showMessage(R.string.archive_activity_deleted)
+                keyboardVisibility.set(false)
+                router.back()
+            }
+        }
     }
 
     private fun isNameEmpty(): Boolean {
@@ -458,5 +497,9 @@ class ChangeRecordTypeViewModel @Inject constructor(
             isDuplicateVisible = extra is ChangeRecordTypeParams.Change,
             isInstantChecked = newIsInstant,
         )
+    }
+
+    companion object {
+        private const val DELETE_ALERT_DIALOG_TAG = "delete_alert_dialog_tag"
     }
 }

@@ -48,7 +48,7 @@ class ChangeRecordTagTest : BaseUiTest() {
         clickOnViewWithText(name)
 
         // View is set up
-        checkViewIsDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagDelete))
+        checkViewIsDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagArchive))
         checkViewIsDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagStatistics))
 
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvIconSelection))

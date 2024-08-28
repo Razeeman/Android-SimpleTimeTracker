@@ -160,6 +160,7 @@
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
     <string name="change_record_type_goal_duration">Czas trwania</string>
     <string name="change_record_type_goal_count">Liczba wystąpień</string>
+    <string name="change_record_type_delete_alert">Usuwać?</string>
 
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Umożliwia bardziej precyzyjne zastosowanie niektórych ustawień</string>

@@ -60,7 +60,7 @@ class AddRecordTypeTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.running_records_add_type)
 
         // View is set up
-        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeDelete))
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeArchive))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeStatistics))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeColor))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvIconSelection))

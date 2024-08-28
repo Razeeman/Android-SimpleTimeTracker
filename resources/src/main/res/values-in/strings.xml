@@ -160,6 +160,7 @@
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
     <string name="change_record_type_goal_duration">Durasi</string>
     <string name="change_record_type_goal_count">Menghitung</string>
+    <string name="change_record_type_delete_alert">Menghapus?</string>
 
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Memungkinkan penerapan beberapa pengaturan yang lebih baik</string>

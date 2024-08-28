@@ -10,11 +10,13 @@ import com.example.util.simpletimetracker.domain.repo.RecordTypeGoalRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeToDefaultTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeToTagRepo
+import com.example.util.simpletimetracker.domain.repo.RunningRecordRepo
 import javax.inject.Inject
 
 class RecordTypeInteractor @Inject constructor(
     private val recordTypeRepo: RecordTypeRepo,
     private val recordRepo: RecordRepo,
+    private val runningRecordRepo: RunningRecordRepo,
     private val recordTagRepo: RecordTagRepo,
     private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
@@ -78,6 +80,7 @@ class RecordTypeInteractor @Inject constructor(
             .apply { remove(id) }
             .let { prefsInteractor.setRecordTagSelectionExcludeActivities(it) }
         recordRepo.removeByType(id)
+        runningRecordRepo.remove(id)
         recordTypeCategoryRepo.removeAllByType(id)
         recordTypeToTagRepo.removeAllByType(id)
         recordTypeToDefaultTagRepo.removeAllByType(id)

@@ -160,6 +160,7 @@
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
     <string name="change_record_type_goal_duration">مدة</string>
     <string name="change_record_type_goal_count">عدد</string>
+    <string name="change_record_type_delete_alert">يمسح؟</string>
 
     <!--  Complex rules  -->
     <string name="complex_rules_hint">يسمح بتطبيق أكثر دقة لبعض الإعدادات</string>

@@ -66,7 +66,7 @@ class AddRecordTagTest : BaseUiTest() {
         closeSoftKeyboard()
 
         // View is set up
-        checkViewIsNotDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagDelete))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagArchive))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagStatistics))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagColor))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvIconSelection))

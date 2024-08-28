@@ -160,6 +160,7 @@
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
     <string name="change_record_type_goal_duration">시간</string>
     <string name="change_record_type_goal_count">횟수</string>
+    <string name="change_record_type_delete_alert">삭제?</string>
 
     <!--  Complex rules  -->
     <string name="complex_rules_hint">일부 설정을 보다 세밀하게 적용할 수 있습니다.</string>

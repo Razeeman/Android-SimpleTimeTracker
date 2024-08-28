@@ -51,7 +51,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
         longClickOnView(withText(name))
 
         // View is set up
-        checkViewIsDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeDelete))
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeArchive))
         checkViewIsDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeStatistics))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeColor))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvIconSelection))

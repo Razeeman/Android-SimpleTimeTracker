@@ -160,6 +160,7 @@
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
     <string name="change_record_type_goal_duration">Durata</string>
     <string name="change_record_type_goal_count">Număr</string>
+    <string name="change_record_type_delete_alert">Şterge?</string>
 
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Permite o modificare fină a unor setări</string>

@@ -42,10 +42,9 @@
                 android:layout_marginStart="@dimen/edit_screen_button_margin_horizontal"
                 android:layout_marginTop="8dp"
                 android:visibility="gone"
-                app:layout_constraintEnd_toStartOf="@id/btnChangeRecordTypeDelete"
+                app:layout_constraintEnd_toStartOf="@id/btnChangeRecordTypeArchive"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordTypePreview"
-                app:layout_goneMarginEnd="@dimen/edit_screen_button_margin_horizontal"
                 tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -78,16 +77,14 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/btnChangeRecordTypeDelete"
+                android:id="@+id/btnChangeRecordTypeArchive"
                 style="@style/EditScreenControlButton"
                 android:layout_width="0dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="@dimen/edit_screen_button_margin_horizontal"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnChangeRecordTypeDelete"
                 app:layout_constraintStart_toEndOf="@id/btnChangeRecordTypeStatistics"
                 app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordTypePreview"
-                app:layout_goneMarginStart="@dimen/edit_screen_button_margin_horizontal"
                 tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -119,12 +116,44 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnChangeRecordTypeDelete"
+                style="@style/EditScreenControlButton"
+                android:layout_width="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/edit_screen_button_margin_horizontal"
+                android:visibility="gone"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnChangeRecordTypeArchive"
+                app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordTypePreview"
+                tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivBtnChangeRecordTypeDelete"
+                        style="@style/EditScreenControlButtonImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/delete"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrierChangeRecordTypeButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="btnChangeRecordTypeStatistics, btnChangeRecordTypeDelete" />
+                app:constraint_referenced_ids="btnChangeRecordTypeStatistics, btnChangeRecordTypeArchive, btnChangeRecordTypeDelete" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputChangeRecordTypeName"

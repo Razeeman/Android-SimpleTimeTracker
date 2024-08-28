@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewDelegate.IconSelectionViewDelegate
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
+import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.addOnBackPressedListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
@@ -74,7 +75,8 @@ class ChangeRecordTagFragment :
     BaseFragment<Binding>(),
     EmojiSelectionDialogListener,
     ColorSelectionDialogListener,
-    TypesSelectionDialogListener {
+    TypesSelectionDialogListener,
+    StandardDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -190,7 +192,8 @@ class ChangeRecordTagFragment :
         fieldChangeRecordTagDefaultType.setOnClick(viewModel::onDefaultTypeChooserClick)
         btnChangeRecordTagSelectActivity.setOnClick(viewModel::onSelectActivityClick)
         btnChangeRecordTagSave.setOnClick(viewModel::onSaveClick)
-        btnChangeRecordTagDelete.setOnClick(viewModel::onDeleteClick)
+        btnChangeRecordTagArchive.setOnClick(viewModel::onArchiveClick)
+        btnChangeRecordTagDelete.setOnClick(throttle(viewModel::onDeleteClick))
         btnChangeRecordTagStatistics.setOnClick(viewModel::onStatisticsClick)
         containerChangeRecordTypeIcon.btnIconSelectionNoIcon.setOnClick(viewModel::onNoIconClick)
         IconSelectionViewDelegate.initUx(
@@ -204,9 +207,11 @@ class ChangeRecordTagFragment :
     override fun initViewModel(): Unit = with(binding) {
         with(viewModel) {
             extra = params
+            archiveIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTagArchive::visible::set)
             deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTagDelete::visible::set)
             statsIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTagStatistics::isVisible::set)
             saveButtonEnabled.observe(btnChangeRecordTagSave::setEnabled)
+            archiveButtonEnabled.observe(btnChangeRecordTagArchive::setEnabled)
             deleteButtonEnabled.observe(btnChangeRecordTagDelete::setEnabled)
             iconColorSourceSelected.observe(::updateIconColorSourceSelected)
             preview.observeOnce(viewLifecycleOwner, ::updateUi)
@@ -249,6 +254,10 @@ class ChangeRecordTagFragment :
 
     override fun onDataSelected(dataIds: List<Long>, tag: String?) {
         viewModel.onTypesSelected(dataIds, tag)
+    }
+
+    override fun onPositiveClick(tag: String?, data: Any?) {
+        viewModel.onPositiveDialogClick(tag)
     }
 
     private fun updateUi(item: CategoryViewData.Record) = with(binding) {
@@ -347,6 +356,8 @@ class ChangeRecordTagFragment :
         btnChangeRecordTagSelectActivity.isVisible = isClosed
         btnChangeRecordTagStatistics.isVisible =
             viewModel.statsIconVisibility.value.orFalse() && isClosed
+        btnChangeRecordTagArchive.isVisible =
+            viewModel.archiveIconVisibility.value.orFalse() && isClosed
         btnChangeRecordTagDelete.isVisible =
             viewModel.deleteIconVisibility.value.orFalse() && isClosed
         dividerChangeRecordTagBottom.isVisible = !isClosed

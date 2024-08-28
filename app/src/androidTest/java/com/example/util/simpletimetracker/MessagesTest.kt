@@ -65,7 +65,7 @@ class MessagesTest : BaseUiTest() {
 
         // Remove activity
         longClickOnView(withText(typeName))
-        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeDelete)
+        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeArchive)
         clickOnView(allOf(withText(coreR.string.settings_archive), isCompletelyDisplayed()))
         checkViewIsDisplayed(withId(archiveR.id.tvArchiveTitle))
         pressBack()
@@ -74,7 +74,7 @@ class MessagesTest : BaseUiTest() {
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
         longClickOnView(withText(tagName))
-        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagDelete)
+        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagArchive)
         clickOnView(allOf(withText(coreR.string.settings_archive), isCompletelyDisplayed()))
         checkViewIsDisplayed(withId(archiveR.id.tvArchiveTitle))
     }

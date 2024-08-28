@@ -53,8 +53,8 @@ class DeleteRecordTypeTest : BaseUiTest() {
 
         // Archive item
         longClickOnView(withText(name))
-        checkViewIsDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeDelete))
-        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeDelete)
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeArchive))
+        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeArchive)
         checkViewIsDisplayed(
             allOf(
                 withSubstring(getString(coreR.string.change_record_type_archived)),

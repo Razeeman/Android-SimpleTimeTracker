@@ -160,6 +160,7 @@
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
     <string name="change_record_type_goal_duration">間隔</string>
     <string name="change_record_type_goal_count">カウント</string>
+    <string name="change_record_type_delete_alert">消去？</string>
 
     <!--  Complex rules  -->
     <string name="complex_rules_hint">一部の設定をより細かく適用できるようになります</string>

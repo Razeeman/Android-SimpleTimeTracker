@@ -45,10 +45,9 @@
                 android:layout_marginStart="@dimen/edit_screen_button_margin_horizontal"
                 android:layout_marginTop="8dp"
                 android:visibility="gone"
-                app:layout_constraintEnd_toStartOf="@id/btnChangeRecordTagDelete"
+                app:layout_constraintEnd_toStartOf="@id/btnChangeRecordTagArchive"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordTagPreview"
-                app:layout_goneMarginEnd="@dimen/edit_screen_button_margin_horizontal"
                 tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -81,16 +80,14 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/btnChangeRecordTagDelete"
+                android:id="@+id/btnChangeRecordTagArchive"
                 style="@style/EditScreenControlButton"
                 android:layout_width="0dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="@dimen/edit_screen_button_margin_horizontal"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnChangeRecordTagDelete"
                 app:layout_constraintStart_toEndOf="@id/btnChangeRecordTagStatistics"
                 app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordTagPreview"
-                app:layout_goneMarginStart="@dimen/edit_screen_button_margin_horizontal"
                 tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -122,12 +119,44 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnChangeRecordTagDelete"
+                style="@style/EditScreenControlButton"
+                android:layout_width="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/edit_screen_button_margin_horizontal"
+                android:visibility="gone"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnChangeRecordTagArchive"
+                app:layout_constraintTop_toBottomOf="@id/dividerChangeRecordTagPreview"
+                tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivBtnChangeRecordTagDelete"
+                        style="@style/EditScreenControlButtonImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/delete"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrierChangeRecordTagButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="btnChangeRecordTagStatistics, btnChangeRecordTagDelete" />
+                app:constraint_referenced_ids="btnChangeRecordTagStatistics, btnChangeRecordTagArchive, btnChangeRecordTagDelete" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputChangeRecordTagName"

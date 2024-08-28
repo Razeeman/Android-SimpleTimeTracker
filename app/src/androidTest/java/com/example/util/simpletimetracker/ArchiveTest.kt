@@ -48,7 +48,7 @@ class ArchiveTest : BaseUiTest() {
 
         // Delete one
         longClickOnView(withText(name2))
-        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeDelete)
+        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeArchive)
         // Snackbar is in the way of Add button
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
         tryAction { checkTypeVisible(name1) }
@@ -161,9 +161,9 @@ class ArchiveTest : BaseUiTest() {
 
         // Delete one
         clickOnView(withText(tag2))
-        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagDelete)
+        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagArchive)
         clickOnView(withText(tag4))
-        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagDelete)
+        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagArchive)
         checkTagVisible(tag1)
         checkTagNotVisible(tag2)
         checkTagVisible(tag3)
@@ -264,19 +264,19 @@ class ArchiveTest : BaseUiTest() {
 
         // Delete
         tryAction { longClickOnView(withText(name1)) }
-        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeDelete)
+        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeArchive)
         tryAction { longClickOnView(withText(name2)) }
-        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeDelete)
+        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeArchive)
         NavUtils.openSettingsScreen()
         NavUtils.openCategoriesScreen()
         tryAction { clickOnViewWithText(tag1) }
-        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagDelete)
+        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagArchive)
         tryAction { clickOnViewWithText(tag2) }
-        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagDelete)
+        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagArchive)
         tryAction { clickOnViewWithText(tag3) }
-        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagDelete)
+        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagArchive)
         tryAction { clickOnViewWithText(tag4) }
-        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagDelete)
+        clickOnViewWithId(changeRecordTagR.id.btnChangeRecordTagArchive)
         pressBack()
 
         // Check archive

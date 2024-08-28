@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.core.delegates.iconSelection.viewDeleg
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
+import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.addOnBackPressedListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
@@ -79,7 +80,8 @@ class ChangeRecordTypeFragment :
     BaseFragment<Binding>(),
     DurationDialogListener,
     EmojiSelectionDialogListener,
-    ColorSelectionDialogListener {
+    ColorSelectionDialogListener,
+    StandardDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -198,7 +200,8 @@ class ChangeRecordTypeFragment :
         fieldChangeRecordTypeGoalTime.setOnClick(viewModel::onGoalTimeChooserClick)
         fieldChangeRecordTypeAdditional.setOnClick(viewModel::onAdditionalChooserClick)
         btnChangeRecordTypeSave.setOnClick(viewModel::onSaveClick)
-        btnChangeRecordTypeDelete.setOnClick(viewModel::onDeleteClick)
+        btnChangeRecordTypeArchive.setOnClick(viewModel::onArchiveClick)
+        btnChangeRecordTypeDelete.setOnClick(throttle(viewModel::onDeleteClick))
         btnChangeRecordTypeStatistics.setOnClick(viewModel::onStatisticsClick)
         layoutChangeRecordTypeAdditional.btnChangeRecordTypeAdditionalDuplicate
             .setOnClick(viewModel::onDuplicateClick)
@@ -219,9 +222,11 @@ class ChangeRecordTypeFragment :
     override fun initViewModel(): Unit = with(binding) {
         with(viewModel) {
             extra = params
+            archiveIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTypeArchive::isVisible::set)
             deleteIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTypeDelete::isVisible::set)
             statsIconVisibility.observeOnce(viewLifecycleOwner, btnChangeRecordTypeStatistics::isVisible::set)
             saveButtonEnabled.observe(btnChangeRecordTypeSave::setEnabled)
+            archiveButtonEnabled.observe(btnChangeRecordTypeArchive::setEnabled)
             deleteButtonEnabled.observe(btnChangeRecordTypeDelete::setEnabled)
             recordType.observeOnce(viewLifecycleOwner, ::updateUi)
             recordType.observe(::updatePreview)
@@ -291,6 +296,10 @@ class ChangeRecordTypeFragment :
 
     override fun onColorSelected(colorInt: Int) {
         viewModel.onCustomColorSelected(colorInt)
+    }
+
+    override fun onPositiveClick(tag: String?, data: Any?) {
+        viewModel.onPositiveDialogClick(tag)
     }
 
     private fun updateUi(item: RecordTypeViewData) = with(binding) {
@@ -384,6 +393,8 @@ class ChangeRecordTypeFragment :
         inputChangeRecordTypeName.isVisible = isClosed
         btnChangeRecordTypeStatistics.isVisible =
             viewModel.statsIconVisibility.value.orFalse() && isClosed
+        btnChangeRecordTypeArchive.isVisible =
+            viewModel.archiveIconVisibility.value.orFalse() && isClosed
         btnChangeRecordTypeDelete.isVisible =
             viewModel.deleteIconVisibility.value.orFalse() && isClosed
         dividerChangeRecordTypeBottom.isVisible = !isClosed
