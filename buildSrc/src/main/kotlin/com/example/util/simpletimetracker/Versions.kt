@@ -12,7 +12,6 @@ object Versions {
     const val appcompat = "1.7.0"
     const val constraintLayout = "2.1.4"
     const val recyclerView = "1.1.0"
-    const val lifecycleExtensions = "2.2.0"
     const val room = "2.4.3"
     const val dagger = "2.52"
     const val viewpager2 = "1.0.0"
@@ -24,11 +23,11 @@ object Versions {
     const val material = "1.8.0"
     const val emoji = "1.4.0"
 
-    const val fragmentKtx = "1.3.4"
+    const val fragmentKtx = "1.8.2"
     const val coreKtx = "1.2.0"
-    const val liveDataCoreKtx = "2.2.0"
-    const val liveDataKtx = "2.2.0"
-    const val viewModelKtx = "2.2.0"
+    const val liveDataCoreKtx = "2.8.4"
+    const val liveDataKtx = "2.8.4"
+    const val viewModelKtx = "2.8.4"
     const val navigationKtx = "2.5.3"
     const val activityKtx = "1.8.2"
 

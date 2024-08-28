@@ -28,7 +28,6 @@ dependencies {
     api(Deps.Androidx.constraintLayout)
     api(Deps.Androidx.cardView)
     api(Deps.Androidx.material)
-    api(Deps.Androidx.lifecycleExtensions)
     api(Deps.Androidx.viewpager2)
     api(Deps.Emoji.emojiBundled)
     api(Deps.Google.flexBox)

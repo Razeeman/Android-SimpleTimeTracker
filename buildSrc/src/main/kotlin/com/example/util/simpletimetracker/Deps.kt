@@ -17,8 +17,6 @@ object Deps {
             "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
         const val recyclerView =
             "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
-        const val lifecycleExtensions =
-            "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycleExtensions}"
         const val room =
             "androidx.room:room-runtime:${Versions.room}"
         const val viewpager2 =
