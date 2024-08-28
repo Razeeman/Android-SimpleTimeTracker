@@ -1,18 +1,18 @@
-package com.example.util.simpletimetracker.feature_settings.adapter
+package com.example.util.simpletimetracker.feature_settings_views
 
 import android.view.View
 import android.widget.Space
-import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.AppCompatTextView
-import com.example.util.simpletimetracker.core.viewData.SettingsBlock
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.cardview.widget.CardView
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxViewData as ViewData
-import com.example.util.simpletimetracker.feature_settings.databinding.ItemSettingsCheckboxBinding as Binding
+import com.example.util.simpletimetracker.feature_settings_views.SettingsSelectorViewData as ViewData
+import com.example.util.simpletimetracker.feature_settings_views.databinding.ItemSettingsSelectorBinding as Binding
 
-fun createSettingsCheckboxAdapterDelegate(
+fun createSettingsSelectorAdapterDelegate(
     onClick: (SettingsBlock) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
@@ -21,64 +21,56 @@ fun createSettingsCheckboxAdapterDelegate(
     with(binding) {
         item as ViewData
 
-        checkboxAdapterBindDelegate(
+        selectorAdapterBindDelegate(
             item = item,
             title = tvItemSettingsTitle,
             subtitle = tvItemSettingsSubtitle,
-            checkbox = checkboxItemSettings,
-            spaceTop = spaceItemSettingsTop,
-            spaceBottom = spaceItemSettingsBottom,
+            value = tvItemSettingsSelectorValue,
+            space = spaceItemSettingsBottom,
             divider = viewItemSettingsDivider,
+            group = groupItemSettingsSelector,
+            background = backgroundItemSettings,
             onClick = onClick,
         )
     }
 }
 
-fun checkboxAdapterBindDelegate(
+fun selectorAdapterBindDelegate(
     item: ViewData,
     title: AppCompatTextView,
     subtitle: AppCompatTextView,
-    checkbox: AppCompatCheckBox,
-    spaceTop: Space,
-    spaceBottom: Space,
+    value: AppCompatTextView,
+    space: Space,
     divider: View,
-    onClick: (block: SettingsBlock) -> Unit,
+    group: LinearLayoutCompat,
+    background: CardView,
+    onClick: (SettingsBlock) -> Unit,
 ) {
     title.text = item.title
-
     if (item.subtitle.isEmpty()) {
         subtitle.visible = false
     } else {
         subtitle.text = item.subtitle
         subtitle.visible = true
     }
-
-    if (checkbox.isChecked != item.isChecked) {
-        checkbox.isChecked = item.isChecked
-    }
-
-    spaceTop.visible = item.topSpaceIsVisible
-    spaceBottom.visible = item.bottomSpaceIsVisible
+    value.text = item.selectedValue
+    space.visible = item.bottomSpaceIsVisible
     divider.visible = item.dividerIsVisible
-
-    checkbox.setOnClick { onClick(item.block) }
+    background.visible = item.backgroundIsVisible
+    group.setOnClick { onClick(item.block) }
 }
 
-data class SettingsCheckboxViewData(
+data class SettingsSelectorViewData(
     val block: SettingsBlock,
     val title: String,
     val subtitle: String,
-    val isChecked: Boolean,
-    val topSpaceIsVisible: Boolean = true,
+    val selectedValue: String,
     val bottomSpaceIsVisible: Boolean = true,
     val dividerIsVisible: Boolean = true,
-    val forceBind: Boolean = false,
+    val backgroundIsVisible: Boolean = true,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = block.ordinal.toLong()
 
     override fun isValidType(other: ViewHolderType): Boolean = other is ViewData
-
-    override fun areContentsTheSame(other: ViewHolderType): Boolean =
-        super.areContentsTheSame(other) && !forceBind
 }

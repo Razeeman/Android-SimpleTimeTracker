@@ -1,12 +1,10 @@
-package com.example.util.simpletimetracker.feature_settings.adapter
+package com.example.util.simpletimetracker.feature_settings_views
 
-import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.viewData.SettingsTextColor
 import com.example.util.simpletimetracker.feature_views.extension.visible
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsHintViewData as ViewData
-import com.example.util.simpletimetracker.feature_settings.databinding.ItemSettingsHintBinding as Binding
+import com.example.util.simpletimetracker.feature_settings_views.SettingsHintViewData as ViewData
+import com.example.util.simpletimetracker.feature_settings_views.databinding.ItemSettingsHintBinding as Binding
 
 fun createSettingsHintAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,

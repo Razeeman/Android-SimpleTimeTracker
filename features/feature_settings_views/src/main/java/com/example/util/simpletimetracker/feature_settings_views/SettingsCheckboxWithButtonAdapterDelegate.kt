@@ -1,12 +1,11 @@
-package com.example.util.simpletimetracker.feature_settings.adapter
+package com.example.util.simpletimetracker.feature_settings_views
 
-import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxWithButtonViewData as ViewData
-import com.example.util.simpletimetracker.feature_settings.databinding.ItemSettingsCheckboxWithButtonBinding as Binding
+import com.example.util.simpletimetracker.feature_settings_views.SettingsCheckboxWithButtonViewData as ViewData
+import com.example.util.simpletimetracker.feature_settings_views.databinding.ItemSettingsCheckboxWithButtonBinding as Binding
 
 fun createSettingsCheckboxWithButtonAdapterDelegate(
     onClick: (SettingsBlock) -> Unit,

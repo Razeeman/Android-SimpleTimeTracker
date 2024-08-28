@@ -4,16 +4,16 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.R
-import com.example.util.simpletimetracker.core.viewData.SettingsBlock
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsBottomViewData
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCheckboxViewData
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCollapseViewData
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsRangeViewData
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSelectorViewData
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTextViewData
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTopViewData
+import com.example.util.simpletimetracker.feature_settings_views.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
-import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
+import com.example.util.simpletimetracker.feature_settings_views.SettingsDurationViewData
+import com.example.util.simpletimetracker.feature_settings_views.SettingsBottomViewData
+import com.example.util.simpletimetracker.feature_settings_views.SettingsCheckboxViewData
+import com.example.util.simpletimetracker.feature_settings_views.SettingsCollapseViewData
+import com.example.util.simpletimetracker.feature_settings_views.SettingsRangeViewData
+import com.example.util.simpletimetracker.feature_settings_views.SettingsSelectorViewData
+import com.example.util.simpletimetracker.feature_settings_views.SettingsTextViewData
+import com.example.util.simpletimetracker.feature_settings_views.SettingsTopViewData
 import javax.inject.Inject
 
 class SettingsNotificationsViewDataInteractor @Inject constructor(

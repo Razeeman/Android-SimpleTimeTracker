@@ -35,7 +35,7 @@ import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalend
 import com.example.util.simpletimetracker.feature_settings.viewData.FirstDayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.LanguageViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButtonViewData
-import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
+import com.example.util.simpletimetracker.feature_settings_views.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.WidgetTransparencyViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
@@ -268,20 +268,6 @@ class SettingsMapper @Inject constructor(
         return if (duration > 0) {
             SettingsDurationViewData(
                 text = timeMapper.formatDuration(duration),
-                enabled = true,
-            )
-        } else {
-            SettingsDurationViewData(
-                text = resourceRepo.getString(R.string.settings_inactivity_reminder_disabled),
-                enabled = false,
-            )
-        }
-    }
-
-    fun toCountViewData(count: Long): SettingsDurationViewData {
-        return if (count > 0) {
-            SettingsDurationViewData(
-                text = count.toString(),
                 enabled = true,
             )
         } else {

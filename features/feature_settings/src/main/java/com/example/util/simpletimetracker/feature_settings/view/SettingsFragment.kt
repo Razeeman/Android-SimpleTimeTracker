@@ -15,26 +15,10 @@ import com.example.util.simpletimetracker.core.dialog.TypesSelectionDialogListen
 import com.example.util.simpletimetracker.core.sharedViewModel.BackupViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
-import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsBottomAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxWithButtonAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCheckboxWithRangeAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsCollapseAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsHintAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsRangeAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSelectorAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSelectorWithButtonAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerEvenAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerNotCheckableAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsSpinnerWithButtonAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTextAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTextWithButtonAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTopAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.createSettingsTranslatorAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
+import com.example.util.simpletimetracker.feature_settings_views.SettingsBlock
+import com.example.util.simpletimetracker.feature_settings_views.getSettingsAdapterDelegates
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -67,26 +51,11 @@ class SettingsFragment :
 
     private val contentAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
-            createSettingsTopAdapterDelegate(),
-            createSettingsBottomAdapterDelegate(),
-            createSettingsTranslatorAdapterDelegate(),
-            createSettingsHintAdapterDelegate(),
-            createSettingsTextAdapterDelegate(throttle(::onBlockClicked)),
-            createSettingsTextWithButtonAdapterDelegate(::onBlockClicked),
-            createSettingsCheckboxAdapterDelegate(::onBlockClicked),
-            createSettingsCheckboxWithButtonAdapterDelegate(::onBlockClicked),
-            createSettingsCheckboxWithRangeAdapterDelegate(::onBlockClicked),
-            createSettingsCollapseAdapterDelegate(::onBlockClicked),
-            createSettingsSelectorAdapterDelegate(::onBlockClicked),
-            createSettingsSelectorWithButtonAdapterDelegate(::onBlockClicked),
-            createSettingsRangeAdapterDelegate(::onBlockClicked),
-            createSettingsSpinnerAdapterDelegate(viewModel::onSpinnerPositionSelected),
-            createSettingsSpinnerEvenAdapterDelegate(viewModel::onSpinnerPositionSelected),
-            createSettingsSpinnerNotCheckableAdapterDelegate(viewModel::onSpinnerPositionSelected),
-            createSettingsSpinnerWithButtonAdapterDelegate(
-                onPositionSelected = viewModel::onSpinnerPositionSelected,
-                onButtonClicked = ::onBlockClicked,
-            ),
+            *getSettingsAdapterDelegates(
+                onBlockClicked = ::onBlockClicked,
+                onBlockClickedThrottled = throttle(::onBlockClicked),
+                onSpinnerPositionSelected = viewModel::onSpinnerPositionSelected,
+            ).toTypedArray(),
         )
     }
 

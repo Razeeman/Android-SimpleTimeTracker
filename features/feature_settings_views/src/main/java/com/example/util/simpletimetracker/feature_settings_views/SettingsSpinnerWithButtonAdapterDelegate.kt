@@ -1,13 +1,15 @@
-package com.example.util.simpletimetracker.feature_settings.adapter
+package com.example.util.simpletimetracker.feature_settings_views
 
-import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSpinnerNotCheckableViewData as ViewData
-import com.example.util.simpletimetracker.feature_settings.databinding.ItemSettingsSpinnerNotCheckableBinding as Binding
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.feature_settings_views.SettingsSpinnerWithButtonViewData as ViewData
+import com.example.util.simpletimetracker.feature_settings_views.databinding.ItemSettingsSpinnerWithButtonBinding as Binding
 
-fun createSettingsSpinnerNotCheckableAdapterDelegate(
+fun createSettingsSpinnerWithButtonAdapterDelegate(
     onPositionSelected: (block: SettingsBlock, position: Int) -> Unit,
+    onButtonClicked: (block: SettingsBlock) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->
@@ -22,11 +24,15 @@ fun createSettingsSpinnerNotCheckableAdapterDelegate(
             spinner = spinnerItemSettings,
             onPositionSelected = onPositionSelected,
         )
+
+        btnItemSettings.visible = item.isButtonVisible
+        btnItemSettings.setOnClick { onButtonClicked(item.data.block) }
     }
 }
 
-data class SettingsSpinnerNotCheckableViewData(
+data class SettingsSpinnerWithButtonViewData(
     val data: SettingsSpinnerViewData,
+    val isButtonVisible: Boolean,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = data.block.ordinal.toLong()

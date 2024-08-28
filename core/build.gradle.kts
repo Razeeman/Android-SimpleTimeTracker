@@ -21,6 +21,7 @@ dependencies {
     api(project(":resources"))
     api(project(":feature_base_adapter"))
     api(project(":feature_views"))
+    implementation(project(":feature_settings_views"))
 
     api(Deps.Androidx.appcompat)
     api(Deps.Androidx.recyclerView)

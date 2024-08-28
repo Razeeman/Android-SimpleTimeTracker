@@ -1,16 +1,12 @@
-package com.example.util.simpletimetracker.feature_settings.adapter
+package com.example.util.simpletimetracker.feature_settings_views
 
-import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_views.extension.visible
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSpinnerWithButtonViewData as ViewData
-import com.example.util.simpletimetracker.feature_settings.databinding.ItemSettingsSpinnerWithButtonBinding as Binding
+import com.example.util.simpletimetracker.feature_settings_views.SettingsSpinnerEvenViewData as ViewData
+import com.example.util.simpletimetracker.feature_settings_views.databinding.ItemSettingsSpinnerEvenBinding as Binding
 
-fun createSettingsSpinnerWithButtonAdapterDelegate(
+fun createSettingsSpinnerEvenAdapterDelegate(
     onPositionSelected: (block: SettingsBlock, position: Int) -> Unit,
-    onButtonClicked: (block: SettingsBlock) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->
@@ -25,15 +21,11 @@ fun createSettingsSpinnerWithButtonAdapterDelegate(
             spinner = spinnerItemSettings,
             onPositionSelected = onPositionSelected,
         )
-
-        btnItemSettings.visible = item.isButtonVisible
-        btnItemSettings.setOnClick { onButtonClicked(item.data.block) }
     }
 }
 
-data class SettingsSpinnerWithButtonViewData(
+data class SettingsSpinnerEvenViewData(
     val data: SettingsSpinnerViewData,
-    val isButtonVisible: Boolean,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = data.block.ordinal.toLong()

@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.core.viewData
+package com.example.util.simpletimetracker.feature_settings_views
 
 enum class SettingsBlock {
     MainTop,

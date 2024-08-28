@@ -1,10 +1,10 @@
-package com.example.util.simpletimetracker.feature_settings.adapter
+package com.example.util.simpletimetracker.feature_settings_views
 
 import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTranslatorViewData as ViewData
-import com.example.util.simpletimetracker.feature_settings.databinding.ItemSettingsTranslatorBinding as Binding
+import com.example.util.simpletimetracker.feature_settings_views.SettingsTranslatorViewData as ViewData
+import com.example.util.simpletimetracker.feature_settings_views.databinding.ItemSettingsTranslatorBinding as Binding
 
 fun createSettingsTranslatorAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,

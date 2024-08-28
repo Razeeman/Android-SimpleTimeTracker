@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- TODO When adding new language, also add language tag to locale_config  -->
+    <!-- When adding new language, also add language tag to locale_config  -->
 
     <string name="settings_english_language" translatable="false">English</string>
     <string name="settings_english_tag" translatable="false">en</string>

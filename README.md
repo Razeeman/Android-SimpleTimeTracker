@@ -95,6 +95,7 @@ Simple app that helps track how much time you spend on all the useless activitie
     │   ├── feature_records_filter            # Dialog for records filters.
     │   ├── feature_running_records           # One of main tabs, timers.
     │   ├── feature_settings                  # One of main tabs, settings.
+    │   ├── feature_settings_views            # Common settings views.
     │   ├── feature_statistics                # One of main tabs, statistics.
     │   ├── feature_statistics_detail         # Screen showing detailed statistics.
     │   ├── feature_tag_selection             # Screen for selecting tags.

@@ -1,14 +1,13 @@
-package com.example.util.simpletimetracker.feature_settings.adapter
+package com.example.util.simpletimetracker.feature_settings_views
 
-import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsCollapseViewData as ViewData
-import com.example.util.simpletimetracker.feature_settings.databinding.ItemSettingsCollapseBinding as Binding
+import com.example.util.simpletimetracker.feature_settings_views.SettingsCollapseViewData as ViewData
+import com.example.util.simpletimetracker.feature_settings_views.databinding.ItemSettingsCollapseBinding as Binding
 
 fun createSettingsCollapseAdapterDelegate(
     onClick: (block: SettingsBlock) -> Unit,

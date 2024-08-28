@@ -1,12 +1,11 @@
-package com.example.util.simpletimetracker.feature_settings.adapter
+package com.example.util.simpletimetracker.feature_settings_views
 
 import androidx.appcompat.widget.AppCompatTextView
-import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSpinnerViewData as ViewData
-import com.example.util.simpletimetracker.feature_settings.databinding.ItemSettingsSpinnerBinding as Binding
+import com.example.util.simpletimetracker.feature_settings_views.SettingsSpinnerViewData as ViewData
+import com.example.util.simpletimetracker.feature_settings_views.databinding.ItemSettingsSpinnerBinding as Binding
 
 fun createSettingsSpinnerAdapterDelegate(
     onPositionSelected: (block: SettingsBlock, position: Int) -> Unit,

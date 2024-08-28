@@ -1,12 +1,11 @@
-package com.example.util.simpletimetracker.feature_settings.adapter
+package com.example.util.simpletimetracker.feature_settings_views
 
-import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSpinnerEvenViewData as ViewData
-import com.example.util.simpletimetracker.feature_settings.databinding.ItemSettingsSpinnerEvenBinding as Binding
+import com.example.util.simpletimetracker.feature_settings_views.SettingsSpinnerNotCheckableViewData as ViewData
+import com.example.util.simpletimetracker.feature_settings_views.databinding.ItemSettingsSpinnerNotCheckableBinding as Binding
 
-fun createSettingsSpinnerEvenAdapterDelegate(
+fun createSettingsSpinnerNotCheckableAdapterDelegate(
     onPositionSelected: (block: SettingsBlock, position: Int) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
@@ -25,7 +24,7 @@ fun createSettingsSpinnerEvenAdapterDelegate(
     }
 }
 
-data class SettingsSpinnerEvenViewData(
+data class SettingsSpinnerNotCheckableViewData(
     val data: SettingsSpinnerViewData,
 ) : ViewHolderType {
 

@@ -1,10 +1,9 @@
-package com.example.util.simpletimetracker.feature_settings.adapter
+package com.example.util.simpletimetracker.feature_settings_views
 
-import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsTopViewData as ViewData
-import com.example.util.simpletimetracker.feature_settings.databinding.ItemSettingsTopBinding as Binding
+import com.example.util.simpletimetracker.feature_settings_views.SettingsTopViewData as ViewData
+import com.example.util.simpletimetracker.feature_settings_views.databinding.ItemSettingsTopBinding as Binding
 
 fun createSettingsTopAdapterDelegate() = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,

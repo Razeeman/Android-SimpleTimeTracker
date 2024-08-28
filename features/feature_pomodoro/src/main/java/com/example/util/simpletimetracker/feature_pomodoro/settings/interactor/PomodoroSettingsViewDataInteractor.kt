@@ -3,20 +3,18 @@ package com.example.util.simpletimetracker.feature_pomodoro.settings.interactor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.PermissionRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.core.viewData.SettingsBlock
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.HintBigViewData
+import com.example.util.simpletimetracker.feature_pomodoro.R
 import com.example.util.simpletimetracker.feature_pomodoro.settings.model.PomodoroHintButtonType
-import com.example.util.simpletimetracker.feature_settings.R
-import com.example.util.simpletimetracker.feature_settings.adapter.SettingsSelectorViewData
-import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
-import com.example.util.simpletimetracker.feature_settings.viewData.SettingsDurationViewData
+import com.example.util.simpletimetracker.feature_settings_views.SettingsBlock
+import com.example.util.simpletimetracker.feature_settings_views.SettingsDurationViewData
+import com.example.util.simpletimetracker.feature_settings_views.SettingsSelectorViewData
 import javax.inject.Inject
 
 class PomodoroSettingsViewDataInteractor @Inject constructor(
     private val resourceRepo: ResourceRepo,
-    private val settingsMapper: SettingsMapper,
     private val prefsInteractor: PrefsInteractor,
     private val permissionRepo: PermissionRepo,
     private val timeMapper: TimeMapper,
@@ -109,6 +107,16 @@ class PomodoroSettingsViewDataInteractor @Inject constructor(
     }
 
     private fun mapCount(value: Long): SettingsDurationViewData {
-        return value.let(settingsMapper::toCountViewData)
+        return if (value > 0) {
+            SettingsDurationViewData(
+                text = value.toString(),
+                enabled = true,
+            )
+        } else {
+            SettingsDurationViewData(
+                text = resourceRepo.getString(R.string.settings_inactivity_reminder_disabled),
+                enabled = false,
+            )
+        }
     }
 }
