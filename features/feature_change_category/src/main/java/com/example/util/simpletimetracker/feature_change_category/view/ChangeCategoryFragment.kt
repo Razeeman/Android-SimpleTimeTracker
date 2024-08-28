@@ -31,15 +31,15 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmpty
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryTypesViewData
+import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState
 import com.example.util.simpletimetracker.feature_change_category.viewModel.ChangeCategoryViewModel
-import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewDelegate
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Closed
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Color
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.GoalTime
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Type
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeGoalsViewData
+import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState.State
+import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState.State.Closed
+import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState.State.Color
+import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState.State.GoalTime
+import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState.State.Type
+import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordTypeGoalsViewData
+import com.example.util.simpletimetracker.feature_change_goals.views.GoalsViewDelegate
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
@@ -226,7 +226,7 @@ class ChangeCategoryFragment :
         }
     }
 
-    private fun updateChooserState(state: ChangeRecordTypeChooserState) = with(binding) {
+    private fun updateChooserState(state: ChangeCategoryChooserState) = with(binding) {
         updateChooser<Color>(
             state = state,
             chooserData = rvChangeCategoryColor,
@@ -278,7 +278,7 @@ class ChangeCategoryFragment :
     }
 
     private inline fun <reified T : State> updateChooser(
-        state: ChangeRecordTypeChooserState,
+        state: ChangeCategoryChooserState,
         chooserData: View,
         chooserView: CardView,
         chooserArrow: View,

@@ -482,7 +482,7 @@
 
         <include
             android:id="@+id/layoutChangeRecordTypeGoals"
-            layout="@layout/goals_layout"
+            layout="@layout/change_goals_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

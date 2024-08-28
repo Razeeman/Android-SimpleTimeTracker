@@ -32,6 +32,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+// TODO move to module
 interface IconSelectionViewModelDelegate {
     val icons: LiveData<IconSelectionStateViewData>
     val iconCategories: LiveData<List<ViewHolderType>>

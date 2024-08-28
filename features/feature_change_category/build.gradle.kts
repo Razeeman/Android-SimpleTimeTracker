@@ -17,8 +17,8 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    // TODO remove feature dependency
-    implementation(project(":feature_change_record_type"))
+    implementation(project(":feature_change_goals:api"))
+    implementation(project(":feature_change_goals:views"))
     implementation(Deps.Google.dagger)
     kapt(Deps.Kapt.dagger)
 }

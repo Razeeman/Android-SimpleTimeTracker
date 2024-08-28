@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.delegates.colorSelection.ColorSelectionViewModelDelegate
 import com.example.util.simpletimetracker.core.delegates.colorSelection.ColorSelectionViewModelDelegateImpl
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewModelDelegate.IconSelectionViewModelDelegate
@@ -32,9 +33,8 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_change_goals.api.GoalsViewModelDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.R
-import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegate
-import com.example.util.simpletimetracker.feature_change_record_type.goals.GoalsViewModelDelegateImpl
 import com.example.util.simpletimetracker.feature_change_record_type.interactor.ChangeRecordTypeViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeAdditionalState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeCategoriesViewData
@@ -68,7 +68,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
     private val removeRecordTypeMediator: RemoveRecordTypeMediator,
-    private val goalsViewModelDelegate: GoalsViewModelDelegateImpl,
+    private val goalsViewModelDelegate: GoalsViewModelDelegate,
     private val colorSelectionViewModelDelegateImpl: ColorSelectionViewModelDelegateImpl,
     private val iconSelectionViewModelDelegateImpl: IconSelectionViewModelDelegateImpl,
 ) : ViewModel(),
@@ -130,7 +130,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        goalsViewModelDelegate.clear()
+        (goalsViewModelDelegate as? ViewModelDelegate)?.clear()
         colorSelectionViewModelDelegateImpl.clear()
         iconSelectionViewModelDelegateImpl.clear()
         super.onCleared()
@@ -139,7 +139,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     fun onVisible() = viewModelScope.launch {
         initializeSelectedCategories()
         updateCategoriesViewData()
-        goalsViewModelDelegate.onVisible()
+        goalsViewModelDelegate.onGoalsVisible()
         // TODO think about how it can affect "newCategories" that was already selected.
         //  Or how to add tag already assigned to activity.
     }

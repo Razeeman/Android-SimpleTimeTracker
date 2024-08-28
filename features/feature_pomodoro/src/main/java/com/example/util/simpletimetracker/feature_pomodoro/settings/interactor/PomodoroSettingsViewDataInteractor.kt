@@ -8,9 +8,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.HintBigViewData
 import com.example.util.simpletimetracker.feature_pomodoro.R
 import com.example.util.simpletimetracker.feature_pomodoro.settings.model.PomodoroHintButtonType
-import com.example.util.simpletimetracker.feature_settings_views.SettingsBlock
-import com.example.util.simpletimetracker.feature_settings_views.SettingsDurationViewData
-import com.example.util.simpletimetracker.feature_settings_views.SettingsSelectorViewData
+import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
+import com.example.util.simpletimetracker.feature_settings.views.SettingsDurationViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsSelectorViewData
 import javax.inject.Inject
 
 class PomodoroSettingsViewDataInteractor @Inject constructor(

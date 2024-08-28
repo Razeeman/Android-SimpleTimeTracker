@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
 import com.example.util.simpletimetracker.feature_pomodoro.settings.viewModel.PomodoroSettingsViewModel
-import com.example.util.simpletimetracker.feature_settings_views.getSettingsAdapterDelegates
+import com.example.util.simpletimetracker.feature_settings.views.getSettingsAdapterDelegates
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.util.simpletimetracker.feature_pomodoro.databinding.PomodoroSettingsFragmentBinding as Binding
 

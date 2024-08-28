@@ -4,16 +4,16 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.R
-import com.example.util.simpletimetracker.feature_settings_views.SettingsBlock
+import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
-import com.example.util.simpletimetracker.feature_settings_views.SettingsDurationViewData
-import com.example.util.simpletimetracker.feature_settings_views.SettingsBottomViewData
-import com.example.util.simpletimetracker.feature_settings_views.SettingsCheckboxViewData
-import com.example.util.simpletimetracker.feature_settings_views.SettingsCollapseViewData
-import com.example.util.simpletimetracker.feature_settings_views.SettingsRangeViewData
-import com.example.util.simpletimetracker.feature_settings_views.SettingsSelectorViewData
-import com.example.util.simpletimetracker.feature_settings_views.SettingsTextViewData
-import com.example.util.simpletimetracker.feature_settings_views.SettingsTopViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsDurationViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsBottomViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsCheckboxViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsCollapseViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsRangeViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsSelectorViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsTextViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsTopViewData
 import javax.inject.Inject
 
 class SettingsNotificationsViewDataInteractor @Inject constructor(

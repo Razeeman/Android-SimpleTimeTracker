@@ -15,13 +15,13 @@ android {
     namespace = "${Base.namespace}.core"
 }
 
+// TODO remove api
 dependencies {
     api(project(":domain"))
     api(project(":navigation"))
     api(project(":resources"))
     api(project(":feature_base_adapter"))
     api(project(":feature_views"))
-    implementation(project(":feature_settings_views"))
 
     api(Deps.Androidx.appcompat)
     api(Deps.Androidx.recyclerView)

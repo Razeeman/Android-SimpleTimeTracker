@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectio
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+// TODO move to module
 interface ColorSelectionViewModelDelegate {
     val colors: LiveData<List<ViewHolderType>>
 

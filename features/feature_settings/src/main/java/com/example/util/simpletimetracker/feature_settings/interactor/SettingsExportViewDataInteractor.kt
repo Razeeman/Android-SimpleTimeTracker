@@ -4,15 +4,15 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.R
-import com.example.util.simpletimetracker.feature_settings_views.SettingsBlock
-import com.example.util.simpletimetracker.feature_settings_views.SettingsBottomViewData
-import com.example.util.simpletimetracker.feature_settings_views.SettingsCheckboxViewData
-import com.example.util.simpletimetracker.feature_settings_views.SettingsCollapseViewData
-import com.example.util.simpletimetracker.feature_settings_views.SettingsHintViewData
-import com.example.util.simpletimetracker.feature_settings_views.SettingsTextColor
-import com.example.util.simpletimetracker.feature_settings_views.SettingsTextViewData
-import com.example.util.simpletimetracker.feature_settings_views.SettingsTextWithButtonViewData
-import com.example.util.simpletimetracker.feature_settings_views.SettingsTopViewData
+import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
+import com.example.util.simpletimetracker.feature_settings.views.SettingsBottomViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsCheckboxViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsCollapseViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsHintViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsTextColor
+import com.example.util.simpletimetracker.feature_settings.views.SettingsTextViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsTextWithButtonViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsTopViewData
 import javax.inject.Inject
 
 class SettingsExportViewDataInteractor @Inject constructor(

@@ -17,6 +17,8 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":feature_change_goals:api"))
+    implementation(project(":feature_change_goals:views"))
     implementation(Deps.Google.dagger)
     kapt(Deps.Kapt.dagger)
 }
