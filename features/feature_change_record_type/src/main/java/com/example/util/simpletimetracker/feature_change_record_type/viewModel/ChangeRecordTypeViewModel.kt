@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigat
 import com.example.util.simpletimetracker.core.interactor.StatisticsDetailNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
@@ -96,10 +97,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
             initial
         }
     }
-    val chooserState: LiveData<ChangeRecordTypeChooserState> = MutableLiveData(
-        ChangeRecordTypeChooserState(
-            current = ChangeRecordTypeChooserState.State.Closed,
-            previous = ChangeRecordTypeChooserState.State.Closed,
+    val chooserState: LiveData<ViewChooserStateDelegate.States> = MutableLiveData(
+        ViewChooserStateDelegate.States(
+            current = ChangeRecordTypeChooserState.Closed,
+            previous = ChangeRecordTypeChooserState.Closed,
         ),
     )
     val additionalState: LiveData<ChangeRecordTypeAdditionalState> = MutableLiveData(
@@ -163,23 +164,23 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onColorChooserClick() {
-        onNewChooserState(ChangeRecordTypeChooserState.State.Color)
+        onNewChooserState(ChangeRecordTypeChooserState.Color)
     }
 
     fun onIconChooserClick() {
-        onNewChooserState(ChangeRecordTypeChooserState.State.Icon)
+        onNewChooserState(ChangeRecordTypeChooserState.Icon)
     }
 
     fun onCategoryChooserClick() {
-        onNewChooserState(ChangeRecordTypeChooserState.State.Category)
+        onNewChooserState(ChangeRecordTypeChooserState.Category)
     }
 
     fun onGoalTimeChooserClick() {
-        onNewChooserState(ChangeRecordTypeChooserState.State.GoalTime)
+        onNewChooserState(ChangeRecordTypeChooserState.GoalTime)
     }
 
     fun onAdditionalChooserClick() {
-        onNewChooserState(ChangeRecordTypeChooserState.State.Additional)
+        onNewChooserState(ChangeRecordTypeChooserState.Additional)
     }
 
     fun onCategoryClick(item: CategoryViewData) {
@@ -277,8 +278,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     fun onBackPressed() {
-        if (chooserState.value?.current !is ChangeRecordTypeChooserState.State.Closed) {
-            onNewChooserState(ChangeRecordTypeChooserState.State.Closed)
+        if (chooserState.value?.current !is ChangeRecordTypeChooserState.Closed) {
+            onNewChooserState(ChangeRecordTypeChooserState.Closed)
         } else {
             router.back()
         }
@@ -339,22 +340,22 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private fun onNewChooserState(
-        newState: ChangeRecordTypeChooserState.State,
+        newState: ChangeRecordTypeChooserState,
     ) {
         val current = chooserState.value?.current
-            ?: ChangeRecordTypeChooserState.State.Closed
+            ?: ChangeRecordTypeChooserState.Closed
 
         keyboardVisibility.set(false)
         if (current == newState) {
             chooserState.set(
-                ChangeRecordTypeChooserState(
-                    current = ChangeRecordTypeChooserState.State.Closed,
+                ViewChooserStateDelegate.States(
+                    current = ChangeRecordTypeChooserState.Closed,
                     previous = current,
                 ),
             )
         } else {
             chooserState.set(
-                ChangeRecordTypeChooserState(
+                ViewChooserStateDelegate.States(
                     current = newState,
                     previous = current,
                 ),

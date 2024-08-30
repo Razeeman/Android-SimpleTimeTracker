@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.ActivityFilterViewDataMapper
+import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 import com.example.util.simpletimetracker.core.view.buttonsRowView.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
@@ -73,10 +74,10 @@ class ChangeActivityFilterViewModel @Inject constructor(
             initial
         }
     }
-    val chooserState: LiveData<ChangeActivityFilterChooserState> = MutableLiveData(
-        ChangeActivityFilterChooserState(
-            current = ChangeActivityFilterChooserState.State.Closed,
-            previous = ChangeActivityFilterChooserState.State.Closed,
+    val chooserState: LiveData<ViewChooserStateDelegate.States> = MutableLiveData(
+        ViewChooserStateDelegate.States(
+            current = ChangeActivityFilterChooserState.Closed,
+            previous = ChangeActivityFilterChooserState.Closed,
         ),
     )
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
@@ -115,11 +116,11 @@ class ChangeActivityFilterViewModel @Inject constructor(
     }
 
     fun onColorChooserClick() {
-        onNewChooserState(ChangeActivityFilterChooserState.State.Color)
+        onNewChooserState(ChangeActivityFilterChooserState.Color)
     }
 
     fun onTypeChooserClick() {
-        onNewChooserState(ChangeActivityFilterChooserState.State.Type)
+        onNewChooserState(ChangeActivityFilterChooserState.Type)
     }
 
     fun onFilterTypeClick(viewData: ButtonsRowViewData) {
@@ -182,30 +183,30 @@ class ChangeActivityFilterViewModel @Inject constructor(
     }
 
     fun onBackPressed() {
-        if (chooserState.value?.current !is ChangeActivityFilterChooserState.State.Closed) {
-            onNewChooserState(ChangeActivityFilterChooserState.State.Closed)
+        if (chooserState.value?.current !is ChangeActivityFilterChooserState.Closed) {
+            onNewChooserState(ChangeActivityFilterChooserState.Closed)
         } else {
             router.back()
         }
     }
 
     private fun onNewChooserState(
-        newState: ChangeActivityFilterChooserState.State,
+        newState: ChangeActivityFilterChooserState,
     ) {
         val current = chooserState.value?.current
-            ?: ChangeActivityFilterChooserState.State.Closed
+            ?: ChangeActivityFilterChooserState.Closed
 
         keyboardVisibility.set(false)
         if (current == newState) {
             chooserState.set(
-                ChangeActivityFilterChooserState(
-                    current = ChangeActivityFilterChooserState.State.Closed,
+                ViewChooserStateDelegate.States(
+                    current = ChangeActivityFilterChooserState.Closed,
                     previous = current,
                 ),
             )
         } else {
             chooserState.set(
-                ChangeActivityFilterChooserState(
+                ViewChooserStateDelegate.States(
                     current = newState,
                     previous = current,
                 ),

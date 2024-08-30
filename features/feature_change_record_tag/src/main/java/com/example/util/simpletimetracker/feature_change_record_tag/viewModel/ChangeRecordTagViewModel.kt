@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigat
 import com.example.util.simpletimetracker.core.interactor.StatisticsDetailNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -90,10 +91,10 @@ class ChangeRecordTagViewModel @Inject constructor(
             initial
         }
     }
-    val chooserState: LiveData<ChangeRecordTagChooserState> = MutableLiveData(
-        ChangeRecordTagChooserState(
-            current = ChangeRecordTagChooserState.State.Closed,
-            previous = ChangeRecordTagChooserState.State.Closed,
+    val chooserState: LiveData<ViewChooserStateDelegate.States> = MutableLiveData(
+        ViewChooserStateDelegate.States(
+            current = ChangeRecordTagChooserState.Closed,
+            previous = ChangeRecordTagChooserState.Closed,
         ),
     )
     val archiveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
@@ -144,19 +145,19 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     fun onColorChooserClick() {
-        onNewChooserState(ChangeRecordTagChooserState.State.Color)
+        onNewChooserState(ChangeRecordTagChooserState.Color)
     }
 
     fun onIconChooserClick() {
-        onNewChooserState(ChangeRecordTagChooserState.State.Icon)
+        onNewChooserState(ChangeRecordTagChooserState.Icon)
     }
 
     fun onTypeChooserClick() {
-        onNewChooserState(ChangeRecordTagChooserState.State.Type)
+        onNewChooserState(ChangeRecordTagChooserState.Type)
     }
 
     fun onDefaultTypeChooserClick() {
-        onNewChooserState(ChangeRecordTagChooserState.State.DefaultType)
+        onNewChooserState(ChangeRecordTagChooserState.DefaultType)
     }
 
     fun onTypeClick(item: RecordTypeViewData) {
@@ -272,8 +273,8 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     fun onBackPressed() {
-        if (chooserState.value?.current !is ChangeRecordTagChooserState.State.Closed) {
-            onNewChooserState(ChangeRecordTagChooserState.State.Closed)
+        if (chooserState.value?.current !is ChangeRecordTagChooserState.Closed) {
+            onNewChooserState(ChangeRecordTagChooserState.Closed)
         } else {
             router.back()
         }
@@ -316,21 +317,21 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     private fun onNewChooserState(
-        newState: ChangeRecordTagChooserState.State,
+        newState: ChangeRecordTagChooserState,
     ) {
         val current = chooserState.value?.current
-            ?: ChangeRecordTagChooserState.State.Closed
+            ?: ChangeRecordTagChooserState.Closed
         keyboardVisibility.set(false)
         if (current == newState) {
             chooserState.set(
-                ChangeRecordTagChooserState(
-                    current = ChangeRecordTagChooserState.State.Closed,
+                ViewChooserStateDelegate.States(
+                    current = ChangeRecordTagChooserState.Closed,
                     previous = current,
                 ),
             )
         } else {
             chooserState.set(
-                ChangeRecordTagChooserState(
+                ViewChooserStateDelegate.States(
                     current = newState,
                     previous = current,
                 ),

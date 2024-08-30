@@ -1,17 +1,13 @@
 package com.example.util.simpletimetracker.feature_change_record_type.viewData
 
-data class ChangeRecordTypeChooserState(
-    val current: State,
-    val previous: State,
-) {
+import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 
-    sealed interface State {
-        object Closed : State
-        object Color : State
-        object Icon : State
-        object Category : State
-        object GoalTime : State
-        object Additional : State
-        object Type : State
-    }
+sealed interface ChangeRecordTypeChooserState : ViewChooserStateDelegate.State {
+    object Closed : ChangeRecordTypeChooserState, ViewChooserStateDelegate.State.Closed
+    object Color : ChangeRecordTypeChooserState
+    object Icon : ChangeRecordTypeChooserState
+    object Category : ChangeRecordTypeChooserState
+    object GoalTime : ChangeRecordTypeChooserState
+    object Additional : ChangeRecordTypeChooserState
+    object Type : ChangeRecordTypeChooserState
 }

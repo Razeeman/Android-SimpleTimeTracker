@@ -4,9 +4,7 @@ import android.animation.ValueAnimator
 import android.os.Bundle
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -32,7 +30,7 @@ import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
-import com.example.util.simpletimetracker.core.view.UpdateViewChooserState
+import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -53,14 +51,12 @@ import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordT
 import com.example.util.simpletimetracker.feature_change_goals.views.GoalsViewDelegate
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeAdditionalState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeCategoriesViewData
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Additional
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Category
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Closed
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Color
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.GoalTime
-import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.State.Icon
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Additional
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Category
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Closed
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Color
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.GoalTime
+import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Icon
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
@@ -357,32 +353,34 @@ class ChangeRecordTypeFragment :
         }
     }
 
-    private fun updateChooserState(state: ChangeRecordTypeChooserState) = with(binding) {
-        updateChooser<Color>(
+    private fun updateChooserState(
+        state: ViewChooserStateDelegate.States,
+    ) = with(binding) {
+        ViewChooserStateDelegate.updateChooser<Color>(
             state = state,
             chooserData = rvChangeRecordTypeColor,
             chooserView = fieldChangeRecordTypeColor,
             chooserArrow = arrowChangeRecordTypeColor,
         )
-        updateChooser<Icon>(
+        ViewChooserStateDelegate.updateChooser<Icon>(
             state = state,
             chooserData = containerChangeRecordTypeIcon.root,
             chooserView = fieldChangeRecordTypeIcon,
             chooserArrow = arrowChangeRecordTypeIcon,
         )
-        updateChooser<Category>(
+        ViewChooserStateDelegate.updateChooser<Category>(
             state = state,
             chooserData = rvChangeRecordTypeCategories,
             chooserView = fieldChangeRecordTypeCategory,
             chooserArrow = arrowChangeRecordTypeCategory,
         )
-        updateChooser<GoalTime>(
+        ViewChooserStateDelegate.updateChooser<GoalTime>(
             state = state,
             chooserData = containerChangeRecordTypeGoalTime,
             chooserView = fieldChangeRecordTypeGoalTime,
             chooserArrow = arrowChangeRecordTypeGoalTime,
         )
-        updateChooser<Additional>(
+        ViewChooserStateDelegate.updateChooser<Additional>(
             state = state,
             chooserData = containerChangeRecordTypeAdditional,
             chooserView = fieldChangeRecordTypeAdditional,
@@ -473,21 +471,6 @@ class ChangeRecordTypeFragment :
         if (data.isInstantChecked != checkboxChangeRecordTypeAdditionalInstant.isChecked) {
             checkboxChangeRecordTypeAdditionalInstant.isChecked = data.isInstantChecked
         }
-    }
-
-    private inline fun <reified T : State> updateChooser(
-        state: ChangeRecordTypeChooserState,
-        chooserData: View,
-        chooserView: CardView,
-        chooserArrow: View,
-    ) {
-        UpdateViewChooserState.updateChooser<State, T, Closed>(
-            stateCurrent = state.current,
-            statePrevious = state.previous,
-            chooserData = chooserData,
-            chooserView = chooserView,
-            chooserArrow = chooserArrow,
-        )
     }
 
     companion object {

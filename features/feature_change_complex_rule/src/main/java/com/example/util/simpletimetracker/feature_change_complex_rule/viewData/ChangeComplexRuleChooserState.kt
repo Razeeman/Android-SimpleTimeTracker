@@ -1,15 +1,11 @@
 package com.example.util.simpletimetracker.feature_change_complex_rule.viewData
 
-data class ChangeComplexRuleChooserState(
-    val current: State,
-    val previous: State,
-) {
+import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 
-    sealed interface State {
-        object Closed : State
-        object Action : State
-        object StartingTypes : State
-        object CurrentTypes : State
-        object DayOfWeek : State
-    }
+sealed interface ChangeComplexRuleChooserState : ViewChooserStateDelegate.State {
+    object Closed : ChangeComplexRuleChooserState, ViewChooserStateDelegate.State.Closed
+    object Action : ChangeComplexRuleChooserState
+    object StartingTypes : ChangeComplexRuleChooserState
+    object CurrentTypes : ChangeComplexRuleChooserState
+    object DayOfWeek : ChangeComplexRuleChooserState
 }

@@ -3,9 +3,7 @@ package com.example.util.simpletimetracker.feature_change_category.view
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -19,7 +17,7 @@ import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
-import com.example.util.simpletimetracker.core.view.UpdateViewChooserState
+import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
@@ -31,13 +29,11 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmpty
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryTypesViewData
-import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState
 import com.example.util.simpletimetracker.feature_change_category.viewModel.ChangeCategoryViewModel
-import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState.State
-import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState.State.Closed
-import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState.State.Color
-import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState.State.GoalTime
-import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState.State.Type
+import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState.Closed
+import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState.Color
+import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState.GoalTime
+import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryChooserState.Type
 import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordTypeGoalsViewData
 import com.example.util.simpletimetracker.feature_change_goals.views.GoalsViewDelegate
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
@@ -227,20 +223,22 @@ class ChangeCategoryFragment :
         }
     }
 
-    private fun updateChooserState(state: ChangeCategoryChooserState) = with(binding) {
-        updateChooser<Color>(
+    private fun updateChooserState(
+        state: ViewChooserStateDelegate.States,
+    ) = with(binding) {
+        ViewChooserStateDelegate.updateChooser<Color>(
             state = state,
             chooserData = rvChangeCategoryColor,
             chooserView = fieldChangeCategoryColor,
             chooserArrow = arrowChangeCategoryColor,
         )
-        updateChooser<Type>(
+        ViewChooserStateDelegate.updateChooser<Type>(
             state = state,
             chooserData = rvChangeCategoryType,
             chooserView = fieldChangeCategoryType,
             chooserArrow = arrowChangeCategoryType,
         )
-        updateChooser<GoalTime>(
+        ViewChooserStateDelegate.updateChooser<GoalTime>(
             state = state,
             chooserData = containerChangeCategoryGoalTime,
             chooserView = fieldChangeCategoryGoalTime,
@@ -281,21 +279,6 @@ class ChangeCategoryFragment :
     private fun updateNameErrorMessage(error: String) = with(binding) {
         inputChangeCategoryName.error = error
         inputChangeCategoryName.isErrorEnabled = error.isNotEmpty()
-    }
-
-    private inline fun <reified T : State> updateChooser(
-        state: ChangeCategoryChooserState,
-        chooserData: View,
-        chooserView: CardView,
-        chooserArrow: View,
-    ) {
-        UpdateViewChooserState.updateChooser<State, T, Closed>(
-            stateCurrent = state.current,
-            statePrevious = state.previous,
-            chooserData = chooserData,
-            chooserView = chooserView,
-            chooserArrow = chooserArrow,
-        )
     }
 
     companion object {

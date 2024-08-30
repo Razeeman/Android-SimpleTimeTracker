@@ -5,7 +5,6 @@ import com.example.util.simpletimetracker.data_local.utils.withLockedCache
 import com.example.util.simpletimetracker.data_local.mapper.CategoryDataLocalMapper
 import com.example.util.simpletimetracker.data_local.utils.removeIf
 import com.example.util.simpletimetracker.domain.model.Category
-import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import kotlinx.coroutines.sync.Mutex
 import javax.inject.Inject

@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_records.interactor
 
-import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
 import com.example.util.simpletimetracker.core.mapper.CalendarToListShiftMapper
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper

@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigat
 import com.example.util.simpletimetracker.core.interactor.StatisticsDetailNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
@@ -71,10 +72,10 @@ class ChangeCategoryViewModel @Inject constructor(
             initial
         }
     }
-    val chooserState: LiveData<ChangeCategoryChooserState> = MutableLiveData(
-        ChangeCategoryChooserState(
-            current = ChangeCategoryChooserState.State.Closed,
-            previous = ChangeCategoryChooserState.State.Closed,
+    val chooserState: LiveData<ViewChooserStateDelegate.States> = MutableLiveData(
+        ViewChooserStateDelegate.States(
+            current = ChangeCategoryChooserState.Closed,
+            previous = ChangeCategoryChooserState.Closed,
         ),
     )
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
@@ -122,15 +123,15 @@ class ChangeCategoryViewModel @Inject constructor(
     }
 
     fun onColorChooserClick() {
-        onNewChooserState(ChangeCategoryChooserState.State.Color)
+        onNewChooserState(ChangeCategoryChooserState.Color)
     }
 
     fun onTypeChooserClick() {
-        onNewChooserState(ChangeCategoryChooserState.State.Type)
+        onNewChooserState(ChangeCategoryChooserState.Type)
     }
 
     fun onGoalTimeChooserClick() {
-        onNewChooserState(ChangeCategoryChooserState.State.GoalTime)
+        onNewChooserState(ChangeCategoryChooserState.GoalTime)
     }
 
     fun onTypeClick(item: RecordTypeViewData) {
@@ -200,8 +201,8 @@ class ChangeCategoryViewModel @Inject constructor(
     }
 
     fun onBackPressed() {
-        if (chooserState.value?.current !is ChangeCategoryChooserState.State.Closed) {
-            onNewChooserState(ChangeCategoryChooserState.State.Closed)
+        if (chooserState.value?.current !is ChangeCategoryChooserState.Closed) {
+            onNewChooserState(ChangeCategoryChooserState.Closed)
         } else {
             router.back()
         }
@@ -215,23 +216,22 @@ class ChangeCategoryViewModel @Inject constructor(
         recordTypeCategoryInteractor.removeTypes(categoryId, removedTypes)
     }
 
-    // TODO refactor choosers, same logic everywhere
     private fun onNewChooserState(
-        newState: ChangeCategoryChooserState.State,
+        newState: ChangeCategoryChooserState,
     ) {
         val current = chooserState.value?.current
-            ?: ChangeCategoryChooserState.State.Closed
+            ?: ChangeCategoryChooserState.Closed
         keyboardVisibility.set(false)
         if (current == newState) {
             chooserState.set(
-                ChangeCategoryChooserState(
-                    current = ChangeCategoryChooserState.State.Closed,
+                ViewChooserStateDelegate.States(
+                    current = ChangeCategoryChooserState.Closed,
                     previous = current,
                 ),
             )
         } else {
             chooserState.set(
-                ChangeCategoryChooserState(
+                ViewChooserStateDelegate.States(
                     current = newState,
                     previous = current,
                 ),

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
+import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.ComplexRuleInteractor
@@ -44,10 +45,10 @@ class ChangeComplexRuleViewModel @Inject constructor(
     val startingTypesViewData: LiveData<ChangeComplexRuleTypesChooserViewData> = MutableLiveData()
     val currentTypesViewData: LiveData<ChangeComplexRuleTypesChooserViewData> = MutableLiveData()
     val daysOfWeekViewData: LiveData<ChangeComplexRuleTypesChooserViewData> = MutableLiveData()
-    val chooserState: LiveData<ChangeComplexRuleChooserState> = MutableLiveData(
-        ChangeComplexRuleChooserState(
-            current = ChangeComplexRuleChooserState.State.Closed,
-            previous = ChangeComplexRuleChooserState.State.Closed,
+    val chooserState: LiveData<ViewChooserStateDelegate.States> = MutableLiveData(
+        ViewChooserStateDelegate.States(
+            current = ChangeComplexRuleChooserState.Closed,
+            previous = ChangeComplexRuleChooserState.Closed,
         ),
     )
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
@@ -77,19 +78,19 @@ class ChangeComplexRuleViewModel @Inject constructor(
     }
 
     fun onActionTypeChooserClick() {
-        onNewChooserState(ChangeComplexRuleChooserState.State.Action)
+        onNewChooserState(ChangeComplexRuleChooserState.Action)
     }
 
     fun onStartingTypesChooserClick() {
-        onNewChooserState(ChangeComplexRuleChooserState.State.StartingTypes)
+        onNewChooserState(ChangeComplexRuleChooserState.StartingTypes)
     }
 
     fun onCurrentTypesChooserClick() {
-        onNewChooserState(ChangeComplexRuleChooserState.State.CurrentTypes)
+        onNewChooserState(ChangeComplexRuleChooserState.CurrentTypes)
     }
 
     fun onDaysOfWeekChooserClick() {
-        onNewChooserState(ChangeComplexRuleChooserState.State.DayOfWeek)
+        onNewChooserState(ChangeComplexRuleChooserState.DayOfWeek)
     }
 
     fun onActionClick(item: ChangeComplexRuleActionViewData) {
@@ -186,8 +187,8 @@ class ChangeComplexRuleViewModel @Inject constructor(
     }
 
     fun onBackPressed() {
-        if (chooserState.value?.current !is ChangeComplexRuleChooserState.State.Closed) {
-            onNewChooserState(ChangeComplexRuleChooserState.State.Closed)
+        if (chooserState.value?.current !is ChangeComplexRuleChooserState.Closed) {
+            onNewChooserState(ChangeComplexRuleChooserState.Closed)
         } else {
             router.back()
         }
@@ -208,21 +209,21 @@ class ChangeComplexRuleViewModel @Inject constructor(
     }
 
     private fun onNewChooserState(
-        newState: ChangeComplexRuleChooserState.State,
+        newState: ChangeComplexRuleChooserState,
     ) {
         val current = chooserState.value?.current
-            ?: ChangeComplexRuleChooserState.State.Closed
+            ?: ChangeComplexRuleChooserState.Closed
 
         if (current == newState) {
             chooserState.set(
-                ChangeComplexRuleChooserState(
-                    current = ChangeComplexRuleChooserState.State.Closed,
+                ViewChooserStateDelegate.States(
+                    current = ChangeComplexRuleChooserState.Closed,
                     previous = current,
                 ),
             )
         } else {
             chooserState.set(
-                ChangeComplexRuleChooserState(
+                ViewChooserStateDelegate.States(
                     current = newState,
                     previous = current,
                 ),

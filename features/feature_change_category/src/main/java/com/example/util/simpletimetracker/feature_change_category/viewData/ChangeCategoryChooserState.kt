@@ -1,14 +1,10 @@
 package com.example.util.simpletimetracker.feature_change_category.viewData
 
-data class ChangeCategoryChooserState(
-    val current: State,
-    val previous: State,
-) {
+import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 
-    sealed interface State {
-        object Closed : State
-        object Color : State
-        object GoalTime : State
-        object Type : State
-    }
+sealed interface ChangeCategoryChooserState : ViewChooserStateDelegate.State {
+    object Closed : ChangeCategoryChooserState, ViewChooserStateDelegate.State.Closed
+    object Color : ChangeCategoryChooserState
+    object GoalTime : ChangeCategoryChooserState
+    object Type : ChangeCategoryChooserState
 }

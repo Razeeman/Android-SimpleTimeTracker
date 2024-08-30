@@ -4,9 +4,7 @@ import android.animation.ValueAnimator
 import android.os.Bundle
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -31,7 +29,7 @@ import com.example.util.simpletimetracker.core.extension.toViewData
 import com.example.util.simpletimetracker.core.repo.DeviceRepo
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
-import com.example.util.simpletimetracker.core.view.UpdateViewChooserState
+import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
@@ -47,13 +45,11 @@ import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAd
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record_tag.R
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.State
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.State.Closed
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.State.Color
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.State.DefaultType
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.State.Icon
-import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.State.Type
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.Closed
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.Color
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.DefaultType
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.Icon
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.Type
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagTypesViewData
 import com.example.util.simpletimetracker.feature_change_record_tag.viewModel.ChangeRecordTagViewModel
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
@@ -326,26 +322,28 @@ class ChangeRecordTagFragment :
         }
     }
 
-    private fun updateChooserState(state: ChangeRecordTagChooserState) = with(binding) {
-        updateChooser<Color>(
+    private fun updateChooserState(
+        state: ViewChooserStateDelegate.States,
+    ) = with(binding) {
+        ViewChooserStateDelegate.updateChooser<Color>(
             state = state,
             chooserData = rvChangeRecordTagColor,
             chooserView = fieldChangeRecordTagColor,
             chooserArrow = arrowChangeRecordTagColor,
         )
-        updateChooser<Icon>(
+        ViewChooserStateDelegate.updateChooser<Icon>(
             state = state,
             chooserData = containerChangeRecordTypeIcon.root,
             chooserView = fieldChangeRecordTagIcon,
             chooserArrow = arrowChangeRecordTagIcon,
         )
-        updateChooser<Type>(
+        ViewChooserStateDelegate.updateChooser<Type>(
             state = state,
             chooserData = rvChangeRecordTagType,
             chooserView = fieldChangeRecordTagType,
             chooserArrow = arrowChangeRecordTagType,
         )
-        updateChooser<DefaultType>(
+        ViewChooserStateDelegate.updateChooser<DefaultType>(
             state = state,
             chooserData = rvChangeRecordTagDefaultType,
             chooserView = fieldChangeRecordTagDefaultType,
@@ -433,21 +431,6 @@ class ChangeRecordTagFragment :
     private fun updateNameErrorMessage(error: String) = with(binding) {
         inputChangeRecordTagName.error = error
         inputChangeRecordTagName.isErrorEnabled = error.isNotEmpty()
-    }
-
-    private inline fun <reified T : State> updateChooser(
-        state: ChangeRecordTagChooserState,
-        chooserData: View,
-        chooserView: CardView,
-        chooserArrow: View,
-    ) {
-        UpdateViewChooserState.updateChooser<State, T, Closed>(
-            stateCurrent = state.current,
-            statePrevious = state.previous,
-            chooserData = chooserData,
-            chooserView = chooserView,
-            chooserArrow = chooserArrow,
-        )
     }
 
     companion object {

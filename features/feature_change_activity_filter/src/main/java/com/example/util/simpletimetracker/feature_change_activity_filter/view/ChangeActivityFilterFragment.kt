@@ -1,12 +1,9 @@
 package com.example.util.simpletimetracker.feature_change_activity_filter.view
 
 import android.animation.ValueAnimator
-import com.example.util.simpletimetracker.feature_change_activity_filter.databinding.ChangeActivityFilterFragmentBinding as Binding
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -19,7 +16,7 @@ import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
-import com.example.util.simpletimetracker.core.view.UpdateViewChooserState
+import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
@@ -30,11 +27,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.divider.createDiv
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState
-import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState.State
-import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState.State.Closed
-import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState.State.Color
-import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState.State.Type
+import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState.Closed
+import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState.Color
+import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState.Type
 import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterTypesViewData
 import com.example.util.simpletimetracker.feature_change_activity_filter.viewModel.ChangeActivityFilterViewModel
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
@@ -46,6 +41,7 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.util.simpletimetracker.feature_change_activity_filter.databinding.ChangeActivityFilterFragmentBinding as Binding
 
 @AndroidEntryPoint
 class ChangeActivityFilterFragment :
@@ -182,14 +178,16 @@ class ChangeActivityFilterFragment :
         }
     }
 
-    private fun updateChooserState(state: ChangeActivityFilterChooserState) = with(binding) {
-        updateChooser<Color>(
+    private fun updateChooserState(
+        state: ViewChooserStateDelegate.States,
+    ) = with(binding) {
+        ViewChooserStateDelegate.updateChooser<Color>(
             state = state,
             chooserData = rvChangeActivityFilterColor,
             chooserView = fieldChangeActivityFilterColor,
             chooserArrow = arrowChangeActivityFilterColor,
         )
-        updateChooser<Type>(
+        ViewChooserStateDelegate.updateChooser<Type>(
             state = state,
             chooserData = containerChangeActivityFilterActivities,
             chooserView = fieldChangeActivityFilterType,
@@ -213,21 +211,6 @@ class ChangeActivityFilterFragment :
         viewDataAdapter.replace(data.viewData)
         layoutChangeActivityFilterTypePreview.isVisible = data.selectedCount > 0
         tvChangeActivityFilterTypePreview.text = data.selectedCount.toString()
-    }
-
-    private inline fun <reified T : State> updateChooser(
-        state: ChangeActivityFilterChooserState,
-        chooserData: View,
-        chooserView: CardView,
-        chooserArrow: View,
-    ) {
-        UpdateViewChooserState.updateChooser<State, T, Closed>(
-            stateCurrent = state.current,
-            statePrevious = state.previous,
-            chooserData = chooserData,
-            chooserView = chooserView,
-            chooserArrow = chooserArrow,
-        )
     }
 
     companion object {
