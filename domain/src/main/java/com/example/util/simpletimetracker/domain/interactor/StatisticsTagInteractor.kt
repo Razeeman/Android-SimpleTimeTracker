@@ -54,7 +54,7 @@ class StatisticsTagInteractor @Inject constructor(
         return emptyList()
     }
 
-    private suspend fun getTagRecords(
+    suspend fun getTagRecords(
         allRecords: List<RecordBase>,
     ): Map<Long, List<RecordBase>> {
         val recordTags = recordTagInteractor.getAll().map(RecordTag::id)
@@ -64,7 +64,7 @@ class StatisticsTagInteractor @Inject constructor(
             .filterValues(List<RecordBase>::isNotEmpty)
     }
 
-    private fun getUntagged(
+    fun getUntagged(
         allRecords: List<RecordBase>,
     ): List<RecordBase> {
         return allRecords.filter { it.tagIds.isEmpty() }

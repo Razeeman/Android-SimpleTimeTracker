@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics.interactor
 
+import android.graphics.Color
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
@@ -7,6 +8,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.GoalViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.view.dayCalendar.DayCalendarViewData
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -20,10 +22,12 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsChartViewData
+import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsDayCalendarViewData
 import com.example.util.simpletimetracker.feature_statistics.viewData.StatisticsTitleViewData
 import com.example.util.simpletimetracker.feature_views.pieChart.PiePortion
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class StatisticsViewDataInteractor @Inject constructor(
@@ -40,6 +44,7 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
+    private val statisticsDayCalendarViewDataInteractor: StatisticsDayCalendarViewDataInteractor,
 ) {
 
     suspend fun getViewData(
@@ -101,6 +106,12 @@ class StatisticsViewDataInteractor @Inject constructor(
                 buttonsVisible = !forSharing,
             )
         }
+        val dayCalendar = statisticsDayCalendarViewDataInteractor.getViewData(
+            filterType = filterType,
+            filteredIds = filteredIds,
+            range = range,
+            rangeLength = rangeLength,
+        )
         val list = statisticsViewDataMapper.mapItemsList(
             shift = shift,
             filterType = filterType,
@@ -162,6 +173,7 @@ class StatisticsViewDataInteractor @Inject constructor(
         } else {
             if (forSharing) getSharingTitle(rangeLength, shift).let(result::addAll)
             chart.let(result::add)
+            dayCalendar?.let(result::add)
             list.let(result::addAll)
             totalTracked.let(result::add)
             // If has any activity or tag other than untracked

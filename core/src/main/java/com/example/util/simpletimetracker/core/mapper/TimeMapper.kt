@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.extension.shift
 import com.example.util.simpletimetracker.domain.provider.CurrentTimestampProvider
@@ -646,6 +647,18 @@ class TimeMapper @Inject constructor(
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
         }.timeInMillis
+    }
+
+    fun mapFromStartOfDay(
+        timeStamp: Long,
+        calendar: Calendar,
+    ): Long {
+        return calendar.apply {
+            timeInMillis = timeStamp
+            setToStartOfDay()
+        }.let {
+            timeStamp - it.timeInMillis
+        }
     }
 
     fun getDayOfWeek(

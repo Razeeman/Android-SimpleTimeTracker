@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.core.utils
 
 import android.os.Build
 
+// TODO remove
 object BuildVersions {
 
     fun isLollipopOrHigher(): Boolean {

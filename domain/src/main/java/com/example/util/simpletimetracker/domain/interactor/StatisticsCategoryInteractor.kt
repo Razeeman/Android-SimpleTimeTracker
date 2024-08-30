@@ -54,7 +54,7 @@ class StatisticsCategoryInteractor @Inject constructor(
         return emptyList()
     }
 
-    private suspend fun getCategoryRecords(
+    suspend fun getCategoryRecords(
         allRecords: List<RecordBase>,
     ): Map<Long, List<RecordBase>> {
         val recordTypeCategories = recordTypeCategoryInteractor.getAll()
@@ -66,7 +66,7 @@ class StatisticsCategoryInteractor @Inject constructor(
             .filterValues(List<RecordBase>::isNotEmpty)
     }
 
-    private suspend fun getUncategorized(
+    suspend fun getUncategorized(
         allRecords: List<RecordBase>,
     ): List<RecordBase> {
         val recordTypeCategories = recordTypeCategoryInteractor.getAll().map { it.recordTypeId }

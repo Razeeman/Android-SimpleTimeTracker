@@ -139,7 +139,7 @@ class RecordsViewDataInteractor @Inject constructor(
         showSeconds: Boolean,
     ): RecordsState.CalendarData.Data {
         val currentTime = if (shift == 0) {
-            mapFromStartOfDay(
+            timeMapper.mapFromStartOfDay(
                 timeStamp = System.currentTimeMillis(),
                 calendar = calendar,
             ) - startOfDayShift
@@ -345,7 +345,7 @@ class RecordsViewDataInteractor @Inject constructor(
                 min(System.currentTimeMillis(), rangeEnd)
         }
 
-        val start = mapFromStartOfDay(
+        val start = timeMapper.mapFromStartOfDay(
             // Normalize to set start of day correctly.
             timeStamp = timeStartedTimestamp - startOfDayShift,
             calendar = calendar,
@@ -369,18 +369,6 @@ class RecordsViewDataInteractor @Inject constructor(
                 }
             },
         )
-    }
-
-    private fun mapFromStartOfDay(
-        timeStamp: Long,
-        calendar: Calendar,
-    ): Long {
-        return calendar.apply {
-            timeInMillis = timeStamp
-            setToStartOfDay()
-        }.let {
-            timeStamp - it.timeInMillis
-        }
     }
 
     private data class RecordHolder(

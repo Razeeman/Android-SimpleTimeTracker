@@ -24,6 +24,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import com.example.util.simpletimetracker.core.utils.CalendarIntersectionCalculator
 import com.example.util.simpletimetracker.core.utils.ScaleDetector
 import com.example.util.simpletimetracker.core.utils.SingleTapDetector
 import com.example.util.simpletimetracker.core.utils.SwipeDetector
@@ -834,54 +835,18 @@ class RecordsCalendarView @JvmOverloads constructor(
         }
 
         // Calculate intersections.
-        val points: MutableList<Triple<Long, Boolean, Data>> = mutableListOf()
-        res.forEach { item ->
-            // Start of range marked with true.
-            points.add(Triple(item.point.start, true, item))
-            points.add(Triple(item.point.end, false, item))
+        res.map {
+            CalendarIntersectionCalculator.Data(
+                start = it.point.start,
+                end = it.point.end,
+                point = it,
+            )
+        }.let(
+            CalendarIntersectionCalculator::execute,
+        ).forEach {
+            it.point.columnCount = it.columnCount
+            it.point.columnNumber = it.columnNumber
         }
-
-        // Sort by range edge (start or end) when put starts first.
-        points.sortWith(compareBy({ it.first }, { it.second }))
-        var currentCounter = 0
-        var currentColumnCount = 1
-        val freeColumns = mutableListOf(1)
-
-        fun calculateColumns(
-            point: Pair<Int, Triple<Long, Boolean, Data>>,
-        ): Pair<Int, Triple<Long, Boolean, Data>> {
-            val (counter, triple) = point
-
-            // New separate column.
-            if (counter == 0) {
-                currentColumnCount = 1
-            } else if (counter > currentColumnCount) {
-                currentColumnCount = counter
-            }
-            if (currentColumnCount > triple.third.columnCount) {
-                triple.third.columnCount = currentColumnCount
-            }
-
-            return counter to triple
-        }
-
-        points.map { (time, isStart, item) ->
-            if (isStart) {
-                currentCounter++
-                val columnNumber = freeColumns.minOrNull()!!
-                item.columnNumber = columnNumber
-                freeColumns.remove(columnNumber)
-                if (freeColumns.isEmpty()) freeColumns.add(columnNumber + 1)
-            } else {
-                currentCounter--
-                freeColumns.add(item.columnNumber)
-            }
-            currentCounter to Triple(time, isStart, item)
-        }
-            // Find max column count and pass it further and back down the list.
-            .map(::calculateColumns)
-            .reversed()
-            .map(::calculateColumns)
 
         return Column(
             legend = data.legend,
@@ -1051,6 +1016,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private inner class Data(
         val point: RecordsCalendarViewData.Point,
         val drawable: Drawable? = null,
+        // Set after the fact.
         var columnCount: Int = 1,
         var columnNumber: Int = 1,
         var boxLeft: Float = 0f,
