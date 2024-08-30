@@ -126,6 +126,14 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                     processSameItemSelected = false,
                 )
             }
+            result += SettingsCheckboxViewData(
+                block = SettingsBlock.DisplayDailyCalendar,
+                title = resourceRepo.getString(R.string.settings_show_daily_calendar),
+                subtitle = "",
+                isChecked = prefsInteractor.getShowDailyCalendar(),
+                bottomSpaceIsVisible = true,
+                dividerIsVisible = true,
+            )
             val showActivityFilters = prefsInteractor.getShowActivityFilters()
             result += SettingsCheckboxViewData(
                 block = SettingsBlock.DisplayShowActivityFilters,

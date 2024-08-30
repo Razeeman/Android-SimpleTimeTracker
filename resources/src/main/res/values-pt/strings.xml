@@ -74,6 +74,7 @@
     <string name="statistics_total_tracked">Total monitorado</string>
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Clique no cartão para ver estatísticas detalhadas</string>
+    <string name="statistics_daily_calendar_hint">Calendário diário</string>
     <string name="no_statistics_exist">As estatísticas serão mostradas aqui</string>
 
     <!--  Categories  -->
@@ -270,6 +271,7 @@
     <string name="settings_show_calendar_button_on_records_tab">Mostrar botão na guia</string>
     <string name="settings_reverse_order_in_calendar">Ordem inversa dos registros</string>
     <string name="settings_days_in_calendar">Dias no calendário</string>
+    <string name="settings_show_daily_calendar">Mostrar calendário diário nas estatísticas</string>
     <string name="settings_widget_transparency">Transparência de fundo do widget</string>
     <string name="settings_show_activity_filters">Mostrar filtros de atividade na tela principal</string>
     <string name="settings_allow_multiple_activity_filters">Permitir vários filtros de atividades</string>

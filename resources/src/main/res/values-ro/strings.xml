@@ -74,6 +74,7 @@
     <string name="statistics_total_tracked">Total urmărit</string>
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Click pe o carte pentru a vedea statisticile detaliate</string>
+    <string name="statistics_daily_calendar_hint">Calendar zilnic</string>
     <string name="no_statistics_exist">Statisticile vor fi afișate aici</string>
 
     <!--  Categories  -->
@@ -270,6 +271,7 @@
     <string name="settings_show_calendar_button_on_records_tab">Afișați butonul de pe filă</string>
     <string name="settings_reverse_order_in_calendar">Inversează ordinea înregistrărilor</string>
     <string name="settings_days_in_calendar">Zile în calendar</string>
+    <string name="settings_show_daily_calendar">Afișați calendarul zilnic în statistici</string>
     <string name="settings_widget_transparency">Transparență fundal Widget</string>
     <string name="settings_show_activity_filters">Afișează filtrele de activitate pe ecranul principal</string>
     <string name="settings_allow_multiple_activity_filters">Permite mai multe filtre de activitate</string>

@@ -74,6 +74,7 @@
     <string name="statistics_total_tracked">Всего отслежено</string>
     <string name="statistics_total_tracked_short">Всего</string>
     <string name="statistics_hint">Нажмите на карточку для просмотра детальной статистики</string>
+    <string name="statistics_daily_calendar_hint">Ежедневный календарь</string>
     <string name="no_statistics_exist">Здесь будет отображаться статистика</string>
 
     <!--  Categories  -->
@@ -270,6 +271,7 @@
     <string name="settings_show_calendar_button_on_records_tab">Показать кнопку на вкладке</string>
     <string name="settings_reverse_order_in_calendar">Обратный порядок записей</string>
     <string name="settings_days_in_calendar">Дней в календаре</string>
+    <string name="settings_show_daily_calendar">Показывать ежедневный календарь в статистике</string>
     <string name="settings_widget_transparency">Прозрачность фона виджета</string>
     <string name="settings_show_activity_filters">Показывать фильтры активности на главном экране</string>
     <string name="settings_allow_multiple_activity_filters">Разрешить выбор нескольких фильтров активности</string>

@@ -98,6 +98,12 @@ class StatisticsViewDataMapper @Inject constructor(
         )
     }
 
+    fun mapToDailyCalendarHint(): ViewHolderType {
+        return HintViewData(
+            text = R.string.statistics_daily_calendar_hint.let(resourceRepo::getString),
+        )
+    }
+
     private fun mapItem(
         shift: Int,
         filterType: ChartFilterType,

@@ -247,6 +247,14 @@ class PrefsInteractor @Inject constructor(
         }
     }
 
+    suspend fun getShowDailyCalendar(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.showDailyCalendar
+    }
+
+    suspend fun setShowDailyCalendar(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.showDailyCalendar = isEnabled
+    }
+
     suspend fun getShowActivityFilters(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.showActivityFilters
     }

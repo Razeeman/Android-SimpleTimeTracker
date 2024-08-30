@@ -74,6 +74,7 @@
     <string name="statistics_total_tracked">總計已追蹤</string>
     <string name="statistics_total_tracked_short">總計</string>
     <string name="statistics_hint">點擊於卡片上來檢視詳細統計</string>
+    <string name="statistics_daily_calendar_hint">每日日曆</string>
     <string name="no_statistics_exist">統計數據將顯示在這裡</string>
 
     <!--  Categories  -->
@@ -270,6 +271,7 @@
     <string name="settings_show_calendar_button_on_records_tab">在選項卡上顯示按鈕</string>
     <string name="settings_reverse_order_in_calendar">反轉記錄順序</string>
     <string name="settings_days_in_calendar">日曆中的天數</string>
+    <string name="settings_show_daily_calendar">在統計中顯示每日日曆</string>
     <string name="settings_widget_transparency">小部件背景透明度</string>
     <string name="settings_show_activity_filters">主視窗上顯示活動過濾器</string>
     <string name="settings_allow_multiple_activity_filters">允許多個活動過濾器</string>

@@ -74,6 +74,7 @@
     <string name="statistics_total_tracked">記録合計</string>
     <string name="statistics_total_tracked_short">合計</string>
     <string name="statistics_hint">カードをタップすると詳細な統計情報が表示されます。</string>
+    <string name="statistics_daily_calendar_hint">日めくりカレンダー</string>
     <string name="no_statistics_exist">ここに統計が表示されます</string>
 
     <!--  Categories  -->
@@ -270,6 +271,7 @@
     <string name="settings_show_calendar_button_on_records_tab">タブにボタンを表示</string>
     <string name="settings_reverse_order_in_calendar">レコードの逆順</string>
     <string name="settings_days_in_calendar">カレンダーの日数</string>
+    <string name="settings_show_daily_calendar">統計で日次カレンダーを表示する</string>
     <string name="settings_widget_transparency">ウィジェットの背景の透明度</string>
     <string name="settings_show_activity_filters">メイン画面にアクティビティ フィルタを表示する</string>
     <string name="settings_allow_multiple_activity_filters">複数のアクティビティフィルターを許可する</string>

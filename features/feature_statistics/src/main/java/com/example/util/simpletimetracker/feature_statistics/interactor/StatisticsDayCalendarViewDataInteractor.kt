@@ -45,6 +45,7 @@ class StatisticsDayCalendarViewDataInteractor @Inject constructor(
         rangeLength: RangeLength,
     ): StatisticsDayCalendarViewData? {
         if (rangeLength != RangeLength.Day) return null
+        if (!prefsInteractor.getShowDailyCalendar()) return null
 
         val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val showUntracked = prefsInteractor.getShowUntrackedInStatistics()

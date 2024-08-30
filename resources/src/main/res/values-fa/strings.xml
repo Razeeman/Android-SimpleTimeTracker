@@ -74,6 +74,7 @@
     <string name="statistics_total_tracked">مجموع اندازه گیری</string>
     <string name="statistics_total_tracked_short">مجموع</string>
     <string name="statistics_hint">برای مشاهده آمار با جزئیات کارت را لمس کنید</string>
+    <string name="statistics_daily_calendar_hint">تقویم روزانه</string>
     <string name="no_statistics_exist">آمار در اینجا نشان داده خواهد شد</string>
 
     <!--  Categories  -->
@@ -270,6 +271,7 @@
     <string name="settings_show_calendar_button_on_records_tab">دکمه نمایش در برگه</string>
     <string name="settings_reverse_order_in_calendar">ترتیب برعکس  تاریخچه ها</string>
     <string name="settings_days_in_calendar">روزها در تقویم</string>
+    <string name="settings_show_daily_calendar">نمایش تقویم روزانه در آمار</string>
     <string name="settings_widget_transparency">شفافیت پس زمینه ویجت</string>
     <string name="settings_show_activity_filters">فیلتر فعالیت ها را در صفحه اصلی نمایش بده</string>
     <string name="settings_allow_multiple_activity_filters">فیلترهای فعالیت چندگانه مجاز است</string>

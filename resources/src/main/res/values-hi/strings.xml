@@ -74,6 +74,7 @@
     <string name="statistics_total_tracked">कुल ट्रैक किया हुआ</string>
     <string name="statistics_total_tracked_short">कुल</string>
     <string name="statistics_hint">विस्तृत आँकड़े देखने के लिए कार्ड पर क्लिक करें</string>
+    <string name="statistics_daily_calendar_hint">दैनिक कैलेंडर</string>
     <string name="no_statistics_exist">आंकड़े यहां दिखाए जाएंगे</string>
 
     <!--  Categories  -->
@@ -270,6 +271,7 @@
     <string name="settings_show_calendar_button_on_records_tab">टैब पर बटन दिखाएँ</string>
     <string name="settings_reverse_order_in_calendar">अभिलेखों का उल्टा क्रम</string>
     <string name="settings_days_in_calendar">कैलेंडर में दिन</string>
+    <string name="settings_show_daily_calendar">आँकड़ों में दैनिक कैलेंडर दिखाएँ</string>
     <string name="settings_widget_transparency">विजेट पृष्ठभूमि पारदर्शिता</string>
     <string name="settings_show_activity_filters">मुख्य स्क्रीन पर गतिविधि फ़िल्टर दिखाएं</string>
     <string name="settings_allow_multiple_activity_filters">एकाधिक गतिविधि फ़िल्टर की अनुमति दें</string>

@@ -74,6 +74,7 @@
     <string name="statistics_total_tracked">Toplam takip süresi</string>
     <string name="statistics_total_tracked_short">Toplam</string>
     <string name="statistics_hint">Detaylı istatistikler için bir karta tıklayın</string>
+    <string name="statistics_daily_calendar_hint">Günlük takvim</string>
     <string name="no_statistics_exist">İstatistikler burada gösterilecek</string>
 
     <!--  Categories  -->
@@ -270,6 +271,7 @@
     <string name="settings_show_calendar_button_on_records_tab">Sekmede düğmeyi göster</string>
     <string name="settings_reverse_order_in_calendar">Kayıtların ters sırası</string>
     <string name="settings_days_in_calendar">Takvimdeki günler</string>
+    <string name="settings_show_daily_calendar">İstatistiklerde günlük takvimi göster</string>
     <string name="settings_widget_transparency">Widget arka plan şeffaflığı</string>
     <string name="settings_show_activity_filters">Aktivite filtrelerini ana ekranda göster</string>
     <string name="settings_allow_multiple_activity_filters">Birden fazla etkinlik filtresine izin ver</string>

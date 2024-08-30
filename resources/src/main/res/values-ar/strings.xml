@@ -74,6 +74,7 @@
     <string name="statistics_total_tracked">إجمالي الوقت المتتبع</string>
     <string name="statistics_total_tracked_short">اﻹجمالي</string>
     <string name="statistics_hint">اضغط على البطاقة لعرض إحصائيات مفصلة</string>
+    <string name="statistics_daily_calendar_hint">التقويم اليومي</string>
     <string name="no_statistics_exist">سيتم عرض الإحصائيات هنا</string>
 
     <!--  Categories  -->
@@ -270,6 +271,7 @@
     <string name="settings_show_calendar_button_on_records_tab">إظهار الزر في علامة التبويب</string>
     <string name="settings_reverse_order_in_calendar">ترتيب عكسي للمتتبعات</string>
     <string name="settings_days_in_calendar">الأيام في التقويم</string>
+    <string name="settings_show_daily_calendar">إظهار التقويم اليومي في الإحصائيات</string>
     <string name="settings_widget_transparency">القطعة شفافية الخلفية</string>
     <string name="settings_show_activity_filters">إظهار عوامل تصفية النشاط على الشاشة الرئيسية</string>
     <string name="settings_allow_multiple_activity_filters">السماح بمرشحات أنشطة متعددة</string>

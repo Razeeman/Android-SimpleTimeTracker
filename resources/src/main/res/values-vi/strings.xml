@@ -74,6 +74,7 @@
     <string name="statistics_total_tracked">Tổng số đã theo dõi</string>
     <string name="statistics_total_tracked_short">Tổng số</string>
     <string name="statistics_hint">Bấm vào thẻ để xem số liệu thống kê chi tiết</string>
+    <string name="statistics_daily_calendar_hint">Lịch hàng ngày</string>
     <string name="no_statistics_exist">Thống kê sẽ được hiển thị ở đây</string>
 
     <!--  Categories  -->
@@ -270,6 +271,7 @@
     <string name="settings_show_calendar_button_on_records_tab">Hiển thị nút trên tab</string>
     <string name="settings_reverse_order_in_calendar">Đảo ngược thứ tự các bản ghi</string>
     <string name="settings_days_in_calendar">Ngày trong lịch</string>
+    <string name="settings_show_daily_calendar">Hiển thị lịch hàng ngày trong thống kê</string>
     <string name="settings_widget_transparency">Độ trong suốt của nền tiện ích</string>
     <string name="settings_show_activity_filters">Hiển thị bộ lọc hoạt động trên màn hình chính</string>
     <string name="settings_allow_multiple_activity_filters">Cho phép nhiều bộ lọc hoạt động</string>

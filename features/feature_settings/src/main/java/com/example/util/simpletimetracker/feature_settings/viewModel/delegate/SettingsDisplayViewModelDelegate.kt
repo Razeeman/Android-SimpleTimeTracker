@@ -67,6 +67,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             SettingsBlock.DisplayCalendarView -> onShowRecordsCalendarClicked()
             SettingsBlock.DisplayCalendarButtonOnRecordsTab -> onShowCalendarButtonOnRecordsTabClicked()
             SettingsBlock.DisplayReverseOrder -> onReverseOrderInCalendarClicked()
+            SettingsBlock.DisplayDailyCalendar -> onShowDailyCalendarClicked()
             SettingsBlock.DisplayShowActivityFilters -> onShowActivityFiltersClicked()
             SettingsBlock.DisplayEnablePomodoroMode -> onEnablePomodoroModeClicked()
             SettingsBlock.DisplayEnableRepeatButton -> onEnableRepeatButtonClicked()
@@ -267,6 +268,14 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         delegateScope.launch {
             val newValue = !prefsInteractor.getReverseOrderInCalendar()
             prefsInteractor.setReverseOrderInCalendar(newValue)
+            parent?.updateContent()
+        }
+    }
+
+    private fun onShowDailyCalendarClicked() {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getShowDailyCalendar()
+            prefsInteractor.setShowDailyCalendar(newValue)
             parent?.updateContent()
         }
     }
