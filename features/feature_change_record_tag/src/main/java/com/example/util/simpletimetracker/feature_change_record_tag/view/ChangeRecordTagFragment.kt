@@ -225,6 +225,7 @@ class ChangeRecordTagFragment :
             types.observe(::updateTypes)
             defaultTypes.observe(::updateDefaultTypes)
             chooserState.observe(::updateChooserState)
+            nameErrorMessage.observe(::updateNameErrorMessage)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTagName) else hideKeyboard()
             }
@@ -427,6 +428,11 @@ class ChangeRecordTagFragment :
             data = data,
             layout = binding.containerChangeRecordTypeIcon,
         )
+    }
+
+    private fun updateNameErrorMessage(error: String) = with(binding) {
+        inputChangeRecordTagName.error = error
+        inputChangeRecordTagName.isErrorEnabled = error.isNotEmpty()
     }
 
     private inline fun <reified T : State> updateChooser(

@@ -99,6 +99,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     val archiveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
+    val nameErrorMessage: LiveData<String> = MutableLiveData("")
     val iconColorSourceSelected: LiveData<Boolean> = MutableLiveData(false)
     val archiveIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId != 0L) }
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(recordTagId != 0L) }
@@ -130,6 +131,15 @@ class ChangeRecordTagViewModel @Inject constructor(
                 newName = name
                 updatePreview()
             }
+        }
+        viewModelScope.launch {
+            val type = recordTagInteractor.get(name)
+            val error = if (type != null && type.id != recordTagId) {
+                resourceRepo.getString(R.string.change_record_message_name_exist)
+            } else {
+                ""
+            }
+            nameErrorMessage.set(error)
         }
     }
 

@@ -69,6 +69,10 @@ class RecordTagInteractor @Inject constructor(
         return repo.get(id)
     }
 
+    suspend fun get(name: String): RecordTag? {
+        return repo.get(name)
+    }
+
     // TODO check if already has this name, show alert.
     // TODO same for activities.
     suspend fun add(tag: RecordTag): Long {

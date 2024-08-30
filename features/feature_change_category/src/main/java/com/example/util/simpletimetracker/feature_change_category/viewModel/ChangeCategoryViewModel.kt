@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsDetailNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
@@ -37,6 +38,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangeCategoryViewModel @Inject constructor(
     private val router: Router,
+    private val resourceRepo: ResourceRepo,
     private val changeCategoryViewDataInteractor: ChangeCategoryViewDataInteractor,
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
@@ -77,6 +79,7 @@ class ChangeCategoryViewModel @Inject constructor(
     )
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
+    val nameErrorMessage: LiveData<String> = MutableLiveData("")
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(categoryId != 0L) }
     val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(categoryId != 0L) }
     val keyboardVisibility: LiveData<Boolean> by lazy { MutableLiveData(categoryId == 0L) }
@@ -106,6 +109,15 @@ class ChangeCategoryViewModel @Inject constructor(
                 newName = name
                 updateCategoryPreview()
             }
+        }
+        viewModelScope.launch {
+            val type = categoryInteractor.get(name)
+            val error = if (type != null && type.id != categoryId) {
+                resourceRepo.getString(R.string.change_record_message_name_exist)
+            } else {
+                ""
+            }
+            nameErrorMessage.set(error)
         }
     }
 

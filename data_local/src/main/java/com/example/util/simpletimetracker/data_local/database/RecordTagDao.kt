@@ -20,6 +20,9 @@ interface RecordTagDao {
     @Query("SELECT * FROM recordTags WHERE id = :id LIMIT 1")
     suspend fun get(id: Long): RecordTagDBO?
 
+    @Query("SELECT * FROM recordTags WHERE name = :name LIMIT 1")
+    suspend fun get(name: String): RecordTagDBO?
+
     @Query("SELECT * FROM recordTags WHERE icon_color_source = :typeId")
     suspend fun getByType(typeId: Long): List<RecordTagDBO>
 

@@ -191,6 +191,8 @@
         <item name="hintTextColor">@color/blue_grey_300</item>
         <item name="endIconDrawable">@drawable/clear</item>
         <item name="endIconMode">clear_text</item>
+        <item name="cursorColor">?colorPrimary</item>
+        <item name="cursorErrorColor">?colorPrimary</item>
     </style>
 
     <style name="ChangeItemInputFieldDialog" parent="ChangeItemInputField">

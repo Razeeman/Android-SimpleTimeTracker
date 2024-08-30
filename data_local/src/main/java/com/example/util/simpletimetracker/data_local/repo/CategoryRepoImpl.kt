@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.data_local.utils.withLockedCache
 import com.example.util.simpletimetracker.data_local.mapper.CategoryDataLocalMapper
 import com.example.util.simpletimetracker.data_local.utils.removeIf
 import com.example.util.simpletimetracker.domain.model.Category
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.repo.CategoryRepo
 import kotlinx.coroutines.sync.Mutex
 import javax.inject.Inject
@@ -30,6 +31,12 @@ class CategoryRepoImpl @Inject constructor(
         logMessage = "get id",
         accessCache = { cache?.firstOrNull { it.id == id } },
         accessSource = { categoryDao.get(id)?.let(categoryDataLocalMapper::map) },
+    )
+
+    override suspend fun get(name: String): Category? = mutex.withLockedCache(
+        logMessage = "get name",
+        accessCache = { cache?.firstOrNull { it.name == name } },
+        accessSource = { categoryDao.get(name)?.let(categoryDataLocalMapper::map) },
     )
 
     override suspend fun add(category: Category): Long = mutex.withLockedCache(

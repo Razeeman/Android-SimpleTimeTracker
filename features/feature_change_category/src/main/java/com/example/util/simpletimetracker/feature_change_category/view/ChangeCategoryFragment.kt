@@ -151,6 +151,7 @@ class ChangeCategoryFragment :
             colors.observe(colorsAdapter::replace)
             types.observe(::updateTypes)
             goalsViewData.observe(::updateGoalsState)
+            nameErrorMessage.observe(::updateNameErrorMessage)
             notificationsHintVisible.observe(
                 layoutChangeCategoryGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set,
             )
@@ -275,6 +276,11 @@ class ChangeCategoryFragment :
         typesAdapter.replace(data.viewData)
         layoutChangeCategoryTypePreview.isVisible = data.selectedCount > 0
         tvChangeCategoryTypePreview.text = data.selectedCount.toString()
+    }
+
+    private fun updateNameErrorMessage(error: String) = with(binding) {
+        inputChangeCategoryName.error = error
+        inputChangeCategoryName.isErrorEnabled = error.isNotEmpty()
     }
 
     private inline fun <reified T : State> updateChooser(

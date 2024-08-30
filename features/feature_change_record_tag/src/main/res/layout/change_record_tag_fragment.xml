@@ -165,6 +165,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
                 android:layout_marginTop="@dimen/edit_screen_field_top_margin"
+                app:errorIconDrawable="@null"
                 app:layout_constraintTop_toBottomOf="@id/barrierChangeRecordTagButtons">
 
                 <com.google.android.material.textfield.TextInputEditText

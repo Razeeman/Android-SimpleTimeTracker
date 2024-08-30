@@ -20,7 +20,7 @@ object Versions {
     const val gson = "2.10.1"
     const val desugaring = "1.1.6"
     const val cardView = "1.0.0"
-    const val material = "1.8.0"
+    const val material = "1.12.0"
     const val emoji = "1.4.0"
 
     const val fragmentKtx = "1.8.2"
