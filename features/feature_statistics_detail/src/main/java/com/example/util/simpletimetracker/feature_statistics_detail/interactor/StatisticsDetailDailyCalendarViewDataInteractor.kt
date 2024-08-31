@@ -23,6 +23,7 @@ import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailDailyCalendarViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailDayCalendarViewData
 import kotlinx.coroutines.Dispatchers
@@ -47,20 +48,51 @@ class StatisticsDetailDailyCalendarViewDataInteractor @Inject constructor(
 
     fun getEmptyChartViewData(
         rangeLength: RangeLength,
-    ): StatisticsDetailDayCalendarViewData? {
-        if (rangeLength != RangeLength.Day) return null
-        return mapper.mapToEmpty()
+    ): List<ViewHolderType> {
+        if (rangeLength != RangeLength.Day) return emptyList()
+        return listOf(
+            mapper.mapToHint(),
+            mapper.mapToEmpty(),
+        )
     }
 
     suspend fun getViewData(
         records: List<RecordBase>,
         compareRecords: List<RecordBase>,
         filter: List<RecordsFilter>,
-        compare: List<RecordsFilter>, // TODO
+        compare: List<RecordsFilter>,
         rangeLength: RangeLength,
         rangePosition: Int,
-    ): StatisticsDetailDayCalendarViewData? = withContext(Dispatchers.Default) {
-        if (rangeLength != RangeLength.Day) return@withContext null
+    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
+        if (rangeLength != RangeLength.Day) return@withContext emptyList()
+
+        return@withContext listOfNotNull(
+            mapper.mapToHint(),
+            getViewData(
+                records = records,
+                filter = filter,
+                rangeLength = rangeLength,
+                rangePosition = rangePosition,
+                isForComparison = false,
+            ),
+            getViewData(
+                records = compareRecords,
+                filter = compare,
+                rangeLength = rangeLength,
+                rangePosition = rangePosition,
+                isForComparison = true,
+            ),
+        )
+    }
+
+    private suspend fun getViewData(
+        records: List<RecordBase>,
+        filter: List<RecordsFilter>,
+        rangeLength: RangeLength,
+        rangePosition: Int,
+        isForComparison: Boolean,
+    ): ViewHolderType? {
+        if (isForComparison && filter.isEmpty()) return null
 
         val calendar = Calendar.getInstance()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
@@ -90,7 +122,7 @@ class StatisticsDetailDailyCalendarViewDataInteractor @Inject constructor(
             )
         }
 
-        return@withContext StatisticsDetailDayCalendarViewData(
+        return StatisticsDetailDayCalendarViewData(
             data = DayCalendarViewData(data),
         )
     }
@@ -225,7 +257,6 @@ class StatisticsDetailDailyCalendarViewDataInteractor @Inject constructor(
         }
 
         return tagsData + untaggedData
-
     }
 
     data class RecordHolder(

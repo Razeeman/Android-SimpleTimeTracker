@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailDailyCalendarViewDataInteractor
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailDayCalendarViewData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ class StatisticsDetailDailyCalendarViewModelDelegate @Inject constructor(
     private val dailyCalendarViewDataInteractor: StatisticsDetailDailyCalendarViewDataInteractor,
 ) : StatisticsDetailViewModelDelegate, ViewModelDelegate() {
 
-    val viewData: LiveData<StatisticsDetailDayCalendarViewData?> by lazySuspend {
+    val viewData: LiveData<List<ViewHolderType>> by lazySuspend {
         loadEmptyViewData().also { parent?.updateContent() }
     }
 
@@ -24,20 +24,20 @@ class StatisticsDetailDailyCalendarViewModelDelegate @Inject constructor(
     }
 
     fun updateViewData() = delegateScope.launch {
-        val data = loadViewData() ?: return@launch
+        val data = loadViewData()
         viewData.set(data)
         parent?.updateContent()
     }
 
-    private fun loadEmptyViewData(): StatisticsDetailDayCalendarViewData? {
-        val parent = parent ?: return null
+    private fun loadEmptyViewData(): List<ViewHolderType> {
+        val parent = parent ?: return emptyList()
         return dailyCalendarViewDataInteractor.getEmptyChartViewData(
             rangeLength = parent.rangeLength,
         )
     }
 
-    private suspend fun loadViewData(): StatisticsDetailDayCalendarViewData? {
-        val parent = parent ?: return null
+    private suspend fun loadViewData(): List<ViewHolderType> {
+        val parent = parent ?: return emptyList()
         return dailyCalendarViewDataInteractor.getViewData(
             records = parent.records,
             compareRecords = parent.compareRecords,

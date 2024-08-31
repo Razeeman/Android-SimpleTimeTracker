@@ -15,7 +15,6 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.Stat
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailPreviewsViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesCalendarViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesChartViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailDayCalendarViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
@@ -31,7 +30,7 @@ class StatisticsDetailContentInteractor @Inject constructor(
     fun getContent(
         previewViewData: StatisticsDetailPreviewCompositeViewData?,
         chartViewData: StatisticsDetailChartCompositeViewData?,
-        dailyCalendarViewData: StatisticsDetailDayCalendarViewData?,
+        dailyCalendarViewData: List<ViewHolderType>?,
         statsViewData: StatisticsDetailStatsViewData?,
         streaksViewData: StatisticsDetailStreaksViewData?,
         streaksGoalViewData: List<ViewHolderType>?,
@@ -120,10 +119,6 @@ class StatisticsDetailContentInteractor @Inject constructor(
         }
 
         dailyCalendarViewData?.let {
-            result += StatisticsDetailHintViewData(
-                block = StatisticsDetailBlock.DailyCalendarHint,
-                text = resourceRepo.getString(R.string.statistics_daily_calendar_hint),
-            )
             result += it
         }
 

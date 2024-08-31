@@ -177,6 +177,6 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
         object Activities : PreviewType
         object Categories : PreviewType
         object SelectedTags : PreviewType
-        object ActivitiesFromRecords: PreviewType
+        object ActivitiesFromRecords : PreviewType
     }
 }
