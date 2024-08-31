@@ -48,8 +48,6 @@ interface PrefsRepo {
 
     var daysInCalendar: Int
 
-    var showDailyCalendar: Boolean
-
     var showActivityFilters: Boolean
 
     var enableRepeatButton: Boolean

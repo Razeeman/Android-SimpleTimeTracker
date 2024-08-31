@@ -44,7 +44,6 @@ enum class SettingsBlock {
     DisplayCalendarButtonOnRecordsTab,
     DisplayReverseOrder,
     DisplayDaysInCalendar,
-    DisplayDailyCalendar,
     DisplayShowActivityFilters,
     DisplayAllowMultipleActivityFilters,
     DisplayEnablePomodoroMode,

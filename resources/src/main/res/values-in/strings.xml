@@ -271,7 +271,6 @@
     <string name="settings_show_calendar_button_on_records_tab">Tampilkan tombol di tab</string>
     <string name="settings_reverse_order_in_calendar">Urutan terbalik catatan</string>
     <string name="settings_days_in_calendar">Hari dalam kalender</string>
-    <string name="settings_show_daily_calendar">Tampilkan kalender harian dalam statistik</string>
     <string name="settings_widget_transparency">Transparansi latar belakang widget</string>
     <string name="settings_show_activity_filters">Tampilkan filter aktivitas di layar utama</string>
     <string name="settings_allow_multiple_activity_filters">Izinkan beberapa filter aktivitas</string>

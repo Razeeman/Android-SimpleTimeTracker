@@ -26,6 +26,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableTracked
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailChartViewModelDelegate
+import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailDailyCalendarViewModelDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailDurationSplitViewModelDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailFilterViewModelDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailNextActivitiesViewModelDelegate
@@ -58,6 +59,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val durationSplitDelegate: StatisticsDetailDurationSplitViewModelDelegate,
     private val rangeDelegate: StatisticsDetailRangeViewModelDelegate,
     private val filterDelegate: StatisticsDetailFilterViewModelDelegate,
+    private val dailyCalendarDelegate: StatisticsDetailDailyCalendarViewModelDelegate,
 ) : BaseViewModel() {
 
     val scrollToTop: LiveData<Unit> = SingleLiveEvent()
@@ -79,6 +81,7 @@ class StatisticsDetailViewModel @Inject constructor(
         durationSplitDelegate,
         rangeDelegate,
         filterDelegate,
+        dailyCalendarDelegate,
     )
 
     init {
@@ -218,6 +221,7 @@ class StatisticsDetailViewModel @Inject constructor(
         statsDelegate.updateViewData()
         streaksDelegate.updateStreaksViewData()
         chartDelegate.updateViewData()
+        dailyCalendarDelegate.updateViewData()
         splitChartDelegate.updateSplitChartViewData()
         durationSplitDelegate.updateViewData()
         nextActivitiesDelegate.updateViewData()
@@ -235,6 +239,7 @@ class StatisticsDetailViewModel @Inject constructor(
         return statisticsDetailContentInteractor.getContent(
             previewViewData = previewViewData.value,
             chartViewData = chartDelegate.viewData.value,
+            dailyCalendarViewData = dailyCalendarDelegate.viewData.value,
             statsViewData = statsDelegate.viewData.value,
             streaksViewData = streaksDelegate.streaksViewData.value,
             streaksGoalViewData = streaksDelegate.streaksGoalViewData.value,
@@ -272,6 +277,7 @@ class StatisticsDetailViewModel @Inject constructor(
             override fun onRangeChanged() {
                 splitChartDelegate.updateSplitChartGroupingViewData()
                 streaksDelegate.updateStreaksGoalViewData()
+                dailyCalendarDelegate.updateViewData()
             }
 
             override fun updateViewData() {

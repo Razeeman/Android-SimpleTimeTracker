@@ -271,7 +271,6 @@
     <string name="settings_show_calendar_button_on_records_tab">タブにボタンを表示</string>
     <string name="settings_reverse_order_in_calendar">レコードの逆順</string>
     <string name="settings_days_in_calendar">カレンダーの日数</string>
-    <string name="settings_show_daily_calendar">統計で日次カレンダーを表示する</string>
     <string name="settings_widget_transparency">ウィジェットの背景の透明度</string>
     <string name="settings_show_activity_filters">メイン画面にアクティビティ フィルタを表示する</string>
     <string name="settings_allow_multiple_activity_filters">複数のアクティビティフィルターを許可する</string>

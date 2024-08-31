@@ -271,7 +271,6 @@
     <string name="settings_show_calendar_button_on_records_tab">Schaltfläche Anzeigen auf der Registerkarte</string>
     <string name="settings_reverse_order_in_calendar">Umgekehrte Reihenfolge der Aufzeichnungen</string>
     <string name="settings_days_in_calendar">Tage im Kalender</string>
-    <string name="settings_show_daily_calendar">Tageskalender in der Statistik anzeigen</string>
     <string name="settings_widget_transparency">Widget-Hintergrundtransparenz</string>
     <string name="settings_show_activity_filters">Aktivitätsfilter auf dem Hauptbildschirm anzeigen</string>
     <string name="settings_allow_multiple_activity_filters">Erlauben Sie mehrere Aktivitätsfilter</string>

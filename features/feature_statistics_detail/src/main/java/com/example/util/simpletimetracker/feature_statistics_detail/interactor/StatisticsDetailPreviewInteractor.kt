@@ -33,11 +33,25 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
 ) {
 
+    fun getPreviewType(
+        filterParams: List<RecordsFilter>,
+    ): PreviewType {
+        return when {
+            filterParams.hasUntrackedFilter() -> PreviewType.Untracked
+            filterParams.hasMultitaskFilter() -> PreviewType.Multitask
+            filterParams.hasActivityFilter() -> PreviewType.Activities
+            filterParams.hasCategoryFilter() -> PreviewType.Categories
+            filterParams.hasSelectedTagsFilter() -> PreviewType.SelectedTags
+            else -> PreviewType.ActivitiesFromRecords
+        }
+    }
+
     suspend fun getPreviewData(
         filterParams: List<RecordsFilter>,
         isForComparison: Boolean,
     ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val isDarkTheme = prefsInteractor.getDarkMode()
+        val previewType = getPreviewType(filterParams)
 
         suspend fun mapActivities(
             selectedIds: List<Long>,
@@ -54,24 +68,24 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
                 }
         }
 
-        val viewData = when {
-            filterParams.hasUntrackedFilter() -> {
+        val viewData = when (previewType) {
+            is PreviewType.Untracked -> {
                 statisticsDetailViewDataMapper.mapUntrackedPreview(
                     isDarkTheme = isDarkTheme,
                     isForComparison = isForComparison,
                 ).let(::listOf)
             }
-            filterParams.hasMultitaskFilter() -> {
+            is PreviewType.Multitask -> {
                 statisticsDetailViewDataMapper.mapMultitaskPreview(
                     isDarkTheme = isDarkTheme,
                     isForComparison = isForComparison,
                 ).let(::listOf)
             }
-            filterParams.hasActivityFilter() -> {
+            is PreviewType.Activities -> {
                 val selectedIds = filterParams.getTypeIds()
                 mapActivities(selectedIds)
             }
-            filterParams.hasCategoryFilter() -> {
+            is PreviewType.Categories -> {
                 val selectedCategories = filterParams.getCategoryItems()
                 val categories = categoryInteractor.getAll().associateBy(Category::id)
                 selectedCategories.mapNotNull {
@@ -93,7 +107,7 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
                     }
                 }
             }
-            filterParams.hasSelectedTagsFilter() -> {
+            is PreviewType.SelectedTags -> {
                 val selectedTags = filterParams.getSelectedTags()
                 val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
                 val tags = recordTagInteractor.getAll().associateBy(RecordTag::id)
@@ -117,7 +131,7 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
                     }
                 }
             }
-            else -> {
+            is PreviewType.ActivitiesFromRecords -> {
                 val records = recordFilterInteractor.getByFilter(filterParams)
                 val selectedIds = records.map { it.typeIds }.flatten().distinct()
                 mapActivities(selectedIds)
@@ -155,5 +169,14 @@ class StatisticsDetailPreviewInteractor @Inject constructor(
         } else {
             StatisticsDetailPreviewCompareViewData.let(::listOf) + viewData
         }
+    }
+
+    sealed interface PreviewType {
+        object Untracked : PreviewType
+        object Multitask : PreviewType
+        object Activities : PreviewType
+        object Categories : PreviewType
+        object SelectedTags : PreviewType
+        object ActivitiesFromRecords: PreviewType
     }
 }

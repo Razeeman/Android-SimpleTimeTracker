@@ -271,7 +271,6 @@
     <string name="settings_show_calendar_button_on_records_tab">탭에 버튼 표시</string>
     <string name="settings_reverse_order_in_calendar">순서 뒤집기</string>
     <string name="settings_days_in_calendar">표시할 일 수</string>
-    <string name="settings_show_daily_calendar">통계에 일일 달력 표시</string>
     <string name="settings_widget_transparency">위젯 배경 투명도</string>
     <string name="settings_show_activity_filters">메인 화면에 활동 필터 표시</string>
     <string name="settings_allow_multiple_activity_filters">여러 활동 필터 허용</string>

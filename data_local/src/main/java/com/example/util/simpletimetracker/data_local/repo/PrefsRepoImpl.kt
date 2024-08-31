@@ -125,10 +125,6 @@ class PrefsRepoImpl @Inject constructor(
         KEY_DAYS_IN_CALENDAR, 0,
     )
 
-    override var showDailyCalendar: Boolean by prefs.delegate(
-        KEY_SHOW_DAILY_CALENDAR, false,
-    )
-
     override var showActivityFilters: Boolean by prefs.delegate(
         KEY_SHOW_ACTIVITY_FILTERS, false,
     )
@@ -562,7 +558,6 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_SHOW_CALENDAR_BUTTON_ON_RECORDS_TAB = "showCalendarButtonOnRecordsTab"
         private const val KEY_REVERSE_ORDER_IN_CALENDAR = "reverseOrderInCalendar"
         private const val KEY_DAYS_IN_CALENDAR = "daysInCalendar"
-        private const val KEY_SHOW_DAILY_CALENDAR = "showDailyCalendar"
         private const val KEY_SHOW_ACTIVITY_FILTERS = "showActivityFilters"
         private const val KEY_ENABLE_REPEAT_BUTTON = "enableRepeatButton"
         private const val KEY_ENABLE_POMODORO_MODE = "enablePomodoroMode"

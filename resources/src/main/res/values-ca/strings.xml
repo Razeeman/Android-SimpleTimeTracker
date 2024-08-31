@@ -271,7 +271,6 @@
     <string name="settings_show_calendar_button_on_records_tab">Mostra el botó de la pestanya</string>
     <string name="settings_reverse_order_in_calendar">Inverteix l\'ordre dels enregistraments</string>
     <string name="settings_days_in_calendar">Dies al calendari</string>
-    <string name="settings_show_daily_calendar">Mostra el calendari diari a les estadístiques</string>
     <string name="settings_widget_transparency">Transparència de fons del widget</string>
     <string name="settings_show_activity_filters">Mostra els filtres d\'activitat a la pantalla principal.</string>
     <string name="settings_allow_multiple_activity_filters">Permet diversos filtres d\'activitat</string>

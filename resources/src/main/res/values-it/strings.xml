@@ -271,7 +271,6 @@
     <string name="settings_show_calendar_button_on_records_tab">Mostra il pulsante nella scheda</string>
     <string name="settings_reverse_order_in_calendar">Ordine inverso dei record</string>
     <string name="settings_days_in_calendar">Giorni in calendario</string>
-    <string name="settings_show_daily_calendar">Mostra il calendario giornaliero nelle statistiche</string>
     <string name="settings_widget_transparency">Trasparenza dello sfondo del widget</string>
     <string name="settings_show_activity_filters">Mostra i filtri delle attività sulla schermata principale</string>
     <string name="settings_allow_multiple_activity_filters">Consenti più filtri di attività</string>

@@ -33,6 +33,16 @@ class StatisticsTagInteractor @Inject constructor(
             )
     }
 
+    suspend fun getTagRecords(
+        allRecords: List<RecordBase>,
+    ): Map<Long, List<RecordBase>> {
+        val recordTags = recordTagInteractor.getAll().map(RecordTag::id)
+
+        return recordTags
+            .associateWith { tagId -> allRecords.filter { tagId in it.tagIds } }
+            .filterValues(List<RecordBase>::isNotEmpty)
+    }
+
     private fun getUntagged(
         range: Range,
         records: List<RecordBase>,
@@ -52,16 +62,6 @@ class StatisticsTagInteractor @Inject constructor(
         }
 
         return emptyList()
-    }
-
-    suspend fun getTagRecords(
-        allRecords: List<RecordBase>,
-    ): Map<Long, List<RecordBase>> {
-        val recordTags = recordTagInteractor.getAll().map(RecordTag::id)
-
-        return recordTags
-            .associateWith { tagId -> allRecords.filter { tagId in it.tagIds } }
-            .filterValues(List<RecordBase>::isNotEmpty)
     }
 
     fun getUntagged(

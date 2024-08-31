@@ -271,7 +271,6 @@
     <string name="settings_show_calendar_button_on_records_tab">Pokaż przycisk na karcie</string>
     <string name="settings_reverse_order_in_calendar">Odwrotna kolejność zapisów</string>
     <string name="settings_days_in_calendar">Dni w kalendarzu</string>
-    <string name="settings_show_daily_calendar">Pokaż kalendarz dzienny w statystykach</string>
     <string name="settings_widget_transparency">Przezroczystość tła widgetu</string>
     <string name="settings_show_activity_filters">Pokaż filtry aktywności na ekranie głównym</string>
     <string name="settings_allow_multiple_activity_filters">Zezwalaj na wiele filtrów aktywności</string>

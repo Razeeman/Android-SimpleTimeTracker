@@ -271,7 +271,6 @@
     <string name="settings_show_calendar_button_on_records_tab">Visa knapp på fliken</string>
     <string name="settings_reverse_order_in_calendar">Byt ordning på händelser</string>
     <string name="settings_days_in_calendar">Dagar i kalendern</string>
-    <string name="settings_show_daily_calendar">Visa daglig kalender i statistiken</string>
     <string name="settings_widget_transparency">Transparens för widgetbakgrund</string>
     <string name="settings_show_activity_filters">Visa aktivitetsfilter på huvudskärmen</string>
     <string name="settings_allow_multiple_activity_filters">Tillåt flera aktivitetsfilter</string>

@@ -4,6 +4,7 @@ enum class StatisticsDetailBlock {
     PreviewItems,
     ChartData,
     ChartDataComparison,
+    DailyCalendarHint,
     ChartGrouping,
     ChartLength,
     RangeAverages,

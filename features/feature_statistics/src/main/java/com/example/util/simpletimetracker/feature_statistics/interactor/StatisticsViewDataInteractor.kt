@@ -40,7 +40,6 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
-    private val statisticsDayCalendarViewDataInteractor: StatisticsDayCalendarViewDataInteractor,
 ) {
 
     suspend fun getViewData(
@@ -102,12 +101,6 @@ class StatisticsViewDataInteractor @Inject constructor(
                 buttonsVisible = !forSharing,
             )
         }
-        val dayCalendar = statisticsDayCalendarViewDataInteractor.getViewData(
-            filterType = filterType,
-            filteredIds = filteredIds,
-            range = range,
-            rangeLength = rangeLength,
-        )
         val list = statisticsViewDataMapper.mapItemsList(
             shift = shift,
             filterType = filterType,
@@ -169,12 +162,6 @@ class StatisticsViewDataInteractor @Inject constructor(
         } else {
             if (forSharing) getSharingTitle(rangeLength, shift).let(result::addAll)
             chart.let(result::add)
-            dayCalendar?.let {
-                DividerViewData(2).let(result::add)
-                statisticsViewDataMapper.mapToDailyCalendarHint().let(result::add)
-                result.add(it)
-                DividerViewData(3).let(result::add)
-            }
             list.let(result::addAll)
             totalTracked.let(result::add)
             // If has any activity or tag other than untracked

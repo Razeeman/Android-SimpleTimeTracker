@@ -271,7 +271,6 @@
     <string name="settings_show_calendar_button_on_records_tab">Show button on the tab</string>
     <string name="settings_reverse_order_in_calendar">Reverse order of records</string>
     <string name="settings_days_in_calendar">Days in calendar</string>
-    <string name="settings_show_daily_calendar">Show daily calendar in statistics</string>
     <string name="settings_widget_transparency">Widget background transparency</string>
     <string name="settings_show_activity_filters">Show activity filters on main screen</string>
     <string name="settings_allow_multiple_activity_filters">Allow multiple activity filters</string>

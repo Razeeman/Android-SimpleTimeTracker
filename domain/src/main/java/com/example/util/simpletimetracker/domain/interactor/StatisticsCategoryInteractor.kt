@@ -33,6 +33,26 @@ class StatisticsCategoryInteractor @Inject constructor(
             )
     }
 
+    suspend fun getCategoryRecords(
+        allRecords: List<RecordBase>,
+    ): Map<Long, List<RecordBase>> {
+        val recordTypeCategories = recordTypeCategoryInteractor.getAll()
+            .groupBy(RecordTypeCategory::categoryId)
+            .mapValues { it.value.map(RecordTypeCategory::recordTypeId) }
+
+        return recordTypeCategories
+            .mapValues { (_, typeIds) -> allRecords.filter { it.typeIds.any { it in typeIds } } }
+            .filterValues(List<RecordBase>::isNotEmpty)
+    }
+
+    suspend fun getUncategorized(
+        allRecords: List<RecordBase>,
+    ): List<RecordBase> {
+        val recordTypeCategories = recordTypeCategoryInteractor.getAll().map { it.recordTypeId }
+
+        return allRecords.filter { it.typeIds.all { it !in recordTypeCategories } }
+    }
+
     private suspend fun getUncategorized(
         range: Range,
         records: List<RecordBase>,
@@ -52,25 +72,5 @@ class StatisticsCategoryInteractor @Inject constructor(
         }
 
         return emptyList()
-    }
-
-    suspend fun getCategoryRecords(
-        allRecords: List<RecordBase>,
-    ): Map<Long, List<RecordBase>> {
-        val recordTypeCategories = recordTypeCategoryInteractor.getAll()
-            .groupBy(RecordTypeCategory::categoryId)
-            .mapValues { it.value.map(RecordTypeCategory::recordTypeId) }
-
-        return recordTypeCategories
-            .mapValues { (_, typeIds) -> allRecords.filter { it.typeIds.any { it in typeIds } } }
-            .filterValues(List<RecordBase>::isNotEmpty)
-    }
-
-    suspend fun getUncategorized(
-        allRecords: List<RecordBase>,
-    ): List<RecordBase> {
-        val recordTypeCategories = recordTypeCategoryInteractor.getAll().map { it.recordTypeId }
-
-        return allRecords.filter { it.typeIds.all { it !in recordTypeCategories } }
     }
 }

@@ -25,7 +25,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.statistics.create
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsGoal.createStatisticsGoalAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.R
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsChartAdapterDelegate
-import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsDayCalendarAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics.adapter.createStatisticsTitleAdapterDelegate
@@ -146,7 +145,6 @@ class StatisticsFragment :
                 onShareClick = throttle(viewModel::onShareClick),
                 onChartAttached = viewModel::onChartAttached,
             ),
-            createStatisticsDayCalendarAdapterDelegate(),
             createStatisticsInfoAdapterDelegate(),
             createStatisticsAdapterDelegate(
                 onItemClick = throttle(viewModel::onItemClick),
