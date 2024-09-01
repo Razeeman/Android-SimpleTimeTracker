@@ -128,6 +128,8 @@ class RecordsFilterViewModel @Inject constructor(
     private val defaultRange: Range by lazy { viewDataInteractor.getDefaultDateRange() }
     private val defaultDurationRange: Range by lazy { viewDataInteractor.getDefaultDurationRange() }
     private val defaultTimeOfDayRange: Range by lazy { viewDataInteractor.getDefaultTimeOfDayRange() }
+    private var filtersLoadJob: Job? = null
+    private var filtersSelectionLoadJob: Job? = null
     private var recordsLoadJob: Job? = null
 
     // Cache
@@ -703,15 +705,18 @@ class RecordsFilterViewModel @Inject constructor(
         return filterSelectionState is RecordsFilterSelectionState.Visible
     }
 
-    private fun updateFilters() = viewModelScope.launch {
-        changedFilters.set(
-            RecordsFilterResultParams(
-                tag = extra.tag,
-                filters = filters,
-            ),
-        )
-        val data = loadFiltersViewData()
-        filtersViewData.set(data)
+    private fun updateFilters() {
+        filtersLoadJob?.cancel()
+        filtersLoadJob = viewModelScope.launch {
+            changedFilters.set(
+                RecordsFilterResultParams(
+                    tag = extra.tag,
+                    filters = filters,
+                ),
+            )
+            val data = loadFiltersViewData()
+            filtersViewData.set(data)
+        }
     }
 
     private suspend fun loadFiltersViewData(): List<ViewHolderType> {
@@ -741,9 +746,12 @@ class RecordsFilterViewModel @Inject constructor(
         )
     }
 
-    private fun updateFilterSelectionViewData() = viewModelScope.launch {
-        val data = loadFilterSelectionViewData()
-        filterSelectionContent.set(data)
+    private fun updateFilterSelectionViewData() {
+        filtersSelectionLoadJob?.cancel()
+        filtersSelectionLoadJob = viewModelScope.launch {
+            val data = loadFilterSelectionViewData()
+            filterSelectionContent.set(data)
+        }
     }
 
     private suspend fun loadFilterSelectionViewData(): List<ViewHolderType> {

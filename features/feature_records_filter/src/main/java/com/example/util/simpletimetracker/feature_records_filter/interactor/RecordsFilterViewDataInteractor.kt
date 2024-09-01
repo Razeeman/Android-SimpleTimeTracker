@@ -66,6 +66,7 @@ import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 
 class RecordsFilterViewDataInteractor @Inject constructor(
@@ -169,6 +170,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         var count: Int
         val viewData = records
             .mapNotNull { record ->
+                ensureActive()
                 val viewData = when (record) {
                     is Record -> if (record.typeId != UNTRACKED_ITEM_ID) {
                         recordViewDataMapper.map(
