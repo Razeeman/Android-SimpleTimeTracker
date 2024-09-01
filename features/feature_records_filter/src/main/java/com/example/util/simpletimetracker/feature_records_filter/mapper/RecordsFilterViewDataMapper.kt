@@ -9,8 +9,11 @@ import com.example.util.simpletimetracker.domain.extension.hasAnyComment
 import com.example.util.simpletimetracker.domain.extension.hasNoComment
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.emptySpace.EmptySpaceViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.RecordFilterViewData
+import com.example.util.simpletimetracker.feature_base_adapter.selectionButton.SelectionButtonViewData
 import com.example.util.simpletimetracker.feature_records_filter.R
+import com.example.util.simpletimetracker.feature_records_filter.viewData.RecordsFilterSelectionButtonType
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import javax.inject.Inject
 
@@ -213,7 +216,37 @@ class RecordsFilterViewDataMapper @Inject constructor(
         }
     }
 
-    fun mapToViewData(clazz: Class<out RecordsFilter>): RecordFilterViewData.Type? {
+    fun mapToSelectionButtons(
+        type: RecordsFilterSelectionButtonType.Type,
+        isDarkTheme: Boolean,
+    ): List<ViewHolderType> {
+        val result = mutableListOf<ViewHolderType>()
+
+        result += SelectionButtonViewData(
+            type = RecordsFilterSelectionButtonType(
+                type = type,
+                subtype = RecordsFilterSelectionButtonType.Subtype.SelectAll,
+            ),
+            name = resourceRepo.getString(R.string.select_all),
+            color = colorMapper.toInactiveColor(isDarkTheme),
+        )
+        result += SelectionButtonViewData(
+            type = RecordsFilterSelectionButtonType(
+                type = type,
+                subtype = RecordsFilterSelectionButtonType.Subtype.SelectNone,
+            ),
+            name = resourceRepo.getString(R.string.select_nothing),
+            color = colorMapper.toInactiveColor(isDarkTheme),
+        )
+        result += EmptySpaceViewData(
+            id = 0,
+            wrapBefore = true,
+        )
+
+        return result
+    }
+
+    private fun mapToViewData(clazz: Class<out RecordsFilter>): RecordFilterViewData.Type? {
         return when (clazz) {
             RecordsFilter.Untracked::class.java -> RecordFilterViewData.Type.UNTRACKED
             RecordsFilter.Multitask::class.java -> RecordFilterViewData.Type.MULTITASK

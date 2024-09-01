@@ -45,3 +45,8 @@ fun Long.toDuration(): String {
 fun String.padDuration(): String {
     return this.padStart(2, '0')
 }
+
+@Suppress("UNCHECKED_CAST")
+fun <T> Any.tryCast(): T? {
+    return this as? T
+}

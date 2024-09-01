@@ -4,30 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.MULTITASK_ITEM_ID
-import com.example.util.simpletimetracker.domain.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
-import com.example.util.simpletimetracker.domain.extension.getAllTypeIds
-import com.example.util.simpletimetracker.domain.extension.getCategoryItems
-import com.example.util.simpletimetracker.domain.extension.getCommentItems
 import com.example.util.simpletimetracker.domain.extension.getDate
-import com.example.util.simpletimetracker.domain.extension.getDaysOfWeek
 import com.example.util.simpletimetracker.domain.extension.getDuration
-import com.example.util.simpletimetracker.domain.extension.getFilteredTags
-import com.example.util.simpletimetracker.domain.extension.getManuallyFilteredRecordIds
-import com.example.util.simpletimetracker.domain.extension.getSelectedTags
 import com.example.util.simpletimetracker.domain.extension.getTimeOfDay
-import com.example.util.simpletimetracker.domain.extension.getTypeIds
-import com.example.util.simpletimetracker.domain.extension.getTypeIdsFromCategories
 import com.example.util.simpletimetracker.domain.extension.hasManuallyFiltered
-import com.example.util.simpletimetracker.domain.extension.hasMultitaskFilter
-import com.example.util.simpletimetracker.domain.extension.hasUntrackedFilter
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
-import com.example.util.simpletimetracker.domain.interactor.FilterSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -45,18 +31,21 @@ import com.example.util.simpletimetracker.domain.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.RecordFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_base_adapter.selectionButton.SelectionButtonViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterButtonViewData
-import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterRangeViewData
+import com.example.util.simpletimetracker.feature_records_filter.interactor.RecordsFilterUpdateInteractor
 import com.example.util.simpletimetracker.feature_records_filter.interactor.RecordsFilterViewDataInteractor
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectionState
 import com.example.util.simpletimetracker.feature_records_filter.model.type
+import com.example.util.simpletimetracker.feature_records_filter.viewData.RecordsFilterSelectionButtonType
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
@@ -65,10 +54,10 @@ import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilter
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterResultParams
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 @HiltViewModel
 class RecordsFilterViewModel @Inject constructor(
@@ -80,10 +69,10 @@ class RecordsFilterViewModel @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
-    private val filterSelectableTagsInteractor: FilterSelectableTagsInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
     private val router: Router,
+    private val recordsFilterUpdateInteractor: RecordsFilterUpdateInteractor,
 ) : ViewModel() {
 
     private lateinit var extra: RecordsFilterParams
@@ -121,9 +110,7 @@ class RecordsFilterViewModel @Inject constructor(
     val changedFilters: LiveData<RecordsFilterResultParams> = MutableLiveData()
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
 
-    private val filters: MutableList<RecordsFilter> by lazy {
-        extra.filters.map(RecordsFilterParam::toModel).toMutableList()
-    }
+    private var filters: List<RecordsFilter> = emptyList()
     private var filterSelectionState: RecordsFilterSelectionState = RecordsFilterSelectionState.Hidden
     private val defaultRange: Range by lazy { viewDataInteractor.getDefaultDateRange() }
     private val defaultDurationRange: Range by lazy { viewDataInteractor.getDefaultDurationRange() }
@@ -142,6 +129,7 @@ class RecordsFilterViewModel @Inject constructor(
 
     fun init(extra: RecordsFilterParams) {
         this.extra = extra
+        filters = extra.filters.map(RecordsFilterParam::toModel).toMutableList()
 
         recordsFilterViewDataMapper.mapInitialFilter(extra, filters)
             ?.let(RecordsFilterSelectionState::Visible)
@@ -174,11 +162,7 @@ class RecordsFilterViewModel @Inject constructor(
 
     fun onRecordTypeClick(item: RecordTypeViewData) = viewModelScope.launch {
         handleTypeClick(item.id)
-
-        checkTagFilterConsistency()
-        updateFilters()
-        updateFilterSelectionViewData()
-        updateRecords()
+        updateViewDataOnFiltersChanged()
     }
 
     fun onCategoryClick(item: CategoryViewData) = viewModelScope.launch {
@@ -192,10 +176,43 @@ class RecordsFilterViewModel @Inject constructor(
                 else -> handleTagClick(item)
             }
         }
+        updateViewDataOnFiltersChanged()
+    }
 
-        updateFilters()
-        updateFilterSelectionViewData()
-        updateRecords()
+    fun onSelectionButtonClick(item: SelectionButtonViewData) = viewModelScope.launch {
+        val data = item.type
+            as? RecordsFilterSelectionButtonType
+            ?: return@launch
+        val subtype = data.subtype
+        when (data.type) {
+            is RecordsFilterSelectionButtonType.Type.Activities -> {
+                filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.ACTIVITY)
+                filters = recordsFilterUpdateInteractor.onTypesSelectionButtonClick(
+                    currentFilters = filters,
+                    subtype = subtype,
+                    recordTypes = getTypesCache(),
+                )
+                checkTagFilterConsistency()
+            }
+            is RecordsFilterSelectionButtonType.Type.Categories -> {
+                filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.CATEGORY)
+                filters = recordsFilterUpdateInteractor.onCategoriesSelectionButtonClick(
+                    currentFilters = filters,
+                    subtype = subtype,
+                    categories = getCategoriesCache(),
+                )
+                checkTagFilterConsistency()
+            }
+            is RecordsFilterSelectionButtonType.Type.Tags -> {
+                filters = recordsFilterUpdateInteractor.onTagsSelectionButtonClick(
+                    currentFilters = filters,
+                    subtype = subtype,
+                    currentState = filterSelectionState.type ?: return@launch,
+                    tags = getTagsCache(),
+                )
+            }
+        }
+        updateViewDataOnFiltersChanged()
     }
 
     fun onInnerFilterClick(item: RecordFilterViewData) {
@@ -207,18 +224,12 @@ class RecordsFilterViewModel @Inject constructor(
                 // Do nothing.
             }
         }
-
-        updateFilters()
-        updateFilterSelectionViewData()
-        updateRecords()
+        updateViewDataOnFiltersChanged()
     }
 
     fun onCommentChange(text: String) {
         handleCommentChange(text)
-
-        updateFilters()
-        updateFilterSelectionViewData()
-        updateRecords()
+        updateViewDataOnFiltersChanged()
     }
 
     fun onDateTimeSet(timestamp: Long, tag: String?) {
@@ -264,12 +275,13 @@ class RecordsFilterViewModel @Inject constructor(
             }
         }
 
-        filters.removeAll { it is RecordsFilter.Duration }
-        filters.add(RecordsFilter.Duration(Range(rangeStart, rangeEnd)))
+        filters = recordsFilterUpdateInteractor.onDurationSet(
+            currentFilters = filters,
+            rangeStart = rangeStart,
+            rangeEnd = rangeEnd,
+        )
 
-        updateFilters()
-        updateFilterSelectionViewData()
-        updateRecords()
+        updateViewDataOnFiltersChanged()
     }
 
     fun onRecordClick(
@@ -277,12 +289,8 @@ class RecordsFilterViewModel @Inject constructor(
         @Suppress("UNUSED_PARAMETER") sharedElements: Pair<Any, String>,
     ) {
         if (item is RecordViewData.Untracked) return // TODO manually filter untracked records?
-
         handleRecordClick(item.getUniqueId())
-
-        updateFilters()
-        updateFilterSelectionViewData()
-        updateRecords()
+        updateViewDataOnFiltersChanged()
     }
 
     fun onInnerFilterButtonClick(viewData: RecordsFilterButtonViewData) {
@@ -291,18 +299,12 @@ class RecordsFilterViewModel @Inject constructor(
                 handleInvertSelection()
             }
         }
-
-        updateFilters()
-        updateFilterSelectionViewData()
-        updateRecords()
+        updateViewDataOnFiltersChanged()
     }
 
     fun onDayOfWeekClick(viewData: DayOfWeekViewData) {
         handleDayOfWeekClick(viewData.dayOfWeek)
-
-        updateFilters()
-        updateFilterSelectionViewData()
-        updateRecords()
+        updateViewDataOnFiltersChanged()
     }
 
     fun onShowRecordsListClick() {
@@ -312,202 +314,84 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     private suspend fun handleTypeClick(id: Long) {
-        val currentIds = filters.getTypeIds().toMutableList()
-        val currentIdsFromCategories = filters.getTypeIdsFromCategories(
+        filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.ACTIVITY)
+        filters = recordsFilterUpdateInteractor.handleTypeClick(
+            id = id,
+            currentFilters = filters,
             recordTypes = getTypesCache(),
             recordTypeCategories = getRecordTypeCategoriesCache(),
         )
-
-        filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.ACTIVITY)
-
-        // Switch from categories to types in these categories.
-        if (currentIdsFromCategories.isNotEmpty()) {
-            currentIds.addAll(currentIdsFromCategories)
-        }
-
-        val newIds = currentIds.toMutableList().apply { addOrRemove(id) }
-
-        filters.removeAll { it is RecordsFilter.Activity }
-        filters.removeAll { it is RecordsFilter.Category }
-        filters.removeAll { it is RecordsFilter.Untracked }
-        filters.removeAll { it is RecordsFilter.Multitask }
-        if (newIds.isNotEmpty()) filters.add(RecordsFilter.Activity(newIds))
+        checkTagFilterConsistency()
     }
 
     private suspend fun handleCategoryClick(id: Long) {
-        val currentItems = filters.getCategoryItems()
-
         filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.CATEGORY)
-
-        val newItems = if (id == UNCATEGORIZED_ITEM_ID) {
-            RecordsFilter.CategoryItem.Uncategorized
-        } else {
-            RecordsFilter.CategoryItem.Categorized(id)
-        }.let { currentItems.toMutableList().apply { addOrRemove(it) } }
-
-        filters.removeAll { it is RecordsFilter.Activity }
-        filters.removeAll { it is RecordsFilter.Category }
-        filters.removeAll { it is RecordsFilter.Untracked }
-        filters.removeAll { it is RecordsFilter.Multitask }
-        if (newItems.isNotEmpty()) filters.add(RecordsFilter.Category(newItems))
-
+        filters = recordsFilterUpdateInteractor.handleCategoryClick(
+            id = id,
+            currentFilters = filters,
+        )
         checkTagFilterConsistency()
     }
 
     private fun handleUntrackedClick() {
-        val hasUntrackedFilter = filters.hasUntrackedFilter()
-
         filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.UNTRACKED)
-
-        if (!hasUntrackedFilter) {
-            val filtersAvailableWithUntrackedFilter = listOf(
-                RecordsFilter.Date::class.java,
-                RecordsFilter.DaysOfWeek::class.java,
-                RecordsFilter.TimeOfDay::class.java,
-                RecordsFilter.Duration::class.java,
-            )
-            filters.removeAll {
-                it::class.java !in filtersAvailableWithUntrackedFilter
-            }
-
-            filters.add(RecordsFilter.Untracked)
-        } else {
-            filters.removeAll { it is RecordsFilter.Untracked }
-        }
+        filters = recordsFilterUpdateInteractor.handleUntrackedClick(
+            currentFilters = filters,
+        )
     }
 
     private fun handleMultitaskClick() {
-        val hasMultitaskFilter = filters.hasMultitaskFilter()
-
         filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.MULTITASK)
-
-        if (!hasMultitaskFilter) {
-            val filtersAvailableWithMultitaskFilter = listOf(
-                RecordsFilter.Date::class.java,
-                RecordsFilter.DaysOfWeek::class.java,
-                RecordsFilter.TimeOfDay::class.java,
-                RecordsFilter.Duration::class.java,
-            )
-            filters.removeAll {
-                it::class.java !in filtersAvailableWithMultitaskFilter
-            }
-
-            filters.add(RecordsFilter.Multitask)
-        } else {
-            filters.removeAll { it is RecordsFilter.Multitask }
-        }
+        filters = recordsFilterUpdateInteractor.handleMultitaskClick(
+            currentFilters = filters,
+        )
     }
 
     private fun handleCommentFilterClick(item: RecordFilterViewData) {
-        val currentItems = filters.getCommentItems()
-
-        val clickedItem = when (item.id) {
-            RecordFilterViewData.CommentType.NO_COMMENT.ordinal.toLong() -> {
-                RecordsFilter.CommentItem.NoComment
-            }
-            RecordFilterViewData.CommentType.ANY_COMMENT.ordinal.toLong() -> {
-                RecordsFilter.CommentItem.AnyComment
-            }
-            else -> return
-        }
-        val newItems = currentItems.toMutableList().apply {
-            if (clickedItem !in this) clear()
-            addOrRemove(clickedItem)
-        }
-
-        filters.removeAll { it is RecordsFilter.Comment }
-        if (newItems.isNotEmpty()) filters.add(RecordsFilter.Comment(newItems))
+        filters = recordsFilterUpdateInteractor.handleCommentFilterClick(
+            currentFilters = filters,
+            item = item,
+        )
     }
 
     private fun handleCommentChange(text: String) {
-        filters.removeAll { it is RecordsFilter.Comment }
-        if (text.isNotEmpty()) {
-            val newItems = RecordsFilter.CommentItem.Comment(text).let(::listOf)
-            filters.add(RecordsFilter.Comment(newItems))
-        }
+        filters = recordsFilterUpdateInteractor.handleCommentChange(
+            currentFilters = filters,
+            text = text,
+        )
     }
 
     private fun handleTagClick(item: CategoryViewData.Record) {
-        val currentState = filterSelectionState.type ?: return
-
-        val currentTags = when (currentState) {
-            RecordFilterViewData.Type.SELECTED_TAGS -> filters.getSelectedTags()
-            RecordFilterViewData.Type.FILTERED_TAGS -> filters.getFilteredTags()
-            else -> return
-        }
-
-        val newTags = when (item) {
-            is CategoryViewData.Record.Tagged -> RecordsFilter.TagItem.Tagged(item.id)
-            is CategoryViewData.Record.Untagged -> RecordsFilter.TagItem.Untagged
-        }.let { currentTags.toMutableList().apply { addOrRemove(it) } }
-
-        filters.removeAll { it is RecordsFilter.Untracked }
-        filters.removeAll { it is RecordsFilter.Multitask }
-        when (currentState) {
-            RecordFilterViewData.Type.SELECTED_TAGS -> {
-                filters.removeAll { it is RecordsFilter.SelectedTags }
-                if (newTags.isNotEmpty()) filters.add(RecordsFilter.SelectedTags(newTags))
-            }
-            RecordFilterViewData.Type.FILTERED_TAGS -> {
-                filters.removeAll { it is RecordsFilter.FilteredTags }
-                if (newTags.isNotEmpty()) filters.add(RecordsFilter.FilteredTags(newTags))
-            }
-            else -> return
-        }
+        filters = recordsFilterUpdateInteractor.handleTagClick(
+            currentState = filterSelectionState.type ?: return,
+            currentFilters = filters,
+            item = item,
+        )
     }
 
     private fun handleRecordClick(id: Long) {
-        val newIds = filters.getManuallyFilteredRecordIds()
-            .toMutableList()
-            .apply { addOrRemove(id) }
-        filters.removeAll { it is RecordsFilter.ManuallyFiltered }
-        if (newIds.isNotEmpty()) filters.add(RecordsFilter.ManuallyFiltered(newIds))
+        filters = recordsFilterUpdateInteractor.handleRecordClick(
+            currentFilters = filters,
+            id = id,
+        )
         checkManualFilterVisibility()
     }
 
     private suspend fun checkTagFilterConsistency() {
-        // Update tags according to selected activities
-        val newTypeIds: List<Long> = filters.getAllTypeIds(
+        filters = recordsFilterUpdateInteractor.checkTagFilterConsistency(
+            currentFilters = filters,
             recordTypes = getTypesCache(),
             recordTypeCategories = getRecordTypeCategoriesCache(),
+            recordTags = getTagsCache(),
+            typesToTags = getRecordTypeToTagCache(),
         )
-        val typesToTags = getRecordTypeToTagCache()
-
-        suspend fun update(tags: List<RecordsFilter.TagItem>): List<RecordsFilter.TagItem> {
-            return tags.filter {
-                when (it) {
-                    is RecordsFilter.TagItem.Tagged -> {
-                        it.tagId in getTagsCache()
-                            .map { tag -> tag.id }
-                            .let { tags ->
-                                filterSelectableTagsInteractor.execute(
-                                    tagIds = tags,
-                                    typesToTags = typesToTags,
-                                    typeIds = newTypeIds,
-                                )
-                            }
-                    }
-                    is RecordsFilter.TagItem.Untagged -> {
-                        true
-                    }
-                }
-            }
-        }
-
-        val newSelectedTags = update(filters.getSelectedTags())
-
-        filters.removeAll { filter -> filter is RecordsFilter.SelectedTags }
-        if (newSelectedTags.isNotEmpty()) filters.add(RecordsFilter.SelectedTags(newSelectedTags))
-
-        val newFilteredTags = update(filters.getFilteredTags())
-
-        filters.removeAll { filter -> filter is RecordsFilter.FilteredTags }
-        if (newFilteredTags.isNotEmpty()) filters.add(RecordsFilter.FilteredTags(newFilteredTags))
     }
 
     private fun removeFilter(type: RecordFilterViewData.Type) {
-        val filterClass = recordsFilterViewDataMapper.mapToClass(type)
-        filters.removeAll { filterClass.isInstance(it) }
+        filters = recordsFilterUpdateInteractor.removeFilter(
+            currentFilters = filters,
+            type = type,
+        )
 
         // Switch back to activity if category removed.
         val currentSelectionType = (filterSelectionState as? RecordsFilterSelectionState.Visible)?.type
@@ -515,34 +399,22 @@ class RecordsFilterViewModel @Inject constructor(
             filterSelectionState = RecordsFilterSelectionState.Visible(RecordFilterViewData.Type.ACTIVITY)
         }
         checkManualFilterVisibility()
-
-        updateFilters()
-        updateFilterSelectionViewData()
-        updateRecords()
+        updateViewDataOnFiltersChanged()
     }
 
     private fun handleInvertSelection() {
-        val filteredIds = filters.getManuallyFilteredRecordIds()
-            .toMutableList()
-        val selectedIds = recordsViewData.value
-            ?.recordsViewData
-            .orEmpty()
-            .filterIsInstance<RecordViewData.Tracked>()
-            .filter { it.id !in filteredIds }
-            .map { it.id }
-
-        filters.removeAll { it is RecordsFilter.ManuallyFiltered }
-        if (selectedIds.isNotEmpty()) filters.add(RecordsFilter.ManuallyFiltered(selectedIds))
+        filters = recordsFilterUpdateInteractor.handleInvertSelection(
+            currentFilters = filters,
+            recordsViewData = recordsViewData.value,
+        )
         checkManualFilterVisibility()
     }
 
     private fun handleDayOfWeekClick(dayOfWeek: DayOfWeek) {
-        val newDays = filters.getDaysOfWeek()
-            .toMutableList()
-            .apply { addOrRemove(dayOfWeek) }
-
-        filters.removeAll { it is RecordsFilter.DaysOfWeek }
-        if (newDays.isNotEmpty()) filters.add(RecordsFilter.DaysOfWeek(newDays))
+        filters = recordsFilterUpdateInteractor.handleDayOfWeekClick(
+            currentFilters = filters,
+            dayOfWeek = dayOfWeek,
+        )
     }
 
     private fun checkManualFilterVisibility() {
@@ -634,12 +506,13 @@ class RecordsFilterViewModel @Inject constructor(
             }
         }
 
-        filters.removeAll { it is RecordsFilter.Date }
-        filters.add(RecordsFilter.Date(Range(rangeStart, rangeEnd)))
+        filters = recordsFilterUpdateInteractor.handleDateSet(
+            currentFilters = filters,
+            rangeStart = rangeStart,
+            rangeEnd = rangeEnd,
+        )
 
-        updateFilters()
-        updateFilterSelectionViewData()
-        updateRecords()
+        updateViewDataOnFiltersChanged()
     }
 
     private fun handleTimeOfDaySet(timestamp: Long, tag: String?) {
@@ -653,9 +526,16 @@ class RecordsFilterViewModel @Inject constructor(
             TIME_OF_DAY_TO_TAG -> rangeEnd = normalizedTimeStamp
         }
 
-        filters.removeAll { it is RecordsFilter.TimeOfDay }
-        filters.add(RecordsFilter.TimeOfDay(Range(rangeStart, rangeEnd)))
+        filters = recordsFilterUpdateInteractor.handleTimeOfDaySet(
+            currentFilters = filters,
+            rangeStart = rangeStart,
+            rangeEnd = rangeEnd,
+        )
 
+        updateViewDataOnFiltersChanged()
+    }
+
+    private fun updateViewDataOnFiltersChanged() {
         updateFilters()
         updateFilterSelectionViewData()
         updateRecords()

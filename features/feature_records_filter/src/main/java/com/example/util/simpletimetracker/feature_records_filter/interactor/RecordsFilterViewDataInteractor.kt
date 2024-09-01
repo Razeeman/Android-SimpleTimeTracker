@@ -59,6 +59,7 @@ import com.example.util.simpletimetracker.feature_records_filter.adapter.Records
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectionState
+import com.example.util.simpletimetracker.feature_records_filter.viewData.RecordsFilterSelectionButtonType
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
@@ -318,6 +319,11 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             )
         }
 
+        val typesSelectionButtons = mapper.mapToSelectionButtons(
+            type = RecordsFilterSelectionButtonType.Type.Activities,
+            isDarkTheme = isDarkTheme,
+        )
+
         val categoriesViewData = categories
             .map { category ->
                 categoryViewDataMapper.mapCategory(
@@ -335,14 +341,21 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             )
             .orEmpty()
 
+        val categoriesSelectionButtons = mapper.mapToSelectionButtons(
+            type = RecordsFilterSelectionButtonType.Type.Categories,
+            isDarkTheme = isDarkTheme,
+        )
+
         if (categoriesViewData.isNotEmpty()) {
             HintViewData(resourceRepo.getString(R.string.category_hint)).let(result::add)
+            categoriesSelectionButtons.let(result::addAll)
             categoriesViewData.let(result::addAll)
             DividerViewData(1).let(result::add)
         }
 
         if (typesViewData.isNotEmpty()) {
             HintViewData(resourceRepo.getString(R.string.activity_hint)).let(result::add)
+            typesSelectionButtons.let(result::addAll)
             typesViewData.let(result::addAll)
         } else {
             HintViewData(resourceRepo.getString(R.string.record_types_empty)).let(result::add)
@@ -452,8 +465,14 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             )
             .orEmpty()
 
+        val selectionButtons = mapper.mapToSelectionButtons(
+            type = RecordsFilterSelectionButtonType.Type.Tags,
+            isDarkTheme = isDarkTheme,
+        )
+
         if (recordTagsViewData.isNotEmpty()) {
             HintViewData(resourceRepo.getString(R.string.record_tag_hint)).let(result::add)
+            selectionButtons.let(result::addAll)
             recordTagsViewData.let(result::addAll)
         } else {
             HintViewData(resourceRepo.getString(R.string.change_record_categories_empty)).let(result::add)
