@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRe
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordActionsBlock
+import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordDateTimeFieldsState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
 import javax.inject.Inject
 
@@ -103,7 +104,9 @@ class ChangeRecordActionsSplitDelegate @Inject constructor(
     }
 
     private fun loadTimeSplitAdjustmentItems(): List<ViewHolderType> {
-        return changeRecordViewDataInteractor.getTimeAdjustmentItems()
+        return changeRecordViewDataInteractor.getTimeAdjustmentItems(
+            dateTimeFieldState = ChangeRecordDateTimeFieldsState.State.DateTime,
+        )
     }
 
     private suspend fun loadTimeSplitValue(
@@ -119,13 +122,17 @@ class ChangeRecordActionsSplitDelegate @Inject constructor(
         newTimeEnded: Long,
         showTimeEnded: Boolean,
     ): ChangeRecordPreview {
+        val dateTimeFieldState = ChangeRecordDateTimeFieldsState(
+            start = ChangeRecordDateTimeFieldsState.State.DateTime,
+            end = ChangeRecordDateTimeFieldsState.State.DateTime,
+        )
         val firstRecord = Record(
             typeId = newTypeId,
             timeStarted = newTimeStarted,
             timeEnded = newTimeSplit,
             comment = "",
         ).let {
-            changeRecordViewDataInteractor.getPreviewViewData(it)
+            changeRecordViewDataInteractor.getPreviewViewData(it, dateTimeFieldState)
         }
         val secondRecord = Record(
             typeId = newTypeId,
@@ -133,7 +140,7 @@ class ChangeRecordActionsSplitDelegate @Inject constructor(
             timeEnded = newTimeEnded,
             comment = "",
         ).let {
-            changeRecordViewDataInteractor.getPreviewViewData(it)
+            changeRecordViewDataInteractor.getPreviewViewData(it, dateTimeFieldState)
         }
 
         return ChangeRecordPreview(

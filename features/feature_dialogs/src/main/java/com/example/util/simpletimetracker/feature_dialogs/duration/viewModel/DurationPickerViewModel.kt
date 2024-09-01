@@ -39,13 +39,23 @@ class DurationPickerViewModel @Inject constructor() : BaseViewModel() {
 
     private fun onNumberPressed(number: Int) {
         if (reformattedValue <= 999_99_99) {
-            reformattedValue = reformattedValue * 10 + number
+            reformattedValue = if (extra.showSeconds) {
+                reformattedValue * 10 + number
+            } else {
+                val seconds = reformattedValue % 100
+                ((reformattedValue / 100) * 10 + number) * 100 + seconds
+            }
             updateViewData()
         }
     }
 
     private fun onNumberDelete() {
-        reformattedValue /= 10
+        reformattedValue = if (extra.showSeconds) {
+            reformattedValue / 10
+        } else {
+            val seconds = reformattedValue % 100
+            ((reformattedValue / 100) / 10) * 100 + seconds
+        }
         updateViewData()
     }
 
@@ -54,12 +64,17 @@ class DurationPickerViewModel @Inject constructor() : BaseViewModel() {
         val minutes = (durationString / 100) % 100
         val seconds = durationString % 100
 
-        return DurationView.ViewData(hours, minutes, seconds)
+        return DurationView.ViewData(
+            hours = hours,
+            minutes = minutes,
+            seconds = seconds,
+            showSeconds = extra.showSeconds,
+        )
     }
 
     private fun reformatValue(value: DurationDialogParams.Value): Long {
         return when (value) {
-            is DurationDialogParams.Value.Duration -> reformatDurationValue(value.duration)
+            is DurationDialogParams.Value.DurationSeconds -> reformatDurationValue(value.duration)
             is DurationDialogParams.Value.Count -> value.count
         }
     }
@@ -84,7 +99,7 @@ class DurationPickerViewModel @Inject constructor() : BaseViewModel() {
 
     private fun loadViewData(): DurationDialogState {
         val state = when (extra.value) {
-            is DurationDialogParams.Value.Duration -> {
+            is DurationDialogParams.Value.DurationSeconds -> {
                 DurationDialogState.Value.Duration(
                     data = mapToDurationViewData(reformattedValue),
                 )
@@ -97,7 +112,8 @@ class DurationPickerViewModel @Inject constructor() : BaseViewModel() {
         }
 
         return DurationDialogState(
-            isDisableButtonVisible = !extra.hideDisableButton,
+            showDisableButton = !extra.hideDisableButton,
+            showSeconds = extra.showSeconds,
             value = state,
         )
     }

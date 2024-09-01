@@ -134,6 +134,9 @@
     <string name="change_record_untracked_time_hint">El tiempo sin seguimiento es el momento en el que no se realizó un seguimiento de ninguna actividad.</string>
     <string name="change_record_previous_not_found">Registro anterior no encontrado</string>
     <string name="change_record_next_not_found">Siguiente registro no encontrado</string>
+    <string name="change_record_date_time_start">Comenzar</string>
+    <string name="change_record_date_time_end">Fin</string>
+    <string name="change_record_date_time_duration">Duración</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Actividad archivada</string>

@@ -19,7 +19,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:animateLayoutChanges="true">
+            android:animateLayoutChanges="true"
+            android:clipChildren="false">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/btnChangeRecordStatistics"
@@ -117,6 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/edit_screen_field_top_margin"
+                android:clipChildren="false"
                 app:layout_constraintTop_toBottomOf="@id/barrierChangeRecordButtons">
 
                 <androidx.cardview.widget.CardView
@@ -240,6 +242,78 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
                     app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTimeEnded" />
+
+                <Space
+                    android:id="@+id/spaceChangeRecordTimeStartedStart"
+                    android:layout_width="4dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordTimeStarted"
+                    app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeStarted" />
+
+                <Space
+                    android:id="@+id/spaceChangeRecordTimeStartedTop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="4dp"
+                    app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordTimeStarted"
+                    app:layout_constraintStart_toStartOf="@id/fieldChangeRecordTimeStarted" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btnChangeRecordTimeStartedAdjust"
+                    style="@style/InputFieldCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/spaceChangeRecordTimeStartedStart"
+                    app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeStartedTop">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvChangeRecordTimeStartedAdjust"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?appInputFieldBorder"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="8dp"
+                        android:textColor="?appTextHintColor"
+                        android:textSize="11sp"
+                        app:autoSizeTextType="none"
+                        tools:text="Start" />
+
+                </androidx.cardview.widget.CardView>
+
+                <Space
+                    android:id="@+id/spaceChangeRecordTimeEndedStart"
+                    android:layout_width="4dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordTimeEnded"
+                    app:layout_constraintTop_toTopOf="@id/fieldChangeRecordTimeEnded" />
+
+                <Space
+                    android:id="@+id/spaceChangeRecordTimeEndedTop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="4dp"
+                    app:layout_constraintBottom_toTopOf="@id/fieldChangeRecordTimeEnded"
+                    app:layout_constraintEnd_toEndOf="@id/fieldChangeRecordTimeEnded" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btnChangeRecordTimeEndedAdjust"
+                    style="@style/InputFieldCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/spaceChangeRecordTimeEndedStart"
+                    app:layout_constraintTop_toTopOf="@id/spaceChangeRecordTimeEndedTop">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvChangeRecordTimeEndedAdjust"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?appInputFieldBorder"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="8dp"
+                        android:textColor="?appTextHintColor"
+                        android:textSize="11sp"
+                        app:autoSizeTextType="none"
+                        tools:text="Duration" />
+
+                </androidx.cardview.widget.CardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

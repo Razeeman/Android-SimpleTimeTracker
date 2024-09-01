@@ -134,6 +134,9 @@
     <string name="change_record_untracked_time_hint">Die nicht erfasste Zeit ist die Zeit, in der keine Aktivität erfasst wurde.</string>
     <string name="change_record_previous_not_found">Vorheriger Datensatz nicht gefunden</string>
     <string name="change_record_next_not_found">Nächster Datensatz nicht gefunden</string>
+    <string name="change_record_date_time_start">Start</string>
+    <string name="change_record_date_time_end">Ende</string>
+    <string name="change_record_date_time_duration">Dauer</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Aktivität archiviert</string>

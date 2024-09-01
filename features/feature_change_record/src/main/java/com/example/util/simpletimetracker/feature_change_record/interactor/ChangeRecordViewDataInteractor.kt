@@ -16,8 +16,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordCommentFieldViewData
-import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordCommentViewData
+import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
+import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordDateTimeFieldsState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordFavCommentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSearchCommentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
@@ -39,7 +40,9 @@ class ChangeRecordViewDataInteractor @Inject constructor(
 
     suspend fun getPreviewViewData(
         record: Record,
+        dateTimeFieldState: ChangeRecordDateTimeFieldsState,
     ): ChangeRecordViewData {
+        // TODO pass cached data?
         val type = recordTypeInteractor.get(record.typeId)
         val tags = recordTagInteractor.getAll().filter { it.id in record.tagIds }
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -55,6 +58,7 @@ class ChangeRecordViewDataInteractor @Inject constructor(
             useMilitaryTime = useMilitaryTime,
             useProportionalMinutes = useProportionalMinutes,
             showSeconds = showSeconds,
+            dateTimeFieldState = dateTimeFieldState,
         )
     }
 
@@ -140,7 +144,17 @@ class ChangeRecordViewDataInteractor @Inject constructor(
         )
     }
 
-    fun getTimeAdjustmentItems(): List<ViewHolderType> {
+    fun getTimeAdjustmentItems(
+        dateTimeFieldState: ChangeRecordDateTimeFieldsState.State,
+    ): List<ViewHolderType> {
+        val additionalButton = when (dateTimeFieldState) {
+            is ChangeRecordDateTimeFieldsState.State.DateTime -> {
+                TimeAdjustmentView.ViewData.Now(text = resourceRepo.getString(R.string.time_now))
+            }
+            is ChangeRecordDateTimeFieldsState.State.Duration -> {
+                TimeAdjustmentView.ViewData.Zero("0")
+            }
+        }
         return listOf(
             TimeAdjustmentView.ViewData.Adjust(text = "-30", value = -30),
             TimeAdjustmentView.ViewData.Adjust(text = "-5", value = -5),
@@ -148,7 +162,7 @@ class ChangeRecordViewDataInteractor @Inject constructor(
             TimeAdjustmentView.ViewData.Adjust(text = "+1", value = +1),
             TimeAdjustmentView.ViewData.Adjust(text = "+5", value = +5),
             TimeAdjustmentView.ViewData.Adjust(text = "+30", value = +30),
-            TimeAdjustmentView.ViewData.Now(text = resourceRepo.getString(R.string.time_now)),
+            additionalButton,
         )
     }
 

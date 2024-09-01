@@ -3,7 +3,8 @@ package com.example.util.simpletimetracker.feature_dialogs.duration.model
 import com.example.util.simpletimetracker.feature_dialogs.duration.customView.DurationView
 
 data class DurationDialogState(
-    val isDisableButtonVisible: Boolean,
+    val showDisableButton: Boolean,
+    val showSeconds: Boolean,
     val value: Value,
 ) {
 

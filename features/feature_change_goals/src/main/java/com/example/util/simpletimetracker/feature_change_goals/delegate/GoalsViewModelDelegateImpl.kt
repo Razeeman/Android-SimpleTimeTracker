@@ -117,7 +117,7 @@ class GoalsViewModelDelegateImpl @Inject constructor(
         router.navigate(
             DurationDialogParams(
                 tag = tag,
-                value = DurationDialogParams.Value.Duration(
+                value = DurationDialogParams.Value.DurationSeconds(
                     duration = goalType.value.orZero(),
                 ),
             ),

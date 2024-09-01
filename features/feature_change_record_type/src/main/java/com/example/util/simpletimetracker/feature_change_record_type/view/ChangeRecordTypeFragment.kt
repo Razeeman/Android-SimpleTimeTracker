@@ -274,10 +274,10 @@ class ChangeRecordTypeFragment :
         super.onDestroy()
     }
 
-    override fun onDurationSet(duration: Long, tag: String?) {
+    override fun onDurationSet(durationSeconds: Long, tag: String?) {
         viewModel.onDurationSet(
             tag = tag,
-            duration = duration,
+            duration = durationSeconds,
             anchor = binding.btnChangeRecordTypeSave,
         )
     }

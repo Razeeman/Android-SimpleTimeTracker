@@ -116,7 +116,7 @@ class PomodoroSettingsViewModel @Inject constructor(
         val duration = prefsInteractor.getPomodoroFocusTime()
         DurationDialogParams(
             tag = FOCUS_TIME_DURATION_DIALOG_TAG,
-            value = DurationDialogParams.Value.Duration(duration),
+            value = DurationDialogParams.Value.DurationSeconds(duration),
             hideDisableButton = true,
         ).let(router::navigate)
     }
@@ -125,7 +125,7 @@ class PomodoroSettingsViewModel @Inject constructor(
         val duration = prefsInteractor.getPomodoroBreakTime()
         DurationDialogParams(
             tag = BREAK_TIME_DURATION_DIALOG_TAG,
-            value = DurationDialogParams.Value.Duration(duration),
+            value = DurationDialogParams.Value.DurationSeconds(duration),
         ).let(router::navigate)
     }
 
@@ -133,7 +133,7 @@ class PomodoroSettingsViewModel @Inject constructor(
         val duration = prefsInteractor.getPomodoroLongBreakTime()
         DurationDialogParams(
             tag = LONG_BREAK_TIME_DURATION_DIALOG_TAG,
-            value = DurationDialogParams.Value.Duration(duration),
+            value = DurationDialogParams.Value.DurationSeconds(duration),
         ).let(router::navigate)
     }
 

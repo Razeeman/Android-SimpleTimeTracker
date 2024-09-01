@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
-import com.example.util.simpletimetracker.core.extension.toRunningRecordParams
+import com.example.util.simpletimetracker.core.extension.toRecordParams
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
-import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.mapper.ChangeRecordDateTimeMapper
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.ChangeSelectedActivityFilterMediator
@@ -21,9 +21,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_base_adapter.recordTypeSpecial.RunningRecordTypeSpecialViewData
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import com.example.util.simpletimetracker.feature_running_records.interactor.RunningRecordsViewDataInteractor
-import com.example.util.simpletimetracker.feature_base_adapter.recordTypeSpecial.RunningRecordTypeSpecialViewData
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityFilterParams
@@ -50,9 +50,9 @@ class RunningRecordsViewModel @Inject constructor(
     private val recordRepeatInteractor: RecordRepeatInteractor,
     private val runningRecordsViewDataInteractor: RunningRecordsViewDataInteractor,
     private val changeSelectedActivityFilterMediator: ChangeSelectedActivityFilterMediator,
-    private val timeMapper: TimeMapper,
     private val prefsInteractor: PrefsInteractor,
     private val updateRunningRecordFromChangeScreenInteractor: UpdateRunningRecordFromChangeScreenInteractor,
+    private val changeRecordDateTimeMapper: ChangeRecordDateTimeMapper,
 ) : ViewModel() {
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
@@ -156,11 +156,12 @@ class RunningRecordsViewModel @Inject constructor(
                 name = item.name,
                 tagName = item.tagName,
                 timeStarted = item.timeStarted,
-                timeStartedDateTime = timeMapper.getFormattedDateTime(
-                    time = item.timeStartedTimestamp,
-                    useMilitaryTime = useMilitaryTimeFormat,
+                timeStartedDateTime = changeRecordDateTimeMapper.map(
+                    param = ChangeRecordDateTimeMapper.Param.DateTime(item.timeStartedTimestamp),
+                    field = ChangeRecordDateTimeMapper.Field.Start,
+                    useMilitaryTimeFormat = useMilitaryTimeFormat,
                     showSeconds = showSeconds,
-                ).toRunningRecordParams(),
+                ).toRecordParams(),
                 duration = item.timer,
                 durationTotal = item.timerTotal,
                 goalTime = item.goalTime.toParams(),

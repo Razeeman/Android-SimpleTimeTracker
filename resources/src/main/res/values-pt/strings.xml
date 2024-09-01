@@ -134,6 +134,9 @@
     <string name="change_record_untracked_time_hint">O tempo não rastreado é o tempo em que nenhuma atividade foi rastreada.</string>
     <string name="change_record_previous_not_found">Registro anterior não encontrado</string>
     <string name="change_record_next_not_found">Próximo registro não encontrado</string>
+    <string name="change_record_date_time_start">Começar</string>
+    <string name="change_record_date_time_end">Fim</string>
+    <string name="change_record_date_time_duration">Duração</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Atividade arquivada</string>

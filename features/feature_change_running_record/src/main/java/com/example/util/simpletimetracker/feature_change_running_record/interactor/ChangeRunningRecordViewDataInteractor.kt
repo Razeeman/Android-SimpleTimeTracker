@@ -2,13 +2,14 @@ package com.example.util.simpletimetracker.feature_change_running_record.interac
 
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
-import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.mapper.ChangeRecordDateTimeMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.RunningRecord
+import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordDateTimeFieldsState
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import javax.inject.Inject
@@ -18,14 +19,15 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
-    private val timeMapper: TimeMapper,
     private val getRunningRecordViewDataMediator: GetRunningRecordViewDataMediator,
     private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
+    private val changeRecordDateTimeMapper: ChangeRecordDateTimeMapper,
 ) {
 
     suspend fun getPreviewViewData(
         record: RunningRecord,
         params: ChangeRunningRecordParams,
+        dateTimeFieldState: ChangeRecordDateTimeFieldsState,
     ): ChangeRunningRecordViewData {
         val type = recordTypeInteractor.get(record.id)
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -56,10 +58,21 @@ class ChangeRunningRecordViewDataInteractor @Inject constructor(
 
         return ChangeRunningRecordViewData(
             recordPreview = recordPreview,
-            dateTimeStarted = timeMapper.getFormattedDateTime(
-                time = record.timeStarted,
-                useMilitaryTime = useMilitaryTime,
-                showSeconds = showSeconds,
+            dateTimeStarted = changeRecordDateTimeMapper.map(
+                param = when (dateTimeFieldState.start) {
+                    is ChangeRecordDateTimeFieldsState.State.DateTime -> {
+                        ChangeRecordDateTimeMapper.Param.DateTime(record.timeStarted)
+                    }
+                    is ChangeRecordDateTimeFieldsState.State.Duration -> {
+                        ChangeRecordDateTimeMapper.Param.Duration(record.duration)
+                    }
+                },
+                field = ChangeRecordDateTimeMapper.Field.Start,
+                useMilitaryTimeFormat = useMilitaryTime,
+                showSeconds = when (dateTimeFieldState.start) {
+                    is ChangeRecordDateTimeFieldsState.State.DateTime -> showSeconds
+                    is ChangeRecordDateTimeFieldsState.State.Duration -> true
+                },
             ),
         )
     }

@@ -134,6 +134,9 @@
     <string name="change_record_untracked_time_hint">Untracked time is time when no activity was tracked.</string>
     <string name="change_record_previous_not_found">Previous record not found</string>
     <string name="change_record_next_not_found">Next record not found</string>
+    <string name="change_record_date_time_start">Start</string>
+    <string name="change_record_date_time_end">End</string>
+    <string name="change_record_date_time_duration">Duration</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activity archived</string>

@@ -134,6 +134,9 @@
     <string name="change_record_untracked_time_hint">الوقت غير المُتعقب هو الوقت الذي لم يتم فيه تعقب أي نشاط.</string>
     <string name="change_record_previous_not_found">لم يتم العثور على السجل السابق</string>
     <string name="change_record_next_not_found">لم يتم العثور على السجل التالي</string>
+    <string name="change_record_date_time_start">يبدأ</string>
+    <string name="change_record_date_time_end">نهاية</string>
+    <string name="change_record_date_time_duration">مدة</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">تم أرشفة النشاط</string>

@@ -134,6 +134,9 @@
     <string name="change_record_untracked_time_hint">Невідстежуваний час – це час, коли жодна активність не відстежувалася.</string>
     <string name="change_record_previous_not_found">Попередній запис не знайдено</string>
     <string name="change_record_next_not_found">Наступний запис не знайдено</string>
+    <string name="change_record_date_time_start">Почніть</string>
+    <string name="change_record_date_time_end">Кінець</string>
+    <string name="change_record_date_time_duration">Тривалість</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Активність переміщено до архіву</string>

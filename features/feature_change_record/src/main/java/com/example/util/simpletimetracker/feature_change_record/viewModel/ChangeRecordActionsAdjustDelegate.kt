@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRe
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordActionsBlock
+import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordDateTimeFieldsState
 import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordAdjustState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
@@ -351,10 +352,14 @@ class ChangeRecordActionsAdjustDelegate @Inject constructor(
         changedRecord: Record,
         showTimeEnded: Boolean,
     ): ChangeRecordPreview {
+        val dateTimeFieldState = ChangeRecordDateTimeFieldsState(
+            start = ChangeRecordDateTimeFieldsState.State.DateTime,
+            end = ChangeRecordDateTimeFieldsState.State.DateTime,
+        )
         val previousRecordPreview = changeRecordViewDataInteractor
-            .getPreviewViewData(record)
+            .getPreviewViewData(record, dateTimeFieldState)
         val changedRecordPreview = changeRecordViewDataInteractor
-            .getPreviewViewData(changedRecord)
+            .getPreviewViewData(changedRecord, dateTimeFieldState)
 
         return ChangeRecordPreview(
             id = record.id,
@@ -424,7 +429,9 @@ class ChangeRecordActionsAdjustDelegate @Inject constructor(
     }
 
     private fun loadTimeAdjustmentItems(): List<ViewHolderType> {
-        return changeRecordViewDataInteractor.getTimeAdjustmentItems()
+        return changeRecordViewDataInteractor.getTimeAdjustmentItems(
+            dateTimeFieldState = ChangeRecordDateTimeFieldsState.State.DateTime,
+        )
     }
 
     private data class AdjacentRecords(

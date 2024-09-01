@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
+import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSharedTransitions
 import com.example.util.simpletimetracker.core.extension.toViewData
@@ -29,7 +30,8 @@ import com.example.util.simpletimetracker.feature_change_running_record.databind
 @AndroidEntryPoint
 class ChangeRunningRecordFragment :
     BaseFragment<Binding>(),
-    DateTimeDialogListener {
+    DateTimeDialogListener,
+    DurationDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -104,6 +106,10 @@ class ChangeRunningRecordFragment :
         viewModel.onDateTimeSet(timestamp, tag)
     }
 
+    override fun onDurationSet(durationSeconds: Long, tag: String?) {
+        viewModel.onDurationSet(durationSeconds, tag)
+    }
+
     private fun setPreview() = params.preview?.let { preview ->
         ChangeRunningRecordViewData(
             recordPreview = RunningRecordViewData(
@@ -134,8 +140,12 @@ class ChangeRunningRecordFragment :
         item: ChangeRunningRecordViewData,
         animated: Boolean = true,
     ) = with(binding.layoutChangeRunningRecordCore) {
-        tvChangeRecordTimeStartedDate.text = item.dateTimeStarted.date
-        tvChangeRecordTimeStartedTime.text = item.dateTimeStarted.time
+        core.setDateTime(
+            state = item.dateTimeStarted,
+            dateView = tvChangeRecordTimeStartedDate,
+            timeView = tvChangeRecordTimeStartedTime,
+            hintView = tvChangeRecordTimeStartedAdjust,
+        )
 
         if (item.recordPreview == null) return
         with(binding.previewChangeRunningRecord) {

@@ -134,6 +134,9 @@
     <string name="change_record_untracked_time_hint">Le temps non suivi est le temps pendant lequel aucune activité n\'a été suivie.</string>
     <string name="change_record_previous_not_found">Enregistrement précédent introuvable</string>
     <string name="change_record_next_not_found">Enregistrement suivant introuvable</string>
+    <string name="change_record_date_time_start">Commencer</string>
+    <string name="change_record_date_time_end">Fin</string>
+    <string name="change_record_date_time_duration">Durée</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activité archivée</string>

@@ -17,7 +17,7 @@ data class ChangeRunningRecordParams(
         val name: String,
         val tagName: String,
         val timeStarted: String,
-        val timeStartedDateTime: DateTime,
+        val timeStartedDateTime: ChangeRecordDateTimeStateParams,
         val duration: String,
         val durationTotal: String,
         val goalTime: GoalTimeParams,
@@ -30,12 +30,6 @@ data class ChangeRunningRecordParams(
         data class GoalTimeParams(
             val text: String,
             val complete: Boolean,
-        ) : Parcelable
-
-        @Parcelize
-        data class DateTime(
-            val date: String,
-            val time: String,
         ) : Parcelable
     }
 

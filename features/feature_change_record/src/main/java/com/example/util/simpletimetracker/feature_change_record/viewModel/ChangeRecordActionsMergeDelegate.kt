@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRe
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
 import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordActionsBlock
+import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordDateTimeFieldsState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
 import com.example.util.simpletimetracker.navigation.Router
 import javax.inject.Inject
@@ -98,11 +99,15 @@ class ChangeRecordActionsMergeDelegate @Inject constructor(
     ): ChangeRecordPreview? {
         if (prevRecord == null) return null
 
+        val dateTimeFieldState = ChangeRecordDateTimeFieldsState(
+            start = ChangeRecordDateTimeFieldsState.State.DateTime,
+            end = ChangeRecordDateTimeFieldsState.State.DateTime,
+        )
         val changedRecord = getChangedRecord(prevRecord, newTimeEnded)
         val previousRecordPreview = changeRecordViewDataInteractor
-            .getPreviewViewData(prevRecord)
+            .getPreviewViewData(prevRecord, dateTimeFieldState)
         val changedRecordPreview = changeRecordViewDataInteractor
-            .getPreviewViewData(changedRecord)
+            .getPreviewViewData(changedRecord, dateTimeFieldState)
 
         return ChangeRecordPreview(
             id = 0,

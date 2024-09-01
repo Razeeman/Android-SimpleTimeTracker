@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.toDuration
 import com.example.util.simpletimetracker.feature_dialogs.R
 import java.lang.Float.min
@@ -28,7 +29,7 @@ class DurationView @JvmOverloads constructor(
     private var legendPadding: Float = 0f
     // End of attrs
 
-    private var data: ViewData = ViewData()
+    private var data: ViewData = ViewData.Empty
     private val textPaint: Paint = Paint()
     private val legendTextPaint: Paint = Paint()
     private var textStartHorizontal: Float = 0f
@@ -105,17 +106,24 @@ class DurationView @JvmOverloads constructor(
     }
 
     private fun calculateDimensions(w: Float, h: Float) {
-        val legendsTextWidth = listOf(hourString, minuteString, secondString)
-            .map(legendTextPaint::measureText).sum()
-        val desiredWidth = w - legendsTextWidth - 2 * legendPadding
-        val text = data.hours.format() + data.minutes.format() + data.seconds.format()
+        val legendsTextWidth = listOfNotNull(
+            hourString,
+            minuteString,
+            secondString.takeIf { data.showSeconds },
+        ).map(legendTextPaint::measureText).sum()
+        val paddingsCount = if (data.showSeconds) 2 else 1
+        val desiredWidth = w - legendsTextWidth - paddingsCount * legendPadding
+        val text = data.hours.format() +
+            data.minutes.format() +
+            data.seconds.takeIf { data.showSeconds }?.format().orEmpty()
         val textLength = text.length
         val hoursWidth = min(data.hours.format().length.toFloat() / textLength * desiredWidth, h)
         setTextSizeForWidth(textPaint, data.hours.format(), hoursWidth)
 
         val fullTextWidth = textPaint.measureText(data.hours.format()) +
             textPaint.measureText(data.minutes.format()) +
-            textPaint.measureText(data.seconds.format()) +
+            data.seconds.takeIf { data.showSeconds }
+                ?.let { textPaint.measureText(it.format()) }.orZero() +
             legendsTextWidth
         textStartHorizontal = (w - fullTextWidth - 2 * legendPadding) / 2
 
@@ -140,11 +148,13 @@ class DurationView @JvmOverloads constructor(
         canvas.drawText(minuteString, 0f, 0f, legendTextPaint)
         canvas.translate(legendTextPaint.measureText(minuteString) + legendPadding, 0f)
 
-        text = data.seconds.format()
-        canvas.drawText(text, 0f, 0f, textPaint)
-        canvas.translate(textPaint.measureText(text), 0f)
-        canvas.drawText(secondString, 0f, 0f, legendTextPaint)
-        canvas.translate(legendTextPaint.measureText(secondString), 0f)
+        if (data.showSeconds) {
+            text = data.seconds.format()
+            canvas.drawText(text, 0f, 0f, textPaint)
+            canvas.translate(textPaint.measureText(text), 0f)
+            canvas.drawText(secondString, 0f, 0f, legendTextPaint)
+            canvas.translate(legendTextPaint.measureText(secondString), 0f)
+        }
     }
 
     private fun setTextSizeForWidth(paint: Paint, text: String, desiredWidth: Float) {
@@ -161,8 +171,19 @@ class DurationView @JvmOverloads constructor(
     }
 
     data class ViewData(
-        val hours: Long = 0,
-        val minutes: Long = 0,
-        val seconds: Long = 0,
-    )
+        val hours: Long,
+        val minutes: Long,
+        val seconds: Long,
+        val showSeconds: Boolean,
+    ) {
+
+        companion object {
+            val Empty = ViewData(
+                hours = 0,
+                minutes = 0,
+                seconds = 0,
+                showSeconds = true,
+            )
+        }
+    }
 }

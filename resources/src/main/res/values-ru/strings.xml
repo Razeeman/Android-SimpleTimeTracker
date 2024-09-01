@@ -134,6 +134,9 @@
     <string name="change_record_untracked_time_hint">Неотслеживаемое время - это время, когда никакая активность не отслеживалась.</string>
     <string name="change_record_previous_not_found">Предыдущая запись не найдена</string>
     <string name="change_record_next_not_found">Следующая запись не найдена</string>
+    <string name="change_record_date_time_start">Начало</string>
+    <string name="change_record_date_time_end">Конец</string>
+    <string name="change_record_date_time_duration">Продолж.</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Активность перемещена в архив</string>

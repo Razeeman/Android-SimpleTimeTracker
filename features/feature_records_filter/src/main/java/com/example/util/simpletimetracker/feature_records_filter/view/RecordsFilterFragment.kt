@@ -163,8 +163,8 @@ class RecordsFilterFragment :
         viewModel.onDateTimeSet(timestamp, tag)
     }
 
-    override fun onDurationSet(duration: Long, tag: String?) {
-        viewModel.onDurationSet(duration, tag)
+    override fun onDurationSet(durationSeconds: Long, tag: String?) {
+        viewModel.onDurationSet(durationSeconds, tag)
     }
 
     private fun setFilterSelectionVisibility(filterOpened: Boolean) = with(binding) {

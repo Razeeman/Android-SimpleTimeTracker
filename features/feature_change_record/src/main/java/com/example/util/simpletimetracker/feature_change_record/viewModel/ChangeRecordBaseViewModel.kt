@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
+import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -30,6 +30,8 @@ import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRe
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordTimePreviewViewData
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordActionsBlock
+import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordDateTimeField
+import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordDateTimeFieldsState
 import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordFavCommentState
@@ -40,6 +42,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordT
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
+import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -84,10 +87,10 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
     val timeStartedAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
-        MutableLiveData(loadTimeAdjustmentItems())
+        MutableLiveData(loadTimeAdjustmentItems(ChangeRecordDateTimeField.START))
     }
     val timeEndedAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
-        MutableLiveData(loadTimeAdjustmentItems())
+        MutableLiveData(loadTimeAdjustmentItems(ChangeRecordDateTimeField.END))
     }
     val chooserState: LiveData<ChangeRecordChooserState> = MutableLiveData(
         ChangeRecordChooserState(
@@ -121,13 +124,18 @@ abstract class ChangeRecordBaseViewModel(
     protected var originalTypeId: Long = 0
     protected var originalTimeStarted: Long = 0
     protected var originalTimeEnded: Long = 0
+    protected var dateTimeState = ChangeRecordDateTimeFieldsState(
+        start = ChangeRecordDateTimeFieldsState.State.DateTime,
+        end = ChangeRecordDateTimeFieldsState.State.DateTime,
+    )
 
     protected abstract suspend fun updatePreview()
     protected abstract fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen
     protected abstract suspend fun onSaveClickDelegate()
     protected open suspend fun sendPreviewUpdate(fullUpdate: Boolean) {}
+    protected abstract val forceSecondsInDurationDialog: Boolean
     protected abstract val mergeAvailable: Boolean
-    protected abstract val splitPreviewTimeEnded: Long
+    protected abstract val previewTimeEnded: Long
     protected abstract val showTimeEndedOnSplitPreview: Boolean
     protected abstract val adjustPreviewTimeEnded: Long
     protected abstract val adjustPreviewOriginalTimeEnded: Long
@@ -188,11 +196,39 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     fun onTimeStartedClick() {
-        onTimeClick(tag = TIME_STARTED_TAG, timestamp = newTimeStarted)
+        val tag = TIME_STARTED_TAG
+        when (dateTimeState.start) {
+            is ChangeRecordDateTimeFieldsState.State.DateTime -> onTimeClick(
+                tag = tag,
+                timestamp = newTimeStarted,
+            )
+            is ChangeRecordDateTimeFieldsState.State.Duration -> onDurationClick(
+                tag = tag,
+                durationMillis = previewTimeEnded - newTimeStarted,
+            )
+        }
     }
 
     fun onTimeEndedClick() {
-        onTimeClick(tag = TIME_ENDED_TAG, timestamp = newTimeEnded)
+        val tag = TIME_ENDED_TAG
+        when (dateTimeState.end) {
+            is ChangeRecordDateTimeFieldsState.State.DateTime -> onTimeClick(
+                tag = tag,
+                timestamp = newTimeEnded,
+            )
+            is ChangeRecordDateTimeFieldsState.State.Duration -> onDurationClick(
+                tag = tag,
+                durationMillis = previewTimeEnded - newTimeStarted,
+            )
+        }
+    }
+
+    fun onTimeStartedStateClick() {
+        onTimeStateClick(field = ChangeRecordDateTimeField.START)
+    }
+
+    fun onTimeEndedStateClick() {
+        onTimeStateClick(field = ChangeRecordDateTimeField.END)
     }
 
     fun onItemTimePreviewClick(data: ChangeRecordTimePreviewViewData) {
@@ -394,6 +430,21 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
+    fun onDurationSet(durationSeconds: Long, tag: String?) {
+        viewModelScope.launch {
+            when (tag) {
+                TIME_STARTED_TAG -> {
+                    newTimeStarted = previewTimeEnded - durationSeconds * 1000
+                    onTimeStartedChanged()
+                }
+                TIME_ENDED_TAG -> {
+                    newTimeEnded = newTimeStarted + durationSeconds * 1000
+                    onTimeEndedChanged()
+                }
+            }
+        }
+    }
+
     fun onTimeAdjustmentClick(
         data: ChangeRecordTimeAdjustmentViewData,
         viewData: TimeAdjustmentView.ViewData,
@@ -455,6 +506,9 @@ abstract class ChangeRecordBaseViewModel(
                 is TimeAdjustmentView.ViewData.Now -> {
                     newTimeSplit = System.currentTimeMillis()
                     onTimeSplitChanged()
+                }
+                is TimeAdjustmentView.ViewData.Zero -> {
+                    // Do nothing, shouldn't be there.
                 }
                 is TimeAdjustmentView.ViewData.Adjust -> {
                     newTimeSplit += TimeUnit.MINUTES.toMillis(viewData.value)
@@ -524,6 +578,80 @@ abstract class ChangeRecordBaseViewModel(
         )
     }
 
+    private fun onDurationClick(
+        tag: String,
+        durationMillis: Long,
+    ) = viewModelScope.launch {
+        val showSeconds = prefsInteractor.getShowSeconds()
+
+        router.navigate(
+            DurationDialogParams(
+                tag = tag,
+                value = DurationDialogParams.Value.DurationSeconds(
+                    duration = durationMillis / 1000,
+                ),
+                hideDisableButton = true,
+                showSeconds = forceSecondsInDurationDialog || showSeconds,
+            ),
+        )
+    }
+
+    private fun onTimeStateClick(
+        field: ChangeRecordDateTimeField,
+    ) = viewModelScope.launch {
+        val current = dateTimeState
+
+        fun ChangeRecordDateTimeFieldsState.State.flip(): ChangeRecordDateTimeFieldsState.State {
+            return when (this) {
+                is ChangeRecordDateTimeFieldsState.State.DateTime ->
+                    ChangeRecordDateTimeFieldsState.State.Duration
+                is ChangeRecordDateTimeFieldsState.State.Duration ->
+                    ChangeRecordDateTimeFieldsState.State.DateTime
+            }
+        }
+
+        // Can't select duration on both fields.
+        // Keep clicked state, change other to DateTime.
+        fun adjustState(
+            currentState: ChangeRecordDateTimeFieldsState,
+        ): ChangeRecordDateTimeFieldsState {
+            return ChangeRecordDateTimeFieldsState(
+                start = when (field) {
+                    ChangeRecordDateTimeField.START -> currentState.start
+                    ChangeRecordDateTimeField.END -> ChangeRecordDateTimeFieldsState.State.DateTime
+                },
+                end = when (field) {
+                    ChangeRecordDateTimeField.START -> ChangeRecordDateTimeFieldsState.State.DateTime
+                    ChangeRecordDateTimeField.END -> currentState.end
+                },
+            )
+        }
+
+        val newStart = when (field) {
+            ChangeRecordDateTimeField.START -> current.start.flip()
+            ChangeRecordDateTimeField.END -> current.start
+        }
+        val newEnd = when (field) {
+            ChangeRecordDateTimeField.START -> current.end
+            ChangeRecordDateTimeField.END -> current.end.flip()
+        }
+
+        dateTimeState = ChangeRecordDateTimeFieldsState(
+            start = newStart,
+            end = newEnd,
+        )
+
+        if (dateTimeState.start == dateTimeState.end) {
+            dateTimeState = adjustState(dateTimeState)
+            updateTimeAdjustmentItems(ChangeRecordDateTimeField.START)
+            updateTimeAdjustmentItems(ChangeRecordDateTimeField.END)
+        } else {
+            updateTimeAdjustmentItems(field)
+        }
+
+        updatePreview()
+    }
+
     protected fun showMessage(stringResId: Int) {
         snackBarMessageNavigationInteractor.showMessage(stringResId)
     }
@@ -535,6 +663,7 @@ abstract class ChangeRecordBaseViewModel(
         viewModelScope.launch {
             when (viewData) {
                 is TimeAdjustmentView.ViewData.Now -> onAdjustTimeNowClick(state)
+                is TimeAdjustmentView.ViewData.Zero -> onAdjustTimeZeroClick(state)
                 is TimeAdjustmentView.ViewData.Adjust -> adjustRecordTime(state, viewData.value)
             }
         }
@@ -558,17 +687,50 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
+    private suspend fun onAdjustTimeZeroClick(
+        state: TimeAdjustmentState,
+    ) {
+        when (state) {
+            TimeAdjustmentState.TIME_STARTED -> {
+                newTimeStarted = previewTimeEnded
+                onTimeStartedChanged()
+            }
+            TimeAdjustmentState.TIME_ENDED -> {
+                newTimeEnded = newTimeStarted
+                onTimeEndedChanged()
+            }
+            else -> {
+                // Do nothing, it's hidden.
+            }
+        }
+    }
+
     private suspend fun adjustRecordTime(
         state: TimeAdjustmentState,
         shiftInMinutes: Long,
     ) {
+        val shift = TimeUnit.MINUTES.toMillis(shiftInMinutes)
         when (state) {
             TimeAdjustmentState.TIME_STARTED -> {
-                newTimeStarted += TimeUnit.MINUTES.toMillis(shiftInMinutes)
+                when (dateTimeState.start) {
+                    is ChangeRecordDateTimeFieldsState.State.DateTime -> {
+                        newTimeStarted += shift
+                    }
+                    is ChangeRecordDateTimeFieldsState.State.Duration -> {
+                        newTimeStarted -= shift
+                    }
+                }
                 onTimeStartedChanged()
             }
             TimeAdjustmentState.TIME_ENDED -> {
-                newTimeEnded += TimeUnit.MINUTES.toMillis(shiftInMinutes)
+                when (dateTimeState.end) {
+                    is ChangeRecordDateTimeFieldsState.State.DateTime -> {
+                        newTimeEnded += shift
+                    }
+                    is ChangeRecordDateTimeFieldsState.State.Duration -> {
+                        newTimeEnded = previewTimeEnded + shift
+                    }
+                }
                 onTimeEndedChanged()
             }
             else -> {
@@ -578,7 +740,7 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     private fun onTimeSplitChanged() {
-        newTimeSplit = newTimeSplit.coerceIn(newTimeStarted..splitPreviewTimeEnded)
+        newTimeSplit = newTimeSplit.coerceIn(newTimeStarted..previewTimeEnded)
         updateActionsData()
     }
 
@@ -596,7 +758,7 @@ abstract class ChangeRecordBaseViewModel(
                     ),
                     splitParams = ChangeRecordActionsDelegate.Parent.ViewDataParams.SplitParams(
                         newTimeSplit = newTimeSplit,
-                        splitPreviewTimeEnded = splitPreviewTimeEnded,
+                        splitPreviewTimeEnded = previewTimeEnded,
                         showTimeEndedOnSplitPreview = showTimeEndedOnSplitPreview,
                     ),
                     duplicateParams = ChangeRecordActionsDelegate.Parent.ViewDataParams.DuplicateParams(
@@ -689,8 +851,26 @@ abstract class ChangeRecordBaseViewModel(
         }
     }
 
-    private fun loadTimeAdjustmentItems(): List<ViewHolderType> {
-        return changeRecordViewDataInteractor.getTimeAdjustmentItems()
+    private fun updateTimeAdjustmentItems(
+        field: ChangeRecordDateTimeField,
+    ) {
+        val data = loadTimeAdjustmentItems(field)
+        when (field) {
+            ChangeRecordDateTimeField.START -> timeStartedAdjustmentItems.set(data)
+            ChangeRecordDateTimeField.END -> timeEndedAdjustmentItems.set(data)
+        }
+    }
+
+    private fun loadTimeAdjustmentItems(
+        field: ChangeRecordDateTimeField,
+    ): List<ViewHolderType> {
+        val state = when (field) {
+            ChangeRecordDateTimeField.START -> dateTimeState.start
+            ChangeRecordDateTimeField.END -> dateTimeState.end
+        }
+        return changeRecordViewDataInteractor.getTimeAdjustmentItems(
+            dateTimeFieldState = state,
+        )
     }
 
     private suspend fun updateLastCommentsViewData() {

@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_change_record.viewData
 
 import androidx.annotation.ColorInt
-import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.viewData.ChangeRecordDateTimeState
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 data class ChangeRecordViewData(
@@ -9,8 +9,8 @@ data class ChangeRecordViewData(
     val tagName: String,
     val timeStarted: String,
     val timeFinished: String,
-    val dateTimeStarted: TimeMapper.DateTime,
-    val dateTimeFinished: TimeMapper.DateTime,
+    val dateTimeStarted: ChangeRecordDateTimeState,
+    val dateTimeFinished: ChangeRecordDateTimeState,
     val duration: String,
     val iconId: RecordTypeIcon,
     @ColorInt val color: Int,

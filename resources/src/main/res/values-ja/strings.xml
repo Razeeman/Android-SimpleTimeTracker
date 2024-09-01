@@ -134,6 +134,9 @@
     <string name="change_record_untracked_time_hint">未追跡時間とは、アクティビティが追跡されなかった時間です。</string>
     <string name="change_record_previous_not_found">以前のレコードが見つかりません</string>
     <string name="change_record_next_not_found">次のレコードが見つかりません</string>
+    <string name="change_record_date_time_start">始める</string>
+    <string name="change_record_date_time_end">終わり</string>
+    <string name="change_record_date_time_duration">間隔</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">アクティビティをアーカイブ</string>

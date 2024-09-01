@@ -55,8 +55,8 @@ class PomodoroSettingsDialogFragment :
         viewModel.onVisible()
     }
 
-    override fun onDurationSet(duration: Long, tag: String?) {
-        viewModel.onDurationSet(tag, duration)
+    override fun onDurationSet(durationSeconds: Long, tag: String?) {
+        viewModel.onDurationSet(tag, durationSeconds)
     }
 
     override fun onCountSet(count: Long, tag: String?) {

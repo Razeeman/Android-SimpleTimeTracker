@@ -6,13 +6,14 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class DurationDialogParams(
     val tag: String? = null,
-    val value: Value = Value.Duration(0),
+    val value: Value = Value.DurationSeconds(0),
     val hideDisableButton: Boolean = false,
+    val showSeconds: Boolean = true,
 ) : ScreenParams, Parcelable {
 
     sealed interface Value : Parcelable {
         @Parcelize
-        data class Duration(val duration: Long) : Value
+        data class DurationSeconds(val duration: Long) : Value
 
         @Parcelize
         data class Count(val count: Long) : Value

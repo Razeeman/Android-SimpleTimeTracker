@@ -77,8 +77,9 @@ class ChangeRunningRecordViewModel @Inject constructor(
 
     lateinit var extra: ChangeRunningRecordParams
 
+    override val forceSecondsInDurationDialog: Boolean get() = true
     override val mergeAvailable: Boolean = false
-    override val splitPreviewTimeEnded: Long get() = System.currentTimeMillis()
+    override val previewTimeEnded: Long get() = System.currentTimeMillis()
     override val showTimeEndedOnSplitPreview: Boolean get() = false
     override val adjustNextRecordAvailable: Boolean get() = false
     override val adjustPreviewTimeEnded: Long get() = System.currentTimeMillis()
@@ -181,7 +182,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     override suspend fun updatePreview() {
-        (record as MutableLiveData).value = loadPreviewViewData()
+        record.set(loadPreviewViewData())
     }
 
     override suspend fun initializePreviewViewData() {
@@ -211,7 +212,11 @@ class ChangeRunningRecordViewModel @Inject constructor(
             tagIds = newCategoryIds,
         )
 
-        return changeRunningRecordViewDataInteractor.getPreviewViewData(record, extra)
+        return changeRunningRecordViewDataInteractor.getPreviewViewData(
+            record = record,
+            params = extra,
+            dateTimeFieldState = dateTimeState,
+        )
     }
 
     private fun startUpdate() {

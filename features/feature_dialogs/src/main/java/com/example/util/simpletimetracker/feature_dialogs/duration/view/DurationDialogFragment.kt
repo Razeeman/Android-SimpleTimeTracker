@@ -56,7 +56,7 @@ class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     private fun updateState(state: DurationDialogState) {
-        binding.btnDurationPickerDisable.visible = state.isDisableButtonVisible
+        binding.btnDurationPickerDisable.visible = state.showDisableButton
 
         when (state.value) {
             is DurationDialogState.Value.Duration -> {

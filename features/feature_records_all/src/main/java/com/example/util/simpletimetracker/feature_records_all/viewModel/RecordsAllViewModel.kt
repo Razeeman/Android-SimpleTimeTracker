@@ -8,7 +8,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.extension.toRecordParams
-import com.example.util.simpletimetracker.core.extension.toRunningRecordParams
+import com.example.util.simpletimetracker.core.mapper.ChangeRecordDateTimeMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -27,16 +27,16 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunning
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParam
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class RecordsAllViewModel @Inject constructor(
     private val router: Router,
     private val recordsAllViewDataInteractor: RecordsAllViewDataInteractor,
     private val recordsAllViewDataMapper: RecordsAllViewDataMapper,
-    private val timeMapper: TimeMapper,
     private val prefsInteractor: PrefsInteractor,
+    private val changeRecordDateTimeMapper: ChangeRecordDateTimeMapper,
 ) : ViewModel() {
 
     lateinit var extra: RecordsAllParams
@@ -75,11 +75,12 @@ class RecordsAllViewModel @Inject constructor(
                 name = item.name,
                 tagName = item.tagName,
                 timeStarted = item.timeStarted,
-                timeStartedDateTime = timeMapper.getFormattedDateTime(
-                    time = item.timeStartedTimestamp,
-                    useMilitaryTime = useMilitaryTimeFormat,
+                timeStartedDateTime = changeRecordDateTimeMapper.map(
+                    param = ChangeRecordDateTimeMapper.Param.DateTime(item.timeStartedTimestamp),
+                    field = ChangeRecordDateTimeMapper.Field.Start,
+                    useMilitaryTimeFormat = useMilitaryTimeFormat,
                     showSeconds = showSeconds,
-                ).toRunningRecordParams(),
+                ).toRecordParams(),
                 duration = item.timer,
                 durationTotal = item.timerTotal,
                 goalTime = item.goalTime.toParams(),
@@ -106,14 +107,16 @@ class RecordsAllViewModel @Inject constructor(
             tagName = item.tagName,
             timeStarted = item.timeStarted,
             timeFinished = item.timeFinished,
-            timeStartedDateTime = timeMapper.getFormattedDateTime(
-                time = item.timeStartedTimestamp,
-                useMilitaryTime = useMilitaryTimeFormat,
+            timeStartedDateTime = changeRecordDateTimeMapper.map(
+                param = ChangeRecordDateTimeMapper.Param.DateTime(item.timeStartedTimestamp),
+                field = ChangeRecordDateTimeMapper.Field.Start,
+                useMilitaryTimeFormat = useMilitaryTimeFormat,
                 showSeconds = showSeconds,
             ).toRecordParams(),
-            timeEndedDateTime = timeMapper.getFormattedDateTime(
-                time = item.timeEndedTimestamp,
-                useMilitaryTime = useMilitaryTimeFormat,
+            timeEndedDateTime = changeRecordDateTimeMapper.map(
+                param = ChangeRecordDateTimeMapper.Param.DateTime(item.timeEndedTimestamp),
+                field = ChangeRecordDateTimeMapper.Field.End,
+                useMilitaryTimeFormat = useMilitaryTimeFormat,
                 showSeconds = showSeconds,
             ).toRecordParams(),
             duration = item.duration,

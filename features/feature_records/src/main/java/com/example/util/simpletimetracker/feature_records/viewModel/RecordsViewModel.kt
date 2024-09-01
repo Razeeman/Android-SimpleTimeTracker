@@ -8,11 +8,11 @@ import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.extension.toRecordParams
-import com.example.util.simpletimetracker.core.extension.toRunningRecordParams
 import com.example.util.simpletimetracker.core.interactor.SharingInteractor
+import com.example.util.simpletimetracker.core.mapper.ChangeRecordDateTimeMapper
 import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
-import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.model.NavigationTab
+import com.example.util.simpletimetracker.core.viewData.ChangeRecordDateTimeState
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordsShareUpdateInteractor
@@ -48,13 +48,13 @@ class RecordsViewModel @Inject constructor(
     private val router: Router,
     private val recordsViewDataInteractor: RecordsViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
-    private val timeMapper: TimeMapper,
     private val recordsUpdateInteractor: RecordsUpdateInteractor,
     private val recordsShareUpdateInteractor: RecordsShareUpdateInteractor,
     private val sharingInteractor: SharingInteractor,
     private val rangeViewDataMapper: RangeViewDataMapper,
     private val recordsViewDataMapper: RecordsViewDataMapper,
     private val updateRunningRecordFromChangeScreenInteractor: UpdateRunningRecordFromChangeScreenInteractor,
+    private val changeRecordDateTimeMapper: ChangeRecordDateTimeMapper,
 ) : ViewModel() {
 
     var extra: RecordsExtra? = null
@@ -107,11 +107,12 @@ class RecordsViewModel @Inject constructor(
                 name = item.name,
                 tagName = item.tagName,
                 timeStarted = item.timeStarted,
-                timeStartedDateTime = timeMapper.getFormattedDateTime(
-                    time = item.timeStartedTimestamp,
-                    useMilitaryTime = useMilitaryTimeFormat,
+                timeStartedDateTime = changeRecordDateTimeMapper.map(
+                    param = ChangeRecordDateTimeMapper.Param.DateTime(item.timeStartedTimestamp),
+                    field = ChangeRecordDateTimeMapper.Field.Start,
+                    useMilitaryTimeFormat = useMilitaryTimeFormat,
                     showSeconds = showSeconds,
-                ).toRunningRecordParams(),
+                ).toRecordParams(),
                 duration = item.timer,
                 durationTotal = item.timerTotal,
                 goalTime = item.goalTime.toParams(),
@@ -138,14 +139,16 @@ class RecordsViewModel @Inject constructor(
             tagName = item.tagName,
             timeStarted = item.timeStarted,
             timeFinished = item.timeFinished,
-            timeStartedDateTime = timeMapper.getFormattedDateTime(
-                time = item.timeStartedTimestamp,
-                useMilitaryTime = useMilitaryTimeFormat,
+            timeStartedDateTime = changeRecordDateTimeMapper.map(
+                param = ChangeRecordDateTimeMapper.Param.DateTime(item.timeStartedTimestamp),
+                field = ChangeRecordDateTimeMapper.Field.Start,
+                useMilitaryTimeFormat = useMilitaryTimeFormat,
                 showSeconds = showSeconds,
             ).toRecordParams(),
-            timeEndedDateTime = timeMapper.getFormattedDateTime(
-                time = item.timeEndedTimestamp,
-                useMilitaryTime = useMilitaryTimeFormat,
+            timeEndedDateTime = changeRecordDateTimeMapper.map(
+                param = ChangeRecordDateTimeMapper.Param.DateTime(item.timeEndedTimestamp),
+                field = ChangeRecordDateTimeMapper.Field.End,
+                useMilitaryTimeFormat = useMilitaryTimeFormat,
                 showSeconds = showSeconds,
             ).toRecordParams(),
             duration = item.duration,

@@ -1,11 +1,12 @@
 package com.example.util.simpletimetracker.core.extension
 
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.viewData.ChangeRecordDateTimeState
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.GoalTimeViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
-import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordDateTimeStateParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.RangeParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTypeIconParams
@@ -53,31 +54,40 @@ fun GoalTimeViewData.toParams(): ChangeRunningRecordParams.Preview.GoalTimeParam
     )
 }
 
-fun ChangeRecordParams.Preview.DateTime.toViewData(): TimeMapper.DateTime {
-    return TimeMapper.DateTime(
-        date = date,
-        time = time,
+fun ChangeRecordDateTimeStateParams.toViewData(): ChangeRecordDateTimeState {
+    val state = when (val state = this.state) {
+        is ChangeRecordDateTimeStateParams.State.DateTime -> {
+            val dateTime = TimeMapper.DateTime(
+                date = state.date,
+                time = state.time,
+            )
+            ChangeRecordDateTimeState.State.DateTime(dateTime)
+        }
+        is ChangeRecordDateTimeStateParams.State.Duration -> {
+            ChangeRecordDateTimeState.State.Duration(state.data)
+        }
+    }
+    return ChangeRecordDateTimeState(
+        hint = hint,
+        state = state,
     )
 }
 
-fun TimeMapper.DateTime.toRecordParams(): ChangeRecordParams.Preview.DateTime {
-    return ChangeRecordParams.Preview.DateTime(
-        date = date,
-        time = time,
-    )
-}
-
-fun ChangeRunningRecordParams.Preview.DateTime.toViewData(): TimeMapper.DateTime {
-    return TimeMapper.DateTime(
-        date = date,
-        time = time,
-    )
-}
-
-fun TimeMapper.DateTime.toRunningRecordParams(): ChangeRunningRecordParams.Preview.DateTime {
-    return ChangeRunningRecordParams.Preview.DateTime(
-        date = date,
-        time = time,
+fun ChangeRecordDateTimeState.toRecordParams(): ChangeRecordDateTimeStateParams {
+    val state = when (val state = this.state) {
+        is ChangeRecordDateTimeState.State.DateTime -> {
+            ChangeRecordDateTimeStateParams.State.DateTime(
+                date = state.data.date,
+                time = state.data.time,
+            )
+        }
+        is ChangeRecordDateTimeState.State.Duration -> {
+            ChangeRecordDateTimeStateParams.State.Duration(state.data)
+        }
+    }
+    return ChangeRecordDateTimeStateParams(
+        hint = hint,
+        state = state,
     )
 }
 

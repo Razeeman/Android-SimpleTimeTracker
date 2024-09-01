@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_change_record.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
@@ -63,8 +64,9 @@ class ChangeRecordViewModel @Inject constructor(
 
     lateinit var extra: ChangeRecordParams
 
+    override val forceSecondsInDurationDialog: Boolean get() = false
     override val mergeAvailable: Boolean get() = extra is ChangeRecordParams.Untracked && newTypeId == 0L
-    override val splitPreviewTimeEnded: Long get() = newTimeEnded
+    override val previewTimeEnded: Long get() = newTimeEnded
     override val showTimeEndedOnSplitPreview: Boolean get() = true
     override val adjustPreviewTimeEnded: Long get() = newTimeEnded
     override val adjustPreviewOriginalTimeEnded: Long get() = originalTimeEnded
@@ -173,7 +175,7 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     override suspend fun updatePreview() {
-        (record as MutableLiveData).value = loadPreviewViewData()
+        record.set(loadPreviewViewData())
     }
 
     override suspend fun initializePreviewViewData() {
@@ -214,7 +216,10 @@ class ChangeRecordViewModel @Inject constructor(
             tagIds = newCategoryIds,
         )
 
-        return changeRecordViewDataInteractor.getPreviewViewData(record)
+        return changeRecordViewDataInteractor.getPreviewViewData(
+            record = record,
+            dateTimeFieldState = dateTimeState,
+        )
     }
 
     companion object {

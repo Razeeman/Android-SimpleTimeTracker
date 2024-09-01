@@ -90,8 +90,8 @@ class SettingsFragment :
         backupViewModel.onPositiveDialogClick(tag)
     }
 
-    override fun onDurationSet(duration: Long, tag: String?) {
-        viewModel.onDurationSet(tag, duration)
+    override fun onDurationSet(durationSeconds: Long, tag: String?) {
+        viewModel.onDurationSet(tag, durationSeconds)
     }
 
     override fun onDisable(tag: String?) {

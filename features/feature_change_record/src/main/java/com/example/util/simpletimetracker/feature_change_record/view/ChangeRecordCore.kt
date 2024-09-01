@@ -2,9 +2,11 @@ package com.example.util.simpletimetracker.feature_change_record.view
 
 import android.content.res.ColorStateList
 import android.view.View
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.viewbinding.ViewBinding
 import com.example.util.simpletimetracker.core.base.BaseFragment
@@ -14,6 +16,7 @@ import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.showKeyboard
 import com.example.util.simpletimetracker.core.utils.setChooserColor
 import com.example.util.simpletimetracker.core.view.LinearLayoutManagerWithExtraLayoutSpace
+import com.example.util.simpletimetracker.core.viewData.ChangeRecordDateTimeState
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -45,6 +48,7 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSearchCommentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTagsViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
+import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
@@ -169,6 +173,8 @@ class ChangeRecordCore(
         fieldChangeRecordAction.setOnClick(viewModel::onActionChooserClick)
         fieldChangeRecordTimeStarted.setOnClick(viewModel::onTimeStartedClick)
         fieldChangeRecordTimeEnded.setOnClick(viewModel::onTimeEndedClick)
+        btnChangeRecordTimeStartedAdjust.setOnClick(viewModel::onTimeStartedStateClick)
+        btnChangeRecordTimeEndedAdjust.setOnClick(viewModel::onTimeEndedStateClick)
         containerChangeRecordTimeStartedAdjust.listener = viewModel::onAdjustTimeStartedItemClick
         containerChangeRecordTimeEndedAdjust.listener = viewModel::onAdjustTimeEndedItemClick
         btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
@@ -237,6 +243,28 @@ class ChangeRecordCore(
     ) = with(binding) {
         etChangeRecordComment.setText(comment)
         etChangeRecordComment.setSelection(comment.length)
+    }
+
+    fun setDateTime(
+        state: ChangeRecordDateTimeState,
+        dateView: AppCompatTextView,
+        timeView: AppCompatTextView,
+        hintView: AppCompatTextView,
+    ) {
+        hintView.text = state.hint
+        when (val data = state.state) {
+            is ChangeRecordDateTimeState.State.DateTime -> {
+                dateView.isVisible = true
+                timeView.updatePadding(left = 0)
+                dateView.text = data.data.date
+                timeView.text = data.data.time
+            }
+            is ChangeRecordDateTimeState.State.Duration -> {
+                dateView.isVisible = false
+                timeView.updatePadding(left = 10.dpToPx())
+                timeView.text = data.data
+            }
+        }
     }
 
     private fun updateChooserState(
@@ -325,6 +353,7 @@ class ChangeRecordCore(
     ) {
         binding.fieldChangeRecordTimeEnded.isVisible = isVisible
         binding.containerChangeRecordTimeEndedAdjust.isVisible = isVisible
+        binding.btnChangeRecordTimeEndedAdjust.isVisible = isVisible
     }
 
     private fun updateCategories(

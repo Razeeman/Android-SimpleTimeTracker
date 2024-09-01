@@ -87,19 +87,23 @@ class TimeAdjustmentView @JvmOverloads constructor(
         }
     }
 
-    sealed class ViewData : ViewHolderType {
-        abstract val text: String
+    sealed interface ViewData : ViewHolderType {
+        val text: String
 
         override fun getUniqueId(): Long = text.hashCode().toLong()
         override fun isValidType(other: ViewHolderType): Boolean = false
 
         data class Now(
             override val text: String,
-        ) : ViewData()
+        ) : ViewData
+
+        data class Zero(
+            override val text: String,
+        ): ViewData
 
         data class Adjust(
             override val text: String,
             val value: Long,
-        ) : ViewData()
+        ) : ViewData
     }
 }
