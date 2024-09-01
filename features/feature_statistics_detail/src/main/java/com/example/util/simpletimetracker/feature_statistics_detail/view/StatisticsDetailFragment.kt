@@ -81,7 +81,7 @@ class StatisticsDetailFragment :
         )
     }
     private val params: StatisticsDetailParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = StatisticsDetailParams(),
+        key = ARGS_PARAMS, default = StatisticsDetailParams.Empty,
     )
 
     override fun initUi(): Unit = with(binding) {

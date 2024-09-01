@@ -145,7 +145,9 @@ class StatisticsFragment :
                 onShareClick = throttle(viewModel::onShareClick),
                 onChartAttached = viewModel::onChartAttached,
             ),
-            createStatisticsInfoAdapterDelegate(),
+            createStatisticsInfoAdapterDelegate(
+                onClick = viewModel::onTotalClicked,
+            ),
             createStatisticsAdapterDelegate(
                 onItemClick = throttle(viewModel::onItemClick),
             ),

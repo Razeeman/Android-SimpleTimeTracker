@@ -6,11 +6,11 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class StatisticsDetailParams(
-    val transitionName: String = "",
-    val filter: List<RecordsFilterParam> = emptyList(),
-    val range: RangeLengthParams = RangeLengthParams.All,
-    val shift: Int = 0,
-    val preview: Preview? = null,
+    val transitionName: String,
+    val filter: List<RecordsFilterParam>,
+    val range: RangeLengthParams,
+    val shift: Int,
+    val preview: Preview?,
 ) : Parcelable, ScreenParams {
 
     @Parcelize
@@ -41,5 +41,15 @@ data class StatisticsDetailParams(
 
         @Parcelize
         data class Last(val days: Int) : RangeLengthParams()
+    }
+
+    companion object {
+        val Empty = StatisticsDetailParams(
+            transitionName = "",
+            filter = emptyList(),
+            range = RangeLengthParams.All,
+            shift = 0,
+            preview = null,
+        )
     }
 }

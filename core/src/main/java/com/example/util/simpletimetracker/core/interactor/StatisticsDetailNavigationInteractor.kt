@@ -9,7 +9,6 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
-import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
@@ -26,6 +25,7 @@ class StatisticsDetailNavigationInteractor @Inject constructor(
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
+    private val getStatisticsDetailRangeInteractor: GetStatisticsDetailRangeInteractor,
 ) {
 
     suspend fun navigate(
@@ -38,12 +38,6 @@ class StatisticsDetailNavigationInteractor @Inject constructor(
         itemIcon: RecordTypeIcon?,
         itemColor: Int,
     ) {
-        val rangeLength = if (prefsInteractor.getKeepStatisticsRange()) {
-            prefsInteractor.getStatisticsRange()
-        } else {
-            prefsInteractor.getStatisticsDetailRange()
-        }
-
         router.navigate(
             data = StatisticsDetailParams(
                 transitionName = transitionName,
@@ -51,20 +45,7 @@ class StatisticsDetailNavigationInteractor @Inject constructor(
                     filterType = filterType,
                     selectedId = itemId,
                 ).let(::listOf).map(RecordsFilter::toParams),
-                range = when (rangeLength) {
-                    is RangeLength.Day -> StatisticsDetailParams.RangeLengthParams.Day
-                    is RangeLength.Week -> StatisticsDetailParams.RangeLengthParams.Week
-                    is RangeLength.Month -> StatisticsDetailParams.RangeLengthParams.Month
-                    is RangeLength.Year -> StatisticsDetailParams.RangeLengthParams.Year
-                    is RangeLength.All -> StatisticsDetailParams.RangeLengthParams.All
-                    is RangeLength.Custom -> StatisticsDetailParams.RangeLengthParams.Custom(
-                        start = rangeLength.range.timeStarted,
-                        end = rangeLength.range.timeEnded,
-                    )
-                    is RangeLength.Last -> StatisticsDetailParams.RangeLengthParams.Last(
-                        days = rangeLength.days,
-                    )
-                },
+                range = getStatisticsDetailRangeInteractor.execute(),
                 shift = shift,
                 preview = StatisticsDetailParams.Preview(
                     name = itemName,

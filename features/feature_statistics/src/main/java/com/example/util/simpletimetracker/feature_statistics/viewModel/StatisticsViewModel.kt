@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderView
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statisticsGoal.StatisticsGoalViewData
 import com.example.util.simpletimetracker.feature_statistics.extra.StatisticsExtra
+import com.example.util.simpletimetracker.feature_statistics.interactor.StatisticsDetailTotalNavigator
 import com.example.util.simpletimetracker.feature_statistics.interactor.StatisticsViewDataInteractor
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDialogParams
@@ -34,6 +35,7 @@ class StatisticsViewModel @Inject constructor(
     private val sharingInteractor: SharingInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
+    private val statisticsDetailTotalNavigator: StatisticsDetailTotalNavigator,
 ) : ViewModel() {
 
     var extra: StatisticsExtra? = null
@@ -100,7 +102,7 @@ class StatisticsViewModel @Inject constructor(
         statisticsDetailNavigationInteractor.navigate(
             transitionName = item.transitionName,
             filterType = prefsInteractor.getChartFilterType(),
-            shift = if (prefsInteractor.getKeepStatisticsRange()) shift else 0,
+            shift = getShift(),
             sharedElements = sharedElements,
             itemId = item.id,
             itemName = item.name,
@@ -112,7 +114,13 @@ class StatisticsViewModel @Inject constructor(
     fun onGoalClick(item: StatisticsGoalViewData) = viewModelScope.launch {
         statisticsDetailNavigationInteractor.navigateByGoal(
             goalId = item.id,
-            shift = if (prefsInteractor.getKeepStatisticsRange()) shift else 0,
+            shift = getShift(),
+        )
+    }
+
+    fun onTotalClicked() = viewModelScope.launch {
+        statisticsDetailTotalNavigator.execute(
+            shift = getShift(),
         )
     }
 
@@ -130,6 +138,10 @@ class StatisticsViewModel @Inject constructor(
         if (isVisible && tab is NavigationTab.Statistics) {
             resetScreen.set(Unit)
         }
+    }
+
+    private suspend fun getShift(): Int {
+        return if (prefsInteractor.getKeepStatisticsRange()) shift else 0
     }
 
     private fun updateAnimateChartParticles() {
