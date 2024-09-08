@@ -108,6 +108,8 @@
         <item>😮‍💨</item> # E13.1 face exhaling
         <item>🤥</item> # E3.0 lying face
         <item>🫨</item> # E15.0 shaking face
+        <item>🙂‍↔️</item> # E15.1 head shaking horizontally
+        <item>🙂‍↕️</item> # E15.1 head shaking vertically
 
         # subgroup: face-sleepy
         <item>😌</item> # E0.6 relieved face
@@ -514,24 +516,42 @@
         <item>🚶SKIN_TONE</item> # E1.0 person walking
         <item>🚶SKIN_TONE‍♂️</item> # E4.0 man walking
         <item>🚶SKIN_TONE‍♀️</item> # E4.0 woman walking
+        <item>🚶SKIN_TONE‍➡️</item> # E15.1 person walking facing right
+        <item>🚶SKIN_TONE‍♀️‍➡️</item> # E15.1 woman walking facing right
+        <item>🚶SKIN_TONE‍♂️‍➡️</item> # E15.1 man walking facing right
         <item>🧍SKIN_TONE</item> # E12.0 person standing
         <item>🧍SKIN_TONE‍♂️</item> # E12.0 man standing
         <item>🧍SKIN_TONE‍♀️</item> # E12.0 woman standing
         <item>🧎SKIN_TONE</item> # E12.0 person kneeling
         <item>🧎SKIN_TONE‍♂️</item> # E12.0 man kneeling
         <item>🧎SKIN_TONE‍♀️</item> # E12.0 woman kneeling
+        <item>🧎SKIN_TONE‍➡️</item> # E15.1 person kneeling facing right
+        <item>🧎SKIN_TONE‍♀️‍➡️</item> # E15.1 woman kneeling facing right
+        <item>🧎SKIN_TONE‍♂️‍➡️</item> # E15.1 man kneeling facing right
         <item>🧑SKIN_TONE‍🦯</item> # E12.1 person with white cane
+        <item>🧑SKIN_TONE‍🦯‍➡️</item> # E15.1 person with white cane facing right
         <item>👨SKIN_TONE‍🦯</item> # E12.0 man with white cane
+        <item>👨SKIN_TONE‍🦯‍➡️</item> # E15.1 man with white cane facing right
         <item>👩SKIN_TONE‍🦯</item> # E12.0 woman with white cane
+        <item>👩SKIN_TONE‍🦯‍➡️</item> # E15.1 woman with white cane facing right
         <item>🧑SKIN_TONE‍🦼</item> # E12.1 person in motorized wheelchair
+        <item>🧑SKIN_TONE‍🦼‍➡️</item> # E15.1 person in motorized wheelchair facing right
         <item>👨SKIN_TONE‍🦼</item> # E12.0 man in motorized wheelchair
+        <item>👨SKIN_TONE‍🦼‍➡️</item> # E15.1 man in motorized wheelchair facing right
         <item>👩SKIN_TONE‍🦼</item> # E12.0 woman in motorized wheelchair
+        <item>👩SKIN_TONE‍🦼‍➡️</item> # E15.1 woman in motorized wheelchair facing right
         <item>🧑SKIN_TONE‍🦽</item> # E12.1 person in manual wheelchair
+        <item>🧑SKIN_TONE‍🦽‍➡️</item> # E15.1 person in manual wheelchair facing right
         <item>👨SKIN_TONE‍🦽</item> # E12.0 man in manual wheelchair
+        <item>👨SKIN_TONE‍🦽‍➡️</item> # E15.1 man in manual wheelchair facing right
         <item>👩SKIN_TONE‍🦽</item> # E12.0 woman in manual wheelchair
+        <item>👩SKIN_TONE‍🦽‍➡️</item> # E15.1 woman in manual wheelchair facing right
         <item>🏃SKIN_TONE</item> # E1.0 person running
         <item>🏃SKIN_TONE‍♂️</item> # E4.0 man running
         <item>🏃SKIN_TONE‍♀️</item> # E4.0 woman running
+        <item>🏃SKIN_TONE‍➡️</item> # E15.1 person running facing right
+        <item>🏃SKIN_TONE‍♀️‍➡️</item> # E15.1 woman running facing right
+        <item>🏃SKIN_TONE‍♂️‍➡️</item> # E15.1 man running facing right
         <item>💃SKIN_TONE</item> # E1.0 woman dancing
         <item>🕺SKIN_TONE</item> # E3.0 man dancing
         <item>🕴️SKIN_TONE</item> # E4.0 person in suit levitating
@@ -610,7 +630,6 @@
         <item>👩SKIN_TONE‍❤️‍👨SKIN_TONE</item> # E13.1 couple with heart: woman, man
         <item>👨SKIN_TONE‍❤️‍👨SKIN_TONE</item> # E13.1 couple with heart: man, man
         <item>👩SKIN_TONE‍❤️‍👩SKIN_TONE</item> # E13.1 couple with heart: woman, woman
-        <item>👪</item> # E0.6 family
         <item>👨‍👩‍👦</item> # E2.0 family: man, woman, boy
         <item>👨‍👩‍👧</item> # E2.0 family: man, woman, girl
         <item>👨‍👩‍👧‍👦</item> # E2.0 family: man, woman, girl, boy
@@ -642,6 +661,11 @@
         <item>👤</item> # E0.6 bust in silhouette
         <item>👥</item> # E1.0 busts in silhouette
         <item>🫂</item> # E13.0 people hugging
+        <item>👪</item> # E0.6 family
+        <item>🧑‍🧑‍🧒</item> # E15.1 family: adult, adult, child
+        <item>🧑‍🧑‍🧒‍🧒</item> # E15.1 family: adult, adult, child, child
+        <item>🧑‍🧒</item> # E15.1 family: adult, child
+        <item>🧑‍🧒‍🧒</item> # E15.1 family: adult, child, child
         <item>👣</item> # E0.6 footprints
     </string-array>
 
@@ -737,6 +761,7 @@
         <item>🪽</item> # E15.0 wing
         <item>🐦‍⬛</item> # E15.0 black bird
         <item>🪿</item> # E15.0 goose
+        <item>🐦‍🔥</item> # E15.1 phoenix
 
         # subgroup: animal-amphibian
         <item>🐸</item> # E0.6 frog
@@ -823,6 +848,7 @@
         <item>🍉</item> # E0.6 watermelon
         <item>🍊</item> # E0.6 tangerine
         <item>🍋</item> # E1.0 lemon
+        <item>🍋‍🟩</item> # E15.1 lime
         <item>🍌</item> # E0.6 banana
         <item>🍍</item> # E0.6 pineapple
         <item>🥭</item> # E11.0 mango
@@ -857,6 +883,7 @@
         <item>🌰</item> # E0.6 chestnut
         <item>🫚</item> # E15.0 ginger root
         <item>🫛</item> # E15.0 pea pod
+        <item>🍄‍🟫</item> # E15.1 brown mushroom
 
         # subgroup: food-prepared
         <item>🍞</item> # E0.6 bread
@@ -1547,6 +1574,7 @@
         <item>⚖️</item> # E1.0 balance scale
         <item>🦯</item> # E12.0 white cane
         <item>🔗</item> # E0.6 link
+        <item>⛓️‍💥</item> # E15.1 broken chain
         <item>⛓️</item> # E0.7 chains
         <item>🪝</item> # E13.0 hook
         <item>🧰</item> # E11.0 toolbox

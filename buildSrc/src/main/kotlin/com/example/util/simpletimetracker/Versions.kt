@@ -21,7 +21,7 @@ object Versions {
     const val desugaring = "1.1.6"
     const val cardView = "1.0.0"
     const val material = "1.12.0"
-    const val emoji = "1.4.0"
+    const val emoji = "1.5.0"
 
     const val fragmentKtx = "1.6.2" // 1.8.2 breaks shared transition when deleting running record.
     const val coreKtx = "1.2.0"

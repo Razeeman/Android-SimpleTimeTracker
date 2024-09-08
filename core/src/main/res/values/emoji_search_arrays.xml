@@ -108,6 +108,8 @@
         <item>face exhaling</item>
         <item>lying face</item>
         <item>shaking face</item>
+        <item>head shaking horizontally</item>
+        <item>head shaking vertically</item>
 
         # subgroup: face-sleepy
         <item>relieved face</item>
@@ -514,24 +516,42 @@
         <item>person walking</item>
         <item>man walking</item>
         <item>woman walking</item>
+        <item>person walking facing right</item>
+        <item>woman walking facing right</item>
+        <item>man walking facing right</item>
         <item>person standing</item>
         <item>man standing</item>
         <item>woman standing</item>
         <item>person kneeling</item>
         <item>man kneeling</item>
         <item>woman kneeling</item>
+        <item>person kneeling facing right</item>
+        <item>woman kneeling facing right</item>
+        <item>man kneeling facing right</item>
         <item>person with white cane</item>
+        <item>person with white cane facing right</item>
         <item>man with white cane</item>
+        <item>man with white cane facing right</item>
         <item>woman with white cane</item>
+        <item>woman with white cane facing right</item>
         <item>person in motorized wheelchair</item>
+        <item>person in motorized wheelchair facing right</item>
         <item>man in motorized wheelchair</item>
+        <item>man in motorized wheelchair facing right</item>
         <item>woman in motorized wheelchair</item>
+        <item>woman in motorized wheelchair facing right</item>
         <item>person in manual wheelchair</item>
+        <item>person in manual wheelchair facing right</item>
         <item>man in manual wheelchair</item>
+        <item>man in manual wheelchair facing right</item>
         <item>woman in manual wheelchair</item>
+        <item>woman in manual wheelchair facing right</item>
         <item>person running</item>
         <item>man running</item>
         <item>woman running</item>
+        <item>person running facing right</item>
+        <item>woman running facing right</item>
+        <item>man running facing right</item>
         <item>woman dancing</item>
         <item>man dancing</item>
         <item>person in suit levitating</item>
@@ -610,7 +630,6 @@
         <item>couple with heart: woman, man</item>
         <item>couple with heart: man, man</item>
         <item>couple with heart: woman, woman</item>
-        <item>family</item>
         <item>family: man, woman, boy</item>
         <item>family: man, woman, girl</item>
         <item>family: man, woman, girl, boy</item>
@@ -642,6 +661,11 @@
         <item>bust in silhouette</item>
         <item>busts in silhouette</item>
         <item>people hugging</item>
+        <item>family</item>
+        <item>family: adult, adult, child</item>
+        <item>family: adult, adult, child, child</item>
+        <item>family: adult, child</item>
+        <item>family: adult, child, child</item>
         <item>footprints</item>
     </string-array>
 
@@ -737,6 +761,7 @@
         <item>wing</item>
         <item>black bird</item>
         <item>goose</item>
+        <item>phoenix</item>
 
         # subgroup: animal-amphibian
         <item>frog</item>
@@ -823,6 +848,7 @@
         <item>watermelon</item>
         <item>tangerine</item>
         <item>lemon</item>
+        <item>lime</item>
         <item>banana</item>
         <item>pineapple</item>
         <item>mango</item>
@@ -857,6 +883,7 @@
         <item>chestnut</item>
         <item>ginger root</item>
         <item>pea pod</item>
+        <item>brown mushroom</item>
 
         # subgroup: food-prepared
         <item>bread</item>
@@ -1547,6 +1574,7 @@
         <item>balance scale</item>
         <item>white cane</item>
         <item>link</item>
+        <item>broken chain</item>
         <item>chains</item>
         <item>hook</item>
         <item>toolbox</item>
