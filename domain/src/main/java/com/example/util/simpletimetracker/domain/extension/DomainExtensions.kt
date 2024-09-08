@@ -46,6 +46,16 @@ fun String.padDuration(): String {
     return this.padStart(2, '0')
 }
 
+fun String.insertStringAtIndex(string: String, index: Int): String {
+    return StringBuilder(this).apply { insert(index, string) }.toString()
+}
+
+fun CharSequence.indexesOf(pat: String): List<Int> =
+    pat.toRegex()
+        .findAll(this)
+        .map { it.range.first }
+        .toList()
+
 @Suppress("UNCHECKED_CAST")
 fun <T> Any.tryCast(): T? {
     return this as? T

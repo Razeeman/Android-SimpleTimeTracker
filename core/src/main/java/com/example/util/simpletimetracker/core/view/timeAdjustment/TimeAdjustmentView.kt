@@ -99,7 +99,7 @@ class TimeAdjustmentView @JvmOverloads constructor(
 
         data class Zero(
             override val text: String,
-        ): ViewData
+        ) : ViewData
 
         data class Adjust(
             override val text: String,

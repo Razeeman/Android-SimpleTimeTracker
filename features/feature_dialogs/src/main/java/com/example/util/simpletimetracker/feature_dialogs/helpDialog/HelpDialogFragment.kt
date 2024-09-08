@@ -2,10 +2,9 @@ package com.example.util.simpletimetracker.feature_dialogs.helpDialog
 
 import com.example.util.simpletimetracker.feature_dialogs.databinding.HelpDialogFragmentBinding as Binding
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.text.HtmlCompat
-import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
@@ -30,7 +29,8 @@ class HelpDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     override fun initUi() = with(binding) {
         tvHelpDialogTitle.text = params.title
-        tvHelpDialogDescription.text = HtmlCompat.fromHtml(params.text, FROM_HTML_MODE_LEGACY)
+        tvHelpDialogDescription.text = params.text
+        tvHelpDialogDescription.movementMethod = LinkMovementMethod.getInstance()
     }
 
     companion object {

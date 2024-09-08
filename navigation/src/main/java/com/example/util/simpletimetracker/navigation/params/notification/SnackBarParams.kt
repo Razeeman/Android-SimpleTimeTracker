@@ -17,6 +17,7 @@ data class SnackBarParams(
     }
 
     sealed interface Duration {
+        object ExtraShort : Duration
         object Short : Duration
         object Normal : Duration
         object Long : Duration

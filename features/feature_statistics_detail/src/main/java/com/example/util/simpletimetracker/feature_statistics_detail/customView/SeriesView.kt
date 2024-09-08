@@ -9,7 +9,6 @@ import android.graphics.Path
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Typeface
-import android.graphics.fonts.FontStyle
 import android.util.AttributeSet
 import android.view.View
 import com.example.util.simpletimetracker.feature_statistics_detail.R

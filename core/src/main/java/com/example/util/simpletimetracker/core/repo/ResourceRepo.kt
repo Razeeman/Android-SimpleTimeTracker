@@ -1,14 +1,17 @@
 package com.example.util.simpletimetracker.core.repo
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import androidx.annotation.ArrayRes
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
+import androidx.annotation.DrawableRes
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.example.util.simpletimetracker.core.provider.ContextProvider
 import com.example.util.simpletimetracker.feature_views.extension.pxToDp
 import javax.inject.Inject
@@ -49,6 +52,10 @@ class ResourceRepo @Inject constructor(
                 .theme
                 .resolveAttribute(attrId, this, true)
         }.data
+    }
+
+    fun getDrawable(@DrawableRes drawableResId: Int): Drawable? {
+        return ResourcesCompat.getDrawable(context.resources, drawableResId, context.theme)
     }
 
     fun getStringArray(@ArrayRes arrayResId: Int): List<String> {

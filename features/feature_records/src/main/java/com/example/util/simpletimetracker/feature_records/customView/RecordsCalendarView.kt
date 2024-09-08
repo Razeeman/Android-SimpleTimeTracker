@@ -13,10 +13,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Parcelable
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.TextUtils
-import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
@@ -39,6 +36,8 @@ import com.example.util.simpletimetracker.feature_views.IconView
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
+import com.example.util.simpletimetracker.feature_views.extension.setForegroundSpan
+import com.example.util.simpletimetracker.feature_views.extension.toSpannableString
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import kotlinx.parcelize.Parcelize
 import java.util.concurrent.TimeUnit
@@ -869,13 +868,11 @@ class RecordsCalendarView @JvmOverloads constructor(
             item.name
         } else {
             val name = "${item.name} - ${item.tagName}"
-            val spannable = SpannableString(name)
-            spannable.setSpan(
-                ForegroundColorSpan(itemTagColor),
-                item.name.length, name.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
+            name.toSpannableString().setForegroundSpan(
+                color = itemTagColor,
+                start = item.name.length,
+                length = name.length - item.name.length,
             )
-            spannable
         }
     }
 

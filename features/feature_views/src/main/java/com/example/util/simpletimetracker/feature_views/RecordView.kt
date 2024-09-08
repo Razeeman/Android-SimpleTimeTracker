@@ -2,14 +2,13 @@ package com.example.util.simpletimetracker.feature_views
 
 import android.content.Context
 import android.graphics.Color
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.feature_views.databinding.RecordViewLayoutBinding
+import com.example.util.simpletimetracker.feature_views.extension.setForegroundSpan
+import com.example.util.simpletimetracker.feature_views.extension.toSpannableString
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
@@ -157,13 +156,11 @@ class RecordView @JvmOverloads constructor(
             tvRecordItemName.text = itemName
         } else {
             val name = "$itemName - $itemTagName"
-            val spannable = SpannableString(name)
-            spannable.setSpan(
-                ForegroundColorSpan(itemTagColor),
-                itemName.length, name.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
+            tvRecordItemName.text = name.toSpannableString().setForegroundSpan(
+                color = itemTagColor,
+                start = itemName.length,
+                length = name.length - itemName.length,
             )
-            tvRecordItemName.text = spannable
         }
     }
 

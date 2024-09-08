@@ -512,7 +512,7 @@ class BackupRepoImpl @Inject constructor(
             // parts[9] - weekly time is moved to separate table
             // parts[10] - monthly time is moved to separate table,
             instant = parts.getOrNull(11)?.toIntOrNull() == 1,
-            instantDuration = parts.getOrNull(12)?.toLongOrNull().orZero()
+            instantDuration = parts.getOrNull(12)?.toLongOrNull().orZero(),
         ) to goalTimes
     }
 

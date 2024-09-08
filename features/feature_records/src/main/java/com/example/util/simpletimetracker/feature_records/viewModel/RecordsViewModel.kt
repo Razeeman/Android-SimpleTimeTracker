@@ -12,7 +12,6 @@ import com.example.util.simpletimetracker.core.interactor.SharingInteractor
 import com.example.util.simpletimetracker.core.mapper.ChangeRecordDateTimeMapper
 import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.core.model.NavigationTab
-import com.example.util.simpletimetracker.core.viewData.ChangeRecordDateTimeState
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordsShareUpdateInteractor

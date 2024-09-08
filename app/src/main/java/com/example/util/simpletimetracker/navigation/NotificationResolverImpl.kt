@@ -63,6 +63,7 @@ class NotificationResolverImpl @Inject constructor(
             view,
             data.message,
             when (data.duration) {
+                is SnackBarParams.Duration.ExtraShort -> SNACK_BAR_EXTRA_SHORT_DURATION_MS
                 is SnackBarParams.Duration.Short -> SNACK_BAR_SHORT_DURATION_MS
                 is SnackBarParams.Duration.Normal -> SNACK_BAR_DURATION_MS
                 is SnackBarParams.Duration.Long -> SNACK_BAR_LONG_DURATION_MS
@@ -161,6 +162,7 @@ class NotificationResolverImpl @Inject constructor(
     }
 
     companion object {
+        private const val SNACK_BAR_EXTRA_SHORT_DURATION_MS = 1000
         private const val SNACK_BAR_SHORT_DURATION_MS = 2000
         private const val SNACK_BAR_DURATION_MS = 5000
         private const val SNACK_BAR_LONG_DURATION_MS = 10000

@@ -143,7 +143,7 @@ class AddRunningRecordMediator @Inject constructor(
             timeStarted = params.timeStarted,
             timeEnded = params.timeStarted + type.instantDuration * 1000,
             comment = params.comment,
-            tagIds = params.tagIds
+            tagIds = params.tagIds,
         ).let {
             addRecordMediator.add(it)
         }

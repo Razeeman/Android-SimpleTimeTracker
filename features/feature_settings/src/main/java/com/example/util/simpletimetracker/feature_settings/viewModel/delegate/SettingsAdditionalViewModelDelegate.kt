@@ -224,9 +224,12 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
     }
 
     private fun onAutomatedTrackingHelpClick() {
-        router.navigate(
-            settingsMapper.toAutomatedTrackingHelpDialog(),
-        )
+        delegateScope.launch {
+            val isDarkTheme = prefsInteractor.getDarkMode()
+            router.navigate(
+                settingsMapper.toAutomatedTrackingHelpDialog(isDarkTheme),
+            )
+        }
     }
 
     private fun onDurationSetDelegate(tag: String?, duration: Long) {
