@@ -34,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Long.min
 import java.util.Calendar
+import java.util.Comparator
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.max
@@ -209,12 +210,19 @@ class RecordsViewDataInteractor @Inject constructor(
             null
         }
 
+        val sortComparator: Comparator<RecordHolder> = compareByDescending<RecordHolder> {
+            it.timeStartedTimestamp
+        }.thenBy {
+            // Otherwise 0 duration activities would be on top of untracked.
+            it.data.typeId != UNTRACKED_ITEM_ID
+        }
+
         val items = when {
             showFirstEnterHint -> listOf(recordViewDataMapper.mapToNoRecords())
             records.isEmpty() -> listOf(recordViewDataMapper.mapToEmpty())
             else -> {
                 records
-                    .sortedByDescending { it.timeStartedTimestamp }
+                    .sortedWith(sortComparator)
                     .map { it.data.value } +
                     listOfNotNull(hint)
             }

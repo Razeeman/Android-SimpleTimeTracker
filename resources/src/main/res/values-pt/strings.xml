@@ -156,8 +156,9 @@
     <string name="change_record_type_goal_time_hint">Meta</string>
     <string name="change_record_type_additional_hint">Adicional</string>
     <string name="change_record_type_instant">Instantâneo</string>
-    <string name="change_record_type_instant_hint">As atividades instantâneas não têm duração e são rastreadas imediatamente ao clicar.</string>
+    <string name="change_record_type_instant_hint">As atividades instantâneas têm duração padrão e são rastreadas imediatamente após o clique.</string>
     <string name="change_record_type_goal_time_description">A notificação será exibida após atingir a meta</string>
+    <string name="change_record_type_duplicate_hint">Criará uma cópia desta atividade</string>
     <string name="change_record_type_session_goal_time">Sessão</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>

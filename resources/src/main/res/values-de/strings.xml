@@ -156,8 +156,9 @@
     <string name="change_record_type_goal_time_hint">Ziel</string>
     <string name="change_record_type_additional_hint">Zusätzlich</string>
     <string name="change_record_type_instant">Sofort</string>
-    <string name="change_record_type_instant_hint">Sofortige Aktivitäten haben keine Dauer und werden sofort beim Klicken verfolgt.</string>
+    <string name="change_record_type_instant_hint">Sofortige Aktivitäten haben eine Standarddauer und werden sofort beim Klicken verfolgt.</string>
     <string name="change_record_type_goal_time_description">Nach Erreichen des Ziels wird eine Benachrichtigung angezeigt</string>
+    <string name="change_record_type_duplicate_hint">Es wird eine Kopie dieser Aktivität erstellt</string>
     <string name="change_record_type_session_goal_time">Session</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>

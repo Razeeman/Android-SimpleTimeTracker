@@ -156,8 +156,9 @@
     <string name="change_record_type_goal_time_hint">Mål</string>
     <string name="change_record_type_additional_hint">Ytterligare</string>
     <string name="change_record_type_instant">Omedelbar</string>
-    <string name="change_record_type_instant_hint">Omedelbara aktiviteter har ingen varaktighet och spåras direkt vid klick.</string>
+    <string name="change_record_type_instant_hint">Omedelbara aktiviteter har standardvaraktighet och spåras direkt vid klick.</string>
     <string name="change_record_type_goal_time_description">Avisering kommer att visas efter att du har nått målet</string>
+    <string name="change_record_type_duplicate_hint">Kommer att skapa en kopia av denna aktivitet</string>
     <string name="change_record_type_session_goal_time">Session</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>

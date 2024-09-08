@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsDetailNavigationInteractor
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 import com.example.util.simpletimetracker.domain.extension.addOrRemove
@@ -44,9 +45,11 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromChangeActivityParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
+import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import com.example.util.simpletimetracker.core.R as coreR
 
@@ -54,6 +57,7 @@ import com.example.util.simpletimetracker.core.R as coreR
 class ChangeRecordTypeViewModel @Inject constructor(
     private val router: Router,
     private val resourceRepo: ResourceRepo,
+    private val timeMapper: TimeMapper,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
@@ -107,6 +111,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         ChangeRecordTypeAdditionalState(
             isDuplicateVisible = false,
             isInstantChecked = false,
+            instantDuration = "",
         ),
     )
     val archiveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
@@ -124,6 +129,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private var newName: String = ""
     private var newCategories: MutableList<Long> = mutableListOf()
     private var newIsInstant: Boolean = false
+    private var newInstantDuration: Long = 0
 
     init {
         colorSelectionViewModelDelegateImpl.attach(getColorSelectionDelegateParent())
@@ -307,10 +313,29 @@ class ChangeRecordTypeViewModel @Inject constructor(
         updateAdditionalState()
     }
 
+    fun onInstantDurationClick() = viewModelScope.launch {
+        DurationDialogParams(
+            tag = INSTANT_DURATION_DIALOG_TAG,
+            value = DurationDialogParams.Value.DurationSeconds(getInstantDuration()),
+            hideDisableButton = true,
+        ).let(router::navigate)
+    }
+
     fun onPositiveDialogClick(tag: String?) {
         when (tag) {
             DELETE_ALERT_DIALOG_TAG -> delete()
         }
+    }
+
+    fun onDurationSet(tag: String?, duration: Long, anchor: Any) {
+        goalsViewModelDelegate.onGoalDurationSet(tag, duration, anchor)
+        onInstantDurationSet(tag, duration)
+    }
+
+    private fun onInstantDurationSet(tag: String?, duration: Long) {
+        if (tag != INSTANT_DURATION_DIALOG_TAG) return
+        newInstantDuration = duration.coerceAtLeast(1)
+        updateAdditionalState()
     }
 
     // TODO check all after actions that need to be done after type delete,
@@ -370,6 +395,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             icon = iconSelectionViewModelDelegateImpl.newIcon,
             color = colorSelectionViewModelDelegateImpl.newColor,
             instant = newIsInstant,
+            instantDuration = getInstantDuration(),
         )
 
         return recordTypeInteractor.add(recordType)
@@ -396,6 +422,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             icon = iconSelectionViewModelDelegateImpl.newIcon,
             color = colorSelectionViewModelDelegateImpl.newColor,
             instant = newIsInstant,
+            instantDuration = getInstantDuration(),
         )
 
         return recordTypeInteractor.add(recordType)
@@ -413,6 +440,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         recordTypeInteractor.get(recordTypeId)?.let {
             newName = it.name
             newIsInstant = it.instant
+            newInstantDuration = it.instantDuration
             iconSelectionViewModelDelegateImpl.newIcon = it.icon
             colorSelectionViewModelDelegateImpl.newColor = it.color
             goalsViewModelDelegate.initialize(RecordTypeGoal.IdData.Type(it.id))
@@ -463,6 +491,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
         snackBarMessageNavigationInteractor.showArchiveMessage(stringResId)
     }
 
+    // It is 0 by default, but can't be zero if enabled.
+    private fun getInstantDuration(): Long {
+        return if (newIsInstant) {
+            newInstantDuration.takeIf { it > 0L } ?: instantDurationDefault
+        } else {
+            newInstantDuration
+        }
+    }
+
     private suspend fun updateRecordPreviewViewData() {
         val data = loadRecordPreviewViewData()
         recordType.set(data)
@@ -476,6 +513,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             icon = iconSelectionViewModelDelegateImpl.newIcon,
             color = colorSelectionViewModelDelegateImpl.newColor,
             instant = newIsInstant,
+            instantDuration = getInstantDuration(),
         ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
     }
 
@@ -497,10 +535,13 @@ class ChangeRecordTypeViewModel @Inject constructor(
         return ChangeRecordTypeAdditionalState(
             isDuplicateVisible = extra is ChangeRecordTypeParams.Change,
             isInstantChecked = newIsInstant,
+            instantDuration = timeMapper.formatDuration(getInstantDuration()),
         )
     }
 
     companion object {
         private const val DELETE_ALERT_DIALOG_TAG = "delete_alert_dialog_tag"
+        private const val INSTANT_DURATION_DIALOG_TAG = "instant_duration_dialog_tag"
+        private val instantDurationDefault = TimeUnit.MINUTES.toSeconds(1)
     }
 }

@@ -156,8 +156,9 @@
     <string name="change_record_type_goal_time_hint">目標</string>
     <string name="change_record_type_additional_hint">追加</string>
     <string name="change_record_type_instant">インスタント</string>
-    <string name="change_record_type_instant_hint">インスタントアクティビティには期間がなく、クリックするとすぐに追跡されます。</string>
+    <string name="change_record_type_instant_hint">インスタントアクティビティにはデフォルトの期間があり、クリックするとすぐに追跡されます。</string>
     <string name="change_record_type_goal_time_description">目標達成後に通知が表示されます</string>
+    <string name="change_record_type_duplicate_hint">このアクティビティのコピーを作成します</string>
     <string name="change_record_type_session_goal_time">セッション</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>

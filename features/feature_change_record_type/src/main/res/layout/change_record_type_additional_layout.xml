@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvChangeRecordTypeAdditionalDuplicateHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:text="@string/change_record_type_duplicate_hint"
+        android:textColor="?appTextHintColor" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChangeRecordTypeAdditionalDuplicate"
         style="@style/AppButtonActive"
@@ -45,6 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingHorizontal="8dp"
+            android:paddingBottom="0dp"
             android:text="@string/change_record_type_instant_hint"
             app:layout_constraintEnd_toStartOf="@id/checkboxChangeRecordTypeAdditionalInstant"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,6 +68,52 @@
             app:layout_constraintBottom_toBottomOf="@id/tvChangeRecordTypeAdditionalInstantTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvChangeRecordTypeAdditionalInstantTitle" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeRecordTypeAdditionalInstantDuration"
+            style="@style/SettingsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:text="@string/change_record_date_time_duration"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/groupChangeRecordTypeAdditionalInstantSelector"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvChangeRecordTypeAdditionalInstantSubtitle"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/groupChangeRecordTypeAdditionalInstantSelector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvChangeRecordTypeAdditionalInstantDuration"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvChangeRecordTypeAdditionalInstantSelectorValue"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="end|center_vertical"
+                android:paddingHorizontal="8dp"
+                android:textColor="?appTextPrimaryColor"
+                tools:text="99h 99m 99s" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/arrowItemSettingsSelector"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="?appArrow"
+                tools:ignore="ContentDescription" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

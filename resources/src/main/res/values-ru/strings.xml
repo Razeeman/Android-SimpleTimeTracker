@@ -155,9 +155,10 @@
     <string name="change_record_type_goal_time_disabled">Выкл.</string>
     <string name="change_record_type_goal_time_hint">Цель</string>
     <string name="change_record_type_additional_hint">Дополнительно</string>
-    <string name="change_record_type_instant">Мгновенный</string>
-    <string name="change_record_type_instant_hint">Мгновенные действия не имеют продолжительности и отслеживаются сразу по клику.</string>
+    <string name="change_record_type_instant">Мгновенное</string>
+    <string name="change_record_type_instant_hint">Мгновенные активности имеют продолжительность по-умолчанию и отслеживаются сразу по клику.</string>
     <string name="change_record_type_goal_time_description">Уведомление будет показано после достижения цели</string>
+    <string name="change_record_type_duplicate_hint">Создаст копию этой активности</string>
     <string name="change_record_type_session_goal_time">Сессия</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>

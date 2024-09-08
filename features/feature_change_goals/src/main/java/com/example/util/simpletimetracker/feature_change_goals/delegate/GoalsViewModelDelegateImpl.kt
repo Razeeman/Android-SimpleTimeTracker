@@ -49,12 +49,14 @@ class GoalsViewModelDelegateImpl @Inject constructor(
         router.execute(OpenSystemSettings.Notifications)
     }
 
-    override fun onDurationSet(tag: String?, duration: Long, anchor: Any) {
+    override fun onGoalDurationSet(tag: String?, duration: Long, anchor: Any) {
+        if (tag !in tags) return
         onNewGoalDuration(tag, duration)
         checkExactAlarmPermissionInteractor.execute(anchor)
     }
 
     override fun onDurationDisabled(tag: String?) {
+        if (tag !in tags) return
         onNewGoalDuration(tag, 0)
     }
 
@@ -257,5 +259,12 @@ class GoalsViewModelDelegateImpl @Inject constructor(
         private const val DAILY_GOAL_TIME_DIALOG_TAG = "daily_goal_time_dialog_tag"
         private const val WEEKLY_GOAL_TIME_DIALOG_TAG = "weekly_goal_time_dialog_tag"
         private const val MONTHLY_GOAL_TIME_DIALOG_TAG = "monthly_goal_time_dialog_tag"
+
+        private val tags = listOf(
+            SESSION_GOAL_TIME_DIALOG_TAG,
+            DAILY_GOAL_TIME_DIALOG_TAG,
+            WEEKLY_GOAL_TIME_DIALOG_TAG,
+            MONTHLY_GOAL_TIME_DIALOG_TAG,
+        )
     }
 }

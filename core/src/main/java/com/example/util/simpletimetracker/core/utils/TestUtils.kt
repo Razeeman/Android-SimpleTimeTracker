@@ -68,6 +68,7 @@ class TestUtils @Inject constructor(
         goals: List<RecordTypeGoal> = emptyList(),
         archived: Boolean = false,
         instant: Boolean = false,
+        instantDuration: Long = 0,
         categories: List<String> = emptyList(),
     ) = runBlocking {
         val icons = iconImageMapper
@@ -89,6 +90,7 @@ class TestUtils @Inject constructor(
             icon = iconId,
             hidden = archived,
             instant = instant,
+            instantDuration = instantDuration,
         )
 
         val typeId = recordTypeInteractor.add(data)

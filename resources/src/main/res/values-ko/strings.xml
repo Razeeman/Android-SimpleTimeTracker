@@ -156,8 +156,9 @@
     <string name="change_record_type_goal_time_hint">목표</string>
     <string name="change_record_type_additional_hint">추가의</string>
     <string name="change_record_type_instant">즉각적인</string>
-    <string name="change_record_type_instant_hint">인스턴트 활동에는 기간이 없으며 클릭 시 즉시 추적됩니다.</string>
+    <string name="change_record_type_instant_hint">인스턴트 활동에는 기본 기간이 있으며 클릭 시 즉시 추적됩니다.</string>
     <string name="change_record_type_goal_time_description">목표 달성시 알림을 보냅니다.</string>
+    <string name="change_record_type_duplicate_hint">이 활동의 사본을 생성합니다.</string>
     <string name="change_record_type_session_goal_time">세션</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>

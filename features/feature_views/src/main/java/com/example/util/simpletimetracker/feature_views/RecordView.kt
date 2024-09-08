@@ -60,8 +60,8 @@ class RecordView @JvmOverloads constructor(
         set(value) {
             binding.tvRecordItemTimeStarted.text = value
             binding.tvRecordItemTimeStarted.visible = value.isNotEmpty()
-            binding.tvRecordItemTimeSeparator.visible = value.isNotEmpty()
             field = value
+            updateSeparatorVisibility()
         }
 
     var itemTimeEnded: String = ""
@@ -69,6 +69,7 @@ class RecordView @JvmOverloads constructor(
             binding.tvRecordItemTimeFinished.text = value
             binding.tvRecordItemTimeFinished.visible = value.isNotEmpty()
             field = value
+            updateSeparatorVisibility()
         }
 
     var itemDuration: String = ""
@@ -164,5 +165,10 @@ class RecordView @JvmOverloads constructor(
             )
             tvRecordItemName.text = spannable
         }
+    }
+
+    private fun updateSeparatorVisibility() {
+        binding.tvRecordItemTimeSeparator.visible =
+            itemTimeStarted.isNotEmpty() && itemTimeEnded.isNotEmpty()
     }
 }

@@ -203,6 +203,8 @@ class ChangeRecordTypeFragment :
             .setOnClick(viewModel::onDuplicateClick)
         layoutChangeRecordTypeAdditional.checkboxChangeRecordTypeAdditionalInstant
             .setOnClick(viewModel::onInstantClick)
+        layoutChangeRecordTypeAdditional.groupChangeRecordTypeAdditionalInstantSelector
+            .setOnClick(viewModel::onInstantDurationClick)
         IconSelectionViewDelegate.initUx(
             viewModel = viewModel,
             layout = containerChangeRecordTypeIcon,
@@ -471,6 +473,9 @@ class ChangeRecordTypeFragment :
         if (data.isInstantChecked != checkboxChangeRecordTypeAdditionalInstant.isChecked) {
             checkboxChangeRecordTypeAdditionalInstant.isChecked = data.isInstantChecked
         }
+        tvChangeRecordTypeAdditionalInstantDuration.isVisible = data.isInstantChecked
+        groupChangeRecordTypeAdditionalInstantSelector.isVisible = data.isInstantChecked
+        tvChangeRecordTypeAdditionalInstantSelectorValue.text = data.instantDuration
     }
 
     companion object {

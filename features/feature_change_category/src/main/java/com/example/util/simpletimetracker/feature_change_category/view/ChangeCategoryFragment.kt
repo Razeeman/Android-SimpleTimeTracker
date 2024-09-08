@@ -174,7 +174,7 @@ class ChangeCategoryFragment :
     }
 
     override fun onDurationSet(durationSeconds: Long, tag: String?) {
-        viewModel.onDurationSet(
+        viewModel.onGoalDurationSet(
             tag = tag,
             duration = durationSeconds,
             anchor = binding.btnChangeCategorySave,

@@ -151,6 +151,7 @@ class CsvRepoImpl @Inject constructor(
                                 ),
                                 hidden = false,
                                 instant = false,
+                                instantDuration = 0L,
                             )
                             val newTypeId = recordTypeRepo.add(newType)
                             newType.copy(id = newTypeId).let(newAddedTypes::add)

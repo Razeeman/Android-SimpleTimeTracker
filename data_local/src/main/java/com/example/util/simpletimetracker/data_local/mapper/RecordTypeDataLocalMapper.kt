@@ -17,6 +17,7 @@ class RecordTypeDataLocalMapper @Inject constructor() {
                 colorInt = dbo.colorInt,
             ),
             instant = dbo.instant,
+            instantDuration = dbo.instantDuration,
             hidden = dbo.hidden,
         )
     }
@@ -29,6 +30,7 @@ class RecordTypeDataLocalMapper @Inject constructor() {
             color = domain.color.colorId,
             colorInt = domain.color.colorInt,
             instant = domain.instant,
+            instantDuration = domain.instantDuration,
             hidden = domain.hidden,
         )
     }

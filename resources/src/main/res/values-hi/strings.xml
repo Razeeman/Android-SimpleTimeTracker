@@ -156,8 +156,9 @@
     <string name="change_record_type_goal_time_hint">लक्ष्य</string>
     <string name="change_record_type_additional_hint">अतिरिक्त</string>
     <string name="change_record_type_instant">तुरंत</string>
-    <string name="change_record_type_instant_hint">त्वरित गतिविधियों की कोई अवधि नहीं होती और क्लिक पर तुरंत ट्रैक किया जाता है।</string>
+    <string name="change_record_type_instant_hint">त्वरित गतिविधियों की डिफ़ॉल्ट अवधि होती है और क्लिक पर तुरंत ट्रैक किया जाता है।</string>
     <string name="change_record_type_goal_time_description">लक्ष्य तक पहुंचने के बाद अधिसूचना दिखाई जाएगी</string>
+    <string name="change_record_type_duplicate_hint">इस गतिविधि की एक प्रति बनाएंगे</string>
     <string name="change_record_type_session_goal_time">सत्र</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>

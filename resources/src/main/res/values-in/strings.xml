@@ -156,8 +156,9 @@
     <string name="change_record_type_goal_time_hint">Tujuan</string>
     <string name="change_record_type_additional_hint">Tambahan</string>
     <string name="change_record_type_instant">Instan</string>
-    <string name="change_record_type_instant_hint">Aktivitas instan tidak memiliki durasi dan langsung dilacak saat diklik.</string>
+    <string name="change_record_type_instant_hint">Aktivitas instan memiliki durasi default dan langsung dilacak saat diklik.</string>
     <string name="change_record_type_goal_time_description">Pemberitahuan akan ditampilkan setelah mencapai tujuan</string>
+    <string name="change_record_type_duplicate_hint">Akan membuat salinan aktivitas ini</string>
     <string name="change_record_type_session_goal_time">Sidang</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>

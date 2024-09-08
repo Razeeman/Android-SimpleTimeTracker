@@ -28,4 +28,8 @@ data class RecordTypeDBO(
 
     @ColumnInfo(name = "instant")
     val instant: Boolean,
+
+    // Seconds.
+    @ColumnInfo(name = "instantDuration")
+    val instantDuration: Long,
 )

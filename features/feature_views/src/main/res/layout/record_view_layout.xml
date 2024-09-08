@@ -35,7 +35,7 @@
             android:layout_marginStart="8dp"
             android:textColor="?appLightTextColor"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tvRecordItemTimeSeparator"
+            app:layout_constraintBottom_toTopOf="@id/tvRecordItemTimeStarted"
             app:layout_constraintEnd_toStartOf="@id/tvRecordItemDuration"
             app:layout_constraintStart_toEndOf="@id/ivRecordItemIcon"
             app:layout_constraintTop_toTopOf="parent"
@@ -47,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textColor="?appLightTextColor"
+            app:layout_constraintBottom_toTopOf="@id/tvRecordItemComment"
             app:layout_constraintStart_toEndOf="@id/ivRecordItemIcon"
             app:layout_constraintTop_toBottomOf="@id/tvRecordItemName"
             tools:text="07:35" />
@@ -95,7 +96,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvRecordItemDuration"
             app:layout_constraintStart_toEndOf="@id/ivRecordItemIcon"
-            app:layout_constraintTop_toBottomOf="@id/tvRecordItemTimeSeparator"
+            app:layout_constraintTop_toBottomOf="@id/tvRecordItemTimeStarted"
             tools:text="Record comment record comment record comment record comment"
             tools:visibility="visible" />
 

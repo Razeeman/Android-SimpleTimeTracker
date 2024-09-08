@@ -6,5 +6,6 @@ data class RecordType(
     val icon: String,
     val color: AppColor,
     val instant: Boolean,
+    val instantDuration: Long,
     val hidden: Boolean = false,
 )

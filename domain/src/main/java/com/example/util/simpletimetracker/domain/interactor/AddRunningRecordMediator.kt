@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.Range
+import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.ResultContainer
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import javax.inject.Inject
@@ -10,6 +12,8 @@ class AddRunningRecordMediator @Inject constructor(
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val recordTypeInteractor: RecordTypeInteractor,
+    private val addRecordMediator: AddRecordMediator,
     private val recordTypeToDefaultTagInteractor: RecordTypeToDefaultTagInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
@@ -67,39 +71,81 @@ class AddRunningRecordMediator @Inject constructor(
             tagIds = actualTags,
             comment = comment,
         )
-        add(
-            typeId = typeId,
-            comment = comment,
-            tagIds = actualTags,
-            timeStarted = timeStarted ?: System.currentTimeMillis(),
+        addInternal(
+            StartParams(
+                typeId = typeId,
+                comment = comment,
+                tagIds = actualTags,
+                timeStarted = timeStarted ?: System.currentTimeMillis(),
+            ),
         )
         // Show goal count only on timer start, otherwise it would show on change also.
         notificationGoalCountInteractor.checkAndShow(typeId)
         pomodoroStartInteractor.checkAndStart(typeId)
     }
 
-    suspend fun add(
+    // Used separately only for changing running activity,
+    // due to some poor (probably) decisions id of running record is it's type id,
+    // so if type is changed - need to remove old and add new data.
+    suspend fun addAfterChange(
         typeId: Long,
         timeStarted: Long,
         comment: String,
         tagIds: List<Long>,
     ) {
-        if (runningRecordInteractor.get(typeId) == null && typeId > 0L) {
-            RunningRecord(
-                id = typeId,
+        addInternal(
+            StartParams(
+                typeId = typeId,
                 timeStarted = timeStarted,
                 comment = comment,
                 tagIds = tagIds,
+            ),
+        )
+    }
+
+    private suspend fun addInternal(params: StartParams) {
+        val type = recordTypeInteractor.get(params.typeId) ?: return
+        if (type.instant) {
+            addInstantRecord(params, type)
+        } else {
+            addRunningRecord(params)
+        }
+    }
+
+    private suspend fun addRunningRecord(
+        params: StartParams,
+    ) {
+        if (runningRecordInteractor.get(params.typeId) == null && params.typeId > 0L) {
+            RunningRecord(
+                id = params.typeId,
+                timeStarted = params.timeStarted,
+                comment = params.comment,
+                tagIds = params.tagIds,
             ).let {
                 runningRecordInteractor.add(it)
-                notificationTypeInteractor.checkAndShow(typeId)
+                notificationTypeInteractor.checkAndShow(params.typeId)
                 notificationInactivityInteractor.cancel()
                 // Schedule only on first activity start.
                 if (runningRecordInteractor.getAll().size == 1) notificationActivityInteractor.checkAndSchedule()
-                notificationGoalTimeInteractor.checkAndReschedule(listOf(typeId))
+                notificationGoalTimeInteractor.checkAndReschedule(listOf(params.typeId))
                 widgetInteractor.updateWidgets()
                 wearInteractor.update()
             }
+        }
+    }
+
+    private suspend fun addInstantRecord(
+        params: StartParams,
+        type: RecordType,
+    ) {
+        Record(
+            typeId = params.typeId,
+            timeStarted = params.timeStarted,
+            timeEnded = params.timeStarted + type.instantDuration * 1000,
+            comment = params.comment,
+            tagIds = params.tagIds
+        ).let {
+            addRecordMediator.add(it)
         }
     }
 
@@ -163,4 +209,11 @@ class AddRunningRecordMediator @Inject constructor(
         val defaultTags = recordTypeToDefaultTagInteractor.getTags(typeId)
         return (tagIds + defaultTags + tagIdsFromRules).toSet().toList()
     }
+
+    private data class StartParams(
+        val typeId: Long,
+        val timeStarted: Long,
+        val comment: String,
+        val tagIds: List<Long>,
+    )
 }

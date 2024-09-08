@@ -130,7 +130,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     override suspend fun onSaveClickDelegate() {
         // Widgets will update on adding.
         removeRunningRecordMediator.remove(extra.id, updateWidgets = false)
-        addRunningRecordMediator.add(
+        addRunningRecordMediator.addAfterChange(
             typeId = newTypeId,
             timeStarted = newTimeStarted,
             comment = newComment,

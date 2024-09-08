@@ -11,7 +11,7 @@ interface GoalsViewModelDelegate {
     suspend fun initialize(id: RecordTypeGoal.IdData)
     fun onGoalsVisible()
     fun onNotificationsHintClick()
-    fun onDurationSet(tag: String?, duration: Long, anchor: Any)
+    fun onGoalDurationSet(tag: String?, duration: Long, anchor: Any)
     fun onDurationDisabled(tag: String?)
     fun onGoalTypeSelected(range: RecordTypeGoal.Range, position: Int)
     fun onGoalCountChange(range: RecordTypeGoal.Range, count: String)

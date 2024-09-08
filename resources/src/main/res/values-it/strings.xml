@@ -156,8 +156,9 @@
     <string name="change_record_type_goal_time_hint">Obiettivo</string>
     <string name="change_record_type_additional_hint">Ulteriori</string>
     <string name="change_record_type_instant">Istantaneo</string>
-    <string name="change_record_type_instant_hint">Le attività istantanee non hanno durata e vengono tracciate immediatamente al clic.</string>
+    <string name="change_record_type_instant_hint">Le attività istantanee hanno una durata predefinita e vengono tracciate immediatamente al clic.</string>
     <string name="change_record_type_goal_time_description">La notifica verrà mostrata dopo aver raggiunto l\'obiettivo</string>
+    <string name="change_record_type_duplicate_hint">Creerà una copia di questa attività</string>
     <string name="change_record_type_session_goal_time">Sessione</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>
