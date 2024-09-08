@@ -4,12 +4,13 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
+import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class StandardDialogFragment :
     AppCompatDialogFragment(),
@@ -31,7 +32,7 @@ class StandardDialogFragment :
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return context?.let {
-            AlertDialog.Builder(it).apply {
+            MaterialAlertDialogBuilder(it, R.style.AlertDialogRounded).apply {
                 if (title.isNotEmpty()) setTitle(title)
                 if (message.isNotEmpty()) setMessage(message)
                 if (btnPositive.isNotEmpty()) {
