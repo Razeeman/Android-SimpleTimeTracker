@@ -34,6 +34,7 @@
         <attr name="seriesLegendTextPadding" format="dimension" />
         <attr name="seriesLegendTextSize" format="dimension" />
         <attr name="seriesLegendTextColor" format="color" />
+        <attr name="seriesLegendHighlightColor" format="color" />
         <attr name="seriesValueTextSize" format="dimension" />
         <attr name="seriesValueTextColor" format="color" />
     </declare-styleable>

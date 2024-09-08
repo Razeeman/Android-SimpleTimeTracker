@@ -8,6 +8,8 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.Typeface
+import android.graphics.fonts.FontStyle
 import android.util.AttributeSet
 import android.view.View
 import com.example.util.simpletimetracker.feature_statistics_detail.R
@@ -34,6 +36,7 @@ class SeriesView @JvmOverloads constructor(
     private var legendTextPadding: Float = 0f
     private var legendTextSize: Float = 0f
     private var legendTextColor: Int = 0
+    private var legendHighlightColor: Int = 0
     private var valueTextSize: Float = 0f
     private var valueTextColor: Int = 0
     // End of attrs
@@ -54,6 +57,7 @@ class SeriesView @JvmOverloads constructor(
 
     private val barPaint: Paint = Paint()
     private val legendTextPaint: Paint = Paint()
+    private val legendHighlightPaint: Paint = Paint()
     private val valueTextPaint: Paint = Paint()
     private val valueBackgroundPaint: Paint = Paint()
 
@@ -89,8 +93,7 @@ class SeriesView @JvmOverloads constructor(
         animate: Boolean,
     ) {
         val oldData = this.data
-        this.data = data.takeUnless { it.isEmpty() }
-            ?: listOf(ViewData(value = 0, legendStart = "", legendEnd = ""))
+        this.data = data.takeUnless { it.isEmpty() } ?: listOf(ViewData.Empty)
         invalidate()
         requestLayout()
         if (!isInEditMode && animate && data != oldData) {
@@ -133,6 +136,8 @@ class SeriesView @JvmOverloads constructor(
                     getDimensionPixelSize(R.styleable.SeriesView_seriesLegendTextSize, 14).toFloat()
                 legendTextColor =
                     getColor(R.styleable.SeriesView_seriesLegendTextColor, Color.BLACK)
+                legendHighlightColor =
+                    getColor(R.styleable.SeriesView_seriesLegendHighlightColor, Color.BLACK)
                 valueTextSize =
                     getDimensionPixelSize(R.styleable.SeriesView_seriesValueTextSize, 14).toFloat()
                 valueTextColor =
@@ -151,6 +156,12 @@ class SeriesView @JvmOverloads constructor(
             isAntiAlias = true
             color = legendTextColor
             textSize = legendTextSize
+        }
+        legendHighlightPaint.apply {
+            isAntiAlias = true
+            color = legendHighlightColor
+            textSize = legendTextSize
+            typeface = Typeface.DEFAULT_BOLD
         }
         valueTextPaint.apply {
             isAntiAlias = true
@@ -192,6 +203,7 @@ class SeriesView @JvmOverloads constructor(
             barCornerRadius, barCornerRadius,
             barCornerRadius, barCornerRadius,
         )
+        var currentLegendPaint: Paint
 
         canvas.save()
 
@@ -239,19 +251,24 @@ class SeriesView @JvmOverloads constructor(
             /****************
              * Draw legends *
              ****************/
-            legendTextPaint.textAlign = Paint.Align.RIGHT
+            currentLegendPaint = if (bar.highlighted) {
+                legendHighlightPaint
+            } else {
+                legendTextPaint
+            }
+            currentLegendPaint.textAlign = Paint.Align.RIGHT
             canvas.drawText(
                 bar.legendStart,
                 w / 2f - scaled / 2f - legendTextPadding,
                 barHeight / 2f + legendTextHeight / 2f,
-                legendTextPaint,
+                currentLegendPaint,
             )
-            legendTextPaint.textAlign = Paint.Align.LEFT
+            currentLegendPaint.textAlign = Paint.Align.LEFT
             canvas.drawText(
                 bar.legendEnd,
                 w / 2f + scaled / 2f + legendTextPadding,
                 barHeight / 2f + legendTextHeight / 2f,
-                legendTextPaint,
+                currentLegendPaint,
             )
 
             // Shift canvas for next bar
@@ -267,11 +284,12 @@ class SeriesView @JvmOverloads constructor(
             val maxValue = seriesMaxValueInPreview.takeIf { it != 0 } ?: 10
             (bars - 1 downTo 0)
                 .toList()
-                .map {
+                .mapIndexed { index, value ->
                     ViewData(
-                        value = maxValue / bars * it,
+                        value = maxValue / bars * value,
                         legendStart = "22.05.2022",
                         legendEnd = "03.12.2022",
+                        highlighted = index == 0,
                     )
                 }
                 .let { setData(it, animate = false) }
@@ -292,5 +310,16 @@ class SeriesView @JvmOverloads constructor(
         val value: Long,
         val legendStart: String,
         val legendEnd: String,
-    )
+        val highlighted: Boolean,
+    ) {
+
+        companion object {
+            val Empty = ViewData(
+                value = 0,
+                legendStart = "",
+                legendEnd = "",
+                highlighted = false,
+            )
+        }
+    }
 }

@@ -10,6 +10,7 @@
     app:seriesBarCountInPreview="7"
     app:seriesBarHeight="20dp"
     app:seriesDividerHeight="1dp"
+    app:seriesLegendHighlightColor="?appContrastColor"
     app:seriesLegendTextColor="@color/textSecondary"
     app:seriesLegendTextPadding="8dp"
     app:seriesLegendTextSize="11sp"
