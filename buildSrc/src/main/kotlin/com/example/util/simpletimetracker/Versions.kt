@@ -23,7 +23,7 @@ object Versions {
     const val material = "1.12.0"
     const val emoji = "1.4.0"
 
-    const val fragmentKtx = "1.8.2"
+    const val fragmentKtx = "1.6.2" // 1.8.2 breaks shared transition when deleting running record.
     const val coreKtx = "1.2.0"
     const val liveDataCoreKtx = "2.8.4"
     const val liveDataKtx = "2.8.4"
