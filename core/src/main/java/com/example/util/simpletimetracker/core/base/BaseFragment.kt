@@ -16,7 +16,7 @@ import kotlinx.coroutines.Job
 abstract class BaseFragment<T : ViewBinding> : Fragment(), Throttler {
 
     abstract val inflater: (LayoutInflater, ViewGroup?, Boolean) -> T
-    abstract val insetConfiguration: InsetConfiguration
+    abstract var insetConfiguration: InsetConfiguration
     override var throttleJob: Job? = null
     protected val binding: T get() = _binding!!
     private var _binding: T? = null
@@ -92,7 +92,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), Throttler {
         view?.viewTreeObserver?.addOnPreDrawListener(listener)
     }
 
-    private fun initInsets() {
+    fun initInsets() {
         when (val config = insetConfiguration) {
             is InsetConfiguration.DoNotApply -> {
                 // Do nothing

@@ -36,8 +36,8 @@ class SettingsFragment :
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    override val insetConfiguration: InsetConfiguration =
-        InsetConfiguration.ApplyToView { binding.rvSettingsContent }
+    override var insetConfiguration: InsetConfiguration =
+        InsetConfiguration.DoNotApply
 
     @Inject
     lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
@@ -73,7 +73,10 @@ class SettingsFragment :
         viewModel.themeChanged.observe(::changeTheme)
         viewModel.keepScreenOnCheckbox.observe(::setKeepScreenOn)
         backupViewModel.requestScreenUpdate.observe { viewModel.onRequestUpdate() }
-        mainTabsViewModel.tabReselected.observe(viewModel::onTabReselected)
+        with(mainTabsViewModel) {
+            tabReselected.observe(viewModel::onTabReselected)
+            isNavBatAtTheBottom.observe(::updateInsetConfiguration)
+        }
     }
 
     override fun onResume() {
@@ -129,6 +132,15 @@ class SettingsFragment :
             // TODO fix fade and save scroll
             activity?.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
+    }
+
+    private fun updateInsetConfiguration(isNavBatAtTheBottom: Boolean) {
+        insetConfiguration = if (isNavBatAtTheBottom) {
+            InsetConfiguration.DoNotApply
+        } else {
+            InsetConfiguration.ApplyToView { binding.rvSettingsContent }
+        }
+        initInsets()
     }
 
     companion object {

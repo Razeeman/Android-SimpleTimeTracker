@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.CustomRangeSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
+import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.core.view.SafeFragmentStateAdapter
 import com.example.util.simpletimetracker.core.viewData.RangesViewData
@@ -33,15 +34,21 @@ class StatisticsContainerFragment :
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    override val insetConfiguration: InsetConfiguration =
-        InsetConfiguration.ApplyToView { binding.root }
+    override var insetConfiguration: InsetConfiguration =
+        InsetConfiguration.DoNotApply
 
     @Inject
     lateinit var settingsViewModelFactory: BaseViewModelFactory<StatisticsSettingsViewModel>
 
+    @Inject
+    lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
+
     private val viewModel: StatisticsContainerViewModel by viewModels()
     private val settingsViewModel: StatisticsSettingsViewModel by activityViewModels(
         factoryProducer = { settingsViewModelFactory },
+    )
+    private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
+        factoryProducer = { mainTabsViewModelFactory },
     )
 
     override fun initUi(): Unit = with(binding) {
@@ -85,6 +92,9 @@ class StatisticsContainerFragment :
         with(settingsViewModel) {
             rangeUpdated.observe(viewModel::onRangeUpdated)
         }
+        with(mainTabsViewModel) {
+            isNavBatAtTheBottom.observe(::updateInsetConfiguration)
+        }
     }
 
     override fun onResume() {
@@ -110,6 +120,15 @@ class StatisticsContainerFragment :
             position + StatisticsContainerAdapter.FIRST,
             viewPagerSmoothScroll,
         )
+    }
+
+    private fun updateInsetConfiguration(isNavBatAtTheBottom: Boolean) {
+        insetConfiguration = if (isNavBatAtTheBottom) {
+            InsetConfiguration.DoNotApply
+        } else {
+            InsetConfiguration.ApplyToView { binding.root }
+        }
+        initInsets()
     }
 
     companion object {

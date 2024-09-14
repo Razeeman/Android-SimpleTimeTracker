@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
+import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.core.view.SafeFragmentStateAdapter
@@ -32,11 +33,14 @@ class RecordsContainerFragment :
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    override val insetConfiguration: InsetConfiguration =
-        InsetConfiguration.ApplyToView { binding.root }
+    override var insetConfiguration: InsetConfiguration =
+        InsetConfiguration.DoNotApply
 
     @Inject
     lateinit var removeRecordViewModelFactory: BaseViewModelFactory<RemoveRecordViewModel>
+
+    @Inject
+    lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
 
     @Inject
     lateinit var router: Router
@@ -44,6 +48,9 @@ class RecordsContainerFragment :
     private val viewModel: RecordsContainerViewModel by viewModels()
     private val removeRecordViewModel: RemoveRecordViewModel by activityViewModels(
         factoryProducer = { removeRecordViewModelFactory },
+    )
+    private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
+        factoryProducer = { mainTabsViewModelFactory },
     )
 
     override fun initUi(): Unit = with(binding) {
@@ -74,6 +81,9 @@ class RecordsContainerFragment :
         }
         with(removeRecordViewModel) {
             message.observe(::showMessage)
+        }
+        with(mainTabsViewModel) {
+            isNavBatAtTheBottom.observe(::updateInsetConfiguration)
         }
     }
 
@@ -120,6 +130,15 @@ class RecordsContainerFragment :
         if (data.calendarSwitchState is RecordsOptionsSwitchState.CalendarSwitchState.Visible) {
             ivRecordsContainerCalendarSwitch.setImageResource(data.calendarSwitchState.iconResId)
         }
+    }
+
+    private fun updateInsetConfiguration(isNavBatAtTheBottom: Boolean) {
+        insetConfiguration = if (isNavBatAtTheBottom) {
+            InsetConfiguration.DoNotApply
+        } else {
+            InsetConfiguration.ApplyToView { binding.root }
+        }
+        initInsets()
     }
 
     companion object {

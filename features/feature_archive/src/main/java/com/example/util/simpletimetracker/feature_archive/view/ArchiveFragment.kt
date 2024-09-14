@@ -32,7 +32,7 @@ class ArchiveFragment :
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    override val insetConfiguration: InsetConfiguration =
+    override var insetConfiguration: InsetConfiguration =
         InsetConfiguration.ApplyToView { binding.rvArchiveList }
 
     private val viewModel: ArchiveViewModel by viewModels()

@@ -40,8 +40,8 @@ class RunningRecordsFragment :
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    override val insetConfiguration: InsetConfiguration =
-        InsetConfiguration.ApplyToView { binding.rvRunningRecordsList }
+    override var insetConfiguration: InsetConfiguration =
+        InsetConfiguration.DoNotApply
 
     @Inject
     lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
@@ -100,6 +100,7 @@ class RunningRecordsFragment :
         }
         with(mainTabsViewModel) {
             tabReselected.observe(viewModel::onTabReselected)
+            isNavBatAtTheBottom.observe(::updateInsetConfiguration)
         }
     }
 
@@ -128,6 +129,15 @@ class RunningRecordsFragment :
             recyclerView = binding.rvRunningRecordsList,
             update = update,
         )
+    }
+
+    private fun updateInsetConfiguration(isNavBatAtTheBottom: Boolean) {
+        insetConfiguration = if (isNavBatAtTheBottom) {
+            InsetConfiguration.DoNotApply
+        } else {
+            InsetConfiguration.ApplyToView { binding.rvRunningRecordsList }
+        }
+        initInsets()
     }
 
     companion object {

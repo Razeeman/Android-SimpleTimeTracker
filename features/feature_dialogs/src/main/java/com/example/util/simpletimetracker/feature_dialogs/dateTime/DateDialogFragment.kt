@@ -15,7 +15,7 @@ class DateDialogFragment : BaseFragment<Binding>() {
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    override val insetConfiguration: InsetConfiguration =
+    override var insetConfiguration: InsetConfiguration =
         InsetConfiguration.DoNotApply
 
     interface OnDateSetListener {

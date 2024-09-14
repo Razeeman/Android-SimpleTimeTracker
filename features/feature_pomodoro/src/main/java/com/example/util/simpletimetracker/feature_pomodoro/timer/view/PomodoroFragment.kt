@@ -21,7 +21,7 @@ class PomodoroFragment : BaseFragment<Binding>() {
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    override val insetConfiguration: InsetConfiguration =
+    override var insetConfiguration: InsetConfiguration =
         InsetConfiguration.ApplyToView { binding.root }
 
     private val viewModel: PomodoroViewModel by viewModels()

@@ -37,7 +37,7 @@ class MainFragment : BaseFragment<Binding>() {
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    override val insetConfiguration: InsetConfiguration =
+    override var insetConfiguration: InsetConfiguration =
         InsetConfiguration.DoNotApply
 
     @Inject
@@ -70,7 +70,7 @@ class MainFragment : BaseFragment<Binding>() {
 
     override fun initViewModel() {
         viewModel.initialize
-        viewModel.isNavBatAtTheBottom.observe(::updateNavBarPosition)
+        mainTabsViewModel.isNavBatAtTheBottom.observe(::updateNavBarPosition)
     }
 
     private fun setupPager() = with(binding) {
@@ -138,6 +138,8 @@ class MainFragment : BaseFragment<Binding>() {
         } else {
             TabLayout.INDICATOR_GRAVITY_BOTTOM
         }.let(mainTabs::setSelectedTabIndicatorGravity)
+
+        updateInsetConfiguration(isAtTheBottom)
     }
 
     private fun onBackPressed() {
@@ -161,5 +163,14 @@ class MainFragment : BaseFragment<Binding>() {
             requireContext().getThemedAttr(attrRes),
             BlendModeCompat.SRC_IN,
         )
+    }
+
+    private fun updateInsetConfiguration(isNavBatAtTheBottom: Boolean) {
+        insetConfiguration = if (isNavBatAtTheBottom) {
+            InsetConfiguration.ApplyToView { binding.root }
+        } else {
+            InsetConfiguration.DoNotApply
+        }
+        initInsets()
     }
 }

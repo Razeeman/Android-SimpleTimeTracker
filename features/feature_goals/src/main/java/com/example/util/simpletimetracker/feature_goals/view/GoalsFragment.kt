@@ -25,8 +25,8 @@ class GoalsFragment : BaseFragment<Binding>() {
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    override val insetConfiguration: InsetConfiguration =
-        InsetConfiguration.ApplyToView { binding.rvGoalsList }
+    override var insetConfiguration: InsetConfiguration =
+        InsetConfiguration.DoNotApply
 
     @Inject
     lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
@@ -68,6 +68,7 @@ class GoalsFragment : BaseFragment<Binding>() {
         }
         with(mainTabsViewModel) {
             tabReselected.observe(viewModel::onTabReselected)
+            isNavBatAtTheBottom.observe(::updateInsetConfiguration)
         }
     }
 
@@ -79,6 +80,15 @@ class GoalsFragment : BaseFragment<Binding>() {
     override fun onPause() {
         super.onPause()
         viewModel.onHidden()
+    }
+
+    private fun updateInsetConfiguration(isNavBatAtTheBottom: Boolean) {
+        insetConfiguration = if (isNavBatAtTheBottom) {
+            InsetConfiguration.DoNotApply
+        } else {
+            InsetConfiguration.ApplyToView { binding.rvGoalsList }
+        }
+        initInsets()
     }
 
     companion object {

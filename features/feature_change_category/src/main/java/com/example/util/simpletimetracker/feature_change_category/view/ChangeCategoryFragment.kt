@@ -58,7 +58,7 @@ class ChangeCategoryFragment :
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
 
-    override val insetConfiguration: InsetConfiguration =
+    override var insetConfiguration: InsetConfiguration =
         InsetConfiguration.ApplyToView { binding.root }
 
     private val viewModel: ChangeCategoryViewModel by viewModels()
