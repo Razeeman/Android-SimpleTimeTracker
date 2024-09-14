@@ -32,6 +32,7 @@ fun getSettingsAdapterDelegates(
         createSettingsHintAdapterDelegate(),
         createSettingsTextAdapterDelegate(onBlockClickedThrottled),
         createSettingsTextWithButtonAdapterDelegate(onBlockClicked),
+        createSettingsTextWithIconAdapterDelegate(onBlockClicked),
         createSettingsCheckboxAdapterDelegate(onBlockClicked),
         createSettingsCheckboxWithButtonAdapterDelegate(onBlockClicked),
         createSettingsCheckboxWithRangeAdapterDelegate(onBlockClicked),

@@ -34,6 +34,7 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
     suspend fun execute(
         isCollapsed: Boolean,
     ): List<ViewHolderType> {
+        val isDarkTheme = prefsInteractor.getDarkMode()
         val result = mutableListOf<ViewHolderType>()
 
         result += SettingsTopViewData(
@@ -44,6 +45,9 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
             block = SettingsBlock.AdditionalCollapse,
             title = resourceRepo.getString(R.string.settings_additional_title),
             opened = !isCollapsed,
+            iconResId = R.drawable.plus,
+            iconColor = (if (isDarkTheme) R.color.blue_300 else R.color.blue_200)
+                .let(resourceRepo::getColor),
             dividerIsVisible = !isCollapsed,
         )
 

@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.views.SettingsBottomViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsTextViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsTextWithIconViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsTopViewData
 import javax.inject.Inject
 
@@ -24,10 +25,14 @@ class SettingsRatingViewDataInteractor @Inject constructor(
             block = SettingsBlock.RatingTop,
         )
 
-        result += SettingsTextViewData(
-            block = SettingsBlock.RateUs,
-            title = resourceRepo.getString(R.string.settings_rate),
-            subtitle = resourceRepo.getString(R.string.settings_rate_description),
+        result += SettingsTextWithIconViewData(
+            data = SettingsTextViewData(
+                block = SettingsBlock.RateUs,
+                title = resourceRepo.getString(R.string.settings_rate),
+                subtitle = resourceRepo.getString(R.string.settings_rate_description),
+            ),
+            iconResId = R.drawable.star_border,
+            iconColor = resourceRepo.getColor(R.color.amber_400),
         )
 
         result += SettingsTextViewData(

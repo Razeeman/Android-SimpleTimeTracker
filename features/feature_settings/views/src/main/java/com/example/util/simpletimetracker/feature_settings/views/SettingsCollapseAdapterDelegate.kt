@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.feature_settings.views
 
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
@@ -26,6 +28,8 @@ fun createSettingsCollapseAdapterDelegate(
             arrowItemSettingsCollapse.apply { if (!item.opened) rotateDown() else rotateUp() }
             onClick(item.block)
         }
+        binding.ivItemSettingsIcon.setImageResource(item.iconResId)
+        binding.cardItemSettingsIcon.setCardBackgroundColor(item.iconColor)
     }
 }
 
@@ -33,6 +37,8 @@ data class SettingsCollapseViewData(
     val block: SettingsBlock,
     val title: String,
     val opened: Boolean,
+    @DrawableRes val iconResId: Int,
+    @ColorInt val iconColor: Int,
     val dividerIsVisible: Boolean = true,
 ) : ViewHolderType {
 

@@ -38,7 +38,7 @@ fun textAdapterBindDelegate(
     item: ViewData,
     title: AppCompatTextView,
     subtitle: AppCompatTextView,
-    hint: AppCompatTextView,
+    hint: AppCompatTextView?,
     spaceTop: Space,
     spaceBottom: Space,
     divider: View,
@@ -53,12 +53,14 @@ fun textAdapterBindDelegate(
         item.subtitleColor.getColor(subtitle.context).let(subtitle::setTextColor)
         subtitle.visible = true
     }
-    if (item.hint.isEmpty()) {
-        hint.visible = false
-    } else {
-        hint.text = item.hint
-        item.hintColor.getColor(hint.context).let(hint::setTextColor)
-        hint.visible = true
+    if (hint != null) {
+        if (item.hint.isEmpty()) {
+            hint.visible = false
+        } else {
+            hint.text = item.hint
+            item.hintColor.getColor(hint.context).let(hint::setTextColor)
+            hint.visible = true
+        }
     }
     spaceTop.visible = item.topSpaceIsVisible
     spaceBottom.visible = item.bottomSpaceIsVisible

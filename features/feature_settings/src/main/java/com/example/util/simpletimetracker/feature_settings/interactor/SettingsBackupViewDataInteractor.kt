@@ -23,6 +23,7 @@ class SettingsBackupViewDataInteractor @Inject constructor(
     suspend fun execute(
         isCollapsed: Boolean,
     ): List<ViewHolderType> {
+        val isDarkTheme = prefsInteractor.getDarkMode()
         val result = mutableListOf<ViewHolderType>()
 
         result += SettingsTopViewData(
@@ -33,6 +34,9 @@ class SettingsBackupViewDataInteractor @Inject constructor(
             block = SettingsBlock.BackupCollapse,
             title = resourceRepo.getString(R.string.settings_backup_title),
             opened = !isCollapsed,
+            iconResId = R.drawable.save,
+            iconColor = (if (isDarkTheme) R.color.green_300 else R.color.green_200)
+                .let(resourceRepo::getColor),
             dividerIsVisible = !isCollapsed,
         )
 

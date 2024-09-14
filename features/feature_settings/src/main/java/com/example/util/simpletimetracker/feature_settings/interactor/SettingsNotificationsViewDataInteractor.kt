@@ -6,10 +6,10 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
-import com.example.util.simpletimetracker.feature_settings.views.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsBottomViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsCheckboxViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsCollapseViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsRangeViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsSelectorViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsTextViewData
@@ -25,6 +25,7 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
     suspend fun execute(
         isCollapsed: Boolean,
     ): List<ViewHolderType> {
+        val isDarkTheme = prefsInteractor.getDarkMode()
         val result = mutableListOf<ViewHolderType>()
 
         result += SettingsTopViewData(
@@ -35,6 +36,9 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
             block = SettingsBlock.NotificationsCollapse,
             title = resourceRepo.getString(R.string.settings_notification_title),
             opened = !isCollapsed,
+            iconResId = R.drawable.notifications,
+            iconColor = (if (isDarkTheme) R.color.blue_300 else R.color.blue_200)
+                .let(resourceRepo::getColor),
             dividerIsVisible = !isCollapsed,
         )
 

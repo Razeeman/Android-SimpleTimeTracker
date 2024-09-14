@@ -24,6 +24,7 @@ class SettingsExportViewDataInteractor @Inject constructor(
     suspend fun execute(
         isCollapsed: Boolean,
     ): List<ViewHolderType> {
+        val isDarkTheme = prefsInteractor.getDarkMode()
         val result = mutableListOf<ViewHolderType>()
 
         result += SettingsTopViewData(
@@ -34,6 +35,9 @@ class SettingsExportViewDataInteractor @Inject constructor(
             block = SettingsBlock.ExportCollapse,
             title = resourceRepo.getString(R.string.settings_export_title),
             opened = !isCollapsed,
+            iconResId = R.drawable.import_export,
+            iconColor = (if (isDarkTheme) R.color.green_300 else R.color.green_200)
+                .let(resourceRepo::getColor),
             dividerIsVisible = !isCollapsed,
         )
 
