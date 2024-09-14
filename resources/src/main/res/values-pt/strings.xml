@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">Categoria removida</string>
-    <string name="change_category_name_hint">Insira um novo nome</string>
     <string name="change_category_color_hint">Cor</string>
     <string name="change_category_types_hint">Atividades</string>
     <string name="change_category_save">Salvar</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">Salvar</string>
     <string name="change_record_message_choose_name">Escolha um nome</string>
     <string name="change_record_message_name_exist">Nome já usado</string>
+    <string name="change_record_type_note_hint">Observação</string>
     <string name="change_record_type_categories_empty">Nenhuma categoria adicionada</string>
     <string name="change_record_type_goal_time_disabled">Desativado</string>
     <string name="change_record_type_goal_time_hint">Meta</string>
     <string name="change_record_type_additional_hint">Adicional</string>
-    <string name="change_record_type_instant">Instantâneo</string>
-    <string name="change_record_type_instant_hint">As atividades instantâneas têm duração padrão e são rastreadas imediatamente após o clique.</string>
+    <string name="change_record_type_default_duration">Duração padrão</string>
+    <string name="change_record_type_default_duration_hint">Atividades com duração padrão são rastreadas imediatamente após o clique.</string>
     <string name="change_record_type_goal_time_description">A notificação será exibida após atingir a meta</string>
     <string name="change_record_type_duplicate_hint">Criará uma cópia desta atividade</string>
     <string name="change_record_type_session_goal_time">Sessão</string>

@@ -67,8 +67,8 @@ class TestUtils @Inject constructor(
         text: String? = null,
         goals: List<RecordTypeGoal> = emptyList(),
         archived: Boolean = false,
-        instant: Boolean = false,
-        instantDuration: Long = 0,
+        defaultDuration: Long = 0,
+        note: String = "",
         categories: List<String> = emptyList(),
     ) = runBlocking {
         val icons = iconImageMapper
@@ -88,9 +88,9 @@ class TestUtils @Inject constructor(
             name = name,
             color = AppColor(colorId = colorId, colorInt = colorInt?.toString().orEmpty()),
             icon = iconId,
+            defaultDuration = defaultDuration,
+            note = note,
             hidden = archived,
-            instant = instant,
-            instantDuration = instantDuration,
         )
 
         val typeId = recordTypeInteractor.add(data)
@@ -160,6 +160,7 @@ class TestUtils @Inject constructor(
     fun addCategory(
         tagName: String,
         color: Int? = null,
+        note: String = "",
         goals: List<RecordTypeGoal> = emptyList(),
     ) = runBlocking {
         val colors = ColorMapper.getAvailableColors()
@@ -169,6 +170,7 @@ class TestUtils @Inject constructor(
         val data = Category(
             name = tagName,
             color = AppColor(colorId = colorId, colorInt = ""),
+            note = note,
         )
 
         val categoryId = categoryInteractor.add(data)
@@ -183,6 +185,7 @@ class TestUtils @Inject constructor(
         typeName: String? = null,
         archived: Boolean = false,
         color: Int? = null,
+        note: String = "",
         defaultTypes: List<String> = emptyList(),
     ) = runBlocking {
         val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
@@ -196,6 +199,7 @@ class TestUtils @Inject constructor(
             icon = "",
             color = AppColor(colorId = colorId, colorInt = ""),
             iconColorSource = type?.id.orZero(),
+            note = note,
             archived = archived,
         )
 

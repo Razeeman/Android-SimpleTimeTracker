@@ -28,6 +28,7 @@
         tools:icon="@drawable/action_copy" />
 
     <com.example.util.simpletimetracker.feature_views.DividerView
+        android:id="@+id/viewChangeRecordTypeAdditionalDuplicateDivider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -36,67 +37,42 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeRecordTypeAdditionalInstantTitle"
+            android:id="@+id/tvChangeRecordTypeAdditionalDefaultDurationTitle"
             style="@style/SettingsText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingHorizontal="8dp"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
-            android:text="@string/change_record_type_instant"
-            app:layout_constraintBottom_toTopOf="@id/tvChangeRecordTypeAdditionalInstantSubtitle"
-            app:layout_constraintEnd_toStartOf="@id/checkboxChangeRecordTypeAdditionalInstant"
+            android:text="@string/change_record_type_default_duration"
+            app:layout_constraintBottom_toTopOf="@id/tvChangeRecordTypeAdditionalDefaultDurationSubtitle"
+            app:layout_constraintEnd_toStartOf="@id/groupChangeRecordTypeAdditionalDefaultDurationSelector"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeRecordTypeAdditionalInstantSubtitle"
+            android:id="@+id/tvChangeRecordTypeAdditionalDefaultDurationSubtitle"
             style="@style/SettingsSecondaryText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingHorizontal="8dp"
             android:paddingBottom="0dp"
-            android:text="@string/change_record_type_instant_hint"
-            app:layout_constraintEnd_toStartOf="@id/checkboxChangeRecordTypeAdditionalInstant"
+            android:text="@string/change_record_type_default_duration_hint"
+            app:layout_constraintEnd_toStartOf="@id/groupChangeRecordTypeAdditionalDefaultDurationSelector"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvChangeRecordTypeAdditionalInstantTitle" />
-
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/checkboxChangeRecordTypeAdditionalInstant"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/tvChangeRecordTypeAdditionalInstantTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvChangeRecordTypeAdditionalInstantTitle" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChangeRecordTypeAdditionalInstantDuration"
-            style="@style/SettingsText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="8dp"
-            android:paddingTop="0dp"
-            android:paddingBottom="0dp"
-            android:text="@string/change_record_date_time_duration"
-            android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@id/groupChangeRecordTypeAdditionalInstantSelector"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvChangeRecordTypeAdditionalInstantSubtitle"
-            tools:visibility="visible" />
+            app:layout_constraintTop_toBottomOf="@id/tvChangeRecordTypeAdditionalDefaultDurationTitle" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/groupChangeRecordTypeAdditionalInstantSelector"
+            android:id="@+id/groupChangeRecordTypeAdditionalDefaultDurationSelector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:orientation="horizontal"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvChangeRecordTypeAdditionalInstantDuration"
-            tools:visibility="visible">
+            app:layout_constraintTop_toTopOf="@id/tvChangeRecordTypeAdditionalDefaultDurationTitle">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvChangeRecordTypeAdditionalInstantSelectorValue"
+                android:id="@+id/tvChangeRecordTypeAdditionalDefaultDurationSelectorValue"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="end|center_vertical"
@@ -105,7 +81,7 @@
                 tools:text="99h 99m 99s" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/arrowItemSettingsSelector"
+                android:id="@+id/arrowChangeRecordTypeAdditionalDefaultDurationSelector"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="16dp"

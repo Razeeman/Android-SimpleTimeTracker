@@ -102,7 +102,7 @@
                     style="@style/ChangeItemNameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/change_category_name_hint" />
+                    android:hint="@string/change_record_type_name_hint" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

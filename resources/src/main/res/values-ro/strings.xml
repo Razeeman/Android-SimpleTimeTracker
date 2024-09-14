@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">Categorie ștearsă</string>
-    <string name="change_category_name_hint">Introdu nume nou</string>
     <string name="change_category_color_hint">Culoare</string>
     <string name="change_category_types_hint">Activități</string>
     <string name="change_category_save">Salvează</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">Salvează</string>
     <string name="change_record_message_choose_name">Alege un nume</string>
     <string name="change_record_message_name_exist">Nume folosit deja</string>
+    <string name="change_record_type_note_hint">Nota</string>
     <string name="change_record_type_categories_empty">Nu au fost categorii adăugate</string>
     <string name="change_record_type_goal_time_disabled">Dezactivat</string>
     <string name="change_record_type_goal_time_hint">Țel</string>
     <string name="change_record_type_additional_hint">Adiţional</string>
-    <string name="change_record_type_instant">Instant</string>
-    <string name="change_record_type_instant_hint">Activitățile instantanee au o durată implicită și sunt urmărite imediat la clic.</string>
+    <string name="change_record_type_default_duration">Durată implicită</string>
+    <string name="change_record_type_default_duration_hint">Activitățile cu durată implicită sunt urmărite imediat la clic.</string>
     <string name="change_record_type_goal_time_description">Notificările vor fi vizibile după atingerea țelului</string>
     <string name="change_record_type_duplicate_hint">Va crea o copie a acestei activități</string>
     <string name="change_record_type_session_goal_time">Sesiune</string>

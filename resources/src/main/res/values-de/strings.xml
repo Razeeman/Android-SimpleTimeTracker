@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">Kategorie entfernt</string>
-    <string name="change_category_name_hint">Neuen Namen eingeben</string>
     <string name="change_category_color_hint">Farbe</string>
     <string name="change_category_types_hint">Aktivitäten</string>
     <string name="change_category_save">Speichern</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">Speichern</string>
     <string name="change_record_message_choose_name">Einen Namen wählen</string>
     <string name="change_record_message_name_exist">Name bereits verwendet</string>
+    <string name="change_record_type_note_hint">Notiz</string>
     <string name="change_record_type_categories_empty">Keine Kategorien hinzugefügt</string>
     <string name="change_record_type_goal_time_disabled">Deaktiviert</string>
     <string name="change_record_type_goal_time_hint">Ziel</string>
     <string name="change_record_type_additional_hint">Zusätzlich</string>
-    <string name="change_record_type_instant">Sofort</string>
-    <string name="change_record_type_instant_hint">Sofortige Aktivitäten haben eine Standarddauer und werden sofort beim Klicken verfolgt.</string>
+    <string name="change_record_type_default_duration">Standarddauer</string>
+    <string name="change_record_type_default_duration_hint">Aktivitäten mit Standarddauer werden sofort beim Klicken verfolgt.</string>
     <string name="change_record_type_goal_time_description">Nach Erreichen des Ziels wird eine Benachrichtigung angezeigt</string>
     <string name="change_record_type_duplicate_hint">Es wird eine Kopie dieser Aktivität erstellt</string>
     <string name="change_record_type_session_goal_time">Session</string>

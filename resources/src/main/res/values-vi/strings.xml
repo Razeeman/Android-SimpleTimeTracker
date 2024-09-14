@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">Đã loại danh mục</string>
-    <string name="change_category_name_hint">Nhập tên mới</string>
     <string name="change_category_color_hint">Màu</string>
     <string name="change_category_types_hint">Hoạt động</string>
     <string name="change_category_save">Lưu</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">Lưu</string>
     <string name="change_record_message_choose_name">Chọn một tên</string>
     <string name="change_record_message_name_exist">Tên đã được sử dụng</string>
+    <string name="change_record_type_note_hint">Ghi chú</string>
     <string name="change_record_type_categories_empty">Chưa thêm danh mục nào</string>
     <string name="change_record_type_goal_time_disabled">Đã tắt</string>
     <string name="change_record_type_goal_time_hint">Mục tiêu</string>
     <string name="change_record_type_additional_hint">Thêm vào</string>
-    <string name="change_record_type_instant">Lập tức</string>
-    <string name="change_record_type_instant_hint">Hoạt động tức thì có thời lượng mặc định và được theo dõi ngay lập tức khi nhấp chuột.</string>
+    <string name="change_record_type_default_duration">Thời lượng mặc định</string>
+    <string name="change_record_type_default_duration_hint">Các hoạt động có thời lượng mặc định được theo dõi ngay lập tức khi nhấp chuột.</string>
     <string name="change_record_type_goal_time_description">Thông báo sẽ được hiển thị sau khi đạt được mục tiêu</string>
     <string name="change_record_type_duplicate_hint">Sẽ tạo một bản sao của hoạt động này</string>
     <string name="change_record_type_session_goal_time">Phiên</string>

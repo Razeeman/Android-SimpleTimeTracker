@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -182,6 +183,7 @@ class ChangeRecordTagFragment :
 
     override fun initUx(): Unit = with(binding) {
         etChangeRecordTagName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
+        etChangeRecordTagNote.doAfterTextChanged { viewModel.onNoteChange(it.toString()) }
         fieldChangeRecordTagColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTagIcon.setOnClick(viewModel::onIconChooserClick)
         fieldChangeRecordTagType.setOnClick(viewModel::onTypeChooserClick)
@@ -222,6 +224,7 @@ class ChangeRecordTagFragment :
             defaultTypes.observe(::updateDefaultTypes)
             chooserState.observe(::updateChooserState)
             nameErrorMessage.observe(::updateNameErrorMessage)
+            noteState.observe(::updateNoteState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTagName) else hideKeyboard()
             }
@@ -359,7 +362,8 @@ class ChangeRecordTagFragment :
             viewModel.archiveIconVisibility.value.orFalse() && isClosed
         btnChangeRecordTagDelete.isVisible =
             viewModel.deleteIconVisibility.value.orFalse() && isClosed
-        dividerChangeRecordTagBottom.isVisible = !isClosed
+        inputChangeRecordTagNote.isVisible = isClosed
+        dividerChangeRecordTagBottom.isInvisible = isClosed
 
         // Chooser fields
         fieldChangeRecordTagColor.isVisible = isClosed || state.current is Color
@@ -431,6 +435,12 @@ class ChangeRecordTagFragment :
     private fun updateNameErrorMessage(error: String) = with(binding) {
         inputChangeRecordTagName.error = error
         inputChangeRecordTagName.isErrorEnabled = error.isNotEmpty()
+    }
+
+    private fun updateNoteState(text: String) = with(binding) {
+        if (etChangeRecordTagNote.text.toString() != text) {
+            etChangeRecordTagNote.setText(text)
+        }
     }
 
     companion object {

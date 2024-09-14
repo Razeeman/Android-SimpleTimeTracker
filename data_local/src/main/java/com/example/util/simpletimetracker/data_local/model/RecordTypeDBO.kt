@@ -26,10 +26,14 @@ data class RecordTypeDBO(
     @ColumnInfo(name = "hidden")
     val hidden: Boolean,
 
+    @Deprecated("Remove on next table altering")
     @ColumnInfo(name = "instant")
-    val instant: Boolean,
+    val instant: Boolean = false,
 
     // Seconds.
     @ColumnInfo(name = "instantDuration")
-    val instantDuration: Long,
+    val defaultDuration: Long,
+
+    @ColumnInfo(name = "note")
+    val note: String,
 )

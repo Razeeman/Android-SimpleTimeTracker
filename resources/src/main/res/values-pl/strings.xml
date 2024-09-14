@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">Kategoria usunięta</string>
-    <string name="change_category_name_hint">Wprowadź nową nazwę</string>
     <string name="change_category_color_hint">Kolor</string>
     <string name="change_category_types_hint">Aktywności</string>
     <string name="change_category_save">Zapisz</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">Zapisz</string>
     <string name="change_record_message_choose_name">Wybierz nazwę</string>
     <string name="change_record_message_name_exist">Nazwa już używana</string>
+    <string name="change_record_type_note_hint">Notatka</string>
     <string name="change_record_type_categories_empty">Brak dodanej kategorii</string>
     <string name="change_record_type_goal_time_disabled">Wyłączony</string>
     <string name="change_record_type_goal_time_hint">Cel</string>
     <string name="change_record_type_additional_hint">Dodatkowy</string>
-    <string name="change_record_type_instant">Natychmiastowy</string>
-    <string name="change_record_type_instant_hint">Działania błyskawiczne mają domyślny czas trwania i są śledzone natychmiast po kliknięciu.</string>
+    <string name="change_record_type_default_duration">Domyślny czas trwania</string>
+    <string name="change_record_type_default_duration_hint">Aktywności o domyślnym czasie trwania są śledzone natychmiast po kliknięciu.</string>
     <string name="change_record_type_goal_time_description">Powiadomienie wyświetli się po osiągnięciu celu</string>
     <string name="change_record_type_duplicate_hint">Utworzy kopię tego działania</string>
     <string name="change_record_type_session_goal_time">Sesja</string>

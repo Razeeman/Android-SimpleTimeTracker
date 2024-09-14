@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">カテゴリを削除しました</string>
-    <string name="change_category_name_hint">名称</string>
     <string name="change_category_color_hint">色</string>
     <string name="change_category_types_hint">アクティビティ</string>
     <string name="change_category_save">保存</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">保存</string>
     <string name="change_record_message_choose_name">名称を入力してください</string>
     <string name="change_record_message_name_exist">名前はすでに使用されています</string>
+    <string name="change_record_type_note_hint">注記</string>
     <string name="change_record_type_categories_empty">カテゴリが追加されていません</string>
     <string name="change_record_type_goal_time_disabled">未設定</string>
     <string name="change_record_type_goal_time_hint">目標</string>
     <string name="change_record_type_additional_hint">追加</string>
-    <string name="change_record_type_instant">インスタント</string>
-    <string name="change_record_type_instant_hint">インスタントアクティビティにはデフォルトの期間があり、クリックするとすぐに追跡されます。</string>
+    <string name="change_record_type_default_duration">デフォルトの期間</string>
+    <string name="change_record_type_default_duration_hint">デフォルトの期間のアクティビティは、クリックするとすぐに追跡されます。</string>
     <string name="change_record_type_goal_time_description">目標達成後に通知が表示されます</string>
     <string name="change_record_type_duplicate_hint">このアクティビティのコピーを作成します</string>
     <string name="change_record_type_session_goal_time">セッション</string>

@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">श्रेणी हटा दिया गयी</string>
-    <string name="change_category_name_hint">नया नाम दर्ज करें</string>
     <string name="change_category_color_hint">रंग</string>
     <string name="change_category_types_hint">गतिविधियां</string>
     <string name="change_category_save">बचाना</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">बचाना</string>
     <string name="change_record_message_choose_name">एक नाम चुनो</string>
     <string name="change_record_message_name_exist">नाम पहले ही उपयोग किया जा चुका है</string>
+    <string name="change_record_type_note_hint">टिप्पणी</string>
     <string name="change_record_type_categories_empty">कोई श्रेणियां नहीं जोड़ी</string>
     <string name="change_record_type_goal_time_disabled">अक्षम</string>
     <string name="change_record_type_goal_time_hint">लक्ष्य</string>
     <string name="change_record_type_additional_hint">अतिरिक्त</string>
-    <string name="change_record_type_instant">तुरंत</string>
-    <string name="change_record_type_instant_hint">त्वरित गतिविधियों की डिफ़ॉल्ट अवधि होती है और क्लिक पर तुरंत ट्रैक किया जाता है।</string>
+    <string name="change_record_type_default_duration">डिफ़ॉल्ट अवधि</string>
+    <string name="change_record_type_default_duration_hint">डिफ़ॉल्ट अवधि वाली गतिविधियों को क्लिक पर तुरंत ट्रैक किया जाता है।</string>
     <string name="change_record_type_goal_time_description">लक्ष्य तक पहुंचने के बाद अधिसूचना दिखाई जाएगी</string>
     <string name="change_record_type_duplicate_hint">इस गतिविधि की एक प्रति बनाएंगे</string>
     <string name="change_record_type_session_goal_time">सत्र</string>

@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">Categoria eliminada</string>
-    <string name="change_category_name_hint">Introduïu un nom nou</string>
     <string name="change_category_color_hint">Color</string>
     <string name="change_category_types_hint">Activitats</string>
     <string name="change_category_save">Desa</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">Desa</string>
     <string name="change_record_message_choose_name">Trieu un nom</string>
     <string name="change_record_message_name_exist">Nom ja utilitzat</string>
+    <string name="change_record_type_note_hint">Nota</string>
     <string name="change_record_type_categories_empty">No s\'han afegit categories</string>
     <string name="change_record_type_goal_time_disabled">Desactivat</string>
     <string name="change_record_type_goal_time_hint">Objectiu</string>
     <string name="change_record_type_additional_hint">Addicional</string>
-    <string name="change_record_type_instant">Instant</string>
-    <string name="change_record_type_instant_hint">Les activitats instantànies tenen una durada predeterminada i es fan un seguiment immediatament en fer clic.</string>
+    <string name="change_record_type_default_duration">Durada per defecte</string>
+    <string name="change_record_type_default_duration_hint">Les activitats amb una durada predeterminada es fan un seguiment immediatament en fer clic.</string>
     <string name="change_record_type_goal_time_description">La notificació es mostrarà després d\'arribar a l\'objectiu</string>
     <string name="change_record_type_duplicate_hint">Crearà una còpia d\'aquesta activitat</string>
     <string name="change_record_type_session_goal_time">Sessió</string>

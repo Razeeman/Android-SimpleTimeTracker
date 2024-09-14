@@ -10,5 +10,6 @@ data class RecordTag(
     val icon: String,
     val color: AppColor,
     val iconColorSource: Long,
+    val note: String,
     val archived: Boolean = false,
 )

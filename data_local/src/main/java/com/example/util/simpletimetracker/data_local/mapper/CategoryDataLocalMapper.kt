@@ -15,6 +15,7 @@ class CategoryDataLocalMapper @Inject constructor() {
                 colorId = dbo.color,
                 colorInt = dbo.colorInt,
             ),
+            note = dbo.note,
         )
     }
 
@@ -24,6 +25,7 @@ class CategoryDataLocalMapper @Inject constructor() {
             name = domain.name,
             color = domain.color.colorId,
             colorInt = domain.color.colorInt,
+            note = domain.note
         )
     }
 }

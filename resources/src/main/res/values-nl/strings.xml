@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">Categorie verwijderd</string>
-    <string name="change_category_name_hint">Voer nieuwe naam in</string>
     <string name="change_category_color_hint">Kleur</string>
     <string name="change_category_types_hint">Activiteiten</string>
     <string name="change_category_save">Opslaan</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">Opslaan</string>
     <string name="change_record_message_choose_name">Kies een naam</string>
     <string name="change_record_message_name_exist">Naam al gebruikt</string>
+    <string name="change_record_type_note_hint">Opmerking</string>
     <string name="change_record_type_categories_empty">Geen categorieën toegevoegd</string>
     <string name="change_record_type_goal_time_disabled">Uitgeschakeld</string>
     <string name="change_record_type_goal_time_hint">Doel</string>
     <string name="change_record_type_additional_hint">Aanvullend</string>
-    <string name="change_record_type_instant">Direct</string>
-    <string name="change_record_type_instant_hint">Directe activiteiten hebben een standaardduur en worden onmiddellijk bijgehouden na klikken.</string>
+    <string name="change_record_type_default_duration">Standaardduur</string>
+    <string name="change_record_type_default_duration_hint">Activiteiten met een standaardduur worden onmiddellijk na klikken gevolgd.</string>
     <string name="change_record_type_goal_time_description">Melding wordt getoond na het bereiken van het doel</string>
     <string name="change_record_type_duplicate_hint">Er wordt een kopie van deze activiteit gemaakt</string>
     <string name="change_record_type_session_goal_time">Sessie</string>

@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">دسته بندی حذف شد</string>
-    <string name="change_category_name_hint">نام جدید را وارد کنید</string>
     <string name="change_category_color_hint">رنگ</string>
     <string name="change_category_types_hint">فعالیت ها</string>
     <string name="change_category_save">ذخیره</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">ذخیره</string>
     <string name="change_record_message_choose_name">نامی انتخاب کنید</string>
     <string name="change_record_message_name_exist">نام قبلاً استفاده شده است</string>
+    <string name="change_record_type_note_hint">توجه داشته باشید</string>
     <string name="change_record_type_categories_empty">دسته بندی ای اضافه نشد</string>
     <string name="change_record_type_goal_time_disabled">غیر فعال</string>
     <string name="change_record_type_goal_time_hint">هدف</string>
     <string name="change_record_type_additional_hint">اضافی</string>
-    <string name="change_record_type_instant">فوری</string>
-    <string name="change_record_type_instant_hint">فعالیت های فوری دارای مدت زمان پیش فرض هستند و بلافاصله پس از کلیک ردیابی می شوند.</string>
+    <string name="change_record_type_default_duration">مدت زمان پیش فرض</string>
+    <string name="change_record_type_default_duration_hint">فعالیت‌های با مدت زمان پیش‌فرض بلافاصله با کلیک کردن ردیابی می‌شوند.</string>
     <string name="change_record_type_goal_time_description">اعلان پس از رسیدن به هدف نشان داده می شود</string>
     <string name="change_record_type_duplicate_hint">یک کپی از این فعالیت ایجاد خواهد کرد</string>
     <string name="change_record_type_session_goal_time">جلسه</string>

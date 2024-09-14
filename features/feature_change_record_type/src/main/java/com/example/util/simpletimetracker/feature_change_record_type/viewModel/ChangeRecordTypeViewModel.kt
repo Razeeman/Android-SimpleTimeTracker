@@ -49,7 +49,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.DurationDialo
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import com.example.util.simpletimetracker.core.R as coreR
 
@@ -101,19 +100,30 @@ class ChangeRecordTypeViewModel @Inject constructor(
             initial
         }
     }
-    val chooserState: LiveData<ViewChooserStateDelegate.States> = MutableLiveData(
-        ViewChooserStateDelegate.States(
-            current = ChangeRecordTypeChooserState.Closed,
-            previous = ChangeRecordTypeChooserState.Closed,
-        ),
-    )
-    val additionalState: LiveData<ChangeRecordTypeAdditionalState> = MutableLiveData(
-        ChangeRecordTypeAdditionalState(
-            isDuplicateVisible = false,
-            isInstantChecked = false,
-            instantDuration = "",
-        ),
-    )
+    val chooserState: LiveData<ViewChooserStateDelegate.States> by lazy {
+        return@lazy MutableLiveData(
+            ViewChooserStateDelegate.States(
+                current = ChangeRecordTypeChooserState.Closed,
+                previous = ChangeRecordTypeChooserState.Closed,
+            ),
+        )
+    }
+    val additionalState: LiveData<ChangeRecordTypeAdditionalState> by lazy {
+        return@lazy MutableLiveData<ChangeRecordTypeAdditionalState>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadAdditionalState()
+            }
+            initial
+        }
+    }
+    val noteState: LiveData<String> by lazy {
+        return@lazy MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadNoteState()
+            }
+            initial
+        }
+    }
     val archiveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
@@ -128,8 +138,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private var initialCategories: Set<Long> = emptySet()
     private var newName: String = ""
     private var newCategories: MutableList<Long> = mutableListOf()
-    private var newIsInstant: Boolean = false
-    private var newInstantDuration: Long = 0
+    private var newDefaultDuration: Long = 0
+    private var newNote: String = ""
 
     init {
         colorSelectionViewModelDelegateImpl.attach(getColorSelectionDelegateParent())
@@ -166,6 +176,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 ""
             }
             nameErrorMessage.set(error)
+        }
+    }
+
+    fun onNoteChange(note: String) {
+        viewModelScope.launch {
+            if (note != newNote) {
+                newNote = note
+                updateNoteState()
+            }
         }
     }
 
@@ -308,15 +327,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
         }
     }
 
-    fun onInstantClick() = viewModelScope.launch {
-        newIsInstant = !newIsInstant
-        updateAdditionalState()
-    }
-
-    fun onInstantDurationClick() = viewModelScope.launch {
+    fun onDefaultDurationClick() = viewModelScope.launch {
         DurationDialogParams(
-            tag = INSTANT_DURATION_DIALOG_TAG,
-            value = DurationDialogParams.Value.DurationSeconds(getInstantDuration()),
+            tag = DEFAULT_DURATION_DIALOG_TAG,
+            value = DurationDialogParams.Value.DurationSeconds(newDefaultDuration),
             hideDisableButton = true,
         ).let(router::navigate)
     }
@@ -333,8 +347,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
     }
 
     private fun onInstantDurationSet(tag: String?, duration: Long) {
-        if (tag != INSTANT_DURATION_DIALOG_TAG) return
-        newInstantDuration = duration.coerceAtLeast(1)
+        if (tag != DEFAULT_DURATION_DIALOG_TAG) return
+        newDefaultDuration = duration.coerceAtLeast(1)
         updateAdditionalState()
     }
 
@@ -394,8 +408,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
             name = newName,
             icon = iconSelectionViewModelDelegateImpl.newIcon,
             color = colorSelectionViewModelDelegateImpl.newColor,
-            instant = newIsInstant,
-            instantDuration = getInstantDuration(),
+            defaultDuration = newDefaultDuration,
+            note = newNote,
         )
 
         return recordTypeInteractor.add(recordType)
@@ -421,8 +435,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
             name = name,
             icon = iconSelectionViewModelDelegateImpl.newIcon,
             color = colorSelectionViewModelDelegateImpl.newColor,
-            instant = newIsInstant,
-            instantDuration = getInstantDuration(),
+            defaultDuration = newDefaultDuration,
+            note = newNote,
         )
 
         return recordTypeInteractor.add(recordType)
@@ -439,14 +453,15 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private suspend fun initializeRecordTypeData() {
         recordTypeInteractor.get(recordTypeId)?.let {
             newName = it.name
-            newIsInstant = it.instant
-            newInstantDuration = it.instantDuration
+            newDefaultDuration = it.defaultDuration
+            newNote = it.note
             iconSelectionViewModelDelegateImpl.newIcon = it.icon
             colorSelectionViewModelDelegateImpl.newColor = it.color
             goalsViewModelDelegate.initialize(RecordTypeGoal.IdData.Type(it.id))
             iconSelectionViewModelDelegateImpl.update()
             colorSelectionViewModelDelegateImpl.update()
             updateAdditionalState()
+            updateNoteState()
         }
     }
 
@@ -491,15 +506,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
         snackBarMessageNavigationInteractor.showArchiveMessage(stringResId)
     }
 
-    // It is 0 by default, but can't be zero if enabled.
-    private fun getInstantDuration(): Long {
-        return if (newIsInstant) {
-            newInstantDuration.takeIf { it > 0L } ?: instantDurationDefault
-        } else {
-            newInstantDuration
-        }
-    }
-
     private suspend fun updateRecordPreviewViewData() {
         val data = loadRecordPreviewViewData()
         recordType.set(data)
@@ -512,8 +518,8 @@ class ChangeRecordTypeViewModel @Inject constructor(
             name = newName,
             icon = iconSelectionViewModelDelegateImpl.newIcon,
             color = colorSelectionViewModelDelegateImpl.newColor,
-            instant = newIsInstant,
-            instantDuration = getInstantDuration(),
+            defaultDuration = newDefaultDuration,
+            note = newNote,
         ).let { recordTypeViewDataMapper.map(it, isDarkTheme) }
     }
 
@@ -534,14 +540,25 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private fun loadAdditionalState(): ChangeRecordTypeAdditionalState {
         return ChangeRecordTypeAdditionalState(
             isDuplicateVisible = extra is ChangeRecordTypeParams.Change,
-            isInstantChecked = newIsInstant,
-            instantDuration = timeMapper.formatDuration(getInstantDuration()),
+            defaultDuration = if (newDefaultDuration > 0) {
+                timeMapper.formatDuration(newDefaultDuration)
+            } else {
+                resourceRepo.getString(R.string.change_record_type_goal_time_disabled)
+            },
         )
+    }
+
+    private fun updateNoteState() {
+        val data = loadNoteState()
+        noteState.set(data)
+    }
+
+    private fun loadNoteState(): String {
+        return newNote
     }
 
     companion object {
         private const val DELETE_ALERT_DIALOG_TAG = "delete_alert_dialog_tag"
-        private const val INSTANT_DURATION_DIALOG_TAG = "instant_duration_dialog_tag"
-        private val instantDurationDefault = TimeUnit.MINUTES.toSeconds(1)
+        private const val DEFAULT_DURATION_DIALOG_TAG = "default_duration_dialog_tag"
     }
 }

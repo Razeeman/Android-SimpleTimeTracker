@@ -36,7 +36,7 @@ import com.example.util.simpletimetracker.data_local.model.RunningRecordToRecord
         FavouriteIconDBO::class,
         ComplexRuleDBO::class,
     ],
-    version = 21,
+    version = 22,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {

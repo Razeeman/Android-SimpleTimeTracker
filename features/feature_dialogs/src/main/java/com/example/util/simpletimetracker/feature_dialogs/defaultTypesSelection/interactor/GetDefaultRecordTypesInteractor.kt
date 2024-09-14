@@ -15,8 +15,8 @@ class GetDefaultRecordTypesInteractor @Inject constructor() {
                     name = type.name,
                     icon = type.icon,
                     color = AppColor(colorId = type.colorId, colorInt = ""),
-                    instant = false,
-                    instantDuration = 0L,
+                    defaultDuration = 0L,
+                    note = "",
                 )
             }
     }

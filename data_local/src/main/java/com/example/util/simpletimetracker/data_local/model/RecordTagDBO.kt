@@ -32,4 +32,7 @@ data class RecordTagDBO(
 
     @ColumnInfo(name = "archived")
     val archived: Boolean,
+
+    @ColumnInfo(name = "note")
+    val note: String,
 )

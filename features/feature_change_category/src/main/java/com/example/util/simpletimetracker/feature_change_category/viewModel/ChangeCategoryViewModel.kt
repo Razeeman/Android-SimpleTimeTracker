@@ -59,7 +59,10 @@ class ChangeCategoryViewModel @Inject constructor(
 
     val categoryPreview: LiveData<CategoryViewData> by lazy {
         return@lazy MutableLiveData<CategoryViewData>().let { initial ->
-            viewModelScope.launch { initial.value = loadCategoryViewData() }
+            viewModelScope.launch {
+                initializeData()
+                initial.value = loadCategoryViewData()
+            }
             initial
         }
     }
@@ -72,12 +75,22 @@ class ChangeCategoryViewModel @Inject constructor(
             initial
         }
     }
-    val chooserState: LiveData<ViewChooserStateDelegate.States> = MutableLiveData(
-        ViewChooserStateDelegate.States(
-            current = ChangeCategoryChooserState.Closed,
-            previous = ChangeCategoryChooserState.Closed,
-        ),
-    )
+    val chooserState: LiveData<ViewChooserStateDelegate.States> by lazy {
+        return@lazy MutableLiveData(
+            ViewChooserStateDelegate.States(
+                current = ChangeCategoryChooserState.Closed,
+                previous = ChangeCategoryChooserState.Closed,
+            ),
+        )
+    }
+    val noteState: LiveData<String> by lazy {
+        return@lazy MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadNoteState()
+            }
+            initial
+        }
+    }
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val nameErrorMessage: LiveData<String> = MutableLiveData("")
@@ -89,6 +102,7 @@ class ChangeCategoryViewModel @Inject constructor(
     private var initialTypes: Set<Long> = emptySet()
     private var newName: String = ""
     private var newTypes: MutableList<Long> = mutableListOf()
+    private var newNote: String = ""
 
     init {
         colorSelectionViewModelDelegateImpl.attach(getColorSelectionDelegateParent())
@@ -119,6 +133,15 @@ class ChangeCategoryViewModel @Inject constructor(
                 ""
             }
             nameErrorMessage.set(error)
+        }
+    }
+
+    fun onNoteChange(note: String) {
+        viewModelScope.launch {
+            if (note != newNote) {
+                newNote = note
+                updateNoteState()
+            }
         }
     }
 
@@ -187,6 +210,7 @@ class ChangeCategoryViewModel @Inject constructor(
                 id = categoryId,
                 name = newName,
                 color = colorSelectionViewModelDelegateImpl.newColor,
+                note = newNote,
             ).let {
                 val addedId = categoryInteractor.add(it)
                 saveTypes(addedId)
@@ -266,19 +290,25 @@ class ChangeCategoryViewModel @Inject constructor(
         (categoryPreview as MutableLiveData).value = loadCategoryPreviewViewData()
     }
 
-    private suspend fun loadCategoryViewData(): CategoryViewData {
+    private suspend fun initializeData() {
         categoryInteractor.get(categoryId)
             ?.let {
                 newName = it.name
+                newNote = it.note
                 colorSelectionViewModelDelegateImpl.newColor = it.color
                 goalsViewModelDelegate.initialize(RecordTypeGoal.IdData.Category(it.id))
                 colorSelectionViewModelDelegateImpl.update()
+                updateNoteState()
             }
+    }
+
+    private suspend fun loadCategoryViewData(): CategoryViewData {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         return Category(
             name = newName,
             color = colorSelectionViewModelDelegateImpl.newColor,
+            note = newNote,
         ).let { categoryViewDataMapper.mapCategory(it, isDarkTheme) }
     }
 
@@ -288,6 +318,7 @@ class ChangeCategoryViewModel @Inject constructor(
         return Category(
             name = newName,
             color = colorSelectionViewModelDelegateImpl.newColor,
+            note = newNote,
         ).let { categoryViewDataMapper.mapCategory(it, isDarkTheme) }
     }
 
@@ -298,6 +329,15 @@ class ChangeCategoryViewModel @Inject constructor(
 
     private suspend fun loadTypesViewData(): ChangeCategoryTypesViewData {
         return changeCategoryViewDataInteractor.getTypesViewData(newTypes)
+    }
+
+    private fun updateNoteState() {
+        val data = loadNoteState()
+        noteState.set(data)
+    }
+
+    private fun loadNoteState(): String {
+        return newNote
     }
 
     private fun showMessage(stringResId: Int) {

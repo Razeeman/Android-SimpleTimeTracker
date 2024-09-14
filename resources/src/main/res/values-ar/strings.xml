@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">حذف التصنيف</string>
-    <string name="change_category_name_hint">إدخال اسم جديد</string>
     <string name="change_category_color_hint">اللون</string>
     <string name="change_category_types_hint">اﻷنشطة</string>
     <string name="change_category_save">حفظ</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">حفظ</string>
     <string name="change_record_message_choose_name">اختيار اسم</string>
     <string name="change_record_message_name_exist">الاسم مستخدم بالفعل</string>
+    <string name="change_record_type_note_hint">ملحوظة</string>
     <string name="change_record_type_categories_empty">لا توجد تصنيفات مضافة</string>
     <string name="change_record_type_goal_time_disabled">غير مفعل</string>
     <string name="change_record_type_goal_time_hint">الهدف</string>
     <string name="change_record_type_additional_hint">إضافي</string>
-    <string name="change_record_type_instant">فوري</string>
-    <string name="change_record_type_instant_hint">الأنشطة الفورية لها مدة افتراضية ويتم تتبعها فور النقر.</string>
+    <string name="change_record_type_default_duration">المدة الافتراضية</string>
+    <string name="change_record_type_default_duration_hint">يتم تعقب الأنشطة ذات المدة الافتراضية فور النقر عليها.</string>
     <string name="change_record_type_goal_time_description">سيظهر الإخطار بعد الوصول إلى الهدف</string>
     <string name="change_record_type_duplicate_hint">سيتم إنشاء نسخة من هذا النشاط</string>
     <string name="change_record_type_session_goal_time">الجلسة</string>

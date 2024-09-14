@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -122,6 +123,7 @@ class ChangeCategoryFragment :
 
     override fun initUx(): Unit = with(binding) {
         etChangeCategoryName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
+        etChangeRecordCategoryNote.doAfterTextChanged { viewModel.onNoteChange(it.toString()) }
         fieldChangeCategoryColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeCategoryType.setOnClick(viewModel::onTypeChooserClick)
         fieldChangeCategoryGoalTime.setOnClick(viewModel::onGoalTimeChooserClick)
@@ -148,6 +150,7 @@ class ChangeCategoryFragment :
             types.observe(::updateTypes)
             goalsViewData.observe(::updateGoalsState)
             nameErrorMessage.observe(::updateNameErrorMessage)
+            noteState.observe(::updateNoteState)
             notificationsHintVisible.observe(
                 layoutChangeCategoryGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set,
             )
@@ -251,7 +254,8 @@ class ChangeCategoryFragment :
             viewModel.statsIconVisibility.value.orFalse() && isClosed
         btnChangeCategoryDelete.isVisible =
             viewModel.deleteIconVisibility.value.orFalse() && isClosed
-        dividerChangeCategoryBottom.isVisible = !isClosed
+        inputChangeRecordCategoryNote.isVisible = isClosed
+        dividerChangeCategoryBottom.isInvisible = isClosed
 
         // Chooser fields
         fieldChangeCategoryColor.isVisible = isClosed || state.current is Color
@@ -279,6 +283,12 @@ class ChangeCategoryFragment :
     private fun updateNameErrorMessage(error: String) = with(binding) {
         inputChangeCategoryName.error = error
         inputChangeCategoryName.isErrorEnabled = error.isNotEmpty()
+    }
+
+    private fun updateNoteState(text: String) = with(binding) {
+        if (etChangeRecordCategoryNote.text.toString() != text) {
+            etChangeRecordCategoryNote.setText(text)
+        }
     }
 
     companion object {

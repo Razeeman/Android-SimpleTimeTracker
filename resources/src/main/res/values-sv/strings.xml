@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">Kategori borttagen</string>
-    <string name="change_category_name_hint">Skriv in nytt namn</string>
     <string name="change_category_color_hint">Färg</string>
     <string name="change_category_types_hint">Aktiviteter</string>
     <string name="change_category_save">Spara</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">Spara</string>
     <string name="change_record_message_choose_name">Ange ett namn</string>
     <string name="change_record_message_name_exist">Namnet har redan använts</string>
+    <string name="change_record_type_note_hint">Notera</string>
     <string name="change_record_type_categories_empty">Inga kategorier har lagts till</string>
     <string name="change_record_type_goal_time_disabled">Inaktiverad</string>
     <string name="change_record_type_goal_time_hint">Mål</string>
     <string name="change_record_type_additional_hint">Ytterligare</string>
-    <string name="change_record_type_instant">Omedelbar</string>
-    <string name="change_record_type_instant_hint">Omedelbara aktiviteter har standardvaraktighet och spåras direkt vid klick.</string>
+    <string name="change_record_type_default_duration">Standardvaraktighet</string>
+    <string name="change_record_type_default_duration_hint">Aktiviteter med standardvaraktighet spåras direkt vid klick.</string>
     <string name="change_record_type_goal_time_description">Avisering kommer att visas efter att du har nått målet</string>
     <string name="change_record_type_duplicate_hint">Kommer att skapa en kopia av denna aktivitet</string>
     <string name="change_record_type_session_goal_time">Session</string>

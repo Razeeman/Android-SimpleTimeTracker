@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">Категория удалена</string>
-    <string name="change_category_name_hint">Введите новое имя</string>
     <string name="change_category_color_hint">Цвет</string>
     <string name="change_category_types_hint">Активности</string>
     <string name="change_category_save">Сохранить</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">Сохранить</string>
     <string name="change_record_message_choose_name">Выберите имя</string>
     <string name="change_record_message_name_exist">Имя уже использовано</string>
+    <string name="change_record_type_note_hint">Примечание</string>
     <string name="change_record_type_categories_empty">Категории не добавлены</string>
     <string name="change_record_type_goal_time_disabled">Выкл.</string>
     <string name="change_record_type_goal_time_hint">Цель</string>
     <string name="change_record_type_additional_hint">Дополнительно</string>
-    <string name="change_record_type_instant">Мгновенное</string>
-    <string name="change_record_type_instant_hint">Мгновенные активности имеют продолжительность по-умолчанию и отслеживаются сразу по клику.</string>
+    <string name="change_record_type_default_duration">Продолжительность по умолчанию</string>
+    <string name="change_record_type_default_duration_hint">Действия с продолжительностью по умолчанию отслеживаются сразу по клику.</string>
     <string name="change_record_type_goal_time_description">Уведомление будет показано после достижения цели</string>
     <string name="change_record_type_duplicate_hint">Создаст копию этой активности</string>
     <string name="change_record_type_session_goal_time">Сессия</string>

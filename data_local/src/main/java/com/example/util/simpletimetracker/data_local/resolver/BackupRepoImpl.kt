@@ -297,8 +297,8 @@ class BackupRepoImpl @Inject constructor(
             "", // daily goal time is moved to separate table
             "", // weekly goal time is moved to separate table
             "", // monthly goal time is moved to separate table,
-            (if (recordType.instant) 1 else 0).toString(),
-            recordType.instantDuration,
+            recordType.defaultDuration,
+            recordType.note.cleanTabs().replaceNewline(),
         )
     }
 
@@ -316,11 +316,12 @@ class BackupRepoImpl @Inject constructor(
 
     private fun toBackupString(category: Category): String {
         return String.format(
-            "$ROW_CATEGORY\t%s\t%s\t%s\t%s\n",
+            "$ROW_CATEGORY\t%s\t%s\t%s\t%s\t%s\n",
             category.id.toString(),
             category.name.clean(),
             category.color.colorId.toString(),
             category.color.colorInt,
+            category.note.cleanTabs().replaceNewline(),
         )
     }
 
@@ -334,7 +335,7 @@ class BackupRepoImpl @Inject constructor(
 
     private fun toBackupString(recordTag: RecordTag): String {
         return String.format(
-            "$ROW_RECORD_TAG\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+            "$ROW_RECORD_TAG\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
             recordTag.id.toString(),
             "", // type relation is removed from tag dbo
             recordTag.name.clean(),
@@ -343,6 +344,7 @@ class BackupRepoImpl @Inject constructor(
             recordTag.color.colorInt,
             recordTag.icon,
             recordTag.iconColorSource,
+            recordTag.note.cleanTabs().replaceNewline(),
         )
     }
 
@@ -511,8 +513,8 @@ class BackupRepoImpl @Inject constructor(
             // parts[8] - daily time is moved to separate table
             // parts[9] - weekly time is moved to separate table
             // parts[10] - monthly time is moved to separate table,
-            instant = parts.getOrNull(11)?.toIntOrNull() == 1,
-            instantDuration = parts.getOrNull(12)?.toLongOrNull().orZero(),
+            defaultDuration = parts.getOrNull(11)?.toLongOrNull().orZero(),
+            note = parts.getOrNull(12)?.restoreNewline().orEmpty(),
         ) to goalTimes
     }
 
@@ -520,18 +522,13 @@ class BackupRepoImpl @Inject constructor(
         val recordId = parts.getOrNull(1)?.toLongOrNull().orZero()
         // tag id is removed from record dbo, need to support old backup files.
         val tagId = parts.getOrNull(6)?.toLongOrNull().orZero()
-        // replaces all return symbols to newlines by creating a temporary mutable list to replace return symbols from
-        val mutableComment = parts.toMutableList()
-        for (i in mutableComment.indices) {
-            mutableComment[i] = mutableComment[i].restoreNewline()
-        }
 
         return Record(
             id = recordId,
             typeId = parts.getOrNull(2)?.toLongOrNull() ?: 1L,
             timeStarted = parts.getOrNull(3)?.toLongOrNull().orZero(),
             timeEnded = parts.getOrNull(4)?.toLongOrNull().orZero(),
-            comment = mutableComment.toList().getOrNull(5).orEmpty(),
+            comment = parts.getOrNull(5)?.restoreNewline().orEmpty(),
             // parts[6] - tag id is removed from record dbo.
         ) to RecordToRecordTag(
             recordId = recordId,
@@ -547,6 +544,7 @@ class BackupRepoImpl @Inject constructor(
                 colorId = parts.getOrNull(3)?.toIntOrNull().orZero(),
                 colorInt = parts.getOrNull(4).orEmpty(),
             ),
+            note = parts.getOrNull(5)?.restoreNewline().orEmpty(),
         )
     }
 
@@ -572,6 +570,7 @@ class BackupRepoImpl @Inject constructor(
             ),
             icon = parts.getOrNull(7).orEmpty(),
             iconColorSource = parts.getOrNull(8)?.toLongOrNull().orZero(),
+            note = parts.getOrNull(9)?.restoreNewline().orEmpty(),
         ) to typeId.takeUnless { it == 0L }
     }
 

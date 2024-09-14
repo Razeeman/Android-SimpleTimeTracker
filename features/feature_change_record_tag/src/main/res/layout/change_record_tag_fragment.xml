@@ -173,7 +173,7 @@
                     style="@style/ChangeItemNameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/change_category_name_hint" />
+                    android:hint="@string/change_record_type_name_hint" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -401,12 +401,32 @@
                 app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTagDefaultType"
                 tools:drawableEnd="@drawable/spinner_check_mark" />
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputChangeRecordTagNote"
+                style="@style/ChangeItemInputField"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
+                android:layout_marginTop="-2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnChangeRecordTagSelectActivity">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etChangeRecordTagNote"
+                    style="@style/EditTextMultiLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/change_record_type_note_hint" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <View
                 android:id="@+id/dividerChangeRecordTagBottom"
                 style="@style/EditScreenDivider"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/edit_screen_field_top_margin"
-                app:layout_constraintTop_toBottomOf="@id/btnChangeRecordTagSelectActivity" />
+                app:layout_constraintTop_toBottomOf="@id/inputChangeRecordTagNote" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

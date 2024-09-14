@@ -19,4 +19,7 @@ data class CategoryDBO(
     // If not empty - take color from here, custom colorInt stored as text.
     @ColumnInfo(name = "color_int")
     val colorInt: String,
+
+    @ColumnInfo(name = "note")
+    val note: String,
 )

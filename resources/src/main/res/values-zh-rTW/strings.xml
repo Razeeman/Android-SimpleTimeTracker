@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">分類已移除</string>
-    <string name="change_category_name_hint">輸入新名稱</string>
     <string name="change_category_color_hint">顏色</string>
     <string name="change_category_types_hint">活動</string>
     <string name="change_category_save">儲存</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">儲存</string>
     <string name="change_record_message_choose_name">選擇名稱</string>
     <string name="change_record_message_name_exist">名稱已被使用</string>
+    <string name="change_record_type_note_hint">筆記</string>
     <string name="change_record_type_categories_empty">沒有新增分類</string>
     <string name="change_record_type_goal_time_disabled">關閉</string>
     <string name="change_record_type_goal_time_hint">目標</string>
     <string name="change_record_type_additional_hint">額外的</string>
-    <string name="change_record_type_instant">立即的</string>
-    <string name="change_record_type_instant_hint">即時活動具有預設持續時間，並在點擊後立即進行追蹤。</string>
+    <string name="change_record_type_default_duration">預設持續時間</string>
+    <string name="change_record_type_default_duration_hint">點擊後會立即追蹤具有預設持續時間的活動。</string>
     <string name="change_record_type_goal_time_description">達到目標後將顯示通知</string>
     <string name="change_record_type_duplicate_hint">將建立此活動的副本</string>
     <string name="change_record_type_session_goal_time">節段</string>

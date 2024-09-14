@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">Category removed</string>
-    <string name="change_category_name_hint">Enter new name</string>
     <string name="change_category_color_hint">Color</string>
     <string name="change_category_types_hint">Activities</string>
     <string name="change_category_save">Save</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">Save</string>
     <string name="change_record_message_choose_name">Choose a name</string>
     <string name="change_record_message_name_exist">Name already used</string>
+    <string name="change_record_type_note_hint">Note</string>
     <string name="change_record_type_categories_empty">No categories added</string>
     <string name="change_record_type_goal_time_disabled">Disabled</string>
     <string name="change_record_type_goal_time_hint">Goal</string>
     <string name="change_record_type_additional_hint">Additional</string>
-    <string name="change_record_type_instant">Instant</string>
-    <string name="change_record_type_instant_hint">Instant activities have default duration and tracked immediately on click.</string>
+    <string name="change_record_type_default_duration">Default duration</string>
+    <string name="change_record_type_default_duration_hint">Activities with default duration are tracked immediately on click.</string>
     <string name="change_record_type_goal_time_description">Notification will be shown after reaching the goal</string>
     <string name="change_record_type_duplicate_hint">Will create a copy of this activity</string>
     <string name="change_record_type_session_goal_time">Session</string>

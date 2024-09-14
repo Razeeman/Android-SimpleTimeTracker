@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -190,6 +191,7 @@ class ChangeRecordTypeFragment :
 
     override fun initUx(): Unit = with(binding) {
         etChangeRecordTypeName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
+        etChangeRecordTypeNote.doAfterTextChanged { viewModel.onNoteChange(it.toString()) }
         fieldChangeRecordTypeColor.setOnClick(viewModel::onColorChooserClick)
         fieldChangeRecordTypeIcon.setOnClick(viewModel::onIconChooserClick)
         fieldChangeRecordTypeCategory.setOnClick(viewModel::onCategoryChooserClick)
@@ -201,10 +203,8 @@ class ChangeRecordTypeFragment :
         btnChangeRecordTypeStatistics.setOnClick(viewModel::onStatisticsClick)
         layoutChangeRecordTypeAdditional.btnChangeRecordTypeAdditionalDuplicate
             .setOnClick(viewModel::onDuplicateClick)
-        layoutChangeRecordTypeAdditional.checkboxChangeRecordTypeAdditionalInstant
-            .setOnClick(viewModel::onInstantClick)
-        layoutChangeRecordTypeAdditional.groupChangeRecordTypeAdditionalInstantSelector
-            .setOnClick(viewModel::onInstantDurationClick)
+        layoutChangeRecordTypeAdditional.groupChangeRecordTypeAdditionalDefaultDurationSelector
+            .setOnClick(viewModel::onDefaultDurationClick)
         IconSelectionViewDelegate.initUx(
             viewModel = viewModel,
             layout = containerChangeRecordTypeIcon,
@@ -238,6 +238,7 @@ class ChangeRecordTypeFragment :
             goalsViewData.observe(::updateGoalsState)
             nameErrorMessage.observe(::updateNameErrorMessage)
             additionalState.observe(::updateAdditionalState)
+            noteState.observe(::updateNoteState)
             duplicateButtonEnabled.observe(
                 layoutChangeRecordTypeAdditional.btnChangeRecordTypeAdditionalDuplicate::setEnabled,
             )
@@ -397,7 +398,8 @@ class ChangeRecordTypeFragment :
             viewModel.archiveIconVisibility.value.orFalse() && isClosed
         btnChangeRecordTypeDelete.isVisible =
             viewModel.deleteIconVisibility.value.orFalse() && isClosed
-        dividerChangeRecordTypeBottom.isVisible = !isClosed
+        inputChangeRecordTypeNote.isVisible = isClosed
+        dividerChangeRecordTypeBottom.isInvisible = isClosed
 
         // Chooser fields
         fieldChangeRecordTypeColor.isVisible = isClosed || state.current is Color
@@ -466,16 +468,20 @@ class ChangeRecordTypeFragment :
         inputChangeRecordTypeName.isErrorEnabled = error.isNotEmpty()
     }
 
+    private fun updateNoteState(text: String) = with(binding) {
+        if (etChangeRecordTypeNote.text.toString() != text) {
+            etChangeRecordTypeNote.setText(text)
+        }
+    }
+
     private fun updateAdditionalState(
         data: ChangeRecordTypeAdditionalState,
     ) = with(binding.layoutChangeRecordTypeAdditional) {
+        tvChangeRecordTypeAdditionalDuplicateHint.isVisible = data.isDuplicateVisible
         btnChangeRecordTypeAdditionalDuplicate.isVisible = data.isDuplicateVisible
-        if (data.isInstantChecked != checkboxChangeRecordTypeAdditionalInstant.isChecked) {
-            checkboxChangeRecordTypeAdditionalInstant.isChecked = data.isInstantChecked
-        }
-        tvChangeRecordTypeAdditionalInstantDuration.isVisible = data.isInstantChecked
-        groupChangeRecordTypeAdditionalInstantSelector.isVisible = data.isInstantChecked
-        tvChangeRecordTypeAdditionalInstantSelectorValue.text = data.instantDuration
+        viewChangeRecordTypeAdditionalDuplicateDivider.isVisible = data.isDuplicateVisible
+
+        tvChangeRecordTypeAdditionalDefaultDurationSelectorValue.text = data.defaultDuration
     }
 
     companion object {

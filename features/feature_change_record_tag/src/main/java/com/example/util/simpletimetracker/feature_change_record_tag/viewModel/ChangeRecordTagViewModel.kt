@@ -91,12 +91,22 @@ class ChangeRecordTagViewModel @Inject constructor(
             initial
         }
     }
-    val chooserState: LiveData<ViewChooserStateDelegate.States> = MutableLiveData(
-        ViewChooserStateDelegate.States(
-            current = ChangeRecordTagChooserState.Closed,
-            previous = ChangeRecordTagChooserState.Closed,
-        ),
-    )
+    val chooserState: LiveData<ViewChooserStateDelegate.States> by lazy {
+        return@lazy MutableLiveData(
+            ViewChooserStateDelegate.States(
+                current = ChangeRecordTagChooserState.Closed,
+                previous = ChangeRecordTagChooserState.Closed,
+            ),
+        )
+    }
+    val noteState: LiveData<String> by lazy {
+        return@lazy MutableLiveData<String>().let { initial ->
+            viewModelScope.launch {
+                initial.value = loadNoteState()
+            }
+            initial
+        }
+    }
     val archiveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val deleteButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
@@ -112,6 +122,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private var newIconColorSource: Long = 0L
     private var newTypeIds: Set<Long> = emptySet()
     private var newDefaultTypeIds: Set<Long> = emptySet()
+    private var newNote: String = ""
     private var initialTypeIds: Set<Long> = emptySet()
     private var initialDefaultTypeIds: Set<Long> = emptySet()
 
@@ -141,6 +152,15 @@ class ChangeRecordTagViewModel @Inject constructor(
                 ""
             }
             nameErrorMessage.set(error)
+        }
+    }
+
+    fun onNoteChange(note: String) {
+        viewModelScope.launch {
+            if (note != newNote) {
+                newNote = note
+                updateNoteState()
+            }
         }
     }
 
@@ -260,6 +280,7 @@ class ChangeRecordTagViewModel @Inject constructor(
                 icon = iconSelectionViewModelDelegateImpl.newIcon,
                 color = colorSelectionViewModelDelegateImpl.newColor,
                 iconColorSource = newIconColorSource,
+                note = newNote,
             ).let {
                 val addedId = recordTagInteractor.add(it)
                 saveTypes(addedId)
@@ -375,9 +396,11 @@ class ChangeRecordTagViewModel @Inject constructor(
                     iconSelectionViewModelDelegateImpl.newIcon = it.icon
                     colorSelectionViewModelDelegateImpl.newColor = it.color
                     newIconColorSource = it.iconColorSource
+                    newNote = it.note
                     iconSelectionViewModelDelegateImpl.update()
                     colorSelectionViewModelDelegateImpl.update()
                     updateIconColorSourceSelected()
+                    updateNoteState()
                 }
             }
             is ChangeTagData.New -> {
@@ -458,6 +481,7 @@ class ChangeRecordTagViewModel @Inject constructor(
             icon = iconSelectionViewModelDelegateImpl.newIcon,
             color = colorSelectionViewModelDelegateImpl.newColor,
             iconColorSource = newIconColorSource,
+            note = newNote,
         )
         val isDarkTheme = prefsInteractor.getDarkMode()
         val type = recordTypeInteractor.get(newIconColorSource)
@@ -485,6 +509,15 @@ class ChangeRecordTagViewModel @Inject constructor(
 
     private suspend fun loadDefaultTypesViewData(): ChangeRecordTagTypesViewData {
         return changeRecordTagViewDataInteractor.getDefaultTypesViewData(newDefaultTypeIds)
+    }
+
+    private fun updateNoteState() {
+        val data = loadNoteState()
+        noteState.set(data)
+    }
+
+    private fun loadNoteState(): String {
+        return newNote
     }
 
     private fun showMessage(stringResId: Int) {

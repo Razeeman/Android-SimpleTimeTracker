@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">Kategori silindi</string>
-    <string name="change_category_name_hint">Yeni isim girin</string>
     <string name="change_category_color_hint">Renk</string>
     <string name="change_category_types_hint">Aktiviteler</string>
     <string name="change_category_save">Kaydet</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">Kaydet</string>
     <string name="change_record_message_choose_name">İsim seçin</string>
     <string name="change_record_message_name_exist">Ad zaten kullanılmış</string>
+    <string name="change_record_type_note_hint">Not</string>
     <string name="change_record_type_categories_empty">Kategori eklenmedi</string>
     <string name="change_record_type_goal_time_disabled">Devre dışı</string>
     <string name="change_record_type_goal_time_hint">Hedef</string>
     <string name="change_record_type_additional_hint">Ek olarak</string>
-    <string name="change_record_type_instant">Ani</string>
-    <string name="change_record_type_instant_hint">Anlık etkinliklerin varsayılan süresi vardır ve tıklandığında hemen izlenir.</string>
+    <string name="change_record_type_default_duration">Varsayılan süre</string>
+    <string name="change_record_type_default_duration_hint">Varsayılan süreye sahip etkinlikler, tıklandığında hemen izlenir.</string>
     <string name="change_record_type_goal_time_description">Hedefe ulaştıktan sonra bildirim gösterilecek</string>
     <string name="change_record_type_duplicate_hint">Bu aktivitenin bir kopyasını oluşturacak</string>
     <string name="change_record_type_session_goal_time">Dönem</string>

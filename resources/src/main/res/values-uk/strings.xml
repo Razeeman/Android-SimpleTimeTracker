@@ -87,7 +87,6 @@
 
     <!--  Change category  -->
     <string name="change_category_removed">Категорію видалено</string>
-    <string name="change_category_name_hint">Введіть нове ім\'я</string>
     <string name="change_category_color_hint">Колір</string>
     <string name="change_category_types_hint">Активності</string>
     <string name="change_category_save">Зберегти</string>
@@ -151,12 +150,13 @@
     <string name="change_record_type_save">Зберегти</string>
     <string name="change_record_message_choose_name">Оберіть ім\'я</string>
     <string name="change_record_message_name_exist">Назва вже використана</string>
+    <string name="change_record_type_note_hint">Примітка</string>
     <string name="change_record_type_categories_empty">Категорії не додано</string>
     <string name="change_record_type_goal_time_disabled">Вимкнено</string>
     <string name="change_record_type_goal_time_hint">Ціль</string>
     <string name="change_record_type_additional_hint">Додатковий</string>
-    <string name="change_record_type_instant">Миттєво</string>
-    <string name="change_record_type_instant_hint">Миттєві дії мають тривалість за умовчанням і відстежуються одразу після натискання.</string>
+    <string name="change_record_type_default_duration">Тривалість за замовчуванням</string>
+    <string name="change_record_type_default_duration_hint">Дії з тривалістю за замовчуванням відстежуються одразу після натискання.</string>
     <string name="change_record_type_goal_time_description">Сповіщення буде показано після досягнення мети</string>
     <string name="change_record_type_duplicate_hint">Буде створено копію цієї діяльності</string>
     <string name="change_record_type_session_goal_time">Сесія</string>

@@ -105,7 +105,7 @@ class AddRunningRecordMediator @Inject constructor(
 
     private suspend fun addInternal(params: StartParams) {
         val type = recordTypeInteractor.get(params.typeId) ?: return
-        if (type.instant) {
+        if (type.defaultDuration > 0L) {
             addInstantRecord(params, type)
         } else {
             addRunningRecord(params)
@@ -141,7 +141,7 @@ class AddRunningRecordMediator @Inject constructor(
         Record(
             typeId = params.typeId,
             timeStarted = params.timeStarted,
-            timeEnded = params.timeStarted + type.instantDuration * 1000,
+            timeEnded = params.timeStarted + type.defaultDuration * 1000,
             comment = params.comment,
             tagIds = params.tagIds,
         ).let {
