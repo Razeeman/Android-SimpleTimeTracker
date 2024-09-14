@@ -331,7 +331,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
         DurationDialogParams(
             tag = DEFAULT_DURATION_DIALOG_TAG,
             value = DurationDialogParams.Value.DurationSeconds(newDefaultDuration),
-            hideDisableButton = true,
         ).let(router::navigate)
     }
 
@@ -343,12 +342,17 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     fun onDurationSet(tag: String?, duration: Long, anchor: Any) {
         goalsViewModelDelegate.onGoalDurationSet(tag, duration, anchor)
-        onInstantDurationSet(tag, duration)
+        onDefaultDurationSet(tag, duration)
     }
 
-    private fun onInstantDurationSet(tag: String?, duration: Long) {
+    fun onDurationDisabled(tag: String?) {
+        goalsViewModelDelegate.onGoalDurationDisabled(tag)
+        onDefaultDurationSet(tag, 0)
+    }
+
+    private fun onDefaultDurationSet(tag: String?, duration: Long) {
         if (tag != DEFAULT_DURATION_DIALOG_TAG) return
-        newDefaultDuration = duration.coerceAtLeast(1)
+        newDefaultDuration = duration
         updateAdditionalState()
     }
 

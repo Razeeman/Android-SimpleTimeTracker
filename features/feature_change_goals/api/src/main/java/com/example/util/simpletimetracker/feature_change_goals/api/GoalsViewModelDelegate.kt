@@ -12,7 +12,7 @@ interface GoalsViewModelDelegate {
     fun onGoalsVisible()
     fun onNotificationsHintClick()
     fun onGoalDurationSet(tag: String?, duration: Long, anchor: Any)
-    fun onDurationDisabled(tag: String?)
+    fun onGoalDurationDisabled(tag: String?)
     fun onGoalTypeSelected(range: RecordTypeGoal.Range, position: Int)
     fun onGoalCountChange(range: RecordTypeGoal.Range, count: String)
     fun onGoalTimeClick(range: RecordTypeGoal.Range)

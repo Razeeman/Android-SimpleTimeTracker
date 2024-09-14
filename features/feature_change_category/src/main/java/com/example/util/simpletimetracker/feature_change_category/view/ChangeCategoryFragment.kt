@@ -185,7 +185,7 @@ class ChangeCategoryFragment :
     }
 
     override fun onDisable(tag: String?) {
-        viewModel.onDurationDisabled(tag)
+        viewModel.onGoalDurationDisabled(tag)
     }
 
     private fun updateUi(item: CategoryViewData) = with(binding) {

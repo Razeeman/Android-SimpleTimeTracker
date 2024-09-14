@@ -55,7 +55,7 @@ class GoalsViewModelDelegateImpl @Inject constructor(
         checkExactAlarmPermissionInteractor.execute(anchor)
     }
 
-    override fun onDurationDisabled(tag: String?) {
+    override fun onGoalDurationDisabled(tag: String?) {
         if (tag !in tags) return
         onNewGoalDuration(tag, 0)
     }
