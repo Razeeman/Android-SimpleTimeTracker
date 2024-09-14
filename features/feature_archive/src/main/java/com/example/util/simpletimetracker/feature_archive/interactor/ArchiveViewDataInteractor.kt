@@ -40,6 +40,7 @@ class ArchiveViewDataInteractor @Inject constructor(
                 isDarkTheme = isDarkTheme,
                 isFiltered = false,
                 isChecked = null,
+                isComplete = false,
             )
         }
 

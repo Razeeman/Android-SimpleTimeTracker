@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_views.databinding.RecordTypeViewLayoutBinding
+import com.example.util.simpletimetracker.feature_views.extension.animateAlpha
 import com.example.util.simpletimetracker.feature_views.extension.setMargins
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
@@ -67,6 +69,14 @@ class RecordTypeView @JvmOverloads constructor(
                     itemIsChecked = getBoolean(R.styleable.RecordTypeView_itemIsChecked, false)
                 }
 
+                if (hasValue(R.styleable.RecordTypeView_itemIsComplete)) {
+                    itemIsComplete = getBoolean(R.styleable.RecordTypeView_itemIsComplete, false)
+                }
+
+                if (hasValue(R.styleable.RecordTypeView_itemCompleteIsAnimated)) {
+                    itemCompleteIsAnimated = getBoolean(R.styleable.RecordTypeView_itemCompleteIsAnimated, false)
+                }
+
                 recycle()
             }
     }
@@ -120,6 +130,14 @@ class RecordTypeView @JvmOverloads constructor(
             field = value
         }
 
+    var itemCompleteIsAnimated: Boolean = false
+
+    var itemIsComplete: Boolean = false
+        set(value) {
+            field = value
+            setCompleteVisibility()
+        }
+
     fun getContainer(): CardView {
         return binding.containerRecordTypeItem
     }
@@ -145,6 +163,16 @@ class RecordTypeView @JvmOverloads constructor(
             ivRecordTypeItemIcon.setMargins(start = 0)
             tvRecordTypeItemName.gravity = Gravity.CENTER
             tvRecordTypeItemName.setMargins(top = 4, start = 0)
+        }
+    }
+
+    private fun setCompleteVisibility() {
+        if (itemCompleteIsAnimated) {
+            binding.viewRecordTypeItemComplete.isVisible = true
+            binding.viewRecordTypeItemComplete.animateAlpha(itemIsComplete, 200)
+        } else {
+            binding.viewRecordTypeItemComplete.alpha = 1f
+            binding.viewRecordTypeItemComplete.isVisible = itemIsComplete
         }
     }
 }

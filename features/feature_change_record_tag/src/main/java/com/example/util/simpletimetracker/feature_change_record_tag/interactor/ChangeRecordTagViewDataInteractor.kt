@@ -67,6 +67,7 @@ class ChangeRecordTagViewDataInteractor @Inject constructor(
                     numberOfCards = numberOfCards,
                     isDarkTheme = isDarkTheme,
                     isChecked = null,
+                    isComplete = false,
                 )
             }.let(viewData::addAll)
 
@@ -80,6 +81,7 @@ class ChangeRecordTagViewDataInteractor @Inject constructor(
                     numberOfCards = numberOfCards,
                     isDarkTheme = isDarkTheme,
                     isChecked = null,
+                    isComplete = false,
                 )
             }.let(viewData::addAll)
 

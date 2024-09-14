@@ -49,6 +49,7 @@ class RecordTypeViewDataMapper @Inject constructor(
         numberOfCards: Int,
         isDarkTheme: Boolean,
         isChecked: Boolean?,
+        isComplete: Boolean,
     ): RecordTypeViewData {
         return RecordTypeViewData(
             id = recordType.id,
@@ -60,6 +61,7 @@ class RecordTypeViewDataMapper @Inject constructor(
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
             asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards),
             isChecked = isChecked,
+            isComplete = isComplete,
         )
     }
 
@@ -69,12 +71,14 @@ class RecordTypeViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         isFiltered: Boolean,
         isChecked: Boolean?,
+        isComplete: Boolean,
     ): RecordTypeViewData {
         val default = map(
             recordType = recordType,
             numberOfCards = numberOfCards,
             isDarkTheme = isDarkTheme,
             isChecked = isChecked,
+            isComplete = isComplete,
         )
 
         return if (isFiltered) {

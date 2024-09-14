@@ -11,9 +11,11 @@ import com.example.util.simpletimetracker.core.extension.toRecordParams
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.mapper.ChangeRecordDateTimeMapper
 import com.example.util.simpletimetracker.core.model.NavigationTab
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.ChangeSelectedActivityFilterMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.UpdateRunningRecordFromChangeScreenInteractor
@@ -53,15 +55,20 @@ class RunningRecordsViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val updateRunningRecordFromChangeScreenInteractor: UpdateRunningRecordFromChangeScreenInteractor,
     private val changeRecordDateTimeMapper: ChangeRecordDateTimeMapper,
+    private val recordTypeInteractor: RecordTypeInteractor,
 ) : ViewModel() {
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(listOf(LoaderViewData() as ViewHolderType))
     }
-    val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
-    val previewUpdate: SingleLiveEvent<UpdateRunningRecordFromChangeScreenInteractor.Update> = SingleLiveEvent()
+    val resetScreen: SingleLiveEvent<Unit> =
+        SingleLiveEvent()
+    val previewUpdate: SingleLiveEvent<UpdateRunningRecordFromChangeScreenInteractor.Update> =
+        SingleLiveEvent()
 
     private var timerJob: Job? = null
+    private var completeTypeJob: Job? = null
+    private var completeTypeIds: Set<Long> = emptySet()
 
     init {
         subscribeToUpdates()
@@ -76,10 +83,13 @@ class RunningRecordsViewModel @Inject constructor(
                 removeRunningRecordMediator.removeWithRecordAdd(runningRecord)
             } else {
                 // Start running record
-                addRunningRecordMediator.tryStartTimer(
+                val wasStarted = addRunningRecordMediator.tryStartTimer(
                     typeId = item.id,
                     onNeedToShowTagSelection = { showTagSelection(item.id) },
                 )
+                if (wasStarted) {
+                    onRecordTypeWithDefaultDurationClick(item.id)
+                }
             }
             updateRunningRecords()
         }
@@ -221,6 +231,19 @@ class RunningRecordsViewModel @Inject constructor(
         }
     }
 
+    private suspend fun onRecordTypeWithDefaultDurationClick(typeId: Long) {
+        val defaultDuration = recordTypeInteractor.get(typeId)?.defaultDuration
+        if (defaultDuration.orZero() <= 0L) return
+
+        completeTypeIds = completeTypeIds + typeId
+        completeTypeJob?.cancel()
+        completeTypeJob = viewModelScope.launch {
+            delay(COMPLETE_TYPE_ANIMATION_MS)
+            completeTypeIds = completeTypeIds - typeId
+            updateRunningRecords()
+        }
+    }
+
     private fun showTagSelection(typeId: Long) {
         router.navigate(RecordTagSelectionParams(typeId))
     }
@@ -245,7 +268,9 @@ class RunningRecordsViewModel @Inject constructor(
     }
 
     private suspend fun loadRunningRecordsViewData(): List<ViewHolderType> {
-        return runningRecordsViewDataInteractor.getViewData()
+        return runningRecordsViewDataInteractor.getViewData(
+            completeTypeIds = completeTypeIds,
+        )
     }
 
     private fun startUpdate() {
@@ -253,7 +278,7 @@ class RunningRecordsViewModel @Inject constructor(
             timerJob?.cancelAndJoin()
             while (isActive) {
                 updateRunningRecords()
-                delay(TIMER_UPDATE)
+                delay(TIMER_UPDATE_MS)
             }
         }
     }
@@ -265,6 +290,7 @@ class RunningRecordsViewModel @Inject constructor(
     }
 
     companion object {
-        private const val TIMER_UPDATE = 1000L
+        private const val TIMER_UPDATE_MS = 1000L
+        private const val COMPLETE_TYPE_ANIMATION_MS = 1000L
     }
 }

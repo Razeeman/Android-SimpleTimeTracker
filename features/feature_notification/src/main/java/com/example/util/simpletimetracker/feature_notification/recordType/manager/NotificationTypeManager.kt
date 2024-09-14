@@ -177,6 +177,7 @@ class NotificationTypeManager @Inject constructor(
                 icon = it.icon,
                 color = it.color,
                 isChecked = it.isChecked,
+                isComplete = it.isComplete,
                 intent = getPendingSelfIntent(
                     context = context,
                     action = if (it.id == recordTypeId) {
@@ -184,7 +185,10 @@ class NotificationTypeManager @Inject constructor(
                     } else {
                         ACTION_NOTIFICATION_TYPE_CLICK
                     },
-                    requestCode = it.id.toInt(),
+                    requestCode = RequestCode(
+                        notificationForTypeId = recordTypeId,
+                        typeId = it.id,
+                    ).hashCode(),
                     recordTypeId = recordTypeId,
                     recordTypesShift = params.typesShift,
                     selectedTypeId = it.id,
@@ -200,6 +204,7 @@ class NotificationTypeManager @Inject constructor(
                 icon = null,
                 color = null,
                 isChecked = null,
+                isComplete = false,
                 intent = null,
             ).let {
                 addView(R.id.containerNotificationTypes, it)
@@ -301,13 +306,20 @@ class NotificationTypeManager @Inject constructor(
         icon: RecordTypeIcon?,
         color: Int?,
         isChecked: Boolean?,
+        isComplete: Boolean,
         intent: PendingIntent?,
     ): RemoteViews {
         return RemoteViews(context.packageName, R.layout.notification_type_layout)
             .apply {
                 if (icon != null && color != null) {
+                    val bitmap = getIconBitmap(
+                        icon = icon,
+                        color = color,
+                        isChecked = isChecked,
+                        isComplete = isComplete
+                    )
                     setViewVisibility(R.id.containerNotificationType, View.VISIBLE)
-                    setImageViewBitmap(R.id.ivNotificationType, getIconBitmap(icon, color, isChecked))
+                    setImageViewBitmap(R.id.ivNotificationType, bitmap)
                 } else {
                     setViewVisibility(R.id.containerNotificationType, View.INVISIBLE)
                 }
@@ -366,15 +378,22 @@ class NotificationTypeManager @Inject constructor(
         icon: RecordTypeIcon,
         color: Int,
         isChecked: Boolean? = null,
+        isComplete: Boolean = false,
     ): Bitmap = synchronized(iconView) {
         return iconView.apply {
             itemIcon = icon
             itemColor = color
             itemWithCheck = isChecked != null
             itemIsChecked = isChecked.orFalse()
+            itemIsComplete = isComplete
             measureExactly(iconSize)
         }.getBitmapFromView()
     }
+
+    private data class RequestCode(
+        val notificationForTypeId: Long,
+        val typeId: Long,
+    )
 
     companion object {
         const val ACTION_NOTIFICATION_STOP =

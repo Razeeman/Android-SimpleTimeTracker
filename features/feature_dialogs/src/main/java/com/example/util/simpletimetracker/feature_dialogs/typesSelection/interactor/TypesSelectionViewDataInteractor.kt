@@ -59,6 +59,7 @@ class TypesSelectionViewDataInteractor @Inject constructor(
                         numberOfCards = numberOfCards,
                         isDarkTheme = isDarkTheme,
                         isChecked = null,
+                        isComplete = false,
                     )
                 }
                 is TypesSelectionCacheHolder.Tag -> {

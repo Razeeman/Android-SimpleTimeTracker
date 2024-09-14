@@ -7,6 +7,7 @@ import android.graphics.PorterDuffColorFilter
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
+import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.databinding.NotificationIconViewLayoutBinding
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
@@ -45,6 +46,10 @@ class NotificationIconView @JvmOverloads constructor(
                 itemIsChecked = getBoolean(R.styleable.NotificationIconView_itemIsChecked, false)
             }
 
+            if (hasValue(R.styleable.NotificationIconView_itemIsComplete)) {
+                itemIsComplete = getBoolean(R.styleable.NotificationIconView_itemIsComplete, false)
+            }
+
             recycle()
         }
     }
@@ -71,6 +76,12 @@ class NotificationIconView @JvmOverloads constructor(
     var itemIsChecked: Boolean = false
         set(value) {
             binding.viewNotificationIconCheckmark.itemIsChecked = value
+            field = value
+        }
+
+    var itemIsComplete: Boolean = false
+        set(value) {
+            binding.viewNotificationIconComplete.isVisible = value
             field = value
         }
 }

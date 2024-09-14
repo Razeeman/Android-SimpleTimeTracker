@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_notification.recordType.interactor
 
+import com.example.util.simpletimetracker.core.interactor.CompleteTypesStateInteractor
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
@@ -48,6 +49,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
     private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
     private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
     private val recordTagViewDataMapper: RecordTagViewDataMapper,
+    private val completeTypesStateInteractor: CompleteTypesStateInteractor,
 ) : NotificationTypeInteractor {
 
     override suspend fun checkAndShow(
@@ -272,6 +274,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 icon = viewData.iconId,
                 color = viewData.color,
                 isChecked = null,
+                isComplete = false,
             ).let(::listOf)
         } else {
             emptyList()
@@ -289,6 +292,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                         goals = goals,
                         allDailyCurrents = allDailyCurrents,
                     ),
+                    isComplete = type.id in completeTypesStateInteractor.notificationTypeIds,
                 )
             }
 

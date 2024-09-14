@@ -57,6 +57,8 @@
         <attr name="itemIsRow" format="boolean" />
         <attr name="itemWithCheck" />
         <attr name="itemIsChecked" />
+        <attr name="itemIsComplete" format="boolean" />
+        <attr name="itemCompleteIsAnimated" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="RecordView">

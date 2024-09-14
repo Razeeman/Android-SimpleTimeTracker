@@ -107,6 +107,7 @@ class CardOrderViewModel @Inject constructor(
                     numberOfCards = numberOfCards,
                     isDarkTheme = isDarkTheme,
                     isChecked = null,
+                    isComplete = false,
                 )
             }
             ?: recordTypeViewDataMapper.mapToEmpty()

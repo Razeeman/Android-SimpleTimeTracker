@@ -37,6 +37,7 @@ class ChangeCategoryViewDataInteractor @Inject constructor(
                     numberOfCards = numberOfCards,
                     isDarkTheme = isDarkTheme,
                     isChecked = null,
+                    isComplete = false,
                 )
             }.let(viewData::addAll)
 
@@ -50,6 +51,7 @@ class ChangeCategoryViewDataInteractor @Inject constructor(
                     numberOfCards = numberOfCards,
                     isDarkTheme = isDarkTheme,
                     isChecked = null,
+                    isComplete = false,
                 )
             }.let(viewData::addAll)
 

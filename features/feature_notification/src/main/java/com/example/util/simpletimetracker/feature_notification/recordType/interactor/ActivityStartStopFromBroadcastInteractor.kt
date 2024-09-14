@@ -1,7 +1,9 @@
 package com.example.util.simpletimetracker.feature_notification.recordType.interactor
 
+import com.example.util.simpletimetracker.core.interactor.CompleteTypesStateInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.domain.REPEAT_BUTTON_ITEM_ID
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.GetSelectableTagsInteractor
@@ -12,6 +14,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordsUpdateInterac
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.Record
+import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
@@ -27,6 +30,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
     private val recordRepeatInteractor: RecordRepeatInteractor,
     private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
     private val recordsUpdateInteractor: RecordsUpdateInteractor,
+    private val completeTypesStateInteractor: CompleteTypesStateInteractor,
 ) {
 
     suspend fun onActionActivityStart(
@@ -143,6 +147,21 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
             )
         }
         if (started) {
+            val type = recordTypeInteractor.get(selectedTypeId)
+            if (type?.defaultDuration.orZero() > 0) {
+                completeTypesStateInteractor.notificationTypeIds += selectedTypeId
+                notificationTypeInteractor.checkAndShow(
+                    typeId = typeId,
+                    typesShift = typesShift,
+                )
+                delay(500)
+                completeTypesStateInteractor.notificationTypeIds -= selectedTypeId
+                notificationTypeInteractor.checkAndShow(
+                    typeId = typeId,
+                    typesShift = typesShift,
+                )
+            }
+
             notificationTypeInteractor.checkAndShow(
                 typeId = typeId,
                 typesShift = typesShift,

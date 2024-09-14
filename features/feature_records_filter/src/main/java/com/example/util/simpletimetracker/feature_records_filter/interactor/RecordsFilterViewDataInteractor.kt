@@ -316,6 +316,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 isDarkTheme = isDarkTheme,
                 isFiltered = type.id !in allSelectedTypeIds,
                 isChecked = null,
+                isComplete = false,
             )
         }
 

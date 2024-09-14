@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.core.interactor.CompleteTypesStateInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.domain.REPEAT_BUTTON_ITEM_ID
@@ -40,6 +41,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSele
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -87,6 +89,9 @@ class WidgetSingleProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor
+
+    @Inject
+    lateinit var completeTypesStateInteractor: CompleteTypesStateInteractor
 
     private var typeIdsToUpdate: List<Long> = emptyList()
     private var preparedView: RecordTypeView? = null
@@ -144,6 +149,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
                     recordTypeColor = viewData.color,
                     isRunning = false,
                     isChecked = null,
+                    isComplete = false,
                     backgroundTransparency = backgroundTransparency,
                 )
             } else {
@@ -177,6 +183,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
                         ?.let { colorMapper.mapToColorInt(it, isDarkTheme) },
                     isRunning = runningRecord != null && recordType != null,
                     isChecked = isChecked,
+                    isComplete = recordTypeId in completeTypesStateInteractor.widgetTypeIds,
                     backgroundTransparency = backgroundTransparency,
                 )
             }
@@ -209,6 +216,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
         recordTypeColor: Int?,
         isRunning: Boolean,
         isChecked: Boolean?,
+        isComplete: Boolean,
         backgroundTransparency: Long,
     ): View {
         val icon = recordTypeIcon
@@ -240,6 +248,8 @@ class WidgetSingleProvider : AppWidgetProvider() {
             itemColor = color
             itemWithCheck = isChecked != null
             itemIsChecked = isChecked.orFalse()
+            itemCompleteIsAnimated = false
+            itemIsComplete = isComplete
         }
 
         return view
@@ -293,13 +303,21 @@ class WidgetSingleProvider : AppWidgetProvider() {
                 return@launch
             }
 
+            val type = recordTypeInteractor.get(recordTypeId)
+
             // If recordType removed - update widget and exit
-            recordTypeInteractor.get(recordTypeId)
-                ?.takeUnless { it.hidden }
-                ?: run {
-                    widgetInteractor.updateSingleWidget(widgetId)
-                    return@launch
-                }
+            if (type == null) {
+                widgetInteractor.updateSingleWidget(widgetId)
+                return@launch
+            }
+
+            if (type.defaultDuration > 0) {
+                completeTypesStateInteractor.widgetTypeIds += recordTypeId
+                widgetInteractor.updateSingleWidget(widgetId)
+                delay(1000)
+                completeTypesStateInteractor.widgetTypeIds -= recordTypeId
+                widgetInteractor.updateSingleWidget(widgetId)
+            }
 
             val runningRecord = runningRecordInteractor.get(recordTypeId)
             if (runningRecord != null) {

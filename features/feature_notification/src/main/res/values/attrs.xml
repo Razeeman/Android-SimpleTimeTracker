@@ -6,6 +6,7 @@
         <attr name="itemIcon" format="reference" />
         <attr name="itemWithCheck" />
         <attr name="itemIsChecked" />
+        <attr name="itemIsComplete" />
     </declare-styleable>
 
 </resources>

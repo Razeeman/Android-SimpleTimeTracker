@@ -31,7 +31,9 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
 ) {
 
-    suspend fun getViewData(): List<ViewHolderType> {
+    suspend fun getViewData(
+        completeTypeIds: Set<Long>,
+    ): List<ViewHolderType> {
         val recordTypes = recordTypeInteractor.getAll()
         val recordTypesMap = recordTypes.associateBy(RecordType::id)
         val recordTags = recordTagInteractor.getAll()
@@ -116,6 +118,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                         goals = goals,
                         allDailyCurrents = allDailyCurrents,
                     ),
+                    isComplete = it.id in completeTypeIds,
                 )
             }
             .let { data ->

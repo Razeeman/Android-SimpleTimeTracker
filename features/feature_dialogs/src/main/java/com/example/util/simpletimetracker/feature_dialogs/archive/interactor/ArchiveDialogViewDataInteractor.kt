@@ -36,6 +36,7 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
             numberOfCards = numberOfCards,
             isDarkTheme = isDarkTheme,
             isChecked = null,
+            isComplete = false,
         )
         val recordsCount = recordInteractor.getByType(listOf(typeId)).size
 

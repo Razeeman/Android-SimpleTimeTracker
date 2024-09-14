@@ -16,6 +16,7 @@ data class RecordTypeViewData(
     val asRow: Boolean = false,
     val isChecked: Boolean? = null,
     val itemIsFiltered: Boolean = false,
+    val isComplete: Boolean = false,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = id

@@ -30,4 +30,14 @@
         tools:itemIsChecked="true"
         tools:itemWithCheck="true" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/viewRecordTypeItemComplete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:alpha="0"
+        android:elevation="@dimen/record_type_card_elevation"
+        app:srcCompat="@drawable/check_mark_positive"
+        tools:alpha="1" />
+
 </merge>

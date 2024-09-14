@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeek
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.ChangeSelectedActivityFilterMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -29,6 +30,8 @@ import com.example.util.simpletimetracker.feature_widget.universal.mapper.Widget
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -62,24 +65,30 @@ class WidgetUniversalViewModel @Inject constructor(
 
     val exit: LiveData<Unit> = MutableLiveData()
 
+    private var completeTypeJob: Job? = null
+    private var completeTypeIds: Set<Long> = emptySet()
+
     fun onRecordTypeClick(item: RecordTypeViewData) {
         viewModelScope.launch {
             val runningRecord = runningRecordInteractor.get(item.id)
-            var started = false
+            var wasStarted = false
 
             if (runningRecord != null) {
                 // Stop running record, add new record
                 removeRunningRecordMediator.removeWithRecordAdd(runningRecord)
             } else {
                 // Start running record
-                started = addRunningRecordMediator.tryStartTimer(
+                wasStarted = addRunningRecordMediator.tryStartTimer(
                     typeId = item.id,
                     onNeedToShowTagSelection = { showTagSelection(item.id) },
                 )
+                if (wasStarted) {
+                    onRecordTypeWithDefaultDurationClick(item.id)
+                }
             }
 
             updateRecordTypesViewData()
-            if (started) exit.set(Unit)
+            if (wasStarted) exit.set(Unit)
         }
     }
 
@@ -109,6 +118,19 @@ class WidgetUniversalViewModel @Inject constructor(
     fun onTagSelected() {
         updateRecordTypesViewData()
         exit.set(Unit)
+    }
+
+    private suspend fun onRecordTypeWithDefaultDurationClick(typeId: Long) {
+        val defaultDuration = recordTypeInteractor.get(typeId)?.defaultDuration
+        if (defaultDuration.orZero() <= 0L) return
+
+        completeTypeIds = completeTypeIds + typeId
+        completeTypeJob?.cancel()
+        completeTypeJob = viewModelScope.launch {
+            delay(COMPLETE_TYPE_ANIMATION_MS)
+            completeTypeIds = completeTypeIds - typeId
+            updateRecordTypesViewData()
+        }
     }
 
     private fun showTagSelection(typeId: Long) {
@@ -162,6 +184,7 @@ class WidgetUniversalViewModel @Inject constructor(
                         goals = goals,
                         allDailyCurrents = allDailyCurrents,
                     ),
+                    isComplete = it.id in completeTypeIds,
                 )
             }
         val repeatViewData = recordTypeViewDataMapper.mapToRepeatItem(
@@ -183,5 +206,9 @@ class WidgetUniversalViewModel @Inject constructor(
                 widgetUniversalViewDataMapper.mapToHint().let(::add)
             }
         }
+    }
+
+    companion object {
+        private const val COMPLETE_TYPE_ANIMATION_MS = 1000L
     }
 }
