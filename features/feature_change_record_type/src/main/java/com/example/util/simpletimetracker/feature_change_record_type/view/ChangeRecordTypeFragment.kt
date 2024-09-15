@@ -135,6 +135,7 @@ class ChangeRecordTypeFragment :
     private var iconsLayoutManager: GridLayoutManager? = null
     private var typeColorAnimator: ValueAnimator? = null
     private var iconTextWatcher: TextWatcher? = null
+    private var goalTextWatchers: GoalsViewDelegate.TextWatchers? = null
 
     private val params: ChangeRecordTypeParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS,
@@ -261,7 +262,18 @@ class ChangeRecordTypeFragment :
     override fun onResume() {
         super.onResume()
         viewModel.onVisible()
-        GoalsViewDelegate.onResume(binding.layoutChangeRecordTypeGoals)
+        goalTextWatchers = GoalsViewDelegate.onResume(
+            layout = binding.layoutChangeRecordTypeGoals,
+            viewModel = viewModel,
+        )
+    }
+
+    override fun onPause() {
+        GoalsViewDelegate.onPause(
+            layout = binding.layoutChangeRecordTypeGoals,
+            textWatchers = goalTextWatchers,
+        )
+        super.onPause()
     }
 
     override fun onDestroyView() {

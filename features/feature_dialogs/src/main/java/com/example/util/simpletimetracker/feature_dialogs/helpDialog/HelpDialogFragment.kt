@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_dialogs.helpDialog
 
-import com.example.util.simpletimetracker.feature_dialogs.databinding.HelpDialogFragmentBinding as Binding
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
@@ -11,6 +10,7 @@ import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.util.simpletimetracker.feature_dialogs.databinding.HelpDialogFragmentBinding as Binding
 
 @AndroidEntryPoint
 class HelpDialogFragment : BaseBottomSheetFragment<Binding>() {

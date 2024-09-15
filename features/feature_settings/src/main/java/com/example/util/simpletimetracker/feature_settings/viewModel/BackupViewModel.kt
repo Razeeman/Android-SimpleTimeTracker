@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel
 
+import androidx.core.text.HtmlCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
@@ -213,7 +214,8 @@ class BackupViewModel @Inject constructor(
     private fun onImportCsvHelpClick() {
         HelpDialogParams(
             title = resourceRepo.getString(R.string.settings_import_csv),
-            text = resourceRepo.getString(R.string.settings_import_csv_help),
+            text = resourceRepo.getString(R.string.settings_import_csv_help)
+                .let { HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_LEGACY) },
         ).let(router::navigate)
     }
 

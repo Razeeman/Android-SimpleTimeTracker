@@ -83,6 +83,7 @@ class ChangeCategoryFragment :
         )
     }
     private var typeColorAnimator: ValueAnimator? = null
+    private var goalTextWatchers: GoalsViewDelegate.TextWatchers? = null
 
     private val params: ChangeTagData by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChangeTagData.New(),
@@ -164,7 +165,18 @@ class ChangeCategoryFragment :
     override fun onResume() {
         super.onResume()
         viewModel.onVisible()
-        GoalsViewDelegate.onResume(binding.layoutChangeCategoryGoals)
+        goalTextWatchers = GoalsViewDelegate.onResume(
+            layout = binding.layoutChangeCategoryGoals,
+            viewModel = viewModel,
+        )
+    }
+
+    override fun onPause() {
+        GoalsViewDelegate.onPause(
+            layout = binding.layoutChangeCategoryGoals,
+            textWatchers = goalTextWatchers,
+        )
+        super.onPause()
     }
 
     override fun onDestroy() {

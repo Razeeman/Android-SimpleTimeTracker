@@ -1,14 +1,21 @@
 package com.example.util.simpletimetracker.core.base
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.WindowCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.viewbinding.ViewBinding
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.utils.applyNavBarInsets
+import com.example.util.simpletimetracker.core.utils.doOnApplyWindowInsetsListener
+import com.example.util.simpletimetracker.core.utils.getStatusBarInsets
 import com.example.util.simpletimetracker.navigation.Router
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import javax.inject.Inject
 
@@ -26,6 +33,10 @@ abstract class BaseBottomSheetFragment<T : ViewBinding> : BottomSheetDialogFragm
         setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialog)
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return getCustomDialog()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,6 +48,7 @@ abstract class BaseBottomSheetFragment<T : ViewBinding> : BottomSheetDialogFragm
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initInsets()
         initDialog()
         initUi()
         initUx()
@@ -78,5 +90,35 @@ abstract class BaseBottomSheetFragment<T : ViewBinding> : BottomSheetDialogFragm
         crossinline onChanged: (T) -> Unit,
     ) {
         observe(viewLifecycleOwner) { onChanged(it) }
+    }
+
+    private fun initInsets() {
+        _binding?.root?.applyNavBarInsets()
+    }
+
+    private fun getCustomDialog(): Dialog {
+        return object : BottomSheetDialog(requireContext(), theme) {
+            override fun onAttachedToWindow() {
+                super.onAttachedToWindow()
+
+                window?.let {
+                    WindowCompat.setDecorFitsSystemWindows(it, false)
+                }
+
+                findViewById<View>(com.google.android.material.R.id.container)?.apply {
+                    fitsSystemWindows = false
+                    doOnApplyWindowInsetsListener {
+                        updatePadding(
+                            top = it.getStatusBarInsets().top,
+                            bottom = 0,
+                        )
+                    }
+                }
+
+                findViewById<View>(com.google.android.material.R.id.coordinator)?.apply {
+                    fitsSystemWindows = false
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_goals.views
 
+import android.text.TextWatcher
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
@@ -68,9 +69,6 @@ object GoalsViewDelegate {
             view.fieldChangeRecordTypeGoalDuration.setOnClick {
                 viewModel.onGoalTimeClick(range)
             }
-            view.etChangeRecordTypeGoalCountValue.doAfterTextChanged {
-                viewModel.onGoalCountChange(range, it.toString())
-            }
         }
 
         initUx(RecordTypeGoal.Range.Session, layoutChangeRecordTypeGoalSession)
@@ -83,10 +81,43 @@ object GoalsViewDelegate {
 
     fun onResume(
         layout: ChangeGoalsLayoutBinding,
-    ) {
-        with(layout) {
-            layoutChangeRecordTypeGoalSession.spinnerRecordTypeGoalType
-                .jumpDrawablesToCurrentState()
+        viewModel: GoalsViewModelDelegate,
+    ): TextWatchers = with(layout) {
+        layoutChangeRecordTypeGoalSession.spinnerRecordTypeGoalType
+            .jumpDrawablesToCurrentState()
+
+        return listOf(
+            RecordTypeGoal.Range.Session to layoutChangeRecordTypeGoalSession,
+            RecordTypeGoal.Range.Daily to layoutChangeRecordTypeGoalDaily,
+            RecordTypeGoal.Range.Weekly to layoutChangeRecordTypeGoalWeekly,
+            RecordTypeGoal.Range.Monthly to layoutChangeRecordTypeGoalMonthly,
+        ).map { (range, layout) ->
+            layout.etChangeRecordTypeGoalCountValue.doAfterTextChanged {
+                viewModel.onGoalCountChange(range, it.toString())
+            }
+        }.let {
+            TextWatchers(
+                session = it.getOrNull(0),
+                daily = it.getOrNull(1),
+                weekly = it.getOrNull(2),
+                monthly = it.getOrNull(3),
+            )
+        }
+    }
+
+    fun onPause(
+        layout: ChangeGoalsLayoutBinding,
+        textWatchers: TextWatchers?,
+    ) = with(layout) {
+        listOf(
+            textWatchers?.session to layoutChangeRecordTypeGoalSession,
+            textWatchers?.daily to layoutChangeRecordTypeGoalDaily,
+            textWatchers?.weekly to layoutChangeRecordTypeGoalWeekly,
+            textWatchers?.monthly to layoutChangeRecordTypeGoalMonthly,
+        ).forEach { (watcher, layout) ->
+            watcher?.let(
+                layout.etChangeRecordTypeGoalCountValue::removeTextChangedListener,
+            )
         }
     }
 
@@ -135,4 +166,11 @@ object GoalsViewDelegate {
             (adapter as? BaseRecyclerAdapter)?.replace(state.daysOfWeek)
         }
     }
+
+    data class TextWatchers(
+        val session: TextWatcher?,
+        val daily: TextWatcher?,
+        val weekly: TextWatcher?,
+        val monthly: TextWatcher?,
+    )
 }

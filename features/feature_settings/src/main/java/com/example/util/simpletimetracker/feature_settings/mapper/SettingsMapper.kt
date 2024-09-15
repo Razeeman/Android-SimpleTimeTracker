@@ -396,7 +396,7 @@ class SettingsMapper @Inject constructor(
         fun insertImageTags(arguments: List<HelpText>): List<String> {
             return arguments.mapIndexed { index, arg ->
                 if (arg.canCopy) {
-                    "${arg.text} $imageTag$index"
+                    "${arg.text} $imageTag"
                 } else {
                     arg.text
                 }
@@ -408,7 +408,8 @@ class SettingsMapper @Inject constructor(
                 string.indexesOf(argument).forEach { index ->
                     string.setClickableSpan(
                         start = index,
-                        length = argument.length,
+                        // 1 is for space in between.
+                        length = argument.length + imageTag.length + 1,
                         onClick = { copyToClipboard(argument) },
                     )
                 }
@@ -424,13 +425,10 @@ class SettingsMapper @Inject constructor(
                 }
                 ?: return SpannableString("")
 
-            repeat(arguments.size) { index ->
-                val replace = "$imageTag$index"
+            string.indexesOf(imageTag).forEach { index ->
                 string.setImageSpan(
-                    start = string.indexOf(replace)
-                        .takeUnless { it == -1 }
-                        ?: return@repeat,
-                    length = replace.length,
+                    start = index,
+                    length = imageTag.length,
                     drawable = icon,
                     sizeDp = 16,
                 )

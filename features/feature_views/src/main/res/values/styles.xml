@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    
+
     <style name="AppThemeStarting">
         <item name="android:windowBackground">@color/colorSplashBackground</item>
     </style>
@@ -134,6 +134,9 @@
     <style name="BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyleWrapper</item>
         <item name="colorAccent">@color/colorSecondary</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
+        <item name="android:statusBarColor">@color/transparent</item>
     </style>
 
     <style name="BottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
