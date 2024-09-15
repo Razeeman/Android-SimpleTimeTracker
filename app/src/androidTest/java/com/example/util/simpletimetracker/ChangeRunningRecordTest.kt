@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker
 
 import android.view.View
-import android.widget.DatePicker
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -17,6 +16,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomDatePicker
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
+import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
@@ -135,7 +136,7 @@ class ChangeRunningRecordTest : BaseUiTest() {
         onView(withClassName(equalTo(CustomTimePicker::class.java.name)))
             .perform(setTime(hourStarted, minutesStarted))
         clickOnViewWithText(coreR.string.date_time_dialog_date)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name)))
             .perform(PickerActions.setDate(year, month + 1, day))
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
@@ -298,6 +299,91 @@ class ChangeRunningRecordTest : BaseUiTest() {
         checkPreviewUpdated(
             hasDescendant(allOf(withId(changeRecordR.id.tvRunningRecordItemTimer), withText("0$secondString"))),
         )
+    }
+
+    @Test
+    fun adjustDurationVisibility() {
+        val type = "type"
+
+        fun checkField(
+            isDuration: Boolean,
+        ) {
+            val textField = changeRecordR.id.tvChangeRecordTimeStartedAdjust
+            val text = if (isDuration) {
+                coreR.string.change_record_date_time_duration
+            } else {
+                coreR.string.change_record_date_time_start
+            }
+            val dateField = changeRecordR.id.tvChangeRecordTimeStartedDate
+            val timeField = changeRecordR.id.tvChangeRecordTimeStartedTime
+
+            checkViewIsDisplayed(allOf(withId(textField), withText(text)))
+            if (isDuration) {
+                checkViewIsNotDisplayed(withId(dateField))
+                checkViewIsDisplayed(withId(timeField))
+            } else {
+                checkViewIsDisplayed(withId(dateField))
+                checkViewIsDisplayed(withId(timeField))
+            }
+        }
+
+        // Add data
+        testUtils.addActivity(type)
+
+        // Not visible end
+        tryAction { clickOnViewWithText(type) }
+        longClickOnView(allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(type)))
+        checkViewIsNotDisplayed(withText(coreR.string.change_record_date_time_end))
+
+        // Check
+        checkField(isDuration = false)
+        clickOnViewWithText(coreR.string.change_record_date_time_start)
+        checkField(isDuration = true)
+        clickOnViewWithText(coreR.string.change_record_date_time_start)
+        checkField(isDuration = false)
+    }
+
+    @Test
+    fun adjustDuration() {
+        // Add activity
+        val name = "Test"
+        testUtils.addActivity(name)
+
+        fun checkAfterTimeAdjustment(timeStarted: String) {
+            checkViewIsDisplayed(
+                allOf(withId(changeRecordR.id.tvChangeRecordTimeStartedTime), withSubstring(timeStarted)),
+            )
+        }
+
+        // Setup
+        tryAction { clickOnViewWithText(name) }
+        longClickOnView(allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(name)))
+
+        // Check time adjustments
+        clickOnViewWithText(coreR.string.time_now)
+        clickOnViewWithText(coreR.string.change_record_date_time_start)
+        clickOnViewWithText("+30")
+        checkAfterTimeAdjustment(timeStarted = "30$minuteString")
+        clickOnViewWithText("+5")
+        checkAfterTimeAdjustment(timeStarted = "35$minuteString")
+        clickOnViewWithText("+1")
+        checkAfterTimeAdjustment(timeStarted = "36$minuteString")
+        clickOnViewWithText("-1")
+        checkAfterTimeAdjustment(timeStarted = "35$minuteString")
+        clickOnViewWithText("-5")
+        checkAfterTimeAdjustment(timeStarted = "30$minuteString")
+        clickOnViewWithText("-30")
+        clickOnViewWithText("-30")
+        checkAfterTimeAdjustment(timeStarted = "0$secondString")
+        clickOnViewWithText("+30")
+        checkAfterTimeAdjustment(timeStarted = "30$minuteString")
+        clickOnView(
+            allOf(
+                isDescendantOfA(withId(changeRecordR.id.containerChangeRecordTimeStartedAdjust)),
+                withText("0"),
+            ),
+        )
+        checkAfterTimeAdjustment(timeStarted = "0$secondString")
     }
 
     @Test

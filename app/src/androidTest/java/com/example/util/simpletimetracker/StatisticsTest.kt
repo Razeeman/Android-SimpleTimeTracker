@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker
 
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
@@ -15,6 +16,7 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithIdOnPager
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withPluralText
 import com.example.util.simpletimetracker.utils.withTag
@@ -48,6 +50,7 @@ class StatisticsTest : BaseUiTest() {
         testUtils.addRecord(name, timeStarted = before, timeEnded = before)
 
         NavUtils.openStatisticsScreen()
+        Thread.sleep(1000)
 
         // Check day range
         checkRecordsRange(firstColor, lastColor, firstIcon, lastIcon, name, newName)
@@ -642,5 +645,69 @@ class StatisticsTest : BaseUiTest() {
             ),
         )
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerNext)
+    }
+
+    @Test
+    fun totalTracked() {
+        val type1 = "type1"
+        val type2 = "type2"
+        val category1 = "category1"
+        val category2 = "category2"
+        val tag1 = "tag1"
+        val tag2 = "tag2"
+
+        // Add data
+        testUtils.addCategory(category1)
+        testUtils.addCategory(category2)
+        testUtils.addActivity(type1, categories = listOf(category1))
+        testUtils.addActivity(type2, categories = listOf(category2))
+        testUtils.addRecord(type1, tagNames = listOf(tag1))
+        testUtils.addRecord(type2, tagNames = listOf(tag2))
+
+        NavUtils.openStatisticsScreen()
+
+        // Check total tracked for activity
+        clickOnView(allOf(withText(R.string.statistics_total_tracked), isCompletelyDisplayed()))
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withPluralText(coreR.plurals.statistics_detail_times_tracked, 2),
+                    hasSibling(withText("2")),
+                    isCompletelyDisplayed(),
+                ),
+            )
+        }
+        pressBack()
+
+        // Check total tracked for category
+        clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
+        clickOnViewWithText(coreR.string.category_hint)
+        pressBack()
+        clickOnView(allOf(withText(R.string.statistics_total_tracked), isCompletelyDisplayed()))
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withPluralText(coreR.plurals.statistics_detail_times_tracked, 2),
+                    hasSibling(withText("2")),
+                    isCompletelyDisplayed(),
+                ),
+            )
+        }
+        pressBack()
+
+        // Check total tracked for tag
+        clickOnViewWithIdOnPager(statisticsR.id.btnStatisticsChartFilter)
+        clickOnViewWithText(coreR.string.record_tag_hint_short)
+        pressBack()
+        clickOnView(allOf(withText(R.string.statistics_total_tracked), isCompletelyDisplayed()))
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withPluralText(coreR.plurals.statistics_detail_times_tracked, 2),
+                    hasSibling(withText("2")),
+                    isCompletelyDisplayed(),
+                ),
+            )
+        }
     }
 }

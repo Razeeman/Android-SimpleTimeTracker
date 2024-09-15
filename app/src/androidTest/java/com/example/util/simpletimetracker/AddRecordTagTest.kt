@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.collapseToolbar
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.recyclerItemCount
 import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
@@ -53,6 +54,7 @@ class AddRecordTagTest : BaseUiTest() {
         val name = "Test"
         val typeName1 = "Type1"
         val typeName2 = "Type2"
+        val note = "note"
         val lastColorPosition = ColorMapper.getAvailableColors().size - 1
 
         // Add activities
@@ -67,6 +69,7 @@ class AddRecordTagTest : BaseUiTest() {
 
         // View is set up
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagArchive))
+        checkViewIsNotDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagDelete))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.btnChangeRecordTagStatistics))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvChangeRecordTagColor))
         checkViewIsNotDisplayed(withId(changeRecordTagR.id.rvIconSelection))
@@ -188,6 +191,10 @@ class AddRecordTagTest : BaseUiTest() {
             allOf(withId(changeRecordTagR.id.fieldChangeRecordTagType), withCardColor(viewsR.color.colorBackground)),
         )
 
+        // Adding note
+        onView(withId(changeRecordTagR.id.etChangeRecordTagNote)).perform(nestedScrollTo())
+        typeTextIntoView(changeRecordTagR.id.etChangeRecordTagNote, note)
+
         clickOnViewWithText(coreR.string.change_record_type_save)
 
         // Tag added
@@ -200,6 +207,8 @@ class AddRecordTagTest : BaseUiTest() {
         checkPreviewUpdated(withCardColor(lastColor))
         checkPreviewUpdated(hasDescendant(withTag(lastIcon)))
         checkViewIsDisplayed(allOf(withId(changeRecordTagR.id.etChangeRecordTagName), withText(name)))
+        onView(withId(changeRecordTagR.id.etChangeRecordTagNote)).perform(nestedScrollTo())
+        checkViewIsDisplayed(allOf(withId(changeRecordTagR.id.etChangeRecordTagNote), withText(note)))
     }
 
     @Test
@@ -430,7 +439,9 @@ class AddRecordTagTest : BaseUiTest() {
 
         // Add another tag
         clickOnViewWithText(coreR.string.categories_add_record_tag)
+        checkViewDoesNotExist(withText(coreR.string.change_record_message_name_exist))
         typeTextIntoView(changeRecordTagR.id.etChangeRecordTagName, tagNameActivity)
+        checkViewIsDisplayed(withText(coreR.string.change_record_message_name_exist))
         clickOnViewWithId(changeRecordTagR.id.fieldChangeRecordTagType)
         clickOnRecyclerItem(changeRecordTagR.id.rvChangeRecordTagType, withText(typeName))
         clickOnViewWithText(coreR.string.change_record_type_save)
@@ -439,7 +450,9 @@ class AddRecordTagTest : BaseUiTest() {
 
         // Add another general tag
         clickOnViewWithText(coreR.string.categories_add_record_tag)
+        checkViewDoesNotExist(withText(coreR.string.change_record_message_name_exist))
         typeTextIntoView(changeRecordTagR.id.etChangeRecordTagName, tagNameGeneral)
+        checkViewIsDisplayed(withText(coreR.string.change_record_message_name_exist))
         closeSoftKeyboard()
         clickOnViewWithText(coreR.string.change_record_type_save)
 

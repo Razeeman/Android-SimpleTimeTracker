@@ -25,7 +25,7 @@ class CategoryDataLocalMapper @Inject constructor() {
             name = domain.name,
             color = domain.color.colorId,
             colorInt = domain.color.colorInt,
-            note = domain.note
+            note = domain.note,
         )
     }
 }

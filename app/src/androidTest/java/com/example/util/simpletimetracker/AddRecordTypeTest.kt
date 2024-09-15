@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.collapseToolbar
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
@@ -48,6 +49,7 @@ class AddRecordTypeTest : BaseUiTest() {
         val name = "Test"
         val categoryName1 = "category1"
         val categoryName2 = "category2"
+        val note = "note"
         val lastColorPosition = ColorMapper.getAvailableColors().size - 1
 
         NavUtils.openSettingsScreen()
@@ -61,6 +63,7 @@ class AddRecordTypeTest : BaseUiTest() {
 
         // View is set up
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeArchive))
+        checkViewIsNotDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeDelete))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeStatistics))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeColor))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvIconSelection))
@@ -157,6 +160,10 @@ class AddRecordTypeTest : BaseUiTest() {
         checkViewIsDisplayed(withText("10$minuteString"))
         clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
 
+        // Adding note
+        onView(withId(changeRecordTypeR.id.etChangeRecordTypeNote)).perform(nestedScrollTo())
+        typeTextIntoView(changeRecordTypeR.id.etChangeRecordTypeNote, note)
+
         // Save
         clickOnViewWithText(coreR.string.change_record_type_save)
 
@@ -171,6 +178,9 @@ class AddRecordTypeTest : BaseUiTest() {
         checkViewIsDisplayed(withText(coreR.string.something_selected))
         onView(withText(categoryName1)).check(isCompletelyBelow(withText(coreR.string.something_selected)))
         onView(withText(categoryName2)).check(isCompletelyBelow(withText(categoryName1)))
+        clickOnViewWithText(coreR.string.category_hint)
+        onView(withId(changeRecordTypeR.id.etChangeRecordTypeNote)).perform(nestedScrollTo())
+        checkViewIsDisplayed(allOf(withId(changeRecordTypeR.id.etChangeRecordTypeNote), withText(note)))
     }
 
     @Test

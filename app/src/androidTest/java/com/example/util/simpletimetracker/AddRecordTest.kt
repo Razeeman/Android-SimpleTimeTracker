@@ -521,9 +521,265 @@ class AddRecordTest : BaseUiTest() {
         )
     }
 
+    @Test
+    fun adjustDurationVisibility() {
+        fun checkField(
+            isStart: Boolean,
+            isDuration: Boolean,
+        ) {
+            val textField = if (isStart) {
+                changeRecordR.id.tvChangeRecordTimeStartedAdjust
+            } else {
+                changeRecordR.id.tvChangeRecordTimeEndedAdjust
+            }
+            val text = if (isDuration) {
+                coreR.string.change_record_date_time_duration
+            } else {
+                if (isStart) {
+                    coreR.string.change_record_date_time_start
+                } else {
+                    coreR.string.change_record_date_time_end
+                }
+            }
+            val dateField = if (isStart) {
+                changeRecordR.id.tvChangeRecordTimeStartedDate
+            } else {
+                changeRecordR.id.tvChangeRecordTimeEndedDate
+            }
+            val timeField = if (isStart) {
+                changeRecordR.id.tvChangeRecordTimeStartedTime
+            } else {
+                changeRecordR.id.tvChangeRecordTimeEndedTime
+            }
+
+            checkViewIsDisplayed(allOf(withId(textField), withText(text)))
+            if (isDuration) {
+                checkViewIsNotDisplayed(withId(dateField))
+                checkViewIsDisplayed(withId(timeField))
+            } else {
+                checkViewIsDisplayed(withId(dateField))
+                checkViewIsDisplayed(withId(timeField))
+            }
+        }
+
+        // Switch start and end
+        NavUtils.openRecordsScreen()
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
+        checkField(isStart = true, isDuration = false)
+        checkField(isStart = false, isDuration = false)
+
+        // Check start
+        clickOnViewWithText(coreR.string.change_record_date_time_start)
+        checkField(isStart = true, isDuration = true)
+        checkField(isStart = false, isDuration = false)
+        clickOnViewWithText(coreR.string.change_record_date_time_duration)
+        checkField(isStart = true, isDuration = false)
+        checkField(isStart = false, isDuration = false)
+
+        // Check end
+        clickOnViewWithText(coreR.string.change_record_date_time_end)
+        checkField(isStart = true, isDuration = false)
+        checkField(isStart = false, isDuration = true)
+        clickOnViewWithText(coreR.string.change_record_date_time_duration)
+        checkField(isStart = true, isDuration = false)
+        checkField(isStart = false, isDuration = false)
+
+        // Check from start to end
+        clickOnViewWithText(coreR.string.change_record_date_time_start)
+        checkField(isStart = true, isDuration = true)
+        checkField(isStart = false, isDuration = false)
+        clickOnViewWithText(coreR.string.change_record_date_time_end)
+        checkField(isStart = true, isDuration = false)
+        checkField(isStart = false, isDuration = true)
+    }
+
+    @Test
+    fun adjustDuration() {
+        // Add record
+        NavUtils.openRecordsScreen()
+        clickOnViewWithId(recordsR.id.btnRecordAdd)
+
+        // Setup
+        val hourStarted = 15
+        val minutesStarted = 0
+        clickOnViewWithId(changeRecordR.id.fieldChangeRecordTimeStarted)
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(hourStarted, minutesStarted))
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
+
+        val hourEnded = 16
+        val minutesEnded = 0
+        clickOnViewWithId(changeRecordR.id.fieldChangeRecordTimeEnded)
+        onView(withClassName(equalTo(CustomTimePicker::class.java.name))).perform(setTime(hourEnded, minutesEnded))
+        clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
+
+        checkAfterTimeAdjustment(
+            timeStarted = "15:00", timeEnded = "16:00", duration = "1$hourString 0$minuteString",
+        )
+
+        // Check visibility
+        checkViewIsDisplayed(withId(changeRecordR.id.containerChangeRecordTimeStartedAdjust))
+        checkViewIsDisplayed(withId(changeRecordR.id.containerChangeRecordTimeEndedAdjust))
+
+        fun adjust(
+            isStart: Boolean,
+            buttonText: String,
+        ) {
+            val containerId = if (isStart) {
+                changeRecordR.id.containerChangeRecordTimeStartedAdjust
+            } else {
+                changeRecordR.id.containerChangeRecordTimeEndedAdjust
+            }
+            clickOnView(allOf(isDescendantOfA(withId(containerId)), withText(buttonText)))
+        }
+
+        // Check time start adjustments
+        clickOnViewWithText(changeRecordR.string.change_record_date_time_start)
+        adjust(isStart = true, buttonText = "-30")
+        checkAfterTimeAdjustment(
+            timeStarted = "15:30",
+            timeEnded = "16:00",
+            timeStartedField = "30$minuteString",
+            duration = "30$minuteString",
+        )
+        adjust(isStart = true, buttonText = "-5")
+        checkAfterTimeAdjustment(
+            timeStarted = "15:35",
+            timeEnded = "16:00",
+            timeStartedField = "25$minuteString",
+            duration = "25$minuteString",
+        )
+        adjust(isStart = true, buttonText = "-1")
+        checkAfterTimeAdjustment(
+            timeStarted = "15:36",
+            timeEnded = "16:00",
+            timeStartedField = "24$minuteString",
+            duration = "24$minuteString",
+        )
+        adjust(isStart = true, buttonText = "+1")
+        checkAfterTimeAdjustment(
+            timeStarted = "15:35",
+            timeEnded = "16:00",
+            timeStartedField = "25$minuteString",
+            duration = "25$minuteString",
+        )
+        adjust(isStart = true, buttonText = "+5")
+        checkAfterTimeAdjustment(
+            timeStarted = "15:30",
+            timeEnded = "16:00",
+            timeStartedField = "30$minuteString",
+            duration = "30$minuteString",
+        )
+        adjust(isStart = true, buttonText = "+30")
+        checkAfterTimeAdjustment(
+            timeStarted = "15:00",
+            timeEnded = "16:00",
+            timeStartedField = "1$hourString 0$minuteString",
+            duration = "1$hourString 0$minuteString",
+        )
+        adjust(isStart = true, buttonText = "-30")
+        adjust(isStart = true, buttonText = "-30")
+        checkAfterTimeAdjustment(
+            timeStarted = "16:00",
+            timeEnded = "16:00",
+            timeStartedField = "0$minuteString",
+            duration = "0$minuteString",
+        )
+        adjust(isStart = true, buttonText = "-30")
+        checkAfterTimeAdjustment(
+            timeStarted = "16:00",
+            timeEnded = "16:00",
+            timeStartedField = "0$minuteString",
+            duration = "0$minuteString",
+        )
+        adjust(isStart = true, buttonText = "+30")
+        checkAfterTimeAdjustment(
+            timeStarted = "15:30",
+            timeEnded = "16:00",
+            timeStartedField = "30$minuteString",
+            duration = "30$minuteString",
+        )
+        adjust(isStart = true, buttonText = "0")
+        checkAfterTimeAdjustment(
+            timeStarted = "16:00",
+            timeEnded = "16:00",
+            timeStartedField = "0$minuteString",
+            duration = "0$minuteString",
+        )
+
+        // Check time end adjustments
+        clickOnViewWithText(changeRecordR.string.change_record_date_time_end)
+        adjust(isStart = false, buttonText = "+30")
+        adjust(isStart = false, buttonText = "+30")
+        checkAfterTimeAdjustment(
+            timeStarted = "16:00",
+            timeEnded = "17:00",
+            timeEndedField = "1$hourString 0$minuteString",
+            duration = "1$hourString 0$minuteString",
+        )
+        adjust(isStart = false, buttonText = "+5")
+        checkAfterTimeAdjustment(
+            timeStarted = "16:00",
+            timeEnded = "17:05",
+            timeEndedField = "1$hourString 5$minuteString",
+            duration = "1$hourString 5$minuteString",
+        )
+        adjust(isStart = false, buttonText = "+1")
+        checkAfterTimeAdjustment(
+            timeStarted = "16:00",
+            timeEnded = "17:06",
+            timeEndedField = "1$hourString 6$minuteString",
+            duration = "1$hourString 6$minuteString",
+        )
+        adjust(isStart = false, buttonText = "-1")
+        checkAfterTimeAdjustment(
+            timeStarted = "16:00",
+            timeEnded = "17:05",
+            timeEndedField = "1$hourString 5$minuteString",
+            duration = "1$hourString 5$minuteString",
+        )
+        adjust(isStart = false, buttonText = "-5")
+        checkAfterTimeAdjustment(
+            timeStarted = "16:00",
+            timeEnded = "17:00",
+            timeEndedField = "1$hourString 0$minuteString",
+            duration = "1$hourString 0$minuteString",
+        )
+        adjust(isStart = false, buttonText = "-30")
+        checkAfterTimeAdjustment(
+            timeStarted = "16:00",
+            timeEnded = "16:30",
+            timeEndedField = "30$minuteString",
+            duration = "30$minuteString",
+        )
+        adjust(isStart = false, buttonText = "-30")
+        adjust(isStart = false, buttonText = "-30")
+        checkAfterTimeAdjustment(
+            timeStarted = "16:00",
+            timeEnded = "16:00",
+            timeEndedField = "0$minuteString",
+            duration = "0$minuteString",
+        )
+        adjust(isStart = false, buttonText = "+30")
+        checkAfterTimeAdjustment(
+            timeStarted = "16:00",
+            timeEnded = "16:30",
+            timeEndedField = "30$minuteString",
+            duration = "30$minuteString",
+        )
+        adjust(isStart = false, buttonText = "0")
+        checkAfterTimeAdjustment(
+            timeStarted = "16:00",
+            timeEnded = "16:00",
+            timeEndedField = "0$minuteString",
+            duration = "0$minuteString",
+        )
+    }
+
     private fun checkAfterTimeAdjustment(
         timeStarted: String,
         timeEnded: String,
+        timeStartedField: String = timeStarted,
+        timeEndedField: String = timeEnded,
         duration: String,
     ) {
         checkPreviewUpdated(
@@ -536,10 +792,10 @@ class AddRecordTest : BaseUiTest() {
             hasDescendant(allOf(withId(changeRecordR.id.tvRecordItemDuration), withText(duration))),
         )
         checkViewIsDisplayed(
-            allOf(withId(changeRecordR.id.tvChangeRecordTimeStartedTime), withSubstring(timeStarted)),
+            allOf(withId(changeRecordR.id.tvChangeRecordTimeStartedTime), withSubstring(timeStartedField)),
         )
         checkViewIsDisplayed(
-            allOf(withId(changeRecordR.id.tvChangeRecordTimeEndedTime), withSubstring(timeEnded)),
+            allOf(withId(changeRecordR.id.tvChangeRecordTimeEndedTime), withSubstring(timeEndedField)),
         )
     }
 

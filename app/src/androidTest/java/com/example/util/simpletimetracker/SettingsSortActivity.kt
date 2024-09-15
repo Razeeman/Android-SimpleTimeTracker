@@ -115,7 +115,10 @@ class SettingsSortActivity : BaseUiTest() {
         NavUtils.openSettingsDisplay()
         scrollSettingsRecyclerToText(R.string.settings_sort_order)
         checkViewIsDisplayed(
-            allOf(withId(settingsR.id.tvItemSettingsValue), withText(coreR.string.settings_sort_by_name)),
+            settingsSpinnerValueBesideText(
+                R.string.settings_sort_order,
+                withText(coreR.string.settings_sort_by_name),
+            ),
         )
     }
 

@@ -12,7 +12,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -23,6 +22,7 @@ import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.scrollRecyclerToPosition
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
@@ -46,6 +46,7 @@ class AddCategoryTest : BaseUiTest() {
         val name = "Test"
         val typeName1 = "Type1"
         val typeName2 = "Type2"
+        val note = "note"
         val lastColorPosition = ColorMapper.getAvailableColors().size - 1
 
         // Add activities
@@ -142,6 +143,10 @@ class AddCategoryTest : BaseUiTest() {
         checkViewIsDisplayed(withText("10$minuteString"))
         clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
 
+        // Adding note
+        onView(withId(changeCategoryR.id.etChangeRecordCategoryNote)).perform(nestedScrollTo())
+        typeTextIntoView(changeCategoryR.id.etChangeRecordCategoryNote, note)
+
         // Category added
         clickOnViewWithText(coreR.string.change_record_type_save)
         checkViewIsDisplayed(withText(name))
@@ -155,12 +160,17 @@ class AddCategoryTest : BaseUiTest() {
         checkViewIsDisplayed(withId(baseR.id.viewDividerItem))
         onView(withText(typeName1)).check(isCompletelyAbove(withId(baseR.id.viewDividerItem)))
         onView(withText(typeName2)).check(isCompletelyBelow(withId(baseR.id.viewDividerItem)))
+        clickOnViewWithText(coreR.string.change_category_types_hint)
 
         // Check goals saved
-        clickOnViewWithText(coreR.string.change_category_types_hint)
         Thread.sleep(1000)
         clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
         checkViewIsDisplayed(withText("10$minuteString"))
+        clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
+
+        // Check note saved
+        onView(withId(changeCategoryR.id.etChangeRecordCategoryNote)).perform(nestedScrollTo())
+        checkViewIsDisplayed(allOf(withId(changeCategoryR.id.etChangeRecordCategoryNote), withText(note)))
     }
 
     @Test
@@ -225,6 +235,31 @@ class AddCategoryTest : BaseUiTest() {
         // Category changed
         checkViewDoesNotExist(withText(categoryName1))
         checkViewIsDisplayed(withText(categoryName2))
+    }
+
+    @Test
+    fun addCategorySameName() {
+        val name = "Test"
+
+        // Add activity
+        testUtils.addCategory(name)
+
+        // Add another
+        NavUtils.openSettingsScreen()
+        NavUtils.openCategoriesScreen()
+        clickOnViewWithText(coreR.string.categories_add_category)
+        closeSoftKeyboard()
+
+        // No error
+        checkViewDoesNotExist(withText(coreR.string.change_record_message_name_exist))
+
+        // Check same name
+        typeTextIntoView(R.id.etChangeCategoryName, name)
+        checkViewIsDisplayed(withText(coreR.string.change_record_message_name_exist))
+
+        // Check other name
+        typeTextIntoView(R.id.etChangeCategoryName, "$name+")
+        checkViewDoesNotExist(withText(coreR.string.change_record_message_name_exist))
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

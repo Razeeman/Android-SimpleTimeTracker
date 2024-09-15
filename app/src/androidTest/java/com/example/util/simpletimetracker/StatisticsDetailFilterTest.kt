@@ -14,6 +14,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
+import com.example.util.simpletimetracker.feature_records_filter.viewData.RecordsFilterSelectionButtonType
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
@@ -24,6 +25,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withPluralText
+import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
@@ -79,6 +81,23 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         clickOnView(withSubstring(getString(coreR.string.activity_hint)))
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name1)))
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name2)))
+        pressBack()
+        checkRecordsCard(3)
+
+        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        selectAll(
+            type = RecordsFilterSelectionButtonType.Type.Activities,
+            subtype = RecordsFilterSelectionButtonType.Subtype.SelectNone,
+        )
+        pressBack()
+        checkRecordsCard(0)
+
+        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        clickOnView(withSubstring(getString(coreR.string.activity_hint)))
+        selectAll(
+            type = RecordsFilterSelectionButtonType.Type.Activities,
+            subtype = RecordsFilterSelectionButtonType.Subtype.SelectAll,
+        )
         pressBack()
         checkRecordsCard(3)
     }
@@ -141,6 +160,23 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(categoryName1)))
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(categoryName2)))
+        pressBack()
+        checkRecordsCard(6)
+
+        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        selectAll(
+            type = RecordsFilterSelectionButtonType.Type.Categories,
+            subtype = RecordsFilterSelectionButtonType.Subtype.SelectNone,
+        )
+        pressBack()
+        checkRecordsCard(0)
+
+        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        clickOnView(withSubstring(getString(coreR.string.activity_hint)))
+        selectAll(
+            type = RecordsFilterSelectionButtonType.Type.Categories,
+            subtype = RecordsFilterSelectionButtonType.Subtype.SelectAll,
+        )
         pressBack()
         checkRecordsCard(6)
     }
@@ -353,6 +389,30 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(tag1)))
         pressBack()
         checkRecordsCard(5)
+
+        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        clickOnView(
+            allOf(
+                hasSibling(withSubstring(getString(coreR.string.activity_hint))),
+                withId(baseR.id.ivRecordFilterItemRemove),
+            ),
+        )
+        clickOnView(withSubstring(getString(coreR.string.records_filter_select_tags)))
+        selectAll(
+            type = RecordsFilterSelectionButtonType.Type.Tags,
+            subtype = RecordsFilterSelectionButtonType.Subtype.SelectNone,
+        )
+        pressBack()
+        checkRecordsCard(0)
+
+        clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
+        clickOnView(withSubstring(getString(coreR.string.records_filter_select_tags)))
+        selectAll(
+            type = RecordsFilterSelectionButtonType.Type.Tags,
+            subtype = RecordsFilterSelectionButtonType.Subtype.SelectAll,
+        )
+        pressBack()
+        checkRecordsCard(7)
     }
 
     @Test
@@ -869,6 +929,20 @@ class StatisticsDetailFilterTest : BaseUiTest() {
                 withPluralText(coreR.plurals.statistics_detail_times_tracked, count),
                 hasSibling(withText(count.toString())),
                 isCompletelyDisplayed(),
+            ),
+        )
+    }
+
+    private fun selectAll(
+        type: RecordsFilterSelectionButtonType.Type,
+        subtype: RecordsFilterSelectionButtonType.Subtype,
+    ) {
+        clickOnView(
+            withTag(
+                RecordsFilterSelectionButtonType(
+                    type = type,
+                    subtype = subtype,
+                ),
             ),
         )
     }

@@ -316,7 +316,7 @@ class NotificationTypeManager @Inject constructor(
                         icon = icon,
                         color = color,
                         isChecked = isChecked,
-                        isComplete = isComplete
+                        isComplete = isComplete,
                     )
                     setViewVisibility(R.id.containerNotificationType, View.VISIBLE)
                     setImageViewBitmap(R.id.ivNotificationType, bitmap)

@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker
 
 import android.view.View
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -21,6 +22,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.collapseToolbar
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
@@ -31,6 +33,7 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.concurrent.TimeUnit
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
@@ -52,6 +55,7 @@ class ChangeRecordTypeTest : BaseUiTest() {
 
         // View is set up
         checkViewIsDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeArchive))
+        checkViewIsDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeDelete))
         checkViewIsDisplayed(withId(changeRecordTypeR.id.btnChangeRecordTypeStatistics))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvChangeRecordTypeColor))
         checkViewIsNotDisplayed(withId(changeRecordTypeR.id.rvIconSelection))
@@ -189,6 +193,78 @@ class ChangeRecordTypeTest : BaseUiTest() {
             allOf(isDescendantOfA(withId(changeRecordTypeR.id.viewRunningRecordItem)), withTag(lastIcon)),
         )
         checkViewIsDisplayed(withSubstring(getString(coreR.string.change_record_type_session_goal_time).lowercase()))
+    }
+
+    @Test
+    fun duplicate() {
+        val type = "type"
+        val category = "category"
+        val note = "note"
+
+        // Add data
+        testUtils.addCategory(category)
+        testUtils.addActivity(
+            name = type,
+            color = firstColor,
+            icon = firstIcon,
+            goals = listOf(GoalsTestUtils.getDailyDurationGoal(TimeUnit.MINUTES.toSeconds(1))),
+            note = note,
+            categories = listOf(category),
+        )
+
+        // Not visible on add
+        clickOnViewWithText(coreR.string.running_records_add_type)
+        closeSoftKeyboard()
+        onView(withText(coreR.string.change_record_type_additional_hint)).perform(nestedScrollTo())
+        clickOnViewWithText(coreR.string.change_record_type_additional_hint)
+        checkViewIsNotDisplayed(withText(coreR.string.change_record_duplicate))
+        pressBack()
+        pressBack()
+
+        // Duplicate
+        longClickOnView(withText(type))
+        onView(withText(coreR.string.change_record_type_additional_hint)).perform(nestedScrollTo())
+        clickOnViewWithText(coreR.string.change_record_type_additional_hint)
+        clickOnViewWithText(coreR.string.change_record_duplicate)
+
+        // Check
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(R.id.viewRecordTypeItem),
+                    hasDescendant(withText(type)),
+                    hasDescendant(withTag(firstIcon)),
+                    hasDescendant(withCardColor(firstColor)),
+                ),
+            )
+        }
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewRecordTypeItem),
+                hasDescendant(withText("$type (2)")),
+                hasDescendant(withTag(firstIcon)),
+                hasDescendant(withCardColor(firstColor)),
+            ),
+        )
+        longClickOnView(withText("$type (2)"))
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeRecordTypeR.id.tvChangeRecordTypeCategoryPreview),
+                withText("1"),
+            ),
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeRecordTypeR.id.tvChangeRecordTypeGoalPreview),
+                withText("1"),
+            ),
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeRecordTypeR.id.etChangeRecordTypeNote),
+                withText(note),
+            ),
+        )
     }
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =

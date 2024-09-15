@@ -120,6 +120,9 @@ class StatisticsDetailTest : BaseUiTest() {
             allOf(withId(statisticsDetailR.id.btnStatisticsDetailNext), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
+            allOf(withTag(StatisticsDetailBlock.DailyCalendarHint), isCompletelyDisplayed()),
+        )
+        checkViewDoesNotExist(
             allOf(withTag(StatisticsDetailBlock.ChartData), isCompletelyDisplayed()),
         )
         checkViewDoesNotExist(
@@ -337,6 +340,11 @@ class StatisticsDetailTest : BaseUiTest() {
         checkViewDoesNotExist(allOf(withId(statisticsDetailR.id.btnStatisticsDetailPrevious), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withId(statisticsDetailR.id.btnStatisticsDetailNext), isCompletelyDisplayed()))
 
+        // Daily calendar
+        checkViewDoesNotExist(
+            allOf(withTag(StatisticsDetailBlock.DailyCalendarHint), isCompletelyDisplayed()),
+        )
+
         // Bar chart
         scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)
         checkViewIsDisplayed(
@@ -504,6 +512,11 @@ class StatisticsDetailTest : BaseUiTest() {
         clickOnViewWithIdOnPager(statisticsDetailR.id.btnStatisticsDetailToday)
         clickOnViewWithText(coreR.string.range_day)
 
+        // Daily calendar
+        checkViewIsDisplayed(
+            allOf(withTag(StatisticsDetailBlock.DailyCalendarHint), isCompletelyDisplayed()),
+        )
+
         // Bar chart
         checkViewDoesNotExist(
             allOf(withTag(StatisticsDetailBlock.ChartData), isCompletelyDisplayed()),
@@ -602,6 +615,11 @@ class StatisticsDetailTest : BaseUiTest() {
         // Switch range
         clickOnViewWithIdOnPager(statisticsDetailR.id.btnStatisticsDetailToday)
         clickOnViewWithText(coreR.string.range_week)
+
+        // Daily calendar
+        checkViewDoesNotExist(
+            allOf(withTag(StatisticsDetailBlock.DailyCalendarHint), isCompletelyDisplayed()),
+        )
 
         // Bar chart
         scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)
@@ -709,6 +727,11 @@ class StatisticsDetailTest : BaseUiTest() {
         // Switch range
         clickOnViewWithIdOnPager(statisticsDetailR.id.btnStatisticsDetailToday)
         clickOnViewWithText(coreR.string.range_month)
+
+        // Daily calendar
+        checkViewDoesNotExist(
+            allOf(withTag(StatisticsDetailBlock.DailyCalendarHint), isCompletelyDisplayed()),
+        )
 
         // Bar chart
         scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)
@@ -828,6 +851,11 @@ class StatisticsDetailTest : BaseUiTest() {
         // Switch range
         clickOnViewWithIdOnPager(statisticsDetailR.id.btnStatisticsDetailToday)
         clickOnViewWithText(coreR.string.range_year)
+
+        // Daily calendar
+        checkViewDoesNotExist(
+            allOf(withTag(StatisticsDetailBlock.DailyCalendarHint), isCompletelyDisplayed()),
+        )
 
         // Bar chart
         scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)
@@ -958,6 +986,11 @@ class StatisticsDetailTest : BaseUiTest() {
         clickOnViewWithIdOnPager(statisticsDetailR.id.btnStatisticsDetailToday)
         clickOnView(withPluralText(coreR.plurals.range_last, 7, 7))
         clickOnViewWithText(coreR.string.duration_dialog_save)
+
+        // Daily calendar
+        checkViewDoesNotExist(
+            allOf(withTag(StatisticsDetailBlock.DailyCalendarHint), isCompletelyDisplayed()),
+        )
 
         // Bar chart
         scrollStatDetailRecyclerToTag(StatisticsDetailBlock.ChartData)

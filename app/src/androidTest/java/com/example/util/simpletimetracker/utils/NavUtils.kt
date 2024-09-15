@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.utils
 
-import android.widget.DatePicker
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -16,6 +15,7 @@ import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.clickOnSettingsRecyclerText
 import com.example.util.simpletimetracker.domain.extension.padDuration
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
+import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomDatePicker
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import com.example.util.simpletimetracker.scrollSettingsRecyclerToText
 import org.hamcrest.CoreMatchers.allOf
@@ -405,13 +405,13 @@ object NavUtils {
     ) {
         // Set time started
         clickOnViewWithId(dialogsR.id.tvCustomRangeSelectionTimeStarted)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name)))
             .perform(setDate(yearStarted, monthStarted + 1, dayStarted))
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 
         // Set time ended
         clickOnViewWithId(dialogsR.id.tvCustomRangeSelectionTimeEnded)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name)))
             .perform(setDate(yearEnded, monthEnded + 1, dayEnded))
         clickOnViewWithId(dialogsR.id.btnDateTimeDialogPositive)
 

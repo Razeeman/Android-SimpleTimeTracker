@@ -112,7 +112,9 @@ class AddDefaultRecordTypeTest : BaseUiTest() {
         // Hide button
         clickOnViewWithText(coreR.string.running_records_add_default)
         clickOnViewWithText(coreR.string.default_types_selection_hide)
+        clickOnViewWithText(R.string.ok)
         Thread.sleep(1000)
+        checkViewIsDisplayed(withText(R.string.running_records_add_type))
         checkViewDoesNotExist(withText(coreR.string.running_records_add_default))
     }
 

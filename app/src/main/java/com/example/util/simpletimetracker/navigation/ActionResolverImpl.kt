@@ -51,17 +51,20 @@ class ActionResolverImpl @Inject constructor(
     private fun openMarket(activity: Activity?, params: OpenMarketParams) {
         val uri = Uri.parse(MARKET_INTENT + params.packageName)
         val intent = Intent(Intent.ACTION_VIEW, uri)
+        intent.setPackage(MARKET_PACKAGE)
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
 
         try {
             activity?.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
-            activity?.startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(MARKET_LINK + params.packageName),
-                ),
-            )
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(MARKET_LINK + params.packageName),
+            ).apply {
+                intent.setPackage(MARKET_PACKAGE)
+            }.let {
+                activity?.startActivity(it)
+            }
         }
     }
 
@@ -175,6 +178,7 @@ class ActionResolverImpl @Inject constructor(
     companion object {
         private const val MARKET_INTENT = "market://details?id="
         private const val MARKET_LINK = "http://play.google.com/store/apps/details?id="
+        private const val MARKET_PACKAGE = "com.android.vending"
         private const val EMAIL_URI = "mailto:"
     }
 }

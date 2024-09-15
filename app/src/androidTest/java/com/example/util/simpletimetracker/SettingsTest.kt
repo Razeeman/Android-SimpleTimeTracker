@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker
 
-import android.widget.DatePicker
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -22,6 +21,7 @@ import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
 import com.example.util.simpletimetracker.domain.interactor.AppLanguage
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomDatePicker
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomTimePicker
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
@@ -1612,7 +1612,7 @@ class SettingsTest : BaseUiTest() {
 
         // Set time started
         clickOnViewWithId(dialogsR.id.tvCsvExportSettingsTimeStarted)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name)))
             .perform(setDate(year, month + 1, day))
         clickOnView(
             allOf(
@@ -1639,7 +1639,7 @@ class SettingsTest : BaseUiTest() {
 
         // Set time ended
         clickOnViewWithId(dialogsR.id.tvCsvExportSettingsTimeEnded)
-        onView(withClassName(equalTo(DatePicker::class.java.name)))
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name)))
             .perform(setDate(year, month + 1, day))
         clickOnView(
             allOf(

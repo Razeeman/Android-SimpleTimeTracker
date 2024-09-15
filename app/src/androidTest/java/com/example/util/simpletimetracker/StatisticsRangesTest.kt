@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker
 
-import android.widget.DatePicker
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.contrib.PickerActions.setDate
@@ -13,6 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomDatePicker
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -167,7 +167,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_day)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_day)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
@@ -181,7 +181,7 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check tomorrow
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_day)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
@@ -215,7 +215,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_day)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_day)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
@@ -229,7 +229,7 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check next date
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_day)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
@@ -260,7 +260,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_week)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
@@ -274,7 +274,7 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check next week
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
@@ -305,7 +305,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_week)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
@@ -319,7 +319,7 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check next date
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
@@ -353,7 +353,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_week)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
@@ -367,7 +367,7 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check next date
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
@@ -401,7 +401,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_week)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
@@ -415,7 +415,7 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check next date
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_week)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
@@ -445,7 +445,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_month)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_month)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
@@ -459,7 +459,7 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check next month
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_month)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
@@ -493,7 +493,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_month)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_month)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
@@ -507,7 +507,7 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check next date
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_month)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
@@ -537,7 +537,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_year)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_year)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
@@ -551,7 +551,7 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check next month
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_year)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,
@@ -585,7 +585,7 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_year)
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_year)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarPrev.get(Calendar.YEAR),
                 calendarPrev.get(Calendar.MONTH) + 1,
@@ -599,7 +599,7 @@ class StatisticsRangesTest : BaseUiTest() {
         // Check next date
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_select_year)
-        onView(withClassName(equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
             setDate(
                 calendarNext.get(Calendar.YEAR),
                 calendarNext.get(Calendar.MONTH) + 1,

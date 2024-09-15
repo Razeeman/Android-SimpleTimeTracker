@@ -36,9 +36,9 @@ class DeleteRecordTypeTest : BaseUiTest() {
         val icon = firstIcon
 
         // Add item
-        Thread.sleep(1000)
         testUtils.addActivity(name = name, color = color, icon = icon)
         testUtils.addRecord(name)
+        Thread.sleep(1000)
 
         tryAction {
             checkViewIsDisplayed(
@@ -89,6 +89,32 @@ class DeleteRecordTypeTest : BaseUiTest() {
         pressBack()
 
         // Record removed
+        NavUtils.openRecordsScreen()
+        checkViewDoesNotExist(withText(name))
+    }
+
+    @Test
+    fun quickDelete() {
+        val name = "Test"
+
+        // Add data
+        testUtils.addActivity(name)
+        testUtils.addRecord(name)
+        Thread.sleep(1000)
+
+        // Check
+        checkViewIsDisplayed(allOf(withId(baseR.id.viewRecordTypeItem), hasDescendant(withText(name))))
+        NavUtils.openRecordsScreen()
+        checkViewIsDisplayed(allOf(withId(baseR.id.viewRecordItem), hasDescendant(withText(name))))
+        NavUtils.openRunningRecordsScreen()
+
+        // Delete
+        longClickOnView(allOf(withId(baseR.id.viewRecordTypeItem), hasDescendant(withText(name))))
+        clickOnViewWithId(changeRecordTypeR.id.btnChangeRecordTypeDelete)
+        clickOnViewWithText(coreR.string.ok)
+
+        // Check
+        checkViewDoesNotExist(allOf(withId(baseR.id.viewRecordTypeItem), hasDescendant(withText(name))))
         NavUtils.openRecordsScreen()
         checkViewDoesNotExist(withText(name))
     }

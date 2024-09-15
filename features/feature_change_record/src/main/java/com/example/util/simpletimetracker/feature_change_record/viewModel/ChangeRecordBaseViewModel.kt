@@ -717,7 +717,7 @@ abstract class ChangeRecordBaseViewModel(
                         newTimeStarted += shift
                     }
                     is ChangeRecordDateTimeFieldsState.State.Duration -> {
-                        newTimeStarted -= shift
+                        newTimeStarted = (newTimeStarted - shift).coerceAtMost(previewTimeEnded)
                     }
                 }
                 onTimeStartedChanged()
@@ -728,7 +728,7 @@ abstract class ChangeRecordBaseViewModel(
                         newTimeEnded += shift
                     }
                     is ChangeRecordDateTimeFieldsState.State.Duration -> {
-                        newTimeEnded = previewTimeEnded + shift
+                        newTimeEnded = (previewTimeEnded + shift).coerceAtLeast(newTimeStarted)
                     }
                 }
                 onTimeEndedChanged()

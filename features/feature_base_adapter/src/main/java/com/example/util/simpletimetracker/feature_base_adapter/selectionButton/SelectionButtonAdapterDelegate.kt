@@ -14,6 +14,7 @@ fun createSelectionButtonAdapterDelegate(
     with(binding) {
         item as ViewData
 
+        root.setTag(item.type)
         root.setCardBackgroundColor(item.color)
         tvSelectionButtonItemName.text = item.name
         root.setOnClickWith(item, onItemClick)
