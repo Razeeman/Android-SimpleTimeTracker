@@ -16,12 +16,12 @@ class NotificationTypeBroadcastController @Inject constructor(
     fun onActionActivityStart(
         name: String?,
         comment: String?,
-        tagName: String?,
+        tagNames: List<String>,
     ) {
         name ?: return
         GlobalScope.launch {
             activityStartStopFromBroadcastInteractor.onActionActivityStart(
-                name = name, comment = comment, tagName = tagName,
+                name = name, comment = comment, tagNames = tagNames,
             )
         }
     }
@@ -64,11 +64,11 @@ class NotificationTypeBroadcastController @Inject constructor(
 
     fun onActionActivityRestart(
         comment: String?,
-        tagName: String?,
+        tagNames: List<String>,
     ) {
         GlobalScope.launch {
             activityStartStopFromBroadcastInteractor.onActionActivityRestart(
-                comment = comment, tagName = tagName,
+                comment = comment, tagNames = tagNames,
             )
         }
     }
@@ -78,7 +78,7 @@ class NotificationTypeBroadcastController @Inject constructor(
         timeStarted: String?,
         timeEnded: String?,
         comment: String?,
-        tagName: String?,
+        tagNames: List<String>,
     ) {
         name ?: return
         timeStarted ?: return
@@ -89,7 +89,7 @@ class NotificationTypeBroadcastController @Inject constructor(
                 timeStarted = timeStarted,
                 timeEnded = timeEnded,
                 comment = comment,
-                tagName = tagName,
+                tagNames = tagNames,
             )
         }
     }

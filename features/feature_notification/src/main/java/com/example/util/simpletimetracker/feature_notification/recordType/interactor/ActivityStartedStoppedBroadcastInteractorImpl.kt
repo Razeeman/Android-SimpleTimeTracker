@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.interactor.ActivityStartedStopp
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.model.RecordTag
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -28,14 +29,11 @@ class ActivityStartedStoppedBroadcastInteractorImpl @Inject constructor(
     ) {
         if (!prefsInteractor.getAutomatedTrackingSendEvents()) return
 
-        val activityName = getActivityName(typeId) ?: return
-        val tagName = getTagName(tagIds.firstOrNull())
-
         sendBroadcast(
             actionString = EVENT_STARTED_ACTIVITY,
-            activityName = activityName,
+            activityName = getActivityName(typeId) ?: return,
             comment = comment,
-            tagName = tagName,
+            tagNames = getTagNames(tagIds),
         )
     }
 
@@ -46,14 +44,11 @@ class ActivityStartedStoppedBroadcastInteractorImpl @Inject constructor(
     ) {
         if (!prefsInteractor.getAutomatedTrackingSendEvents()) return
 
-        val activityName = getActivityName(typeId) ?: return
-        val tagName = getTagName(tagIds.firstOrNull())
-
         sendBroadcast(
             actionString = EVENT_STOPPED_ACTIVITY,
-            activityName = activityName,
+            activityName = getActivityName(typeId) ?: return,
             comment = comment,
-            tagName = tagName,
+            tagNames = getTagNames(tagIds),
         )
     }
 
@@ -61,13 +56,14 @@ class ActivityStartedStoppedBroadcastInteractorImpl @Inject constructor(
         actionString: String,
         activityName: String,
         comment: String,
-        tagName: String,
+        tagNames: List<String>,
     ) {
+        val tagsString = tagNames.joinToString(separator = ",")
         Intent().apply {
             action = actionString
             putExtra(EXTRA_ACTIVITY_NAME, activityName)
             if (comment.isNotEmpty()) putExtra(EXTRA_RECORD_COMMENT, comment)
-            if (tagName.isNotEmpty()) putExtra(EXTRA_RECORD_TAG_NAME, tagName)
+            if (tagNames.isNotEmpty()) putExtra(EXTRA_RECORD_TAG_NAME, tagsString)
         }.let(context::sendBroadcast)
     }
 
@@ -77,9 +73,10 @@ class ActivityStartedStoppedBroadcastInteractorImpl @Inject constructor(
         return recordTypeInteractor.get(typeId)?.name
     }
 
-    private suspend fun getTagName(
-        tagId: Long?,
-    ): String {
-        return recordTagInteractor.getAll().firstOrNull { it.id == tagId }?.name.orEmpty()
+    private suspend fun getTagNames(
+        tagIds: List<Long>,
+    ): List<String> {
+        val tags = recordTagInteractor.getAll().associateBy(RecordTag::id)
+        return tagIds.mapNotNull { tagId -> tags[tagId]?.name }
     }
 }

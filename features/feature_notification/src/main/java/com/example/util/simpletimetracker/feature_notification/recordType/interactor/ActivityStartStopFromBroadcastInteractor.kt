@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_notification.recordType.inter
 import com.example.util.simpletimetracker.core.interactor.CompleteTypesStateInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.domain.REPEAT_BUTTON_ITEM_ID
+import com.example.util.simpletimetracker.domain.extension.orEmpty
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
@@ -36,17 +37,17 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
     suspend fun onActionActivityStart(
         name: String,
         comment: String?,
-        tagName: String?,
+        tagNames: List<String>,
     ) {
         val typeId = getTypeIdByName(name) ?: return
         val runningRecord = runningRecordInteractor.get(typeId)
         if (runningRecord != null) return // Already running.
-        val tagId = findTagIdByName(tagName, typeId)
+        val tagIds = findTagIdByName(tagNames, typeId)
 
         addRunningRecordMediator.startTimer(
             typeId = typeId,
             comment = comment.orEmpty(),
-            tagIds = listOfNotNull(tagId),
+            tagIds = tagIds,
         )
     }
 
@@ -87,20 +88,20 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
 
     suspend fun onActionActivityRestart(
         comment: String?,
-        tagName: String?,
+        tagNames: List<String>,
     ) {
         val previousRecord = recordInteractor.getPrev(
             timeStarted = System.currentTimeMillis(),
         ).firstOrNull() ?: return
         val typeId = previousRecord.typeId
-        val tagId = findTagIdByName(tagName, typeId)
+        val tagIds = findTagIdByName(tagNames, typeId)
 
         addRunningRecordMediator.startTimer(
             typeId = typeId,
             comment = comment
                 ?: previousRecord.comment,
-            tagIds = listOfNotNull(tagId)
-                .takeUnless { tagName == null }
+            tagIds = tagIds
+                .takeUnless { tagNames.isEmpty() }
                 ?: previousRecord.tagIds,
         )
     }
@@ -110,12 +111,12 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         timeStarted: String,
         timeEnded: String,
         comment: String?,
-        tagName: String?,
+        tagNames: List<String>,
     ) {
         val typeId = getTypeIdByName(name) ?: return
         val newTimeStarted = parseTimestamp(timeStarted) ?: return
         val newTimeEnded = parseTimestamp(timeEnded) ?: return
-        val tagId = findTagIdByName(tagName, typeId)
+        val tagIds = findTagIdByName(tagNames, typeId)
 
         Record(
             id = 0, // Zero creates new record.
@@ -123,7 +124,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
             timeStarted = newTimeStarted,
             timeEnded = newTimeEnded,
             comment = comment.orEmpty(),
-            tagIds = listOfNotNull(tagId),
+            tagIds = tagIds,
         ).let {
             addRecordMediator.add(it)
             recordsUpdateInteractor.send()
@@ -191,12 +192,14 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
     }
 
     private suspend fun findTagIdByName(
-        name: String?,
+        names: List<String>,
         typeId: Long,
-    ): Long? {
-        name ?: return null
+    ): List<Long> {
+        if (names.isEmpty()) return emptyList()
         return getSelectableTagsInteractor.execute(typeId)
-            .firstOrNull { it.name == name && !it.archived }?.id
+            .filter { it.name in names && !it.archived }
+            .map { it.id }
+            .orEmpty()
     }
 
     /**

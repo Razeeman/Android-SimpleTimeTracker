@@ -129,11 +129,12 @@ class NotificationReceiver : BroadcastReceiver() {
             ACTION_START_ACTIVITY -> {
                 val name = intent.getStringExtra(EXTRA_ACTIVITY_NAME)
                 val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
-                val tagName = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
+                val tagNames = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
+                    ?.slipTagNames().orEmpty()
                 typeController.onActionActivityStart(
                     name = name,
                     comment = comment,
-                    tagName = tagName,
+                    tagNames = tagNames,
                 )
             }
             ACTION_STOP_ACTIVITY -> {
@@ -151,10 +152,11 @@ class NotificationReceiver : BroadcastReceiver() {
             }
             ACTION_RESTART_ACTIVITY -> {
                 val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
-                val tagName = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
+                val tagNames = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
+                    ?.slipTagNames().orEmpty()
                 typeController.onActionActivityRestart(
                     comment = comment,
-                    tagName = tagName,
+                    tagNames = tagNames,
                 )
             }
             ACTION_ADD_RECORD -> {
@@ -162,13 +164,14 @@ class NotificationReceiver : BroadcastReceiver() {
                 val timeStarted = intent.getStringExtra(EXTRA_TIME_STARTED)
                 val timeEnded = intent.getStringExtra(EXTRA_TIME_ENDED)
                 val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
-                val tagName = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
+                val tagNames = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
+                    ?.slipTagNames().orEmpty()
                 typeController.onActionRecordAdd(
                     name = name,
                     timeStarted = timeStarted,
                     timeEnded = timeEnded,
                     comment = comment,
-                    tagName = tagName,
+                    tagNames = tagNames,
                 )
             }
             ACTION_NOTIFICATION_STOP -> {
@@ -231,6 +234,10 @@ class NotificationReceiver : BroadcastReceiver() {
         automaticBackupController.onBootCompleted()
         automaticExportController.onBootCompleted()
         pomodoroController.onBootCompleted()
+    }
+
+    private fun String.slipTagNames(): List<String> {
+        return split(',').map(String::trim)
     }
 
     companion object {
