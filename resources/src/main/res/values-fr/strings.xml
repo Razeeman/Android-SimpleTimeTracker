@@ -324,6 +324,8 @@
     <string name="settings_show_record_tag_close_hint">Fermer après avoir sélectionné une étiquette</string>
     <string name="settings_rate">Évaluez nous</string>
     <string name="settings_rate_description">Évaluez l\'application et laissez un avis.</string>
+    <string name="settings_support_development">Accompagner le développement</string>
+    <string name="settings_support_development_hint">Ne donne accès à aucun contenu ou service numérique.</string>
     <string name="settings_feedback">Retours</string>
     <string name="settings_feedback_description">Vous avez une suggestion ? Vous avez trouvé un bogue ? Vous souhaitez nous parler ? Écrivez-nous !</string>
     <string name="settings_version">Version</string>

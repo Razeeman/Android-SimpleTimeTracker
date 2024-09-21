@@ -324,6 +324,8 @@
     <string name="settings_show_record_tag_close_hint">أغلق بعد اختيار وسم واحد.</string>
     <string name="settings_rate">قيمنا</string>
     <string name="settings_rate_description">قيم التطبيق واترك مراجعة.</string>
+    <string name="settings_support_development">دعم التنمية</string>
+    <string name="settings_support_development_hint">لا يمنح الوصول إلى أي محتوى أو خدمات رقمية.</string>
     <string name="settings_feedback">انطباعات ومراجعة</string>
     <string name="settings_feedback_description">هل لديك اقتراح؟ هل وجدت خطأ؟ هل تريد التحدث؟ اكتب لنا!</string>
     <string name="settings_version">اﻹصدار</string>

@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsRatingViewDataInteractor
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.action.OpenLinkParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
@@ -41,6 +42,7 @@ class SettingsRatingViewModelDelegate @Inject constructor(
     fun onBlockClicked(block: SettingsBlock) {
         when (block) {
             SettingsBlock.RateUs -> onRateClick()
+            SettingsBlock.SupportDevelopment -> onSupportDevelopmentClick()
             SettingsBlock.Feedback -> onFeedbackClick()
             SettingsBlock.Version -> onVersionClick()
             SettingsBlock.DebugMenu -> onDebugMenuClick()
@@ -53,6 +55,12 @@ class SettingsRatingViewModelDelegate @Inject constructor(
     private fun onRateClick() {
         router.execute(
             OpenMarketParams(packageName = applicationDataProvider.getPackageName()),
+        )
+    }
+
+    private fun onSupportDevelopmentClick() {
+        router.execute(
+            OpenLinkParams(link = resourceRepo.getString(R.string.support_development_link))
         )
     }
 

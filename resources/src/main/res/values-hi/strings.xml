@@ -324,6 +324,8 @@
     <string name="settings_show_record_tag_close_hint">एक टैग का चयन करने के बाद बंद करें।</string>
     <string name="settings_rate">हमें रेटिंग दें</string>
     <string name="settings_rate_description">ऐप को रेट करें और एक समीक्षा छोड़ दें।</string>
+    <string name="settings_support_development">विकास का समर्थन करें</string>
+    <string name="settings_support_development_hint">किसी भी डिजिटल सामग्री या सेवाओं तक पहुंच प्रदान नहीं करता है।</string>
     <string name="settings_feedback">प्रतिपुष्टि</string>
     <string name="settings_feedback_description">एक सुझाव है? एक बग मिला है? बात करना चाहते है? हमें लिखे!</string>
     <string name="settings_version">संस्करण</string>

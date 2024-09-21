@@ -324,6 +324,8 @@
     <string name="settings_show_record_tag_close_hint">بستن بعد از انتخاب یک برچسب</string>
     <string name="settings_rate">به ما امتیاز دهید</string>
     <string name="settings_rate_description">به ما امتیاز دهید و نظر خود را بگذارید</string>
+    <string name="settings_support_development">پشتیبانی از توسعه</string>
+    <string name="settings_support_development_hint">به هیچ محتوا یا خدمات دیجیتالی اجازه دسترسی نمی دهد.</string>
     <string name="settings_feedback">بازخورد</string>
     <string name="settings_feedback_description">پیشنهادی دارید؟ ایرادی پیدا کردید؟میخواهید صحبت کنید؟ به ما پیام بدید</string>
     <string name="settings_version">نسخه</string>

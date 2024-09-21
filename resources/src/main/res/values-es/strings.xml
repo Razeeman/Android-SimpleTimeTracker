@@ -324,6 +324,8 @@
     <string name="settings_show_record_tag_close_hint">Cerrar después de seleccionar una etiqueta</string>
     <string name="settings_rate">Valórenos</string>
     <string name="settings_rate_description">Valore la aplicación y deje un comentario.</string>
+    <string name="settings_support_development">Apoyar el desarrollo</string>
+    <string name="settings_support_development_hint">No otorga acceso a ningún contenido o servicio digital.</string>
     <string name="settings_feedback">Sugerencias</string>
     <string name="settings_feedback_description">¿Tiene alguna sugerencia? ¿Encontró algún error? ¿Le apetece charlar? ¡Escríbanos!</string>
     <string name="settings_version">Versión</string>

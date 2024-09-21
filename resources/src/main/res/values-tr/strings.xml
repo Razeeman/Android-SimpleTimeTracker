@@ -324,6 +324,8 @@
     <string name="settings_show_record_tag_close_hint">Bir etiket seçildiğinde seçim ekranını kapat</string>
     <string name="settings_rate">Bizi oylayın</string>
     <string name="settings_rate_description">Uygulamayı oyla ve bir yorum bırak.</string>
+    <string name="settings_support_development">Geliştirmeyi destekleyin</string>
+    <string name="settings_support_development_hint">Hiçbir dijital içeriğe veya hizmete erişim izni vermez.</string>
     <string name="settings_feedback">Geri bildirim</string>
     <string name="settings_feedback_description">Önerin mi var? Hata mı buldun? Konuşmak mı istiyorsun? Bize yaz!</string>
     <string name="settings_version">Versiyon</string>

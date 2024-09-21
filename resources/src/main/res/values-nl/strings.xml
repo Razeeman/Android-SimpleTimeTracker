@@ -324,6 +324,8 @@
     <string name="settings_show_record_tag_close_hint">Sluiten na het selecteren van een label</string>
     <string name="settings_rate">Beoordeel ons</string>
     <string name="settings_rate_description">Beoordeel de app en laat een recensie achter.</string>
+    <string name="settings_support_development">Ondersteuning van ontwikkeling</string>
+    <string name="settings_support_development_hint">Verleent geen toegang tot digitale inhoud of diensten.</string>
     <string name="settings_feedback">Feedback</string>
     <string name="settings_feedback_description">Heeft u een suggestie? Een fout gevonden? Wilt u praten? Schrijf ons!</string>
     <string name="settings_version">Versie</string>

@@ -324,6 +324,8 @@
     <string name="settings_show_record_tag_close_hint">Tanca després de seleccionar una etiqueta</string>
     <string name="settings_rate">Valoreu-nos</string>
     <string name="settings_rate_description">Valoreu l\'aplicació i deixeu un comentari</string>
+    <string name="settings_support_development">Suport al desenvolupament</string>
+    <string name="settings_support_development_hint">No concedeix accés a cap contingut o servei digital.</string>
     <string name="settings_feedback">Comentaris</string>
     <string name="settings_feedback_description">Teniu un suggeriment? Heu trobat un error? Voleu parlar? Escriviu-nos!</string>
     <string name="settings_version">Versió</string>

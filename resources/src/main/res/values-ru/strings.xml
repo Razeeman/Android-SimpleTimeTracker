@@ -324,6 +324,8 @@
     <string name="settings_show_record_tag_close_hint">Закрыть после выбора одного тега</string>
     <string name="settings_rate">Оцените нас</string>
     <string name="settings_rate_description">Оцените приложение и оставьте отзыв.</string>
+    <string name="settings_support_development">Поддержать разработку</string>
+    <string name="settings_support_development_hint">Не предоставляет доступ к какому-либо цифровому контенту или услугам.</string>
     <string name="settings_feedback">Обратная связь</string>
     <string name="settings_feedback_description">Есть предложение? Нашли ошибку? Хотите поговорить? Напишите нам!</string>
     <string name="settings_version">Версия</string>

@@ -324,6 +324,8 @@
     <string name="settings_show_record_tag_close_hint">タグを1つ選択したら閉じる</string>
     <string name="settings_rate">評価する</string>
     <string name="settings_rate_description">アプリを評価して、レビューを残す。</string>
+    <string name="settings_support_development">サポート開発</string>
+    <string name="settings_support_development_hint">デジタル コンテンツまたはサービスへのアクセスを許可しません。</string>
     <string name="settings_feedback">フィードバック</string>
     <string name="settings_feedback_description">ご意見はございませんか？バグを発見した？話をしたいですか？私たちに手紙を書いてください</string>
     <string name="settings_version">バージョン</string>

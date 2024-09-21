@@ -11,6 +11,7 @@ enum class SettingsBlock {
 
     RatingTop,
     RateUs,
+    SupportDevelopment,
     Feedback,
     Version,
     DebugMenu,

@@ -324,6 +324,8 @@
     <string name="settings_show_record_tag_close_hint">Schließen nach Auswahl eines Tags</string>
     <string name="settings_rate">Bewerte uns</string>
     <string name="settings_rate_description">Bewerten die App und schreibe eine Rezension.</string>
+    <string name="settings_support_development">Unterstützen Sie die Entwicklung</string>
+    <string name="settings_support_development_hint">Gewährt keinen Zugriff auf digitale Inhalte oder Dienste.</string>
     <string name="settings_feedback">Feedback</string>
     <string name="settings_feedback_description">Hast du eine Anregung? Einen Fehler gefunden? Du möchtest reden? Dann schreibe uns!</string>
     <string name="settings_version">Version</string>

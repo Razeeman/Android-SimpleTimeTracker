@@ -35,6 +35,16 @@ class SettingsRatingViewDataInteractor @Inject constructor(
             iconColor = resourceRepo.getColor(R.color.amber_400),
         )
 
+        result += SettingsTextWithIconViewData(
+            data = SettingsTextViewData(
+                block = SettingsBlock.SupportDevelopment,
+                title = resourceRepo.getString(R.string.settings_support_development),
+                subtitle = resourceRepo.getString(R.string.settings_support_development_hint),
+            ),
+            iconResId = R.drawable.favorite_border,
+            iconColor = resourceRepo.getColor(R.color.orange_400),
+        )
+
         result += SettingsTextViewData(
             block = SettingsBlock.Feedback,
             title = resourceRepo.getString(R.string.settings_feedback),

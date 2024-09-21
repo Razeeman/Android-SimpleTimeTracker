@@ -324,6 +324,8 @@
     <string name="settings_show_record_tag_close_hint">选择一个标签后关闭</string>
     <string name="settings_rate">给我们评分</string>
     <string name="settings_rate_description">评价应用程序并留下评论。</string>
+    <string name="settings_support_development">支持发展</string>
+    <string name="settings_support_development_hint">不授予对任何数字内容或服务的访问权限。</string>
     <string name="settings_feedback">反馈</string>
     <string name="settings_feedback_description">有什么建议吗？找到问题了吗？想谈谈吗？给我们写邮件吧！</string>
     <string name="settings_version">版本</string>

@@ -324,6 +324,8 @@
     <string name="settings_show_record_tag_close_hint">Đóng sau khi chọn một thẻ</string>
     <string name="settings_rate">Hãy đánh giá chúng tôi</string>
     <string name="settings_rate_description">Xếp hạng ứng dụng và để lại đánh giá.</string>
+    <string name="settings_support_development">Hỗ trợ phát triển</string>
+    <string name="settings_support_development_hint">Không cấp quyền truy cập vào bất kỳ nội dung hoặc dịch vụ kỹ thuật số nào.</string>
     <string name="settings_feedback">Phản hồi</string>
     <string name="settings_feedback_description">Có một gợi ý? Tìm thấy một lỗi? Muốn nói chuyện? Hãy viết thư cho chúng tôi!</string>
     <string name="settings_version">Phiên bản</string>

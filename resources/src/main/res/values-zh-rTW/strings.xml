@@ -324,6 +324,8 @@
     <string name="settings_show_record_tag_close_hint">選擇一個標籤後關閉</string>
     <string name="settings_rate">給我們投票</string>
     <string name="settings_rate_description">給我們的應用留下評分</string>
+    <string name="settings_support_development">支持發展</string>
+    <string name="settings_support_development_hint">不授予對任何數位內容或服務的存取權限。</string>
     <string name="settings_feedback">回饋</string>
     <string name="settings_feedback_description">有什麼建議嗎？ 找到臭蟲嗎？ 想要說什麼？ 寫給我們！</string>
     <string name="settings_version">版本</string>

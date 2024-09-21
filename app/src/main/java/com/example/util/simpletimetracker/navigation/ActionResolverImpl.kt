@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.navigation.params.action.ActionParams
 import com.example.util.simpletimetracker.navigation.params.action.CreateFileParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenFileParams
+import com.example.util.simpletimetracker.navigation.params.action.OpenLinkParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenMarketParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenSystemSettings
 import com.example.util.simpletimetracker.navigation.params.action.RequestPermissionParams
@@ -45,6 +46,7 @@ class ActionResolverImpl @Inject constructor(
             is OpenSystemSettings -> openSystemSettings(activity, data)
             is ShareImageParams -> shareImage(activity, data)
             is RequestPermissionParams -> requestPermission(data)
+            is OpenLinkParams -> openLink(activity, data)
         }
     }
 
@@ -66,6 +68,15 @@ class ActionResolverImpl @Inject constructor(
                 activity?.startActivity(it)
             }
         }
+    }
+
+    private fun openLink(activity: Activity?, params: OpenLinkParams) {
+        activity?.startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(params.link),
+            ),
+        )
     }
 
     private fun sendEmail(activity: Activity?, params: SendEmailParams) {
