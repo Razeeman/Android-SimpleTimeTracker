@@ -60,7 +60,7 @@ class SettingsRatingViewModelDelegate @Inject constructor(
 
     private fun onSupportDevelopmentClick() {
         router.execute(
-            OpenLinkParams(link = resourceRepo.getString(R.string.support_development_link))
+            OpenLinkParams(link = resourceRepo.getString(R.string.support_development_link)),
         )
     }
 

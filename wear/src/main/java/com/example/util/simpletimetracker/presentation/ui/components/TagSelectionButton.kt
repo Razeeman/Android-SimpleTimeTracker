@@ -13,6 +13,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,9 +42,11 @@ fun TagSelectionButton(
     val onClickState = remember(state) {
         { onClick(state.buttonType) }
     }
+    val height = ACTIVITY_VIEW_HEIGHT.dp *
+        LocalDensity.current.fontScale
     Chip(
         modifier = Modifier
-            .height(ACTIVITY_VIEW_HEIGHT.dp)
+            .height(height)
             .fillMaxWidth(),
         onClick = onClickState,
         label = {
@@ -102,6 +105,18 @@ private fun Loading() {
             color = ColorActive,
             buttonType = TagListState.Item.ButtonType.Complete,
             isLoading = true,
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND, fontScale = 2f)
+@Composable
+private fun FontScaled() {
+    TagSelectionButton(
+        state = TagSelectionButtonState(
+            text = "Temp",
+            color = ColorInactive,
+            buttonType = TagListState.Item.ButtonType.Untagged,
         ),
     )
 }

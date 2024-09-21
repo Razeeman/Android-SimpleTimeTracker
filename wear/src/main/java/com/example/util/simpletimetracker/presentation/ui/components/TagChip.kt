@@ -13,6 +13,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -71,9 +72,11 @@ private fun SingleSelectTagChip(
     val onClickState = remember(state.id) {
         { onClick(state.id) }
     }
+    val height = ACTIVITY_VIEW_HEIGHT.dp *
+        LocalDensity.current.fontScale
     Chip(
         modifier = Modifier
-            .height(ACTIVITY_VIEW_HEIGHT.dp)
+            .height(height)
             .fillMaxWidth(),
         onClick = onClickState,
         label = {
@@ -106,9 +109,11 @@ private fun MultiSelectTagChip(
     val onClickState = remember(state.id) {
         { onClick(state.id) }
     }
+    val height = ACTIVITY_VIEW_HEIGHT.dp *
+        LocalDensity.current.fontScale
     SplitToggleChip(
         modifier = Modifier
-            .height(ACTIVITY_VIEW_HEIGHT.dp)
+            .height(height)
             .fillMaxWidth(),
         checked = state.checked,
         onCheckedChange = onCheckedChange,
@@ -162,6 +167,20 @@ private fun Default() {
     )
 }
 
+@Preview(device = WearDevices.LARGE_ROUND, fontScale = 2f)
+@Composable
+private fun DefaultWithFontScale() {
+    TagChip(
+        state = TagChipState(
+            id = 123,
+            name = "Sleep",
+            color = 0xFF123456,
+            checked = false,
+            mode = TagChipState.TagSelectionMode.SINGLE,
+        ),
+    )
+}
+
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun Loading() {
@@ -180,6 +199,20 @@ private fun Loading() {
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun MultiSelectMode() {
+    TagChip(
+        state = TagChipState(
+            id = 123,
+            name = "Sleep",
+            color = 0xFF654321,
+            checked = false,
+            mode = TagChipState.TagSelectionMode.MULTI,
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND, fontScale = 2f)
+@Composable
+private fun MultiSelectModeFontScale() {
     TagChip(
         state = TagChipState(
             id = 123,

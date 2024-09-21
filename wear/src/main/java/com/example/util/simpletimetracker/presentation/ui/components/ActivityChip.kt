@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,7 +52,7 @@ fun ActivityChip(
         ACTIVITY_RUNNING_VIEW_HEIGHT
     } else {
         ACTIVITY_VIEW_HEIGHT
-    }
+    } * LocalDensity.current.fontScale
     Chip(
         modifier = Modifier
             .height(height.dp)
@@ -123,6 +124,14 @@ fun Sample() {
     )
 }
 
+@Preview(device = WearDevices.LARGE_ROUND, fontScale = 2f)
+@Composable
+fun SampleFontScale() {
+    ActivityChip(
+        ActivityChipState(0, "Cooking", WearActivityIcon.Text("🎉"), 0xFF123456),
+    )
+}
+
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun SampleSleep() {
@@ -180,6 +189,17 @@ fun CurrentlyRunning() {
     )
 }
 
+@Preview(device = WearDevices.LARGE_ROUND, fontScale = 2f)
+@Composable
+fun CurrentlyRunningFontScale() {
+    ActivityChip(
+        ActivityChipState(
+            0, "Sleeping", WearActivityIcon.Text("🛏️"), 0xFFABCDEF,
+            startedAt = Instant.now().toEpochMilli() - 365000,
+        ),
+    )
+}
+
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun CurrentlyRunningLoading() {
@@ -195,6 +215,18 @@ fun CurrentlyRunningLoading() {
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 fun CurrentlyRunningWithTags() {
+    ActivityChip(
+        ActivityChipState(
+            0, "Sleeping", WearActivityIcon.Text("🛏️"), 0xFFABCDEF,
+            startedAt = Instant.now().toEpochMilli() - 365000,
+            tagString = "Work, Hotel",
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND, fontScale = 2f)
+@Composable
+fun CurrentlyRunningWithTagsFontScale() {
     ActivityChip(
         ActivityChipState(
             0, "Sleeping", WearActivityIcon.Text("🛏️"), 0xFFABCDEF,

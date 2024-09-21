@@ -85,7 +85,7 @@ fun ActivityChipCompact(
                     text = text,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    fontSize = 10.sp,
+                    fontSize = 10.scaledSp(),
                     letterSpacing = (-0.3).sp,
                     fontWeight = FontWeight.Bold,
                 )
@@ -154,6 +154,20 @@ private fun PreviewLoading() {
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun PreviewRunning() {
+    ActivityChipCompact(
+        modifier = Modifier.size(48.dp),
+        state = ActivityChipCompatState(
+            id = 0,
+            icon = WearActivityIcon.Text("🎉"),
+            color = 0xFF123456,
+            startedAt = Instant.now().toEpochMilli() - 36500000,
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND, fontScale = 2f)
+@Composable
+private fun PreviewRunningFontScale() {
     ActivityChipCompact(
         modifier = Modifier.size(48.dp),
         state = ActivityChipCompatState(

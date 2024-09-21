@@ -12,7 +12,7 @@ import javax.inject.Inject
 interface WearModule {
 
     @Binds
-    fun NoopWearInteractor.bindWearInteractor(): WearInteractor
+    fun bindWearInteractor(impl: NoopWearInteractor): WearInteractor
 
     class NoopWearInteractor @Inject constructor() : WearInteractor {
         override suspend fun update() {

@@ -6,11 +6,12 @@
 package com.example.util.simpletimetracker.presentation.ui.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -33,34 +34,53 @@ fun SettingsCheckbox(
             .fillMaxWidth()
             .clickable(onClick = onClick),
     ) {
-        Column(
-            Modifier
+        Text(
+            modifier = Modifier
                 .padding(vertical = 3.dp)
                 .padding(horizontal = 4.dp)
                 .fillMaxWidth()
                 .weight(1f),
+            text = state.text,
+            fontWeight = FontWeight.Medium,
+        )
+        Box(
+            contentAlignment = Alignment.Center,
         ) {
+            // Dummy text for centering.
             Text(
-                text = state.text,
-                fontWeight = FontWeight.Medium,
+                modifier = Modifier
+                    .padding(vertical = 3.dp)
+                    .padding(horizontal = 4.dp),
+                text = "",
+            )
+            Checkbox(
+                checked = state.checked,
+                colors = CheckboxDefaults.colors(
+                    checkedBoxColor = ColorAccent,
+                    checkedCheckmarkColor = ColorAccent,
+                    uncheckedBoxColor = Color.White,
+                    uncheckedCheckmarkColor = Color.White,
+                ),
             )
         }
-        Checkbox(
-            modifier = Modifier,
-            checked = state.checked,
-            colors = CheckboxDefaults.colors(
-                checkedBoxColor = ColorAccent,
-                checkedCheckmarkColor = ColorAccent,
-                uncheckedBoxColor = Color.White,
-                uncheckedCheckmarkColor = Color.White,
-            ),
-        )
     }
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun SettingsCheckboxPreview() {
+    SettingsCheckbox(
+        state = SettingsItem.CheckBox(
+            type = SettingsItemType.ShowCompactList,
+            text = "Check box",
+            checked = false,
+        ),
+    )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND, fontScale = 2f)
+@Composable
+private fun SettingsCheckboxFontScalePreview() {
     SettingsCheckbox(
         state = SettingsItem.CheckBox(
             type = SettingsItemType.ShowCompactList,
