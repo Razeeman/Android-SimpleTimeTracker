@@ -136,22 +136,35 @@ class DurationView @JvmOverloads constructor(
         // Center text
         canvas.translate(textStartHorizontal, textStartVertical)
 
-        var text = data.hours.format()
-        canvas.drawText(text, 0f, 0f, textPaint)
-        canvas.translate(textPaint.measureText(text), 0f)
+        val hoursText = data.hours.format()
+        val minutesText = data.minutes.format()
+        val secondsText = data.seconds.format()
+        val hoursNotEmpty = textHasValues(hoursText)
+        val minutesNotEmpty = hoursNotEmpty || textHasValues(minutesText)
+        val secondsNotEmpty = hoursNotEmpty || minutesNotEmpty || textHasValues(secondsText)
+
+        var color = if (hoursNotEmpty) textColor else legendTextColor
+        textPaint.color = color
+        legendTextPaint.color = color
+        canvas.drawText(hoursText, 0f, 0f, textPaint)
+        canvas.translate(textPaint.measureText(hoursText), 0f)
         canvas.drawText(hourString, 0f, 0f, legendTextPaint)
         canvas.translate(legendTextPaint.measureText(hourString) + legendPadding, 0f)
 
-        text = data.minutes.format()
-        canvas.drawText(text, 0f, 0f, textPaint)
-        canvas.translate(textPaint.measureText(text), 0f)
+        color = if (minutesNotEmpty) textColor else legendTextColor
+        textPaint.color = color
+        legendTextPaint.color = color
+        canvas.drawText(minutesText, 0f, 0f, textPaint)
+        canvas.translate(textPaint.measureText(minutesText), 0f)
         canvas.drawText(minuteString, 0f, 0f, legendTextPaint)
         canvas.translate(legendTextPaint.measureText(minuteString) + legendPadding, 0f)
 
         if (data.showSeconds) {
-            text = data.seconds.format()
-            canvas.drawText(text, 0f, 0f, textPaint)
-            canvas.translate(textPaint.measureText(text), 0f)
+            color = if (secondsNotEmpty) textColor else legendTextColor
+            textPaint.color = color
+            legendTextPaint.color = color
+            canvas.drawText(secondsText, 0f, 0f, textPaint)
+            canvas.translate(textPaint.measureText(secondsText), 0f)
             canvas.drawText(secondString, 0f, 0f, legendTextPaint)
             canvas.translate(legendTextPaint.measureText(secondString), 0f)
         }
@@ -164,6 +177,10 @@ class DurationView @JvmOverloads constructor(
 
         val desiredTextSize = testTextSize * desiredWidth / width
         paint.textSize = desiredTextSize
+    }
+
+    private fun textHasValues(text: String): Boolean {
+        return text != "00"
     }
 
     private fun Long.format(): String {
