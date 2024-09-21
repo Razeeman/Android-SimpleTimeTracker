@@ -1,0 +1,5 @@
+- Add notes to activities, tags and categories
+- Add ability to set duration on change record screen
+- Add more detailed statistics for the day range
+- Add ability to set default duration for activity
+- General bug fixes and improvements
