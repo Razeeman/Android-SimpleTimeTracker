@@ -25,6 +25,13 @@ class RangeMapper @Inject constructor() {
         return records.filter { it.isInRange(range) }
     }
 
+    fun isRecordInRange(
+        record: RecordBase,
+        range: Range,
+    ): Boolean {
+        return record.isInRange(range)
+    }
+
     fun clampToRange(
         record: RecordBase,
         range: Range,
