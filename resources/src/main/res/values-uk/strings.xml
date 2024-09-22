@@ -133,7 +133,7 @@
     <string name="change_record_untracked_time_hint">Невідстежуваний час – це час, коли жодна активність не відстежувалася.</string>
     <string name="change_record_previous_not_found">Попередній запис не знайдено</string>
     <string name="change_record_next_not_found">Наступний запис не знайдено</string>
-    <string name="change_record_date_time_start">Почніть</string>
+    <string name="change_record_date_time_start">Початок</string>
     <string name="change_record_date_time_end">Кінець</string>
     <string name="change_record_date_time_duration">Тривалість</string>
 
@@ -154,11 +154,11 @@
     <string name="change_record_type_categories_empty">Категорії не додано</string>
     <string name="change_record_type_goal_time_disabled">Вимкнено</string>
     <string name="change_record_type_goal_time_hint">Ціль</string>
-    <string name="change_record_type_additional_hint">Додатковий</string>
+    <string name="change_record_type_additional_hint">Додатково</string>
     <string name="change_record_type_default_duration">Тривалість за замовчуванням</string>
     <string name="change_record_type_default_duration_hint">Дії з тривалістю за замовчуванням відстежуються одразу після натискання.</string>
     <string name="change_record_type_goal_time_description">Сповіщення буде показано після досягнення мети</string>
-    <string name="change_record_type_duplicate_hint">Буде створено копію цієї діяльності</string>
+    <string name="change_record_type_duplicate_hint">Буде створено копію цієї активності</string>
     <string name="change_record_type_session_goal_time">Сесія</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>
