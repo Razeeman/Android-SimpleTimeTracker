@@ -12,6 +12,9 @@ import timber.log.Timber
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
+/**
+ * When adding new types - add support for the backups.
+ */
 @Suppress("UNCHECKED_CAST")
 internal inline fun <reified T : Any> SharedPreferences.delegate(
     key: String,

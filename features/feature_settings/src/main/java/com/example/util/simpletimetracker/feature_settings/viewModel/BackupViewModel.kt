@@ -418,7 +418,7 @@ class BackupViewModel @Inject constructor(
     companion object {
         private const val CSV_EXPORT_DIALOG_TAG = "csv_export_dialog_tag"
         private const val ICS_EXPORT_DIALOG_TAG = "ics_export_dialog_tag"
-        private const val ALERT_DIALOG_TAG = "alert_dialog_tag"
+        private const val ALERT_DIALOG_TAG = "backup_restore_dialog_tag"
         private const val CSV_IMPORT_ALERT_DIALOG_TAG = "csv_import_alert_dialog_tag"
 
         private const val FILE_TYPE_BIN = "application/x-binary"

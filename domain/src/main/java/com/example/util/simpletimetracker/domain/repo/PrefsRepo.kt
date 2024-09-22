@@ -20,6 +20,10 @@ interface PrefsRepo {
     var categoryOrder: Int
     var tagOrder: Int
 
+    var cardOrderManual: Set<String>
+    var categoryOrderManual: Set<String>
+    var tagOrderManual: Set<String>
+
     var statisticsRange: Int
     var statisticsRangeCustomStart: Long
     var statisticsRangeCustomEnd: Long
@@ -164,19 +168,9 @@ interface PrefsRepo {
 
     fun removeQuickSettingsWidget(widgetId: Int)
 
-    fun setCardOrderManual(cardOrder: Map<Long, Long>)
-
-    fun getCardOrderManual(): Map<Long, Long>
-
-    fun setCategoryOrderManual(cardOrder: Map<Long, Long>)
-
-    fun getCategoryOrderManual(): Map<Long, Long>
-
-    fun setTagOrderManual(cardOrder: Map<Long, Long>)
-
-    fun getTagOrderManual(): Map<Long, Long>
-
     fun clear()
     fun clearDefaultTypesHidden()
     fun clearPomodoroSettingsClick()
+
+    fun hasValueSaved(key: String): Boolean
 }

@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.CardOrder
 import com.example.util.simpletimetracker.domain.model.CardTagOrder
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
@@ -613,27 +614,27 @@ class PrefsInteractor @Inject constructor(
     }
 
     suspend fun setCardOrderManual(cardsOrder: Map<Long, Long>) = withContext(Dispatchers.IO) {
-        prefsRepo.setCardOrderManual(cardsOrder)
+        prefsRepo.cardOrderManual = mapOrderManual(cardsOrder)
     }
 
     suspend fun getCardOrderManual(): Map<Long, Long> = withContext(Dispatchers.IO) {
-        prefsRepo.getCardOrderManual()
+        mapOrderManual(prefsRepo.cardOrderManual)
     }
 
     suspend fun setCategoryOrderManual(cardsOrder: Map<Long, Long>) = withContext(Dispatchers.IO) {
-        prefsRepo.setCategoryOrderManual(cardsOrder)
+        prefsRepo.categoryOrderManual = mapOrderManual(cardsOrder)
     }
 
     suspend fun getCategoryOrderManual(): Map<Long, Long> = withContext(Dispatchers.IO) {
-        prefsRepo.getCategoryOrderManual()
+        mapOrderManual(prefsRepo.categoryOrderManual)
     }
 
     suspend fun setTagOrderManual(cardsOrder: Map<Long, Long>) = withContext(Dispatchers.IO) {
-        prefsRepo.setTagOrderManual(cardsOrder)
+        prefsRepo.tagOrderManual = mapOrderManual(cardsOrder)
     }
 
     suspend fun getTagOrderManual(): Map<Long, Long> = withContext(Dispatchers.IO) {
-        prefsRepo.getTagOrderManual()
+        mapOrderManual(prefsRepo.tagOrderManual)
     }
 
     suspend fun setAutomaticBackupUri(uri: String) = withContext(Dispatchers.IO) {
@@ -812,5 +813,31 @@ class PrefsInteractor @Inject constructor(
             CardTagOrder.MANUAL -> 2
             CardTagOrder.ACTIVITY -> 3
         }
+    }
+
+    private fun mapOrderManual(
+        cardOrder: Map<Long, Long>,
+    ): Set<String> {
+        return cardOrder.map { (typeId, order) ->
+            "$typeId$CARDS_ORDER_DELIMITER${order.toShort()}"
+        }.toSet()
+    }
+
+    private fun mapOrderManual(
+        set: Set<String>?,
+    ): Map<Long, Long> {
+        return set
+            ?.associate { string ->
+                string.split(CARDS_ORDER_DELIMITER).let { parts ->
+                    parts.getOrNull(0).orEmpty() to parts.getOrNull(1).orEmpty()
+                }
+            }
+            ?.mapKeys { it.key.toLongOrNull().orZero() }
+            ?.mapValues { it.value.toLongOrNull().orZero() }
+            ?: emptyMap()
+    }
+
+    companion object {
+        private const val CARDS_ORDER_DELIMITER = "_"
     }
 }

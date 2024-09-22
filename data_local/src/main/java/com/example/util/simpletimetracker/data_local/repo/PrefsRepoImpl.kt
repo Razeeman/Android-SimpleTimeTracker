@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.data_local.repo
 import android.content.SharedPreferences
 import com.example.util.simpletimetracker.data_local.utils.delegate
 import com.example.util.simpletimetracker.data_local.utils.logPrefsDataAccess
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.QuickSettingsWidgetType
 import com.example.util.simpletimetracker.domain.model.RangeLength
@@ -55,6 +54,18 @@ class PrefsRepoImpl @Inject constructor(
 
     override var tagOrder: Int by prefs.delegate(
         KEY_TAG_ORDER, 3, // Default to activity sort.
+    )
+
+    override var cardOrderManual: Set<String> by prefs.delegate(
+        KEY_CARD_ORDER_MANUAL, emptySet(),
+    )
+
+    override var categoryOrderManual: Set<String> by prefs.delegate(
+        KEY_CATEGORY_ORDER_MANUAL, emptySet(),
+    )
+
+    override var tagOrderManual: Set<String> by prefs.delegate(
+        KEY_TAG_ORDER_MANUAL, emptySet(),
     )
 
     override var statisticsRange: Int by prefs.delegate(
@@ -453,30 +464,6 @@ class PrefsRepoImpl @Inject constructor(
         prefs.edit().remove(key).apply()
     }
 
-    override fun setCardOrderManual(cardOrder: Map<Long, Long>) {
-        setOrderManual(KEY_CARD_ORDER_MANUAL, cardOrder)
-    }
-
-    override fun getCardOrderManual(): Map<Long, Long> {
-        return getOrderManual(KEY_CARD_ORDER_MANUAL)
-    }
-
-    override fun setCategoryOrderManual(cardOrder: Map<Long, Long>) {
-        setOrderManual(KEY_CATEGORY_ORDER_MANUAL, cardOrder)
-    }
-
-    override fun getCategoryOrderManual(): Map<Long, Long> {
-        return getOrderManual(KEY_CATEGORY_ORDER_MANUAL)
-    }
-
-    override fun setTagOrderManual(cardOrder: Map<Long, Long>) {
-        setOrderManual(KEY_TAG_ORDER_MANUAL, cardOrder)
-    }
-
-    override fun getTagOrderManual(): Map<Long, Long> {
-        return getOrderManual(KEY_TAG_ORDER_MANUAL)
-    }
-
     override fun clear() {
         prefs.edit().clear().apply()
     }
@@ -492,120 +479,97 @@ class PrefsRepoImpl @Inject constructor(
         prefs.edit().remove(KEY_POMODORO_PERIODS_UNTIL_LONG_BREAK).apply()
     }
 
-    private fun setOrderManual(
-        key: String,
-        cardOrder: Map<Long, Long>,
-    ) {
-        logPrefsDataAccess("set $key")
-        val set = cardOrder.map { (typeId, order) ->
-            "$typeId$CARDS_ORDER_DELIMITER${order.toShort()}"
-        }.toSet()
-
-        prefs.edit().putStringSet(key, set).apply()
-    }
-
-    private fun getOrderManual(
-        key: String,
-    ): Map<Long, Long> {
-        logPrefsDataAccess("get $key")
-        val set = prefs.getStringSet(key, emptySet())
-
-        return set
-            ?.map { string ->
-                string.split(CARDS_ORDER_DELIMITER).let { parts ->
-                    parts.getOrNull(0).orEmpty() to parts.getOrNull(1).orEmpty()
-                }
-            }
-            ?.toMap()
-            ?.mapKeys { it.key.toLongOrNull().orZero() }
-            ?.mapValues { it.value.toLongOrNull().orZero() }
-            ?: emptyMap()
+    override fun hasValueSaved(key: String): Boolean {
+        return prefs.contains(key)
     }
 
     @Suppress("unused")
     companion object {
         private const val DO_NOT_DISTURB_PERIOD_START: Long = 0 // midnight
         private const val DO_NOT_DISTURB_PERIOD_END: Long = 1000 * 60 * 60 * 8 // 8 hours in the morning
-        private const val CARDS_ORDER_DELIMITER = "_"
         private const val POMODORO_DEFAULT_FOCUS_TIME_SEC: Long = 60 * 25 // 25 min
         private const val POMODORO_DEFAULT_BREAK_TIME_SEC: Long = 60 * 5 // 5 min
         private const val POMODORO_DEFAULT_LONG_BREAK_TIME_SEC: Long = 60 * 15 // 15 min
         private const val POMODORO_DEFAULT_UNTIL_LONG_BREAK: Long = 4
         private const val RANGE_LAST_DAYS_DEFAULT: Int = 7
 
-        private const val KEY_RECORD_TYPES_FILTERED_ON_LIST = "recordTypesFilteredOnList"
-        private const val KEY_RECORD_TYPES_FILTERED_ON_CHART = "recordTypesFilteredOnChart"
-        private const val KEY_CATEGORIES_TYPES_FILTERED_ON_CHART = "categoriesFilteredOnChart"
-        private const val KEY_TAGS_FILTERED_ON_CHART = "tagsFilteredOnChart"
-        private const val KEY_CHART_FILTER_TYPE = "chartFilterType"
-        private const val KEY_CARD_ORDER = "cardOrder"
-        private const val KEY_CATEGORY_ORDER = "categoryOrder"
-        private const val KEY_TAG_ORDER = "tagOrder"
-        private const val KEY_STATISTICS_RANGE = "statisticsRange"
-        private const val KEY_STATISTICS_RANGE_CUSTOM_START = "statisticsRangeCustomStart"
-        private const val KEY_STATISTICS_RANGE_CUSTOM_END = "statisticsRangeCustomEnd"
-        private const val KEY_STATISTICS_RANGE_LAST_DAYS = "statisticsRangeLastDays"
-        private const val KEY_STATISTICS_DETAIL_RANGE = "statisticsDetailRange"
-        private const val KEY_STATISTICS_DETAIL_RANGE_CUSTOM_START = "statisticsDetailRangeCustomStart"
-        private const val KEY_STATISTICS_DETAIL_RANGE_CUSTOM_END = "statisticsDetailRangeCustomEnd"
-        private const val KEY_STATISTICS_DETAIL_RANGE_LAST_DAYS = "statisticsDetailRangeLastDays"
-        private const val KEY_KEEP_STATISTICS_RANGE = "keepStatisticsRange"
-        private const val KEY_FIRST_DAY_OF_WEEK = "firstDayOfWeek"
-        private const val KEY_START_OF_DAY_SHIFT = "startOfDayShift"
-        private const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
-        private const val KEY_SHOW_UNTRACKED_IN_STATISTICS = "showUntrackedInStatistics"
-        private const val KEY_SHOW_RECORDS_CALENDAR = "showRecordsCalendar"
-        private const val KEY_SHOW_CALENDAR_BUTTON_ON_RECORDS_TAB = "showCalendarButtonOnRecordsTab"
-        private const val KEY_REVERSE_ORDER_IN_CALENDAR = "reverseOrderInCalendar"
-        private const val KEY_DAYS_IN_CALENDAR = "daysInCalendar"
-        private const val KEY_SHOW_ACTIVITY_FILTERS = "showActivityFilters"
-        private const val KEY_ENABLE_REPEAT_BUTTON = "enableRepeatButton"
-        private const val KEY_ENABLE_POMODORO_MODE = "enablePomodoroMode"
-        private const val KEY_POMODORO_MODE_STARTED_TIMESTAMP = "pomodoroModeStartedTimestamp"
-        private const val KEY_POMODORO_FOCUS_TIME = "pomodoroFocusTime"
-        private const val KEY_POMODORO_BREAK_TIME = "pomodoroBreakTime"
-        private const val KEY_POMODORO_LONG_BREAK_TIME = "pomodoroLongBreakTime"
-        private const val KEY_POMODORO_PERIODS_UNTIL_LONG_BREAK = "pomodoroPeriodsUntilLongBreak"
-        private const val KEY_ALLOW_MULTIPLE_ACTIVITY_FILTERS = "allowMultipleActivityFilters"
-        private const val KEY_SHOW_GOALS_SEPARATELY = "showGoalsSeparately"
-        private const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
-        private const val KEY_SHOW_NOTIFICATIONS = "showNotifications"
-        private const val KEY_SHOW_NOTIFICATIONS_CONTROLS = "showNotificationsControls"
-        private const val KEY_INACTIVITY_REMINDER_DURATION = "inactivityReminderDuration"
-        private const val KEY_INACTIVITY_REMINDER_RECURRENT = "inactivityReminderRecurrent"
-        private const val KEY_INACTIVITY_REMINDER_DND_START = "inactivityReminderDndStart"
-        private const val KEY_INACTIVITY_REMINDER_DND_END = "inactivityReminderDndEnd"
-        private const val KEY_ACTIVITY_REMINDER_DURATION = "activityReminderDuration"
-        private const val KEY_ACTIVITY_REMINDER_RECURRENT = "activityReminderRecurrent"
-        private const val KEY_ACTIVITY_REMINDER_DND_START = "activityReminderDndStart"
-        private const val KEY_ACTIVITY_REMINDER_DND_END = "activityReminderDndEnd"
-        private const val KEY_IGNORE_SHORT_RECORDS_DURATION = "ignoreShortRecordsDuration"
-        private const val KEY_IGNORE_SHORT_UNTRACKED_DURATION = "ignoreShortUntrackedDuration"
-        private const val KEY_UNTRACKED_RANGE_ENABLED = "untrackedRangeEnabled"
-        private const val KEY_UNTRACKED_RANGE_START = "untrackedRangeStart"
-        private const val KEY_UNTRACKED_RANGE_END = "untrackedRangeEnd"
-        private const val KEY_DARK_MODE_2 = "darkMode2"
-        private const val KEY_NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
-        private const val KEY_USE_MILITARY_TIME_FORMAT = "useMilitaryTimeFormat"
-        private const val KEY_USE_MONTH_DAY_TIME_FORMAT = "useMonthDayTimeFormat"
-        private const val KEY_USE_PROPORTIONAL_MINUTES = "useProportionalMinutes"
-        private const val KEY_SHOW_SECONDS = "showSeconds"
-        private const val KEY_KEEP_SCREEN_ON = "keepScreenOn"
-        private const val KEY_SHOW_RECORD_TAG_SELECTION = "showRecordTagSelection"
-        private const val KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES = "showRecordTagSelectionExcludeActivities"
-        private const val KEY_AUTOSTART_POMODORO_ACTIVITIES = "autostartPomodoroActivities"
-        private const val KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE = "recordTagSelectionCloseAfterOne"
-        private const val KEY_AUTOMATED_TRACKING_SEND_EVENTS = "automatedTrackingSendEvents"
+        const val KEY_RECORD_TYPES_FILTERED_ON_LIST = "recordTypesFilteredOnList"
+        const val KEY_RECORD_TYPES_FILTERED_ON_CHART = "recordTypesFilteredOnChart"
+        const val KEY_CATEGORIES_TYPES_FILTERED_ON_CHART = "categoriesFilteredOnChart"
+        const val KEY_TAGS_FILTERED_ON_CHART = "tagsFilteredOnChart"
+        const val KEY_CHART_FILTER_TYPE = "chartFilterType"
+        const val KEY_CARD_ORDER = "cardOrder"
+        const val KEY_CATEGORY_ORDER = "categoryOrder"
+        const val KEY_TAG_ORDER = "tagOrder"
+        const val KEY_STATISTICS_RANGE = "statisticsRange"
+        const val KEY_STATISTICS_RANGE_CUSTOM_START = "statisticsRangeCustomStart"
+        const val KEY_STATISTICS_RANGE_CUSTOM_END = "statisticsRangeCustomEnd"
+        const val KEY_STATISTICS_RANGE_LAST_DAYS = "statisticsRangeLastDays"
+        const val KEY_STATISTICS_DETAIL_RANGE = "statisticsDetailRange"
+        const val KEY_STATISTICS_DETAIL_RANGE_CUSTOM_START = "statisticsDetailRangeCustomStart"
+        const val KEY_STATISTICS_DETAIL_RANGE_CUSTOM_END = "statisticsDetailRangeCustomEnd"
+        const val KEY_STATISTICS_DETAIL_RANGE_LAST_DAYS = "statisticsDetailRangeLastDays"
+        const val KEY_KEEP_STATISTICS_RANGE = "keepStatisticsRange"
+        const val KEY_FIRST_DAY_OF_WEEK = "firstDayOfWeek"
+        const val KEY_START_OF_DAY_SHIFT = "startOfDayShift"
+        const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"
+        const val KEY_SHOW_UNTRACKED_IN_STATISTICS = "showUntrackedInStatistics"
+        const val KEY_SHOW_RECORDS_CALENDAR = "showRecordsCalendar"
+        const val KEY_SHOW_CALENDAR_BUTTON_ON_RECORDS_TAB = "showCalendarButtonOnRecordsTab"
+        const val KEY_REVERSE_ORDER_IN_CALENDAR = "reverseOrderInCalendar"
+        const val KEY_DAYS_IN_CALENDAR = "daysInCalendar"
+        const val KEY_SHOW_ACTIVITY_FILTERS = "showActivityFilters"
+        const val KEY_ENABLE_REPEAT_BUTTON = "enableRepeatButton"
+        const val KEY_ENABLE_POMODORO_MODE = "enablePomodoroMode"
+        const val KEY_POMODORO_FOCUS_TIME = "pomodoroFocusTime"
+        const val KEY_POMODORO_BREAK_TIME = "pomodoroBreakTime"
+        const val KEY_POMODORO_LONG_BREAK_TIME = "pomodoroLongBreakTime"
+        const val KEY_POMODORO_PERIODS_UNTIL_LONG_BREAK = "pomodoroPeriodsUntilLongBreak"
+        const val KEY_ALLOW_MULTIPLE_ACTIVITY_FILTERS = "allowMultipleActivityFilters"
+        const val KEY_SHOW_GOALS_SEPARATELY = "showGoalsSeparately"
+        const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
+        const val KEY_SHOW_NOTIFICATIONS = "showNotifications"
+        const val KEY_SHOW_NOTIFICATIONS_CONTROLS = "showNotificationsControls"
+        const val KEY_INACTIVITY_REMINDER_DURATION = "inactivityReminderDuration"
+        const val KEY_INACTIVITY_REMINDER_RECURRENT = "inactivityReminderRecurrent"
+        const val KEY_INACTIVITY_REMINDER_DND_START = "inactivityReminderDndStart"
+        const val KEY_INACTIVITY_REMINDER_DND_END = "inactivityReminderDndEnd"
+        const val KEY_ACTIVITY_REMINDER_DURATION = "activityReminderDuration"
+        const val KEY_ACTIVITY_REMINDER_RECURRENT = "activityReminderRecurrent"
+        const val KEY_ACTIVITY_REMINDER_DND_START = "activityReminderDndStart"
+        const val KEY_ACTIVITY_REMINDER_DND_END = "activityReminderDndEnd"
+        const val KEY_IGNORE_SHORT_RECORDS_DURATION = "ignoreShortRecordsDuration"
+        const val KEY_IGNORE_SHORT_UNTRACKED_DURATION = "ignoreShortUntrackedDuration"
+        const val KEY_UNTRACKED_RANGE_ENABLED = "untrackedRangeEnabled"
+        const val KEY_UNTRACKED_RANGE_START = "untrackedRangeStart"
+        const val KEY_UNTRACKED_RANGE_END = "untrackedRangeEnd"
+        const val KEY_DARK_MODE_2 = "darkMode2"
+        const val KEY_NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
+        const val KEY_USE_MILITARY_TIME_FORMAT = "useMilitaryTimeFormat"
+        const val KEY_USE_MONTH_DAY_TIME_FORMAT = "useMonthDayTimeFormat"
+        const val KEY_USE_PROPORTIONAL_MINUTES = "useProportionalMinutes"
+        const val KEY_SHOW_SECONDS = "showSeconds"
+        const val KEY_KEEP_SCREEN_ON = "keepScreenOn"
+        const val KEY_SHOW_RECORD_TAG_SELECTION = "showRecordTagSelection"
+        const val KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES = "showRecordTagSelectionExcludeActivities"
+        const val KEY_AUTOSTART_POMODORO_ACTIVITIES = "autostartPomodoroActivities"
+        const val KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE = "recordTagSelectionCloseAfterOne"
+        const val KEY_AUTOMATED_TRACKING_SEND_EVENTS = "automatedTrackingSendEvents"
+        const val KEY_REPEAT_BUTTON_TYPE = "repeatButtonType"
+        const val KEY_WIDGET_TRANSPARENCY_PERCENT = "widgetTransparencyPercent"
+        const val KEY_DEFAULT_TYPES_HIDDEN = "defaultTypesHidden"
+        const val KEY_IS_NAV_BAR_AT_THE_BOTTOM = "isNavBarAtTheBottom"
+        const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"
+        const val KEY_CATEGORY_ORDER_MANUAL = "categoryOrderManual"
+        const val KEY_TAG_ORDER_MANUAL = "tagOrderManual"
+
         private const val KEY_AUTOMATIC_BACKUP_URI = "automaticBackupUri"
         private const val KEY_AUTOMATIC_BACKUP_ERROR = "automaticBackupError"
         private const val KEY_AUTOMATIC_BACKUP_LAST_SAVE_TIME = "automaticBackupLastSaveTime"
         private const val KEY_AUTOMATIC_EXPORT_URI = "automaticExportUri"
         private const val KEY_AUTOMATIC_EXPORT_ERROR = "automaticExportError"
         private const val KEY_AUTOMATIC_EXPORT_LAST_SAVE_TIME = "automaticExportLastSaveTime"
-        private const val KEY_REPEAT_BUTTON_TYPE = "repeatButtonType"
-        private const val KEY_WIDGET_TRANSPARENCY_PERCENT = "widgetTransparencyPercent"
-        private const val KEY_DEFAULT_TYPES_HIDDEN = "defaultTypesHidden"
-        private const val KEY_IS_NAV_BAR_AT_THE_BOTTOM = "isNavBarAtTheBottom"
+        private const val KEY_POMODORO_MODE_STARTED_TIMESTAMP = "pomodoroModeStartedTimestamp"
         private const val KEY_WIDGET = "widget_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_TYPES = "statistics_widget_filtered_types_"
         private const val KEY_STATISTICS_WIDGET_FILTERED_CATEGORIES = "statistics_widget_filtered_categories_"
@@ -614,9 +578,6 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_STATISTICS_WIDGET_RANGE = "statistics_widget_range_"
         private const val KEY_STATISTICS_WIDGET_RANGE_LAST_DAYS = "statistics_widget_range_last_days_"
         private const val KEY_QUICK_SETTINGS_WIDGET_TYPE = "quick_settings_widget_type_"
-        private const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"
-        private const val KEY_CATEGORY_ORDER_MANUAL = "categoryOrderManual"
-        private const val KEY_TAG_ORDER_MANUAL = "tagOrderManual"
 
         // Removed
         private const val KEY_SORT_RECORD_TYPES_BY_COLOR = "sortRecordTypesByColor" // Boolean

@@ -73,6 +73,7 @@ class BackupRepoImpl @Inject constructor(
     private val clearDataInteractor: ClearDataInteractor,
     private val resourceRepo: ResourceRepo,
     private val daysOfWeekDataLocalMapper: DaysOfWeekDataLocalMapper,
+    private val backupPrefsRepo: BackupPrefsRepo,
 ) : BackupRepo {
 
     override suspend fun saveBackupFile(
@@ -130,6 +131,9 @@ class BackupRepoImpl @Inject constructor(
             }
             complexRuleRepo.getAll().forEach {
                 fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+            }
+            backupPrefsRepo.saveToBackupString().let {
+                fileOutputStream?.write(it.toByteArray())
             }
 
             fileOutputStream?.close()
@@ -266,6 +270,11 @@ class BackupRepoImpl @Inject constructor(
                         complexRuleFromBackupString(parts).let {
                             complexRuleRepo.add(it)
                         }
+                    }
+
+                    BackupPrefsRepo.PREFS_KEY -> {
+                        // TODO add restore options
+                        // backupPrefsRepo.restoreFromBackupString(parts)
                     }
                 }
             }
