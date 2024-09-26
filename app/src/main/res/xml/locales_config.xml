@@ -7,6 +7,7 @@
     <locale android:name="@string/settings_spanish_tag"/>
     <locale android:name="@string/settings_farsi_tag"/>
     <locale android:name="@string/settings_french_tag"/>
+    <locale android:name="@string/settings_hebrew_tag"/>
     <locale android:name="@string/settings_hindi_tag"/>
     <locale android:name="@string/settings_indonesian_tag"/>
     <locale android:name="@string/settings_italian_tag"/>

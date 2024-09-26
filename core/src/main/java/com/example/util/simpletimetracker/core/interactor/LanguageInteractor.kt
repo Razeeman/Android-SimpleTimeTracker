@@ -32,6 +32,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Spanish -> R.string.settings_spanish_language
             is AppLanguage.Farsi -> R.string.settings_farsi_language
             is AppLanguage.French -> R.string.settings_french_language
+            is AppLanguage.Hebrew -> R.string.settings_hebrew_language
             is AppLanguage.Hindi -> R.string.settings_hindi_language
             is AppLanguage.Indonesian -> R.string.settings_indonesian_language
             is AppLanguage.Italian -> R.string.settings_italian_language
@@ -62,6 +63,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Spanish -> R.string.settings_spanish_tag
             is AppLanguage.Farsi -> R.string.settings_farsi_tag
             is AppLanguage.French -> R.string.settings_french_tag
+            is AppLanguage.Hebrew -> R.string.settings_hebrew_tag
             is AppLanguage.Hindi -> R.string.settings_hindi_tag
             is AppLanguage.Indonesian -> R.string.settings_indonesian_tag
             is AppLanguage.Italian -> R.string.settings_italian_tag
@@ -94,6 +96,7 @@ class LanguageInteractor @Inject constructor(
             is AppLanguage.Spanish -> R.string.settings_spanish_translators
             is AppLanguage.Farsi -> R.string.settings_farsi_translators
             is AppLanguage.French -> R.string.settings_french_translators
+            is AppLanguage.Hebrew -> R.string.settings_hebrew_translators
             is AppLanguage.Hindi -> R.string.settings_hindi_translators
             is AppLanguage.Indonesian -> R.string.settings_indonesian_translators
             is AppLanguage.Italian -> R.string.settings_italian_translators
@@ -133,6 +136,7 @@ class LanguageInteractor @Inject constructor(
             AppLanguage.Spanish,
             AppLanguage.Farsi,
             AppLanguage.French,
+            AppLanguage.Hebrew,
             AppLanguage.Hindi,
             AppLanguage.Indonesian,
             AppLanguage.Italian,

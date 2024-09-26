@@ -30,6 +30,10 @@
     <string name="settings_french_language" translatable="false">Français</string>
     <string name="settings_french_tag" translatable="false">fr</string>
 
+    <string name="settings_hebrew_translators" translatable="false">codokie</string>
+    <string name="settings_hebrew_language" translatable="false">עברית</string>
+    <string name="settings_hebrew_tag" translatable="false">iw</string>
+
     <string name="settings_italian_translators" translatable="false">Pyr0x1</string>
     <string name="settings_italian_language" translatable="false">Italiano</string>
     <string name="settings_italian_tag" translatable="false">it</string>

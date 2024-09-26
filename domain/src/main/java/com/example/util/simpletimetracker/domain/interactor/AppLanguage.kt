@@ -10,6 +10,7 @@ sealed interface AppLanguage {
     object Spanish : AppLanguage
     object Farsi : AppLanguage
     object French : AppLanguage
+    object Hebrew : AppLanguage
     object Hindi : AppLanguage
     object Indonesian : AppLanguage
     object Italian : AppLanguage
