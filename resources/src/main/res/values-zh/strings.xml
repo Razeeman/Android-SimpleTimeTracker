@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">动作</string>
     <string name="change_record_last_comments_hint">最后评论</string>
     <string name="change_record_favourite_comments_hint">最喜欢的</string>
+    <string name="change_record_favourite_comments_hint_long">收藏评论</string>
     <string name="change_record_categories_empty">未添加记录标签</string>
     <string name="change_record_save">保存</string>
     <string name="change_record_untagged">无标签</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">表情符号</string>
     <string name="change_record_type_icon_search_hint">搜索（英文）</string>
     <string name="change_record_type_no_icon">无图标</string>
+    <string name="change_record_favourite_icons_hint">最喜欢的图标</string>
     <string name="change_record_type_save">保存</string>
     <string name="change_record_message_choose_name">请填写名称</string>
     <string name="change_record_message_name_exist">名称已被使用</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">选择条件</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">活动过滤器</string>
     <string name="change_activity_filter_removed">过滤器已移除</string>
     <string name="change_activity_filter_save">保存</string>
     <string name="change_activity_filter_type">过滤器类型</string>
@@ -380,6 +383,7 @@
     <string name="settings_automatic_last_save">最后保存：</string>
     <string name="settings_restore_backup">还原备份</string>
     <string name="settings_restore_description">当前数据将丢失。</string>
+    <string name="settings_backup_options">高级选项</string>
     <string name="settings_dialog_message">恢复备份？</string>
     <string name="settings_export_csv">导出为电子表格</string>
     <string name="settings_export_csv_description">将活动记录导出为csv文件以在电子表格应用程序中查看。</string>
@@ -415,6 +419,18 @@ csv 文件必须包含以逗号分隔的这些列：<br/>
     <string name="message_automatic_backup_error">自动备份出错。</string>
     <string name="message_automatic_export_error">自动导出时出错。</string>
     <string name="message_automatic_error_hint">尝试选择不同的位置</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">进口</string>
+    <string name="backup_options_save_without_records">保存备份无记录</string>
+    <string name="backup_options_save_without_records_hint">可用于共享设置。</string>
+    <string name="backup_options_full_restore">完全恢复</string>
+    <string name="backup_options_full_restore_hint">恢复数据和设置。需要重新启动应用程序。</string>
+    <string name="backup_options_partial_restore">从备份导入数据</string>
+    <string name="backup_options_partial_restore_hint">允许选择要导入的数据。当前数据不会丢失。</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">选择将从文件中导入哪些数据。</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">每小时</string>

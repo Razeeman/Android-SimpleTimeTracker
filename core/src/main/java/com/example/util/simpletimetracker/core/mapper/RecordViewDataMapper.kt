@@ -100,6 +100,33 @@ class RecordViewDataMapper @Inject constructor(
         )
     }
 
+    fun mapFilteredRecord(
+        record: Record,
+        recordTypes: Map<Long, RecordType>,
+        allRecordTags: List<RecordTag>,
+        isDarkTheme: Boolean,
+        useMilitaryTime: Boolean,
+        useProportionalMinutes: Boolean,
+        showSeconds: Boolean,
+        isFiltered: Boolean,
+    ): RecordViewData.Tracked? {
+        return map(
+            record = record,
+            recordType = recordTypes[record.typeId] ?: return null,
+            recordTags = allRecordTags.filter { it.id in record.tagIds },
+            isDarkTheme = isDarkTheme,
+            useMilitaryTime = useMilitaryTime,
+            useProportionalMinutes = useProportionalMinutes,
+            showSeconds = showSeconds,
+        ).let {
+            if (isFiltered) {
+                it.copy(color = colorMapper.toFilteredColor(isDarkTheme))
+            } else {
+                it
+            }
+        }
+    }
+
     fun mapToEmpty(): ViewHolderType {
         return EmptyViewData(
             message = R.string.no_data.let(resourceRepo::getString),

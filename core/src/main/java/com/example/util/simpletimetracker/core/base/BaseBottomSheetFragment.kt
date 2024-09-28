@@ -17,14 +17,16 @@ import com.example.util.simpletimetracker.core.utils.getStatusBarInsets
 import com.example.util.simpletimetracker.navigation.Router
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.Job
 import javax.inject.Inject
 
-abstract class BaseBottomSheetFragment<T : ViewBinding> : BottomSheetDialogFragment() {
+abstract class BaseBottomSheetFragment<T : ViewBinding> : BottomSheetDialogFragment(), Throttler {
 
     @Inject
     lateinit var router: Router
 
     abstract val inflater: (LayoutInflater, ViewGroup?, Boolean) -> T
+    override var throttleJob: Job? = null
     protected val binding: T get() = _binding!!
     private var _binding: T? = null
 

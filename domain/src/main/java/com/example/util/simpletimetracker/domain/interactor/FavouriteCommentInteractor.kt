@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.FavouriteComment
 import com.example.util.simpletimetracker.domain.repo.FavouriteCommentRepo
+import java.util.Locale
 import javax.inject.Inject
 
 class FavouriteCommentInteractor @Inject constructor(
@@ -9,7 +10,7 @@ class FavouriteCommentInteractor @Inject constructor(
 ) {
 
     suspend fun getAll(): List<FavouriteComment> {
-        return repo.getAll()
+        return repo.getAll().let(::sort)
     }
 
     suspend fun get(text: String): FavouriteComment? {
@@ -22,5 +23,11 @@ class FavouriteCommentInteractor @Inject constructor(
 
     suspend fun remove(id: Long) {
         repo.remove(id)
+    }
+
+    fun sort(
+        data: List<FavouriteComment>,
+    ): List<FavouriteComment> {
+        return data.sortedBy { it.comment.lowercase(Locale.getDefault()) }
     }
 }

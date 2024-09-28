@@ -70,7 +70,7 @@
         app:layout_constraintTop_toBottomOf="@id/dividerRecordsFilterTitle"
         tools:itemCount="5"
         tools:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
-        tools:listitem="@layout/item_record_filter_layout"
+        tools:listitem="@layout/item_filter_layout"
         tools:orientation="horizontal" />
 
     <com.example.util.simpletimetracker.feature_views.DividerView

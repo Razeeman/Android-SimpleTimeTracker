@@ -5,13 +5,13 @@ import com.example.util.simpletimetracker.domain.repo.ActivityFilterRepo
 import java.util.Locale
 import javax.inject.Inject
 
+// TODO move domain classes to packages.
 class ActivityFilterInteractor @Inject constructor(
     private val activityFilterRepo: ActivityFilterRepo,
 ) {
 
     suspend fun getAll(): List<ActivityFilter> {
-        return activityFilterRepo.getAll()
-            .sortedBy { it.name.lowercase(Locale.getDefault()) }
+        return activityFilterRepo.getAll().let(::sort)
     }
 
     suspend fun get(id: Long): ActivityFilter? {
@@ -47,5 +47,11 @@ class ActivityFilterInteractor @Inject constructor(
             )
             add(newFilter)
         }
+    }
+
+    fun sort(
+        data: List<ActivityFilter>,
+    ): List<ActivityFilter> {
+        return data.sortedBy { it.name.lowercase(Locale.getDefault()) }
     }
 }

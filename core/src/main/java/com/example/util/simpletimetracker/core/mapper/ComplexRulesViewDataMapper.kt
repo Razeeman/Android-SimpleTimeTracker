@@ -1,19 +1,15 @@
-package com.example.util.simpletimetracker.feature_complex_rules.mapper
+package com.example.util.simpletimetracker.core.mapper
 
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
-import com.example.util.simpletimetracker.core.mapper.IconMapper
-import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
-import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.model.ComplexRule
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_complex_rules.R
-import com.example.util.simpletimetracker.feature_complex_rules.adapter.ComplexRuleAddViewData
-import com.example.util.simpletimetracker.feature_complex_rules.adapter.ComplexRuleElementContentViewData
-import com.example.util.simpletimetracker.feature_complex_rules.adapter.ComplexRuleElementTitleViewData
-import com.example.util.simpletimetracker.feature_complex_rules.adapter.ComplexRuleViewData
+import com.example.util.simpletimetracker.feature_base_adapter.complexRule.ComplexRuleAddViewData
+import com.example.util.simpletimetracker.feature_base_adapter.complexRule.ComplexRuleElementContentViewData
+import com.example.util.simpletimetracker.feature_base_adapter.complexRule.ComplexRuleElementTitleViewData
+import com.example.util.simpletimetracker.feature_base_adapter.complexRule.ComplexRuleViewData
 import javax.inject.Inject
 
 class ComplexRulesViewDataMapper @Inject constructor(
@@ -41,6 +37,28 @@ class ComplexRulesViewDataMapper @Inject constructor(
         typesOrder: List<Long>,
         tagsOrder: List<Long>,
     ): ComplexRuleViewData {
+        return mapRuleFiltered(
+            rule = rule,
+            isDarkTheme = isDarkTheme,
+            typesMap = typesMap,
+            tagsMap = tagsMap,
+            typesOrder = typesOrder,
+            tagsOrder = tagsOrder,
+            isFiltered = rule.disabled,
+            disableButtonVisible = true,
+        )
+    }
+
+    fun mapRuleFiltered(
+        rule: ComplexRule,
+        isDarkTheme: Boolean,
+        typesMap: Map<Long, RecordType>,
+        tagsMap: Map<Long, RecordTag>,
+        typesOrder: List<Long>,
+        tagsOrder: List<Long>,
+        isFiltered: Boolean,
+        disableButtonVisible: Boolean,
+    ): ComplexRuleViewData {
         val actionItems = mapActions(
             rule = rule,
             isDarkTheme = isDarkTheme,
@@ -59,21 +77,22 @@ class ComplexRulesViewDataMapper @Inject constructor(
             id = rule.id,
             actionItems = actionItems,
             conditionItems = conditionItems,
-            color = if (rule.disabled) {
+            color = if (isFiltered) {
                 colorMapper.toInactiveColor(isDarkTheme)
             } else {
                 colorMapper.toActiveColor(isDarkTheme)
             },
-            disableButtonColor = if (rule.disabled) {
+            disableButtonColor = if (isFiltered) {
                 colorMapper.toActiveColor(isDarkTheme)
             } else {
                 colorMapper.toInactiveColor(isDarkTheme)
             },
-            disableButtonText = if (rule.disabled) {
+            disableButtonText = if (isFiltered) {
                 R.string.complex_rules_enable
             } else {
                 R.string.complex_rules_disable
             }.let(resourceRepo::getString),
+            disableButtonVisible = disableButtonVisible,
         )
     }
 

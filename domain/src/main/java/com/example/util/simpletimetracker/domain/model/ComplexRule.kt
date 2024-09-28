@@ -30,4 +30,7 @@ data class ComplexRule(
         )
 
     val hasConditions: Boolean get() = conditions.isNotEmpty()
+
+    val hasActions: Boolean get() = action !is Action.AssignTag ||
+        actionAssignTagIds.isNotEmpty()
 }

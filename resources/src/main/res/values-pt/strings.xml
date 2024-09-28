@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">Ações</string>
     <string name="change_record_last_comments_hint">Últimos comentários</string>
     <string name="change_record_favourite_comments_hint">Favorito</string>
+    <string name="change_record_favourite_comments_hint_long">Comentários favoritos</string>
     <string name="change_record_categories_empty">Nenhuma tag de registro adicionada</string>
     <string name="change_record_save">Salvar</string>
     <string name="change_record_untagged">Sem tag</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">Emoji</string>
     <string name="change_record_type_icon_search_hint">Pesquisa (em inglês)</string>
     <string name="change_record_type_no_icon">Nenhum ícone</string>
+    <string name="change_record_favourite_icons_hint">Ícones favoritos</string>
     <string name="change_record_type_save">Salvar</string>
     <string name="change_record_message_choose_name">Escolha um nome</string>
     <string name="change_record_message_name_exist">Nome já usado</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">Escolher condições</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">Filtros de atividades</string>
     <string name="change_activity_filter_removed">Filtro removido</string>
     <string name="change_activity_filter_save">Salvar</string>
     <string name="change_activity_filter_type">Tipo de filtro</string>
@@ -380,6 +383,7 @@ Se a configuração <b>\"%s\"</b> estiver habilitada, o aplicativo enviará even
     <string name="settings_automatic_last_save">Último salvamento:</string>
     <string name="settings_restore_backup">Restaurar backup</string>
     <string name="settings_restore_description">Os dados atuais serão perdidos.</string>
+    <string name="settings_backup_options">Opções avançadas</string>
     <string name="settings_dialog_message">Restaurar backup?</string>
     <string name="settings_export_csv">Exportação de planilha</string>
     <string name="settings_export_csv_description">Exporte registros de atividades como um arquivo csv para visualizar no aplicativo de planilhas de sua preferência.</string>
@@ -415,6 +419,18 @@ Exemplo:<br/>
     <string name="message_automatic_backup_error">Ocorreu um erro com o backup automático.</string>
     <string name="message_automatic_export_error">Ocorreu um erro com a exportação automática.</string>
     <string name="message_automatic_error_hint">Tente selecionar um local diferente</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">Importar</string>
+    <string name="backup_options_save_without_records">Salvar backup sem registros</string>
+    <string name="backup_options_save_without_records_hint">Pode ser usado para compartilhar a configuração.</string>
+    <string name="backup_options_full_restore">Restauração completa</string>
+    <string name="backup_options_full_restore_hint">Restaura dados e configurações. Requer reinicialização do aplicativo.</string>
+    <string name="backup_options_partial_restore">Importar dados do backup</string>
+    <string name="backup_options_partial_restore_hint">Permite escolher quais dados importar. Os dados atuais não serão perdidos.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">Selecione quais dados serão importados do arquivo.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">por hora</string>

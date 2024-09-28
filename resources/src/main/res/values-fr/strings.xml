@@ -108,7 +108,8 @@
     <string name="change_record_comment_hint">Saisir un nouveau commentaire</string>
     <string name="change_record_actions_hint">Actions</string>
     <string name="change_record_last_comments_hint">Derniers commentaires</string>
-    <string name="change_record_favourite_comments_hint">Commentaires favoris</string>
+    <string name="change_record_favourite_comments_hint">Favoris</string>
+    <string name="change_record_favourite_comments_hint_long">Commentaires favoris</string>
     <string name="change_record_categories_empty">Aucune étiquette d\'enregistrement ajoutée</string>
     <string name="change_record_save">Sauvegarder</string>
     <string name="change_record_untagged">Non étiqueté</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">Émoji</string>
     <string name="change_record_type_icon_search_hint">Rechercher (en anglais)</string>
     <string name="change_record_type_no_icon">Aucune icône</string>
+    <string name="change_record_favourite_icons_hint">Icônes préférées</string>
     <string name="change_record_type_save">Sauvegarder</string>
     <string name="change_record_message_choose_name">Choisissez un nom</string>
     <string name="change_record_message_name_exist">Nom déjà utilisé</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">Choisissez les conditions</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">Filtres d\'activité</string>
     <string name="change_activity_filter_removed">Filtre supprimé</string>
     <string name="change_activity_filter_save">Sauvegarder</string>
     <string name="change_activity_filter_type">Type de filtre</string>
@@ -380,6 +383,7 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra automatiqueme
     <string name="settings_automatic_last_save">Dernière sauvegarde:</string>
     <string name="settings_restore_backup">Restaurer une sauvegarde</string>
     <string name="settings_restore_description">Les données actuelles seront perdues.</string>
+    <string name="settings_backup_options">Options avancées</string>
     <string name="settings_dialog_message">Restaurer la sauvegarde ?</string>
     <string name="settings_export_csv">Exporter dans une feuille de calcul</string>
     <string name="settings_export_csv_description">Exportez les enregistrements d\'activité sous la forme de fichier CSV pour les afficher dans le tableur de votre choix.</string>
@@ -415,6 +419,18 @@ Exemple:<br/>
     <string name="message_automatic_backup_error">Une erreur s\'est produite lors de la sauvegarde automatique.</string>
     <string name="message_automatic_export_error">Une erreur s\'est produite lors de l\'exportation automatique.</string>
     <string name="message_automatic_error_hint">Essayez de sélectionner un emplacement différent</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">Importer</string>
+    <string name="backup_options_save_without_records">Enregistrer la sauvegarde sans enregistrements</string>
+    <string name="backup_options_save_without_records_hint">Peut être utilisé pour partager la configuration.</string>
+    <string name="backup_options_full_restore">Restauration complète</string>
+    <string name="backup_options_full_restore_hint">Restaure les données et les paramètres. Nécessite le redémarrage de l\'application.</string>
+    <string name="backup_options_partial_restore">Importer des données à partir d\'une sauvegarde</string>
+    <string name="backup_options_partial_restore_hint">Permet de choisir les données à importer. Les données actuelles ne seront pas perdues.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">Sélectionnez les données qui seront importées du fichier.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">toutes les heures</string>

@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.core.delegates.iconSelection.mapper
 
+import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionCategoryInfoViewData
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewData.IconSelectionCategoryViewData
@@ -35,17 +36,10 @@ class IconSelectionMapper @Inject constructor(
     private val colorMapper: ColorMapper,
 ) {
 
-    fun mapIconImageData(
-        newColor: AppColor,
-        search: String,
+    fun mapFavouriteIconImages(
         favourites: List<FavouriteIcon>,
-        isDarkTheme: Boolean,
-    ): List<ViewHolderType> {
-        val isSearching = search.isNotBlank()
-        val actualSearch = search.lowercase().split(" ")
-        val favouriteIconImages = favourites
-            .takeUnless { isSearching }
-            .orEmpty()
+    ): List<IconImage> {
+        return favourites
             .filter { IconMapperUtils.isImageIcon(it.icon) }
             .mapNotNull {
                 val resId = iconMapper.mapIcon(it.icon)
@@ -57,6 +51,33 @@ class IconSelectionMapper @Inject constructor(
                     iconSearch = "",
                 )
             }
+    }
+
+    fun mapFavouriteIconEmojis(
+        favourites: List<FavouriteIcon>,
+    ): List<IconEmoji> {
+        return favourites
+            .filter { !IconMapperUtils.isImageIcon(it.icon) }
+            .map {
+                IconEmoji(
+                    emojiCode = it.icon,
+                    emojiSearch = "",
+                )
+            }
+    }
+
+    fun mapIconImageData(
+        newColor: AppColor,
+        search: String,
+        favourites: List<FavouriteIcon>,
+        isDarkTheme: Boolean,
+    ): List<ViewHolderType> {
+        val isSearching = search.isNotBlank()
+        val actualSearch = search.lowercase().split(" ")
+        val favouriteIconImages = favourites
+            .takeUnless { isSearching }
+            .orEmpty()
+            .let(::mapFavouriteIconImages)
         val iconCategories = iconImageMapper.getAvailableImages(
             loadSearchHints = isSearching,
         )
@@ -89,8 +110,7 @@ class IconSelectionMapper @Inject constructor(
                 mapImageViewData(
                     iconName = it.iconName,
                     iconResId = it.iconResId,
-                    newColor = newColor,
-                    isDarkTheme = isDarkTheme,
+                    newColor = newColor.let { colorMapper.mapToColorInt(it, isDarkTheme) },
                 )
             }
 
@@ -109,13 +129,7 @@ class IconSelectionMapper @Inject constructor(
         val favouriteEmojiTexts = favourites
             .takeUnless { isSearching }
             .orEmpty()
-            .filter { !IconMapperUtils.isImageIcon(it.icon) }
-            .map {
-                IconEmoji(
-                    emojiCode = it.icon,
-                    emojiSearch = "",
-                )
-            }
+            .let(::mapFavouriteIconEmojis)
         val iconCategories = iconEmojiMapper.getAvailableEmojis(
             loadSearchHints = isSearching,
         )
@@ -146,8 +160,7 @@ class IconSelectionMapper @Inject constructor(
 
                 mapEmojiViewData(
                     codes = it.emojiCode,
-                    newColor = newColor,
-                    isDarkTheme = isDarkTheme,
+                    newColor = newColor.let { colorMapper.mapToColorInt(it, isDarkTheme) },
                 )
             }
 
@@ -255,30 +268,26 @@ class IconSelectionMapper @Inject constructor(
         }.let(resourceRepo::getString)
     }
 
-    private fun mapImageViewData(
+    fun mapImageViewData(
         iconName: String,
         iconResId: Int,
-        newColor: AppColor,
-        isDarkTheme: Boolean,
+        @ColorInt newColor: Int,
     ): ViewHolderType {
         return IconSelectionViewData(
             iconName = iconName,
             iconResId = iconResId,
-            colorInt = newColor
-                .let { colorMapper.mapToColorInt(it, isDarkTheme) },
+            colorInt = newColor,
         )
     }
 
-    private fun mapEmojiViewData(
+    fun mapEmojiViewData(
         codes: String,
-        newColor: AppColor,
-        isDarkTheme: Boolean,
+        @ColorInt newColor: Int,
     ): ViewHolderType {
         return EmojiViewData(
             emojiText = iconEmojiMapper.toEmojiString(codes),
             emojiCodes = codes,
-            colorInt = newColor
-                .let { colorMapper.mapToColorInt(it, isDarkTheme) },
+            colorInt = newColor,
         )
     }
 

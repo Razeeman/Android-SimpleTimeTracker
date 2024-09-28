@@ -88,6 +88,7 @@ enum class SettingsBlock {
     BackupAutomatic,
     BackupAutomaticHint,
     BackupRestore,
+    BackupCustomized,
     BackupBottom,
 
     ExportTop,

@@ -17,10 +17,13 @@ import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.Rec
 import com.example.util.simpletimetracker.feature_dialogs.typesSelection.view.TypesSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
 import com.example.util.simpletimetracker.feature_records_filter.view.RecordsFilterFragment
+import com.example.util.simpletimetracker.feature_settings.partialRestoreSelection.PartialRestoreSelectionFragment
+import com.example.util.simpletimetracker.feature_settings.partialRestoreSelection.model.PartialRestoreSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.NavigationData
 import com.example.util.simpletimetracker.navigation.bundleCreator.BundleCreator
 import com.example.util.simpletimetracker.navigation.bundleCreator.bundleCreatorDelegate
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.BackupOptionsParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDialogParams
@@ -35,6 +38,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.DefaultTypesS
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.PartialRestoreParams
 import com.example.util.simpletimetracker.navigation.params.screen.PomodoroSettingsParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordQuickActionsParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
@@ -268,6 +272,36 @@ class NavigationDialogMapModule {
         return NavigationData(
             R.id.recordQuickActionsDialogFragment,
             bundleCreatorDelegate(RecordQuickActionsDialogFragment::createBundle),
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(BackupOptionsParams::class)
+    fun backupOptionsDialogFragment(): NavigationData {
+        return NavigationData(
+            R.id.backupOptionsDialogFragment,
+            BundleCreator.empty(),
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(PartialRestoreParams::class)
+    fun backupPartialRestoreFragment(): NavigationData {
+        return NavigationData(
+            R.id.partialRestoreDialogFragment,
+            BundleCreator.empty(),
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(PartialRestoreSelectionDialogParams::class)
+    fun partialRestoreSelectionDialog(): NavigationData {
+        return NavigationData(
+            R.id.partialRestoreSelectionDialogFragment,
+            bundleCreatorDelegate(PartialRestoreSelectionFragment::createBundle),
         )
     }
 }

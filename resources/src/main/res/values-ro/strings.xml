@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">Acțiuni</string>
     <string name="change_record_last_comments_hint">Ultimele comentarii</string>
     <string name="change_record_favourite_comments_hint">Favorite</string>
+    <string name="change_record_favourite_comments_hint_long">Comentarii preferate</string>
     <string name="change_record_categories_empty">Nu au fost adăugate etichete</string>
     <string name="change_record_save">Salvează</string>
     <string name="change_record_untagged">Ne-etichetat</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">Emoji</string>
     <string name="change_record_type_icon_search_hint">Caută (în engleză)</string>
     <string name="change_record_type_no_icon">Fără pictogramă</string>
+    <string name="change_record_favourite_icons_hint">Pictograme preferate</string>
     <string name="change_record_type_save">Salvează</string>
     <string name="change_record_message_choose_name">Alege un nume</string>
     <string name="change_record_message_name_exist">Nume folosit deja</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">Alege condițiile</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">Filtre de activitate</string>
     <string name="change_activity_filter_removed">Filtru scos</string>
     <string name="change_activity_filter_save">Salvează</string>
     <string name="change_activity_filter_type">Tip filtru</string>
@@ -380,6 +383,7 @@ Dacă opțiunea <b>\"%s\"</b> este activă, aplicația va trimite evenimente la 
     <string name="settings_automatic_last_save">Ultima salvare:</string>
     <string name="settings_restore_backup">Restaurare backup</string>
     <string name="settings_restore_description">Informația curentă va fi pierdută.</string>
+    <string name="settings_backup_options">Opțiuni avansate</string>
     <string name="settings_dialog_message">Restaurare backup?</string>
     <string name="settings_export_csv">Export foaie de calcul</string>
     <string name="settings_export_csv_description">Exportă înregistrările ca fișier csv pentru a fi vizualizat în aplicația preferată.</string>
@@ -415,6 +419,18 @@ Examplu:<br/>
     <string name="message_automatic_backup_error">A fost o eroare la backup-ul automat.</string>
     <string name="message_automatic_export_error">A fost o eroare la exportul automat.</string>
     <string name="message_automatic_error_hint">Încearcă să alegi o altă locație</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">Import</string>
+    <string name="backup_options_save_without_records">Salvați backup fără înregistrări</string>
+    <string name="backup_options_save_without_records_hint">Poate fi folosit pentru a partaja configurația.</string>
+    <string name="backup_options_full_restore">Restaurare completă</string>
+    <string name="backup_options_full_restore_hint">Restabilește datele și setările. Necesită repornirea aplicației.</string>
+    <string name="backup_options_partial_restore">Importă date din backup</string>
+    <string name="backup_options_partial_restore_hint">Vă permite să alegeți ce date să importați. Datele curente nu se vor pierde.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">Selectați ce date vor fi importate din fișier.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">orar</string>

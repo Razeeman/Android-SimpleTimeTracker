@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">Tindakan</string>
     <string name="change_record_last_comments_hint">Komentar terakhir</string>
     <string name="change_record_favourite_comments_hint">Favorit</string>
+    <string name="change_record_favourite_comments_hint_long">Komentar favorit</string>
     <string name="change_record_categories_empty">Tidak ada label rekaman yang ditambahkan</string>
     <string name="change_record_save">Simpan</string>
     <string name="change_record_untagged">Tidak berlabel</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">Emoji</string>
     <string name="change_record_type_icon_search_hint">Pencarian (dalam bahasa Inggris)</string>
     <string name="change_record_type_no_icon">Tidak ada ikon</string>
+    <string name="change_record_favourite_icons_hint">Ikon favorit</string>
     <string name="change_record_type_save">Simpan</string>
     <string name="change_record_message_choose_name">Pilih sebuah nama</string>
     <string name="change_record_message_name_exist">Nama sudah digunakan</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">Pilih kondisi</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">Filter aktivitas</string>
     <string name="change_activity_filter_removed">Filter dihapus</string>
     <string name="change_activity_filter_save">Simpan</string>
     <string name="change_activity_filter_type">Jenis filter</string>
@@ -380,6 +383,7 @@ Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada 
     <string name="settings_automatic_last_save">Penyimpanan terakhir:</string>
     <string name="settings_restore_backup">Pulihkan cadangan</string>
     <string name="settings_restore_description">Data saat ini akan lenyap.</string>
+    <string name="settings_backup_options">Opsi lanjutan</string>
     <string name="settings_dialog_message">Pulihkan cadangan?</string>
     <string name="settings_export_csv">Ekspor lembar kerja</string>
     <string name="settings_export_csv_description">Ekspor rekor-rekor kegiatan sebagai sebuah berkas csv untuk melihatnya dalam aplikasi spreadsheet yang diinginkan.</string>
@@ -415,6 +419,18 @@ Contoh:<br/>
     <string name="message_automatic_backup_error">Terjadi kesalahan dengan pencadangan otomatis.</string>
     <string name="message_automatic_export_error">Terjadi kesalahan dengan ekspor otomatis.</string>
     <string name="message_automatic_error_hint">Cobalah untuk memilih lokasi yang berbeda</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">Impor</string>
+    <string name="backup_options_save_without_records">Simpan cadangan tanpa catatan</string>
+    <string name="backup_options_save_without_records_hint">Dapat digunakan untuk berbagi pengaturan.</string>
+    <string name="backup_options_full_restore">Pemulihan penuh</string>
+    <string name="backup_options_full_restore_hint">Mengembalikan data dan pengaturan. Memerlukan restart aplikasi.</string>
+    <string name="backup_options_partial_restore">Impor data dari cadangan</string>
+    <string name="backup_options_partial_restore_hint">Memungkinkan untuk memilih data mana yang akan diimpor. Data saat ini tidak akan hilang.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">Pilih data mana yang akan diimpor dari file.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">jam</string>

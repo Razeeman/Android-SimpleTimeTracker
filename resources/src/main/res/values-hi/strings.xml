@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">कार्रवाई</string>
     <string name="change_record_last_comments_hint">अंतिम टिप्पणियाँ</string>
     <string name="change_record_favourite_comments_hint">पसंदीदा</string>
+    <string name="change_record_favourite_comments_hint_long">पसंदीदा टिप्पणियाँ</string>
     <string name="change_record_categories_empty">कोई रिकॉर्ड टैग नहीं जोड़ा गया</string>
     <string name="change_record_save">बचाना</string>
     <string name="change_record_untagged">टैग नहीं किए गए</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">इमोजी</string>
     <string name="change_record_type_icon_search_hint">खोजें (अंग्रेजी में)</string>
     <string name="change_record_type_no_icon">कोई आइकन नहीं</string>
+    <string name="change_record_favourite_icons_hint">पसंदीदा प्रतीक</string>
     <string name="change_record_type_save">बचाना</string>
     <string name="change_record_message_choose_name">एक नाम चुनो</string>
     <string name="change_record_message_name_exist">नाम पहले ही उपयोग किया जा चुका है</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">शर्तें चुनें</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">गतिविधि फ़िल्टर</string>
     <string name="change_activity_filter_removed">फ़िल्टर हटा दिया गया</string>
     <string name="change_activity_filter_save">सुरक्षित रखना</string>
     <string name="change_activity_filter_type">फ़िल्टर प्रकार</string>
@@ -380,6 +383,7 @@
     <string name="settings_automatic_last_save">अंतिम बचत:</string>
     <string name="settings_restore_backup">बैकअप  पुनः स्थापित करे।</string>
     <string name="settings_restore_description">वर्तमान डेटा खो जाएगा।</string>
+    <string name="settings_backup_options">उन्नत विकल्प</string>
     <string name="settings_dialog_message">पुनर्स्थापित करे?</string>
     <string name="settings_export_csv">स्प्रेडशीट निर्यात</string>
     <string name="settings_export_csv_description">एक पसंदीदा स्प्रेडशीट एप्लिकेशन में देखने के लिए CSV फ़ाइल के रूप में निर्यात गतिविधि रिकॉर्ड।</string>
@@ -415,6 +419,18 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="message_automatic_backup_error">स्वचालित बैकअप के साथ एक त्रुटि हुई थी।</string>
     <string name="message_automatic_export_error">स्वचालित निर्यात में त्रुटि हुई थी।</string>
     <string name="message_automatic_error_hint">अलग स्थान का चयन करने का प्रयास करें</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">आयात</string>
+    <string name="backup_options_save_without_records">बिना रिकॉर्ड के बैकअप सहेजें</string>
+    <string name="backup_options_save_without_records_hint">सेटअप साझा करने के लिए उपयोग किया जा सकता है.</string>
+    <string name="backup_options_full_restore">पूर्ण पुनर्स्थापना</string>
+    <string name="backup_options_full_restore_hint">डेटा और सेटिंग्स पुनर्स्थापित करता है। ऐप पुनः आरंभ करने की आवश्यकता है.</string>
+    <string name="backup_options_partial_restore">बैकअप से डेटा आयात करें</string>
+    <string name="backup_options_partial_restore_hint">यह चुनने की अनुमति देता है कि कौन सा डेटा आयात करना है। वर्तमान डेटा नष्ट नहीं होगा.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">चुनें कि फ़ाइल से कौन सा डेटा आयात किया जाएगा।</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">प्रति घंटा</string>

@@ -50,6 +50,17 @@ class SettingsExportViewDataInteractor @Inject constructor(
                 hintColor = SettingsTextColor.Attention,
             )
 
+            result += SettingsTextWithButtonViewData(
+                buttonBlock = SettingsBlock.ExportSpreadsheetImportHint,
+                data = SettingsTextViewData(
+                    block = SettingsBlock.ExportSpreadsheetImport,
+                    title = resourceRepo.getString(R.string.settings_import_csv),
+                    subtitle = resourceRepo.getString(R.string.settings_import_csv_description),
+                    hint = resourceRepo.getString(R.string.data_edit_hint),
+                    hintColor = SettingsTextColor.Attention,
+                ),
+            )
+
             val automaticExportLastSaveTime = loadAutomaticExportLastSaveTime()
             val automaticExportLastSaveTimeVisible = automaticExportLastSaveTime.isNotEmpty()
             result += SettingsCheckboxViewData(
@@ -69,17 +80,6 @@ class SettingsExportViewDataInteractor @Inject constructor(
                     topSpaceIsVisible = false,
                 )
             }
-
-            result += SettingsTextWithButtonViewData(
-                buttonBlock = SettingsBlock.ExportSpreadsheetImportHint,
-                data = SettingsTextViewData(
-                    block = SettingsBlock.ExportSpreadsheetImport,
-                    title = resourceRepo.getString(R.string.settings_import_csv),
-                    subtitle = resourceRepo.getString(R.string.settings_import_csv_description),
-                    hint = resourceRepo.getString(R.string.data_edit_hint),
-                    hintColor = SettingsTextColor.Attention,
-                ),
-            )
 
             result += SettingsTextViewData(
                 block = SettingsBlock.ExportIcs,

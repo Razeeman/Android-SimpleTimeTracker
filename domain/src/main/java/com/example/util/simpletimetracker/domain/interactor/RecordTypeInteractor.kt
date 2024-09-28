@@ -90,7 +90,7 @@ class RecordTypeInteractor @Inject constructor(
         recordTypeRepo.remove(id)
     }
 
-    private fun mapForSort(
+    fun mapForSort(
         data: RecordType,
     ): SortCardsInteractor.DataHolder<RecordType> {
         return SortCardsInteractor.DataHolder(

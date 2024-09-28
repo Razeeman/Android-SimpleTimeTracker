@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?appDialogBackground"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/dialog_arrow"
+        android:tint="?appContrastColor" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/DialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:text="@string/chart_filter_hint" />
+
+    <View
+        style="@style/EditScreenDivider"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSettingsPartialRestoreSelectionContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never"
+        tools:listitem="@layout/item_record_type_layout" />
+
+    <View
+        style="@style/EditScreenDivider"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="4dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSettingsPartialRestoreSelectionShowAll"
+            style="@style/AppButton"
+            android:layout_width="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:ellipsize="marquee"
+            android:paddingHorizontal="0dp"
+            android:singleLine="true"
+            android:text="@string/select_all"
+            app:layout_constraintBottom_toTopOf="@id/btnSettingsPartialRestoreSelectionSave"
+            app:layout_constraintEnd_toStartOf="@id/btnSettingsPartialRestoreSelectionHideAll"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSettingsPartialRestoreSelectionHideAll"
+            style="@style/AppButton"
+            android:layout_width="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="marquee"
+            android:paddingHorizontal="0dp"
+            android:singleLine="true"
+            android:text="@string/select_nothing"
+            app:layout_constraintBottom_toTopOf="@id/btnSettingsPartialRestoreSelectionSave"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnSettingsPartialRestoreSelectionShowAll" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSettingsPartialRestoreSelectionSave"
+            style="@style/AppButtonActive"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="8dp"
+            android:text="@string/duration_dialog_save"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

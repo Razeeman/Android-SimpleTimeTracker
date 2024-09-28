@@ -44,6 +44,7 @@ class TypesSelectionViewModel @Inject constructor(
 
     private var initialized: Boolean = false
     private var viewDataCache: List<TypesSelectionCacheHolder> = emptyList()
+    // TODO switch to LongList from anroidx.collections
     private var dataIdsSelected: MutableList<Long> = mutableListOf()
 
     fun onRecordTypeClick(item: RecordTypeViewData) {

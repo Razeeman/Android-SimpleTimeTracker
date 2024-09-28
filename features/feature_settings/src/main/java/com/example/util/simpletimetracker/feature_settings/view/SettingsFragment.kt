@@ -12,7 +12,6 @@ import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesSelectionDialogListener
-import com.example.util.simpletimetracker.feature_settings.viewModel.BackupViewModel
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
@@ -40,13 +39,9 @@ class SettingsFragment :
         InsetConfiguration.DoNotApply
 
     @Inject
-    lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
-
-    @Inject
     lateinit var mainTabsViewModelFactory: BaseViewModelFactory<MainTabsViewModel>
 
     private val viewModel: SettingsViewModel by viewModels()
-    private val backupViewModel: BackupViewModel by activityViewModels { backupViewModelFactory }
     private val mainTabsViewModel: MainTabsViewModel by activityViewModels { mainTabsViewModelFactory }
 
     private val contentAdapter: BaseRecyclerAdapter by lazy {
@@ -72,7 +67,6 @@ class SettingsFragment :
         }
         viewModel.themeChanged.observe(::changeTheme)
         viewModel.keepScreenOnCheckbox.observe(::setKeepScreenOn)
-        backupViewModel.requestScreenUpdate.observe { viewModel.onRequestUpdate() }
         with(mainTabsViewModel) {
             tabReselected.observe(viewModel::onTabReselected)
             isNavBatAtTheBottom.observe(::updateInsetConfiguration)
@@ -90,7 +84,7 @@ class SettingsFragment :
     }
 
     override fun onPositiveClick(tag: String?, data: Any?) {
-        backupViewModel.onPositiveDialogClick(tag)
+        viewModel.onPositiveClick(tag)
     }
 
     override fun onDurationSet(durationSeconds: Long, tag: String?) {
@@ -106,7 +100,7 @@ class SettingsFragment :
     }
 
     override fun onDataExportSettingsSelected(data: DataExportSettingsResult) {
-        backupViewModel.onDataExportSettingsSelected(data)
+        viewModel.onDataExportSettingsSelected(data)
     }
 
     override fun onDataSelected(dataIds: List<Long>, tag: String?) {
@@ -115,7 +109,6 @@ class SettingsFragment :
 
     private fun onBlockClicked(block: SettingsBlock) {
         viewModel.onBlockClicked(block)
-        backupViewModel.onBlockClicked(block)
     }
 
     private fun setKeepScreenOn(keepScreenOn: Boolean) {

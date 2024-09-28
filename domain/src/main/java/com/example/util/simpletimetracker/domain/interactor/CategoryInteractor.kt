@@ -41,7 +41,7 @@ class CategoryInteractor @Inject constructor(
         categoryRepo.remove(id)
     }
 
-    private fun mapForSort(
+    fun mapForSort(
         data: Category,
     ): SortCardsInteractor.DataHolder<Category> {
         return SortCardsInteractor.DataHolder(

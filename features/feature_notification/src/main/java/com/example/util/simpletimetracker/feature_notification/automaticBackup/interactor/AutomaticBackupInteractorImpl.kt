@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.repo.AutomaticBackupRepo
 import com.example.util.simpletimetracker.domain.interactor.AutomaticBackupInteractor
 import com.example.util.simpletimetracker.domain.interactor.BackupInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.model.BackupOptionsData
 import com.example.util.simpletimetracker.domain.resolver.ResultCode
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.scheduler.AutomaticBackupScheduler
 import com.example.util.simpletimetracker.feature_notification.core.GetTimeToDayEndInteractor
@@ -40,7 +41,7 @@ class AutomaticBackupInteractorImpl @Inject constructor(
                 onFinished()
                 return
             }
-        val result = backupInteractor.saveBackupFile(uri)
+        val result = backupInteractor.saveBackupFile(uri, BackupOptionsData.Save.Standard)
 
         if (result is ResultCode.Success) {
             schedule()

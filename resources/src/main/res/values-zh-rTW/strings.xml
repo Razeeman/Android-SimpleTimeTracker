@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">動作</string>
     <string name="change_record_last_comments_hint">最後註解</string>
     <string name="change_record_favourite_comments_hint">最喜歡的</string>
+    <string name="change_record_favourite_comments_hint_long">收藏評論</string>
     <string name="change_record_categories_empty">沒有新增紀錄標記</string>
     <string name="change_record_save">儲存</string>
     <string name="change_record_untagged">已取消標記</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">表情符號</string>
     <string name="change_record_type_icon_search_hint">搜尋（英文）</string>
     <string name="change_record_type_no_icon">無圖示</string>
+    <string name="change_record_favourite_icons_hint">最喜歡的圖標</string>
     <string name="change_record_type_save">儲存</string>
     <string name="change_record_message_choose_name">選擇名稱</string>
     <string name="change_record_message_name_exist">名稱已被使用</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">選擇條件</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">活動過濾器</string>
     <string name="change_activity_filter_removed">過濾已移除</string>
     <string name="change_activity_filter_save">儲存</string>
     <string name="change_activity_filter_type">過濾類型</string>
@@ -380,6 +383,7 @@
     <string name="settings_automatic_last_save">最後保存：</string>
     <string name="settings_restore_backup">還原備份</string>
     <string name="settings_restore_description">目前資料會遺失</string>
+    <string name="settings_backup_options">進階選項</string>
     <string name="settings_dialog_message">還原備份？</string>
     <string name="settings_export_csv">匯出工作簿</string>
     <string name="settings_export_csv_description">將活動記錄導出為 csv 文件，以便在首選電子表格應用程序中查看。</string>
@@ -415,6 +419,18 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="message_automatic_backup_error">自動備份出錯。</string>
     <string name="message_automatic_export_error">自動導出時出錯。</string>
     <string name="message_automatic_error_hint">嘗試選擇不同的位置</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">進口</string>
+    <string name="backup_options_save_without_records">保存備份無記錄</string>
+    <string name="backup_options_save_without_records_hint">可用於共享設定。</string>
+    <string name="backup_options_full_restore">完全恢復</string>
+    <string name="backup_options_full_restore_hint">恢復資料和設定。需要重新啟動應用程式。</string>
+    <string name="backup_options_partial_restore">從備份導入數據</string>
+    <string name="backup_options_partial_restore_hint">允許選擇要匯入的資料。當前資料不會遺失。</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">選擇將從文件中匯入哪些資料。</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">每小時</string>

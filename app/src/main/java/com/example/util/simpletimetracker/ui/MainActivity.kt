@@ -3,10 +3,8 @@ package com.example.util.simpletimetracker.ui
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import com.example.util.simpletimetracker.core.base.BaseActivity
-import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.core.provider.ContextProvider
-import com.example.util.simpletimetracker.feature_settings.viewModel.BackupViewModel
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,17 +25,12 @@ class MainActivity : BaseActivity<Binding>() {
     @Inject
     lateinit var router: Router
 
-    @Inject
-    lateinit var backupViewModelFactory: BaseViewModelFactory<BackupViewModel>
-
-    private val backupViewModel: BackupViewModel by viewModels(
-        factoryProducer = { backupViewModelFactory },
-    )
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onResume() {
         super.onResume()
         router.bind(this)
-        backupViewModel.onVisible()
+        viewModel.onVisible()
     }
 
     override fun initUi() {
@@ -45,12 +38,7 @@ class MainActivity : BaseActivity<Binding>() {
         router.onCreate(this)
     }
 
-    override fun initViewModel() {
-        backupViewModel.progressVisibility.observe {
-            binding.mainProgress.visible = it
-            // TODO here to check that if automatic update finishes with error while app is opened.
-            //  probably can be moved to VM because progress cen be shown for other reasons.
-            backupViewModel.onFileWork()
-        }
+    override fun initViewModel() = with(viewModel) {
+        progressVisibility.observe { binding.mainProgress.visible = it }
     }
 }

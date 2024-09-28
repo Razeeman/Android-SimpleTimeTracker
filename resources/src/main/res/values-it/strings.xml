@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">Azioni</string>
     <string name="change_record_last_comments_hint">Ultimi commenti</string>
     <string name="change_record_favourite_comments_hint">Preferito</string>
+    <string name="change_record_favourite_comments_hint_long">Commenti preferiti</string>
     <string name="change_record_categories_empty">Nessuna etichetta aggiunta alla registrazione</string>
     <string name="change_record_save">Salva</string>
     <string name="change_record_untagged">Non etichettato</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">Emoji</string>
     <string name="change_record_type_icon_search_hint">Cerca (in inglese)</string>
     <string name="change_record_type_no_icon">Nessuna icona</string>
+    <string name="change_record_favourite_icons_hint">Icone preferite</string>
     <string name="change_record_type_save">Salva</string>
     <string name="change_record_message_choose_name">Scegli un nome</string>
     <string name="change_record_message_name_exist">Nome già utilizzato</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">Scegli le condizioni</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">Filtri attività</string>
     <string name="change_activity_filter_removed">Filtro rimosso</string>
     <string name="change_activity_filter_save">Salva</string>
     <string name="change_activity_filter_type">Tipo di filtro</string>
@@ -380,6 +383,7 @@ Se l\'impostazione <b>\"%s\"</b> è abilitata, l\'app invierà eventi sull\'atti
     <string name="settings_automatic_last_save">Ultimo salvataggio:</string>
     <string name="settings_restore_backup">Ripristina backup</string>
     <string name="settings_restore_description">I dati attuali verrano persi.</string>
+    <string name="settings_backup_options">Opzioni avanzate</string>
     <string name="settings_dialog_message">Ripristina backup?</string>
     <string name="settings_export_csv">Esporta foglio di calcolo</string>
     <string name="settings_export_csv_description">Esporta le registrazioni dell\'attività come file csv da visualizzare con l\'applicazione predefinita per i fogli di calcolo.</string>
@@ -415,6 +419,18 @@ Esempio:<br/>
     <string name="message_automatic_backup_error">Si è verificato un errore con il backup automatico.</string>
     <string name="message_automatic_export_error">Si è verificato un errore con l\'esportazione automatica.</string>
     <string name="message_automatic_error_hint">Prova a selezionare una posizione diversa</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">Importare</string>
+    <string name="backup_options_save_without_records">Salva backup senza record</string>
+    <string name="backup_options_save_without_records_hint">Può essere utilizzato per condividere la configurazione.</string>
+    <string name="backup_options_full_restore">Ripristino completo</string>
+    <string name="backup_options_full_restore_hint">Ripristina dati e impostazioni. Richiede il riavvio dell\'app.</string>
+    <string name="backup_options_partial_restore">Importa i dati dal backup</string>
+    <string name="backup_options_partial_restore_hint">Permette di scegliere quali dati importare. I dati attuali non andranno persi.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">Seleziona quali dati verranno importati dal file.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">orario</string>

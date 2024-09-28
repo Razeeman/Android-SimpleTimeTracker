@@ -68,7 +68,6 @@ class ChangeRecordViewDataInteractor @Inject constructor(
         data class Data(val timeStarted: Long, val comment: String)
 
         val favouriteComments = favouriteCommentInteractor.getAll()
-            .sortedBy { it.comment.lowercase(Locale.getDefault()) }
             .map { ChangeRecordCommentViewData.Favourite(it.comment) }
             .takeUnless { it.isEmpty() }
             ?.let {

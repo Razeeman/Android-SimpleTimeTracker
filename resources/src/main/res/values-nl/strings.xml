@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">Acties</string>
     <string name="change_record_last_comments_hint">Laatste opmerkingen</string>
     <string name="change_record_favourite_comments_hint">Favoriet</string>
+    <string name="change_record_favourite_comments_hint_long">Favoriete opmerkingen</string>
     <string name="change_record_categories_empty">Geen opname labels toegevoegd</string>
     <string name="change_record_save">Opslaan</string>
     <string name="change_record_untagged">Niet gelabeld</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">Emoji</string>
     <string name="change_record_type_icon_search_hint">Zoeken (in het Engels)</string>
     <string name="change_record_type_no_icon">Geen pictogram</string>
+    <string name="change_record_favourite_icons_hint">Favoriete iconen</string>
     <string name="change_record_type_save">Opslaan</string>
     <string name="change_record_message_choose_name">Kies een naam</string>
     <string name="change_record_message_name_exist">Naam al gebruikt</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">Kies voorwaarden</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">Activiteitsfilters</string>
     <string name="change_activity_filter_removed">Filter verwijderd</string>
     <string name="change_activity_filter_save">Opslaan</string>
     <string name="change_activity_filter_type">Filtertype</string>
@@ -380,6 +383,7 @@ Als de instelling <b>\"%s\"</b> is ingeschakeld, stuurt de app gebeurtenissen ov
     <string name="settings_automatic_last_save">Laatste opslag:</string>
     <string name="settings_restore_backup">Back-up terugzetten</string>
     <string name="settings_restore_description">De huidige gegevens gaan verloren.</string>
+    <string name="settings_backup_options">Geavanceerde opties</string>
     <string name="settings_dialog_message">Back-up terugzetten?</string>
     <string name="settings_export_csv">Spreadsheet exporteren</string>
     <string name="settings_export_csv_description">Exporteer activiteitenrecords als een csv-bestand om ze te bekijken in een voorkeurspreadsheet-applicatie.</string>
@@ -415,6 +419,18 @@ Voorbeeld:<br/>
     <string name="message_automatic_backup_error">Er is een fout opgetreden bij de automatische back-up.</string>
     <string name="message_automatic_export_error">Er is een fout opgetreden bij het automatisch exporteren.</string>
     <string name="message_automatic_error_hint">Probeer een andere locatie te selecteren</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">Importeren</string>
+    <string name="backup_options_save_without_records">Sla een back-up op zonder records</string>
+    <string name="backup_options_save_without_records_hint">Kan worden gebruikt om de opstelling te delen.</string>
+    <string name="backup_options_full_restore">Volledig herstel</string>
+    <string name="backup_options_full_restore_hint">Herstelt gegevens en instellingen. Vereist herstart van de app.</string>
+    <string name="backup_options_partial_restore">Importeer gegevens uit een back-up</string>
+    <string name="backup_options_partial_restore_hint">Hiermee kunt u kiezen welke gegevens u wilt importeren. Actuele gegevens gaan niet verloren.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">Selecteer welke gegevens uit het bestand worden geïmporteerd.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">elk uur</string>

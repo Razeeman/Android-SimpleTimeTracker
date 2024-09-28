@@ -331,4 +331,19 @@
         android:name="com.example.util.simpletimetracker.feature_dialogs.recordQuickActions.view.RecordQuickActionsDialogFragment"
         android:label="RecordQuickActionsDialogFragment"
         tools:layout="@layout/record_quick_actions_dialog_fragment" />
+    <dialog
+        android:id="@+id/backupOptionsDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_settings.backupOptions.view.BackupOptionsFragment"
+        android:label="BackupOptionsDialogFragment"
+        tools:layout="@layout/settings_backup_options_fragment" />
+    <dialog
+        android:id="@+id/partialRestoreDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_settings.partialRestore.view.PartialRestoreFragment"
+        android:label="PartialRestoreDialogFragment"
+        tools:layout="@layout/settings_partial_restore_fragment" />
+    <dialog
+        android:id="@+id/partialRestoreSelectionDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_settings.partialRestoreSelection.PartialRestoreSelectionFragment"
+        android:label="PartialRestoreSelectionDialogFragment"
+        tools:layout="@layout/settings_partial_restore_selection_fragment" />
 </navigation>

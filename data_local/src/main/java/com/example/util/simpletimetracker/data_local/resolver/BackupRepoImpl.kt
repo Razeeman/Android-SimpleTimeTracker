@@ -3,18 +3,22 @@ package com.example.util.simpletimetracker.data_local.resolver
 import android.content.ContentResolver
 import android.net.Uri
 import android.os.ParcelFileDescriptor
+import androidx.annotation.StringRes
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.data_local.mapper.DaysOfWeekDataLocalMapper
+import com.example.util.simpletimetracker.domain.extension.orEmpty
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.ClearDataInteractor
 import com.example.util.simpletimetracker.domain.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.model.AppColor
+import com.example.util.simpletimetracker.domain.model.BackupOptionsData
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.ComplexRule
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.FavouriteComment
 import com.example.util.simpletimetracker.domain.model.FavouriteIcon
+import com.example.util.simpletimetracker.domain.model.PartialBackupRestoreData
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordToRecordTag
@@ -38,6 +42,10 @@ import com.example.util.simpletimetracker.domain.repo.RecordTypeToDefaultTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeToTagRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.ResultCode
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import timber.log.Timber
+import java.io.BufferedOutputStream
 import java.io.BufferedReader
 import java.io.FileOutputStream
 import java.io.IOException
@@ -45,10 +53,6 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import timber.log.Timber
-import java.io.BufferedOutputStream
 
 /**
  * Do not change backup parts order, always add new to the end.
@@ -78,6 +82,7 @@ class BackupRepoImpl @Inject constructor(
 
     override suspend fun saveBackupFile(
         uriString: String,
+        params: BackupOptionsData.Save,
     ): ResultCode = withContext(Dispatchers.IO) {
         var fileDescriptor: ParcelFileDescriptor? = null
         var fileOutputStream: BufferedOutputStream? = null
@@ -92,12 +97,20 @@ class BackupRepoImpl @Inject constructor(
             val identificationBackupRow: String = BACKUP_IDENTIFICATION + "\n"
             fileOutputStream?.write(identificationBackupRow.toByteArray())
 
+            // Options
+            val saveRecords: Boolean = when (params) {
+                is BackupOptionsData.Save.Standard -> true
+                is BackupOptionsData.Save.SaveWithoutRecords -> false
+            }
+
             // Write data
             recordTypeRepo.getAll().forEach {
                 fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
-            recordRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+            if (saveRecords) {
+                recordRepo.getAll().forEach {
+                    fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                }
             }
             categoryRepo.getAll().forEach {
                 fileOutputStream?.write(it.let(::toBackupString).toByteArray())
@@ -108,8 +121,10 @@ class BackupRepoImpl @Inject constructor(
             recordTagRepo.getAll().forEach {
                 fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
-            recordToRecordTagRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+            if (saveRecords) {
+                recordToRecordTagRepo.getAll().forEach {
+                    fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                }
             }
             recordTypeToTagRepo.getAll().forEach {
                 fileOutputStream?.write(it.let(::toBackupString).toByteArray())
@@ -154,10 +169,260 @@ class BackupRepoImpl @Inject constructor(
 
     override suspend fun restoreBackupFile(
         uriString: String,
+        params: BackupOptionsData.Restore,
+    ): ResultCode = withContext(Dispatchers.IO) {
+        // Options
+        val restoreSettings = when (params) {
+            is BackupOptionsData.Restore.Standard -> false
+            is BackupOptionsData.Restore.WithSettings -> true
+        }
+
+        readBackup(
+            uriString = uriString,
+            successCodeMessage = R.string.message_backup_restored,
+            errorCodeMessage = R.string.message_restore_error,
+            clearData = true,
+            migrateTags = {
+                migrateTags(
+                    types = recordTypeRepo.getAll(),
+                    data = it,
+                ).forEach { updatedTag ->
+                    recordTagRepo.add(updatedTag)
+                }
+            },
+            dataHandler = DataHandler(
+                types = recordTypeRepo::add,
+                records = recordRepo::add,
+                categories = categoryRepo::add,
+                typeToCategory = recordTypeCategoryRepo::add,
+                tags = recordTagRepo::add,
+                recordToTag = recordToRecordTagRepo::add,
+                typeToTag = recordTypeToTagRepo::add,
+                typeToDefaultTag = recordTypeToDefaultTagRepo::add,
+                activityFilters = activityFilterRepo::add,
+                favouriteComments = favouriteCommentRepo::add,
+                favouriteIcon = favouriteIconRepo::add,
+                goals = recordTypeGoalRepo::add,
+                rules = complexRuleRepo::add,
+                settings = { if (restoreSettings) backupPrefsRepo.restoreFromBackupString(it) },
+            ),
+        )
+    }
+
+    // Replace original id with 0 to add instead of replacing.
+    // Replace original ids in other data with actual id after adding.
+    override suspend fun partialRestoreBackupFile(
+        params: BackupOptionsData.Custom,
+    ): ResultCode = withContext(Dispatchers.IO) {
+        val originalTypeIdToAddedId: MutableMap<Long, Long> = mutableMapOf()
+        val originalCategoryIdToAddedId: MutableMap<Long, Long> = mutableMapOf()
+        val originalTagIdToAddedId: MutableMap<Long, Long> = mutableMapOf()
+        val originalRecordIdToAddedId: MutableMap<Long, Long> = mutableMapOf()
+
+        params.data.types.values.forEach { type ->
+            val originalId = type.id
+            val addedId = type.copy(
+                id = 0,
+            ).let { recordTypeRepo.add(it) }
+            originalTypeIdToAddedId[originalId] = addedId
+        }
+        params.data.records.values.forEach { record ->
+            val originalId = record.id
+            val newTypeId = originalTypeIdToAddedId[record.typeId]
+                ?: return@forEach
+            val addedId = record.copy(
+                id = 0,
+                typeId = newTypeId,
+            ).let { recordRepo.add(it) }
+            originalRecordIdToAddedId[originalId] = addedId
+        }
+        params.data.categories.values.forEach {
+            val originalId = it.id
+            val addedId = it.copy(
+                id = 0,
+            ).let { categoryRepo.add(it) }
+            originalCategoryIdToAddedId[originalId] = addedId
+        }
+        params.data.typeToCategory.forEach { typeToCategory ->
+            val newTypeId = originalTypeIdToAddedId[typeToCategory.recordTypeId]
+                ?: return@forEach
+            val newCategoryId = originalCategoryIdToAddedId[typeToCategory.categoryId]
+                ?: return@forEach
+            typeToCategory.copy(
+                recordTypeId = newTypeId,
+                categoryId = newCategoryId,
+            ).let { recordTypeCategoryRepo.add(it) }
+        }
+        params.data.tags.values.forEach { tag ->
+            val originalId = tag.id
+            val newColorSource = originalTypeIdToAddedId[tag.iconColorSource].orZero()
+            val addedId = tag.copy(
+                id = 0,
+                iconColorSource = newColorSource,
+            ).let { recordTagRepo.add(it) }
+            originalTagIdToAddedId[originalId] = addedId
+        }
+        params.data.recordToTag.forEach { recordToTag ->
+            val newRecordId = originalRecordIdToAddedId[recordToTag.recordId]
+                ?: return@forEach
+            val newTagId = originalTagIdToAddedId[recordToTag.recordTagId]
+                ?: return@forEach
+            recordToTag.copy(
+                recordId = newRecordId,
+                recordTagId = newTagId,
+            ).let { recordToRecordTagRepo.add(it) }
+        }
+        params.data.typeToTag.forEach { typeToTag ->
+            val newTypeId = originalTypeIdToAddedId[typeToTag.recordTypeId]
+                ?: return@forEach
+            val newTagId = originalTagIdToAddedId[typeToTag.tagId]
+                ?: return@forEach
+            typeToTag.copy(
+                recordTypeId = newTypeId,
+                tagId = newTagId,
+            ).let { recordTypeToTagRepo.add(it) }
+        }
+        params.data.typeToDefaultTag.forEach { typeToDefaultTag ->
+            val newTypeId = originalTypeIdToAddedId[typeToDefaultTag.recordTypeId]
+                ?: return@forEach
+            val newTagId = originalTagIdToAddedId[typeToDefaultTag.tagId]
+                ?: return@forEach
+            typeToDefaultTag.copy(
+                recordTypeId = newTypeId,
+                tagId = newTagId,
+            ).let { recordTypeToDefaultTagRepo.add(it) }
+        }
+        params.data.activityFilters.values.forEach { activityFilter ->
+            val newTypeIds = activityFilter.selectedIds
+                .mapNotNull { originalTypeIdToAddedId[it] }
+            activityFilter.copy(
+                id = 0,
+                selectedIds = newTypeIds,
+            ).let { activityFilterRepo.add(it) }
+        }
+        params.data.favouriteComments.values.forEach { favComment ->
+            favComment.copy(
+                id = 0,
+            ).let { favouriteCommentRepo.add(it) }
+        }
+        params.data.favouriteIcon.values.forEach { favIcon ->
+            favIcon.copy(
+                id = 0,
+            ).let { favouriteIconRepo.add(it) }
+        }
+        params.data.goals.values.forEach { goal ->
+            val newId = when (val idData = goal.idData) {
+                is RecordTypeGoal.IdData.Type -> originalTypeIdToAddedId[idData.value]
+                    ?.let(RecordTypeGoal.IdData::Type)
+                is RecordTypeGoal.IdData.Category -> originalCategoryIdToAddedId[idData.value]
+                    ?.let(RecordTypeGoal.IdData::Category)
+            } ?: return@forEach
+            goal.copy(
+                id = 0,
+                idData = newId,
+            ).let { recordTypeGoalRepo.add(it) }
+        }
+        params.data.rules.values.forEach { rule ->
+            val newStartingTypeIds = rule.conditionStartingTypeIds
+                .mapNotNull { originalTypeIdToAddedId[it] }.toSet()
+            val newCurrentTypeIds = rule.conditionCurrentTypeIds
+                .mapNotNull { originalTypeIdToAddedId[it] }.toSet()
+            val newAssignTagIds = rule.actionAssignTagIds
+                .mapNotNull { originalTagIdToAddedId[it] }.toSet()
+            rule.copy(
+                id = 0,
+                actionAssignTagIds = newAssignTagIds,
+                conditionStartingTypeIds = newStartingTypeIds,
+                conditionCurrentTypeIds = newCurrentTypeIds,
+            ).let { complexRuleRepo.add(it) }
+        }
+        return@withContext ResultCode.Success(
+            resourceRepo.getString(R.string.message_backup_restored),
+        )
+    }
+
+    override suspend fun readBackupFile(
+        uriString: String,
+    ): Pair<ResultCode, PartialBackupRestoreData?> = withContext(Dispatchers.IO) {
+        // Result data
+        val types: MutableList<RecordType> = mutableListOf()
+        val records: MutableList<Record> = mutableListOf()
+        val categories: MutableList<Category> = mutableListOf()
+        val typeToCategory: MutableList<RecordTypeCategory> = mutableListOf()
+        val tags: MutableList<RecordTag> = mutableListOf()
+        val recordToTag: MutableList<RecordToRecordTag> = mutableListOf()
+        val typeToTag: MutableList<RecordTypeToTag> = mutableListOf()
+        val typeToDefaultTag: MutableList<RecordTypeToDefaultTag> = mutableListOf()
+        val activityFilters: MutableList<ActivityFilter> = mutableListOf()
+        val favouriteComments: MutableList<FavouriteComment> = mutableListOf()
+        val favouriteIcon: MutableList<FavouriteIcon> = mutableListOf()
+        val goals: MutableList<RecordTypeGoal> = mutableListOf()
+        val rules: MutableList<ComplexRule> = mutableListOf()
+        val settings: MutableList<List<String>> = mutableListOf()
+
+        val result = readBackup(
+            uriString = uriString,
+            successCodeMessage = null,
+            errorCodeMessage = R.string.settings_file_open_error,
+            clearData = false,
+            migrateTags = {
+                tags += migrateTags(
+                    types = types,
+                    data = it,
+                )
+            },
+            dataHandler = DataHandler(
+                types = types::add,
+                records = records::add,
+                categories = categories::add,
+                typeToCategory = typeToCategory::add,
+                tags = tags::add,
+                recordToTag = recordToTag::add,
+                typeToTag = typeToTag::add,
+                typeToDefaultTag = typeToDefaultTag::add,
+                activityFilters = activityFilters::add,
+                favouriteComments = favouriteComments::add,
+                favouriteIcon = favouriteIcon::add,
+                goals = goals::add,
+                rules = rules::add,
+                settings = settings::add,
+            ),
+        )
+
+        val recordToTagIds = recordToTag.groupBy { it.recordId }
+        val processedRecords = records.map {
+            val thisTags = recordToTagIds[it.id].orEmpty()
+            it.copy(tagIds = thisTags.map(RecordToRecordTag::recordTagId))
+        }
+
+        result to PartialBackupRestoreData(
+            types = types.associateBy { it.id },
+            records = processedRecords.associateBy { it.id },
+            categories = categories.associateBy { it.id },
+            typeToCategory = typeToCategory,
+            tags = tags.associateBy { it.id },
+            recordToTag = recordToTag,
+            typeToTag = typeToTag,
+            typeToDefaultTag = typeToDefaultTag,
+            activityFilters = activityFilters.associateBy { it.id },
+            favouriteComments = favouriteComments.associateBy { it.id },
+            favouriteIcon = favouriteIcon.associateBy { it.id },
+            goals = goals.associateBy { it.id },
+            rules = rules.associateBy { it.id },
+        )
+    }
+
+    private suspend fun readBackup(
+        uriString: String,
+        @StringRes successCodeMessage: Int?,
+        @StringRes errorCodeMessage: Int,
+        clearData: Boolean,
+        migrateTags: suspend (MutableList<Pair<RecordTag, Long>>) -> Unit,
+        dataHandler: DataHandler,
     ): ResultCode = withContext(Dispatchers.IO) {
         var inputStream: InputStream? = null
         var reader: BufferedReader? = null
-        val errorCode = ResultCode.Error(resourceRepo.getString(R.string.message_restore_error))
+        val errorCode = ResultCode.Error(resourceRepo.getString(errorCodeMessage))
 
         try {
             val uri = Uri.parse(uriString)
@@ -171,7 +436,7 @@ class BackupRepoImpl @Inject constructor(
             line = reader?.readLine().orEmpty()
             if (line != BACKUP_IDENTIFICATION) return@withContext errorCode
 
-            clearDataInteractor.execute()
+            if (clearData) clearDataInteractor.execute()
 
             // List of tag to related type id.
             val tagsMigrationData: MutableList<Pair<RecordTag, Long>> = mutableListOf()
@@ -182,43 +447,41 @@ class BackupRepoImpl @Inject constructor(
                 when (parts[0]) {
                     ROW_RECORD_TYPE -> {
                         recordTypeFromBackupString(parts).let { (type, goals) ->
-                            recordTypeRepo.add(type)
-                            goals.forEach {
-                                recordTypeGoalRepo.add(it)
-                            }
+                            dataHandler.types.invoke(type)
+                            goals.forEach { dataHandler.goals.invoke(it) }
                         }
                     }
 
                     ROW_RECORD -> {
                         recordFromBackupString(parts).let { (record, recordToRecordTag) ->
-                            recordRepo.add(record)
+                            dataHandler.records.invoke(record)
                             if (recordToRecordTag != null) {
-                                recordToRecordTagRepo.add(recordToRecordTag)
+                                dataHandler.recordToTag.invoke(recordToRecordTag)
                             }
                         }
                     }
 
                     ROW_CATEGORY -> {
                         categoryFromBackupString(parts).let {
-                            categoryRepo.add(it)
+                            dataHandler.categories.invoke(it)
                         }
                     }
 
                     ROW_TYPE_CATEGORY -> {
                         typeCategoryFromBackupString(parts).let {
-                            recordTypeCategoryRepo.add(it)
+                            dataHandler.typeToCategory.invoke(it)
                         }
                     }
 
                     ROW_RECORD_TAG -> {
                         recordTagFromBackupString(parts).let { (tag, typeId) ->
-                            recordTagRepo.add(tag)
+                            dataHandler.tags.invoke(tag)
                             if (typeId != null) {
                                 val typeToTag = RecordTypeToTag(
                                     recordTypeId = typeId,
                                     tagId = tag.id,
                                 )
-                                recordTypeToTagRepo.add(typeToTag)
+                                dataHandler.typeToTag.invoke(typeToTag)
                                 tagsMigrationData.add(tag to typeId)
                             }
                         }
@@ -226,60 +489,59 @@ class BackupRepoImpl @Inject constructor(
 
                     ROW_RECORD_TO_RECORD_TAG -> {
                         recordToRecordTagFromBackupString(parts).let {
-                            recordToRecordTagRepo.add(it)
+                            dataHandler.recordToTag.invoke(it)
                         }
                     }
 
                     ROW_TYPE_TO_RECORD_TAG -> {
                         typeToRecordTagFromBackupString(parts).let {
-                            recordTypeToTagRepo.add(it)
+                            dataHandler.typeToTag.invoke(it)
                         }
                     }
 
                     ROW_TYPE_TO_DEFAULT_TAG -> {
                         typeToDefaultTagFromBackupString(parts).let {
-                            recordTypeToDefaultTagRepo.add(it)
+                            dataHandler.typeToDefaultTag.invoke(it)
                         }
                     }
 
                     ROW_ACTIVITY_FILTER -> {
                         activityFilterFromBackupString(parts).let {
-                            activityFilterRepo.add(it)
+                            dataHandler.activityFilters.invoke(it)
                         }
                     }
 
                     ROW_FAVOURITE_COMMENT -> {
                         favouriteCommentFromBackupString(parts)?.let {
-                            favouriteCommentRepo.add(it)
+                            dataHandler.favouriteComments.invoke(it)
                         }
                     }
 
                     ROW_FAVOURITE_ICON -> {
                         favouriteIconFromBackupString(parts)?.let {
-                            favouriteIconRepo.add(it)
+                            dataHandler.favouriteIcon.invoke(it)
                         }
                     }
 
                     ROW_RECORD_TYPE_GOAL -> {
                         recordTypeGoalFromBackupString(parts).let {
-                            recordTypeGoalRepo.add(it)
+                            dataHandler.goals.invoke(it)
                         }
                     }
 
                     ROW_COMPLEX_RULE -> {
                         complexRuleFromBackupString(parts).let {
-                            complexRuleRepo.add(it)
+                            dataHandler.rules.invoke(it)
                         }
                     }
 
                     BackupPrefsRepo.PREFS_KEY -> {
-                        // TODO add restore options
-                        // backupPrefsRepo.restoreFromBackupString(parts)
+                        dataHandler.settings.invoke(parts)
                     }
                 }
             }
             migrateTags(tagsMigrationData)
-            ResultCode.Success(resourceRepo.getString(R.string.message_backup_restored))
+            ResultCode.Success(successCodeMessage?.let(resourceRepo::getString))
         } catch (e: Exception) {
             Timber.e(e)
             errorCode
@@ -694,20 +956,20 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
-    private suspend fun migrateTags(
+    private fun migrateTags(
+        types: List<RecordType>,
         data: List<Pair<RecordTag, Long>>,
-    ) {
-        if (data.isEmpty()) return
+    ): List<RecordTag> {
+        if (data.isEmpty()) return emptyList()
 
-        val types = recordTypeRepo.getAll().associateBy { it.id }
-        data.forEach { (tag, typeId) ->
-            val type = types[typeId] ?: return@forEach
-            val updatedTag = tag.copy(
+        val typesMap = types.associateBy { it.id }
+        return data.mapNotNull { (tag, typeId) ->
+            val type = typesMap[typeId] ?: return@mapNotNull null
+            tag.copy(
                 icon = type.icon,
                 color = type.color,
                 iconColorSource = typeId,
             )
-            recordTagRepo.add(updatedTag)
         }
     }
 
@@ -725,6 +987,23 @@ class BackupRepoImpl @Inject constructor(
 
     private fun String.restoreNewline() =
         replace("␤", "\n")
+
+    private data class DataHandler(
+        val types: suspend (RecordType) -> Unit,
+        val records: suspend (Record) -> Unit,
+        val categories: suspend (Category) -> Unit,
+        val typeToCategory: suspend (RecordTypeCategory) -> Unit,
+        val tags: suspend (RecordTag) -> Unit,
+        val recordToTag: suspend (RecordToRecordTag) -> Unit,
+        val typeToTag: suspend (RecordTypeToTag) -> Unit,
+        val typeToDefaultTag: suspend (RecordTypeToDefaultTag) -> Unit,
+        val activityFilters: suspend (ActivityFilter) -> Unit,
+        val favouriteComments: suspend (FavouriteComment) -> Unit,
+        val favouriteIcon: suspend (FavouriteIcon) -> Unit,
+        val goals: suspend (RecordTypeGoal) -> Unit,
+        val rules: suspend (ComplexRule) -> Unit,
+        val settings: suspend (List<String>) -> Unit,
+    )
 
     companion object {
         private const val BACKUP_IDENTIFICATION = "app simple time tracker"

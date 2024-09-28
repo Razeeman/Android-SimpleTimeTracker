@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.CardTagOrder
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
+import com.example.util.simpletimetracker.domain.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.repo.RecordTypeToDefaultTagRepo
@@ -31,25 +32,12 @@ class RecordTagInteractor @Inject constructor(
         val tags = repo.getAll()
         val types = recordTypeInteractor.getAll()
         val typesMap = types.associateBy { it.id }
-
         val getActivityOrderProvider: suspend () -> Map<Long, Long> = {
-            val typesToTags = recordTypeToTagRepo.getAll()
-            val tagsToAssignedTypes = typesToTags
-                .groupBy { it.tagId }
-                .mapValues { (_, typeToTag) ->
-                    typeToTag
-                        .map { it.recordTypeId }
-                        .sortedBy { typeId -> types.indexOfFirst { it.id == typeId } }
-                }
-            tags.associate { tag ->
-                val mainTypeId = tagsToAssignedTypes[tag.id]?.firstOrNull().orZero()
-                val type = typesMap[mainTypeId]
-                val index = types.indexOf(type).toLong()
-                    // Put general tags at the end.
-                    .takeUnless { it == -1L }
-                    ?: Long.MAX_VALUE
-                tag.id to index
-            }
+            getActivityOrderProvider(
+                tags = tags,
+                typesMap = typesMap,
+                typesToTags = recordTypeToTagRepo.getAll(),
+            )
         }
 
         return sortCardsInteractor.sortTags(
@@ -94,7 +82,31 @@ class RecordTagInteractor @Inject constructor(
         complexRuleInteractor.removeTagId(id)
     }
 
-    private fun mapForSort(
+    fun getActivityOrderProvider(
+        tags: List<RecordTag>,
+        typesMap: Map<Long, RecordType>,
+        typesToTags: List<RecordTypeToTag>,
+    ): Map<Long, Long> {
+        val types = typesMap.values
+        val tagsToAssignedTypes = typesToTags
+            .groupBy { it.tagId }
+            .mapValues { (_, typeToTag) ->
+                typeToTag
+                    .map { it.recordTypeId }
+                    .sortedBy { typeId -> types.indexOfFirst { it.id == typeId } }
+            }
+        return tags.associate { tag ->
+            val mainTypeId = tagsToAssignedTypes[tag.id]?.firstOrNull().orZero()
+            val type = typesMap[mainTypeId]
+            val index = types.indexOf(type).toLong()
+                // Put general tags at the end.
+                .takeUnless { it == -1L }
+                ?: Long.MAX_VALUE
+            tag.id to index
+        }
+    }
+
+    fun mapForSort(
         data: RecordTag,
         colorSource: RecordType?,
     ): SortCardsInteractor.DataHolder<RecordTag> {

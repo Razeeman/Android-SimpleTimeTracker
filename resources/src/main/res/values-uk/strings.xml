@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">Дії</string>
     <string name="change_record_last_comments_hint">Останні коментарі</string>
     <string name="change_record_favourite_comments_hint">Обрані</string>
+    <string name="change_record_favourite_comments_hint_long">Обрані коментарі</string>
     <string name="change_record_categories_empty">Теги для записів не додані</string>
     <string name="change_record_save">Зберегти</string>
     <string name="change_record_untagged">Без тегу</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">Смайл</string>
     <string name="change_record_type_icon_search_hint">Пошук (англійською)</string>
     <string name="change_record_type_no_icon">Немає значка</string>
+    <string name="change_record_favourite_icons_hint">Улюблені значки</string>
     <string name="change_record_type_save">Зберегти</string>
     <string name="change_record_message_choose_name">Оберіть ім\'я</string>
     <string name="change_record_message_name_exist">Назва вже використана</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">Виберіть умови</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">Фільтри активності</string>
     <string name="change_activity_filter_removed">Фільтр видалений</string>
     <string name="change_activity_filter_save">Зберегти</string>
     <string name="change_activity_filter_type">Тип фільтра</string>
@@ -380,6 +383,7 @@
     <string name="settings_automatic_last_save">Останнє збереження:</string>
     <string name="settings_restore_backup">Відновлення резервної копії</string>
     <string name="settings_restore_description">Поточні дані будуть втрачені.</string>
+    <string name="settings_backup_options">Розширені параметри</string>
     <string name="settings_dialog_message">Відновити резервну копію?</string>
     <string name="settings_export_csv">Експорт таблиці</string>
     <string name="settings_export_csv_description">Експортуйте записи активностей як файл CSV для перегляду у бажаній програмі для роботи з електронними таблицями.</string>
@@ -415,6 +419,18 @@
     <string name="message_automatic_backup_error">Під час автоматичного резервного копіювання сталася помилка.</string>
     <string name="message_automatic_export_error">Під час автоматичного експорту сталася помилка.</string>
     <string name="message_automatic_error_hint">Спробуйте вибрати інше місце</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">Імпорт</string>
+    <string name="backup_options_save_without_records">Зберегти резервну копію без записів</string>
+    <string name="backup_options_save_without_records_hint">Можна використовувати для спільного використання налаштувань.</string>
+    <string name="backup_options_full_restore">Повне відновлення</string>
+    <string name="backup_options_full_restore_hint">Відновлює дані та налаштування. Потрібен перезапуск програми.</string>
+    <string name="backup_options_partial_restore">Імпорт даних із резервної копії</string>
+    <string name="backup_options_partial_restore_hint">Дозволяє вибрати, які дані імпортувати. Поточні дані не будуть втрачені.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">Виберіть, які дані буде імпортовано з файлу.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">година</string>

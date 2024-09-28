@@ -1,12 +1,14 @@
 package com.example.util.simpletimetracker.data_local.di
 
 import com.example.util.simpletimetracker.core.repo.DataEditRepo
+import com.example.util.simpletimetracker.core.repo.FileWorkRepo
 import com.example.util.simpletimetracker.data_local.repo.ActivityFilterRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.CategoryRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.ComplexRuleRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.DataEditRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.FavouriteCommentRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.FavouriteIconRepoImpl
+import com.example.util.simpletimetracker.data_local.repo.FileWorkRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordRepoImpl
 import com.example.util.simpletimetracker.data_local.repo.RecordTagRepoImpl
@@ -127,6 +129,10 @@ interface DataLocalModuleBinds {
     @Binds
     @Singleton
     fun bindDataEditRepo(impl: DataEditRepoImpl): DataEditRepo
+
+    @Binds
+    @Singleton
+    fun bindFileWorkRepo(impl: FileWorkRepoImpl): FileWorkRepo
 
     @Binds
     @Singleton

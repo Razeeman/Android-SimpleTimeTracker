@@ -47,6 +47,13 @@ class SettingsBackupViewDataInteractor @Inject constructor(
                 subtitle = resourceRepo.getString(R.string.settings_save_description),
             )
 
+            result += SettingsTextViewData(
+                block = SettingsBlock.BackupRestore,
+                title = resourceRepo.getString(R.string.settings_restore_backup),
+                subtitle = resourceRepo.getString(R.string.settings_restore_description),
+                subtitleColor = SettingsTextColor.Attention,
+            )
+
             val automaticBackupLastSaveTime = loadAutomaticBackupLastSaveTime()
             val automaticBackupLastSaveTimeVisible = automaticBackupLastSaveTime.isNotEmpty()
             result += SettingsCheckboxViewData(
@@ -68,10 +75,9 @@ class SettingsBackupViewDataInteractor @Inject constructor(
             }
 
             result += SettingsTextViewData(
-                block = SettingsBlock.BackupRestore,
-                title = resourceRepo.getString(R.string.settings_restore_backup),
-                subtitle = resourceRepo.getString(R.string.settings_restore_description),
-                subtitleColor = SettingsTextColor.Attention,
+                block = SettingsBlock.BackupCustomized,
+                title = resourceRepo.getString(R.string.settings_backup_options),
+                subtitle = "",
                 dividerIsVisible = false,
             )
         }

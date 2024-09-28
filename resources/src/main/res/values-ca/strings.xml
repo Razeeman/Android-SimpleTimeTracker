@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">Accions</string>
     <string name="change_record_last_comments_hint">Últims comentaris</string>
     <string name="change_record_favourite_comments_hint">Favorit</string>
+    <string name="change_record_favourite_comments_hint_long">Comentaris preferits</string>
     <string name="change_record_categories_empty">No s\'han afegit etiquetes</string>
     <string name="change_record_save">Desa</string>
     <string name="change_record_untagged">Sense etiquetar</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">Emoticona</string>
     <string name="change_record_type_icon_search_hint">Cerca (en anglès)</string>
     <string name="change_record_type_no_icon">Sense icona</string>
+    <string name="change_record_favourite_icons_hint">Icones preferides</string>
     <string name="change_record_type_save">Desa</string>
     <string name="change_record_message_choose_name">Trieu un nom</string>
     <string name="change_record_message_name_exist">Nom ja utilitzat</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">Trieu condicions</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">Filtres d\'activitat</string>
     <string name="change_activity_filter_removed">Filtre suprimit</string>
     <string name="change_activity_filter_save">Desa</string>
     <string name="change_activity_filter_type">Tipus de filtre</string>
@@ -380,6 +383,7 @@ Si la configuració <b>\"%s\"</b> és habilitada, l\'aplicació enviarà esdeven
     <string name="settings_automatic_last_save">Últim desat:</string>
     <string name="settings_restore_backup">Recupera còpia de seguretat</string>
     <string name="settings_restore_description">Les dades actuals s\'esborraran.</string>
+    <string name="settings_backup_options">Opcions avançades</string>
     <string name="settings_dialog_message">Voleu restaurar la còpia de seguretat?</string>
     <string name="settings_export_csv">Exporta a full de càlcul</string>
     <string name="settings_export_csv_description">Exporteu els enregistraments de l\'activitat com un fitxer csv per a veure\'ls al programa de fulls de càlcul preferit.</string>
@@ -415,6 +419,18 @@ Exemple:<br/>
     <string name="message_automatic_backup_error">Hi ha hagut un error amb la còpia de seguretat automàtica.</string>
     <string name="message_automatic_export_error">Hi ha hagut un error amb l\'exportació automàtica.</string>
     <string name="message_automatic_error_hint">Proveu de seleccionar una ubicació diferent</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">Importar</string>
+    <string name="backup_options_save_without_records">Desa còpia de seguretat sense registres</string>
+    <string name="backup_options_save_without_records_hint">Es pot utilitzar per compartir la configuració.</string>
+    <string name="backup_options_full_restore">Restauració completa</string>
+    <string name="backup_options_full_restore_hint">Restaura les dades i la configuració. Requereix el reinici de l\'aplicació.</string>
+    <string name="backup_options_partial_restore">Importa dades des de la còpia de seguretat</string>
+    <string name="backup_options_partial_restore_hint">Permet triar quines dades importar. Les dades actuals no es perdran.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">Seleccioneu quines dades s\'importaran del fitxer.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">hora</string>

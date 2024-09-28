@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">行動</string>
     <string name="change_record_last_comments_hint">最新コメント</string>
     <string name="change_record_favourite_comments_hint">お気に入り</string>
+    <string name="change_record_favourite_comments_hint_long">お気に入りのコメント</string>
     <string name="change_record_categories_empty">計測タグがありません</string>
     <string name="change_record_save">保存</string>
     <string name="change_record_untagged">タグを外す</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">絵文字</string>
     <string name="change_record_type_icon_search_hint">検索（英語）</string>
     <string name="change_record_type_no_icon">アイコンなし</string>
+    <string name="change_record_favourite_icons_hint">お気に入りのアイコン</string>
     <string name="change_record_type_save">保存</string>
     <string name="change_record_message_choose_name">名称を入力してください</string>
     <string name="change_record_message_name_exist">名前はすでに使用されています</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">条件を選択してください</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">アクティビティフィルター</string>
     <string name="change_activity_filter_removed">フィルタを取り外しました</string>
     <string name="change_activity_filter_save">保存</string>
     <string name="change_activity_filter_type">フィルタの種類</string>
@@ -380,6 +383,7 @@
     <string name="settings_automatic_last_save">最後の保存:</string>
     <string name="settings_restore_backup">バックアップの復元</string>
     <string name="settings_restore_description">現在のデータは失われます。</string>
+    <string name="settings_backup_options">詳細オプション</string>
     <string name="settings_dialog_message">バックアップを復元しますか？</string>
     <string name="settings_export_csv">スプレッドシートのエクスポート</string>
     <string name="settings_export_csv_description">アクティビティ記録をcsvファイルとしてエクスポートし、お好みのスプレッドシートアプリケーションで表示することができます。</string>
@@ -415,6 +419,18 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <string name="message_automatic_backup_error">自動バックアップでエラーが発生しました。</string>
     <string name="message_automatic_export_error">自動エクスポートでエラーが発生しました。</string>
     <string name="message_automatic_error_hint">別の場所を選択してみてください</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">輸入</string>
+    <string name="backup_options_save_without_records">記録なしでバックアップを保存する</string>
+    <string name="backup_options_save_without_records_hint">セットアップを共有するために使用できます。</string>
+    <string name="backup_options_full_restore">完全復元</string>
+    <string name="backup_options_full_restore_hint">データと設定を復元します。アプリの再起動が必要です。</string>
+    <string name="backup_options_partial_restore">バックアップからデータをインポートする</string>
+    <string name="backup_options_partial_restore_hint">どのデータをインポートするかを選択できます。現在のデータは失われません。</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">ファイルからインポートするデータを選択します。</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">毎時</string>

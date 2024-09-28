@@ -24,8 +24,10 @@ import com.example.util.simpletimetracker.domain.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
-import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.RecordFilterViewData
+import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.FilterViewData
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
+import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterCommentType
+import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterType
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.viewData.RecordsFilterSelectionButtonType
 import javax.inject.Inject
@@ -75,14 +77,14 @@ class RecordsFilterUpdateInteractor @Inject constructor(
     }
 
     fun handleTagClick(
-        currentState: RecordFilterViewData.Type,
+        currentState: RecordFilterType,
         currentFilters: List<RecordsFilter>,
         item: CategoryViewData.Record,
     ): List<RecordsFilter> {
         val filters = currentFilters.toMutableList()
         val currentTags = when (currentState) {
-            RecordFilterViewData.Type.SELECTED_TAGS -> filters.getSelectedTags()
-            RecordFilterViewData.Type.FILTERED_TAGS -> filters.getFilteredTags()
+            RecordFilterType.SelectedTags -> filters.getSelectedTags()
+            RecordFilterType.FilteredTags -> filters.getFilteredTags()
             else -> return currentFilters
         }
 
@@ -146,16 +148,16 @@ class RecordsFilterUpdateInteractor @Inject constructor(
 
     fun handleCommentFilterClick(
         currentFilters: List<RecordsFilter>,
-        item: RecordFilterViewData,
+        item: FilterViewData,
     ): List<RecordsFilter> {
         val filters = currentFilters.toMutableList()
         val currentItems = filters.getCommentItems()
 
         val clickedItem = when (item.id) {
-            RecordFilterViewData.CommentType.NO_COMMENT.ordinal.toLong() -> {
+            RecordFilterCommentType.NoComment.hashCode().toLong() -> {
                 RecordsFilter.CommentItem.NoComment
             }
-            RecordFilterViewData.CommentType.ANY_COMMENT.ordinal.toLong() -> {
+            RecordFilterCommentType.AnyComment.hashCode().toLong() -> {
                 RecordsFilter.CommentItem.AnyComment
             }
             else -> return currentFilters
@@ -251,7 +253,7 @@ class RecordsFilterUpdateInteractor @Inject constructor(
 
     fun removeFilter(
         currentFilters: List<RecordsFilter>,
-        type: RecordFilterViewData.Type,
+        type: RecordFilterType,
     ): List<RecordsFilter> {
         val filters = currentFilters.toMutableList()
         val filterClass = recordsFilterViewDataMapper.mapToClass(type)
@@ -312,7 +314,7 @@ class RecordsFilterUpdateInteractor @Inject constructor(
     fun onTagsSelectionButtonClick(
         currentFilters: List<RecordsFilter>,
         subtype: RecordsFilterSelectionButtonType.Subtype,
-        currentState: RecordFilterViewData.Type,
+        currentState: RecordFilterType,
         tags: List<RecordTag>,
     ): List<RecordsFilter> {
         val newItems = when (subtype) {
@@ -407,7 +409,7 @@ class RecordsFilterUpdateInteractor @Inject constructor(
     }
 
     private fun handleSelectTags(
-        currentState: RecordFilterViewData.Type,
+        currentState: RecordFilterType,
         currentFilters: List<RecordsFilter>,
         newItems: List<RecordsFilter.TagItem>,
     ): List<RecordsFilter> {
@@ -415,11 +417,11 @@ class RecordsFilterUpdateInteractor @Inject constructor(
         filters.removeAll { it is RecordsFilter.Untracked }
         filters.removeAll { it is RecordsFilter.Multitask }
         when (currentState) {
-            RecordFilterViewData.Type.SELECTED_TAGS -> {
+            RecordFilterType.SelectedTags -> {
                 filters.removeAll { it is RecordsFilter.SelectedTags }
                 if (newItems.isNotEmpty()) filters.add(RecordsFilter.SelectedTags(newItems))
             }
-            RecordFilterViewData.Type.FILTERED_TAGS -> {
+            RecordFilterType.FilteredTags -> {
                 filters.removeAll { it is RecordsFilter.FilteredTags }
                 if (newItems.isNotEmpty()) filters.add(RecordsFilter.FilteredTags(newItems))
             }

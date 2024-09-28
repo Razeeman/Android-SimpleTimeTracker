@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">اقدامات</string>
     <string name="change_record_last_comments_hint">نظرهای قبلی</string>
     <string name="change_record_favourite_comments_hint">مورد علاقه</string>
+    <string name="change_record_favourite_comments_hint_long">نظرات مورد علاقه</string>
     <string name="change_record_categories_empty">برچسب تاریخچه ای اضافه نشده</string>
     <string name="change_record_save">ذخیره</string>
     <string name="change_record_untagged">بدون برچسب</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">ایموجی</string>
     <string name="change_record_type_icon_search_hint">جستجو (به انگلیسی)</string>
     <string name="change_record_type_no_icon">بدون نماد</string>
+    <string name="change_record_favourite_icons_hint">نمادهای مورد علاقه</string>
     <string name="change_record_type_save">ذخیره</string>
     <string name="change_record_message_choose_name">نامی انتخاب کنید</string>
     <string name="change_record_message_name_exist">نام قبلاً استفاده شده است</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">شرایط را انتخاب کنید</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">فیلترهای فعالیت</string>
     <string name="change_activity_filter_removed">فیلتر حذف شد</string>
     <string name="change_activity_filter_save">ذخیره</string>
     <string name="change_activity_filter_type">نوع فیلتر</string>
@@ -380,6 +383,7 @@
     <string name="settings_automatic_last_save">فایل ذخیره شده قبلی:</string>
     <string name="settings_restore_backup">بازگردانی نسخه پشتیبان</string>
     <string name="settings_restore_description">اطلاعات فعلی از دست خواهند رفت.</string>
+    <string name="settings_backup_options">گزینه های پیشرفته</string>
     <string name="settings_dialog_message">نسخه پشتیبان بازیابی شود؟</string>
     <string name="settings_export_csv">خروجی اکسل</string>
     <string name="settings_export_csv_description">گرفتن خروجی از تاریخچچه فعالیت ها با فرمت CSV تا بتوانید در برنامه دلخواه اطلاعات را مشاهده کنید.</string>
@@ -415,6 +419,18 @@
     <string name="message_automatic_backup_error">خطا در پشتیبانی خودکار.</string>
     <string name="message_automatic_export_error">خطا در خروجی خودکار.</string>
     <string name="message_automatic_error_hint">سعی کنید محل ذخیره دیگیری را انتخاب کنید.</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">واردات</string>
+    <string name="backup_options_save_without_records">ذخیره پشتیبان بدون سوابق</string>
+    <string name="backup_options_save_without_records_hint">می توان از آن برای اشتراک گذاری تنظیمات استفاده کرد.</string>
+    <string name="backup_options_full_restore">بازیابی کامل</string>
+    <string name="backup_options_full_restore_hint">داده ها و تنظیمات را بازیابی می کند. به راه اندازی مجدد برنامه نیاز دارد.</string>
+    <string name="backup_options_partial_restore">داده ها را از پشتیبان وارد کنید</string>
+    <string name="backup_options_partial_restore_hint">اجازه می دهد تا انتخاب کنید کدام داده را وارد کنید. داده های فعلی از بین نخواهند رفت.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">انتخاب کنید کدام داده از فایل وارد شود.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">هر ساعت</string>

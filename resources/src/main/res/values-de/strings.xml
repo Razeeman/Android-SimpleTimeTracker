@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">Aktionen</string>
     <string name="change_record_last_comments_hint">Letzte Kommentare</string>
     <string name="change_record_favourite_comments_hint">Favorit</string>
+    <string name="change_record_favourite_comments_hint_long">Lieblingskommentare</string>
     <string name="change_record_categories_empty">Keine Datensatz-Tags hinzugefügt</string>
     <string name="change_record_save">Speichern</string>
     <string name="change_record_untagged">Nicht markiert</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">Emoji</string>
     <string name="change_record_type_icon_search_hint">Suche (auf Englisch)</string>
     <string name="change_record_type_no_icon">Kein Symbol</string>
+    <string name="change_record_favourite_icons_hint">Lieblingssymbole</string>
     <string name="change_record_type_save">Speichern</string>
     <string name="change_record_message_choose_name">Einen Namen wählen</string>
     <string name="change_record_message_name_exist">Name bereits verwendet</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">Wählen Sie Bedingungen</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">Aktivitätsfilter</string>
     <string name="change_activity_filter_removed">Filter entfernt</string>
     <string name="change_activity_filter_save">Speichern</string>
     <string name="change_activity_filter_type">Filter Typ</string>
@@ -380,6 +383,7 @@ Wenn die Einstellung <b>\"%s\"</b> aktiviert ist, sendet die App Ereignisse zu g
     <string name="settings_automatic_last_save">Zuletzt gespeichert:</string>
     <string name="settings_restore_backup">Backup wiederherstellen</string>
     <string name="settings_restore_description">Aktuelle Daten gehen verloren.</string>
+    <string name="settings_backup_options">Erweiterte Optionen</string>
     <string name="settings_dialog_message">Backup wiederherstellen?</string>
     <string name="settings_export_csv">Tabellenkalkulation exportieren</string>
     <string name="settings_export_csv_description">Exportiere die Aktivitätsdaten als csv-Datei, um sie in einer bevorzugten Tabellenkalkulationsanwendung anzuzeigen.</string>
@@ -415,6 +419,18 @@ Beispiel:<br/>
     <string name="message_automatic_backup_error">Bei der automatischen Sicherung ist ein Fehler aufgetreten.</string>
     <string name="message_automatic_export_error">Beim automatischen Export ist ein Fehler aufgetreten.</string>
     <string name="message_automatic_error_hint">Versuchen Sie, einen anderen Ort auszuwählen</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">Import</string>
+    <string name="backup_options_save_without_records">Backup ohne Aufzeichnungen speichern</string>
+    <string name="backup_options_save_without_records_hint">Kann zum Teilen des Setups verwendet werden.</string>
+    <string name="backup_options_full_restore">Vollständige Wiederherstellung</string>
+    <string name="backup_options_full_restore_hint">Stellt Daten und Einstellungen wieder her. Erfordert einen Neustart der App.</string>
+    <string name="backup_options_partial_restore">Daten aus Backup importieren</string>
+    <string name="backup_options_partial_restore_hint">Ermöglicht die Auswahl der zu importierenden Daten. Aktuelle Daten gehen nicht verloren.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">Wählen Sie aus, welche Daten aus der Datei importiert werden sollen.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">stündlich</string>

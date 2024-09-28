@@ -10,9 +10,11 @@ import com.example.util.simpletimetracker.domain.extension.hasNoComment
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.emptySpace.EmptySpaceViewData
-import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.RecordFilterViewData
+import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.FilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.selectionButton.SelectionButtonViewData
 import com.example.util.simpletimetracker.feature_records_filter.R
+import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterCommentType
+import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterType
 import com.example.util.simpletimetracker.feature_records_filter.viewData.RecordsFilterSelectionButtonType
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import javax.inject.Inject
@@ -26,7 +28,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
     fun mapInitialFilter(
         extra: RecordsFilterParams,
         filters: List<RecordsFilter>,
-    ): RecordFilterViewData.Type? {
+    ): RecordFilterType? {
         return filters
             .firstOrNull {
                 when (it) {
@@ -56,21 +58,21 @@ class RecordsFilterViewDataMapper @Inject constructor(
     }
 
     fun mapInactiveFilterName(
-        filter: RecordFilterViewData.Type,
+        filter: RecordFilterType,
     ): String {
         return when (filter) {
-            RecordFilterViewData.Type.UNTRACKED -> R.string.untracked_time_name
-            RecordFilterViewData.Type.MULTITASK -> R.string.multitask_time_name
-            RecordFilterViewData.Type.ACTIVITY -> R.string.activity_hint
-            RecordFilterViewData.Type.CATEGORY -> R.string.category_hint
-            RecordFilterViewData.Type.COMMENT -> R.string.change_record_comment_field
-            RecordFilterViewData.Type.DATE -> R.string.date_time_dialog_date
-            RecordFilterViewData.Type.SELECTED_TAGS -> R.string.records_filter_select_tags
-            RecordFilterViewData.Type.FILTERED_TAGS -> R.string.records_filter_filter_tags
-            RecordFilterViewData.Type.MANUALLY_FILTERED -> R.string.records_filter_manually_filtered
-            RecordFilterViewData.Type.DAYS_OF_WEEK -> R.string.range_day
-            RecordFilterViewData.Type.TIME_OF_DAY -> R.string.date_time_dialog_time
-            RecordFilterViewData.Type.DURATION -> R.string.records_all_sort_duration
+            RecordFilterType.Untracked -> R.string.untracked_time_name
+            RecordFilterType.Multitask -> R.string.multitask_time_name
+            RecordFilterType.Activity -> R.string.activity_hint
+            RecordFilterType.Category -> R.string.category_hint
+            RecordFilterType.Comment -> R.string.change_record_comment_field
+            RecordFilterType.Date -> R.string.date_time_dialog_date
+            RecordFilterType.SelectedTags -> R.string.records_filter_select_tags
+            RecordFilterType.FilteredTags -> R.string.records_filter_filter_tags
+            RecordFilterType.ManuallyFiltered -> R.string.records_filter_manually_filtered
+            RecordFilterType.DaysOfWeek -> R.string.range_day
+            RecordFilterType.TimeOfDay -> R.string.date_time_dialog_time
+            RecordFilterType.Duration -> R.string.records_all_sort_duration
         }.let(resourceRepo::getString)
     }
 
@@ -167,7 +169,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
     }
 
     fun mapCommentFilter(
-        type: RecordFilterViewData.CommentType,
+        type: RecordFilterCommentType,
         filters: List<RecordsFilter>,
         isDarkTheme: Boolean,
     ): ViewHolderType {
@@ -175,19 +177,19 @@ class RecordsFilterViewDataMapper @Inject constructor(
         val enabled: Boolean
 
         when (type) {
-            RecordFilterViewData.CommentType.NO_COMMENT -> {
+            RecordFilterCommentType.NoComment -> {
                 enabled = filters.getCommentItems().hasNoComment()
                 name = resourceRepo.getString(R.string.records_filter_no_comment)
             }
-            RecordFilterViewData.CommentType.ANY_COMMENT -> {
+            RecordFilterCommentType.AnyComment -> {
                 enabled = filters.getCommentItems().hasAnyComment()
                 name = resourceRepo.getString(R.string.records_filter_any_comment)
             }
         }
 
-        return RecordFilterViewData(
-            id = type.ordinal.toLong(),
-            type = RecordFilterViewData.Type.COMMENT,
+        return FilterViewData(
+            id = type.hashCode().toLong(),
+            type = RecordFilterType.Comment,
             name = name,
             color = if (enabled) {
                 colorMapper.toActiveColor(isDarkTheme)
@@ -199,20 +201,20 @@ class RecordsFilterViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToClass(type: RecordFilterViewData.Type): Class<out RecordsFilter> {
+    fun mapToClass(type: RecordFilterType): Class<out RecordsFilter> {
         return when (type) {
-            RecordFilterViewData.Type.UNTRACKED -> RecordsFilter.Untracked::class.java
-            RecordFilterViewData.Type.MULTITASK -> RecordsFilter.Multitask::class.java
-            RecordFilterViewData.Type.ACTIVITY -> RecordsFilter.Activity::class.java
-            RecordFilterViewData.Type.CATEGORY -> RecordsFilter.Category::class.java
-            RecordFilterViewData.Type.COMMENT -> RecordsFilter.Comment::class.java
-            RecordFilterViewData.Type.DATE -> RecordsFilter.Date::class.java
-            RecordFilterViewData.Type.SELECTED_TAGS -> RecordsFilter.SelectedTags::class.java
-            RecordFilterViewData.Type.FILTERED_TAGS -> RecordsFilter.FilteredTags::class.java
-            RecordFilterViewData.Type.MANUALLY_FILTERED -> RecordsFilter.ManuallyFiltered::class.java
-            RecordFilterViewData.Type.DAYS_OF_WEEK -> RecordsFilter.DaysOfWeek::class.java
-            RecordFilterViewData.Type.TIME_OF_DAY -> RecordsFilter.TimeOfDay::class.java
-            RecordFilterViewData.Type.DURATION -> RecordsFilter.Duration::class.java
+            RecordFilterType.Untracked -> RecordsFilter.Untracked::class.java
+            RecordFilterType.Multitask -> RecordsFilter.Multitask::class.java
+            RecordFilterType.Activity -> RecordsFilter.Activity::class.java
+            RecordFilterType.Category -> RecordsFilter.Category::class.java
+            RecordFilterType.Comment -> RecordsFilter.Comment::class.java
+            RecordFilterType.Date -> RecordsFilter.Date::class.java
+            RecordFilterType.SelectedTags -> RecordsFilter.SelectedTags::class.java
+            RecordFilterType.FilteredTags -> RecordsFilter.FilteredTags::class.java
+            RecordFilterType.ManuallyFiltered -> RecordsFilter.ManuallyFiltered::class.java
+            RecordFilterType.DaysOfWeek -> RecordsFilter.DaysOfWeek::class.java
+            RecordFilterType.TimeOfDay -> RecordsFilter.TimeOfDay::class.java
+            RecordFilterType.Duration -> RecordsFilter.Duration::class.java
         }
     }
 
@@ -246,20 +248,20 @@ class RecordsFilterViewDataMapper @Inject constructor(
         return result
     }
 
-    private fun mapToViewData(clazz: Class<out RecordsFilter>): RecordFilterViewData.Type? {
+    private fun mapToViewData(clazz: Class<out RecordsFilter>): RecordFilterType? {
         return when (clazz) {
-            RecordsFilter.Untracked::class.java -> RecordFilterViewData.Type.UNTRACKED
-            RecordsFilter.Multitask::class.java -> RecordFilterViewData.Type.MULTITASK
-            RecordsFilter.Activity::class.java -> RecordFilterViewData.Type.ACTIVITY
-            RecordsFilter.Category::class.java -> RecordFilterViewData.Type.CATEGORY
-            RecordsFilter.Comment::class.java -> RecordFilterViewData.Type.COMMENT
-            RecordsFilter.Date::class.java -> RecordFilterViewData.Type.DATE
-            RecordsFilter.SelectedTags::class.java -> RecordFilterViewData.Type.SELECTED_TAGS
-            RecordsFilter.FilteredTags::class.java -> RecordFilterViewData.Type.FILTERED_TAGS
-            RecordsFilter.ManuallyFiltered::class.java -> RecordFilterViewData.Type.MANUALLY_FILTERED
-            RecordsFilter.DaysOfWeek::class.java -> RecordFilterViewData.Type.DAYS_OF_WEEK
-            RecordsFilter.TimeOfDay::class.java -> RecordFilterViewData.Type.TIME_OF_DAY
-            RecordsFilter.Duration::class.java -> RecordFilterViewData.Type.DURATION
+            RecordsFilter.Untracked::class.java -> RecordFilterType.Untracked
+            RecordsFilter.Multitask::class.java -> RecordFilterType.Multitask
+            RecordsFilter.Activity::class.java -> RecordFilterType.Activity
+            RecordsFilter.Category::class.java -> RecordFilterType.Category
+            RecordsFilter.Comment::class.java -> RecordFilterType.Comment
+            RecordsFilter.Date::class.java -> RecordFilterType.Date
+            RecordsFilter.SelectedTags::class.java -> RecordFilterType.SelectedTags
+            RecordsFilter.FilteredTags::class.java -> RecordFilterType.FilteredTags
+            RecordsFilter.ManuallyFiltered::class.java -> RecordFilterType.ManuallyFiltered
+            RecordsFilter.DaysOfWeek::class.java -> RecordFilterType.DaysOfWeek
+            RecordsFilter.TimeOfDay::class.java -> RecordFilterType.TimeOfDay
+            RecordsFilter.Duration::class.java -> RecordFilterType.Duration
             else -> null
         }
     }

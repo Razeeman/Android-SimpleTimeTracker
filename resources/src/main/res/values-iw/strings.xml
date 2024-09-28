@@ -40,8 +40,11 @@
     <string name="range_select_year">בחר שנה</string>
 
     <plurals name="range_last">
+        <!--        <item quantity="zero">%s ימים אחרונים</item>-->
         <item quantity="one">יום %s אחרון</item>
         <item quantity="two">%s ימים אחרונים</item>
+        <!--        <item quantity="few">%s ימים אחרונים</item>-->
+        <!--        <item quantity="many">%s ימים אחרונים</item>-->
         <item quantity="other">%s ימים אחרונים</item>
     </plurals>
 
@@ -106,6 +109,7 @@
     <string name="change_record_actions_hint">פעולות</string>
     <string name="change_record_last_comments_hint">הערות אחרונות</string>
     <string name="change_record_favourite_comments_hint">מועדף</string>
+    <string name="change_record_favourite_comments_hint_long">הערות אהובות</string>
     <string name="change_record_categories_empty">לא נוספו תגיות רשומה</string>
     <string name="change_record_save">שמור</string>
     <string name="change_record_untagged">לא מתויג</string>
@@ -144,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">אימוג\'י</string>
     <string name="change_record_type_icon_search_hint">חיפוש (באנגלית)</string>
     <string name="change_record_type_no_icon">אין סמל</string>
+    <string name="change_record_favourite_icons_hint">אייקונים אהובים</string>
     <string name="change_record_type_save">שמור</string>
     <string name="change_record_message_choose_name">בחר שם</string>
     <string name="change_record_message_name_exist">שם כבר בשימוש</string>
@@ -181,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">בחר תנאים</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">מסנני פעילות</string>
     <string name="change_activity_filter_removed">מסנן הוסר</string>
     <string name="change_activity_filter_save">שמור</string>
     <string name="change_activity_filter_type">סוג מסנן</string>
@@ -377,6 +383,7 @@
     <string name="settings_automatic_last_save">שמירה אחרונה:</string>
     <string name="settings_restore_backup">שחזר גיבוי</string>
     <string name="settings_restore_description">הנתונים הנוכחיים יאבדו.</string>
+    <string name="settings_backup_options">אפשרויות מתקדמות</string>
     <string name="settings_dialog_message">לשחזר גיבוי?</string>
     <string name="settings_export_csv">ייצוא גיליון אלקטרוני</string>
     <string name="settings_export_csv_description">ייצא רשומות פעילות כקובץ csv כדי להציג ביישום גיליון אלקטרוני מועדף.</string>
@@ -412,6 +419,18 @@
     <string name="message_automatic_backup_error">אירעה שגיאה בגיבוי אוטומטי.</string>
     <string name="message_automatic_export_error">אירעה שגיאה בייצוא אוטומטי.</string>
     <string name="message_automatic_error_hint">נסה לבחור מיקום אחר</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">יְבוּא</string>
+    <string name="backup_options_save_without_records">שמור גיבוי ללא רשומות</string>
+    <string name="backup_options_save_without_records_hint">ניתן להשתמש כדי לשתף את ההגדרה.</string>
+    <string name="backup_options_full_restore">שחזור מלא</string>
+    <string name="backup_options_full_restore_hint">משחזר נתונים והגדרות. דורש הפעלה מחדש של האפליקציה.</string>
+    <string name="backup_options_partial_restore">ייבא נתונים מגיבוי</string>
+    <string name="backup_options_partial_restore_hint">מאפשר לבחור אילו נתונים לייבא. הנתונים הנוכחיים לא יאבדו.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">בחר אילו נתונים ייובאו מהקובץ.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">שעתי</string>
@@ -454,8 +473,11 @@
     <string name="statistics_detail_multitasking_activities_hint">ריבוי משימות מוביל</string>
 
     <plurals name="statistics_detail_times_tracked">
+        <!--        <item quantity="zero">רשומות</item>-->
         <item quantity="one">רשומה</item>
         <item quantity="two">רשומות</item>
+        <!--        <item quantity="few">רשומות</item>-->
+        <!--        <item quantity="many">רשומות</item>-->
         <item quantity="other">רשומות</item>
     </plurals>
 

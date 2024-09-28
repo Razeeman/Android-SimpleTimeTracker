@@ -16,7 +16,18 @@ class ActivityFilterViewDataMapper @Inject constructor(
         filter: ActivityFilter,
         isDarkTheme: Boolean,
     ): ActivityFilterViewData {
-        val selected = filter.selected
+        return mapFiltered(
+            filter = filter,
+            isDarkTheme = isDarkTheme,
+            selected = filter.selected,
+        )
+    }
+
+    fun mapFiltered(
+        filter: ActivityFilter,
+        isDarkTheme: Boolean,
+        selected: Boolean,
+    ): ActivityFilterViewData {
         return ActivityFilterViewData(
             id = filter.id,
             name = filter.name,

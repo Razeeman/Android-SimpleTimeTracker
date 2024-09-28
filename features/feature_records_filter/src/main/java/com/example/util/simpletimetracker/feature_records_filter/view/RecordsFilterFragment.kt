@@ -27,7 +27,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAd
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.multitaskRecord.createMultitaskRecordAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.record.createRecordAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.createRecordFilterAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.createFilterAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordsDateDivider.createRecordsDateDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.createRunningRecordAdapterDelegate
@@ -62,7 +62,7 @@ class RecordsFilterFragment :
     private val filtersAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createLoaderAdapterDelegate(),
-            createRecordFilterAdapterDelegate(
+            createFilterAdapterDelegate(
                 onClick = viewModel::onFilterClick,
                 onRemoveClick = viewModel::onFilterRemoveClick,
             ),
@@ -83,7 +83,7 @@ class RecordsFilterFragment :
             createRecordsFilterButtonAdapterDelegate(viewModel::onInnerFilterButtonClick),
             createDayOfWeekAdapterDelegate(viewModel::onDayOfWeekClick),
             createRecordsFilterRangeAdapterDelegate(viewModel::onRangeTimeClick),
-            createRecordFilterAdapterDelegate(
+            createFilterAdapterDelegate(
                 onClick = viewModel::onInnerFilterClick,
                 onRemoveClick = {},
             ),

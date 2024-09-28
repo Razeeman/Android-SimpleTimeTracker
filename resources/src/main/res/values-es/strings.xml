@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">Comportamiento</string>
     <string name="change_record_last_comments_hint">Últimos comentarios</string>
     <string name="change_record_favourite_comments_hint">Favorito</string>
+    <string name="change_record_favourite_comments_hint_long">Comentarios favoritos</string>
     <string name="change_record_categories_empty">No se añadieron etiquetas</string>
     <string name="change_record_save">Guardar</string>
     <string name="change_record_untagged">Sin etiquetar</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">Emoji</string>
     <string name="change_record_type_icon_search_hint">Buscar (en inglés)</string>
     <string name="change_record_type_no_icon">Sin icono</string>
+    <string name="change_record_favourite_icons_hint">Iconos favoritos</string>
     <string name="change_record_type_save">Guardar</string>
     <string name="change_record_message_choose_name">Escoja un nombre</string>
     <string name="change_record_message_name_exist">Nombre ya usado</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">Elige condiciones</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">Filtros de actividad</string>
     <string name="change_activity_filter_removed">Filtro eliminado</string>
     <string name="change_activity_filter_save">Guardar</string>
     <string name="change_activity_filter_type">Tipo de filtro</string>
@@ -380,6 +383,7 @@ Si la configuración <b>\"%s\"</b> está habilitada, la aplicación enviará eve
     <string name="settings_automatic_last_save">Último guardado:</string>
     <string name="settings_restore_backup">Restaurar copia de seguridad</string>
     <string name="settings_restore_description">Los datos actuales serán eliminados.</string>
+    <string name="settings_backup_options">Opciones avanzadas</string>
     <string name="settings_dialog_message">¿Desea restaurar la copia de seguridad?</string>
     <string name="settings_export_csv">Exportar hoja de cálculo</string>
     <string name="settings_export_csv_description">Exportar registros como un archivo csv para visualizar los datos en su programa de hojas de cálculo preferido.</string>
@@ -415,6 +419,18 @@ Ejemplo:<br/>
     <string name="message_automatic_backup_error">Hubo un error con la copia de seguridad automática.</string>
     <string name="message_automatic_export_error">Hubo un error con la exportación automática.</string>
     <string name="message_automatic_error_hint">Intenta seleccionar una ubicación diferente</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">Importar</string>
+    <string name="backup_options_save_without_records">Guardar copia de seguridad sin registros</string>
+    <string name="backup_options_save_without_records_hint">Se puede utilizar para compartir la configuración.</string>
+    <string name="backup_options_full_restore">Restauración completa</string>
+    <string name="backup_options_full_restore_hint">Restaura datos y configuraciones. Requiere reiniciar la aplicación.</string>
+    <string name="backup_options_partial_restore">Importar datos desde la copia de seguridad</string>
+    <string name="backup_options_partial_restore_hint">Permite elegir qué datos importar. Los datos actuales no se perderán.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">Seleccione qué datos se importarán del archivo.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">hora</string>

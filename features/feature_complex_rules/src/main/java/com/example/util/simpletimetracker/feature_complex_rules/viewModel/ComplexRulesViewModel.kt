@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.domain.interactor.ComplexRuleInteracto
 import com.example.util.simpletimetracker.domain.interactor.ComplexRulesDataUpdateInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
-import com.example.util.simpletimetracker.feature_complex_rules.adapter.ComplexRuleViewData
+import com.example.util.simpletimetracker.feature_base_adapter.complexRule.ComplexRuleViewData
 import com.example.util.simpletimetracker.feature_complex_rules.interactor.ComplexRulesViewDataInteractor
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeComplexRuleParams

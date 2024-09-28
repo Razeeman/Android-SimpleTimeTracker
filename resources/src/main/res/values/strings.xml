@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">Actions</string>
     <string name="change_record_last_comments_hint">Last comments</string>
     <string name="change_record_favourite_comments_hint">Favourite</string>
+    <string name="change_record_favourite_comments_hint_long">Favourite comments</string>
     <string name="change_record_categories_empty">No record tags added</string>
     <string name="change_record_save">Save</string>
     <string name="change_record_untagged">Untagged</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">Emoji</string>
     <string name="change_record_type_icon_search_hint">Search (in English)</string>
     <string name="change_record_type_no_icon">No icon</string>
+    <string name="change_record_favourite_icons_hint">Favourite icons</string>
     <string name="change_record_type_save">Save</string>
     <string name="change_record_message_choose_name">Choose a name</string>
     <string name="change_record_message_name_exist">Name already used</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">Choose conditions</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">Activity filters</string>
     <string name="change_activity_filter_removed">Filter removed</string>
     <string name="change_activity_filter_save">Save</string>
     <string name="change_activity_filter_type">Filter type</string>
@@ -380,6 +383,7 @@ If <b>\"%s\"</b> setting is enabled, app will send events on activity started or
     <string name="settings_automatic_last_save">Last save:</string>
     <string name="settings_restore_backup">Restore backup</string>
     <string name="settings_restore_description">Current data will be lost.</string>
+    <string name="settings_backup_options">Advanced options</string>
     <string name="settings_dialog_message">Restore backup?</string>
     <string name="settings_export_csv">Spreadsheet export</string>
     <string name="settings_export_csv_description">Export activity records as a csv file to view in a preferred spreadsheet application.</string>
@@ -415,6 +419,18 @@ Example:<br/>
     <string name="message_automatic_backup_error">There was an error with automatic backup.</string>
     <string name="message_automatic_export_error">There was an error with automatic export.</string>
     <string name="message_automatic_error_hint">Try to select different location</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">Import</string>
+    <string name="backup_options_save_without_records">Save backup without records</string>
+    <string name="backup_options_save_without_records_hint">Can be used to share the setup.</string>
+    <string name="backup_options_full_restore">Full restore</string>
+    <string name="backup_options_full_restore_hint">Restores data and settings. Requires app restart.</string>
+    <string name="backup_options_partial_restore">Import data from backup</string>
+    <string name="backup_options_partial_restore_hint">Allows to choose which data to import. Current data will not be lost.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">Select which data will be imported from the file.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">hourly</string>

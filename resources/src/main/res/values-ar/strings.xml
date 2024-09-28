@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">إجراءات</string>
     <string name="change_record_last_comments_hint">آخر التعليقات</string>
     <string name="change_record_favourite_comments_hint">المفضلة</string>
+    <string name="change_record_favourite_comments_hint_long">التعليقات المفضلة</string>
     <string name="change_record_categories_empty">لم تضاف وسوم متتبعة</string>
     <string name="change_record_save">حفظ</string>
     <string name="change_record_untagged">بدون وسم</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">إيموجي</string>
     <string name="change_record_type_icon_search_hint">بحث (باللغة الإنجليزية)</string>
     <string name="change_record_type_no_icon">لا يوجد رمز</string>
+    <string name="change_record_favourite_icons_hint">الرموز المفضلة</string>
     <string name="change_record_type_save">حفظ</string>
     <string name="change_record_message_choose_name">اختيار اسم</string>
     <string name="change_record_message_name_exist">الاسم مستخدم بالفعل</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">اختر الشروط</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">مرشحات النشاط</string>
     <string name="change_activity_filter_removed">تم إزالة المرشِّح</string>
     <string name="change_activity_filter_save">حفظ</string>
     <string name="change_activity_filter_type">نوع المرشِّح</string>
@@ -380,6 +383,7 @@
     <string name="settings_automatic_last_save">آخر المحفوظات:</string>
     <string name="settings_restore_backup">استيراد نسخة الاحتياطية</string>
     <string name="settings_restore_description">ستفقد البيانات الحالية.</string>
+    <string name="settings_backup_options">خيارات متقدمة</string>
     <string name="settings_dialog_message">استرداد النسخة الاحتياطية؟</string>
     <string name="settings_export_csv">تصدير جدول البيانات</string>
     <string name="settings_export_csv_description">تصدير تتبعات النشاط كملف csv لعرضها في تطبيقات جداول البيانات المفضل.</string>
@@ -415,6 +419,18 @@
     <string name="message_automatic_backup_error">حدث خطأ في النسخ الاحتياطي التلقائي.</string>
     <string name="message_automatic_export_error">حدث خطأ في التصدير التلقائي.</string>
     <string name="message_automatic_error_hint">حاول تحديد مكان مختلف</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">يستورد</string>
+    <string name="backup_options_save_without_records">حفظ النسخة الاحتياطية بدون سجلات</string>
+    <string name="backup_options_save_without_records_hint">يمكن استخدامها لمشاركة الإعداد.</string>
+    <string name="backup_options_full_restore">استعادة كاملة</string>
+    <string name="backup_options_full_restore_hint">يستعيد البيانات والإعدادات. يتطلب إعادة تشغيل التطبيق.</string>
+    <string name="backup_options_partial_restore">استيراد البيانات من النسخة الاحتياطية</string>
+    <string name="backup_options_partial_restore_hint">يسمح باختيار البيانات التي سيتم استيرادها. لن يتم فقدان البيانات الحالية.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">حدد البيانات التي سيتم استيرادها من الملف.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">ساعيّ</string>

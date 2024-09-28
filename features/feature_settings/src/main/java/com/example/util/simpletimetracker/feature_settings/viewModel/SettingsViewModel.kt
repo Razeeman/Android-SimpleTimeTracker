@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.Se
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsRatingViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsTranslatorsViewModelDelegate
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -84,10 +85,6 @@ class SettingsViewModel @Inject constructor(
         ratingDelegate.onHidden()
     }
 
-    fun onRequestUpdate() {
-        viewModelScope.launch { updateContent() }
-    }
-
     fun onBlockClicked(block: SettingsBlock) {
         mainDelegate.onBlockClicked(block)
         notificationsDelegate.onBlockClicked(block)
@@ -102,6 +99,10 @@ class SettingsViewModel @Inject constructor(
         displayDelegate.onSpinnerPositionSelected(block, position)
         additionalDelegate.onSpinnerPositionSelected(block, position)
         mainDelegate.onSpinnerPositionSelected(block, position)
+    }
+
+    fun onPositiveClick(tag: String?) {
+        backupDelegate.onPositiveClick(tag)
     }
 
     fun onDurationSet(tag: String?, duration: Long) {
@@ -120,6 +121,10 @@ class SettingsViewModel @Inject constructor(
         notificationsDelegate.onDateTimeSet(timestamp, tag)
         displayDelegate.onDateTimeSet(timestamp, tag)
         additionalDelegate.onDateTimeSet(timestamp, tag)
+    }
+
+    fun onDataExportSettingsSelected(data: DataExportSettingsResult) {
+        backupDelegate.onDataExportSettingsSelected(data)
     }
 
     fun onTypesSelected(

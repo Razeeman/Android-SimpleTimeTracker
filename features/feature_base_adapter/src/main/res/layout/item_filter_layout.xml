@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/viewRecordFilterItem"
+    android:id="@+id/viewFilterItem"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardRecordFilterBackground"
+        android:id="@+id/cardFilterBackground"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:translationY="2dp"
@@ -24,7 +24,7 @@
         tools:visibility="visible" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/containerRecordFilter"
+        android:id="@+id/containerFilter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardBackgroundColor="?appInactiveColor"
@@ -39,7 +39,7 @@
             android:background="?selectableItemBackground">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvRecordFilterItemName"
+                android:id="@+id/tvFilterItemName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -49,14 +49,14 @@
                 android:paddingVertical="4dp"
                 android:textColor="?appLightTextColor"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/ivRecordFilterItemRemove"
+                app:layout_constraintEnd_toStartOf="@id/ivFilterItemRemove"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_goneMarginEnd="10dp"
                 tools:text="Filter name" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivRecordFilterItemRemove"
+                android:id="@+id/ivFilterItemRemove"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="2dp"

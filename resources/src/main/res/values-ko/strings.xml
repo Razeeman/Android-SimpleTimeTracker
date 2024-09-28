@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">수정</string>
     <string name="change_record_last_comments_hint">이전 코멘트</string>
     <string name="change_record_favourite_comments_hint">자주쓰는 코멘트</string>
+    <string name="change_record_favourite_comments_hint_long">즐겨찾는 댓글</string>
     <string name="change_record_categories_empty">기록 태그 없음</string>
     <string name="change_record_save">저장</string>
     <string name="change_record_untagged">태그 없음</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">이모지</string>
     <string name="change_record_type_icon_search_hint">검색(영문)</string>
     <string name="change_record_type_no_icon">아이콘 없음</string>
+    <string name="change_record_favourite_icons_hint">즐겨찾는 아이콘</string>
     <string name="change_record_type_save">저장</string>
     <string name="change_record_message_choose_name">이름을 입력하세요</string>
     <string name="change_record_message_name_exist">이미 사용된 이름</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">조건을 선택하세요</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">활동 필터</string>
     <string name="change_activity_filter_removed">필터 삭제됨</string>
     <string name="change_activity_filter_save">저장</string>
     <string name="change_activity_filter_type">필터 종류</string>
@@ -380,6 +383,7 @@
     <string name="settings_automatic_last_save">마지막 저장:</string>
     <string name="settings_restore_backup">백업 복구</string>
     <string name="settings_restore_description">현재 기록은 모두 사라질 것입니다.</string>
+    <string name="settings_backup_options">고급 옵션</string>
     <string name="settings_dialog_message">백업을 복구하시겠습니까?</string>
     <string name="settings_export_csv">스프레드시트로 내보내기</string>
     <string name="settings_export_csv_description">활동 기록을 .csv 형식으로 내보내 원하는 스프레드시트 프로그램에서 사용 할 수 있습니다.</string>
@@ -415,6 +419,18 @@ csv 파일은 다음과 같은 열(column)들을 가져야합니다:<br/>
     <string name="message_automatic_backup_error">자동 백업 오류 발생</string>
     <string name="message_automatic_export_error">자동 내보내기 오류 발생</string>
     <string name="message_automatic_error_hint">다른 위치를 선택해 보세요</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">수입</string>
+    <string name="backup_options_save_without_records">기록 없이 백업 저장</string>
+    <string name="backup_options_save_without_records_hint">설정을 공유하는 데 사용할 수 있습니다.</string>
+    <string name="backup_options_full_restore">전체 복원</string>
+    <string name="backup_options_full_restore_hint">데이터와 설정을 복원합니다. 앱을 다시 시작해야 합니다.</string>
+    <string name="backup_options_partial_restore">백업에서 데이터 가져오기</string>
+    <string name="backup_options_partial_restore_hint">가져올 데이터를 선택할 수 있습니다. 현재 데이터는 손실되지 않습니다.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">파일에서 가져올 데이터를 선택합니다.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">시간별</string>

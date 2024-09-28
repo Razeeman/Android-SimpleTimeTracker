@@ -1,11 +1,11 @@
-package com.example.util.simpletimetracker.feature_complex_rules.adapter
+package com.example.util.simpletimetracker.feature_base_adapter.complexRule
 
 import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_complex_rules.adapter.ComplexRuleAddViewData as ViewData
-import com.example.util.simpletimetracker.feature_complex_rules.databinding.ItemComplexRuleAddLayoutBinding as Binding
+import com.example.util.simpletimetracker.feature_base_adapter.complexRule.ComplexRuleAddViewData as ViewData
+import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemComplexRuleAddLayoutBinding as Binding
 
 fun createComplexRuleAddAdapterDelegate(
     onItemClick: (() -> Unit),

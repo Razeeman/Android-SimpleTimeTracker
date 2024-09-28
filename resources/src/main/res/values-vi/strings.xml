@@ -109,6 +109,7 @@
     <string name="change_record_actions_hint">Hành động</string>
     <string name="change_record_last_comments_hint">Nhận xét cuối cùng</string>
     <string name="change_record_favourite_comments_hint">Yêu thích</string>
+    <string name="change_record_favourite_comments_hint_long">Bình luận yêu thích</string>
     <string name="change_record_categories_empty">Không có thẻ bản ghi nào được thêm vào</string>
     <string name="change_record_save">Lưu</string>
     <string name="change_record_untagged">Chưa gắn thẻ</string>
@@ -147,6 +148,7 @@
     <string name="change_record_type_icon_emoji_hint">Emoji</string>
     <string name="change_record_type_icon_search_hint">Tìm kiếm (bằng tiếng Anh)</string>
     <string name="change_record_type_no_icon">Không có biểu tượng</string>
+    <string name="change_record_favourite_icons_hint">Biểu tượng yêu thích</string>
     <string name="change_record_type_save">Lưu</string>
     <string name="change_record_message_choose_name">Chọn một tên</string>
     <string name="change_record_message_name_exist">Tên đã được sử dụng</string>
@@ -184,6 +186,7 @@
     <string name="change_complex_rule_choose_condition">Chọn điều kiện</string>
 
     <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">Bộ lọc hoạt động</string>
     <string name="change_activity_filter_removed">Đã xóa bộ lọc</string>
     <string name="change_activity_filter_save">Lưu</string>
     <string name="change_activity_filter_type">Loại bộ lọc</string>
@@ -380,6 +383,7 @@ Nếu thiết đặt <b>\"%s\"</b> được bật, ứng dụng sẽ gửi các 
     <string name="settings_automatic_last_save">Lần lưu cuối cùng:</string>
     <string name="settings_restore_backup">Khôi phục bản sao lưu</string>
     <string name="settings_restore_description">Dữ liệu hiện tại sẽ bị mất.</string>
+    <string name="settings_backup_options">Tùy chọn nâng cao</string>
     <string name="settings_dialog_message">Khôi phục bản sao lưu?</string>
     <string name="settings_export_csv">Xuất bảng tính</string>
     <string name="settings_export_csv_description">Xuất bản ghi hoạt động dưới dạng tệp csv để xem trong ứng dụng bảng tính ưa thích.</string>
@@ -415,6 +419,18 @@ Ví dụ:<br/>
     <string name="message_automatic_backup_error">Đã xảy ra lỗi khi sao lưu tự động.</string>
     <string name="message_automatic_export_error">Đã xảy ra lỗi khi xuất tự động.</string>
     <string name="message_automatic_error_hint">Hãy thử chọn vị trí khác</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">Nhập khẩu</string>
+    <string name="backup_options_save_without_records">Lưu bản sao lưu không có hồ sơ</string>
+    <string name="backup_options_save_without_records_hint">Có thể được sử dụng để chia sẻ thiết lập.</string>
+    <string name="backup_options_full_restore">Khôi phục hoàn toàn</string>
+    <string name="backup_options_full_restore_hint">Khôi phục dữ liệu và cài đặt. Yêu cầu khởi động lại ứng dụng.</string>
+    <string name="backup_options_partial_restore">Nhập dữ liệu từ bản sao lưu</string>
+    <string name="backup_options_partial_restore_hint">Cho phép chọn dữ liệu cần nhập. Dữ liệu hiện tại sẽ không bị mất.</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">Chọn dữ liệu nào sẽ được nhập từ tệp.</string>
 
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">hàng giờ</string>

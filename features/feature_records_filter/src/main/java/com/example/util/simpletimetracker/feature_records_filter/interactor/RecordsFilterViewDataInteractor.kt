@@ -49,14 +49,15 @@ import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
-import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
-import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.RecordFilterViewData
+import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.FilterViewData
 import com.example.util.simpletimetracker.feature_records_filter.R
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterButtonViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterCommentViewData
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterRangeViewData
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
+import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterCommentType
+import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterType
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectionState
 import com.example.util.simpletimetracker.feature_records_filter.viewData.RecordsFilterSelectionButtonType
@@ -155,7 +156,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             .getManuallyFilteredRecordIds()
             .mapNotNull { recordInteractor.get(it) } // TODO do better
             .mapNotNull { record ->
-                val mapped = mapFilteredRecord(
+                val mapped = recordViewDataMapper.mapFilteredRecord(
                     record = record,
                     recordTypes = recordTypes,
                     allRecordTags = recordTags,
@@ -249,19 +250,19 @@ class RecordsFilterViewDataInteractor @Inject constructor(
 
         val availableFilters = listOfNotNull(
             when {
-                hasUntracked -> RecordFilterViewData.Type.UNTRACKED
-                hasMultitask -> RecordFilterViewData.Type.MULTITASK
-                filters.hasCategoryFilter() -> RecordFilterViewData.Type.CATEGORY
-                else -> RecordFilterViewData.Type.ACTIVITY
+                hasUntracked -> RecordFilterType.Untracked
+                hasMultitask -> RecordFilterType.Multitask
+                filters.hasCategoryFilter() -> RecordFilterType.Category
+                else -> RecordFilterType.Activity
             },
-            RecordFilterViewData.Type.COMMENT.takeUnless { hasUntracked || hasMultitask },
-            RecordFilterViewData.Type.DATE.takeIf { extra.dateSelectionAvailable },
-            RecordFilterViewData.Type.SELECTED_TAGS.takeUnless { hasUntracked || hasMultitask },
-            RecordFilterViewData.Type.FILTERED_TAGS.takeUnless { hasUntracked || hasMultitask },
-            RecordFilterViewData.Type.DAYS_OF_WEEK,
-            RecordFilterViewData.Type.TIME_OF_DAY,
-            RecordFilterViewData.Type.DURATION,
-            RecordFilterViewData.Type.MANUALLY_FILTERED.takeIf {
+            RecordFilterType.Comment.takeUnless { hasUntracked || hasMultitask },
+            RecordFilterType.Date.takeIf { extra.dateSelectionAvailable },
+            RecordFilterType.SelectedTags.takeUnless { hasUntracked || hasMultitask },
+            RecordFilterType.FilteredTags.takeUnless { hasUntracked || hasMultitask },
+            RecordFilterType.DaysOfWeek,
+            RecordFilterType.TimeOfDay,
+            RecordFilterType.Duration,
+            RecordFilterType.ManuallyFiltered.takeIf {
                 filters.hasManuallyFiltered() && !hasUntracked && !hasMultitask
             },
         )
@@ -274,7 +275,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             val selected = (selectionState as? RecordsFilterSelectionState.Visible)
                 ?.type == type
 
-            RecordFilterViewData(
+            FilterViewData(
                 id = index.toLong(),
                 type = type,
                 name = if (filter != null) {
@@ -393,8 +394,8 @@ class RecordsFilterViewDataInteractor @Inject constructor(
 
         val isDarkTheme = prefsInteractor.getDarkMode()
         val commentFilters = listOf(
-            RecordFilterViewData.CommentType.NO_COMMENT,
-            RecordFilterViewData.CommentType.ANY_COMMENT,
+            RecordFilterCommentType.NoComment,
+            RecordFilterCommentType.AnyComment,
         )
 
         commentFilters.forEach {
@@ -420,7 +421,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     }
 
     suspend fun getTagsFilterSelectionViewData(
-        type: RecordFilterViewData.Type,
+        type: RecordFilterType,
         filters: List<RecordsFilter>,
         types: List<RecordType>,
         recordTypeCategories: List<RecordTypeCategory>,
@@ -436,8 +437,8 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             .takeUnless { it.isEmpty() }
             ?: types.map(RecordType::id)
         val selectedTags: List<RecordsFilter.TagItem> = when (type) {
-            RecordFilterViewData.Type.SELECTED_TAGS -> filters.getSelectedTags()
-            RecordFilterViewData.Type.FILTERED_TAGS -> filters.getFilteredTags()
+            RecordFilterType.SelectedTags -> filters.getSelectedTags()
+            RecordFilterType.FilteredTags -> filters.getFilteredTags()
             else -> emptyList()
         }
         val selectedTaggedIds: List<Long> = selectedTags.getTaggedIds()
@@ -522,7 +523,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             .getManuallyFilteredRecordIds()
             .mapNotNull { recordInteractor.get(it) } // TODO do better
             .mapNotNull { record ->
-                val mapped = mapFilteredRecord(
+                val mapped = recordViewDataMapper.mapFilteredRecord(
                     record = record,
                     recordTypes = recordTypes,
                     allRecordTags = recordTags,
@@ -590,32 +591,5 @@ class RecordsFilterViewDataInteractor @Inject constructor(
             gravity = RecordsFilterRangeViewData.Gravity.CENTER,
             separatorVisible = true,
         ).let(::listOf)
-    }
-
-    private fun mapFilteredRecord(
-        record: Record,
-        recordTypes: Map<Long, RecordType>,
-        allRecordTags: List<RecordTag>,
-        isDarkTheme: Boolean,
-        useMilitaryTime: Boolean,
-        useProportionalMinutes: Boolean,
-        showSeconds: Boolean,
-        isFiltered: Boolean,
-    ): RecordViewData.Tracked? {
-        return recordViewDataMapper.map(
-            record = record,
-            recordType = recordTypes[record.typeId] ?: return null,
-            recordTags = allRecordTags.filter { it.id in record.tagIds },
-            isDarkTheme = isDarkTheme,
-            useMilitaryTime = useMilitaryTime,
-            useProportionalMinutes = useProportionalMinutes,
-            showSeconds = showSeconds,
-        ).let {
-            if (isFiltered) {
-                it.copy(color = colorMapper.toFilteredColor(isDarkTheme))
-            } else {
-                it
-            }
-        }
     }
 }

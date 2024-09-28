@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.applyAndroidLibrary
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    id("kotlin-parcelize")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
 }

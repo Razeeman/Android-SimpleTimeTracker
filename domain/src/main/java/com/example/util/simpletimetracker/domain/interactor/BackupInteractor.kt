@@ -1,29 +1,53 @@
 package com.example.util.simpletimetracker.domain.interactor
 
-import com.example.util.simpletimetracker.domain.model.WidgetType
+import com.example.util.simpletimetracker.domain.model.BackupOptionsData
+import com.example.util.simpletimetracker.domain.model.PartialBackupRestoreData
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.domain.resolver.ResultCode
 import javax.inject.Inject
 
 class BackupInteractor @Inject constructor(
     private val backupRepo: BackupRepo,
-    private val runningRecordInteractor: RunningRecordInteractor,
     private val widgetInteractor: WidgetInteractor,
+    private val notificationTypeInteractor: NotificationTypeInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val wearInteractor: WearInteractor,
 ) {
 
-    suspend fun saveBackupFile(uriString: String): ResultCode {
-        return backupRepo.saveBackupFile(uriString)
+    suspend fun saveBackupFile(
+        uriString: String,
+        params: BackupOptionsData.Save,
+    ): ResultCode {
+        return backupRepo.saveBackupFile(uriString, params)
     }
 
-    suspend fun restoreBackupFile(uriString: String): ResultCode {
-        val resultCode = backupRepo.restoreBackupFile(uriString)
-
-        val runningRecords = runningRecordInteractor.getAll()
-        notificationGoalTimeInteractor.checkAndReschedule(runningRecords.map { it.id })
-        widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
-        widgetInteractor.updateWidgets(listOf(WidgetType.RECORD_TYPE))
-
+    suspend fun restoreBackupFile(
+        uriString: String,
+        params: BackupOptionsData.Restore,
+    ): ResultCode {
+        val resultCode = backupRepo.restoreBackupFile(uriString, params)
+        doAfterRestore()
         return resultCode
+    }
+
+    suspend fun partialRestoreBackupFile(
+        params: BackupOptionsData.Custom,
+    ): ResultCode {
+        val resultCode = backupRepo.partialRestoreBackupFile(params)
+        doAfterRestore()
+        return resultCode
+    }
+
+    suspend fun readBackupFileContent(
+        uriString: String,
+    ): Pair<ResultCode, PartialBackupRestoreData?> {
+        return backupRepo.readBackupFile(uriString)
+    }
+
+    private suspend fun doAfterRestore() {
+        notificationTypeInteractor.updateNotifications()
+        notificationGoalTimeInteractor.checkAndReschedule()
+        widgetInteractor.updateWidgets()
+        wearInteractor.update()
     }
 }

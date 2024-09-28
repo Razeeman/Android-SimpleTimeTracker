@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_complex_rules.adapter
+package com.example.util.simpletimetracker.feature_base_adapter.complexRule
 
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
@@ -13,12 +13,12 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.example.util.simpletimetracker.feature_complex_rules.adapter.ComplexRuleElementContentViewData as ContentViewData
-import com.example.util.simpletimetracker.feature_complex_rules.adapter.ComplexRuleElementTitleViewData as TitleViewData
-import com.example.util.simpletimetracker.feature_complex_rules.adapter.ComplexRuleViewData as ViewData
-import com.example.util.simpletimetracker.feature_complex_rules.databinding.ItemComplexRuleElementContentBinding as ContentBinding
-import com.example.util.simpletimetracker.feature_complex_rules.databinding.ItemComplexRuleElementTitleBinding as TitleBinding
-import com.example.util.simpletimetracker.feature_complex_rules.databinding.ItemComplexRuleLayoutBinding as Binding
+import com.example.util.simpletimetracker.feature_base_adapter.complexRule.ComplexRuleElementContentViewData as ContentViewData
+import com.example.util.simpletimetracker.feature_base_adapter.complexRule.ComplexRuleElementTitleViewData as TitleViewData
+import com.example.util.simpletimetracker.feature_base_adapter.complexRule.ComplexRuleViewData as ViewData
+import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemComplexRuleElementContentBinding as ContentBinding
+import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemComplexRuleElementTitleBinding as TitleBinding
+import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemComplexRuleLayoutBinding as Binding
 
 fun createComplexRuleAdapterDelegate(
     onItemClick: ((ViewData) -> Unit),
@@ -58,6 +58,7 @@ fun createComplexRuleAdapterDelegate(
         containerComplexRuleItem.setCardBackgroundColor(item.color)
         btnComplexRuleButtonDisable.setCardBackgroundColor(item.disableButtonColor)
         tvComplexRuleButtonDisable.text = item.disableButtonText
+        tvComplexRuleButtonDisable.visible = item.disableButtonVisible
         viewComplexRuleItemDivider.setBackgroundColor(ColorUtils.normalizeLightness(item.color))
 
         viewComplexRuleItemConditionsClick.setOnClickWith(item, onItemClick)
@@ -72,6 +73,7 @@ data class ComplexRuleViewData(
     @ColorInt val color: Int,
     @ColorInt val disableButtonColor: Int,
     val disableButtonText: String,
+    val disableButtonVisible: Boolean,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = id
