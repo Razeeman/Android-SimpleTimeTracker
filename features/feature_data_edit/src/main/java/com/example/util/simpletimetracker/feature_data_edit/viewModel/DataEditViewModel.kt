@@ -100,6 +100,7 @@ class DataEditViewModel @Inject constructor(
             multitaskSelectionAvailable = false,
             addRunningRecords = false,
             filters = filters.map(RecordsFilter::toParams),
+            defaultLastDaysNumber = 7,
         ).let(router::navigate)
     }
 

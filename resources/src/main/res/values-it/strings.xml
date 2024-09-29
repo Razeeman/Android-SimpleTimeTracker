@@ -533,6 +533,8 @@ Esempio:<br/>
     <string name="records_filter_any_comment">Qualsiasi commento</string>
     <string name="records_filter_select">Selezionare</string>
     <string name="records_filter_invert_selection">Inverti selezione</string>
+    <string name="records_filter_duration_min">Minimo</string>
+    <string name="records_filter_duration_max">Massimo</string>
 
     <!--  Pomodoro  -->
     <string name="pomodoro_state_focus">Focus</string>

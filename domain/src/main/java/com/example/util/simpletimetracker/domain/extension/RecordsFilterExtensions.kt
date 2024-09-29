@@ -64,9 +64,8 @@ fun List<RecordsFilter>.getCommentItems(): List<RecordsFilter.CommentItem> {
         .flatten()
 }
 
-fun List<RecordsFilter>.getDate(): Range? {
+fun List<RecordsFilter>.getDate(): RecordsFilter.Date? {
     return filterIsInstance<RecordsFilter.Date>()
-        .map(RecordsFilter.Date::range)
         .firstOrNull()
 }
 
@@ -138,6 +137,10 @@ fun List<RecordsFilter.CommentItem>.hasAnyComment(): Boolean {
 fun List<RecordsFilter.CommentItem>.getComments(): List<String> {
     return filterIsInstance<RecordsFilter.CommentItem.Comment>()
         .map(RecordsFilter.CommentItem.Comment::text)
+}
+
+fun List<RecordsFilter>.hasDateFilter(): Boolean {
+    return any { it is RecordsFilter.Date }
 }
 
 fun List<RecordsFilter>.hasSelectedTagsFilter(): Boolean {

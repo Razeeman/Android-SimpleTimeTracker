@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.DateDividerViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.DayOfWeekViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.MultitaskRecordViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -38,6 +39,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.MultitaskRecord
 import com.example.util.simpletimetracker.domain.model.Range
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -47,13 +49,14 @@ import com.example.util.simpletimetracker.domain.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
+import com.example.util.simpletimetracker.feature_base_adapter.emptySpace.EmptySpaceViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.FilterViewData
 import com.example.util.simpletimetracker.feature_records_filter.R
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterButtonViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterCommentViewData
-import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterRangeViewData
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterCommentType
@@ -64,12 +67,12 @@ import com.example.util.simpletimetracker.feature_records_filter.viewData.Record
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class RecordsFilterViewDataInteractor @Inject constructor(
     private val recordFilterInteractor: RecordFilterInteractor,
@@ -87,6 +90,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo,
+    private val rangeViewDataMapper: RangeViewDataMapper,
 ) {
 
     fun getDefaultDateRange(): Range {
@@ -245,6 +249,8 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val hasUntracked = filters.hasUntrackedFilter()
         val hasMultitask = filters.hasMultitaskFilter()
 
@@ -256,9 +262,9 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 else -> RecordFilterType.Activity
             },
             RecordFilterType.Comment.takeUnless { hasUntracked || hasMultitask },
-            RecordFilterType.Date.takeIf { extra.dateSelectionAvailable },
             RecordFilterType.SelectedTags.takeUnless { hasUntracked || hasMultitask },
             RecordFilterType.FilteredTags.takeUnless { hasUntracked || hasMultitask },
+            RecordFilterType.Date.takeIf { extra.dateSelectionAvailable },
             RecordFilterType.DaysOfWeek,
             RecordFilterType.TimeOfDay,
             RecordFilterType.Duration,
@@ -279,7 +285,12 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 id = index.toLong(),
                 type = type,
                 name = if (filter != null) {
-                    mapper.mapActiveFilterName(filter, useMilitaryTime)
+                    mapper.mapActiveFilterName(
+                        filter = filter,
+                        useMilitaryTime = useMilitaryTime,
+                        startOfDayShift = startOfDayShift,
+                        firstDayOfWeek = firstDayOfWeek,
+                    )
                 } else {
                     mapper.mapInactiveFilterName(type)
                 },
@@ -391,31 +402,34 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         filters: List<RecordsFilter>,
     ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val result: MutableList<ViewHolderType> = mutableListOf()
-
         val isDarkTheme = prefsInteractor.getDarkMode()
         val commentFilters = listOf(
             RecordFilterCommentType.NoComment,
             RecordFilterCommentType.AnyComment,
         )
 
-        commentFilters.forEach {
+        result += EmptySpaceViewData(
+            id = 1,
+            width = EmptySpaceViewData.ViewDimension.MatchParent,
+            height = EmptySpaceViewData.ViewDimension.ExactSizeDp(6),
+        )
+        result += commentFilters.map {
             mapper.mapCommentFilter(
                 type = it,
                 filters = filters,
                 isDarkTheme = isDarkTheme,
-            ).let(result::add)
+            )
         }
-
-        DividerViewData(1).let(result::add)
+        result += DividerViewData(1)
 
         val comment = filters
             .getCommentItems()
             .getComments()
             .firstOrNull()
-        RecordsFilterCommentViewData(
+        result += RecordsFilterCommentViewData(
             id = 1L, // Only one at the time.
             text = comment.orEmpty(),
-        ).let(result::add)
+        )
 
         return@withContext result
     }
@@ -486,23 +500,69 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     suspend fun getDateFilterSelectionViewData(
         filters: List<RecordsFilter>,
         defaultRange: Range,
+        extra: RecordsFilterParams,
     ): List<ViewHolderType> = withContext(Dispatchers.Default) {
+        val result: MutableList<ViewHolderType> = mutableListOf()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-        val range = filters.getDate() ?: defaultRange
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        val filter = filters.getDate()
+        val filterRange = filter?.range
+        val lastDays = if (filterRange is RangeLength.Last) {
+            filterRange.days
+        } else {
+            extra.defaultLastDaysNumber
+        }
+        val range = filter
+            ?.takeUnless { it.range is RangeLength.All }
+            ?.let { recordFilterInteractor.getRange(it) }
+            ?: defaultRange
 
-        return@withContext RecordsFilterRangeViewData(
+        result += EmptySpaceViewData(
+            id = 1,
+            width = EmptySpaceViewData.ViewDimension.MatchParent,
+            height = EmptySpaceViewData.ViewDimension.ExactSizeDp(4),
+        )
+        result += listOf(
+            RangeLength.Day,
+            RangeLength.Week,
+            RangeLength.Month,
+            RangeLength.Year,
+            RangeLength.All,
+            RangeLength.Last(lastDays),
+        ).mapIndexed { index, rangeLength ->
+            mapper.mapDateRangeFilter(
+                rangeLength = rangeLength,
+                filter = filter,
+                isDarkTheme = isDarkTheme,
+                startOfDayShift = startOfDayShift,
+                firstDayOfWeek = firstDayOfWeek,
+                index = index,
+            )
+        }
+        result += DividerViewData(1)
+        result += HintViewData(text = resourceRepo.getString(R.string.range_custom))
+        result += RecordsFilterRangeViewData(
             id = 1L, // Only one at the time.
             timeStarted = timeMapper.formatDateTimeYear(
                 time = range.timeStarted,
                 useMilitaryTime = useMilitaryTime,
             ),
+            timeStartedHint = resourceRepo.getString(R.string.change_record_date_time_start),
             timeEnded = timeMapper.formatDateTimeYear(
                 time = range.timeEnded,
                 useMilitaryTime = useMilitaryTime,
             ),
-            gravity = RecordsFilterRangeViewData.Gravity.CENTER_VERTICAL,
-            separatorVisible = false,
-        ).let(::listOf)
+            timeEndedHint = resourceRepo.getString(R.string.change_record_date_time_end),
+            gravity = RecordsFilterRangeViewData.Gravity.CENTER,
+            textColor = mapper.mapTextFieldColor(
+                isSelected = filter?.range is RangeLength.Custom,
+                isDarkTheme = isDarkTheme,
+            ),
+        )
+
+        return@withContext result
     }
 
     suspend fun getManualFilterSelectionViewData(
@@ -542,54 +602,92 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     suspend fun getDaysOfWeekFilterSelectionViewData(
         filters: List<RecordsFilter>,
     ): List<ViewHolderType> = withContext(Dispatchers.Default) {
+        val result: MutableList<ViewHolderType> = mutableListOf()
         val selectedDays = filters.getDaysOfWeek()
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        return@withContext dayOfWeekViewDataMapper.mapViewData(
+        result += EmptySpaceViewData(
+            id = 1,
+            width = EmptySpaceViewData.ViewDimension.MatchParent,
+            height = EmptySpaceViewData.ViewDimension.ExactSizeDp(6),
+        )
+        result += dayOfWeekViewDataMapper.mapViewData(
             selectedDaysOfWeek = selectedDays,
             isDarkTheme = isDarkTheme,
             width = DayOfWeekViewData.Width.WrapContent,
             paddingHorizontalDp = 16,
         )
+
+        return@withContext result
     }
 
     suspend fun getTimeOfDayFilterSelectionViewData(
         filters: List<RecordsFilter>,
         defaultRange: Range,
     ): List<ViewHolderType> = withContext(Dispatchers.Default) {
-        val range = filters.getTimeOfDay() ?: defaultRange
+        val result: MutableList<ViewHolderType> = mutableListOf()
+        val filter = filters.getTimeOfDay()
+        val range = filter ?: defaultRange
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val startOfDay = timeMapper.getStartOfDayTimeStamp()
+        val isDarkTheme = prefsInteractor.getDarkMode()
 
-        return@withContext RecordsFilterRangeViewData(
+        result += EmptySpaceViewData(
+            id = 1,
+            width = EmptySpaceViewData.ViewDimension.MatchParent,
+            height = EmptySpaceViewData.ViewDimension.ExactSizeDp(4),
+        )
+        result += RecordsFilterRangeViewData(
             id = 1L, // Only one at the time.
             timeStarted = timeMapper.formatTime(
                 time = range.timeStarted + startOfDay,
                 useMilitaryTime = useMilitaryTime,
                 showSeconds = false,
             ),
+            timeStartedHint = resourceRepo.getString(R.string.change_record_date_time_start),
             timeEnded = timeMapper.formatTime(
                 time = range.timeEnded + startOfDay,
                 useMilitaryTime = useMilitaryTime,
                 showSeconds = false,
             ),
+            timeEndedHint = resourceRepo.getString(R.string.change_record_date_time_end),
             gravity = RecordsFilterRangeViewData.Gravity.CENTER,
-            separatorVisible = true,
-        ).let(::listOf)
+            textColor = mapper.mapTextFieldColor(
+                isSelected = filter != null,
+                isDarkTheme = isDarkTheme,
+            ),
+        )
+
+        return@withContext result
     }
 
-    fun getDurationFilterSelectionViewData(
+    suspend fun getDurationFilterSelectionViewData(
         filters: List<RecordsFilter>,
         defaultRange: Range,
     ): List<ViewHolderType> {
-        val range = filters.getDuration() ?: defaultRange
+        val result: MutableList<ViewHolderType> = mutableListOf()
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        val filter = filters.getDuration()
+        val range = filter ?: defaultRange
 
-        return RecordsFilterRangeViewData(
+        result += EmptySpaceViewData(
+            id = 1,
+            width = EmptySpaceViewData.ViewDimension.MatchParent,
+            height = EmptySpaceViewData.ViewDimension.ExactSizeDp(4),
+        )
+        result += RecordsFilterRangeViewData(
             id = 1L, // Only one at the time.
             timeStarted = timeMapper.formatDuration(range.timeStarted / 1000),
+            timeStartedHint = resourceRepo.getString(R.string.records_filter_duration_min),
             timeEnded = timeMapper.formatDuration(range.timeEnded / 1000),
+            timeEndedHint = resourceRepo.getString(R.string.records_filter_duration_max),
             gravity = RecordsFilterRangeViewData.Gravity.CENTER,
-            separatorVisible = true,
-        ).let(::listOf)
+            textColor = mapper.mapTextFieldColor(
+                isSelected = filter != null,
+                isDarkTheme = isDarkTheme,
+            ),
+        )
+
+        return result
     }
 }

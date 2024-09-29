@@ -4,8 +4,8 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 
 data class EmptySpaceViewData(
     val id: Long,
-    val widthDp: Int = 0,
-    val heightDp: Int = 0,
+    val width: ViewDimension = ViewDimension.ExactSizeDp(0),
+    val height: ViewDimension = ViewDimension.ExactSizeDp(0),
     val wrapBefore: Boolean = false,
 ) : ViewHolderType {
 
@@ -13,4 +13,10 @@ data class EmptySpaceViewData(
 
     override fun isValidType(other: ViewHolderType): Boolean =
         other is EmptySpaceViewData
+
+    sealed interface ViewDimension {
+        object MatchParent : ViewDimension
+        object WrapContent : ViewDimension
+        data class ExactSizeDp(val value: Int) : ViewDimension
+    }
 }

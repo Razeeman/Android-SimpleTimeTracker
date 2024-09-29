@@ -197,13 +197,11 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun onRecordsClick() {
-        viewModelScope.launch {
-            val finalFilters = filterDelegate.provideFilter()
-                .plus(rangeDelegate.getDateFilter())
-                .map(RecordsFilter::toParams).toList()
+        val finalFilters = filterDelegate.provideFilter()
+            .plus(rangeDelegate.getDateFilter())
+            .map(RecordsFilter::toParams).toList()
 
-            router.navigate(RecordsAllParams(finalFilters))
-        }
+        router.navigate(RecordsAllParams(finalFilters))
     }
 
     private fun checkTopScroll(
@@ -284,7 +282,7 @@ class StatisticsDetailViewModel @Inject constructor(
                 this@StatisticsDetailViewModel.updateViewData()
             }
 
-            override suspend fun getDateFilter(): List<RecordsFilter> {
+            override fun getDateFilter(): List<RecordsFilter> {
                 return rangeDelegate.getDateFilter()
             }
 

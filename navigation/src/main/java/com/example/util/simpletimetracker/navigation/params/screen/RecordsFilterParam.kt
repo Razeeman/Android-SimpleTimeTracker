@@ -22,7 +22,7 @@ sealed interface RecordsFilterParam : Parcelable {
     data class Comment(val items: List<CommentItem>) : RecordsFilterParam
 
     @Parcelize
-    data class Date(val rangeStart: Long, val rangeEnd: Long) : RecordsFilterParam
+    data class Date(val range: RangeLengthParams, val position: Int) : RecordsFilterParam
 
     @Parcelize
     data class SelectedTags(val items: List<TagItem>) : RecordsFilterParam

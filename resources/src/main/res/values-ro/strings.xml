@@ -533,6 +533,8 @@ Examplu:<br/>
     <string name="records_filter_any_comment">Orice comentariu</string>
     <string name="records_filter_select">Alege</string>
     <string name="records_filter_invert_selection">Inversează selecția</string>
+    <string name="records_filter_duration_min">Minim</string>
+    <string name="records_filter_duration_max">Maxim</string>
 
     <!--  Pomodoro  -->
     <string name="pomodoro_state_focus">Concentrare</string>

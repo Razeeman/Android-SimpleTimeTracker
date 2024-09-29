@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -49,7 +50,7 @@ class StatisticsDetailRangeViewModelDelegate @Inject constructor(
     }
 
     fun initialize(extra: StatisticsDetailParams) {
-        rangeLength = getRangeLength(extra.range)
+        rangeLength = extra.range.toModel()
         rangePosition = extra.shift
     }
 
@@ -130,27 +131,11 @@ class StatisticsDetailRangeViewModelDelegate @Inject constructor(
         )
     }
 
-    suspend fun getDateFilter(): List<RecordsFilter> {
+    fun getDateFilter(): List<RecordsFilter> {
         return recordFilterInteractor.mapDateFilter(
             rangeLength = rangeLength,
             rangePosition = rangePosition,
-        )?.let(::listOf).orEmpty()
-    }
-
-    private fun getRangeLength(range: StatisticsDetailParams.RangeLengthParams): RangeLength {
-        return when (range) {
-            is StatisticsDetailParams.RangeLengthParams.Day -> RangeLength.Day
-            is StatisticsDetailParams.RangeLengthParams.Week -> RangeLength.Week
-            is StatisticsDetailParams.RangeLengthParams.Month -> RangeLength.Month
-            is StatisticsDetailParams.RangeLengthParams.Year -> RangeLength.Year
-            is StatisticsDetailParams.RangeLengthParams.All -> RangeLength.All
-            is StatisticsDetailParams.RangeLengthParams.Custom -> Range(
-                timeStarted = range.start, timeEnded = range.end,
-            ).let(RangeLength::Custom)
-            is StatisticsDetailParams.RangeLengthParams.Last -> RangeLength.Last(
-                days = range.days,
-            )
-        }
+        ).let(::listOf)
     }
 
     fun provideRangeLength(): RangeLength {
@@ -186,10 +171,10 @@ class StatisticsDetailRangeViewModelDelegate @Inject constructor(
             ?: prefsInteractor.getStatisticsDetailLastDays()
     }
 
-    private fun onRangeChanged() = delegateScope.launch {
+    private fun onRangeChanged(newPosition: Int = 0) = delegateScope.launch {
         prefsInteractor.setStatisticsDetailRange(rangeLength)
         parent?.onRangeChanged()
-        updatePosition(0)
+        updatePosition(newPosition)
     }
 
     private fun updatePosition(newPosition: Int) {

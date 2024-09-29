@@ -10,9 +10,9 @@
         style="@style/InputFieldCardDialog"
         android:layout_width="0dp"
         android:layout_height="@dimen/input_field_height"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/edit_screen_button_margin_horizontal"
         android:layout_marginEnd="2dp"
-        app:layout_constraintEnd_toStartOf="@id/tvRecordFilterDurationSeparator"
+        app:layout_constraintEnd_toStartOf="@id/fieldRecordsFilterRangeTimeEnded"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -26,25 +26,11 @@
             app:autoSizeMaxTextSize="16sp"
             app:autoSizeMinTextSize="1sp"
             app:autoSizeTextType="uniform"
-            tools:gravity="center_vertical"
-            tools:text="15.02.2020 07:35" />
+            tools:gravity="center"
+            tools:text="15.02.2020 07:35"
+            tools:textColor="?appTextHintColor" />
 
     </androidx.cardview.widget.CardView>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvRecordFilterDurationSeparator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:text="-"
-        android:textColor="?appTextPrimaryColor"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/fieldRecordsFilterRangeTimeStarted"
-        app:layout_constraintEnd_toStartOf="@id/fieldRecordsFilterRangeTimeEnded"
-        app:layout_constraintStart_toEndOf="@id/fieldRecordsFilterRangeTimeStarted"
-        app:layout_constraintTop_toTopOf="@id/fieldRecordsFilterRangeTimeStarted"
-        tools:ignore="HardcodedText"
-        tools:visibility="visible" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/fieldRecordsFilterRangeTimeEnded"
@@ -52,9 +38,9 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/input_field_height"
         android:layout_marginStart="2dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="@dimen/edit_screen_button_margin_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvRecordFilterDurationSeparator"
+        app:layout_constraintStart_toEndOf="@id/fieldRecordsFilterRangeTimeStarted"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -67,9 +53,50 @@
             app:autoSizeMaxTextSize="16sp"
             app:autoSizeMinTextSize="1sp"
             app:autoSizeTextType="uniform"
-            tools:gravity="center_vertical"
-            tools:text="15.02.2020 11:58" />
+            tools:gravity="center"
+            tools:text="15.02.2020 11:58"
+            tools:textColor="?appTextHintColor" />
 
     </androidx.cardview.widget.CardView>
+
+    <Space
+        android:id="@+id/spaceRecordsFilterRangeTimeStarted"
+        android:layout_width="12dp"
+        android:layout_height="4dp"
+        app:layout_constraintBottom_toTopOf="@id/fieldRecordsFilterRangeTimeStarted"
+        app:layout_constraintStart_toStartOf="@id/fieldRecordsFilterRangeTimeStarted" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRecordsFilterRangeTimeStartedHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?appDialogBackground"
+        android:paddingHorizontal="4dp"
+        android:textColor="?appTextHintColor"
+        android:textSize="11sp"
+        app:autoSizeTextType="none"
+        app:layout_constraintStart_toEndOf="@id/spaceRecordsFilterRangeTimeStarted"
+        app:layout_constraintTop_toTopOf="@id/spaceRecordsFilterRangeTimeStarted"
+        tools:text="@string/change_record_date_time_start" />
+
+    <Space
+        android:id="@+id/spaceRecordsFilterRangeTimeEnded"
+        android:layout_width="12dp"
+        android:layout_height="4dp"
+        app:layout_constraintBottom_toTopOf="@id/fieldRecordsFilterRangeTimeEnded"
+        app:layout_constraintStart_toStartOf="@id/fieldRecordsFilterRangeTimeEnded" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRecordsFilterRangeTimeEndedHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?appDialogBackground"
+        android:paddingHorizontal="4dp"
+        android:textColor="?appTextHintColor"
+        android:textSize="11sp"
+        app:autoSizeTextType="none"
+        app:layout_constraintStart_toEndOf="@id/spaceRecordsFilterRangeTimeEnded"
+        app:layout_constraintTop_toTopOf="@id/spaceRecordsFilterRangeTimeEnded"
+        tools:text="@string/change_record_date_time_end" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

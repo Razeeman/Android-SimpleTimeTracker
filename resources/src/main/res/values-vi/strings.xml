@@ -533,6 +533,8 @@ Ví dụ:<br/>
     <string name="records_filter_any_comment">Mọi nhận xét</string>
     <string name="records_filter_select">Chọn</string>
     <string name="records_filter_invert_selection">Đảo ngược lựa chọn</string>
+    <string name="records_filter_duration_min">Tối thiểu</string>
+    <string name="records_filter_duration_max">Tối đa</string>
 
     <!--  Pomodoro  -->
     <string name="pomodoro_state_focus">Tiêu điểm</string>

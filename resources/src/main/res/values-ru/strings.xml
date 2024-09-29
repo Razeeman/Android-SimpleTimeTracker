@@ -533,6 +533,8 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="records_filter_any_comment">Любой комментарий</string>
     <string name="records_filter_select">Выбрать</string>
     <string name="records_filter_invert_selection">Инвертировать выбор</string>
+    <string name="records_filter_duration_min">Минимум</string>
+    <string name="records_filter_duration_max">Максимум</string>
 
     <!--  Pomodoro  -->
     <string name="pomodoro_state_focus">Фокус</string>

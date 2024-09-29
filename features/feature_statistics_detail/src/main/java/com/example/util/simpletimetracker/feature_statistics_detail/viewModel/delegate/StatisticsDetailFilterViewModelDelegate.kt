@@ -5,6 +5,9 @@ import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.extension.hasDateFilter
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordBase
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_statistics_detail.R
@@ -21,6 +24,7 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
     private val router: Router,
     private val resourceRepo: ResourceRepo,
     private val recordFilterInteractor: RecordFilterInteractor,
+    private val prefsInteractor: PrefsInteractor,
 ) : StatisticsDetailViewModelDelegate, ViewModelDelegate() {
 
     private var parent: StatisticsDetailViewModelDelegate.Parent? = null
@@ -49,7 +53,7 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
         openFilter(
             tag = FILTER_TAG,
             title = resourceRepo.getString(R.string.chart_filter_hint),
-            filters = filter,
+            filters = provideFilter(),
         )
     }
 
@@ -57,11 +61,12 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
         openFilter(
             tag = COMPARE_TAG,
             title = resourceRepo.getString(R.string.types_compare_hint),
-            filters = comparisonFilter,
+            filters = provideComparisonFilter(),
         )
     }
 
     fun onTypesFilterSelected(result: RecordsFilterResultParams) {
+        // Remove date filter, because it is applied separately.
         val finalFilters = result.filters.filter { it !is RecordsFilter.Date }
 
         when (result.tag) {
@@ -97,11 +102,11 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
     }
 
     fun provideFilter(): List<RecordsFilter> {
-        return filter
+        return filter.filter { it !is RecordsFilter.Date }
     }
 
     fun provideComparisonFilter(): List<RecordsFilter> {
-        return comparisonFilter
+        return comparisonFilter.filter { it !is RecordsFilter.Date }
     }
 
     private suspend fun openFilter(
@@ -118,9 +123,12 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
                 dateSelectionAvailable = false,
                 untrackedSelectionAvailable = true,
                 multitaskSelectionAvailable = true,
+                addRunningRecords = true,
                 filters = filters
                     .plus(parent.getDateFilter())
                     .map(RecordsFilter::toParams).toList(),
+                defaultLastDaysNumber = prefsInteractor
+                    .getStatisticsDetailLastDays(),
             ),
         )
     }
@@ -149,7 +157,7 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
     }
 
     companion object {
-        private const val FILTER_TAG = "statistics_detail_filter_tag"
-        private const val COMPARE_TAG = "statistics_detail_compare_tag"
+        const val FILTER_TAG = "statistics_detail_filter_tag"
+        const val COMPARE_TAG = "statistics_detail_compare_tag"
     }
 }

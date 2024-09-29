@@ -54,25 +54,25 @@ class RecordFilterInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
 ) {
 
-    suspend fun mapDateFilter(
+    fun mapDateFilter(
         rangeLength: RangeLength,
         rangePosition: Int,
-    ): RecordsFilter? = withContext(Dispatchers.Default) {
+    ): RecordsFilter {
+        return RecordsFilter.Date(rangeLength, rangePosition)
+    }
+
+    suspend fun getRange(
+        filter: RecordsFilter.Date,
+    ): Range {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
 
-        val range = timeMapper.getRangeStartAndEnd(
-            rangeLength = rangeLength,
-            shift = rangePosition,
+        return timeMapper.getRangeStartAndEnd(
+            rangeLength = filter.range,
+            shift = filter.position,
             firstDayOfWeek = firstDayOfWeek,
             startOfDayShift = startOfDayShift,
         )
-
-        return@withContext if (range.timeStarted == 0L && range.timeEnded == 0L) {
-            null
-        } else {
-            RecordsFilter.Date(range)
-        }
     }
 
     suspend fun getByFilter(
@@ -95,7 +95,8 @@ class RecordFilterInteractor @Inject constructor(
         val comments: List<String> = selectedCommentItems.getComments().map(String::lowercase)
         val selectedNoComment: Boolean = selectedCommentItems.hasNoComment()
         val selectedAnyComment: Boolean = selectedCommentItems.hasAnyComment()
-        val ranges: List<Range> = filters.getDate()?.let(::listOf).orEmpty()
+        val ranges: List<Range> = filters.getDate()?.let { getRange(it) }?.let(::listOf).orEmpty()
+        val definedRanges = ranges.filter { it.timeStarted != 0L && it.timeEnded != 0L }
         val selectedTagItems: List<RecordsFilter.TagItem> = filters.getSelectedTags()
         val selectedTaggedIds: List<Long> = selectedTagItems.getTaggedIds()
         val selectedUntagged: Boolean = selectedTagItems.hasUntaggedItem()
@@ -111,19 +112,19 @@ class RecordFilterInteractor @Inject constructor(
         // TODO by tag (tagged, untagged).
         val records: List<RecordBase> = when {
             filters.hasUntrackedFilter() -> {
-                val range = ranges.firstOrNull() ?: Range(0, 0)
+                val range = definedRanges.firstOrNull() ?: Range(0, 0)
                 val records = getAllRecords(range, runningRecords)
                     .map(RecordBase::toRange)
                 getUntrackedRecordsInteractor.get(range, records)
             }
             filters.hasMultitaskFilter() -> {
-                val range = ranges.firstOrNull() ?: Range(0, 0)
+                val range = definedRanges.firstOrNull() ?: Range(0, 0)
                 val records = getAllRecords(range, runningRecords)
                 getMultitaskRecordsInteractor.get(records)
             }
-            typeIds.isNotEmpty() && ranges.isNotEmpty() -> {
+            typeIds.isNotEmpty() && definedRanges.isNotEmpty() -> {
                 val result = mutableMapOf<Long, Record>()
-                ranges
+                definedRanges
                     .map { interactor.getFromRangeByType(typeIds, it) }
                     .flatten()
                     .forEach { result[it.id] = it }
@@ -140,9 +141,9 @@ class RecordFilterInteractor @Inject constructor(
             typeIds.isNotEmpty() -> {
                 interactor.getByType(typeIds)
             }
-            ranges.isNotEmpty() -> {
+            definedRanges.isNotEmpty() -> {
                 val result = mutableMapOf<Long, Record>()
-                ranges
+                definedRanges
                     .map { interactor.getFromRange(it) }
                     .flatten()
                     .forEach { result[it.id] = it }
@@ -156,6 +157,7 @@ class RecordFilterInteractor @Inject constructor(
             }
             else -> interactor.getAll()
         }.let {
+            // For these filter running records are added separately.
             if (filters.hasUntrackedFilter() || filters.hasMultitaskFilter()) {
                 it
             } else {
@@ -179,6 +181,8 @@ class RecordFilterInteractor @Inject constructor(
 
         fun RecordBase.selectedByDate(): Boolean {
             if (ranges.isEmpty()) return true
+            // Overall range.
+            if (ranges.any { it.timeStarted == 0L && it.timeEnded == 0L }) return true
             return ranges.any { range -> timeStarted < range.timeEnded && timeEnded > range.timeStarted }
         }
 

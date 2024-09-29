@@ -533,6 +533,8 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="records_filter_any_comment">कोई टिप्पणी</string>
     <string name="records_filter_select">चुनना</string>
     <string name="records_filter_invert_selection">उलट चयन</string>
+    <string name="records_filter_duration_min">न्यूनतम</string>
+    <string name="records_filter_duration_max">अधिकतम</string>
 
     <!--  Pomodoro  -->
     <string name="pomodoro_state_focus">फोकस</string>

@@ -533,6 +533,8 @@
     <string name="records_filter_any_comment">Будь-який коментар</string>
     <string name="records_filter_select">Виберіть</string>
     <string name="records_filter_invert_selection">Інвертувати виділення</string>
+    <string name="records_filter_duration_min">Мінімум</string>
+    <string name="records_filter_duration_max">Максимум</string>
 
     <!--  Pomodoro  -->
     <string name="pomodoro_state_focus">Фокус</string>

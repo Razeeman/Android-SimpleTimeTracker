@@ -13,7 +13,7 @@ sealed interface RecordsFilter {
 
     data class Comment(val items: List<CommentItem>) : RecordsFilter
 
-    data class Date(val range: Range) : RecordsFilter
+    data class Date(val range: RangeLength, val position: Int) : RecordsFilter
 
     data class SelectedTags(val items: List<TagItem>) : RecordsFilter
 

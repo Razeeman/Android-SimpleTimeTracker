@@ -23,7 +23,7 @@
         android:layout_height="@dimen/input_field_height"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="2dp"
         app:layout_constraintEnd_toStartOf="@id/fieldCustomRangeSelectionTimeEnded"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivCustomRangeSelectionArrow">
@@ -34,11 +34,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?appInputFieldBorderDialog"
+            android:gravity="center"
             android:maxLines="1"
             app:autoSizeMaxTextSize="16sp"
             app:autoSizeMinTextSize="1sp"
             app:autoSizeTextType="uniform"
-            tools:text="15.02.2020 07:35" />
+            tools:text="Mar 12 2021" />
 
     </androidx.cardview.widget.CardView>
 
@@ -47,7 +48,7 @@
         style="@style/InputFieldCardDialog"
         android:layout_width="0dp"
         android:layout_height="@dimen/input_field_height"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,20 +61,58 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?appInputFieldBorderDialog"
+            android:gravity="center"
             android:maxLines="1"
             app:autoSizeMaxTextSize="16sp"
             app:autoSizeMinTextSize="1sp"
             app:autoSizeTextType="uniform"
-            tools:text="15.02.2020 11:58" />
+            tools:text="Mar 12 2021" />
 
     </androidx.cardview.widget.CardView>
+
+    <Space
+        android:id="@+id/spaceCustomRangeSelectionTimeStarted"
+        android:layout_width="12dp"
+        android:layout_height="4dp"
+        app:layout_constraintBottom_toTopOf="@id/fieldCustomRangeSelectionTimeStarted"
+        app:layout_constraintStart_toStartOf="@id/fieldCustomRangeSelectionTimeStarted" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?appDialogBackground"
+        android:paddingHorizontal="4dp"
+        android:text="@string/change_record_date_time_start"
+        android:textColor="?appTextHintColor"
+        android:textSize="11sp"
+        app:autoSizeTextType="none"
+        app:layout_constraintStart_toEndOf="@id/spaceCustomRangeSelectionTimeStarted"
+        app:layout_constraintTop_toTopOf="@id/spaceCustomRangeSelectionTimeStarted" />
+
+    <Space
+        android:id="@+id/spaceCustomRangeSelectionTimeEnded"
+        android:layout_width="12dp"
+        android:layout_height="4dp"
+        app:layout_constraintBottom_toTopOf="@id/fieldCustomRangeSelectionTimeEnded"
+        app:layout_constraintStart_toStartOf="@id/fieldCustomRangeSelectionTimeEnded" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?appDialogBackground"
+        android:paddingHorizontal="4dp"
+        android:text="@string/change_record_date_time_end"
+        android:textColor="?appTextHintColor"
+        android:textSize="11sp"
+        app:autoSizeTextType="none"
+        app:layout_constraintStart_toEndOf="@id/spaceCustomRangeSelectionTimeEnded"
+        app:layout_constraintTop_toTopOf="@id/spaceCustomRangeSelectionTimeEnded" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCustomRangeSelection"
         style="@style/AppButton"
         android:layout_width="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="6dp"
         android:layout_marginEnd="10dp"
         android:ellipsize="marquee"
         android:paddingHorizontal="0dp"

@@ -100,7 +100,7 @@ class RecordsFilterFragment :
         )
     }
     private val params: RecordsFilterParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = RecordsFilterParams(),
+        key = ARGS_PARAMS, default = RecordsFilterParams.Empty,
     )
     private var listener: RecordsFilterListener? = null
 

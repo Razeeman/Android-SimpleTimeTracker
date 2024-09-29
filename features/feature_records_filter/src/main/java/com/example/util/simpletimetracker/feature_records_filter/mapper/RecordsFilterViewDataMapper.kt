@@ -1,12 +1,16 @@
 package com.example.util.simpletimetracker.feature_records_filter.mapper
 
+import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.getCommentItems
 import com.example.util.simpletimetracker.domain.extension.getComments
 import com.example.util.simpletimetracker.domain.extension.hasAnyComment
 import com.example.util.simpletimetracker.domain.extension.hasNoComment
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.emptySpace.EmptySpaceViewData
@@ -14,6 +18,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.Filt
 import com.example.util.simpletimetracker.feature_base_adapter.selectionButton.SelectionButtonViewData
 import com.example.util.simpletimetracker.feature_records_filter.R
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterCommentType
+import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterDateType
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterType
 import com.example.util.simpletimetracker.feature_records_filter.viewData.RecordsFilterSelectionButtonType
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
@@ -23,6 +28,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper,
     private val colorMapper: ColorMapper,
+    private val rangeViewDataMapper: RangeViewDataMapper,
 ) {
 
     fun mapInitialFilter(
@@ -79,6 +85,8 @@ class RecordsFilterViewDataMapper @Inject constructor(
     fun mapActiveFilterName(
         filter: RecordsFilter,
         useMilitaryTime: Boolean,
+        startOfDayShift: Long,
+        firstDayOfWeek: DayOfWeek,
     ): String {
         val filterName = filter::class.java
             .let(::mapToViewData)
@@ -119,17 +127,12 @@ class RecordsFilterViewDataMapper @Inject constructor(
                 }
             }
             is RecordsFilter.Date -> {
-                val startedDate = timeMapper.formatDateTime(
-                    time = filter.range.timeStarted,
-                    useMilitaryTime = useMilitaryTime,
-                    showSeconds = false,
+                rangeViewDataMapper.mapToTitle(
+                    rangeLength = filter.range,
+                    position = filter.position,
+                    startOfDayShift = startOfDayShift,
+                    firstDayOfWeek = firstDayOfWeek,
                 )
-                val endedDate = timeMapper.formatDateTime(
-                    time = filter.range.timeEnded,
-                    useMilitaryTime = useMilitaryTime,
-                    showSeconds = false,
-                )
-                "$startedDate - $endedDate"
             }
             is RecordsFilter.SelectedTags -> {
                 "${filter.items.size}"
@@ -189,7 +192,7 @@ class RecordsFilterViewDataMapper @Inject constructor(
 
         return FilterViewData(
             id = type.hashCode().toLong(),
-            type = RecordFilterType.Comment,
+            type = type,
             name = name,
             color = if (enabled) {
                 colorMapper.toActiveColor(isDarkTheme)
@@ -197,6 +200,36 @@ class RecordsFilterViewDataMapper @Inject constructor(
                 colorMapper.toInactiveColor(isDarkTheme)
             },
             selected = enabled,
+            removeBtnVisible = false,
+        )
+    }
+
+    fun mapDateRangeFilter(
+        rangeLength: RangeLength,
+        filter: RecordsFilter.Date?,
+        isDarkTheme: Boolean,
+        startOfDayShift: Long,
+        firstDayOfWeek: DayOfWeek,
+        index: Int,
+    ): ViewHolderType {
+        val selected = filter?.range == rangeLength &&
+            filter.position == 0
+
+        return FilterViewData(
+            id = index.toLong(),
+            type = RecordFilterDateType(rangeLength),
+            name = rangeViewDataMapper.mapToTitle(
+                rangeLength = rangeLength,
+                position = 0,
+                startOfDayShift = startOfDayShift,
+                firstDayOfWeek = firstDayOfWeek,
+            ),
+            color = if (selected) {
+                colorMapper.toActiveColor(isDarkTheme)
+            } else {
+                colorMapper.toInactiveColor(isDarkTheme)
+            },
+            selected = selected,
             removeBtnVisible = false,
         )
     }
@@ -246,6 +279,20 @@ class RecordsFilterViewDataMapper @Inject constructor(
         )
 
         return result
+    }
+
+    @ColorInt
+    fun mapTextFieldColor(
+        isSelected: Boolean,
+        isDarkTheme: Boolean,
+    ): Int {
+        return if (isSelected) {
+            R.attr.appTextPrimaryColor
+        } else {
+            R.attr.appTextHintColor
+        }.let {
+            resourceRepo.getThemedAttr(it, isDarkTheme)
+        }
     }
 
     private fun mapToViewData(clazz: Class<out RecordsFilter>): RecordFilterType? {

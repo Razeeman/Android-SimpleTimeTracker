@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.domain.interactor.FilterSelectableTags
 import com.example.util.simpletimetracker.domain.model.Category
 import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.Range
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordTag
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeCategory
@@ -27,6 +28,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.record.RecordView
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.FilterViewData
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterCommentType
+import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterDateType
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterType
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.viewData.RecordsFilterSelectionButtonType
@@ -148,16 +150,16 @@ class RecordsFilterUpdateInteractor @Inject constructor(
 
     fun handleCommentFilterClick(
         currentFilters: List<RecordsFilter>,
-        item: FilterViewData,
+        itemType: FilterViewData.Type,
     ): List<RecordsFilter> {
         val filters = currentFilters.toMutableList()
         val currentItems = filters.getCommentItems()
 
-        val clickedItem = when (item.id) {
-            RecordFilterCommentType.NoComment.hashCode().toLong() -> {
+        val clickedItem = when (itemType) {
+            is RecordFilterCommentType.NoComment -> {
                 RecordsFilter.CommentItem.NoComment
             }
-            RecordFilterCommentType.AnyComment.hashCode().toLong() -> {
+            is RecordFilterCommentType.AnyComment -> {
                 RecordsFilter.CommentItem.AnyComment
             }
             else -> return currentFilters
@@ -235,8 +237,21 @@ class RecordsFilterUpdateInteractor @Inject constructor(
         rangeEnd: Long,
     ): List<RecordsFilter> {
         val filters = currentFilters.toMutableList()
+        val range = Range(rangeStart, rangeEnd)
         filters.removeAll { it is RecordsFilter.Date }
-        filters.add(RecordsFilter.Date(Range(rangeStart, rangeEnd)))
+        filters.add(RecordsFilter.Date(RangeLength.Custom(range), 0))
+        return filters
+    }
+
+    fun handleRangeSet(
+        currentFilters: List<RecordsFilter>,
+        itemType: FilterViewData.Type,
+    ): List<RecordsFilter> {
+        val rangeLength = (itemType as? RecordFilterDateType)?.rangeLength
+            ?: return currentFilters
+        val filters = currentFilters.toMutableList()
+        filters.removeAll { it is RecordsFilter.Date }
+        filters.add(RecordsFilter.Date(rangeLength, 0))
         return filters
     }
 

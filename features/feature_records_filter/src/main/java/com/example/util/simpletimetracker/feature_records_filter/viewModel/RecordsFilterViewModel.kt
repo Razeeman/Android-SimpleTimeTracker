@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toModel
+import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.MULTITASK_ITEM_ID
 import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
@@ -42,6 +43,8 @@ import com.example.util.simpletimetracker.feature_records_filter.adapter.Records
 import com.example.util.simpletimetracker.feature_records_filter.interactor.RecordsFilterUpdateInteractor
 import com.example.util.simpletimetracker.feature_records_filter.interactor.RecordsFilterViewDataInteractor
 import com.example.util.simpletimetracker.feature_records_filter.mapper.RecordsFilterViewDataMapper
+import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterCommentType
+import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterDateType
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordFilterType
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectedRecordsViewData
 import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFilterSelectionState
@@ -74,6 +77,7 @@ class RecordsFilterViewModel @Inject constructor(
     private val timeMapper: TimeMapper,
     private val router: Router,
     private val recordsFilterUpdateInteractor: RecordsFilterUpdateInteractor,
+    private val recordFilterInteractor: RecordFilterInteractor,
 ) : ViewModel() {
 
     private lateinit var extra: RecordsFilterParams
@@ -220,9 +224,8 @@ class RecordsFilterViewModel @Inject constructor(
 
     fun onInnerFilterClick(item: FilterViewData) {
         when (item.type) {
-            RecordFilterType.Comment -> {
-                handleCommentFilterClick(item)
-            }
+            is RecordFilterCommentType -> handleCommentFilterClick(item)
+            is RecordFilterDateType -> onDateRangeClick(item)
             else -> {
                 // Do nothing.
             }
@@ -235,7 +238,7 @@ class RecordsFilterViewModel @Inject constructor(
         updateViewDataOnFiltersChanged()
     }
 
-    fun onDateTimeSet(timestamp: Long, tag: String?) {
+    fun onDateTimeSet(timestamp: Long, tag: String?) = viewModelScope.launch {
         when (tag) {
             TIME_STARTED_TAG, TIME_ENDED_TAG -> handleDateSet(timestamp, tag)
             TIME_OF_DAY_FROM_TAG, TIME_OF_DAY_TO_TAG -> handleTimeOfDaySet(timestamp, tag)
@@ -310,6 +313,13 @@ class RecordsFilterViewModel @Inject constructor(
         updateViewDataOnFiltersChanged()
     }
 
+    private fun onDateRangeClick(viewData: FilterViewData) {
+        filters = recordsFilterUpdateInteractor.handleRangeSet(
+            currentFilters = filters,
+            itemType = viewData.type,
+        )
+    }
+
     fun onShowRecordsListClick() {
         filterSelectionState = RecordsFilterSelectionState.Hidden
         updateFilters()
@@ -353,7 +363,7 @@ class RecordsFilterViewModel @Inject constructor(
     private fun handleCommentFilterClick(item: FilterViewData) {
         filters = recordsFilterUpdateInteractor.handleCommentFilterClick(
             currentFilters = filters,
-            item = item,
+            itemType = item.type,
         )
     }
 
@@ -431,7 +441,9 @@ class RecordsFilterViewModel @Inject constructor(
     }
 
     private suspend fun handleDateFieldClick(fieldType: RecordsFilterRangeViewData.FieldType) {
-        val range = filters.getDate() ?: defaultRange
+        val range = filters.getDate()
+            ?.let { recordFilterInteractor.getRange(it) }
+            ?: defaultRange
 
         when (fieldType) {
             RecordsFilterRangeViewData.FieldType.TIME_STARTED -> {
@@ -491,8 +503,10 @@ class RecordsFilterViewModel @Inject constructor(
         }.let(router::navigate)
     }
 
-    private fun handleDateSet(timestamp: Long, tag: String?) {
-        var (rangeStart, rangeEnd) = filters.getDate() ?: defaultRange
+    private suspend fun handleDateSet(timestamp: Long, tag: String?) {
+        var (rangeStart, rangeEnd) = filters.getDate()
+            ?.let { recordFilterInteractor.getRange(it) }
+            ?: defaultRange
 
         when (tag) {
             TIME_STARTED_TAG -> {
@@ -591,18 +605,18 @@ class RecordsFilterViewModel @Inject constructor(
     private fun updateFilters() {
         filtersLoadJob?.cancel()
         filtersLoadJob = viewModelScope.launch {
-            changedFilters.set(
-                RecordsFilterResultParams(
-                    tag = extra.tag,
-                    filters = filters,
-                ),
-            )
             val data = loadFiltersViewData()
             filtersViewData.set(data)
         }
     }
 
     private suspend fun loadFiltersViewData(): List<ViewHolderType> {
+        changedFilters.set(
+            RecordsFilterResultParams(
+                tag = extra.tag,
+                filters = filters,
+            ),
+        )
         return viewDataInteractor.getFiltersViewData(
             extra = extra,
             selectionState = filterSelectionState,
@@ -675,6 +689,7 @@ class RecordsFilterViewModel @Inject constructor(
                 viewDataInteractor.getDateFilterSelectionViewData(
                     filters = filters,
                     defaultRange = defaultRange,
+                    extra = extra,
                 )
             }
             RecordFilterType.ManuallyFiltered -> {

@@ -5,11 +5,26 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class RecordsFilterParams(
-    val tag: String = "",
-    val title: String = "",
-    val dateSelectionAvailable: Boolean = true,
-    val untrackedSelectionAvailable: Boolean = true,
-    val multitaskSelectionAvailable: Boolean = true,
-    val addRunningRecords: Boolean = true,
-    val filters: List<RecordsFilterParam> = emptyList(),
-) : ScreenParams, Parcelable
+    val tag: String,
+    val title: String,
+    val dateSelectionAvailable: Boolean,
+    val untrackedSelectionAvailable: Boolean,
+    val multitaskSelectionAvailable: Boolean,
+    val addRunningRecords: Boolean,
+    val filters: List<RecordsFilterParam>,
+    val defaultLastDaysNumber: Int,
+) : ScreenParams, Parcelable {
+
+    companion object {
+        val Empty = RecordsFilterParams(
+            tag = "",
+            title = "",
+            dateSelectionAvailable = true,
+            untrackedSelectionAvailable = true,
+            multitaskSelectionAvailable = true,
+            addRunningRecords = true,
+            filters = emptyList(),
+            defaultLastDaysNumber = 0,
+        )
+    }
+}

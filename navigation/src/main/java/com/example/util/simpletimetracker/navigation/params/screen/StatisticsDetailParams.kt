@@ -20,29 +20,6 @@ data class StatisticsDetailParams(
         @ColorInt val color: Int,
     ) : Parcelable
 
-    sealed class RangeLengthParams : Parcelable {
-        @Parcelize
-        object Day : RangeLengthParams()
-
-        @Parcelize
-        object Week : RangeLengthParams()
-
-        @Parcelize
-        object Month : RangeLengthParams()
-
-        @Parcelize
-        object Year : RangeLengthParams()
-
-        @Parcelize
-        object All : RangeLengthParams()
-
-        @Parcelize
-        data class Custom(val start: Long, val end: Long) : RangeLengthParams()
-
-        @Parcelize
-        data class Last(val days: Int) : RangeLengthParams()
-    }
-
     companion object {
         val Empty = StatisticsDetailParams(
             transitionName = "",

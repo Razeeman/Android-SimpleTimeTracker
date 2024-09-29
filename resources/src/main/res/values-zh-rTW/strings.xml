@@ -533,6 +533,8 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="records_filter_any_comment">任何意見</string>
     <string name="records_filter_select">選擇</string>
     <string name="records_filter_invert_selection">反轉選擇</string>
+    <string name="records_filter_duration_min">最低限度</string>
+    <string name="records_filter_duration_max">最大限度</string>
 
     <!--  Pomodoro  -->
     <string name="pomodoro_state_focus">焦點</string>

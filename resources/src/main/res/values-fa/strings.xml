@@ -533,6 +533,8 @@
     <string name="records_filter_any_comment">هر نظری</string>
     <string name="records_filter_select">انتخاب</string>
     <string name="records_filter_invert_selection">معکوس کردن موارد انتخابی</string>
+    <string name="records_filter_duration_min">حداقل</string>
+    <string name="records_filter_duration_max">حداکثر</string>
 
     <!--  Pomodoro  -->
     <string name="pomodoro_state_focus">تمرکز</string>

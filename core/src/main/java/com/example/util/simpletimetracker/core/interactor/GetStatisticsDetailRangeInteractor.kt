@@ -1,8 +1,9 @@
 package com.example.util.simpletimetracker.core.interactor
 
+import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.RangeLength
-import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams.RangeLengthParams
+import com.example.util.simpletimetracker.navigation.params.screen.RangeLengthParams
 import javax.inject.Inject
 
 class GetStatisticsDetailRangeInteractor @Inject constructor(
@@ -10,20 +11,7 @@ class GetStatisticsDetailRangeInteractor @Inject constructor(
 ) {
 
     suspend fun execute(): RangeLengthParams {
-        return when (val rangeLength = getRangeLength()) {
-            is RangeLength.Day -> RangeLengthParams.Day
-            is RangeLength.Week -> RangeLengthParams.Week
-            is RangeLength.Month -> RangeLengthParams.Month
-            is RangeLength.Year -> RangeLengthParams.Year
-            is RangeLength.All -> RangeLengthParams.All
-            is RangeLength.Custom -> RangeLengthParams.Custom(
-                start = rangeLength.range.timeStarted,
-                end = rangeLength.range.timeEnded,
-            )
-            is RangeLength.Last -> RangeLengthParams.Last(
-                days = rangeLength.days,
-            )
-        }
+        return getRangeLength().toParams()
     }
 
     private suspend fun getRangeLength(): RangeLength {

@@ -533,6 +533,8 @@
     <string name="records_filter_any_comment">أي تعليق</string>
     <string name="records_filter_select">اختيار</string>
     <string name="records_filter_invert_selection">عكس الاختيار</string>
+    <string name="records_filter_duration_min">الحد الأدنى</string>
+    <string name="records_filter_duration_max">الحد الأقصى</string>
 
     <!--  Pomodoro  -->
     <string name="pomodoro_state_focus">التركيز</string>

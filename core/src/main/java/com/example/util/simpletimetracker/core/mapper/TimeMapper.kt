@@ -31,9 +31,6 @@ class TimeMapper @Inject constructor(
     private val timeFormatMilitaryWithSeconds by lazy { SimpleDateFormat("HH:mm:ss", locale) }
 
     private val dateFormat by lazy { SimpleDateFormat("MMM d", locale) }
-    private val dateFormatWithSeconds by lazy { SimpleDateFormat("MMM d", locale) }
-    private val dateFormatMilitary by lazy { SimpleDateFormat("MMM d", locale) }
-    private val dateFormatMilitaryWithSeconds by lazy { SimpleDateFormat("MMM d", locale) }
 
     private val dateTimeFormat by lazy { SimpleDateFormat("MMM d h:mm a", locale) }
     private val dateTimeFormatWithSeconds by lazy { SimpleDateFormat("MMM d h:mm:ss a", locale) }
@@ -73,14 +70,8 @@ class TimeMapper @Inject constructor(
     // Mar 11
     fun formatDate(
         time: Long,
-        useMilitaryTime: Boolean,
-        showSeconds: Boolean,
     ): String = synchronized(lock) {
-        return if (useMilitaryTime) {
-            if (showSeconds) dateFormatMilitaryWithSeconds else dateFormatMilitary
-        } else {
-            if (showSeconds) dateFormatWithSeconds else dateFormat
-        }.format(time)
+        return dateFormat.format(time)
     }
 
     // Mar 11 12:21
@@ -683,8 +674,6 @@ class TimeMapper @Inject constructor(
         return DateTime(
             date = formatDate(
                 time = time,
-                useMilitaryTime = useMilitaryTime,
-                showSeconds = showSeconds,
             ),
             time = formatTime(
                 time = time,

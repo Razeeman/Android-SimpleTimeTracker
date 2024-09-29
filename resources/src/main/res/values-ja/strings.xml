@@ -533,6 +533,8 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <string name="records_filter_any_comment">任意のコメント</string>
     <string name="records_filter_select">選択する</string>
     <string name="records_filter_invert_selection">選択範囲を反転する</string>
+    <string name="records_filter_duration_min">最小</string>
+    <string name="records_filter_duration_max">最大</string>
 
     <!--  Pomodoro  -->
     <string name="pomodoro_state_focus">フォーカス</string>

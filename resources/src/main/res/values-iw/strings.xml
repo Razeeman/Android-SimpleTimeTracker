@@ -533,6 +533,8 @@
     <string name="records_filter_any_comment">הערה כלשהי</string>
     <string name="records_filter_select">בחר</string>
     <string name="records_filter_invert_selection">הפוך בחירה</string>
+    <string name="records_filter_duration_min">מִינִימוּם</string>
+    <string name="records_filter_duration_max">מַקסִימוּם</string>
 
     <!--  Pomodoro  -->
     <string name="pomodoro_state_focus">פוקוס</string>

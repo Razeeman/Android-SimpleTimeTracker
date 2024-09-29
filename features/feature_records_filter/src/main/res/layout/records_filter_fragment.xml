@@ -55,10 +55,13 @@
         app:layout_constraintBottom_toBottomOf="@id/tvRecordsFilterTitle"
         app:layout_constraintTop_toTopOf="@id/tvRecordsFilterTitle" />
 
-    <com.example.util.simpletimetracker.feature_views.DividerView
+    <View
         android:id="@+id/dividerRecordsFilterTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="6dp"
+        android:background="?appDividerColor"
         app:layout_constraintTop_toBottomOf="@id/tvRecordsFilterTitle" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -73,10 +76,12 @@
         tools:listitem="@layout/item_filter_layout"
         tools:orientation="horizontal" />
 
-    <com.example.util.simpletimetracker.feature_views.DividerView
+    <View
         android:id="@+id/dividerRecordsFilter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="2dp"
+        android:layout_marginTop="4dp"
+        android:background="?appDividerColor"
         app:layout_constraintTop_toBottomOf="@id/rvRecordsFilterFilters" />
 
     <androidx.recyclerview.widget.RecyclerView

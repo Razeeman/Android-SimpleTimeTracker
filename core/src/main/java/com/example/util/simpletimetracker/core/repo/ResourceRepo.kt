@@ -12,6 +12,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.provider.ContextProvider
 import com.example.util.simpletimetracker.feature_views.extension.pxToDp
 import javax.inject.Inject
@@ -52,6 +53,15 @@ class ResourceRepo @Inject constructor(
                 .theme
                 .resolveAttribute(attrId, this, true)
         }.data
+    }
+
+    fun getThemedAttr(attrId: Int, isDarkTheme: Boolean): Int {
+        val theme = if (isDarkTheme) {
+            R.style.AppThemeDark
+        } else {
+            R.style.AppTheme
+        }
+        return getThemedAttr(attrId = attrId, themeId = theme)
     }
 
     fun getDrawable(@DrawableRes drawableResId: Int): Drawable? {

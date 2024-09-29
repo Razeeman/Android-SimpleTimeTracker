@@ -533,6 +533,8 @@ Contoh:<br/>
     <string name="records_filter_any_comment">Ada komentar</string>
     <string name="records_filter_select">Pilih</string>
     <string name="records_filter_invert_selection">Pilihan sebaliknya</string>
+    <string name="records_filter_duration_min">Minimum</string>
+    <string name="records_filter_duration_max">Maksimum</string>
 
     <!--  Pomodoro  -->
     <string name="pomodoro_state_focus">Fokus</string>

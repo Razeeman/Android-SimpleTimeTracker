@@ -21,7 +21,7 @@ interface StatisticsDetailViewModelDelegate {
         fun updateContent()
         fun onRangeChanged()
         fun updateViewData()
-        suspend fun getDateFilter(): List<RecordsFilter>
+        fun getDateFilter(): List<RecordsFilter>
         suspend fun onTypesFilterDismissed()
     }
 }

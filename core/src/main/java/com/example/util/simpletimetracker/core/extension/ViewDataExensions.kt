@@ -3,11 +3,13 @@ package com.example.util.simpletimetracker.core.extension
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.viewData.ChangeRecordDateTimeState
 import com.example.util.simpletimetracker.domain.model.Range
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.GoalTimeViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordDateTimeStateParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
+import com.example.util.simpletimetracker.navigation.params.screen.RangeLengthParams
 import com.example.util.simpletimetracker.navigation.params.screen.RangeParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTypeIconParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParam
@@ -98,7 +100,7 @@ fun RecordsFilterParam.toModel(): RecordsFilter {
         is RecordsFilterParam.Activity -> RecordsFilter.Activity(typeIds)
         is RecordsFilterParam.Category -> RecordsFilter.Category(items.map { it.toModel() })
         is RecordsFilterParam.Comment -> RecordsFilter.Comment(items.map { it.toModel() })
-        is RecordsFilterParam.Date -> RecordsFilter.Date(Range(rangeStart, rangeEnd))
+        is RecordsFilterParam.Date -> RecordsFilter.Date(range.toModel(), position)
         is RecordsFilterParam.SelectedTags -> RecordsFilter.SelectedTags(items.map { it.toModel() })
         is RecordsFilterParam.FilteredTags -> RecordsFilter.FilteredTags(items.map { it.toModel() })
         is RecordsFilterParam.ManuallyFiltered -> RecordsFilter.ManuallyFiltered(recordIds)
@@ -115,7 +117,7 @@ fun RecordsFilter.toParams(): RecordsFilterParam {
         is RecordsFilter.Activity -> RecordsFilterParam.Activity(typeIds)
         is RecordsFilter.Category -> RecordsFilterParam.Category(items.map { it.toParams() })
         is RecordsFilter.Comment -> RecordsFilterParam.Comment(items.map { it.toParams() })
-        is RecordsFilter.Date -> RecordsFilterParam.Date(range.timeStarted, range.timeEnded)
+        is RecordsFilter.Date -> RecordsFilterParam.Date(range.toParams(), position)
         is RecordsFilter.SelectedTags -> RecordsFilterParam.SelectedTags(items.map { it.toParams() })
         is RecordsFilter.FilteredTags -> RecordsFilterParam.FilteredTags(items.map { it.toParams() })
         is RecordsFilter.ManuallyFiltered -> RecordsFilterParam.ManuallyFiltered(recordIds)
@@ -166,5 +168,38 @@ fun RecordsFilter.TagItem.toParams(): RecordsFilterParam.TagItem {
     return when (this) {
         is RecordsFilter.TagItem.Tagged -> RecordsFilterParam.TagItem.Tagged(tagId)
         is RecordsFilter.TagItem.Untagged -> RecordsFilterParam.TagItem.Untagged
+    }
+}
+
+fun RangeLengthParams.toModel(): RangeLength {
+    return when (this) {
+        is RangeLengthParams.Day -> RangeLength.Day
+        is RangeLengthParams.Week -> RangeLength.Week
+        is RangeLengthParams.Month -> RangeLength.Month
+        is RangeLengthParams.Year -> RangeLength.Year
+        is RangeLengthParams.All -> RangeLength.All
+        is RangeLengthParams.Custom -> Range(
+            timeStarted = start, timeEnded = end,
+        ).let(RangeLength::Custom)
+        is RangeLengthParams.Last -> RangeLength.Last(
+            days = days,
+        )
+    }
+}
+
+fun RangeLength.toParams(): RangeLengthParams {
+    return when (this) {
+        is RangeLength.Day -> RangeLengthParams.Day
+        is RangeLength.Week -> RangeLengthParams.Week
+        is RangeLength.Month -> RangeLengthParams.Month
+        is RangeLength.Year -> RangeLengthParams.Year
+        is RangeLength.All -> RangeLengthParams.All
+        is RangeLength.Custom -> RangeLengthParams.Custom(
+            start = range.timeStarted,
+            end = range.timeEnded,
+        )
+        is RangeLength.Last -> RangeLengthParams.Last(
+            days = days,
+        )
     }
 }
