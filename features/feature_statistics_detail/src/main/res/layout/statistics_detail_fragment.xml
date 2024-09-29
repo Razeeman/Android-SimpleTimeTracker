@@ -9,7 +9,7 @@
         android:id="@+id/containerStatisticsDetailContent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/btnStatisticsDetailToday"
+        app:layout_constraintBottom_toTopOf="@id/dividerStatisticsDetail"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -96,6 +96,12 @@
             tools:listitem="@layout/statistics_detail_bar_chart_item" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <View
+        android:id="@+id/dividerStatisticsDetail"
+        style="@style/EditScreenDivider"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toTopOf="@id/btnStatisticsDetailToday" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStatisticsDetailPrevious"

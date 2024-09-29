@@ -5,9 +5,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
+import android.graphics.Shader
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -339,6 +341,16 @@ class BarChartView @JvmOverloads constructor(
             }
         }
         if (horizontalLegendsSkipCount == 0) horizontalLegendsSkipCount = 1
+
+        barPaint.shader = LinearGradient(
+            0f,
+            chartHeight,
+            0f,
+            chartHeight / 2,
+            ColorUtils.changeAlpha(barColor, 0.75f),
+            barColor,
+            Shader.TileMode.CLAMP,
+        )
     }
 
     private fun drawText(canvas: Canvas, w: Float) {
