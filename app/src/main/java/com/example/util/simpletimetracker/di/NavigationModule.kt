@@ -1,7 +1,5 @@
 package com.example.util.simpletimetracker.di
 
-import com.example.util.simpletimetracker.navigation.ActionResolver
-import com.example.util.simpletimetracker.navigation.ActionResolverImpl
 import com.example.util.simpletimetracker.navigation.NotificationResolver
 import com.example.util.simpletimetracker.navigation.NotificationResolverImpl
 import com.example.util.simpletimetracker.navigation.Router
@@ -27,10 +25,6 @@ interface NavigationModule {
     @Binds
     @Singleton
     fun bindScreenFactory(impl: ScreenFactoryImpl): ScreenFactory
-
-    @Binds
-    @Singleton
-    fun bindActionResolver(impl: ActionResolverImpl): ActionResolver
 
     @Binds
     @Singleton

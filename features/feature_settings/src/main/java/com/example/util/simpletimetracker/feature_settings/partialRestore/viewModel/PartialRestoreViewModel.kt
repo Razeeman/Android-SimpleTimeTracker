@@ -230,4 +230,3 @@ class PartialRestoreViewModel @Inject constructor(
         private const val PARTIAL_RESTORE_SELECTION_TAG = "PARTIAL_RESTORE_SELECTION_TAG"
     }
 }
-

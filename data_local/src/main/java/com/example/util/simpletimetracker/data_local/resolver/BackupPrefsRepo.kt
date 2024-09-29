@@ -193,7 +193,6 @@ class BackupPrefsRepo @Inject constructor(
         )
     }
 
-
     private data class PrefsProcessor<T : Any>(
         val key: String,
         private val property: KMutableProperty0<T>,

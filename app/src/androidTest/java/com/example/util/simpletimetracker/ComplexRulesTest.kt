@@ -1,7 +1,5 @@
 package com.example.util.simpletimetracker
 
-import android.view.View
-import androidx.annotation.StringRes
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
@@ -23,13 +21,12 @@ import com.example.util.simpletimetracker.utils.tryAction
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Calendar
-import com.example.util.simpletimetracker.feature_complex_rules.R as complexRulesR
-import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
 import com.example.util.simpletimetracker.feature_change_record_tag.R as changeRecordTagR
+import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_complex_rules.R as complexRulesR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -78,9 +75,10 @@ class ComplexRulesTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_complex_starting_activity)
         clickOnViewWithText(checkActionAllowMultitaskingType)
         clickOnViewWithText(R.string.change_activity_filter_save)
-        checkListView(
+        ComplexRulesTestUtils.checkListView(
             actionStringResId = R.string.settings_allow_multitasking,
             startingTypeNames = listOf(checkActionAllowMultitaskingType),
+            timeMapper = timeMapper,
         )
 
         clickOnView(withId(complexRulesR.id.containerComplexRuleItem))
@@ -90,9 +88,10 @@ class ComplexRulesTest : BaseUiTest() {
         clickOnViewWithText(checkActionAllowMultitaskingType)
         clickOnViewWithText(checkActionDisallowMultitaskingType)
         clickOnViewWithText(R.string.change_activity_filter_save)
-        checkListView(
+        ComplexRulesTestUtils.checkListView(
             actionStringResId = R.string.settings_disallow_multitasking,
             startingTypeNames = listOf(checkActionDisallowMultitaskingType),
+            timeMapper = timeMapper,
         )
 
         clickOnView(withId(complexRulesR.id.containerComplexRuleItem))
@@ -104,10 +103,11 @@ class ComplexRulesTest : BaseUiTest() {
         clickOnViewWithText(checkActionDisallowMultitaskingType)
         clickOnViewWithText(checkActionAssignTagType)
         clickOnViewWithText(R.string.change_activity_filter_save)
-        checkListView(
+        ComplexRulesTestUtils.checkListView(
             actionStringResId = R.string.change_complex_action_assign_tag,
             assignTagNames = listOf(tagName1),
             startingTypeNames = listOf(checkActionAssignTagType),
+            timeMapper = timeMapper,
         )
 
         // Check starting types
@@ -119,9 +119,10 @@ class ComplexRulesTest : BaseUiTest() {
         clickOnViewWithText(checkStartingType1)
         clickOnViewWithText(checkStartingType2)
         clickOnViewWithText(R.string.change_activity_filter_save)
-        checkListView(
+        ComplexRulesTestUtils.checkListView(
             actionStringResId = R.string.settings_allow_multitasking,
             startingTypeNames = listOf(checkStartingType1, checkStartingType2),
+            timeMapper = timeMapper,
         )
 
         // Check current types
@@ -134,9 +135,10 @@ class ComplexRulesTest : BaseUiTest() {
         clickOnView(allOf(withText(checkCurrentType1), isCompletelyDisplayed()))
         clickOnView(allOf(withText(checkCurrentType2), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.change_activity_filter_save)
-        checkListView(
+        ComplexRulesTestUtils.checkListView(
             actionStringResId = R.string.settings_allow_multitasking,
             currentTypeNames = listOf(checkCurrentType1, checkCurrentType2),
+            timeMapper = timeMapper,
         )
 
         // Check days
@@ -153,10 +155,11 @@ class ComplexRulesTest : BaseUiTest() {
         clickOnViewWithText(timeMapper.toShortDayOfWeekName(DayOfWeek.WEDNESDAY))
         clickOnViewWithText(timeMapper.toShortDayOfWeekName(DayOfWeek.FRIDAY))
         clickOnViewWithText(R.string.change_activity_filter_save)
-        checkListView(
+        ComplexRulesTestUtils.checkListView(
             actionStringResId = R.string.settings_allow_multitasking,
             startingTypeNames = listOf(checkDaysType),
             daysOfWeek = listOf(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),
+            timeMapper = timeMapper,
         )
 
         // Check all
@@ -174,12 +177,13 @@ class ComplexRulesTest : BaseUiTest() {
         clickOnViewWithText(R.string.change_complex_previous_activity)
         clickOnView(allOf(withText(checkAllType2), isCompletelyDisplayed()))
         clickOnViewWithText(R.string.change_activity_filter_save)
-        checkListView(
+        ComplexRulesTestUtils.checkListView(
             actionStringResId = R.string.change_complex_action_assign_tag,
             assignTagNames = listOf(tagName1, tagName2, tagName3),
             startingTypeNames = listOf(checkAllType1),
             currentTypeNames = listOf(checkAllType2),
             daysOfWeek = listOf(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),
+            timeMapper = timeMapper,
         )
     }
 
@@ -558,10 +562,11 @@ class ComplexRulesTest : BaseUiTest() {
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
         NavUtils.openComplexRules()
-        checkListView(
+        ComplexRulesTestUtils.checkListView(
             actionStringResId = R.string.change_complex_action_assign_tag,
             assignTagNames = listOf(tagName1, tagName2),
             startingTypeNames = listOf(typeName1, typeName2),
+            timeMapper = timeMapper,
         )
         pressBack()
 
@@ -579,10 +584,11 @@ class ComplexRulesTest : BaseUiTest() {
 
         // Still visible
         NavUtils.openComplexRules()
-        checkListView(
+        ComplexRulesTestUtils.checkListView(
             actionStringResId = R.string.change_complex_action_assign_tag,
             assignTagNames = listOf(tagName1, tagName2),
             startingTypeNames = listOf(typeName1, typeName2),
+            timeMapper = timeMapper,
         )
         clickOnView(withId(complexRulesR.id.containerComplexRuleItem))
         clickOnView(withSubstring(getString(R.string.change_complex_action_assign_tag)))
@@ -617,10 +623,11 @@ class ComplexRulesTest : BaseUiTest() {
 
         // Check again
         NavUtils.openComplexRules()
-        checkListView(
+        ComplexRulesTestUtils.checkListView(
             actionStringResId = R.string.change_complex_action_assign_tag,
             assignTagNames = listOf(tagName2),
             startingTypeNames = listOf(typeName2),
+            timeMapper = timeMapper,
         )
         clickOnView(withId(complexRulesR.id.containerComplexRuleItem))
         clickOnView(withSubstring(getString(R.string.change_complex_action_assign_tag)))
@@ -668,65 +675,5 @@ class ComplexRulesTest : BaseUiTest() {
 
     private fun stopRunningRecord(name: String) {
         clickOnView(allOf(withId(R.id.viewRunningRecordItem), hasDescendant(withSubstring(name))))
-    }
-
-    private fun checkListView(
-        @StringRes actionStringResId: Int,
-        assignTagNames: List<String> = emptyList(),
-        startingTypeNames: List<String> = emptyList(),
-        currentTypeNames: List<String> = emptyList(),
-        daysOfWeek: List<DayOfWeek> = emptyList(),
-    ) {
-        fun getElementMatcher(
-            name: String,
-            forConditions: Boolean,
-        ): Matcher<View> {
-            val containerId = if (forConditions) {
-                complexRulesR.id.rvComplexRuleItemConditions
-            } else {
-                complexRulesR.id.rvComplexRuleItemActions
-            }
-            return hasDescendant(
-                allOf(
-                    withId(containerId),
-                    hasDescendant(withText(name)),
-                ),
-            )
-        }
-
-        val matchers = mutableListOf<Matcher<View>>()
-        matchers += withId(complexRulesR.id.containerComplexRuleItem)
-        matchers += hasDescendant(
-            allOf(
-                withId(complexRulesR.id.rvComplexRuleItemActions),
-                hasDescendant(withText(actionStringResId)),
-            ),
-        )
-        matchers += assignTagNames.map {
-            getElementMatcher(
-                name = it,
-                forConditions = false,
-            )
-        }
-        matchers += startingTypeNames.map {
-            getElementMatcher(
-                name = it,
-                forConditions = true,
-            )
-        }
-        matchers += currentTypeNames.map {
-            getElementMatcher(
-                name = it,
-                forConditions = true,
-            )
-        }
-        matchers += daysOfWeek.map(timeMapper::toShortDayOfWeekName).map {
-            getElementMatcher(
-                name = it,
-                forConditions = true,
-            )
-        }
-
-        checkViewIsDisplayed(allOf(matchers))
     }
 }

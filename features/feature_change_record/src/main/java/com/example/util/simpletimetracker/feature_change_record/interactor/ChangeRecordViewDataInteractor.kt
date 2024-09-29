@@ -22,7 +22,6 @@ import com.example.util.simpletimetracker.feature_change_record.model.ChangeReco
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordFavCommentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSearchCommentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
-import java.util.Locale
 import javax.inject.Inject
 
 class ChangeRecordViewDataInteractor @Inject constructor(

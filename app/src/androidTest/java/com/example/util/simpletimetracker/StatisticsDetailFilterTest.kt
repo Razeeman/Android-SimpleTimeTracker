@@ -212,7 +212,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         clickOnView(
             allOf(
                 hasSibling(withSubstring(getString(coreR.string.activity_hint))),
-                withId(baseR.id.ivRecordFilterItemRemove),
+                withId(baseR.id.ivFilterItemRemove),
             ),
         )
         clickOnView(withSubstring(getString(coreR.string.change_record_comment_field)))
@@ -301,7 +301,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         clickOnView(
             allOf(
                 hasSibling(withSubstring(getString(coreR.string.records_filter_filter_tags))),
-                withId(baseR.id.ivRecordFilterItemRemove),
+                withId(baseR.id.ivFilterItemRemove),
             ),
         )
         clickOnView(withSubstring(getString(coreR.string.records_filter_filter_tags)))
@@ -376,7 +376,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         clickOnView(
             allOf(
                 hasSibling(withSubstring(getString(coreR.string.records_filter_select_tags))),
-                withId(baseR.id.ivRecordFilterItemRemove),
+                withId(baseR.id.ivFilterItemRemove),
             ),
         )
         clickOnView(withSubstring(getString(coreR.string.records_filter_select_tags)))
@@ -394,7 +394,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         clickOnView(
             allOf(
                 hasSibling(withSubstring(getString(coreR.string.activity_hint))),
-                withId(baseR.id.ivRecordFilterItemRemove),
+                withId(baseR.id.ivFilterItemRemove),
             ),
         )
         clickOnView(withSubstring(getString(coreR.string.records_filter_select_tags)))
@@ -485,7 +485,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(baseR.id.viewRecordFilterItem)),
+                isDescendantOfA(withId(baseR.id.viewFilterItem)),
                 withSubstring(getString(coreR.string.activity_hint)),
             ),
         )
@@ -914,7 +914,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         clickOnViewWithId(statisticsDetailR.id.cardStatisticsDetailFilter)
         clickOnView(
             allOf(
-                isDescendantOfA(withId(baseR.id.viewRecordFilterItem)),
+                isDescendantOfA(withId(baseR.id.viewFilterItem)),
                 withSubstring(getString(coreR.string.activity_hint)),
             ),
         )

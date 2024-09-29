@@ -183,7 +183,7 @@ class PartialRestoreSelectionViewDataInteractor @Inject constructor(
                     )
                 }
                 val iconEmojis = iconSelectionMapper.mapFavouriteIconEmojis(
-                    icons.values.toList()
+                    icons.values.toList(),
                 ).mapNotNull { icon ->
                     val favIcon = icons.values.firstOrNull { it.icon == icon.emojiCode }
                         ?: return@mapNotNull null
