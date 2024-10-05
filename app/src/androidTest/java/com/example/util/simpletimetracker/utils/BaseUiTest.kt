@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.repo.ComplexRuleRepo
 import com.example.util.simpletimetracker.domain.resolver.BackupRepo
 import com.example.util.simpletimetracker.feature_records.view.RecordsContainerFragment
+import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsFileWorkDelegate
 import com.example.util.simpletimetracker.feature_statistics.view.StatisticsContainerFragment
 import com.example.util.simpletimetracker.feature_views.pieChart.PieChartView
 import com.example.util.simpletimetracker.navigation.ScreenResolver
@@ -131,6 +132,11 @@ open class BaseUiTest {
             .getString(id, *args)
     }
 
+    internal fun getQuantityString(id: Int, quantity: Int, vararg args: Any): String {
+        return InstrumentationRegistry.getInstrumentation().targetContext.resources
+            .getQuantityString(id, quantity, *args)
+    }
+
     @ColorInt
     internal fun getColor(id: Int): Int {
         return InstrumentationRegistry.getInstrumentation().targetContext.resources
@@ -141,8 +147,16 @@ open class BaseUiTest {
         return timeMapper.formatTime(time = this, useMilitaryTime = true, showSeconds = false)
     }
 
+    internal fun Long.formatDate(): String {
+        return timeMapper.formatDate(time = this)
+    }
+
     internal fun Long.formatDateTime(): String {
         return timeMapper.formatDateTime(time = this, useMilitaryTime = true, showSeconds = false)
+    }
+
+    internal fun Long.formatDateTimeYear(): String {
+        return timeMapper.formatDateTimeYear(time = this, useMilitaryTime = true)
     }
 
     internal fun Long.formatInterval(): String {
@@ -159,6 +173,7 @@ open class BaseUiTest {
         StatisticsContainerFragment.viewPagerSmoothScroll = false
         PieChartView.disableAnimationsForTest = true
         ScreenResolver.disableAnimationsForTest = true
+        SettingsFileWorkDelegate.restartAppIsBlocked = true
     }
 
     private fun enableAnimations() {
@@ -166,6 +181,7 @@ open class BaseUiTest {
         StatisticsContainerFragment.viewPagerSmoothScroll = true
         PieChartView.disableAnimationsForTest = false
         ScreenResolver.disableAnimationsForTest = false
+        SettingsFileWorkDelegate.restartAppIsBlocked = false
     }
 
     private fun registerIdlingResource() {

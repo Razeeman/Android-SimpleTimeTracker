@@ -1589,17 +1589,22 @@ class SettingsTest : BaseUiTest() {
         clickOnSettingsRecyclerText(coreR.string.settings_export_csv)
 
         // View is set up
-        val currentTime = System.currentTimeMillis()
-        var timeStarted = timeMapper.formatDateTime(
-            time = currentTime - TimeUnit.DAYS.toMillis(7), useMilitaryTime = true, showSeconds = false,
+        checkViewIsDisplayed(
+            allOf(
+                withId(dialogsR.id.etCsvExportSettingsFileName),
+                withText("stt_records_{date}.csv"),
+            ),
         )
-        var timeEnded = timeMapper.formatDateTime(
-            time = currentTime, useMilitaryTime = true, showSeconds = false,
-        )
+        val currentTime = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            setToStartOfDay()
+        }.timeInMillis
+        var timeStarted = currentTime.formatDateTimeYear()
+        var timeEnded = (currentTime + TimeUnit.DAYS.toMillis(1)).formatDateTimeYear()
         checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeEnded), withText(timeEnded)))
 
-        val calendar = Calendar.getInstance().apply {
+        var calendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -1)
         }
         val hourStarted = 15
@@ -1632,8 +1637,7 @@ class SettingsTest : BaseUiTest() {
             set(Calendar.MINUTE, minutesStarted)
             timeInMillis
         }
-        timeStarted = timeStartedTimestamp
-            .let { timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
+        timeStarted = timeStartedTimestamp.formatDateTimeYear()
 
         checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeStarted), withText(timeStarted)))
 
@@ -1659,9 +1663,80 @@ class SettingsTest : BaseUiTest() {
             set(Calendar.MINUTE, minutesEnded)
             timeInMillis
         }
-        timeEnded = timeEndedTimestamp
-            .let { timeMapper.formatDateTime(time = it, useMilitaryTime = true, showSeconds = false) }
+        timeEnded = timeEndedTimestamp.formatDateTimeYear()
 
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeEnded), withText(timeEnded)))
+
+        // Check ranges
+        clickOnViewWithText(R.string.title_today)
+        calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            setToStartOfDay()
+        }
+        timeStarted = calendar.timeInMillis.formatDateTimeYear()
+        timeEnded = (calendar.timeInMillis + TimeUnit.DAYS.toMillis(1)).formatDateTimeYear()
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeEnded), withText(timeEnded)))
+
+        clickOnViewWithText(R.string.title_this_week)
+        calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            setToStartOfDay()
+            setWeekToFirstDay()
+        }
+        timeStarted = calendar.timeInMillis.formatDateTimeYear()
+        timeEnded = (calendar.timeInMillis + TimeUnit.DAYS.toMillis(7)).formatDateTimeYear()
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeEnded), withText(timeEnded)))
+
+        clickOnViewWithText(R.string.title_this_month)
+        calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            setToStartOfDay()
+            set(Calendar.DAY_OF_MONTH, 1)
+        }
+        timeStarted = calendar.timeInMillis.formatDateTimeYear()
+        calendar.apply {
+            add(Calendar.MONTH, 1)
+        }
+        timeEnded = calendar.timeInMillis.formatDateTimeYear()
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeEnded), withText(timeEnded)))
+
+        clickOnViewWithText(R.string.title_this_year)
+        calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            setToStartOfDay()
+            set(Calendar.DAY_OF_YEAR, 1)
+        }
+        timeStarted = calendar.timeInMillis.formatDateTimeYear()
+        calendar.apply {
+            add(Calendar.YEAR, 1)
+        }
+        timeEnded = calendar.timeInMillis.formatDateTimeYear()
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeEnded), withText(timeEnded)))
+
+        clickOnViewWithText(R.string.range_overall)
+        calendar = Calendar.getInstance().apply {
+            timeInMillis = 0
+        }
+        timeStarted = calendar.timeInMillis.formatDateTimeYear()
+        calendar.apply {
+            timeInMillis = System.currentTimeMillis()
+        }
+        timeEnded = calendar.timeInMillis.formatDateTimeYear()
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeStarted), withText(timeStarted)))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeEnded), withText(timeEnded)))
+
+        clickOnViewWithText(getQuantityString(R.plurals.range_last, 7, 7))
+        calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            setToStartOfDay()
+        }
+        timeStarted = (calendar.timeInMillis - TimeUnit.DAYS.toMillis(6)).formatDateTimeYear()
+        timeEnded = (calendar.timeInMillis + TimeUnit.DAYS.toMillis(1)).formatDateTimeYear()
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeStarted), withText(timeStarted)))
         checkViewIsDisplayed(allOf(withId(dialogsR.id.tvCsvExportSettingsTimeEnded), withText(timeEnded)))
     }
 

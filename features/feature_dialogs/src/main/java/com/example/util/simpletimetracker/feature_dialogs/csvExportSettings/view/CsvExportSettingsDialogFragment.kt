@@ -72,7 +72,7 @@ class CsvExportSettingsDialogFragment :
     }
 
     override fun initUx(): Unit = with(binding) {
-        etChangeRecordTypeName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
+        etCsvExportSettingsFileName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
         fieldCsvExportSettingsTimeStarted.setOnClick(viewModel::onRangeStartClick)
         fieldCsvExportSettingsTimeEnded.setOnClick(viewModel::onRangeEndClick)
         btnCsvExportSettingsRange.setOnClick(viewModel::onExportClick)
@@ -91,11 +91,11 @@ class CsvExportSettingsDialogFragment :
     private fun updateViewDataState(
         viewData: CsvExportSettingsViewData,
     ) = with(binding) {
-        if (etChangeRecordTypeName.text.toString() != viewData.fileName) {
-            etChangeRecordTypeName.setText(viewData.fileName)
+        if (etCsvExportSettingsFileName.text.toString() != viewData.fileName) {
+            etCsvExportSettingsFileName.setText(viewData.fileName)
         }
         inputCsvExportSettingsFileName.hint = viewData.fileNameHint
-        etChangeRecordTypeName.setTextColor(viewData.fileNameTextColor)
+        etCsvExportSettingsFileName.setTextColor(viewData.fileNameTextColor)
         filterSelectionAdapter.replace(viewData.filters)
         tvCsvExportSettingsTimeStarted.text = viewData.rangeStartString
         tvCsvExportSettingsTimeStarted.setTextColor(viewData.textColor)
@@ -104,7 +104,7 @@ class CsvExportSettingsDialogFragment :
     }
 
     private fun onResult(
-        params: DataExportSettingsResult
+        params: DataExportSettingsResult,
     ) {
         dialogListener?.onDataExportSettingsSelected(params)
         dismiss()

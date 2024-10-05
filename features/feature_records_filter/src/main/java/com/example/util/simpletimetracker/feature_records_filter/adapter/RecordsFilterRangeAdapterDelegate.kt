@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_records_filter.adapter
 
 import android.view.Gravity
-import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_records_filter.adapter.RecordsFilterRangeViewData as ViewData

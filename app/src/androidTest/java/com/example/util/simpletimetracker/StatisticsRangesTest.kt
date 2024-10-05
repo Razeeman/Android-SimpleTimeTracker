@@ -661,8 +661,13 @@ class StatisticsRangesTest : BaseUiTest() {
         clickOnViewWithId(statisticsR.id.btnStatisticsContainerToday)
         clickOnViewWithText(coreR.string.range_custom)
         clickOnViewWithId(dialogsR.id.btnCustomRangeSelection)
+        val rangeTitle = calendar.apply {
+            timeInMillis = System.currentTimeMillis()
+        }.timeInMillis.formatDate().let {
+            "$it - $it"
+        }
         checkViewIsDisplayed(
-            allOf(withId(statisticsR.id.btnStatisticsContainerToday), withText(coreR.string.range_custom)),
+            allOf(withId(statisticsR.id.btnStatisticsContainerToday), withText(rangeTitle)),
         )
         checkViewDoesNotExist(allOf(withText(name1), isCompletelyDisplayed()))
         checkViewDoesNotExist(allOf(withText(name2), isCompletelyDisplayed()))

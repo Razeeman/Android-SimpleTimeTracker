@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 
+import androidx.annotation.VisibleForTesting
 import androidx.core.text.HtmlCompat
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
@@ -529,12 +530,16 @@ class SettingsFileWorkDelegate @Inject constructor(
     }
 
     private suspend fun restartApp() {
+        if (restartAppIsBlocked) return
         // Delay for message to show.
         delay(1000)
         router.restartApp()
     }
 
     companion object {
+        @VisibleForTesting
+        var restartAppIsBlocked: Boolean = false
+
         private const val FILE_EXPORT_DATE_TAG = "date"
         private const val CSV_EXPORT_DEFAULT_FILE_NAME = "stt_records_{$FILE_EXPORT_DATE_TAG}.csv"
         private const val ICS_EXPORT_DEFAULT_FILE_NAME = "stt_events_{$FILE_EXPORT_DATE_TAG}.ics"

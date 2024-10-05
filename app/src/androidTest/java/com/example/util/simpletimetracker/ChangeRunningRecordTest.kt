@@ -333,13 +333,13 @@ class ChangeRunningRecordTest : BaseUiTest() {
         // Not visible end
         tryAction { clickOnViewWithText(type) }
         longClickOnView(allOf(isDescendantOfA(withId(changeRecordR.id.viewRunningRecordItem)), withText(type)))
-        checkViewIsNotDisplayed(withText(coreR.string.change_record_date_time_end))
+        checkViewIsNotDisplayed(withId(changeRecordR.id.tvChangeRecordTimeEndedAdjust))
 
         // Check
         checkField(isDuration = false)
         clickOnViewWithText(coreR.string.change_record_date_time_start)
         checkField(isDuration = true)
-        clickOnViewWithText(coreR.string.change_record_date_time_start)
+        clickOnViewWithText(coreR.string.change_record_date_time_duration)
         checkField(isDuration = false)
     }
 
