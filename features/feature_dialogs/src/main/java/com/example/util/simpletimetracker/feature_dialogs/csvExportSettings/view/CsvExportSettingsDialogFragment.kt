@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.dialog.DataExportSettingsDialogListener
@@ -45,7 +46,7 @@ class CsvExportSettingsDialogFragment :
         )
     }
     private val params: DataExportSettingDialogParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = DataExportSettingDialogParams(),
+        key = ARGS_PARAMS, default = DataExportSettingDialogParams.Empty,
     )
 
     private var dialogListener: DataExportSettingsDialogListener? = null
@@ -71,6 +72,7 @@ class CsvExportSettingsDialogFragment :
     }
 
     override fun initUx(): Unit = with(binding) {
+        etChangeRecordTypeName.doAfterTextChanged { viewModel.onNameChange(it.toString()) }
         fieldCsvExportSettingsTimeStarted.setOnClick(viewModel::onRangeStartClick)
         fieldCsvExportSettingsTimeEnded.setOnClick(viewModel::onRangeEndClick)
         btnCsvExportSettingsRange.setOnClick(viewModel::onExportClick)
@@ -89,6 +91,11 @@ class CsvExportSettingsDialogFragment :
     private fun updateViewDataState(
         viewData: CsvExportSettingsViewData,
     ) = with(binding) {
+        if (etChangeRecordTypeName.text.toString() != viewData.fileName) {
+            etChangeRecordTypeName.setText(viewData.fileName)
+        }
+        inputCsvExportSettingsFileName.hint = viewData.fileNameHint
+        etChangeRecordTypeName.setTextColor(viewData.fileNameTextColor)
         filterSelectionAdapter.replace(viewData.filters)
         tvCsvExportSettingsTimeStarted.text = viewData.rangeStartString
         tvCsvExportSettingsTimeStarted.setTextColor(viewData.textColor)

@@ -215,6 +215,8 @@
     <string name="color_selection_adjust_color_hint">התאם צבע</string>
     <string name="color_selection_final_color_hint">צבע סופי</string>
 
+    <string name="csv_export_settings_filename_hint">שם קובץ מותאם אישית</string>
+    <string name="csv_export_settings_filename_default">בְּרִירַת מֶחדָל</string>
     <string name="csv_export_settings_hint">בחר טווח זמן או ייצא את כל הרשומות</string>
 
     <string name="schedule_exact_alarms">הגדרת מערכת צריכה להיות מופעלת עבור יישום זה כדי לתזמן התראות מדויקות</string>

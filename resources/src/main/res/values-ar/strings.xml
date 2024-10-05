@@ -215,6 +215,8 @@
     <string name="color_selection_adjust_color_hint">ضبط اللون</string>
     <string name="color_selection_final_color_hint">اللون النهائي</string>
 
+    <string name="csv_export_settings_filename_hint">اسم الملف المخصص</string>
+    <string name="csv_export_settings_filename_default">تقصير</string>
     <string name="csv_export_settings_hint">حدد النطاق الزمني أو قم بتصدير كافة التتبعات</string>
 
     <string name="schedule_exact_alarms">يجب تمكين إعداد النظام لهذا التطبيق لجدولة الإنذارات الدقيقة</string>

@@ -215,6 +215,8 @@
     <string name="color_selection_adjust_color_hint">Điều chỉnh màu</string>
     <string name="color_selection_final_color_hint">Màu cuối cùng</string>
 
+    <string name="csv_export_settings_filename_hint">Tên tệp tùy chỉnh</string>
+    <string name="csv_export_settings_filename_default">Mặc định</string>
     <string name="csv_export_settings_hint">Chọn phạm vi thời gian hoặc xuất tất cả bản ghi</string>
 
     <string name="schedule_exact_alarms">Thiết đặt hệ thống phải được bật cho ứng dụng này để lên lịch báo thức chính xác</string>

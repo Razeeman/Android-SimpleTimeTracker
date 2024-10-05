@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -41,7 +42,17 @@ class CsvExportSettingsViewModel @Inject constructor(
     val dataExportSettingsResult: LiveData<DataExportSettingsResult> =
         MutableLiveData()
 
+    private var customFileName: String = ""
     private var rangeLength: RangeLength = RangeLength.All
+
+    fun onNameChange(name: String) {
+        viewModelScope.launch {
+            if (name != customFileName) {
+                customFileName = name
+                updateViewData()
+            }
+        }
+    }
 
     fun onFilterClick(item: FilterViewData) = viewModelScope.launch {
         val itemType = item.type as? CsvExportSettingsFilterType ?: return@launch
@@ -84,7 +95,8 @@ class CsvExportSettingsViewModel @Inject constructor(
 
     fun onExportClick() = viewModelScope.launch {
         DataExportSettingsResult(
-            tag = extra.tag.orEmpty(),
+            tag = extra.tag,
+            customFileName = customFileName,
             range = rangeLength.toParams(),
         ).let(dataExportSettingsResult::set)
     }
@@ -129,8 +141,9 @@ class CsvExportSettingsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun initialize() {
-        rangeLength = prefsInteractor.getFileExportRange()
+    private fun initialize() {
+        rangeLength = extra.selectedRange.toModel()
+        customFileName = extra.customFileName
     }
 
     private suspend fun updateViewData() {
@@ -139,6 +152,8 @@ class CsvExportSettingsViewModel @Inject constructor(
 
     private suspend fun loadViewData(): CsvExportSettingsViewData {
         return viewDataInteractor.getViewData(
+            extra = extra,
+            customFileName = customFileName,
             rangeLength = rangeLength,
             range = getRange(),
         )

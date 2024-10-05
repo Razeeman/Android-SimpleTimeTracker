@@ -4,6 +4,9 @@ import androidx.core.text.HtmlCompat
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.extension.toModel
+import com.example.util.simpletimetracker.core.extension.toParams
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.FileWorkRepo
 import com.example.util.simpletimetracker.core.repo.PermissionRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -17,6 +20,7 @@ import com.example.util.simpletimetracker.domain.interactor.SettingsDataUpdateIn
 import com.example.util.simpletimetracker.domain.model.BackupOptionsData
 import com.example.util.simpletimetracker.domain.model.PartialBackupRestoreData
 import com.example.util.simpletimetracker.domain.model.Range
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.resolver.ResultCode
 import com.example.util.simpletimetracker.navigation.RequestCode
 import com.example.util.simpletimetracker.navigation.Router
@@ -26,8 +30,10 @@ import com.example.util.simpletimetracker.navigation.params.action.OpenFileParam
 import com.example.util.simpletimetracker.navigation.params.action.ShareFileParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.PartialRestoreParams
+import com.example.util.simpletimetracker.navigation.params.screen.RangeLengthParams
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -39,6 +45,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SettingsFileWorkDelegate @Inject constructor(
+    private val timeMapper: TimeMapper,
     private val fileWorkRepo: FileWorkRepo,
     private val resourceRepo: ResourceRepo,
     private val permissionRepo: PermissionRepo,
@@ -103,13 +110,21 @@ class SettingsFileWorkDelegate @Inject constructor(
     }
 
     fun onCsvExport(
-        range: Range?,
-    ) {
+        data: DataExportSettingsResult,
+    ) = delegateScope.launch {
+        val range = mapDataExportSettingsRange(data.range)
+        prefsInteractor.setFileExportRange(data.range.toModel())
+        // Don't save if it is default.
+        data.customFileName
+            .takeIf { it != CSV_EXPORT_DEFAULT_FILE_NAME }
+            .orEmpty()
+            .let { prefsInteractor.setCsvExportCustomFileName(it) }
         requestFileWork(
             requestCode = RequestCode.REQUEST_CODE_CREATE_FILE,
             work = { onSaveCsvFile(it, range) },
             params = CreateFileParams(
-                fileName = "stt_records_${getFileNameTimeStamp()}.csv",
+                fileName = data.customFileName
+                    .let(::insertDateTimeIntoFileName),
                 type = FILE_TYPE_CSV,
                 notHandledCallback = ::onFileCreateError,
             ),
@@ -117,13 +132,21 @@ class SettingsFileWorkDelegate @Inject constructor(
     }
 
     fun onIcsExport(
-        range: Range?,
-    ) {
+        data: DataExportSettingsResult,
+    ) = delegateScope.launch {
+        val range = mapDataExportSettingsRange(data.range)
+        prefsInteractor.setFileExportRange(data.range.toModel())
+        // Don't save if it is default.
+        data.customFileName
+            .takeIf { it != ICS_EXPORT_DEFAULT_FILE_NAME }
+            .orEmpty()
+            .let { prefsInteractor.setIcsExportCustomFileName(it) }
         requestFileWork(
             requestCode = RequestCode.REQUEST_CODE_CREATE_FILE,
             work = { onSaveIcsFile(it, range) },
             params = CreateFileParams(
-                fileName = "stt_events_${getFileNameTimeStamp()}.ics",
+                fileName = data.customFileName
+                    .let(::insertDateTimeIntoFileName),
                 type = FILE_TYPE_ICS,
                 notHandledCallback = ::onFileCreateError,
             ),
@@ -194,8 +217,13 @@ class SettingsFileWorkDelegate @Inject constructor(
         )
     }
 
-    fun onExportCsvClick(tag: String) {
-        router.navigate(DataExportSettingDialogParams(tag))
+    fun onExportCsvClick(tag: String) = delegateScope.launch {
+        DataExportSettingDialogParams(
+            tag = tag,
+            selectedRange = prefsInteractor.getFileExportRange().toParams(),
+            defaultFileName = CSV_EXPORT_DEFAULT_FILE_NAME,
+            customFileName = prefsInteractor.getCsvExportCustomFileName(),
+        ).let(router::navigate)
     }
 
     fun onImportCsvClick(tag: String) {
@@ -217,8 +245,29 @@ class SettingsFileWorkDelegate @Inject constructor(
         ).let(router::navigate)
     }
 
-    fun onExportIcsClick(tag: String) {
-        router.navigate(DataExportSettingDialogParams(tag))
+    fun onExportIcsClick(tag: String) = delegateScope.launch {
+        DataExportSettingDialogParams(
+            tag = tag,
+            selectedRange = prefsInteractor.getFileExportRange().toParams(),
+            defaultFileName = ICS_EXPORT_DEFAULT_FILE_NAME,
+            customFileName = prefsInteractor.getIcsExportCustomFileName(),
+        ).let(router::navigate)
+    }
+
+    private suspend fun mapDataExportSettingsRange(
+        data: RangeLengthParams,
+    ): Range? {
+        val rangeLength = data.toModel()
+        return if (rangeLength !is RangeLength.All) {
+            timeMapper.getRangeStartAndEnd(
+                rangeLength = rangeLength,
+                shift = 0,
+                firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
+                startOfDayShift = prefsInteractor.getStartOfDayShift(),
+            )
+        } else {
+            null
+        }
     }
 
     private suspend fun checkForAutomaticBackupError() {
@@ -457,6 +506,12 @@ class SettingsFileWorkDelegate @Inject constructor(
         router.execute(shareData)
     }
 
+    private fun insertDateTimeIntoFileName(
+        fileName: String,
+    ): String {
+        return fileName.replace("{$FILE_EXPORT_DATE_TAG}", getFileNameTimeStamp())
+    }
+
     private fun getFileNameTimeStamp(): String {
         return SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
     }
@@ -480,6 +535,9 @@ class SettingsFileWorkDelegate @Inject constructor(
     }
 
     companion object {
+        private const val FILE_EXPORT_DATE_TAG = "date"
+        private const val CSV_EXPORT_DEFAULT_FILE_NAME = "stt_records_{$FILE_EXPORT_DATE_TAG}.csv"
+        private const val ICS_EXPORT_DEFAULT_FILE_NAME = "stt_events_{$FILE_EXPORT_DATE_TAG}.ics"
         private const val FILE_TYPE_BIN = "application/x-binary"
         private const val FILE_TYPE_BIN_OPEN = "application/*"
         private const val FILE_TYPE_CSV = "text/csv"

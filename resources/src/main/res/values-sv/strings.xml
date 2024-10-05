@@ -215,6 +215,8 @@
     <string name="color_selection_adjust_color_hint">Justera färg</string>
     <string name="color_selection_final_color_hint">Slutlig färg</string>
 
+    <string name="csv_export_settings_filename_hint">Anpassat filnamn</string>
+    <string name="csv_export_settings_filename_default">Standard</string>
     <string name="csv_export_settings_hint">Välj tidsintervall eller exportera alla händelser</string>
 
     <string name="schedule_exact_alarms">Systeminställningen bör vara aktiverad för den här appen för att kunna schemalägga exakta larm</string>

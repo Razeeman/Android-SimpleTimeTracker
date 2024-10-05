@@ -215,6 +215,8 @@
     <string name="color_selection_adjust_color_hint">Ajustează culoarea</string>
     <string name="color_selection_final_color_hint">Culoarea finală</string>
 
+    <string name="csv_export_settings_filename_hint">Nume de fișier personalizat</string>
+    <string name="csv_export_settings_filename_default">Implicit</string>
     <string name="csv_export_settings_hint">Alege intervalul de timp sau exportă toate înregistrările</string>
 
     <string name="schedule_exact_alarms">Setări de sistem trebuie activate pentru această aplicație pentru a programa alarme exacte</string>

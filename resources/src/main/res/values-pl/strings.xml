@@ -215,6 +215,8 @@
     <string name="color_selection_adjust_color_hint">Dostosuj kolor</string>
     <string name="color_selection_final_color_hint">Ostateczny kolor</string>
 
+    <string name="csv_export_settings_filename_hint">Niestandardowa nazwa pliku</string>
+    <string name="csv_export_settings_filename_default">Domyślny</string>
     <string name="csv_export_settings_hint">Wybierz zakres lub wyeksportuj wszystkie rekordy</string>
 
     <string name="schedule_exact_alarms">Aby móc zaplanować alarmy, należy umożliwić to aplikacji w ustawieniach systemowych</string>

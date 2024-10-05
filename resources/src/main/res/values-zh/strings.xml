@@ -215,6 +215,8 @@
     <string name="color_selection_adjust_color_hint">调整颜色</string>
     <string name="color_selection_final_color_hint">最终颜色</string>
 
+    <string name="csv_export_settings_filename_hint">自定义文件名</string>
+    <string name="csv_export_settings_filename_default">默认</string>
     <string name="csv_export_settings_hint">選擇時間範圍或導出所有記錄</string>
 
     <string name="schedule_exact_alarms">应为此应用启用系统设置，以便安排准确的警报</string>

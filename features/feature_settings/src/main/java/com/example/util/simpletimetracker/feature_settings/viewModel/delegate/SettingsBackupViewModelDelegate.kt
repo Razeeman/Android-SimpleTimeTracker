@@ -78,21 +78,10 @@ class SettingsBackupViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDataExportSettingsSelected(data: DataExportSettingsResult) = delegateScope.launch {
-        val rangeLength = data.range.toModel()
-        val range = if (rangeLength !is RangeLength.All) {
-            timeMapper.getRangeStartAndEnd(
-                rangeLength = data.range.toModel(),
-                shift = 0,
-                firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
-                startOfDayShift = prefsInteractor.getStartOfDayShift(),
-            )
-        } else {
-            null
-        }
+    fun onDataExportSettingsSelected(data: DataExportSettingsResult) {
         when (data.tag) {
-            CSV_EXPORT_DIALOG_TAG -> settingsFileWorkDelegate.onCsvExport(range)
-            ICS_EXPORT_DIALOG_TAG -> settingsFileWorkDelegate.onIcsExport(range)
+            CSV_EXPORT_DIALOG_TAG -> settingsFileWorkDelegate.onCsvExport(data)
+            ICS_EXPORT_DIALOG_TAG -> settingsFileWorkDelegate.onIcsExport(data)
         }
     }
 

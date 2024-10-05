@@ -215,6 +215,8 @@
     <string name="color_selection_adjust_color_hint">Ajustez la couleur</string>
     <string name="color_selection_final_color_hint">Couleur finale</string>
 
+    <string name="csv_export_settings_filename_hint">Nom de fichier personnalisé</string>
+    <string name="csv_export_settings_filename_default">Défaut</string>
     <string name="csv_export_settings_hint">Sélectionnez la plage de temps ou exportez tous les enregistrements</string>
 
     <string name="schedule_exact_alarms">Le paramètre système doit être activé pour cette application afin de programmer des alarmes exactes</string>

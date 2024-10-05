@@ -215,6 +215,8 @@
     <string name="color_selection_adjust_color_hint">Adjust color</string>
     <string name="color_selection_final_color_hint">Final color</string>
 
+    <string name="csv_export_settings_filename_hint">Custom file name</string>
+    <string name="csv_export_settings_filename_default">Default</string>
     <string name="csv_export_settings_hint">Select time range or export all records</string>
 
     <string name="schedule_exact_alarms">System setting should be enabled for this app in order to schedule exact alarms</string>
@@ -299,7 +301,7 @@
     <string name="settings_inactivity_reminder_recurrent">Recurrent</string>
     <string name="settings_activity_reminder">Show activity reminder</string>
     <string name="settings_activity_reminder_hint">Show notification after specified time if timers are running.</string>
-    <string name="settings_do_not_disturb">Do no not disturb</string>
+    <string name="settings_do_not_disturb">Do not disturb</string>
     <string name="settings_notifications_system_settings">System settings</string>
     <string name="settings_notifications_system_settings_hint">Sound, vibration, flash and other</string>
     <string name="settings_ignore_short_records">Ignore short records</string>

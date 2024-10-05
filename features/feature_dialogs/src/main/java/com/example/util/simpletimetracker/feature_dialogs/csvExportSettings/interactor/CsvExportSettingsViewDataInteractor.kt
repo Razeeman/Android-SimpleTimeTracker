@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.interactor
 
+import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -13,6 +14,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.Filt
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.model.CsvExportSettingsFilterType
 import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.viewData.CsvExportSettingsViewData
+import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import javax.inject.Inject
 
 class CsvExportSettingsViewDataInteractor @Inject constructor(
@@ -24,13 +26,27 @@ class CsvExportSettingsViewDataInteractor @Inject constructor(
 ) {
 
     suspend fun getViewData(
+        extra: DataExportSettingDialogParams,
+        customFileName: String,
         rangeLength: RangeLength,
         range: Range,
     ): CsvExportSettingsViewData {
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val isDarkTheme = prefsInteractor.getDarkMode()
+        val fileName = customFileName.ifBlank { extra.defaultFileName }
+        val isCustomFileNameSelected = fileName != extra.defaultFileName
 
         return CsvExportSettingsViewData(
+            fileName = fileName,
+            fileNameTextColor = mapTextColor(
+                isActive = isCustomFileNameSelected,
+                isDarkTheme = isDarkTheme,
+            ),
+            fileNameHint = if (isCustomFileNameSelected) {
+                resourceRepo.getString(R.string.change_record_type_name_hint)
+            } else {
+                resourceRepo.getString(R.string.csv_export_settings_filename_default)
+            },
             rangeStartString = timeMapper.formatDateTimeYear(
                 time = range.timeStarted,
                 useMilitaryTime = useMilitaryTime,
@@ -39,13 +55,10 @@ class CsvExportSettingsViewDataInteractor @Inject constructor(
                 time = range.timeEnded,
                 useMilitaryTime = useMilitaryTime,
             ),
-            textColor = if (rangeLength is RangeLength.Custom) {
-                R.attr.appTextPrimaryColor
-            } else {
-                R.attr.appTextHintColor
-            }.let {
-                resourceRepo.getThemedAttr(it, isDarkTheme)
-            },
+            textColor = mapTextColor(
+                isActive = rangeLength is RangeLength.Custom,
+                isDarkTheme = isDarkTheme,
+            ),
             filters = getDateFiltersViewData(
                 currentRange = rangeLength,
             ),
@@ -106,5 +119,19 @@ class CsvExportSettingsViewDataInteractor @Inject constructor(
             selected = selected,
             removeBtnVisible = false,
         )
+    }
+
+    @ColorInt
+    private fun mapTextColor(
+        isActive: Boolean,
+        isDarkTheme: Boolean,
+    ): Int {
+        return if (isActive) {
+            R.attr.appTextPrimaryColor
+        } else {
+            R.attr.appTextHintColor
+        }.let {
+            resourceRepo.getThemedAttr(it, isDarkTheme)
+        }
     }
 }

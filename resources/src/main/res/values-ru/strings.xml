@@ -215,6 +215,8 @@
     <string name="color_selection_adjust_color_hint">Отрегулируйте цвет</string>
     <string name="color_selection_final_color_hint">Окончательный цвет</string>
 
+    <string name="csv_export_settings_filename_hint">Пользовательское имя файла</string>
+    <string name="csv_export_settings_filename_default">По умолчанию</string>
     <string name="csv_export_settings_hint">Выберите временной диапазон или экспортируйте все записи</string>
 
     <string name="schedule_exact_alarms">Системные настройки должны быть изменены для этого приложения, чтобы планировать точные оповещения.</string>

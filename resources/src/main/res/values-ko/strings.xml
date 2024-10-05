@@ -215,6 +215,8 @@
     <string name="color_selection_adjust_color_hint">색 조정</string>
     <string name="color_selection_final_color_hint">최종 색</string>
 
+    <string name="csv_export_settings_filename_hint">사용자 정의 파일 이름</string>
+    <string name="csv_export_settings_filename_default">기본</string>
     <string name="csv_export_settings_hint">시간 범위를 선택하거나, 모든 기록을 내보내기</string>
 
     <string name="schedule_exact_alarms">정확한 알림을 위해서 시스템 설정이 필요합니다</string>

@@ -215,6 +215,8 @@
     <string name="color_selection_adjust_color_hint">Налаштуйте колір</string>
     <string name="color_selection_final_color_hint">Кінцевий колір</string>
 
+    <string name="csv_export_settings_filename_hint">Власне ім\'я файлу</string>
+    <string name="csv_export_settings_filename_default">За замовчуванням</string>
     <string name="csv_export_settings_hint">Виберіть діапазон часу або експортуйте всі записи</string>
 
     <string name="schedule_exact_alarms">Для цього додатка потрібно ввімкнути налаштування системи, щоб запланувати точні будильники</string>

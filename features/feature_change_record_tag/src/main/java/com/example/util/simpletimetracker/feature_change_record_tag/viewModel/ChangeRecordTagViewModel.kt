@@ -156,11 +156,9 @@ class ChangeRecordTagViewModel @Inject constructor(
     }
 
     fun onNoteChange(note: String) {
-        viewModelScope.launch {
-            if (note != newNote) {
-                newNote = note
-                updateNoteState()
-            }
+        if (note != newNote) {
+            newNote = note
+            updateNoteState()
         }
     }
 
