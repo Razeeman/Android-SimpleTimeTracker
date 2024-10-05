@@ -416,6 +416,7 @@ Contoh:<br/>
     <string name="message_import_complete">Impor selesai</string>
     <string name="message_import_complete_hint">Catatan ditambahkan: %s</string>
     <string name="message_import_error">Kesalahan impor</string>
+    <string name="message_action_share">Membagikan</string>
     <string name="message_automatic_backup_error">Terjadi kesalahan dengan pencadangan otomatis.</string>
     <string name="message_automatic_export_error">Terjadi kesalahan dengan ekspor otomatis.</string>
     <string name="message_automatic_error_hint">Cobalah untuk memilih lokasi yang berbeda</string>

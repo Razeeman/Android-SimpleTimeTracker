@@ -416,6 +416,7 @@ Examplu:<br/>
     <string name="message_import_complete">Import completat</string>
     <string name="message_import_complete_hint">Înregistrări adăugate %s</string>
     <string name="message_import_error">Eroare la import</string>
+    <string name="message_action_share">Distribuie</string>
     <string name="message_automatic_backup_error">A fost o eroare la backup-ul automat.</string>
     <string name="message_automatic_export_error">A fost o eroare la exportul automat.</string>
     <string name="message_automatic_error_hint">Încearcă să alegi o altă locație</string>

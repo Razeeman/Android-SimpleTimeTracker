@@ -416,6 +416,7 @@ Exemple:<br/>
     <string name="message_import_complete">Importation terminée</string>
     <string name="message_import_complete_hint">Enregistrements ajoutés : %s</string>
     <string name="message_import_error">Erreur d\'importation</string>
+    <string name="message_action_share">Partager</string>
     <string name="message_automatic_backup_error">Une erreur s\'est produite lors de la sauvegarde automatique.</string>
     <string name="message_automatic_export_error">Une erreur s\'est produite lors de l\'exportation automatique.</string>
     <string name="message_automatic_error_hint">Essayez de sélectionner un emplacement différent</string>

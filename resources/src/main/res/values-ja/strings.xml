@@ -416,6 +416,7 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <string name="message_import_complete">インポートが完了しました</string>
     <string name="message_import_complete_hint">追加されたレコード: %s</string>
     <string name="message_import_error">インポートエラー</string>
+    <string name="message_action_share">共有</string>
     <string name="message_automatic_backup_error">自動バックアップでエラーが発生しました。</string>
     <string name="message_automatic_export_error">自動エクスポートでエラーが発生しました。</string>
     <string name="message_automatic_error_hint">別の場所を選択してみてください</string>

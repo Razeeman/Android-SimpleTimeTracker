@@ -416,6 +416,7 @@
     <string name="message_import_complete">واردات انجام شد</string>
     <string name="message_import_complete_hint">سوابق اضافه شده: %s</string>
     <string name="message_import_error">خطای واردات</string>
+    <string name="message_action_share">به اشتراک بگذارید</string>
     <string name="message_automatic_backup_error">خطا در پشتیبانی خودکار.</string>
     <string name="message_automatic_export_error">خطا در خروجی خودکار.</string>
     <string name="message_automatic_error_hint">سعی کنید محل ذخیره دیگیری را انتخاب کنید.</string>

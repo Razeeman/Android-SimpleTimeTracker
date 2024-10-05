@@ -416,6 +416,7 @@ Exemple:<br/>
     <string name="message_import_complete">Importació completada</string>
     <string name="message_import_complete_hint">Registres afegits: %s</string>
     <string name="message_import_error">Error d\'importació</string>
+    <string name="message_action_share">Comparteix</string>
     <string name="message_automatic_backup_error">Hi ha hagut un error amb la còpia de seguretat automàtica.</string>
     <string name="message_automatic_export_error">Hi ha hagut un error amb l\'exportació automàtica.</string>
     <string name="message_automatic_error_hint">Proveu de seleccionar una ubicació diferent</string>

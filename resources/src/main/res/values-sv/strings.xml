@@ -416,6 +416,7 @@ Exempel:<br/>
     <string name="message_import_complete">Importen slutförd</string>
     <string name="message_import_complete_hint">Poster tillagda: %s</string>
     <string name="message_import_error">Importfel</string>
+    <string name="message_action_share">Dela</string>
     <string name="message_automatic_backup_error">Det uppstod ett fel med automatisk säkerhetskopiering.</string>
     <string name="message_automatic_export_error">Det uppstod ett fel med automatisk export.</string>
     <string name="message_automatic_error_hint">Försök att välja en annan plats</string>

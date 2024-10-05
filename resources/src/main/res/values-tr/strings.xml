@@ -416,6 +416,7 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="message_import_complete">İçe aktarma tamamlandı</string>
     <string name="message_import_complete_hint">Eklenen kayıtlar: %s</string>
     <string name="message_import_error">Alma hatası</string>
+    <string name="message_action_share">Paylaşmak</string>
     <string name="message_automatic_backup_error">Otomatik yedeklemede bir hata oluştu.</string>
     <string name="message_automatic_export_error">Otomatik dışa aktarmayla ilgili bir hata oluştu.</string>
     <string name="message_automatic_error_hint">Farklı bir konum seçmeyi deneyin</string>

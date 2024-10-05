@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.domain.resolver.SharingRepo
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureForSharing
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.action.ShareImageParams
+import com.example.util.simpletimetracker.navigation.params.action.ShareFileParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import javax.inject.Inject
 
@@ -29,8 +29,9 @@ class SharingInteractor @Inject constructor(
 
         when (result) {
             is SharingRepo.Result.Success -> {
-                ShareImageParams(
+                ShareFileParams(
                     uriString = result.uriString,
+                    type = null,
                     notHandledCallback = { R.string.message_app_not_found.let(::showMessage) },
                 ).let(router::execute)
             }

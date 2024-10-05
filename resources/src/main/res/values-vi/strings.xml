@@ -416,6 +416,7 @@ Ví dụ:<br/>
     <string name="message_import_complete">Đã nhập xong</string>
     <string name="message_import_complete_hint">Bản ghi đã thêm: %s</string>
     <string name="message_import_error">Lỗi nhập</string>
+    <string name="message_action_share">Chia sẻ</string>
     <string name="message_automatic_backup_error">Đã xảy ra lỗi khi sao lưu tự động.</string>
     <string name="message_automatic_export_error">Đã xảy ra lỗi khi xuất tự động.</string>
     <string name="message_automatic_error_hint">Hãy thử chọn vị trí khác</string>

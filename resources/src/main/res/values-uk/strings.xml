@@ -416,6 +416,7 @@
     <string name="message_import_complete">Імпорт завершено</string>
     <string name="message_import_complete_hint">Додано записів: %s</string>
     <string name="message_import_error">Помилка імпорту</string>
+    <string name="message_action_share">Поділіться</string>
     <string name="message_automatic_backup_error">Під час автоматичного резервного копіювання сталася помилка.</string>
     <string name="message_automatic_export_error">Під час автоматичного експорту сталася помилка.</string>
     <string name="message_automatic_error_hint">Спробуйте вибрати інше місце</string>

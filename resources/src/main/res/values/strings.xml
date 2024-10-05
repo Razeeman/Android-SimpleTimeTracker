@@ -416,6 +416,7 @@ Example:<br/>
     <string name="message_import_complete">Import completed</string>
     <string name="message_import_complete_hint">Records added: %s</string>
     <string name="message_import_error">Import error</string>
+    <string name="message_action_share">Share</string>
     <string name="message_automatic_backup_error">There was an error with automatic backup.</string>
     <string name="message_automatic_export_error">There was an error with automatic export.</string>
     <string name="message_automatic_error_hint">Try to select different location</string>

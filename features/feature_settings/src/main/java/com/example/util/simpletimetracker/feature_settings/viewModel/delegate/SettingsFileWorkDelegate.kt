@@ -23,6 +23,7 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.action.ActionParams
 import com.example.util.simpletimetracker.navigation.params.action.CreateFileParams
 import com.example.util.simpletimetracker.navigation.params.action.OpenFileParams
+import com.example.util.simpletimetracker.navigation.params.action.ShareFileParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
@@ -250,7 +251,7 @@ class SettingsFileWorkDelegate @Inject constructor(
     private fun onSaveBackup(uriString: String?) {
         if (uriString == null) return
         val params = saveOptionsData ?: return
-        executeFileWork {
+        executeFileWork(shareUriString = uriString) {
             backupInteractor.saveBackupFile(uriString, params)
         }
     }
@@ -353,7 +354,7 @@ class SettingsFileWorkDelegate @Inject constructor(
 
     private fun onSaveCsvFile(uriString: String?) {
         if (uriString == null) return
-        executeFileWork {
+        executeFileWork(shareUriString = uriString) {
             csvExportInteractor.saveCsvFile(
                 uriString = uriString,
                 range = getRange(),
@@ -370,7 +371,7 @@ class SettingsFileWorkDelegate @Inject constructor(
 
     private fun onSaveIcsFile(uriString: String?) {
         if (uriString == null) return
-        executeFileWork {
+        executeFileWork(shareUriString = uriString) {
             icsExportInteractor.saveIcsFile(
                 uriString = uriString,
                 range = getRange(),
@@ -392,13 +393,20 @@ class SettingsFileWorkDelegate @Inject constructor(
     // Need global scope or not cancelable scope.
     // Otherwise process will be stopped on navigation.
     private fun executeFileWork(
+        shareUriString: String? = null,
         doAfter: suspend () -> Unit = {},
         doWork: suspend () -> ResultCode,
     ) = delegateScope.launch {
         fileWorkRepo.inProgress.set(true)
 
         val resultCode = doWork()
-        resultCode.message?.let(::showMessage)
+        val isSuccessful = resultCode is ResultCode.Success
+        resultCode.message?.let {
+            showMessage(
+                string = it,
+                shareUriString = shareUriString.takeIf { isSuccessful },
+            )
+        }
 
         fileWorkRepo.inProgress.set(false)
 
@@ -413,9 +421,36 @@ class SettingsFileWorkDelegate @Inject constructor(
         showMessage(resourceRepo.getString(R.string.settings_file_create_error))
     }
 
-    private fun showMessage(string: String) {
-        val params = SnackBarParams(message = string)
+    private fun showMessage(
+        string: String,
+        shareUriString: String? = null,
+    ) {
+        val isForSharing = shareUriString != null
+        val actionText = if (isForSharing) {
+            resourceRepo.getString(R.string.message_action_share)
+        } else {
+            ""
+        }
+        val params = SnackBarParams(
+            message = string,
+            actionText = actionText,
+            actionListener = { onShareClicked(shareUriString) },
+        )
         router.show(params)
+    }
+
+    private fun onShareClicked(
+        shareUriString: String?,
+    ) {
+        val shareData = ShareFileParams(
+            uriString = shareUriString.orEmpty(),
+            type = FILE_TYPE_BIN_OPEN,
+            notHandledCallback = {
+                resourceRepo.getString(R.string.message_app_not_found)
+                    .let(::showMessage)
+            },
+        )
+        router.execute(shareData)
     }
 
     private fun getFileNameTimeStamp(): String {

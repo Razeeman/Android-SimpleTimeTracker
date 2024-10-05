@@ -416,6 +416,7 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="message_import_complete">導入完成</string>
     <string name="message_import_complete_hint">添加的記錄：%s</string>
     <string name="message_import_error">導入錯誤</string>
+    <string name="message_action_share">分享</string>
     <string name="message_automatic_backup_error">自動備份出錯。</string>
     <string name="message_automatic_export_error">自動導出時出錯。</string>
     <string name="message_automatic_error_hint">嘗試選擇不同的位置</string>

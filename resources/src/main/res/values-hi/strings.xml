@@ -416,6 +416,7 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="message_import_complete">आयात पूरा हुआ</string>
     <string name="message_import_complete_hint">रिकॉर्ड जोड़े गए: %s</string>
     <string name="message_import_error">आयात त्रुटि</string>
+    <string name="message_action_share">शेयर करना</string>
     <string name="message_automatic_backup_error">स्वचालित बैकअप के साथ एक त्रुटि हुई थी।</string>
     <string name="message_automatic_export_error">स्वचालित निर्यात में त्रुटि हुई थी।</string>
     <string name="message_automatic_error_hint">अलग स्थान का चयन करने का प्रयास करें</string>

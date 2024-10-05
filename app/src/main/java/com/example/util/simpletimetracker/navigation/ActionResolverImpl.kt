@@ -10,6 +10,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import com.example.util.simpletimetracker.core.extension.allowDiskRead
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.navigation.params.action.ActionParams
 import com.example.util.simpletimetracker.navigation.params.action.CreateFileParams
@@ -19,7 +20,7 @@ import com.example.util.simpletimetracker.navigation.params.action.OpenMarketPar
 import com.example.util.simpletimetracker.navigation.params.action.OpenSystemSettings
 import com.example.util.simpletimetracker.navigation.params.action.RequestPermissionParams
 import com.example.util.simpletimetracker.navigation.params.action.SendEmailParams
-import com.example.util.simpletimetracker.navigation.params.action.ShareImageParams
+import com.example.util.simpletimetracker.navigation.params.action.ShareFileParams
 import javax.inject.Inject
 
 class ActionResolverImpl @Inject constructor(
@@ -44,7 +45,7 @@ class ActionResolverImpl @Inject constructor(
             is CreateFileParams -> createFile(activity, data)
             is OpenFileParams -> openFile(activity, data)
             is OpenSystemSettings -> openSystemSettings(activity, data)
-            is ShareImageParams -> shareImage(activity, data)
+            is ShareFileParams -> shareFile(activity, data)
             is RequestPermissionParams -> requestPermission(data)
             is OpenLinkParams -> openLink(activity, data)
         }
@@ -148,11 +149,12 @@ class ActionResolverImpl @Inject constructor(
         }
     }
 
-    private fun shareImage(activity: Activity?, data: ShareImageParams) {
+    private fun shareFile(activity: Activity?, data: ShareFileParams) {
         try {
             val uri = Uri.parse(data.uriString)
+            val type = allowDiskRead { data.type ?: activity?.contentResolver?.getType(uri) }
             val intent = Intent(Intent.ACTION_SEND).apply {
-                setDataAndType(uri, activity?.contentResolver?.getType(uri))
+                setDataAndType(uri, type)
                 putExtra(Intent.EXTRA_STREAM, uri)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }

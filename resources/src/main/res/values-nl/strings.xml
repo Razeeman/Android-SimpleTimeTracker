@@ -416,6 +416,7 @@ Voorbeeld:<br/>
     <string name="message_import_complete">Importeren voltooid</string>
     <string name="message_import_complete_hint">Records toegevoegd: %s</string>
     <string name="message_import_error">Fout importeren</string>
+    <string name="message_action_share">Deel</string>
     <string name="message_automatic_backup_error">Er is een fout opgetreden bij de automatische back-up.</string>
     <string name="message_automatic_export_error">Er is een fout opgetreden bij het automatisch exporteren.</string>
     <string name="message_automatic_error_hint">Probeer een andere locatie te selecteren</string>

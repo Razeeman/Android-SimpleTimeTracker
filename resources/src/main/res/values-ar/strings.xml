@@ -416,6 +416,7 @@
     <string name="message_import_complete">اكتمل الاستيراد</string>
     <string name="message_import_complete_hint">التتبعات المضافة: %s</string>
     <string name="message_import_error">خطأ في الاستيراد</string>
+    <string name="message_action_share">يشارك</string>
     <string name="message_automatic_backup_error">حدث خطأ في النسخ الاحتياطي التلقائي.</string>
     <string name="message_automatic_export_error">حدث خطأ في التصدير التلقائي.</string>
     <string name="message_automatic_error_hint">حاول تحديد مكان مختلف</string>

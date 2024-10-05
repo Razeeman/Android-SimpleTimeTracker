@@ -416,6 +416,7 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="message_import_complete">Импорт завершен</string>
     <string name="message_import_complete_hint">Добавлено записей: %s</string>
     <string name="message_import_error">Ошибка импорта</string>
+    <string name="message_action_share">Поделиться</string>
     <string name="message_automatic_backup_error">Произошла ошибка с автоматическим резервным копированием.</string>
     <string name="message_automatic_export_error">Произошла ошибка при автоматическом экспорте.</string>
     <string name="message_automatic_error_hint">Попробуйте выбрать другое место</string>
