@@ -116,6 +116,14 @@ class PrefsRepoImpl @Inject constructor(
         KEY_FILE_EXPORT_RANGE_LAST_DAYS, RANGE_LAST_DAYS_DEFAULT,
     )
 
+    override var csvExportCustomFileName: String by prefs.delegate(
+        KEY_CSV_EXPORT_CUSTOM_FILENAME, "",
+    )
+
+    override var icsExportCustomFileName: String by prefs.delegate(
+        KEY_ICS_EXPORT_CUSTOM_FILENAME, "",
+    )
+
     override var keepStatisticsRange: Boolean by prefs.delegate(
         KEY_KEEP_STATISTICS_RANGE, false,
     )
@@ -529,6 +537,8 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_FILE_EXPORT_RANGE_CUSTOM_START = "fileExportRangeCustomStart"
         const val KEY_FILE_EXPORT_RANGE_CUSTOM_END = "fileExportRangeCustomEnd"
         const val KEY_FILE_EXPORT_RANGE_LAST_DAYS = "fileExportRangeLastDays"
+        const val KEY_CSV_EXPORT_CUSTOM_FILENAME = "csvExportCustomFilename"
+        const val KEY_ICS_EXPORT_CUSTOM_FILENAME = "icsExportCustomFilename"
         const val KEY_KEEP_STATISTICS_RANGE = "keepStatisticsRange"
         const val KEY_FIRST_DAY_OF_WEEK = "firstDayOfWeek"
         const val KEY_START_OF_DAY_SHIFT = "startOfDayShift"

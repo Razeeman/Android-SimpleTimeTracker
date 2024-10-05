@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companio
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_CATEGORY_ORDER
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_CATEGORY_ORDER_MANUAL
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_CHART_FILTER_TYPE
+import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_CSV_EXPORT_CUSTOM_FILENAME
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_DARK_MODE_2
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_DAYS_IN_CALENDAR
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_DEFAULT_TYPES_HIDDEN
@@ -25,6 +26,7 @@ import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companio
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_FILE_EXPORT_RANGE_CUSTOM_START
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_FILE_EXPORT_RANGE_LAST_DAYS
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_FIRST_DAY_OF_WEEK
+import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_ICS_EXPORT_CUSTOM_FILENAME
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_IGNORE_SHORT_RECORDS_DURATION
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_IGNORE_SHORT_UNTRACKED_DURATION
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_INACTIVITY_REMINDER_DND_END
@@ -148,6 +150,8 @@ class BackupPrefsRepo @Inject constructor(
             PrefsProcessor(KEY_FILE_EXPORT_RANGE_CUSTOM_START, ::fileExportRangeCustomStart),
             PrefsProcessor(KEY_FILE_EXPORT_RANGE_CUSTOM_END, ::fileExportRangeCustomEnd),
             PrefsProcessor(KEY_FILE_EXPORT_RANGE_LAST_DAYS, ::fileExportRangeLastDays),
+            PrefsProcessor(KEY_CSV_EXPORT_CUSTOM_FILENAME, ::csvExportCustomFileName),
+            PrefsProcessor(KEY_ICS_EXPORT_CUSTOM_FILENAME, ::icsExportCustomFileName),
             PrefsProcessor(KEY_KEEP_STATISTICS_RANGE, ::keepStatisticsRange),
             PrefsProcessor(KEY_FIRST_DAY_OF_WEEK, ::firstDayOfWeek),
             PrefsProcessor(KEY_START_OF_DAY_SHIFT, ::startOfDayShift),

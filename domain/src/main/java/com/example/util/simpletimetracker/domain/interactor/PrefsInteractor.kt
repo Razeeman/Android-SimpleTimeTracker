@@ -181,6 +181,22 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.fileExportRangeLastDays
     }
 
+    suspend fun getCsvExportCustomFileName(): String = withContext(Dispatchers.IO) {
+        prefsRepo.csvExportCustomFileName
+    }
+
+    suspend fun setCsvExportCustomFileName(value: String) = withContext(Dispatchers.IO) {
+        prefsRepo.csvExportCustomFileName = value
+    }
+
+    suspend fun getIcsExportCustomFileName(): String = withContext(Dispatchers.IO) {
+        prefsRepo.icsExportCustomFileName
+    }
+
+    suspend fun setIcsExportCustomFileName(value: String) = withContext(Dispatchers.IO) {
+        prefsRepo.icsExportCustomFileName = value
+    }
+
     suspend fun getKeepStatisticsRange(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.keepStatisticsRange
     }
