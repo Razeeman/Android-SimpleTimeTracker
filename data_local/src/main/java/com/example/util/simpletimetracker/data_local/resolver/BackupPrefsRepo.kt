@@ -20,6 +20,10 @@ import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companio
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_DEFAULT_TYPES_HIDDEN
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_ENABLE_POMODORO_MODE
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_ENABLE_REPEAT_BUTTON
+import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_FILE_EXPORT_RANGE
+import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_FILE_EXPORT_RANGE_CUSTOM_END
+import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_FILE_EXPORT_RANGE_CUSTOM_START
+import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_FILE_EXPORT_RANGE_LAST_DAYS
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_FIRST_DAY_OF_WEEK
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_IGNORE_SHORT_RECORDS_DURATION
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_IGNORE_SHORT_UNTRACKED_DURATION
@@ -140,6 +144,10 @@ class BackupPrefsRepo @Inject constructor(
             PrefsProcessor(KEY_STATISTICS_DETAIL_RANGE_CUSTOM_START, ::statisticsDetailRangeCustomStart),
             PrefsProcessor(KEY_STATISTICS_DETAIL_RANGE_CUSTOM_END, ::statisticsDetailRangeCustomEnd),
             PrefsProcessor(KEY_STATISTICS_DETAIL_RANGE_LAST_DAYS, ::statisticsDetailRangeLastDays),
+            PrefsProcessor(KEY_FILE_EXPORT_RANGE, ::fileExportRange),
+            PrefsProcessor(KEY_FILE_EXPORT_RANGE_CUSTOM_START, ::fileExportRangeCustomStart),
+            PrefsProcessor(KEY_FILE_EXPORT_RANGE_CUSTOM_END, ::fileExportRangeCustomEnd),
+            PrefsProcessor(KEY_FILE_EXPORT_RANGE_LAST_DAYS, ::fileExportRangeLastDays),
             PrefsProcessor(KEY_KEEP_STATISTICS_RANGE, ::keepStatisticsRange),
             PrefsProcessor(KEY_FIRST_DAY_OF_WEEK, ::firstDayOfWeek),
             PrefsProcessor(KEY_START_OF_DAY_SHIFT, ::startOfDayShift),

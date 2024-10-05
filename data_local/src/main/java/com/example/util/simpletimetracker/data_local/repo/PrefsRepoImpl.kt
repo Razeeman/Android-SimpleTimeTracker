@@ -100,6 +100,22 @@ class PrefsRepoImpl @Inject constructor(
         KEY_STATISTICS_DETAIL_RANGE_LAST_DAYS, RANGE_LAST_DAYS_DEFAULT,
     )
 
+    override var fileExportRange: Int by prefs.delegate(
+        KEY_FILE_EXPORT_RANGE, 0,
+    )
+
+    override var fileExportRangeCustomStart: Long by prefs.delegate(
+        KEY_FILE_EXPORT_RANGE_CUSTOM_START, 0,
+    )
+
+    override var fileExportRangeCustomEnd: Long by prefs.delegate(
+        KEY_FILE_EXPORT_RANGE_CUSTOM_END, 0,
+    )
+
+    override var fileExportRangeLastDays: Int by prefs.delegate(
+        KEY_FILE_EXPORT_RANGE_LAST_DAYS, RANGE_LAST_DAYS_DEFAULT,
+    )
+
     override var keepStatisticsRange: Boolean by prefs.delegate(
         KEY_KEEP_STATISTICS_RANGE, false,
     )
@@ -509,6 +525,10 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_STATISTICS_DETAIL_RANGE_CUSTOM_START = "statisticsDetailRangeCustomStart"
         const val KEY_STATISTICS_DETAIL_RANGE_CUSTOM_END = "statisticsDetailRangeCustomEnd"
         const val KEY_STATISTICS_DETAIL_RANGE_LAST_DAYS = "statisticsDetailRangeLastDays"
+        const val KEY_FILE_EXPORT_RANGE = "fileExportRange"
+        const val KEY_FILE_EXPORT_RANGE_CUSTOM_START = "fileExportRangeCustomStart"
+        const val KEY_FILE_EXPORT_RANGE_CUSTOM_END = "fileExportRangeCustomEnd"
+        const val KEY_FILE_EXPORT_RANGE_LAST_DAYS = "fileExportRangeLastDays"
         const val KEY_KEEP_STATISTICS_RANGE = "keepStatisticsRange"
         const val KEY_FIRST_DAY_OF_WEEK = "firstDayOfWeek"
         const val KEY_START_OF_DAY_SHIFT = "startOfDayShift"

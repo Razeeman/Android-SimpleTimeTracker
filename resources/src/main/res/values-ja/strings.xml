@@ -215,8 +215,6 @@
     <string name="color_selection_adjust_color_hint">色の調整</string>
     <string name="color_selection_final_color_hint">作成する色</string>
 
-    <string name="csv_export_settings_range">範囲</string>
-    <string name="csv_export_settings_all">すべて</string>
     <string name="csv_export_settings_hint">時間範囲を選択、または全計測記録をエクスポート</string>
 
     <string name="schedule_exact_alarms">正確なアラームをスケジュールするには、このアプリのシステム設定を有効にする必要があります</string>

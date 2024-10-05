@@ -215,8 +215,6 @@
     <string name="color_selection_adjust_color_hint">調整顏色</string>
     <string name="color_selection_final_color_hint">最終顏色</string>
 
-    <string name="csv_export_settings_range">範圍</string>
-    <string name="csv_export_settings_all">全部</string>
     <string name="csv_export_settings_hint">選擇時間範圍 或 匯出所有紀錄</string>
 
     <string name="schedule_exact_alarms">為了排程更多鬧鐘，系統設定應開啟給此應用程式</string>

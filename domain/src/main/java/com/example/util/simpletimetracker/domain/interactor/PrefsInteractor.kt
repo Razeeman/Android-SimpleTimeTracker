@@ -107,7 +107,12 @@ class PrefsInteractor @Inject constructor(
     }
 
     suspend fun getStatisticsRange(): RangeLength = withContext(Dispatchers.IO) {
-        mapToRange(prefsRepo.statisticsRange, forDetail = false)
+        mapToRange(
+            value = prefsRepo.statisticsRange,
+            customStart = prefsRepo.statisticsRangeCustomStart,
+            customEnd = prefsRepo.statisticsRangeCustomEnd,
+            lastDays = prefsRepo.statisticsRangeLastDays,
+        )
     }
 
     suspend fun setStatisticsRange(rangeLength: RangeLength) = withContext(Dispatchers.IO) {
@@ -127,7 +132,12 @@ class PrefsInteractor @Inject constructor(
     }
 
     suspend fun getStatisticsDetailRange(): RangeLength = withContext(Dispatchers.IO) {
-        mapToRange(prefsRepo.statisticsDetailRange, forDetail = true)
+        mapToRange(
+            value = prefsRepo.statisticsDetailRange,
+            customStart = prefsRepo.statisticsDetailRangeCustomStart,
+            customEnd = prefsRepo.statisticsDetailRangeCustomEnd,
+            lastDays = prefsRepo.statisticsDetailRangeLastDays,
+        )
     }
 
     suspend fun setStatisticsDetailRange(rangeLength: RangeLength) = withContext(Dispatchers.IO) {
@@ -144,6 +154,31 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun getStatisticsDetailLastDays(): Int = withContext(Dispatchers.IO) {
         prefsRepo.statisticsDetailRangeLastDays
+    }
+
+    suspend fun getFileExportRange(): RangeLength = withContext(Dispatchers.IO) {
+        mapToRange(
+            value = prefsRepo.fileExportRange,
+            customStart = prefsRepo.fileExportRangeCustomStart,
+            customEnd = prefsRepo.fileExportRangeCustomEnd,
+            lastDays = prefsRepo.fileExportRangeLastDays,
+        )
+    }
+
+    suspend fun setFileExportRange(rangeLength: RangeLength) = withContext(Dispatchers.IO) {
+        prefsRepo.fileExportRange = mapRange(rangeLength)
+
+        if (rangeLength is RangeLength.Custom) {
+            prefsRepo.fileExportRangeCustomStart = rangeLength.range.timeStarted
+            prefsRepo.fileExportRangeCustomEnd = rangeLength.range.timeEnded
+        }
+        if (rangeLength is RangeLength.Last) {
+            prefsRepo.fileExportRangeLastDays = rangeLength.days
+        }
+    }
+
+    suspend fun getFileExportLastDays(): Int = withContext(Dispatchers.IO) {
+        prefsRepo.fileExportRangeLastDays
     }
 
     suspend fun getKeepStatisticsRange(): Boolean = withContext(Dispatchers.IO) {
@@ -736,33 +771,23 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.clearPomodoroSettingsClick()
     }
 
-    private fun mapToRange(value: Int, forDetail: Boolean): RangeLength {
+    private fun mapToRange(
+        value: Int,
+        customStart: Long,
+        customEnd: Long,
+        lastDays: Int,
+    ): RangeLength {
         return when (value) {
             0 -> RangeLength.Day
             1 -> RangeLength.Week
             2 -> RangeLength.Month
             3 -> RangeLength.Year
             4 -> RangeLength.All
-            5 -> {
-                if (forDetail) {
-                    Range(
-                        timeStarted = prefsRepo.statisticsDetailRangeCustomStart,
-                        timeEnded = prefsRepo.statisticsDetailRangeCustomEnd,
-                    )
-                } else {
-                    Range(
-                        timeStarted = prefsRepo.statisticsRangeCustomStart,
-                        timeEnded = prefsRepo.statisticsRangeCustomEnd,
-                    )
-                }.let(RangeLength::Custom)
-            }
-            6 -> {
-                if (forDetail) {
-                    prefsRepo.statisticsDetailRangeLastDays
-                } else {
-                    prefsRepo.statisticsRangeLastDays
-                }.let(RangeLength::Last)
-            }
+            5 -> Range(
+                timeStarted = customStart,
+                timeEnded = customEnd,
+            ).let(RangeLength::Custom)
+            6 -> lastDays.let(RangeLength::Last)
             else -> RangeLength.Day
         }
     }

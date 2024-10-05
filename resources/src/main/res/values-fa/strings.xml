@@ -215,8 +215,6 @@
     <string name="color_selection_adjust_color_hint">تنظیم رنگ</string>
     <string name="color_selection_final_color_hint">رنگ نهایی</string>
 
-    <string name="csv_export_settings_range">محدوده</string>
-    <string name="csv_export_settings_all">همه</string>
     <string name="csv_export_settings_hint">محدوده زمانی را انتخاب کنید یا از تمام تاریخچه ها خروجی بگیرید</string>
 
     <string name="schedule_exact_alarms">برای تنظیم دقیق آلارم تنظیمات سیستم باید برای این برنامه فعال شده باشند</string>

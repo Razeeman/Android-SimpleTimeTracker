@@ -2,11 +2,18 @@ package com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.vie
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.BaseViewModel
+import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.model.Range
+import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.FilterViewData
+import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.interactor.CsvExportSettingsViewDataInteractor
+import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.model.CsvExportSettingsFilterType
 import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.viewData.CsvExportSettingsViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
@@ -15,7 +22,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialo
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,128 +29,118 @@ class CsvExportSettingsViewModel @Inject constructor(
     private val router: Router,
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
-) : ViewModel() {
+    private val viewDataInteractor: CsvExportSettingsViewDataInteractor,
+) : BaseViewModel() {
 
     lateinit var extra: DataExportSettingDialogParams
 
-    val viewData: LiveData<CsvExportSettingsViewData> by lazy {
-        return@lazy MutableLiveData<CsvExportSettingsViewData>().let { initial ->
-            viewModelScope.launch {
-                initializeViewData()
-                initial.value = loadViewData()
-            }
-            initial
-        }
+    val viewData: LiveData<CsvExportSettingsViewData> by lazySuspend {
+        initialize()
+        loadViewData()
     }
-    val dataExportSettingsResult: LiveData<DataExportSettingsResult> = MutableLiveData()
+    val dataExportSettingsResult: LiveData<DataExportSettingsResult> =
+        MutableLiveData()
 
-    private var rangeStart: Long = 0
-    private var rangeEnd: Long = 0
+    private var rangeLength: RangeLength = RangeLength.All
 
-    fun onRangeStartClick() {
-        viewModelScope.launch {
-            val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-            val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-
-            router.navigate(
-                DateTimeDialogParams(
-                    tag = TIME_STARTED_TAG,
-                    timestamp = rangeStart,
-                    type = DateTimeDialogType.DATETIME(initialTab = DateTimeDialogType.Tab.DATE),
-                    useMilitaryTime = useMilitaryTime,
-                    firstDayOfWeek = firstDayOfWeek,
-                ),
-            )
-        }
+    fun onFilterClick(item: FilterViewData) = viewModelScope.launch {
+        val itemType = item.type as? CsvExportSettingsFilterType ?: return@launch
+        onNewRangeSelected(itemType.rangeLength)
     }
 
-    fun onRangeEndClick() {
-        viewModelScope.launch {
-            val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-            val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-
-            router.navigate(
-                DateTimeDialogParams(
-                    tag = TIME_ENDED_TAG,
-                    timestamp = rangeEnd,
-                    type = DateTimeDialogType.DATETIME(initialTab = DateTimeDialogType.Tab.DATE),
-                    useMilitaryTime = useMilitaryTime,
-                    firstDayOfWeek = firstDayOfWeek,
-                ),
-            )
-        }
+    fun onRangeStartClick() = viewModelScope.launch {
+        onRangeClick(
+            tag = TIME_STARTED_TAG,
+            timestamp = getRange().timeStarted,
+        )
     }
 
-    fun onDateTimeSet(timestamp: Long, tag: String?) {
-        viewModelScope.launch {
-            when (tag) {
-                TIME_STARTED_TAG -> {
-                    if (timestamp != rangeStart) {
-                        rangeStart = timestamp
-                        if (timestamp > rangeEnd) rangeEnd = timestamp
-                        updateViewData()
-                    }
+    fun onRangeEndClick() = viewModelScope.launch {
+        onRangeClick(
+            tag = TIME_ENDED_TAG,
+            timestamp = getRange().timeEnded,
+        )
+    }
+
+    fun onDateTimeSet(timestamp: Long, tag: String?) = viewModelScope.launch {
+        var (rangeStart, rangeEnd) = getRange()
+
+        when (tag) {
+            TIME_STARTED_TAG -> {
+                if (timestamp != rangeStart) {
+                    rangeStart = timestamp
+                    if (timestamp > rangeEnd) rangeEnd = timestamp
                 }
-                TIME_ENDED_TAG -> {
-                    if (timestamp != rangeEnd) {
-                        rangeEnd = timestamp
-                        if (timestamp < rangeStart) rangeStart = timestamp
-                        updateViewData()
-                    }
+            }
+            TIME_ENDED_TAG -> {
+                if (timestamp != rangeEnd) {
+                    rangeEnd = timestamp
+                    if (timestamp < rangeStart) rangeStart = timestamp
                 }
             }
         }
+        onNewRangeSelected(RangeLength.Custom(Range(rangeStart, rangeEnd)))
     }
 
-    fun onExportRangeClick() {
-        onExport(
-            range = DataExportSettingsResult.Range(
-                rangeStart = rangeStart,
-                rangeEnd = rangeEnd,
+    fun onExportClick() = viewModelScope.launch {
+        DataExportSettingsResult(
+            tag = extra.tag.orEmpty(),
+            range = rangeLength.toParams(),
+        ).let(dataExportSettingsResult::set)
+    }
+
+    private fun onRangeClick(
+        tag: String,
+        timestamp: Long,
+    ) = viewModelScope.launch {
+        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+
+        router.navigate(
+            DateTimeDialogParams(
+                tag = tag,
+                timestamp = timestamp,
+                type = DateTimeDialogType.DATETIME(initialTab = DateTimeDialogType.Tab.DATE),
+                useMilitaryTime = useMilitaryTime,
+                firstDayOfWeek = firstDayOfWeek,
             ),
         )
     }
 
-    fun onExportAllClick() {
-        onExport(range = null)
+    private suspend fun onNewRangeSelected(rangeLength: RangeLength) {
+        this.rangeLength = rangeLength
+        prefsInteractor.setFileExportRange(rangeLength)
+        updateViewData()
     }
 
-    private fun onExport(range: DataExportSettingsResult.Range?) {
-        DataExportSettingsResult(
-            tag = extra.tag.orEmpty(),
-            range = range,
-        ).let(dataExportSettingsResult::set)
+    private suspend fun getRange(): Range {
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+        val startOfDayShift = prefsInteractor.getStartOfDayShift()
+
+        return if (rangeLength is RangeLength.All) {
+            return Range(0, System.currentTimeMillis())
+        } else {
+            timeMapper.getRangeStartAndEnd(
+                rangeLength = rangeLength,
+                shift = 0,
+                firstDayOfWeek = firstDayOfWeek,
+                startOfDayShift = startOfDayShift,
+            )
+        }
+    }
+
+    private suspend fun initialize() {
+        rangeLength = prefsInteractor.getFileExportRange()
     }
 
     private suspend fun updateViewData() {
         viewData.set(loadViewData())
     }
 
-    private fun initializeViewData() {
-        rangeEnd = System.currentTimeMillis()
-        rangeStart = rangeEnd - TimeUnit.DAYS.toMillis(7)
-    }
-
     private suspend fun loadViewData(): CsvExportSettingsViewData {
-        val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
-
-        return CsvExportSettingsViewData(
-            rangeStartString = rangeStart
-                .let {
-                    timeMapper.formatDateTime(
-                        time = it,
-                        useMilitaryTime = useMilitaryTime,
-                        showSeconds = false,
-                    )
-                },
-            rangeEndString = rangeEnd
-                .let {
-                    timeMapper.formatDateTime(
-                        time = it,
-                        useMilitaryTime = useMilitaryTime,
-                        showSeconds = false,
-                    )
-                },
+        return viewDataInteractor.getViewData(
+            rangeLength = rangeLength,
+            range = getRange(),
         )
     }
 

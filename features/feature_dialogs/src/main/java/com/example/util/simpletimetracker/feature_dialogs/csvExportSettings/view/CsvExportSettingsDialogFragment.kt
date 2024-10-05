@@ -1,23 +1,30 @@
 package com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.view
 
-import com.example.util.simpletimetracker.feature_dialogs.databinding.CsvExportSettingsFragmentBinding as Binding
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.dialog.DataExportSettingsDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
-import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.core.extension.findListener
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.createFilterAdapterDelegate
+import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.viewData.CsvExportSettingsViewData
 import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.viewModel.CsvExportSettingsViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.util.simpletimetracker.feature_dialogs.databinding.CsvExportSettingsFragmentBinding as Binding
 
 @AndroidEntryPoint
 class CsvExportSettingsDialogFragment :
@@ -29,6 +36,14 @@ class CsvExportSettingsDialogFragment :
 
     private val viewModel: CsvExportSettingsViewModel by viewModels()
 
+    private val filterSelectionAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createFilterAdapterDelegate(
+                onClick = viewModel::onFilterClick,
+                onRemoveClick = {},
+            ),
+        )
+    }
     private val params: DataExportSettingDialogParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = DataExportSettingDialogParams(),
     )
@@ -37,44 +52,55 @@ class CsvExportSettingsDialogFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        when (context) {
-            is DataExportSettingsDialogListener -> {
-                dialogListener = context
-                return
-            }
-            is AppCompatActivity -> {
-                context.getAllFragments()
-                    .firstOrNull { it is DataExportSettingsDialogListener && it.isResumed }
-                    ?.let { dialogListener = it as? DataExportSettingsDialogListener }
-            }
-        }
+        dialogListener = context.findListener()
     }
 
     override fun initDialog() {
         setSkipCollapsed()
     }
 
+    override fun initUi() {
+        binding.rvCsvExportSettingsFilters.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.CENTER
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = filterSelectionAdapter
+        }
+    }
+
     override fun initUx(): Unit = with(binding) {
         fieldCsvExportSettingsTimeStarted.setOnClick(viewModel::onRangeStartClick)
         fieldCsvExportSettingsTimeEnded.setOnClick(viewModel::onRangeEndClick)
-        btnCsvExportSettingsRange.setOnClick(viewModel::onExportRangeClick)
-        btnCsvExportSettingsAll.setOnClick(viewModel::onExportAllClick)
+        btnCsvExportSettingsRange.setOnClick(viewModel::onExportClick)
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
         extra = params
-        viewData.observe(viewLifecycleOwner) { viewData ->
-            binding.tvCsvExportSettingsTimeStarted.text = viewData.rangeStartString
-            binding.tvCsvExportSettingsTimeEnded.text = viewData.rangeEndString
-        }
-        dataExportSettingsResult.observeOnce(viewLifecycleOwner) { params ->
-            dialogListener?.onDataExportSettingsSelected(params)
-            dismiss()
-        }
+        viewData.observe(::updateViewDataState)
+        dataExportSettingsResult.observeOnce(viewLifecycleOwner, ::onResult)
     }
 
     override fun onDateTimeSet(timestamp: Long, tag: String?) {
         viewModel.onDateTimeSet(timestamp, tag)
+    }
+
+    private fun updateViewDataState(
+        viewData: CsvExportSettingsViewData,
+    ) = with(binding) {
+        filterSelectionAdapter.replace(viewData.filters)
+        tvCsvExportSettingsTimeStarted.text = viewData.rangeStartString
+        tvCsvExportSettingsTimeStarted.setTextColor(viewData.textColor)
+        tvCsvExportSettingsTimeEnded.text = viewData.rangeEndString
+        tvCsvExportSettingsTimeEnded.setTextColor(viewData.textColor)
+    }
+
+    private fun onResult(
+        params: DataExportSettingsResult
+    ) {
+        dialogListener?.onDataExportSettingsSelected(params)
+        dismiss()
     }
 
     companion object {

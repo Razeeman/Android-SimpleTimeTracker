@@ -215,8 +215,6 @@
     <string name="color_selection_adjust_color_hint">Sesuaikan warna</string>
     <string name="color_selection_final_color_hint">Warna akhir</string>
 
-    <string name="csv_export_settings_range">Rentang</string>
-    <string name="csv_export_settings_all">Semua</string>
     <string name="csv_export_settings_hint">Pilih rentang waktu atau ekspor semua rekor</string>
 
     <string name="schedule_exact_alarms">Setelan sistem harus diaktifkan untuk aplikasi ini agar dapat menjadwalkan alarm yang tepat</string>

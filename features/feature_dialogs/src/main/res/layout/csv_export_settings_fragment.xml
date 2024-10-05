@@ -27,6 +27,17 @@
         android:textColor="?appTextHintColor"
         app:layout_constraintTop_toBottomOf="@id/ivCsvExportSettingsArrow" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCsvExportSettingsFilters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="10dp"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/tvCsvExportSettingsHint"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_filter_layout" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/fieldCsvExportSettingsTimeStarted"
         style="@style/InputFieldCardDialog"
@@ -34,10 +45,10 @@
         android:layout_height="@dimen/input_field_height"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="2dp"
         app:layout_constraintEnd_toStartOf="@id/fieldCsvExportSettingsTimeEnded"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCsvExportSettingsHint">
+        app:layout_constraintTop_toBottomOf="@id/rvCsvExportSettingsFilters">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCsvExportSettingsTimeStarted"
@@ -45,11 +56,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?appInputFieldBorderDialog"
+            android:gravity="center"
             android:maxLines="1"
             app:autoSizeMaxTextSize="16sp"
             app:autoSizeMinTextSize="1sp"
             app:autoSizeTextType="uniform"
-            tools:text="15.02.2020 07:35" />
+            tools:text="Mar 12 2021 12:21" />
 
     </androidx.cardview.widget.CardView>
 
@@ -58,12 +70,12 @@
         style="@style/InputFieldCardDialog"
         android:layout_width="0dp"
         android:layout_height="@dimen/input_field_height"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/fieldCsvExportSettingsTimeStarted"
-        app:layout_constraintTop_toBottomOf="@id/tvCsvExportSettingsHint">
+        app:layout_constraintTop_toBottomOf="@id/rvCsvExportSettingsFilters">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCsvExportSettingsTimeEnded"
@@ -71,42 +83,68 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?appInputFieldBorderDialog"
+            android:gravity="center"
             android:maxLines="1"
             app:autoSizeMaxTextSize="16sp"
             app:autoSizeMinTextSize="1sp"
             app:autoSizeTextType="uniform"
-            tools:text="15.02.2020 11:58" />
+            tools:text="Mar 12 2021 12:21" />
 
     </androidx.cardview.widget.CardView>
+
+    <Space
+        android:id="@+id/spaceCsvExportSettingsTimeStarted"
+        android:layout_width="12dp"
+        android:layout_height="4dp"
+        app:layout_constraintBottom_toTopOf="@id/fieldCsvExportSettingsTimeStarted"
+        app:layout_constraintStart_toStartOf="@id/fieldCsvExportSettingsTimeStarted" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCsvExportSettingsTimeStartedHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?appDialogBackground"
+        android:paddingHorizontal="4dp"
+        android:text="@string/change_record_date_time_start"
+        android:textColor="?appTextHintColor"
+        android:textSize="11sp"
+        app:autoSizeTextType="none"
+        app:layout_constraintStart_toEndOf="@id/spaceCsvExportSettingsTimeStarted"
+        app:layout_constraintTop_toTopOf="@id/spaceCsvExportSettingsTimeStarted" />
+
+    <Space
+        android:id="@+id/spaceCsvExportSettingsTimeEnded"
+        android:layout_width="12dp"
+        android:layout_height="4dp"
+        app:layout_constraintBottom_toTopOf="@id/fieldCsvExportSettingsTimeEnded"
+        app:layout_constraintStart_toStartOf="@id/fieldCsvExportSettingsTimeEnded" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCsvExportSettingsTimeEndedHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?appDialogBackground"
+        android:paddingHorizontal="4dp"
+        android:text="@string/change_record_date_time_end"
+        android:textColor="?appTextHintColor"
+        android:textSize="11sp"
+        app:autoSizeTextType="none"
+        app:layout_constraintStart_toEndOf="@id/spaceCsvExportSettingsTimeEnded"
+        app:layout_constraintTop_toTopOf="@id/spaceCsvExportSettingsTimeEnded" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCsvExportSettingsRange"
         style="@style/AppButton"
         android:layout_width="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="6dp"
-        android:ellipsize="marquee"
-        android:paddingHorizontal="0dp"
-        android:singleLine="true"
-        android:text="@string/csv_export_settings_range"
-        app:layout_constraintEnd_toStartOf="@id/btnCsvExportSettingsAll"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fieldCsvExportSettingsTimeStarted" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCsvExportSettingsAll"
-        style="@style/AppButton"
-        android:layout_width="0dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
         android:layout_marginEnd="10dp"
         android:ellipsize="marquee"
         android:paddingHorizontal="0dp"
         android:singleLine="true"
-        android:text="@string/csv_export_settings_all"
+        android:text="@string/ok"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnCsvExportSettingsRange"
-        app:layout_constraintTop_toBottomOf="@id/fieldCsvExportSettingsTimeStarted" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fieldCsvExportSettingsTimeStarted"
+        app:layout_goneMarginTop="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

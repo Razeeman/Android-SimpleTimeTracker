@@ -215,8 +215,6 @@
     <string name="color_selection_adjust_color_hint">התאם צבע</string>
     <string name="color_selection_final_color_hint">צבע סופי</string>
 
-    <string name="csv_export_settings_range">טווח</string>
-    <string name="csv_export_settings_all">הכל</string>
     <string name="csv_export_settings_hint">בחר טווח זמן או ייצא את כל הרשומות</string>
 
     <string name="schedule_exact_alarms">הגדרת מערכת צריכה להיות מופעלת עבור יישום זה כדי לתזמן התראות מדויקות</string>
@@ -416,6 +414,7 @@
     <string name="message_import_complete">ייבוא הושלם</string>
     <string name="message_import_complete_hint">רשומות נוספו: %s</string>
     <string name="message_import_error">שגיאת ייבוא</string>
+    <string name="message_action_share">לַחֲלוֹק</string>
     <string name="message_automatic_backup_error">אירעה שגיאה בגיבוי אוטומטי.</string>
     <string name="message_automatic_export_error">אירעה שגיאה בייצוא אוטומטי.</string>
     <string name="message_automatic_error_hint">נסה לבחור מיקום אחר</string>

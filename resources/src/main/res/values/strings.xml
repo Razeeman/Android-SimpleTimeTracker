@@ -215,8 +215,6 @@
     <string name="color_selection_adjust_color_hint">Adjust color</string>
     <string name="color_selection_final_color_hint">Final color</string>
 
-    <string name="csv_export_settings_range">Range</string>
-    <string name="csv_export_settings_all">All</string>
     <string name="csv_export_settings_hint">Select time range or export all records</string>
 
     <string name="schedule_exact_alarms">System setting should be enabled for this app in order to schedule exact alarms</string>

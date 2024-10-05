@@ -215,8 +215,6 @@
     <string name="color_selection_adjust_color_hint">रंग समायोजित करें</string>
     <string name="color_selection_final_color_hint">अंतिम रंग</string>
 
-    <string name="csv_export_settings_range">सीमा</string>
-    <string name="csv_export_settings_all">सभी</string>
     <string name="csv_export_settings_hint">समय सीमा का चयन करें या सभी रिकॉर्ड निर्यात करें</string>
 
     <string name="schedule_exact_alarms">सटीक अलार्म शेड्यूल करने के लिए इस ऐप के लिए सिस्टम सेटिंग सक्षम होनी चाहिए</string>

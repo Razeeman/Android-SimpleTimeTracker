@@ -11,12 +11,5 @@ data class DataExportSettingDialogParams(
 @Parcelize
 data class DataExportSettingsResult(
     val tag: String,
-    val range: Range? = null,
-) : Parcelable {
-
-    @Parcelize
-    data class Range(
-        val rangeStart: Long,
-        val rangeEnd: Long,
-    ) : Parcelable
-}
+    val range: RangeLengthParams,
+) : Parcelable

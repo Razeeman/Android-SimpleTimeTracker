@@ -1,8 +1,12 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
+import com.example.util.simpletimetracker.core.extension.toModel
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.extension.flip
+import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.model.BackupOptionsData
+import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsBackupViewDataInteractor
@@ -16,6 +20,8 @@ class SettingsBackupViewModelDelegate @Inject constructor(
     private val router: Router,
     private val settingsBackupViewDataInteractor: SettingsBackupViewDataInteractor,
     private val settingsFileWorkDelegate: SettingsFileWorkDelegate,
+    private val timeMapper: TimeMapper,
+    private val prefsInteractor: PrefsInteractor,
 ) : ViewModelDelegate() {
 
     private var parent: SettingsParent? = null
@@ -72,12 +78,22 @@ class SettingsBackupViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDataExportSettingsSelected(data: DataExportSettingsResult) {
-        when (data.tag) {
-            CSV_EXPORT_DIALOG_TAG -> settingsFileWorkDelegate.onCsvExport()
-            ICS_EXPORT_DIALOG_TAG -> settingsFileWorkDelegate.onIcsExport()
+    fun onDataExportSettingsSelected(data: DataExportSettingsResult) = delegateScope.launch {
+        val rangeLength = data.range.toModel()
+        val range = if (rangeLength !is RangeLength.All) {
+            timeMapper.getRangeStartAndEnd(
+                rangeLength = data.range.toModel(),
+                shift = 0,
+                firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
+                startOfDayShift = prefsInteractor.getStartOfDayShift(),
+            )
+        } else {
+            null
         }
-        settingsFileWorkDelegate.onDataExportSettingsSelected(data)
+        when (data.tag) {
+            CSV_EXPORT_DIALOG_TAG -> settingsFileWorkDelegate.onCsvExport(range)
+            ICS_EXPORT_DIALOG_TAG -> settingsFileWorkDelegate.onIcsExport(range)
+        }
     }
 
     private fun onCustomizeClick() {

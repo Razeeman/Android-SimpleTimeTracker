@@ -215,8 +215,6 @@
     <string name="color_selection_adjust_color_hint">Rengi ayarlayın</string>
     <string name="color_selection_final_color_hint">Sonuç renk</string>
 
-    <string name="csv_export_settings_range">Tarih aralığı</string>
-    <string name="csv_export_settings_all">Tümü</string>
     <string name="csv_export_settings_hint">Tarih aralığı seçin veya tüm kayıtları dışa aktarın</string>
 
     <string name="schedule_exact_alarms">Kesin alarmları programlamak için bu uygulama için sistem ayarı etkinleştirilmelidir</string>

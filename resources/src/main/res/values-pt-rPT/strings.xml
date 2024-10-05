@@ -215,8 +215,6 @@
     <string name="color_selection_adjust_color_hint">Ajustar cor</string>
     <string name="color_selection_final_color_hint">Cor final</string>
 
-    <string name="csv_export_settings_range">Período</string>
-    <string name="csv_export_settings_all">Tudo</string>
     <string name="csv_export_settings_hint">Selecionar o intervalo de tempo ou exportar todos os registos</string>
 
     <string name="schedule_exact_alarms">Para agendar alarmes exatos, a definição do sistema deve ser ativada para esta aplicação</string>

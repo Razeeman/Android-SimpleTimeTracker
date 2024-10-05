@@ -26,7 +26,6 @@ import com.example.util.simpletimetracker.navigation.params.action.OpenFileParam
 import com.example.util.simpletimetracker.navigation.params.action.ShareFileParams
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
-import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.PartialRestoreParams
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
@@ -55,7 +54,6 @@ class SettingsFileWorkDelegate @Inject constructor(
 
     var partialBackupRestoreData: PartialBackupRestoreData? = null
     var partialBackupRestoreDataSelectable: PartialBackupRestoreData? = null
-    private var dataExportSettingsResult: DataExportSettingsResult? = null
     private var saveOptionsData: BackupOptionsData.Save? = null
     private var restoreOptionsData: BackupOptionsData.Restore? = null
 
@@ -104,14 +102,12 @@ class SettingsFileWorkDelegate @Inject constructor(
         )
     }
 
-    fun onDataExportSettingsSelected(data: DataExportSettingsResult) {
-        dataExportSettingsResult = data
-    }
-
-    fun onCsvExport() {
+    fun onCsvExport(
+        range: Range?,
+    ) {
         requestFileWork(
             requestCode = RequestCode.REQUEST_CODE_CREATE_FILE,
-            work = ::onSaveCsvFile,
+            work = { onSaveCsvFile(it, range) },
             params = CreateFileParams(
                 fileName = "stt_records_${getFileNameTimeStamp()}.csv",
                 type = FILE_TYPE_CSV,
@@ -120,10 +116,12 @@ class SettingsFileWorkDelegate @Inject constructor(
         )
     }
 
-    fun onIcsExport() {
+    fun onIcsExport(
+        range: Range?,
+    ) {
         requestFileWork(
             requestCode = RequestCode.REQUEST_CODE_CREATE_FILE,
-            work = ::onSaveIcsFile,
+            work = { onSaveIcsFile(it, range) },
             params = CreateFileParams(
                 fileName = "stt_events_${getFileNameTimeStamp()}.ics",
                 type = FILE_TYPE_ICS,
@@ -352,12 +350,15 @@ class SettingsFileWorkDelegate @Inject constructor(
         }
     }
 
-    private fun onSaveCsvFile(uriString: String?) {
+    private fun onSaveCsvFile(
+        uriString: String?,
+        range: Range?,
+    ) {
         if (uriString == null) return
         executeFileWork(shareUriString = uriString) {
             csvExportInteractor.saveCsvFile(
                 uriString = uriString,
-                range = getRange(),
+                range = range,
             )
         }
     }
@@ -369,12 +370,15 @@ class SettingsFileWorkDelegate @Inject constructor(
         }
     }
 
-    private fun onSaveIcsFile(uriString: String?) {
+    private fun onSaveIcsFile(
+        uriString: String?,
+        range: Range?,
+    ) {
         if (uriString == null) return
         executeFileWork(shareUriString = uriString) {
             icsExportInteractor.saveIcsFile(
                 uriString = uriString,
-                range = getRange(),
+                range = range,
             )
         }
     }
@@ -455,15 +459,6 @@ class SettingsFileWorkDelegate @Inject constructor(
 
     private fun getFileNameTimeStamp(): String {
         return SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-    }
-
-    private fun getRange(): Range? {
-        return dataExportSettingsResult?.range?.let {
-            Range(
-                timeStarted = it.rangeStart,
-                timeEnded = it.rangeEnd,
-            )
-        }
     }
 
     private suspend fun loadAutomaticBackupEnabled(): Boolean {

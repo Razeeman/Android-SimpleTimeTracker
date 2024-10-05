@@ -8,7 +8,6 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.DateDividerViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.DayOfWeekViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.MultitaskRecordViewDataMapper
-import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -90,7 +89,6 @@ class RecordsFilterViewDataInteractor @Inject constructor(
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
     private val resourceRepo: ResourceRepo,
-    private val rangeViewDataMapper: RangeViewDataMapper,
 ) {
 
     fun getDefaultDateRange(): Range {

@@ -34,6 +34,11 @@ interface PrefsRepo {
     var statisticsDetailRangeCustomEnd: Long
     var statisticsDetailRangeLastDays: Int
 
+    var fileExportRange: Int
+    var fileExportRangeCustomStart: Long
+    var fileExportRangeCustomEnd: Long
+    var fileExportRangeLastDays: Int
+
     var keepStatisticsRange: Boolean
 
     var firstDayOfWeek: Int
