@@ -355,7 +355,7 @@ Pour activer ce comportement, ces applications doivent prendre en charge l\'envo
 Paramètres facultatifs pour le démarrage de l\'activité :<br/>
 <br/>
 <b>Extra</b> - \"%s\" avec commentaire d\'enregistrement.<br/>
-<b>Extra</b> - \"%s\" avec le nom d\'une balise d\'enregistrement.<br/>
+<b>Extra</b> - \"%s\" avec le nom d\'une balise d\'enregistrement. Ou une liste de noms de balises séparés par des virgules.<br/>
 <br/>
 Supplémentaire :<br/>
 <br/>
@@ -370,6 +370,8 @@ Supplémentaire :<br/>
 Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra automatiquement des événements au démarrage ou à l\'arrêt d\'une activité à des applications tierces pour un suivi automatisé avec ces paramètres:<br/>
 <br/>
 <b>Action</b> - \"%s\" ou \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>

@@ -355,7 +355,7 @@ Para ativar esta funcão, essas aplicações devem oferecer suporte ao envio de 
 Parâmetros opcionais para iniciar a atividade:<br/>
 <br/>
 <b>Extra</b> - \"%s\" com comentário de registo.<br/>
-<b>Extra</b> - \"%s\" com o nome da etiqueta.<br/>
+<b>Extra</b> - \"%s\" com o nome da etiqueta. Ou lista de nomes de tags separados por vírgula.<br/>
 <br/>
 Adicional:<br/>
 <br/>
@@ -370,6 +370,8 @@ Adicional:<br/>
 Se a definição <b>\"%s\"</b> estiver ativada, a aplicação enviará eventos na atividade iniciada ou interrompida para aplicações de terceiros para registo automatizado com estes parâmetros:<br/>
 <br/>
 <b>Action</b> - \"%s\" ou \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>

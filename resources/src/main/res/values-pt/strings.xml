@@ -355,7 +355,7 @@ Para habilitar esse comportamento, esses aplicativos devem oferecer suporte ao e
 Parâmetros opcionais para iniciar a atividade:<br/>
 <br/>
 <b>Extra</b> - \"%s\" com comentário de registro.<br/>
-<b>Extra</b> - \"%s\" com o nome de uma tag de registro.<br/>
+<b>Extra</b> - \"%s\" com o nome de uma tag de registro. Ou lista de nomes de tags separados por vírgula.<br/>
 <br/>
 Adicional:<br/>
 <br/>
@@ -370,6 +370,8 @@ Adicional:<br/>
 Se a configuração <b>\"%s\"</b> estiver habilitada, o aplicativo enviará eventos na atividade iniciada ou interrompida para aplicativos de terceiros para rastreamento automatizado com estes parâmetros:<br/>
 <br/>
 <b>Action</b> - \"%s\" ou \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>

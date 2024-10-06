@@ -355,7 +355,7 @@ Um dieses Verhalten zu aktivieren, sollten diese Anwendungen das Senden von \"In
 Optionale Parameter zum Starten der Aktivität:<br/>
 <br/>
 <b>Extra</b> - \"%s\" mit Datensatzkommentar.<br/>
-<b>Extra</b> - \"%s\" mit dem Namen eines Datensatz-Tags.<br/>
+<b>Extra</b> - \"%s\" mit dem Namen eines Datensatz-Tags. Oder durch Komma getrennte Liste von Tag-Namen.<br/>
 <br/>
 Zusätzlich:<br/>
 <br/>
@@ -370,6 +370,8 @@ Zusätzlich:<br/>
 Wenn die Einstellung <b>\"%s\"</b> aktiviert ist, sendet die App Ereignisse zu gestarteten oder gestoppten Aktivitäten an Anwendungen von Drittanbietern zur automatischen Verfolgung mit diesen Parametern:<br/>
 <br/>
 <b>Action</b> - \"%s\" oder \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>

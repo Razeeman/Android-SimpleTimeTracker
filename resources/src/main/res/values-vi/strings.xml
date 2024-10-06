@@ -355,7 +355,7 @@ Một số ví dụ về sự kiện:<br/>
 Các thông số tùy chọn để bắt đầu hoạt động:<br/>
 <br/>
 <b>Bổ sung</b> - \"%s\" có bản ghi nhận xét.<br/>
-<b>Bổ sung</b> - \"%s\" với tên của thẻ bản ghi.<br/>
+<b>Bổ sung</b> - \"%s\" với tên của thẻ bản ghi. Hoặc danh sách tên thẻ cách nhau bằng dấu phẩy.<br/>
 <br/>
 Ngoài ra:<br/>
 <br/>
@@ -370,6 +370,8 @@ Ngoài ra:<br/>
 Nếu thiết đặt <b>\"%s\"</b> được bật, ứng dụng sẽ gửi các sự kiện về hoạt động đã bắt đầu hoặc đã dừng tới các ứng dụng của bên thứ ba để theo dõi tự động với các thông số sau:<br/>
 <br/>
 <b>Hành động</b> - \"%s\" or \"%s\".<br/>
+<b>Bổ sung</b> - \"%s\".<br/>
+<b>Bổ sung</b> - \"%s\".<br/>
 <b>Bổ sung</b> - \"%s\".<br/>
 <b>Bổ sung</b> - \"%s\".<br/>
 <b>Bổ sung</b> - \"%s\".<br/>

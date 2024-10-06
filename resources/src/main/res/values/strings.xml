@@ -355,7 +355,7 @@ To enable this behaviour these applications should support sending \"intent\" or
 Optional parameters for starting activity:<br/>
 <br/>
 <b>Extra</b> - \"%s\" with record comment.<br/>
-<b>Extra</b> - \"%s\" with the name of a record tag.<br/>
+<b>Extra</b> - \"%s\" with the name of a record tag. Or list of tag names separated by comma.<br/>
 <br/>
 Additional:<br/>
 <br/>
@@ -370,6 +370,8 @@ Additional:<br/>
 If <b>\"%s\"</b> setting is enabled, app will send events on activity started or stopped to third-party applications for automated tracking with these parameters:<br/>
 <br/>
 <b>Action</b> - \"%s\" or \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>

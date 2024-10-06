@@ -355,7 +355,7 @@ Bu davranışı etkinleştirmek için bu uygulamaların şu parametrelerle \"int
 Aktiviteyi başlatmak için isteğe bağlı parametreler:<br/>
 <br/>
 <b>Extra</b> - Kayıt yorumuyla \"%s\".<br/>
-<b>Extra</b> - Bir kayıt etiketi adıyla \"%s\".<br/>
+<b>Extra</b> - Bir kayıt etiketi adıyla \"%s\". Veya virgülle ayrılmış etiket adlarının listesi.<br/>
 <br/>
 Ek olarak:<br/>
 <br/>
@@ -370,6 +370,8 @@ Ek olarak:<br/>
 <b>\"%s\"</b> ayarı etkinleştirilirse uygulama, başlatılan veya durdurulan etkinliklerle ilgili olayları otomatik izleme için şu parametrelerle üçüncü taraf uygulamalara gönderir:<br/>
 <br/>
 <b>Action</b> - \"%s\" veya \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>

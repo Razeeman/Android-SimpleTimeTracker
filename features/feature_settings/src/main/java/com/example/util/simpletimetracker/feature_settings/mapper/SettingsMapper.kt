@@ -22,6 +22,8 @@ import com.example.util.simpletimetracker.core.utils.EVENT_STOPPED_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
+import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_ICON
+import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_NOTE
 import com.example.util.simpletimetracker.core.utils.EXTRA_TIME_ENDED
 import com.example.util.simpletimetracker.core.utils.EXTRA_TIME_STARTED
 import com.example.util.simpletimetracker.domain.extension.indexesOf
@@ -150,6 +152,8 @@ class SettingsMapper @Inject constructor(
                 HelpText(EXTRA_ACTIVITY_NAME, canCopy = true),
                 HelpText(EXTRA_RECORD_COMMENT, canCopy = true),
                 HelpText(EXTRA_RECORD_TAG_NAME, canCopy = true),
+                HelpText(EXTRA_RECORD_TYPE_NOTE, canCopy = true),
+                HelpText(EXTRA_RECORD_TYPE_ICON, canCopy = true),
             ),
         )
 

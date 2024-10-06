@@ -355,7 +355,7 @@ Para habilitar este comportamiento, estas aplicaciones deben admitir el envío d
 Parámetros opcionales para iniciar la actividad:<br/>
 <br/>
 <b>Extra</b> - \"%s\" con comentario de registro.<br/>
-<b>Extra</b> - \"%s\" con el nombre de una etiqueta de registro.<br/>
+<b>Extra</b> - \"%s\" con el nombre de una etiqueta de registro. O lista de nombres de etiquetas separados por coma.<br/>
 <br/>
 Adicional:<br/>
 <br/>
@@ -370,6 +370,8 @@ Adicional:<br/>
 Si la configuración <b>\"%s\"</b> está habilitada, la aplicación enviará eventos sobre la actividad iniciada o detenida a aplicaciones de terceros para un seguimiento automático con estos parámetros:<br/>
 <br/>
 <b>Action</b> - \"%s\" o \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>

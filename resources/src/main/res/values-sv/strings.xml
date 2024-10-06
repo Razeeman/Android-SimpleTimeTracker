@@ -355,7 +355,7 @@ För att aktivera detta beteende behöver tredjepartsapplikationen stödja \"int
 Valfria parametrar för start av aktivitet:<br/>
 <br/>
 <b>Extra</b> - \"%s\" med händelsekommentar.<br/>
-<b>Extra</b> - \"%s\" med namnet på en händelsetagg.<br/>
+<b>Extra</b> - \"%s\" med namnet på en händelsetagg. Eller lista över taggnamn separerade med kommatecken.<br/>
 <br/>
 Ytterligare:<br/>
 <br/>
@@ -370,6 +370,8 @@ Ytterligare:<br/>
 Om inställningen <b>\"%s\"</b> är aktiverad, kommer appen att skicka händelser vid påbörjad eller stoppad aktivitet till tredjepartsprogram för automatisk spårning med dessa parametrar:<br/>
 <br/>
 <b>Action</b> - \"%s\" eller \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>

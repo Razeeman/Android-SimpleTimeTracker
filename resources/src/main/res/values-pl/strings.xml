@@ -355,7 +355,7 @@ Aby włączyć to zachowanie, te aplikacje powinny móc wysyłać tzw. \"intent\
 Opcjonalne parametry do rozpoczęcia aktywności:<br/>
 <br/>
 <b>Extra</b> - \"%s\" z komentarzem do rekordu<br/>
-<b>Extra</b> - \"%s\" z nazwą taga dla rekordu<br/>
+<b>Extra</b> - \"%s\" z nazwą taga dla rekordu. Lub lista nazw znaczników oddzielonych przecinkami.<br/>
 <br/>
 Dodatkowo:<br/>
 <br/>
@@ -370,6 +370,8 @@ Dodatkowo:<br/>
 Jeśli <b>\"%s\"</b> jest włączone, aplikacja będzie wysyłać zdarzenia dotyczące rozpoczęcia lub zatrzymania aktywności do innych aplikacji w celu automatycznego śledzenia z następującymi parametrami:<br/>
 <br/>
 <b>Action</b> - \"%s\" lub \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>

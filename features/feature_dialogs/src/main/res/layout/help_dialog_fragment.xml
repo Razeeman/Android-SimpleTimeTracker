@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         tools:text="Help title" />
 
-    <com.example.util.simpletimetracker.feature_views.DividerView
+    <com.example.util.simpletimetracker.feature_views.DividerFullView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

@@ -355,7 +355,7 @@ Per abilitare questo comportamento, queste applicazioni devono supportare l\'inv
 Parametri facoltativi per l\'avvio dell\'attività:<br/>
 <br/>
 <b>Extra</b> - \"%s\" con commento al record.<br/>
-<b>Extra</b> - \"%s\" con il nome di un tag record.<br/>
+<b>Extra</b> - \"%s\" con il nome di un tag record. Oppure un elenco di nomi di tag separati da virgola.<br/>
 <br/>
 Aggiuntivo:<br/>
 <br/>
@@ -370,6 +370,8 @@ Aggiuntivo:<br/>
 Se l\'impostazione <b>\"%s\"</b> è abilitata, l\'app invierà eventi sull\'attività avviata o interrotta ad applicazioni di terze parti per il tracciamento automatico con questi parametri:<br/>
 <br/>
 <b>Action</b> - \"%s\" o \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>

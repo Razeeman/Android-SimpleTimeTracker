@@ -355,7 +355,7 @@ Per activar aquest comportament, aquestes aplicacions han d\'admetre l\'enviamen
 Paràmetres opcionals per començar l\'activitat:<br/>
 <br/>
 <b>Extra</b> - \"%s\" amb el comentari de l\'enregistrament.<br/>
-<b>Extra</b> - \"%s\" amb el nom d\'una etiqueta.<br/>
+<b>Extra</b> - \"%s\" amb el nom d\'una etiqueta. O una llista de noms d\'etiquetes separats per comes.<br/>
 <br/>
 Addicional:<br/>
 <br/>
@@ -370,6 +370,8 @@ Addicional:<br/>
 Si la configuració <b>\"%s\"</b> és habilitada, l\'aplicació enviarà esdeveniments sobre l\'activitat començada o aturada a aplicacions de tercers per un seguiment automàtic amb aquests paràmetres:<br/>
 <br/>
 <b>Action</b> - \"%s\" or \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>

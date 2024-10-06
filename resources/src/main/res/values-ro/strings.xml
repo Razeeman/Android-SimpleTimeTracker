@@ -355,7 +355,7 @@ Pentru a activa aceste aspecte, aplicațiile trebuie sa permită trimiterea de \
 Parametri opționali pentru începerea activității:<br/>
 <br/>
 <b>Extra</b> - \"%s\" cu comentariu înregistrării.<br/>
-<b>Extra</b> - \"%s\" cu numele etichetei înregistrării.<br/>
+<b>Extra</b> - \"%s\" cu numele etichetei înregistrării. Sau o listă de nume de etichete separate prin virgulă.<br/>
 <br/>
 Adițional:<br/>
 <br/>
@@ -370,6 +370,8 @@ Adițional:<br/>
 Dacă opțiunea <b>\"%s\"</b> este activă, aplicația va trimite evenimente la pornirea sau oprirea unei activități către o aplicație terță parte pentru urmărirea automată cu următorii parametri:<br/>
 <br/>
 <b>Acțiune</b> - \"%s\" or \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>

@@ -355,7 +355,7 @@ Om dit gedrag mogelijk te maken, moeten deze toepassingen het verzenden van \"in
 Optionele parameters voor het starten van activiteit:<br/>
 <br/>
 <b>Extra</b> - \"%s\" met recordopmerking.<br/>
-<b>Extra</b> - \"%s\" met de naam van een recordtag.<br/>
+<b>Extra</b> - \"%s\" met de naam van een recordtag. Of een lijst met tagnamen, gescheiden door een komma.<br/>
 <br/>
 Aanvullend:<br/>
 <br/>
@@ -370,6 +370,8 @@ Aanvullend:<br/>
 Als de instelling <b>\"%s\"</b> is ingeschakeld, stuurt de app gebeurtenissen over gestarte of gestopte activiteit naar applicaties van derden voor automatische tracking met deze parameters:<br/>
 <br/>
 <b>Action</b> - \"%s\" of \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>

@@ -355,7 +355,7 @@ Untuk mengaktifkan perilaku ini, aplikasi ini harus mendukung pengiriman \"inten
 Parameter opsional untuk memulai aktivitas:<br/>
 <br/>
 <b>Extra</b> - \"%s\" dengan catatan komentar.<br/>
-<b>Extra</b> - \"%s\" dengan nama tag rekaman.<br/>
+<b>Extra</b> - \"%s\" dengan nama tag rekaman. Atau daftar nama tag dipisahkan dengan koma.<br/>
 <br/>
 Tambahan:<br/>
 <br/>
@@ -370,6 +370,8 @@ Tambahan:<br/>
 Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada aktivitas yang dimulai atau dihentikan ke aplikasi pihak ketiga untuk pelacakan otomatis dengan parameter berikut:<br/>
 <br/>
 <b>Action</b> - \"%s\" atau \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
+<b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
 <b>Extra</b> - \"%s\".<br/>
