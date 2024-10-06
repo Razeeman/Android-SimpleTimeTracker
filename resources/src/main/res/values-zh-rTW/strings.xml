@@ -524,6 +524,8 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="data_edit_change_add_tag">添加標籤</string>
     <string name="data_edit_change_remove_tag">刪除標籤</string>
     <string name="data_edit_button_change">改變</string>
+    <string name="data_edit_button_delete_records">刪除所有記錄</string>
+    <string name="data_edit_button_delete_data">刪除所有數據</string>
     <string name="data_edit_success_message">數據已更改</string>
 
     <!--  Records filter  -->

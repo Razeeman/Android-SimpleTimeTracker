@@ -45,7 +45,7 @@ class DataEditFragment :
         Binding::inflate
 
     override var insetConfiguration: InsetConfiguration =
-        InsetConfiguration.ApplyToView { binding.root }
+        InsetConfiguration.ApplyToView { binding.containerDataEdit }
 
     private val viewModel: DataEditViewModel by viewModels()
 
@@ -84,6 +84,8 @@ class DataEditFragment :
         checkboxDataEditDeleteRecords.setOnClick(viewModel::onDeleteRecordsClick)
         etDataEditChangeComment.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         btnDataEditChange.setOnClick(throttle(viewModel::onChangeClick))
+        btnDataEditDeleteRecords.setOnClick(throttle(viewModel::onDeleteAllRecordsClick))
+        btnDataEditDeleteData.setOnClick(throttle(viewModel::onDeleteDataClick))
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
@@ -95,6 +97,7 @@ class DataEditFragment :
             removeTagsState.observe(::setRemoveTagState)
             deleteRecordsState.observe(::setDeleteRecordsState)
             changeButtonState.observe(::setChangeButtonState)
+            disableButtons.observe { disableButtons() }
             keyboardVisibility.observe { visible ->
                 if (visible) {
                     showKeyboard(etDataEditChangeComment)
@@ -248,5 +251,11 @@ class DataEditFragment :
     ) = with(binding) {
         btnDataEditChange.isEnabled = state.enabled
         btnDataEditChange.backgroundTintList = ColorStateList.valueOf(state.backgroundTint)
+    }
+
+    private fun disableButtons() = with(binding) {
+        btnDataEditChange.isEnabled = false
+        btnDataEditDeleteRecords.isEnabled = false
+        btnDataEditDeleteData.isEnabled = false
     }
 }

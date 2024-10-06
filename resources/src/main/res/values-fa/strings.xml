@@ -524,6 +524,8 @@
     <string name="data_edit_change_add_tag">افزودن برچسب</string>
     <string name="data_edit_change_remove_tag">حذف برچسب</string>
     <string name="data_edit_button_change">تغییر</string>
+    <string name="data_edit_button_delete_records">حذف تمام رکوردها</string>
+    <string name="data_edit_button_delete_data">تمام داده ها را حذف کنید</string>
     <string name="data_edit_success_message">اطلاعات تغییر کردند</string>
 
     <!--  Records filter  -->

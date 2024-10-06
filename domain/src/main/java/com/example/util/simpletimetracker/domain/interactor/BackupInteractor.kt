@@ -44,7 +44,7 @@ class BackupInteractor @Inject constructor(
         return backupRepo.readBackupFile(uriString)
     }
 
-    private suspend fun doAfterRestore() {
+    suspend fun doAfterRestore() {
         notificationTypeInteractor.updateNotifications()
         notificationGoalTimeInteractor.checkAndReschedule()
         widgetInteractor.updateWidgets()

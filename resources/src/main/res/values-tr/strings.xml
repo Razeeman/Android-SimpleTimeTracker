@@ -524,6 +524,8 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="data_edit_change_add_tag">Etiket ekle</string>
     <string name="data_edit_change_remove_tag">Etiketleri kaldır</string>
     <string name="data_edit_button_change">Değiştirmek</string>
+    <string name="data_edit_button_delete_records">Tüm kayıtları sil</string>
+    <string name="data_edit_button_delete_data">Tüm verileri sil</string>
     <string name="data_edit_success_message">Veri değişti</string>
 
     <!--  Records filter  -->

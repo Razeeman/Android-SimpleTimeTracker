@@ -524,6 +524,8 @@ Examplu:<br/>
     <string name="data_edit_change_add_tag">Adaug etichete</string>
     <string name="data_edit_change_remove_tag">Șterge etichete</string>
     <string name="data_edit_button_change">Modifică</string>
+    <string name="data_edit_button_delete_records">Ștergeți toate înregistrările</string>
+    <string name="data_edit_button_delete_data">Ștergeți toate datele</string>
     <string name="data_edit_success_message">informații modificate</string>
 
     <!--  Records filter  -->

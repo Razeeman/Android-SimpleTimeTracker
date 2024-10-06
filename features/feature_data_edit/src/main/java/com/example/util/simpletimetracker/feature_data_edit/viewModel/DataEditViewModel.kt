@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.repo.DataEditRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_data_edit.R
@@ -42,7 +42,6 @@ class DataEditViewModel @Inject constructor(
     private val dataEditRepo: DataEditRepo,
     private val dataEditViewDataInteractor: DateEditViewDataInteractor,
     private val dataEditChangeInteractor: DateEditChangeInteractor,
-    private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
 ) : ViewModel() {
 
@@ -73,6 +72,7 @@ class DataEditViewModel @Inject constructor(
             initial
         }
     }
+    val disableButtons: LiveData<Unit> = SingleLiveEvent<Unit>()
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
 
     private var filters: List<RecordsFilter> = emptyList()
@@ -212,19 +212,22 @@ class DataEditViewModel @Inject constructor(
     }
 
     fun onChangeClick() {
-        router.navigate(
-            StandardDialogParams(
-                tag = ALERT_DIALOG_TAG,
-                message = resourceRepo.getString(R.string.archive_deletion_alert),
-                btnPositive = resourceRepo.getString(R.string.data_edit_button_change),
-                btnNegative = resourceRepo.getString(R.string.cancel),
-            ),
-        )
+        showAlert(tag = CHANGE_ALERT_DIALOG_TAG)
+    }
+
+    fun onDeleteAllRecordsClick() {
+        showAlert(tag = DELETE_RECORDS_ALERT_DIALOG_TAG)
+    }
+
+    fun onDeleteDataClick() {
+        showAlert(tag = DELETE_DATA_ALERT_DIALOG_TAG)
     }
 
     fun onPositiveDialogClick(tag: String?) {
-        if (tag == ALERT_DIALOG_TAG) {
-            onChangeConfirmed()
+        when (tag) {
+            CHANGE_ALERT_DIALOG_TAG -> onChangeConfirmed()
+            DELETE_RECORDS_ALERT_DIALOG_TAG -> onDeleteRecordsConfirmed()
+            DELETE_DATA_ALERT_DIALOG_TAG -> onDeleteDataConfirmed()
         }
     }
 
@@ -240,19 +243,48 @@ class DataEditViewModel @Inject constructor(
         updateSelectedRecordsCountViewData()
     }
 
-    private fun onChangeConfirmed() = viewModelScope.launch {
-        changeButtonState.set(dataEditViewDataInteractor.getChangeButtonState(false))
-        dataEditRepo.inProgress.set(true)
-
-        dataEditChangeInteractor.changeData(
-            typeState = typeState,
-            commentState = commentState,
-            addTagState = addTagState,
-            removeTagState = removeTagState,
-            deleteRecordsState = deleteState,
-            filters = filters,
+    private fun showAlert(tag: String) {
+        router.navigate(
+            StandardDialogParams(
+                tag = tag,
+                message = resourceRepo.getString(R.string.archive_deletion_alert),
+                btnPositive = resourceRepo.getString(R.string.ok),
+                btnNegative = resourceRepo.getString(R.string.cancel),
+            ),
         )
+    }
 
+    private fun onChangeConfirmed() {
+        doDataEditWork {
+            dataEditChangeInteractor.changeData(
+                typeState = typeState,
+                commentState = commentState,
+                addTagState = addTagState,
+                removeTagState = removeTagState,
+                deleteRecordsState = deleteState,
+                filters = filters,
+            )
+        }
+    }
+
+    private fun onDeleteRecordsConfirmed() {
+        doDataEditWork {
+            dataEditChangeInteractor.deleteAllRecords()
+        }
+    }
+
+    private fun onDeleteDataConfirmed() {
+        doDataEditWork {
+            dataEditChangeInteractor.deleteAllData()
+        }
+    }
+
+    private fun doDataEditWork(
+        work: suspend () -> Unit,
+    ) = viewModelScope.launch {
+        disableButtons.set(Unit)
+        dataEditRepo.inProgress.set(true)
+        work.invoke()
         dataEditRepo.inProgress.set(false)
         showMessage(R.string.data_edit_success_message)
         delay(100) // wait for dialog to close.
@@ -361,9 +393,11 @@ class DataEditViewModel @Inject constructor(
     }
 
     companion object {
-        private const val FILTER_TAG = "data_edit_filter_tag"
-        private const val ADD_TAGS_TAG = "data_edit_add_tags_tag"
-        private const val REMOVE_TAGS_TAG = "data_edit_remove_tags_tag"
-        private const val ALERT_DIALOG_TAG = "alert_dialog_tag"
+        private const val FILTER_TAG = "DATA_EDIT_FILTER_TAG"
+        private const val ADD_TAGS_TAG = "DATA_EDIT_ADD_TAGS_TAG"
+        private const val REMOVE_TAGS_TAG = "DATA_EDIT_REMOVE_TAGS_TAG"
+        private const val CHANGE_ALERT_DIALOG_TAG = "DATA_EDIT_CHANGE_ALERT_DIALOG_TAG"
+        private const val DELETE_RECORDS_ALERT_DIALOG_TAG = "DATA_EDIT_DELETE_RECORDS_ALERT_DIALOG_TAG"
+        private const val DELETE_DATA_ALERT_DIALOG_TAG = "DATA_EDIT_DELETE_DATA_ALERT_DIALOG_TAG"
     }
 }

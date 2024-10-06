@@ -524,6 +524,8 @@ Ví dụ:<br/>
     <string name="data_edit_change_add_tag">Thêm thẻ</string>
     <string name="data_edit_change_remove_tag">Xóa thẻ</string>
     <string name="data_edit_button_change">Thay đổi</string>
+    <string name="data_edit_button_delete_records">Xóa tất cả hồ sơ</string>
+    <string name="data_edit_button_delete_data">Xóa tất cả dữ liệu</string>
     <string name="data_edit_success_message">Dữ liệu đã thay đổi</string>
 
     <!--  Records filter  -->

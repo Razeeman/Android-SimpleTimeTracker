@@ -524,6 +524,8 @@ Exemplo:<br/>
     <string name="data_edit_change_add_tag">Adicionar etiquetas</string>
     <string name="data_edit_change_remove_tag">Remover etiquetas</string>
     <string name="data_edit_button_change">Alterar</string>
+    <string name="data_edit_button_delete_records">Excluir todos os registros</string>
+    <string name="data_edit_button_delete_data">Excluir todos os dados</string>
     <string name="data_edit_success_message">Dados alterados</string>
 
     <!--  Records filter  -->

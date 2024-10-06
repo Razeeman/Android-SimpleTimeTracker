@@ -2,6 +2,8 @@ package com.example.util.simpletimetracker.feature_data_edit.interactor
 
 import com.example.util.simpletimetracker.core.interactor.RecordFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.BackupInteractor
+import com.example.util.simpletimetracker.domain.interactor.ClearDataInteractor
 import com.example.util.simpletimetracker.domain.interactor.FilterSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
@@ -25,6 +27,8 @@ class DateEditChangeInteractor @Inject constructor(
     private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val filterSelectableTagsInteractor: FilterSelectableTagsInteractor,
+    private val clearDataInteractor: ClearDataInteractor,
+    private val backupInteractor: BackupInteractor,
 ) {
 
     suspend fun changeData(
@@ -113,5 +117,15 @@ class DateEditChangeInteractor @Inject constructor(
             }
             addRecordMediator.doAfterAdd(newTypeId)
         }
+    }
+
+    suspend fun deleteAllRecords() {
+        recordInteractor.removeAll()
+        backupInteractor.doAfterRestore()
+    }
+
+    suspend fun deleteAllData() {
+        clearDataInteractor.execute()
+        backupInteractor.doAfterRestore()
     }
 }

@@ -524,6 +524,8 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <string name="data_edit_change_add_tag">タグを追加する</string>
     <string name="data_edit_change_remove_tag">タグを削除</string>
     <string name="data_edit_button_change">変化</string>
+    <string name="data_edit_button_delete_records">すべてのレコードを削除する</string>
+    <string name="data_edit_button_delete_data">すべてのデータを削除する</string>
     <string name="data_edit_success_message">データが変更されました</string>
 
     <!--  Records filter  -->

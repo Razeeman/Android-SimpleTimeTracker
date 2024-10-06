@@ -29,19 +29,21 @@
         android:textColor="?colorSecondary"
         app:layout_constraintTop_toBottomOf="@id/tvDataEditTitle" />
 
-    <com.example.util.simpletimetracker.feature_views.DividerView
+    <com.example.util.simpletimetracker.feature_views.DividerFullView
         android:id="@+id/dividerDataEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tvDataEditHint" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsvDataEdit"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/btnDataEditChange"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dividerDataEdit">
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/containerDataEdit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -52,6 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="6dp"
                 android:padding="16dp"
                 android:text="@string/data_edit_select_records"
                 app:icon="@drawable/ic_list_24px"
@@ -323,16 +326,45 @@
 
             </androidx.cardview.widget.CardView>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDataEditChange"
+                style="@style/AppButtonActive"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="8dp"
+                android:text="@string/data_edit_button_change" />
+
+            <com.example.util.simpletimetracker.feature_views.DividerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDataEditDeleteRecords"
+                style="@style/AppButtonActive"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height_short"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="6dp"
+                android:background="@drawable/bg_rounded_gradient"
+                android:foreground="?selectableItemBackground"
+                android:text="@string/data_edit_button_delete_records"
+                app:backgroundTint="@null"
+                tools:ignore="UnusedAttribute" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDataEditDeleteData"
+                style="@style/AppButtonActive"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height_short"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="6dp"
+                android:background="@drawable/bg_rounded_gradient"
+                android:foreground="?selectableItemBackground"
+                android:text="@string/data_edit_button_delete_data"
+                app:backgroundTint="@null"
+                tools:ignore="UnusedAttribute" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnDataEditChange"
-        style="@style/AppButtonActive"
-        android:layout_width="match_parent"
-        android:layout_marginHorizontal="8dp"
-        android:text="@string/data_edit_button_change"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

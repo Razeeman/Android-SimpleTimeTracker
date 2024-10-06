@@ -524,6 +524,8 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="data_edit_change_add_tag">टैगों को जोड़ें</string>
     <string name="data_edit_change_remove_tag">टैग हटाएं</string>
     <string name="data_edit_button_change">परिवर्तन</string>
+    <string name="data_edit_button_delete_records">सभी रिकॉर्ड हटाएँ</string>
+    <string name="data_edit_button_delete_data">सारा डेटा हटा दें</string>
     <string name="data_edit_success_message">डेटा बदल गया</string>
 
     <!--  Records filter  -->

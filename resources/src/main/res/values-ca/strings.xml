@@ -524,6 +524,8 @@ Exemple:<br/>
     <string name="data_edit_change_add_tag">Afegeix etiquetes</string>
     <string name="data_edit_change_remove_tag">Elimina les etiquetes</string>
     <string name="data_edit_button_change">Canviar</string>
+    <string name="data_edit_button_delete_records">Suprimeix tots els registres</string>
+    <string name="data_edit_button_delete_data">Suprimeix totes les dades</string>
     <string name="data_edit_success_message">Dades canviades</string>
 
     <!--  Records filter  -->

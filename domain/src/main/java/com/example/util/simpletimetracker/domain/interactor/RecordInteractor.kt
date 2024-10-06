@@ -117,6 +117,11 @@ class RecordInteractor @Inject constructor(
         recordRepo.remove(id)
     }
 
+    suspend fun removeAll() {
+        recordToRecordTagRepo.clear()
+        recordRepo.clear()
+    }
+
     private suspend fun updateTags(
         recordId: Long,
         tagIds: List<Long>,

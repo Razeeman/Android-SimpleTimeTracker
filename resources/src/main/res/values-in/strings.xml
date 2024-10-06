@@ -524,6 +524,8 @@ Contoh:<br/>
     <string name="data_edit_change_add_tag">Tambahkan tanda</string>
     <string name="data_edit_change_remove_tag">Hapus tag</string>
     <string name="data_edit_button_change">Mengubah</string>
+    <string name="data_edit_button_delete_records">Hapus semua catatan</string>
+    <string name="data_edit_button_delete_data">Hapus semua data</string>
     <string name="data_edit_success_message">Data berubah</string>
 
     <!--  Records filter  -->

@@ -24,6 +24,7 @@
     <dimen name="color_icon_recycler_margin">8dp</dimen>
 
     <dimen name="button_height">58dp</dimen>
+    <dimen name="button_height_short">46dp</dimen>
     <dimen name="button_corner_radius">8dp</dimen>
 
     <dimen name="widget_universal_corner_radius">16dp</dimen>

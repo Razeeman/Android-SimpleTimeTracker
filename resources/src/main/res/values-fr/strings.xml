@@ -524,6 +524,8 @@ Exemple:<br/>
     <string name="data_edit_change_add_tag">Ajouter des balises</string>
     <string name="data_edit_change_remove_tag">Supprimer les balises</string>
     <string name="data_edit_button_change">Changement</string>
+    <string name="data_edit_button_delete_records">Supprimer tous les enregistrements</string>
+    <string name="data_edit_button_delete_data">Supprimer toutes les données</string>
     <string name="data_edit_success_message">Données modifiées</string>
 
     <!--  Records filter  -->

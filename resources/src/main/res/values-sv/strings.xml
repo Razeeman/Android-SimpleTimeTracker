@@ -524,6 +524,8 @@ Exempel:<br/>
     <string name="data_edit_change_add_tag">Lägg till taggar</string>
     <string name="data_edit_change_remove_tag">Ta bort taggar</string>
     <string name="data_edit_button_change">Förändra</string>
+    <string name="data_edit_button_delete_records">Radera alla poster</string>
+    <string name="data_edit_button_delete_data">Radera all data</string>
     <string name="data_edit_success_message">Data har ändrats</string>
 
     <!--  Records filter  -->
