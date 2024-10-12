@@ -8,6 +8,7 @@ class RemoveRunningRecordMediator @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val notificationActivityInteractor: NotificationActivityInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
@@ -21,6 +22,7 @@ class RemoveRunningRecordMediator @Inject constructor(
     suspend fun removeWithRecordAdd(
         runningRecord: RunningRecord,
         updateWidgets: Boolean = true,
+        updateNotificationSwitch: Boolean = true,
     ) {
         val durationToIgnore = prefsInteractor.getIgnoreShortRecordsDuration()
         val duration = TimeUnit.MILLISECONDS
@@ -35,16 +37,24 @@ class RemoveRunningRecordMediator @Inject constructor(
             tagIds = runningRecord.tagIds,
             comment = runningRecord.comment,
         )
-        remove(runningRecord.id, updateWidgets)
+        remove(
+            typeId = runningRecord.id,
+            updateWidgets = updateWidgets,
+            updateNotificationSwitch = updateNotificationSwitch
+        )
         pomodoroStopInteractor.checkAndStop(runningRecord.id)
     }
 
     suspend fun remove(
         typeId: Long,
-        updateWidgets: Boolean,
+        updateWidgets: Boolean = true,
+        updateNotificationSwitch: Boolean = true,
     ) {
         runningRecordInteractor.remove(typeId)
         notificationTypeInteractor.checkAndHide(typeId)
+        if (updateNotificationSwitch) {
+            notificationActivitySwitchInteractor.updateNotification()
+        }
         notificationInactivityInteractor.checkAndSchedule()
         // Cancel if no activity tracked.
         val runningRecordIds = runningRecordInteractor.getAll().map { it.id }

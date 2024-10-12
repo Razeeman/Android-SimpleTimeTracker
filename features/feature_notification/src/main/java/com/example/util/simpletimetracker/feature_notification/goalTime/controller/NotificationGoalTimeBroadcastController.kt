@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_notification.goalTime.controller
 
+import com.example.util.simpletimetracker.domain.interactor.NotificationActivitySwitchInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
@@ -15,6 +16,7 @@ class NotificationGoalTimeBroadcastController @Inject constructor(
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
 ) {
 
     fun onGoalTimeReminder(
@@ -27,6 +29,7 @@ class NotificationGoalTimeBroadcastController @Inject constructor(
                 val typeId = idData.value
                 widgetInteractor.updateSingleWidgets(typeIds = listOf(typeId))
                 notificationTypeInteractor.checkAndShow(typeId = typeId)
+                notificationActivitySwitchInteractor.updateNotification()
             }
         }
     }
@@ -36,6 +39,7 @@ class NotificationGoalTimeBroadcastController @Inject constructor(
             reschedule()
             widgetInteractor.updateWidgets(listOf(WidgetType.RECORD_TYPE))
             notificationTypeInteractor.updateNotifications()
+            notificationActivitySwitchInteractor.updateNotification()
         }
     }
 

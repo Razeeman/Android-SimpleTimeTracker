@@ -21,6 +21,8 @@ enum class SettingsBlock {
     NotificationsCollapse,
     NotificationsShow,
     NotificationsShowControls,
+    NotificationsWithSwitch,
+    NotificationsWithSwitchHide,
     NotificationsInactivity,
     NotificationsInactivityRecurrent,
     NotificationsInactivityDoNotDisturbStart,

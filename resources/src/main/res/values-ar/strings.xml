@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">إظهار إشعارات المؤقت</string>
     <string name="settings_show_notifications_hint">إظهار اﻹشعارات عند تشغيل المؤقت.</string>
     <string name="settings_show_notifications_controls">تفعيل إمكانية تبديل النشاط من اﻹشعار</string>
+    <string name="settings_show_notification_with_switch">إظهار الإخطار مع مفتاح النشاط</string>
+    <string name="settings_show_notification_with_switch_hint">يمكن استخدامه أيضًا لتبديل الأنشطة من شاشة القفل.</string>
+    <string name="settings_show_notification_with_switch_hide">إخفاء وقت ظهور إشعار المؤقت</string>
     <string name="settings_keep_statistics_range">حافظ على نطاق الإحصائيات</string>
     <string name="settings_keep_statistics_range_hint">في حال التفعيل، ستفتح الإحصائيات التفصيلية بنفس النطاق الزمني المحدد في الإحصائيات.</string>
     <string name="settings_start_of_day">توقيت بداية اليوم</string>

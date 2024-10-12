@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">Arată notificările cronometrului</string>
     <string name="settings_show_notifications_hint">Arată notificări când cronometrul este pornit.</string>
     <string name="settings_show_notifications_controls">Permite comutarea activităților din notificări</string>
+    <string name="settings_show_notification_with_switch">Afișați notificarea cu comutatorul de activitate</string>
+    <string name="settings_show_notification_with_switch_hint">Poate fi folosit și pentru a comuta activitățile de pe ecranul de blocare.</string>
+    <string name="settings_show_notification_with_switch_hide">Ascundeți când este afișată notificarea temporizatorului</string>
     <string name="settings_keep_statistics_range">Pastreză intervalul în statistici</string>
     <string name="settings_keep_statistics_range_hint">Dacă este activat, statisticile detaliate vor fi deschise cu același interval în statistici.</string>
     <string name="settings_start_of_day">Modifică începutul zilei</string>

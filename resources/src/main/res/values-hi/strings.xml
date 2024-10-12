@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">टाइमर नोटिफिकेशन दिखाएं</string>
     <string name="settings_show_notifications_hint">जब टाइमर चल रहे हों तो सूचनाएं दिखाएं।</string>
     <string name="settings_show_notifications_controls">अधिसूचना से गतिविधि स्विचिंग सक्षम करें</string>
+    <string name="settings_show_notification_with_switch">गतिविधि स्विच के साथ अधिसूचना दिखाएं</string>
+    <string name="settings_show_notification_with_switch_hint">लॉक स्क्रीन से गतिविधियों को स्विच करने के लिए भी इसका उपयोग किया जा सकता है।</string>
+    <string name="settings_show_notification_with_switch_hide">टाइमर अधिसूचना दिखाए जाने पर छिपाएँ</string>
     <string name="settings_keep_statistics_range">सांख्यिकी सीमा रखें</string>
     <string name="settings_keep_statistics_range_hint">यदि चालू किए गए विस्तृत आँकड़े सांख्यिकी में चयनित एक ही समय सीमा के साथ खोले जाएंगे।</string>
     <string name="settings_start_of_day">दिन की शिफ्ट शुरुआत</string>

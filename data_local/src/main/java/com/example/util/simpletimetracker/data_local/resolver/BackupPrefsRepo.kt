@@ -51,6 +51,8 @@ import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companio
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_GOALS_SEPARATELY
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_NOTIFICATIONS
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_NOTIFICATIONS_CONTROLS
+import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_NOTIFICATION_WITH_SWITCH
+import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_NOTIFICATION_WITH_SWITCH_HIDE
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_RECORDS_CALENDAR
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_RECORD_TAG_SELECTION
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES
@@ -173,6 +175,8 @@ class BackupPrefsRepo @Inject constructor(
             PrefsProcessor(KEY_ALLOW_MULTITASKING, ::allowMultitasking),
             PrefsProcessor(KEY_SHOW_NOTIFICATIONS, ::showNotifications),
             PrefsProcessor(KEY_SHOW_NOTIFICATIONS_CONTROLS, ::showNotificationsControls),
+            PrefsProcessor(KEY_SHOW_NOTIFICATION_WITH_SWITCH, ::showNotificationWithSwitch),
+            PrefsProcessor(KEY_SHOW_NOTIFICATION_WITH_SWITCH_HIDE, ::showNotificationWithSwitchHide),
             PrefsProcessor(KEY_INACTIVITY_REMINDER_DURATION, ::inactivityReminderDuration),
             PrefsProcessor(KEY_INACTIVITY_REMINDER_RECURRENT, ::inactivityReminderRecurrent),
             PrefsProcessor(KEY_INACTIVITY_REMINDER_DND_START, ::inactivityReminderDoNotDisturbStart),

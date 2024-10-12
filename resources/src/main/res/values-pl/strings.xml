@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">Pokaż powiadomienia timera</string>
     <string name="settings_show_notifications_hint">Pokaż powiadomienia, gdy liczniki czasu są uruchomione.</string>
     <string name="settings_show_notifications_controls">Włącz przełączanie aktywności z poziomu powiadomień</string>
+    <string name="settings_show_notification_with_switch">Pokaż powiadomienie za pomocą przełącznika aktywności</string>
+    <string name="settings_show_notification_with_switch_hint">Można go również używać do przełączania czynności z ekranu blokady.</string>
+    <string name="settings_show_notification_with_switch_hide">Ukryj, gdy wyświetlane jest powiadomienie timera</string>
     <string name="settings_keep_statistics_range">Zachowaj zakres statystyk</string>
     <string name="settings_keep_statistics_range_hint">Jeśli ta opcja jest włączona, zostaną otwarte szczegółowe statystyki dla tego samego okresu, jaki został wybrany w statystykach.</string>
     <string name="settings_start_of_day">Przesuń początek dnia</string>

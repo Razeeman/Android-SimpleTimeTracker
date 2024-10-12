@@ -106,7 +106,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     fun onDeleteClick() {
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
-            removeRunningRecordMediator.remove(extra.id, updateWidgets = true)
+            removeRunningRecordMediator.remove(extra.id)
             showMessage(R.string.change_running_record_removed)
             router.back()
         }

@@ -28,6 +28,8 @@ import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_notification.R
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.interactor.GetNotificationActivitySwitchControlsInteractor
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsParams
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeParams
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
@@ -44,12 +46,10 @@ class NotificationTypeInteractorImpl @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val timeMapper: TimeMapper,
-    private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val resourceRepo: ResourceRepo,
     private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
     private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
-    private val recordTagViewDataMapper: RecordTagViewDataMapper,
-    private val completeTypesStateInteractor: CompleteTypesStateInteractor,
+    private val getNotificationActivitySwitchControlsInteractor: GetNotificationActivitySwitchControlsInteractor,
 ) : NotificationTypeInteractor {
 
     override suspend fun checkAndShow(
@@ -61,7 +61,6 @@ class NotificationTypeInteractorImpl @Inject constructor(
         if (!prefsInteractor.getShowNotifications()) return
 
         val recordType = recordTypeInteractor.get(typeId)
-        val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val runningRecord = runningRecordInteractor.get(typeId)
         val recordTags = recordTagInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -94,7 +93,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
             emptyList()
         }
         val controls = if (showControls) {
-            val runningRecords = runningRecordInteractor.getAll()
+            val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
             val goals = filterGoalsByDayOfWeekInteractor.execute(
                 goals = recordTypeGoalInteractor.getAllTypeGoals(),
                 range = range,
@@ -103,13 +102,14 @@ class NotificationTypeInteractorImpl @Inject constructor(
             val allDailyCurrents = if (goals.isNotEmpty()) {
                 getCurrentRecordsDurationInteractor.getAllDailyCurrents(
                     typeIds = recordTypes.keys.toList(),
-                    runningRecords = runningRecords,
+                    runningRecords = runningRecordInteractor.getAll(),
                 )
             } else {
                 // No goals - no need to calculate durations.
                 emptyMap()
             }
-            getControls(
+            getNotificationActivitySwitchControlsInteractor.getControls(
+                hintIsVisible = true,
                 isDarkTheme = isDarkTheme,
                 types = recordTypes.values.toList(),
                 showRepeatButton = showRepeatButton,
@@ -121,7 +121,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 allDailyCurrents = allDailyCurrents,
             )
         } else {
-            NotificationTypeParams.Controls.Disabled
+            NotificationControlsParams.Disabled
         }
 
         show(
@@ -173,7 +173,8 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 // No goals - no need to calculate durations.
                 emptyMap()
             }
-            getControls(
+            getNotificationActivitySwitchControlsInteractor.getControls(
+                hintIsVisible = true,
                 isDarkTheme = isDarkTheme,
                 types = recordTypes.values.toList(),
                 showRepeatButton = showRepeatButton,
@@ -181,7 +182,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 allDailyCurrents = allDailyCurrents,
             )
         } else {
-            NotificationTypeParams.Controls.Disabled
+            NotificationControlsParams.Disabled
         }
 
         runningRecords
@@ -221,7 +222,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         showSeconds: Boolean,
-        controls: NotificationTypeParams.Controls,
+        controls: NotificationControlsParams,
     ) {
         if (recordType == null) return
 
@@ -247,89 +248,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
                 .orEmpty(),
             stopButton = resourceRepo.getString(R.string.notification_record_type_stop),
             controls = controls,
-            controlsHint = resourceRepo.getString(R.string.running_records_empty),
         ).let(notificationTypeManager::show)
-    }
-
-    private fun getControls(
-        isDarkTheme: Boolean,
-        types: List<RecordType>,
-        showRepeatButton: Boolean,
-        typesShift: Int = 0,
-        tags: List<RecordTag> = emptyList(),
-        tagsShift: Int = 0,
-        selectedTypeId: Long? = null,
-        goals: Map<Long, List<RecordTypeGoal>>,
-        allDailyCurrents: Map<Long, GetCurrentRecordsDurationInteractor.Result>,
-    ): NotificationTypeParams.Controls {
-        val typesMap = types.associateBy { it.id }
-
-        val repeatButtonViewData = if (showRepeatButton) {
-            val viewData = recordTypeViewDataMapper.mapToRepeatItem(
-                numberOfCards = 0,
-                isDarkTheme = isDarkTheme,
-            )
-            NotificationTypeParams.Type(
-                id = REPEAT_BUTTON_ITEM_ID,
-                icon = viewData.iconId,
-                color = viewData.color,
-                isChecked = null,
-                isComplete = false,
-            ).let(::listOf)
-        } else {
-            emptyList()
-        }
-
-        val typesViewData = types
-            .filter { !it.hidden }
-            .map { type ->
-                NotificationTypeParams.Type(
-                    id = type.id,
-                    icon = type.icon.let(iconMapper::mapIcon),
-                    color = type.color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
-                    isChecked = recordTypeViewDataMapper.mapGoalCheckmark(
-                        type = type,
-                        goals = goals,
-                        allDailyCurrents = allDailyCurrents,
-                    ),
-                    isComplete = type.id in completeTypesStateInteractor.notificationTypeIds,
-                )
-            }
-
-        val tagsViewData = tags
-            .filter { !it.archived }
-            .map { tag ->
-                NotificationTypeParams.Tag(
-                    id = tag.id,
-                    text = tag.name,
-                    color = recordTagViewDataMapper.mapColor(
-                        tag = tag,
-                        types = typesMap,
-                    ).let { colorMapper.mapToColorInt(it, isDarkTheme) },
-                )
-            }
-            .let {
-                if (it.isNotEmpty()) {
-                    val untagged = NotificationTypeParams.Tag(
-                        id = 0L,
-                        text = R.string.change_record_untagged.let(resourceRepo::getString),
-                        color = colorMapper.toUntrackedColor(isDarkTheme),
-                    ).let(::listOf)
-                    untagged + it
-                } else {
-                    it
-                }
-            }
-        return NotificationTypeParams.Controls.Enabled(
-            types = repeatButtonViewData + typesViewData,
-            typesShift = typesShift,
-            tags = tagsViewData,
-            tagsShift = tagsShift,
-            controlIconPrev = RecordTypeIcon.Image(R.drawable.arrow_left),
-            controlIconNext = RecordTypeIcon.Image(R.drawable.arrow_right),
-            controlIconColor = colorMapper.toInactiveColor(isDarkTheme),
-            selectedTypeId = selectedTypeId,
-        )
     }
 
     private fun getNotificationText(

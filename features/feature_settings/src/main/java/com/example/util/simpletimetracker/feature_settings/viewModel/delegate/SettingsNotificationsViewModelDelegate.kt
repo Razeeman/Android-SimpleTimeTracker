@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.core.interactor.CheckNotificationsPerm
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.interactor.NotificationActivityInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationActivitySwitchInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationInactivityInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -26,6 +27,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
     private val notificationTypeInteractor: NotificationTypeInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val notificationActivityInteractor: NotificationActivityInteractor,
+    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
     private val checkExactAlarmPermissionInteractor: CheckExactAlarmPermissionInteractor,
     private val checkNotificationsPermissionInteractor: CheckNotificationsPermissionInteractor,
     private val settingsNotificationsViewDataInteractor: SettingsNotificationsViewDataInteractor,
@@ -56,6 +58,8 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
             SettingsBlock.NotificationsSystemSettings -> onSystemSettingsClicked()
             SettingsBlock.NotificationsShow -> onShowNotificationsClicked()
             SettingsBlock.NotificationsShowControls -> onShowNotificationsControlsClicked()
+            SettingsBlock.NotificationsWithSwitch -> onShowNotificationWithSwitchClicked()
+            SettingsBlock.NotificationsWithSwitchHide -> onShowNotificationWithSwitchHideClicked()
             SettingsBlock.NotificationsInactivityRecurrent -> onInactivityReminderRecurrentClicked()
             SettingsBlock.NotificationsActivityRecurrent -> onActivityReminderRecurrentClicked()
             else -> {
@@ -86,6 +90,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
             prefsInteractor.setShowNotifications(newValue)
             parent?.updateContent()
             notificationTypeInteractor.updateNotifications()
+            notificationActivitySwitchInteractor.updateNotification()
         }
 
         delegateScope.launch {
@@ -106,6 +111,35 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
             prefsInteractor.setShowNotificationsControls(newValue)
             parent?.updateContent()
             notificationTypeInteractor.updateNotifications()
+            notificationActivitySwitchInteractor.updateNotification()
+        }
+    }
+
+    private fun onShowNotificationWithSwitchClicked() {
+        fun updateValue(newValue: Boolean) = delegateScope.launch {
+            prefsInteractor.setShowNotificationWithSwitch(newValue)
+            parent?.updateContent()
+            notificationActivitySwitchInteractor.updateNotification()
+        }
+
+        delegateScope.launch {
+            if (prefsInteractor.getShowNotificationWithSwitch()) {
+                updateValue(false)
+            } else {
+                checkNotificationsPermissionInteractor.execute(
+                    onEnabled = { updateValue(true) },
+                    onDisabled = { updateValue(false) },
+                )
+            }
+        }
+    }
+
+    private fun onShowNotificationWithSwitchHideClicked() {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getShowNotificationWithSwitchHide()
+            prefsInteractor.setShowNotificationWithSwitchHide(newValue)
+            parent?.updateContent()
+            notificationActivitySwitchInteractor.updateNotification()
         }
     }
 

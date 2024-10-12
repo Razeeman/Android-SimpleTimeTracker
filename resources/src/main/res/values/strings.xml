@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">Show timer notifications</string>
     <string name="settings_show_notifications_hint">Show notifications when timers are running.</string>
     <string name="settings_show_notifications_controls">Enable activity switching from notification</string>
+    <string name="settings_show_notification_with_switch">Show notification with activity switch</string>
+    <string name="settings_show_notification_with_switch_hint">Can also be used to switch activities from lock screen.</string>
+    <string name="settings_show_notification_with_switch_hide">Hide when timer notification is shown</string>
     <string name="settings_keep_statistics_range">Keep statistics range</string>
     <string name="settings_keep_statistics_range_hint">If enabled detailed statistics will be opened with the same time range selected in statistics.</string>
     <string name="settings_start_of_day">Shift start of the day</string>

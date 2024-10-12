@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">Mostrar notificações de timer</string>
     <string name="settings_show_notifications_hint">Mostrar notificações quando timers estiverem em execução.</string>
     <string name="settings_show_notifications_controls">Habilitar troca de atividade da notificação</string>
+    <string name="settings_show_notification_with_switch">Mostrar notificação com alternância de atividade</string>
+    <string name="settings_show_notification_with_switch_hint">Também pode ser usado para alternar atividades na tela de bloqueio.</string>
+    <string name="settings_show_notification_with_switch_hide">Ocultar quando a notificação do cronômetro é mostrada</string>
     <string name="settings_keep_statistics_range">Manter intervalo de estatísticas</string>
     <string name="settings_keep_statistics_range_hint">Se ativado, as estatísticas detalhadas serão abertas com o mesmo intervalo de tempo selecionado nas estatísticas.</string>
     <string name="settings_start_of_day">Mudar início do dia</string>

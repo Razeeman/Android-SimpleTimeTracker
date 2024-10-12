@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerNotificationMainContent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/containerNotificationMainContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
 
         <ImageView
             android:id="@+id/ivNotificationIcon"
@@ -92,143 +94,4 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tvNotificationControlsHint"
-        style="@style/TextAppearance.Compat.Notification.Info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/containerNotificationMainContent"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:textSize="11sp"
-        tools:text="@string/running_records_empty" />
-
-    <RelativeLayout
-        android:id="@+id/containerNotificationTypesPrev"
-        android:layout_width="@dimen/notification_controls_size"
-        android:layout_height="@dimen/notification_controls_size"
-        android:layout_alignTop="@id/containerNotificationTypes"
-        android:layout_alignParentStart="true"
-        android:padding="1dp"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <ImageView
-            android:id="@+id/ivNotificationTypesPrev"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:background="@drawable/unknown"
-            tools:ignore="ContentDescription" />
-
-        <Button
-            android:id="@+id/btnNotificationTypesPrev"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_widget_button" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/containerNotificationTypes"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/notification_controls_size"
-        android:layout_below="@id/tvNotificationControlsHint"
-        android:layout_marginHorizontal="4dp"
-        android:layout_toStartOf="@id/containerNotificationTypesNext"
-        android:layout_toEndOf="@id/containerNotificationTypesPrev"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
-    <RelativeLayout
-        android:id="@+id/containerNotificationTypesNext"
-        android:layout_width="@dimen/notification_controls_size"
-        android:layout_height="@dimen/notification_controls_size"
-        android:layout_alignTop="@id/containerNotificationTypes"
-        android:layout_alignParentEnd="true"
-        android:padding="1dp"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <ImageView
-            android:id="@+id/ivNotificationTypesNext"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:background="@drawable/unknown"
-            tools:ignore="ContentDescription" />
-
-        <Button
-            android:id="@+id/btnNotificationTypesNext"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_widget_button" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/containerNotificationTagsPrev"
-        android:layout_width="@dimen/notification_controls_size"
-        android:layout_height="@dimen/notification_controls_size"
-        android:layout_alignTop="@id/containerNotificationTags"
-        android:layout_alignParentStart="true"
-        android:padding="1dp"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <ImageView
-            android:id="@+id/ivNotificationTagsPrev"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:background="@drawable/unknown"
-            tools:ignore="ContentDescription" />
-
-        <Button
-            android:id="@+id/btnNotificationTagsPrev"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_widget_button" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/containerNotificationTags"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/notification_controls_size"
-        android:layout_below="@id/containerNotificationTypes"
-        android:layout_marginHorizontal="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_toStartOf="@id/containerNotificationTagsNext"
-        android:layout_toEndOf="@id/containerNotificationTagsPrev"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
-    <RelativeLayout
-        android:id="@+id/containerNotificationTagsNext"
-        android:layout_width="@dimen/notification_controls_size"
-        android:layout_height="@dimen/notification_controls_size"
-        android:layout_below="@id/containerNotificationTypes"
-        android:layout_alignTop="@id/containerNotificationTags"
-        android:layout_alignParentEnd="true"
-        android:padding="1dp"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <ImageView
-            android:id="@+id/ivNotificationTagsNext"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:background="@drawable/unknown"
-            tools:ignore="ContentDescription" />
-
-        <Button
-            android:id="@+id/btnNotificationTagsNext"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_widget_button" />
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</LinearLayout>

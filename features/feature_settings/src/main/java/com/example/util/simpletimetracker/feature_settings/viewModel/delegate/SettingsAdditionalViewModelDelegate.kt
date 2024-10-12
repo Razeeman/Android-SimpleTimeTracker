@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.domain.extension.flip
+import com.example.util.simpletimetracker.domain.interactor.NotificationActivitySwitchInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -31,6 +32,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val settingsMapper: SettingsMapper,
     private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val settingsAdditionalViewDataInteractor: SettingsAdditionalViewDataInteractor,
@@ -141,6 +143,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
             widgetInteractor.updateWidgets(listOf(WidgetType.RECORD_TYPE))
             notificationTypeInteractor.updateNotifications()
+            notificationActivitySwitchInteractor.updateNotification()
             notificationGoalTimeInteractor.checkAndReschedule()
             parent?.updateContent()
         }
@@ -259,6 +262,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
                 widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
                 widgetInteractor.updateWidgets(listOf(WidgetType.RECORD_TYPE))
                 notificationTypeInteractor.updateNotifications()
+                notificationActivitySwitchInteractor.updateNotification()
                 notificationGoalTimeInteractor.checkAndReschedule()
                 parent?.updateContent()
             }

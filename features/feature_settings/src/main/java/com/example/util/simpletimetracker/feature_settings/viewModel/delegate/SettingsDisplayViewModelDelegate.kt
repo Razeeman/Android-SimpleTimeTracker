@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.domain.extension.flip
+import com.example.util.simpletimetracker.domain.interactor.NotificationActivitySwitchInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PomodoroStopInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -32,6 +33,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val settingsMapper: SettingsMapper,
     private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val settingsDisplayViewDataInteractor: SettingsDisplayViewDataInteractor,
     private val pomodoroStopInteractor: PomodoroStopInteractor,
@@ -292,6 +294,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             val newValue = !prefsInteractor.getEnableRepeatButton()
             prefsInteractor.setEnableRepeatButton(newValue)
             notificationTypeInteractor.updateNotifications()
+            notificationActivitySwitchInteractor.updateNotification()
             parent?.updateContent()
         }
     }

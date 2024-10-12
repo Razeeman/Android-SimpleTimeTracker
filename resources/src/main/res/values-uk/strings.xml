@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">Показувати сповіщення таймера</string>
     <string name="settings_show_notifications_hint">Показувати сповіщення, коли таймери працюють.</string>
     <string name="settings_show_notifications_controls">Увімкнути перемикання активності зі сповіщень</string>
+    <string name="settings_show_notification_with_switch">Показати сповіщення з перемикачем активності</string>
+    <string name="settings_show_notification_with_switch_hint">Також можна використовувати для перемикання дій із заблокованого екрана.</string>
+    <string name="settings_show_notification_with_switch_hide">Приховати сповіщення таймера</string>
     <string name="settings_keep_statistics_range">Зберігайте діапазон статистики</string>
     <string name="settings_keep_statistics_range_hint">Якщо ввімкнено, буде відкрита детальна статистика з тим самим діапазоном часу, вибраним у статистиці.</string>
     <string name="settings_start_of_day">Зміщення початку дня</string>

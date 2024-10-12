@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">Mostrar notificaciones del temporizador</string>
     <string name="settings_show_notifications_hint">Mostrar notificaciones cuando el temporizador esté activo.</string>
     <string name="settings_show_notifications_controls">Habilitar el cambio de actividad desde la notificación</string>
+    <string name="settings_show_notification_with_switch">Mostrar notificación con cambio de actividad</string>
+    <string name="settings_show_notification_with_switch_hint">También se puede utilizar para cambiar de actividad desde la pantalla de bloqueo.</string>
+    <string name="settings_show_notification_with_switch_hide">Ocultar cuando se muestra la notificación del temporizador</string>
     <string name="settings_keep_statistics_range">Mantener rango de estadísticas</string>
     <string name="settings_keep_statistics_range_hint">Si está habilitado, se abrirán estadísticas detalladas con el mismo rango de tiempo seleccionado en estadísticas.</string>
     <string name="settings_start_of_day">Cambio de inicio del día</string>

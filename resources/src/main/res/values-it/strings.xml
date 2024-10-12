@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">Mostra le notifiche relative al timer.</string>
     <string name="settings_show_notifications_hint">Mostra le notifiche quando i timer sono in esecuzione.</string>
     <string name="settings_show_notifications_controls">Abilita il passaggio dell\'attività dalla notifica</string>
+    <string name="settings_show_notification_with_switch">Mostra notifica con cambio di attività</string>
+    <string name="settings_show_notification_with_switch_hint">Può essere utilizzato anche per cambiare attività dalla schermata di blocco.</string>
+    <string name="settings_show_notification_with_switch_hide">Nascondi quando viene visualizzata la notifica del timer</string>
     <string name="settings_keep_statistics_range">Mantieni l\'intervallo delle statistiche</string>
     <string name="settings_keep_statistics_range_hint">Se abilitato, le statistiche dettagliate verranno aperte con lo stesso intervallo di tempo selezionato nelle statistiche.</string>
     <string name="settings_start_of_day">Turno di inizio giornata</string>

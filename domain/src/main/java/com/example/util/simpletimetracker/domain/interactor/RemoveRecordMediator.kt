@@ -6,6 +6,7 @@ import javax.inject.Inject
 class RemoveRecordMediator @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val widgetInteractor: WidgetInteractor,
 ) {
@@ -17,6 +18,7 @@ class RemoveRecordMediator @Inject constructor(
 
     suspend fun doAfterRemove(typeId: Long) {
         notificationTypeInteractor.checkAndShow(typeId)
+        notificationActivitySwitchInteractor.updateNotification()
         notificationGoalTimeInteractor.checkAndReschedule(listOf(typeId))
         widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
         widgetInteractor.updateSingleWidgets(typeIds = listOf(typeId))

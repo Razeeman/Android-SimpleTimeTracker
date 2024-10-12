@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerNotificationMainContent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:id="@+id/ivNotificationActivitySwitchIcon"
+            android:layout_width="@dimen/notification_icon_size"
+            android:layout_height="@dimen/notification_icon_size"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            tools:background="@drawable/circle_drawable"
+            tools:backgroundTint="@color/red_400"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvNotificationActivitySwitchText"
+            style="@style/TextAppearance.Compat.Notification.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/ivNotificationActivitySwitchIcon"
+            tools:text="@string/notification_activity_switch" />
+
+    </RelativeLayout>
+
+</LinearLayout>

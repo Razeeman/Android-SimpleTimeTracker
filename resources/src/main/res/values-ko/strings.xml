@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">타이머 알림 표기</string>
     <string name="settings_show_notifications_hint">타이머 활성화시 알림창에 표시합니다.</string>
     <string name="settings_show_notifications_controls">알림창에서 활동 변경 활성화</string>
+    <string name="settings_show_notification_with_switch">활동 스위치로 알림 표시</string>
+    <string name="settings_show_notification_with_switch_hint">잠금 화면에서 활동을 전환하는 데에도 사용할 수 있습니다.</string>
+    <string name="settings_show_notification_with_switch_hide">타이머 알림이 표시되면 숨기기</string>
     <string name="settings_keep_statistics_range">통계 범위 유지</string>
     <string name="settings_keep_statistics_range_hint">활성화시 상세 통계가 같은 기간 범위를 가지게 됩니다.</string>
     <string name="settings_start_of_day">하루의 시작 시간 옮기기</string>

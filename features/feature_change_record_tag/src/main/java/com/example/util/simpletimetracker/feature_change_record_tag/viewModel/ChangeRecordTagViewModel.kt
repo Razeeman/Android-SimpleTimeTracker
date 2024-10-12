@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.NotificationActivitySwitchInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
@@ -51,6 +52,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     private val recordTypeToDefaultTagInteractor: RecordTypeToDefaultTagInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
     private val wearInteractor: WearInteractor,
     private val categoryViewDataMapper: CategoryViewDataMapper,
     private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
@@ -228,6 +230,7 @@ class ChangeRecordTagViewModel @Inject constructor(
             if (recordTagId != 0L) {
                 recordTagInteractor.archive(recordTagId)
                 notificationTypeInteractor.updateNotifications()
+                notificationActivitySwitchInteractor.updateNotification()
                 wearInteractor.update()
                 showArchivedMessage(R.string.change_record_tag_archived)
                 (keyboardVisibility as MutableLiveData).value = false
@@ -284,6 +287,7 @@ class ChangeRecordTagViewModel @Inject constructor(
                 saveTypes(addedId)
                 saveDefaultTypes(addedId)
                 notificationTypeInteractor.updateNotifications()
+                notificationActivitySwitchInteractor.updateNotification()
                 wearInteractor.update()
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
@@ -312,6 +316,7 @@ class ChangeRecordTagViewModel @Inject constructor(
             if (recordTagId != 0L) {
                 removeRecordTagMediator.remove(recordTagId)
                 notificationTypeInteractor.updateNotifications()
+                notificationActivitySwitchInteractor.updateNotification()
                 showMessage(R.string.archive_tag_deleted)
                 keyboardVisibility.set(false)
                 router.back()

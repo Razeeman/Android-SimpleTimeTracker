@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationActivity
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalCountInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalRangeEndInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationActivitySwitchInteractor
 import com.example.util.simpletimetracker.domain.interactor.PomodoroCycleNotificationInteractor
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.interactor.AutomaticBackupInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.repo.AutomaticBackupRepoImpl
@@ -19,6 +20,7 @@ import com.example.util.simpletimetracker.feature_notification.automaticExport.r
 import com.example.util.simpletimetracker.feature_notification.goalTime.interactor.NotificationGoalTimeInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.inactivity.interactor.NotificationInactivityInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.activity.interactor.NotificationActivityInteractorImpl
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.interactor.NotificationActivitySwitchInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.goalTime.interactor.NotificationGoalCountInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.goalTime.interactor.NotificationGoalRangeEndInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.pomodoro.interactor.PomodoroCycleNotificationInteractorImpl
@@ -60,6 +62,9 @@ interface NotificationModule {
 
     @Binds
     fun bindPomodoroCycleNotificationInteractor(impl: PomodoroCycleNotificationInteractorImpl): PomodoroCycleNotificationInteractor
+
+    @Binds
+    fun bindNotificationActivitySwitchInteractor(impl: NotificationActivitySwitchInteractorImpl): NotificationActivitySwitchInteractor
 
     @Binds
     fun bindAutomaticExportInteractor(impl: AutomaticExportInteractorImpl): AutomaticExportInteractor

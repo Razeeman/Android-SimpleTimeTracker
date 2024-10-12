@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.GetSelectableTagsInteractor
+import com.example.util.simpletimetracker.domain.interactor.NotificationActivitySwitchInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -15,6 +16,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordsUpdateInterac
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -28,6 +30,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordInteractor: RecordInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
     private val recordRepeatInteractor: RecordRepeatInteractor,
     private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
     private val recordsUpdateInteractor: RecordsUpdateInteractor,
@@ -55,17 +58,19 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         name: String,
     ) {
         val typeId = getTypeIdByName(name) ?: return
-        onActionActivityStop(typeId)
+        onActionActivityStop(typeId = typeId, fromControls = false)
     }
 
     suspend fun onActionActivityStop(
         typeId: Long,
+        fromControls: Boolean,
     ) {
         val runningRecord = runningRecordInteractor.get(typeId)
             ?: return // Not running.
 
         removeRunningRecordMediator.removeWithRecordAdd(
             runningRecord = runningRecord,
+            updateNotificationSwitch = !fromControls,
         )
     }
 
@@ -132,7 +137,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
     }
 
     suspend fun onActionTypeClick(
-        typeId: Long,
+        from: NotificationControlsManager.From,
         selectedTypeId: Long,
         typesShift: Int,
     ) {
@@ -140,10 +145,29 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
             recordRepeatInteractor.repeat()
             return
         }
-        val started = addRunningRecordMediator.tryStartTimer(selectedTypeId) {
-            notificationTypeInteractor.checkAndShow(
-                typeId = typeId,
+
+        // Switch controls are updated separately right from here,
+        // so no need to update after record change.
+        if (from is NotificationControlsManager.From.ActivitySwitch) {
+            if (runningRecordInteractor.get(selectedTypeId) != null) {
+                onActionActivityStop(
+                    typeId = selectedTypeId,
+                    fromControls = true,
+                )
+                update(from, typesShift)
+                return
+            }
+        }
+        val updateNotificationSwitch = from !is NotificationControlsManager.From.ActivitySwitch
+        val started = addRunningRecordMediator.tryStartTimer(
+            typeId = selectedTypeId,
+            updateNotificationSwitch = updateNotificationSwitch,
+        ) {
+            // Update to show tag selection.
+            update(
+                from = from,
                 typesShift = typesShift,
+                tagsShift = 0,
                 selectedTypeId = selectedTypeId,
             )
         }
@@ -151,27 +175,18 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
             val type = recordTypeInteractor.get(selectedTypeId)
             if (type?.defaultDuration.orZero() > 0) {
                 completeTypesStateInteractor.notificationTypeIds += selectedTypeId
-                notificationTypeInteractor.checkAndShow(
-                    typeId = typeId,
-                    typesShift = typesShift,
-                )
+                update(from, typesShift)
                 delay(500)
                 completeTypesStateInteractor.notificationTypeIds -= selectedTypeId
-                notificationTypeInteractor.checkAndShow(
-                    typeId = typeId,
-                    typesShift = typesShift,
-                )
+                update(from, typesShift)
             }
 
-            notificationTypeInteractor.checkAndShow(
-                typeId = typeId,
-                typesShift = typesShift,
-            )
+            update(from, typesShift)
         }
     }
 
     suspend fun onActionTagClick(
-        typeId: Long,
+        from: NotificationControlsManager.From,
         selectedTypeId: Long,
         tagId: Long,
         typesShift: Int,
@@ -180,11 +195,50 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
             typeId = selectedTypeId,
             comment = "",
             tagIds = listOfNotNull(tagId.takeUnless { it == 0L }),
+            updateNotificationSwitch = from !is NotificationControlsManager.From.ActivitySwitch,
         )
-        notificationTypeInteractor.checkAndShow(
-            typeId = typeId,
+        update(from, typesShift)
+    }
+
+    suspend fun onRequestUpdate(
+        from: NotificationControlsManager.From,
+        selectedTypeId: Long,
+        typesShift: Int,
+        tagsShift: Int,
+    ) {
+        update(
+            from = from,
             typesShift = typesShift,
+            tagsShift = tagsShift,
+            selectedTypeId = selectedTypeId,
         )
+    }
+
+    private suspend fun update(
+        from: NotificationControlsManager.From,
+        typesShift: Int,
+        tagsShift: Int = 0,
+        selectedTypeId: Long = 0,
+    ) {
+        when (from) {
+            is NotificationControlsManager.From.ActivityNotification -> {
+                val typeId = from.recordTypeId
+                if (typeId == 0L) return
+                notificationTypeInteractor.checkAndShow(
+                    typeId = from.recordTypeId,
+                    typesShift = typesShift,
+                    tagsShift = tagsShift,
+                    selectedTypeId = selectedTypeId,
+                )
+            }
+            is NotificationControlsManager.From.ActivitySwitch -> {
+                notificationActivitySwitchInteractor.updateNotification(
+                    typesShift = typesShift,
+                    tagsShift = tagsShift,
+                    selectedTypeId = selectedTypeId,
+                )
+            }
+        }
     }
 
     private suspend fun getTypeIdByName(name: String): Long? {

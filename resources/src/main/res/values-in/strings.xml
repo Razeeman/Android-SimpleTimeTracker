@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">Tampilkan notifikasi pewaktu</string>
     <string name="settings_show_notifications_hint">Tampilkan notifikasi saat pewaktu berjalan.</string>
     <string name="settings_show_notifications_controls">Aktifkan pengalihan aktivitas dari notifikasi</string>
+    <string name="settings_show_notification_with_switch">Tampilkan pemberitahuan dengan pengalih aktivitas</string>
+    <string name="settings_show_notification_with_switch_hint">Dapat juga digunakan untuk berpindah aktivitas dari layar kunci.</string>
+    <string name="settings_show_notification_with_switch_hide">Sembunyikan ketika pemberitahuan pengatur waktu ditampilkan</string>
     <string name="settings_keep_statistics_range">Pertahankan rentang statistik</string>
     <string name="settings_keep_statistics_range_hint">Jika diaktifkan, statistik terperinci akan dibuka dengan rentang waktu yang sama yang dipilih dalam statistik.</string>
     <string name="settings_start_of_day">Pergeseran awal hari</string>

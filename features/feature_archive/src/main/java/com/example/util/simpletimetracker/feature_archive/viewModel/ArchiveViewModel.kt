@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.interactor.NotificationActivitySwitchInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -32,6 +33,7 @@ class ArchiveViewModel @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val archiveViewDataInteractor: ArchiveViewDataInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val wearInteractor: WearInteractor,
@@ -92,6 +94,7 @@ class ArchiveViewModel @Inject constructor(
             }
 
             notificationTypeInteractor.updateNotifications()
+            notificationActivitySwitchInteractor.updateNotification()
             wearInteractor.update()
             updateViewData()
             showMessage(message)

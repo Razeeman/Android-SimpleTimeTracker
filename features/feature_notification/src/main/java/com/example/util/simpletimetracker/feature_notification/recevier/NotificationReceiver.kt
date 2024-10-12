@@ -19,24 +19,27 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_TIME_ENDED
 import com.example.util.simpletimetracker.core.utils.EXTRA_TIME_STARTED
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.activity.controller.NotificationActivityBroadcastController
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_STOP
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TAGS_NEXT
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TAGS_PREV
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TAG_CLICK
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TYPES_NEXT
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TYPES_PREV
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TYPE_CLICK
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_CONTROLS_FROM
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.controller.AutomaticBackupBroadcastController
 import com.example.util.simpletimetracker.feature_notification.automaticExport.controller.AutomaticExportBroadcastController
 import com.example.util.simpletimetracker.feature_notification.goalTime.controller.NotificationGoalTimeBroadcastController
 import com.example.util.simpletimetracker.feature_notification.inactivity.controller.NotificationInactivityBroadcastController
 import com.example.util.simpletimetracker.feature_notification.pomodoro.controller.NotificationPomodoroBroadcastController
 import com.example.util.simpletimetracker.feature_notification.recordType.controller.NotificationTypeBroadcastController
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_STOP
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TAGS_NEXT
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TAGS_PREV
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TAG_CLICK
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPES_NEXT
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPES_PREV
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPE_CLICK
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ARGS_SELECTED_TYPE_ID
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ARGS_TAGS_SHIFT
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ARGS_TAG_ID
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ARGS_TYPES_SHIFT
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ARGS_TYPE_ID
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_SELECTED_TYPE_ID
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TAGS_SHIFT
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TAG_ID
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TYPES_SHIFT
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TYPE_ID
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.mapper.NotificationControlsMapper
+import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPE_STOP
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -174,42 +177,53 @@ class NotificationReceiver : BroadcastReceiver() {
                     tagNames = tagNames,
                 )
             }
-            ACTION_NOTIFICATION_STOP -> {
+            ACTION_NOTIFICATION_TYPE_STOP  -> {
                 val typeId = intent.getLongExtra(ARGS_TYPE_ID, 0)
                 typeController.onActionActivityStop(typeId)
             }
-            ACTION_NOTIFICATION_TYPE_CLICK -> {
+            ACTION_NOTIFICATION_CONTROLS_STOP -> {
+                val from = intent.getIntExtra(ARGS_CONTROLS_FROM, 0)
+                val typeId = intent.getLongExtra(ARGS_TYPE_ID, 0)
+                typeController.onActionActivityStop(from, typeId)
+            }
+            ACTION_NOTIFICATION_CONTROLS_TYPE_CLICK -> {
+                val from = intent.getIntExtra(ARGS_CONTROLS_FROM, 0)
                 val typeId = intent.getLongExtra(ARGS_TYPE_ID, 0)
                 val selectedTypeId = intent.getLongExtra(ARGS_SELECTED_TYPE_ID, 0)
                 val typesShift = intent.getIntExtra(ARGS_TYPES_SHIFT, 0)
                 typeController.onActionTypeClick(
+                    from = from,
                     typeId = typeId,
                     selectedTypeId = selectedTypeId,
                     typesShift = typesShift,
                 )
             }
-            ACTION_NOTIFICATION_TYPES_PREV,
-            ACTION_NOTIFICATION_TYPES_NEXT,
-            ACTION_NOTIFICATION_TAGS_PREV,
-            ACTION_NOTIFICATION_TAGS_NEXT,
+            ACTION_NOTIFICATION_CONTROLS_TYPES_PREV,
+            ACTION_NOTIFICATION_CONTROLS_TYPES_NEXT,
+            ACTION_NOTIFICATION_CONTROLS_TAGS_PREV,
+            ACTION_NOTIFICATION_CONTROLS_TAGS_NEXT,
             -> {
+                val from = intent.getIntExtra(ARGS_CONTROLS_FROM, 0)
                 val typeId = intent.getLongExtra(ARGS_TYPE_ID, 0)
                 val selectedTypeId = intent.getLongExtra(ARGS_SELECTED_TYPE_ID, 0)
                 val typesShift = intent.getIntExtra(ARGS_TYPES_SHIFT, 0)
                 val tagsShift = intent.getIntExtra(ARGS_TAGS_SHIFT, 0)
                 typeController.onRequestUpdate(
+                    from = from,
                     typeId = typeId,
                     selectedTypeId = selectedTypeId,
                     typesShift = typesShift,
                     tagsShift = tagsShift,
                 )
             }
-            ACTION_NOTIFICATION_TAG_CLICK -> {
+            ACTION_NOTIFICATION_CONTROLS_TAG_CLICK -> {
+                val from = intent.getIntExtra(ARGS_CONTROLS_FROM, 0)
                 val typeId = intent.getLongExtra(ARGS_TYPE_ID, 0)
                 val selectedTypeId = intent.getLongExtra(ARGS_SELECTED_TYPE_ID, 0)
                 val tagId = intent.getLongExtra(ARGS_TAG_ID, 0)
                 val typesShift = intent.getIntExtra(ARGS_TYPES_SHIFT, 0)
                 typeController.onActionTagClick(
+                    from = from,
                     typeId = typeId,
                     selectedTypeId = selectedTypeId,
                     tagId = tagId,

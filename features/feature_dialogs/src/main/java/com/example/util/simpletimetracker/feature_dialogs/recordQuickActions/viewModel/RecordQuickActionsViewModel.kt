@@ -103,7 +103,7 @@ class RecordQuickActionsViewModel @Inject constructor(
                 // Do nothing, shouldn't be possible.
             }
             is Type.RecordRunning -> {
-                removeRunningRecordMediator.remove(params.id, updateWidgets = true)
+                removeRunningRecordMediator.remove(params.id)
                 showMessage(R.string.change_running_record_removed)
                 router.back()
             }

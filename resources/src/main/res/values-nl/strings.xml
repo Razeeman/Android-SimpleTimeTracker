@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">Timer-meldingen tonen</string>
     <string name="settings_show_notifications_hint">Toon meldingen wanneer timers lopen.</string>
     <string name="settings_show_notifications_controls">Schakel overschakelen van activiteit vanuit melding in</string>
+    <string name="settings_show_notification_with_switch">Toon melding met activiteitsschakelaar</string>
+    <string name="settings_show_notification_with_switch_hint">Kan ook worden gebruikt om van activiteit te wisselen vanaf het vergrendelscherm.</string>
+    <string name="settings_show_notification_with_switch_hide">Verbergen wanneer timermelding wordt weergegeven</string>
     <string name="settings_keep_statistics_range">Statistiekbereik behouden</string>
     <string name="settings_keep_statistics_range_hint">Indien ingeschakeld worden gedetailleerde statistieken geopend met hetzelfde tijdbereik geselecteerd in statistieken.</string>
     <string name="settings_start_of_day">Shift begin van de dag</string>

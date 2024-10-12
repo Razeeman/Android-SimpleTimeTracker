@@ -361,7 +361,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         deleteButtonEnabled.set(false)
         viewModelScope.launch {
             if (recordTypeId != 0L) {
-                removeRunningRecordMediator.remove(recordTypeId, updateWidgets = true)
+                removeRunningRecordMediator.remove(recordTypeId)
                 removeRecordTypeMediator.remove(recordTypeId)
                 notificationTypeInteractor.updateNotifications()
                 showMessage(R.string.archive_activity_deleted)

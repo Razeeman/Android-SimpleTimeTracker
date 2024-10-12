@@ -10,6 +10,7 @@ class BackupInteractor @Inject constructor(
     private val backupRepo: BackupRepo,
     private val widgetInteractor: WidgetInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val wearInteractor: WearInteractor,
 ) {
@@ -46,6 +47,7 @@ class BackupInteractor @Inject constructor(
 
     suspend fun doAfterRestore() {
         notificationTypeInteractor.updateNotifications()
+        notificationActivitySwitchInteractor.updateNotification()
         notificationGoalTimeInteractor.checkAndReschedule()
         widgetInteractor.updateWidgets()
         wearInteractor.update()

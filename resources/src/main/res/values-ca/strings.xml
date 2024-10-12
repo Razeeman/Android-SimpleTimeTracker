@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">Mostra notificacions del temporitzador</string>
     <string name="settings_show_notifications_hint">Mostra notificacions quan el temporitzador sigui actiu.</string>
     <string name="settings_show_notifications_controls">Activa el canvi d\'activitat des de la notificació</string>
+    <string name="settings_show_notification_with_switch">Mostra la notificació amb l\'interruptor d\'activitat</string>
+    <string name="settings_show_notification_with_switch_hint">També es pot utilitzar per canviar les activitats des de la pantalla de bloqueig.</string>
+    <string name="settings_show_notification_with_switch_hide">Amaga quan es mostri la notificació del temporitzador</string>
     <string name="settings_keep_statistics_range">Mantingues el rang d\'estadístiques</string>
     <string name="settings_keep_statistics_range_hint">Si és habilitat, les estadístiques detallades s\'obriran amb el mateix rang de temps seleccionat a les estadístiques</string>
     <string name="settings_start_of_day">Canvia l\'inici del dia</string>

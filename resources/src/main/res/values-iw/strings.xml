@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">הצג התראות טיימר</string>
     <string name="settings_show_notifications_hint">הצג התראות כאשר טיימרים פועלים.</string>
     <string name="settings_show_notifications_controls">אפשר החלפת פעילות מהתראה</string>
+    <string name="settings_show_notification_with_switch">הצג הודעה עם מתג פעילות</string>
+    <string name="settings_show_notification_with_switch_hint">ניתן להשתמש גם כדי להחליף פעילויות ממסך הנעילה.</string>
+    <string name="settings_show_notification_with_switch_hide">הסתר כאשר מוצגת הודעת טיימר</string>
     <string name="settings_keep_statistics_range">השאר טווח סטטיסטיקה</string>
     <string name="settings_keep_statistics_range_hint">אם מופעל סטטיסטיקה מפורטת תפתח עם אותו טווח הזמן שנבחר בסטטיסטיקה.</string>
     <string name="settings_start_of_day">הזז את תחילת היום</string>

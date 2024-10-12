@@ -16,6 +16,7 @@ class AddRunningRecordMediator @Inject constructor(
     private val addRecordMediator: AddRecordMediator,
     private val recordTypeToDefaultTagInteractor: RecordTypeToDefaultTagInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
+    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val notificationActivityInteractor: NotificationActivityInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
@@ -33,6 +34,7 @@ class AddRunningRecordMediator @Inject constructor(
      */
     suspend fun tryStartTimer(
         typeId: Long,
+        updateNotificationSwitch: Boolean = true,
         onNeedToShowTagSelection: suspend () -> Unit,
     ): Boolean {
         // Already running
@@ -42,7 +44,12 @@ class AddRunningRecordMediator @Inject constructor(
             onNeedToShowTagSelection()
             false
         } else {
-            startTimer(typeId, emptyList(), "")
+            startTimer(
+                typeId = typeId,
+                tagIds = emptyList(),
+                comment = "",
+                updateNotificationSwitch = updateNotificationSwitch,
+            )
             true
         }
     }
@@ -52,6 +59,7 @@ class AddRunningRecordMediator @Inject constructor(
         tagIds: List<Long>,
         comment: String,
         timeStarted: Long? = null,
+        updateNotificationSwitch: Boolean = true,
     ) {
         val rulesResult = processRules(
             typeId = typeId,
@@ -77,6 +85,7 @@ class AddRunningRecordMediator @Inject constructor(
                 comment = comment,
                 tagIds = actualTags,
                 timeStarted = timeStarted ?: System.currentTimeMillis(),
+                updateNotificationSwitch = updateNotificationSwitch,
             ),
         )
         // Show goal count only on timer start, otherwise it would show on change also.
@@ -99,6 +108,7 @@ class AddRunningRecordMediator @Inject constructor(
                 timeStarted = timeStarted,
                 comment = comment,
                 tagIds = tagIds,
+                updateNotificationSwitch = true,
             ),
         )
     }
@@ -124,6 +134,9 @@ class AddRunningRecordMediator @Inject constructor(
             ).let {
                 runningRecordInteractor.add(it)
                 notificationTypeInteractor.checkAndShow(params.typeId)
+                if (params.updateNotificationSwitch) {
+                    notificationActivitySwitchInteractor.updateNotification()
+                }
                 notificationInactivityInteractor.cancel()
                 // Schedule only on first activity start.
                 if (runningRecordInteractor.getAll().size == 1) notificationActivityInteractor.checkAndSchedule()
@@ -145,7 +158,10 @@ class AddRunningRecordMediator @Inject constructor(
             comment = params.comment,
             tagIds = params.tagIds,
         ).let {
-            addRecordMediator.add(it)
+            addRecordMediator.add(
+                record = it,
+                updateNotificationSwitch = params.updateNotificationSwitch,
+            )
         }
     }
 
@@ -215,5 +231,6 @@ class AddRunningRecordMediator @Inject constructor(
         val timeStarted: Long,
         val comment: String,
         val tagIds: List<Long>,
+        val updateNotificationSwitch: Boolean,
     )
 }

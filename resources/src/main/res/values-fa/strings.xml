@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">تایمر را در اعلان ها نمایش بده</string>
     <string name="settings_show_notifications_hint">هنگام در جریان بودن تایمر ها اعلان نشان بده</string>
     <string name="settings_show_notifications_controls">تغییر فعالیت از اعلان ها را فعال کن</string>
+    <string name="settings_show_notification_with_switch">نمایش اعلان با سوئیچ فعالیت</string>
+    <string name="settings_show_notification_with_switch_hint">همچنین می تواند برای تغییر فعالیت ها از صفحه قفل استفاده شود.</string>
+    <string name="settings_show_notification_with_switch_hide">هنگامی که اعلان تایمر نشان داده می شود پنهان شود</string>
     <string name="settings_keep_statistics_range">محدوده آماری را حفظ شود</string>
     <string name="settings_keep_statistics_range_hint">اگر فعال باشد آمار جزئی با همان محدوده آماری در صفحه آمارها باز می شود</string>
     <string name="settings_start_of_day">تغییر زمان شروع روز</string>

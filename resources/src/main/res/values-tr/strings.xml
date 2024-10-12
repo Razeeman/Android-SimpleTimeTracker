@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">Zamanlayıcı bildirimlerini göster</string>
     <string name="settings_show_notifications_hint">Zamanlayıcılar çalışırken bildirim göster.</string>
     <string name="settings_show_notifications_controls">Bildirimden etkinlik değiştirmeyi etkinleştir</string>
+    <string name="settings_show_notification_with_switch">Etkinlik anahtarıyla bildirimi göster</string>
+    <string name="settings_show_notification_with_switch_hint">Kilit ekranından etkinlikler arasında geçiş yapmak için de kullanılabilir.</string>
+    <string name="settings_show_notification_with_switch_hide">Zamanlayıcı bildirimi gösterildiğinde gizle</string>
     <string name="settings_keep_statistics_range">İstatistik aralığını koru</string>
     <string name="settings_keep_statistics_range_hint">Etkinleştirilirse, istatistiklerde seçilen aynı zaman aralığı ile ayrıntılı istatistikler açılır.</string>
     <string name="settings_start_of_day">Gün başlangıcı</string>

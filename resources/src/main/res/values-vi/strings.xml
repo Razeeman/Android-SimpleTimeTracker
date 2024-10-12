@@ -291,6 +291,9 @@
     <string name="settings_show_notifications">Hiển thị thông báo hẹn giờ</string>
     <string name="settings_show_notifications_hint">Hiển thị thông báo khi đồng hồ hẹn giờ đang chạy.</string>
     <string name="settings_show_notifications_controls">Cho phép chuyển đổi hoạt động từ thông báo</string>
+    <string name="settings_show_notification_with_switch">Hiển thị thông báo bằng nút chuyển hoạt động</string>
+    <string name="settings_show_notification_with_switch_hint">Cũng có thể được sử dụng để chuyển đổi hoạt động từ màn hình khóa.</string>
+    <string name="settings_show_notification_with_switch_hide">Ẩn khi thông báo hẹn giờ được hiển thị</string>
     <string name="settings_keep_statistics_range">Giữ phạm vi thống kê</string>
     <string name="settings_keep_statistics_range_hint">Nếu bật thống kê chi tiết sẽ được mở với cùng khoảng thời gian được chọn trong thống kê.</string>
     <string name="settings_start_of_day">Thay đổi đầu ngày</string>
