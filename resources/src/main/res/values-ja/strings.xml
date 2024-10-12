@@ -143,6 +143,7 @@
     <string name="change_record_type_name_hint">名称</string>
     <string name="change_record_type_new_icon_text_hint">新しいテキストを入力してください</string>
     <string name="change_record_type_color_hint">色</string>
+    <string name="change_record_favourite_colors_hint">好きな色</string>
     <string name="change_record_type_icon_image_hint">アイコン</string>
     <string name="change_record_type_icon_text_hint">文章</string>
     <string name="change_record_type_icon_emoji_hint">絵文字</string>

@@ -37,10 +37,12 @@ import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapt
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.color.createColorFavouriteAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorPaletteAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.createEmojiAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
@@ -90,6 +92,8 @@ class ChangeRecordTagFragment :
         BaseRecyclerAdapter(
             createColorAdapterDelegate(viewModel::onColorClick),
             createColorPaletteAdapterDelegate(viewModel::onColorPaletteClick),
+            createColorFavouriteAdapterDelegate(viewModel::onColorFavouriteClick),
+            createHintAdapterDelegate(),
         )
     }
     private val iconsAdapter: BaseRecyclerAdapter by lazy {

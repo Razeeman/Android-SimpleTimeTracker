@@ -143,6 +143,7 @@
     <string name="change_record_type_name_hint">이름을 입력하세요</string>
     <string name="change_record_type_new_icon_text_hint">텍스트를 입력하세요</string>
     <string name="change_record_type_color_hint">색</string>
+    <string name="change_record_favourite_colors_hint">좋아하는 색상</string>
     <string name="change_record_type_icon_image_hint">아이콘</string>
     <string name="change_record_type_icon_text_hint">텍스트</string>
     <string name="change_record_type_icon_emoji_hint">이모지</string>

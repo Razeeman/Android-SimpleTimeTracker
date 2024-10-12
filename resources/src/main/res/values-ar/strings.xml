@@ -143,6 +143,7 @@
     <string name="change_record_type_name_hint">إدخال اسم جديد</string>
     <string name="change_record_type_new_icon_text_hint">إدخال نص جديد</string>
     <string name="change_record_type_color_hint">اللون</string>
+    <string name="change_record_favourite_colors_hint">الألوان المفضلة</string>
     <string name="change_record_type_icon_image_hint">اﻷيقونة</string>
     <string name="change_record_type_icon_text_hint">نص</string>
     <string name="change_record_type_icon_emoji_hint">إيموجي</string>

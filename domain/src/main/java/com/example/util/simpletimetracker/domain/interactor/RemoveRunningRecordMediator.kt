@@ -40,7 +40,7 @@ class RemoveRunningRecordMediator @Inject constructor(
         remove(
             typeId = runningRecord.id,
             updateWidgets = updateWidgets,
-            updateNotificationSwitch = updateNotificationSwitch
+            updateNotificationSwitch = updateNotificationSwitch,
         )
         pomodoroStopInteractor.checkAndStop(runningRecord.id)
     }

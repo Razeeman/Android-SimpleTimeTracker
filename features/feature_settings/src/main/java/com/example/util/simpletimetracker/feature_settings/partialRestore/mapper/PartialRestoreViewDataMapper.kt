@@ -21,6 +21,7 @@ class PartialRestoreViewDataMapper @Inject constructor(
             PartialRestoreFilterType.Records -> R.string.shortcut_navigation_records
             PartialRestoreFilterType.ActivityFilters -> R.string.change_activity_filters_hint
             PartialRestoreFilterType.FavouriteComments -> R.string.change_record_favourite_comments_hint_long
+            PartialRestoreFilterType.FavouriteColors -> R.string.change_record_favourite_colors_hint
             PartialRestoreFilterType.FavouriteIcons -> R.string.change_record_favourite_icons_hint
             PartialRestoreFilterType.ComplexRules -> R.string.settings_complex_rules
         }.let(resourceRepo::getString)
@@ -53,6 +54,8 @@ class PartialRestoreViewDataMapper @Inject constructor(
                 .filter { it.key !in filters[PartialRestoreFilterType.ActivityFilters].orEmpty() },
             favouriteComments = data.favouriteComments
                 .filter { it.key !in filters[PartialRestoreFilterType.FavouriteComments].orEmpty() },
+            favouriteColors = data.favouriteColors
+                .filter { it.key !in filters[PartialRestoreFilterType.FavouriteColors].orEmpty() },
             favouriteIcon = data.favouriteIcon
                 .filter { it.key !in filters[PartialRestoreFilterType.FavouriteIcons].orEmpty() },
             goals = data.goals,

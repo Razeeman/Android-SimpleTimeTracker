@@ -38,7 +38,6 @@ import com.example.util.simpletimetracker.feature_notification.activitySwitch.ma
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TAG_ID
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TYPES_SHIFT
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TYPE_ID
-import com.example.util.simpletimetracker.feature_notification.activitySwitch.mapper.NotificationControlsMapper
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPE_STOP
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -177,7 +176,7 @@ class NotificationReceiver : BroadcastReceiver() {
                     tagNames = tagNames,
                 )
             }
-            ACTION_NOTIFICATION_TYPE_STOP  -> {
+            ACTION_NOTIFICATION_TYPE_STOP -> {
                 val typeId = intent.getLongExtra(ARGS_TYPE_ID, 0)
                 typeController.onActionActivityStop(typeId)
             }

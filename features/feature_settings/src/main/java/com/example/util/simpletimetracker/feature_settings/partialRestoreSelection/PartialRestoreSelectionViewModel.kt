@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.model.PartialBackupRestoreData
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
 import com.example.util.simpletimetracker.feature_base_adapter.complexRule.ComplexRuleViewData
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.EmojiViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
@@ -74,6 +75,10 @@ class PartialRestoreSelectionViewModel @Inject constructor(
             it.icon == item.emojiCodes
         }?.id ?: return
         addOrRemoveId(iconId)
+    }
+
+    fun onColorClick(item: ColorViewData) {
+        addOrRemoveId(item.colorId)
     }
 
     @Suppress("UNUSED_PARAMETER")

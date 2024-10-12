@@ -143,6 +143,7 @@
     <string name="change_record_type_name_hint">输入新名称</string>
     <string name="change_record_type_new_icon_text_hint">输入新文本</string>
     <string name="change_record_type_color_hint">颜色</string>
+    <string name="change_record_favourite_colors_hint">最喜欢的颜色</string>
     <string name="change_record_type_icon_image_hint">图标</string>
     <string name="change_record_type_icon_text_hint">文本</string>
     <string name="change_record_type_icon_emoji_hint">表情符号</string>

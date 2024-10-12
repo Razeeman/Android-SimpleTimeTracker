@@ -143,6 +143,7 @@
     <string name="change_record_type_name_hint">Введіть нове ім\'я</string>
     <string name="change_record_type_new_icon_text_hint">Введіть новий текст</string>
     <string name="change_record_type_color_hint">Колір</string>
+    <string name="change_record_favourite_colors_hint">Улюблені кольори</string>
     <string name="change_record_type_icon_image_hint">Іконка</string>
     <string name="change_record_type_icon_text_hint">Текст</string>
     <string name="change_record_type_icon_emoji_hint">Смайл</string>

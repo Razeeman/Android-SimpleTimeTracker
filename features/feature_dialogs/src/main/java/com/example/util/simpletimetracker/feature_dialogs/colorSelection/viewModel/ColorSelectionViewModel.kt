@@ -7,7 +7,9 @@ import androidx.core.graphics.green
 import androidx.core.graphics.red
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.BaseViewModel
+import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.domain.extension.padDuration
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.HSVUpdate
@@ -15,16 +17,18 @@ import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.R
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.viewData.ColorSelectionViewData
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ColorSelectionViewModel @Inject constructor() : ViewModel() {
+class ColorSelectionViewModel @Inject constructor() : BaseViewModel() {
 
     lateinit var extra: ColorSelectionDialogParams
 
-    val colorData: LiveData<ColorSelectionViewData> by lazy {
+    val colorData: LiveData<ColorSelectionViewData> by lazySuspend {
         initialize()
-        MutableLiveData(loadColorData())
+        loadColorData()
     }
     val colorSelected: LiveData<Int> = MutableLiveData()
 
@@ -35,6 +39,7 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
     private var colorHue: Float = 0f // 0..360
     private var colorSaturation: Float = 1f // 0..1
     private var colorValue: Float = 1f // 0..1
+    private var colorUpdateJob: Job? = null
 
     fun onHueChanged(hue: Float) {
         colorHue = hue.coerceIn(0f, 360f)
@@ -153,8 +158,11 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun updateColorData() {
-        val data = loadColorData()
-        colorData.set(data)
+        colorUpdateJob?.cancel()
+        colorUpdateJob = viewModelScope.launch {
+            val data = loadColorData()
+            colorData.set(data)
+        }
     }
 
     private fun loadColorData(): ColorSelectionViewData {
@@ -184,7 +192,8 @@ class ColorSelectionViewModel @Inject constructor() : ViewModel() {
         return "#$currentRed$currentGreen$currentBlue"
     }
 
-    @ColorInt private fun getCurrentColorInt(): Int {
+    @ColorInt
+    private fun getCurrentColorInt(): Int {
         return Color.rgb(colorRed, colorGreen, colorBlue)
     }
 }

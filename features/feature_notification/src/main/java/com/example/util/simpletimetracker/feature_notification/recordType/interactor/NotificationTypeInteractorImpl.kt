@@ -1,15 +1,11 @@
 package com.example.util.simpletimetracker.feature_notification.recordType.interactor
 
-import com.example.util.simpletimetracker.core.interactor.CompleteTypesStateInteractor
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
-import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
-import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.REPEAT_BUTTON_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.getDailyDuration
 import com.example.util.simpletimetracker.domain.extension.getFullName
 import com.example.util.simpletimetracker.domain.extension.getSessionDuration
@@ -32,7 +28,6 @@ import com.example.util.simpletimetracker.feature_notification.activitySwitch.in
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsParams
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeParams
-import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 
 class NotificationTypeInteractorImpl @Inject constructor(

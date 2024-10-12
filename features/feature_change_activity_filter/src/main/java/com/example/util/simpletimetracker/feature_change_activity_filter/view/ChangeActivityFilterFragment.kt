@@ -22,9 +22,11 @@ import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapt
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.color.createColorFavouriteAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorPaletteAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterChooserState.Closed
@@ -60,6 +62,8 @@ class ChangeActivityFilterFragment :
         BaseRecyclerAdapter(
             createColorAdapterDelegate(viewModel::onColorClick),
             createColorPaletteAdapterDelegate(viewModel::onColorPaletteClick),
+            createColorFavouriteAdapterDelegate(viewModel::onColorFavouriteClick),
+            createHintAdapterDelegate(),
         )
     }
     private val viewDataAdapter: BaseRecyclerAdapter by lazy {

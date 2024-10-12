@@ -12,6 +12,7 @@ data class PartialBackupRestoreData(
     val typeToDefaultTag: List<RecordTypeToDefaultTag>,
     val activityFilters: Map<Long, ActivityFilter>,
     val favouriteComments: Map<Long, FavouriteComment>,
+    val favouriteColors: Map<Long, FavouriteColor>,
     val favouriteIcon: Map<Long, FavouriteIcon>,
     val goals: Map<Long, RecordTypeGoal>,
     val rules: Map<Long, ComplexRule>,

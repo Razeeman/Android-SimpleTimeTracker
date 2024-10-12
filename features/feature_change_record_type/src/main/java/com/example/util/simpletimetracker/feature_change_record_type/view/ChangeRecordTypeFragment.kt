@@ -38,6 +38,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.color.createColorFavouriteAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorPaletteAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.createDayOfWeekAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
@@ -95,6 +96,8 @@ class ChangeRecordTypeFragment :
         BaseRecyclerAdapter(
             createColorAdapterDelegate(viewModel::onColorClick),
             createColorPaletteAdapterDelegate(viewModel::onColorPaletteClick),
+            createColorFavouriteAdapterDelegate(viewModel::onColorFavouriteClick),
+            createHintAdapterDelegate(),
         )
     }
     private val iconsAdapter: BaseRecyclerAdapter by lazy {

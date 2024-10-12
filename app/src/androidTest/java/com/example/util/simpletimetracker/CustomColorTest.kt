@@ -4,6 +4,7 @@ import android.view.View
 import androidx.annotation.ColorInt
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.GeneralLocation
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
@@ -15,6 +16,7 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkSliderValue
+import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickLocation
@@ -28,6 +30,7 @@ import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withCardColorInt
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Test
@@ -36,6 +39,7 @@ import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
 import com.example.util.simpletimetracker.feature_change_category.R as changeCategoryR
 import com.example.util.simpletimetracker.feature_change_record_tag.R as changeRecordTagR
+import com.example.util.simpletimetracker.feature_change_activity_filter.R as changeActivityFilterTagR
 import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 import com.example.util.simpletimetracker.feature_statistics.R as statisticsR
@@ -521,6 +525,225 @@ class CustomColorTest : BaseUiTest() {
             colorSaturation = 75,
             colorValue = 65,
         )
+    }
+
+    @Test
+    fun colorTransferActivityFilter() {
+        fun checkPreviewUpdated(matcher: Matcher<View>) =
+            checkViewIsDisplayed(allOf(withId(changeActivityFilterTagR.id.previewChangeActivityFilter), matcher))
+
+        val filterName = "filter"
+        val colorId = ColorMapper.getAvailableColors()[1]
+        val colorInt = colorId.let(::getColor) // red
+        val customColorInt = 0xff29a674.toInt()
+
+        runBlocking { prefsInteractor.setShowActivityFilters(true) }
+        tryAction { clickOnViewWithText(coreR.string.running_records_add_filter) }
+
+        // Select color
+        clickOnViewWithText(coreR.string.change_category_color_hint)
+        clickOnRecyclerItem(changeActivityFilterTagR.id.rvChangeActivityFilterColor, withCardColorInt(colorInt))
+        checkPreviewUpdated(withCardColorInt(colorInt))
+        checkViewIsDisplayed(allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))))
+
+        // Check selected color is preselected on color selection
+        scrollRecyclerToView(
+            changeActivityFilterTagR.id.rvChangeActivityFilterColor,
+            withId(dialogsR.id.layoutColorPaletteItem),
+        )
+        clickOnRecyclerItem(
+            changeActivityFilterTagR.id.rvChangeActivityFilterColor,
+            withId(dialogsR.id.layoutColorPaletteItem),
+        )
+        checkColorState(
+            finalColorInt = 0xfff53639.toInt(),
+            colorRed = 245,
+            colorGreen = 54,
+            colorBlue = 57,
+            colorHue = 359,
+            colorSaturation = 77,
+            colorValue = 96,
+        )
+
+        // Select different color
+        typeTextIntoView(dialogsR.id.etColorSelectionHex, "#29a674")
+        clickOnViewWithText(coreR.string.duration_dialog_save)
+
+        // Check new color selected
+        checkPreviewUpdated(withCardColorInt(customColorInt))
+        checkViewIsNotDisplayed(
+            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))),
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(dialogsR.id.viewColorPaletteItemSelected),
+                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+            ),
+        )
+        clickOnViewWithText(coreR.string.change_category_color_hint)
+
+        // Save tag
+        typeTextIntoView(changeActivityFilterTagR.id.etChangeActivityFilterName, filterName)
+        clickOnViewWithText(coreR.string.change_category_save)
+
+        // Tag saved
+        checkViewIsDisplayed(
+            allOf(
+                withId(R.id.viewActivityFilterItem),
+                withCardColorInt(customColorInt),
+                hasDescendant(withText(filterName)),
+            ),
+        )
+        longClickOnView(withText(filterName))
+        checkPreviewUpdated(withCardColorInt(customColorInt))
+        clickOnViewWithText(coreR.string.change_category_color_hint)
+        checkViewIsNotDisplayed(
+            allOf(withId(dialogsR.id.viewColorItemSelected), withParent(withCardColorInt(colorInt))),
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(dialogsR.id.viewColorPaletteItemSelected),
+                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+            ),
+        )
+        scrollRecyclerToView(
+            changeActivityFilterTagR.id.rvChangeActivityFilterColor,
+            withId(dialogsR.id.layoutColorPaletteItem),
+        )
+        clickOnRecyclerItem(
+            changeActivityFilterTagR.id.rvChangeActivityFilterColor,
+            withId(dialogsR.id.layoutColorPaletteItem),
+        )
+        checkColorState(
+            finalColorInt = 0xff29a674.toInt(),
+            colorRed = 41,
+            colorGreen = 166,
+            colorBlue = 116,
+            colorHue = 156,
+            colorSaturation = 75,
+            colorValue = 65,
+        )
+    }
+
+    @Test
+    fun favouriteColors() {
+        val customColorInt = 0xff29a674.toInt()
+        val colorId = ColorMapper.getAvailableColors()[1]
+        val colorInt = colorId.let(::getColor) // red
+
+        fun clickOnItem(id: Int, matcher: Matcher<View>): ViewInteraction {
+            scrollRecyclerToView(id, matcher)
+            return clickOnRecyclerItem(id, matcher)
+        }
+
+        fun check(recyclerId: Int) {
+            // Fav button visibility
+            clickOnItem(recyclerId, withCardColorInt(colorInt))
+            checkViewDoesNotExist(withId(R.id.layoutColorFavouriteItem))
+            checkViewIsDisplayed(allOf(withId(R.id.layoutColorItem), withCardColorInt(customColorInt)))
+            clickOnItem(recyclerId, withCardColorInt(customColorInt))
+            checkViewIsDisplayed(withId(R.id.layoutColorFavouriteItem))
+
+            // Fav button click
+            clickOnItem(recyclerId, withId(R.id.layoutColorFavouriteItem))
+            checkViewDoesNotExist(allOf(withId(R.id.layoutColorItem), withCardColorInt(customColorInt)))
+            clickOnItem(recyclerId, withId(R.id.layoutColorFavouriteItem))
+            checkViewIsDisplayed(allOf(withId(R.id.layoutColorItem), withCardColorInt(customColorInt)))
+        }
+
+        // Check type
+        tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
+        checkViewDoesNotExist(withId(R.id.layoutColorFavouriteItem))
+        checkViewDoesNotExist(allOf(withId(R.id.layoutColorItem), withCardColorInt(customColorInt)))
+
+        // Select custom color
+        clickOnItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withId(R.id.layoutColorPaletteItem))
+        typeTextIntoView(R.id.etColorSelectionHex, "#29a674")
+        clickOnViewWithText(coreR.string.duration_dialog_save)
+        checkViewIsDisplayed(withId(R.id.layoutColorFavouriteItem))
+        checkViewDoesNotExist(allOf(withId(R.id.layoutColorItem), withCardColorInt(customColorInt)))
+        clickOnItem(changeRecordTypeR.id.rvChangeRecordTypeColor, withId(R.id.layoutColorFavouriteItem))
+        checkViewIsDisplayed(allOf(withId(R.id.layoutColorItem), withCardColorInt(customColorInt)))
+
+        // Preview updated
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeRecordTypeR.id.previewChangeRecordType),
+                hasDescendant(withCardColorInt(customColorInt)),
+            ),
+        )
+
+        // Check
+        check(changeRecordTypeR.id.rvChangeRecordTypeColor)
+
+        pressBack()
+        pressBack()
+
+        // Check category
+        NavUtils.openSettingsScreen()
+        NavUtils.openCategoriesScreen()
+        clickOnViewWithText(coreR.string.categories_add_category)
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
+        checkViewDoesNotExist(withId(R.id.layoutColorFavouriteItem))
+        checkViewIsDisplayed(allOf(withId(R.id.layoutColorItem), withCardColorInt(customColorInt)))
+
+        // Preview updated
+        clickOnItem(changeCategoryR.id.rvChangeCategoryColor, withCardColorInt(customColorInt))
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeCategoryR.id.previewChangeCategory),
+                withCardColorInt(customColorInt),
+            ),
+        )
+
+        // Check
+        check(changeCategoryR.id.rvChangeCategoryColor)
+
+        pressBack()
+        pressBack()
+
+        // Check tag
+        clickOnViewWithText(coreR.string.categories_add_record_tag)
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
+        checkViewDoesNotExist(withId(R.id.layoutColorFavouriteItem))
+        checkViewIsDisplayed(allOf(withId(R.id.layoutColorItem), withCardColorInt(customColorInt)))
+
+        // Preview updated
+        clickOnItem(changeRecordTagR.id.rvChangeRecordTagColor, withCardColorInt(customColorInt))
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeRecordTagR.id.previewChangeRecordTag),
+                withCardColorInt(customColorInt),
+            ),
+        )
+
+        // Check
+        check(changeRecordTagR.id.rvChangeRecordTagColor)
+
+        pressBack()
+        pressBack()
+        pressBack()
+
+        // Check filter
+        runBlocking { prefsInteractor.setShowActivityFilters(true) }
+        NavUtils.openRunningRecordsScreen()
+        clickOnViewWithText(coreR.string.running_records_add_filter)
+        clickOnViewWithText(coreR.string.change_record_type_color_hint)
+        checkViewDoesNotExist(withId(R.id.layoutColorFavouriteItem))
+        checkViewIsDisplayed(allOf(withId(R.id.layoutColorItem), withCardColorInt(customColorInt)))
+
+        // Preview updated
+        clickOnItem(changeActivityFilterTagR.id.rvChangeActivityFilterColor, withCardColorInt(customColorInt))
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeActivityFilterTagR.id.previewChangeActivityFilter),
+                withCardColorInt(customColorInt),
+            ),
+        )
+
+        // Check
+        check(changeActivityFilterTagR.id.rvChangeActivityFilterColor)
     }
 
     private fun checkColorState(

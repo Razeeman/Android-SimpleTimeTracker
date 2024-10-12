@@ -143,6 +143,7 @@
     <string name="change_record_type_name_hint">नया नाम दर्ज करें</string>
     <string name="change_record_type_new_icon_text_hint">नया पाठ दर्ज करें</string>
     <string name="change_record_type_color_hint">रंग</string>
+    <string name="change_record_favourite_colors_hint">पसंदीदा रंग</string>
     <string name="change_record_type_icon_image_hint">चित्र</string>
     <string name="change_record_type_icon_text_hint">मूलपाठ</string>
     <string name="change_record_type_icon_emoji_hint">इमोजी</string>

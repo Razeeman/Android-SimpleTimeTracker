@@ -53,7 +53,7 @@ class SortCardsInteractor @Inject constructor(
         return data.sortedBy { it.name.lowercase(Locale.getDefault()) }
     }
 
-    private fun <T> sortByColor(
+    fun <T> sortByColor(
         data: List<DataHolder<T>>,
     ): List<DataHolder<T>> {
         return data

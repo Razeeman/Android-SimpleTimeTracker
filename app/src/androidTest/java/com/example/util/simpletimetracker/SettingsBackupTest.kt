@@ -34,6 +34,7 @@ import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.scrollRecyclerInPagerToView
+import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withCardColorInt
@@ -266,15 +267,21 @@ class SettingsBackupTest : BaseUiTest() {
         NavUtils.openRunningRecordsScreen()
         clickOnViewWithText(R.string.running_records_add_type)
         closeSoftKeyboard()
+        clickOnViewWithText(R.string.change_record_type_icon_image_hint)
         iconsList.forEach {
             when (it.type) {
-                is IconTestData.Type.Image -> {
-                    clickOnViewWithText(R.string.change_record_type_icon_image_hint)
+                is FavouriteIconTestData.Type.Image -> {
+                    clickOnView(
+                        allOf(
+                            isDescendantOfA(withId(changeRecordTypeR.id.btnIconSelectionSwitch)),
+                            withText(R.string.change_record_type_icon_image_hint),
+                        ),
+                    )
                     checkViewIsDisplayed(withText(R.string.change_record_favourite_comments_hint))
                     onView(withTag(getIconResIdByName(it.icon)))
                         .check(isCompletelyAbove(withText(R.string.imageGroupMaps)))
                 }
-                is IconTestData.Type.Emoji -> {
+                is FavouriteIconTestData.Type.Emoji -> {
                     clickOnView(
                         allOf(
                             isDescendantOfA(withId(changeRecordTypeR.id.btnIconSelectionSwitch)),
@@ -286,6 +293,19 @@ class SettingsBackupTest : BaseUiTest() {
                         .check(isCompletelyAbove(withText(R.string.emojiGroupSmileys)))
                 }
             }
+        }
+        pressBack()
+        pressBack()
+
+        // Check fav colors
+        clickOnViewWithText(R.string.running_records_add_type)
+        closeSoftKeyboard()
+        clickOnViewWithText(R.string.change_record_type_color_hint)
+        colorsList.forEach {
+            scrollRecyclerToView(
+                changeRecordTypeR.id.rvChangeRecordTypeColor, withCardColorInt(it.colorInt),
+            )
+            checkViewIsDisplayed(withCardColorInt(it.colorInt))
         }
         pressBack()
         pressBack()
@@ -377,6 +397,7 @@ class SettingsBackupTest : BaseUiTest() {
         checkViewIsDisplayed(withText("${getString(R.string.change_activity_filters_hint)}(2)"))
         checkViewIsDisplayed(withText("${getString(R.string.change_record_favourite_comments_hint_long)}(2)"))
         checkViewIsDisplayed(withText("${getString(R.string.change_record_favourite_icons_hint)}(2)"))
+        checkViewIsDisplayed(withText("${getString(R.string.change_record_favourite_colors_hint)}(2)"))
         checkViewIsDisplayed(withText("${getString(R.string.settings_complex_rules)}(3)"))
 
         // Check filtering
@@ -407,6 +428,10 @@ class SettingsBackupTest : BaseUiTest() {
         // Favourite icons
         clickOnViewWithText("${getString(R.string.change_record_favourite_icons_hint)}(2)")
         checkIcons(iconsList)
+        pressBack()
+        // Favourite colors
+        clickOnViewWithText("${getString(R.string.change_record_favourite_colors_hint)}(2)")
+        checkColors(colorsList)
         pressBack()
         // Complex rules
         clickOnViewWithText("${getString(R.string.settings_complex_rules)}(3)")
@@ -447,12 +472,19 @@ class SettingsBackupTest : BaseUiTest() {
         clickOnViewWithText("${getString(R.string.change_record_favourite_icons_hint)}(2)")
         iconsList.take(1).forEach {
             when (it.type) {
-                is IconTestData.Type.Image -> clickOnView(withTag(getIconResIdByName(it.icon)))
-                is IconTestData.Type.Emoji -> clickOnViewWithText(it.icon)
+                is FavouriteIconTestData.Type.Image -> clickOnView(withTag(getIconResIdByName(it.icon)))
+                is FavouriteIconTestData.Type.Emoji -> clickOnViewWithText(it.icon)
             }
         }
         clickOnViewWithText(R.string.duration_dialog_save)
         checkViewIsDisplayed(withText("${getString(R.string.change_record_favourite_icons_hint)}(1)"))
+
+        clickOnViewWithText("${getString(R.string.change_record_favourite_colors_hint)}(2)")
+        colorsList.take(1).forEach {
+            clickOnView(withCardColorInt(it.colorInt))
+        }
+        clickOnViewWithText(R.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("${getString(R.string.change_record_favourite_colors_hint)}(1)"))
 
         clickOnViewWithText("${getString(R.string.settings_complex_rules)}(3)")
         clickOnViewWithText(R.string.settings_allow_multitasking)
@@ -470,19 +502,21 @@ class SettingsBackupTest : BaseUiTest() {
         checkViewIsDisplayed(withText("${getString(R.string.change_activity_filters_hint)}(1)"))
         checkViewIsDisplayed(withText("${getString(R.string.change_record_favourite_comments_hint_long)}(1)"))
         checkViewIsDisplayed(withText("${getString(R.string.change_record_favourite_icons_hint)}(1)"))
+        checkViewIsDisplayed(withText("${getString(R.string.change_record_favourite_colors_hint)}(1)"))
         checkViewIsDisplayed(withText(getString(R.string.settings_complex_rules)))
 
         // Restore only activities
         removeFilter(R.string.change_activity_filters_hint)
         removeFilter(R.string.change_record_favourite_comments_hint_long)
         removeFilter(R.string.change_record_favourite_icons_hint)
+        removeFilter(R.string.change_record_favourite_colors_hint)
         clickOnViewWithText(getString(R.string.activity_hint))
         activityList.take(3).forEach { clickOnViewWithText(it.name) }
         clickOnViewWithText(R.string.duration_dialog_save)
         clickOnViewWithText(R.string.backup_options_import)
 
         // Check message
-        tryAction { checkViewIsDisplayed(withText(R.string.message_backup_restored)) }
+        tryAction { checkViewIsDisplayed(withText(R.string.message_import_complete)) }
         clickOnViewWithId(com.google.android.material.R.id.snackbar_text)
 
         // Check data
@@ -598,7 +632,7 @@ class SettingsBackupTest : BaseUiTest() {
     }
 
     private fun checkComments(
-        data: List<CommentTestData>,
+        data: List<FavouriteCommentTestData>,
     ) {
         data.forEach {
             checkViewIsDisplayed(withText(it.comment))
@@ -606,14 +640,22 @@ class SettingsBackupTest : BaseUiTest() {
     }
 
     private fun checkIcons(
-        data: List<IconTestData>,
+        data: List<FavouriteIconTestData>,
     ) {
         data.forEach {
             val matcher = when (it.type) {
-                is IconTestData.Type.Image -> withTag(getIconResIdByName(it.icon))
-                is IconTestData.Type.Emoji -> withText(it.icon)
+                is FavouriteIconTestData.Type.Image -> withTag(getIconResIdByName(it.icon))
+                is FavouriteIconTestData.Type.Emoji -> withText(it.icon)
             }
             onView(matcher).check(matches(isDisplayed()))
+        }
+    }
+
+    private fun checkColors(
+        data: List<FavouriteColorTestData>,
+    ) {
+        data.forEach {
+            checkViewIsDisplayed(withCardColorInt(it.colorInt))
         }
     }
 
@@ -668,12 +710,16 @@ class SettingsBackupTest : BaseUiTest() {
         ActivityFilterTestData("filter2", ColorTestData.Custom(0xff345678.toInt())),
     )
     private val commentList = listOf(
-        CommentTestData("comment favourite 1"),
-        CommentTestData("comment favourite 2"),
+        FavouriteCommentTestData("comment favourite 1"),
+        FavouriteCommentTestData("comment favourite 2"),
     )
     private val iconsList = listOf(
-        IconTestData("ic_accessibility_24px", IconTestData.Type.Image),
-        IconTestData("\uD83C\uDF49", IconTestData.Type.Emoji),
+        FavouriteIconTestData("ic_accessibility_24px", FavouriteIconTestData.Type.Image),
+        FavouriteIconTestData("\uD83C\uDF49", FavouriteIconTestData.Type.Emoji),
+    )
+    private val colorsList = listOf(
+        FavouriteColorTestData(0xff456789.toInt()),
+        FavouriteColorTestData(0xff567890.toInt()),
     )
     private val ruleList = listOf(
         RuleTestData(
@@ -726,11 +772,11 @@ class SettingsBackupTest : BaseUiTest() {
         val color: ColorTestData,
     )
 
-    private data class CommentTestData(
+    private data class FavouriteCommentTestData(
         val comment: String,
     )
 
-    private data class IconTestData(
+    private data class FavouriteIconTestData(
         val icon: String,
         val type: Type,
     ) {
@@ -740,6 +786,10 @@ class SettingsBackupTest : BaseUiTest() {
             object Emoji : Type
         }
     }
+
+    private data class FavouriteColorTestData(
+        val colorInt: Int,
+    )
 
     private data class RuleTestData(
         @StringRes val actionStringResId: Int,

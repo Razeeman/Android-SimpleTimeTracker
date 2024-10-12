@@ -143,6 +143,7 @@
     <string name="change_record_type_name_hint">نام جدید را وارد کنید</string>
     <string name="change_record_type_new_icon_text_hint">متن جدید را وارد کنید</string>
     <string name="change_record_type_color_hint">رنگ</string>
+    <string name="change_record_favourite_colors_hint">رنگ های مورد علاقه</string>
     <string name="change_record_type_icon_image_hint">آیکون</string>
     <string name="change_record_type_icon_text_hint">متن</string>
     <string name="change_record_type_icon_emoji_hint">ایموجی</string>

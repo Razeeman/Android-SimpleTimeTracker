@@ -30,7 +30,7 @@ class TestActionResolverImpl @Inject constructor(
     private fun openFile() {
         resultContainer.sendResult(
             RequestCode.REQUEST_CODE_OPEN_FILE,
-            resourceToUri(testR.raw.db_version_22).toString(),
+            resourceToUri(testR.raw.db_version_23).toString(),
         )
     }
 

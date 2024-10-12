@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutColorItem"
     style="@style/ColorIconItem"
-    android:background="?selectableItemBackgroundBorderless"
+    android:background="?selectableItemBackground"
     tools:cardBackgroundColor="@color/black">
 
     <View

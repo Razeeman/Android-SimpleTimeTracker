@@ -13,6 +13,7 @@ fun PartialBackupRestoreData.getIds(
         is PartialRestoreFilterType.Records -> records
         is PartialRestoreFilterType.ActivityFilters -> activityFilters
         is PartialRestoreFilterType.FavouriteComments -> favouriteComments
+        is PartialRestoreFilterType.FavouriteColors -> favouriteColors
         is PartialRestoreFilterType.FavouriteIcons -> favouriteIcon
         is PartialRestoreFilterType.ComplexRules -> rules
     }.keys

@@ -170,6 +170,7 @@ class PartialRestoreViewModel @Inject constructor(
             typeToDefaultTag = typeToDefaultTag,
             activityFilters = activityFilters,
             favouriteComments = data.favouriteComments,
+            favouriteColors = data.favouriteColors,
             favouriteIcon = data.favouriteIcon,
             goals = goals,
             rules = rules,

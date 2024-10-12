@@ -24,6 +24,9 @@ sealed interface PartialRestoreFilterType : FilterViewData.Type, Parcelable {
     object FavouriteComments : PartialRestoreFilterType
 
     @Parcelize
+    object FavouriteColors : PartialRestoreFilterType
+
+    @Parcelize
     object FavouriteIcons : PartialRestoreFilterType
 
     @Parcelize

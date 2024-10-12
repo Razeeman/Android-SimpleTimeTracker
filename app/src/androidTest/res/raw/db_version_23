@@ -30,6 +30,8 @@ activityFilter	1	1,2	0	filter1	0		0
 activityFilter	2	1,2	1	filter2	0	-13347208	1
 favouriteComment	1	comment favourite 1
 favouriteComment	2	comment favourite 2
+favouriteColor	1	-12228727
+favouriteColor	2	-11110256
 favouriteIcon	1	🍉
 favouriteIcon	2	ic_accessibility_24px
 recordTypeGoal	1	3	0	0	60	0	0000000

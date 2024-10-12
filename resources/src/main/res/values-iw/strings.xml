@@ -143,6 +143,7 @@
     <string name="change_record_type_name_hint">הזן שם חדש</string>
     <string name="change_record_type_new_icon_text_hint">הזן טקסט חדש</string>
     <string name="change_record_type_color_hint">צבע</string>
+    <string name="change_record_favourite_colors_hint">צבעים אהובים</string>
     <string name="change_record_type_icon_image_hint">סמל</string>
     <string name="change_record_type_icon_text_hint">טקסט</string>
     <string name="change_record_type_icon_emoji_hint">אימוג\'י</string>

@@ -29,6 +29,7 @@ class AppDatabaseMigrations {
                 migration_19_20,
                 migration_20_21,
                 migration_21_22,
+                migration_22_23,
             )
 
         private val migration_1_2 = object : Migration(1, 2) {
@@ -285,6 +286,14 @@ class AppDatabaseMigrations {
                 )
                 database.execSQL(
                     "ALTER TABLE categories ADD COLUMN note TEXT NOT NULL DEFAULT ''",
+                )
+            }
+        }
+
+        private val migration_22_23 = object : Migration(22, 23) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `favouriteColors` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `color_int` TEXT NOT NULL)",
                 )
             }
         }

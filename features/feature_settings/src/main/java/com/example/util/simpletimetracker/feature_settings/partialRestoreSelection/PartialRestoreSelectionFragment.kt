@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.createActivityFilterAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.complexRule.createComplexRuleAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.createEmojiAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
@@ -51,6 +52,7 @@ class PartialRestoreSelectionFragment : BaseBottomSheetFragment<Binding>() {
             ),
             createIconSelectionAdapterDelegate(viewModel::onIconClick),
             createEmojiAdapterDelegate(viewModel::onEmojiClick),
+            createColorAdapterDelegate(viewModel::onColorClick),
             createRecordAdapterDelegate(viewModel::onRecordClick),
             createRecordsDateDividerAdapterDelegate(),
             createLoaderAdapterDelegate(),

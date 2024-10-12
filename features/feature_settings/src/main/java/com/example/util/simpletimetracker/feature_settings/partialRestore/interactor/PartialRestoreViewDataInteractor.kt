@@ -64,6 +64,7 @@ class PartialRestoreViewDataInteractor @Inject constructor(
             PartialRestoreFilterType.Records,
             PartialRestoreFilterType.ActivityFilters,
             PartialRestoreFilterType.FavouriteComments,
+            PartialRestoreFilterType.FavouriteColors,
             PartialRestoreFilterType.FavouriteIcons,
             PartialRestoreFilterType.ComplexRules,
         )

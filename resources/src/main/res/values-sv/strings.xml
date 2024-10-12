@@ -143,6 +143,7 @@
     <string name="change_record_type_name_hint">Ange nytt namn</string>
     <string name="change_record_type_new_icon_text_hint">Skriv in ny text</string>
     <string name="change_record_type_color_hint">Färg</string>
+    <string name="change_record_favourite_colors_hint">Favoritfärger</string>
     <string name="change_record_type_icon_image_hint">Ikon</string>
     <string name="change_record_type_icon_text_hint">Text</string>
     <string name="change_record_type_icon_emoji_hint">Emoji</string>

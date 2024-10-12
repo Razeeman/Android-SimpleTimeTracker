@@ -7,7 +7,9 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.ColorViewDataInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.domain.extension.orFalse
+import com.example.util.simpletimetracker.domain.interactor.FavouriteColorInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
+import com.example.util.simpletimetracker.domain.model.FavouriteColor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
 import com.example.util.simpletimetracker.navigation.Router
@@ -22,6 +24,7 @@ interface ColorSelectionViewModelDelegate {
     fun attach(parent: Parent)
     fun onColorClick(item: ColorViewData)
     fun onColorPaletteClick()
+    fun onColorFavouriteClick()
     fun onCustomColorSelected(colorInt: Int)
 
     interface Parent {
@@ -35,6 +38,7 @@ class ColorSelectionViewModelDelegateImpl @Inject constructor(
     private val router: Router,
     private val colorMapper: ColorMapper,
     private val colorViewDataInteractor: ColorViewDataInteractor,
+    private val favouriteColorInteractor: FavouriteColorInteractor,
 ) : ColorSelectionViewModelDelegate,
     ViewModelDelegate() {
 
@@ -61,11 +65,9 @@ class ColorSelectionViewModelDelegateImpl @Inject constructor(
 
     override fun onColorClick(item: ColorViewData) {
         delegateScope.launch {
-            if (item.colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
-                newColor = AppColor(colorId = item.colorId, colorInt = "")
-                parent?.onColorSelected()
-                parent?.update()
-                updateColors()
+            when (item.type) {
+                is ColorViewData.Type.Base -> onBaseColorSelected(item.colorId.toInt())
+                is ColorViewData.Type.Favourite -> onCustomColorSelected(item.colorInt)
             }
         }
     }
@@ -77,6 +79,35 @@ class ColorSelectionViewModelDelegateImpl @Inject constructor(
                 isDarkTheme = false, // Pass original, not darkened color.
             ),
         ).let(router::navigate)
+    }
+
+    override fun onColorFavouriteClick() {
+        delegateScope.launch {
+            val currentColor = newColor.colorInt
+                .takeUnless { it.isEmpty() } ?: return@launch
+            val currentFavourite = favouriteColorInteractor.get(currentColor)
+            if (currentFavourite != null) {
+                favouriteColorInteractor.remove(currentFavourite.id)
+            } else {
+                // Zero id creates new record
+                FavouriteColor(
+                    id = 0L,
+                    colorInt = currentColor,
+                ).let { favouriteColorInteractor.add(it) }
+            }
+            updateColors()
+        }
+    }
+
+    private fun onBaseColorSelected(colorId: Int) {
+        delegateScope.launch {
+            if (colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
+                newColor = AppColor(colorId = colorId, colorInt = "")
+                parent?.onColorSelected()
+                parent?.update()
+                updateColors()
+            }
+        }
     }
 
     override fun onCustomColorSelected(colorInt: Int) {

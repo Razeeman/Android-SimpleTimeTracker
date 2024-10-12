@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.media.RingtoneManager
 import android.os.Build
 import android.view.ContextThemeWrapper
 import android.widget.RemoteViews
@@ -19,7 +18,6 @@ import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
-import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeParams
 import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject

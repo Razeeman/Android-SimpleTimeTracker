@@ -143,6 +143,7 @@
     <string name="change_record_type_name_hint">Inserisci nuovo nome</string>
     <string name="change_record_type_new_icon_text_hint">Inserisci nuovo testo</string>
     <string name="change_record_type_color_hint">Colore</string>
+    <string name="change_record_favourite_colors_hint">Colori preferiti</string>
     <string name="change_record_type_icon_image_hint">Icona</string>
     <string name="change_record_type_icon_text_hint">Testo</string>
     <string name="change_record_type_icon_emoji_hint">Emoji</string>

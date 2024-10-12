@@ -85,7 +85,7 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
                     block = SettingsBlock.NotificationsWithSwitchHide,
                     title = resourceRepo.getString(R.string.settings_show_notification_with_switch_hide),
                     subtitle = "",
-                    isChecked = prefsInteractor.getShowNotificationWithSwitchHide()
+                    isChecked = prefsInteractor.getShowNotificationWithSwitchHide(),
                 )
             }
 

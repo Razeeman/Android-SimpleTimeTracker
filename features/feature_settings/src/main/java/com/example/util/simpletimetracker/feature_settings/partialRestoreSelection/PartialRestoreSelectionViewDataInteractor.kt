@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
 import com.example.util.simpletimetracker.domain.interactor.CategoryInteractor
+import com.example.util.simpletimetracker.domain.interactor.FavouriteColorInteractor
 import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
@@ -20,6 +21,7 @@ import com.example.util.simpletimetracker.domain.model.CardTagOrder
 import com.example.util.simpletimetracker.domain.model.PartialBackupRestoreData
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
+import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
 import com.example.util.simpletimetracker.feature_settings.partialRestore.model.PartialRestoreFilterType
 import com.example.util.simpletimetracker.feature_settings.partialRestoreSelection.model.PartialRestoreSelectionDialogParams
 import javax.inject.Inject
@@ -39,6 +41,7 @@ class PartialRestoreSelectionViewDataInteractor @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val activityFilterInteractor: ActivityFilterInteractor,
     private val favouriteCommentInteractor: FavouriteCommentInteractor,
+    private val favouriteColorInteractor: FavouriteColorInteractor,
     private val dateDividerViewDataMapper: DateDividerViewDataMapper,
 ) {
 
@@ -163,6 +166,20 @@ class PartialRestoreSelectionViewDataInteractor @Inject constructor(
                             isFiltered = filtered,
                             isDarkTheme = isDarkTheme,
                         ),
+                    )
+                }
+            }
+            PartialRestoreFilterType.FavouriteColors -> {
+                data.favouriteColors.values.toList().let {
+                    favouriteColorInteractor.sort(it)
+                }.map {
+                    val filtered = it.id in dataIdsFiltered
+                    ColorViewData(
+                        colorId = it.id,
+                        type = ColorViewData.Type.Favourite,
+                        colorInt = it.colorInt.toIntOrNull()
+                            ?: colorMapper.toInactiveColor(isDarkTheme),
+                        selected = !filtered,
                     )
                 }
             }
