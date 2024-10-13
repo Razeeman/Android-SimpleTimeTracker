@@ -7,7 +7,7 @@ object Base {
     // Raise by 2 to account for wear version code.
     const val versionCode = 71
     const val versionName = "1.46"
-    const val minSDK = 21
+    const val minSDK = 24
     const val currentSDK = 34
 
     const val versionCodeWear = versionCode + 1
