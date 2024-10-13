@@ -33,13 +33,13 @@ class SettingsViewModel @Inject constructor(
 
     fun init() {
         if (isInitialized) return
-        viewModelScope.launch { loadData() }
+        viewModelScope.launch { loadData(true) }
         subscribeToDataUpdates()
         isInitialized = true
     }
 
     fun onRefresh() = viewModelScope.launch {
-        loadData()
+        loadData(forceReload = true)
     }
 
     fun onSettingClick(itemType: SettingsItemType) = viewModelScope.launch {
@@ -57,12 +57,12 @@ class SettingsViewModel @Inject constructor(
                 wearPrefsInteractor.setWearShowCompactList(!value)
             }
         }
-        loadData()
+        loadData(forceReload = true)
     }
 
-    private suspend fun loadData() {
+    private suspend fun loadData(forceReload: Boolean) {
         val showCompactList = wearPrefsInteractor.getWearShowCompactList()
-        val settings = wearDataRepo.loadSettings()
+        val settings = wearDataRepo.loadSettings(forceReload)
 
         when {
             settings.isFailure -> {
@@ -84,7 +84,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun subscribeToDataUpdates() {
         viewModelScope.launch {
-            wearDataRepo.dataUpdated.collect { loadData() }
+            wearDataRepo.dataUpdated.collect { loadData(forceReload = false) }
         }
     }
 }

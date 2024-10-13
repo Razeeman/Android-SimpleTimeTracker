@@ -46,6 +46,7 @@ class TagsViewModel @Inject constructor(
     private var settings: WearSettings = WearSettings(
         allowMultitasking = false,
         recordTagSelectionCloseAfterOne = false,
+        enableRepeatButton = false,
     )
 
     // TODO switch to savedStateHandle
@@ -95,7 +96,7 @@ class TagsViewModel @Inject constructor(
     private fun loadData() = viewModelScope.launch {
         val activityId = this@TagsViewModel.activityId ?: return@launch
 
-        val settingsResult = wearDataRepo.loadSettings().getOrNull()
+        val settingsResult = wearDataRepo.loadSettings(forceReload = false).getOrNull()
         val tagsResult = wearDataRepo.loadTagsForActivity(activityId).getOrNull()
 
         if (settingsResult != null && tagsResult != null) {

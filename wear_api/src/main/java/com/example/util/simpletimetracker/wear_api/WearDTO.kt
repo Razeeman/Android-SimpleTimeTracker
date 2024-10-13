@@ -53,6 +53,8 @@ data class WearSettingsDTO(
     val allowMultitasking: Boolean,
     @SerializedName("recordTagSelectionCloseAfterOne")
     val recordTagSelectionCloseAfterOne: Boolean,
+    @SerializedName("enableRepeatButton")
+    val enableRepeatButton: Boolean,
 ) : Parcelable
 
 @Parcelize
@@ -80,3 +82,16 @@ data class WearShouldShowTagSelectionResponse(
     @SerializedName("shouldShow")
     val shouldShow: Boolean,
 ) : Parcelable
+
+@Parcelize
+data class WearRecordRepeatResponse(
+    @SerializedName("result")
+    val result: ActionResult,
+) : Parcelable {
+
+    enum class ActionResult {
+        STARTED,
+        NO_PREVIOUS_FOUND,
+        ALREADY_TRACKING,
+    }
+}

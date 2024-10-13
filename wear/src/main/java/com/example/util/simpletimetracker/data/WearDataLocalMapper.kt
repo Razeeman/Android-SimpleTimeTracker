@@ -7,10 +7,12 @@ package com.example.util.simpletimetracker.data
 
 import com.example.util.simpletimetracker.domain.model.WearActivity
 import com.example.util.simpletimetracker.domain.model.WearCurrentActivity
+import com.example.util.simpletimetracker.domain.model.WearRecordRepeatResult
 import com.example.util.simpletimetracker.domain.model.WearSettings
 import com.example.util.simpletimetracker.domain.model.WearTag
 import com.example.util.simpletimetracker.wear_api.WearActivityDTO
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivityDTO
+import com.example.util.simpletimetracker.wear_api.WearRecordRepeatResponse
 import com.example.util.simpletimetracker.wear_api.WearSettingsDTO
 import com.example.util.simpletimetracker.wear_api.WearTagDTO
 import javax.inject.Inject
@@ -46,6 +48,7 @@ class WearDataLocalMapper @Inject constructor() {
         return WearSettings(
             allowMultitasking = dto.allowMultitasking,
             recordTagSelectionCloseAfterOne = dto.recordTagSelectionCloseAfterOne,
+            enableRepeatButton = dto.enableRepeatButton,
         )
     }
 
@@ -53,6 +56,20 @@ class WearDataLocalMapper @Inject constructor() {
         return WearSettingsDTO(
             allowMultitasking = domain.allowMultitasking,
             recordTagSelectionCloseAfterOne = domain.recordTagSelectionCloseAfterOne,
+            enableRepeatButton = domain.enableRepeatButton,
+        )
+    }
+
+    fun map(dto: WearRecordRepeatResponse): WearRecordRepeatResult {
+        return WearRecordRepeatResult(
+            result = when (dto.result) {
+                WearRecordRepeatResponse.ActionResult.STARTED ->
+                    WearRecordRepeatResult.ActionResult.Started
+                WearRecordRepeatResponse.ActionResult.NO_PREVIOUS_FOUND ->
+                    WearRecordRepeatResult.ActionResult.NoPreviousFound
+                WearRecordRepeatResponse.ActionResult.ALREADY_TRACKING ->
+                    WearRecordRepeatResult.ActionResult.AlreadyTracking
+            },
         )
     }
 }

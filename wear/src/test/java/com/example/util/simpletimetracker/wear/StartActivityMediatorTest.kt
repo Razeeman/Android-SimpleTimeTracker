@@ -8,8 +8,6 @@ package com.example.util.simpletimetracker.wear
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.domain.mediator.StartActivityMediator
 import com.example.util.simpletimetracker.domain.model.WearActivity
-import com.example.util.simpletimetracker.domain.model.WearSettings
-import com.example.util.simpletimetracker.domain.model.WearTag
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -27,15 +25,6 @@ class StartActivityMediatorTest {
         name = "Sleep",
         icon = "🛏️",
         color = 0xFF123456,
-    )
-    private val sampleTag = WearTag(
-        id = 13,
-        name = "Sleep",
-        color = 0xFF654321,
-    )
-    private val settings = WearSettings(
-        allowMultitasking = false,
-        recordTagSelectionCloseAfterOne = false,
     )
 
     @Before

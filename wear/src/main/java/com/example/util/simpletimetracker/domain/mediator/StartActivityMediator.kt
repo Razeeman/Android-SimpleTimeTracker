@@ -7,6 +7,7 @@ package com.example.util.simpletimetracker.domain.mediator
 
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.data.WearRPCException
+import com.example.util.simpletimetracker.domain.model.WearRecordRepeatResult
 import javax.inject.Inject
 
 class StartActivityMediator @Inject constructor(
@@ -41,5 +42,9 @@ class StartActivityMediator @Inject constructor(
 
     suspend fun stop(currentId: Long): Result<Unit> {
         return wearDataRepo.stopActivity(currentId)
+    }
+
+    suspend fun repeat(): Result<WearRecordRepeatResult> {
+        return wearDataRepo.repeatActivity()
     }
 }

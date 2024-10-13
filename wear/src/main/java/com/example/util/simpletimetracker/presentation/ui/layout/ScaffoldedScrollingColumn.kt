@@ -8,8 +8,8 @@ package com.example.util.simpletimetracker.presentation.ui.layout
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material.ScalingLazyListScope
-import androidx.wear.compose.material.rememberScalingLazyListState
+import androidx.wear.compose.foundation.lazy.ScalingLazyListScope
+import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 
 @Composable
 fun ScaffoldedScrollingColumn(

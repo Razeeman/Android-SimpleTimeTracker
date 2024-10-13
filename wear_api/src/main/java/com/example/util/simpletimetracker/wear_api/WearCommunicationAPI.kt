@@ -35,6 +35,13 @@ interface WearCommunicationAPI {
     suspend fun stopActivity(request: WearStopActivityRequest)
 
     /**
+     * [WearRequests.REPEAT_ACTIVITY]
+     *
+     * Repeat last timer.
+     */
+    suspend fun repeatActivity(): WearRecordRepeatResponse
+
+    /**
      * [WearRequests.QUERY_TAGS_FOR_ACTIVITY]
      *
      * Retrieves the tags available for association with the activity with the given ID

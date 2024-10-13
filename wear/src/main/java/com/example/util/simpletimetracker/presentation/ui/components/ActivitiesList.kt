@@ -23,9 +23,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.foundation.lazy.ScalingLazyListScope
 import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.Icon
-import androidx.wear.compose.material.ScalingLazyListScope
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
@@ -56,8 +56,7 @@ sealed interface ActivitiesListState {
 @Composable
 fun ActivitiesList(
     state: ActivitiesListState,
-    onStart: (activityId: Long) -> Unit = {},
-    onStop: (activityId: Long) -> Unit = {},
+    onItemClick: (item: ActivityChipState) -> Unit = {},
     onRefresh: () -> Unit = {},
     onOpenOnPhone: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
@@ -78,8 +77,7 @@ fun ActivitiesList(
             is ActivitiesListState.Content -> {
                 renderContent(
                     state = state,
-                    onStart = onStart,
-                    onStop = onStop,
+                    onItemClick = onItemClick,
                     onSettingsClick = onSettingsClick,
                 )
                 item { RefreshButton(onRefresh) }
@@ -135,8 +133,7 @@ private fun RenderEmpty(
 
 private fun ScalingLazyListScope.renderContent(
     state: ActivitiesListState.Content,
-    onStart: (activityId: Long) -> Unit,
-    onStop: (activityId: Long) -> Unit,
+    onItemClick: (item: ActivityChipState) -> Unit,
     onSettingsClick: () -> Unit,
 ) {
     item {
@@ -145,34 +142,24 @@ private fun ScalingLazyListScope.renderContent(
     if (state.isCompact) {
         renderContentCompact(
             state = state,
-            onStart = onStart,
-            onStop = onStop,
+            onItemClick = onItemClick,
         )
     } else {
         renderContentFull(
             state = state,
-            onStart = onStart,
-            onStop = onStop,
+            onItemClick = onItemClick,
         )
     }
 }
 
 private fun ScalingLazyListScope.renderContentFull(
     state: ActivitiesListState.Content,
-    onStart: (activityId: Long) -> Unit,
-    onStop: (activityId: Long) -> Unit,
+    onItemClick: (item: ActivityChipState) -> Unit,
 ) {
     for (itemState in state.items) {
         item(key = itemState.id) {
-            val isRunning = itemState.startedAt != null
             val onClick = remember(itemState) {
-                {
-                    if (isRunning) {
-                        onStop(itemState.id)
-                    } else {
-                        onStart(itemState.id)
-                    }
-                }
+                { onItemClick(itemState) }
             }
             ActivityChip(
                 state = itemState,
@@ -184,8 +171,7 @@ private fun ScalingLazyListScope.renderContentFull(
 
 private fun ScalingLazyListScope.renderContentCompact(
     state: ActivitiesListState.Content,
-    onStart: (activityId: Long) -> Unit,
-    onStop: (activityId: Long) -> Unit,
+    onItemClick: (item: ActivityChipState) -> Unit,
 ) {
     state.items
         .withIndex()
@@ -198,15 +184,8 @@ private fun ScalingLazyListScope.renderContentCompact(
                 ) {
                     CompactChipPlaceHolder(part.size)
                     part.forEach { itemState ->
-                        val isRunning = itemState.startedAt != null
                         val onClick = remember(itemState) {
-                            {
-                                if (isRunning) {
-                                    onStop(itemState.id)
-                                } else {
-                                    onStart(itemState.id)
-                                }
-                            }
+                            { onItemClick(itemState) }
                         }
                         ActivityChipCompact(
                             modifier = Modifier
@@ -217,6 +196,7 @@ private fun ScalingLazyListScope.renderContentCompact(
                                 id = itemState.id,
                                 icon = itemState.icon,
                                 color = itemState.color,
+                                type = itemState.type,
                                 startedAt = itemState.startedAt,
                                 isLoading = itemState.isLoading,
                             ),

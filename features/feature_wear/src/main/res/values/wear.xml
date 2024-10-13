@@ -9,6 +9,7 @@
         <item>/stt/QUERY_CURRENT_ACTIVITIES</item>
         <item>/stt/START_ACTIVITY</item>
         <item>/stt/STOP_ACTIVITY</item>
+        <item>/stt/REPEAT_ACTIVITY</item>
         <item>/stt/QUERY_TAGS_FOR_ACTIVITY</item>
         <item>/stt/QUERY_SHOULD_SHOW_TAG_SELECTION</item>
         <item>/stt/QUERY_SETTINGS</item>

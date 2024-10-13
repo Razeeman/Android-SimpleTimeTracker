@@ -37,6 +37,7 @@ class WearRPCServer @Inject constructor(
                 WearRequests.QUERY_CURRENT_ACTIVITIES -> onQueryCurrentActivities()
                 WearRequests.START_ACTIVITY -> onStartActivity(request)
                 WearRequests.STOP_ACTIVITY -> onStopActivity(request)
+                WearRequests.REPEAT_ACTIVITY -> onRepeatActivity()
                 WearRequests.QUERY_TAGS_FOR_ACTIVITY -> onQueryTagsForActivity(request)
                 WearRequests.QUERY_SHOULD_SHOW_TAG_SELECTION -> onQueryShouldShowTagSelection(request)
                 WearRequests.QUERY_SETTINGS -> onQuerySettings()
@@ -94,6 +95,10 @@ class WearRPCServer @Inject constructor(
         val data: WearStopActivityRequest = mapFromBytes(request) ?: return null
         repo.stopActivity(data)
         return ByteArray(0)
+    }
+
+    private suspend fun onRepeatActivity(): ByteArray {
+        return mapToBytes(repo.repeatActivity())
     }
 
     private suspend fun onQueryActivities(): ByteArray {

@@ -5,6 +5,7 @@
  */
 package com.example.util.simpletimetracker.feature_wear
 
+import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.GetSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -20,6 +21,7 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.wear_api.WearActivityDTO
 import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivityDTO
+import com.example.util.simpletimetracker.wear_api.WearRecordRepeatResponse
 import com.example.util.simpletimetracker.wear_api.WearSettingsDTO
 import com.example.util.simpletimetracker.wear_api.WearShouldShowTagSelectionRequest
 import com.example.util.simpletimetracker.wear_api.WearShouldShowTagSelectionResponse
@@ -38,6 +40,7 @@ class WearDataRepo @Inject constructor(
     private val shouldShowTagSelectionInteractor: ShouldShowTagSelectionInteractor,
     private val removeRunningRecordMediator: Lazy<RemoveRunningRecordMediator>,
     private val addRunningRecordMediator: Lazy<AddRunningRecordMediator>,
+    private val recordRepeatInteractor: Lazy<RecordRepeatInteractor>,
     private val router: Router,
     private val widgetInteractor: WidgetInteractor,
     private val settingsDataUpdateInteractor: SettingsDataUpdateInteractor,
@@ -77,6 +80,11 @@ class WearDataRepo @Inject constructor(
         removeRunningRecordMediator.get().removeWithRecordAdd(current)
     }
 
+    override suspend fun repeatActivity(): WearRecordRepeatResponse {
+        return recordRepeatInteractor.get().repeatWithoutMessage()
+            .let(wearDataLocalMapper::map)
+    }
+
     override suspend fun queryTagsForActivity(activityId: Long): List<WearTagDTO> {
         val types = recordTypeInteractor.getAll().associateBy { it.id }
         return getSelectableTagsInteractor.execute(activityId)
@@ -101,6 +109,7 @@ class WearDataRepo @Inject constructor(
         return wearDataLocalMapper.map(
             allowMultitasking = prefsInteractor.getAllowMultitasking(),
             recordTagSelectionCloseAfterOne = prefsInteractor.getRecordTagSelectionCloseAfterOne(),
+            enableRepeatButton = prefsInteractor.getEnableRepeatButton(),
         )
     }
 

@@ -8,6 +8,7 @@ package com.example.util.simpletimetracker.data
 import com.example.util.simpletimetracker.wear_api.WearActivityDTO
 import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivityDTO
+import com.example.util.simpletimetracker.wear_api.WearRecordRepeatResponse
 import com.example.util.simpletimetracker.wear_api.WearRequests
 import com.example.util.simpletimetracker.wear_api.WearSettingsDTO
 import com.example.util.simpletimetracker.wear_api.WearShouldShowTagSelectionRequest
@@ -50,6 +51,14 @@ class WearRPCClient @Inject constructor(
 
     override suspend fun stopActivity(request: WearStopActivityRequest) {
         messenger.send(WearRequests.STOP_ACTIVITY, mapToBytes(request))
+    }
+
+    override suspend fun repeatActivity(): WearRecordRepeatResponse {
+        val response: WearRecordRepeatResponse? = messenger
+            .send(WearRequests.REPEAT_ACTIVITY)
+            ?.let(::mapFromBytes)
+
+        return response ?: throw WearRPCException
     }
 
     override suspend fun queryTagsForActivity(activityId: Long): List<WearTagDTO> {

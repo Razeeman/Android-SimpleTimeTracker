@@ -98,7 +98,8 @@ class WidgetUniversalViewModel @Inject constructor(
 
             when (item.type) {
                 is RunningRecordTypeSpecialViewData.Type.Repeat -> {
-                    started = recordRepeatInteractor.repeat()
+                    val result = recordRepeatInteractor.repeat()
+                    started = result is RecordRepeatInteractor.ActionResult.Started
                 }
                 else -> return@launch
             }

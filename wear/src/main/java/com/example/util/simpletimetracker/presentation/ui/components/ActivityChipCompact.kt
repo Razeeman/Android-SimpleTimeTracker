@@ -38,6 +38,7 @@ data class ActivityChipCompatState(
     val id: Long,
     val icon: WearActivityIcon,
     val color: Long,
+    val type: ActivityChipType = ActivityChipType.Base,
     val startedAt: Long? = null,
     val isLoading: Boolean = false,
 )

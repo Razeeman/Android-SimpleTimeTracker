@@ -5,8 +5,13 @@
  */
 package com.example.util.simpletimetracker.domain.model
 
-data class WearSettings(
-    val allowMultitasking: Boolean,
-    val recordTagSelectionCloseAfterOne: Boolean,
-    val enableRepeatButton: Boolean,
-)
+data class WearRecordRepeatResult(
+    val result: ActionResult,
+) {
+
+    sealed interface ActionResult {
+        object Started : ActionResult
+        object NoPreviousFound : ActionResult
+        object AlreadyTracking : ActionResult
+    }
+}

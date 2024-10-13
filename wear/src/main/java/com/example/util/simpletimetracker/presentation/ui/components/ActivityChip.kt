@@ -37,6 +37,7 @@ data class ActivityChipState(
     val name: String,
     val icon: WearActivityIcon,
     val color: Long,
+    val type: ActivityChipType = ActivityChipType.Base,
     val startedAt: Long? = null,
     val tagString: String = "",
     val isLoading: Boolean = false,

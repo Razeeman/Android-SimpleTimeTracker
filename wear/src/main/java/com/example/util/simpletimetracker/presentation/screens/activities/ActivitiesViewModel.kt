@@ -5,15 +5,20 @@
  */
 package com.example.util.simpletimetracker.presentation.screens.activities
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.complication.WearComplicationManager
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.domain.interactor.WearCheckNotificationsPermissionInteractor
 import com.example.util.simpletimetracker.domain.interactor.WearPrefsInteractor
 import com.example.util.simpletimetracker.domain.mediator.StartActivityMediator
+import com.example.util.simpletimetracker.domain.model.WearRecordRepeatResult
 import com.example.util.simpletimetracker.notification.WearNotificationManager
 import com.example.util.simpletimetracker.presentation.ui.components.ActivitiesListState
+import com.example.util.simpletimetracker.presentation.ui.components.ActivityChipState
+import com.example.util.simpletimetracker.presentation.ui.components.ActivityChipType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -53,17 +58,47 @@ class ActivitiesViewModel @Inject constructor(
         isInitialized = true
     }
 
-    fun stopActivity(activityId: Long) = viewModelScope.launch {
+    fun onItemClick(item: ActivityChipState) {
+        when (item.type) {
+            is ActivityChipType.Base -> {
+                val isRunning = item.startedAt != null
+                if (isRunning) {
+                    stopActivity(item.id)
+                } else {
+                    tryStartActivity(item.id)
+                }
+            }
+            is ActivityChipType.Repeat -> {
+                repeatActivity()
+            }
+        }
+    }
+
+    private fun stopActivity(activityId: Long) = viewModelScope.launch {
         setLoading(activityId, isLoading = true)
         val result = startActivitiesMediator.stop(activityId)
         if (result.isFailure) showError()
     }
 
-    fun tryStartActivity(activityId: Long) {
+    private fun tryStartActivity(activityId: Long) {
         wearCheckNotificationsPermissionInteractor.execute(
             onEnabled = { startActivity(activityId) },
             onDisabled = { startActivity(activityId) },
         )
+    }
+
+    private fun repeatActivity() = viewModelScope.launch {
+        val result = startActivitiesMediator.repeat()
+        when (result.getOrNull()?.result) {
+            is WearRecordRepeatResult.ActionResult.Started -> {
+                // Do nothing
+            }
+            is WearRecordRepeatResult.ActionResult.NoPreviousFound ->
+                showMessage(R.string.running_records_repeat_no_prev_record)
+            is WearRecordRepeatResult.ActionResult.AlreadyTracking ->
+                showMessage(R.string.running_records_repeat_already_tracking)
+            null -> showError()
+        }
     }
 
     fun onRefresh() = viewModelScope.launch {
@@ -105,9 +140,14 @@ class ActivitiesViewModel @Inject constructor(
     private suspend fun loadData(forceReload: Boolean) {
         val activities = wearDataRepo.loadActivities(forceReload)
         val currentActivities = wearDataRepo.loadCurrentActivities(forceReload)
+        val settings = wearDataRepo.loadSettings(forceReload)
+
+        val loadError = activities.isFailure ||
+            currentActivities.isFailure ||
+            settings.isFailure
 
         when {
-            activities.isFailure || currentActivities.isFailure -> {
+            loadError -> {
                 showError()
             }
             activities.getOrNull().isNullOrEmpty() -> {
@@ -117,6 +157,7 @@ class ActivitiesViewModel @Inject constructor(
                 _state.value = activitiesViewDataMapper.mapContentState(
                     activities = activities.getOrNull().orEmpty(),
                     currentActivities = currentActivities.getOrNull().orEmpty(),
+                    settings = settings.getOrNull(),
                     showCompactList = wearPrefsInteractor.getWearShowCompactList(),
                 )
             }
@@ -127,6 +168,10 @@ class ActivitiesViewModel @Inject constructor(
         _state.value = activitiesViewDataMapper.mapErrorState()
     }
 
+    private suspend fun showMessage(@StringRes textResId: Int) {
+        _effects.emit(Effect.ShowMessage(textResId))
+    }
+
     private fun subscribeToDataUpdates() {
         viewModelScope.launch {
             wearDataRepo.dataUpdated.collect { loadData(forceReload = false) }
@@ -135,5 +180,6 @@ class ActivitiesViewModel @Inject constructor(
 
     sealed interface Effect {
         data class OnRequestTagSelection(val activityId: Long) : Effect
+        data class ShowMessage(val textResId: Int) : Effect
     }
 }

@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.util.simpletimetracker.presentation.ui.components.ActivitiesList
 import com.example.util.simpletimetracker.presentation.screens.activities.ActivitiesViewModel.Effect
+import com.example.util.simpletimetracker.presentation.ui.components.ActivitiesList
 import com.example.util.simpletimetracker.utils.OnLifecycle
 import com.example.util.simpletimetracker.utils.collectEffects
 
@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.utils.collectEffects
 fun ActivitiesScreen(
     onRequestTagSelection: (activityId: Long) -> Unit,
     onSettingsClick: () -> Unit,
+    onShowMessage: (Int) -> Unit,
 ) {
     val viewModel = hiltViewModel<ActivitiesViewModel>()
     viewModel.init()
@@ -26,6 +27,7 @@ fun ActivitiesScreen(
     viewModel.effects.collectEffects(key = viewModel) {
         when (it) {
             is Effect.OnRequestTagSelection -> onRequestTagSelection(it.activityId)
+            is Effect.ShowMessage -> onShowMessage(it.textResId)
         }
     }
 
@@ -33,8 +35,7 @@ fun ActivitiesScreen(
 
     ActivitiesList(
         state = state,
-        onStart = viewModel::tryStartActivity,
-        onStop = viewModel::stopActivity,
+        onItemClick = viewModel::onItemClick,
         onRefresh = viewModel::onRefresh,
         onOpenOnPhone = viewModel::onOpenOnPhone,
         onSettingsClick = onSettingsClick,
