@@ -60,7 +60,9 @@
     <color name="colorIconFilteredDark">@color/grey_800</color>
 
     <color name="colorActive">@color/blue_grey_800</color>
+    <color name="colorActiveGradientEnd">@color/blue_grey_700</color>
     <color name="colorActiveDark">@color/blue_grey_900</color>
+    <color name="colorActiveGradientEndDark">@color/blue_grey_800</color>
 
     <color name="colorInactive">@color/blue_grey_300</color>
     <color name="colorInactiveDark">@color/blue_grey_700</color>

@@ -42,6 +42,7 @@
         <item name="appTabSelectedColor">@color/colorTabSelected</item>
         <item name="appTabUnselectedColor">@color/colorTabUnselected</item>
         <item name="appActiveColor">@color/colorActive</item>
+        <item name="appActiveGradientEndColor">@color/colorActiveGradientEnd</item>
         <item name="appInactiveColor">@color/colorInactive</item>
         <item name="appIconColor">@color/colorIcon</item>
         <item name="appLegendColor">@color/colorLegend</item>
@@ -89,6 +90,7 @@
         <item name="appTabSelectedColor">@color/colorTabSelectedDark</item>
         <item name="appTabUnselectedColor">@color/colorTabUnselectedDark</item>
         <item name="appActiveColor">@color/colorActiveDark</item>
+        <item name="appActiveGradientEndColor">@color/colorActiveGradientEndDark</item>
         <item name="appInactiveColor">@color/colorInactiveDark</item>
         <item name="appIconColor">@color/colorIconDark</item>
         <item name="appLegendColor">@color/colorLegendDark</item>

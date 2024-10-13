@@ -25,6 +25,7 @@
     <attr name="appTabSelectedColor" format="reference" />
     <attr name="appTabUnselectedColor" format="reference" />
     <attr name="appActiveColor" format="reference" />
+    <attr name="appActiveGradientEndColor" format="reference" />
     <attr name="appInactiveColor" format="reference" />
     <attr name="appIconColor" format="reference" />
     <attr name="appLegendColor" format="reference" />
