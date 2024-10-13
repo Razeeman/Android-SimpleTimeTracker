@@ -35,7 +35,7 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
         Binding::inflate
 
     override var insetConfiguration: InsetConfiguration =
-        InsetConfiguration.ApplyToView { binding.root }
+        InsetConfiguration.DoNotApply
 
     private val viewModel: RecordTagSelectionViewModel by viewModels()
 
