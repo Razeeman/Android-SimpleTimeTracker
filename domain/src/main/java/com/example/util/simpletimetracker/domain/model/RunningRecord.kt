@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.domain.model
 
+import com.example.util.simpletimetracker.domain.extension.dropMillis
+
 data class RunningRecord(
     val id: Long,
     override val timeStarted: Long,
@@ -8,5 +10,5 @@ data class RunningRecord(
 ) : RecordBase {
 
     override val typeIds: List<Long> = listOf(id)
-    override val timeEnded: Long get() = System.currentTimeMillis()
+    override val timeEnded: Long get() = System.currentTimeMillis().dropMillis()
 }
