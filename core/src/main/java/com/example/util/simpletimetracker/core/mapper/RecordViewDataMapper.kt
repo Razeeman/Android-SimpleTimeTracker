@@ -157,10 +157,12 @@ class RecordViewDataMapper @Inject constructor(
         timeEnded: Long,
         showSeconds: Boolean,
     ): Long {
-        return if (showSeconds) {
-            timeEnded - timeStarted
-        } else {
-            timeEnded.dropSeconds() - timeStarted.dropSeconds()
+        var delta: Long = timeEnded - timeStarted
+        if (!showSeconds && delta >= 60000L) {
+            // If we don't want seconds, return duration without taking them into account.
+            // However, if the result would be "0 minute", don't round the duration.
+            delta = timeEnded.dropSeconds() - timeStarted.dropSeconds()
         }
+        return delta
     }
 }
