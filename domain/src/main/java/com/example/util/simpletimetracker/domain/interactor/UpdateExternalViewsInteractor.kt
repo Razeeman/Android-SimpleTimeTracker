@@ -24,48 +24,63 @@ class UpdateExternalViewsInteractor @Inject constructor(
         typeId: Long,
     ) {
         val runningRecordIds = runningRecordInteractor.getAll().map(RunningRecord::id)
-        notificationGoalTimeInteractor.cancel(RecordTypeGoal.IdData.Type(typeId))
-        notificationGoalTimeInteractor.checkAndReschedule(runningRecordIds + typeId)
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
-        wearInteractor.update()
+
+        runUpdates(
+            Update.GoalCancel(RecordTypeGoal.IdData.Type(typeId)),
+            Update.GoalReschedule(runningRecordIds + typeId),
+            Update.WidgetStatistics,
+            Update.Wear,
+        )
     }
 
     suspend fun onTypeRemoveWithoutArchive() {
-        notificationTypeInteractor.updateNotifications()
+        runUpdates(
+            Update.NotificationTypes,
+        )
     }
 
     suspend fun onTypeArchive() {
-        notificationTypeInteractor.updateNotifications()
-        wearInteractor.update()
+        runUpdates(
+            Update.NotificationTypes,
+            Update.Wear,
+        )
     }
 
     suspend fun onTypeAddOrChange(
         typeId: Long,
     ) {
-        notificationTypeInteractor.updateNotifications()
-        notificationGoalTimeInteractor.checkAndReschedule(listOf(typeId))
-        widgetInteractor.updateWidgets(WidgetType.RECORD_TYPE)
-        widgetInteractor.updateWidgets(WidgetType.QUICK_SETTINGS)
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
-        wearInteractor.update()
+        runUpdates(
+            Update.NotificationTypes,
+            Update.GoalReschedule(listOf(typeId)),
+            Update.WidgetSingleTypes,
+            Update.WidgetUniversal,
+            Update.WidgetStatistics,
+            Update.Wear,
+        )
     }
 
     suspend fun onDefaultTypesAdd() {
-        wearInteractor.update()
+        runUpdates(
+            Update.Wear,
+        )
     }
 
-    fun onCategoryRemove(
+    suspend fun onCategoryRemove(
         categoryId: Long,
     ) {
-        notificationGoalTimeInteractor.cancel(RecordTypeGoal.IdData.Category(categoryId))
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
+        runUpdates(
+            Update.GoalCancel(RecordTypeGoal.IdData.Category(categoryId)),
+            Update.WidgetStatistics,
+        )
     }
 
     suspend fun onCategoryAddOrChange(
         typeIds: List<Long>,
     ) {
-        notificationGoalTimeInteractor.checkAndReschedule(typeIds)
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
+        runUpdates(
+            Update.GoalReschedule(typeIds),
+            Update.WidgetStatistics,
+        )
     }
 
     suspend fun onRunningRecordRemove(
@@ -73,236 +88,371 @@ class UpdateExternalViewsInteractor @Inject constructor(
         updateWidgets: Boolean,
         updateNotificationSwitch: Boolean,
     ) {
-        notificationTypeInteractor.checkAndHide(typeId)
-        if (updateNotificationSwitch) {
-            notificationActivitySwitchInteractor.updateNotification()
-        }
-        notificationInactivityInteractor.checkAndSchedule()
-        // Cancel if no activity tracked.
         val runningRecordIds = runningRecordInteractor.getAll().map { it.id }
-        if (runningRecordIds.isEmpty()) notificationActivityInteractor.cancel()
-        notificationGoalTimeInteractor.checkAndReschedule(runningRecordIds + typeId)
-        if (updateWidgets) {
-            widgetInteractor.updateWidgets(WidgetType.RECORD_TYPE)
-            widgetInteractor.updateWidgets(WidgetType.UNIVERSAL)
-            widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
-            wearInteractor.update()
-        }
+
+        runUpdates(
+            Update.NotificationTypeHide(typeId),
+            Update.NotificationWithControls.takeIf { updateNotificationSwitch },
+            Update.InactivityReminderReschedule,
+            Update.ActivityReminderCancel.takeIf {
+                // Cancel if no activity tracked.
+                runningRecordIds.isEmpty()
+            },
+            Update.GoalReschedule(runningRecordIds + typeId),
+            Update.WidgetSingleTypes.takeIf { updateWidgets },
+            Update.WidgetUniversal.takeIf { updateWidgets },
+            Update.WidgetStatistics.takeIf { updateWidgets },
+            Update.Wear.takeIf { updateWidgets },
+        )
     }
 
     suspend fun onRunningRecordAdd(
         typeId: Long,
         updateNotificationSwitch: Boolean,
     ) {
-        notificationTypeInteractor.checkAndShow(typeId)
-        if (updateNotificationSwitch) {
-            notificationActivitySwitchInteractor.updateNotification()
-        }
-        notificationInactivityInteractor.cancel()
-        // Schedule only on first activity start.
-        if (runningRecordInteractor.getAll().size == 1) notificationActivityInteractor.checkAndSchedule()
-        notificationGoalTimeInteractor.checkAndReschedule(listOf(typeId))
-        widgetInteractor.updateWidgets(WidgetType.RECORD_TYPE)
-        widgetInteractor.updateWidgets(WidgetType.UNIVERSAL)
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
-        wearInteractor.update()
+        runUpdates(
+            Update.NotificationType(typeId),
+            Update.NotificationWithControls.takeIf { updateNotificationSwitch },
+            Update.InactivityReminderCancel,
+            Update.ActivityReminderReschedule.takeIf {
+                // Schedule only on first activity start.
+                runningRecordInteractor.getAll().size == 1
+            },
+            Update.GoalReschedule(listOf(typeId)),
+            Update.WidgetSingleTypes,
+            Update.WidgetUniversal,
+            Update.WidgetStatistics,
+            Update.Wear,
+        )
     }
 
     suspend fun onRecordRemove(
         typeId: Long,
     ) {
-        notificationTypeInteractor.checkAndShow(typeId)
-        notificationActivitySwitchInteractor.updateNotification()
-        notificationGoalTimeInteractor.checkAndReschedule(listOf(typeId))
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
-        widgetInteractor.updateSingleWidgets(typeIds = listOf(typeId))
+        runUpdates(
+            Update.NotificationType(typeId),
+            Update.NotificationWithControls,
+            Update.GoalReschedule(listOf(typeId)),
+            Update.WidgetStatistics,
+            Update.WidgetSingleType(typeId),
+        )
     }
 
     suspend fun onRecordAddOrChange(
         typeId: Long,
         updateNotificationSwitch: Boolean,
     ) {
-        notificationTypeInteractor.checkAndShow(typeId)
-        if (updateNotificationSwitch) {
-            notificationActivitySwitchInteractor.updateNotification()
-        }
-        notificationGoalTimeInteractor.checkAndReschedule(listOf(typeId))
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
-        widgetInteractor.updateSingleWidgets(typeIds = listOf(typeId))
+        runUpdates(
+            Update.NotificationType(typeId),
+            Update.NotificationWithControls.takeIf { updateNotificationSwitch },
+            Update.GoalReschedule(listOf(typeId)),
+            Update.WidgetStatistics,
+            Update.WidgetSingleType(typeId),
+        )
     }
 
     // Called after record add.
     suspend fun onRecordChangeType(
         originalTypeId: Long,
     ) {
-        notificationTypeInteractor.checkAndShow(originalTypeId)
-        notificationActivitySwitchInteractor.updateNotification()
-        notificationGoalTimeInteractor.checkAndReschedule(listOf(originalTypeId))
+        runUpdates(
+            Update.NotificationType(originalTypeId),
+            Update.NotificationWithControls,
+            Update.GoalReschedule(listOf(originalTypeId)),
+        )
     }
 
     // Called from data edit.
     suspend fun onRecordsChangeType(
         oldTypeIds: Set<Long>,
     ) {
-        oldTypeIds.forEach { typeId ->
-            notificationGoalTimeInteractor.checkAndReschedule(listOf(typeId))
-        }
+        runUpdates(
+            Update.GoalReschedule(oldTypeIds.toList()),
+        )
     }
 
     suspend fun onTagRemove() {
-        wearInteractor.update()
+        runUpdates(
+            Update.Wear,
+        )
     }
 
     suspend fun onTagRemoveWithoutArchiving() {
-        notificationTypeInteractor.updateNotifications()
-        notificationActivitySwitchInteractor.updateNotification()
+        runUpdates(
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
+        )
     }
 
     suspend fun onTagAddOrChange() {
-        notificationTypeInteractor.updateNotifications()
-        notificationActivitySwitchInteractor.updateNotification()
-        wearInteractor.update()
+        runUpdates(
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
+            Update.Wear,
+        )
     }
 
     suspend fun onTagArchive() {
-        notificationTypeInteractor.updateNotifications()
-        notificationActivitySwitchInteractor.updateNotification()
-        wearInteractor.update()
+        runUpdates(
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
+            Update.Wear,
+        )
     }
 
     suspend fun onGoalTimeReached(
         typeId: Long,
     ) {
-        widgetInteractor.updateSingleWidgets(typeIds = listOf(typeId))
-        notificationTypeInteractor.checkAndShow(typeId = typeId)
-        notificationActivitySwitchInteractor.updateNotification()
+        runUpdates(
+            Update.WidgetSingleType(typeId),
+            Update.NotificationType(typeId),
+            Update.NotificationWithControls,
+        )
     }
 
     suspend fun onGoalRangeEnd() {
-        widgetInteractor.updateWidgets(WidgetType.RECORD_TYPE)
-        notificationTypeInteractor.updateNotifications()
-        notificationActivitySwitchInteractor.updateNotification()
+        runUpdates(
+            Update.WidgetSingleTypes,
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
+        )
     }
 
     suspend fun onRepeatEnabled() {
-        notificationTypeInteractor.updateNotifications()
-        notificationActivitySwitchInteractor.updateNotification()
-        wearInteractor.update()
+        runUpdates(
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
+            Update.Wear,
+        )
     }
 
     suspend fun onStartOfDaySignChange() {
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
-        widgetInteractor.updateWidgets(WidgetType.RECORD_TYPE)
-        notificationTypeInteractor.updateNotifications()
-        notificationActivitySwitchInteractor.updateNotification()
-        notificationGoalTimeInteractor.checkAndReschedule()
+        runUpdates(
+            Update.WidgetStatistics,
+            Update.WidgetSingleTypes,
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
+            Update.GoalReschedule(),
+        )
     }
 
     suspend fun onStartOfDayChange() {
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
-        widgetInteractor.updateWidgets(WidgetType.RECORD_TYPE)
-        notificationTypeInteractor.updateNotifications()
-        notificationActivitySwitchInteractor.updateNotification()
-        notificationGoalTimeInteractor.checkAndReschedule()
+        runUpdates(
+            Update.WidgetStatistics,
+            Update.WidgetSingleTypes,
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
+            Update.GoalReschedule(),
+        )
     }
 
     suspend fun onUseMilitaryChange() {
-        notificationTypeInteractor.updateNotifications()
+        runUpdates(
+            Update.NotificationTypes,
+        )
     }
 
     suspend fun onUseProportionalMinutesChange() {
-        notificationTypeInteractor.updateNotifications()
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
+        runUpdates(
+            Update.NotificationTypes,
+            Update.WidgetStatistics,
+        )
     }
 
     suspend fun onShowSecondsChange() {
-        notificationTypeInteractor.updateNotifications()
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
+        runUpdates(
+            Update.NotificationTypes,
+            Update.WidgetStatistics,
+        )
     }
 
     suspend fun onFirstDayOfWeekChange() {
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
-        notificationGoalTimeInteractor.checkAndReschedule()
+        runUpdates(
+            Update.WidgetStatistics,
+            Update.GoalReschedule(),
+        )
     }
 
-    fun onShowRecordTagSelectionChange() {
-        widgetInteractor.updateWidgets(WidgetType.QUICK_SETTINGS)
+    suspend fun onShowRecordTagSelectionChange() {
+        runUpdates(
+            Update.WidgetQuickSettings,
+        )
     }
 
     suspend fun onShowTimerNotificationsChange() {
-        notificationTypeInteractor.updateNotifications()
-        notificationActivitySwitchInteractor.updateNotification()
+        runUpdates(
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
+        )
     }
 
     suspend fun onShowTimerNotificationsControlsChange() {
-        notificationTypeInteractor.updateNotifications()
-        notificationActivitySwitchInteractor.updateNotification()
+        runUpdates(
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
+        )
     }
 
     suspend fun onShowNotificationWithSwitchChange() {
-        notificationActivitySwitchInteractor.updateNotification()
+        runUpdates(
+            Update.NotificationWithControls,
+        )
     }
 
     suspend fun onInactivityReminderChange() {
-        notificationInactivityInteractor.cancel()
-        notificationInactivityInteractor.checkAndSchedule()
+        runUpdates(
+            Update.InactivityReminderCancel,
+            Update.InactivityReminderReschedule,
+        )
     }
 
     suspend fun onActivityReminderChange() {
-        notificationActivityInteractor.cancel()
-        notificationActivityInteractor.checkAndSchedule()
+        runUpdates(
+            Update.ActivityReminderCancel,
+            Update.ActivityReminderReschedule,
+        )
     }
 
     // Update all widgets.
-    fun onWidgetsTransparencyChange() {
-        widgetInteractor.updateWidgets(WidgetType.RECORD_TYPE)
-        widgetInteractor.updateWidgets(WidgetType.UNIVERSAL)
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
-        widgetInteractor.updateWidgets(WidgetType.QUICK_SETTINGS)
+    suspend fun onWidgetsTransparencyChange() {
+        runUpdates(
+            Update.WidgetSingleTypes,
+            Update.WidgetUniversal,
+            Update.WidgetStatistics,
+            Update.WidgetQuickSettings,
+        )
     }
 
-    fun onShowUntrackedInStatisticsChange() {
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
+    suspend fun onShowUntrackedInStatisticsChange() {
+        runUpdates(
+            Update.WidgetStatistics,
+        )
     }
 
-    fun onAllowMultitaskingChange() {
-        widgetInteractor.updateWidgets(WidgetType.QUICK_SETTINGS)
+    suspend fun onAllowMultitaskingChange() {
+        runUpdates(
+            Update.WidgetQuickSettings,
+        )
     }
 
     // Update everything.
     suspend fun onBackupRestore() {
-        notificationTypeInteractor.updateNotifications()
-        notificationActivitySwitchInteractor.updateNotification()
-        notificationGoalTimeInteractor.checkAndReschedule()
-        widgetInteractor.updateWidgets(WidgetType.RECORD_TYPE)
-        widgetInteractor.updateWidgets(WidgetType.UNIVERSAL)
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
-        widgetInteractor.updateWidgets(WidgetType.QUICK_SETTINGS)
-        wearInteractor.update()
+        runUpdates(
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
+            Update.GoalReschedule(),
+            Update.WidgetSingleTypes,
+            Update.WidgetUniversal,
+            Update.WidgetStatistics,
+            Update.WidgetQuickSettings,
+            Update.Wear,
+        )
     }
 
     suspend fun onCsvImport(
         typeIds: List<Long>,
     ) {
-        notificationGoalTimeInteractor.checkAndReschedule(typeIds)
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
-        widgetInteractor.updateWidgets(WidgetType.RECORD_TYPE)
+        runUpdates(
+            Update.GoalReschedule(typeIds),
+            Update.WidgetStatistics,
+            Update.WidgetSingleTypes,
+        )
     }
 
     suspend fun onRestoreFromArchive() {
-        notificationTypeInteractor.updateNotifications()
-        notificationActivitySwitchInteractor.updateNotification()
-        wearInteractor.update()
+        runUpdates(
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
+            Update.Wear,
+        )
     }
 
     // Update everything except goals.
     suspend fun onAppStart() {
-        notificationTypeInteractor.updateNotifications()
-        notificationActivitySwitchInteractor.updateNotification()
-        widgetInteractor.updateWidgets(WidgetType.RECORD_TYPE)
-        widgetInteractor.updateWidgets(WidgetType.UNIVERSAL)
-        widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
-        widgetInteractor.updateWidgets(WidgetType.QUICK_SETTINGS)
-        wearInteractor.update()
+        runUpdates(
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
+            Update.WidgetSingleTypes,
+            Update.WidgetUniversal,
+            Update.WidgetStatistics,
+            Update.WidgetQuickSettings,
+            Update.Wear,
+        )
+    }
+
+    private suspend fun runUpdates(vararg updates: Update?) {
+        updates.filterNotNull().forEach { runUpdate(it) }
+    }
+
+    private suspend fun runUpdate(update: Update) {
+        when (update) {
+            is Update.NotificationTypes -> {
+                notificationTypeInteractor.updateNotifications()
+            }
+            is Update.NotificationType -> {
+                notificationTypeInteractor.checkAndShow(update.typeId)
+            }
+            is Update.NotificationTypeHide -> {
+                notificationTypeInteractor.checkAndHide(update.typeId)
+            }
+            is Update.NotificationWithControls -> {
+                notificationActivitySwitchInteractor.updateNotification()
+            }
+            is Update.WidgetStatistics -> {
+                widgetInteractor.updateWidgets(WidgetType.STATISTICS_CHART)
+            }
+            is Update.WidgetQuickSettings -> {
+                widgetInteractor.updateWidgets(WidgetType.QUICK_SETTINGS)
+            }
+            is Update.WidgetUniversal -> {
+                widgetInteractor.updateWidgets(WidgetType.UNIVERSAL)
+            }
+            is Update.WidgetSingleTypes -> {
+                widgetInteractor.updateWidgets(WidgetType.RECORD_TYPE)
+            }
+            is Update.WidgetSingleType -> {
+                widgetInteractor.updateSingleWidgets(typeIds = listOf(update.typeId))
+            }
+            is Update.Wear -> {
+                wearInteractor.update()
+            }
+            is Update.GoalReschedule -> {
+                notificationGoalTimeInteractor.checkAndReschedule(update.typeIds)
+            }
+            is Update.GoalCancel -> {
+                notificationGoalTimeInteractor.cancel(update.idData)
+            }
+            is Update.ActivityReminderCancel -> {
+                notificationActivityInteractor.cancel()
+            }
+            is Update.ActivityReminderReschedule -> {
+                notificationActivityInteractor.checkAndSchedule()
+            }
+            is Update.InactivityReminderCancel -> {
+                notificationInactivityInteractor.cancel()
+            }
+            is Update.InactivityReminderReschedule -> {
+                notificationInactivityInteractor.checkAndSchedule()
+            }
+        }
+    }
+
+    private sealed interface Update {
+        object NotificationTypes : Update
+        data class NotificationType(val typeId: Long) : Update
+        data class NotificationTypeHide(val typeId: Long) : Update
+        object NotificationWithControls : Update
+        object WidgetStatistics : Update
+        object WidgetQuickSettings : Update
+        object WidgetUniversal : Update
+        object WidgetSingleTypes : Update
+        data class WidgetSingleType(val typeId: Long) : Update
+        object Wear : Update
+        data class GoalReschedule(val typeIds: List<Long> = emptyList()) : Update
+        data class GoalCancel(val idData: RecordTypeGoal.IdData) : Update
+        object ActivityReminderCancel : Update
+        object ActivityReminderReschedule : Update
+        object InactivityReminderCancel : Update
+        object InactivityReminderReschedule : Update
     }
 }

@@ -132,7 +132,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
     ) {
         if (context == null || appWidgetManager == null) return
 
-        allowDiskRead { GlobalScope }.launch(Dispatchers.Main) {
+        GlobalScope.launch(allowDiskRead { Dispatchers.Main }) {
             val view: View
             val recordTypeId = prefsInteractor.getWidget(appWidgetId)
             val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
