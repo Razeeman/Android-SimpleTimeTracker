@@ -192,12 +192,16 @@ class CsvRepoImpl @Inject constructor(
         return if (recordType != null) {
             String.format(
                 "\"%s\",%s,%s,\"%s\",\"%s\",\"%s\",%s,%s\n",
-                recordType.name,
+                recordType.name.cleanText(),
                 formatDateTime(record.timeStarted),
                 formatDateTime(record.timeEnded),
-                record.comment,
-                categories.takeUnless { it.isEmpty() }?.joinToString(separator = ", ") { it.name }.orEmpty(),
-                recordTags.takeUnless { it.isEmpty() }?.joinToString(separator = ", ") { it.name }.orEmpty(),
+                record.comment.cleanText(),
+                categories.takeUnless { it.isEmpty() }
+                    ?.joinToString(separator = ", ", transform = { it.name })
+                    .orEmpty().cleanText(),
+                recordTags.takeUnless { it.isEmpty() }
+                    ?.joinToString(separator = ", ", transform = { it.name })
+                    .orEmpty().cleanText(),
                 formatDuration(record.duration),
                 formatDurationMinutes(record.duration),
             )
@@ -237,6 +241,10 @@ class CsvRepoImpl @Inject constructor(
                 dateTimeFormat.parse(timeString)
             }.getOrNull()?.time
         }
+    }
+
+    private fun String.cleanText(): String {
+        return this.replace("\"", "\"\"")
     }
 
     companion object {

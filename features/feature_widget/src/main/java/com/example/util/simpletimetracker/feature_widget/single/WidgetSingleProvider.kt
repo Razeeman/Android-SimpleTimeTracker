@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RemoteViews
+import com.example.util.simpletimetracker.core.extension.allowDiskRead
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
@@ -39,6 +40,7 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -115,12 +117,14 @@ class WidgetSingleProvider : AppWidgetProvider() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
-        GlobalScope.launch(Dispatchers.Main) {
+        allowDiskRead { GlobalScope }.launch(Dispatchers.Main) {
             appWidgetIds?.forEach { prefsInteractor.removeWidget(it) }
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun updateAppWidget(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
@@ -128,7 +132,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
     ) {
         if (context == null || appWidgetManager == null) return
 
-        GlobalScope.launch(Dispatchers.Main) {
+        allowDiskRead { GlobalScope }.launch(Dispatchers.Main) {
             val view: View
             val recordTypeId = prefsInteractor.getWidget(appWidgetId)
             val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
