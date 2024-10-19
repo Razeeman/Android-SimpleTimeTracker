@@ -16,5 +16,5 @@ class WidgetInteractorImpl @Inject constructor(
 
     override fun updateQuickSettingsWidget(widgetId: Int) = widgetManager.updateQuickSettingsWidget(widgetId)
 
-    override fun updateWidgets(types: List<WidgetType>) = widgetManager.updateWidgets(types)
+    override fun updateWidgets(type: WidgetType) = widgetManager.updateWidgets(listOf(type))
 }

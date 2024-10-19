@@ -1,11 +1,8 @@
 package com.example.util.simpletimetracker.feature_notification.goalTime.controller
 
-import com.example.util.simpletimetracker.domain.interactor.NotificationActivitySwitchInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
-import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.domain.interactor.UpdateExternalViewsInteractor
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
-import com.example.util.simpletimetracker.domain.model.WidgetType
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -14,9 +11,7 @@ import javax.inject.Inject
 @OptIn(DelicateCoroutinesApi::class)
 class NotificationGoalTimeBroadcastController @Inject constructor(
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
-    private val widgetInteractor: WidgetInteractor,
-    private val notificationTypeInteractor: NotificationTypeInteractor,
-    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
+    private val externalViewsInteractor: UpdateExternalViewsInteractor,
 ) {
 
     fun onGoalTimeReminder(
@@ -26,10 +21,7 @@ class NotificationGoalTimeBroadcastController @Inject constructor(
         GlobalScope.launch {
             notificationGoalTimeInteractor.show(idData, goalRange)
             if (idData is RecordTypeGoal.IdData.Type) {
-                val typeId = idData.value
-                widgetInteractor.updateSingleWidgets(typeIds = listOf(typeId))
-                notificationTypeInteractor.checkAndShow(typeId = typeId)
-                notificationActivitySwitchInteractor.updateNotification()
+                externalViewsInteractor.onGoalTimeReached(idData.value)
             }
         }
     }
@@ -37,9 +29,7 @@ class NotificationGoalTimeBroadcastController @Inject constructor(
     fun onRangeEndReminder() {
         GlobalScope.launch {
             reschedule()
-            widgetInteractor.updateWidgets(listOf(WidgetType.RECORD_TYPE))
-            notificationTypeInteractor.updateNotifications()
-            notificationActivitySwitchInteractor.updateNotification()
+            externalViewsInteractor.onGoalRangeEnd()
         }
     }
 

@@ -5,18 +5,14 @@ import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.domain.extension.flip
-import com.example.util.simpletimetracker.domain.interactor.NotificationActivitySwitchInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
-import com.example.util.simpletimetracker.domain.model.WidgetType
+import com.example.util.simpletimetracker.domain.interactor.UpdateExternalViewsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.R
+import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsAdditionalViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
@@ -33,13 +29,10 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val resourceRepo: ResourceRepo,
     private val settingsMapper: SettingsMapper,
-    private val notificationTypeInteractor: NotificationTypeInteractor,
-    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
-    private val widgetInteractor: WidgetInteractor,
-    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val settingsAdditionalViewDataInteractor: SettingsAdditionalViewDataInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
+    private val externalViewsInteractor: UpdateExternalViewsInteractor,
 ) : ViewModelDelegate() {
 
     val keepScreenOnCheckbox: LiveData<Boolean>
@@ -116,8 +109,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
 
         delegateScope.launch {
             prefsInteractor.setFirstDayOfWeek(newDayOfWeek)
-            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
-            notificationGoalTimeInteractor.checkAndReschedule()
+            externalViewsInteractor.onFirstDayOfWeekChange()
             parent?.updateContent()
         }
     }
@@ -145,11 +137,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         delegateScope.launch {
             val newValue = prefsInteractor.getStartOfDayShift() * -1
             prefsInteractor.setStartOfDayShift(newValue)
-            widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
-            widgetInteractor.updateWidgets(listOf(WidgetType.RECORD_TYPE))
-            notificationTypeInteractor.updateNotifications()
-            notificationActivitySwitchInteractor.updateNotification()
-            notificationGoalTimeInteractor.checkAndReschedule()
+            externalViewsInteractor.onStartOfDaySignChange()
             parent?.updateContent()
         }
     }
@@ -191,7 +179,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowRecordTagSelection()
             prefsInteractor.setShowRecordTagSelection(newValue)
-            widgetInteractor.updateWidgets(listOf(WidgetType.QUICK_SETTINGS))
+            externalViewsInteractor.onShowRecordTagSelectionChange()
             parent?.updateContent()
         }
     }
@@ -278,11 +266,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
                 val wasPositive = prefsInteractor.getStartOfDayShift() >= 0
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive)
                 prefsInteractor.setStartOfDayShift(newValue)
-                widgetInteractor.updateWidgets(listOf(WidgetType.STATISTICS_CHART))
-                widgetInteractor.updateWidgets(listOf(WidgetType.RECORD_TYPE))
-                notificationTypeInteractor.updateNotifications()
-                notificationActivitySwitchInteractor.updateNotification()
-                notificationGoalTimeInteractor.checkAndReschedule()
+                externalViewsInteractor.onStartOfDayChange()
                 parent?.updateContent()
             }
         }

@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.domain.interactor
 
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -17,18 +16,12 @@ class AddRunningRecordMediator @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val addRecordMediator: AddRecordMediator,
     private val recordTypeToDefaultTagInteractor: RecordTypeToDefaultTagInteractor,
-    private val notificationTypeInteractor: NotificationTypeInteractor,
-    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
-    private val notificationInactivityInteractor: NotificationInactivityInteractor,
-    private val notificationActivityInteractor: NotificationActivityInteractor,
-    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val notificationGoalCountInteractor: NotificationGoalCountInteractor,
-    private val widgetInteractor: WidgetInteractor,
-    private val wearInteractor: WearInteractor,
     private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
     private val shouldShowTagSelectionInteractor: ShouldShowTagSelectionInteractor,
     private val pomodoroStartInteractor: PomodoroStartInteractor,
     private val complexRuleProcessActionInteractor: ComplexRuleProcessActionInteractor,
+    private val updateExternalViewsInteractor: UpdateExternalViewsInteractor,
 ) {
 
     /**
@@ -150,24 +143,18 @@ class AddRunningRecordMediator @Inject constructor(
         params: StartParams,
     ) {
         if (runningRecordInteractor.get(params.typeId) == null && params.typeId > 0L) {
-            RunningRecord(
+            val data = RunningRecord(
                 id = params.typeId,
                 timeStarted = params.timeStarted,
                 comment = params.comment,
                 tagIds = params.tagIds,
-            ).let {
-                runningRecordInteractor.add(it)
-                notificationTypeInteractor.checkAndShow(params.typeId)
-                if (params.updateNotificationSwitch) {
-                    notificationActivitySwitchInteractor.updateNotification()
-                }
-                notificationInactivityInteractor.cancel()
-                // Schedule only on first activity start.
-                if (runningRecordInteractor.getAll().size == 1) notificationActivityInteractor.checkAndSchedule()
-                notificationGoalTimeInteractor.checkAndReschedule(listOf(params.typeId))
-                widgetInteractor.updateWidgets()
-                wearInteractor.update()
-            }
+            )
+
+            runningRecordInteractor.add(data)
+            updateExternalViewsInteractor.onRunningRecordAdd(
+                typeId = params.typeId,
+                updateNotificationSwitch = params.updateNotificationSwitch,
+            )
         }
     }
 

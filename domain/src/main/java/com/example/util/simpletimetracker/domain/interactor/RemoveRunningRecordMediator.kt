@@ -7,16 +7,10 @@ import javax.inject.Inject
 class RemoveRunningRecordMediator @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val notificationTypeInteractor: NotificationTypeInteractor,
-    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
-    private val notificationInactivityInteractor: NotificationInactivityInteractor,
-    private val notificationActivityInteractor: NotificationActivityInteractor,
-    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
-    private val widgetInteractor: WidgetInteractor,
-    private val wearInteractor: WearInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
     private val pomodoroStopInteractor: PomodoroStopInteractor,
+    private val updateExternalViewsInteractor: UpdateExternalViewsInteractor,
 ) {
 
     suspend fun removeWithRecordAdd(
@@ -51,18 +45,10 @@ class RemoveRunningRecordMediator @Inject constructor(
         updateNotificationSwitch: Boolean = true,
     ) {
         runningRecordInteractor.remove(typeId)
-        notificationTypeInteractor.checkAndHide(typeId)
-        if (updateNotificationSwitch) {
-            notificationActivitySwitchInteractor.updateNotification()
-        }
-        notificationInactivityInteractor.checkAndSchedule()
-        // Cancel if no activity tracked.
-        val runningRecordIds = runningRecordInteractor.getAll().map { it.id }
-        if (runningRecordIds.isEmpty()) notificationActivityInteractor.cancel()
-        notificationGoalTimeInteractor.checkAndReschedule(runningRecordIds + typeId)
-        if (updateWidgets) {
-            widgetInteractor.updateWidgets()
-            wearInteractor.update()
-        }
+        updateExternalViewsInteractor.onRunningRecordRemove(
+            typeId = typeId,
+            updateWidgets = updateWidgets,
+            updateNotificationSwitch = updateNotificationSwitch
+        )
     }
 }

@@ -19,7 +19,6 @@ import com.example.util.simpletimetracker.core.view.ViewChooserStateDelegate
 import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.ActivityFilterInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeCategoryInteractor
@@ -27,8 +26,8 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRecordTypeMediator
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.interactor.UpdateExternalViewsInteractor
 import com.example.util.simpletimetracker.domain.interactor.WearInteractor
-import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.AppColor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RecordType
@@ -63,10 +62,9 @@ class ChangeRecordTypeViewModel @Inject constructor(
     private val viewDataInteractor: ChangeRecordTypeViewDataInteractor,
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val activityFilterInteractor: ActivityFilterInteractor,
-    private val widgetInteractor: WidgetInteractor,
     private val wearInteractor: WearInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
-    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val externalViewsInteractor: UpdateExternalViewsInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
@@ -244,11 +242,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
         viewModelScope.launch {
             if (recordTypeId != 0L) {
                 recordTypeInteractor.archive(recordTypeId)
-                notificationTypeInteractor.updateNotifications()
                 runningRecordInteractor.get(recordTypeId)?.let { runningRecord ->
                     removeRunningRecordMediator.removeWithRecordAdd(runningRecord)
                 }
-                wearInteractor.update()
+                externalViewsInteractor.onTypeArchive()
                 showArchivedMessage(R.string.change_record_type_archived)
                 keyboardVisibility.set(false)
                 router.back()
@@ -291,10 +288,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             val addedId = saveRecordType()
             saveCategories(addedId)
             goalsViewModelDelegate.saveGoals(RecordTypeGoal.IdData.Type(addedId))
-            notificationTypeInteractor.updateNotifications()
-            notificationGoalTimeInteractor.checkAndReschedule(listOf(recordTypeId))
-            widgetInteractor.updateWidgets()
-            wearInteractor.update()
+            externalViewsInteractor.onTypeAddOrChange(recordTypeId)
             keyboardVisibility.set(false)
             router.back()
         }
@@ -354,8 +348,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
         updateAdditionalState()
     }
 
-    // TODO check all after actions that need to be done after type delete,
-    //  also tag, category, record, running record etc.
     private fun delete() {
         router.back() // Close dialog.
         deleteButtonEnabled.set(false)
@@ -363,7 +355,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             if (recordTypeId != 0L) {
                 removeRunningRecordMediator.remove(recordTypeId)
                 removeRecordTypeMediator.remove(recordTypeId)
-                notificationTypeInteractor.updateNotifications()
+                externalViewsInteractor.onTypeRemoveWithoutArchive()
                 showMessage(R.string.archive_activity_deleted)
                 keyboardVisibility.set(false)
                 router.back()

@@ -5,10 +5,10 @@ import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.BackupInteractor
 import com.example.util.simpletimetracker.domain.interactor.ClearDataInteractor
 import com.example.util.simpletimetracker.domain.interactor.FilterSelectableTagsInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.UpdateExternalViewsInteractor
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
@@ -25,10 +25,10 @@ class DateEditChangeInteractor @Inject constructor(
     private val removeRecordMediator: RemoveRecordMediator,
     private val recordFilterInteractor: RecordFilterInteractor,
     private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
-    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val filterSelectableTagsInteractor: FilterSelectableTagsInteractor,
     private val clearDataInteractor: ClearDataInteractor,
     private val backupInteractor: BackupInteractor,
+    private val externalViewsInteractor: UpdateExternalViewsInteractor,
 ) {
 
     suspend fun changeData(
@@ -112,9 +112,7 @@ class DateEditChangeInteractor @Inject constructor(
         }
         // Check goal time and statistics widget consistency.
         if (newTypeId != null) {
-            oldTypeIds.forEach { typeId ->
-                notificationGoalTimeInteractor.checkAndReschedule(listOf(typeId))
-            }
+            externalViewsInteractor.onRecordsChangeType(oldTypeIds)
             addRecordMediator.doAfterAdd(newTypeId)
         }
     }

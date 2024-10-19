@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 class RemoveRecordTagMediator @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
-    private val wearInteractor: WearInteractor,
+    private val externalViewsInteractor: UpdateExternalViewsInteractor,
 ) {
 
     suspend fun remove(tagId: Long) {
@@ -13,6 +13,6 @@ class RemoveRecordTagMediator @Inject constructor(
     }
 
     private suspend fun doAfterRemove() {
-        wearInteractor.update()
+        externalViewsInteractor.onTagRemove()
     }
 }

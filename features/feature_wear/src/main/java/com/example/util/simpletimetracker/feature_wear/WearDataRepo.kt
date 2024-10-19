@@ -115,7 +115,7 @@ class WearDataRepo @Inject constructor(
 
     override suspend fun setSettings(settings: WearSettingsDTO) {
         prefsInteractor.setAllowMultitasking(settings.allowMultitasking)
-        widgetInteractor.updateWidgets(listOf(WidgetType.QUICK_SETTINGS))
+        widgetInteractor.updateWidgets(WidgetType.QUICK_SETTINGS)
         settingsDataUpdateInteractor.send()
     }
 

@@ -13,12 +13,10 @@ import com.example.util.simpletimetracker.domain.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.FavouriteCommentInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationActivitySwitchInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
-import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
+import com.example.util.simpletimetracker.domain.interactor.UpdateExternalViewsInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
@@ -46,9 +44,7 @@ class ChangeRecordViewModel @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val addRecordMediator: AddRecordMediator,
     private val changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
-    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
-    private val notificationTypeInteractor: NotificationTypeInteractor,
-    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
+    private val externalViewsInteractor: UpdateExternalViewsInteractor,
     private val timeMapper: TimeMapper,
     private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
 ) : ChangeRecordBaseViewModel(
@@ -136,9 +132,7 @@ class ChangeRecordViewModel @Inject constructor(
         ).let {
             addRecordMediator.add(it)
             if (newTypeId != originalTypeId) {
-                notificationTypeInteractor.checkAndShow(originalTypeId)
-                notificationActivitySwitchInteractor.updateNotification()
-                notificationGoalTimeInteractor.checkAndReschedule(listOf(originalTypeId))
+                externalViewsInteractor.onRecordChangeType(originalTypeId)
             }
             router.back()
         }

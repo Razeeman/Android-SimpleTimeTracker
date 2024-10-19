@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRecordTagMediator
 import com.example.util.simpletimetracker.domain.interactor.RemoveRecordTypeMediator
+import com.example.util.simpletimetracker.domain.interactor.UpdateExternalViewsInteractor
 import com.example.util.simpletimetracker.domain.interactor.WearInteractor
 import com.example.util.simpletimetracker.feature_archive.R
 import com.example.util.simpletimetracker.feature_archive.interactor.ArchiveViewDataInteractor
@@ -32,13 +33,11 @@ class ArchiveViewModel @Inject constructor(
     private val router: Router,
     private val resourceRepo: ResourceRepo,
     private val archiveViewDataInteractor: ArchiveViewDataInteractor,
-    private val notificationTypeInteractor: NotificationTypeInteractor,
-    private val notificationActivitySwitchInteractor: NotificationActivitySwitchInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
-    private val wearInteractor: WearInteractor,
     private val removeRecordTypeMediator: RemoveRecordTypeMediator,
     private val removeRecordTagMediator: RemoveRecordTagMediator,
+    private val externalViewsInteractor: UpdateExternalViewsInteractor,
 ) : ViewModel() {
 
     val viewData: LiveData<ArchiveViewData> by lazy {
@@ -93,9 +92,7 @@ class ArchiveViewModel @Inject constructor(
                 }
             }
 
-            notificationTypeInteractor.updateNotifications()
-            notificationActivitySwitchInteractor.updateNotification()
-            wearInteractor.update()
+            externalViewsInteractor.onRestoreFromArchive()
             updateViewData()
             showMessage(message)
         }
