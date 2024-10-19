@@ -73,6 +73,7 @@ enum class SettingsBlock {
     AdditionalTagSelectionExcludeActivities,
     AdditionalCloseAfterOneTag,
     AdditionalKeepStatisticsRange,
+    AdditionalRetroactiveTrackingMode,
     AdditionalKeepScreenOn,
     AdditionalFirstDayOfWeek,
     AdditionalShiftStartOfDay,

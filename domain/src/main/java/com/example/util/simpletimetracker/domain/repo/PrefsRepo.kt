@@ -44,6 +44,8 @@ interface PrefsRepo {
 
     var keepStatisticsRange: Boolean
 
+    var retroactiveTrackingMode: Boolean
+
     var firstDayOfWeek: Int
 
     var startOfDayShift: Long // in milliseconds

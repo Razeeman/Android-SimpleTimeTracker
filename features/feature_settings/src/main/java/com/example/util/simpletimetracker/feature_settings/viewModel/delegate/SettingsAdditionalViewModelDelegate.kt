@@ -11,6 +11,8 @@ import com.example.util.simpletimetracker.domain.interactor.NotificationActivity
 import com.example.util.simpletimetracker.domain.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
+import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -36,6 +38,8 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
     private val widgetInteractor: WidgetInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val settingsAdditionalViewDataInteractor: SettingsAdditionalViewDataInteractor,
+    private val runningRecordInteractor: RunningRecordInteractor,
+    private val removeRunningRecordMediator: RemoveRunningRecordMediator,
 ) : ViewModelDelegate() {
 
     val keepScreenOnCheckbox: LiveData<Boolean>
@@ -65,6 +69,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             SettingsBlock.AdditionalCloseAfterOneTag -> onRecordTagSelectionCloseClicked()
             SettingsBlock.AdditionalTagSelectionExcludeActivities -> onRecordTagSelectionExcludeActivitiesClicked()
             SettingsBlock.AdditionalKeepStatisticsRange -> onKeepStatisticsRangeClicked()
+            SettingsBlock.AdditionalRetroactiveTrackingMode -> onRetroactiveTrackingModeClicked()
             SettingsBlock.AdditionalSendEvents -> onAutomatedTrackingSendEventsClicked()
             SettingsBlock.AdditionalKeepScreenOn -> onKeepScreenOnClicked()
             SettingsBlock.AdditionalDataEdit -> onDataEditClick()
@@ -154,6 +159,20 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             val newValue = !prefsInteractor.getKeepStatisticsRange()
             prefsInteractor.setKeepStatisticsRange(newValue)
             parent?.updateContent()
+        }
+    }
+
+    private fun onRetroactiveTrackingModeClicked() {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getRetroactiveTrackingMode()
+            prefsInteractor.setRetroactiveTrackingMode(newValue)
+            parent?.updateContent()
+            runningRecordInteractor.getAll().forEach {
+                removeRunningRecordMediator.removeWithRecordAdd(it)
+            }
+            // TODO RETRO update widgets
+            // TODO RETRO update notifs
+            // TODO RETRO update wear
         }
     }
 

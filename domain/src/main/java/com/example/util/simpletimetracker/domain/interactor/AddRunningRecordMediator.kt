@@ -1,10 +1,12 @@
 package com.example.util.simpletimetracker.domain.interactor
 
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.ResultContainer
 import com.example.util.simpletimetracker.domain.model.RunningRecord
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class AddRunningRecordMediator @Inject constructor(
@@ -79,15 +81,18 @@ class AddRunningRecordMediator @Inject constructor(
             tagIds = actualTags,
             comment = comment,
         )
-        addInternal(
-            StartParams(
-                typeId = typeId,
-                comment = comment,
-                tagIds = actualTags,
-                timeStarted = timeStarted ?: System.currentTimeMillis(),
-                updateNotificationSwitch = updateNotificationSwitch,
-            ),
+        val startParams = StartParams(
+            typeId = typeId,
+            comment = comment,
+            tagIds = actualTags,
+            timeStarted = timeStarted ?: System.currentTimeMillis(),
+            updateNotificationSwitch = updateNotificationSwitch,
         )
+        if (prefsInteractor.getRetroactiveTrackingMode()) {
+            addRetroactiveModeInternal(startParams)
+        } else {
+            addInternal(startParams)
+        }
         // Show goal count only on timer start, otherwise it would show on change also.
         notificationGoalCountInteractor.checkAndShow(typeId)
         pomodoroStartInteractor.checkAndStart(typeId)
@@ -119,6 +124,25 @@ class AddRunningRecordMediator @Inject constructor(
             addInstantRecord(params, type)
         } else {
             addRunningRecord(params)
+        }
+    }
+
+    private suspend fun addRetroactiveModeInternal(params: StartParams) {
+        val type = recordTypeInteractor.get(params.typeId) ?: return
+        val prevRecord = recordInteractor.getPrev(params.timeStarted).firstOrNull()
+
+        if (type.defaultDuration > 0L) {
+            val newTimeStarted = prevRecord?.timeEnded
+                ?: (params.timeStarted - type.defaultDuration * 1000)
+            addInstantRecord(
+                params = params.copy(timeStarted = newTimeStarted),
+                type = type,
+            )
+        } else {
+            addRecordRetroactively(
+                params = params,
+                prevRecord = prevRecord,
+            )
         }
     }
 
@@ -163,6 +187,41 @@ class AddRunningRecordMediator @Inject constructor(
                 updateNotificationSwitch = params.updateNotificationSwitch,
             )
         }
+    }
+
+    private suspend fun addRecordRetroactively(
+        params: StartParams,
+        prevRecord: Record?,
+    ) {
+        val shouldMergeWithPrevRecord = prevRecord != null &&
+            prevRecord.typeId == params.typeId &&
+            prevRecord.tagIds == params.tagIds
+
+        val record = if (prevRecord != null && shouldMergeWithPrevRecord) {
+            Record(
+                id = prevRecord.id, // Updates existing record.
+                typeId = params.typeId,
+                timeStarted = prevRecord.timeStarted,
+                timeEnded = params.timeStarted,
+                comment = params.comment,
+                tagIds = params.tagIds,
+            )
+        } else {
+            val newTimeStarted = prevRecord?.timeEnded
+                ?: (params.timeStarted - TimeUnit.MINUTES.toMillis(5))
+            Record(
+                id = 0L, // Creates new record.
+                typeId = params.typeId,
+                timeStarted = newTimeStarted,
+                timeEnded = params.timeStarted,
+                comment = params.comment,
+                tagIds = params.tagIds,
+            )
+        }
+        addRecordMediator.add(
+            record = record,
+            updateNotificationSwitch = params.updateNotificationSwitch,
+        )
     }
 
     private suspend fun processRules(

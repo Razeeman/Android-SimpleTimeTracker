@@ -10,7 +10,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.Run
 
 fun createRunningRecordAdapterDelegate(
     transitionNamePrefix: String,
-    onItemClick: ((ViewData, Pair<Any, String>) -> Unit),
+    onItemClick: ((ViewData, Pair<Any, String>) -> Unit) = { _, _ -> },
     onItemLongClick: ((ViewData, Pair<Any, String>) -> Unit) = { _, _ -> },
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,

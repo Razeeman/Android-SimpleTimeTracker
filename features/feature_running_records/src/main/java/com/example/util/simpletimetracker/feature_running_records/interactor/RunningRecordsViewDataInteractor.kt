@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurat
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
@@ -23,6 +24,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
+    private val recordInteractor: RecordInteractor,
     private val activityFilterViewDataInteractor: ActivityFilterViewDataInteractor,
     private val mapper: RunningRecordsViewDataMapper,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
@@ -31,6 +33,8 @@ class RunningRecordsViewDataInteractor @Inject constructor(
     private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
 ) {
 
+    // TODO RETRO what to do on first start, when there is no prev record?
+    // TODO RETRO show timers also if any
     suspend fun getViewData(
         completeTypeIds: Set<Long>,
     ): List<ViewHolderType> {
@@ -49,6 +53,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val showPomodoroButton = prefsInteractor.getEnablePomodoroMode()
         val showRepeatButton = prefsInteractor.getEnableRepeatButton()
         val isPomodoroStarted = prefsInteractor.getPomodoroModeStartedTimestampMs() != 0L
+        val retroactiveTrackingModeEnabled = prefsInteractor.getRetroactiveTrackingMode()
         val goals = filterGoalsByDayOfWeekInteractor
             .execute(recordTypeGoalInteractor.getAllTypeGoals())
             .groupBy { it.idData.value }
@@ -63,10 +68,26 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         }
 
         val runningRecordsViewData = when {
-            showFirstEnterHint ->
+            showFirstEnterHint -> {
                 listOf(mapper.mapToTypesEmpty())
-            runningRecords.isEmpty() ->
+            }
+            retroactiveTrackingModeEnabled -> {
+                val prevRecord = recordInteractor.getPrev(
+                    timeStarted = System.currentTimeMillis(),
+                ).firstOrNull()
+                mapper.mapToRetroActiveMode(
+                    typesMap = recordTypesMap,
+                    recordTags = recordTags,
+                    prevRecord = prevRecord,
+                    isDarkTheme = isDarkTheme,
+                    useProportionalMinutes = useProportionalMinutes,
+                    useMilitaryTime = useMilitaryTime,
+                    showSeconds = showSeconds,
+                )
+            }
+            runningRecords.isEmpty() -> {
                 listOf(mapper.mapToEmpty())
+            }
             else -> {
                 runningRecords
                     .sortedByDescending(RunningRecord::timeStarted)

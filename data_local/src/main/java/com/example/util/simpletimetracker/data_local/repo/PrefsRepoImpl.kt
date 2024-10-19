@@ -128,6 +128,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_KEEP_STATISTICS_RANGE, false,
     )
 
+    override var retroactiveTrackingMode: Boolean by prefs.delegate(
+        KEY_RETROACTIVE_TRACKING_MODE, false
+    )
+
     override var firstDayOfWeek: Int by prefs.delegate(
         KEY_FIRST_DAY_OF_WEEK, firstDayOfWeekDefault,
     )
@@ -548,6 +552,7 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_CSV_EXPORT_CUSTOM_FILENAME = "csvExportCustomFilename"
         const val KEY_ICS_EXPORT_CUSTOM_FILENAME = "icsExportCustomFilename"
         const val KEY_KEEP_STATISTICS_RANGE = "keepStatisticsRange"
+        const val KEY_RETROACTIVE_TRACKING_MODE = "retroactiveTrackingMode"
         const val KEY_FIRST_DAY_OF_WEEK = "firstDayOfWeek"
         const val KEY_START_OF_DAY_SHIFT = "startOfDayShift"
         const val KEY_SHOW_UNTRACKED_IN_RECORDS = "showUntrackedInRecords"

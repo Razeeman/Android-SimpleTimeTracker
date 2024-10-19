@@ -45,6 +45,7 @@ import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companio
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_RECORD_TYPES_FILTERED_ON_CHART
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_RECORD_TYPES_FILTERED_ON_LIST
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_REPEAT_BUTTON_TYPE
+import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_RETROACTIVE_TRACKING_MODE
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_REVERSE_ORDER_IN_CALENDAR
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_ACTIVITY_FILTERS
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_CALENDAR_BUTTON_ON_RECORDS_TAB
@@ -155,6 +156,7 @@ class BackupPrefsRepo @Inject constructor(
             PrefsProcessor(KEY_CSV_EXPORT_CUSTOM_FILENAME, ::csvExportCustomFileName),
             PrefsProcessor(KEY_ICS_EXPORT_CUSTOM_FILENAME, ::icsExportCustomFileName),
             PrefsProcessor(KEY_KEEP_STATISTICS_RANGE, ::keepStatisticsRange),
+            PrefsProcessor(KEY_RETROACTIVE_TRACKING_MODE, ::retroactiveTrackingMode),
             PrefsProcessor(KEY_FIRST_DAY_OF_WEEK, ::firstDayOfWeek),
             PrefsProcessor(KEY_START_OF_DAY_SHIFT, ::startOfDayShift),
             PrefsProcessor(KEY_SHOW_UNTRACKED_IN_RECORDS, ::showUntrackedInRecords),

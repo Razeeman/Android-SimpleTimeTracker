@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemR
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData as ViewData
 
 fun createRecordAdapterDelegate(
-    onItemClick: ((ViewData, Pair<Any, String>) -> Unit),
+    onItemClick: ((ViewData, Pair<Any, String>) -> Unit) = { _, _ -> },
     onItemLongClick: ((ViewData, Pair<Any, String>) -> Unit) = { _, _ -> },
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,

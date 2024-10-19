@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.example.util.simpletimetracker.feature_views.RecordView
+        android:id="@+id/viewRecordItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        app:cardElevation="@dimen/record_type_card_elevation"
+        app:itemTagColor="@color/white_alpha_60"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemColor="@color/blue_800"
+        tools:itemDuration="5h 23m 3s"
+        tools:itemName="Record"
+        tools:itemTagName="Tag"
+        tools:itemTimeEnded="11:58"
+        tools:itemTimeStarted="07:35" />
+
+    <Space
+        android:id="@+id/spaceRecordItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/viewRecordItem"
+        app:layout_constraintStart_toStartOf="@id/viewRecordItem" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnRecordItemHint"
+        style="@style/InputFieldCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardElevation="@dimen/record_type_card_elevation"
+        app:layout_constraintStart_toStartOf="@id/spaceRecordItem"
+        app:layout_constraintTop_toTopOf="@id/spaceRecordItem">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRecordItemHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?appInputFieldBorder"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="2dp"
+            android:text="@string/statistics_detail_last_record"
+            android:textColor="?appTextHintColor"
+            android:textSize="11sp"
+            app:autoSizeTextType="none" />
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

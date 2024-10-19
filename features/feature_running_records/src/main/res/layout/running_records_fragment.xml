@@ -4,6 +4,7 @@
     android:id="@+id/rvRunningRecordsList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:clipToPadding="false"
     tools:itemCount="3"
     tools:listitem="@layout/item_running_record_layout" />

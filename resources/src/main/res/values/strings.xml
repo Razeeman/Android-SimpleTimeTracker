@@ -297,6 +297,8 @@
     <string name="settings_show_notification_with_switch_hide">Hide when timer notification is shown</string>
     <string name="settings_keep_statistics_range">Keep statistics range</string>
     <string name="settings_keep_statistics_range_hint">If enabled detailed statistics will be opened with the same time range selected in statistics.</string>
+    <string name="settings_retroactive_tracking_mode">Enable retroactive time tracking</string>
+    <string name="settings_retroactive_tracking_mode_hint">Track time by selecting which activity have been done since last time rather than which activity will be done from now.</string>
     <string name="settings_start_of_day">Shift start of the day</string>
     <string name="settings_start_of_day_hint">Start of day will be shifted by the specified amount of time, forward or backward depending on the sign.</string>
     <string name="settings_start_of_day_hint_value">Today starts at %s</string>

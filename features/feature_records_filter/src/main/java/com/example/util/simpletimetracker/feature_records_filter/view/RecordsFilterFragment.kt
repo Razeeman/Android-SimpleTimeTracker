@@ -77,7 +77,7 @@ class RecordsFilterFragment :
             createRecordsDateDividerAdapterDelegate(),
             createRecordTypeAdapterDelegate(viewModel::onRecordTypeClick),
             createCategoryAdapterDelegate(viewModel::onCategoryClick),
-            createRecordAdapterDelegate(viewModel::onRecordClick),
+            createRecordAdapterDelegate(onItemClick = viewModel::onRecordClick),
             createSelectionButtonAdapterDelegate(viewModel::onSelectionButtonClick),
             createRecordsFilterCommentAdapterDelegate(viewModel::onCommentChange),
             createRecordsFilterButtonAdapterDelegate(viewModel::onInnerFilterButtonClick),
@@ -94,7 +94,7 @@ class RecordsFilterFragment :
             createLoaderAdapterDelegate(),
             createEmptyAdapterDelegate(),
             createRecordsDateDividerAdapterDelegate(),
-            createRunningRecordAdapterDelegate("", { _, _ -> }),
+            createRunningRecordAdapterDelegate(""),
             createRecordAdapterDelegate(viewModel::onRecordClick),
             createMultitaskRecordAdapterDelegate(),
         )

@@ -205,6 +205,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.keepStatisticsRange = isEnabled
     }
 
+    suspend fun getRetroactiveTrackingMode(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.retroactiveTrackingMode
+    }
+
+    suspend fun setRetroactiveTrackingMode(isEnabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.retroactiveTrackingMode = isEnabled
+    }
+
     suspend fun getFirstDayOfWeek(): DayOfWeek = withContext(Dispatchers.IO) {
         // Same as in java Calendar
         when (prefsRepo.firstDayOfWeek) {

@@ -95,6 +95,15 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
             )
 
             result += SettingsCheckboxViewData(
+                block = SettingsBlock.AdditionalRetroactiveTrackingMode,
+                title = resourceRepo.getString(R.string.settings_retroactive_tracking_mode),
+                subtitle = resourceRepo.getString(R.string.settings_retroactive_tracking_mode_hint),
+                isChecked = prefsInteractor.getRetroactiveTrackingMode(),
+                bottomSpaceIsVisible = true,
+                dividerIsVisible = true,
+            )
+
+            result += SettingsCheckboxViewData(
                 block = SettingsBlock.AdditionalKeepScreenOn,
                 title = resourceRepo.getString(R.string.settings_keep_screen_on),
                 subtitle = "",
