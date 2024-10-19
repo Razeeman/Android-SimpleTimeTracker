@@ -7,7 +7,6 @@ import javax.inject.Inject
 
 class CsvExportInteractor @Inject constructor(
     private val csvRepo: CsvRepo,
-    private val runningRecordInteractor: RunningRecordInteractor,
     private val externalViewsInteractor: UpdateExternalViewsInteractor,
 ) {
 
@@ -17,10 +16,7 @@ class CsvExportInteractor @Inject constructor(
 
     suspend fun importCsvFile(uriString: String): ResultCode {
         val resultCode = csvRepo.importCsvFile(uriString)
-
-        val runningRecords = runningRecordInteractor.getAll()
-        externalViewsInteractor.onCsvImport(runningRecords.map { it.id })
-
+        externalViewsInteractor.onCsvImport()
         return resultCode
     }
 }

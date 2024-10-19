@@ -5,8 +5,6 @@ import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import javax.inject.Inject
 
-// TODO check all after actions that need to be done after type delete,
-//  also tag, category, record, running record etc.
 class UpdateExternalViewsInteractor @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val notificationTypeInteractor: NotificationTypeInteractor,
@@ -22,6 +20,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
     // Categories are affected.
     suspend fun onTypeRemove(
         typeId: Long,
+        fromArchive: Boolean,
     ) {
         val runningRecordIds = runningRecordInteractor.getAll().map(RunningRecord::id)
 
@@ -29,19 +28,17 @@ class UpdateExternalViewsInteractor @Inject constructor(
             Update.GoalCancel(RecordTypeGoal.IdData.Type(typeId)),
             Update.GoalReschedule(runningRecordIds + typeId),
             Update.WidgetStatistics,
-            Update.Wear,
-        )
-    }
-
-    suspend fun onTypeRemoveWithoutArchive() {
-        runUpdates(
-            Update.NotificationTypes,
+            Update.WidgetSingleType(typeId),
+            Update.Wear.takeIf { !fromArchive },
+            Update.NotificationTypes.takeIf { !fromArchive },
+            Update.NotificationWithControls.takeIf { !fromArchive }
         )
     }
 
     suspend fun onTypeArchive() {
         runUpdates(
             Update.NotificationTypes,
+            Update.NotificationWithControls,
             Update.Wear,
         )
     }
@@ -61,6 +58,8 @@ class UpdateExternalViewsInteractor @Inject constructor(
 
     suspend fun onDefaultTypesAdd() {
         runUpdates(
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
             Update.Wear,
         )
     }
@@ -157,7 +156,6 @@ class UpdateExternalViewsInteractor @Inject constructor(
     ) {
         runUpdates(
             Update.NotificationType(originalTypeId),
-            Update.NotificationWithControls,
             Update.GoalReschedule(listOf(originalTypeId)),
         )
     }
@@ -171,16 +169,13 @@ class UpdateExternalViewsInteractor @Inject constructor(
         )
     }
 
-    suspend fun onTagRemove() {
+    suspend fun onTagRemove(
+        fromArchive: Boolean,
+    ) {
         runUpdates(
+            Update.NotificationTypes.takeIf { !fromArchive },
+            Update.NotificationWithControls.takeIf { !fromArchive },
             Update.Wear,
-        )
-    }
-
-    suspend fun onTagRemoveWithoutArchiving() {
-        runUpdates(
-            Update.NotificationTypes,
-            Update.NotificationWithControls,
         )
     }
 
@@ -349,11 +344,13 @@ class UpdateExternalViewsInteractor @Inject constructor(
         )
     }
 
-    suspend fun onCsvImport(
-        typeIds: List<Long>,
-    ) {
+    suspend fun onCsvImport() {
+        val runningRecordIds = runningRecordInteractor.getAll().map { it.id }
+
         runUpdates(
-            Update.GoalReschedule(typeIds),
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
+            Update.GoalReschedule(runningRecordIds),
             Update.WidgetStatistics,
             Update.WidgetSingleTypes,
         )

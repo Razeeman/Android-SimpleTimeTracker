@@ -354,8 +354,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
         viewModelScope.launch {
             if (recordTypeId != 0L) {
                 removeRunningRecordMediator.remove(recordTypeId)
-                removeRecordTypeMediator.remove(recordTypeId)
-                externalViewsInteractor.onTypeRemoveWithoutArchive()
+                removeRecordTypeMediator.remove(recordTypeId, fromArchive = false)
                 showMessage(R.string.archive_activity_deleted)
                 keyboardVisibility.set(false)
                 router.back()

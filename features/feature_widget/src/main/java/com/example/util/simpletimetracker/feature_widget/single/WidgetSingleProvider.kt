@@ -158,7 +158,6 @@ class WidgetSingleProvider : AppWidgetProvider() {
                 )
             } else {
                 val recordType = recordTypeInteractor.get(recordTypeId)
-                    ?.takeUnless { it.hidden }
                 val goal = filterGoalsByDayOfWeekInteractor
                     .execute(recordTypeGoalInteractor.getByType(recordTypeId))
                     .getDaily()

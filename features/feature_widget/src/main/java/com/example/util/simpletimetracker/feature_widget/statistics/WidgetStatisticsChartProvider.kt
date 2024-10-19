@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.RemoteViews
 import androidx.core.text.bold
+import com.example.util.simpletimetracker.core.extension.allowDiskRead
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -34,6 +35,7 @@ import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.statistics.customView.WidgetStatisticsChartView
 import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -89,6 +91,7 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
         updateAppWidget(context, appWidgetManager, appWidgetId)
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun updateAppWidget(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
@@ -96,7 +99,7 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
     ) {
         if (context == null || appWidgetManager == null) return
 
-        GlobalScope.launch(Dispatchers.Main) {
+        GlobalScope.launch(allowDiskRead { Dispatchers.Main }) {
             val view = prepareView(context, appWidgetId)
             val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
             measureView(context, options, view)

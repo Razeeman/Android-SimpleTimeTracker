@@ -310,8 +310,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         deleteButtonEnabled.set(false)
         viewModelScope.launch {
             if (recordTagId != 0L) {
-                removeRecordTagMediator.remove(recordTagId)
-                externalViewsInteractor.onTagRemoveWithoutArchiving()
+                removeRecordTagMediator.remove(recordTagId, fromArchive = false)
                 showMessage(R.string.archive_tag_deleted)
                 keyboardVisibility.set(false)
                 router.back()

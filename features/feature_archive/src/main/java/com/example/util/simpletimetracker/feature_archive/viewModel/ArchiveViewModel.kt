@@ -108,11 +108,11 @@ class ArchiveViewModel @Inject constructor(
         viewModelScope.launch {
             val message = when (params) {
                 is ArchiveDialogParams.Activity -> {
-                    removeRecordTypeMediator.remove(params.id)
+                    removeRecordTypeMediator.remove(params.id, fromArchive = true)
                     resourceRepo.getString(R.string.archive_activity_deleted)
                 }
                 is ArchiveDialogParams.RecordTag -> {
-                    removeRecordTagMediator.remove(params.id)
+                    removeRecordTagMediator.remove(params.id, fromArchive = true)
                     resourceRepo.getString(R.string.archive_tag_deleted)
                 }
             }

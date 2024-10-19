@@ -7,12 +7,17 @@ class RemoveRecordTagMediator @Inject constructor(
     private val externalViewsInteractor: UpdateExternalViewsInteractor,
 ) {
 
-    suspend fun remove(tagId: Long) {
+    suspend fun remove(
+        tagId: Long,
+        fromArchive: Boolean,
+    ) {
         recordTagInteractor.remove(tagId)
-        doAfterRemove()
+        doAfterRemove(fromArchive)
     }
 
-    private suspend fun doAfterRemove() {
-        externalViewsInteractor.onTagRemove()
+    private suspend fun doAfterRemove(
+        fromArchive: Boolean,
+    ) {
+        externalViewsInteractor.onTagRemove(fromArchive)
     }
 }

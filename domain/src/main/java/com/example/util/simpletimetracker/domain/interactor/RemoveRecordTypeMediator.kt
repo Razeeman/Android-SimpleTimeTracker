@@ -7,12 +7,18 @@ class RemoveRecordTypeMediator @Inject constructor(
     private val externalViewsInteractor: UpdateExternalViewsInteractor,
 ) {
 
-    suspend fun remove(typeId: Long) {
+    suspend fun remove(
+        typeId: Long,
+        fromArchive: Boolean,
+    ) {
         recordTypeInteractor.remove(typeId)
-        doAfterRemove(typeId)
+        doAfterRemove(typeId, fromArchive)
     }
 
-    private suspend fun doAfterRemove(typeId: Long) {
-        externalViewsInteractor.onTypeRemove(typeId)
+    private suspend fun doAfterRemove(
+        typeId: Long,
+        fromArchive: Boolean,
+    ) {
+        externalViewsInteractor.onTypeRemove(typeId, fromArchive)
     }
 }
