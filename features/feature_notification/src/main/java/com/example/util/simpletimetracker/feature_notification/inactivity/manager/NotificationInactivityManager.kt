@@ -12,6 +12,7 @@ import android.view.ContextThemeWrapper
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
@@ -33,8 +34,9 @@ class NotificationInactivityManager @Inject constructor(
 
     private val notificationManager: NotificationManagerCompat =
         NotificationManagerCompat.from(context)
-    private val iconView =
+    private val iconView = allowVmViolations {
         NotificationIconView(ContextThemeWrapper(context, R.style.AppTheme))
+    }
     private val iconSize by lazy {
         context.resources.getDimensionPixelSize(R.dimen.notification_icon_size)
     }

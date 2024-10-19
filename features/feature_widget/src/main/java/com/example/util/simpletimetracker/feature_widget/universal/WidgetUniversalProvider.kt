@@ -10,6 +10,7 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RemoteViews
+import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -106,9 +107,9 @@ class WidgetUniversalProvider : AppWidgetProvider() {
         context: Context,
         data: WidgetUniversalViewData,
     ): View {
-        return WidgetUniversalView(
-            ContextThemeWrapper(context, R.style.AppTheme),
-        ).apply {
+        return allowVmViolations {
+            WidgetUniversalView(ContextThemeWrapper(context, R.style.AppTheme))
+        }.apply {
             setData(data)
         }
     }
@@ -133,7 +134,7 @@ class WidgetUniversalProvider : AppWidgetProvider() {
         var height = context.resources.getDimensionPixelSize(R.dimen.widget_height)
         val inflater = LayoutInflater.from(context)
 
-        val entireView: View = inflater.inflate(R.layout.widget_layout, null)
+        val entireView: View = allowVmViolations { inflater.inflate(R.layout.widget_layout, null) }
         entireView.measureExactly(width = width, height = height)
 
         val imageView = entireView.findViewById<View>(R.id.ivWidgetBackground)

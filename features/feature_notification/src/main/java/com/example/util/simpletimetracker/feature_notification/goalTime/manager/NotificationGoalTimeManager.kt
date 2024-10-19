@@ -14,6 +14,7 @@ import android.widget.RemoteViews
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.domain.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.R
@@ -33,14 +34,15 @@ class NotificationGoalTimeManager @Inject constructor(
 
     private val notificationManager: NotificationManagerCompat =
         NotificationManagerCompat.from(context)
-    private val iconView =
+    private val iconView = allowVmViolations {
         NotificationIconView(ContextThemeWrapper(context, R.style.AppTheme))
+    }
     private val iconSize by lazy {
         context.resources.getDimensionPixelSize(R.dimen.notification_icon_size)
     }
-    private val checkView = AppCompatImageView(
-        ContextThemeWrapper(context, R.style.AppTheme),
-    ).apply {
+    private val checkView = allowVmViolations {
+        AppCompatImageView(ContextThemeWrapper(context, R.style.AppTheme))
+    }.apply {
         val size = context.resources.getDimensionPixelSize(R.dimen.notification_icon_half_size)
         val specWidth = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
         val specHeight = View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)

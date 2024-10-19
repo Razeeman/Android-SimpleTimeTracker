@@ -32,6 +32,17 @@ inline fun <T, R> T.allowDiskRead(block: T.() -> R): R {
     }
 }
 
+// Used to block StrictMode assertConfigurationContext log error.
+inline fun <T, R> T.allowVmViolations(block: T.() -> R): R {
+    val oldPolicy = StrictMode.getVmPolicy()
+    try {
+        StrictMode.setVmPolicy(StrictMode.VmPolicy.LAX)
+        return block()
+    } finally {
+        StrictMode.setVmPolicy(oldPolicy)
+    }
+}
+
 fun Calendar.setWeekToFirstDay() {
     val another = Calendar.getInstance()
     another.timeInMillis = timeInMillis

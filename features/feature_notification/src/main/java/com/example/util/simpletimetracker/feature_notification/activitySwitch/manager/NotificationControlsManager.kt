@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.RemoteViews
+import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.feature_notification.R
@@ -24,8 +25,9 @@ class NotificationControlsManager @Inject constructor(
     private val notificationControlsMapper: NotificationControlsMapper,
 ) {
 
-    private val iconView =
+    private val iconView = allowVmViolations {
         NotificationIconView(ContextThemeWrapper(context, R.style.AppTheme))
+    }
     private val iconSize by lazy {
         context.resources.getDimensionPixelSize(R.dimen.notification_icon_size)
     }

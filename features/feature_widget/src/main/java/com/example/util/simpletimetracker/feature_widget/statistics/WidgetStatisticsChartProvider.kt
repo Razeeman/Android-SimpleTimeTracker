@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.core.text.bold
 import com.example.util.simpletimetracker.core.extension.allowDiskRead
+import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -103,7 +104,7 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
             val view = prepareView(context, appWidgetId)
             val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
             measureView(context, options, view)
-            val bitmap = view.getBitmapFromView()
+            val bitmap = allowVmViolations { view.getBitmapFromView() }
             val refreshButtonBitmap = prepareRefreshButtonView(context).getBitmapFromView()
 
             val views = RemoteViews(context.packageName, R.layout.widget_layout)
@@ -176,7 +177,9 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
             .append("\n")
             .bold { append(total) }
 
-        return WidgetStatisticsChartView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
+        return allowVmViolations {
+            WidgetStatisticsChartView(ContextThemeWrapper(context, R.style.AppTheme))
+        }.apply {
             setSegments(
                 data = chart,
                 total = totalTracked,
@@ -192,7 +195,7 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
             .getDimenInDp(R.dimen.widget_statistics_refresh_button_size)
             .dpToPx()
 
-        return IconView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
+        return allowVmViolations { IconView(ContextThemeWrapper(context, R.style.AppTheme)) }.apply {
             itemIcon = RecordTypeIcon.Image(R.drawable.refresh)
             itemIconColor = resourceRepo.getColor(R.color.white)
             measureExactly(size)
@@ -213,7 +216,7 @@ class WidgetStatisticsChartProvider : AppWidgetProvider() {
             .dpToPx().takeUnless { it == 0 } ?: defaultHeight
         val inflater = LayoutInflater.from(context)
 
-        val entireView: View = inflater.inflate(R.layout.widget_layout, null)
+        val entireView: View = allowVmViolations { inflater.inflate(R.layout.widget_layout, null) }
         entireView.measureExactly(width = width, height = height)
 
         val imageView = entireView.findViewById<View>(R.id.ivWidgetBackground)

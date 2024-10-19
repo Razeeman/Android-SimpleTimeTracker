@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.extension.allowDiskRead
+import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
@@ -261,9 +262,9 @@ class WidgetSingleProvider : AppWidgetProvider() {
     private fun getView(context: Context): RecordTypeView {
         preparedView?.let { return it }
 
-        val view = RecordTypeView(
-            ContextThemeWrapper(context, R.style.AppTheme),
-        ).apply {
+        val view = allowVmViolations {
+            RecordTypeView(ContextThemeWrapper(context, R.style.AppTheme))
+        }.apply {
             getContainer().radius =
                 resources.getDimensionPixelOffset(R.dimen.widget_universal_corner_radius).toFloat()
             getContainer().cardElevation = 0f
@@ -280,8 +281,8 @@ class WidgetSingleProvider : AppWidgetProvider() {
         var height = context.resources.getDimensionPixelSize(R.dimen.record_type_card_height)
 
         fun inflate(): View {
-            return LayoutInflater.from(context)
-                .inflate(R.layout.widget_layout, null)
+            val inflater = LayoutInflater.from(context)
+            return allowVmViolations { inflater.inflate(R.layout.widget_layout, null) }
                 .also { entireView = it }
         }
 

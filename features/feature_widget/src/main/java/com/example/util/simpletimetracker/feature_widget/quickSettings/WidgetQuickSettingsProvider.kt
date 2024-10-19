@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.RemoteViews
+import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
@@ -21,6 +22,7 @@ import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.quickSettings.customView.WidgetQuickSettingsView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -61,6 +63,7 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun updateAppWidget(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
@@ -121,8 +124,12 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
         }
 
         // TODO setting alpha on cardView doesn't work for some reason, wrap in layout before setting
-        val container = FrameLayout(ContextThemeWrapper(context, R.style.AppTheme))
-        WidgetQuickSettingsView(ContextThemeWrapper(context, R.style.AppTheme)).apply {
+        val container = allowVmViolations {
+            FrameLayout(ContextThemeWrapper(context, R.style.AppTheme))
+        }
+        allowVmViolations {
+            WidgetQuickSettingsView(ContextThemeWrapper(context, R.style.AppTheme))
+        }.apply {
             cardElevation = 0f
             itemIcon = icon
             itemIconColor = iconColor
@@ -138,7 +145,7 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
         var height = context.resources.getDimensionPixelSize(R.dimen.record_type_card_height)
         val inflater = LayoutInflater.from(context)
 
-        val entireView: View = inflater.inflate(R.layout.widget_layout, null)
+        val entireView: View = allowVmViolations { inflater.inflate(R.layout.widget_layout, null) }
         entireView.measureExactly(width = width, height = height)
 
         val imageView = entireView.findViewById<View>(R.id.ivWidgetBackground)
