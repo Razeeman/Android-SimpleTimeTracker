@@ -250,6 +250,6 @@ class CsvRepoImpl @Inject constructor(
     companion object {
         private const val CSV_HEADER = "activity name,time started,time ended,comment,categories,record tags,duration,duration minutes\n"
 
-        private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
+        private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.US)
     }
 }
