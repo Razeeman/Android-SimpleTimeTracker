@@ -124,11 +124,13 @@ class PieChartView @JvmOverloads constructor(
         val res = mutableListOf<Arc>()
         val valuesSum = data.map(PiePortion::value).sum()
         var segmentPercent: Float
-        var drawable: Bitmap? = null
+        var drawable: Lazy<Bitmap>? = null
 
         data.forEach { segment ->
             if (drawIcons && segment.iconId != null) {
-                drawable = getIconDrawable(segment.iconId)
+                // Not every icon will be drown,
+                // using lazy to avoid unnecessary resource retrieval.
+                drawable = lazy { getIconDrawable(segment.iconId) }
             }
             segmentPercent = if (valuesSum != 0L) {
                 segment.value.toFloat() / valuesSum
@@ -447,7 +449,7 @@ class PieChartView @JvmOverloads constructor(
                 canvas.save()
                 canvas.translate(x.toFloat(), y.toFloat())
                 canvas.scale(scale.toFloat(), scale.toFloat())
-                canvas.drawBitmap(segment.drawable, null, particleBounds, particlePaint)
+                canvas.drawBitmap(segment.drawable.value, null, particleBounds, particlePaint)
                 canvas.restore()
             }
         }
@@ -486,7 +488,7 @@ class PieChartView @JvmOverloads constructor(
             canvas.rotate(rotation)
             canvas.translate(0f, -iconPositionFromCenter)
             canvas.rotate(-rotation)
-            canvas.drawBitmap(it.drawable, null, bounds, null)
+            canvas.drawBitmap(it.drawable.value, null, bounds, null)
 
             currentSweepAngle += sweepAngle
             canvas.restoreToCount(center)
@@ -570,7 +572,7 @@ class PieChartView @JvmOverloads constructor(
 
     private inner class Arc(
         val color: Int,
-        val drawable: Bitmap? = null,
+        val drawable: Lazy<Bitmap>? = null,
         val arcPercent: Float,
     )
 
