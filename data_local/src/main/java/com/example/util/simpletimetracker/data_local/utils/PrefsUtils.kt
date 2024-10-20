@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.data_local.utils
 
 import android.content.SharedPreferences
 import com.example.util.simpletimetracker.data_local.repo.RepoConstants.LOG_MESSAGE_CACHE
+import com.example.util.simpletimetracker.data_local.repo.RepoConstants.LOG_MESSAGE_DISK_PREFIX
 import com.example.util.simpletimetracker.data_local.repo.RepoConstants.LOG_MESSAGE_PREFIX
 import com.example.util.simpletimetracker.data_local.repo.RepoConstants.LOG_MESSAGE_PREFS_PREFIX
 import kotlinx.coroutines.Dispatchers
@@ -88,7 +89,7 @@ internal suspend inline fun <T> Mutex.withLockedCache(
  * Inlined for message tag to be an actual class name at call site.
  */
 @Suppress("NOTHING_TO_INLINE")
-internal inline fun logDataAccess(logMessage: String) {
+private inline fun logDataAccessInternal(logMessage: String) {
     Timber.d("$LOG_MESSAGE_PREFIX $logMessage")
 }
 
@@ -96,8 +97,16 @@ internal inline fun logDataAccess(logMessage: String) {
  * Inlined for message tag to be an actual class name at call site.
  */
 @Suppress("NOTHING_TO_INLINE")
+internal inline fun logDataAccess(logMessage: String) {
+    logDataAccessInternal("$LOG_MESSAGE_DISK_PREFIX $logMessage")
+}
+
+/**
+ * Inlined for message tag to be an actual class name at call site.
+ */
+@Suppress("NOTHING_TO_INLINE")
 internal inline fun logPrefsDataAccess(logMessage: String) {
-    logDataAccess("$LOG_MESSAGE_PREFS_PREFIX $logMessage")
+    logDataAccessInternal("$LOG_MESSAGE_PREFS_PREFIX $logMessage")
 }
 
 /**
