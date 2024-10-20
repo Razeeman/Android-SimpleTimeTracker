@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">No volver a mostrar</string>
 
     <string name="record_tag_selection_exclude_activities_title">Excluir actividades</string>
-    <string name="record_tag_selection_exclude_activities_hint">El cuadro de diálogo de selección de etiquetas no se mostrará para las actividades seleccionadas.</string>
+    <string name="record_tag_selection_exclude_activities_hint">El cuadro de diálogo no se mostrará para las actividades seleccionadas.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Seleccionar actividades</string>
     <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro se iniciará automáticamente cuando se inicien las actividades seleccionadas.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">Mostrar selección de etiqueta de registro</string>
     <string name="settings_show_record_tag_selection_hint">Cuando se inicie un temporizador, si la actividad tiene asignada alguna etiqueta de registro – se mostrará una ventana de selección.</string>
     <string name="settings_show_record_tag_close_hint">Cerrar después de seleccionar una etiqueta</string>
+    <string name="settings_show_comment_input">Mostrar entrada de comentario</string>
+    <string name="settings_show_comment_input_hint">Al iniciar un temporizador, se mostrará un cuadro de diálogo para ingresar comentarios.</string>
     <string name="settings_rate">Valórenos</string>
     <string name="settings_rate_description">Valore la aplicación y deje un comentario.</string>
     <string name="settings_support_development">Apoyar el desarrollo</string>

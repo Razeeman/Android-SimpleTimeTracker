@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">Больше не показывать</string>
 
     <string name="record_tag_selection_exclude_activities_title">Исключить активности</string>
-    <string name="record_tag_selection_exclude_activities_hint">Диалог выбора тега не будет отображаться для выбранных активностей.</string>
+    <string name="record_tag_selection_exclude_activities_hint">Диалог не будет отображаться для выбранных активностей.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Выбрать активности</string>
     <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro будет автоматически запускаться при запуске выбранных действий.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">Показывать диалог выбора тега для записи</string>
     <string name="settings_show_record_tag_selection_hint">При запуске таймера, если у активности есть теги для записей - будет показан диалог для выбора.</string>
     <string name="settings_show_record_tag_close_hint">Закрыть после выбора одного тега</string>
+    <string name="settings_show_comment_input">Показать ввод комментариев</string>
+    <string name="settings_show_comment_input_hint">При запуске таймера будет показан диалог ввода комментария.</string>
     <string name="settings_rate">Оцените нас</string>
     <string name="settings_rate_description">Оцените приложение и оставьте отзыв.</string>
     <string name="settings_support_development">Поддержать разработку</string>

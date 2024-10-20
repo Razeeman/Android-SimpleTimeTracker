@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">Bir daha gösterme</string>
 
     <string name="record_tag_selection_exclude_activities_title">Etkinlikleri hariç tut</string>
-    <string name="record_tag_selection_exclude_activities_hint">Seçilen etkinlikler için etiket seçimi iletişim kutusu gösterilmeyecektir.</string>
+    <string name="record_tag_selection_exclude_activities_hint">Seçilen etkinlikler için diyalog gösterilmeyecektir.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Etkinlikleri seçin</string>
     <string name="select_activities_to_autostart_pomodoro_hint">Seçilen aktiviteler başlatıldığında Pomodoro otomatik olarak başlatılacaktır.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">Kayıt etiketi seçimini göster</string>
     <string name="settings_show_record_tag_selection_hint">Eğer aktivite kayıt etiketine sahipse, zamanlayıcı başlatılırken seçim ekranı görünecek.</string>
     <string name="settings_show_record_tag_close_hint">Bir etiket seçildiğinde seçim ekranını kapat</string>
+    <string name="settings_show_comment_input">Yorum girişini göster</string>
+    <string name="settings_show_comment_input_hint">Bir zamanlayıcıyı başlatırken, bir yorum girişi iletişim kutusu gösterilecektir.</string>
     <string name="settings_rate">Bizi oylayın</string>
     <string name="settings_rate_description">Uygulamayı oyla ve bir yorum bırak.</string>
     <string name="settings_support_development">Geliştirmeyi destekleyin</string>

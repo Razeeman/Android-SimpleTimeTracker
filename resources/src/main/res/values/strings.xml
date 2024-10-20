@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">Don\'t show again</string>
 
     <string name="record_tag_selection_exclude_activities_title">Exclude activities</string>
-    <string name="record_tag_selection_exclude_activities_hint">Tag selection dialog will not be shown for selected activities.</string>
+    <string name="record_tag_selection_exclude_activities_hint">Dialog will not be shown for selected activities.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Select activities</string>
     <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro will be automatically started when selected activities are started.</string>
@@ -331,6 +331,8 @@
     <string name="settings_show_record_tag_selection">Show record tag selection</string>
     <string name="settings_show_record_tag_selection_hint">When starting a timer, if activity has any record tags - a selection dialog will be shown.</string>
     <string name="settings_show_record_tag_close_hint">Close after selecting one tag</string>
+    <string name="settings_show_comment_input">Show comment input</string>
+    <string name="settings_show_comment_input_hint">When starting a timer - a comment input dialog will be shown.</string>
     <string name="settings_rate">Rate us</string>
     <string name="settings_rate_description">Rate the app and leave a review.</string>
     <string name="settings_support_development">Support development</string>

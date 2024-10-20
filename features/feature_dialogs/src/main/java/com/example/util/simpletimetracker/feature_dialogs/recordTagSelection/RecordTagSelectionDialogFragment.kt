@@ -27,7 +27,7 @@ class RecordTagSelectionDialogFragment :
     lateinit var screenFactory: ScreenFactory
 
     private val params: RecordTagSelectionParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = RecordTagSelectionParams(),
+        key = ARGS_PARAMS, default = RecordTagSelectionParams.Empty,
     )
 
     override fun onTagSelected() {

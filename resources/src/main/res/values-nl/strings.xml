@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">Niet meer laten zien</string>
 
     <string name="record_tag_selection_exclude_activities_title">Exclusief activiteiten</string>
-    <string name="record_tag_selection_exclude_activities_hint">Het dialoogvenster voor tagselectie wordt niet weergegeven voor geselecteerde activiteiten.</string>
+    <string name="record_tag_selection_exclude_activities_hint">Dialoogvenster wordt niet weergegeven voor geselecteerde activiteiten.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Selecteer activiteiten</string>
     <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro wordt automatisch gestart wanneer geselecteerde activiteiten worden gestart.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">Toon opname label selectie</string>
     <string name="settings_show_record_tag_selection_hint">Als bij het starten van een timer, een activiteit opname labels heeft, wordt er een selectiedialoogvenster weergegeven.</string>
     <string name="settings_show_record_tag_close_hint">Sluiten na het selecteren van een label</string>
+    <string name="settings_show_comment_input">Toon commentaarinvoer</string>
+    <string name="settings_show_comment_input_hint">Bij het starten van een timer wordt een dialoogvenster voor commentaarinvoer weergegeven.</string>
     <string name="settings_rate">Beoordeel ons</string>
     <string name="settings_rate_description">Beoordeel de app en laat een recensie achter.</string>
     <string name="settings_support_development">Ondersteuning van ontwikkeling</string>

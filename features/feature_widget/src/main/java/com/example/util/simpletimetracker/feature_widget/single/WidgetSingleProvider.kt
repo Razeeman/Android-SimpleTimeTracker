@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.extension.allowDiskRead
 import com.example.util.simpletimetracker.core.extension.allowVmViolations
+import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.CompleteTypesStateInteractor
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
@@ -31,6 +32,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.domain.model.RecordDataSelectionDialogResult
 import com.example.util.simpletimetracker.feature_views.ColorUtils
 import com.example.util.simpletimetracker.feature_views.RecordTypeView
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
@@ -337,18 +339,24 @@ class WidgetSingleProvider : AppWidgetProvider() {
                 // Start running record
                 addRunningRecordMediator.tryStartTimer(
                     typeId = recordTypeId,
-                    onNeedToShowTagSelection = { showTagSelection(context, recordTypeId) },
+                    onNeedToShowTagSelection = {
+                        showTagSelection(context, recordTypeId, it)
+                    },
                 )
             }
         }
     }
 
-    private fun showTagSelection(context: Context?, typeId: Long) {
+    private fun showTagSelection(
+        context: Context?,
+        typeId: Long,
+        result: RecordDataSelectionDialogResult,
+    ) {
         context ?: return
 
         WidgetSingleTagSelectionActivity.getStartIntent(
             context = context,
-            data = RecordTagSelectionParams(typeId),
+            data = RecordTagSelectionParams(typeId, result.toParams()),
         ).let(context::startActivity)
     }
 

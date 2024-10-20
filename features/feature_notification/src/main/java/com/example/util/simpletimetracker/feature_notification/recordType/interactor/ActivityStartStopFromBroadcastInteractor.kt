@@ -162,6 +162,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         val started = addRunningRecordMediator.tryStartTimer(
             typeId = selectedTypeId,
             updateNotificationSwitch = updateNotificationSwitch,
+            commentInputAvailable = false, // TODO open activity?
         ) {
             // Update to show tag selection.
             update(

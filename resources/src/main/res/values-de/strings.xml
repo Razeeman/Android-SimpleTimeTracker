@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">Nicht mehr anzeigen</string>
 
     <string name="record_tag_selection_exclude_activities_title">Aktivitäten ausschließen</string>
-    <string name="record_tag_selection_exclude_activities_hint">Der Tag-Auswahldialog wird für ausgewählte Aktivitäten nicht angezeigt.</string>
+    <string name="record_tag_selection_exclude_activities_hint">Für ausgewählte Aktivitäten wird kein Dialog angezeigt.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Wählen Sie Aktivitäten aus</string>
     <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro wird automatisch gestartet, wenn ausgewählte Aktivitäten gestartet werden.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">Datensatz-Tag-Auswahl zeigen</string>
     <string name="settings_show_record_tag_selection_hint">Beim Starten eines Zählers wird ein Auswahldialog angezeigt, wenn die Aktivität Aufzeichnungs-Tags hat.</string>
     <string name="settings_show_record_tag_close_hint">Schließen nach Auswahl eines Tags</string>
+    <string name="settings_show_comment_input">Kommentareingabe anzeigen</string>
+    <string name="settings_show_comment_input_hint">Beim Starten eines Timers wird ein Kommentareingabedialog angezeigt.</string>
     <string name="settings_rate">Bewerte uns</string>
     <string name="settings_rate_description">Bewerten die App und schreibe eine Rezension.</string>
     <string name="settings_support_development">Unterstützen Sie die Entwicklung</string>

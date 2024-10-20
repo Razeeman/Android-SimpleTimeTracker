@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.dialog.OnTagSelectedListener
@@ -14,9 +16,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapt
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
+import com.example.util.simpletimetracker.feature_tag_selection.viewData.RecordTagSelectionViewState
 import com.example.util.simpletimetracker.feature_tag_selection.viewModel.RecordTagSelectionViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
@@ -42,7 +44,6 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
     private val adapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createLoaderAdapterDelegate(),
-            createHintAdapterDelegate(),
             createCategoryAdapterDelegate(viewModel::onCategoryClick),
             createDividerAdapterDelegate(),
             createInfoAdapterDelegate(),
@@ -50,7 +51,7 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
         )
     }
     private val params: RecordTagSelectionParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = RecordTagSelectionParams(),
+        key = ARGS_PARAMS, default = RecordTagSelectionParams.Empty,
     )
     private val listeners: MutableList<OnTagSelectedListener> = mutableListOf()
 
@@ -71,6 +72,7 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
     }
 
     override fun initUx() = with(binding) {
+        etRecordTagSelectionCommentItem.doAfterTextChanged { viewModel.onCommentChange(it.toString()) }
         btnRecordTagSelectionSave.setOnClick(viewModel::onSaveClick)
     }
 
@@ -78,7 +80,18 @@ class RecordTagSelectionFragment : BaseFragment<Binding>() {
         extra = params
         viewData.observe(adapter::replace)
         saveButtonVisibility.observe(binding.btnRecordTagSelectionSave::visible::set)
-        tagSelected.observe { onTagSelected() }
+        viewState.observe(::setState)
+        saveClicked.observe { onTagSelected() }
+    }
+
+    private fun setState(data: RecordTagSelectionViewState) = with(binding) {
+        val showComment = RecordTagSelectionViewState.Field.Comment in data.fields
+        tvRecordTagSelectionCommentHint.isVisible = showComment
+        inputRecordTagSelectionComment.isVisible = showComment
+
+        val showTags = RecordTagSelectionViewState.Field.Tags in data.fields
+        tvRecordTagSelectionTagHint.isVisible = showTags
+        rvRecordTagSelectionList.isVisible = showTags
     }
 
     private fun onTagSelected() {

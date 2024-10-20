@@ -72,6 +72,8 @@ enum class SettingsBlock {
     AdditionalShowTagSelection,
     AdditionalTagSelectionExcludeActivities,
     AdditionalCloseAfterOneTag,
+    AdditionalShowCommentInput,
+    AdditionalCommentInputExcludeActivities,
     AdditionalKeepStatisticsRange,
     AdditionalRetroactiveTrackingMode,
     AdditionalKeepScreenOn,

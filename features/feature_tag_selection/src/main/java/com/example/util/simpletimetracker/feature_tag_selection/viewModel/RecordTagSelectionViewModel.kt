@@ -2,16 +2,18 @@ package com.example.util.simpletimetracker.feature_tag_selection.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.util.simpletimetracker.domain.extension.addOrRemove
+import com.example.util.simpletimetracker.core.base.BaseViewModel
+import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.domain.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_tag_selection.interactor.RecordTagSelectionViewDataInteractor
+import com.example.util.simpletimetracker.feature_tag_selection.viewData.RecordTagSelectionViewState
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,7 +24,7 @@ class RecordTagSelectionViewModel @Inject constructor(
     private val viewDataInteractor: RecordTagSelectionViewDataInteractor,
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val prefsInteractor: PrefsInteractor,
-) : ViewModel() {
+) : BaseViewModel() {
 
     lateinit var extra: RecordTagSelectionParams
 
@@ -35,16 +37,11 @@ class RecordTagSelectionViewModel @Inject constructor(
             initial
         }
     }
-    val saveButtonVisibility: LiveData<Boolean> by lazy {
-        return@lazy MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initial.value = !prefsInteractor.getRecordTagSelectionCloseAfterOne()
-            }
-            initial
-        }
-    }
-    val tagSelected: LiveData<Unit> = MutableLiveData()
+    val saveButtonVisibility: LiveData<Boolean> by lazySuspend { loadButtonVisibility() }
+    val viewState: LiveData<RecordTagSelectionViewState> by lazySuspend { loadViewState() }
+    val saveClicked: LiveData<Unit> = MutableLiveData()
 
+    private var newComment: String = ""
     private var newCategoryIds: MutableList<Long> = mutableListOf()
 
     fun onCategoryClick(item: CategoryViewData) {
@@ -59,7 +56,7 @@ class RecordTagSelectionViewModel @Inject constructor(
                 else -> return@launch
             }
             if (prefsInteractor.getRecordTagSelectionCloseAfterOne()) {
-                tagSelected()
+                saveClicked()
             } else {
                 updateViewData()
             }
@@ -68,13 +65,47 @@ class RecordTagSelectionViewModel @Inject constructor(
 
     fun onSaveClick() {
         viewModelScope.launch {
-            tagSelected()
+            saveClicked()
         }
     }
 
-    private suspend fun tagSelected() {
-        addRunningRecordMediator.startTimer(extra.typeId, newCategoryIds, "")
-        tagSelected.set(Unit)
+    fun onCommentChange(text: String) {
+        if (newComment != text) {
+            newComment = text
+        }
+    }
+
+    private suspend fun saveClicked() {
+        addRunningRecordMediator.startTimer(
+            typeId = extra.typeId,
+            tagIds = newCategoryIds,
+            comment = newComment,
+        )
+        saveClicked.set(Unit)
+    }
+
+    private suspend fun loadButtonVisibility(): Boolean {
+        val closeAfterOneTag = prefsInteractor.getRecordTagSelectionCloseAfterOne()
+        val showTags = RecordTagSelectionParams.Field.Tags in extra.fields
+        val showCommentInput = RecordTagSelectionParams.Field.Comment in extra.fields
+
+        return when {
+            showTags -> !closeAfterOneTag
+            showCommentInput -> true
+            else -> false
+        }
+    }
+
+    private fun loadViewState(): RecordTagSelectionViewState {
+        val fields = extra.fields.map {
+            when (it) {
+                is RecordTagSelectionParams.Field.Tags ->
+                    RecordTagSelectionViewState.Field.Tags
+                is RecordTagSelectionParams.Field.Comment ->
+                    RecordTagSelectionViewState.Field.Comment
+            }
+        }
+        return RecordTagSelectionViewState(fields)
     }
 
     private fun updateViewData() = viewModelScope.launch {
@@ -83,6 +114,9 @@ class RecordTagSelectionViewModel @Inject constructor(
     }
 
     private suspend fun loadViewData(): List<ViewHolderType> {
-        return viewDataInteractor.getViewData(extra.typeId, newCategoryIds)
+        return viewDataInteractor.getViewData(
+            typeId = extra.typeId,
+            selectedTags = newCategoryIds,
+        )
     }
 }

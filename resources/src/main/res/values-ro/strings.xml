@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">Nu mai arăta</string>
 
     <string name="record_tag_selection_exclude_activities_title">Excludeți activități</string>
-    <string name="record_tag_selection_exclude_activities_hint">Dialogul de selecție a etichetelor nu va fi afișat pentru activitățile selectate.</string>
+    <string name="record_tag_selection_exclude_activities_hint">Dialogul nu va fi afișat pentru activitățile selectate.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Selectați activități</string>
     <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro va fi pornit automat atunci când activitățile selectate sunt pornite.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">Arată etichetele atașate</string>
     <string name="settings_show_record_tag_selection_hint">Când este pornit un cronometru, dacă activitatea are etichete, un dailog de alegere va fi afișat.</string>
     <string name="settings_show_record_tag_close_hint">Închide după alegerea unei etichete</string>
+    <string name="settings_show_comment_input">Afișează introducerea comentariilor</string>
+    <string name="settings_show_comment_input_hint">La pornirea unui temporizator - va fi afișat un dialog de introducere a comentariilor.</string>
     <string name="settings_rate">Evaluează-ne</string>
     <string name="settings_rate_description">Evaluează aplicatia și scrie un recenzie.</string>
     <string name="settings_support_development">Susține dezvoltarea</string>

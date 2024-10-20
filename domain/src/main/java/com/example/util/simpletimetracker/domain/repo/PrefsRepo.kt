@@ -138,6 +138,10 @@ interface PrefsRepo {
 
     var recordTagSelectionExcludeActivities: Set<String>
 
+    var showCommentInput: Boolean
+
+    var commentInputExcludeActivities: Set<String>
+
     var autostartPomodoroActivities: Set<String>
 
     var automatedTrackingSendEvents: Boolean

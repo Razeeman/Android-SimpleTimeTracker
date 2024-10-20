@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">Ne plus montrer</string>
 
     <string name="record_tag_selection_exclude_activities_title">Exclure les activités</string>
-    <string name="record_tag_selection_exclude_activities_hint">La boîte de dialogue de sélection de balise ne s\'affichera pas pour les activités sélectionnées.</string>
+    <string name="record_tag_selection_exclude_activities_hint">La boîte de dialogue ne s\'affichera pas pour les activités sélectionnées.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Sélectionner des activités</string>
     <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro sera automatiquement démarré lorsque les activités sélectionnées seront démarrées.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">Afficher la sélection d\'étiquette d\'enregistrement</string>
     <string name="settings_show_record_tag_selection_hint">Lors du démarrage d\'une activité, afficher une boîte de sélection si l\'activité a des étiquettes d\'enregistrement.</string>
     <string name="settings_show_record_tag_close_hint">Fermer après avoir sélectionné une étiquette</string>
+    <string name="settings_show_comment_input">Afficher la saisie des commentaires</string>
+    <string name="settings_show_comment_input_hint">Lors du démarrage d\'une minuterie, une boîte de dialogue de saisie de commentaires s\'affichera.</string>
     <string name="settings_rate">Évaluez nous</string>
     <string name="settings_rate_description">Évaluez l\'application et laissez un avis.</string>
     <string name="settings_support_development">Accompagner le développement</string>

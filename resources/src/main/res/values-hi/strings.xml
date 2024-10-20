@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">दोबारा मत दिखाना</string>
 
     <string name="record_tag_selection_exclude_activities_title">गतिविधियाँ बहिष्कृत करें</string>
-    <string name="record_tag_selection_exclude_activities_hint">चयनित गतिविधियों के लिए टैग चयन संवाद नहीं दिखाया जाएगा।</string>
+    <string name="record_tag_selection_exclude_activities_hint">चयनित गतिविधियों के लिए संवाद नहीं दिखाया जाएगा.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">गतिविधियाँ चुनें</string>
     <string name="select_activities_to_autostart_pomodoro_hint">चयनित गतिविधियाँ शुरू होने पर पोमोडोरो स्वचालित रूप से शुरू हो जाएगा।</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">चयन रिकॉर्ड टैग दिखाएं</string>
     <string name="settings_show_record_tag_selection_hint">टाइमर शुरू करते समय, यदि गतिविधि में कोई रिकॉर्ड टैग होता है - एक चयन संवाद दिखाया जाएगा।</string>
     <string name="settings_show_record_tag_close_hint">एक टैग का चयन करने के बाद बंद करें।</string>
+    <string name="settings_show_comment_input">टिप्पणी इनपुट दिखाएँ</string>
+    <string name="settings_show_comment_input_hint">टाइमर प्रारंभ करते समय - एक टिप्पणी इनपुट संवाद दिखाया जाएगा।</string>
     <string name="settings_rate">हमें रेटिंग दें</string>
     <string name="settings_rate_description">ऐप को रेट करें और एक समीक्षा छोड़ दें।</string>
     <string name="settings_support_development">विकास का समर्थन करें</string>

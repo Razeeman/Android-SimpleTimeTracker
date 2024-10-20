@@ -61,6 +61,8 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             SettingsBlock.AdditionalShowTagSelection -> onShowRecordTagSelectionClicked()
             SettingsBlock.AdditionalCloseAfterOneTag -> onRecordTagSelectionCloseClicked()
             SettingsBlock.AdditionalTagSelectionExcludeActivities -> onRecordTagSelectionExcludeActivitiesClicked()
+            SettingsBlock.AdditionalShowCommentInput -> onShowCommentInputClicked()
+            SettingsBlock.AdditionalCommentInputExcludeActivities -> onCommentInputExcludeActivitiesClicked()
             SettingsBlock.AdditionalKeepStatisticsRange -> onKeepStatisticsRangeClicked()
             SettingsBlock.AdditionalRetroactiveTrackingMode -> onRetroactiveTrackingModeClicked()
             SettingsBlock.AdditionalSendEvents -> onAutomatedTrackingSendEventsClicked()
@@ -194,7 +196,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
 
     private fun onRecordTagSelectionExcludeActivitiesClicked() = delegateScope.launch {
         TypesSelectionDialogParams(
-            tag = SettingsViewModel.EXCLUDE_ACTIVITIES_TYPES_SELECTION,
+            tag = SettingsViewModel.TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION,
             title = resourceRepo.getString(
                 R.string.record_tag_selection_exclude_activities_title,
             ),
@@ -203,6 +205,30 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             ),
             type = TypesSelectionDialogParams.Type.Activity,
             selectedTypeIds = prefsInteractor.getRecordTagSelectionExcludeActivities(),
+            isMultiSelectAvailable = true,
+            idsShouldBeVisible = emptyList(),
+        ).let(router::navigate)
+    }
+
+    private fun onShowCommentInputClicked() = delegateScope.launch {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getShowCommentInput()
+            prefsInteractor.setShowCommentInput(newValue)
+            parent?.updateContent()
+        }
+    }
+
+    private fun onCommentInputExcludeActivitiesClicked() = delegateScope.launch {
+        TypesSelectionDialogParams(
+            tag = SettingsViewModel.COMMENT_EXCLUDE_ACTIVITIES_TYPES_SELECTION,
+            title = resourceRepo.getString(
+                R.string.record_tag_selection_exclude_activities_title,
+            ),
+            subtitle = resourceRepo.getString(
+                R.string.record_tag_selection_exclude_activities_hint,
+            ),
+            type = TypesSelectionDialogParams.Type.Activity,
+            selectedTypeIds = prefsInteractor.getCommentInputExcludeActivities(),
             isMultiSelectAvailable = true,
             idsShouldBeVisible = emptyList(),
         ).let(router::navigate)
@@ -274,8 +300,11 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
 
     private fun onTypesSelectedDelegate(typeIds: List<Long>, tag: String?) = delegateScope.launch {
         when (tag) {
-            SettingsViewModel.EXCLUDE_ACTIVITIES_TYPES_SELECTION -> {
+            SettingsViewModel.TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION -> {
                 prefsInteractor.setRecordTagSelectionExcludeActivities(typeIds)
+            }
+            SettingsViewModel.COMMENT_EXCLUDE_ACTIVITIES_TYPES_SELECTION -> {
+                prefsInteractor.setCommentInputExcludeActivities(typeIds)
             }
         }
     }

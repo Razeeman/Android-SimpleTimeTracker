@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">二度と表示しないでください</string>
 
     <string name="record_tag_selection_exclude_activities_title">アクティビティを除外する</string>
-    <string name="record_tag_selection_exclude_activities_hint">選択したアクティビティに対してタグ選択ダイアログは表示されません。</string>
+    <string name="record_tag_selection_exclude_activities_hint">選択したアクティビティに対してダイアログは表示されません。</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">アクティビティを選択する</string>
     <string name="select_activities_to_autostart_pomodoro_hint">選択したアクティビティが開始されると、ポモドーロが自動的に開始されます。</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">記録タグの選択を表示</string>
     <string name="settings_show_record_tag_selection_hint">計測を開始する際、アクティビティに記録タグがある場合、選択ダイアログが表示されます。</string>
     <string name="settings_show_record_tag_close_hint">タグを1つ選択したら閉じる</string>
+    <string name="settings_show_comment_input">コメント入力を表示</string>
+    <string name="settings_show_comment_input_hint">タイマーを開始すると、コメント入力ダイアログが表示されます。</string>
     <string name="settings_rate">評価する</string>
     <string name="settings_rate_description">アプリを評価して、レビューを残す。</string>
     <string name="settings_support_development">サポート開発</string>

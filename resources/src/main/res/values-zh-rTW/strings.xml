@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">不再顯示</string>
 
     <string name="record_tag_selection_exclude_activities_title">排除活動</string>
-    <string name="record_tag_selection_exclude_activities_hint">對於選定的活動，不會顯示標籤選擇對話方塊。</string>
+    <string name="record_tag_selection_exclude_activities_hint">對於選定的活動將不會顯示對話方塊。</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">選擇活動</string>
     <string name="select_activities_to_autostart_pomodoro_hint">當選定的活動開始時，番茄工作法將自動啟動。</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">顯示記錄標籤選擇</string>
     <string name="settings_show_record_tag_selection_hint">啟動計時器時，如果活動有任何記錄標籤 - 將顯示一個選擇對話框。</string>
     <string name="settings_show_record_tag_close_hint">選擇一個標籤後關閉</string>
+    <string name="settings_show_comment_input">顯示評論輸入</string>
+    <string name="settings_show_comment_input_hint">啟動計時器時 - 將顯示註解輸入對話方塊。</string>
     <string name="settings_rate">給我們投票</string>
     <string name="settings_rate_description">給我們的應用留下評分</string>
     <string name="settings_support_development">支持發展</string>

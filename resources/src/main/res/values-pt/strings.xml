@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">Não mostre novamente</string>
 
     <string name="record_tag_selection_exclude_activities_title">Excluir atividades</string>
-    <string name="record_tag_selection_exclude_activities_hint">A caixa de diálogo de seleção de tags não será exibida para atividades selecionadas.</string>
+    <string name="record_tag_selection_exclude_activities_hint">A caixa de diálogo não será mostrada para atividades selecionadas.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Selecione atividades</string>
     <string name="select_activities_to_autostart_pomodoro_hint">O Pomodoro será iniciado automaticamente quando as atividades selecionadas forem iniciadas.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">Mostrar seleção de tag de registro</string>
     <string name="settings_show_record_tag_selection_hint">Ao iniciar um timer, se a atividade tiver alguma tag de registro - uma caixa de diálogo de seleção será exibida.</string>
     <string name="settings_show_record_tag_close_hint">Fechar após selecionar uma tag</string>
+    <string name="settings_show_comment_input">Mostrar entrada de comentário</string>
+    <string name="settings_show_comment_input_hint">Ao iniciar um cronômetro - uma caixa de diálogo de entrada de comentários será mostrada.</string>
     <string name="settings_rate">Avalie-nos</string>
     <string name="settings_rate_description">Avalie o aplicativo e deixe um comentário.</string>
     <string name="settings_support_development">Apoiar o desenvolvimento</string>

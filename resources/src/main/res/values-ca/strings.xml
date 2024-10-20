@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">No tornis a mostrar</string>
 
     <string name="record_tag_selection_exclude_activities_title">Exclou activitats</string>
-    <string name="record_tag_selection_exclude_activities_hint">El diàleg de selecció d\'etiquetes no es mostrarà per a les activitats seleccionades.</string>
+    <string name="record_tag_selection_exclude_activities_hint">El diàleg no es mostrarà per a les activitats seleccionades.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Seleccioneu activitats</string>
     <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro s\'iniciarà automàticament quan s\'iniciïn les activitats seleccionades.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">Mostra selecció d\'etiquetes d\'enregistrament</string>
     <string name="settings_show_record_tag_selection_hint">Quan s\'iniciï un temporitzador, si l\'activitat té una etiqueta d\'enregistrament assignada, podreu triar l\'etiqueta amb una finestra de selecció.</string>
     <string name="settings_show_record_tag_close_hint">Tanca després de seleccionar una etiqueta</string>
+    <string name="settings_show_comment_input">Mostra l\'entrada de comentaris</string>
+    <string name="settings_show_comment_input_hint">Quan s\'inicia un temporitzador, es mostrarà un diàleg d\'entrada de comentaris.</string>
     <string name="settings_rate">Valoreu-nos</string>
     <string name="settings_rate_description">Valoreu l\'aplicació i deixeu un comentari</string>
     <string name="settings_support_development">Suport al desenvolupament</string>

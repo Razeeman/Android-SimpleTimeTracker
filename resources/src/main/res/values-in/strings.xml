@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">Jangan tampilkan lagi</string>
 
     <string name="record_tag_selection_exclude_activities_title">Kecualikan aktivitas</string>
-    <string name="record_tag_selection_exclude_activities_hint">Dialog pemilihan tag tidak akan ditampilkan untuk aktivitas yang dipilih.</string>
+    <string name="record_tag_selection_exclude_activities_hint">Dialog tidak akan ditampilkan untuk aktivitas yang dipilih.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Pilih aktivitas</string>
     <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro akan dimulai secara otomatis ketika aktivitas yang dipilih dimulai.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">Tampilkan pilihan label rekor</string>
     <string name="settings_show_record_tag_selection_hint">Saat memulai mengatur waktu, jika kegiatan memiliki label rekor apa pun - dialog pemilihan akan ditampilkan.</string>
     <string name="settings_show_record_tag_close_hint">Tutup setelah memilih satu tag</string>
+    <string name="settings_show_comment_input">Tampilkan masukan komentar</string>
+    <string name="settings_show_comment_input_hint">Saat memulai pengatur waktu - dialog input komentar akan ditampilkan.</string>
     <string name="settings_rate">Nilai kami</string>
     <string name="settings_rate_description">Nilai aplikasi dan tinggalkan sebuah ulasan.</string>
     <string name="settings_support_development">Mendukung pengembangan</string>

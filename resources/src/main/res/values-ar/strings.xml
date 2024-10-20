@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">لا تظهر مرة أخرى</string>
 
     <string name="record_tag_selection_exclude_activities_title">استبعاد الأنشطة</string>
-    <string name="record_tag_selection_exclude_activities_hint">لن يتم عرض مربع حوار تحديد العلامة للأنشطة المحددة.</string>
+    <string name="record_tag_selection_exclude_activities_hint">لن يتم عرض مربع الحوار للأنشطة المحددة.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">حدد الأنشطة</string>
     <string name="select_activities_to_autostart_pomodoro_hint">سيتم بدء تشغيل بومودورو تلقائيًا عند بدء الأنشطة المحددة.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">إظهار اختيار وسم التتبع</string>
     <string name="settings_show_record_tag_selection_hint">عند بدء تشغيل مؤقت نشاط. إذا كان للنشاط أي وسوم تتبع فسيتم عرض مربع حوار الاختيار.</string>
     <string name="settings_show_record_tag_close_hint">أغلق بعد اختيار وسم واحد.</string>
+    <string name="settings_show_comment_input">إظهار إدخال التعليق</string>
+    <string name="settings_show_comment_input_hint">عند بدء تشغيل مؤقت - سيتم عرض مربع حوار إدخال التعليق.</string>
     <string name="settings_rate">قيمنا</string>
     <string name="settings_rate_description">قيم التطبيق واترك مراجعة.</string>
     <string name="settings_support_development">دعم التنمية</string>

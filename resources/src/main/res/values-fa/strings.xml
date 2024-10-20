@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">دیگر نشان نده</string>
 
     <string name="record_tag_selection_exclude_activities_title">حذف فعالیت ها</string>
-    <string name="record_tag_selection_exclude_activities_hint">گفتگوی انتخاب برچسب برای فعالیت های انتخاب شده نشان داده نخواهد شد.</string>
+    <string name="record_tag_selection_exclude_activities_hint">گفتگو برای فعالیت های انتخابی نشان داده نمی شود.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">فعالیت ها را انتخاب کنید</string>
     <string name="select_activities_to_autostart_pomodoro_hint">با شروع فعالیت های انتخاب شده، پومودورو به طور خودکار شروع می شود.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">نمایش برچسب تاریخچه انتخابی</string>
     <string name="settings_show_record_tag_selection_hint">هنگام شروع یک تایمر ، اگر فعالیت برچسبی داشت- منوی انتخابی ای نمایش داده می شود</string>
     <string name="settings_show_record_tag_close_hint">بستن بعد از انتخاب یک برچسب</string>
+    <string name="settings_show_comment_input">نمایش ورودی نظر</string>
+    <string name="settings_show_comment_input_hint">هنگام شروع یک تایمر - یک گفتگوی ورودی نظر نشان داده می شود.</string>
     <string name="settings_rate">به ما امتیاز دهید</string>
     <string name="settings_rate_description">به ما امتیاز دهید و نظر خود را بگذارید</string>
     <string name="settings_support_development">پشتیبانی از توسعه</string>

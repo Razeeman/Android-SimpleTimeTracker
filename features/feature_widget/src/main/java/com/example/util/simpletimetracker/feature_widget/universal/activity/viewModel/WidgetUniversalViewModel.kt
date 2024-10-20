@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.interactor.ActivityFilterViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
@@ -18,6 +19,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeGoalIntera
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.model.RecordDataSelectionDialogResult
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.RunningRecord
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -80,7 +82,7 @@ class WidgetUniversalViewModel @Inject constructor(
                 // Start running record
                 wasStarted = addRunningRecordMediator.tryStartTimer(
                     typeId = item.id,
-                    onNeedToShowTagSelection = { showTagSelection(item.id) },
+                    onNeedToShowTagSelection = { showTagSelection(item.id, it) },
                 )
                 if (wasStarted) {
                     onRecordTypeWithDefaultDurationClick(item.id)
@@ -134,8 +136,11 @@ class WidgetUniversalViewModel @Inject constructor(
         }
     }
 
-    private fun showTagSelection(typeId: Long) {
-        router.navigate(RecordTagSelectionParams(typeId))
+    private fun showTagSelection(
+        typeId: Long,
+        result: RecordDataSelectionDialogResult,
+    ) {
+        router.navigate(RecordTagSelectionParams(typeId, result.toParams()))
     }
 
     private fun updateRecordTypesViewData() = viewModelScope.launch {

@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">Visa inte igen</string>
 
     <string name="record_tag_selection_exclude_activities_title">Uteslut aktiviteter</string>
-    <string name="record_tag_selection_exclude_activities_hint">Dialogrutan för val av tagg kommer inte att visas för valda aktiviteter.</string>
+    <string name="record_tag_selection_exclude_activities_hint">Dialogrutan kommer inte att visas för valda aktiviteter.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Välj aktiviteter</string>
     <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro kommer att startas automatiskt när valda aktiviteter startas.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">Dialog för händelsetagg</string>
     <string name="settings_show_record_tag_selection_hint">Visa dialogruta för val av händelsetaggar om den påbörjade aktiviteten har tilldelade händelsetaggar.</string>
     <string name="settings_show_record_tag_close_hint">Stäng efter att ha valt en tagg</string>
+    <string name="settings_show_comment_input">Visa kommentarinmatning</string>
+    <string name="settings_show_comment_input_hint">När du startar en timer - en dialogruta för kommentarinmatning visas.</string>
     <string name="settings_rate">Ge oss ett betyg</string>
     <string name="settings_rate_description">Betygsätt appen och lämna en recension.</string>
     <string name="settings_support_development">Stöd utveckling</string>

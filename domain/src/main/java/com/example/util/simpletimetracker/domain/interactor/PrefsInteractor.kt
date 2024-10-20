@@ -630,6 +630,24 @@ class PrefsInteractor @Inject constructor(
             .map(Long::toString).toSet()
     }
 
+    suspend fun getShowCommentInput(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.showCommentInput
+    }
+
+    suspend fun setShowCommentInput(value: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.showCommentInput = value
+    }
+
+    suspend fun getCommentInputExcludeActivities(): List<Long> = withContext(Dispatchers.IO) {
+        prefsRepo.commentInputExcludeActivities
+            .mapNotNull(String::toLongOrNull)
+    }
+
+    suspend fun setCommentInputExcludeActivities(value: List<Long>) = withContext(Dispatchers.IO) {
+        prefsRepo.commentInputExcludeActivities = value
+            .map(Long::toString).toSet()
+    }
+
     suspend fun getAutostartPomodoroActivities(): List<Long> = withContext(Dispatchers.IO) {
         prefsRepo.autostartPomodoroActivities
             .mapNotNull(String::toLongOrNull)

@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">Non mostrare più</string>
 
     <string name="record_tag_selection_exclude_activities_title">Escludi attività</string>
-    <string name="record_tag_selection_exclude_activities_hint">La finestra di dialogo di selezione dei tag non verrà mostrata per le attività selezionate.</string>
+    <string name="record_tag_selection_exclude_activities_hint">La finestra di dialogo non verrà visualizzata per le attività selezionate.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Seleziona le attività</string>
     <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro verrà avviato automaticamente all\'avvio delle attività selezionate.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">Mostra la selezione delle etichette relative alle registrazioni</string>
     <string name="settings_show_record_tag_selection_hint">Quando avvii un timer, se l\'attività ha delle etichette relative ad un record, verrà mostrato un dialog di selezione.</string>
     <string name="settings_show_record_tag_close_hint">Chiudi dopo aver selezionato un tag</string>
+    <string name="settings_show_comment_input">Mostra l\'input del commento</string>
+    <string name="settings_show_comment_input_hint">Quando si avvia un timer, verrà visualizzata una finestra di dialogo per l\'immissione dei commenti.</string>
     <string name="settings_rate">Votaci</string>
     <string name="settings_rate_description">Valuta l\'app e lascia una recensione.</string>
     <string name="settings_support_development">Sostenere lo sviluppo</string>

@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.domain.interactor
 
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.Record
+import com.example.util.simpletimetracker.domain.model.RecordDataSelectionDialogResult
 import com.example.util.simpletimetracker.domain.model.RecordType
 import com.example.util.simpletimetracker.domain.model.ResultContainer
 import com.example.util.simpletimetracker.domain.model.RunningRecord
@@ -18,7 +19,7 @@ class AddRunningRecordMediator @Inject constructor(
     private val recordTypeToDefaultTagInteractor: RecordTypeToDefaultTagInteractor,
     private val notificationGoalCountInteractor: NotificationGoalCountInteractor,
     private val activityStartedStoppedBroadcastInteractor: ActivityStartedStoppedBroadcastInteractor,
-    private val shouldShowTagSelectionInteractor: ShouldShowTagSelectionInteractor,
+    private val shouldShowRecordDataSelectionInteractor: ShouldShowRecordDataSelectionInteractor,
     private val pomodoroStartInteractor: PomodoroStartInteractor,
     private val complexRuleProcessActionInteractor: ComplexRuleProcessActionInteractor,
     private val updateExternalViewsInteractor: UpdateExternalViewsInteractor,
@@ -30,13 +31,18 @@ class AddRunningRecordMediator @Inject constructor(
     suspend fun tryStartTimer(
         typeId: Long,
         updateNotificationSwitch: Boolean = true,
-        onNeedToShowTagSelection: suspend () -> Unit,
+        commentInputAvailable: Boolean = true,
+        onNeedToShowTagSelection: suspend (RecordDataSelectionDialogResult) -> Unit,
     ): Boolean {
         // Already running
         if (runningRecordInteractor.get(typeId) != null) return false
 
-        return if (shouldShowTagSelectionInteractor.execute(typeId)) {
-            onNeedToShowTagSelection()
+        val shouldShowTagSelectionResult = shouldShowRecordDataSelectionInteractor.execute(
+            typeId = typeId,
+            commentInputAvailable = commentInputAvailable,
+        )
+        return if (shouldShowTagSelectionResult.fields.isNotEmpty()) {
+            onNeedToShowTagSelection(shouldShowTagSelectionResult)
             false
         } else {
             startTimer(

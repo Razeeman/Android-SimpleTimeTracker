@@ -34,7 +34,7 @@ class WidgetSingleTagSelectionActivity :
     lateinit var screenFactory: ScreenFactory
 
     private val params: RecordTagSelectionParams by activityArgumentDelegate(
-        key = ARGS_PARAMS, default = RecordTagSelectionParams(),
+        key = ARGS_PARAMS, default = RecordTagSelectionParams.Empty,
     )
 
     override fun initUi() {

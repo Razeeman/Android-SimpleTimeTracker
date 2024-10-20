@@ -316,6 +316,14 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES, emptySet(),
     )
 
+    override var showCommentInput: Boolean by prefs.delegate(
+        KEY_SHOW_COMMENT_INPUT, false,
+    )
+
+    override var commentInputExcludeActivities: Set<String> by prefs.delegate(
+        KEY_SHOW_COMMENT_INPUT_EXCLUDE_ACTIVITIES, emptySet(),
+    )
+
     override var autostartPomodoroActivities: Set<String> by prefs.delegate(
         KEY_AUTOSTART_POMODORO_ACTIVITIES, emptySet(),
     )
@@ -597,6 +605,8 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_KEEP_SCREEN_ON = "keepScreenOn"
         const val KEY_SHOW_RECORD_TAG_SELECTION = "showRecordTagSelection"
         const val KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES = "showRecordTagSelectionExcludeActivities"
+        const val KEY_SHOW_COMMENT_INPUT = "showCommentInput"
+        const val KEY_SHOW_COMMENT_INPUT_EXCLUDE_ACTIVITIES = "showCommentInputExcludeActivities"
         const val KEY_AUTOSTART_POMODORO_ACTIVITIES = "autostartPomodoroActivities"
         const val KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE = "recordTagSelectionCloseAfterOne"
         const val KEY_AUTOMATED_TRACKING_SEND_EVENTS = "automatedTrackingSendEvents"

@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">Nie pokazuj ponownie</string>
 
     <string name="record_tag_selection_exclude_activities_title">Wyklucz aktywności</string>
-    <string name="record_tag_selection_exclude_activities_hint">Okno wyboru tagu nie będzie wyświetlane dla wybranych aktywności.</string>
+    <string name="record_tag_selection_exclude_activities_hint">Okno dialogowe nie będzie wyświetlane dla wybranych działań.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Wybierz aktywności</string>
     <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro zostanie automatycznie uruchomione po rozpoczęciu wybranych czynności.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">Pokaż wybór tagu dla rekordu</string>
     <string name="settings_show_record_tag_selection_hint">Jeśli po uruchomieniu timera aktywność ma jakiekolwiek znaczniki rekordu, zostanie wyświetlone okno dialogowe wyboru.</string>
     <string name="settings_show_record_tag_close_hint">Zamknij po wybraniu jednego tagu</string>
+    <string name="settings_show_comment_input">Pokaż wprowadzony komentarz</string>
+    <string name="settings_show_comment_input_hint">Po uruchomieniu stopera – zostanie wyświetlone okno dialogowe umożliwiające wprowadzenie komentarza.</string>
     <string name="settings_rate">Oceń nas</string>
     <string name="settings_rate_description">Oceń aplikację i zostaw recenzję.</string>
     <string name="settings_support_development">Wspieraj rozwój</string>

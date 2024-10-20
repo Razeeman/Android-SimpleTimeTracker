@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.UpdateRunningRecordFromChangeScreenInteractor
+import com.example.util.simpletimetracker.domain.model.RecordDataSelectionDialogResult
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.ActivityFilterViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
@@ -85,7 +86,7 @@ class RunningRecordsViewModel @Inject constructor(
                 // Start running record
                 val wasStarted = addRunningRecordMediator.tryStartTimer(
                     typeId = item.id,
-                    onNeedToShowTagSelection = { showTagSelection(item.id) },
+                    onNeedToShowTagSelection = { showTagSelection(item.id, it) },
                 )
                 if (wasStarted) {
                     onRecordTypeWithDefaultDurationClick(item.id)
@@ -244,8 +245,11 @@ class RunningRecordsViewModel @Inject constructor(
         }
     }
 
-    private fun showTagSelection(typeId: Long) {
-        router.navigate(RecordTagSelectionParams(typeId))
+    private fun showTagSelection(
+        typeId: Long,
+        result: RecordDataSelectionDialogResult,
+    ) {
+        router.navigate(RecordTagSelectionParams(typeId, result.toParams()))
     }
 
     private fun subscribeToUpdates() {

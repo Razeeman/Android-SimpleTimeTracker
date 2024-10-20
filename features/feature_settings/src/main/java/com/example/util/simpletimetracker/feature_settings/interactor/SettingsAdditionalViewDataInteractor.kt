@@ -85,6 +85,20 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
                 )
             }
 
+            val showCommentInput = prefsInteractor.getShowCommentInput()
+            result += SettingsCheckboxWithButtonViewData(
+                data = SettingsCheckboxViewData(
+                    block = SettingsBlock.AdditionalShowCommentInput,
+                    title = resourceRepo.getString(R.string.settings_show_comment_input),
+                    subtitle = resourceRepo.getString(R.string.settings_show_comment_input_hint),
+                    isChecked = showCommentInput,
+                    bottomSpaceIsVisible = true,
+                    dividerIsVisible = true,
+                ),
+                buttonBlock = SettingsBlock.AdditionalCommentInputExcludeActivities,
+                isButtonVisible = showCommentInput,
+            )
+
             result += SettingsCheckboxViewData(
                 block = SettingsBlock.AdditionalKeepStatisticsRange,
                 title = resourceRepo.getString(R.string.settings_keep_statistics_range),

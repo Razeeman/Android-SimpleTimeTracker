@@ -49,6 +49,8 @@ import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companio
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_REVERSE_ORDER_IN_CALENDAR
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_ACTIVITY_FILTERS
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_CALENDAR_BUTTON_ON_RECORDS_TAB
+import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_COMMENT_INPUT
+import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_COMMENT_INPUT_EXCLUDE_ACTIVITIES
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_GOALS_SEPARATELY
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_NOTIFICATIONS
 import com.example.util.simpletimetracker.data_local.repo.PrefsRepoImpl.Companion.KEY_SHOW_NOTIFICATIONS_CONTROLS
@@ -202,6 +204,8 @@ class BackupPrefsRepo @Inject constructor(
             PrefsProcessor(KEY_SHOW_RECORD_TAG_SELECTION, ::showRecordTagSelection),
             PrefsProcessor(KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE, ::recordTagSelectionCloseAfterOne),
             PrefsProcessor(KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES, ::recordTagSelectionExcludeActivities),
+            PrefsProcessor(KEY_SHOW_COMMENT_INPUT, ::showCommentInput),
+            PrefsProcessor(KEY_SHOW_COMMENT_INPUT_EXCLUDE_ACTIVITIES, ::commentInputExcludeActivities),
             PrefsProcessor(KEY_AUTOSTART_POMODORO_ACTIVITIES, ::autostartPomodoroActivities),
             PrefsProcessor(KEY_AUTOMATED_TRACKING_SEND_EVENTS, ::automatedTrackingSendEvents),
             PrefsProcessor(KEY_REPEAT_BUTTON_TYPE, ::repeatButtonType),

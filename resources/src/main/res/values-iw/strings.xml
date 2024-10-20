@@ -228,7 +228,7 @@
     <string name="default_types_selection_hide">אל תציג שוב</string>
 
     <string name="record_tag_selection_exclude_activities_title">החרג פעילויות</string>
-    <string name="record_tag_selection_exclude_activities_hint">תיבת דו-שיח לבחירת תגית לא תוצג עבור פעילויות נבחרות.</string>
+    <string name="record_tag_selection_exclude_activities_hint">דו-שיח לא יוצג עבור הפעילויות שנבחרו.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">בחר פעילויות</string>
     <string name="select_activities_to_autostart_pomodoro_hint">פומודורו יתחיל אוטומטית כאשר פעילויות נבחרות יתחילו.</string>
@@ -329,6 +329,8 @@
     <string name="settings_show_record_tag_selection">הצג בחירת תגית רשומה</string>
     <string name="settings_show_record_tag_selection_hint">כשמתחילים טיימר, אם לפעילות יש תגיות רשומה כלשהן - תיבת דו-שיח לבחירה תוצג.</string>
     <string name="settings_show_record_tag_close_hint">סגור לאחר בחירת תגית אחת</string>
+    <string name="settings_show_comment_input">הצג קלט הערה</string>
+    <string name="settings_show_comment_input_hint">בעת הפעלת טיימר - תוצג דו-שיח להזנת הערות.</string>
     <string name="settings_rate">דרג אותנו</string>
     <string name="settings_rate_description">דרג את היישום והשאר חוות דעת.</string>
     <string name="settings_support_development">תמיכה בפיתוח</string>

@@ -14,8 +14,9 @@ import com.example.util.simpletimetracker.domain.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.SettingsDataUpdateInteractor
-import com.example.util.simpletimetracker.domain.interactor.ShouldShowTagSelectionInteractor
+import com.example.util.simpletimetracker.domain.interactor.ShouldShowRecordDataSelectionInteractor
 import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.domain.model.RecordDataSelectionDialogResult
 import com.example.util.simpletimetracker.domain.model.WidgetType
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.wear_api.WearActivityDTO
@@ -37,7 +38,7 @@ class WearDataRepo @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
     private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
-    private val shouldShowTagSelectionInteractor: ShouldShowTagSelectionInteractor,
+    private val shouldShowRecordDataSelectionInteractor: ShouldShowRecordDataSelectionInteractor,
     private val removeRunningRecordMediator: Lazy<RemoveRunningRecordMediator>,
     private val addRunningRecordMediator: Lazy<AddRunningRecordMediator>,
     private val recordRepeatInteractor: Lazy<RecordRepeatInteractor>,
@@ -100,8 +101,12 @@ class WearDataRepo @Inject constructor(
     override suspend fun queryShouldShowTagSelection(
         request: WearShouldShowTagSelectionRequest,
     ): WearShouldShowTagSelectionResponse {
+        val result = shouldShowRecordDataSelectionInteractor.execute(
+            typeId = request.id,
+            commentInputAvailable = false,
+        )
         return WearShouldShowTagSelectionResponse(
-            shouldShowTagSelectionInteractor.execute(request.id),
+            shouldShow = RecordDataSelectionDialogResult.Field.Tags in result.fields,
         )
     }
 

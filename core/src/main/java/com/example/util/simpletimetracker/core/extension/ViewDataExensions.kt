@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.viewData.ChangeRecordDateTimeState
 import com.example.util.simpletimetracker.domain.model.Range
 import com.example.util.simpletimetracker.domain.model.RangeLength
+import com.example.util.simpletimetracker.domain.model.RecordDataSelectionDialogResult
 import com.example.util.simpletimetracker.domain.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.GoalTimeViewData
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
@@ -11,6 +12,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordD
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.RangeLengthParams
 import com.example.util.simpletimetracker.navigation.params.screen.RangeParams
+import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTypeIconParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParam
 
@@ -201,5 +203,14 @@ fun RangeLength.toParams(): RangeLengthParams {
         is RangeLength.Last -> RangeLengthParams.Last(
             days = days,
         )
+    }
+}
+
+fun RecordDataSelectionDialogResult.toParams(): List<RecordTagSelectionParams.Field> {
+    return fields.map {
+        when (it) {
+            is RecordDataSelectionDialogResult.Field.Tags -> RecordTagSelectionParams.Field.Tags
+            is RecordDataSelectionDialogResult.Field.Comment -> RecordTagSelectionParams.Field.Comment
+        }
     }
 }
