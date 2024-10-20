@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.RemoteViews
+import com.example.util.simpletimetracker.core.extension.allowDiskRead
 import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.PendingIntents
@@ -57,8 +58,9 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
-        GlobalScope.launch(Dispatchers.Main) {
+        GlobalScope.launch(allowDiskRead { Dispatchers.Main }) {
             appWidgetIds?.forEach { prefsInteractor.removeQuickSettingsWidget(it) }
         }
     }
@@ -71,7 +73,7 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
     ) {
         if (context == null || appWidgetManager == null) return
 
-        GlobalScope.launch(Dispatchers.Main) {
+        GlobalScope.launch(allowDiskRead { Dispatchers.Main }) {
             val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
             val name: String
             val isChecked: Boolean
@@ -154,10 +156,11 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
         view.measureExactly(width = width, height = height)
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun onClick(
         widgetId: Int,
     ) {
-        GlobalScope.launch(Dispatchers.Main) {
+        GlobalScope.launch(allowDiskRead { Dispatchers.Main }) {
             when (prefsInteractor.getQuickSettingsWidget(widgetId)) {
                 is QuickSettingsWidgetType.AllowMultitasking -> {
                     val newValue = !prefsInteractor.getAllowMultitasking()

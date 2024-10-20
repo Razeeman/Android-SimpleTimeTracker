@@ -10,6 +10,8 @@ interface RunningRecordRepo {
 
     suspend fun get(id: Long): RunningRecord?
 
+    suspend fun has(id: Long): Boolean
+
     suspend fun add(runningRecord: RunningRecord): Long
 
     suspend fun remove(id: Long)

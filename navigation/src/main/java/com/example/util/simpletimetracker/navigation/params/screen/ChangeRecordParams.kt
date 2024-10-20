@@ -5,12 +5,15 @@ import androidx.annotation.ColorInt
 import kotlinx.parcelize.Parcelize
 
 sealed class ChangeRecordParams : Parcelable {
+    abstract val daysFromToday: Int
+
     @Parcelize
     data class Tracked(
         val transitionName: String,
         val id: Long,
         val from: From,
         val preview: Preview,
+        override val daysFromToday: Int,
     ) : ChangeRecordParams()
 
     @Parcelize
@@ -19,11 +22,12 @@ sealed class ChangeRecordParams : Parcelable {
         val timeStarted: Long,
         val timeEnded: Long,
         val preview: Preview,
+        override val daysFromToday: Int,
     ) : ChangeRecordParams()
 
     @Parcelize
     data class New(
-        val daysFromToday: Int = 0,
+        override val daysFromToday: Int,
     ) : ChangeRecordParams()
 
     @Parcelize

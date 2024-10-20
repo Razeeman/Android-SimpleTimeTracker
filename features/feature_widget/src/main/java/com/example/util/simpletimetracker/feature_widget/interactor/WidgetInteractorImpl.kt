@@ -6,7 +6,10 @@ import javax.inject.Inject
 
 class WidgetInteractorImpl @Inject constructor(
     private val widgetManager: WidgetManager,
+    private val widgetViewsHolder: WidgetViewsHolder,
 ) : WidgetInteractor {
+
+    override fun initializeCachedViews() = widgetViewsHolder.initialize()
 
     override fun updateSingleWidget(widgetId: Int) = widgetManager.updateSingleWidget(widgetId)
 

@@ -4,6 +4,8 @@ import com.example.util.simpletimetracker.domain.model.WidgetType
 
 interface WidgetInteractor {
 
+    fun initializeCachedViews()
+
     fun updateSingleWidget(widgetId: Int)
 
     fun updateSingleWidgets(typeIds: List<Long>)

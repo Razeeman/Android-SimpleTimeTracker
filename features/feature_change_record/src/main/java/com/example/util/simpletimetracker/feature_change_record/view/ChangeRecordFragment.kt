@@ -51,7 +51,7 @@ class ChangeRecordFragment :
     private val core by lazy { ChangeRecordCore(viewModel = viewModel) }
 
     private val extra: ChangeRecordParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = ChangeRecordParams.New(),
+        key = ARGS_PARAMS, default = ChangeRecordParams.New(0),
     )
 
     override fun initUi(): Unit = with(binding) {

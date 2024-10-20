@@ -6,20 +6,19 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.extension.allowDiskRead
 import com.example.util.simpletimetracker.core.extension.allowVmViolations
+import com.example.util.simpletimetracker.core.interactor.CompleteTypesStateInteractor
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
-import com.example.util.simpletimetracker.core.interactor.CompleteTypesStateInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.domain.REPEAT_BUTTON_ITEM_ID
@@ -39,6 +38,7 @@ import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.extension.setAllMargins
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
+import com.example.util.simpletimetracker.feature_widget.interactor.WidgetViewsHolder
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -96,6 +96,9 @@ class WidgetSingleProvider : AppWidgetProvider() {
     @Inject
     lateinit var completeTypesStateInteractor: CompleteTypesStateInteractor
 
+    @Inject
+    lateinit var widgetViewsHolder: WidgetViewsHolder
+
     private var typeIdsToUpdate: List<Long> = emptyList()
     private var preparedView: RecordTypeView? = null
     private var entireView: View? = null
@@ -120,7 +123,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
-        allowDiskRead { GlobalScope }.launch(Dispatchers.Main) {
+        GlobalScope.launch(allowDiskRead { Dispatchers.Main }) {
             appWidgetIds?.forEach { prefsInteractor.removeWidget(it) }
         }
     }
@@ -139,7 +142,11 @@ class WidgetSingleProvider : AppWidgetProvider() {
             val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
             val typeIds = typeIdsToUpdate
             if (typeIds.isNotEmpty() && recordTypeId !in typeIds) return@launch
-            val runningRecord = runningRecordInteractor.get(recordTypeId)
+            val runningRecord = if (runningRecordInteractor.has(recordTypeId)) {
+                runningRecordInteractor.get(recordTypeId)
+            } else {
+                null
+            }
             val isDarkTheme: Boolean = prefsInteractor.getDarkMode()
 
             if (recordTypeId == REPEAT_BUTTON_ITEM_ID) {
@@ -262,9 +269,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
     private fun getView(context: Context): RecordTypeView {
         preparedView?.let { return it }
 
-        val view = allowVmViolations {
-            RecordTypeView(ContextThemeWrapper(context, R.style.AppTheme))
-        }.apply {
+        val view = widgetViewsHolder.getRecordTypeView(context).apply {
             getContainer().radius =
                 resources.getDimensionPixelOffset(R.dimen.widget_universal_corner_radius).toFloat()
             getContainer().cardElevation = 0f
@@ -295,11 +300,12 @@ class WidgetSingleProvider : AppWidgetProvider() {
         view.measureExactly(width = width, height = height)
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun onClick(
         context: Context?,
         widgetId: Int,
     ) {
-        GlobalScope.launch(Dispatchers.Main) {
+        GlobalScope.launch(allowDiskRead { Dispatchers.Main }) {
             val recordTypeId = prefsInteractor.getWidget(widgetId)
 
             if (recordTypeId == REPEAT_BUTTON_ITEM_ID) {

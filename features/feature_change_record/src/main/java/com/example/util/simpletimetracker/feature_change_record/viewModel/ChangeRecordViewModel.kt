@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.domain.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.interactor.UpdateExternalViewsInteractor
 import com.example.util.simpletimetracker.domain.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.model.RangeLength
 import com.example.util.simpletimetracker.domain.model.Record
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
@@ -35,11 +36,11 @@ import javax.inject.Inject
 class ChangeRecordViewModel @Inject constructor(
     recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
     recordTagViewDataInteractor: RecordTagViewDataInteractor,
-    prefsInteractor: PrefsInteractor,
     snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     changeRecordActionsDelegate: ChangeRecordActionsDelegateImpl,
     recordTypeToTagInteractor: RecordTypeToTagInteractor,
     favouriteCommentInteractor: FavouriteCommentInteractor,
+    private val prefsInteractor: PrefsInteractor,
     private val router: Router,
     private val recordInteractor: RecordInteractor,
     private val addRecordMediator: AddRecordMediator,
@@ -134,6 +135,7 @@ class ChangeRecordViewModel @Inject constructor(
             if (newTypeId != originalTypeId) {
                 externalViewsInteractor.onRecordChangeType(originalTypeId)
             }
+            warmupCache(extra.daysFromToday)
             router.back()
         }
     }
@@ -152,6 +154,17 @@ class ChangeRecordViewModel @Inject constructor(
         if (newTimeStarted > newTimeEnded) newTimeEnded = newTimeStarted
         if (newTimeStarted > newTimeSplit) newTimeSplit = newTimeStarted
         super.onTimeStartedChanged()
+    }
+
+    private suspend fun warmupCache(actualShift: Int) {
+        if (prefsInteractor.getShowRecordsCalendar()) return
+        val range = timeMapper.getRangeStartAndEnd(
+            rangeLength = RangeLength.Day,
+            shift = actualShift,
+            firstDayOfWeek = DayOfWeek.MONDAY, // Doesn't matter for days.
+            startOfDayShift = prefsInteractor.getStartOfDayShift(),
+        )
+        recordInteractor.getFromRange(range)
     }
 
     private fun getInitialTimeEnded(daysFromToday: Int): Long {

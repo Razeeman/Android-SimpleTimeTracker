@@ -23,6 +23,7 @@ class RecordRepoImpl @Inject constructor(
 
     private var getFromRangeCache = LruCache<GetFromRangeKey, List<Record>>(10)
     private var getFromRangeByTypeCache = LruCache<GetFromRangeByTypeKey, List<Record>>(1)
+    private var recordCache = LruCache<Long, Record>(1)
     private var isEmpty: Boolean? = null
     private val mutex: Mutex = Mutex()
 
@@ -68,10 +69,12 @@ class RecordRepoImpl @Inject constructor(
         recordDao.searchAnyComments().map(::mapItem)
     }
 
-    override suspend fun get(id: Long): Record? = withContext(Dispatchers.IO) {
-        logDataAccess("get")
-        recordDao.get(id)?.let(::mapItem)
-    }
+    override suspend fun get(id: Long): Record? = mutex.withLockedCache(
+        logMessage = "get",
+        accessCache = { recordCache[id] },
+        accessSource = { recordDao.get(id)?.let(::mapItem) },
+        afterSourceAccess = { it?.let { recordCache.put(id, it) } }
+    )
 
     override suspend fun getFromRange(range: Range): List<Record> {
         val cacheKey = GetFromRangeKey(range)
@@ -92,7 +95,7 @@ class RecordRepoImpl @Inject constructor(
         val cacheKey = GetFromRangeByTypeKey(typeIds, range)
         return mutex.withLockedCache(
             logMessage = "getFromRangeByType",
-            accessCache = { getFromRangeByTypeCache.get(cacheKey) },
+            accessCache = { getFromRangeByTypeCache[cacheKey] },
             accessSource = {
                 recordDao.getFromRangeByType(
                     typesIds = typeIds,

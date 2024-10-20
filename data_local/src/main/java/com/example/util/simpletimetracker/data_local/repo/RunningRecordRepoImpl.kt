@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.data_local.repo
 
 import com.example.util.simpletimetracker.data_local.database.RunningRecordDao
 import com.example.util.simpletimetracker.data_local.mapper.RunningRecordDataLocalMapper
+import com.example.util.simpletimetracker.data_local.utils.logDataAccess
 import com.example.util.simpletimetracker.data_local.utils.removeIf
 import com.example.util.simpletimetracker.data_local.utils.replaceWith
 import com.example.util.simpletimetracker.data_local.utils.withLockedCache
@@ -39,6 +40,13 @@ class RunningRecordRepoImpl @Inject constructor(
         accessSource = { dao.get(id)?.let(mapper::map) },
     )
 
+    override suspend fun has(id: Long): Boolean = mutex.withLockedCache(
+        logMessage = "has",
+        accessCache = { cache?.any { it.id == id } },
+        accessSource = { dao.get(id) != null },
+        afterSourceAccess = { initializeCache() }
+    )
+
     override suspend fun add(runningRecord: RunningRecord): Long = mutex.withLockedCache(
         logMessage = "add",
         accessSource = { dao.insert(runningRecord.let(mapper::map)) },
@@ -58,4 +66,9 @@ class RunningRecordRepoImpl @Inject constructor(
         accessSource = { dao.clear() },
         afterSourceAccess = { cache = null },
     )
+
+    private suspend fun initializeCache() {
+        logDataAccess("initializeCache")
+        cache = dao.getAll().map(mapper::map)
+    }
 }

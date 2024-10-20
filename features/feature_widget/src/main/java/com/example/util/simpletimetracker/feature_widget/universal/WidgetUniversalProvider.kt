@@ -10,6 +10,7 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RemoteViews
+import com.example.util.simpletimetracker.core.extension.allowDiskRead
 import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -25,6 +26,7 @@ import com.example.util.simpletimetracker.feature_widget.universal.customView.Wi
 import com.example.util.simpletimetracker.feature_widget.universal.customView.WidgetUniversalViewData
 import com.example.util.simpletimetracker.feature_widget.universal.mapper.WidgetUniversalViewDataMapper
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -55,6 +57,7 @@ class WidgetUniversalProvider : AppWidgetProvider() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun updateAppWidget(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
@@ -62,7 +65,7 @@ class WidgetUniversalProvider : AppWidgetProvider() {
     ) {
         if (context == null || appWidgetManager == null) return
 
-        GlobalScope.launch(Dispatchers.Main) {
+        GlobalScope.launch(allowDiskRead { Dispatchers.Main }) {
             val runningRecords: List<RunningRecord> = runningRecordInteractor.getAll()
             val recordTypes = recordTypeInteractor.getAll().associateBy { it.id }
             val isDarkTheme = prefsInteractor.getDarkMode()

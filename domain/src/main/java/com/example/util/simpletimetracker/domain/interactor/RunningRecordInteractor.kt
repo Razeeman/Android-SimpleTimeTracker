@@ -22,6 +22,10 @@ class RunningRecordInteractor @Inject constructor(
         return runningRecordRepo.get(id)
     }
 
+    suspend fun has(id: Long): Boolean {
+        return runningRecordRepo.has(id)
+    }
+
     suspend fun add(runningRecord: RunningRecord) {
         val recordId = runningRecordRepo.add(runningRecord)
         runningRecordToRecordTagRepo.removeAllByRunningRecordId(recordId)

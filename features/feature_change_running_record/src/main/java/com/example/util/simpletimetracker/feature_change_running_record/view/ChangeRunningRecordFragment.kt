@@ -48,7 +48,7 @@ class ChangeRunningRecordFragment :
     private val core by lazy { ChangeRecordCore(viewModel = viewModel) }
 
     private val params: ChangeRunningRecordParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = ChangeRunningRecordParams(),
+        key = ARGS_PARAMS, default = ChangeRunningRecordParams.Empty,
     )
 
     override fun initUi(): Unit = with(binding) {

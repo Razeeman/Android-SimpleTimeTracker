@@ -129,12 +129,14 @@ class RecordsAllViewModel @Inject constructor(
                 transitionName = sharedElements.second,
                 id = item.id,
                 from = ChangeRecordParams.From.RecordsAll,
+                daysFromToday = 0,
                 preview = preview,
             )
             is RecordViewData.Untracked -> ChangeRecordParams.Untracked(
                 transitionName = sharedElements.second,
                 timeStarted = item.timeStartedTimestamp,
                 timeEnded = item.timeEndedTimestamp,
+                daysFromToday = 0,
                 preview = preview,
             )
         }

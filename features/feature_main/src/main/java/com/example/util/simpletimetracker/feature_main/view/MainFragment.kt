@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.core.utils.SHORTCUT_NAVIGATION_KEY
 import com.example.util.simpletimetracker.core.view.SafeFragmentStateAdapter
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.feature_main.R
 import com.example.util.simpletimetracker.feature_main.adapter.MainContentAdapter
 import com.example.util.simpletimetracker.feature_main.provider.MainTabsProvider
@@ -46,6 +47,9 @@ class MainFragment : BaseFragment<Binding>() {
     @Inject
     lateinit var mainTabsProvider: MainTabsProvider
 
+    @Inject
+    lateinit var widgetInteractor: WidgetInteractor
+
     private val viewModel: MainViewModel by viewModels()
     private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
         factoryProducer = { mainTabsViewModelFactory },
@@ -62,6 +66,7 @@ class MainFragment : BaseFragment<Binding>() {
     override fun initUi() {
         setupPager()
         checkForShortcutNavigation()
+        widgetInteractor.initializeCachedViews()
     }
 
     override fun initUx() {
