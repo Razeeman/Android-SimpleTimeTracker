@@ -1,13 +1,6 @@
 I-Simple Time Tracker ikusiza ulandele isikhathi osichitha emisebenzini ehlukene phakathi nosuku. Qala umsebenzi omusha ngokuchofoza okukodwa. Buka amarekhodi adlule nezibalo ngokuhamba kwesikhathi. Lolu hlelo lokusebenza lukhululekile futhi luvulekile (open source). Lunezithasiselo ezifana nama-widget, ama-backup, izaziso kanye nendlela emnyama yokubuka. Luphinde luhambisane namawashi ane-Wear OS futhi lunokuhlanganiswa okuhlakaniphile.
 
-• <b>Isixhumi esibonakalayo esilula</b>
-Uhlelo lune-interface elula kakhulu futhi olulula ukulusebenzisa.
-
-• <b>Ama-widget</b>
-Landelela imisebenzi yakho ngqo kusuka kusikrini sasekhaya.
-
-• <b>Lusebenza ngaphandle kwe-inthanethi futhi luhlonipha ubumfihlo bakho</b>
-Uhlelo aludingi uxhumano lwe-inthanethi noma ukubhaliswa kwe-akhawunti. Imininingo yakho ayiphumi kuhlelo. Abathuthukisi noma noma yibaphi abantu besithathu abakwazi ukuyibona.
-
-• <b>Umthombo wamahhala novulekile</b>
-Azikho izikhangiso, ukuthenga ngaphakathi nohlelo noma izimvume eziphazamisayo. Ikhodi yomthombo ephelele nayo iyatholakala.
+* <b>Isixhumi esibonakalayo esilula:</b> Uhlelo lune-interface elula kakhulu futhi olulula ukulusebenzisa.
+* <b>Ama-widget:</b> Landelela imisebenzi yakho ngqo kusuka kusikrini sasekhaya.
+* <b>Lusebenza ngaphandle kwe-inthanethi futhi luhlonipha ubumfihlo bakho:</b> Uhlelo aludingi uxhumano lwe-inthanethi noma ukubhaliswa kwe-akhawunti. Imininingo yakho ayiphumi kuhlelo. Abathuthukisi noma noma yibaphi abantu besithathu abakwazi ukuyibona.
+* <b>Umthombo wamahhala novulekile:</b> Azikho izikhangiso, ukuthenga ngaphakathi nohlelo noma izimvume eziphazamisayo. Ikhodi yomthombo ephelele nayo iyatholakala.
