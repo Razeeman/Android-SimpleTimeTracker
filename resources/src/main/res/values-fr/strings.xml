@@ -14,7 +14,7 @@
     <string name="record_tag_hint">Étiquettes d\'enregistrement</string>
     <string name="record_tag_hint_short">Étiquettes</string>
     <string name="nothing_selected">Aucune sélection</string>
-    <string name="something_selected">Sélectionné :</string>
+    <string name="something_selected">Sélection :</string>
     <string name="select_all">Tout sélectionner</string>
     <string name="select_nothing">Vider la sélection</string>
     <string name="no_data">Aucune donnée</string>
@@ -42,7 +42,7 @@
     <string name="range_select_week">Sélectionner une semaine</string>
     <string name="range_select_month">Sélectionner un mois</string>
     <string name="range_select_year">Sélectionner une année</string>
-    <string name="range_select_range">Sélectionner une plage</string>
+    <string name="range_select_range">Sélectionner la période</string>
     <string name="range_back_to_today">Aujourd\'hui</string>
 
     <plurals name="range_last">
@@ -66,59 +66,59 @@
     <string name="hours">Heures</string>
     <string name="minutes">Minutes</string>
 
-    <string name="untracked_time_name">Non suivi</string>
-    <string name="uncategorized_time_name">Non catégorisé</string>
+    <string name="untracked_time_name">Sans suivi</string>
+    <string name="uncategorized_time_name">Sans catégorie</string>
     <string name="multitask_time_name">Multi-tâches</string>
-    <string name="record_types_empty">Aucune activité ajoutée</string>
+    <string name="record_types_empty">Aucune activité trouvée</string>
     <string name="record_tag_selection_hint">Sélectionnez une étiquette pour l\'enregistrement</string>
     <string name="time_now">Maintenant</string>
-    <string name="cannot_be_in_the_future">Impossible d'aller dans le futur</string>
+    <string name="cannot_be_in_the_future">Impossible d'enregistrer dans le futur</string>
 
     <!--  Records  -->
     <string name="record_removed">Enregistrement %s supprimé</string>
-    <string name="record_removed_undo">Annuler</string>
+    <string name="record_removed_undo">Annuler la suppression</string>
     <string name="records_hint">Appuyez sur un enregistrement pour le modifier</string>
     <string name="records_add_record">Ajouter un enregistrement</string>
-    <string name="records_switch_to_calendar">Afficher le calendrier</string>
-    <string name="records_switch_to_list">Afficher la liste</string>
-    <string name="no_records_exist">Les enregistrements seront affichés ici</string>
+    <string name="records_switch_to_calendar">Affichage calendrier</string>
+    <string name="records_switch_to_list">Affichage liste</string>
+    <string name="no_records_exist">Les enregistrements s'afficheront ici</string>
     <string name="record_add_hint">Appuyez sur %s pour ajouter un nouvel enregistrement</string>
     <string name="record_date_hint">Appuyez sur le bouton date pour sélectionner une date</string>
 
     <!--  Statistics  -->
-    <string name="statistics_total_tracked">Total suivi</string>
+    <string name="statistics_total_tracked">Total des suivis</string>
     <string name="statistics_total_tracked_short">Total</string>
-    <string name="statistics_hint">Cliquez une carte pour afficher les statistiques détaillées</string>
-    <string name="statistics_daily_calendar_hint">Calendrier quotidien</string>
-    <string name="no_statistics_exist">Les statistiques seront affichées ici</string>
+    <string name="statistics_hint">Appuyez sur une carte pour afficher les statistiques détaillées</string>
+    <string name="statistics_daily_calendar_hint">Calendrier journalier</string>
+    <string name="no_statistics_exist">Les statistiques s'afficheront ici</string>
 
     <!--  Goals  -->
-    <string name="no_goals_exist">Les objectifs seront affichés ici</string>
-    <string name="goal_add_hint">Modifiez l\'activité ou la catégorie pour lui attribuer un objectif</string>
+    <string name="no_goals_exist">Les objectifs s'afficheront ici</string>
+    <string name="goal_add_hint">Modifiez l\'activité ou la catégorie pour assigner un objectif</string>
 
     <!--  Categories  -->
     <string name="categories_title">Catégories et étiquettes</string>
-    <string name="categories_edit_hint">Cliquez sur la carte pour modifier</string>
-    <string name="categories_record_type_hint">Attribuez la même catégorie à différentes activités pour afficher leurs statistiques groupées</string>
-    <string name="categories_record_hint">Attribuez différentes étiquettes aux enregistrements pour les différencier</string>
-    <string name="categories_add_category">Créer une catégorie</string>
-    <string name="categories_add_record_tag">Créer une étiquette d\'enregistrement</string>
+    <string name="categories_edit_hint">Appuyez sur une carte pour la modifier</string>
+    <string name="categories_record_type_hint">Attribuez la même catégorie à différentes activités pour rerouper leurs statistiques</string>
+    <string name="categories_record_hint">Attribuez des étiquettes aux enregistrements pour les différencier</string>
+    <string name="categories_add_category">Ajouter une catégorie</string>
+    <string name="categories_add_record_tag">Ajouter une étiquette</string>
     <string name="categories_and_tags_hint"><![CDATA[
-<b>Catégories</b> vous aident à regrouper des activités similaires. Par exemple :<br><br>
-• La catégorie <custom-color-3>Productif</custom-color-3> peut inclure <custom-color-3>Lecture</custom-color-3> et <custom-color-3>Salle de sport</custom-color-3>.<br><br>
-• La catégorie <custom-color-1>Détente</custom-color-1> peut inclure <custom-color-1>Télévision</custom-color-1> et <custom-color-1>Jeux</custom-color-1>.<br><br>
-Cela vous permet de voir combien de temps vous passez globalement sur des activités productives ou non productives.<br><br>
-<b>Étiquettes</b> vous permettent d\'ajouter plus de détails à une activité spécifique. Par exemple :<br><br>
-• Pour l\'activité <custom-color-3>Lecture</custom-color-3>, utilisez des étiquettes comme <custom-color-3>1984</custom-color-3> ou <custom-color-3>Harry Potter</custom-color-3> pour suivre le temps passé sur chaque livre.<br><br>
-• Pour l\'activité <custom-color-10>Travail</custom-color-10>, utilisez des étiquettes comme <custom-color-10>Domicile</custom-color-10> et <custom-color-10>Bureau</custom-color-10> pour différencier où le travail a été effectué.<br>
+<b>Catégories</b> permet de regrouper des activités similaires. Par exemple :<br><br>
+• La catégorie <custom-color-3>Loisirs sportifs</custom-color-3> peut regrouper <custom-color-3>Course à pied</custom-color-3> et <custom-color-3>Golf</custom-color-3>.<br><br>
+• La catégorie <custom-color-1>Détente</custom-color-1> peut regrouper <custom-color-1>Télévision</custom-color-1> et <custom-color-1>Lecture</custom-color-1>.<br><br>
+Cela vous permet de voir combien de temps vous passez globalement sur des activités Sportives ou de Détente.<br><br>
+<b>Étiquettes</b> vous permettent d\'ajouter plus de détails sur une activité. Par exemple :<br><br>
+• Pour l\'activité <custom-color-3>Lecture</custom-color-3>, utilisez des étiquettes comme <custom-color-3>Arsène Lupin</custom-color-3> ou <custom-color-3>Harry Potter</custom-color-3> pour suivre le temps passé sur chaque livre.<br><br>
+• Pour l\'activité <custom-color-10>Travail</custom-color-10>, utilisez des étiquettes comme <custom-color-10>Bureau</custom-color-10> et <custom-color-10>Domicile</custom-color-10> pour différencier où le travail a été effectué.<br>
     ]]></string>
 
     <!--  Change category  -->
     <string name="change_category_removed">Catégorie supprimée</string>
     <string name="change_category_color_hint">Couleur</string>
     <string name="change_category_types_hint">Activités</string>
-    <string name="change_category_save">Sauvegarder</string>
-    <string name="change_category_message_choose_name">Choisissez un nom</string>
+    <string name="change_category_save">Enregistrer</string>
+    <string name="change_category_message_choose_name">Indiquez un nom</string>
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Étiquettes archivées</string>
@@ -143,7 +143,7 @@ Cela vous permet de voir combien de temps vous passez globalement sur des activi
     <string name="change_record_favourite_comments_hint">Favoris</string>
     <string name="change_record_favourite_comments_hint_long">Commentaires favoris</string>
     <string name="change_record_similar_comments_hint">Commentaires similaires</string>
-    <string name="change_record_categories_empty">Aucune étiquette d\'enregistrement ajoutée</string>
+    <string name="change_record_categories_empty">Aucune étiquette trouvée</string>
     <string name="change_record_save">Sauvegarder</string>
     <string name="change_record_untagged">Non étiqueté</string>
     <string name="change_record_tag_from_other_activity">Attribué à d\'autres activités</string>
@@ -194,7 +194,7 @@ Cela vous permet de voir combien de temps vous passez globalement sur des activi
     <string name="change_record_message_choose_name">Choisissez un nom</string>
     <string name="change_record_message_name_exist">Nom déjà utilisé</string>
     <string name="change_record_type_note_hint">Note</string>
-    <string name="change_record_type_categories_empty">Aucune catégorie ajoutée</string>
+    <string name="change_record_type_categories_empty">Aucune catégorie trouvée</string>
     <string name="change_record_type_goal_time_disabled">Désactivé</string>
     <string name="change_record_type_goal_time_hint">Objectif</string>
     <string name="change_record_type_limit_time_hint">Limite</string>
@@ -252,12 +252,12 @@ Cela vous permet de voir combien de temps vous passez globalement sur des activi
 
     <string name="chart_filter_hint">Filtrer</string>
     <string name="types_compare_hint">Comparaison</string>
-    <string name="types_filter_show_all">Afficher tout</string>
-    <string name="types_filter_hide_all">Cacher tout</string>
+    <string name="types_filter_show_all">Tout afficher</string>
+    <string name="types_filter_hide_all">Tout masquer</string>
     <string name="show">Afficher</string>
     <string name="hide">Masquer</string>
     <string name="chart_filter_type_hint">Type de filtre</string>
-    <string name="chart_filter_categories_empty">Aucune étiquette ajoutée</string>
+    <string name="chart_filter_categories_empty">Aucune étiquette trouvée</string>
 
     <string name="duration_dialog_save">Sauvegarder</string>
     <string name="duration_dialog_disable">Désactiver</string>
