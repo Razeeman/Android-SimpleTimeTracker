@@ -72,6 +72,11 @@ class NotificationTypeManager @Inject constructor(
             requestCode = params.id.toInt(),
             recordTypeId = params.id,
         )
+        val cancelIntent = getCancelIntent(
+            context = context,
+            requestCode = params.id.toInt(),
+            recordTypeId = params.id,
+        )
 
         // TODO add manual notification grouping by adding setGroup() to all,
         //  and showing separate notification with setGroupSummary(),
@@ -83,6 +88,8 @@ class NotificationTypeManager @Inject constructor(
             .setContentIntent(contentIntent)
             .setOngoing(true)
             .setAutoCancel(false)
+            // setOngoing(true) doesn't work on api 34, reshow notification on cancel.
+            .setDeleteIntent(cancelIntent)
             .setCustomContentView(prepareView(params, isBig = false))
             .setCustomBigContentView(prepareView(params, isBig = true))
             .addAction(0, params.stopButton, stopIntent)
@@ -158,6 +165,22 @@ class NotificationTypeManager @Inject constructor(
         )
     }
 
+    private fun getCancelIntent(
+        context: Context,
+        requestCode: Int,
+        recordTypeId: Long,
+    ): PendingIntent {
+        val intent = Intent(context, NotificationReceiver::class.java)
+        intent.action = ACTION_NOTIFICATION_TYPE_CANCEL
+        intent.putExtra(ARGS_TYPE_ID, recordTypeId)
+        return PendingIntent.getBroadcast(
+            context,
+            requestCode,
+            intent,
+            PendingIntents.getFlags(),
+        )
+    }
+
     private fun getIconBitmap(
         icon: RecordTypeIcon,
         color: Int,
@@ -176,6 +199,8 @@ class NotificationTypeManager @Inject constructor(
     companion object {
         const val ACTION_NOTIFICATION_TYPE_STOP =
             "com.example.util.simpletimetracker.feature_notification.recordType.onStop"
+        const val ACTION_NOTIFICATION_TYPE_CANCEL =
+            "com.example.util.simpletimetracker.feature_notification.recordType.onCancel"
 
         private const val NOTIFICATIONS_CHANNEL_ID = "NOTIFICATIONS"
         private const val NOTIFICATIONS_CHANNEL_NAME = "Notifications"

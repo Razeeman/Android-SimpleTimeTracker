@@ -509,6 +509,7 @@ class StatisticsDetailTest : BaseUiTest() {
         checkPreview(color, icon, name)
 
         // Switch range
+        NavUtils.fixToCurrentDate()
         clickOnCurrentDate()
         clickOnViewWithText(coreR.string.range_day)
 
@@ -1123,6 +1124,7 @@ class StatisticsDetailTest : BaseUiTest() {
         // Check detailed statistics
         NavUtils.openStatisticsScreen()
         tryAction { clickOnView(allOf(withText(name), isCompletelyDisplayed())) }
+        NavUtils.fixToCurrentDate()
         clickOnCurrentDate()
         clickOnViewWithText(coreR.string.range_overall)
 

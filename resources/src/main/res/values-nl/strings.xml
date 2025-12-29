@@ -291,8 +291,11 @@ Dit stelt je in staat om te zien hoeveel tijd je in totaal besteedt aan producti
     <!--  Running records  -->
     <string name="running_records_types_empty">Om het volgen te starten, voegt u activiteiten toe door op de %s-knop te klikken of gebruikt u standaardinstellingen door op de %s-knop te klikken</string>
     <string name="running_records_empty">Klik op activiteit om het volgen te starten</string>
+    <string name="running_records_empty_inverted">Lang klikken op activiteit om het volgen te starten</string>
     <string name="running_records_has_timers">Klik op de kaart om het volgen te stoppen</string>
+    <string name="running_records_has_timers_inverted">Lang klikken op de kaart om het volgen te stoppen</string>
     <string name="running_records_empty_hint">Lang klikken om te bewerken</string>
+    <string name="running_records_empty_hint_inverted">Klikken om te bewerken</string>
     <string name="running_records_add_type">Toevoegen</string>
     <string name="running_records_add_filter">Filter toevoegen</string>
     <string name="running_records_add_default">Standaard</string>
@@ -373,6 +376,7 @@ Dit stelt je in staat om te zien hoeveel tijd je in totaal besteedt aan producti
     <string name="settings_duration_format_proportional">Proportioneel</string>
     <string name="settings_show_seconds">Toon seconden</string>
     <string name="settings_keep_screen_on">Scherm aan houden</string>
+    <string name="settings_start_timer_by_long_click">Timers starten en stoppen met lang indrukken</string>
     <string name="settings_change_card_size">Grootte activiteitskaart wijzigen</string>
     <string name="settings_archive">Archief</string>
     <string name="settings_data_edit">Gegevens bewerken</string>

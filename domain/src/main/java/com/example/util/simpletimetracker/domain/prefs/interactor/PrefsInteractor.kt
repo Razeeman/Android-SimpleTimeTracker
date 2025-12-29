@@ -715,6 +715,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.keepScreenOn = keep
     }
 
+    suspend fun getStartTimerByLongClick(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.startTimerByLongClick
+    }
+
+    suspend fun setStartTimerByLongClick(enabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.startTimerByLongClick = enabled
+    }
+
     suspend fun getShowRecordTagSelection(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.showRecordTagSelection
     }

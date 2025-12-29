@@ -291,8 +291,11 @@ Isso permite ver quanto tempo você está gastando em atividades produtivas vers
     <!--  Running records  -->
     <string name="running_records_types_empty">Para iniciar o rastreamento, adicione atividades clicando no botão %s ou use as predefinições padrão clicando no botão %s</string>
     <string name="running_records_empty">Clique na atividade para começar a monitorar</string>
+    <string name="running_records_empty_inverted">Clique e segure na atividade para começar a monitorar</string>
     <string name="running_records_has_timers">Clique no cartão para parar de rastrear</string>
+    <string name="running_records_has_timers_inverted">Clique e segure no cartão para parar de rastrear</string>
     <string name="running_records_empty_hint">Clique e segure para editar</string>
+    <string name="running_records_empty_hint_inverted">Clique para editar</string>
     <string name="running_records_add_type">Adicionar</string>
     <string name="running_records_add_filter">Adicionar filtro</string>
     <string name="running_records_add_default">Padrão</string>
@@ -373,6 +376,7 @@ Isso permite ver quanto tempo você está gastando em atividades produtivas vers
     <string name="settings_duration_format_proportional">Proporcional</string>
     <string name="settings_show_seconds">Mostrar segundos</string>
     <string name="settings_keep_screen_on">Mantenha a tela ligada</string>
+    <string name="settings_start_timer_by_long_click">Iniciar e parar temporizadores com toque longo</string>
     <string name="settings_change_card_size">Alterar o tamanho do cartão de atividade</string>
     <string name="settings_archive">Arquivo</string>
     <string name="settings_data_edit">Edição de dados</string>

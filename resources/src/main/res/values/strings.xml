@@ -291,8 +291,11 @@ This allows you to see how much time you\'re spending on productive versus unpro
     <!--  Running records  -->
     <string name="running_records_types_empty">To start tracking, add activities by clicking on %s button or use default presets by clicking on %s button</string>
     <string name="running_records_empty">Click on activity to start tracking</string>
+    <string name="running_records_empty_inverted">Long click on activity to start tracking</string>
     <string name="running_records_has_timers">Click on card to stop tracking</string>
+    <string name="running_records_has_timers_inverted">Long click on card to stop tracking</string>
     <string name="running_records_empty_hint">Long click to edit</string>
+    <string name="running_records_empty_hint_inverted">Click to edit</string>
     <string name="running_records_add_type">Add</string>
     <string name="running_records_add_filter">Add filter</string>
     <string name="running_records_add_default">Default</string>
@@ -373,6 +376,7 @@ This allows you to see how much time you\'re spending on productive versus unpro
     <string name="settings_duration_format_proportional">Proportional</string>
     <string name="settings_show_seconds">Show seconds</string>
     <string name="settings_keep_screen_on">Keep screen on</string>
+    <string name="settings_start_timer_by_long_click">Start and stop timers by long click</string>
     <string name="settings_change_card_size">Change activity card size</string>
     <string name="settings_archive">Archive</string>
     <string name="settings_data_edit">Data edit</string>

@@ -63,6 +63,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1))),
         )
+        NavUtils.fixToCurrentDate()
         checkRecordsCard(1)
 
         NavUtils.openFilter()
@@ -135,6 +136,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(categoryName1))),
         )
+        NavUtils.fixToCurrentDate()
         checkRecordsCard(1)
 
         NavUtils.openFilter()
@@ -209,6 +211,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1))),
         )
+        NavUtils.fixToCurrentDate()
         checkRecordsCard(3)
 
         NavUtils.openFilter()
@@ -273,6 +276,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1))),
         )
+        NavUtils.fixToCurrentDate()
         checkRecordsCard(7)
 
         NavUtils.openFilter()
@@ -354,6 +358,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1))),
         )
+        NavUtils.fixToCurrentDate()
         checkRecordsCard(7)
 
         NavUtils.openFilter()
@@ -462,6 +467,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1))),
         )
+        NavUtils.fixToCurrentDate()
         checkRecordsCard(7)
 
         NavUtils.openFilter()
@@ -503,6 +509,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1))),
         )
+        NavUtils.fixToCurrentDate()
         checkRecordsCard(4)
 
         NavUtils.openFilter()
@@ -606,6 +613,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         clickOnCurrentDate()
         clickOnViewWithText(coreR.string.range_overall)
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
+        NavUtils.fixToCurrentDate()
         clickOnCurrentDate()
         clickOnViewWithText(coreR.string.range_overall)
         checkRecordsCard(28)
@@ -691,6 +699,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         // Check
         NavUtils.openStatisticsScreen()
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
+        NavUtils.fixToCurrentDate()
         checkRecordsCard(3)
 
         // 0s - 1h
@@ -784,6 +793,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         clickOnCurrentDate()
         clickOnViewWithText(coreR.string.range_overall)
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
+        NavUtils.fixToCurrentDate()
         clickOnCurrentDate()
         clickOnViewWithText(coreR.string.range_overall)
         checkRecordsCard(10)
@@ -906,6 +916,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(withId(statisticsDetailR.id.viewStatisticsDetailItem), hasDescendant(withText(name1))),
         )
+        NavUtils.fixToCurrentDate()
         checkRecordsCard(12)
 
         NavUtils.openFilter()

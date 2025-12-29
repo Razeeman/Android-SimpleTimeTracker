@@ -285,7 +285,7 @@ class DataEditViewModel @Inject constructor(
                 untrackedSelectionAvailable = false,
                 multitaskSelectionAvailable = false,
                 duplicationsSelectionAvailable = true,
-                favouriteSelectionAvailable = false, // TODO FILTER add to Data Edit?
+                favouriteSelectionAvailable = true,
                 addRunningRecords = false,
             ),
             filters = filters.map(RecordsFilter::toParams),

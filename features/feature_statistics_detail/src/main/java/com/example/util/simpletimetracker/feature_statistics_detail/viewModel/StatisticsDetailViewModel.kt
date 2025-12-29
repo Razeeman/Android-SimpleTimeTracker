@@ -308,6 +308,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateViewData() {
+        previewDelegate.updateViewData()
         statsDelegate.updateViewData()
         streaksDelegate.updateStreaksViewData()
         chartDelegate.updateViewData()

@@ -144,6 +144,8 @@ interface PrefsRepo {
 
     var keepScreenOn: Boolean
 
+    var startTimerByLongClick: Boolean
+
     var showRecordTagSelection: Boolean
 
     var recordTagSelectionCloseAfterOne: Boolean

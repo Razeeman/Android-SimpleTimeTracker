@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_base_adapter.dateSelector
 
+import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -33,6 +34,7 @@ fun createDateSelectorDayAdapterDelegate(
             dayMonth = item.dayMonth,
             topText = tvDateSelectorTopText,
             bottomText = tvDateSelectorBottomText,
+            increasedTextSize = item.cardData.increasedTextSize,
         )
         root.setCardData(
             cardData = item.cardData,
@@ -69,10 +71,20 @@ internal fun setDayMoth(
     dayMonth: ViewData.DayMonth,
     topText: TextView,
     bottomText: TextView,
+    increasedTextSize: Boolean,
 ) {
     topText.text = dayMonth.topText
     topText.isVisible = dayMonth.topText.isNotEmpty()
     bottomText.text = dayMonth.bottomText
+
+    topText.setTextSize(
+        TypedValue.COMPLEX_UNIT_SP,
+        if (increasedTextSize) 14f else 12f,
+    )
+    bottomText.setTextSize(
+        TypedValue.COMPLEX_UNIT_SP,
+        if (increasedTextSize) 18f else 14f,
+    )
 }
 
 internal fun View.setCardData(
@@ -108,6 +120,7 @@ data class DateSelectorDayViewData(
         val isToday: Boolean,
         val isSelected: Boolean,
         val isFuture: Boolean,
+        val increasedTextSize: Boolean,
     )
 
     override fun isValidType(other: ViewHolderType): Boolean = other is ViewData

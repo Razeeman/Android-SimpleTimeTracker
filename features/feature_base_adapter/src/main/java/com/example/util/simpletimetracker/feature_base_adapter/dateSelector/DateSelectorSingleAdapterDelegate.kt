@@ -30,6 +30,7 @@ fun createDateSelectorSingleAdapterDelegate(
             dayMonth = item.dayMonth,
             topText = tvDateSelectorTopText,
             bottomText = tvDateSelectorBottomText,
+            increasedTextSize = item.cardData.increasedTextSize,
         )
         root.setCardData(
             cardData = item.cardData,

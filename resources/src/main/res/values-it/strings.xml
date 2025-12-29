@@ -291,8 +291,11 @@ I <b>tag</b> ti permettono di aggiungere maggiori dettagli a un\'attività speci
     <!--  Running records  -->
     <string name="running_records_types_empty">Per avviare il tracciamento, aggiungi attività facendo clic sul pulsante %s o utilizza i preset predefiniti facendo clic sul pulsante %s</string>
     <string name="running_records_empty">Clicca sull\'attività per iniziare il tracciamento</string>
+    <string name="running_records_empty_inverted">Tocca a lungo sull\'attività per iniziare il tracciamento</string>
     <string name="running_records_has_timers">Fare clic sulla carta per interrompere il tracciamento</string>
+    <string name="running_records_has_timers_inverted">Clicca sulla carta per interrompere il tracciamento</string>
     <string name="running_records_empty_hint">Tieni premuto per modificare</string>
+    <string name="running_records_empty_hint_inverted">Clicca per modificare</string>
     <string name="running_records_add_type">Aggiungi</string>
     <string name="running_records_add_filter">Aggiungi filtro</string>
     <string name="running_records_add_default">Predefinito</string>
@@ -373,6 +376,7 @@ I <b>tag</b> ti permettono di aggiungere maggiori dettagli a un\'attività speci
     <string name="settings_duration_format_proportional">Proporzionale</string>
     <string name="settings_show_seconds">Mostra secondi</string>
     <string name="settings_keep_screen_on">Tieni lo schermo acceso</string>
+    <string name="settings_start_timer_by_long_click">Avvia e arresta i timer con pressione prolungata</string>
     <string name="settings_change_card_size">Cambia la dimensione della carta attività</string>
     <string name="settings_archive">Archivio</string>
     <string name="settings_data_edit">Modifica dati</string>

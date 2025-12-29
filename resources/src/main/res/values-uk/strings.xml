@@ -291,8 +291,11 @@
     <!--  Running records  -->
     <string name="running_records_types_empty">Щоб розпочати відстеження, додайте дії, натиснувши кнопку %s, або використайте стандартні налаштування, натиснувши кнопку %s</string>
     <string name="running_records_empty">Натисніть на активність, щоб почати відстеження</string>
+    <string name="running_records_empty_inverted">Утримуйте на активності, щоб почати відстеження</string>
     <string name="running_records_has_timers">Натисніть картку, щоб припинити відстеження</string>
+    <string name="running_records_has_timers_inverted">Утримуйте на картці, щоб припинити відстеження</string>
     <string name="running_records_empty_hint">Натисність та утримуйте для редагування</string>
+    <string name="running_records_empty_hint_inverted">Натисніть для редагування</string>
     <string name="running_records_add_type">Додати</string>
     <string name="running_records_add_filter">Додати фільтр</string>
     <string name="running_records_add_default">За замовчуванням</string>
@@ -373,6 +376,7 @@
     <string name="settings_duration_format_proportional">Пропорційний</string>
     <string name="settings_show_seconds">Показувати секунди</string>
     <string name="settings_keep_screen_on">Тримати екран увімкненим</string>
+    <string name="settings_start_timer_by_long_click">Запуск і зупинка таймерів довгим натисканням</string>
     <string name="settings_change_card_size">Змінити розмір картки активності</string>
     <string name="settings_archive">Архів</string>
     <string name="settings_data_edit">Редагування даних</string>

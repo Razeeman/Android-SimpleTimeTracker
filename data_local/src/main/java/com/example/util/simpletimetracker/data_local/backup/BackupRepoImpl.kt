@@ -3,52 +3,56 @@ package com.example.util.simpletimetracker.data_local.backup
 import android.content.ContentResolver
 import android.os.ParcelFileDescriptor
 import androidx.annotation.StringRes
+import androidx.core.net.toUri
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.data_local.daysOfWeek.DaysOfWeekDataLocalMapper
-import com.example.util.simpletimetracker.domain.extension.orEmpty
-import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.domain.backup.interactor.ClearDataInteractor
+import com.example.util.simpletimetracker.data_local.recordsFilter.FavouriteRecordsFilterDBO
+import com.example.util.simpletimetracker.data_local.recordsFilter.FavouriteRecordsFilterDao
 import com.example.util.simpletimetracker.domain.activityFilter.model.ActivityFilter
-import com.example.util.simpletimetracker.domain.color.model.AppColor
-import com.example.util.simpletimetracker.domain.backup.model.BackupOptionsData
-import com.example.util.simpletimetracker.domain.complexRule.model.ComplexRule
-import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
-import com.example.util.simpletimetracker.domain.favourite.model.FavouriteColor
-import com.example.util.simpletimetracker.domain.favourite.model.FavouriteComment
-import com.example.util.simpletimetracker.domain.favourite.model.FavouriteIcon
-import com.example.util.simpletimetracker.domain.record.model.Record
-import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
-import com.example.util.simpletimetracker.domain.recordTag.model.RecordToRecordTag
-import com.example.util.simpletimetracker.domain.recordType.model.RecordType
-import com.example.util.simpletimetracker.domain.category.model.RecordTypeCategory
-import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
-import com.example.util.simpletimetracker.domain.recordTag.model.RecordTypeToDefaultTag
-import com.example.util.simpletimetracker.domain.recordTag.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.activityFilter.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.activitySuggestion.model.ActivitySuggestion
 import com.example.util.simpletimetracker.domain.activitySuggestion.repo.ActivitySuggestionRepo
+import com.example.util.simpletimetracker.domain.backup.interactor.ClearDataInteractor
+import com.example.util.simpletimetracker.domain.backup.model.BackupOptionsData
+import com.example.util.simpletimetracker.domain.backup.model.ResultCode
+import com.example.util.simpletimetracker.domain.backup.repo.BackupRepo
+import com.example.util.simpletimetracker.domain.category.model.Category
+import com.example.util.simpletimetracker.domain.category.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.category.repo.CategoryRepo
+import com.example.util.simpletimetracker.domain.category.repo.RecordTypeCategoryRepo
+import com.example.util.simpletimetracker.domain.color.model.AppColor
+import com.example.util.simpletimetracker.domain.complexRule.model.ComplexRule
 import com.example.util.simpletimetracker.domain.complexRule.repo.ComplexRuleRepo
+import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.extension.orEmpty
+import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.favourite.model.FavouriteColor
+import com.example.util.simpletimetracker.domain.favourite.model.FavouriteComment
+import com.example.util.simpletimetracker.domain.favourite.model.FavouriteIcon
 import com.example.util.simpletimetracker.domain.favourite.repo.FavouriteColorRepo
 import com.example.util.simpletimetracker.domain.favourite.repo.FavouriteCommentRepo
 import com.example.util.simpletimetracker.domain.favourite.repo.FavouriteIconRepo
+import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.record.repo.RecordRepo
-import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTagRepo
-import com.example.util.simpletimetracker.domain.recordTag.repo.RecordToRecordTagRepo
-import com.example.util.simpletimetracker.domain.category.repo.RecordTypeCategoryRepo
-import com.example.util.simpletimetracker.domain.recordType.repo.RecordTypeGoalRepo
-import com.example.util.simpletimetracker.domain.recordType.repo.RecordTypeRepo
-import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTypeToDefaultTagRepo
-import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTypeToTagRepo
-import com.example.util.simpletimetracker.domain.backup.repo.BackupRepo
-import com.example.util.simpletimetracker.domain.backup.model.ResultCode
-import com.example.util.simpletimetracker.domain.category.model.Category
 import com.example.util.simpletimetracker.domain.recordShortcut.model.RecordShortcut
 import com.example.util.simpletimetracker.domain.recordShortcut.repo.RecordShortcutRepo
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordShortcutToRecordTag
+import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTagValueType
+import com.example.util.simpletimetracker.domain.recordTag.model.RecordToRecordTag
+import com.example.util.simpletimetracker.domain.recordTag.model.RecordTypeToDefaultTag
+import com.example.util.simpletimetracker.domain.recordTag.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordShortcutToRecordTagRepo
+import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTagRepo
+import com.example.util.simpletimetracker.domain.recordTag.repo.RecordToRecordTagRepo
+import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTypeToDefaultTagRepo
+import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTypeToTagRepo
+import com.example.util.simpletimetracker.domain.recordType.model.RecordType
+import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
+import com.example.util.simpletimetracker.domain.recordType.repo.RecordTypeGoalRepo
+import com.example.util.simpletimetracker.domain.recordType.repo.RecordTypeRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -60,8 +64,6 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import javax.inject.Inject
 import javax.inject.Singleton
-import androidx.core.net.toUri
-import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 
 /**
  * Do not change backup parts order, always add new to the end.
@@ -87,6 +89,7 @@ class BackupRepoImpl @Inject constructor(
     private val recordTypeGoalRepo: RecordTypeGoalRepo,
     private val complexRuleRepo: ComplexRuleRepo,
     private val recordShortcutRepo: RecordShortcutRepo,
+    private val favouriteRecordsFilterDao: FavouriteRecordsFilterDao,
     private val clearDataInteractor: ClearDataInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val resourceRepo: ResourceRepo,
@@ -173,6 +176,12 @@ class BackupRepoImpl @Inject constructor(
             activitySuggestionRepo.getAll().forEach {
                 fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
+            favouriteRecordsFilterDao.getAll().forEach {
+                fileOutputStream?.write(it.main.let(::toBackupString).toByteArray())
+                it.filters.forEach { filter ->
+                    fileOutputStream?.write(filter.let(::toBackupString).toByteArray())
+                }
+            }
             backupPrefsRepo.saveToBackupString().let {
                 fileOutputStream?.write(it.toByteArray())
             }
@@ -188,6 +197,7 @@ class BackupRepoImpl @Inject constructor(
                 fileOutputStream?.close()
                 fileDescriptor?.close()
             } catch (e: IOException) {
+                Timber.e(e)
                 // Do nothing
             }
         }
@@ -235,6 +245,8 @@ class BackupRepoImpl @Inject constructor(
                 goals = recordTypeGoalRepo::add,
                 rules = complexRuleRepo::add,
                 activitySuggestion = activitySuggestionRepo::add,
+                favRecordsFilters = favouriteRecordsFilterDao::insertMain,
+                favRecordsFilter = favouriteRecordsFilterDao::insertFilter,
                 settings = { if (restoreSettings) backupPrefsRepo.restoreFromBackupString(it) },
             ),
         )
@@ -389,6 +401,18 @@ class BackupRepoImpl @Inject constructor(
                         }
                     }
 
+                    ROW_FAV_RECORD_FILTERS -> {
+                        favRecordsFiltersFromBackupString(parts).let {
+                            dataHandler.favRecordsFilters.invoke(it)
+                        }
+                    }
+
+                    ROW_FAV_RECORD_FILTER -> {
+                        favRecordsFilterFromBackupString(parts).let {
+                            dataHandler.favRecordsFilter.invoke(it)
+                        }
+                    }
+
                     BackupPrefsRepo.PREFS_KEY -> {
                         dataHandler.settings.invoke(parts)
                     }
@@ -404,6 +428,7 @@ class BackupRepoImpl @Inject constructor(
                 inputStream?.close()
                 reader?.close()
             } catch (e: IOException) {
+                Timber.e(e)
                 // Do nothing
             }
         }
@@ -621,6 +646,37 @@ class BackupRepoImpl @Inject constructor(
             activitySuggestion.id.toString(),
             activitySuggestion.forTypeId.toString(),
             activitySuggestion.suggestionIds.joinToString(separator = ","),
+        )
+    }
+
+    private fun toBackupString(data: FavouriteRecordsFilterDBO.MainDBO): String {
+        return String.format(
+            "$ROW_FAV_RECORD_FILTERS\t%s\n",
+            data.id.toString(),
+        )
+    }
+
+    private fun toBackupString(data: FavouriteRecordsFilterDBO.FilterDBO): String {
+        fun FavouriteRecordsFilterDBO.RangeDBO.toBackupString(): String {
+            return listOf(this.rangeTimeStarted, this.rangeTimeEnded)
+                .joinToString(separator = ",")
+        }
+        return String.format(
+            "$ROW_FAV_RECORD_FILTER\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+            data.id.toString(),
+            data.ownerId.toString(),
+            data.type.toString(),
+            data.commonItemsIds.orEmpty(),
+            data.commentItemsIds.orEmpty(),
+            data.commentItemsText?.cleanTabs()?.replaceNewline().orEmpty(),
+            data.duplicationItemsIds.orEmpty(),
+            data.manuallyFilteredItemsIds.orEmpty(),
+            data.range?.toBackupString().orEmpty(),
+            data.rangeLength?.rangeType?.toString().orEmpty(),
+            data.rangeLength?.customRange?.toBackupString().orEmpty(),
+            data.rangeLength?.lastDays?.toString().orEmpty(),
+            data.rangeLength?.position?.toString().orEmpty(),
+            data.daysOfWeek.orEmpty(),
         )
     }
 
@@ -911,6 +967,42 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
+    private fun favRecordsFiltersFromBackupString(parts: List<String>): FavouriteRecordsFilterDBO.MainDBO {
+        return FavouriteRecordsFilterDBO.MainDBO(
+            id = parts.getOrNull(1)?.toLongOrNull().orZero(),
+        )
+    }
+
+    private fun favRecordsFilterFromBackupString(parts: List<String>): FavouriteRecordsFilterDBO.FilterDBO {
+        fun String.rangeFromBackupString(): FavouriteRecordsFilterDBO.RangeDBO? {
+            val rangeParts = this.split(',')
+            return FavouriteRecordsFilterDBO.RangeDBO(
+                rangeTimeStarted = rangeParts.getOrNull(0)?.toLongOrNull() ?: return null,
+                rangeTimeEnded = rangeParts.getOrNull(1)?.toLongOrNull() ?: return null,
+            )
+        }
+        return FavouriteRecordsFilterDBO.FilterDBO(
+            id = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            ownerId = parts.getOrNull(2)?.toLongOrNull().orZero(),
+            type = parts.getOrNull(3)?.toLongOrNull().orZero(),
+            commonItemsIds = parts.getOrNull(4)?.takeUnless { it.isEmpty() },
+            commentItemsIds = parts.getOrNull(5)?.takeUnless { it.isEmpty() },
+            commentItemsText = parts.getOrNull(6)?.restoreNewline()?.takeUnless { it.isEmpty() },
+            duplicationItemsIds = parts.getOrNull(7)?.takeUnless { it.isEmpty() },
+            manuallyFilteredItemsIds = parts.getOrNull(8)?.takeUnless { it.isEmpty() },
+            range = parts.getOrNull(9)?.rangeFromBackupString(),
+            rangeLength = run {
+                FavouriteRecordsFilterDBO.RangeLengthDBO(
+                    rangeType = parts.getOrNull(10)?.toLongOrNull() ?: return@run null,
+                    customRange = parts.getOrNull(11)?.rangeFromBackupString(),
+                    lastDays = parts.getOrNull(12)?.toLongOrNull(),
+                    position = parts.getOrNull(13)?.toLongOrNull() ?: return@run null,
+                )
+            },
+            daysOfWeek = parts.getOrNull(14)?.takeUnless { it.isEmpty() },
+        )
+    }
+
     fun migrateTags(
         types: List<RecordType>,
         data: List<Pair<RecordTag, Long>>,
@@ -961,6 +1053,8 @@ class BackupRepoImpl @Inject constructor(
         val goals: suspend (RecordTypeGoal) -> Unit,
         val rules: suspend (ComplexRule) -> Unit,
         val activitySuggestion: suspend (List<ActivitySuggestion>) -> Unit,
+        val favRecordsFilters: suspend (FavouriteRecordsFilterDBO.MainDBO) -> Unit,
+        val favRecordsFilter: suspend (FavouriteRecordsFilterDBO.FilterDBO) -> Unit,
         val settings: suspend (List<String>) -> Unit,
     )
 
@@ -983,5 +1077,7 @@ class BackupRepoImpl @Inject constructor(
         private const val ROW_FAVOURITE_ICON = "favouriteIcon"
         private const val ROW_RECORD_TYPE_GOAL = "recordTypeGoal"
         private const val ROW_COMPLEX_RULE = "complexRule"
+        private const val ROW_FAV_RECORD_FILTERS = "favRecordsFilters"
+        private const val ROW_FAV_RECORD_FILTER = "favRecordsFilter"
     }
 }

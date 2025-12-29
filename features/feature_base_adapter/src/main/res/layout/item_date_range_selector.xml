@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/containerDateSelectorRange"
     android:layout_width="96dp"
-    android:layout_height="60dp">
+    android:layout_height="64dp">
 
     <View
         android:id="@+id/viewDateSelectorClickable"

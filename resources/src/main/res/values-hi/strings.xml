@@ -291,8 +291,11 @@
     <!--  Running records  -->
     <string name="running_records_types_empty">ट्रैकिंग शुरू करने के लिए, %s बटन पर क्लिक करके गतिविधियाँ जोड़ें या %s बटन पर क्लिक करके डिफ़ॉल्ट प्रीसेट का उपयोग करें</string>
     <string name="running_records_empty">ट्रैकिंग शुरू करने के लिए गतिविधि पर क्लिक करें</string>
+    <string name="running_records_empty_inverted">ट्रैकिंग शुरू करने के लिए गतिविधि पर लंबी क्लिक करें</string>
     <string name="running_records_has_timers">ट्रैकिंग बंद करने के लिए कार्ड पर क्लिक करें</string>
+    <string name="running_records_has_timers_inverted">ट्रैकिंग बंद करने के लिए कार्ड पर लंबी क्लिक करें</string>
     <string name="running_records_empty_hint">संपादित करने के लिए लंबी क्लिक करें</string>
+    <string name="running_records_empty_hint_inverted">संपादित करने के लिए क्लिक करें</string>
     <string name="running_records_add_type">जोड़ें</string>
     <string name="running_records_add_filter">फ़िल्टर जोड़ें</string>
     <string name="running_records_add_default">गलती करना</string>
@@ -373,6 +376,7 @@
     <string name="settings_duration_format_proportional">अनुपातिक</string>
     <string name="settings_show_seconds">सेकंड दिखाएँ</string>
     <string name="settings_keep_screen_on">स्क्रीन को चालू रखें</string>
+    <string name="settings_start_timer_by_long_click">लंबे टैप से टाइमर शुरू और बंद करें</string>
     <string name="settings_change_card_size">गतिविधि कार्ड का आकार बदलें</string>
     <string name="settings_archive">संग्रहालय</string>
     <string name="settings_data_edit">डेटा संपादित करें</string>

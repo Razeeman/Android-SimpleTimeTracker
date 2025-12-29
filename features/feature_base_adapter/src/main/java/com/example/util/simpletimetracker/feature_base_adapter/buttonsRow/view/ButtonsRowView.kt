@@ -4,6 +4,8 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -92,7 +94,11 @@ class ButtonsRowView @JvmOverloads constructor(
         val selectedItemIndex = currentList
             .indexOfFirst { it is ButtonsRowViewData && it.isSelected }
             .takeUnless { it == -1 }
-            ?: return@with
+            ?: run {
+                btnButtonsRowSelected.isInvisible = true
+                return@with
+            }
+        btnButtonsRowSelected.isVisible = true
         val itemsCount = currentList.size.takeIf { it > 0 }
             ?: return@with
         val itemWidth = containerWidth / itemsCount

@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.data_local.backup
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.data_local.backup.BackupRepoImpl.DataHandler
+import com.example.util.simpletimetracker.data_local.recordsFilter.FavouriteRecordsFilterDBO
 import com.example.util.simpletimetracker.domain.extension.orEmpty
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.activityFilter.model.ActivityFilter
@@ -302,6 +303,8 @@ class BackupPartialRepoImpl @Inject constructor(
         val rulesCurrent: List<ComplexRule> = complexRuleRepo.getAll()
         val activitySuggestions: MutableList<ActivitySuggestion> = mutableListOf()
         val activitySuggestionsCurrent: List<ActivitySuggestion> = activitySuggestionRepo.getAll()
+        val favRecordsFilters: MutableList<FavouriteRecordsFilterDBO.MainDBO> = mutableListOf() // Not used.
+        val favRecordsFilter: MutableList<FavouriteRecordsFilterDBO.FilterDBO> = mutableListOf() // Not used.
         val settings: MutableList<List<String>> = mutableListOf()
 
         val result = backupRepo.readBackup(
@@ -334,6 +337,8 @@ class BackupPartialRepoImpl @Inject constructor(
                 goals = goals::add,
                 rules = rules::add,
                 activitySuggestion = activitySuggestions::addAll,
+                favRecordsFilters = favRecordsFilters::add,
+                favRecordsFilter = favRecordsFilter::add,
                 settings = settings::add,
             ),
         )

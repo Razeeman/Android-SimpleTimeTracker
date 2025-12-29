@@ -127,6 +127,15 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
                 dividerIsVisible = true,
             )
 
+            result += SettingsCheckboxViewData(
+                block = SettingsBlock.AdditionalStartTimerByLongClick,
+                title = resourceRepo.getString(R.string.settings_start_timer_by_long_click),
+                subtitle = "",
+                isChecked = prefsInteractor.getStartTimerByLongClick(),
+                bottomSpaceIsVisible = true,
+                dividerIsVisible = true,
+            )
+
             val firstDayOfWeekViewData = loadFirstDayOfWeekViewData()
             result += SettingsSpinnerViewData(
                 block = SettingsBlock.AdditionalFirstDayOfWeek,

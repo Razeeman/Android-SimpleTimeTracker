@@ -291,8 +291,11 @@ Ini memungkinkan Anda melihat berapa banyak waktu yang dihabiskan untuk aktivita
     <!--  Running records  -->
     <string name="running_records_types_empty">Untuk memulai pelacakan, tambahkan aktivitas dengan mengklik tombol %s atau gunakan preset default dengan mengklik tombol %s</string>
     <string name="running_records_empty">Ketuk pada kegiatan untuk mulai melacak</string>
+    <string name="running_records_empty_inverted">Ketuk pada kegiatan untuk mulai melacak</string>
     <string name="running_records_has_timers">Klik pada kartu untuk menghentikan pelacakan</string>
+    <string name="running_records_has_timers_inverted">Ketuk lama pada kartu untuk menghentikan pelacakan</string>
     <string name="running_records_empty_hint">Ketuk lama untuk menyunting</string>
+    <string name="running_records_empty_hint_inverted">Ketuk untuk menyunting</string>
     <string name="running_records_add_type">Tambah</string>
     <string name="running_records_add_filter">Tambahkan filter</string>
     <string name="running_records_add_default">Bawaan</string>
@@ -373,6 +376,7 @@ Ini memungkinkan Anda melihat berapa banyak waktu yang dihabiskan untuk aktivita
     <string name="settings_duration_format_proportional">Proporsional</string>
     <string name="settings_show_seconds">Tampilkan detik</string>
     <string name="settings_keep_screen_on">Biarkan layarnya menyala</string>
+    <string name="settings_start_timer_by_long_click">Mulai dan hentikan pengatur waktu dengan tekan lama</string>
     <string name="settings_change_card_size">Ubah ukuran kartu kegiatan</string>
     <string name="settings_archive">Arsip</string>
     <string name="settings_data_edit">Pengeditan data</string>

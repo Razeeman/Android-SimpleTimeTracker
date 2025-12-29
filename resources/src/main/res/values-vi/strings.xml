@@ -291,8 +291,11 @@
     <!--  Running records  -->
     <string name="running_records_types_empty">Để bắt đầu theo dõi, hãy thêm hoạt động bằng cách nhấp vào nút %s hoặc sử dụng thiết đặt trước mặc định bằng cách nhấp vào nút %s</string>
     <string name="running_records_empty">Nhấp vào hoạt động để bắt đầu theo dõi</string>
+    <string name="running_records_empty_inverted">Nhấn lâu vào hoạt động để bắt đầu theo dõi</string>
     <string name="running_records_has_timers">Bấm vào thẻ để ngừng theo dõi</string>
+    <string name="running_records_has_timers_inverted">Nhấn lâu vào thẻ để ngừng theo dõi</string>
     <string name="running_records_empty_hint">Nhấn lâu để chỉnh sửa</string>
+    <string name="running_records_empty_hint_inverted">Nhấp để chỉnh sửa</string>
     <string name="running_records_add_type">Thêm</string>
     <string name="running_records_add_filter">Thêm bộ lọc</string>
     <string name="running_records_add_default">Mặc định</string>
@@ -373,6 +376,7 @@
     <string name="settings_duration_format_proportional">Tỷ lệ</string>
     <string name="settings_show_seconds">Hiện giây</string>
     <string name="settings_keep_screen_on">Giữ màn hình luôn bật</string>
+    <string name="settings_start_timer_by_long_click">Bắt đầu và dừng bộ đếm bằng cách nhấn giữ</string>
     <string name="settings_change_card_size">Thay đổi kích thước thẻ hoạt động</string>
     <string name="settings_archive">Lưu trữ</string>
     <string name="settings_data_edit">Chỉnh sửa dữ liệu</string>

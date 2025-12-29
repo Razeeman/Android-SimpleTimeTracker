@@ -43,11 +43,13 @@ import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
+import com.example.util.simpletimetracker.utils.clickOnVisibleView
 import com.example.util.simpletimetracker.utils.dateSelectorMatcher
 import com.example.util.simpletimetracker.utils.getMillis
 import com.example.util.simpletimetracker.utils.longClickOnCurrentDate
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
+import com.example.util.simpletimetracker.utils.longClickOnVisibleView
 import com.example.util.simpletimetracker.utils.recyclerItemCount
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
@@ -1002,13 +1004,16 @@ class SettingsTest : BaseUiTest() {
                 timeString,
             )
             tryAction { clickOnView(allOf(withText(name), isCompletelyDisplayed())) }
-            checkViewIsDisplayed(
-                allOf(
-                    withId(statisticsDetailR.id.containerStatisticsDetailCard),
-                    hasDescendant(withText(R.string.statistics_detail_total_duration)),
-                    hasDescendant(withText(timeString)),
-                ),
-            )
+            NavUtils.fixToCurrentDate()
+            tryAction {
+                checkViewIsDisplayed(
+                    allOf(
+                        withId(statisticsDetailR.id.containerStatisticsDetailCard),
+                        hasDescendant(withText(R.string.statistics_detail_total_duration)),
+                        hasDescendant(withText(timeString)),
+                    ),
+                )
+            }
             pressBack()
         }
 
@@ -1082,6 +1087,207 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
+    fun startTimersByLongClick() {
+        val name = "Test"
+
+        // Add data
+        runBlocking { prefsInteractor.setAllowMultitasking(false) }
+        testUtils.addActivity(name)
+        testUtils.addShortcut(name)
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1),
+            timeEnded = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1),
+        )
+
+        // Check disabled
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
+        scrollSettingsRecyclerToText(coreR.string.settings_start_timer_by_long_click)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_start_timer_by_long_click))
+        // Type
+        NavUtils.openRunningRecordsScreen()
+        longClickOnVisibleView(
+            allOf(
+                withId(R.id.viewRecordTypeItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        checkViewIsDisplayed(withText(R.string.duration_dialog_save))
+        pressBack()
+        clickOnVisibleView(
+            allOf(
+                withId(R.id.viewRecordTypeItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        // Running record
+        longClickOnView(
+            allOf(
+                withId(R.id.viewRunningRecordItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        checkViewIsDisplayed(withText(R.string.duration_dialog_save))
+        pressBack()
+        clickOnView(
+            allOf(
+                withId(R.id.viewRunningRecordItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        checkViewDoesNotExist(withId(R.id.viewRunningRecordItem))
+        // Shortcut
+        longClickOnView(
+            allOf(
+                withId(R.id.viewRecordShortcutItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        clickOnView(withText(R.string.cancel))
+        clickOnView(
+            allOf(
+                withId(R.id.viewRecordShortcutItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        clickOnView(
+            allOf(
+                withId(R.id.viewRunningRecordItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        checkViewDoesNotExist(withId(R.id.viewRunningRecordItem))
+        // Retroactive
+        NavUtils.openSettingsScreen()
+        scrollSettingsRecyclerToText(coreR.string.settings_retroactive_tracking_mode)
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_retroactive_tracking_mode)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_retroactive_tracking_mode))
+        NavUtils.openRunningRecordsScreen()
+        // Untracked
+        clickOnView(withText(R.string.untracked_time_name))
+        checkViewDoesNotExist(withText(R.string.duration_dialog_save))
+        longClickOnView(withText(R.string.untracked_time_name))
+        checkViewIsDisplayed(withText(R.string.duration_dialog_save))
+        pressBack()
+        // Last record
+        clickOnView(
+            allOf(
+                withId(R.id.viewRecordItem),
+                hasDescendant(withText(name)),
+                isCompletelyDisplayed(),
+            ),
+        )
+        checkViewDoesNotExist(withText(R.string.duration_dialog_save))
+        longClickOnView(
+            allOf(
+                withId(R.id.viewRecordItem),
+                hasDescendant(withText(name)),
+                isCompletelyDisplayed(),
+            ),
+        )
+        checkViewIsDisplayed(withText(R.string.duration_dialog_save))
+        pressBack()
+        NavUtils.openSettingsScreen()
+        scrollSettingsRecyclerToText(coreR.string.settings_retroactive_tracking_mode)
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_retroactive_tracking_mode)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_retroactive_tracking_mode))
+
+        // Check enabled
+        scrollSettingsRecyclerToText(coreR.string.settings_start_timer_by_long_click)
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_start_timer_by_long_click)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_start_timer_by_long_click))
+        // Type
+        NavUtils.openRunningRecordsScreen()
+        clickOnVisibleView(
+            allOf(
+                withId(R.id.viewRecordTypeItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        checkViewIsDisplayed(withText(R.string.duration_dialog_save))
+        pressBack()
+        longClickOnVisibleView(
+            allOf(
+                withId(R.id.viewRecordTypeItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        // Running record
+        clickOnView(
+            allOf(
+                withId(R.id.viewRunningRecordItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        checkViewIsDisplayed(withText(R.string.duration_dialog_save))
+        pressBack()
+        longClickOnView(
+            allOf(
+                withId(R.id.viewRunningRecordItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        checkViewDoesNotExist(withId(R.id.viewRunningRecordItem))
+        // Shortcut
+        clickOnView(
+            allOf(
+                withId(R.id.viewRecordShortcutItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        clickOnView(withText(R.string.cancel))
+        longClickOnView(
+            allOf(
+                withId(R.id.viewRecordShortcutItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        longClickOnView(
+            allOf(
+                withId(R.id.viewRunningRecordItem),
+                hasDescendant(withText(name)),
+            ),
+        )
+        checkViewDoesNotExist(withId(R.id.viewRunningRecordItem))
+        // Retroactive
+        NavUtils.openSettingsScreen()
+        scrollSettingsRecyclerToText(coreR.string.settings_retroactive_tracking_mode)
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_retroactive_tracking_mode)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_retroactive_tracking_mode))
+        NavUtils.openRunningRecordsScreen()
+        // Untracked
+        longClickOnView(withText(R.string.untracked_time_name))
+        checkViewDoesNotExist(withText(R.string.duration_dialog_save))
+        clickOnView(withText(R.string.untracked_time_name))
+        checkViewIsDisplayed(withText(R.string.duration_dialog_save))
+        pressBack()
+        // Last record
+        longClickOnView(
+            allOf(
+                withId(R.id.viewRecordItem),
+                hasDescendant(withText(name)),
+                isCompletelyDisplayed(),
+            ),
+        )
+        checkViewDoesNotExist(withText(R.string.duration_dialog_save))
+        Thread.sleep(500)
+        clickOnView(
+            allOf(
+                withId(R.id.viewRecordItem),
+                hasDescendant(withText(name)),
+                isCompletelyDisplayed(),
+            ),
+        )
+        checkViewIsDisplayed(withText(R.string.duration_dialog_save))
+        pressBack()
+        NavUtils.openSettingsScreen()
+        scrollSettingsRecyclerToText(coreR.string.settings_retroactive_tracking_mode)
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_retroactive_tracking_mode)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_retroactive_tracking_mode))
+    }
+
+    @Test
     fun firstDayOfWeek() {
         // If today is sunday:
         // add record for previous monday,
@@ -1134,6 +1340,7 @@ class SettingsTest : BaseUiTest() {
         )
 
         // Check detailed statistics
+        NavUtils.fixToCurrentDate()
         clickOnCurrentDate()
         clickOnViewWithText(coreR.string.range_week)
         checkViewIsDisplayed(
@@ -1264,7 +1471,8 @@ class SettingsTest : BaseUiTest() {
 
         // Check detailed statistics
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        tryAction { clickOnCurrentDate() }
+        NavUtils.fixToCurrentDate()
+        clickOnCurrentDate()
         clickOnViewWithText(coreR.string.range_day)
         checkStatisticsDetailRecords(0)
         clickOnCurrentDate(-1)
@@ -1384,7 +1592,8 @@ class SettingsTest : BaseUiTest() {
 
         // Check detailed statistics
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        tryAction { clickOnCurrentDate() }
+        NavUtils.fixToCurrentDate()
+        clickOnCurrentDate()
         clickOnViewWithText(coreR.string.range_day)
         checkStatisticsDetailRecords(0)
         clickOnCurrentDate(-1)

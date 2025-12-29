@@ -291,8 +291,11 @@ Això et permet veure quant de temps dediques a activitats productives versus no
     <!--  Running records  -->
     <string name="running_records_types_empty">Per començar el seguiment, afegiu activitats fent clic al botó %s o utilitzeu els valors predeterminats fent clic al botó %s</string>
     <string name="running_records_empty">Feu clic en una activitat per a començar a enregistrar</string>
+    <string name="running_records_empty_inverted">Mantingueu premut en una activitat per a començar a enregistrar</string>
     <string name="running_records_has_timers">Feu clic en una targeta per aturar l\'enregistrament</string>
+    <string name="running_records_has_timers_inverted">Mantingueu premut en una targeta per aturar l\'enregistrament</string>
     <string name="running_records_empty_hint">Mantingueu premut per editar</string>
+    <string name="running_records_empty_hint_inverted">Feu clic per editar</string>
     <string name="running_records_add_type">Afegeix</string>
     <string name="running_records_add_filter">Afegeix filtre</string>
     <string name="running_records_add_default">Per defecte</string>
@@ -373,6 +376,7 @@ Això et permet veure quant de temps dediques a activitats productives versus no
     <string name="settings_duration_format_proportional">Proporcional</string>
     <string name="settings_show_seconds">Mostra segons</string>
     <string name="settings_keep_screen_on">Mantingues la pantalla encesa</string>
+    <string name="settings_start_timer_by_long_click">Inicia i atura els temporitzadors amb una pulsació llarga</string>
     <string name="settings_change_card_size">Canvia la mida de la targeta d\'activitat</string>
     <string name="settings_archive">Arxiu</string>
     <string name="settings_data_edit">Edició de dades</string>

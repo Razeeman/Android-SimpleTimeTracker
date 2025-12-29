@@ -4,6 +4,7 @@ import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
+import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemRecordTypeLayoutBinding as Binding
@@ -11,6 +12,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordType.Record
 
 fun createRecordTypeAdapterDelegate(
     onItemClick: ((ViewData) -> Unit)? = null,
+    onItemClickWithData: ((ViewData, Pair<Any, String>) -> Unit)? = null,
     onItemLongClick: ((ViewData, Pair<Any, String>) -> Unit)? = null,
     withTransition: Boolean = false,
     transitionNamePrefix: String = TransitionNames.RECORD_TYPE,
@@ -38,6 +40,7 @@ fun createRecordTypeAdapterDelegate(
         itemIsComplete = item.isComplete
         getCheckmarkOutline().itemIsFiltered = item.itemIsFiltered
         onItemClick?.let { setOnClickWith(item, it) }
+        onItemClickWithData?.let { setOnClick { it(item, this to transitionName) } }
         onItemLongClick?.let { setOnLongClick { it(item, this to transitionName) } }
         if (withTransition) ViewCompat.setTransitionName(this, transitionName)
     }

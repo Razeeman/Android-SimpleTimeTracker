@@ -31,6 +31,10 @@ import com.example.util.simpletimetracker.feature_main.R as mainR
 
 object NavUtils {
 
+    fun fixToCurrentDate() {
+        longClickOnCurrentDate() // TODO Sometimes detailed opens on next day, return to current.
+    }
+
     fun openRunningRecordsScreen() {
         onView(withId(mainR.id.mainTabs)).perform(selectTabAtPosition(0))
         Thread.sleep(1000)

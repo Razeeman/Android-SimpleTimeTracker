@@ -141,6 +141,7 @@ class DateSelectorMapper @Inject constructor(
             isToday = isToday,
             isSelected = isSelected,
             isFuture = isFuture,
+            increasedTextSize = isSelected,
         )
     }
 

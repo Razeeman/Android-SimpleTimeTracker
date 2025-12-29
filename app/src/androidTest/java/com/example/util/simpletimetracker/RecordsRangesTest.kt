@@ -26,9 +26,7 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
@@ -74,7 +72,7 @@ class RecordsRangesTest : BaseUiTest() {
             ),
         )
 
-        longClickOnCurrentDate()
+        longClickOnCurrentDate(-2)
         checkViewIsDisplayed(allOf(withText(name), isCompletelyDisplayed()))
 
         clickOnCurrentDate(1)
@@ -187,9 +185,5 @@ class RecordsRangesTest : BaseUiTest() {
                 hasDescendant(withText(calendarNext.get(Calendar.DAY_OF_MONTH).toString())),
             ),
         )
-    }
-
-    companion object {
-        private val dayTitleFormat = SimpleDateFormat("E, MMM d", Locale.getDefault())
     }
 }

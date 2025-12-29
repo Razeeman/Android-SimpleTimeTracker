@@ -291,8 +291,11 @@ Detta gör att du kan se hur mycket tid du spenderar på produktiva kontra icke-
     <!--  Running records  -->
     <string name="running_records_types_empty">För att börja spåra, lägg till aktiviteter genom att klicka på %s-knappen eller använd standardförinställningar genom att klicka på %s-knappen</string>
     <string name="running_records_empty">Tryck på en aktivitet för att påbörja tidtagning</string>
+    <string name="running_records_empty_inverted">Håll intryckt på en aktivitet för att påbörja tidtagning</string>
     <string name="running_records_has_timers">Klicka på kortet för att sluta spåra</string>
+    <string name="running_records_has_timers_inverted">Tryck på kortet för att sluta spåra</string>
     <string name="running_records_empty_hint">Håll intryckt för att redigera</string>
+    <string name="running_records_empty_hint_inverted">Klicka för att redigera</string>
     <string name="running_records_add_type">Lägg till</string>
     <string name="running_records_add_filter">Lägg till filter</string>
     <string name="running_records_add_default">Standard</string>
@@ -373,6 +376,7 @@ Detta gör att du kan se hur mycket tid du spenderar på produktiva kontra icke-
     <string name="settings_duration_format_proportional">Proportionell</string>
     <string name="settings_show_seconds">Visa sekunder</string>
     <string name="settings_keep_screen_on">Håll skärmen på</string>
+    <string name="settings_start_timer_by_long_click">Starta och stoppa timers med långtryck</string>
     <string name="settings_change_card_size">Ändra storlek på aktivitetskort</string>
     <string name="settings_archive">Arkiv</string>
     <string name="settings_data_edit">Dataredigering</string>

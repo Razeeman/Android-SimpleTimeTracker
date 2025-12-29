@@ -341,6 +341,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_KEEP_SCREEN_ON, false,
     )
 
+    override var startTimerByLongClick: Boolean by prefs.delegate(
+        KEY_START_TIMER_BY_LONG_CLICK, false,
+    )
+
     override var showRecordTagSelection: Boolean by prefs.delegate(
         KEY_SHOW_RECORD_TAG_SELECTION, false,
     )
@@ -708,6 +712,7 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_DURATION_PRESENTATION_FORMAT = "durationPresentationFormat"
         const val KEY_SHOW_SECONDS = "showSeconds"
         const val KEY_KEEP_SCREEN_ON = "keepScreenOn"
+        const val KEY_START_TIMER_BY_LONG_CLICK = "startTimerByLongClick"
         const val KEY_SHOW_RECORD_TAG_SELECTION = "showRecordTagSelection"
         const val KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES = "showRecordTagSelectionExcludeActivities"
         const val KEY_SHOW_COMMENT_INPUT = "showCommentInput"

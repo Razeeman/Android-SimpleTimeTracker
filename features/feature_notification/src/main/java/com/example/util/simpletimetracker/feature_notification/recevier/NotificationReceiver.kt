@@ -25,6 +25,7 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_STARTED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_ICON
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.activity.controller.NotificationActivityBroadcastController
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationActivitySwitchManager.Companion.ACTION_NOTIFICATION_SWITCH_CANCEL
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_STOP
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TAGS_NEXT
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TAGS_PREV
@@ -50,6 +51,7 @@ import com.example.util.simpletimetracker.feature_notification.activitySwitch.ma
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TYPES_SHIFT
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TYPE_ID
 import com.example.util.simpletimetracker.feature_notification.external.NotificationExternalBroadcastController
+import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPE_CANCEL
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPE_STOP
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -291,6 +293,13 @@ class NotificationReceiver : BroadcastReceiver() {
                     tagValue = tagValue,
                     typesShift = typesShift,
                 )
+            }
+            ACTION_NOTIFICATION_TYPE_CANCEL -> {
+                val typeId = intent.getLongExtra(ARGS_TYPE_ID, 0)
+                typeController.onTypeCancel(typeId)
+            }
+            ACTION_NOTIFICATION_SWITCH_CANCEL -> {
+                typeController.onActivitySwitchCancel()
             }
             Intent.ACTION_BOOT_COMPLETED -> {
                 onBootCompleted()

@@ -78,16 +78,17 @@ class RunningRecordsFragment :
                 onItemLongClick = viewModel::onRunningRecordLongClick,
             ),
             createRecordTypeAdapterDelegate(
-                onItemClick = viewModel::onRecordTypeClick,
+                onItemClickWithData = viewModel::onRecordTypeClick,
                 onItemLongClick = viewModel::onRecordTypeLongClick,
                 withTransition = true,
             ),
             createRecordTypeSuggestionAdapterDelegate(
                 type = RecordTypeSuggestionType,
-                onItemClick = viewModel::onRecordTypeClick,
+                onItemClickWithData = viewModel::onRecordTypeClick,
                 onItemLongClick = viewModel::onRecordTypeLongClick,
             ),
             createRecordWithHintAdapterDelegate(
+                onItemClick = throttle(viewModel::onRecordClick),
                 onItemLongClick = throttle(viewModel::onRecordLongClick),
             ),
             createRecordShortcutAdapterDelegate(

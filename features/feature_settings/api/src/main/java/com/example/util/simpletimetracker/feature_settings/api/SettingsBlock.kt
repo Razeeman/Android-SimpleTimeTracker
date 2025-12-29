@@ -78,6 +78,7 @@ enum class SettingsBlock {
     AdditionalKeepStatisticsRange,
     AdditionalRetroactiveTrackingMode,
     AdditionalKeepScreenOn,
+    AdditionalStartTimerByLongClick,
     AdditionalFirstDayOfWeek,
     AdditionalShiftStartOfDay,
     AdditionalShiftStartOfDayButton,

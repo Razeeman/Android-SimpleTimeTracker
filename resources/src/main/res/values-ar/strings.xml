@@ -291,8 +291,11 @@
     <!--  Running records  -->
     <string name="running_records_types_empty">لبدء التتبع ، أضف الأنشطة بالنقر فوق الزر %s أو استخدم الإعدادات المسبقة الافتراضية بالنقر فوق الزر %s</string>
     <string name="running_records_empty">انقر على النشاط لبدء التتبع</string>
+    <string name="running_records_empty_inverted">انقر طويلا على النشاط لبدء التتبع</string>
     <string name="running_records_has_timers">انقر على البطاقة لإيقاف التتبع</string>
+    <string name="running_records_has_timers_inverted">انقر طويلا على البطاقة لإيقاف التتبع</string>
     <string name="running_records_empty_hint">انقر طويلا للتعديل</string>
+    <string name="running_records_empty_hint_inverted">انقر للتعديل</string>
     <string name="running_records_add_type">يضيف</string>
     <string name="running_records_add_filter">أضف عامل تصفية</string>
     <string name="running_records_add_default">تقصير</string>
@@ -373,6 +376,7 @@
     <string name="settings_duration_format_proportional">نسبي</string>
     <string name="settings_show_seconds">إظهار الثواني</string>
     <string name="settings_keep_screen_on">أبق الشاشة قيد التشغيل</string>
+    <string name="settings_start_timer_by_long_click">بدء وإيقاف المؤقتات بالضغط المطوّل</string>
     <string name="settings_change_card_size">تغيير حجم بطاقات اﻷنشظة</string>
     <string name="settings_archive">اﻷرشيف</string>
     <string name="settings_data_edit">تعديل البيانات</string>
