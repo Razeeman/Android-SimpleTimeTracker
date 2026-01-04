@@ -175,7 +175,7 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="change_record_previous_not_found">Enregistrement précédent introuvable</string>
     <string name="change_record_next_not_found">Enregistrement suivant introuvable</string>
     <string name="change_record_date_time_start">Démarrer</string>
-    <string name="change_record_date_time_end">Terminer</string>
+    <string name="change_record_date_time_end">Arrêter</string>
     <string name="change_record_date_time_duration">Durée</string>
 
     <!--  Change record type  -->
@@ -220,7 +220,7 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Action</string>
-    <string name="change_complex_actions_hint">Sera appliqué au délarrage de l\'activité</string>
+    <string name="change_complex_actions_hint">Sera appliqué au démarrage de l\'activité</string>
     <string name="change_complex_action_assign_tag">Attribuer une étiquette</string>
     <string name="change_complex_conditions_title">Conditions</string>
     <string name="change_complex_starting_activity">L\'activité de départ</string>
@@ -230,7 +230,7 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="change_complex_rule_choose_condition">Choisissez les conditions</string>
 
     <!--  Activity suggestions  -->
-    <string name="activity_suggestions_hint">Suggère les activités suivantes en fonction de l\'activité actuelle ou de la dernière activité</string>
+    <string name="activity_suggestions_hint">Suggère les prochaines activités en fonction de l\'activité actuelle ou précédente</string>
     <string name="activity_suggestions_calculate">Calculer à partir des statistiques</string>
     <string name="activity_suggestions_select_activity_hint">Des suggestions seront affichées pour les activités sélectionnées</string>
 
