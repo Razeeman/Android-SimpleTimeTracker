@@ -291,8 +291,11 @@ Pozwala to zobaczyć, ile czasu spędzasz na produktywnych i nieproduktywnych ak
     <!--  Running records  -->
     <string name="running_records_types_empty">Aby rozpocząć śledzenie, dodaj aktywność, klikając przycisk %s lub użyj domyślnych, klikając przycisk %s</string>
     <string name="running_records_empty">Kliknij aktywność, aby rozpocząć śledzenie</string>
+    <string name="running_records_empty_inverted">Przytrzymaj aktywność, aby rozpocząć śledzenie</string>
     <string name="running_records_has_timers">Kliknij kartę, aby zatrzymać śledzenie</string>
+    <string name="running_records_has_timers_inverted">Przytrzymaj kartę, aby zatrzymać śledzenie</string>
     <string name="running_records_empty_hint">Przytrzymaj, aby edytować</string>
+    <string name="running_records_empty_hint_inverted">Kliknij, aby edytować</string>
     <string name="running_records_add_type">Dodaj</string>
     <string name="running_records_add_filter">Dodaj filtr</string>
     <string name="running_records_add_default">Domyślny</string>
@@ -373,6 +376,9 @@ Pozwala to zobaczyć, ile czasu spędzasz na produktywnych i nieproduktywnych ak
     <string name="settings_duration_format_proportional">Proporcjonalny</string>
     <string name="settings_show_seconds">Pokaż sekundy</string>
     <string name="settings_keep_screen_on">Pozostaw ekran włączony</string>
+    <string name="settings_customize_options_menu">Dostosuj menu opcji</string>
+    <string name="settings_detailed_statistics">Szczegółowe statystyki</string>
+    <string name="settings_start_timer_by_long_click">Uruchamianie i zatrzymywanie timerów długim naciśnięciem</string>
     <string name="settings_change_card_size">Zmień rozmiar karty aktywności</string>
     <string name="settings_archive">Archiwum</string>
     <string name="settings_data_edit">Edycja danych</string>

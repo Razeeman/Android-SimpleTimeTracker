@@ -64,6 +64,7 @@ enum class SettingsBlock {
     DisplaySortActivities,
     DisplaySortCategories,
     DisplaySortTags,
+    DisplayCustomizeOptionsMenu,
     DisplayCardSize,
     DisplayBottom,
 
@@ -78,6 +79,7 @@ enum class SettingsBlock {
     AdditionalKeepStatisticsRange,
     AdditionalRetroactiveTrackingMode,
     AdditionalKeepScreenOn,
+    AdditionalStartTimerByLongClick,
     AdditionalFirstDayOfWeek,
     AdditionalShiftStartOfDay,
     AdditionalShiftStartOfDayButton,
@@ -125,4 +127,22 @@ enum class SettingsBlock {
     PomodoroLongBreakTime,
     PomodoroPeriodsUntilLongBreak,
     PomodoroShowMoreControls,
+
+    CustomizeOptionsMenuRecordsCalendar,
+    CustomizeOptionsMenuRecordsFilter,
+    CustomizeOptionsMenuRecordsShare,
+    CustomizeOptionsMenuRecordsBackToToday,
+    CustomizeOptionsMenuRecordsSelectDate,
+
+    CustomizeOptionsMenuStatisticsFilter,
+    CustomizeOptionsMenuStatisticsShare,
+    CustomizeOptionsMenuStatisticsBackToToday,
+    CustomizeOptionsMenuStatisticsSelectDate,
+    CustomizeOptionsMenuStatisticsSelectRange,
+
+    CustomizeOptionsMenuDetailedStatisticsCompare,
+    CustomizeOptionsMenuDetailedStatisticsFilter,
+    CustomizeOptionsMenuDetailedStatisticsSelectDate,
+    CustomizeOptionsMenuDetailedStatisticsSelectRange,
+    CustomizeOptionsMenuDetailedStatisticsBackToToday,
 }

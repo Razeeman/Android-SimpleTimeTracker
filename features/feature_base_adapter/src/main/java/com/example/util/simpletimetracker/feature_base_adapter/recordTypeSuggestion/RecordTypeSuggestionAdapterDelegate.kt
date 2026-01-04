@@ -16,11 +16,13 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordTypeSuggest
 fun createRecordTypeSuggestionAdapterDelegate(
     type: ViewData.Type,
     onItemClick: ((BaseViewData) -> Unit)? = null,
+    onItemClickWithData: ((BaseViewData, Pair<Any, String>) -> Unit)? = null,
     onItemLongClick: ((BaseViewData, Pair<Any, String>) -> Unit)? = null,
     withTransition: Boolean = true,
 ): RecyclerAdapterDelegate {
     val baseAdapter = createRecordTypeAdapterDelegate(
         onItemClick = onItemClick,
+        onItemClickWithData = onItemClickWithData,
         onItemLongClick = onItemLongClick,
         withTransition = withTransition,
         transitionNamePrefix = TransitionNames.RECORD_TYPE_SUGGESTION,

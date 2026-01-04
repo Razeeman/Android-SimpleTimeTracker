@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_records.model
+package com.example.util.simpletimetracker.feature_records.api
 
 import com.example.util.simpletimetracker.core.viewData.CommonOptionsListItem
 import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams

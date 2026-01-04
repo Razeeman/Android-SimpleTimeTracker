@@ -13,12 +13,13 @@ class RemoveRecordTagMediator @Inject constructor(
         fromArchive: Boolean,
     ) {
         recordTagInteractor.remove(tagId)
-        doAfterRemove(fromArchive)
+        doAfterRemove(tagId, fromArchive)
     }
 
     private suspend fun doAfterRemove(
+        tagId: Long,
         fromArchive: Boolean,
     ) {
-        externalViewsInteractor.onTagRemove(fromArchive)
+        externalViewsInteractor.onTagRemove(tagId, fromArchive)
     }
 }

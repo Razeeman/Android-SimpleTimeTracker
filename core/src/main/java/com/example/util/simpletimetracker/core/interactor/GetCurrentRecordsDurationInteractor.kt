@@ -48,8 +48,31 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
 
         return typeIds.associateWith { typeId ->
             getRangeCurrent(
-                typeId = typeId,
-                runningRecord = runningRecords.firstOrNull { it.id == typeId },
+                filterRecords = { records -> records.filter { it.typeId == typeId } },
+                runningRecords = runningRecords.filter { it.id == typeId },
+                range = range,
+                rangeRecords = rangeRecords,
+            )
+        }
+    }
+
+    suspend fun getAllTagCurrents(
+        tagIds: List<Long>,
+        runningRecords: List<RunningRecord>,
+        rangeLength: RangeLength,
+    ): Map<Long, Result> {
+        val range = getRange(rangeLength)
+        // TODO TAG GOAL improve records load for big ranges (month)?
+        val rangeRecords = recordInteractor.getFromRange(range)
+
+        return tagIds.associateWith { tagId ->
+            getRangeCurrent(
+                filterRecords = { records ->
+                    records.filter { record -> record.tags.any { it.tagId == tagId } }
+                },
+                runningRecords = runningRecords.filter { record ->
+                    record.tags.any { it.tagId in tagIds }
+                },
                 range = range,
                 rangeRecords = rangeRecords,
             )
@@ -72,6 +95,18 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         runningRecord: RunningRecord?,
         rangeLength: RangeLength,
     ): Result {
+        return getRangeCurrent(
+            typeId = typeId,
+            runningRecords = listOfNotNull(runningRecord),
+            rangeLength = rangeLength,
+        )
+    }
+
+    private suspend fun getRangeCurrent(
+        typeId: Long,
+        runningRecords: List<RunningRecord>,
+        rangeLength: RangeLength,
+    ): Result {
         val range = getRange(rangeLength)
         val rangeRecords = getRangeRecords(
             rangeLength = rangeLength,
@@ -80,34 +115,29 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         )
 
         return getRangeCurrent(
-            typeId = typeId,
-            runningRecord = runningRecord,
+            filterRecords = { records -> records.filter { it.typeId == typeId } },
+            runningRecords = runningRecords,
             range = range,
             rangeRecords = rangeRecords,
         )
     }
 
     private fun getRangeCurrent(
-        typeId: Long,
-        runningRecord: RunningRecord?,
+        filterRecords: (List<Record>) -> List<Record>,
+        runningRecords: List<RunningRecord>,
         range: Range,
         rangeRecords: List<Record>,
     ): Result {
         val current = System.currentTimeMillis()
-        val currentRunning = if (runningRecord != null) {
+        val currentRunning = runningRecords.sumOf { runningRecord ->
             current - runningRecord.timeStarted
-        } else {
-            0
         }
-        val currentRunningClamped = if (runningRecord != null) {
+        val currentRunningClamped = runningRecords.sumOf { runningRecord ->
             current - max(runningRecord.timeStarted, range.timeStarted)
-        } else {
-            0
         }
-        val currentRunningCount = if (runningRecord != null) 1 else 0
+        val currentRunningCount = runningRecords.size
 
-        val records = rangeRecords
-            .filter { it.typeId == typeId }
+        val records = filterRecords(rangeRecords)
             .map { rangeMapper.clampToRange(it, range) }
         val duration = records
             .let(rangeMapper::mapToDuration)

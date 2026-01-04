@@ -26,6 +26,7 @@ import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
+import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -136,6 +137,10 @@ class SettingsViewModel @Inject constructor(
     ) {
         displayDelegate.onTypesSelected(typeIds, tag)
         additionalDelegate.onTypesSelected(typeIds, tag)
+    }
+
+    fun onOptionsItemClick(id: OptionsListParams.Item.Id) {
+        displayDelegate.onOptionsItemClick(id)
     }
 
     fun onTabReselected(tab: NavigationTab?) {

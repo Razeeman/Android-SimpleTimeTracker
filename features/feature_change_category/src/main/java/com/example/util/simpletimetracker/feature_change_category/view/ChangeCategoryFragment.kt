@@ -28,7 +28,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.Category
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorFavouriteAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorPaletteAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.createDayOfWeekAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
@@ -87,9 +86,7 @@ class ChangeCategoryFragment :
         )
     }
     private val dailyGoalDayOfWeekAdapter: BaseRecyclerAdapter by lazy {
-        BaseRecyclerAdapter(
-            createDayOfWeekAdapterDelegate(viewModel::onDayOfWeekClick),
-        )
+        GoalsViewDelegate.getDayOfWeekAdapter(viewModel)
     }
     private var typeColorAnimator: ValueAnimator? = null
     private var goalTextWatchers: GoalsViewDelegate.TextWatchers? = null
@@ -183,7 +180,6 @@ class ChangeCategoryFragment :
 
     override fun onResume() {
         super.onResume()
-        viewModel.onVisible()
         goalTextWatchers = GoalsViewDelegate.onResume(
             layout = binding.layoutChangeCategoryGoals,
             viewModel = viewModel,
@@ -208,7 +204,7 @@ class ChangeCategoryFragment :
     }
 
     override fun onDurationSet(durationSeconds: Long, tag: String?) {
-        viewModel.onGoalDurationSet(
+        viewModel.onDurationSet(
             tag = tag,
             duration = durationSeconds,
             anchor = binding.btnChangeCategorySave,
@@ -216,7 +212,7 @@ class ChangeCategoryFragment :
     }
 
     override fun onDisable(tag: String?) {
-        viewModel.onGoalDurationDisabled(tag)
+        viewModel.onDurationDisabled(tag)
     }
 
     private fun updateUi(item: CategoryViewData) = with(binding) {

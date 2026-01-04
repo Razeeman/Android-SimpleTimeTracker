@@ -40,7 +40,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.createCa
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorFavouriteAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorPaletteAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.createDayOfWeekAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.emoji.createEmojiAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
@@ -134,9 +133,7 @@ class ChangeRecordTypeFragment :
         )
     }
     private val dailyGoalDayOfWeekAdapter: BaseRecyclerAdapter by lazy {
-        BaseRecyclerAdapter(
-            createDayOfWeekAdapterDelegate(viewModel::onDayOfWeekClick),
-        )
+        GoalsViewDelegate.getDayOfWeekAdapter(viewModel)
     }
     private var iconsLayoutManager: GridLayoutManager? = null
     private var typeColorAnimator: ValueAnimator? = null
@@ -350,8 +347,8 @@ class ChangeRecordTypeFragment :
         with(binding.previewChangeRecordType) {
             itemIsRow = params.sizePreview.asRow
             layoutParams = layoutParams.also { layoutParams ->
-                params.sizePreview.width?.dpToPx()?.let { layoutParams.width = it }
-                params.sizePreview.height?.dpToPx()?.let { layoutParams.height = it }
+                layoutParams.width = params.sizePreview.width.dpToPx()
+                layoutParams.height = params.sizePreview.height.dpToPx()
             }
 
             (params as? ChangeRecordTypeParams.Change)?.preview?.let {

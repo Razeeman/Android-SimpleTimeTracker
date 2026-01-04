@@ -17,6 +17,8 @@ import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeManager
 import javax.inject.Inject
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 class NotificationGoalCountInteractorImpl @Inject constructor(
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
@@ -32,6 +34,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
     override suspend fun checkAndShow(typeId: Long) {
         checkAndShowType(typeId)
         checkAndShowCategory(typeId)
+        checkAndShowTag(typeId)
     }
 
     private suspend fun checkAndShowType(typeId: Long) {
@@ -43,29 +46,14 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         // No count goals - exit.
         if (goals.isEmpty()) return
 
-        // Daily
-        checkType(
-            goalRange = Range.Daily,
-            goals = goals,
-            typeId = typeId,
-            runningRecord = runningRecord,
-        )
-
-        // Weekly
-        checkType(
-            goalRange = Range.Weekly,
-            goals = goals,
-            typeId = typeId,
-            runningRecord = runningRecord,
-        )
-
-        // Monthly
-        checkType(
-            goalRange = Range.Monthly,
-            goals = goals,
-            typeId = typeId,
-            runningRecord = runningRecord,
-        )
+        listOf(Range.Daily, Range.Weekly, Range.Monthly).forEach { goalRange ->
+            checkType(
+                goalRange = goalRange,
+                goals = goals,
+                typeId = typeId,
+                runningRecord = runningRecord,
+            )
+        }
     }
 
     private suspend fun checkAndShowCategory(typeId: Long) {
@@ -95,29 +83,47 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         // For each goal check current results.
         val runningRecords = runningRecordInteractor.getAll()
 
-        // Daily
-        checkCategory(
-            goalRange = Range.Daily,
-            goals = affectedCategoryGoals,
-            runningRecords = runningRecords,
-            categoriesWithThisType = categoriesWithThisType,
-        )
+        listOf(Range.Daily, Range.Weekly, Range.Monthly).forEach { goalRange ->
+            checkCategory(
+                goalRange = goalRange,
+                goals = affectedCategoryGoals,
+                runningRecords = runningRecords,
+                categoriesWithThisType = categoriesWithThisType,
+            )
+        }
+    }
 
-        // Weekly
-        checkCategory(
-            goalRange = Range.Weekly,
-            goals = affectedCategoryGoals,
-            runningRecords = runningRecords,
-            categoriesWithThisType = categoriesWithThisType,
-        )
+    private suspend fun checkAndShowTag(typeId: Long) {
+        val runningRecord = runningRecordInteractor.get(typeId) ?: return
+        // Find all tag goals.
+        val goals = filterGoalsByDayOfWeekInteractor
+            .execute(recordTypeGoalInteractor.getAllTagGoals())
+            .filter { it.type is Type.Count }
 
-        // Monthly
-        checkCategory(
-            goalRange = Range.Monthly,
-            goals = affectedCategoryGoals,
-            runningRecords = runningRecords,
-            categoriesWithThisType = categoriesWithThisType,
-        )
+        // No count goals - exit.
+        if (goals.isEmpty()) return
+
+        // Find all tags that was started.
+        val tags = runningRecord.tags.map { it.tagId }
+
+        // If no tags started - exit.
+        if (tags.isEmpty()) return
+
+        // If affected tags doesn't have goals - exit.
+        val affectedTagGoals = goals
+            .filter { it.idData.value in tags }
+        if (affectedTagGoals.isEmpty()) return
+
+        // For each goal check current results.
+        val runningRecords = runningRecordInteractor.getAll()
+
+        listOf(Range.Daily, Range.Weekly, Range.Monthly).forEach { goalRange ->
+            checkTag(
+                goalRange = goalRange,
+                goals = affectedTagGoals,
+                runningRecords = runningRecords,
+            )
+        }
     }
 
     private suspend fun checkType(
@@ -126,26 +132,21 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         typeId: Long,
         runningRecord: RunningRecord,
     ) {
-        val goal = goals.firstOrNull {
-            it.isCorrectRange(goalRange) &&
-                it.idData is RecordTypeGoal.IdData.Type &&
-                it.type is Type.Count
-        }
+        val goal = filterGoalsFromRange<RecordTypeGoal.IdData.Type>(goalRange, goals).firstOrNull()
+        if (goal == null) return
 
-        if (goal.value > 1) {
-            val current = when (goalRange) {
-                is Range.Session -> return
-                is Range.Daily -> getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord)
-                is Range.Weekly -> getCurrentRecordsDurationInteractor.getWeeklyCurrent(runningRecord)
-                is Range.Monthly -> getCurrentRecordsDurationInteractor.getMonthlyCurrent(runningRecord)
-            }.count
+        val current = when (goalRange) {
+            is Range.Session -> return
+            is Range.Daily -> getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord)
+            is Range.Weekly -> getCurrentRecordsDurationInteractor.getWeeklyCurrent(runningRecord)
+            is Range.Monthly -> getCurrentRecordsDurationInteractor.getMonthlyCurrent(runningRecord)
+        }.count
 
-            if (current == goal.value) {
-                show(
-                    idData = RecordTypeGoal.IdData.Type(typeId),
-                    goalRange = goalRange,
-                )
-            }
+        if (current == goal.value) {
+            show(
+                idData = RecordTypeGoal.IdData.Type(typeId),
+                goalRange = goalRange,
+            )
         }
     }
 
@@ -155,16 +156,11 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         runningRecords: List<RunningRecord>,
         categoriesWithThisType: Map<Long, List<Long>>,
     ) {
-        val rangeGoals = goals.filter {
-            it.isCorrectRange(goalRange) &&
-                it.idData is RecordTypeGoal.IdData.Category &&
-                it.type is Type.Count &&
-                it.value > 1
-        }
+        val rangeGoals = filterGoalsFromRange<RecordTypeGoal.IdData.Category>(goalRange, goals)
         if (rangeGoals.isEmpty()) return
 
         val allTypeIdsFromTheseCategories = categoriesWithThisType.values
-            .flatten().toSet().toList()
+            .flatten().distinct()
         val allCurrents = getCurrentRecordsDurationInteractor.getAllCurrents(
             typeIds = allTypeIdsFromTheseCategories,
             runningRecords = runningRecords,
@@ -200,6 +196,51 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
                     goalRange = goalRange,
                 )
             }
+        }
+    }
+
+    private suspend fun checkTag(
+        goalRange: Range,
+        goals: List<RecordTypeGoal>,
+        runningRecords: List<RunningRecord>,
+    ) {
+        val rangeGoals = filterGoalsFromRange<RecordTypeGoal.IdData.Tag>(goalRange, goals)
+        if (rangeGoals.isEmpty()) return
+
+        val allTags = runningRecords.flatMap { it.tags }.map { it.tagId }.distinct()
+        val allCurrents = getCurrentRecordsDurationInteractor.getAllTagCurrents(
+            tagIds = allTags,
+            runningRecords = runningRecords,
+            rangeLength = when (goalRange) {
+                is Range.Session -> return
+                is Range.Daily -> RangeLength.Day
+                is Range.Weekly -> RangeLength.Week
+                is Range.Monthly -> RangeLength.Month
+            },
+        )
+
+        rangeGoals.forEach { goal ->
+            val tagId = (goal.idData as? RecordTypeGoal.IdData.Tag)?.value
+                ?: return@forEach
+            val current = allCurrents[tagId]?.count.orZero()
+            if (current == goal.value) {
+                show(
+                    idData = RecordTypeGoal.IdData.Tag(tagId),
+                    goalRange = goalRange,
+                )
+            }
+        }
+    }
+
+    private inline fun <reified T : RecordTypeGoal.IdData> filterGoalsFromRange(
+        goalRange: Range,
+        goals: List<RecordTypeGoal>,
+    ): List<RecordTypeGoal> {
+        return goals.filter {
+            it.isCorrectRange(goalRange) &&
+                it.idData is T && // Probably not necessary.
+                it.type is Type.Count && // Probably not necessary.
+                it.value > 1
         }
     }
 

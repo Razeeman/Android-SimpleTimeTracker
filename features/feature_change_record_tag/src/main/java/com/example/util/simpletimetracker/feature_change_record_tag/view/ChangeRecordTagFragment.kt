@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.c
 import com.example.util.simpletimetracker.core.delegates.iconSelection.adapter.createIconSelectionCategoryInfoAdapterDelegate
 import com.example.util.simpletimetracker.core.delegates.iconSelection.viewDelegate.IconSelectionViewDelegate
 import com.example.util.simpletimetracker.core.dialog.ColorSelectionDialogListener
+import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
 import com.example.util.simpletimetracker.core.dialog.EmojiSelectionDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesSelectionDialogListener
@@ -52,10 +53,13 @@ import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHin
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordTypeGoalsViewData
+import com.example.util.simpletimetracker.feature_change_goals.views.GoalsViewDelegate
 import com.example.util.simpletimetracker.feature_change_record_tag.R
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.Closed
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.Color
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.DefaultType
+import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.GoalTime
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.Icon
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.Type
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.ValueType
@@ -85,7 +89,8 @@ class ChangeRecordTagFragment :
     EmojiSelectionDialogListener,
     ColorSelectionDialogListener,
     TypesSelectionDialogListener,
-    StandardDialogListener {
+    StandardDialogListener,
+    DurationDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -141,6 +146,9 @@ class ChangeRecordTagFragment :
             createHintBigAdapterDelegate(),
         )
     }
+    private val dailyGoalDayOfWeekAdapter: BaseRecyclerAdapter by lazy {
+        GoalsViewDelegate.getDayOfWeekAdapter(viewModel)
+    }
     private val valueStateAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createHintAdapterDelegate(),
@@ -152,6 +160,7 @@ class ChangeRecordTagFragment :
     private var iconsLayoutManager: GridLayoutManager? = null
     private var typeColorAnimator: ValueAnimator? = null
     private var iconTextWatcher: TextWatcher? = null
+    private var goalTextWatchers: GoalsViewDelegate.TextWatchers? = null
     private val colorPreviewGradient = GradientDrawable().apply {
         orientation = GradientDrawable.Orientation.LEFT_RIGHT
     }
@@ -213,6 +222,11 @@ class ChangeRecordTagFragment :
             adapter = valueStateAdapter
         }
 
+        GoalsViewDelegate.initGoalUi(
+            layout = binding.layoutChangeRecordTagGoals,
+            dayOfWeekAdapter = dailyGoalDayOfWeekAdapter,
+        )
+
         setOnPreDrawListener {
             startPostponedEnterTransition()
         }
@@ -225,6 +239,7 @@ class ChangeRecordTagFragment :
         fieldChangeRecordTagIcon.setOnClick(viewModel::onIconChooserClick)
         fieldChangeRecordTagType.setOnClick(viewModel::onTypeChooserClick)
         fieldChangeRecordTagDefaultType.setOnClick(viewModel::onDefaultTypeChooserClick)
+        fieldChangeRecordTagGoalTime.setOnClick(viewModel::onGoalTimeChooserClick)
         fieldChangeRecordTagValueType.setOnClick(viewModel::onValueTypeChooserClick)
         btnChangeRecordTagSelectActivity.setOnClick(viewModel::onSelectActivityClick)
         btnChangeRecordTagSave.setOnClick(viewModel::onSaveClick)
@@ -237,6 +252,10 @@ class ChangeRecordTagFragment :
             viewModel = viewModel,
             layout = containerChangeRecordTypeIcon,
             iconsLayoutManager = iconsLayoutManager,
+        )
+        GoalsViewDelegate.initGoalUx(
+            viewModel = viewModel,
+            layout = layoutChangeRecordTagGoals,
         )
         addOnBackPressedListener(action = viewModel::onBackPressed)
     }
@@ -256,10 +275,14 @@ class ChangeRecordTagFragment :
             colors.observe(colorsAdapter::replace)
             types.observe(::updateTypes)
             defaultTypes.observe(::updateDefaultTypes)
+            goalsViewData.observe(::updateGoalsState)
             valueState.observe(::updateValueState)
             chooserState.observe(::updateChooserState)
             nameErrorMessage.observe(::updateNameErrorMessage)
             noteState.observe(::updateNoteState)
+            notificationsHintVisible.observe(
+                layoutChangeRecordTagGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set,
+            )
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTagName) else hideKeyboard()
             }
@@ -272,6 +295,22 @@ class ChangeRecordTagFragment :
                 iconsLayoutManager = iconsLayoutManager,
             )
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        goalTextWatchers = GoalsViewDelegate.onResume(
+            layout = binding.layoutChangeRecordTagGoals,
+            viewModel = viewModel,
+        )
+    }
+
+    override fun onPause() {
+        GoalsViewDelegate.onPause(
+            layout = binding.layoutChangeRecordTagGoals,
+            textWatchers = goalTextWatchers,
+        )
+        super.onPause()
     }
 
     override fun onDestroyView() {
@@ -293,6 +332,18 @@ class ChangeRecordTagFragment :
 
     override fun onColorSelected(colorInt: Int) {
         viewModel.onCustomColorSelected(colorInt)
+    }
+
+    override fun onDurationSet(durationSeconds: Long, tag: String?) {
+        viewModel.onGoalDurationSet(
+            tag = tag,
+            duration = durationSeconds,
+            anchor = binding.btnChangeRecordTagSave,
+        )
+    }
+
+    override fun onDisable(tag: String?) {
+        viewModel.onGoalDurationDisabled(tag)
     }
 
     override fun onDataSelected(
@@ -335,6 +386,7 @@ class ChangeRecordTagFragment :
                 binding.layoutChangeRecordTagTypesPreview.setCardBackgroundColor(it.color)
                 binding.layoutChangeRecordTagDefaultTypePreview.setCardBackgroundColor(it.color)
                 binding.layoutChangeRecordTagValueTypePreview.setCardBackgroundColor(it.color)
+                binding.layoutChangeRecordTagGoalPreview.setCardBackgroundColor(it.color)
             }
         }
     }
@@ -365,7 +417,8 @@ class ChangeRecordTagFragment :
             updateIconPreview(item.icon, item.color)
             layoutChangeRecordTagTypesPreview.setCardBackgroundColor(item.color)
             layoutChangeRecordTagDefaultTypePreview.setCardBackgroundColor(item.color)
-            binding.layoutChangeRecordTagValueTypePreview.setCardBackgroundColor(item.color)
+            layoutChangeRecordTagValueTypePreview.setCardBackgroundColor(item.color)
+            layoutChangeRecordTagGoalPreview.setCardBackgroundColor(item.color)
         }
     }
 
@@ -403,6 +456,12 @@ class ChangeRecordTagFragment :
             chooserView = fieldChangeRecordTagValueType,
             chooserArrow = arrowChangeRecordTagValueType,
         )
+        ViewChooserStateDelegate.updateChooser<GoalTime>(
+            state = state,
+            chooserData = containerChangeRecordTagGoalTime,
+            chooserView = fieldChangeRecordTagGoalTime,
+            chooserArrow = arrowChangeRecordTagGoalTime,
+        )
 
         val isClosed = state.current is Closed
         spaceChangeRecordTagFieldsTop.isVisible = !isClosed
@@ -423,6 +482,7 @@ class ChangeRecordTagFragment :
         val isAdditionalVisible = fieldsState.additionalFieldsVisible
         containerChangeRecordTagMoreFields.isVisible = isClosed
         fieldChangeRecordTagDefaultType.isVisible = (isAdditionalVisible && isClosed) || state.current is DefaultType
+        fieldChangeRecordTagGoalTime.isVisible = (isAdditionalVisible && isClosed) || state.current is GoalTime
         fieldChangeRecordTagValueType.isVisible = (isAdditionalVisible && isClosed) || state.current is ValueType
         btnChangeRecordTagSelectActivity.isVisible = isAdditionalVisible && isClosed
         inputChangeRecordTagNote.isVisible = isAdditionalVisible && isClosed
@@ -470,6 +530,15 @@ class ChangeRecordTagFragment :
         defaultTypesAdapter.replace(data.viewData)
         layoutChangeRecordTagDefaultTypePreview.isVisible = data.selectedCount > 0
         tvChangeRecordTagDefaultTypePreview.text = data.selectedCount.toString()
+    }
+
+    private fun updateGoalsState(state: ChangeRecordTypeGoalsViewData) = with(binding) {
+        GoalsViewDelegate.updateGoalsState(
+            state = state,
+            layout = layoutChangeRecordTagGoals,
+        )
+        layoutChangeRecordTagGoalPreview.isVisible = state.selectedCount > 0
+        tvChangeRecordTagGoalPreview.text = state.selectedCount.toString()
     }
 
     private fun updateValueState(

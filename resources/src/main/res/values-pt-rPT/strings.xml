@@ -291,8 +291,11 @@ Isto permite-lhe ver quanto tempo está a gastar em atividades produtivas versus
     <!--  Running records  -->
     <string name="running_records_types_empty">Para iniciar o registo, adicionar atividades clicando no botão %s ou usar as definições padrão clicando no botão %s</string>
     <string name="running_records_empty">Clicar na atividade para começar a registar</string>
+    <string name="running_records_empty_inverted">Clicar e segurar na atividade para começar a registar</string>
     <string name="running_records_has_timers">Clicar no cartão para parar o registo</string>
+    <string name="running_records_has_timers_inverted">Clicar e segurar no cartão para parar o registo</string>
     <string name="running_records_empty_hint">Clicar e segurar para editar</string>
+    <string name="running_records_empty_hint_inverted">Clicar para editar</string>
     <string name="running_records_add_type">Adicionar</string>
     <string name="running_records_add_filter">Adicionar filtro</string>
     <string name="running_records_add_default">Padrão</string>
@@ -373,6 +376,9 @@ Isto permite-lhe ver quanto tempo está a gastar em atividades produtivas versus
     <string name="settings_duration_format_proportional">Proporcional</string>
     <string name="settings_show_seconds">Mostrar segundos</string>
     <string name="settings_keep_screen_on">Manter o ecrã ligado</string>
+    <string name="settings_customize_options_menu">Personalizar menu de opções</string>
+    <string name="settings_detailed_statistics">Estatísticas detalhadas</string>
+    <string name="settings_start_timer_by_long_click">Iniciar e parar temporizadores com toque prolongado</string>
     <string name="settings_change_card_size">Alterar o tamanho do cartão de atividade</string>
     <string name="settings_archive">Arquivo</string>
     <string name="settings_data_edit">Edição dos dados</string>

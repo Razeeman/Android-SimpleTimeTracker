@@ -37,6 +37,7 @@ class AppDatabaseMigrations {
                 migration_26_27,
                 migration_27_28,
                 migration_28_29,
+                migration_29_30,
             )
 
         private val migration_1_2 = object : Migration(1, 2) {
@@ -365,6 +366,27 @@ class AppDatabaseMigrations {
                 database.execSQL(
                     "CREATE TABLE IF NOT EXISTS `favouriteRecordFilter` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `owner_id` INTEGER NOT NULL, `type` INTEGER NOT NULL, `common_items_ids` TEXT, `comment_items_ids` TEXT, `comment_items_text` TEXT, `duplication_items_ids` TEXT, `manually_filtered_items_ids` TEXT, `daysOfWeek` TEXT, `range_time_started` INTEGER, `range_time_ended` INTEGER, `range_length_type` INTEGER, `range_length_last_days` INTEGER, `range_length_position` INTEGER, `range_length_custom_range_time_started` INTEGER, `range_length_custom_range_time_ended` INTEGER, FOREIGN KEY(`owner_id`) REFERENCES `favouriteRecordFilters`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
                 )
+            }
+        }
+
+        private val migration_29_30 = object : Migration(29, 30) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // Create new table for goals
+                database.execSQL(
+                    "CREATE TABLE `recordTypeGoals_new` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `owner_id` INTEGER NOT NULL, `owner_type` INTEGER NOT NULL, `range` INTEGER NOT NULL, `type` INTEGER NOT NULL, `goalType` INTEGER NOT NULL, `value` INTEGER NOT NULL, `days_of_week` TEXT NOT NULL)",
+                )
+                // Migrate goals
+                // Owner type 0 - activity, 1 - category
+                database.execSQL(
+                    "INSERT INTO recordTypeGoals_new (id, owner_id, owner_type, range, type, goalType, value, days_of_week) SELECT id, type_id, 0, range, type, goalType, value, days_of_week FROM recordTypeGoals WHERE type_id != 0",
+                )
+                database.execSQL(
+                    "INSERT INTO recordTypeGoals_new (id, owner_id, owner_type, range, type, goalType, value, days_of_week) SELECT id, category_id, 1, range, type, goalType, value, days_of_week FROM recordTypeGoals WHERE category_id != 0",
+                )
+                // Remove the old table
+                database.execSQL("DROP TABLE recordTypeGoals")
+                // Change the table name to the correct one
+                database.execSQL("ALTER TABLE recordTypeGoals_new RENAME TO recordTypeGoals")
             }
         }
     }

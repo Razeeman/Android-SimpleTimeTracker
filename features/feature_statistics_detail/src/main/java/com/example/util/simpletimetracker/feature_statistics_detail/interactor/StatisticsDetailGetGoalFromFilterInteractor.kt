@@ -1,9 +1,11 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.domain.record.extension.getCategoryIds
+import com.example.util.simpletimetracker.domain.record.extension.getTagIds
 import com.example.util.simpletimetracker.domain.record.extension.getTypeIds
 import com.example.util.simpletimetracker.domain.record.extension.hasSelectedActivityFilter
 import com.example.util.simpletimetracker.domain.record.extension.hasSelectedCategoryFilter
+import com.example.util.simpletimetracker.domain.record.extension.hasSelectedTagsFilter
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.record.model.RecordsFilter
@@ -30,6 +32,13 @@ class StatisticsDetailGetGoalFromFilterInteractor @Inject constructor(
                 if (categoryIds.size != 1) return emptyList()
                 val categoryId = categoryIds.firstOrNull() ?: return emptyList()
                 recordTypeGoalInteractor.getByCategory(categoryId)
+            }
+            filter.hasSelectedTagsFilter() -> {
+                // Show goal only if one tag is selected.
+                val tagIds = filter.getTagIds()
+                if (tagIds.size != 1) return emptyList()
+                val tagId = tagIds.firstOrNull() ?: return emptyList()
+                recordTypeGoalInteractor.getByTag(tagId)
             }
             else -> emptyList()
         }

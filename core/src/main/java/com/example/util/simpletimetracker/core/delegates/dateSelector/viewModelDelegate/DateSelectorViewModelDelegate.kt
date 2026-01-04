@@ -5,10 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.delegates.dateSelector.mapper.DateSelectorMapper
+import com.example.util.simpletimetracker.core.delegates.dateSelector.viewData.DateSelectorButtonsViewData
 import com.example.util.simpletimetracker.core.delegates.dateSelector.viewData.DateSelectorScrollViewData
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.InfiniteRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.R
+import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
 import javax.inject.Inject
 
 class DateSelectorViewModelDelegate @Inject constructor(
@@ -18,6 +21,7 @@ class DateSelectorViewModelDelegate @Inject constructor(
 
     val dateScrollPosition: LiveData<DateSelectorScrollViewData> =
         SingleLiveEvent<DateSelectorScrollViewData>()
+    val buttonsViewData: LiveData<DateSelectorButtonsViewData> = MutableLiveData()
     val updateDatesViewData: LiveData<Unit> = SingleLiveEvent<Unit>()
     val borderShadowsVisibility: LiveData<Boolean> = MutableLiveData()
 
@@ -68,6 +72,18 @@ class DateSelectorViewModelDelegate @Inject constructor(
         dateScrollPosition.set(scrollData)
     }
 
+    fun getOptionsButton(
+        options: List<OptionsListParams.Item>,
+    ): DateSelectorMapper.SetupData.Button {
+        return if (options.isEmpty()) {
+            DateSelectorMapper.SetupData.Button.Hidden
+        } else {
+            val defaultIcon = R.drawable.more
+            val icon = options.firstOrNull()?.icon?.takeIf { options.size == 1 } ?: defaultIcon
+            DateSelectorMapper.SetupData.Button.Visible(icon)
+        }
+    }
+
     private suspend fun setupDatesSelector() {
         val setupData = DateSelectorMapper.SetupData(
             type = parent?.getSetupData() ?: return,
@@ -80,6 +96,26 @@ class DateSelectorViewModelDelegate @Inject constructor(
         val shadowsVisibility = dataProvider.getCount() ==
             InfiniteRecyclerAdapter.DataProvider.Count.Infinite
         borderShadowsVisibility.set(shadowsVisibility)
+
+        val buttonsData = DateSelectorButtonsViewData(
+            addButton = when (setupData.type) {
+                is DateSelectorMapper.SetupData.Type.Records -> {
+                    DateSelectorButtonsViewData.Button.Visible(iconResId = R.drawable.plus)
+                }
+                is DateSelectorMapper.SetupData.Type.Statistics -> {
+                    DateSelectorButtonsViewData.Button.Hidden
+                }
+            },
+            optionsButton = when (val optionsButton = setupData.type.optionsButton) {
+                is DateSelectorMapper.SetupData.Button.Visible -> {
+                    DateSelectorButtonsViewData.Button.Visible(iconResId = optionsButton.iconResId)
+                }
+                is DateSelectorMapper.SetupData.Button.Hidden -> {
+                    DateSelectorButtonsViewData.Button.Hidden
+                }
+            },
+        )
+        buttonsViewData.set(buttonsData)
     }
 
     interface Parent {

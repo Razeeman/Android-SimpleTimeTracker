@@ -79,7 +79,6 @@ class RecordsContainerFragment :
         DateSelectorViewDelegate.initUx(
             fragment = this,
             binding = binding.containerDatesSelector,
-            isAddButtonVisible = true,
             onRecordAddClick = viewModel::onRecordAddClick,
             onOptionsClick = viewModel::onOptionsClick,
             onOptionsLongClick = viewModel::onOptionsLongClick,

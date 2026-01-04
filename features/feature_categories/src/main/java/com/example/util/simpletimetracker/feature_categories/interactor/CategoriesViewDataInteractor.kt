@@ -146,7 +146,7 @@ class CategoriesViewDataInteractor @Inject constructor(
         result += filteredTags.map { tag ->
             categoryViewDataMapper.mapRecordTag(
                 tag = tag,
-                type = typesMap[tag.iconColorSource],
+                types = typesMap,
                 isDarkTheme = isDarkTheme,
             )
         }

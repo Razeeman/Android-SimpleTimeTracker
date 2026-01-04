@@ -22,11 +22,11 @@ import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.view.B
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailPreviewsViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.api.StatisticsDetailOptionsListMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailContentInteractor
-import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailOptionsListMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.DataDistributionMode
-import com.example.util.simpletimetracker.feature_statistics_detail.model.StatisticsDetailOptionsListItem
+import com.example.util.simpletimetracker.feature_statistics_detail.api.StatisticsDetailOptionsListItem
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickablePopup
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableTracked
@@ -243,16 +243,23 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     fun onOptionsClick() = viewModelScope.launch {
-        val rangeLength = rangeDelegate.provideRangeLength()
-        val items = statisticsDetailOptionsListMapper.map(rangeLength)
-        router.navigate(OptionsListParams(items))
+        val items = statisticsDetailOptionsListMapper.map(
+            filterHidden = true,
+            rangeLength = rangeDelegate.provideRangeLength(),
+        )
+        when {
+            items.isEmpty() -> return@launch
+            items.size == 1 -> items.firstOrNull()?.id?.let(::onOptionsItemClick)
+            else -> router.navigate(OptionsListParams(items))
+        }
     }
 
     fun onOptionsLongClick() {
         filterDelegate.onFilterClick()
     }
 
-    fun onOptionsItemClick(id: StatisticsDetailOptionsListItem) {
+    fun onOptionsItemClick(id: OptionsListParams.Item.Id) {
+        if (id !is StatisticsDetailOptionsListItem) return
         when (id) {
             is StatisticsDetailOptionsListItem.Filter -> filterDelegate.onFilterClick()
             is StatisticsDetailOptionsListItem.Compare -> filterDelegate.onCompareClick()
@@ -308,6 +315,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateViewData() {
+        previewDelegate.updateViewData()
         statsDelegate.updateViewData()
         streaksDelegate.updateStreaksViewData()
         chartDelegate.updateViewData()
@@ -416,6 +424,12 @@ class StatisticsDetailViewModel @Inject constructor(
 
             override suspend fun getSetupData(): DateSelectorMapper.SetupData.Type {
                 return DateSelectorMapper.SetupData.Type.Statistics(
+                    optionsButton = dateSelectorViewModelDelegate.getOptionsButton(
+                        options = statisticsDetailOptionsListMapper.map(
+                            filterHidden = true,
+                            rangeLength = rangeDelegate.provideRangeLength(),
+                        ),
+                    ),
                     rangeLength = rangeDelegate.provideRangeLength(),
                 )
             }

@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.domain.recordTag.repo.RunningRecordToR
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.SortCardsInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
+import com.example.util.simpletimetracker.domain.recordType.repo.RecordTypeGoalRepo
 import javax.inject.Inject
 
 class RecordTagInteractor @Inject constructor(
@@ -28,6 +29,7 @@ class RecordTagInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val sortCardsInteractor: SortCardsInteractor,
+    private val recordTypeGoalRepo: RecordTypeGoalRepo,
 ) {
 
     suspend fun isEmpty(): Boolean {
@@ -92,6 +94,7 @@ class RecordTagInteractor @Inject constructor(
         recordShortcutToRecordTagRepo.removeAllByTagId(id)
         recordTypeToTagRepo.removeAll(id)
         recordTypeToDefaultTagRepo.removeAll(id)
+        recordTypeGoalRepo.removeByTag(id)
         complexRuleInteractor.removeTagId(id)
     }
 

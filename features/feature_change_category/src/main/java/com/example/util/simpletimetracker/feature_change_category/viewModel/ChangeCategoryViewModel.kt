@@ -116,10 +116,6 @@ class ChangeCategoryViewModel @Inject constructor(
         super.onCleared()
     }
 
-    fun onVisible() {
-        goalsViewModelDelegate.onGoalsVisible()
-    }
-
     fun onNameChange(name: String) {
         viewModelScope.launch {
             if (name != newName) {
@@ -243,6 +239,14 @@ class ChangeCategoryViewModel @Inject constructor(
         } else {
             router.back()
         }
+    }
+
+    fun onDurationSet(tag: String?, duration: Long, anchor: Any) {
+        goalsViewModelDelegate.onGoalDurationSet(tag, duration, anchor)
+    }
+
+    fun onDurationDisabled(tag: String?) {
+        goalsViewModelDelegate.onGoalDurationDisabled(tag)
     }
 
     private suspend fun saveTypes(categoryId: Long) {

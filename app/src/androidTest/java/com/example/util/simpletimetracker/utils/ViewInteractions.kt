@@ -88,11 +88,17 @@ fun clickOnView(matcher: Matcher<View>): ViewInteraction =
 fun unconstrainedClickOnView(matcher: Matcher<View>): ViewInteraction =
     onView(matcher).perform(unconstrainedClick())
 
+fun clickOnVisibleView(matcher: Matcher<View>): ViewInteraction =
+    onView(allOf(matcher, isCompletelyDisplayed())).perform(click())
+
 fun longClickOnView(matcher: Matcher<View>): ViewInteraction =
     onView(matcher).perform(longClick())
 
 fun longClickOnViewWithId(id: Int): ViewInteraction =
     onView(withId(id)).perform(longClick())
+
+fun longClickOnVisibleView(matcher: Matcher<View>): ViewInteraction =
+    onView(allOf(matcher, isCompletelyDisplayed())).perform(longClick())
 
 fun clickOnRecyclerItem(id: Int, matcher: Matcher<View>): ViewInteraction =
     onView(allOf(isDescendantOfA(withId(id)), matcher)).perform(click())

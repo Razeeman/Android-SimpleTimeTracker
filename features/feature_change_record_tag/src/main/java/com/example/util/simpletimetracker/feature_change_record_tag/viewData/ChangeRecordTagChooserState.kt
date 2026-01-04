@@ -9,4 +9,5 @@ sealed interface ChangeRecordTagChooserState : ViewChooserStateDelegate.State {
     data object Type : ChangeRecordTagChooserState
     data object DefaultType : ChangeRecordTagChooserState
     data object ValueType : ChangeRecordTagChooserState
+    data object GoalTime : ChangeRecordTagChooserState
 }

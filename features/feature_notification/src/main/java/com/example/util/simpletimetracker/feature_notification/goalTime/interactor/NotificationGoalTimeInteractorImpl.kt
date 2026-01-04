@@ -54,6 +54,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
 
         typeIdsToCheck.forEach { checkAndRescheduleType(it) }
         checkAndRescheduleCategory(typeIdsToCheck)
+        // TODO TAG GOAL
         notificationGoalRangeEndInteractor.checkAndReschedule()
     }
 

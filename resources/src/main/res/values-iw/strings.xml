@@ -291,8 +291,11 @@
     <!--  Running records  -->
     <string name="running_records_types_empty">כדי להתחיל מעקב, הוסף פעילויות על ידי לחיצה על כפתור %s או השתמש בקביעות ברירת מחדל על ידי לחיצה על כפתור %s</string>
     <string name="running_records_empty">לחץ על פעילות כדי להתחיל מעקב</string>
+    <string name="running_records_empty_inverted">לחץ לחיצה ארוכה על פעילות כדי להתחיל מעקב</string>
     <string name="running_records_has_timers">לחץ על כרטיס כדי לעצור מעקב</string>
+    <string name="running_records_has_timers_inverted">לחץ לחיצה ארוכה על כרטיס כדי לעצור מעקב</string>
     <string name="running_records_empty_hint">לחץ לחיצה ארוכה כדי לערוך</string>
+    <string name="running_records_empty_hint_inverted">לחץ על מנת לערוך</string>
     <string name="running_records_add_type">הוסף</string>
     <string name="running_records_add_filter">הוסף מסנן</string>
     <string name="running_records_add_default">ברירת מחדל</string>
@@ -373,6 +376,9 @@
     <string name="settings_duration_format_proportional">פרופורציונלי</string>
     <string name="settings_show_seconds">הצג שניות</string>
     <string name="settings_keep_screen_on">השאר מסך דולק</string>
+    <string name="settings_customize_options_menu">התאמת תפריט האפשרויות</string>
+    <string name="settings_detailed_statistics">סטטיסטיקות מפורטות</string>
+    <string name="settings_start_timer_by_long_click">התחלה ועצירה של טיימרים בלחיצה ארוכה</string>
     <string name="settings_change_card_size">שנה גודל כרטיס פעילות</string>
     <string name="settings_archive">ארכיון</string>
     <string name="settings_data_edit">עריכת נתונים</string>

@@ -73,7 +73,7 @@ class ArchiveViewDataInteractor @Inject constructor(
             ).map { tag ->
                 categoryViewDataMapper.mapRecordTag(
                     tag = tag,
-                    type = types[tag.iconColorSource],
+                    types = types,
                     isDarkTheme = isDarkTheme,
                     isFiltered = false,
                 )

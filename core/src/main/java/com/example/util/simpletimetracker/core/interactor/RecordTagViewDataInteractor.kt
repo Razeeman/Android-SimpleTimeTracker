@@ -81,7 +81,7 @@ class RecordTagViewDataInteractor @Inject constructor(
                 categoryViewDataMapper.mapRecordTagWithValue(
                     tag = it,
                     tagData = selectedTagsMap[it.id],
-                    type = types[it.iconColorSource],
+                    types = types,
                     isDarkTheme = isDarkTheme,
                 )
             }
@@ -98,7 +98,7 @@ class RecordTagViewDataInteractor @Inject constructor(
                 viewData += tags.map {
                     categoryViewDataMapper.mapRecordTag(
                         tag = it,
-                        type = types[it.iconColorSource],
+                        types = types,
                         isDarkTheme = isDarkTheme,
                     )
                 }
@@ -114,7 +114,7 @@ class RecordTagViewDataInteractor @Inject constructor(
                 viewData += availableFromOtherActivities.map {
                     categoryViewDataMapper.mapRecordTag(
                         tag = it,
-                        type = types[it.iconColorSource],
+                        types = types,
                         isDarkTheme = isDarkTheme,
                     )
                 }

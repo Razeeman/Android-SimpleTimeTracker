@@ -43,7 +43,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.crea
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailPreviewsAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailSeriesCalendarAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailSeriesChartAdapterDelegate
-import com.example.util.simpletimetracker.feature_statistics_detail.model.StatisticsDetailOptionsListItem
+import com.example.util.simpletimetracker.feature_statistics_detail.api.StatisticsDetailOptionsListItem
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
@@ -151,7 +151,6 @@ class StatisticsDetailFragment :
         DateSelectorViewDelegate.initUx(
             fragment = this@StatisticsDetailFragment,
             binding = binding.containerDatesSelector,
-            isAddButtonVisible = false,
             onRecordAddClick = {},
             onOptionsClick = viewModel::onOptionsClick,
             onOptionsLongClick = viewModel::onOptionsLongClick,

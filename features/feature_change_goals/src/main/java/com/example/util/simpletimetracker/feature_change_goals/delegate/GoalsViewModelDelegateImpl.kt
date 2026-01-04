@@ -234,6 +234,7 @@ class GoalsViewModelDelegateImpl @Inject constructor(
         return when (id) {
             is RecordTypeGoal.IdData.Type -> recordTypeGoalInteractor.getByType(id.value)
             is RecordTypeGoal.IdData.Category -> recordTypeGoalInteractor.getByCategory(id.value)
+            is RecordTypeGoal.IdData.Tag -> recordTypeGoalInteractor.getByTag(id.value)
         }
     }
 

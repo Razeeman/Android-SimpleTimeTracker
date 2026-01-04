@@ -152,7 +152,6 @@ class ChangeRecordTypeViewModel @Inject constructor(
     fun onVisible() = viewModelScope.launch {
         initializeSelectedCategories()
         updateCategoriesViewData()
-        goalsViewModelDelegate.onGoalsVisible()
         // TODO think about how it can affect "newCategories" that was already selected.
         //  Or how to add tag already assigned to activity.
     }

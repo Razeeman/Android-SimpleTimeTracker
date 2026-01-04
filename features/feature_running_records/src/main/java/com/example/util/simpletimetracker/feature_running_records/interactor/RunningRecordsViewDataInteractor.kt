@@ -72,6 +72,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val isFiltersCollapsed = prefsInteractor.getIsActivityFiltersCollapsed()
         val isNavBarAtTheBottom = prefsInteractor.getIsNavBarAtTheBottom()
         val enableSearchOnMain = prefsInteractor.getEnableSearchOnMain()
+        val startTimersByLongClick = prefsInteractor.getStartTimerByLongClick()
         val goals = filterGoalsByDayOfWeekInteractor
             .execute(recordTypeGoalInteractor.getAllTypeGoals())
             .groupBy { it.idData.value }
@@ -102,10 +103,13 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                     durationFormat = durationFormat,
                     useMilitaryTime = useMilitaryTime,
                     showSeconds = showSeconds,
+                    startTimersByLongClick = startTimersByLongClick,
                 )
             }
             runningRecords.isEmpty() -> {
-                listOf(mapper.mapToEmpty())
+                mapper.mapToEmpty(
+                    startTimersByLongClick = startTimersByLongClick,
+                ).let(::listOf)
             }
             else -> {
                 runningRecords
@@ -126,7 +130,9 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                         )
                     }
                     .plus(
-                        mapper.mapToHasRunningRecords(),
+                        mapper.mapToHasRunningRecords(
+                            startTimersByLongLick = startTimersByLongClick,
+                        ),
                     )
             }
         }

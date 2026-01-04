@@ -119,7 +119,7 @@ class PartialRestoreSelectionViewDataInteractor @Inject constructor(
                 }.map {
                     categoryViewDataMapper.mapRecordTag(
                         tag = it.data,
-                        type = types[it.data.iconColorSource],
+                        types = types,
                         isDarkTheme = isDarkTheme,
                         isFiltered = it.id in dataIdsFiltered,
                     )

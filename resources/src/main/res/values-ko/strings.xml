@@ -291,8 +291,11 @@
     <!--  Running records  -->
     <string name="running_records_types_empty">기록을 시작하기 위해 %s 버튼을 눌러 활동을 추가하거나 %s 버튼을 눌러 기본 템플릿을 사용하세요</string>
     <string name="running_records_empty">활동을 눌러 기록을 시작하세요</string>
+    <string name="running_records_empty_inverted">활동을 길게 눌러 기록을 시작하세요</string>
     <string name="running_records_has_timers">카드를 눌러 기록을 멈추세요</string>
+    <string name="running_records_has_timers_inverted">카드를 길게 눌러 기록을 멈추세요</string>
     <string name="running_records_empty_hint">길게 눌러 수정하세요</string>
+    <string name="running_records_empty_hint_inverted">눌러 수정하세요</string>
     <string name="running_records_add_type">추가</string>
     <string name="running_records_add_filter">필터 추가</string>
     <string name="running_records_add_default">기본</string>
@@ -373,6 +376,9 @@
     <string name="settings_duration_format_proportional">비례</string>
     <string name="settings_show_seconds">초 표시</string>
     <string name="settings_keep_screen_on">화면 켠채로 유지</string>
+    <string name="settings_customize_options_menu">옵션 메뉴 사용자 지정</string>
+    <string name="settings_detailed_statistics">자세한 통계</string>
+    <string name="settings_start_timer_by_long_click">길게 눌러 타이머 시작 및 중지</string>
     <string name="settings_change_card_size">활동 카드 크기 변경</string>
     <string name="settings_archive">보관</string>
     <string name="settings_data_edit">데이터 수정</string>

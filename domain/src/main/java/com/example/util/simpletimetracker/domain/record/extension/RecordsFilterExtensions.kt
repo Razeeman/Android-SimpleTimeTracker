@@ -110,6 +110,12 @@ fun List<RecordsFilter>.getFilteredTags(): List<RecordsFilter.TagItem> {
         .flatten()
 }
 
+fun List<RecordsFilter>.getTagIds(): List<Long> {
+    return getSelectedTags()
+        .filterIsInstance<RecordsFilter.TagItem.Tagged>()
+        .map(RecordsFilter.TagItem.Tagged::tagId)
+}
+
 fun List<RecordsFilter>.getManuallyFilteredItems(): Map<RecordsFilter.ManuallyFilteredItem, Boolean> {
     return filterIsInstance<RecordsFilter.ManuallyFiltered>()
         .map(RecordsFilter.ManuallyFiltered::items)

@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.createDayOfWeekAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordTypeGoalsViewData
 import com.example.util.simpletimetracker.feature_change_goals.api.GoalsViewModelDelegate
 import com.example.util.simpletimetracker.feature_change_goals.views.databinding.ChangeGoalLayoutBinding
@@ -86,6 +87,8 @@ object GoalsViewDelegate {
         layout: ChangeGoalsLayoutBinding,
         viewModel: GoalsViewModelDelegate,
     ): TextWatchers = with(layout) {
+        viewModel.onGoalsVisible()
+
         layoutChangeRecordTypeGoalSession.spinnerRecordTypeGoalType
             .jumpDrawablesToCurrentState()
 
@@ -175,6 +178,14 @@ object GoalsViewDelegate {
         layoutChangeRecordTypeGoalDaily.rvChangeRecordTypeGoalDays.apply {
             (adapter as? BaseRecyclerAdapter)?.replace(state.daysOfWeek)
         }
+    }
+
+    fun getDayOfWeekAdapter(
+        viewModel: GoalsViewModelDelegate,
+    ): BaseRecyclerAdapter {
+        return BaseRecyclerAdapter(
+            createDayOfWeekAdapterDelegate(viewModel::onDayOfWeekClick),
+        )
     }
 
     data class TextWatchers(

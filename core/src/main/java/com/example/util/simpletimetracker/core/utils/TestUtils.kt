@@ -223,6 +223,7 @@ class TestUtils @Inject constructor(
         defaultTypes: List<String> = emptyList(),
         hasTagValue: Boolean = false,
         tagValueSuffix: String = "",
+        goals: List<RecordTypeGoal> = emptyList(),
     ) = runBlocking {
         val type = recordTypeInteractor.getAll().firstOrNull { it.name == typeName }
 
@@ -260,6 +261,10 @@ class TestUtils @Inject constructor(
             .map { it.id }
             .takeUnless { it.isEmpty() }
             ?.let { recordTypeToDefaultTagInteractor.addTypes(tagId = tagId, typeIds = it) }
+
+        goals.forEach {
+            recordTypeGoalInteractor.add(it.copy(idData = RecordTypeGoal.IdData.Tag(tagId)))
+        }
     }
 
     fun addActivityFilter(

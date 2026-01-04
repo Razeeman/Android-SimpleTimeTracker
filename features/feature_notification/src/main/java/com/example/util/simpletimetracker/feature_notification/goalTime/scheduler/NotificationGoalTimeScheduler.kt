@@ -62,6 +62,14 @@ class NotificationGoalTimeScheduler @Inject constructor(
                     }
                     putExtra(NotificationReceiver.EXTRA_GOAL_TIME_CATEGORY_ID, idData.value)
                 }
+                is RecordTypeGoal.IdData.Tag -> {
+                    action = when (goalRange) {
+                        is Range.Session -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_TAG_SESSION
+                        is Range.Daily -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_TAG_DAILY
+                        is Range.Weekly -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_TAG_WEEKLY
+                        is Range.Monthly -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_TAG_MONTHLY
+                    }
+                }
             }
         }
 

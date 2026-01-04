@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.domain.recordTag.model.CardTagOrder
 import com.example.util.simpletimetracker.domain.recordType.model.CardOrder
 import com.example.util.simpletimetracker.domain.statistics.model.WidgetTransparencyPercent
 import com.example.util.simpletimetracker.feature_settings.R
+import com.example.util.simpletimetracker.feature_settings.model.CustomizeOptionsMenuListItem
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
@@ -29,6 +30,7 @@ import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButton
 import com.example.util.simpletimetracker.feature_settings.viewData.WidgetTransparencyViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsDurationViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -373,6 +375,26 @@ class SettingsMapper @Inject constructor(
         return fileExportDateTimeFormatMapper.mapDateTime(
             format = format,
             timestamp = Calendar.getInstance().apply { setToStartOfDay() }.timeInMillis,
+        )
+    }
+
+    fun mapCustomizeOptionsMenuListItems(): List<OptionsListParams.Item> {
+        return listOf(
+            OptionsListParams.Item(
+                id = CustomizeOptionsMenuListItem.Records,
+                text = resourceRepo.getString(R.string.shortcut_navigation_records),
+                icon = R.drawable.tab_records,
+            ),
+            OptionsListParams.Item(
+                id = CustomizeOptionsMenuListItem.Statistics,
+                text = resourceRepo.getString(R.string.shortcut_navigation_statistics),
+                icon = R.drawable.tab_statistics,
+            ),
+            OptionsListParams.Item(
+                id = CustomizeOptionsMenuListItem.DetailedStatistics,
+                text = resourceRepo.getString(R.string.settings_detailed_statistics),
+                icon = R.drawable.tab_statistics,
+            ),
         )
     }
 

@@ -141,6 +141,7 @@ class DateSelectorMapper @Inject constructor(
             isToday = isToday,
             isSelected = isSelected,
             isFuture = isFuture,
+            increasedTextSize = isSelected,
         )
     }
 
@@ -205,19 +206,31 @@ class DateSelectorMapper @Inject constructor(
         val firstDayOfWeek: DayOfWeek,
     ) {
         sealed interface Type {
+            val optionsButton: Button
+
             data class Records(
+                override val optionsButton: Button,
                 val isCalendarView: Boolean,
                 val daysInCalendar: DaysInCalendar,
             ) : Type
 
             data class Statistics(
+                override val optionsButton: Button,
                 val rangeLength: RangeLength,
             ) : Type
         }
 
+        sealed interface Button {
+            data object Hidden : Button
+            data class Visible(val iconResId: Int) : Button
+        }
+
         companion object {
             val Empty = SetupData(
-                type = Type.Statistics(RangeLength.Day),
+                type = Type.Statistics(
+                    optionsButton = Button.Hidden,
+                    rangeLength = RangeLength.Day,
+                ),
                 startOfDayShift = 0,
                 firstDayOfWeek = DayOfWeek.SUNDAY,
             )

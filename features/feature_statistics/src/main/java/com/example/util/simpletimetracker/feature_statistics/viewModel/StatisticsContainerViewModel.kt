@@ -2,8 +2,8 @@ package com.example.util.simpletimetracker.feature_statistics.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.delegates.dateSelector.mapper.DateSelectorMapper
 import com.example.util.simpletimetracker.core.delegates.dateSelector.viewModelDelegate.DateSelectorViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.set
@@ -18,8 +18,8 @@ import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteracto
 import com.example.util.simpletimetracker.domain.record.interactor.StatisticsUpdateInteractor
 import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
-import com.example.util.simpletimetracker.feature_statistics.mapper.StatisticsContainerOptionsListMapper
-import com.example.util.simpletimetracker.feature_statistics.model.StatisticsContainerOptionsListItem
+import com.example.util.simpletimetracker.feature_statistics.api.StatisticsContainerOptionsListItem
+import com.example.util.simpletimetracker.feature_statistics.api.StatisticsContainerOptionsListMapper
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
@@ -40,7 +40,7 @@ class StatisticsContainerViewModel @Inject constructor(
     private val statisticsUpdateInteractor: StatisticsUpdateInteractor,
     private val statisticsContainerOptionsListMapper: StatisticsContainerOptionsListMapper,
     private val getProcessedLastDaysCountInteractor: GetProcessedLastDaysCountInteractor,
-) : ViewModel() {
+) : BaseViewModel() {
 
     val position: LiveData<Int> by lazy {
         return@lazy MutableLiveData(0)
@@ -69,9 +69,14 @@ class StatisticsContainerViewModel @Inject constructor(
 
     fun onOptionsClick() = viewModelScope.launch {
         val items = statisticsContainerOptionsListMapper.map(
+            filterHidden = true,
             rangeLength = getRangeLength(),
         )
-        router.navigate(OptionsListParams(items))
+        when {
+            items.isEmpty() -> return@launch
+            items.size == 1 -> items.firstOrNull()?.id?.let(::onOptionsItemClick)
+            else -> router.navigate(OptionsListParams(items))
+        }
     }
 
     fun onOptionsLongClick() = viewModelScope.launch {
@@ -119,7 +124,8 @@ class StatisticsContainerViewModel @Inject constructor(
         onRangeUpdated(RangeLength.Last(lastDaysCount))
     }
 
-    fun onOptionsItemClick(id: StatisticsContainerOptionsListItem) = viewModelScope.launch {
+    fun onOptionsItemClick(id: OptionsListParams.Item.Id) = viewModelScope.launch {
+        if (id !is StatisticsContainerOptionsListItem) return@launch
         when (id) {
             is StatisticsContainerOptionsListItem.Filter -> {
                 statisticsUpdateInteractor.sendFilterClicked()
@@ -237,6 +243,12 @@ class StatisticsContainerViewModel @Inject constructor(
 
             override suspend fun getSetupData(): DateSelectorMapper.SetupData.Type {
                 return DateSelectorMapper.SetupData.Type.Statistics(
+                    optionsButton = dateSelectorViewModelDelegate.getOptionsButton(
+                        options = statisticsContainerOptionsListMapper.map(
+                            filterHidden = true,
+                            rangeLength = getRangeLength(),
+                        ),
+                    ),
                     rangeLength = getRangeLength(),
                 )
             }

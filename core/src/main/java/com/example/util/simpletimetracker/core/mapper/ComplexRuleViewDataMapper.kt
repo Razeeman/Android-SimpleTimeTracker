@@ -113,7 +113,7 @@ class ComplexRuleViewDataMapper @Inject constructor(
                 text = it.name,
                 icon = recordTagViewDataMapper.mapIcon(
                     tag = it,
-                    type = typesMap[it.iconColorSource],
+                    types = typesMap,
                 )?.let(iconMapper::mapIcon),
                 color = colorMapper.mapToColorInt(
                     color = it.color,

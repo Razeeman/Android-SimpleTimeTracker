@@ -291,8 +291,11 @@ Lokhu kukuvumela ukuthi ubone isikhathi osichitha emisebenzini esebenzayo nezing
     <!--  Running records  -->
     <string name="running_records_types_empty">Ukuze uqale ukulandelela, engeza imisebenzi ngokuchofoza inkinobho ethi %s noma usebenzise izilungiselelo ezenzakalayo ngokuchofoza inkinobho ethi %s</string>
     <string name="running_records_empty">Chofoza umsebenzi ukuze uqale ukulandelela</string>
+    <string name="running_records_empty_inverted">Chofoza isikhathi eside emsebenzini ukuze uqale ukulandelela</string>
     <string name="running_records_has_timers">Chofoza ikhadi ukuze uyeke ukulandelela</string>
+    <string name="running_records_has_timers_inverted">Chofoza isikhathi eside ekhadini ukuze uyeke ukulandelela</string>
     <string name="running_records_empty_hint">Chofoza isikhathi eside ukuze uhlele</string>
+    <string name="running_records_empty_hint_inverted">Chofoza ukuze uhlele</string>
     <string name="running_records_add_type">Engeza</string>
     <string name="running_records_add_filter">Engeza isihlungi</string>
     <string name="running_records_add_default">Okuvamile</string>
@@ -373,6 +376,9 @@ Lokhu kukuvumela ukuthi ubone isikhathi osichitha emisebenzini esebenzayo nezing
     <string name="settings_duration_format_proportional">Okulinganiselayo</string>
     <string name="settings_show_seconds">Bonisa amasekhondi</string>
     <string name="settings_keep_screen_on">Gcina isikrini sivuliwe</string>
+    <string name="settings_customize_options_menu">Lungisa imenyu yezinketho</string>
+    <string name="settings_detailed_statistics">Izibalo ezinemininingwane</string>
+    <string name="settings_start_timer_by_long_click">Qala futhi ume ama-timer ngokucindezela isikhathi eside</string>
     <string name="settings_change_card_size">Shintsha usayizi wekhadi lomsebenzi</string>
     <string name="settings_archive">Ifayili elingasebenzi</string>
     <string name="settings_data_edit">Hlela imininingo</string>

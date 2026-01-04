@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.domain.prefs.interactor
 
 import com.example.util.simpletimetracker.domain.base.CommentFilterType
+import com.example.util.simpletimetracker.domain.base.ContainerOptionsModel
 import com.example.util.simpletimetracker.domain.base.DurationFormat
 import com.example.util.simpletimetracker.domain.fileExport.ExportDateTimeFormat
 import com.example.util.simpletimetracker.domain.darkMode.interactor.IsSystemInDarkModeInteractor
@@ -715,6 +716,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.keepScreenOn = keep
     }
 
+    suspend fun getStartTimerByLongClick(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.startTimerByLongClick
+    }
+
+    suspend fun setStartTimerByLongClick(enabled: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.startTimerByLongClick = enabled
+    }
+
     suspend fun getShowRecordTagSelection(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.showRecordTagSelection
     }
@@ -1028,6 +1037,53 @@ class PrefsInteractor @Inject constructor(
             StatisticsStreaksType.LONGEST -> 0
             StatisticsStreaksType.LATEST -> 1
         }
+    }
+
+    suspend fun getHiddenContainerOptions(): Set<ContainerOptionsModel> = withContext(Dispatchers.IO) {
+        fun map(data: String): ContainerOptionsModel? {
+            return when (data.toIntOrNull()) {
+                0 -> ContainerOptionsModel.Records.CalendarView
+                1 -> ContainerOptionsModel.Records.Filter
+                2 -> ContainerOptionsModel.Records.Share
+                3 -> ContainerOptionsModel.Records.BackToToday
+                4 -> ContainerOptionsModel.Records.SelectDate
+                100 -> ContainerOptionsModel.Statistics.Filter
+                101 -> ContainerOptionsModel.Statistics.Share
+                102 -> ContainerOptionsModel.Statistics.BackToToday
+                103 -> ContainerOptionsModel.Statistics.SelectDate
+                104 -> ContainerOptionsModel.Statistics.SelectRange
+                200 -> ContainerOptionsModel.DetailedStatistics.Compare
+                201 -> ContainerOptionsModel.DetailedStatistics.Filter
+                202 -> ContainerOptionsModel.DetailedStatistics.SelectDate
+                203 -> ContainerOptionsModel.DetailedStatistics.SelectRange
+                204 -> ContainerOptionsModel.DetailedStatistics.BackToToday
+                else -> null
+            }
+        }
+        prefsRepo.hiddenContainerOptions.mapNotNull(::map).toSet()
+    }
+
+    suspend fun setHiddenContainerOptions(data: Set<ContainerOptionsModel>) = withContext(Dispatchers.IO) {
+        fun map(data: ContainerOptionsModel): String {
+            return when (data) {
+                is ContainerOptionsModel.Records.CalendarView -> 0
+                is ContainerOptionsModel.Records.Filter -> 1
+                is ContainerOptionsModel.Records.Share -> 2
+                is ContainerOptionsModel.Records.BackToToday -> 3
+                is ContainerOptionsModel.Records.SelectDate -> 4
+                is ContainerOptionsModel.Statistics.Filter -> 100
+                is ContainerOptionsModel.Statistics.Share -> 101
+                is ContainerOptionsModel.Statistics.BackToToday -> 102
+                is ContainerOptionsModel.Statistics.SelectDate -> 103
+                is ContainerOptionsModel.Statistics.SelectRange -> 104
+                is ContainerOptionsModel.DetailedStatistics.Compare -> 200
+                is ContainerOptionsModel.DetailedStatistics.Filter -> 201
+                is ContainerOptionsModel.DetailedStatistics.SelectDate -> 202
+                is ContainerOptionsModel.DetailedStatistics.SelectRange -> 203
+                is ContainerOptionsModel.DetailedStatistics.BackToToday -> 204
+            }.toString()
+        }
+        prefsRepo.hiddenContainerOptions = data.map(::map).toSet()
     }
 
     suspend fun clear() = withContext(Dispatchers.IO) {

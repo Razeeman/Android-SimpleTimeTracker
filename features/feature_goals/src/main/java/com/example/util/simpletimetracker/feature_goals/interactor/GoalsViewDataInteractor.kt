@@ -54,6 +54,10 @@ class GoalsViewDataInteractor @Inject constructor(
             filterType = ChartFilterType.CATEGORY,
             types = types,
         )
+        val tagDataHolders = statisticsMediator.getDataHolders(
+            filterType = ChartFilterType.RECORD_TAG,
+            types = types,
+        )
 
         val items = goals
             .asSequence()
@@ -94,6 +98,7 @@ class GoalsViewDataInteractor @Inject constructor(
                     range = range,
                     typeDataHolders = typeDataHolders,
                     categoryDataHolders = categoryDataHolders,
+                    tagDataHolders = tagDataHolders,
                     isDarkTheme = isDarkTheme,
                     durationFormat = durationFormat,
                     showSeconds = showSeconds,
@@ -114,47 +119,39 @@ class GoalsViewDataInteractor @Inject constructor(
         range: Range,
         typeDataHolders: Map<Long, StatisticsDataHolder>,
         categoryDataHolders: Map<Long, StatisticsDataHolder>,
+        tagDataHolders: Map<Long, StatisticsDataHolder>,
         isDarkTheme: Boolean,
         durationFormat: DurationFormat,
         showSeconds: Boolean,
     ): List<ViewHolderType> {
         val result = mutableListOf<ViewHolderType>()
-        val typeStatistics = statisticsMediator.getStatistics(
-            filterType = ChartFilterType.ACTIVITY,
-            filteredIds = emptyList(),
-            range = range,
-        )
-        val typeItems = goalViewDataMapper.mapStatisticsList(
-            goals = goals,
-            types = types,
-            filterType = ChartFilterType.ACTIVITY,
-            filteredIds = emptyList(),
-            rangeLength = rangeLength,
-            statistics = typeStatistics,
-            data = typeDataHolders,
-            isDarkTheme = isDarkTheme,
-            durationFormat = durationFormat,
-            showSeconds = showSeconds,
-        )
-        val categoryStatistics = statisticsMediator.getStatistics(
-            filterType = ChartFilterType.CATEGORY,
-            filteredIds = emptyList(),
-            range = range,
-        )
-        val categoryItems = goalViewDataMapper.mapStatisticsList(
-            goals = goals,
-            types = types,
-            filterType = ChartFilterType.CATEGORY,
-            filteredIds = emptyList(),
-            rangeLength = rangeLength,
-            statistics = categoryStatistics,
-            data = categoryDataHolders,
-            isDarkTheme = isDarkTheme,
-            durationFormat = durationFormat,
-            showSeconds = showSeconds,
-        )
-        val items = (typeItems + categoryItems)
-            .sortedBy { it.goal.percent }
+
+        val items = listOf(
+            ChartFilterType.ACTIVITY,
+            ChartFilterType.CATEGORY,
+            ChartFilterType.RECORD_TAG,
+        ).flatMap { filterType ->
+            goalViewDataMapper.mapStatisticsList(
+                goals = goals,
+                types = types,
+                filterType = filterType,
+                filteredIds = emptyList(),
+                rangeLength = rangeLength,
+                statistics = statisticsMediator.getStatistics(
+                    filterType = filterType,
+                    filteredIds = emptyList(),
+                    range = range,
+                ),
+                data = when (filterType) {
+                    ChartFilterType.ACTIVITY -> typeDataHolders
+                    ChartFilterType.CATEGORY -> categoryDataHolders
+                    ChartFilterType.RECORD_TAG -> tagDataHolders
+                },
+                isDarkTheme = isDarkTheme,
+                durationFormat = durationFormat,
+                showSeconds = showSeconds,
+            )
+        }.sortedBy { it.goal.percent }
 
         if (items.isNotEmpty()) {
             val title = when (rangeLength) {

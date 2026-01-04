@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.collections.plus
 
 class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
     private val previewInteractor: StatisticsDetailPreviewInteractor,
@@ -48,16 +49,19 @@ class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
     private suspend fun loadViewData(): StatisticsDetailPreviewCompositeViewData? {
         val parent = parent ?: return null
         val currentFilter = parent.filter
+        val dateFilter = parent.getDateFilter()
         val total = totalRecordsSelectedInteractor.execute(currentFilter)
 
         val data = previewInteractor.getPreviewData(
-            filterParams = currentFilter,
+            filterParams = currentFilter.takeIf { it.isNotEmpty() }
+                ?.plus(dateFilter).orEmpty(),
             total = total,
             isExpanded = previewsExpanded,
             isForComparison = false,
         )
         val comparisonData = previewInteractor.getPreviewData(
-            filterParams = parent.comparisonFilter,
+            filterParams = parent.comparisonFilter.takeIf { it.isNotEmpty() }
+                ?.plus(dateFilter).orEmpty(),
             total = false,
             isExpanded = previewsComparisonExpanded,
             isForComparison = true,

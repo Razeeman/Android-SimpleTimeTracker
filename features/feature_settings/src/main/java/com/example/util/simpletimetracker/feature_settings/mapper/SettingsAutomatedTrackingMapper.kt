@@ -179,6 +179,7 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                     extras = listOf(
                         EXTRA_ACTIVITY_NAME,
                         EXTRA_CATEGORY_NAME,
+                        EXTRA_RECORD_TAG_NAME,
                         EXTRA_GOAL_TYPE,
                         EXTRA_GOAL_VALUE,
                         EXTRA_RECORD_TYPE_NOTE,

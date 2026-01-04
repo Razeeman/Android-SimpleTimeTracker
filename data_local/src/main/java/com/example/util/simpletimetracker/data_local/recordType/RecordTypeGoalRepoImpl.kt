@@ -45,6 +45,13 @@ class RecordTypeGoalRepoImpl @Inject constructor(
         afterSourceAccess = { initializeCache() },
     )
 
+    override suspend fun getAllTagGoals(): List<RecordTypeGoal> = mutex.withLockedCache(
+        logMessage = "getAllTagGoals",
+        accessCache = { cache?.filter { it.isTag() && it.idData.value != 0L } },
+        accessSource = { dao.getAllTagGoals().map(mapper::map) },
+        afterSourceAccess = { initializeCache() },
+    )
+
     override suspend fun getByType(typeId: Long): List<RecordTypeGoal> = mutex.withLockedCache(
         logMessage = "getByType",
         accessCache = { cache?.filter { it.isType() && it.idData.value == typeId } },
@@ -56,6 +63,13 @@ class RecordTypeGoalRepoImpl @Inject constructor(
         logMessage = "getByCategory",
         accessCache = { cache?.filter { it.isCategory() && it.idData.value == categoryId } },
         accessSource = { dao.getByCategory(categoryId).map(mapper::map) },
+        afterSourceAccess = { initializeCache() },
+    )
+
+    override suspend fun getByTag(tagId: Long): List<RecordTypeGoal> = mutex.withLockedCache(
+        logMessage = "getByTag",
+        accessCache = { cache?.filter { it.isTag() && it.idData.value == tagId } },
+        accessSource = { dao.getByTag(tagId).map(mapper::map) },
         afterSourceAccess = { initializeCache() },
     )
 
@@ -85,6 +99,12 @@ class RecordTypeGoalRepoImpl @Inject constructor(
         afterSourceAccess = { cache = cache?.removeIf { it.isCategory() && it.idData.value == categoryId } },
     )
 
+    override suspend fun removeByTag(tagId: Long) = mutex.withLockedCache(
+        logMessage = "removeByTag",
+        accessSource = { dao.deleteByTag(tagId) },
+        afterSourceAccess = { cache = cache?.removeIf { it.isTag() && it.idData.value == tagId } },
+    )
+
     override suspend fun clear() = mutex.withLockedCache(
         logMessage = "clear",
         accessSource = { dao.clear() },
@@ -102,5 +122,9 @@ class RecordTypeGoalRepoImpl @Inject constructor(
 
     private fun RecordTypeGoal.isCategory(): Boolean {
         return idData is IdData.Category
+    }
+
+    private fun RecordTypeGoal.isTag(): Boolean {
+        return idData is IdData.Tag
     }
 }

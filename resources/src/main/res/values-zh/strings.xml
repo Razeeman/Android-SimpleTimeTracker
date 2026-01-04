@@ -291,8 +291,11 @@
     <!--  Running records  -->
     <string name="running_records_types_empty">要开始追踪，请单击 %s 按钮添加活动，或单击 %s 按钮使用默认预设</string>
     <string name="running_records_empty">单击“活动”开始追踪</string>
+    <string name="running_records_empty_inverted">长按“活动”开始追踪</string>
     <string name="running_records_has_timers">单击卡片以停止追踪</string>
+    <string name="running_records_has_timers_inverted">长按卡片以停止追踪</string>
     <string name="running_records_empty_hint">长按以编辑</string>
+    <string name="running_records_empty_hint_inverted">单击以编辑</string>
     <string name="running_records_add_type">添加</string>
     <string name="running_records_add_filter">添加过滤器</string>
     <string name="running_records_add_default">默认</string>
@@ -373,6 +376,9 @@
     <string name="settings_duration_format_proportional">比例</string>
     <string name="settings_show_seconds">显示秒数</string>
     <string name="settings_keep_screen_on">保持屏幕常亮</string>
+    <string name="settings_customize_options_menu">自定义选项菜单</string>
+    <string name="settings_detailed_statistics">详细统计</string>
+    <string name="settings_start_timer_by_long_click">长按开始和停止计时器</string>
     <string name="settings_change_card_size">更改活动卡片大小</string>
     <string name="settings_archive">归档</string>
     <string name="settings_data_edit">数据编辑</string>

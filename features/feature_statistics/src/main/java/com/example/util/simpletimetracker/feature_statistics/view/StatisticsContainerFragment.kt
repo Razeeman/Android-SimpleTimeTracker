@@ -18,7 +18,7 @@ import com.example.util.simpletimetracker.core.view.SafeFragmentStateAdapter
 import com.example.util.simpletimetracker.core.viewData.RangeSelectionOptionsListItem
 import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.feature_statistics.adapter.StatisticsContainerAdapter
-import com.example.util.simpletimetracker.feature_statistics.model.StatisticsContainerOptionsListItem
+import com.example.util.simpletimetracker.feature_statistics.api.StatisticsContainerOptionsListItem
 import com.example.util.simpletimetracker.feature_statistics.viewModel.StatisticsContainerViewModel
 import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,7 +72,6 @@ class StatisticsContainerFragment :
         DateSelectorViewDelegate.initUx(
             fragment = this,
             binding = binding.containerDatesSelector,
-            isAddButtonVisible = false,
             onRecordAddClick = {},
             onOptionsClick = viewModel::onOptionsClick,
             onOptionsLongClick = viewModel::onOptionsLongClick,

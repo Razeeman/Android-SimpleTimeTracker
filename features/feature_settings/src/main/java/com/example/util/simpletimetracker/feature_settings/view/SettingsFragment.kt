@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.dialog.DataExportSettingsDialogListener
 import com.example.util.simpletimetracker.core.dialog.DateTimeDialogListener
 import com.example.util.simpletimetracker.core.dialog.DurationDialogListener
+import com.example.util.simpletimetracker.core.dialog.OptionsListDialogListener
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.dialog.TypesSelectionDialogListener
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
@@ -20,6 +21,7 @@ import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.feature_settings.views.getSettingsAdapterDelegates
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
+import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_settings.databinding.SettingsFragmentBinding as Binding
@@ -31,7 +33,8 @@ class SettingsFragment :
     DurationDialogListener,
     DateTimeDialogListener,
     DataExportSettingsDialogListener,
-    TypesSelectionDialogListener {
+    TypesSelectionDialogListener,
+    OptionsListDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -111,6 +114,10 @@ class SettingsFragment :
         tagValues: List<RecordBase.Tag>,
     ) {
         viewModel.onTypesSelected(dataIds, tag)
+    }
+
+    override fun onOptionsItemClick(id: OptionsListParams.Item.Id) {
+        viewModel.onOptionsItemClick(id)
     }
 
     private fun onBlockClicked(block: SettingsBlock) {

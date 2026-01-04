@@ -73,6 +73,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             SettingsBlock.AdditionalRetroactiveTrackingMode -> onRetroactiveTrackingModeClicked()
             SettingsBlock.AdditionalSendEvents -> onAutomatedTrackingSendEventsClicked()
             SettingsBlock.AdditionalKeepScreenOn -> onKeepScreenOnClicked()
+            SettingsBlock.AdditionalStartTimerByLongClick -> onStartTimerByLongClickClicked()
             SettingsBlock.AdditionalDataEdit -> onDataEditClick()
             SettingsBlock.AdditionalComplexRules -> onComplexRulesClick()
             SettingsBlock.AdditionalActivitySuggestions -> onActivitySuggestionsClick()
@@ -263,6 +264,14 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             val newValue = !prefsInteractor.getKeepScreenOn()
             prefsInteractor.setKeepScreenOn(newValue)
             keepScreenOnCheckbox.set(newValue)
+            parent?.updateContent()
+        }
+    }
+
+    private fun onStartTimerByLongClickClicked() {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getStartTimerByLongClick()
+            prefsInteractor.setStartTimerByLongClick(newValue)
             parent?.updateContent()
         }
     }

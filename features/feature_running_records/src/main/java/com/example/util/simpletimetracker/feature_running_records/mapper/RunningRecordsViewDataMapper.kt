@@ -39,16 +39,35 @@ class RunningRecordsViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapToEmpty(): ViewHolderType {
+    fun mapToEmpty(
+        startTimersByLongClick: Boolean,
+    ): ViewHolderType {
+        val titleResId = if (!startTimersByLongClick) {
+            R.string.running_records_empty
+        } else {
+            R.string.running_records_empty_inverted
+        }
+        val hintResId = if (!startTimersByLongClick) {
+            R.string.running_records_empty_hint
+        } else {
+            R.string.running_records_empty_hint_inverted
+        }
         return EmptyViewData(
-            message = R.string.running_records_empty.let(resourceRepo::getString),
-            hint = R.string.running_records_empty_hint.let(resourceRepo::getString),
+            message = resourceRepo.getString(titleResId),
+            hint = resourceRepo.getString(hintResId),
         )
     }
 
-    fun mapToHasRunningRecords(): ViewHolderType {
+    fun mapToHasRunningRecords(
+        startTimersByLongLick: Boolean,
+    ): ViewHolderType {
+        val resId = if (!startTimersByLongLick) {
+            R.string.running_records_has_timers
+        } else {
+            R.string.running_records_has_timers_inverted
+        }
         return HintViewData(
-            text = R.string.running_records_has_timers.let(resourceRepo::getString),
+            text = resourceRepo.getString(resId),
             paddingTop = 0,
             paddingBottom = 0,
         )
@@ -63,13 +82,19 @@ class RunningRecordsViewDataMapper @Inject constructor(
         durationFormat: DurationFormat,
         useMilitaryTime: Boolean,
         showSeconds: Boolean,
+        startTimersByLongClick: Boolean,
     ): List<ViewHolderType> {
         val result = mutableListOf<ViewHolderType>()
 
         if (prevRecords.isEmpty()) {
+            val hintResId = if (!startTimersByLongClick) {
+                R.string.running_records_empty_hint
+            } else {
+                R.string.running_records_empty_hint_inverted
+            }
             result += EmptyViewData(
                 message = resourceRepo.getString(R.string.retroactive_tracking_mode_hint),
-                hint = R.string.running_records_empty_hint.let(resourceRepo::getString),
+                hint = resourceRepo.getString(hintResId),
             )
         }
 

@@ -291,8 +291,11 @@ Esto te permite ver cuánto tiempo estás dedicando a actividades productivas fr
     <!--  Running records  -->
     <string name="running_records_types_empty">Para comenzar a rastrear, agregue actividades haciendo clic en el botón %s o use los ajustes preestablecidos predeterminados haciendo clic en el botón %s</string>
     <string name="running_records_empty">Haga clic en una actividad para iniciar el temporizador</string>
+    <string name="running_records_empty_inverted">Mantenga pulsado en una actividad para iniciar el temporizador</string>
     <string name="running_records_has_timers">Haga clic en la tarjeta para detener el seguimiento</string>
+    <string name="running_records_has_timers_inverted">Mantenga pulsada la tarjeta para detener el seguimiento</string>
     <string name="running_records_empty_hint">Mantenga pulsado para editar</string>
+    <string name="running_records_empty_hint_inverted">Haga clic para editar</string>
     <string name="running_records_add_type">Añadir</string>
     <string name="running_records_add_filter">Añadir filtro</string>
     <string name="running_records_add_default">Por defecto</string>
@@ -373,6 +376,9 @@ Esto te permite ver cuánto tiempo estás dedicando a actividades productivas fr
     <string name="settings_duration_format_proportional">Proporcional</string>
     <string name="settings_show_seconds">Mostrar segundos</string>
     <string name="settings_keep_screen_on">Mantener la pantalla encendida</string>
+    <string name="settings_customize_options_menu">Personalizar el menú de opciones</string>
+    <string name="settings_detailed_statistics">Estadísticas detalladas</string>
+    <string name="settings_start_timer_by_long_click">Iniciar y detener temporizadores con pulsación larga</string>
     <string name="settings_change_card_size">Cambiar el tamaño de la tarjeta de actividad</string>
     <string name="settings_archive">Archivar</string>
     <string name="settings_data_edit">Edición de datos</string>

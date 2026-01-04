@@ -68,22 +68,6 @@ class RecordInteractor @Inject constructor(
         return recordRepo.getByTimeStarted(prev.timeStarted)
     }
 
-    suspend fun getPrevTimeStarted(fromTimestamp: Long): Long? {
-        return recordRepo.getPrevTimeStarted(fromTimestamp)
-    }
-
-    suspend fun getNextTimeStarted(fromTimestamp: Long): Long? {
-        return recordRepo.getNextTimeStarted(fromTimestamp)
-    }
-
-    suspend fun getPrevTimeEnded(fromTimestamp: Long): Long? {
-        return recordRepo.getPrevTimeEnded(fromTimestamp)
-    }
-
-    suspend fun getNextTimeEnded(fromTimestamp: Long): Long? {
-        return recordRepo.getNextTimeEnded(fromTimestamp)
-    }
-
     suspend fun getFromRange(range: Range): List<Record> {
         return recordRepo.getFromRange(range)
     }

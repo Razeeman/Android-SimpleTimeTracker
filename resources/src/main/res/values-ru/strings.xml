@@ -291,8 +291,11 @@
     <!--  Running records  -->
     <string name="running_records_types_empty">Чтобы начать отслеживание, добавьте активности нажав кнопку %s, или используйте предустановки по умолчанию нажав кнопку %s</string>
     <string name="running_records_empty">Нажмите на активность, чтобы начать отслеживание</string>
+    <string name="running_records_empty_inverted">Нажмите и удерживайте на активность, чтобы начать отслеживание</string>
     <string name="running_records_has_timers">Нажмите на карточку, чтобы прекратить отслеживание</string>
+    <string name="running_records_has_timers_inverted">Нажмите и удерживайте на карточку, чтобы прекратить отслеживание</string>
     <string name="running_records_empty_hint">Нажмите и удерживайте для редактирования</string>
+    <string name="running_records_empty_hint_inverted">Нажмите, чтобы редактировать</string>
     <string name="running_records_add_type">Добав.</string>
     <string name="running_records_add_filter">Добавить фильтр</string>
     <string name="running_records_add_default">По умолч.</string>
@@ -373,6 +376,9 @@
     <string name="settings_duration_format_proportional">Пропорциональный</string>
     <string name="settings_show_seconds">Показать секунды</string>
     <string name="settings_keep_screen_on">Держать экран включенным</string>
+    <string name="settings_customize_options_menu">Настроить меню с опциями</string>
+    <string name="settings_detailed_statistics">Подробная статистика</string>
+    <string name="settings_start_timer_by_long_click">Запуск и остановка таймеров долгим нажатием</string>
     <string name="settings_change_card_size">Изменить размер карточки активности</string>
     <string name="settings_archive">Архив</string>
     <string name="settings_data_edit">Редактировать данные</string>

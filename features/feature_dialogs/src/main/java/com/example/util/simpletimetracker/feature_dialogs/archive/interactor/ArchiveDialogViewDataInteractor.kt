@@ -59,11 +59,11 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
     suspend fun getRecordTagViewData(tagId: Long): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val tag = recordTagInteractor.get(tagId) ?: return emptyList()
-        val type = recordTypeInteractor.get(tag.iconColorSource)
+        val types = recordTypeInteractor.getAll().associateBy { it.id }
 
         val item = categoryViewDataMapper.mapRecordTag(
             tag = tag,
-            type = type,
+            types = types,
             isDarkTheme = isDarkTheme,
         )
         val recordsCount = recordToRecordTagInteractor.getRecordIdsByTagId(tagId).size

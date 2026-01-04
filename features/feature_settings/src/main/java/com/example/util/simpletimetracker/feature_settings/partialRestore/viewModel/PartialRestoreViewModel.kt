@@ -189,6 +189,7 @@ class PartialRestoreViewModel @Inject constructor(
             when (val id = it.value.data.idData) {
                 is RecordTypeGoal.IdData.Type -> id.value in typesIds
                 is RecordTypeGoal.IdData.Category -> id.value in categoriesIds
+                is RecordTypeGoal.IdData.Tag -> id.value in tags.keys
             }
         }
 

@@ -16,11 +16,14 @@ import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsDisplayViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
+import com.example.util.simpletimetracker.feature_settings.model.CustomizeOptionsMenuListItem
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.CustomizeOptionsMenuDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -56,6 +59,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             SettingsBlock.DisplayUntrackedIgnoreShort -> onIgnoreShortUntrackedClicked()
             SettingsBlock.DisplayUntrackedRangeStart -> onUntrackedRangeStartClicked()
             SettingsBlock.DisplayUntrackedRangeEnd -> onUntrackedRangeEndClicked()
+            SettingsBlock.DisplayCustomizeOptionsMenu -> onCustomizeOptionsMenuClick()
             SettingsBlock.DisplayCardSize -> onChangeCardSizeClick()
             SettingsBlock.DisplaySortActivities -> onCardOrderManualClick()
             SettingsBlock.DisplaySortCategories -> onCategoryOrderManualClick()
@@ -111,6 +115,10 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
 
     fun onTypesSelected(typeIds: List<Long>, tag: String?) {
         onTypesSelectedDelegate(typeIds, tag)
+    }
+
+    fun onOptionsItemClick(id: OptionsListParams.Item.Id) {
+        onOptionsItemClickDelegate(id)
     }
 
     fun collapse() {
@@ -344,6 +352,22 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
+    private fun onOptionsItemClickDelegate(id: OptionsListParams.Item.Id) {
+        when (id) {
+            is CustomizeOptionsMenuListItem -> {
+                val from = when (id) {
+                    is CustomizeOptionsMenuListItem.Records ->
+                        CustomizeOptionsMenuDialogParams.From.Records
+                    is CustomizeOptionsMenuListItem.Statistics ->
+                        CustomizeOptionsMenuDialogParams.From.Statistics
+                    is CustomizeOptionsMenuListItem.DetailedStatistics ->
+                        CustomizeOptionsMenuDialogParams.From.DetailedStatistics
+                }
+                router.navigate(CustomizeOptionsMenuDialogParams(from))
+            }
+        }
+    }
+
     private fun onShowGoalsSeparatelyClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowGoalsSeparately()
@@ -397,6 +421,11 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             parent?.updateContent()
             externalViewsInteractor.onShowSecondsChange()
         }
+    }
+
+    private fun onCustomizeOptionsMenuClick() {
+        val items = settingsMapper.mapCustomizeOptionsMenuListItems()
+        router.navigate(OptionsListParams(items))
     }
 
     private fun onChangeCardSizeClick() {

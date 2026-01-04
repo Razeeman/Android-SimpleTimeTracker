@@ -72,7 +72,7 @@ class FavouriteRecordsFilterDataLocalMapper @Inject constructor(
                     RecordsFilter.ManuallyFilteredItem.Tracked(id)
                 }
                 it.startsWith(MANUALLY_ITEM_MULTITASK) -> {
-                    val ids = it.removePrefix(MANUALLY_ITEM_TRACKED)
+                    val ids = it.removePrefix(MANUALLY_ITEM_MULTITASK)
                         .split(SEPARATOR)
                         .mapNotNull(String::toLongOrNull)
                         .ifEmpty { return@mapNotNull null }
@@ -84,7 +84,7 @@ class FavouriteRecordsFilterDataLocalMapper @Inject constructor(
                         .mapNotNull(String::toLongOrNull)
                     val range = Range(
                         timeStarted = rangeTimes.getOrNull(0) ?: return@mapNotNull null,
-                        timeEnded = rangeTimes.getOrNull(1) ?: return@mapNotNull null
+                        timeEnded = rangeTimes.getOrNull(1) ?: return@mapNotNull null,
                     )
                     RecordsFilter.ManuallyFilteredItem.Untracked(range)
                 }
@@ -92,8 +92,10 @@ class FavouriteRecordsFilterDataLocalMapper @Inject constructor(
             }
         }.takeIf { it.isNotEmpty() }
         val commonItemsParts = dbo.commonItemsIds.orEmpty().split(GROUP_SEPARATOR)
-        val commonItems = commonItemsParts.getOrNull(0)?.split(SEPARATOR)?.map { true to it }.orEmpty() +
-                commonItemsParts.getOrNull(1)?.split(SEPARATOR)?.map { false to it }.orEmpty()
+        val commonItems = commonItemsParts.getOrNull(0)
+            ?.split(SEPARATOR)?.map { true to it }.orEmpty() +
+            commonItemsParts.getOrNull(1)
+                ?.split(SEPARATOR)?.map { false to it }.orEmpty()
 
         val filter = when (dbo.type) {
             0L -> RecordsFilter.Untracked
@@ -205,7 +207,7 @@ class FavouriteRecordsFilterDataLocalMapper @Inject constructor(
         val commonItemsIds = when (domain) {
             is RecordsFilter.Activity -> {
                 val items = domain.selected.map { true to it } +
-                        domain.filtered.map { false to it }
+                    domain.filtered.map { false to it }
                 val itemsMapped = items.map { (selected, item) ->
                     selected to item.toString()
                 }
@@ -217,7 +219,7 @@ class FavouriteRecordsFilterDataLocalMapper @Inject constructor(
             }
             is RecordsFilter.Category -> {
                 val items = domain.selected.map { true to it } +
-                        domain.filtered.map { false to it }
+                    domain.filtered.map { false to it }
                 val itemsMapped = items.map { (selected, item) ->
                     selected to when (item) {
                         is RecordsFilter.CategoryItem.Categorized -> item.categoryId.toString()
@@ -232,7 +234,7 @@ class FavouriteRecordsFilterDataLocalMapper @Inject constructor(
             }
             is RecordsFilter.Tags -> {
                 val items = domain.selected.map { true to it } +
-                        domain.filtered.map { false to it }
+                    domain.filtered.map { false to it }
                 val itemsMapped = items.map { (selected, item) ->
                     selected to when (item) {
                         is RecordsFilter.TagItem.Tagged -> item.tagId.toString()
@@ -282,7 +284,7 @@ class FavouriteRecordsFilterDataLocalMapper @Inject constructor(
 
         return FavouriteRecordsFilterDBO.FilterDBO(
             id = 0L,
-            ownerId = 0L,
+            ownerId = 0L, // Filled later.
             type = when (domain) {
                 is RecordsFilter.Untracked -> 0L
                 is RecordsFilter.Multitask -> 1L

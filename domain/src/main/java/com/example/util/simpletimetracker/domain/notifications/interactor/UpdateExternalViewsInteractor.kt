@@ -198,11 +198,13 @@ class UpdateExternalViewsInteractor @Inject constructor(
     }
 
     suspend fun onTagRemove(
+        tagId: Long,
         fromArchive: Boolean,
     ) {
         runUpdates(
             Update.NotificationTypes.takeIf { !fromArchive },
             Update.NotificationWithControls.takeIf { !fromArchive },
+            Update.GoalCancel(RecordTypeGoal.IdData.Tag(tagId)),
             Update.Wear,
         )
     }
@@ -211,6 +213,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
         runUpdates(
             Update.NotificationTypes,
             Update.NotificationWithControls,
+            Update.GoalReschedule(),
             Update.Wear,
         )
     }
@@ -483,6 +486,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
         }
     }
 
+    // TODO TAG GOAL update on record change
     private sealed interface Update {
         data object NotificationTypes : Update
         data class NotificationType(val typeIds: List<Long>) : Update
@@ -494,7 +498,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
         data object WidgetSingleTypes : Update
         data class WidgetSingleType(val typeIds: List<Long>) : Update
         data object Wear : Update
-        data class GoalReschedule(val typeIds: List<Long> = emptyList()) : Update
+        data class GoalReschedule(val typeIds: List<Long> = emptyList()) : Update // TODO TAG GOAL pass tagIds
         data class GoalCancel(val idData: RecordTypeGoal.IdData) : Update
         data object ActivityReminderCancel : Update
         data object ActivityReminderReschedule : Update

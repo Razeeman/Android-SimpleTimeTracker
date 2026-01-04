@@ -17,6 +17,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":feature_statistics:api"))
     implementation(libs.google.dagger)
     ksp(libs.kapt.dagger)
 }

@@ -16,11 +16,12 @@ import com.example.util.simpletimetracker.feature_dialogs.optionsDialog.OptionsL
 import com.example.util.simpletimetracker.feature_dialogs.recordQuickActions.view.RecordQuickActionsDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.recordTagSelection.RecordTagSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.recordTagValueSelection.view.RecordTagValueSelectionDialogFragment
-import com.example.util.simpletimetracker.feature_dialogs.typesSelection.view.TypesSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_dialogs.standard.StandardDialogFragment
+import com.example.util.simpletimetracker.feature_dialogs.typesSelection.view.TypesSelectionDialogFragment
 import com.example.util.simpletimetracker.feature_records_filter.view.RecordsFilterFragment
-import com.example.util.simpletimetracker.feature_settings.partialRestoreSelection.view.PartialRestoreSelectionFragment
+import com.example.util.simpletimetracker.feature_settings.customizeOptionsMenu.CustomizeOptionsMenuDialogFragment
 import com.example.util.simpletimetracker.feature_settings.partialRestoreSelection.model.PartialRestoreSelectionDialogParams
+import com.example.util.simpletimetracker.feature_settings.partialRestoreSelection.view.PartialRestoreSelectionFragment
 import com.example.util.simpletimetracker.navigation.NavigationData
 import com.example.util.simpletimetracker.navigation.bundleCreator.BundleCreator
 import com.example.util.simpletimetracker.navigation.bundleCreator.bundleCreatorDelegate
@@ -31,6 +32,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialo
 import com.example.util.simpletimetracker.navigation.params.screen.ChartFilterDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
+import com.example.util.simpletimetracker.navigation.params.screen.CustomizeOptionsMenuDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditDuplicateTypeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditTagSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditTypeSelectionDialogParams
@@ -41,15 +43,15 @@ import com.example.util.simpletimetracker.navigation.params.screen.DefaultTypesS
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
 import com.example.util.simpletimetracker.navigation.params.screen.PartialRestoreParams
 import com.example.util.simpletimetracker.navigation.params.screen.PomodoroSettingsParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordQuickActionsParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
-import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagValueSelectionParams
-import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -137,6 +139,16 @@ class NavigationDialogMapModule {
         return NavigationData(
             R.id.cardSizeDialogFragment,
             BundleCreator.empty(),
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(CustomizeOptionsMenuDialogParams::class)
+    fun customizeOptionsMenuDialog(): NavigationData {
+        return NavigationData(
+            R.id.customizeOptionsMenuDialogFragment,
+            bundleCreatorDelegate(CustomizeOptionsMenuDialogFragment::createBundle),
         )
     }
 

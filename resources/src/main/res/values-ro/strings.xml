@@ -291,8 +291,11 @@ Acest lucru îți permite să vezi cât timp petreci în activități productive
     <!--  Running records  -->
     <string name="running_records_types_empty">Pentru a începe urmărirea, adaugă activitatea prin apăsarea butonului %s sau folosește setările de bază apăsând butonul %s</string>
     <string name="running_records_empty">Apasă pe activitate pentru a începe urmărirea</string>
+    <string name="running_records_empty_inverted">Apasă lung pe activitate pentru a începe urmărirea</string>
     <string name="running_records_has_timers">Apasă pe o carte pentru a înceta urmărirea</string>
+    <string name="running_records_has_timers_inverted">Apasă lung pe o carte pentru a înceta urmărirea</string>
     <string name="running_records_empty_hint">Apasă lung pentru a edita</string>
+    <string name="running_records_empty_hint_inverted">Apasă pe pentru a edita</string>
     <string name="running_records_add_type">Adaugă</string>
     <string name="running_records_add_filter">Adaugă filtru</string>
     <string name="running_records_add_default">Predefinit</string>
@@ -373,6 +376,9 @@ Acest lucru îți permite să vezi cât timp petreci în activități productive
     <string name="settings_duration_format_proportional">Proporțional</string>
     <string name="settings_show_seconds">Arată secunde</string>
     <string name="settings_keep_screen_on">Păstrează ecranul activ</string>
+    <string name="settings_customize_options_menu">Personalizează meniul de opțiuni</string>
+    <string name="settings_detailed_statistics">Statistici detaliate</string>
+    <string name="settings_start_timer_by_long_click">Pornește și oprește cronometrele prin apăsare lungă</string>
     <string name="settings_change_card_size">Modifică dimensiunea carților de activitate</string>
     <string name="settings_archive">Arhivă</string>
     <string name="settings_data_edit">Editează informațiile</string>

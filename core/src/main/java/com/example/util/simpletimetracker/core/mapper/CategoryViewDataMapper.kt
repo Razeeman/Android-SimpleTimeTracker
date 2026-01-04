@@ -88,13 +88,13 @@ class CategoryViewDataMapper @Inject constructor(
 
     fun mapRecordTag(
         tag: RecordTag,
-        type: RecordType?,
+        types: Map<Long, RecordType>,
         isDarkTheme: Boolean,
         isFiltered: Boolean = false,
     ): CategoryViewData.Record.Tagged {
-        val icon = recordTagViewDataMapper.mapIcon(tag, type)
+        val icon = recordTagViewDataMapper.mapIcon(tag, types)
             ?.let(iconMapper::mapIcon)
-        val color = recordTagViewDataMapper.mapColor(tag, type)
+        val color = recordTagViewDataMapper.mapColor(tag, types)
 
         return CategoryViewData.Record.Tagged(
             id = tag.id,
@@ -116,13 +116,13 @@ class CategoryViewDataMapper @Inject constructor(
     fun mapRecordTagWithValue(
         tag: RecordTag,
         tagData: RecordBase.Tag?,
-        type: RecordType?,
+        types: Map<Long, RecordType>,
         isDarkTheme: Boolean,
         isFiltered: Boolean = false,
     ): CategoryViewData.Record {
         val viewData = mapRecordTag(
             tag = tag,
-            type = type,
+            types = types,
             isDarkTheme = isDarkTheme,
             isFiltered = isFiltered,
         )

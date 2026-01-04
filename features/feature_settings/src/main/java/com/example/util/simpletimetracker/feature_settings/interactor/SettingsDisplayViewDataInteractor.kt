@@ -260,6 +260,11 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                 CardOrderDialogParams.Type.Tag(prefsInteractor.getTagOrder()),
             )
             result += SettingsTextViewData(
+                block = SettingsBlock.DisplayCustomizeOptionsMenu,
+                title = resourceRepo.getString(R.string.settings_customize_options_menu),
+                subtitle = "",
+            )
+            result += SettingsTextViewData(
                 block = SettingsBlock.DisplayCardSize,
                 title = resourceRepo.getString(R.string.settings_change_card_size),
                 subtitle = "",

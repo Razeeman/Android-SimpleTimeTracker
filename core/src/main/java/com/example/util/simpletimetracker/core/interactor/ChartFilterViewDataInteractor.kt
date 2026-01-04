@@ -140,7 +140,7 @@ class ChartFilterViewDataInteractor @Inject constructor(
                 }
                 categoryViewDataMapper.mapRecordTag(
                     tag = tag,
-                    type = typesMap[tag.iconColorSource],
+                    types = typesMap,
                     isDarkTheme = isDarkTheme,
                     isFiltered = tag.id in recordTagsFiltered,
                 )

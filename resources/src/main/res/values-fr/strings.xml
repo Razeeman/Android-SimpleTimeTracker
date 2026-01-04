@@ -291,8 +291,11 @@ Cela vous permet de connaitre le temps vous passez globalement sur des activité
     <!--  Running records  -->
     <string name="running_records_types_empty">Pour commencer le suivi, ajoutez des activités en cliquant sur le bouton %s ou utilisez les préréglages par défaut en cliquant sur le bouton %s</string>
     <string name="running_records_empty">Cliquez longuement pour éditer</string>
+    <string name="running_records_empty_inverted">Cliquez pour éditer</string>
     <string name="running_records_has_timers">Cliquez sur la carte pour arrêter le suivi</string>
+    <string name="running_records_has_timers_inverted">Cliquez longuement sur la carte pour arrêter le suivi</string>
     <string name="running_records_empty_hint">Cliquez longuement pour éditer</string>
+    <string name="running_records_empty_hint_inverted">Cliquez pour éditer</string>
     <string name="running_records_add_type">Ajouter</string>
     <string name="running_records_add_filter">Ajouter un filtre</string>
     <string name="running_records_add_default">Défaut</string>
@@ -373,6 +376,9 @@ Cela vous permet de connaitre le temps vous passez globalement sur des activité
     <string name="settings_duration_format_proportional">Proportionnel</string>
     <string name="settings_show_seconds">Afficher les secondes</string>
     <string name="settings_keep_screen_on">Garder l\'écran allumé</string>
+    <string name="settings_customize_options_menu">Personnaliser le menu des options</string>
+    <string name="settings_detailed_statistics">Statistiques détaillées</string>
+    <string name="settings_start_timer_by_long_click">Démarrer et arrêter les minuteurs par appui long</string>
     <string name="settings_change_card_size">Modifier la taille des cartes d\'activité</string>
     <string name="settings_archive">Éléments archivés</string>
     <string name="settings_data_edit">Modification des données</string>

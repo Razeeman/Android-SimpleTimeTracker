@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.domain.notifications.interactor.Notifi
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.mapper.NotificationControlsMapper
 import com.example.util.simpletimetracker.feature_notification.recordType.interactor.ActivityStartStopFromBroadcastInteractor
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,7 +23,7 @@ class NotificationTypeBroadcastController @Inject constructor(
         typeId: Long,
     ) {
         if (typeId == 0L) return
-        allowDiskRead { MainScope() }.launch {
+        safeLaunch {
             activityStartStopFromBroadcastInteractor.onActionActivityStop(
                 typeId = typeId,
             )
@@ -35,12 +36,12 @@ class NotificationTypeBroadcastController @Inject constructor(
         selectedTypeId: Long,
         typesShift: Int,
     ) {
-        allowDiskRead { MainScope() }.launch {
+        safeLaunch {
             activityStartStopFromBroadcastInteractor.onActionTypeClick(
                 from = notificationControlsMapper.mapExtraToFrom(
                     extra = from,
                     recordTypeId = typeId,
-                ) ?: return@launch,
+                ) ?: return@safeLaunch,
                 selectedTypeId = selectedTypeId,
                 typesShift = typesShift,
             )
@@ -54,12 +55,12 @@ class NotificationTypeBroadcastController @Inject constructor(
         tagId: Long,
         typesShift: Int,
     ) {
-        allowDiskRead { MainScope() }.launch {
+        safeLaunch {
             activityStartStopFromBroadcastInteractor.onActionTagClick(
                 from = notificationControlsMapper.mapExtraToFrom(
                     extra = from,
                     recordTypeId = typeId,
-                ) ?: return@launch,
+                ) ?: return@safeLaunch,
                 selectedTypeId = selectedTypeId,
                 tagId = tagId,
                 typesShift = typesShift,
@@ -75,12 +76,12 @@ class NotificationTypeBroadcastController @Inject constructor(
         tagValue: String?,
         typesShift: Int,
     ) {
-        allowDiskRead { MainScope() }.launch {
+        safeLaunch {
             activityStartStopFromBroadcastInteractor.onActionTagValueSave(
                 from = notificationControlsMapper.mapExtraToFrom(
                     extra = from,
                     recordTypeId = typeId,
-                ) ?: return@launch,
+                ) ?: return@safeLaunch,
                 selectedTypeId = selectedTypeId,
                 tagId = tagId,
                 tagValue = tagValue,
@@ -98,12 +99,12 @@ class NotificationTypeBroadcastController @Inject constructor(
         typesShift: Int,
         tagsShift: Int,
     ) {
-        allowDiskRead { MainScope() }.launch {
+        safeLaunch {
             activityStartStopFromBroadcastInteractor.onRequestUpdate(
                 from = notificationControlsMapper.mapExtraToFrom(
                     extra = from,
                     typeId,
-                ) ?: return@launch,
+                ) ?: return@safeLaunch,
                 selectedTypeId = selectedTypeId,
                 selectedTagId = selectedTagId,
                 selectedTagValue = selectedTagValue,
@@ -113,10 +114,30 @@ class NotificationTypeBroadcastController @Inject constructor(
         }
     }
 
+    fun onTypeCancel(
+        typeId: Long,
+    ) {
+        safeLaunch {
+            notificationTypeInteractor.checkAndShow(typeId)
+        }
+    }
+
+    fun onActivitySwitchCancel() {
+        safeLaunch {
+            notificationActivitySwitchInteractor.updateNotification()
+        }
+    }
+
     fun onBootCompleted() {
-        allowDiskRead { MainScope() }.launch {
+        safeLaunch {
             notificationTypeInteractor.updateNotifications()
             notificationActivitySwitchInteractor.updateNotification()
         }
+    }
+
+    private fun safeLaunch(
+        block: suspend CoroutineScope.() -> Unit,
+    ) {
+        allowDiskRead { MainScope() }.launch(block = block)
     }
 }

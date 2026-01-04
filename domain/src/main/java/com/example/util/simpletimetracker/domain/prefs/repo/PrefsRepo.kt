@@ -144,6 +144,8 @@ interface PrefsRepo {
 
     var keepScreenOn: Boolean
 
+    var startTimerByLongClick: Boolean
+
     var showRecordTagSelection: Boolean
 
     var recordTagSelectionCloseAfterOne: Boolean
@@ -197,6 +199,8 @@ interface PrefsRepo {
     var tagAdditionalFieldsShown: Boolean
 
     var statisticsDetailStreakType: Int
+
+    var hiddenContainerOptions: Set<String>
 
     fun setWidget(widgetId: Int, recordType: Long)
 

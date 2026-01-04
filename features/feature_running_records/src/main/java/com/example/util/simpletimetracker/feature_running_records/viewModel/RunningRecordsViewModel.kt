@@ -97,7 +97,19 @@ class RunningRecordsViewModel @Inject constructor(
         subscribeToUpdates()
     }
 
-    fun onRecordTypeClick(item: RecordTypeViewData) {
+    fun onRecordTypeClick(
+        item: RecordTypeViewData,
+        sharedElements: Pair<Any, String>,
+    ) = viewModelScope.launch {
+        val startByLongClick = prefsInteractor.getStartTimerByLongClick()
+        if (!startByLongClick) {
+            onRecordTypeStart(item)
+        } else {
+            onRecordTypeEdit(item, sharedElements)
+        }
+    }
+
+    private fun onRecordTypeStart(item: RecordTypeViewData) {
         viewModelScope.launch {
             val runningRecord = runningRecordInteractor.get(item.id)
 
@@ -118,7 +130,19 @@ class RunningRecordsViewModel @Inject constructor(
         }
     }
 
-    fun onRecordTypeLongClick(item: RecordTypeViewData, sharedElements: Pair<Any, String>) {
+    fun onRecordTypeLongClick(
+        item: RecordTypeViewData,
+        sharedElements: Pair<Any, String>,
+    ) = viewModelScope.launch {
+        val startByLongClick = prefsInteractor.getStartTimerByLongClick()
+        if (!startByLongClick) {
+            onRecordTypeEdit(item, sharedElements)
+        } else {
+            onRecordTypeStart(item)
+        }
+    }
+
+    fun onRecordTypeEdit(item: RecordTypeViewData, sharedElements: Pair<Any, String>) {
         router.navigate(
             data = ChangeRecordTypeParams.Change(
                 transitionName = sharedElements.second,
@@ -169,17 +193,48 @@ class RunningRecordsViewModel @Inject constructor(
     fun onRunningRecordClick(
         item: RunningRecordViewData,
         sharedElements: Pair<Any, String>,
+    ) = viewModelScope.launch {
+        val startByLongClick = prefsInteractor.getStartTimerByLongClick()
+        if (!startByLongClick) {
+            onRunningRecordStop(item)
+        } else {
+            onRunningRecordEdit(item, sharedElements)
+        }
+    }
+
+    private suspend fun onRunningRecordStop(
+        item: RunningRecordViewData,
     ) {
-        viewModelScope.launch {
-            runningRecordInteractor.get(item.id)
-                ?.let { removeRunningRecordMediator.removeWithRecordAdd(it) }
-            updateRunningRecords()
+        runningRecordInteractor.get(item.id)
+            ?.let { removeRunningRecordMediator.removeWithRecordAdd(it) }
+        updateRunningRecords()
+    }
+
+    fun onRecordClick(
+        item: RecordWithHintViewData,
+    ) = viewModelScope.launch {
+        val startByLongClick = prefsInteractor.getStartTimerByLongClick()
+        if (!startByLongClick) {
+            // Do nothing.
+        } else {
+            onRecordEdit(item)
         }
     }
 
     fun onRecordLongClick(
         item: RecordWithHintViewData,
     ) = viewModelScope.launch {
+        val startByLongClick = prefsInteractor.getStartTimerByLongClick()
+        if (!startByLongClick) {
+            onRecordEdit(item)
+        } else {
+            // Do nothing.
+        }
+    }
+
+    private suspend fun onRecordEdit(
+        item: RecordWithHintViewData,
+    ) {
         val useMilitaryTimeFormat = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
         val durationFormat = prefsInteractor.getDurationFormat()
@@ -203,7 +258,21 @@ class RunningRecordsViewModel @Inject constructor(
     fun onRunningRecordLongClick(
         item: RunningRecordViewData,
         sharedElements: Pair<Any, String>,
-    ) = viewModelScope.launch {
+    ) {
+        viewModelScope.launch {
+            val startByLongClick = prefsInteractor.getStartTimerByLongClick()
+            if (!startByLongClick) {
+                onRunningRecordEdit(item, sharedElements)
+            } else {
+                onRunningRecordStop(item)
+            }
+        }
+    }
+
+    private suspend fun onRunningRecordEdit(
+        item: RunningRecordViewData,
+        sharedElements: Pair<Any, String>,
+    ) {
         val useMilitaryTimeFormat = prefsInteractor.getUseMilitaryTimeFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
         val durationFormat = prefsInteractor.getDurationFormat()
@@ -292,7 +361,25 @@ class RunningRecordsViewModel @Inject constructor(
     }
 
     fun onShortcutClick(item: RecordShortcutViewData) = viewModelScope.launch {
-        val shortcut = recordShortcutInteractor.get(item.id) ?: return@launch
+        val startByLongClick = prefsInteractor.getStartTimerByLongClick()
+        if (!startByLongClick) {
+            onShortcutStart(item)
+        } else {
+            onShortcutEdit(item)
+        }
+    }
+
+    fun onShortcutLongClick(item: RecordShortcutViewData) = viewModelScope.launch {
+        val startByLongClick = prefsInteractor.getStartTimerByLongClick()
+        if (!startByLongClick) {
+            onShortcutEdit(item)
+        } else {
+            onShortcutStart(item)
+        }
+    }
+
+    private suspend fun onShortcutStart(item: RecordShortcutViewData) {
+        val shortcut = recordShortcutInteractor.get(item.id) ?: return
         recordActionRepeatMediator.execute(
             typeId = shortcut.typeId,
             comment = shortcut.comment,
@@ -301,7 +388,7 @@ class RunningRecordsViewModel @Inject constructor(
         updateRunningRecords()
     }
 
-    fun onShortcutLongClick(item: RecordShortcutViewData) {
+    private fun onShortcutEdit(item: RecordShortcutViewData) {
         router.navigate(
             StandardDialogParams(
                 tag = DELETE_SHORTCUT_ALERT_DIALOG_TAG,

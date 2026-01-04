@@ -17,6 +17,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.feature_notification.R
+import com.example.util.simpletimetracker.feature_notification.recevier.NotificationReceiver
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
@@ -63,6 +64,9 @@ class NotificationActivitySwitchManager @Inject constructor(
             startIntent,
             PendingIntents.getFlags(),
         )
+        val cancelIntent = getCancelIntent(
+            context = context,
+        )
 
         // TODO fix default duration type click when show tags is enabled,
         //  no animation / indication.
@@ -72,6 +76,8 @@ class NotificationActivitySwitchManager @Inject constructor(
             .setContentIntent(contentIntent)
             .setOngoing(true)
             .setAutoCancel(false)
+            // setOngoing(true) doesn't work on api 34, reshow notification on cancel.
+            .setDeleteIntent(cancelIntent) //
             .setCustomContentView(prepareView(params, isBig = false))
             .setCustomBigContentView(prepareView(params, isBig = true))
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
@@ -149,7 +155,23 @@ class NotificationActivitySwitchManager @Inject constructor(
         }.getBitmapFromView()
     }
 
+    private fun getCancelIntent(
+        context: Context,
+    ): PendingIntent {
+        val intent = Intent(context, NotificationReceiver::class.java)
+        intent.action = ACTION_NOTIFICATION_SWITCH_CANCEL
+        return PendingIntent.getBroadcast(
+            context,
+            0,
+            intent,
+            PendingIntents.getFlags(),
+        )
+    }
+
     companion object {
+        const val ACTION_NOTIFICATION_SWITCH_CANCEL =
+            "com.example.util.simpletimetracker.feature_notification.switch.onCancel"
+
         private const val NOTIFICATIONS_CHANNEL_ID = "ACTIVITY_SWITCH"
         private const val NOTIFICATIONS_CHANNEL_NAME = "Activity Switch"
 

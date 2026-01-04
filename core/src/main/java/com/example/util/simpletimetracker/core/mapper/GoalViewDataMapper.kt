@@ -112,7 +112,9 @@ class GoalViewDataMapper @Inject constructor(
             ChartFilterType.CATEGORY -> {
                 goals.filter { it.idData is RecordTypeGoal.IdData.Category }
             }
-            else -> return emptyList()
+            ChartFilterType.RECORD_TAG -> {
+                goals.filter { it.idData is RecordTypeGoal.IdData.Tag }
+            }
         }
         if (rangeLength !in listOf(RangeLength.Day, RangeLength.Week, RangeLength.Month)) {
             return emptyList()

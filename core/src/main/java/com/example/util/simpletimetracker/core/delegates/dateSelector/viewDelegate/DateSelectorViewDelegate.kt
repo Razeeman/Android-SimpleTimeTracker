@@ -14,6 +14,7 @@ import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.widget.ViewPager2
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.databinding.DateSelectorLayoutBinding
+import com.example.util.simpletimetracker.core.delegates.dateSelector.viewData.DateSelectorButtonsViewData
 import com.example.util.simpletimetracker.core.delegates.dateSelector.viewModelDelegate.DateSelectorViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.changeDragSensitivity
 import com.example.util.simpletimetracker.core.extension.horizontalSmoothScrollWithOffset
@@ -24,6 +25,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.dateSelector.crea
 import com.example.util.simpletimetracker.feature_views.extension.addOnScrollListenerAdapter
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
+import com.google.android.material.button.MaterialButton
 
 object DateSelectorViewDelegate {
 
@@ -71,13 +73,10 @@ object DateSelectorViewDelegate {
     fun <T : ViewBinding> initUx(
         fragment: BaseFragment<T>,
         binding: DateSelectorLayoutBinding,
-        isAddButtonVisible: Boolean,
         onRecordAddClick: () -> Unit,
         onOptionsClick: () -> Unit,
         onOptionsLongClick: () -> Unit,
     ) = with(fragment) {
-        binding.btnRecordsContainerAdd.isVisible = isAddButtonVisible
-
         binding.btnRecordsContainerAdd.setOnClick(throttle(onRecordAddClick))
         binding.btnRecordsContainerOptions.setOnClick(throttle(onOptionsClick))
         binding.btnRecordsContainerOptions.setOnLongClick(throttle(onOptionsLongClick))
@@ -105,6 +104,12 @@ object DateSelectorViewDelegate {
         viewModel.borderShadowsVisibility.observe { isVisible ->
             binding.viewRecordsContainerBorderShadowStart.isVisible = isVisible
             binding.viewRecordsContainerBorderShadowEnd.isVisible = isVisible
+        }
+        viewModel.buttonsViewData.observe {
+            setButtonsViewData(
+                binding = binding,
+                viewData = it,
+            )
         }
     }
 
@@ -200,5 +205,28 @@ object DateSelectorViewDelegate {
     ) {
         // TODO do better maybe?
         viewHolder.adapter.value.notifyDataSetChanged()
+    }
+
+    private fun setButtonsViewData(
+        binding: DateSelectorLayoutBinding,
+        viewData: DateSelectorButtonsViewData,
+    ) = with(binding) {
+        fun setData(
+            view: MaterialButton,
+            data: DateSelectorButtonsViewData.Button,
+        ) {
+            when (data) {
+                is DateSelectorButtonsViewData.Button.Visible -> {
+                    view.isVisible = true
+                    view.setIconResource(data.iconResId)
+                }
+                is DateSelectorButtonsViewData.Button.Hidden -> {
+                    view.isVisible = false
+                }
+            }
+        }
+
+        setData(btnRecordsContainerAdd, viewData.addButton)
+        setData(btnRecordsContainerOptions, viewData.optionsButton)
     }
 }

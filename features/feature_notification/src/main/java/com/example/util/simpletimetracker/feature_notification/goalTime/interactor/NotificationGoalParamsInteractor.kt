@@ -1,10 +1,14 @@
 package com.example.util.simpletimetracker.feature_notification.goalTime.interactor
 
-import android.graphics.Color
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.category.interactor.CategoryInteractor
+import com.example.util.simpletimetracker.domain.color.model.AppColor
+import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.recordType.extension.getDailyCount
 import com.example.util.simpletimetracker.domain.recordType.extension.getDailyDuration
 import com.example.util.simpletimetracker.domain.recordType.extension.getMonthlyCount
@@ -13,10 +17,7 @@ import com.example.util.simpletimetracker.domain.recordType.extension.getSession
 import com.example.util.simpletimetracker.domain.recordType.extension.getSessionDuration
 import com.example.util.simpletimetracker.domain.recordType.extension.getWeeklyCount
 import com.example.util.simpletimetracker.domain.recordType.extension.getWeeklyDuration
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.recordType.extension.value
-import com.example.util.simpletimetracker.domain.category.interactor.CategoryInteractor
-import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
@@ -30,11 +31,13 @@ class NotificationGoalParamsInteractor @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val categoryInteractor: CategoryInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val timeMapper: TimeMapper,
     private val colorMapper: ColorMapper,
     private val iconMapper: IconMapper,
+    private val recordTagViewDataMapper: RecordTagViewDataMapper,
 ) {
 
     suspend fun execute(
@@ -42,17 +45,43 @@ class NotificationGoalParamsInteractor @Inject constructor(
         range: RecordTypeGoal.Range,
         type: Type,
     ): NotificationGoalTimeParams? {
-        val typeId = (idData as? RecordTypeGoal.IdData.Type)?.value
-        val recordType = recordTypeInteractor.get(typeId.orZero())
-        val categoryId = (idData as? RecordTypeGoal.IdData.Category)?.value
-        val category = categoryInteractor.get(categoryId.orZero())
-        if (recordType == null && category == null) return null
-        val goals = when (idData) {
+        data class DataHolder(
+            val icon: String?,
+            val color: AppColor,
+            val name: String,
+        )
+
+        val goals: List<RecordTypeGoal>
+        val dataHolder: DataHolder
+
+        when (idData) {
             is RecordTypeGoal.IdData.Type -> {
-                recordTypeGoalInteractor.getByType(typeId.orZero())
+                goals = recordTypeGoalInteractor.getByType(idData.value)
+                val recordType = recordTypeInteractor.get(idData.value) ?: return null
+                dataHolder = DataHolder(
+                    icon = recordType.icon,
+                    color = recordType.color,
+                    name = recordType.name,
+                )
             }
             is RecordTypeGoal.IdData.Category -> {
-                recordTypeGoalInteractor.getByCategory(categoryId.orZero())
+                goals = recordTypeGoalInteractor.getByCategory(idData.value)
+                val category = categoryInteractor.get(idData.value) ?: return null
+                dataHolder = DataHolder(
+                    icon = null,
+                    color = category.color,
+                    name = category.name,
+                )
+            }
+            is RecordTypeGoal.IdData.Tag -> {
+                goals = recordTypeGoalInteractor.getByTag(idData.value)
+                val tag = recordTagInteractor.get(idData.value) ?: return null
+                val colorSource = recordTypeInteractor.get(tag.iconColorSource)
+                dataHolder = DataHolder(
+                    icon = recordTagViewDataMapper.mapIcon(tag, colorSource),
+                    color = recordTagViewDataMapper.mapColor(tag, colorSource),
+                    name = tag.name,
+                )
             }
         }
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -121,13 +150,11 @@ class NotificationGoalParamsInteractor @Inject constructor(
             idData = idData,
             goalRange = range,
             goalType = goal?.type,
-            icon = recordType?.icon
+            icon = dataHolder.icon
                 ?.let(iconMapper::mapIcon)
                 ?: RecordTypeIcon.Text(""),
-            color = (recordType?.color ?: category?.color)
-                ?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
-                ?: Color.TRANSPARENT,
-            text = recordType?.name ?: category?.name ?: "",
+            color = colorMapper.mapToColorInt(dataHolder.color, isDarkTheme),
+            text = dataHolder.name,
             description = description,
             checkState = checkState,
         )

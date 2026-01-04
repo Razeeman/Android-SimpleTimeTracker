@@ -404,16 +404,72 @@
                 app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTagDefaultType"
                 tools:drawableEnd="@drawable/spinner_check_mark" />
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fieldChangeRecordTagGoalTime"
+                style="@style/InputFieldCard"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/input_field_height"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnChangeRecordTagSelectActivity"
+                app:layout_goneMarginTop="@dimen/edit_screen_field_top_margin">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?appInputFieldBorder">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutChangeRecordTagGoalPreview"
+                        style="@style/EditScreenPreview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTagGoalTime"
+                        tools:cardBackgroundColor="@color/black"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeRecordTagGoalPreview"
+                            style="@style/EditScreenPreviewText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:text="2" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvChangeRecordTagGoalHint"
+                        style="@style/EditScreenField"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/change_record_type_goal_time_hint"
+                        app:layout_constraintEnd_toStartOf="@id/layoutChangeRecordTagGoalPreview"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/arrowChangeRecordTagGoalTime"
+                        style="@style/EditScreenFieldArrow"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputChangeRecordTagNote"
                 style="@style/ChangeItemInputField"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
-                android:layout_marginTop="-4dp"
+                android:layout_marginTop="-2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnChangeRecordTagSelectActivity">
+                app:layout_constraintTop_toBottomOf="@id/fieldChangeRecordTagGoalTime">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etChangeRecordTagNote"
@@ -559,6 +615,25 @@
         tools:itemCount="3"
         tools:listitem="@layout/item_record_type_layout"
         tools:visibility="gone" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/containerChangeRecordTagGoalTime"
+        style="@style/EditScreenContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeRecordTagButton"
+        app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTagMain"
+        tools:visibility="gone">
+
+        <include
+            android:id="@+id/layoutChangeRecordTagGoals"
+            layout="@layout/change_goals_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.core.widget.NestedScrollView>
 
     <View
         android:id="@+id/dividerChangeRecordTagButton"

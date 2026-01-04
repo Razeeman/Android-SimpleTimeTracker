@@ -27,11 +27,13 @@ fun createDateSelectorRangeAdapterDelegate(
             dayMonth = item.dayMonth1,
             topText = tvDateSelectorTopText1,
             bottomText = tvDateSelectorBottomText1,
+            increasedTextSize = item.cardData.increasedTextSize,
         )
         setDayMoth(
             dayMonth = item.dayMonth2,
             topText = tvDateSelectorTopText2,
             bottomText = tvDateSelectorBottomText2,
+            increasedTextSize = item.cardData.increasedTextSize,
         )
         root.setCardData(
             cardData = item.cardData,

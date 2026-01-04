@@ -341,6 +341,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_KEEP_SCREEN_ON, false,
     )
 
+    override var startTimerByLongClick: Boolean by prefs.delegate(
+        KEY_START_TIMER_BY_LONG_CLICK, false,
+    )
+
     override var showRecordTagSelection: Boolean by prefs.delegate(
         KEY_SHOW_RECORD_TAG_SELECTION, false,
     )
@@ -447,6 +451,10 @@ class PrefsRepoImpl @Inject constructor(
 
     override var statisticsDetailStreakType: Int by prefs.delegate(
         KEY_STATISTICS_DETAIL_STREAK_TYPE, 0,
+    )
+
+    override var hiddenContainerOptions: Set<String> by prefs.delegate(
+        KEY_HIDDEN_CONTAINER_OPTIONS, emptySet(),
     )
 
     override fun setWidget(widgetId: Int, recordType: Long) {
@@ -708,6 +716,7 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_DURATION_PRESENTATION_FORMAT = "durationPresentationFormat"
         const val KEY_SHOW_SECONDS = "showSeconds"
         const val KEY_KEEP_SCREEN_ON = "keepScreenOn"
+        const val KEY_START_TIMER_BY_LONG_CLICK = "startTimerByLongClick"
         const val KEY_SHOW_RECORD_TAG_SELECTION = "showRecordTagSelection"
         const val KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES = "showRecordTagSelectionExcludeActivities"
         const val KEY_SHOW_COMMENT_INPUT = "showCommentInput"
@@ -730,6 +739,7 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"
         const val KEY_CATEGORY_ORDER_MANUAL = "categoryOrderManual"
         const val KEY_TAG_ORDER_MANUAL = "tagOrderManual"
+        const val KEY_HIDDEN_CONTAINER_OPTIONS = "hiddenContainerOptions"
 
         private const val KEY_AUTOMATIC_BACKUP_URI = "automaticBackupUri"
         private const val KEY_AUTOMATIC_BACKUP_ERROR = "automaticBackupError"

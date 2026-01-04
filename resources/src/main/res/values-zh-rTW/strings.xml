@@ -291,8 +291,11 @@
     <!--  Running records  -->
     <string name="running_records_types_empty">要開始跟踪，請單擊 %s 按鈕添加活動，或單擊 %s 按鈕使用默認預設</string>
     <string name="running_records_empty">點擊於活動來開始追蹤</string>
+    <string name="running_records_empty_inverted">長按於活動來開始追蹤</string>
     <string name="running_records_has_timers">單擊卡片以停止跟踪</string>
+    <string name="running_records_has_timers_inverted">長按卡片以停止跟踪</string>
     <string name="running_records_empty_hint">長按編輯</string>
+    <string name="running_records_empty_hint_inverted">單擊編輯</string>
     <string name="running_records_add_type">新增</string>
     <string name="running_records_add_filter">新增過濾</string>
     <string name="running_records_add_default">默認</string>
@@ -373,6 +376,9 @@
     <string name="settings_duration_format_proportional">比例</string>
     <string name="settings_show_seconds">顯示秒數</string>
     <string name="settings_keep_screen_on">保持螢幕長開</string>
+    <string name="settings_customize_options_menu">自訂選項選單</string>
+    <string name="settings_detailed_statistics">詳細統計</string>
+    <string name="settings_start_timer_by_long_click">長按以開始與停止計時器</string>
     <string name="settings_change_card_size">改變活動卡片尺寸</string>
     <string name="settings_archive">備存</string>
     <string name="settings_data_edit">數據編輯</string>

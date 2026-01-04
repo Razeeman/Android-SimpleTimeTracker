@@ -36,6 +36,7 @@ fun getSettingsAdapterDelegates(
         createSettingsCheckboxAdapterDelegate(onBlockClicked),
         createSettingsCheckboxWithButtonAdapterDelegate(onBlockClicked),
         createSettingsCheckboxWithRangeAdapterDelegate(onBlockClicked),
+        createSettingsCheckboxWithIconAdapterDelegate(onBlockClicked),
         createSettingsCollapseAdapterDelegate(onBlockClicked),
         createSettingsSelectorAdapterDelegate(onBlockClicked),
         createSettingsSelectorWithButtonAdapterDelegate(onBlockClicked),

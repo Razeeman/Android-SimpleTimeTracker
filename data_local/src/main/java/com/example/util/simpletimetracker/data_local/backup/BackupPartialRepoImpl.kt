@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.data_local.backup
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.data_local.backup.BackupRepoImpl.DataHandler
+import com.example.util.simpletimetracker.data_local.recordsFilter.FavouriteRecordsFilterDBO
 import com.example.util.simpletimetracker.domain.extension.orEmpty
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.activityFilter.model.ActivityFilter
@@ -211,6 +212,8 @@ class BackupPartialRepoImpl @Inject constructor(
                     ?.let(RecordTypeGoal.IdData::Type)
                 is RecordTypeGoal.IdData.Category -> originalCategoryIdToAddedId[idData.value]
                     ?.let(RecordTypeGoal.IdData::Category)
+                is RecordTypeGoal.IdData.Tag -> originalTagIdToAddedId[idData.value]
+                    ?.let(RecordTypeGoal.IdData::Tag)
             } ?: return@forEach
             goal.copy(
                 id = 0,
@@ -297,11 +300,13 @@ class BackupPartialRepoImpl @Inject constructor(
         val favouriteIcon: MutableList<FavouriteIcon> = mutableListOf()
         val favouriteIconCurrent: List<FavouriteIcon> = favouriteIconRepo.getAll()
         val goals: MutableList<RecordTypeGoal> = mutableListOf()
-        val goalsCurrent: List<RecordTypeGoal> = recordTypeGoalRepo.getAllTypeGoals()
+        val goalsCurrent: List<RecordTypeGoal> = recordTypeGoalRepo.getAll()
         val rules: MutableList<ComplexRule> = mutableListOf()
         val rulesCurrent: List<ComplexRule> = complexRuleRepo.getAll()
         val activitySuggestions: MutableList<ActivitySuggestion> = mutableListOf()
         val activitySuggestionsCurrent: List<ActivitySuggestion> = activitySuggestionRepo.getAll()
+        val favRecordsFilters: MutableList<FavouriteRecordsFilterDBO.MainDBO> = mutableListOf() // Not used.
+        val favRecordsFilter: MutableList<FavouriteRecordsFilterDBO.FilterDBO> = mutableListOf() // Not used.
         val settings: MutableList<List<String>> = mutableListOf()
 
         val result = backupRepo.readBackup(
@@ -334,6 +339,8 @@ class BackupPartialRepoImpl @Inject constructor(
                 goals = goals::add,
                 rules = rules::add,
                 activitySuggestion = activitySuggestions::addAll,
+                favRecordsFilters = favRecordsFilters::add,
+                favRecordsFilter = favRecordsFilter::add,
                 settings = settings::add,
             ),
         )
@@ -470,6 +477,8 @@ class BackupPartialRepoImpl @Inject constructor(
                     ?.let(RecordTypeGoal.IdData::Type)
                 is RecordTypeGoal.IdData.Category -> originalCategoryIdToExistingId[idData.value]
                     ?.let(RecordTypeGoal.IdData::Category)
+                is RecordTypeGoal.IdData.Tag -> originalTagIdToExistingId[idData.value]
+                    ?.let(RecordTypeGoal.IdData::Tag)
             } ?: return@mapNotNull null
             item.copy(
                 idData = newId,

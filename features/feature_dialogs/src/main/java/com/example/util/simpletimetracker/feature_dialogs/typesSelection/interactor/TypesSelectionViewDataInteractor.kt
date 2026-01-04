@@ -81,7 +81,7 @@ class TypesSelectionViewDataInteractor @Inject constructor(
                     categoryViewDataMapper.mapRecordTagWithValue(
                         tag = type.data,
                         tagData = tagDataMap[type.data.id],
-                        type = typesMap[type.data.iconColorSource],
+                        types = typesMap,
                         isDarkTheme = isDarkTheme,
                     )
                 }

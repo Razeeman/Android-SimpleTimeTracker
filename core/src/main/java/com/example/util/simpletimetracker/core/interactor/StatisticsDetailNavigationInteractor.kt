@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.core.interactor
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordsFilterMapper
 import com.example.util.simpletimetracker.domain.category.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
@@ -11,6 +12,7 @@ import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTyp
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.record.model.RecordsFilter
+import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
@@ -22,9 +24,11 @@ class StatisticsDetailNavigationInteractor @Inject constructor(
     private val colorMapper: ColorMapper,
     private val prefsInteractor: PrefsInteractor,
     private val recordsFilterMapper: RecordsFilterMapper,
+    private val recordTagViewDataMapper: RecordTagViewDataMapper,
     private val categoryInteractor: CategoryInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val getStatisticsDetailRangeInteractor: GetStatisticsDetailRangeInteractor,
 ) {
 
@@ -93,6 +97,24 @@ class StatisticsDetailNavigationInteractor @Inject constructor(
                     itemIcon = null,
                     itemColor = colorMapper.mapToColorInt(
                         color = category.color,
+                        isDarkTheme = isDarkTheme,
+                    ),
+                )
+            }
+            is RecordTypeGoal.IdData.Tag -> {
+                val tag = recordTagInteractor.get(goal.idData.value) ?: return
+                val colorSource = recordTypeInteractor.get(tag.iconColorSource)
+                navigate(
+                    transitionName = "",
+                    filterType = ChartFilterType.RECORD_TAG,
+                    shift = shift,
+                    sharedElements = emptyMap(),
+                    itemId = tag.id,
+                    itemName = tag.name,
+                    itemIcon = recordTagViewDataMapper.mapIcon(tag, colorSource)
+                        ?.let(iconMapper::mapIcon),
+                    itemColor = colorMapper.mapToColorInt(
+                        color = recordTagViewDataMapper.mapColor(tag, colorSource),
                         isDarkTheme = isDarkTheme,
                     ),
                 )

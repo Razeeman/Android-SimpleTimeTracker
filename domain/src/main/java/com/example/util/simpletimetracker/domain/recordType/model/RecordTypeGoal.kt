@@ -16,6 +16,7 @@ data class RecordTypeGoal(
 
         data class Type(override val value: Long) : IdData
         data class Category(override val value: Long) : IdData
+        data class Tag(override val value: Long) : IdData
     }
 
     sealed interface Range {

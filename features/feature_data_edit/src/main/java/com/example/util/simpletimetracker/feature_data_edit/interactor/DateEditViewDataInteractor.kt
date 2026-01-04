@@ -96,7 +96,7 @@ class DateEditViewDataInteractor @Inject constructor(
             categoryViewDataMapper.mapRecordTagWithValue(
                 tag = it,
                 tagData = selectedTagsMap[it.id],
-                type = types[it.iconColorSource],
+                types = types,
                 isDarkTheme = isDarkTheme,
             )
         }

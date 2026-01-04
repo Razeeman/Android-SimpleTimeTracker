@@ -239,6 +239,14 @@ object GoalsTestUtils {
             .copy(idData = RecordTypeGoal.IdData.Category(0))
     }
 
+    private fun getDurationGoalTag(
+        range: RecordTypeGoal.Range,
+        duration: Long,
+    ): RecordTypeGoal {
+        return getDurationGoal(range = range, duration = duration)
+            .copy(idData = RecordTypeGoal.IdData.Tag(0))
+    }
+
     private fun getCountGoal(
         range: RecordTypeGoal.Range,
         count: Long,
@@ -258,5 +266,13 @@ object GoalsTestUtils {
     ): RecordTypeGoal {
         return getCountGoal(range = range, count = count)
             .copy(idData = RecordTypeGoal.IdData.Category(0))
+    }
+
+    private fun getCountGoalTag(
+        range: RecordTypeGoal.Range,
+        count: Long,
+    ): RecordTypeGoal {
+        return getCountGoal(range = range, count = count)
+            .copy(idData = RecordTypeGoal.IdData.Tag(0))
     }
 }

@@ -1,0 +1,5 @@
+- Add ability to save filters in detailed statistics
+- Add setting to start and stop timers by long click
+- Increased size of current day in date selection
+- Reshow sticky notification if swiped away
+- General bug fixes and improvements

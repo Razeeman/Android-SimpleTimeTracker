@@ -10,8 +10,15 @@ data class RecordTypeGoalDBO(
     @ColumnInfo(name = "id")
     val id: Long,
 
-    @ColumnInfo(name = "type_id")
-    val typeId: Long,
+    // typeId / categoryId / tagId
+    @ColumnInfo(name = "owner_id")
+    val ownerId: Long,
+
+    // 0 - activity
+    // 1 - category
+    // 2 - tag
+    @ColumnInfo(name = "owner_type")
+    val ownerType: Long,
 
     // 0 - session
     // 1 - daily
@@ -34,10 +41,6 @@ data class RecordTypeGoalDBO(
     // count if goal count
     @ColumnInfo(name = "value")
     val value: Long,
-
-    // Only one of typeId or categoryId should be present, other should be 0.
-    @ColumnInfo(name = "category_id")
-    val categoryId: Long,
 
     // Stored as "0000000" string, where each number is a day,
     // 0 - not selected, 1 - selected,
