@@ -76,17 +76,17 @@
 
     <!--  Records  -->
     <string name="record_removed">Enregistrement %s supprimé</string>
-    <string name="record_removed_undo">Annuler la suppression</string>
+    <string name="record_removed_undo">Restaurer</string>
     <string name="records_hint">Appuyez sur un enregistrement pour le modifier</string>
     <string name="records_add_record">Ajouter un enregistrement</string>
     <string name="records_switch_to_calendar">Affichage Calendrier</string>
     <string name="records_switch_to_list">Affichage Liste</string>
     <string name="no_records_exist">Les enregistrements s'afficheront ici</string>
     <string name="record_add_hint">Appuyez sur %s pour ajouter un nouvel enregistrement</string>
-    <string name="record_date_hint">Appuyez sur le bouton '...' pour sélectionner une date</string>
+    <string name="record_date_hint">Appuyez sur la frise chronologique en bas de l'écran pour sélectionner une date</string>
 
     <!--  Statistics  -->
-    <string name="statistics_total_tracked">Total des enregistrements</string>
+    <string name="statistics_total_tracked">Durée totale enregistrée</string>
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Appuyez sur une carte pour afficher les statistiques détaillées</string>
     <string name="statistics_daily_calendar_hint">Calendrier journalier</string>
