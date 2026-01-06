@@ -22,5 +22,11 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug.apk
-          path: app/build/outputs/apk/debug/*.apk
+          name: app-debug
+          path: app/build/outputs
+
+      - name: Upload2
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug2
+          path: build/outputs
