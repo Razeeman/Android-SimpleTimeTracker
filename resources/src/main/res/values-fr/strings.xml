@@ -72,7 +72,7 @@
     <string name="record_types_empty">Aucune activité</string>
     <string name="record_tag_selection_hint">Sélectionnez une étiquette pour l\'enregistrement</string>
     <string name="time_now">Maintenant</string>
-    <string name="cannot_be_in_the_future">Impossible d'enregistrer dans le futur</string>
+    <string name="cannot_be_in_the_future">Impossible d\'enregistrer dans le futur</string>
 
     <!--  Records  -->
     <string name="record_removed">Enregistrement %s supprimé</string>
@@ -81,7 +81,7 @@
     <string name="records_add_record">Ajouter un enregistrement</string>
     <string name="records_switch_to_calendar">Affichage Calendrier</string>
     <string name="records_switch_to_list">Affichage Liste</string>
-    <string name="no_records_exist">Les enregistrements s'afficheront ici</string>
+    <string name="no_records_exist">Les enregistrements s\'afficheront ici</string>
     <string name="record_add_hint">Appuyez sur %s pour ajouter un nouvel enregistrement</string>
     <string name="record_date_hint">Appuyez sur la frise chronologique en bas de l'écran pour sélectionner une date</string>
 
@@ -90,10 +90,10 @@
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Appuyez sur une carte pour afficher les statistiques détaillées</string>
     <string name="statistics_daily_calendar_hint">Calendrier journalier</string>
-    <string name="no_statistics_exist">Les statistiques s'afficheront ici</string>
+    <string name="no_statistics_exist">Les statistiques s\'afficheront ici</string>
 
     <!--  Goals  -->
-    <string name="no_goals_exist">Les objectifs s'afficheront ici</string>
+    <string name="no_goals_exist">Les objectifs s\'afficheront ici</string>
     <string name="goal_add_hint">Modifiez une activité ou une catégorie pour définir un objectif</string>
 
     <!--  Categories  -->
@@ -126,7 +126,7 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="change_record_tag_type_general_hint">Peut être affectée aux enregistrements de n\'importe quelle activité</string>
     <string name="change_record_tag_type_typed_hint">Ne peut être affectée qu\'aux enregistrements d\'une activité spécifique</string>
     <string name="change_record_tag_select_activity_hint">Prendre la couleur et l\'icône de l\'activité</string>
-    <string name="change_record_tag_default_types_hint">L'étiquette serait affectée par défaut lors du démarrage d\'un enregistrement pour les activités sélectionnées</string>
+    <string name="change_record_tag_default_types_hint">L\'étiquette serait affectée par défaut lors du démarrage d\'un enregistrement pour les activités sélectionnées</string>
     <string name="change_record_type_value_type_field">Valeur</string>
     <string name="change_record_type_value_type_hint">Attribuer une valeur lors de l\'affectation de cette étiquette à un enregistrement. Utile pour suivre l\'humeur, la productivité, les pages lues, les pas effectués, etc.</string>
     <string name="change_record_type_value_suffix">Suffixe</string>
@@ -301,7 +301,7 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="running_records_add_default">Par défaut</string>
     <string name="running_records_repeat">Répéter</string>
     <string name="running_records_repeat_no_prev_record">Aucun enregistrement précédent à répéter</string>
-    <string name="running_records_repeat_already_tracking">Activité déjà en cours d'enregistrement</string>
+    <string name="running_records_repeat_already_tracking">Activité déjà en cours d\'enregistrement</string>
 
     <!--  Settings  -->
     <string name="settings_display_title">Paramètres d\'affichage</string>
