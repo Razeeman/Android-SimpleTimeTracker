@@ -118,7 +118,7 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="change_category_color_hint">Couleur</string>
     <string name="change_category_types_hint">Activités</string>
     <string name="change_category_save">Enregistrer</string>
-    <string name="change_category_message_choose_name">Indiquez un nom</string>
+    <string name="change_category_message_choose_name">Saisissez le nom</string>
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Étiquettes archivées</string>
@@ -164,7 +164,7 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="change_record_multiselect_hint">Sélectionnez plusieurs enregistrements puis ré-ouvrez le menu Actions</string>
     <string name="change_record_adjust">Modifier</string>
     <string name="change_record_shortcut">Raccourci</string>
-    <string name="change_record_shortcut_hint">Créer un raccourci dans l\'onglet principal avec des étiquettes et un commentaire pour un accès plus rapide</string>
+    <string name="change_record_shortcut_hint">Créer un raccourci dans l\'onglet principal avec des étiquettes et un commentaire pour y accéder plus rapidement</string>
     <string name="change_record_change_prev_record">Modifier également l\'heure de l\'enregistrement précédent</string>
     <string name="change_record_change_adjacent_records">Modifier également l\'heure des enregistrements adjacents</string>
     <string name="change_record_change_prev">Précédent</string>
@@ -181,7 +181,7 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <!--  Change record type  -->
     <string name="change_record_type_archived">Activité archivée</string>
     <string name="change_record_type_name_hint">Saisissez le nouveau nom</string>
-    <string name="change_record_type_new_icon_text_hint">Saisir un nouveau texte</string>
+    <string name="change_record_type_new_icon_text_hint">Saisissez le nouveau texte</string>
     <string name="change_record_type_color_hint">Couleur</string>
     <string name="change_record_favourite_colors_hint">Couleurs préférées</string>
     <string name="change_record_type_icon_image_hint">Icône</string>
@@ -191,7 +191,7 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="change_record_type_no_icon">Aucune icône</string>
     <string name="change_record_favourite_icons_hint">Icônes préférées</string>
     <string name="change_record_type_save">Enregistrer</string>
-    <string name="change_record_message_choose_name">Choisissez un nom</string>
+    <string name="change_record_message_choose_name">Saisissez un nom</string>
     <string name="change_record_message_name_exist">Ce nom existe déjà</string>
     <string name="change_record_type_note_hint">Note</string>
     <string name="change_record_type_categories_empty">Aucune catégorie modifiée</string>
@@ -214,7 +214,7 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="change_record_type_less_fields">Moins</string>
 
     <!--  Complex rules  -->
-    <string name="complex_rules_hint">Permet une application plus fine de certains paramètres</string>
+    <string name="complex_rules_hint">Permet l'application plus fine de certains paramètres</string>
     <string name="complex_rules_disable">Désactiver</string>
     <string name="complex_rules_enable">Activer</string>
 
@@ -223,15 +223,15 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="change_complex_actions_hint">Sera appliqué au démarrage de l\'activité</string>
     <string name="change_complex_action_assign_tag">Attribuer une étiquette</string>
     <string name="change_complex_conditions_title">Conditions</string>
-    <string name="change_complex_starting_activity">L\'activité de départ</string>
+    <string name="change_complex_starting_activity">L\'activité qui démarre</string>
     <string name="change_complex_previous_activity">Activité précédente</string>
     <string name="change_complex_rule_removed">Règle supprimée</string>
-    <string name="change_complex_rule_choose_action">Choisir une action</string>
-    <string name="change_complex_rule_choose_condition">Choisissez les conditions</string>
+    <string name="change_complex_rule_choose_action">Sélectionnez une action</string>
+    <string name="change_complex_rule_choose_condition">Indiquez les conditions</string>
 
     <!--  Activity suggestions  -->
-    <string name="activity_suggestions_hint">Suggère les prochaines activités en fonction de l\'activité actuelle ou précédente</string>
-    <string name="activity_suggestions_calculate">Calculer à partir des statistiques</string>
+    <string name="activity_suggestions_hint">Suggère les prochaines activités en fonction de l\'activité en cours ou de l\'enregistrement précédent</string>
+    <string name="activity_suggestions_calculate">Calculé à partir des statistiques</string>
     <string name="activity_suggestions_select_activity_hint">Des suggestions seront affichées pour les activités sélectionnées</string>
 
     <!--  Activity filters  -->
@@ -251,7 +251,7 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="card_order_hint">Glisser-déposer pour réorganiser</string>
 
     <string name="chart_filter_hint">Filtrer</string>
-    <string name="types_compare_hint">Comparaison</string>
+    <string name="types_compare_hint">Comparer</string>
     <string name="types_filter_show_all">Afficher tout</string>
     <string name="types_filter_hide_all">Masquer tout</string>
     <string name="show">Afficher</string>
@@ -320,16 +320,16 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="settings_show_repeat_button">Afficher le bouton de répétition sur l\'écran principal</string>
     <string name="settings_repeat_button_type">Mode</string>
     <string name="settings_repeat_last_record">Répéter le dernier enregistrement</string>
-    <string name="settings_repeat_one_before_last">Répéter l\'enregistrement avant le dernier</string>
+    <string name="settings_repeat_one_before_last">Répéter l\'avant-dernier enregistrement</string>
     <string name="settings_show_untracked_time">Afficher le temps non suivi dans la liste des enregistrements</string>
     <string name="settings_show_untracked_time_statistics">Afficher le temps non suivi dans les statistiques</string>
     <string name="settings_ignore_short_untracked">Ignorer le temps court non suivi</string>
     <string name="settings_ignore_short_untracked_hint">Ne pas afficher le temps non suivi qui est plus court que le temps spécifié.</string>
-    <string name="settings_untracked_range">Plage non suivie</string>
-    <string name="settings_untracked_range_hint">Ignorer le temps non suivi en dehors de la plage spécifiée.</string>
-    <string name="settings_show_records_calendar">Utiliser une vue calendrier pour la liste des enregistrements</string>
+    <string name="settings_untracked_range">Période non suivie</string>
+    <string name="settings_untracked_range_hint">Ignorer le temps non suivi en dehors de la période indiquée.</string>
+    <string name="settings_show_records_calendar">Afficher les enregistrements sous forme de calendrier</string>
     <string name="settings_reverse_order_in_calendar">Inverser l\'ordre des enregistrements</string>
-    <string name="settings_days_in_calendar">Jours dans le calendrier</string>
+    <string name="settings_days_in_calendar">Jours du calendrier</string>
     <string name="settings_widget_transparency">Transparence de l\'arrière-plan du widget</string>
     <string name="settings_show_activity_filters">Afficher les filtres d\'activité sur l\'écran principal</string>
     <string name="settings_allow_multiple_activity_filters">Autoriser plusieurs filtres d\'activité</string>
@@ -341,30 +341,30 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="settings_enable_search_on_main">Activer la recherche sur l\'écran principal</string>
     <string name="settings_allow_multitasking">Autoriser le multitâches</string>
     <string name="settings_disallow_multitasking">Interdire le multitâches</string>
-    <string name="settings_allow_multitasking_hint">Si désactivé, le démarrage d\'un enregistrement arrêtera automatiquement les autres enregistrements en cours.</string>
+    <string name="settings_allow_multitasking_hint">Si désactivé, le démarrage d\'un enregistrement arrêtera automatiquement les enregistrements en cours.</string>
     <string name="settings_show_notifications">Afficher les notifications d\'enregistrement</string>
     <string name="settings_show_notifications_hint">Afficher une notification lorsqu'un enregistrement est en cours</string>
-    <string name="settings_show_notifications_controls">Activer le changement d\'activité à partir de la notification</string>
-    <string name="settings_show_notifications_controls_hint">Peut également être utilisé pour changer d\'activité depuis l\'écran de verrouillage</string>
-    <string name="settings_show_notification_even_with_no_timers">Afficher même lorsqu\'aucune minuterie ne fonctionne</string>
-    <string name="settings_keep_statistics_range">Conserver la plage de statistiques</string>
-    <string name="settings_keep_statistics_range_hint">Si activé, les statistiques détaillées seront ouvertes avec la même plage de temps que celle sélectionnée dans les statistiques.</string>
-    <string name="settings_retroactive_tracking_mode">Activer le suivi du temps rétroactif</string>
-    <string name="settings_retroactive_tracking_mode_hint">Suivez le temps en sélectionnant quelle activité a été effectuée depuis la dernière fois plutôt que quelle activité sera effectuée à partir de maintenant.</string>
-    <string name="settings_retroactive_multitasking_hint">Le multitâche est activé. Toutes les dernières activités seront également suivies lorsqu\'une activité est suivie.</string>
+    <string name="settings_show_notifications_controls">Activer le démarrage d\'activité depuis la notification</string>
+    <string name="settings_show_notifications_controls_hint">Permet également de démarrer un enregistrement depuis l\'écran de verrouillage</string>
+    <string name="settings_show_notification_even_with_no_timers">Afficher même si aucun enregistrement n'est en cours</string>
+    <string name="settings_keep_statistics_range">Mémoriser la péride de statistiques</string>
+    <string name="settings_keep_statistics_range_hint">Si activé, les statistiques détaillées seront ouvertes pour la même période que celle sélectionnée dans les statistiques.</string>
+    <string name="settings_retroactive_tracking_mode">Activer les enregistremnts rétro-actifs</string>
+    <string name="settings_retroactive_tracking_mode_hint">Enregistrez le temps en sélectionnant l'activité qui a été effectuée depuis la dernière fois plutôt que quelle activité sera effectuée à partir de maintenant.</string>
+    <string name="settings_retroactive_multitasking_hint">Le multitâche est activé. Au démarrage d'une nouvelle activité, les enregistrement en cours ne seront pas arrêtés.</string>
     <string name="settings_start_of_day">Décalage du début de journée</string>
     <string name="settings_start_of_day_hint">Le début de la journée sera décalé de la durée spécifiée, en avant ou en arrière selon le signe.</string>
     <string name="settings_start_of_day_hint_value">Aujourd\'hui commence à %s</string>
-    <string name="settings_inactivity_reminder">Afficher le rappel d\'inactivité</string>
-    <string name="settings_inactivity_reminder_hint">Afficher une notification après la durée spécifiée s\'il n\'y a aucune activité en cours.</string>
-    <string name="settings_inactivity_reminder_recurrent">Récurrente</string>
+    <string name="settings_inactivity_reminder">Afficher un rappel en cas d\'inactivité</string>
+    <string name="settings_inactivity_reminder_hint">Afficher une notification après la durée spécifiée si aucun aucun enregistrement n\'est en cours.</string>
+    <string name="settings_inactivity_reminder_recurrent">Récurrence</string>
     <string name="settings_activity_reminder">Afficher le rappel d\'activité</string>
-    <string name="settings_activity_reminder_hint">Afficher la notification après l\'heure spécifiée si les minuteries sont en cours d\'exécution.</string>
+    <string name="settings_activity_reminder_hint">Afficher la notification à l\'heure indiquée si des enregistrements sont en cours.</string>
     <string name="settings_do_not_disturb">Ne pas déranger</string>
-    <string name="settings_notifications_system_settings">Les paramètres du système</string>
-    <string name="settings_notifications_system_settings_hint">Son, vibration, flash et autres</string>
+    <string name="settings_notifications_system_settings">Paramètres du système</string>
+    <string name="settings_notifications_system_settings_hint">Son, vibration, flash et plus.</string>
     <string name="settings_ignore_short_records">Ignorer les enregistrements courts</string>
-    <string name="settings_ignore_short_records_hint">Ne pas enregistrer les activités qui sont plus courtes que la durée spécifiée.</string>
+    <string name="settings_ignore_short_records_hint">Ne pas enregistrer les activités qui sont plus courtes que la durée indiquée.</string>
     <string name="settings_inactivity_reminder_disabled">Désactivé</string>
     <string name="settings_dark_mode">Mode sombre</string>
     <string name="settings_dark_mode_system">Système</string>
@@ -375,43 +375,43 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="settings_duration_format">Format de durée</string>
     <string name="settings_duration_format_proportional">Proportionnel</string>
     <string name="settings_show_seconds">Afficher les secondes</string>
-    <string name="settings_keep_screen_on">Garder l\'écran allumé</string>
+    <string name="settings_keep_screen_on">Conserver l\'écran allumé</string>
     <string name="settings_customize_options_menu">Personnaliser le menu des options</string>
     <string name="settings_detailed_statistics">Statistiques détaillées</string>
-    <string name="settings_start_timer_by_long_click">Démarrer et arrêter les minuteurs par appui long</string>
+    <string name="settings_start_timer_by_long_click">Démarrer et arrêter les enregsitrements par appui long</string>
     <string name="settings_change_card_size">Modifier la taille des cartes d\'activité</string>
     <string name="settings_archive">Éléments archivés</string>
-    <string name="settings_data_edit">Modification des données</string>
-    <string name="settings_complex_rules">Des règles complexes</string>
+    <string name="settings_data_edit">Modifier les données</string>
+    <string name="settings_complex_rules">Règles complexes</string>
     <string name="settings_activity_suggestions">Suggestions d\'activités</string>
     <string name="settings_edit_categories">Modifier les catégories et les étiquettes</string>
     <string name="settings_edit_categories_hint">Attribuez des catégories aux activités et des étiquettes aux enregistrements.</string>
-    <string name="settings_show_record_tag_selection">Afficher la sélection d\'étiquette d\'enregistrement</string>
-    <string name="settings_show_record_tag_selection_hint">Lors du démarrage d\'une activité, afficher une boîte de sélection si l\'activité a des étiquettes d\'enregistrement.</string>
+    <string name="settings_show_record_tag_selection">Afficher la sélection d\'étiquette</string>
+    <string name="settings_show_record_tag_selection_hint">Lors du démarrage d\'une activité, afficher une boîte de sélection si l\'activité a des étiquettes.</string>
     <string name="settings_show_record_tag_close_hint">Fermer après avoir sélectionné une étiquette</string>
     <string name="settings_show_comment_input">Afficher la saisie des commentaires</string>
-    <string name="settings_show_comment_input_hint">Lors du démarrage d\'une minuterie, une boîte de dialogue de saisie de commentaires s\'affichera.</string>
+    <string name="settings_show_comment_input_hint">Lors du démarrage d\'un enregistrement, une boîte de dialogue de saisie de commentaires s\'affichera.</string>
     <string name="settings_show_comment_suggestions">Afficher les suggestions</string>
-    <string name="settings_rate">Évaluez nous</string>
+    <string name="settings_rate">Évaluez-nous</string>
     <string name="settings_rate_description">Évaluez l\'application et laissez un avis.</string>
-    <string name="settings_support_development">Accompagner le développement</string>
-    <string name="settings_support_development_hint">Ne donne accès à aucun contenu ou service numérique.</string>
-    <string name="settings_feedback">Retours</string>
-    <string name="settings_feedback_description">Vous avez une suggestion ? Vous avez trouvé un bogue ? Vous souhaitez nous parler ? Écrivez-nous !</string>
+    <string name="settings_support_development">Soutenir le développement</string>
+    <string name="settings_support_development_hint">Ne donne accès à aucun contenu ou service numérique supplémentaire.</string>
+    <string name="settings_feedback">Avis</string>
+    <string name="settings_feedback_description">Vous avez une suggestion ? Vous avez trouvé un bogue ? Vous souhaitez nous contacter ? Écrivez-nous !</string>
     <string name="settings_version">Version</string>
     <string name="settings_email_chooser_title">Envoyer avec…</string>
     <string name="settings_translators">Traducteurs</string>
     <string name="settings_contributors">Autres contributeurs</string>
     <string name="settings_automated_tracking">Suivi automatisé</string>
     <string name="settings_automated_tracking_text"><![CDATA[
-Le suivi automatique est possible grâce à l\'intégration avec des applications tierces qui permettent d\'automatiser les actions en fonction de certains événements. Ces applications, lorsqu\'un certain événement se produit, peuvent envoyer un message à l\'application pour démarrer ou arrêter le chronomètre d\'activité.<br/>
+Le L'intégration avec des applications tierces est possible si elles permettent d\'automatiser les actions en fonction de certains événements. Ces applications, lorsqu\'un certain événement se produit, peuvent envoyer un message à l\'application pour démarrer ou arrêter l'enregistrement d\'une activité.<br/>
 <br/>
 Quelques exemples d\'événements :<br/>
-- Lancement d\'une certaine application.<br/>
-- Numérisation du tag NFC.<br/>
+- Lancement d\une application.<br/>
+- Numérisation d\'un tag NFC.<br/>
 - Aller à un certain endroit.<br/>
 - Certaines heures de la journée.<br/>
-- Connexion Bluetooth ou Wifi.<br/>
+- Activation de la connexion Bluetooth ou Wifi.<br/>
 <br/>
 Pour activer ce comportement, ces applications doivent prendre en charge l\'envoi de \"intent\" ou \"broadcast intent\" avec ces paramètres :<br/>
 <br/>
