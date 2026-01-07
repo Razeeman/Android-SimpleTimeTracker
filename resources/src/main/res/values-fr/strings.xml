@@ -311,7 +311,7 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="settings_export_title">Exporter et importer</string>
     <string name="settings_sort_order">Trier les activités</string>
     <string name="settings_sort_order_category">Trier les catégories</string>
-    <string name="settings_sort_order_tag">Trier les balises</string>
+    <string name="settings_sort_order_tag">Trier les étiquettes</string>
     <string name="settings_sort_by_name">Par nom</string>
     <string name="settings_sort_by_color">Par couleur</string>
     <string name="settings_sort_manually">Manuellement</string>
@@ -339,13 +339,13 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="settings_show_goals_separately">Afficher les objectifs dans un onglet séparé</string>
     <string name="settings_show_nav_bar_at_the_bottom">Afficher la barre de navigation en bas</string>
     <string name="settings_enable_search_on_main">Activer la recherche sur l\'écran principal</string>
-    <string name="settings_allow_multitasking">Autoriser le multitâche</string>
-    <string name="settings_disallow_multitasking">Interdire le multitâche</string>
-    <string name="settings_allow_multitasking_hint">Si désactivé, le démarrage d\'une nouvelle activité arrêtera automatiquement les autres activités en cours.</string>
-    <string name="settings_show_notifications">Afficher les notifications d\'activité</string>
-    <string name="settings_show_notifications_hint">Afficher une notification pour chaque activité en cours.</string>
+    <string name="settings_allow_multitasking">Autoriser le multitâches</string>
+    <string name="settings_disallow_multitasking">Interdire le multitâches</string>
+    <string name="settings_allow_multitasking_hint">Si désactivé, le démarrage d\'un enregistrement arrêtera automatiquement les autres enregistrements en cours.</string>
+    <string name="settings_show_notifications">Afficher les notifications d\'enregistrement</string>
+    <string name="settings_show_notifications_hint">Afficher une notification lorsqu'un enregistrement est en cours</string>
     <string name="settings_show_notifications_controls">Activer le changement d\'activité à partir de la notification</string>
-    <string name="settings_show_notifications_controls_hint">Peut également être utilisé pour changer d\'activité depuis l\'écran de verrouillage.</string>
+    <string name="settings_show_notifications_controls_hint">Peut également être utilisé pour changer d\'activité depuis l\'écran de verrouillage</string>
     <string name="settings_show_notification_even_with_no_timers">Afficher même lorsqu\'aucune minuterie ne fonctionne</string>
     <string name="settings_keep_statistics_range">Conserver la plage de statistiques</string>
     <string name="settings_keep_statistics_range_hint">Si activé, les statistiques détaillées seront ouvertes avec la même plage de temps que celle sélectionnée dans les statistiques.</string>
@@ -384,7 +384,7 @@ Cela vous permet de connaitre le temps que vous passez globalement sur des activ
     <string name="settings_data_edit">Modification des données</string>
     <string name="settings_complex_rules">Des règles complexes</string>
     <string name="settings_activity_suggestions">Suggestions d\'activités</string>
-    <string name="settings_edit_categories">Édition les catégories et les étiquettes</string>
+    <string name="settings_edit_categories">Modifier les catégories et les étiquettes</string>
     <string name="settings_edit_categories_hint">Attribuez des catégories aux activités et des étiquettes aux enregistrements.</string>
     <string name="settings_show_record_tag_selection">Afficher la sélection d\'étiquette d\'enregistrement</string>
     <string name="settings_show_record_tag_selection_hint">Lors du démarrage d\'une activité, afficher une boîte de sélection si l\'activité a des étiquettes d\'enregistrement.</string>
@@ -427,7 +427,7 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application enverra automatiqueme
     <string name="settings_automated_tracking_available_events">Événements disponibles:</string>
     <string name="settings_automated_tracking_extras_description">Description:</string>
     <string name="settings_automated_tracking_extra_name">avec le nom de l\'activité qui doit être démarrée ou arrêtée.</string>
-    <string name="settings_automated_tracking_extra_tag">avec le nom d\'une balise d\'enregistrement. Ou une liste de noms de balises séparés par des virgules.</string>
+    <string name="settings_automated_tracking_extra_tag">avec le nom d\'une étiquette d\'enregistrement. Ou une liste de noms d\étiquettes séparées par des virgules.</string>
     <string name="settings_automated_tracking_extra_time">au format \"aaaa-MM-jj HH:mm:ss\" ou horodatage UTC.</string>
     <string name="settings_automated_tracking_find_record_mode">sélectionne l\'enregistrement à modifier.</string>
     <string name="settings_automated_tracking_comment_mode">sélectionne comment modifier le commentaire de l\'enregistrement sélectionné.</string>
@@ -596,11 +596,11 @@ Exemple:<br/>
     <string name="data_edit_hint">Ces modifications ne peuvent pas être annulées. Assurez-vous de créer un fichier de sauvegarde avant de faire quoi que ce soit.</string>
     <string name="data_edit_select_records">Sélectionnez des enregistrements</string>
     <string name="data_edit_change_activity">Changer d\'activité</string>
-    <string name="data_edit_change_tag">Changer les balises</string>
-    <string name="data_edit_change_activity_hint">Les balises de l\'activité en cours seront supprimées.</string>
+    <string name="data_edit_change_tag">Modifier les étiquettes</string>
+    <string name="data_edit_change_activity_hint">Les étiquettes de l\'activité en cours seront supprimées.</string>
     <string name="data_edit_change_comment">Modifier le commentaire</string>
-    <string name="data_edit_change_add_tag">Ajouter des balises</string>
-    <string name="data_edit_change_remove_tag">Supprimer les balises</string>
+    <string name="data_edit_change_add_tag">Ajouter des étiquettes</string>
+    <string name="data_edit_change_remove_tag">Supprimer les étiquettes</string>
     <string name="data_edit_button_change">Changement</string>
     <string name="data_edit_button_delete_records">Supprimer tous les enregistrements</string>
     <string name="data_edit_button_delete_data">Supprimer toutes les données</string>
@@ -608,7 +608,7 @@ Exemple:<br/>
 
     <!--  Records filter  -->
     <string name="records_filter_duplications">Duplications</string>
-    <string name="records_filter_select_tags">Sélectionnez les balises</string>
+    <string name="records_filter_select_tags">Sélectionnez les étiquettes</string>
     <string name="records_filter_manually_filtered">Filtrée</string>
     <string name="records_filter_no_comment">Aucun commentaire</string>
     <string name="records_filter_any_comment">Avez-vous des commentaires</string>
