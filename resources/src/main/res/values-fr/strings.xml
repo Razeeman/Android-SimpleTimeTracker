@@ -512,7 +512,7 @@ Exemple:<br/>
     <string name="statistics_detail_chart_split">Réparti par activité</string>
 
     <string name="statistics_detail_range_averages_title">Moyenne sur la période : %s</string>
-    <string name="statistics_detail_range_averages">Pour tout l\'intervalle</string>
+    <string name="statistics_detail_range_averages">Pour toute la période</string>
     <string name="statistics_detail_range_averages_non_empty">Sans les périodes vides</string>
 
     <string name="statistics_detail_total_duration">Total</string>
@@ -520,29 +520,29 @@ Exemple:<br/>
     <string name="statistics_detail_shortest_record">Le plus court</string>
     <string name="statistics_detail_average_record">En moyenne</string>
     <string name="statistics_detail_longest_record">Le plus long</string>
-    <string name="statistics_detail_record_time">Heure de l\'enregistrement</string>
+    <string name="statistics_detail_record_time">Horaires des enregistrements</string>
     <string name="statistics_detail_first_record">Premier</string>
     <string name="statistics_detail_last_record">Dernier</string>
-    <string name="statistics_detail_time_since">Temps écoulé</string>
+    <string name="statistics_detail_time_since">Il y a</string>
     <string name="statistics_detail_streaks">Série</string>
     <string name="statistics_detail_streaks_longest">La plus longue</string>
     <string name="statistics_detail_streaks_current">Série en cours</string>
     <string name="statistics_detail_streaks_completion">Taux d\'achèvement</string>
     <string name="statistics_detail_streaks_completion_percentage">Pourcentage</string>
-    <string name="statistics_detail_streaks_completion_count">Compter</string>
+    <string name="statistics_detail_streaks_completion_count">Compteur</string>
     <string name="statistics_detail_streaks_latest">Dernière</string>
     <string name="statistics_detail_streaks_any">Toute durée</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
-    <string name="statistics_detail_data_split_hint">Distribution</string>
-    <string name="statistics_detail_data_split_pie_chart">Cercle</string>
+    <string name="statistics_detail_data_split_hint">Répartition</string>
+    <string name="statistics_detail_data_split_pie_chart">Secteurs</string>
     <string name="statistics_detail_data_split_bar_chart">Colonnes</string>
-    <string name="statistics_detail_day_split_hint">Distribution quotidienne</string>
+    <string name="statistics_detail_day_split_hint">Répartition quotidienne</string>
     <string name="statistics_detail_duration_split_hint">Répartition des durées d\'enregistrement</string>
-    <string name="statistics_detail_next_activities_hint">Top des prochaines activités</string>
-    <string name="statistics_detail_multitasking_activities_hint">Top multitâche</string>
-    <string name="statistics_detail_goals_hint">Excès ou déficit d\'objectif</string>
-    <string name="statistics_detail_goals_excess">Excès</string>
-    <string name="statistics_detail_goals_deficit">Déficit</string>
+    <string name="statistics_detail_next_activities_hint">Classement des prochaines activités</string>
+    <string name="statistics_detail_multitasking_activities_hint">Classement multitâches</string>
+    <string name="statistics_detail_goals_hint">Avance ou retard sur l\'objectif</string>
+    <string name="statistics_detail_goals_excess">Avance</string>
+    <string name="statistics_detail_goals_deficit">Retard</string>
     <string name="statistics_detail_tag_values_hint">Valeurs de l\'étiquette</string>
     <string name="statistics_detail_tag_values_multiply_duration">Multiplier par la durée</string>
 
