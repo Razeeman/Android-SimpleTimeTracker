@@ -219,6 +219,7 @@ class AddRunningRecordMediator @Inject constructor(
             runningRecordInteractor.add(data)
             updateExternalViewsInteractor.onRunningRecordAdd(
                 typeId = params.typeId,
+                tagIds = params.tags.map(RecordBase.Tag::tagId),
                 updateNotificationSwitch = params.updateNotificationSwitch,
             )
         }
@@ -357,10 +358,11 @@ class AddRunningRecordMediator @Inject constructor(
                 recordId = prevRecord.id,
                 timeEnded = params.timeStarted,
             )
-            prevRecord.typeId
+            prevRecord
         }.let {
             updateExternalViewsInteractor.onRecordTimeEndedChange(
-                typeIds = it,
+                typeIds = it.map(Record::typeId),
+                tagIds = it.map(Record::tags).flatten().map(RecordBase.Tag::tagId).distinct(),
             )
         }
     }

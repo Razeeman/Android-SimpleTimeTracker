@@ -354,7 +354,7 @@ class ChangeRecordTagViewModel @Inject constructor(
                 saveTypes(addedId)
                 saveDefaultTypes(addedId)
                 goalsViewModelDelegate.saveGoals(RecordTypeGoal.IdData.Tag(addedId))
-                externalViewsInteractor.onTagAddOrChange()
+                externalViewsInteractor.onTagAddOrChange(addedId)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }

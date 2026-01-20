@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import com.example.util.simpletimetracker.domain.widget.model.WidgetType
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
+import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.widget.interactor.WidgetInteractor
 import javax.inject.Inject
 
@@ -32,6 +33,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
         runUpdates(
             Update.GoalCancel(RecordTypeGoal.IdData.Type(typeId)),
             Update.GoalReschedule(runningRecordIds + typeId),
+            Update.GoalTagReschedule(),
             Update.WidgetStatistics,
             Update.WidgetSingleTypes.takeIf { getRetroactiveTrackingMode() }
                 ?: Update.WidgetSingleType(listOf(typeId)),
@@ -56,7 +58,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
         runUpdates(
             Update.NotificationTypes,
             Update.NotificationWithControls,
-            Update.GoalReschedule(listOf(typeId)),
+            Update.GoalReschedule(listOf(typeId)), // Goals changed, or categories assigned changed.
             Update.WidgetSingleTypes,
             Update.WidgetUniversal,
             Update.WidgetStatistics,
@@ -85,17 +87,22 @@ class UpdateExternalViewsInteractor @Inject constructor(
         typeIds: List<Long>,
     ) {
         runUpdates(
-            Update.GoalReschedule(typeIds),
+            Update.GoalReschedule(typeIds), // Goals changed, or activities assigned changed.
             Update.WidgetStatistics,
         )
     }
 
     suspend fun onRunningRecordRemove(
         typeId: Long,
+        tagIds: List<Long>,
         updateWidgets: Boolean,
         updateNotificationSwitch: Boolean,
     ) {
-        val runningRecordIds = runningRecordInteractor.getAll().map { it.id }
+        val runningRecords = runningRecordInteractor.getAll()
+        val runningRecordIds = runningRecords.map(RunningRecord::id)
+        val runningRecordTagIds = runningRecords.map(RunningRecord::tags)
+            .flatten().map(RecordBase.Tag::tagId)
+        val fullTagIds = runningRecordTagIds + tagIds
 
         runUpdates(
             Update.NotificationTypeHide(typeId),
@@ -106,6 +113,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
                 runningRecordIds.isEmpty()
             },
             Update.GoalReschedule(runningRecordIds + typeId),
+            Update.GoalTagReschedule(fullTagIds).takeIf { fullTagIds.isNotEmpty() },
             Update.WidgetSingleTypes.takeIf { updateWidgets },
             Update.WidgetUniversal.takeIf { updateWidgets },
             Update.WidgetStatistics.takeIf { updateWidgets },
@@ -115,6 +123,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
 
     suspend fun onRunningRecordAdd(
         typeId: Long,
+        tagIds: List<Long>,
         updateNotificationSwitch: Boolean,
     ) {
         runUpdates(
@@ -126,6 +135,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
                 runningRecordInteractor.getAll().size == 1
             },
             Update.GoalReschedule(listOf(typeId)),
+            Update.GoalTagReschedule(tagIds).takeIf { tagIds.isNotEmpty() },
             Update.WidgetSingleTypes,
             Update.WidgetUniversal,
             Update.WidgetStatistics,
@@ -135,11 +145,13 @@ class UpdateExternalViewsInteractor @Inject constructor(
 
     suspend fun onRecordRemove(
         typeIds: List<Long>,
+        tagIds: List<Long>,
     ) {
         runUpdates(
             Update.NotificationType(typeIds),
             Update.NotificationWithControls,
             Update.GoalReschedule(typeIds),
+            Update.GoalTagReschedule(tagIds).takeIf { tagIds.isNotEmpty() },
             Update.WidgetStatistics,
             Update.WidgetSingleTypes.takeIf { getRetroactiveTrackingMode() }
                 ?: Update.WidgetSingleType(typeIds),
@@ -150,12 +162,14 @@ class UpdateExternalViewsInteractor @Inject constructor(
 
     suspend fun onRecordAddOrChange(
         typeIds: List<Long>,
+        tagIds: List<Long>,
         updateNotificationSwitch: Boolean,
     ) {
         runUpdates(
             Update.NotificationType(typeIds),
             Update.NotificationWithControls.takeIf { updateNotificationSwitch },
             Update.GoalReschedule(typeIds),
+            Update.GoalTagReschedule(tagIds).takeIf { tagIds.isNotEmpty() },
             Update.WidgetStatistics,
             Update.WidgetSingleTypes.takeIf { getRetroactiveTrackingMode() }
                 ?: Update.WidgetSingleType(typeIds),
@@ -166,9 +180,11 @@ class UpdateExternalViewsInteractor @Inject constructor(
 
     suspend fun onRecordTimeEndedChange(
         typeIds: List<Long>,
+        tagIds: List<Long>,
     ) {
         runUpdates(
             Update.GoalReschedule(typeIds),
+            Update.GoalTagReschedule(tagIds).takeIf { tagIds.isNotEmpty() },
         )
     }
 
@@ -185,6 +201,15 @@ class UpdateExternalViewsInteractor @Inject constructor(
         runUpdates(
             Update.NotificationType(originalTypeIds),
             Update.GoalReschedule(originalTypeIds),
+        )
+    }
+
+    // Called after record add.
+    suspend fun onRecordChangeTags(
+        originalTagIds: List<Long>,
+    ) {
+        runUpdates(
+            Update.GoalTagReschedule(originalTagIds).takeIf { originalTagIds.isNotEmpty() },
         )
     }
 
@@ -209,11 +234,13 @@ class UpdateExternalViewsInteractor @Inject constructor(
         )
     }
 
-    suspend fun onTagAddOrChange() {
+    suspend fun onTagAddOrChange(
+        tagId: Long,
+    ) {
         runUpdates(
             Update.NotificationTypes,
             Update.NotificationWithControls,
-            Update.GoalReschedule(),
+            Update.GoalTagReschedule(listOf(tagId)), // Goals changed.
             Update.Wear,
         )
     }
@@ -267,6 +294,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
             Update.NotificationTypes,
             Update.NotificationWithControls,
             Update.GoalReschedule(),
+            Update.GoalTagReschedule(),
         )
     }
 
@@ -277,6 +305,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
             Update.NotificationTypes,
             Update.NotificationWithControls,
             Update.GoalReschedule(),
+            Update.GoalTagReschedule(),
         )
     }
 
@@ -304,6 +333,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
         runUpdates(
             Update.WidgetStatistics,
             Update.GoalReschedule(),
+            Update.GoalTagReschedule(),
         )
     }
 
@@ -384,6 +414,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
             Update.NotificationTypes,
             Update.NotificationWithControls,
             Update.GoalReschedule(),
+            Update.GoalTagReschedule(),
             Update.WidgetSingleTypes,
             Update.WidgetUniversal,
             Update.WidgetStatistics,
@@ -393,12 +424,11 @@ class UpdateExternalViewsInteractor @Inject constructor(
     }
 
     suspend fun onCsvImport() {
-        val runningRecordIds = runningRecordInteractor.getAll().map { it.id }
-
         runUpdates(
             Update.NotificationTypes,
             Update.NotificationWithControls,
-            Update.GoalReschedule(runningRecordIds),
+            Update.GoalReschedule(),
+            Update.GoalTagReschedule(),
             Update.WidgetStatistics,
             Update.WidgetSingleTypes,
         )
@@ -468,6 +498,9 @@ class UpdateExternalViewsInteractor @Inject constructor(
             is Update.GoalReschedule -> {
                 notificationGoalTimeInteractor.checkAndReschedule(update.typeIds)
             }
+            is Update.GoalTagReschedule -> {
+                notificationGoalTimeInteractor.checkAndRescheduleTags(update.tagIds)
+            }
             is Update.GoalCancel -> {
                 notificationGoalTimeInteractor.cancel(update.idData)
             }
@@ -486,7 +519,6 @@ class UpdateExternalViewsInteractor @Inject constructor(
         }
     }
 
-    // TODO TAG GOAL update on record change
     private sealed interface Update {
         data object NotificationTypes : Update
         data class NotificationType(val typeIds: List<Long>) : Update
@@ -498,7 +530,8 @@ class UpdateExternalViewsInteractor @Inject constructor(
         data object WidgetSingleTypes : Update
         data class WidgetSingleType(val typeIds: List<Long>) : Update
         data object Wear : Update
-        data class GoalReschedule(val typeIds: List<Long> = emptyList()) : Update // TODO TAG GOAL pass tagIds
+        data class GoalReschedule(val typeIds: List<Long> = emptyList()) : Update
+        data class GoalTagReschedule(val tagIds: List<Long> = emptyList()) : Update
         data class GoalCancel(val idData: RecordTypeGoal.IdData) : Update
         data object ActivityReminderCancel : Update
         data object ActivityReminderReschedule : Update

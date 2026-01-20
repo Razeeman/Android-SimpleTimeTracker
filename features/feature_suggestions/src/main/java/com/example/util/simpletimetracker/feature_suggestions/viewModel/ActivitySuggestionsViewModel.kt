@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_suggestions.interactor.Activit
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -40,8 +41,9 @@ class ActivitySuggestionsViewModel @Inject constructor(
 
     private var suggestions: Map<Long, Set<Long>> = emptyMap()
     private var selectingSuggestionsForTypeId: Long = 0L
+    private var loadJob: Job? = null
 
-    fun onTypesSelected(typeIds: List<Long>, tag: String?) = viewModelScope.launch {
+    fun onTypesSelected(typeIds: List<Long>, tag: String?) {
         when (tag) {
             ACTIVITY_SUGGESTIONS_TYPE_SELECTION_TAG -> {
                 onNewTypesSelected(
@@ -163,7 +165,7 @@ class ActivitySuggestionsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun onNewTypesSelected(
+    private fun onNewTypesSelected(
         typeIds: List<Long>,
     ) {
         suggestions = typeIds.associateWith { typeId ->
@@ -172,7 +174,7 @@ class ActivitySuggestionsViewModel @Inject constructor(
         updateViewData()
     }
 
-    private suspend fun onSuggestionsForTypeChanged(
+    private fun onSuggestionsForTypeChanged(
         forTypeId: Long,
         newSuggestions: Set<Long>,
     ) {
@@ -189,9 +191,13 @@ class ActivitySuggestionsViewModel @Inject constructor(
         updateViewData()
     }
 
-    private suspend fun updateViewData() {
-        val data = loadViewData()
-        viewData.set(data)
+    private fun updateViewData() {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            val data = loadViewData()
+            delayLoad()
+            viewData.set(data)
+        }
     }
 
     private suspend fun loadViewData(): List<ViewHolderType> {

@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigat
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
 import com.example.util.simpletimetracker.core.viewData.CommentFilterTypeViewData
 import com.example.util.simpletimetracker.domain.extension.addOrRemove
+import com.example.util.simpletimetracker.domain.extension.dropSeconds
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.favourite.interactor.FavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.favourite.model.FavouriteComment
@@ -125,6 +126,7 @@ abstract class ChangeRecordBaseViewModel(
     protected var newTags: List<RecordBase.Tag> = emptyList()
     protected var originalRecordId: Long = 0
     protected var originalTypeId: Long = 0
+    protected var originalTagIds: List<Long> = emptyList()
     protected var originalTimeStarted: Long = 0
     protected var originalTimeEnded: Long = 0
     protected var dateTimeState = ChangeRecordDateTimeFieldsState(
@@ -428,22 +430,28 @@ abstract class ChangeRecordBaseViewModel(
 
     fun onDateTimeSet(timestamp: Long, tag: String?) {
         viewModelScope.launch {
+            val coercedTimestamp = if (prefsInteractor.getShowSeconds()) {
+                timestamp
+            } else {
+                timestamp.dropSeconds()
+            }
+
             when (tag) {
                 TIME_STARTED_TAG -> {
-                    if (timestamp != newTimeStarted) {
-                        newTimeStarted = timestamp
+                    if (coercedTimestamp != newTimeStarted) {
+                        newTimeStarted = coercedTimestamp
                         onTimeStartedChanged()
                     }
                 }
                 TIME_ENDED_TAG -> {
-                    if (timestamp != newTimeEnded) {
-                        newTimeEnded = timestamp
+                    if (coercedTimestamp != newTimeEnded) {
+                        newTimeEnded = coercedTimestamp
                         onTimeEndedChanged()
                     }
                 }
                 TIME_SPLIT_TAG -> {
-                    if (timestamp != newTimeSplit) {
-                        newTimeSplit = timestamp
+                    if (coercedTimestamp != newTimeSplit) {
+                        newTimeSplit = coercedTimestamp
                         onTimeSplitChanged()
                     }
                 }

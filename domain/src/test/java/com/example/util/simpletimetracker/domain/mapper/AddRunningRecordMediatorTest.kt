@@ -239,6 +239,7 @@ class AddRunningRecordMediatorTest {
         )
         verify(updateExternalViewsInteractor).onRunningRecordAdd(
             typeId = typeId,
+            tagIds = emptyList(),
             updateNotificationSwitch = true,
         )
     }

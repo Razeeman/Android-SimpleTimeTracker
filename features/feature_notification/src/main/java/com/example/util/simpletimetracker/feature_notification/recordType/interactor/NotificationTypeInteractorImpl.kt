@@ -130,7 +130,10 @@ class NotificationTypeInteractorImpl @Inject constructor(
             goal = goalTime,
             runningRecord = runningRecord,
             recordTags = recordTags,
-            dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord),
+            dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(
+                typeId = typeId,
+                runningRecord = runningRecord,
+            ),
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime,
             showSeconds = showSeconds,
@@ -209,7 +212,10 @@ class NotificationTypeInteractorImpl @Inject constructor(
                     goal = goalTime,
                     runningRecord = runningRecord,
                     recordTags = recordTags,
-                    dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord),
+                    dailyCurrent = getCurrentRecordsDurationInteractor.getDailyCurrent(
+                        typeId = runningRecord.id,
+                        runningRecord = runningRecord,
+                    ),
                     isDarkTheme = isDarkTheme,
                     useMilitaryTime = useMilitaryTime,
                     showSeconds = showSeconds,

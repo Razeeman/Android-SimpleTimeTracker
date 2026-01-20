@@ -56,9 +56,11 @@ class RemoveRunningRecordMediator @Inject constructor(
         updateNotificationSwitch: Boolean = true,
         checkPomodoroStop: Boolean = true,
     ) {
+        val runningRecord = runningRecordInteractor.get(typeId)
         runningRecordInteractor.remove(typeId)
         updateExternalViewsInteractor.onRunningRecordRemove(
             typeId = typeId,
+            tagIds = runningRecord?.tags.orEmpty().map(RecordBase.Tag::tagId),
             updateWidgets = updateWidgets,
             updateNotificationSwitch = updateNotificationSwitch,
         )

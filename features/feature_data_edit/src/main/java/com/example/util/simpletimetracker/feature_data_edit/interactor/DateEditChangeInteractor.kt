@@ -65,11 +65,15 @@ class DateEditChangeInteractor @Inject constructor(
         val records = recordFilterInteractor.getByFilter(filters)
             .filterIsInstance<Record>()
         val typesToTags = recordTypeToTagInteractor.getAll()
-        val oldTypeIds = mutableSetOf<Long>()
+        val removedTypeIds = mutableSetOf<Long>()
+        val changedTypeIds = mutableSetOf<Long>()
+        val removedTagIds = mutableSetOf<Long>()
+        val changedTagIds = mutableSetOf<Long>()
 
         records.forEach { record ->
             if (deleteRecord) {
-                oldTypeIds.add(record.typeId)
+                removedTypeIds.add(record.typeId)
+                removedTagIds.addAll(record.tags.map(RecordBase.Tag::tagId))
                 recordInteractor.remove(record.id)
                 return@forEach
             }
@@ -95,8 +99,16 @@ class DateEditChangeInteractor @Inject constructor(
 
             // Save old typeId before change to update data later.
             if (finalTypeId != record.typeId) {
-                oldTypeIds.add(record.typeId)
+                changedTypeIds.add(record.typeId)
             }
+            val recordTagIds = record.tags.map(RecordBase.Tag::tagId)
+            val finalTagIds = finalTags.map(RecordBase.Tag::tagId)
+            recordTagIds
+                .filter { it !in finalTagIds }
+                .let(changedTagIds::addAll)
+            finalTagIds
+                .filter { it !in recordTagIds }
+                .let(changedTagIds::addAll)
 
             // Change record
             recordInteractor.update(
@@ -108,12 +120,20 @@ class DateEditChangeInteractor @Inject constructor(
         }
 
         if (deleteRecord) {
-            removeRecordMediator.doAfterRemove(oldTypeIds.toList())
+            removeRecordMediator.doAfterRemove(
+                typeIds = removedTypeIds.toList(),
+                tagIds = removedTagIds.toList(),
+            )
         }
         // Check goal time and statistics widget consistency.
         if (newTypeId != null) {
-            externalViewsInteractor.onRecordsChangeType(oldTypeIds)
-            addRecordMediator.doAfterAdd(listOf(newTypeId))
+            externalViewsInteractor.onRecordsChangeType(changedTypeIds)
+        }
+        if (newTypeId != null || changedTagIds.isNotEmpty()) {
+            addRecordMediator.doAfterAdd(
+                typeIds = listOfNotNull(newTypeId),
+                tagIds = changedTagIds.toList(),
+            )
         }
     }
 

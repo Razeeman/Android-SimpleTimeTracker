@@ -5,6 +5,16 @@ import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal.Range
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal.Type
+import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
+
+fun Range.toRangeLength(): RangeLength? {
+    return when (this) {
+        is Range.Session -> return null
+        is Range.Daily -> RangeLength.Day
+        is Range.Weekly -> RangeLength.Week
+        is Range.Monthly -> RangeLength.Month
+    }
+}
 
 fun List<RecordTypeGoal>.getSession(): RecordTypeGoal? {
     return firstOrNull { it.range is Range.Session }

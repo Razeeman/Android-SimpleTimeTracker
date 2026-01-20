@@ -222,6 +222,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             }
             newTimeSplit = newTimeStarted
             originalTypeId = newTypeId
+            originalTagIds = newTags.map(RecordBase.Tag::tagId)
             originalTimeStarted = newTimeStarted
             originalTimeEnded = newTimeEnded
             super.initializePreviewViewData()

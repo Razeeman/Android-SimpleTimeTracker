@@ -36,6 +36,13 @@ class CategoriesViewDataInteractor @Inject constructor(
     private val categoryViewDataMapper: CategoryViewDataMapper,
 ) {
 
+    suspend fun getHintViewData(): Boolean {
+        val categories = categoryInteractor.getAll()
+        val tags = recordTagInteractor.getAll().filterNot { it.archived }
+
+        return categories.isNotEmpty() || tags.isNotEmpty()
+    }
+
     suspend fun getViewData(
         selectedTypeIds: List<Long>,
         searchEnabled: Boolean,
@@ -64,13 +71,7 @@ class CategoriesViewDataInteractor @Inject constructor(
             recordTags.await().items +
             getBottomEmptySpace(navBarHeightDp)
 
-        val showHint = typeTags.await().showHint ||
-            recordTags.await().showHint
-
-        return@coroutineScope CategoriesViewData(
-            items = items,
-            showHint = showHint,
-        )
+        return@coroutineScope CategoriesViewData(items)
     }
 
     private suspend fun getCategoriesViewData(
@@ -108,10 +109,7 @@ class CategoriesViewDataInteractor @Inject constructor(
 
         result += categoryViewDataMapper.mapToTypeTagAddItem(isDarkTheme)
 
-        return@withContext CategoriesViewData(
-            items = result,
-            showHint = categories.isNotEmpty(),
-        )
+        return@withContext CategoriesViewData(result)
     }
 
     private suspend fun getRecordTagViewData(
@@ -153,10 +151,7 @@ class CategoriesViewDataInteractor @Inject constructor(
 
         result += categoryViewDataMapper.mapToRecordTagAddItem(isDarkTheme)
 
-        return@withContext CategoriesViewData(
-            items = result,
-            showHint = tags.isNotEmpty(),
-        )
+        return@withContext CategoriesViewData(result)
     }
 
     private fun getBottomEmptySpace(

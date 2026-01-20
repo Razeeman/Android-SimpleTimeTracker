@@ -91,10 +91,8 @@ class CategoriesFragment :
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        categories.observe {
-            categoriesAdapter.replace(it.items)
-            binding.tvCategoriesEditHint.isVisible = it.showHint
-        }
+        categories.observe { categoriesAdapter.replace(it.items) }
+        showHint.observe(binding.tvCategoriesEditHint::isVisible::set)
         searchState.observe(::setSearchState)
     }
 

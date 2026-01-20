@@ -8,19 +8,19 @@ class RemoveRecordMediator @Inject constructor(
     private val externalViewsInteractor: UpdateExternalViewsInteractor,
 ) {
 
-    suspend fun remove(recordId: Long, typeId: Long) {
-        remove(
-            recordIds = listOf(recordId),
-            typeIds = listOf(typeId),
-        )
-    }
-
-    suspend fun remove(recordIds: List<Long>, typeIds: List<Long>) {
+    suspend fun remove(
+        recordIds: List<Long>,
+        typeIds: List<Long>,
+        tagIds: List<Long>,
+    ) {
         recordIds.forEach { recordInteractor.remove(it) }
-        doAfterRemove(typeIds)
+        doAfterRemove(typeIds = typeIds, tagIds = tagIds)
     }
 
-    suspend fun doAfterRemove(typeIds: List<Long>) {
-        externalViewsInteractor.onRecordRemove(typeIds)
+    suspend fun doAfterRemove(
+        typeIds: List<Long>,
+        tagIds: List<Long>,
+    ) {
+        externalViewsInteractor.onRecordRemove(typeIds = typeIds, tagIds = tagIds)
     }
 }

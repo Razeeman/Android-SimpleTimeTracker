@@ -113,10 +113,11 @@ class NotificationReceiver : BroadcastReceiver() {
             -> {
                 val typeId = intent.getLongExtra(EXTRA_GOAL_TIME_TYPE_ID, 0)
                 val categoryId = intent.getLongExtra(EXTRA_GOAL_TIME_CATEGORY_ID, 0)
-                val idData = if (typeId != 0L) {
-                    RecordTypeGoal.IdData.Type(typeId)
-                } else {
-                    RecordTypeGoal.IdData.Category(categoryId)
+                val tagId = intent.getLongExtra(EXTRA_GOAL_TIME_TAG_ID, 0)
+                val idData = when {
+                    typeId != 0L -> RecordTypeGoal.IdData.Type(typeId)
+                    categoryId != 0L -> RecordTypeGoal.IdData.Category(categoryId)
+                    else -> RecordTypeGoal.IdData.Tag(tagId)
                 }
                 val goalTimeType = when (action) {
                     ACTION_GOAL_TIME_REMINDER_SESSION,
@@ -379,6 +380,8 @@ class NotificationReceiver : BroadcastReceiver() {
             "extra_goal_time_type_id"
         const val EXTRA_GOAL_TIME_CATEGORY_ID =
             "extra_goal_time_category_id"
+        const val EXTRA_GOAL_TIME_TAG_ID =
+            "extra_goal_time_tag_id"
         const val EXTRA_POMODORO_CYCLE_TYPE =
             "extra_pomodoro_cycle_type"
     }

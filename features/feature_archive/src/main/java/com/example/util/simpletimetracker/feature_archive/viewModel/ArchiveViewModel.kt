@@ -1,9 +1,9 @@
 package com.example.util.simpletimetracker.feature_archive.viewModel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.BaseViewModel
+import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
@@ -31,6 +31,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.getValue
 
 @HiltViewModel
 class ArchiveViewModel @Inject constructor(
@@ -44,34 +45,25 @@ class ArchiveViewModel @Inject constructor(
     private val removeRecordTagMediator: RemoveRecordTagMediator,
     private val externalViewsInteractor: UpdateExternalViewsInteractor,
     private val archiveOptionsListMapper: ArchiveOptionsListMapper,
-) : ViewModel() {
+) : BaseViewModel() {
 
-    val viewData: LiveData<ArchiveViewData> by lazy {
-        return@lazy MutableLiveData<ArchiveViewData>().let { initial ->
-            viewModelScope.launch {
-                initial.value = ArchiveViewData(
-                    items = listOf(LoaderViewData()),
-                    showHint = false,
-                )
-                initial.value = loadViewData()
-            }
-            initial
-        }
+    val viewData: LiveData<ArchiveViewData> by lazySuspend {
+        updateViewData()
+        ArchiveViewData(listOf(LoaderViewData()))
     }
-    val searchState: LiveData<ArchiveSearchState> by lazy {
-        return@lazy MutableLiveData<ArchiveSearchState>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadSearchState()
-            }
-            initial
-        }
+    val searchState: LiveData<ArchiveSearchState> by lazySuspend {
+        loadSearchState()
+    }
+    val showHint: LiveData<Boolean> by lazySuspend {
+        archiveViewDataInteractor.getHintViewData()
     }
 
     private var navBarHeightDp: Int = 0
     private var searchText: String = ""
     private var searchJob: Job? = null
+    private var loadJob: Job? = null
 
-    fun onChangeInsets(navBarHeight: Int) = viewModelScope.launch {
+    fun onChangeInsets(navBarHeight: Int) {
         if (navBarHeightDp != navBarHeight) {
             navBarHeightDp = navBarHeight
             updateViewData()
@@ -203,9 +195,13 @@ class ArchiveViewModel @Inject constructor(
         )
     }
 
-    private suspend fun updateViewData() {
-        val data = loadViewData()
-        viewData.set(data)
+    private fun updateViewData() {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            val data = loadViewData()
+            delayLoad()
+            viewData.set(data)
+        }
     }
 
     private suspend fun loadViewData(): ArchiveViewData {

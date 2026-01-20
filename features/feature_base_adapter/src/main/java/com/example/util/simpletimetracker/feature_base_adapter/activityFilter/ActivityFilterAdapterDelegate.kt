@@ -29,8 +29,8 @@ fun createActivityFilterAdapterDelegate(
         itemName = item.name
 
         setOnClickWith(item, onClick)
-        if (item.type is ActivityFilterType.Default) {
-            setOnLongClick { onLongClick(item, sharedElements) }
+        setOnLongClick {
+            if (item.type is ActivityFilterType.Default) onLongClick(item, sharedElements)
         }
     }
 }

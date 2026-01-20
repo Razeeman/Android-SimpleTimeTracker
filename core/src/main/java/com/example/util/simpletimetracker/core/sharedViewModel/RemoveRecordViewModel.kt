@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.record.interactor.AddRecordMedi
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RemoveRecordMediator
 import com.example.util.simpletimetracker.domain.record.model.Record
+import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
@@ -45,8 +46,10 @@ class RemoveRecordViewModel @Inject constructor(
 
         val typeIds = removedRecords.map(Record::typeId).distinct()
         removeRecordMediator.remove(
-            recordIds = removedRecords.map { it.id },
+            recordIds = removedRecords.map(Record::id),
             typeIds = typeIds,
+            tagIds = removedRecords.map(Record::tags).flatten()
+                .map(RecordBase.Tag::tagId).distinct(),
         )
 
         val removedRecordsCount = removedRecords.size

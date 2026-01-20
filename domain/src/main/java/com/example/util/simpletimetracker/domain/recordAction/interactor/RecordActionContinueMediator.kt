@@ -26,8 +26,12 @@ class RecordActionContinueMediator @Inject constructor(
     ) {
         // Remove current record if exist.
         recordId?.let {
-            val oldTypeId = recordInteractor.get(it)?.typeId.orZero()
-            removeRecordMediator.remove(it, oldTypeId)
+            val oldRecord = recordInteractor.get(it)
+            removeRecordMediator.remove(
+                recordIds = listOf(it),
+                typeIds = listOf(oldRecord?.typeId.orZero()),
+                tagIds = oldRecord?.tags.orEmpty().map(RecordBase.Tag::tagId),
+            )
         }
         // Stop same type running record if exist (only one of the same type can run at once).
         // Widgets will update on adding.

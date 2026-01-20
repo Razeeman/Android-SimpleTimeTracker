@@ -159,6 +159,11 @@ class ChangeRecordViewModel @Inject constructor(
         if (newTypeId != originalTypeId) {
             externalViewsInteractor.onRecordChangeType(listOf(originalTypeId))
         }
+        val newTagIds = newTags.map(RecordBase.Tag::tagId)
+        val removedTagIds = originalTagIds.filter { it !in newTagIds }
+        if (removedTagIds.isNotEmpty()) {
+            externalViewsInteractor.onRecordChangeTags(removedTagIds)
+        }
         doAfter()
         warmupCache(extra.daysFromToday)
         router.back()
@@ -233,6 +238,7 @@ class ChangeRecordViewModel @Inject constructor(
         newTimeSplit = newTimeStarted
         originalRecordId = recordId.orZero()
         originalTypeId = newTypeId
+        originalTagIds = newTags.map(RecordBase.Tag::tagId)
         originalTimeStarted = newTimeStarted
         originalTimeEnded = newTimeEnded
         super.initializePreviewViewData()

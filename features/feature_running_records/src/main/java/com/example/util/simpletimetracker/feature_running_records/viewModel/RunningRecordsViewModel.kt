@@ -3,8 +3,8 @@ package com.example.util.simpletimetracker.feature_running_records.viewModel
 import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
@@ -75,7 +75,9 @@ class RunningRecordsViewModel @Inject constructor(
     private val getChangeRecordNavigationParamsInteractor: GetChangeRecordNavigationParamsInteractor,
     private val themeChangedInteractor: ThemeChangedInteractor,
     private val recordActionRepeatMediator: RecordActionRepeatMediator,
-) : ViewModel() {
+) : BaseViewModel() {
+
+    override var delayDataLoad: Boolean = false
 
     val runningRecords: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(listOf(LoaderViewData()))
@@ -165,6 +167,7 @@ class RunningRecordsViewModel @Inject constructor(
     fun onSpecialRecordTypeClick(item: RunningRecordTypeSpecialViewData) {
         when (item.type) {
             is RunningRecordTypeSpecialViewData.Type.Add -> {
+                delayDataLoad = true
                 router.navigate(
                     data = ChangeRecordTypeParams.New(
                         sizePreview = ChangeRecordTypeParams.SizePreview(
@@ -184,6 +187,7 @@ class RunningRecordsViewModel @Inject constructor(
                 recordRepeatInteractor.repeat()
             }
             is RunningRecordTypeSpecialViewData.Type.Pomodoro -> {
+                delayDataLoad = true
                 router.navigate(PomodoroParams)
             }
         }
@@ -348,6 +352,7 @@ class RunningRecordsViewModel @Inject constructor(
     fun onActivityFilterSpecialClick(item: ActivityFilterAddViewData) = viewModelScope.launch {
         when (item.type) {
             ActivityFilterAddViewData.Type.ADD -> {
+                delayDataLoad = true
                 router.navigate(
                     data = ChangeActivityFilterParams.New,
                 )
@@ -534,6 +539,7 @@ class RunningRecordsViewModel @Inject constructor(
     private fun startUpdate() {
         timerJob = viewModelScope.launch {
             timerJob?.cancelAndJoin()
+            delayLoad()
             while (isActive) {
                 updateRunningRecords()
                 delay(TIMER_UPDATE_MS)

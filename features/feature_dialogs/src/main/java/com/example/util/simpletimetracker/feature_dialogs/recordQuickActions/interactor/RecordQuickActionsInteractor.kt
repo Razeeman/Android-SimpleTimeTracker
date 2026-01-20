@@ -140,8 +140,9 @@ class RecordQuickActionsInteractor @Inject constructor(
         }.let {
             addRecordMediator.add(it)
         }
-        old.mapNotNull { if (it.typeId != newTypeId) it.typeId else null }
-            .let { externalViewsInteractor.onRecordChangeType(it) }
+        old.mapNotNull {
+            if (it.typeId != newTypeId) it.typeId else null
+        }.let { externalViewsInteractor.onRecordChangeType(it) }
     }
 
     private suspend fun changeRecordTags(
@@ -153,6 +154,12 @@ class RecordQuickActionsInteractor @Inject constructor(
         }.let {
             addRecordMediator.add(it)
         }
+        val newTagIds = newTags.map(RecordBase.Tag::tagId)
+        old.map { oldRecord ->
+            oldRecord.tags.map(RecordBase.Tag::tagId).filter { it !in newTagIds }
+        }.flatten().takeIf {
+            it.isNotEmpty()
+        }?.let { externalViewsInteractor.onRecordChangeTags(it) }
     }
 
     private suspend fun changeRunningRecordType(
@@ -192,9 +199,10 @@ class RecordQuickActionsInteractor @Inject constructor(
                 runningRecordInteractor.add(it)
             }
         }
-        old.map { it.id }.toSet().forEach { typeId ->
+        old.forEach { oldRecord ->
             externalViewsInteractor.onRunningRecordAdd(
-                typeId = typeId,
+                typeId = oldRecord.id,
+                tagIds = (oldRecord.tags + newTags).map(RecordBase.Tag::tagId).distinct(),
                 updateNotificationSwitch = true,
             )
         }

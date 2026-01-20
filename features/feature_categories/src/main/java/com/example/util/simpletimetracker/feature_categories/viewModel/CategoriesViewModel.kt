@@ -1,10 +1,10 @@
 package com.example.util.simpletimetracker.feature_categories.viewModel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.extension.fromHtml
+import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toParams
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -45,33 +45,24 @@ class CategoriesViewModel @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val categoriesViewDataInteractor: CategoriesViewDataInteractor,
     private val categoriesOptionsListMapper: CategoriesOptionsListMapper,
-) : ViewModel() {
+) : BaseViewModel() {
 
-    val categories: LiveData<CategoriesViewData> by lazy {
-        return@lazy MutableLiveData<CategoriesViewData>().let { initial ->
-            viewModelScope.launch {
-                initial.value = CategoriesViewData(
-                    items = listOf(LoaderViewData()),
-                    showHint = false,
-                )
-                initial.value = loadCategoriesViewData()
-            }
-            initial
-        }
+    val categories: LiveData<CategoriesViewData> by lazySuspend {
+        updateCategories()
+        CategoriesViewData(listOf(LoaderViewData()))
     }
-    val searchState: LiveData<CategoriesSearchState> by lazy {
-        return@lazy MutableLiveData<CategoriesSearchState>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadSearchState()
-            }
-            initial
-        }
+    val searchState: LiveData<CategoriesSearchState> by lazySuspend {
+        loadSearchState()
+    }
+    val showHint: LiveData<Boolean> by lazySuspend {
+        categoriesViewDataInteractor.getHintViewData()
     }
 
     private var navBarHeightDp: Int = 0
     private var selectedTypeIds: List<Long> = emptyList()
     private var searchText: String = ""
     private var searchJob: Job? = null
+    private var loadJob: Job? = null
 
     fun onCategoryClick(item: CategoryViewData, sharedElements: Pair<Any, String>) {
         val params = when (item) {
@@ -215,9 +206,13 @@ class CategoriesViewModel @Inject constructor(
         )
     }
 
-    private fun updateCategories() = viewModelScope.launch {
-        val data = loadCategoriesViewData()
-        categories.set(data)
+    private fun updateCategories() {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            val data = loadCategoriesViewData()
+            delayLoad()
+            categories.set(data)
+        }
     }
 
     private suspend fun loadCategoriesViewData(): CategoriesViewData {

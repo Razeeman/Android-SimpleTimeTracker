@@ -5,14 +5,14 @@ import com.example.util.simpletimetracker.domain.category.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.category.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.recordType.model.CardOrder
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.SortCardsInteractor
-import com.example.util.simpletimetracker.domain.recordType.repo.RecordTypeGoalRepo
 import javax.inject.Inject
 
 class CategoryInteractor @Inject constructor(
     private val categoryRepo: CategoryRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
-    private val recordTypeGoalRepo: RecordTypeGoalRepo,
+    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val sortCardsInteractor: SortCardsInteractor,
 ) {
@@ -48,7 +48,7 @@ class CategoryInteractor @Inject constructor(
             .apply { remove(id) }
             .let { prefsInteractor.setSelectedPredefinedFilters(it) }
         recordTypeCategoryRepo.removeAll(id)
-        recordTypeGoalRepo.removeByCategory(id)
+        recordTypeGoalInteractor.removeByCategory(id)
         categoryRepo.remove(id)
     }
 

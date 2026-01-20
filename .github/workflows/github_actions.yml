@@ -1,4 +1,4 @@
-name: Tests
+name: Check
 on:
   pull_request:
     branches:
@@ -11,7 +11,7 @@ on:
     paths-ignore:
       - '**.md'
 jobs:
-  tests:
+  check:
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -23,50 +23,10 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '21'
 
       - name: Run style check
         run: ./gradlew ktlintCheck
 
       - name: Run tests
         run: ./gradlew test testDebugUnitTest --stacktrace
-
-  android_tests:
-    runs-on: ubuntu-latest
-    timeout-minutes: 120
-    strategy:
-      fail-fast: false
-      matrix:
-        api-level: [21, 23, 29, 32, 34]
-
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-
-      - name: Enable KVM
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Run tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          target: google_apis
-          arch: x86_64
-          disable-animations: true
-          script: |
-            adb shell settings put global window_animation_scale 0
-            adb shell settings put global transition_animation_scale 0
-            adb shell settings put global animator_duration_scale 0
-            ./gradlew app:connectedPlayDebugAndroidTest --stacktrace

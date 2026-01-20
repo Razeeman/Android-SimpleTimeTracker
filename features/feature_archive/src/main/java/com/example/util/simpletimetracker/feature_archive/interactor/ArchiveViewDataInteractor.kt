@@ -28,6 +28,13 @@ class ArchiveViewDataInteractor @Inject constructor(
     private val categoryViewDataMapper: CategoryViewDataMapper,
 ) {
 
+    suspend fun getHintViewData(): Boolean {
+        val archivedTypes = recordTypeInteractor.getAll().filter { it.hidden }
+        val archivedRecordTags = recordTagInteractor.getAll().filter { it.archived }
+
+        return archivedTypes.isNotEmpty() || archivedRecordTags.isNotEmpty()
+    }
+
     suspend fun getViewData(
         navBarHeightDp: Int,
         searchEnabled: Boolean,
@@ -93,13 +100,7 @@ class ArchiveViewDataInteractor @Inject constructor(
 
         result += getBottomEmptySpace(navBarHeightDp)
 
-        val showHint = archivedTypes.isNotEmpty() ||
-            archivedRecordTags.isNotEmpty()
-
-        return ArchiveViewData(
-            items = result,
-            showHint = showHint,
-        )
+        return ArchiveViewData(result)
     }
 
     private fun getBottomEmptySpace(

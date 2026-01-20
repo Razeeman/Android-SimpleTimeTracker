@@ -8,17 +8,16 @@ import com.example.util.simpletimetracker.domain.notifications.interactor.Notifi
 import com.example.util.simpletimetracker.domain.category.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.domain.category.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.notifications.interactor.ActivityStartedStoppedBroadcastInteractor
+import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal.Range
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal.Type
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
+import com.example.util.simpletimetracker.domain.recordType.extension.toRangeLength
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeManager
 import javax.inject.Inject
-import kotlin.collections.component1
-import kotlin.collections.component2
 
 class NotificationGoalCountInteractorImpl @Inject constructor(
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
@@ -46,7 +45,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         // No count goals - exit.
         if (goals.isEmpty()) return
 
-        listOf(Range.Daily, Range.Weekly, Range.Monthly).forEach { goalRange ->
+        getAllGoalRanges().forEach { goalRange ->
             checkType(
                 goalRange = goalRange,
                 goals = goals,
@@ -83,7 +82,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         // For each goal check current results.
         val runningRecords = runningRecordInteractor.getAll()
 
-        listOf(Range.Daily, Range.Weekly, Range.Monthly).forEach { goalRange ->
+        getAllGoalRanges().forEach { goalRange ->
             checkCategory(
                 goalRange = goalRange,
                 goals = affectedCategoryGoals,
@@ -117,7 +116,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         // For each goal check current results.
         val runningRecords = runningRecordInteractor.getAll()
 
-        listOf(Range.Daily, Range.Weekly, Range.Monthly).forEach { goalRange ->
+        getAllGoalRanges().forEach { goalRange ->
             checkTag(
                 goalRange = goalRange,
                 goals = affectedTagGoals,
@@ -132,15 +131,14 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         typeId: Long,
         runningRecord: RunningRecord,
     ) {
-        val goal = filterGoalsFromRange<RecordTypeGoal.IdData.Type>(goalRange, goals).firstOrNull()
+        val goal = filterGoalsFromRange(goalRange, goals).firstOrNull()
         if (goal == null) return
 
-        val current = when (goalRange) {
-            is Range.Session -> return
-            is Range.Daily -> getCurrentRecordsDurationInteractor.getDailyCurrent(runningRecord)
-            is Range.Weekly -> getCurrentRecordsDurationInteractor.getWeeklyCurrent(runningRecord)
-            is Range.Monthly -> getCurrentRecordsDurationInteractor.getMonthlyCurrent(runningRecord)
-        }.count
+        val current = getCurrentRecordsDurationInteractor.getRangeCurrent(
+            typeId = runningRecord.id,
+            runningRecord = runningRecord,
+            rangeLength = goalRange.toRangeLength() ?: return,
+        ).count
 
         if (current == goal.value) {
             show(
@@ -156,40 +154,18 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         runningRecords: List<RunningRecord>,
         categoriesWithThisType: Map<Long, List<Long>>,
     ) {
-        val rangeGoals = filterGoalsFromRange<RecordTypeGoal.IdData.Category>(goalRange, goals)
+        val rangeGoals = filterGoalsFromRange(goalRange, goals)
         if (rangeGoals.isEmpty()) return
 
-        val allTypeIdsFromTheseCategories = categoriesWithThisType.values
-            .flatten().distinct()
-        val allCurrents = getCurrentRecordsDurationInteractor.getAllCurrents(
-            typeIds = allTypeIdsFromTheseCategories,
+        val allCurrents = getCurrentRecordsDurationInteractor.getAllCategoryCurrents(
+            recordTypeCategories = categoriesWithThisType,
             runningRecords = runningRecords,
-            rangeLength = when (goalRange) {
-                is Range.Session -> return
-                is Range.Daily -> RangeLength.Day
-                is Range.Weekly -> RangeLength.Week
-                is Range.Monthly -> RangeLength.Month
-            },
+            rangeLength = goalRange.toRangeLength() ?: return,
         )
 
-        val thisRangeCurrents = categoriesWithThisType.mapNotNull { (categoryId, typeIds) ->
-            val currents = allCurrents
-                .filter { it.key in typeIds }
-                .values
-                .toList()
-            val current = GetCurrentRecordsDurationInteractor.Result(
-                range = allCurrents.values.firstOrNull()?.range ?: return@mapNotNull null,
-                duration = currents.sumOf { it.duration },
-                count = currents.sumOf { it.count },
-                durationDiffersFromCurrent = currents.any { it.durationDiffersFromCurrent },
-            )
-            categoryId to current
-        }.toMap()
-
         rangeGoals.forEach { goal ->
-            val categoryId = (goal.idData as? RecordTypeGoal.IdData.Category)?.value
-                ?: return@forEach
-            val current = thisRangeCurrents[categoryId]?.count.orZero()
+            val categoryId = goal.idData.value
+            val current = allCurrents[categoryId]?.count.orZero()
             if (current == goal.value) {
                 show(
                     idData = RecordTypeGoal.IdData.Category(categoryId),
@@ -204,24 +180,19 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         goals: List<RecordTypeGoal>,
         runningRecords: List<RunningRecord>,
     ) {
-        val rangeGoals = filterGoalsFromRange<RecordTypeGoal.IdData.Tag>(goalRange, goals)
+        val rangeGoals = filterGoalsFromRange(goalRange, goals)
         if (rangeGoals.isEmpty()) return
 
-        val allTags = runningRecords.flatMap { it.tags }.map { it.tagId }.distinct()
+        val allTags = runningRecords.flatMap(RunningRecord::tags)
+            .map(RecordBase.Tag::tagId).distinct()
         val allCurrents = getCurrentRecordsDurationInteractor.getAllTagCurrents(
             tagIds = allTags,
             runningRecords = runningRecords,
-            rangeLength = when (goalRange) {
-                is Range.Session -> return
-                is Range.Daily -> RangeLength.Day
-                is Range.Weekly -> RangeLength.Week
-                is Range.Monthly -> RangeLength.Month
-            },
+            rangeLength = goalRange.toRangeLength() ?: return,
         )
 
         rangeGoals.forEach { goal ->
-            val tagId = (goal.idData as? RecordTypeGoal.IdData.Tag)?.value
-                ?: return@forEach
+            val tagId = goal.idData.value
             val current = allCurrents[tagId]?.count.orZero()
             if (current == goal.value) {
                 show(
@@ -232,16 +203,11 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         }
     }
 
-    private inline fun <reified T : RecordTypeGoal.IdData> filterGoalsFromRange(
+    private fun filterGoalsFromRange(
         goalRange: Range,
         goals: List<RecordTypeGoal>,
     ): List<RecordTypeGoal> {
-        return goals.filter {
-            it.isCorrectRange(goalRange) &&
-                it.idData is T && // Probably not necessary.
-                it.type is Type.Count && // Probably not necessary.
-                it.value > 1
-        }
+        return goals.filter { it.isCorrectRange(goalRange) && it.value > 1 }
     }
 
     private fun RecordTypeGoal.isCorrectRange(range: Range): Boolean {
@@ -266,5 +232,9 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
                 goalType = it.goalType,
             )
         }
+    }
+
+    private fun getAllGoalRanges(): List<Range> {
+        return listOf(Range.Daily, Range.Weekly, Range.Monthly)
     }
 }

@@ -61,6 +61,8 @@ class ArchiveFragment :
     }
 
     override fun initUi(): Unit = with(binding) {
+        postponeEnterTransition()
+
         rvArchiveList.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
@@ -75,6 +77,10 @@ class ArchiveFragment :
             viewModel.onChangeInsets(navBarHeight = navBarHeight)
             setMargins(bottom = navBarHeight)
         }
+
+        setOnPreDrawListener {
+            startPostponedEnterTransition()
+        }
     }
 
     override fun initUx(): Unit = with(binding) {
@@ -84,10 +90,8 @@ class ArchiveFragment :
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        viewData.observe {
-            archiveAdapter.replace(it.items)
-            binding.tvArchiveHint.isVisible = it.showHint
-        }
+        viewData.observe { archiveAdapter.replace(it.items) }
+        showHint.observe(binding.tvArchiveHint::isVisible::set)
         searchState.observe(::setSearchState)
     }
 

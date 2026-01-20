@@ -31,45 +31,10 @@ class RecordTypeGoalRepoImpl @Inject constructor(
         accessSource = { dao.get(id)?.let(mapper::map) },
     )
 
-    override suspend fun getAllTypeGoals(): List<RecordTypeGoal> = mutex.withLockedCache(
-        logMessage = "getAllTypeGoals",
-        accessCache = { cache?.filter { it.isType() && it.idData.value != 0L } },
-        accessSource = { dao.getAllTypeGoals().map(mapper::map) },
-        afterSourceAccess = { initializeCache() },
-    )
-
-    override suspend fun getAllCategoryGoals(): List<RecordTypeGoal> = mutex.withLockedCache(
-        logMessage = "getAllCategoryGoals",
-        accessCache = { cache?.filter { it.isCategory() && it.idData.value != 0L } },
-        accessSource = { dao.getAllCategoryGoals().map(mapper::map) },
-        afterSourceAccess = { initializeCache() },
-    )
-
-    override suspend fun getAllTagGoals(): List<RecordTypeGoal> = mutex.withLockedCache(
-        logMessage = "getAllTagGoals",
-        accessCache = { cache?.filter { it.isTag() && it.idData.value != 0L } },
-        accessSource = { dao.getAllTagGoals().map(mapper::map) },
-        afterSourceAccess = { initializeCache() },
-    )
-
-    override suspend fun getByType(typeId: Long): List<RecordTypeGoal> = mutex.withLockedCache(
+    override suspend fun getByOwnerId(ownerId: Long): List<RecordTypeGoal> = mutex.withLockedCache(
         logMessage = "getByType",
-        accessCache = { cache?.filter { it.isType() && it.idData.value == typeId } },
-        accessSource = { dao.getByType(typeId).map(mapper::map) },
-        afterSourceAccess = { initializeCache() },
-    )
-
-    override suspend fun getByCategory(categoryId: Long): List<RecordTypeGoal> = mutex.withLockedCache(
-        logMessage = "getByCategory",
-        accessCache = { cache?.filter { it.isCategory() && it.idData.value == categoryId } },
-        accessSource = { dao.getByCategory(categoryId).map(mapper::map) },
-        afterSourceAccess = { initializeCache() },
-    )
-
-    override suspend fun getByTag(tagId: Long): List<RecordTypeGoal> = mutex.withLockedCache(
-        logMessage = "getByTag",
-        accessCache = { cache?.filter { it.isTag() && it.idData.value == tagId } },
-        accessSource = { dao.getByTag(tagId).map(mapper::map) },
+        accessCache = { cache?.filter { it.idData.value == ownerId } },
+        accessSource = { dao.getByOwnerId(ownerId).map(mapper::map) },
         afterSourceAccess = { initializeCache() },
     )
 

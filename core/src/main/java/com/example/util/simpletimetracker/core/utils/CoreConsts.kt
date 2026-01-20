@@ -34,3 +34,5 @@ const val EXTRA_FIND_RECORD_MODE = "extra_find_record_mode" // current_or_last, 
 const val EXTRA_FIND_RECORD_WITH_ACTIVITY_NAME = "extra_find_record_with_activity_name"
 const val EXTRA_GOAL_TYPE = "extra_goal_type" // duration, count
 const val EXTRA_GOAL_VALUE = "extra_goal_value"
+
+const val DELAY_DATA_LOAD_MS = 300L // Same as @integer/screen_animation_time

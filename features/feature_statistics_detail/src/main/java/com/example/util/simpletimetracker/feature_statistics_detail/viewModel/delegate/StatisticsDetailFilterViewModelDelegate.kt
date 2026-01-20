@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate
 
+import com.example.util.simpletimetracker.core.base.DelayLoadHandler
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.extension.toParams
@@ -19,7 +20,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilter
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterResultParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,7 +29,9 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
     private val recordFilterInteractor: RecordFilterInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val recordsFilterExcludeInteractor: RecordsFilterExcludeInteractor,
-) : StatisticsDetailViewModelDelegate, ViewModelDelegate() {
+) : StatisticsDetailViewModelDelegate, ViewModelDelegate(), DelayLoadHandler {
+
+    override var delayDataLoad: Boolean = true
 
     private var parent: StatisticsDetailViewModelDelegate.Parent? = null
 
@@ -38,7 +40,6 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
     private var records: List<RecordBase> = emptyList() // all records with selected ids
     private var compareRecords: List<RecordBase> = emptyList() // all records with selected ids
     private var loadJob: Job? = null
-    private var firstLoad: Boolean = true
 
     override fun attach(parent: StatisticsDetailViewModelDelegate.Parent) {
         this.parent = parent
@@ -207,9 +208,8 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
     // Only done when no shared transitions, they delay onResume.
     private suspend fun delayLoadIfNeeded() {
         val extra = parent?.extra ?: return
-        if (extra.transitionName.isEmpty() && firstLoad) {
-            delay(300)
-            firstLoad = false
+        if (extra.transitionName.isEmpty()) {
+            delayLoad()
         }
     }
 

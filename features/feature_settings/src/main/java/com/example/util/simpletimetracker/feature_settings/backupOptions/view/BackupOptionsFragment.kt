@@ -5,8 +5,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
+import com.example.util.simpletimetracker.core.extension.blockContentScroll
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.backupOptions.viewModel.BackupOptionsViewModel
+import com.example.util.simpletimetracker.feature_settings.views.getSettingsAdapterDelegates
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.util.simpletimetracker.feature_settings.databinding.SettingsBackupOptionsFragmentBinding as Binding
@@ -21,17 +25,27 @@ class BackupOptionsFragment :
 
     private val viewModel: BackupOptionsViewModel by viewModels()
 
-    override fun initDialog() {
-        setSkipCollapsed()
+    private val contentAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            *getSettingsAdapterDelegates(
+                onBlockClicked = viewModel::onBlockClicked,
+                onSpinnerPositionSelected = viewModel::onSpinnerPositionSelected,
+            ).toTypedArray(),
+        )
     }
 
-    override fun initUx() = with(binding) {
-        layoutBackupOptionsPartialSave.setOnClick(throttle(viewModel::onPartialSaveClick))
-        layoutBackupOptionsFullRestore.setOnClick(throttle(viewModel::onFullRestoreClick))
-        layoutBackupOptionsPartialRestore.setOnClick(throttle(viewModel::onPartialRestoreClick))
+    override fun initDialog() {
+        setSkipCollapsed()
+        blockContentScroll(binding.rvBackupOptionsContent)
+    }
+
+    override fun initUi() = with(binding) {
+        rvBackupOptionsContent.adapter = contentAdapter
+        rvBackupOptionsContent.itemAnimator = null
     }
 
     override fun initViewModel() = with(viewModel) {
+        viewModel.content.observe(contentAdapter::replaceAsNew)
         dismiss.observe { dismiss() }
     }
 

@@ -225,7 +225,7 @@ class ChangeCategoryViewModel @Inject constructor(
                 val addedId = categoryInteractor.add(it)
                 saveTypes(addedId)
                 goalsViewModelDelegate.saveGoals(RecordTypeGoal.IdData.Category(addedId))
-                val typeIds = (initialTypes + newTypes).toSet().toList()
+                val typeIds = (initialTypes + newTypes).distinct()
                 externalViewsInteractor.onCategoryAddOrChange(typeIds)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()

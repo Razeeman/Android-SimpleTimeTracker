@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.record.interactor.RecordInterac
 import com.example.util.simpletimetracker.domain.record.interactor.RemoveRecordMediator
 import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.record.model.Record
+import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordAction.model.RecordQuickAction
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintAccentViewData
@@ -175,10 +176,12 @@ class ChangeRecordActionsAdjustDelegate @Inject constructor(
 
         adjacentRecords.overlapped
             .filter { it.id !in recordsUnmarkedFromAdjustment }
-            .forEach { overlappedRecord ->
+            .let { overlappedRecords ->
                 removeRecordMediator.remove(
-                    recordId = overlappedRecord.id,
-                    typeId = overlappedRecord.typeId,
+                    recordIds = overlappedRecords.map(Record::id),
+                    typeIds = overlappedRecords.map(Record::typeId),
+                    tagIds = overlappedRecords.map(Record::tags).flatten()
+                        .map(RecordBase.Tag::tagId),
                 )
             }
 

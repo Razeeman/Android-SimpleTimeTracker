@@ -17,27 +17,27 @@ class RecordTypeGoalInteractor @Inject constructor(
     }
 
     suspend fun getAllTypeGoals(): List<RecordTypeGoal> {
-        return repo.getAllTypeGoals()
+        return repo.getAll().filterByIdData<RecordTypeGoal.IdData.Type>()
     }
 
     suspend fun getAllCategoryGoals(): List<RecordTypeGoal> {
-        return repo.getAllCategoryGoals()
+        return repo.getAll().filterByIdData<RecordTypeGoal.IdData.Category>()
     }
 
     suspend fun getAllTagGoals(): List<RecordTypeGoal> {
-        return repo.getAllTagGoals()
+        return repo.getAll().filterByIdData<RecordTypeGoal.IdData.Tag>()
     }
 
     suspend fun getByType(typeId: Long): List<RecordTypeGoal> {
-        return repo.getByType(typeId)
+        return repo.getByOwnerId(typeId).filterByIdData<RecordTypeGoal.IdData.Type>()
     }
 
     suspend fun getByCategory(categoryId: Long): List<RecordTypeGoal> {
-        return repo.getByCategory(categoryId)
+        return repo.getByOwnerId(categoryId).filterByIdData<RecordTypeGoal.IdData.Category>()
     }
 
     suspend fun getByTag(tagId: Long): List<RecordTypeGoal> {
-        return repo.getByTag(tagId)
+        return repo.getByOwnerId(tagId).filterByIdData<RecordTypeGoal.IdData.Tag>()
     }
 
     suspend fun add(recordTypeGoal: RecordTypeGoal) {
@@ -46,5 +46,21 @@ class RecordTypeGoalInteractor @Inject constructor(
 
     suspend fun remove(id: Long) {
         repo.remove(id)
+    }
+
+    suspend fun removeByType(typeId: Long) {
+        repo.removeByType(typeId)
+    }
+
+    suspend fun removeByCategory(categoryId: Long) {
+        repo.removeByCategory(categoryId)
+    }
+
+    suspend fun removeByTag(tagId: Long) {
+        repo.removeByTag(tagId)
+    }
+
+    private inline fun <reified T : RecordTypeGoal.IdData> List<RecordTypeGoal>.filterByIdData(): List<RecordTypeGoal> {
+        return this.filter { it.idData is T }
     }
 }

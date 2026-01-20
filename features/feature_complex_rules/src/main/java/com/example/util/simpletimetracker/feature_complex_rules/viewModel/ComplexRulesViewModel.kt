@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.feature_complex_rules.viewData.Complex
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeComplexRuleParams
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,6 +31,8 @@ class ComplexRulesViewModel @Inject constructor(
     val viewData: LiveData<List<ViewHolderType>> by lazySuspend {
         listOf(LoaderViewData()).also { updateViewData() }
     }
+
+    private var loadJob: Job? = null
 
     init {
         subscribeToUpdates()
@@ -72,9 +75,13 @@ class ComplexRulesViewModel @Inject constructor(
         }
     }
 
-    private fun updateViewData() = viewModelScope.launch {
-        val data = loadViewData()
-        viewData.set(data)
+    private fun updateViewData() {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            val data = loadViewData()
+            delayLoad()
+            viewData.set(data)
+        }
     }
 
     private suspend fun loadViewData(): List<ViewHolderType> {

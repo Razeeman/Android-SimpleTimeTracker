@@ -8,17 +8,7 @@ interface RecordTypeGoalRepo {
 
     suspend fun get(id: Long): RecordTypeGoal?
 
-    suspend fun getAllTypeGoals(): List<RecordTypeGoal>
-
-    suspend fun getAllCategoryGoals(): List<RecordTypeGoal>
-
-    suspend fun getAllTagGoals(): List<RecordTypeGoal>
-
-    suspend fun getByType(typeId: Long): List<RecordTypeGoal>
-
-    suspend fun getByCategory(categoryId: Long): List<RecordTypeGoal>
-
-    suspend fun getByTag(tagId: Long): List<RecordTypeGoal>
+    suspend fun getByOwnerId(ownerId: Long): List<RecordTypeGoal>
 
     suspend fun add(recordTypeGoal: RecordTypeGoal): Long
 
