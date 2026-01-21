@@ -72,7 +72,7 @@
     <string name="record_types_empty">Aucune activité</string>
     <string name="record_tag_selection_hint">Sélectionnez une étiquette pour l\'enregistrement</string>
     <string name="time_now">Maintenant</string>
-    <string name="cannot_be_in_the_future">Impossible de prédire le futur ^_^</string>
+    <string name="cannot_be_in_the_future">Impossible d'indiquer une heure dans le futur</string>
 
     <!--  Records  -->
     <string name="record_removed">Enregistrement %s supprimé</string>
@@ -83,7 +83,7 @@
     <string name="records_switch_to_list">Affichage Liste</string>
     <string name="no_records_exist">Les enregistrements s\'afficheront ici</string>
     <string name="record_add_hint">Appuyez sur %s pour ajouter un nouvel enregistrement</string>
-    <string name="record_date_hint">Appuyez sur la frise chronologique en bas de l\'écran pour aller à une date</string>
+    <string name="record_date_hint">Appuyez sur la frise chronologique pour aller à une date</string>
 
     <!--  Statistics  -->
     <string name="statistics_total_tracked">Durée totale enregistrée</string>
@@ -108,8 +108,8 @@ Les <b>Catégories</b> permettent de regrouper des activités similaires. Par ex
 • La catégorie <custom-color-3>Loisirs sportifs</custom-color-3> peut regrouper les activités <custom-color-3>Course à pied</custom-color-3> et <custom-color-3>Golf</custom-color-3>.<br><br>
 • La catégorie <custom-color-1>Détente</custom-color-1> peut regrouper les activités <custom-color-1>Télévision</custom-color-1> et <custom-color-1>Lecture</custom-color-1>.<br><br>
 Cela vous permet de mesurer le temps que vous passez globalement sur toutes vos activités Sportives ou de Détente.<br><br>
-Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregisgrement. Par exemple :<br><br>
-• Pour un enregistrment de l\'activité <custom-color-3>Lecture</custom-color-3>, ajoutez une ou plusieurs étiquettes comme <custom-color-3>Arsène Lupin</custom-color-3> ou <custom-color-3>Harry Potter</custom-color-3> afin de suivre le temps passé sur chaque livre.<br><br>
+Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrement. Par exemple :<br><br>
+• Pour un enregistrement de l\'activité <custom-color-3>Lecture</custom-color-3>, ajoutez une ou plusieurs étiquettes comme <custom-color-3>Arsène Lupin</custom-color-3> ou <custom-color-3>Harry Potter</custom-color-3> afin de suivre le temps passé sur chaque livre.<br><br>
 • Pour un enregistrement de l\'activité <custom-color-10>Travail</custom-color-10>, ajoutez une ou plusieurs étiquettes comme <custom-color-10>Bureau</custom-color-10> et <custom-color-10>Domicile</custom-color-10> pour différencier où le travail a été effectué.<br>
     ]]></string>
 
@@ -128,7 +128,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregisgrem
     <string name="change_record_tag_select_activity_hint">Utiliser la couleur et l\'icône d\'une activité</string>
     <string name="change_record_tag_default_types_hint">L\'étiquette serait attribuée par défaut lors du démarrage d\'un enregistrement pour les activités sélectionnées</string>
     <string name="change_record_type_value_type_field">Information complémentaire</string>
-    <string name="change_record_type_value_type_hint">Renseignez une information lorsque cette étiquette est attribuée à un enregistrement. Utile pour suivre le nombre de pas ou de pages lues, l\'humeur (via un émoticon), etc.</string>
+    <string name="change_record_type_value_type_hint">Renseignez une information lorsque cette étiquette est attribuée à un enregistrement. Utile pour suivre le nombre de pas ou de pages lues, l\'humeur (en utilisant un émoticon comme unité), etc.</string>
     <string name="change_record_type_value_suffix">Unité (affichée après la donnée)</string>
     <string name="change_record_type_value_selection_hint">Information</string>
 
@@ -350,7 +350,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregisgrem
     <string name="settings_keep_statistics_range">Mémoriser la période de statistiques</string>
     <string name="settings_keep_statistics_range_hint">Si activé, les statistiques détaillées seront ouvertes pour la même période que celle sélectionnée dans les statistiques.</string>
     <string name="settings_retroactive_tracking_mode">Activer les enregistrements à postériori</string>
-    <string name="settings_retroactive_tracking_mode_hint">L\'activité sélectionnée se termine au lieu de démarrer.</string>
+    <string name="settings_retroactive_tracking_mode_hint">Arrêter l\'activité sélectionnée au lieu de la démarrer.</string>
     <string name="settings_retroactive_multitasking_hint">Le multi-tâches est activé. Au démarrage d\'une nouvelle activité, les enregistrement en cours ne seront pas arrêtés.</string>
     <string name="settings_start_of_day">Décaler l\'heure de début de journée</string>
     <string name="settings_start_of_day_hint">Le début de journée sera décalé de la durée indiquée, plus tôt ou plus tard selon le signe.</string>
@@ -387,7 +387,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregisgrem
     <string name="settings_edit_categories">Gérer les catégories et les étiquettes</string>
     <string name="settings_edit_categories_hint">Attribuez des catégories aux activités et des étiquettes aux enregistrements.</string>
     <string name="settings_show_record_tag_selection">Afficher le sélecteur d\'étiquette</string>
-    <string name="settings_show_record_tag_selection_hint">Au démarrage d\'une activité, proposer de sélectioner des étiquettes.</string>
+    <string name="settings_show_record_tag_selection_hint">Au démarrage d\'une activité, proposer de sélectionner des étiquettes.</string>
     <string name="settings_show_record_tag_close_hint">Fermer après avoir sélectionné une étiquette</string>
     <string name="settings_show_comment_input">Afficher la saisie des commentaires</string>
     <string name="settings_show_comment_input_hint">Au démarrage d\'un enregistrement, proposer de saisir un commentaire.</string>
@@ -415,7 +415,7 @@ Quelques exemples d\'événements :<br/>
 <br/>
 Pour fonctionner, ces applications doivent être en mesure d\'envoyer des messages \"intent\" ou \"broadcast intent\" avec les paramètres suivants :<br/>
 <br/>
-<b>Action</b> - \"%s\" or \"%s\".<br/>
+<b>Action</b> - \"%s\" ou \"%s\".<br/>
 <b>Extra</b> - \"%s\" suivi du nom de l\'activité à démarrer ou arrêter.<br/>
 <b>Package</b> - \"%s\".<br/>
     ]]></string>
@@ -427,7 +427,7 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application SimpleTimeTracker env
     <string name="settings_automated_tracking_available_events">Événements disponibles</string>
     <string name="settings_automated_tracking_extras_description">Description</string>
     <string name="settings_automated_tracking_extra_name">le nom de l\'activité qui doit être démarrée ou arrêtée.</string>
-    <string name="settings_automated_tracking_extra_tag">le nom d\'une étiquette d\'enregistrement. Ou une liste de noms d\étiquettes séparés par des virgules.</string>
+    <string name="settings_automated_tracking_extra_tag">le nom d\'une étiquette d\'enregistrement. Ou une liste de noms d\'étiquettes séparés par des virgules.</string>
     <string name="settings_automated_tracking_extra_time">format \"aaaa-MM-jj HH:mm:ss\" ou horodatage UTC.</string>
     <string name="settings_automated_tracking_find_record_mode">indique l\'enregistrement à modifier.</string>
     <string name="settings_automated_tracking_comment_mode">indique comment modifier le commentaire de l\'enregistrement.</string>
@@ -464,7 +464,7 @@ Le fichier CSV doit contenir les colonnes suivantes séparées par des virgules 
 <br/>
 <br/>
 Exemple :<br/>
-\"Lecture\",2026-12-31 09:45:00,2026-12-31 10:55:35,\"Commentaire, blabla\"
+\"Lecture\",2026-12-31 09:45:00,2026-12-31 10:55:35,\"Commentaire, icic le commentaire\"
     ]]></string>
     <string name="settings_export_ics">Export ICS</string>
     <string name="settings_export_warning">Ce fichier ne peut pas être utilisé comme sauvegarde.</string>
@@ -513,7 +513,7 @@ Exemple :<br/>
 
     <string name="statistics_detail_range_averages_title">Moyenne sur la période : %s</string>
     <string name="statistics_detail_range_averages">Sur toute la période</string>
-    <string name="statistics_detail_range_averages_non_empty">En ignorant les périodes sans enregistement</string>
+    <string name="statistics_detail_range_averages_non_empty">En ignorant les périodes sans enregistrement</string>
 
     <string name="statistics_detail_total_duration">Total</string>
     <string name="statistics_detail_record_length">Durée des enregistrements</string>
@@ -571,7 +571,7 @@ Exemple :<br/>
     <string name="notification_activity_text">Faites-vous toujours : %s ?</string>
     <string name="notification_goal_time_description">Objectif atteint</string>
     <string name="notification_limit_time_description">Limite atteinte</string>
-    <string name="notification_time_started">Début</string>
+    <string name="notification_time_started">Démmarré à %s</string>
     <string name="notification_time_ended">Arrêté à %s</string>
     <string name="notification_record_type_stop">Arrêter</string>
     <string name="notification_pomodoro_subtitle">Début : %s (%s)</string>
