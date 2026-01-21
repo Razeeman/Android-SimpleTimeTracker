@@ -72,7 +72,7 @@
     <string name="record_types_empty">Aucune activité</string>
     <string name="record_tag_selection_hint">Sélectionnez une étiquette pour l\'enregistrement</string>
     <string name="time_now">Maintenant</string>
-    <string name="cannot_be_in_the_future">Impossible d'indiquer une heure dans le futur</string>
+    <string name="cannot_be_in_the_future">Impossible d\'indiquer une heure dans le futur</string>
 
     <!--  Records  -->
     <string name="record_removed">Enregistrement %s supprimé</string>
