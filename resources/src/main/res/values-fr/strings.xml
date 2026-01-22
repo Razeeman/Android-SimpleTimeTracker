@@ -350,7 +350,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_keep_statistics_range">Mémoriser la période de statistiques</string>
     <string name="settings_keep_statistics_range_hint">Si activé, les statistiques détaillées seront ouvertes pour la même période que celle sélectionnée dans les statistiques.</string>
     <string name="settings_retroactive_tracking_mode">Activer les enregistrements à postériori</string>
-    <string name="settings_retroactive_tracking_mode_hint">Arrêter l\'activité sélectionnée au lieu de la démarrer.</string>
+    <string name="settings_retroactive_tracking_mode_hint">Lors de la sélection d'une activité : créer un enregistrement passé (avec pour début : l\'enregistrement précédent et pour fin : maintenant) plutôt que de démarrer un enregistrement débutant maintenant.</string>
     <string name="settings_retroactive_multitasking_hint">Le multi-tâches est activé. Au démarrage d\'une nouvelle activité, les enregistrement en cours ne seront pas arrêtés.</string>
     <string name="settings_start_of_day">Décaler l\'heure de début de journée</string>
     <string name="settings_start_of_day_hint">Le début de journée sera décalé de la durée indiquée, plus tôt ou plus tard selon le signe.</string>
