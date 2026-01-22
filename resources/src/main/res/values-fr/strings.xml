@@ -235,7 +235,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="activity_suggestions_select_activity_hint">Des suggestions seront affichées pour les activités sélectionnées</string>
 
     <!--  Activity filters  -->
-    <string name="change_activity_filters_hint">Filtrer les activité</string>
+    <string name="change_activity_filters_hint">Filtrer les activités</string>
     <string name="change_activity_filter_removed">Filtre supprimé</string>
     <string name="change_activity_filter_save">Enregistrer</string>
     <string name="change_activity_filter_type">Type de filtre</string>
@@ -257,7 +257,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="show">Afficher</string>
     <string name="hide">Masquer</string>
     <string name="chart_filter_type_hint">Type de filtre</string>
-    <string name="chart_filter_categories_empty">Aucune étiquette modifiée</string>
+    <string name="chart_filter_categories_empty">Aucune étiquette définie</string>
 
     <string name="duration_dialog_save">Enregistrer</string>
     <string name="duration_dialog_disable">Désactiver</string>
