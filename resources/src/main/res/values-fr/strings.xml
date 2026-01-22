@@ -571,7 +571,7 @@ Exemple :<br/>
     <string name="notification_activity_text">Faites-vous toujours : %s ?</string>
     <string name="notification_goal_time_description">Objectif atteint</string>
     <string name="notification_limit_time_description">Limite atteinte</string>
-    <string name="notification_time_started">Démmarré à %s</string>
+    <string name="notification_time_started">Démarré à %s</string>
     <string name="notification_time_ended">Arrêté à %s</string>
     <string name="notification_record_type_stop">Arrêter</string>
     <string name="notification_pomodoro_subtitle">Début : %s (%s)</string>
