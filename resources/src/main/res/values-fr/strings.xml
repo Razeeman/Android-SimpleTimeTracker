@@ -101,7 +101,7 @@
     <string name="categories_edit_hint">Appuyez sur une carte pour la modifier</string>
     <string name="categories_record_type_hint">Attribuez la même catégorie à des activités différentes afin de regrouper leurs statistiques.</string>
     <string name="categories_record_hint">Attribuez des étiquettes à chaque enregistrement pour obtenir des statistiques plus détaillées.</string>
-    <string name="categories_add_category">Ajouter une catégorie</string>
+    <string name="categories_add_category">Créer une catégorie</string>
     <string name="categories_add_record_tag">Créer une étiquette</string>
     <string name="categories_and_tags_hint"><![CDATA[
 Les <b>Catégories</b> permettent de regrouper des activités similaires. Par exemple :<br><br>
@@ -499,8 +499,8 @@ Exemple :<br/>
     <string name="partial_restore_filter_hint">Sélectionnez les données qui seront importées du fichier.</string>
 
     <!--  Statistics detail  -->
-    <string name="statistics_detail_chart_hourly">par heures</string>
-    <string name="statistics_detail_chart_daily">par jours</string>
+    <string name="statistics_detail_chart_hourly">par heure</string>
+    <string name="statistics_detail_chart_daily">par jour</string>
     <string name="statistics_detail_chart_weekly">par semaines</string>
     <string name="statistics_detail_chart_monthly">par mois</string>
     <string name="statistics_detail_chart_yearly">par an</string>
@@ -537,7 +537,7 @@ Exemple :<br/>
     <string name="statistics_detail_data_split_pie_chart">Secteurs</string>
     <string name="statistics_detail_data_split_bar_chart">Colonnes</string>
     <string name="statistics_detail_day_split_hint">Répartition</string>
-    <string name="statistics_detail_duration_split_hint">Répartition des durées d\'enregistrement</string>
+    <string name="statistics_detail_duration_split_hint">Répartition de la durée des enregistrements</string>
     <string name="statistics_detail_next_activities_hint">Activités suivantes</string>
     <string name="statistics_detail_multitasking_activities_hint">Classement multi-tâches</string>
     <string name="statistics_detail_goals_hint">Avance ou retard par rapport à l\'objectif</string>
