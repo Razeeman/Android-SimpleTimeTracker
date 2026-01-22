@@ -143,7 +143,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_record_favourite_comments_hint">Favoris</string>
     <string name="change_record_favourite_comments_hint_long">Commentaires favoris</string>
     <string name="change_record_similar_comments_hint">Commentaires similaires</string>
-    <string name="change_record_categories_empty">Aucune étiquette modifiée</string>
+    <string name="change_record_categories_empty">Aucune étiquette définie</string>
     <string name="change_record_save">Enregistrer</string>
     <string name="change_record_untagged">Aucune étiquette</string>
     <string name="change_record_tag_from_other_activity">Attribuée à d\'autres activités</string>
