@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.domain.backup.interactor
 
+import com.example.util.simpletimetracker.domain.backup.model.ResultCode
+
 interface AutomaticBackupInteractor {
 
     suspend fun schedule()
@@ -8,5 +10,5 @@ interface AutomaticBackupInteractor {
 
     fun onFinished()
 
-    suspend fun backup()
+    suspend fun backup(): ResultCode?
 }

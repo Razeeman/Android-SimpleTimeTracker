@@ -326,7 +326,7 @@
     <string name="settings_ignore_short_untracked">התעלם מזמן קצר ללא מעקב</string>
     <string name="settings_ignore_short_untracked_hint">אל תציג זמן ללא מעקב אשר קצר מהזמן שצוין.</string>
     <string name="settings_untracked_range">טווח ללא מעקב</string>
-    <string name="settings_untracked_range_hint">התעלם מזמן ללא מעקב מחוץ לטווח שצוין.</string>
+    <string name="settings_untracked_range_hint">הצגת זמן לא מנוטר רק בטווח שנבחר.</string>
     <string name="settings_show_records_calendar">הצג רשומות בתצוגת לוח שנה</string>
     <string name="settings_reverse_order_in_calendar">סדר הפוך של רשומות</string>
     <string name="settings_days_in_calendar">ימים בלוח שנה</string>
@@ -494,6 +494,8 @@
     <string name="backup_options_full_restore_hint">משחזר נתונים והגדרות. דורש הפעלה מחדש של האפליקציה.</string>
     <string name="backup_options_partial_restore">ייבא נתונים מגיבוי</string>
     <string name="backup_options_partial_restore_hint">מאפשר לבחור אילו נתונים לייבא. הנתונים הנוכחיים לא יאבדו.</string>
+    <string name="backup_options_trigger_auto_backup">הפעל גיבוי אוטומטי עכשיו</string>
+    <string name="backup_options_trigger_auto_export">הפעל ייצוא אוטומטי עכשיו</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">בחר אילו נתונים ייובאו מהקובץ.</string>

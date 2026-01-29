@@ -326,7 +326,7 @@
     <string name="settings_ignore_short_untracked">कम अनट्रैक समय पर ध्यान न दें</string>
     <string name="settings_ignore_short_untracked_hint">अनट्रैक समय न दिखाएं जो निर्दिष्ट समय से कम हो।</string>
     <string name="settings_untracked_range">अनट्रैक रेंज</string>
-    <string name="settings_untracked_range_hint">निर्दिष्ट सीमा के बाहर अनट्रैक समय पर ध्यान न दें।</string>
+    <string name="settings_untracked_range_hint">केवल चयनित समय सीमा के भीतर अनट्रैक किया गया समय दिखाएँ।</string>
     <string name="settings_show_records_calendar">कैलेंडर दृश्य में रिकॉर्ड दिखाएं</string>
     <string name="settings_reverse_order_in_calendar">अभिलेखों का उल्टा क्रम</string>
     <string name="settings_days_in_calendar">कैलेंडर में दिन</string>
@@ -494,6 +494,8 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="backup_options_full_restore_hint">डेटा और सेटिंग्स पुनर्स्थापित करता है। ऐप पुनः आरंभ करने की आवश्यकता है.</string>
     <string name="backup_options_partial_restore">बैकअप से डेटा आयात करें</string>
     <string name="backup_options_partial_restore_hint">यह चुनने की अनुमति देता है कि कौन सा डेटा आयात करना है। वर्तमान डेटा नष्ट नहीं होगा.</string>
+    <string name="backup_options_trigger_auto_backup">स्वचालित बैकअप अभी चलाएँ</string>
+    <string name="backup_options_trigger_auto_export">स्वचालित निर्यात अभी चलाएँ</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">चुनें कि फ़ाइल से कौन सा डेटा आयात किया जाएगा।</string>

@@ -8,10 +8,8 @@ import com.example.util.simpletimetracker.core.dialog.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
-import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.backupOptions.viewModel.BackupOptionsViewModel
 import com.example.util.simpletimetracker.feature_settings.views.getSettingsAdapterDelegates
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.util.simpletimetracker.feature_settings.databinding.SettingsBackupOptionsFragmentBinding as Binding
 

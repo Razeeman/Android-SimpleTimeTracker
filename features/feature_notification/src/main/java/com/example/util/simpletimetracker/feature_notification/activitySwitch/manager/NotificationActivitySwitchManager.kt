@@ -70,7 +70,6 @@ class NotificationActivitySwitchManager @Inject constructor(
 
         // TODO fix default duration type click when show tags is enabled,
         //  no animation / indication.
-        // TODO reshow in dismiss to keep sticky on API 34? setDeleteIntent()
         return NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(contentIntent)

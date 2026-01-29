@@ -102,6 +102,7 @@ enum class SettingsBlock {
     BackupCustomizedPartialSave,
     BackupCustomizedFullRestore,
     BackupCustomizedPartialRestore,
+    BackupCustomizedTriggerAutoBackup,
     BackupBottom,
 
     ExportTop,
@@ -115,6 +116,8 @@ enum class SettingsBlock {
     ExportSpreadsheetImport,
     ExportSpreadsheetImportHint,
     ExportIcs,
+    ExportCustomized,
+    ExportTriggerAutoBackup,
     ExportBottom,
 
     TranslatorsTop,

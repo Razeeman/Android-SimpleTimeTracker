@@ -326,7 +326,7 @@ Isso permite ver quanto tempo você está gastando em atividades produtivas vers
     <string name="settings_ignore_short_untracked">Ignorar tempo curto não rastreado</string>
     <string name="settings_ignore_short_untracked_hint">Não mostre o tempo não rastreado que seja menor do que o tempo especificado.</string>
     <string name="settings_untracked_range">Faixa não rastreada</string>
-    <string name="settings_untracked_range_hint">Ignora o tempo não rastreado fora do intervalo especificado.</string>
+    <string name="settings_untracked_range_hint">Mostrar o tempo não rastreado apenas dentro do intervalo selecionado.</string>
     <string name="settings_show_records_calendar">Mostrar registros na visualização de calendário</string>
     <string name="settings_reverse_order_in_calendar">Ordem inversa dos registros</string>
     <string name="settings_days_in_calendar">Dias no calendário</string>
@@ -494,6 +494,8 @@ Exemplo:<br/>
     <string name="backup_options_full_restore_hint">Restaura dados e configurações. Requer reinicialização do aplicativo.</string>
     <string name="backup_options_partial_restore">Importar dados do backup</string>
     <string name="backup_options_partial_restore_hint">Permite escolher quais dados importar. Os dados atuais não serão perdidos.</string>
+    <string name="backup_options_trigger_auto_backup">Executar backup automático agora</string>
+    <string name="backup_options_trigger_auto_export">Executar exportação automática agora</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">Selecione quais dados serão importados do arquivo.</string>

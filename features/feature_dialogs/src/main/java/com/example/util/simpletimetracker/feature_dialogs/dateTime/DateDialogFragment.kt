@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.base.BaseFragment
-import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.domain.extension.orZero
 import java.util.Calendar
@@ -36,9 +35,7 @@ class DateDialogFragment : BaseFragment<Binding>() {
         val calendar = Calendar.getInstance()
             .apply { timeInMillis = timestamp }
 
-        if (BuildVersions.isLollipopOrHigher()) {
-            datePicker.firstDayOfWeek = firstDayOfWeek
-        }
+        datePicker.firstDayOfWeek = firstDayOfWeek
         datePicker.init(
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),

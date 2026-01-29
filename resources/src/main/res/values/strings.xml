@@ -326,7 +326,7 @@ This allows you to see how much time you\'re spending on productive versus unpro
     <string name="settings_ignore_short_untracked">Ignore short untracked time</string>
     <string name="settings_ignore_short_untracked_hint">Do not show untracked time that is shorter than the specified time.</string>
     <string name="settings_untracked_range">Untracked range</string>
-    <string name="settings_untracked_range_hint">Ignore untracked time outside of specified range.</string>
+    <string name="settings_untracked_range_hint">Show untracked time only within the selected range.</string>
     <string name="settings_show_records_calendar">Show records in calendar view</string>
     <string name="settings_reverse_order_in_calendar">Reverse order of records</string>
     <string name="settings_days_in_calendar">Days in calendar</string>
@@ -494,6 +494,8 @@ Example:<br/>
     <string name="backup_options_full_restore_hint">Restores data and settings. Requires app restart.</string>
     <string name="backup_options_partial_restore">Import data from backup</string>
     <string name="backup_options_partial_restore_hint">Allows to choose which data to import. Current data will not be lost.</string>
+    <string name="backup_options_trigger_auto_backup">Run automatic backup now</string>
+    <string name="backup_options_trigger_auto_export">Run automatic export now</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">Select which data will be imported from the file.</string>

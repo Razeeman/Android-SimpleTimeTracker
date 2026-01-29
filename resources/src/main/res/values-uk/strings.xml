@@ -326,7 +326,7 @@
     <string name="settings_ignore_short_untracked">Ігнорувати короткий невідстежуваний час</string>
     <string name="settings_ignore_short_untracked_hint">Не показувати невідстежуваний час, який коротший за вказаний час.</string>
     <string name="settings_untracked_range">Невідстежуваний діапазон</string>
-    <string name="settings_untracked_range_hint">Ігнорувати невідстежуваний час поза вказаним діапазоном.</string>
+    <string name="settings_untracked_range_hint">Показувати невідстежений час лише в межах вибраного діапазону.</string>
     <string name="settings_show_records_calendar">Показувати записи в календарі</string>
     <string name="settings_reverse_order_in_calendar">Зворотний порядок записів</string>
     <string name="settings_days_in_calendar">Днів в календарі</string>
@@ -494,6 +494,8 @@
     <string name="backup_options_full_restore_hint">Відновлює дані та налаштування. Потрібен перезапуск програми.</string>
     <string name="backup_options_partial_restore">Імпорт даних із резервної копії</string>
     <string name="backup_options_partial_restore_hint">Дозволяє вибрати, які дані імпортувати. Поточні дані не будуть втрачені.</string>
+    <string name="backup_options_trigger_auto_backup">Запустити автоматичне резервне копіювання зараз</string>
+    <string name="backup_options_trigger_auto_export">Запустити автоматичний експорт зараз</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">Виберіть, які дані буде імпортовано з файлу.</string>

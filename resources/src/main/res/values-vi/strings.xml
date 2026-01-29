@@ -326,7 +326,7 @@
     <string name="settings_ignore_short_untracked">Bỏ qua thời gian ngắn không được theo dõi</string>
     <string name="settings_ignore_short_untracked_hint">Không hiển thị thời gian không được theo dõi ngắn hơn thời gian đã chỉ định.</string>
     <string name="settings_untracked_range">Phạm vi không bị theo dõi</string>
-    <string name="settings_untracked_range_hint">Bỏ qua thời gian không được theo dõi ngoài phạm vi được chỉ định.</string>
+    <string name="settings_untracked_range_hint">Chỉ hiển thị thời gian chưa được theo dõi trong phạm vi đã chọn.</string>
     <string name="settings_show_records_calendar">Hiển thị bản ghi trong chế độ xem lịch</string>
     <string name="settings_reverse_order_in_calendar">Đảo ngược thứ tự các bản ghi</string>
     <string name="settings_days_in_calendar">Ngày trong lịch</string>
@@ -494,6 +494,8 @@ Ví dụ:<br/>
     <string name="backup_options_full_restore_hint">Khôi phục dữ liệu và cài đặt. Yêu cầu khởi động lại ứng dụng.</string>
     <string name="backup_options_partial_restore">Nhập dữ liệu từ bản sao lưu</string>
     <string name="backup_options_partial_restore_hint">Cho phép chọn dữ liệu cần nhập. Dữ liệu hiện tại sẽ không bị mất.</string>
+    <string name="backup_options_trigger_auto_backup">Chạy sao lưu tự động ngay bây giờ</string>
+    <string name="backup_options_trigger_auto_export">Chạy xuất tự động ngay bây giờ</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">Chọn dữ liệu nào sẽ được nhập từ tệp.</string>

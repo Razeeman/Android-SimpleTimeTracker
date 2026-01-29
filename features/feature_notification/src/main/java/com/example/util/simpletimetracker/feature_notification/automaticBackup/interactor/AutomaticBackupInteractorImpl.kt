@@ -33,14 +33,14 @@ class AutomaticBackupInteractorImpl @Inject constructor(
         automaticBackupRepo.inProgress.post(false)
     }
 
-    override suspend fun backup() {
+    override suspend fun backup(): ResultCode? {
         automaticBackupRepo.inProgress.post(true)
 
         val uri = prefsInteractor.getAutomaticBackupUri()
             .takeUnless { it.isEmpty() }
             ?: run {
                 onFinished()
-                return
+                return null
             }
         val result = backupInteractor.saveBackupFile(uri, BackupOptionsData.Save.Standard)
 
@@ -54,5 +54,7 @@ class AutomaticBackupInteractorImpl @Inject constructor(
         }
 
         onFinished()
+
+        return result
     }
 }

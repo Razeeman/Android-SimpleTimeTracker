@@ -326,7 +326,7 @@
     <string name="settings_ignore_short_untracked">Игнорировать короткое неотслеживаемое время</string>
     <string name="settings_ignore_short_untracked_hint">Не показывать неотслеживаемое время, которое короче указанного времени.</string>
     <string name="settings_untracked_range">Неотслеживаемый диапазон</string>
-    <string name="settings_untracked_range_hint">Игнорировать неотслеживаемое время за пределами указанного диапазона.</string>
+    <string name="settings_untracked_range_hint">Показывать неотслеживаемое время только в выбранном диапазоне.</string>
     <string name="settings_show_records_calendar">Показывать записи в виде календаря</string>
     <string name="settings_reverse_order_in_calendar">Обратный порядок записей</string>
     <string name="settings_days_in_calendar">Дней в календаре</string>
@@ -494,6 +494,8 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="backup_options_full_restore_hint">Восстанавливает данные и настройки. Требует перезапуска приложения.</string>
     <string name="backup_options_partial_restore">Импортировать данные из резервной копии</string>
     <string name="backup_options_partial_restore_hint">Позволяет выбрать, какие данные импортировать. Текущие данные не будут потеряны.</string>
+    <string name="backup_options_trigger_auto_backup">Запустить автоматическое резервное копирование сейчас</string>
+    <string name="backup_options_trigger_auto_export">Запустить автоматический экспорт сейчас</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">Выберите, какие данные будут импортированы из файла.</string>

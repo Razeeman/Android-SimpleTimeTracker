@@ -326,7 +326,7 @@ Bu, genel olarak verimli ve verimsiz aktivitelere ne kadar zaman harcadığını
     <string name="settings_ignore_short_untracked">Takip edilmeyen kısa süreyi yoksay</string>
     <string name="settings_ignore_short_untracked_hint">Belirtilen süreden daha kısa olan izlenmeyen süreyi gösterme.</string>
     <string name="settings_untracked_range">Izlenmeyen aralık</string>
-    <string name="settings_untracked_range_hint">Belirtilen aralığın dışında izlenmeyen süreyi yok sayın.</string>
+    <string name="settings_untracked_range_hint">Takip edilmeyen zamanı yalnızca seçilen aralıkta göster.</string>
     <string name="settings_show_records_calendar">Kayıtları takvim görünümünde göster</string>
     <string name="settings_reverse_order_in_calendar">Kayıtların ters sırası</string>
     <string name="settings_days_in_calendar">Takvimdeki günler</string>
@@ -494,6 +494,8 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="backup_options_full_restore_hint">Verileri ve ayarları geri yükler. Uygulamanın yeniden başlatılmasını gerektirir.</string>
     <string name="backup_options_partial_restore">Yedeklemeden verileri içe aktar</string>
     <string name="backup_options_partial_restore_hint">Hangi verilerin içe aktarılacağını seçmenize izin verir. Mevcut veriler kaybolmayacaktır.</string>
+    <string name="backup_options_trigger_auto_backup">Otomatik yedeklemeyi şimdi çalıştır</string>
+    <string name="backup_options_trigger_auto_export">Otomatik dışa aktarmayı şimdi çalıştır</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">Dosyadan hangi verilerin içe aktarılacağını seçin.</string>

@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
+import com.example.util.simpletimetracker.feature_settings.model.AdvancedOptionsBlockClickListener
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.feature_settings.views.getSettingsAdapterDelegates
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
@@ -34,7 +35,8 @@ class SettingsFragment :
     DateTimeDialogListener,
     DataExportSettingsDialogListener,
     TypesSelectionDialogListener,
-    OptionsListDialogListener {
+    OptionsListDialogListener,
+    AdvancedOptionsBlockClickListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -51,8 +53,8 @@ class SettingsFragment :
     private val contentAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             *getSettingsAdapterDelegates(
-                onBlockClicked = ::onBlockClicked,
-                onBlockClickedThrottled = throttle(::onBlockClicked),
+                onBlockClicked = viewModel::onBlockClicked,
+                onBlockClickedThrottled = throttle(viewModel::onBlockClicked),
                 onSpinnerPositionSelected = viewModel::onSpinnerPositionSelected,
             ).toTypedArray(),
         )
@@ -120,8 +122,12 @@ class SettingsFragment :
         viewModel.onOptionsItemClick(id)
     }
 
-    private fun onBlockClicked(block: SettingsBlock) {
+    override fun onAdvancedOptionsBlockClicked(block: SettingsBlock) {
         viewModel.onBlockClicked(block)
+    }
+
+    override fun onAdvancedOptionsSpinnerPositionSelected(block: SettingsBlock, position: Int) {
+        viewModel.onSpinnerPositionSelected(block, position)
     }
 
     private fun setKeepScreenOn(keepScreenOn: Boolean) {

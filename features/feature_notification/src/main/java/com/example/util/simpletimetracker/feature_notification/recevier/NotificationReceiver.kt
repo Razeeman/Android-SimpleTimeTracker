@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import com.example.util.simpletimetracker.core.extension.goAsync
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_ADD_RECORD
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_AUTOMATIC_BACKUP
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_AUTOMATIC_EXPORT
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_CHANGE_RECORD
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_CREATE_RECORD_TAG
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESTART_ACTIVITY
@@ -146,11 +148,15 @@ class NotificationReceiver : BroadcastReceiver() {
             -> {
                 goalTimeController.onRangeEndReminder()
             }
-            ACTION_AUTOMATIC_BACKUP -> goAsync(
+            ACTION_AUTOMATIC_BACKUP,
+            ACTION_EXTERNAL_AUTOMATIC_BACKUP,
+            -> goAsync(
                 finally = { automaticBackupController.onFinished() },
                 block = { automaticBackupController.onReminder() },
             )
-            ACTION_AUTOMATIC_EXPORT -> goAsync(
+            ACTION_AUTOMATIC_EXPORT,
+            ACTION_EXTERNAL_AUTOMATIC_EXPORT,
+            -> goAsync(
                 finally = { automaticExportController.onFinished() },
                 block = { automaticExportController.onReminder() },
             )

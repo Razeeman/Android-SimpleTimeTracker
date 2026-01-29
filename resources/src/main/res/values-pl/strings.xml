@@ -326,7 +326,7 @@ Pozwala to zobaczyć, ile czasu spędzasz na produktywnych i nieproduktywnych ak
     <string name="settings_ignore_short_untracked">Ignoruj krótki czas braku śledzenia</string>
     <string name="settings_ignore_short_untracked_hint">Nie pokazuj nieśledzonego czasu, który jest krótszy od wskazanego.</string>
     <string name="settings_untracked_range">Zakres dla czasu nieśledzonego</string>
-    <string name="settings_untracked_range_hint">Ignoruj czas nieśledzony poza określonym zakresem.</string>
+    <string name="settings_untracked_range_hint">Pokazuj czas nieśledzony tylko w wybranym zakresie.</string>
     <string name="settings_show_records_calendar">Pokaż rekordy w widoku kalendarza</string>
     <string name="settings_reverse_order_in_calendar">Odwrotna kolejność zapisów</string>
     <string name="settings_days_in_calendar">Dni w kalendarzu</string>
@@ -494,6 +494,8 @@ Przykład:<br/>
     <string name="backup_options_full_restore_hint">Przywraca dane i ustawienia. Wymaga ponownego uruchomienia aplikacji.</string>
     <string name="backup_options_partial_restore">Importuj dane z kopii zapasowej</string>
     <string name="backup_options_partial_restore_hint">Pozwala wybrać, które dane mają zostać zaimportowane. Bieżące dane nie zostaną utracone.</string>
+    <string name="backup_options_trigger_auto_backup">Uruchom automatyczną kopię zapasową teraz</string>
+    <string name="backup_options_trigger_auto_export">Uruchom automatyczny eksport teraz</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">Wybierz, które dane zostaną zaimportowane z pliku.</string>

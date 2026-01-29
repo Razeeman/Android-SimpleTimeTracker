@@ -326,7 +326,7 @@ Acest lucru îți permite să vezi cât timp petreci în activități productive
     <string name="settings_ignore_short_untracked">Ignoră timpul scurt neurmărit</string>
     <string name="settings_ignore_short_untracked_hint">Nu arăta timpul neurmărit care este mai scurt decât timpul specificat.</string>
     <string name="settings_untracked_range">Interval neurmărit</string>
-    <string name="settings_untracked_range_hint">Ignoră timpul neurmărit din afara intervalului specificat.</string>
+    <string name="settings_untracked_range_hint">Afișează timpul neînregistrat doar în intervalul selectat.</string>
     <string name="settings_show_records_calendar">Arată înregistrările în vederea calendar</string>
     <string name="settings_reverse_order_in_calendar">Inversează ordinea înregistrărilor</string>
     <string name="settings_days_in_calendar">Zile în calendar</string>
@@ -494,6 +494,8 @@ Examplu:<br/>
     <string name="backup_options_full_restore_hint">Restabilește datele și setările. Necesită repornirea aplicației.</string>
     <string name="backup_options_partial_restore">Importă date din backup</string>
     <string name="backup_options_partial_restore_hint">Vă permite să alegeți ce date să importați. Datele curente nu se vor pierde.</string>
+    <string name="backup_options_trigger_auto_backup">Rulează backupul automat acum</string>
+    <string name="backup_options_trigger_auto_export">Rulează exportul automat acum</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">Selectați ce date vor fi importate din fișier.</string>

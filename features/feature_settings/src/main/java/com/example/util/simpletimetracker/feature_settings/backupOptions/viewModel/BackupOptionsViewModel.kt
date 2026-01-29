@@ -1,16 +1,19 @@
 package com.example.util.simpletimetracker.feature_settings.backupOptions.viewModel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
+import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.domain.backup.interactor.AutomaticBackupInteractor
 import com.example.util.simpletimetracker.domain.backup.model.BackupOptionsData
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.backupOptions.interactor.BackupOptionsViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsFileWorkDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.getValue
 
@@ -18,9 +21,10 @@ import kotlin.getValue
 class BackupOptionsViewModel @Inject constructor(
     private val settingsFileWorkDelegate: SettingsFileWorkDelegate,
     private val backupOptionsViewDataInteractor: BackupOptionsViewDataInteractor,
+    private val automaticBackupInteractor: AutomaticBackupInteractor,
 ) : BaseViewModel() {
 
-    val content: LiveData<List<ViewHolderType>> by lazy { MutableLiveData(loadContent()) }
+    val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
     val dismiss: LiveData<Unit> by lazy { SingleLiveEvent<Unit>() }
 
     fun onBlockClicked(block: SettingsBlock) {
@@ -31,6 +35,8 @@ class BackupOptionsViewModel @Inject constructor(
                 onFullRestoreClick()
             SettingsBlock.BackupCustomizedPartialRestore ->
                 onPartialRestoreClick()
+            SettingsBlock.BackupCustomizedTriggerAutoBackup ->
+                onTriggerAutoBackupClick()
             else -> {
                 // Do nothing.
             }
@@ -61,6 +67,14 @@ class BackupOptionsViewModel @Inject constructor(
         dismiss.set(Unit)
     }
 
+    private fun onTriggerAutoBackupClick() {
+        MainScope().launch {
+            val result = automaticBackupInteractor.backup()
+            result?.message?.let(settingsFileWorkDelegate::showMessage)
+        }
+        dismiss.set(Unit)
+    }
+
     fun onPositiveClick(tag: String?) {
         when (tag) {
             BACKUP_OPTIONS_RESTORE_DIALOG_TAG -> {
@@ -70,7 +84,7 @@ class BackupOptionsViewModel @Inject constructor(
         }
     }
 
-    private fun loadContent(): List<ViewHolderType> {
+    private suspend fun loadContent(): List<ViewHolderType> {
         return backupOptionsViewDataInteractor.execute()
     }
 

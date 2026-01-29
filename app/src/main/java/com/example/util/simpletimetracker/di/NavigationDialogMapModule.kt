@@ -42,6 +42,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.DebugMenuDial
 import com.example.util.simpletimetracker.navigation.params.screen.DefaultTypesSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.ExportOptionsParams
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
 import com.example.util.simpletimetracker.navigation.params.screen.PartialRestoreParams
@@ -318,6 +319,16 @@ class NavigationDialogMapModule {
     fun backupOptionsDialogFragment(): NavigationData {
         return NavigationData(
             R.id.backupOptionsDialogFragment,
+            BundleCreator.empty(),
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(ExportOptionsParams::class)
+    fun exportOptionsDialogFragment(): NavigationData {
+        return NavigationData(
+            R.id.exportOptionsDialogFragment,
             BundleCreator.empty(),
         )
     }

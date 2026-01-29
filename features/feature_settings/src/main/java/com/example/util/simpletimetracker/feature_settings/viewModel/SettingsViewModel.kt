@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.darkMode.interactor.ThemeChange
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.domain.statistics.interactor.SettingsDataUpdateInteractor
+import com.example.util.simpletimetracker.feature_settings.interactor.SettingsAdvancedOptionsUpdateInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsAdditionalViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsBackupViewModelDelegate
@@ -46,6 +47,7 @@ class SettingsViewModel @Inject constructor(
     private val contributorsDelegate: SettingsContributorsViewModelDelegate,
     private val settingsDataUpdateInteractor: SettingsDataUpdateInteractor,
     private val themeChangedInteractor: ThemeChangedInteractor,
+    private val settingsAdvancedOptionsUpdateInteractor: SettingsAdvancedOptionsUpdateInteractor,
 ) : BaseViewModel(), SettingsParent {
 
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
@@ -177,6 +179,7 @@ class SettingsViewModel @Inject constructor(
 
     override suspend fun updateContent() {
         content.set(loadContent())
+        settingsAdvancedOptionsUpdateInteractor.send()
     }
 
     private fun subscribeToUpdates() = viewModelScope.launch {

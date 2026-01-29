@@ -326,7 +326,7 @@ Lokhu kukuvumela ukuthi ubone isikhathi osichitha emisebenzini esebenzayo nezing
     <string name="settings_ignore_short_untracked">Yeka isikhathi esifushane esingalandelwanga</string>
     <string name="settings_ignore_short_untracked_hint">Ungabonisi isikhathi esingalandelwanga esifushane kune esibekiwe.</string>
     <string name="settings_untracked_range">Ibanga elingalandelwanga</string>
-    <string name="settings_untracked_range_hint">Yeka isikhathi esingalandelwanga esingaphandle kwebanga elibekiwe.</string>
+    <string name="settings_untracked_range_hint">Bonisa isikhathi esingalandelwanga kuphela phakathi kobubanzi obukhethiwe.</string>
     <string name="settings_show_records_calendar">Bonisa amarekhodi kubuka wekhalenda</string>
     <string name="settings_reverse_order_in_calendar">Phendula ukuhleleka kwamarekhodi</string>
     <string name="settings_days_in_calendar">Izinsuku ezikukhalenda</string>
@@ -494,6 +494,8 @@ Isibonelo:<br/>
     <string name="backup_options_full_restore_hint">Buyisela idatha kanye namasethingi. Kudinga ukuthi uhlelo luqaliswe kabusha.</string>
     <string name="backup_options_partial_restore">Faka idatha esuka ku-backup</string>
     <string name="backup_options_partial_restore_hint">Kuvumela ukukhetha ukuthi yiziphi idatha okufanele zifakwe. Idatha yamanje ngeke ilahleke.</string>
+    <string name="backup_options_trigger_auto_backup">Qalisa isipele esizenzakalelayo manje</string>
+    <string name="backup_options_trigger_auto_export">Qalisa ukukhipha okuzenzakalelayo manje</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">Khetha ukuthi iyiphi idatha ezofakwa kufayela.</string>

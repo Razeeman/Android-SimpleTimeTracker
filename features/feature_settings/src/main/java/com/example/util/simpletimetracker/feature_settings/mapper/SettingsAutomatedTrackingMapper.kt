@@ -11,6 +11,8 @@ import com.example.util.simpletimetracker.core.manager.ClipboardManager
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_ADD_RECORD
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_AUTOMATIC_BACKUP
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_AUTOMATIC_EXPORT
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_CHANGE_RECORD
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_CREATE_RECORD_TAG
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESTART_ACTIVITY
@@ -145,6 +147,16 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                     optional = listOf(
                         EXTRA_RECORD_TYPE_ICON,
                     ),
+                ),
+                AvailableAction(
+                    action = ACTION_EXTERNAL_AUTOMATIC_BACKUP,
+                    extras = emptyList(),
+                    optional = emptyList(),
+                ),
+                AvailableAction(
+                    action = ACTION_EXTERNAL_AUTOMATIC_EXPORT,
+                    extras = emptyList(),
+                    optional = emptyList(),
                 ),
             ),
             isDarkTheme = isDarkTheme,

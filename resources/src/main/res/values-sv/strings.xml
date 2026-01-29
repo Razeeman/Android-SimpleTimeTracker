@@ -326,7 +326,7 @@ Detta gör att du kan se hur mycket tid du spenderar på produktiva kontra icke-
     <string name="settings_ignore_short_untracked">Ignorera kort ospårad tid</string>
     <string name="settings_ignore_short_untracked_hint">Visa inte ospårad tid som är kortare än den angivna tiden.</string>
     <string name="settings_untracked_range">Ospårad räckvidd</string>
-    <string name="settings_untracked_range_hint">Ignorera ospårad tid utanför det angivna intervallet.</string>
+    <string name="settings_untracked_range_hint">Visa ospårad tid endast inom det valda intervallet.</string>
     <string name="settings_show_records_calendar">Visa händelser i kalendervy</string>
     <string name="settings_reverse_order_in_calendar">Byt ordning på händelser</string>
     <string name="settings_days_in_calendar">Dagar i kalendern</string>
@@ -494,6 +494,8 @@ Exempel:<br/>
     <string name="backup_options_full_restore_hint">Återställer data och inställningar. Kräver omstart av appen.</string>
     <string name="backup_options_partial_restore">Importera data från backup</string>
     <string name="backup_options_partial_restore_hint">Tillåter att välja vilken data som ska importeras. Aktuell data kommer inte att gå förlorad.</string>
+    <string name="backup_options_trigger_auto_backup">Kör automatisk säkerhetskopiering nu</string>
+    <string name="backup_options_trigger_auto_export">Kör automatisk export nu</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">Välj vilken data som ska importeras från filen.</string>

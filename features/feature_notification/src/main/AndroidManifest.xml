@@ -24,6 +24,8 @@
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_ADD_RECORD" />
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_CHANGE_RECORD" />
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_CREATE_TAG" />
+                <action android:name="com.razeeman.util.simpletimetracker.ACTION_EXTERNAL_AUTOMATIC_BACKUP" />
+                <action android:name="com.razeeman.util.simpletimetracker.ACTION_EXTERNAL_AUTOMATIC_EXPORT" />
 
                 <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
             </intent-filter>

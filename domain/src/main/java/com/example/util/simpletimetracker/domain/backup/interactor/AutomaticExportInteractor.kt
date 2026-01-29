@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.domain.backup.interactor
 
+import com.example.util.simpletimetracker.domain.backup.model.ResultCode
+
 interface AutomaticExportInteractor {
 
     suspend fun schedule()
@@ -8,5 +10,5 @@ interface AutomaticExportInteractor {
 
     fun onFinished()
 
-    suspend fun export()
+    suspend fun export(): ResultCode?
 }

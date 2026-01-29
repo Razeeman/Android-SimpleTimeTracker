@@ -326,7 +326,7 @@
     <string name="settings_ignore_short_untracked">追跡されていない短い時間を無視する</string>
     <string name="settings_ignore_short_untracked_hint">指定された時間より短い未追跡時間を表示しません。</string>
     <string name="settings_untracked_range">追跡されていない範囲</string>
-    <string name="settings_untracked_range_hint">指定された範囲外の追跡されていない時間を無視します。</string>
+    <string name="settings_untracked_range_hint">選択した範囲内のみ未記録の時間を表示します。</string>
     <string name="settings_show_records_calendar">カレンダービューで計測記録を表示</string>
     <string name="settings_reverse_order_in_calendar">レコードの逆順</string>
     <string name="settings_days_in_calendar">カレンダーの日数</string>
@@ -494,6 +494,8 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <string name="backup_options_full_restore_hint">データと設定を復元します。アプリの再起動が必要です。</string>
     <string name="backup_options_partial_restore">バックアップからデータをインポートする</string>
     <string name="backup_options_partial_restore_hint">どのデータをインポートするかを選択できます。現在のデータは失われません。</string>
+    <string name="backup_options_trigger_auto_backup">自動バックアップを今すぐ実行</string>
+    <string name="backup_options_trigger_auto_export">自動エクスポートを今すぐ実行</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">ファイルからインポートするデータを選択します。</string>

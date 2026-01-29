@@ -8,12 +8,14 @@ import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteracto
 import com.example.util.simpletimetracker.domain.backup.model.BackupOptionsData
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
+import com.example.util.simpletimetracker.feature_settings.interactor.SettingsAdvancedOptionsUpdateInteractor
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsBackupViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.BackupOptionsParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,6 +27,7 @@ class SettingsBackupViewModelDelegate @Inject constructor(
     private val settingsMapper: SettingsMapper,
     private val automaticBackupInteractor: AutomaticBackupInteractor,
     private val automaticExportInteractor: AutomaticExportInteractor,
+    private val settingsAdvancedOptionsUpdateInteractor: SettingsAdvancedOptionsUpdateInteractor,
 ) : ViewModelDelegate() {
 
     private var parent: SettingsParent? = null
@@ -70,8 +73,11 @@ class SettingsBackupViewModelDelegate @Inject constructor(
                 settingsFileWorkDelegate.onImportCsvClick(CSV_IMPORT_ALERT_DIALOG_TAG)
             SettingsBlock.ExportSpreadsheetImportHint ->
                 settingsFileWorkDelegate.onImportCsvHelpClick()
-            SettingsBlock.ExportIcs ->
+            SettingsBlock.ExportIcs -> delegateScope.launch {
+                settingsAdvancedOptionsUpdateInteractor.sendDismiss()
+                delay(200)
                 settingsFileWorkDelegate.onExportIcsClick(ICS_EXPORT_DIALOG_TAG)
+            }
             else -> {
                 // Do nothing
             }
@@ -84,8 +90,13 @@ class SettingsBackupViewModelDelegate @Inject constructor(
 
     fun onPositiveClick(tag: String?) {
         when (tag) {
-            BACKUP_RESTORE_DIALOG_TAG -> settingsFileWorkDelegate.onRestoreConfirmed()
-            CSV_IMPORT_ALERT_DIALOG_TAG -> settingsFileWorkDelegate.onCsvImportConfirmed()
+            BACKUP_RESTORE_DIALOG_TAG -> {
+                settingsFileWorkDelegate.onRestoreConfirmed()
+            }
+            CSV_IMPORT_ALERT_DIALOG_TAG -> delegateScope.launch {
+                settingsAdvancedOptionsUpdateInteractor.sendDismiss()
+                settingsFileWorkDelegate.onCsvImportConfirmed()
+            }
         }
     }
 

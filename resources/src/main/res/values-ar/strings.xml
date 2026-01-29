@@ -326,7 +326,7 @@
     <string name="settings_ignore_short_untracked">تجاهل الوقت القصير غير المتعقب</string>
     <string name="settings_ignore_short_untracked_hint">لا تعرض الوقت غير المتعقب والذي يكون أقصر من الوقت المحدد.</string>
     <string name="settings_untracked_range">النظاق الزمني لغير المتعقب</string>
-    <string name="settings_untracked_range_hint">تجاهل الوقت غير المتعقب خارج النطاق المحدد.</string>
+    <string name="settings_untracked_range_hint">عرض الوقت غير المتتبع فقط ضمن النطاق المحدد.</string>
     <string name="settings_show_records_calendar">إظهار المتتبعات في عرض تقويم</string>
     <string name="settings_reverse_order_in_calendar">ترتيب عكسي للمتتبعات</string>
     <string name="settings_days_in_calendar">الأيام في التقويم</string>
@@ -494,6 +494,8 @@
     <string name="backup_options_full_restore_hint">يستعيد البيانات والإعدادات. يتطلب إعادة تشغيل التطبيق.</string>
     <string name="backup_options_partial_restore">استيراد البيانات من النسخة الاحتياطية</string>
     <string name="backup_options_partial_restore_hint">يسمح باختيار البيانات التي سيتم استيرادها. لن يتم فقدان البيانات الحالية.</string>
+    <string name="backup_options_trigger_auto_backup">تشغيل النسخ الاحتياطي التلقائي الآن</string>
+    <string name="backup_options_trigger_auto_export">تشغيل التصدير التلقائي الآن</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">حدد البيانات التي سيتم استيرادها من الملف.</string>

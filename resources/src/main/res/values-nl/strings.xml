@@ -326,7 +326,7 @@ Dit stelt je in staat om te zien hoeveel tijd je in totaal besteedt aan producti
     <string name="settings_ignore_short_untracked">Negeer korte niet-gevolgde tijd</string>
     <string name="settings_ignore_short_untracked_hint">Laat geen niet-gevolgde tijd zien die korter is dan de opgegeven tijd.</string>
     <string name="settings_untracked_range">Ongevolgd bereik</string>
-    <string name="settings_untracked_range_hint">Negeer niet-gevolgde tijd buiten het opgegeven bereik.</string>
+    <string name="settings_untracked_range_hint">Toon niet-bijgehouden tijd alleen binnen het geselecteerde bereik.</string>
     <string name="settings_show_records_calendar">Toon records in kalenderweergave</string>
     <string name="settings_reverse_order_in_calendar">Omgekeerde volgorde van records</string>
     <string name="settings_days_in_calendar">Dagen in kalender</string>
@@ -494,6 +494,8 @@ Voorbeeld:<br/>
     <string name="backup_options_full_restore_hint">Herstelt gegevens en instellingen. Vereist herstart van de app.</string>
     <string name="backup_options_partial_restore">Importeer gegevens uit een back-up</string>
     <string name="backup_options_partial_restore_hint">Hiermee kunt u kiezen welke gegevens u wilt importeren. Actuele gegevens gaan niet verloren.</string>
+    <string name="backup_options_trigger_auto_backup">Automatische back-up nu uitvoeren</string>
+    <string name="backup_options_trigger_auto_export">Automatische export nu uitvoeren</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">Selecteer welke gegevens uit het bestand worden geïmporteerd.</string>

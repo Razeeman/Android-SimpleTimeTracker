@@ -365,6 +365,11 @@
         android:label="BackupOptionsDialogFragment"
         tools:layout="@layout/settings_backup_options_fragment" />
     <dialog
+        android:id="@+id/exportOptionsDialogFragment"
+        android:name="com.example.util.simpletimetracker.feature_settings.exportOptions.view.ExportOptionsFragment"
+        android:label="ExportOptionsDialogFragment"
+        tools:layout="@layout/settings_export_options_fragment" />
+    <dialog
         android:id="@+id/partialRestoreDialogFragment"
         android:name="com.example.util.simpletimetracker.feature_settings.partialRestore.view.PartialRestoreFragment"
         android:label="PartialRestoreDialogFragment"

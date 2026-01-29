@@ -326,7 +326,7 @@ I <b>tag</b> ti permettono di aggiungere maggiori dettagli a un\'attività speci
     <string name="settings_ignore_short_untracked">Ignora il breve tempo non tracciato</string>
     <string name="settings_ignore_short_untracked_hint">Non mostrare il tempo non tracciato che è più breve del tempo specificato.</string>
     <string name="settings_untracked_range">Gamma non tracciata</string>
-    <string name="settings_untracked_range_hint">Ignora il tempo non tracciato al di fuori dell\'intervallo specificato.</string>
+    <string name="settings_untracked_range_hint">Mostra il tempo non tracciato solo nell\'intervallo selezionato.</string>
     <string name="settings_show_records_calendar">Mostra i record nella vista calendario</string>
     <string name="settings_reverse_order_in_calendar">Ordine inverso dei record</string>
     <string name="settings_days_in_calendar">Giorni in calendario</string>
@@ -494,6 +494,8 @@ Esempio:<br/>
     <string name="backup_options_full_restore_hint">Ripristina dati e impostazioni. Richiede il riavvio dell\'app.</string>
     <string name="backup_options_partial_restore">Importa i dati dal backup</string>
     <string name="backup_options_partial_restore_hint">Permette di scegliere quali dati importare. I dati attuali non andranno persi.</string>
+    <string name="backup_options_trigger_auto_backup">Esegui backup automatico ora</string>
+    <string name="backup_options_trigger_auto_export">Esegui esportazione automatica ora</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">Seleziona quali dati verranno importati dal file.</string>

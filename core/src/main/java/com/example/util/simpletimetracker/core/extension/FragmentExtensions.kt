@@ -9,7 +9,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater
-import com.example.util.simpletimetracker.core.utils.BuildVersions
 import com.example.util.simpletimetracker.core.utils.doOnEnd
 import com.example.util.simpletimetracker.feature_views.extension.animateScaleBoop
 
@@ -32,7 +31,7 @@ inline fun Fragment.setSharedTransitions(
     sharedView: View,
 ) {
     val context = this.context ?: return
-    if (BuildVersions.isLollipopOrHigher() && additionalCondition.invoke()) {
+    if (additionalCondition.invoke()) {
         val transition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
         transition?.apply {

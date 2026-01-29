@@ -208,6 +208,13 @@ class SettingsFileWorkDelegate @Inject constructor(
         }
     }
 
+    fun onTriggerAutoExportClick() {
+        delegateScope.launch {
+            val result = automaticExportInteractor.export()
+            result?.message?.let(::showMessage)
+        }
+    }
+
     fun onRestoreClick(tag: String, params: BackupOptionsData.Restore) {
         restoreOptionsData = params
         router.navigate(
@@ -478,7 +485,7 @@ class SettingsFileWorkDelegate @Inject constructor(
         showMessage(resourceRepo.getString(R.string.settings_file_create_error))
     }
 
-    private fun showMessage(
+    fun showMessage(
         string: String,
         shareUriString: String? = null,
     ) {

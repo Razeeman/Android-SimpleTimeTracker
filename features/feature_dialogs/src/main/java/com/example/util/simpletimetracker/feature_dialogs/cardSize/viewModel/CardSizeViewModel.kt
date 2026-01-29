@@ -1,13 +1,14 @@
 package com.example.util.simpletimetracker.feature_dialogs.cardSize.viewModel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.BaseViewModel
+import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
+import com.example.util.simpletimetracker.core.utils.SuspendedValue
 import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.view.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
@@ -18,7 +19,6 @@ import com.example.util.simpletimetracker.feature_dialogs.cardSize.viewData.Card
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,80 +27,71 @@ class CardSizeViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val cardSizeViewDataMapper: CardSizeViewDataMapper,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
-) : ViewModel() {
+) : BaseViewModel() {
 
-    val recordTypes: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch {
-                initial.value = listOf(LoaderViewData())
-                initial.value = loadRecordTypes()
-            }
-            initial
-        }
+    val recordTypes: LiveData<List<ViewHolderType>> by lazySuspend {
+        viewModelScope.launch { updateRecordTypes() }
+        listOf(LoaderViewData())
     }
-    val buttons: LiveData<List<ViewHolderType>> by lazy {
-        MutableLiveData<List<ViewHolderType>>().let { initial ->
-            initial.value = loadButtonsViewData()
-            initial
-        }
+    val buttons: LiveData<List<ViewHolderType>> by lazySuspend {
+        loadButtonsViewData()
     }
-    val defaultButton: LiveData<CardSizeDefaultButtonViewData> by lazy {
-        MutableLiveData<CardSizeDefaultButtonViewData>().let { initial ->
-            viewModelScope.launch {
-                initial.value = loadDefaultButtonViewData()
-            }
-            initial
-        }
+    val defaultButton: LiveData<CardSizeDefaultButtonViewData> by lazySuspend {
+        loadDefaultButtonViewData()
     }
 
-    // TODO remove runBlocking
-    private var numberOfCards: Int = runBlocking { prefsInteractor.getNumberOfCards() }
+    private val numberOfCards = SuspendedValue(prefsInteractor::getNumberOfCards)
     private var types: List<RecordType> = emptyList()
 
     fun onDismiss() {
         MainScope().launch {
-            prefsInteractor.setNumberOfCards(numberOfCards)
+            prefsInteractor.setNumberOfCards(numberOfCards.get())
         }
     }
 
     fun onButtonClick(viewData: ButtonsRowViewData) {
         if (viewData !is CardSizeButtonsViewData) return
-        numberOfCards = viewData.numberOfCards
+        viewModelScope.launch {
+            numberOfCards.set(viewData.numberOfCards)
+            updateRecordTypes()
+            updateButtonsViewData()
+            updateDefaultButton()
+        }
+    }
+
+    fun onDefaultButtonClick() = viewModelScope.launch {
+        numberOfCards.set(0)
         updateRecordTypes()
         updateButtonsViewData()
         updateDefaultButton()
     }
 
-    fun onDefaultButtonClick() {
-        numberOfCards = 0
-        updateRecordTypes()
-        updateButtonsViewData()
-        updateDefaultButton()
-    }
-
-    private fun updateButtonsViewData() {
+    private suspend fun updateButtonsViewData() {
         val data = loadButtonsViewData()
         buttons.set(data)
     }
 
-    private fun updateDefaultButton() = viewModelScope.launch {
+    private suspend fun updateDefaultButton() {
         val data = loadDefaultButtonViewData()
         defaultButton.set(data)
     }
 
-    private fun updateRecordTypes() = viewModelScope.launch {
+    private suspend fun updateRecordTypes() {
         val data = loadRecordTypes()
         recordTypes.set(data)
     }
 
-    private fun loadButtonsViewData(): List<ViewHolderType> {
-        return cardSizeViewDataMapper.toToButtonsViewData(numberOfCards)
+    private suspend fun loadButtonsViewData(): List<ViewHolderType> {
+        return cardSizeViewDataMapper.toToButtonsViewData(numberOfCards.get())
     }
 
     private suspend fun loadDefaultButtonViewData(): CardSizeDefaultButtonViewData {
         val isDarkTheme = prefsInteractor.getDarkMode()
 
-        return cardSizeViewDataMapper.toDefaultButtonViewData(numberOfCards, isDarkTheme)
+        return cardSizeViewDataMapper.toDefaultButtonViewData(
+            numberOfCards = numberOfCards.get(),
+            isDarkTheme = isDarkTheme,
+        )
     }
 
     private suspend fun loadRecordTypes(): List<ViewHolderType> {
@@ -112,7 +103,11 @@ class CardSizeViewModel @Inject constructor(
 
         return types
             .map { type ->
-                cardSizeViewDataMapper.toToRecordTypeViewData(type, numberOfCards, isDarkTheme)
+                cardSizeViewDataMapper.toToRecordTypeViewData(
+                    recordType = type,
+                    numberOfCards = numberOfCards.get(),
+                    isDarkTheme = isDarkTheme,
+                )
             }
             .takeUnless { it.isEmpty() }
             ?: recordTypeViewDataMapper.mapToEmpty()

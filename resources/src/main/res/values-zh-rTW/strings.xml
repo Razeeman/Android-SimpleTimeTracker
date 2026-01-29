@@ -326,7 +326,7 @@
     <string name="settings_ignore_short_untracked">忽略短的未跟踪時間</string>
     <string name="settings_ignore_short_untracked_hint">不要顯示比指定時間短的未跟踪時間。</string>
     <string name="settings_untracked_range">未追踪範圍</string>
-    <string name="settings_untracked_range_hint">忽略指定範圍之外的未跟踪時間。</string>
+    <string name="settings_untracked_range_hint">僅在所選時間範圍內顯示未記錄的時間。</string>
     <string name="settings_show_records_calendar">顯示月曆檢視紀錄</string>
     <string name="settings_reverse_order_in_calendar">反轉記錄順序</string>
     <string name="settings_days_in_calendar">日曆中的天數</string>
@@ -494,6 +494,8 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="backup_options_full_restore_hint">恢復資料和設定。需要重新啟動應用程式。</string>
     <string name="backup_options_partial_restore">從備份導入數據</string>
     <string name="backup_options_partial_restore_hint">允許選擇要匯入的資料。當前資料不會遺失。</string>
+    <string name="backup_options_trigger_auto_backup">立即執行自動備份</string>
+    <string name="backup_options_trigger_auto_export">立即執行自動匯出</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">選擇將從文件中匯入哪些資料。</string>

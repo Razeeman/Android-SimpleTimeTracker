@@ -326,7 +326,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_ignore_short_untracked">Ignorer les temps courts non enregistrés</string>
     <string name="settings_ignore_short_untracked_hint">Ne pas afficher les temps non enregistrés s\'ils sont plus courts que la durée indiquée.</string>
     <string name="settings_untracked_range">Période de suivi des temps non enregistrés</string>
-    <string name="settings_untracked_range_hint">Les temps non enregistrés sont comptabilisés uniquement dans les horaires indiqués.</string>
+    <string name="settings_untracked_range_hint">Afficher le temps non suivi uniquement dans la plage sélectionnée.</string>
     <string name="settings_show_records_calendar">Afficher les enregistrements sous forme de calendrier</string>
     <string name="settings_reverse_order_in_calendar">Inverser l\'ordre des enregistrements</string>
     <string name="settings_days_in_calendar">Jours du calendrier</string>
@@ -493,7 +493,9 @@ Exemple :<br/>
     <string name="backup_options_full_restore">Restauration complète</string>
     <string name="backup_options_full_restore_hint">Restaure les données et les paramètres. Nécessite le redémarrage de l\'application.</string>
     <string name="backup_options_partial_restore">Importer des données à partir d\'une sauvegarde</string>
-    <string name="backup_options_partial_restore_hint">Permet de choisir les données à importer. Les données actuelles seront conservées.</string>
+    <string name="backup_options_partial_restore_hint">Permet de choisir les données à importer. Les données actuelles ne seront pas perdues.</string>
+    <string name="backup_options_trigger_auto_backup">Lancer la sauvegarde automatique maintenant</string>
+    <string name="backup_options_trigger_auto_export">Lancer l\'exportation automatique maintenant</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">Sélectionnez les données qui seront importées du fichier.</string>

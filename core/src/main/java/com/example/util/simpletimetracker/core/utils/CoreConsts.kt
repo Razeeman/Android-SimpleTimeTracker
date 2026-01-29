@@ -16,6 +16,8 @@ const val ACTION_EXTERNAL_RESTART_ACTIVITY = "com.razeeman.util.simpletimetracke
 const val ACTION_EXTERNAL_ADD_RECORD = "com.razeeman.util.simpletimetracker.ACTION_ADD_RECORD"
 const val ACTION_EXTERNAL_CHANGE_RECORD = "com.razeeman.util.simpletimetracker.ACTION_CHANGE_RECORD"
 const val ACTION_EXTERNAL_CREATE_RECORD_TAG = "com.razeeman.util.simpletimetracker.ACTION_CREATE_TAG"
+const val ACTION_EXTERNAL_AUTOMATIC_BACKUP = "com.razeeman.util.simpletimetracker.ACTION_EXTERNAL_AUTOMATIC_BACKUP"
+const val ACTION_EXTERNAL_AUTOMATIC_EXPORT = "com.razeeman.util.simpletimetracker.ACTION_EXTERNAL_AUTOMATIC_EXPORT"
 
 const val EVENT_STARTED_ACTIVITY = "com.razeeman.util.simpletimetracker.EVENT_STARTED_ACTIVITY"
 const val EVENT_STOPPED_ACTIVITY = "com.razeeman.util.simpletimetracker.EVENT_STOPPED_ACTIVITY"

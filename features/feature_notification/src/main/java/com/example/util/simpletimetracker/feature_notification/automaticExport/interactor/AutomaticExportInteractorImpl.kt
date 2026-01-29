@@ -32,14 +32,14 @@ class AutomaticExportInteractorImpl @Inject constructor(
         automaticExportRepo.inProgress.post(false)
     }
 
-    override suspend fun export() {
+    override suspend fun export(): ResultCode? {
         automaticExportRepo.inProgress.post(true)
 
         val uri = prefsInteractor.getAutomaticExportUri()
             .takeUnless { it.isEmpty() }
             ?: run {
                 onFinished()
-                return
+                return null
             }
         val result = csvExportInteractor.saveCsvFile(
             uriString = uri,
@@ -57,5 +57,7 @@ class AutomaticExportInteractorImpl @Inject constructor(
         }
 
         onFinished()
+
+        return result
     }
 }

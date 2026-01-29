@@ -55,17 +55,6 @@ class SettingsExportViewDataInteractor @Inject constructor(
                 hintColor = SettingsTextColor.Attention,
             )
 
-            result += SettingsTextWithButtonViewData(
-                buttonBlock = SettingsBlock.ExportSpreadsheetImportHint,
-                data = SettingsTextViewData(
-                    block = SettingsBlock.ExportSpreadsheetImport,
-                    title = resourceRepo.getString(R.string.settings_import_csv),
-                    subtitle = resourceRepo.getString(R.string.settings_import_csv_description),
-                    hint = resourceRepo.getString(R.string.data_edit_hint),
-                    hintColor = SettingsTextColor.Attention,
-                ),
-            )
-
             val automaticExportEnabled = loadAutomaticExportEnabled()
             val automaticExportLastSaveTime = loadAutomaticExportLastSaveTime()
             val automaticExportLastSaveTimeVisible = automaticExportLastSaveTime.isNotEmpty()
@@ -99,29 +88,10 @@ class SettingsExportViewDataInteractor @Inject constructor(
                 )
             }
 
-            val dateTimeFormatViewData = loadDateTimeFormatViewData()
-            result += SettingsSpinnerViewData(
-                block = SettingsBlock.ExportSpreadsheetDateTimeFormat,
-                title = resourceRepo.getString(R.string.settings_export_csv_format),
-                value = dateTimeFormatViewData.items
-                    .getOrNull(dateTimeFormatViewData.selectedPosition)?.text.orEmpty(),
-                items = dateTimeFormatViewData.items,
-                selectedPosition = dateTimeFormatViewData.selectedPosition,
-                processSameItemSelected = false,
-                dividerIsVisible = false,
-                bottomSpaceIsVisible = false,
-            )
-            result += SettingsHintViewData(
-                block = SettingsBlock.ExportSpreadsheetDateTimeFormatHint,
-                text = loadDateTimeFormatHintViewData(),
-                topSpaceIsVisible = false,
-            )
-
             result += SettingsTextViewData(
-                block = SettingsBlock.ExportIcs,
-                title = resourceRepo.getString(R.string.settings_export_ics),
-                subtitle = resourceRepo.getString(R.string.settings_export_warning),
-                subtitleColor = SettingsTextColor.Attention,
+                block = SettingsBlock.ExportCustomized,
+                title = resourceRepo.getString(R.string.settings_backup_options),
+                subtitle = "",
                 dividerIsVisible = false,
             )
         }
@@ -129,6 +99,56 @@ class SettingsExportViewDataInteractor @Inject constructor(
         result += SettingsBottomViewData(
             block = SettingsBlock.ExportBottom,
         )
+
+        return result
+    }
+
+    suspend fun executeAdvanced(): List<ViewHolderType> {
+        val result = mutableListOf<ViewHolderType>()
+
+        result += SettingsTextWithButtonViewData(
+            buttonBlock = SettingsBlock.ExportSpreadsheetImportHint,
+            data = SettingsTextViewData(
+                block = SettingsBlock.ExportSpreadsheetImport,
+                title = resourceRepo.getString(R.string.settings_import_csv),
+                subtitle = resourceRepo.getString(R.string.settings_import_csv_description),
+                hint = resourceRepo.getString(R.string.data_edit_hint),
+                hintColor = SettingsTextColor.Attention,
+            ),
+        )
+
+        val dateTimeFormatViewData = loadDateTimeFormatViewData()
+        result += SettingsSpinnerViewData(
+            block = SettingsBlock.ExportSpreadsheetDateTimeFormat,
+            title = resourceRepo.getString(R.string.settings_export_csv_format),
+            value = dateTimeFormatViewData.items
+                .getOrNull(dateTimeFormatViewData.selectedPosition)?.text.orEmpty(),
+            items = dateTimeFormatViewData.items,
+            selectedPosition = dateTimeFormatViewData.selectedPosition,
+            processSameItemSelected = false,
+            dividerIsVisible = false,
+            bottomSpaceIsVisible = false,
+        )
+        result += SettingsHintViewData(
+            block = SettingsBlock.ExportSpreadsheetDateTimeFormatHint,
+            text = loadDateTimeFormatHintViewData(),
+            topSpaceIsVisible = false,
+        )
+
+        result += SettingsTextViewData(
+            block = SettingsBlock.ExportIcs,
+            title = resourceRepo.getString(R.string.settings_export_ics),
+            subtitle = resourceRepo.getString(R.string.settings_export_warning),
+            subtitleColor = SettingsTextColor.Attention,
+        )
+
+        if (loadAutomaticExportEnabled()) {
+            result += SettingsTextViewData(
+                block = SettingsBlock.ExportTriggerAutoBackup,
+                title = resourceRepo.getString(R.string.backup_options_trigger_auto_export),
+                subtitle = "",
+            )
+        }
 
         return result
     }
