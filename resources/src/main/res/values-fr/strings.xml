@@ -333,7 +333,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_widget_transparency">Transparence de l\'arrière-plan du widget</string>
     <string name="settings_show_activity_filters">Afficher les filtres d\'activité sur l\'écran principal</string>
     <string name="settings_allow_multiple_activity_filters">Autoriser plusieurs filtres d\'activité</string>
-    <string name="settings_allow_multiple_activity_filters_hint">Si désactivé, la sélection d\'un filtre annulera les autres filtres.</string>
+    <string name="settings_allow_multiple_activity_filters_hint">Si désactivé, le choix d\'un filtre annulera les autres filtres.</string>
     <string name="settings_show_categories_as_predefined_filters">Afficher les catégories comme filtres prédéfinis</string>
     <string name="settings_enable_pomodoro_mode">Afficher le bouton Pomodoro sur l\'écran principal</string>
     <string name="settings_show_goals_separately">Afficher les objectifs dans un onglet séparé</string>
@@ -348,7 +348,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_show_notifications_controls_hint">Permet également de démarrer un enregistrement depuis l\'écran de verrouillage.</string>
     <string name="settings_show_notification_even_with_no_timers">Afficher même si aucun enregistrement n\'est en cours</string>
     <string name="settings_keep_statistics_range">Mémoriser la période de statistiques</string>
-    <string name="settings_keep_statistics_range_hint">Si activé, les statistiques détaillées seront affichées pour la même période que celle sélectionnée pour les statistiques.</string>
+    <string name="settings_keep_statistics_range_hint">Si activé, les statistiques détaillées s\'afficheront pour la même période que pour les statistiques.</string>
     <string name="settings_retroactive_tracking_mode">Activer les enregistrements à postériori</string>
     <string name="settings_retroactive_tracking_mode_hint">Lors de la sélection d\'une activité : créer un enregistrement dans le passé (avec pour début : l\'enregistrement précédent et pour fin : maintenant) plutôt que de démarrer un enregistrement à partir de maintenant.</string>
     <string name="settings_retroactive_multitasking_hint">Le multi-tâches est activé. Au démarrage d\'une nouvelle activité, les enregistrement en cours ne seront pas arrêtés.</string>
@@ -410,7 +410,7 @@ Quelques exemples d\'événements :<br/>
 - Démarrage d\'une application<br/>
 - Détection d\'une balise NFC<br/>
 - Arrivée dans un lieu<br/>
-- Heure dans la journée<br/>
+- Heure de la journée<br/>
 - Connexion Bluetooth ou Wifi.<br/>
 <br/>
 Pour fonctionner, ces applications doivent être en mesure d\'envoyer des messages \"intent\" ou \"broadcast intent\" avec les paramètres suivants :<br/>
@@ -464,7 +464,7 @@ Le fichier CSV doit contenir les colonnes suivantes séparées par des virgules 
 <br/>
 <br/>
 Exemple :<br/>
-\"Lecture\",2026-12-31 09:45:00,2026-12-31 10:55:35,\"Ici le commentaire\"
+\"Lecture\",2026-12-31 09:45:00,2026-12-31 10:55:35,\"Ceci est un commentaire.\"
     ]]></string>
     <string name="settings_export_ics">Export ICS</string>
     <string name="settings_export_warning">Ce fichier ne peut pas être utilisé comme sauvegarde.</string>
