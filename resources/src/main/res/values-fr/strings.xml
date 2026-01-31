@@ -435,7 +435,7 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application SimpleTimeTracker env
     <string name="settings_automated_tracking_goal_type">Type d\'objectif.</string>
     <string name="settings_automated_tracking_goal_value">Valeur de l\'objectif, durée en secondes ou nombre d\'enregistrements.</string>
 
-    <string name="settings_save_backup">Effectuer une sauvegarde</string>
+    <string name="settings_save_backup">Faire une sauvegarde</string>
     <string name="settings_save_description">Avant de créer une sauvegarde, assurez-vous que la dernière version de l\'application est installée pour éviter tout conflit.</string>
     <string name="settings_automatic_backup">Activer la sauvegarde automatique</string>
     <string name="settings_automatic_export">Activer l\'export automatique de la feuille de calcul</string>
@@ -488,7 +488,7 @@ Exemple :<br/>
 
     <!--  Backup options  -->
     <string name="backup_options_import">Importer</string>
-    <string name="backup_options_save_without_records">Effectuer une sauvegarde sans enregistrements</string>
+    <string name="backup_options_save_without_records">Faire une sauvegarde sans enregistrements</string>
     <string name="backup_options_save_without_records_hint">Peut être utilisé pour partager la configuration.</string>
     <string name="backup_options_full_restore">Restauration complète</string>
     <string name="backup_options_full_restore_hint">Restaure les données et les paramètres. Nécessite le redémarrage de l\'application.</string>
