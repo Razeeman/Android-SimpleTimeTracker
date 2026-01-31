@@ -89,7 +89,7 @@
     <string name="statistics_total_tracked">Durée totale enregistrée</string>
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Appuyez sur une carte pour afficher les statistiques détaillées</string>
-    <string name="statistics_daily_calendar_hint">Calendrier journalier</string>
+    <string name="statistics_daily_calendar_hint">Frise chronologique de la journée</string>
     <string name="no_statistics_exist">Les statistiques s\'afficheront ici</string>
 
     <!--  Goals  -->
@@ -538,7 +538,7 @@ Exemple :<br/>
     <string name="statistics_detail_data_split_hint">Répartition</string>
     <string name="statistics_detail_data_split_pie_chart">Secteurs</string>
     <string name="statistics_detail_data_split_bar_chart">Colonnes</string>
-    <string name="statistics_detail_day_split_hint">Répartition</string>
+    <string name="statistics_detail_day_split_hint">Répartition des enregistrements sur la journée</string>
     <string name="statistics_detail_duration_split_hint">Répartition des enregistrements par durée</string>
     <string name="statistics_detail_next_activities_hint">Activités suivantes</string>
     <string name="statistics_detail_multitasking_activities_hint">Classement multi-tâches</string>
