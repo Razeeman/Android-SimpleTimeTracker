@@ -43,6 +43,7 @@ import com.example.util.simpletimetracker.feature_categories.R as categoriesR
 import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
 import com.example.util.simpletimetracker.feature_change_record_tag.R as changeRecordTagR
 import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 import com.example.util.simpletimetracker.feature_views.R as viewsR
 
 @HiltAndroidTest
@@ -191,6 +192,22 @@ class AddRecordTagTest : BaseUiTest() {
             allOf(withId(changeRecordTagR.id.fieldChangeRecordTagType), withCardColor(viewsR.color.colorBackground)),
         )
 
+        // Selecting goal time
+        openGoals()
+        clickOnView(
+            allOf(
+                isDescendantOfA(withId(R.id.layoutChangeRecordTypeGoalSession)),
+                withId(R.id.fieldChangeRecordTypeGoalDuration),
+            ),
+        )
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
+        clickOnViewWithText(coreR.string.duration_dialog_save)
+        checkViewIsDisplayed(withText("10$minuteString"))
+        openGoals()
+
         // Adding note
         onView(withId(changeRecordTagR.id.etChangeRecordTagNote)).perform(nestedScrollTo())
         typeTextIntoView(changeRecordTagR.id.etChangeRecordTagNote, note)
@@ -209,6 +226,12 @@ class AddRecordTagTest : BaseUiTest() {
         checkViewIsDisplayed(allOf(withId(changeRecordTagR.id.etChangeRecordTagName), withText(name)))
         onView(withId(changeRecordTagR.id.etChangeRecordTagNote)).perform(nestedScrollTo())
         checkViewIsDisplayed(allOf(withId(changeRecordTagR.id.etChangeRecordTagNote), withText(note)))
+
+        // Check goals saved
+        Thread.sleep(1000)
+        openGoals()
+        checkViewIsDisplayed(withText("10$minuteString"))
+        openGoals()
     }
 
     @Test
@@ -584,4 +607,13 @@ class AddRecordTagTest : BaseUiTest() {
 
     private fun checkPreviewUpdated(matcher: Matcher<View>) =
         checkViewIsDisplayed(allOf(withId(changeRecordTagR.id.previewChangeRecordTag), matcher))
+
+    private fun openGoals() {
+        clickOnView(
+            allOf(
+                withId(changeRecordTagR.id.tvChangeRecordTagGoalHint),
+                withText(coreR.string.change_record_type_goal_time_hint),
+            ),
+        )
+    }
 }

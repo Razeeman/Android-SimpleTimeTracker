@@ -12,6 +12,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import com.example.util.simpletimetracker.core.R
+import com.example.util.simpletimetracker.core.base.DelayLoadHandler
 import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconEmojiMapper
@@ -196,6 +197,7 @@ open class BaseUiTest {
         PieChartView.disableAnimationsForTest = true
         ScreenResolver.disableAnimationsForTest = true
         SettingsFileWorkDelegate.restartAppIsBlocked = true
+        DelayLoadHandler.disableForTest = true
     }
 
     private fun enableAnimations() {
@@ -204,6 +206,7 @@ open class BaseUiTest {
         PieChartView.disableAnimationsForTest = false
         ScreenResolver.disableAnimationsForTest = false
         SettingsFileWorkDelegate.restartAppIsBlocked = false
+        DelayLoadHandler.disableForTest = false
     }
 
     private fun registerIdlingResource() {

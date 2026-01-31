@@ -15,16 +15,22 @@ import com.example.util.simpletimetracker.GoalsTestUtils.checkStatisticsPercent
 import com.example.util.simpletimetracker.GoalsTestUtils.durationInSeconds
 import com.example.util.simpletimetracker.GoalsTestUtils.getDailyCountGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getDailyCountGoalCategory
+import com.example.util.simpletimetracker.GoalsTestUtils.getDailyCountGoalTag
 import com.example.util.simpletimetracker.GoalsTestUtils.getDailyDurationGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getDailyDurationGoalCategory
+import com.example.util.simpletimetracker.GoalsTestUtils.getDailyDurationGoalTag
 import com.example.util.simpletimetracker.GoalsTestUtils.getMonthlyCountGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getMonthlyCountGoalCategory
+import com.example.util.simpletimetracker.GoalsTestUtils.getMonthlyCountGoalTag
 import com.example.util.simpletimetracker.GoalsTestUtils.getMonthlyDurationGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getMonthlyDurationGoalCategory
+import com.example.util.simpletimetracker.GoalsTestUtils.getMonthlyDurationGoalTag
 import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyCountGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyCountGoalCategory
+import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyCountGoalTag
 import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyDurationGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyDurationGoalCategory
+import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyDurationGoalTag
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
@@ -617,6 +623,310 @@ class GoalsStatisticsTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.range_month)
         NavUtils.openFilter()
         clickOnViewWithText(coreR.string.category_hint)
+        pressBack()
+
+        // Goal time not finished
+        scrollTo(goalTimeNotFinished)
+        checkStatisticsGoal(goalTimeNotFinished, "1$hourString 0$minuteString", "$goal - 1$hourString 20$minuteString")
+        checkStatisticsPercent(goalTimeNotFinished, "75%")
+        checkStatisticsMark(goalTimeNotFinished, isVisible = false)
+
+        // Goal time finished
+        scrollTo(goalTimeFinished)
+        checkStatisticsGoal(goalTimeFinished, "1$hourString 0$minuteString", "$goal - 20$minuteString")
+        checkStatisticsMark(goalTimeFinished, isVisible = true)
+
+        // Goal count not finished
+        scrollTo(goalCountNotFinished)
+        checkStatisticsGoal(goalCountNotFinished, "6 Records", "$goal - 8 Records")
+        checkStatisticsPercent(goalCountNotFinished, "75%")
+        checkStatisticsMark(goalCountNotFinished, isVisible = false)
+
+        // Goal count finished
+        scrollTo(goalCountFinished)
+        checkStatisticsGoal(goalCountFinished, "5 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalCountFinished, isVisible = true)
+
+        // Other goals
+        scrollBottom()
+        checkNoStatisticsGoal(otherGoals)
+    }
+
+    @Test
+    fun dailyTagGoal() {
+        val goal = getString(coreR.string.change_record_type_goal_time_hint).lowercase()
+
+        val goalTimeNotFinished = "goalTimeNotFinishedTag"
+        val goalTimeFinished = "goalTimeFinishedTag"
+        val goalCountNotFinished = "goalCountNotFinishedTag"
+        val goalCountFinished = "goalCountFinishedTag"
+        val otherGoals = "otherDailyTags"
+
+        // Activities
+        testUtils.addActivity(goalTimeNotFinished.first())
+        testUtils.addActivity(goalTimeNotFinished.second())
+        testUtils.addActivity(goalTimeFinished.first())
+        testUtils.addActivity(goalTimeFinished.second())
+        testUtils.addActivity(goalCountNotFinished.first())
+        testUtils.addActivity(goalCountNotFinished.second())
+        testUtils.addActivity(goalCountFinished.first())
+        testUtils.addActivity(goalCountFinished.second())
+        testUtils.addActivity(otherGoals.first())
+        testUtils.addActivity(otherGoals.second())
+
+        // Tags
+        testUtils.addRecordTag(
+            goalTimeNotFinished,
+            typeName = goalTimeNotFinished.first(),
+            goals = listOf(getDailyDurationGoalTag(8 * durationInSeconds)),
+        )
+        testUtils.addRecordTag(
+            goalTimeFinished,
+            typeName = goalTimeFinished.first(),
+            goals = listOf(getDailyDurationGoalTag(2 * durationInSeconds)),
+        )
+        testUtils.addRecordTag(
+            goalCountNotFinished,
+            typeName = goalCountNotFinished.first(),
+            goals = listOf(getDailyCountGoalTag(8)),
+        )
+        testUtils.addRecordTag(
+            goalCountFinished,
+            typeName = goalCountFinished.first(),
+            goals = listOf(getDailyCountGoalTag(3)),
+        )
+        testUtils.addRecordTag(
+            otherGoals,
+            typeName = otherGoals.first(),
+            goals = listOf(
+                getWeeklyDurationGoalTag(durationInSeconds),
+                getMonthlyCountGoalTag(1),
+            ),
+        )
+
+        // Records
+        addRecords(testUtils, goalTimeNotFinished.first(), tagNames = listOf(goalTimeNotFinished))
+        addRecords(testUtils, goalTimeNotFinished.second(), tagNames = listOf(goalTimeNotFinished))
+        addRecords(testUtils, goalTimeFinished.first(), tagNames = listOf(goalTimeFinished))
+        addRecords(testUtils, goalTimeFinished.second(), tagNames = listOf(goalTimeFinished))
+
+        addRecords(testUtils, goalCountNotFinished.first(), tagNames = listOf(goalCountNotFinished))
+        addRecords(testUtils, goalCountNotFinished.second(), tagNames = listOf(goalCountNotFinished))
+
+        testUtils.addRecord(goalCountFinished.first(), tagNames = listOf(goalCountFinished))
+        testUtils.addRecord(goalCountFinished.second(), tagNames = listOf(goalCountFinished))
+        addRecords(testUtils, goalCountFinished.first(), tagNames = listOf(goalCountFinished))
+
+        addRecords(testUtils, otherGoals.first(), tagNames = listOf(otherGoals))
+        addRecords(testUtils, otherGoals.second(), tagNames = listOf(otherGoals))
+
+        NavUtils.openStatisticsScreen()
+        NavUtils.openFilter()
+        clickOnViewWithText(coreR.string.record_tag_hint_short)
+        pressBack()
+
+        // Goal time not finished
+        scrollTo(goalTimeNotFinished)
+        checkStatisticsGoal(goalTimeNotFinished, "20$minuteString", "$goal - 1$hourString 20$minuteString")
+        checkStatisticsPercent(goalTimeNotFinished, "25%")
+        checkStatisticsMark(goalTimeNotFinished, isVisible = false)
+
+        // Goal time finished
+        scrollTo(goalTimeFinished)
+        checkStatisticsGoal(goalTimeFinished, "20$minuteString", "$goal - 20$minuteString")
+        checkStatisticsMark(goalTimeFinished, isVisible = true)
+
+        // Goal count not finished
+        scrollTo(goalCountNotFinished)
+        checkStatisticsGoal(goalCountNotFinished, "2 Records", "$goal - 8 Records")
+        checkStatisticsPercent(goalCountNotFinished, "25%")
+        checkStatisticsMark(goalCountNotFinished, isVisible = false)
+
+        // Goal count finished
+        scrollTo(goalCountFinished)
+        checkStatisticsGoal(goalCountFinished, "3 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalCountFinished, isVisible = true)
+
+        // Other goals
+        scrollBottom()
+        checkNoStatisticsGoal(otherGoals)
+    }
+
+    @Test
+    fun weeklyTagGoal() {
+        val goal = getString(coreR.string.change_record_type_goal_time_hint).lowercase()
+
+        val goalTimeNotFinished = "goalTimeNotFinishedTag"
+        val goalTimeFinished = "goalTimeFinishedTag"
+        val goalCountNotFinished = "goalCountNotFinishedTag"
+        val goalCountFinished = "goalCountFinishedTag"
+        val otherGoals = "otherWeeklyTags"
+
+        // Activities
+        testUtils.addActivity(goalTimeNotFinished.first())
+        testUtils.addActivity(goalTimeNotFinished.second())
+        testUtils.addActivity(goalTimeFinished.first())
+        testUtils.addActivity(goalTimeFinished.second())
+        testUtils.addActivity(goalCountNotFinished.first())
+        testUtils.addActivity(goalCountNotFinished.second())
+        testUtils.addActivity(goalCountFinished.first())
+        testUtils.addActivity(goalCountFinished.second())
+        testUtils.addActivity(otherGoals.first())
+        testUtils.addActivity(otherGoals.second())
+
+        // Tags
+        testUtils.addRecordTag(
+            tagName = goalTimeNotFinished,
+            typeName = goalTimeNotFinished.first(),
+            goals = listOf(getWeeklyDurationGoalTag(8 * durationInSeconds)),
+        )
+        testUtils.addRecordTag(
+            tagName = goalTimeFinished,
+            typeName = goalTimeFinished.first(),
+            goals = listOf(getWeeklyDurationGoalTag(2 * durationInSeconds)),
+        )
+        testUtils.addRecordTag(
+            tagName = goalCountNotFinished,
+            typeName = goalCountNotFinished.first(),
+            goals = listOf(getWeeklyCountGoalTag(8)),
+        )
+        testUtils.addRecordTag(
+            tagName = goalCountFinished,
+            typeName = goalCountFinished.first(),
+            goals = listOf(getWeeklyCountGoalTag(3)),
+        )
+        testUtils.addRecordTag(
+            tagName = otherGoals,
+            typeName = otherGoals.first(),
+            goals = listOf(
+                getDailyDurationGoalTag(durationInSeconds),
+                getMonthlyCountGoalTag(1),
+            ),
+        )
+
+        // Records
+        addRecords(testUtils, goalTimeNotFinished.first(), tagNames = listOf(goalTimeNotFinished))
+        addRecords(testUtils, goalTimeNotFinished.second(), tagNames = listOf(goalTimeNotFinished))
+        addRecords(testUtils, goalTimeFinished.first(), tagNames = listOf(goalTimeFinished))
+        addRecords(testUtils, goalTimeFinished.second(), tagNames = listOf(goalTimeFinished))
+
+        addRecords(testUtils, goalCountNotFinished.first(), tagNames = listOf(goalCountNotFinished))
+        addRecords(testUtils, goalCountNotFinished.second(), tagNames = listOf(goalCountNotFinished))
+
+        testUtils.addRecord(goalCountFinished.first(), tagNames = listOf(goalCountFinished))
+        testUtils.addRecord(goalCountFinished.second(), tagNames = listOf(goalCountFinished))
+        addRecords(testUtils, goalCountFinished.first(), tagNames = listOf(goalCountFinished))
+
+        addRecords(testUtils, otherGoals.first(), tagNames = listOf(otherGoals))
+        addRecords(testUtils, otherGoals.second(), tagNames = listOf(otherGoals))
+
+        NavUtils.openStatisticsScreen()
+        clickOnCurrentDate()
+        clickOnViewWithText(coreR.string.range_week)
+        NavUtils.openFilter()
+        clickOnViewWithText(coreR.string.record_tag_hint_short)
+        pressBack()
+
+        // Goal time not finished
+        scrollTo(goalTimeNotFinished)
+        checkStatisticsGoal(goalTimeNotFinished, "40$minuteString", "$goal - 1$hourString 20$minuteString")
+        checkStatisticsPercent(goalTimeNotFinished, "50%")
+        checkStatisticsMark(goalTimeNotFinished, isVisible = false)
+
+        // Goal time finished
+        scrollTo(goalTimeFinished)
+        checkStatisticsGoal(goalTimeFinished, "40$minuteString", "$goal - 20$minuteString")
+        checkStatisticsMark(goalTimeFinished, isVisible = true)
+
+        // Goal count not finished
+        scrollTo(goalCountNotFinished)
+        checkStatisticsGoal(goalCountNotFinished, "4 Records", "$goal - 8 Records")
+        checkStatisticsPercent(goalCountNotFinished, "50%")
+        checkStatisticsMark(goalCountNotFinished, isVisible = false)
+
+        // Goal count finished
+        scrollTo(goalCountFinished)
+        checkStatisticsGoal(goalCountFinished, "4 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalCountFinished, isVisible = true)
+
+        // Other goals
+        scrollBottom()
+        checkNoStatisticsGoal(otherGoals)
+    }
+
+    @Test
+    fun monthlyTagGoal() {
+        val goal = getString(coreR.string.change_record_type_goal_time_hint).lowercase()
+
+        val goalTimeNotFinished = "goalTimeNotFinishedTag"
+        val goalTimeFinished = "goalTimeFinishedTag"
+        val goalCountNotFinished = "goalCountNotFinishedTag"
+        val goalCountFinished = "goalCountFinishedTag"
+        val otherGoals = "otherMonthlyTags"
+
+        // Activities
+        testUtils.addActivity(goalTimeNotFinished.first())
+        testUtils.addActivity(goalTimeNotFinished.second())
+        testUtils.addActivity(goalTimeFinished.first())
+        testUtils.addActivity(goalTimeFinished.second())
+        testUtils.addActivity(goalCountNotFinished.first())
+        testUtils.addActivity(goalCountNotFinished.second())
+        testUtils.addActivity(goalCountFinished.first())
+        testUtils.addActivity(goalCountFinished.second())
+        testUtils.addActivity(otherGoals.first())
+        testUtils.addActivity(otherGoals.second())
+
+        // Tags
+        testUtils.addRecordTag(
+            goalTimeNotFinished,
+            typeName = goalTimeNotFinished.first(),
+            goals = listOf(getMonthlyDurationGoalTag(8 * durationInSeconds)),
+        )
+        testUtils.addRecordTag(
+            goalTimeFinished,
+            typeName = goalTimeFinished.first(),
+            goals = listOf(getMonthlyDurationGoalTag(2 * durationInSeconds)),
+        )
+        testUtils.addRecordTag(
+            goalCountNotFinished,
+            typeName = goalCountNotFinished.first(),
+            goals = listOf(getMonthlyCountGoalTag(8)),
+        )
+        testUtils.addRecordTag(
+            goalCountFinished,
+            typeName = goalCountFinished.first(),
+            goals = listOf(getMonthlyCountGoalTag(3)),
+        )
+        testUtils.addRecordTag(
+            otherGoals,
+            typeName = otherGoals.first(),
+            goals = listOf(
+                getDailyDurationGoalTag(durationInSeconds),
+                getWeeklyCountGoalTag(1),
+            ),
+        )
+
+        // Records
+        addRecords(testUtils, goalTimeNotFinished.first(), tagNames = listOf(goalTimeNotFinished))
+        addRecords(testUtils, goalTimeNotFinished.second(), tagNames = listOf(goalTimeNotFinished))
+        addRecords(testUtils, goalTimeFinished.first(), tagNames = listOf(goalTimeFinished))
+        addRecords(testUtils, goalTimeFinished.second(), tagNames = listOf(goalTimeFinished))
+
+        addRecords(testUtils, goalCountNotFinished.first(), tagNames = listOf(goalCountNotFinished))
+        addRecords(testUtils, goalCountNotFinished.second(), tagNames = listOf(goalCountNotFinished))
+
+        testUtils.addRecord(goalCountFinished.first(), tagNames = listOf(goalCountFinished))
+        testUtils.addRecord(goalCountFinished.second(), tagNames = listOf(goalCountFinished))
+        addRecords(testUtils, goalCountFinished.first(), tagNames = listOf(goalCountFinished))
+
+        addRecords(testUtils, otherGoals.first(), tagNames = listOf(otherGoals))
+        addRecords(testUtils, otherGoals.second(), tagNames = listOf(otherGoals))
+
+        NavUtils.openStatisticsScreen()
+        clickOnCurrentDate()
+        clickOnViewWithText(coreR.string.range_month)
+        NavUtils.openFilter()
+        clickOnViewWithText(coreR.string.record_tag_hint_short)
         pressBack()
 
         // Goal time not finished

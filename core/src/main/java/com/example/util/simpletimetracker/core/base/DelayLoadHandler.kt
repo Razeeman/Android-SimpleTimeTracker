@@ -8,10 +8,15 @@ interface DelayLoadHandler {
     var delayDataLoad: Boolean
 
     suspend fun delayLoad() {
+        if (disableForTest) return
         if (delayDataLoad) {
             // Delay data set on view to avoid screen open lag.
             delay(DELAY_DATA_LOAD_MS)
             delayDataLoad = false
         }
+    }
+
+    companion object {
+        var disableForTest: Boolean = false
     }
 }

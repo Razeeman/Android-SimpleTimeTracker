@@ -2391,8 +2391,9 @@ class SettingsTest : BaseUiTest() {
     fun icsExportSettings() {
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsExportImport()
-        scrollSettingsRecyclerToText(coreR.string.settings_export_ics)
-        clickOnSettingsRecyclerText(coreR.string.settings_export_ics)
+        scrollSettingsRecyclerToText(coreR.string.settings_backup_options)
+        clickOnSettingsRecyclerText(coreR.string.settings_backup_options)
+        clickOnViewWithText(coreR.string.settings_export_ics)
 
         // View is set up
         checkViewIsDisplayed(

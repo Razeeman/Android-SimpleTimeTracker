@@ -88,11 +88,13 @@ object NavUtils {
     fun openCategoriesScreen() {
         scrollSettingsRecyclerToText(coreR.string.settings_edit_categories)
         clickOnSettingsRecyclerText(coreR.string.settings_edit_categories)
+        Thread.sleep(1000)
     }
 
     fun openArchiveScreen() {
         scrollSettingsRecyclerToText(coreR.string.settings_archive)
         clickOnSettingsRecyclerText(coreR.string.settings_archive)
+        Thread.sleep(1000)
     }
 
     fun openDataEditScreen() {
@@ -104,11 +106,13 @@ object NavUtils {
     fun openComplexRules() {
         scrollSettingsRecyclerToText(coreR.string.settings_complex_rules)
         clickOnSettingsRecyclerText(coreR.string.settings_complex_rules)
+        Thread.sleep(1000)
     }
 
     fun openSuggestions() {
         scrollSettingsRecyclerToText(coreR.string.settings_activity_suggestions)
         clickOnSettingsRecyclerText(coreR.string.settings_activity_suggestions)
+        Thread.sleep(1000)
     }
 
     fun openCardSizeScreen() {

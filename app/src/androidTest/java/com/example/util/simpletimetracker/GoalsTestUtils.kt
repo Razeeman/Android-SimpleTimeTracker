@@ -38,11 +38,17 @@ object GoalsTestUtils {
     fun getDailyDurationGoalCategory(duration: Long): RecordTypeGoal =
         getDurationGoalCategory(RecordTypeGoal.Range.Daily, duration)
 
+    fun getDailyDurationGoalTag(duration: Long): RecordTypeGoal =
+        getDurationGoalTag(RecordTypeGoal.Range.Daily, duration)
+
     fun getWeeklyDurationGoal(duration: Long): RecordTypeGoal =
         getDurationGoal(RecordTypeGoal.Range.Weekly, duration)
 
     fun getWeeklyDurationGoalCategory(duration: Long): RecordTypeGoal =
         getDurationGoalCategory(RecordTypeGoal.Range.Weekly, duration)
+
+    fun getWeeklyDurationGoalTag(duration: Long): RecordTypeGoal =
+        getDurationGoalTag(RecordTypeGoal.Range.Weekly, duration)
 
     fun getMonthlyDurationGoal(duration: Long): RecordTypeGoal =
         getDurationGoal(RecordTypeGoal.Range.Monthly, duration)
@@ -50,11 +56,17 @@ object GoalsTestUtils {
     fun getMonthlyDurationGoalCategory(duration: Long): RecordTypeGoal =
         getDurationGoalCategory(RecordTypeGoal.Range.Monthly, duration)
 
+    fun getMonthlyDurationGoalTag(duration: Long): RecordTypeGoal =
+        getDurationGoalTag(RecordTypeGoal.Range.Monthly, duration)
+
     fun getDailyCountGoal(count: Long): RecordTypeGoal =
         getCountGoal(RecordTypeGoal.Range.Daily, count)
 
     fun getDailyCountGoalCategory(count: Long): RecordTypeGoal =
         getCountGoalCategory(RecordTypeGoal.Range.Daily, count)
+
+    fun getDailyCountGoalTag(count: Long): RecordTypeGoal =
+        getCountGoalTag(RecordTypeGoal.Range.Daily, count)
 
     fun getWeeklyCountGoal(count: Long): RecordTypeGoal =
         getCountGoal(RecordTypeGoal.Range.Weekly, count)
@@ -62,13 +74,19 @@ object GoalsTestUtils {
     fun getWeeklyCountGoalCategory(count: Long): RecordTypeGoal =
         getCountGoalCategory(RecordTypeGoal.Range.Weekly, count)
 
+    fun getWeeklyCountGoalTag(count: Long): RecordTypeGoal =
+        getCountGoalTag(RecordTypeGoal.Range.Weekly, count)
+
     fun getMonthlyCountGoal(count: Long): RecordTypeGoal =
         getCountGoal(RecordTypeGoal.Range.Monthly, count)
 
     fun getMonthlyCountGoalCategory(count: Long): RecordTypeGoal =
         getCountGoalCategory(RecordTypeGoal.Range.Monthly, count)
 
-    fun addRecords(testUtils: TestUtils, typeName: String) {
+    fun getMonthlyCountGoalTag(count: Long): RecordTypeGoal =
+        getCountGoalTag(RecordTypeGoal.Range.Monthly, count)
+
+    fun addRecords(testUtils: TestUtils, typeName: String, tagNames: List<String> = emptyList()) {
         val currentTime = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 15)
         }.timeInMillis
@@ -91,16 +109,19 @@ object GoalsTestUtils {
             typeName = typeName,
             timeStarted = currentTime - durationInMillis,
             timeEnded = currentTime,
+            tagNames = tagNames,
         )
         testUtils.addRecord(
             typeName = typeName,
             timeStarted = thisWeek - durationInMillis,
             timeEnded = thisWeek,
+            tagNames = tagNames,
         )
         testUtils.addRecord(
             typeName = typeName,
             timeStarted = thisMonth - durationInMillis,
             timeEnded = thisMonth,
+            tagNames = tagNames,
         )
     }
 
