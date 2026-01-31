@@ -37,6 +37,7 @@ import com.example.util.simpletimetracker.feature_views.extension.ifNull
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.extension.setAllMargins
 import com.example.util.simpletimetracker.feature_widget.R
+import com.example.util.simpletimetracker.feature_widget.common.WidgetGetActualFilteredIdsInteractor
 import com.example.util.simpletimetracker.feature_widget.common.WidgetViewsHolder
 import com.example.util.simpletimetracker.feature_widget.grid.WidgetGridProvider.Companion.CONTROLS_NEW_PAGE
 import com.example.util.simpletimetracker.feature_widget.grid.WidgetGridProvider.Companion.ITEM_CLICK_ACTION
@@ -60,6 +61,7 @@ class WidgetGridRemoveViewsFactory @Inject constructor(
     private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
+    private val widgetGetActualFilteredIdsInteractor: WidgetGetActualFilteredIdsInteractor,
 ) {
 
     private var preparedView: RecordTypeView? = null
@@ -69,7 +71,14 @@ class WidgetGridRemoveViewsFactory @Inject constructor(
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int,
     ): RemoteViews {
-        val recordTypes = recordTypeInteractor.getAll().filter { !it.hidden }
+        val allTypes = recordTypeInteractor.getAll().filter { !it.hidden }
+        val widgetData = prefsInteractor.getGridWidgetData(appWidgetId)
+        val filteredTypeIds = widgetGetActualFilteredIdsInteractor.execute(
+            filterType = widgetData.filteringType,
+            widgetItemIds = widgetData.typeIds,
+            allItemIds = allTypes.map(RecordType::id).toSet(),
+        )
+        val recordTypes = allTypes.filter { it.id !in filteredTypeIds }
         val runningRecords = runningRecordInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()

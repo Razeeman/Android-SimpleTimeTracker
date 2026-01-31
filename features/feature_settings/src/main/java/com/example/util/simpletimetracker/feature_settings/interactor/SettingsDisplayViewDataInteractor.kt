@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_settings.interactor
 
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.statistics.model.WidgetTransparencyPercent
+import com.example.util.simpletimetracker.domain.widget.model.WidgetTransparencyPercent
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.R

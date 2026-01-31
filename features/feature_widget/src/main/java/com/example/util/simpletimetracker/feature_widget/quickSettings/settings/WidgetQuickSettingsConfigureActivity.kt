@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.core.provider.ContextProvider
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_widget.utils.getAppWidgetIdOrInvalid
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_widget.databinding.WidgetQuickSettingsConfigureActivityBinding as Binding
@@ -40,12 +41,7 @@ class WidgetQuickSettingsConfigureActivity : BaseActivity<Binding>() {
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        val widgetId = intent?.extras
-            ?.getInt(
-                AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID,
-            )
-            ?: AppWidgetManager.INVALID_APPWIDGET_ID
+        val widgetId = intent.getAppWidgetIdOrInvalid()
 
         extra = WidgetQuickSettingsConfigureExtra(widgetId)
         handled.observe(::exit)

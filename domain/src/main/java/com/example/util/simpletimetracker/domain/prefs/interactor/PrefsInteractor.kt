@@ -18,7 +18,8 @@ import com.example.util.simpletimetracker.domain.recordType.model.CardOrder
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.domain.statistics.model.StatisticsStreaksType
-import com.example.util.simpletimetracker.domain.statistics.model.StatisticsWidgetData
+import com.example.util.simpletimetracker.domain.widget.model.GridWidgetData
+import com.example.util.simpletimetracker.domain.widget.model.StatisticsWidgetData
 import com.example.util.simpletimetracker.domain.widget.model.QuickSettingsWidgetType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -832,6 +833,14 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun getGridWidget(widgetId: Int): Int = withContext(Dispatchers.IO) {
         prefsRepo.getGridWidget(widgetId)
+    }
+
+    suspend fun setGridWidgetData(widgetId: Int, data: GridWidgetData) = withContext(Dispatchers.IO) {
+        prefsRepo.setGridWidgetData(widgetId, data)
+    }
+
+    suspend fun getGridWidgetData(widgetId: Int): GridWidgetData = withContext(Dispatchers.IO) {
+        prefsRepo.getGridWidgetData(widgetId)
     }
 
     suspend fun removeGridWidget(widgetId: Int) = withContext(Dispatchers.IO) {

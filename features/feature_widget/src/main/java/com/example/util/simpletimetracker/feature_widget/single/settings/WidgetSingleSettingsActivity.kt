@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmpty
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordTypeSpecial.createRunningRecordTypeSpecialAdapterDelegate
+import com.example.util.simpletimetracker.feature_widget.utils.getAppWidgetIdOrInvalid
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -63,12 +64,7 @@ class WidgetSingleSettingsActivity : BaseActivity<Binding>() {
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
-        val widgetId = intent?.extras
-            ?.getInt(
-                AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID,
-            )
-            ?: AppWidgetManager.INVALID_APPWIDGET_ID
+        val widgetId = intent.getAppWidgetIdOrInvalid()
 
         extra = WidgetSingleSettingsExtra(widgetId)
         recordTypes.observe(typesAdapter::replace)

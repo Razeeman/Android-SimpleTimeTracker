@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:configure="com.example.util.simpletimetracker.feature_widget.grid.settings.WidgetGridSettingsActivity"
     android:initialLayout="@layout/widgets_layout"
     android:minWidth="20dp"
     android:minHeight="20dp"
@@ -8,4 +9,5 @@
     android:resizeMode="vertical|horizontal"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable"
     tools:targetApi="p" />

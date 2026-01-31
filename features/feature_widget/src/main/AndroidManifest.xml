@@ -19,6 +19,14 @@
         </activity>
 
         <activity
+            android:name=".grid.settings.WidgetGridSettingsActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".quickSettings.settings.WidgetQuickSettingsConfigureActivity"
             android:exported="true">
             <intent-filter>

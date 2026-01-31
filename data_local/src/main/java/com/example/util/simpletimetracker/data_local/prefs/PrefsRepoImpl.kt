@@ -3,7 +3,7 @@ package com.example.util.simpletimetracker.data_local.prefs
 import android.content.SharedPreferences
 import com.example.util.simpletimetracker.data_local.base.delegate
 import com.example.util.simpletimetracker.data_local.base.logPrefsDataAccess
-import com.example.util.simpletimetracker.domain.statistics.model.StatisticsWidgetData
+import com.example.util.simpletimetracker.domain.widget.model.StatisticsWidgetData
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.widget.model.QuickSettingsWidgetType
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
@@ -12,6 +12,8 @@ import java.util.Calendar
 import javax.inject.Inject
 import javax.inject.Singleton
 import androidx.core.content.edit
+import com.example.util.simpletimetracker.domain.widget.model.GridWidgetData
+import com.example.util.simpletimetracker.domain.widget.model.WidgetDataFilterType
 
 @Singleton
 class PrefsRepoImpl @Inject constructor(
@@ -495,10 +497,7 @@ class PrefsRepoImpl @Inject constructor(
         val filteredTypesData = data.typeIds.map(Long::toString).toSet()
         val filteredCategoriesData = data.categoryIds.map(Long::toString).toSet()
         val filteredTagsData = data.tagIds.map(Long::toString).toSet()
-        val filteringType = when (data.filteringType) {
-            StatisticsWidgetData.FilterType.FILTER -> 0
-            StatisticsWidgetData.FilterType.SELECT -> 1
-        }
+        val filteringType = mapWidgetDataFilterType(data.filteringType)
 
         prefs.edit {
             putInt(KEY_STATISTICS_WIDGET_FILTER_TYPE + widgetId, filterTypeData)
@@ -541,11 +540,8 @@ class PrefsRepoImpl @Inject constructor(
         val filteredTags = prefs
             .getStringSet(KEY_STATISTICS_WIDGET_FILTERED_TAGS + widgetId, emptySet())
             ?.mapNotNull { it.toLongOrNull() }.orEmpty().toSet()
-        val filteringType = when (prefs.getInt(KEY_STATISTICS_WIDGET_FILTERING_TYPE + widgetId, 0)) {
-            0 -> StatisticsWidgetData.FilterType.FILTER
-            1 -> StatisticsWidgetData.FilterType.SELECT
-            else -> StatisticsWidgetData.FilterType.FILTER
-        }
+        val filteringType = prefs.getInt(KEY_STATISTICS_WIDGET_FILTERING_TYPE + widgetId, 0)
+            .let(::mapToWidgetDataFilterType)
 
         return StatisticsWidgetData(
             chartFilterType = filterType,
@@ -614,10 +610,39 @@ class PrefsRepoImpl @Inject constructor(
         return prefs.getInt(key, 0)
     }
 
+    override fun setGridWidgetData(widgetId: Int, data: GridWidgetData) {
+        logPrefsDataAccess("setGridWidgetFilteredTypes $widgetId")
+        val filteredTypesData = data.typeIds.map(Long::toString).toSet()
+        val filteringType = mapWidgetDataFilterType(data.filteringType)
+
+        prefs.edit {
+            putStringSet(KEY_GRID_WIDGET_FILTERED_TYPES + widgetId, filteredTypesData)
+            putInt(KEY_GRID_WIDGET_FILTERING_TYPE + widgetId, filteringType)
+        }
+    }
+
+    override fun getGridWidgetData(widgetId: Int): GridWidgetData {
+        logPrefsDataAccess("getGridWidgetFilteredTypes $widgetId")
+
+        val filteredTypes = prefs
+            .getStringSet(KEY_GRID_WIDGET_FILTERED_TYPES + widgetId, emptySet())
+            ?.mapNotNull { it.toLongOrNull() }.orEmpty().toSet()
+        val filteringType = prefs.getInt(KEY_GRID_WIDGET_FILTERING_TYPE + widgetId, 0)
+            .let(::mapToWidgetDataFilterType)
+
+        return GridWidgetData(
+            typeIds = filteredTypes,
+            filteringType = filteringType,
+        )
+    }
+
     override fun removeGridWidget(widgetId: Int) {
-        val key = KEY_GRID_WIDGET_PAGE + widgetId
-        logPrefsDataAccess("removeGridWidget $key")
-        prefs.edit { remove(key) }
+        logPrefsDataAccess("removeGridWidget $widgetId")
+        prefs.edit {
+            remove(KEY_GRID_WIDGET_PAGE + widgetId)
+            remove(KEY_GRID_WIDGET_FILTERED_TYPES + widgetId)
+            remove(KEY_GRID_WIDGET_FILTERING_TYPE + widgetId)
+        }
     }
 
     override fun clear() {
@@ -648,6 +673,21 @@ class PrefsRepoImpl @Inject constructor(
 
     override fun hasValueSaved(key: String): Boolean {
         return prefs.contains(key)
+    }
+
+    private fun mapWidgetDataFilterType(data: WidgetDataFilterType): Int {
+        return when (data) {
+            WidgetDataFilterType.FILTER -> 0
+            WidgetDataFilterType.SELECT -> 1
+        }
+    }
+
+    private fun mapToWidgetDataFilterType(data: Int): WidgetDataFilterType {
+        return when (data) {
+            0 -> WidgetDataFilterType.FILTER
+            1 -> WidgetDataFilterType.SELECT
+            else -> WidgetDataFilterType.FILTER
+        }
     }
 
     @Suppress("unused")
@@ -779,6 +819,8 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_STATISTICS_WIDGET_FILTERING_TYPE = "statistics_widget_filtering_type_"
         private const val KEY_QUICK_SETTINGS_WIDGET_TYPE = "quick_settings_widget_type_"
         private const val KEY_GRID_WIDGET_PAGE = "grid_widget_page_"
+        private const val KEY_GRID_WIDGET_FILTERED_TYPES = "grid_widget_filtered_types_"
+        private const val KEY_GRID_WIDGET_FILTERING_TYPE = "grid_widget_filtering_type_"
 
         // Removed
         private const val KEY_SORT_RECORD_TYPES_BY_COLOR = "sortRecordTypesByColor" // Boolean

@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_widget.statistics.settings
 
-import android.appwidget.AppWidgetManager
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -16,6 +15,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmpty
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_widget.utils.getAppWidgetIdOrInvalid
 import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -95,12 +95,7 @@ class WidgetStatisticsSettingsFragment :
     }
 
     private fun getWidgetId(): Int {
-        return activity?.intent?.extras
-            ?.getInt(
-                AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID,
-            )
-            ?: AppWidgetManager.INVALID_APPWIDGET_ID
+        return activity?.intent.getAppWidgetIdOrInvalid()
     }
 
     private fun setDoNotIncludeItemsState(isChecked: Boolean) = with(binding) {

@@ -1,11 +1,24 @@
 package com.example.util.simpletimetracker.feature_widget.utils
 
+import android.appwidget.AppWidgetManager
+import android.content.Intent
 import android.os.SystemClock
 import android.view.View
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import com.example.util.simpletimetracker.feature_widget.R
+
+fun Intent?.getAppWidgetIdOrInvalid(): Int {
+    return this?.getAppWidgetIdOrNull() ?: AppWidgetManager.INVALID_APPWIDGET_ID
+}
+
+fun Intent?.getAppWidgetIdOrNull(): Int? {
+    return this?.getIntExtra(
+        AppWidgetManager.EXTRA_APPWIDGET_ID,
+        AppWidgetManager.INVALID_APPWIDGET_ID,
+    )
+}
 
 fun setChronometer(
     timestamp: Long?,

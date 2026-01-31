@@ -16,7 +16,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.record.model.RepeatButtonType
 import com.example.util.simpletimetracker.domain.recordTag.model.CardTagOrder
 import com.example.util.simpletimetracker.domain.recordType.model.CardOrder
-import com.example.util.simpletimetracker.domain.statistics.model.WidgetTransparencyPercent
+import com.example.util.simpletimetracker.domain.widget.model.WidgetTransparencyPercent
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.model.CustomizeOptionsMenuListItem
 import com.example.util.simpletimetracker.feature_settings.viewData.CardOrderViewData

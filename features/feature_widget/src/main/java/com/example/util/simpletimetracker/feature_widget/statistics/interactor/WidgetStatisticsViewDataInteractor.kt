@@ -44,7 +44,7 @@ class WidgetStatisticsViewDataInteractor @Inject constructor(
             typeIds = { types.map(RecordType::id).toSet() },
             categoryIds = { categoryInteractor.getAll().map(Category::id).toSet() },
             tagIds = { recordTagInteractor.getAll().map(RecordTag::id).toSet() },
-        )
+        ).toList()
 
         val dataHolders = statisticsMediator.getDataHolders(
             filterType = filterType,

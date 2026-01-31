@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.domain.prefs.repo
 
-import com.example.util.simpletimetracker.domain.statistics.model.StatisticsWidgetData
+import com.example.util.simpletimetracker.domain.widget.model.GridWidgetData
+import com.example.util.simpletimetracker.domain.widget.model.StatisticsWidgetData
 import com.example.util.simpletimetracker.domain.widget.model.QuickSettingsWidgetType
 
 interface PrefsRepo {
@@ -225,6 +226,10 @@ interface PrefsRepo {
     fun setGridWidget(widgetId: Int, page: Int)
 
     fun getGridWidget(widgetId: Int): Int
+
+    fun setGridWidgetData(widgetId: Int, data: GridWidgetData)
+
+    fun getGridWidgetData(widgetId: Int): GridWidgetData
 
     fun removeGridWidget(widgetId: Int)
 

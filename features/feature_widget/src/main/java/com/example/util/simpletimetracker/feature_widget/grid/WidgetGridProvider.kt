@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.extension.allowDiskRead
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.widget.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.feature_widget.common.WidgetTypeClickManager
+import com.example.util.simpletimetracker.feature_widget.utils.getAppWidgetIdOrNull
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -51,7 +52,7 @@ class WidgetGridProvider : AppWidgetProvider() {
 
     override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
         allowDiskRead { MainScope() }.launch {
-            appWidgetIds?.forEach { prefsInteractor.removeWidget(it) }
+            appWidgetIds?.forEach { prefsInteractor.removeGridWidget(it) }
         }
     }
 
@@ -88,7 +89,7 @@ class WidgetGridProvider : AppWidgetProvider() {
         context: Context?,
         intent: Intent,
     ) {
-        val appWidgetId = intent.getAppWidgetId() ?: return
+        val appWidgetId = intent.getAppWidgetIdOrNull() ?: return
         widgetTypeClickManager.onClick(
             context = context,
             recordTypeId = intent.getLongExtra(TYPE_ID_EXTRA, 0),
@@ -99,15 +100,10 @@ class WidgetGridProvider : AppWidgetProvider() {
     private suspend fun onNewPage(
         intent: Intent,
     ) {
-        val appWidgetId = intent.getAppWidgetId() ?: return
+        val appWidgetId = intent.getAppWidgetIdOrNull() ?: return
         val page = intent.getIntExtra(NEW_PAGE_EXTRA, 0)
         prefsInteractor.setGridWidget(appWidgetId, page)
         widgetInteractor.updateGridWidget(appWidgetId)
-    }
-
-    private fun Intent.getAppWidgetId(): Int? {
-        return getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1)
-            .takeUnless { it == -1 }
     }
 
     companion object {

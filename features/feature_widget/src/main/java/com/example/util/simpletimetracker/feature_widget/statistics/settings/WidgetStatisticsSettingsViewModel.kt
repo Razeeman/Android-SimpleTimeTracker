@@ -2,8 +2,9 @@ package com.example.util.simpletimetracker.feature_widget.statistics.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.BaseViewModel
+import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.extension.toModel
 import com.example.util.simpletimetracker.core.interactor.ChartFilterViewDataInteractor
@@ -24,8 +25,9 @@ import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTyp
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
-import com.example.util.simpletimetracker.domain.statistics.model.StatisticsWidgetData
+import com.example.util.simpletimetracker.domain.widget.model.StatisticsWidgetData
 import com.example.util.simpletimetracker.domain.widget.interactor.WidgetInteractor
+import com.example.util.simpletimetracker.domain.widget.model.WidgetDataFilterType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.view.ButtonsRowViewData
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
@@ -52,46 +54,26 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
     private val chartFilterViewDataInteractor: ChartFilterViewDataInteractor,
     private val getProcessedLastDaysCountInteractor: GetProcessedLastDaysCountInteractor,
     private val widgetStatisticsIdsInteractor: WidgetStatisticsIdsInteractor,
-) : ViewModel() {
+) : BaseViewModel() {
 
     lateinit var extra: WidgetStatisticsSettingsExtra
 
-    val filterTypeViewData: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch {
-                initializeWidgetData()
-                initial.value = loadFilterTypeViewData()
-            }
-            initial
-        }
+    val filterTypeViewData: LiveData<List<ViewHolderType>> by lazySuspend {
+        initializeWidgetData()
+        loadFilterTypeViewData()
     }
-    val types: LiveData<List<ViewHolderType>> by lazy {
-        return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
-            viewModelScope.launch {
-                initializeWidgetData()
-                initial.value = listOf(LoaderViewData())
-                initial.value = loadTypesViewData()
-            }
-            initial
-        }
+    val types: LiveData<List<ViewHolderType>> by lazySuspend {
+        initializeWidgetData()
+        updateTypesViewData()
+        listOf(LoaderViewData())
     }
-    val title: LiveData<String> by lazy {
-        return@lazy MutableLiveData<String>().let { initial ->
-            viewModelScope.launch {
-                initializeWidgetData()
-                initial.value = loadTitle()
-            }
-            initial
-        }
+    val title: LiveData<String> by lazySuspend {
+        initializeWidgetData()
+        loadTitle()
     }
-    val doNotIncludeNewItems: LiveData<Boolean> by lazy {
-        return@lazy MutableLiveData<Boolean>().let { initial ->
-            viewModelScope.launch {
-                initializeWidgetData()
-                initial.value = loadDoNotIncludeNewItems()
-            }
-            initial
-        }
+    val doNotIncludeNewItems: LiveData<Boolean> by lazySuspend {
+        initializeWidgetData()
+        loadDoNotIncludeNewItems()
     }
     val handled: LiveData<Int> = MutableLiveData()
 
@@ -107,7 +89,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
         typeIds = emptySet(),
         categoryIds = emptySet(),
         tagIds = emptySet(),
-        filteringType = StatisticsWidgetData.FilterType.FILTER,
+        filteringType = WidgetDataFilterType.FILTER,
     )
 
     fun onFilterTypeClick(viewData: ButtonsRowViewData) {
@@ -157,15 +139,15 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
 
     fun onShowAllClick() {
         when (widgetData.filteringType) {
-            StatisticsWidgetData.FilterType.FILTER -> removeAllIds()
-            StatisticsWidgetData.FilterType.SELECT -> addAllIds()
+            WidgetDataFilterType.FILTER -> removeAllIds()
+            WidgetDataFilterType.SELECT -> addAllIds()
         }
     }
 
     fun onHideAllClick() {
         when (widgetData.filteringType) {
-            StatisticsWidgetData.FilterType.FILTER -> addAllIds()
-            StatisticsWidgetData.FilterType.SELECT -> removeAllIds()
+            WidgetDataFilterType.FILTER -> addAllIds()
+            WidgetDataFilterType.SELECT -> removeAllIds()
         }
     }
 
@@ -196,8 +178,8 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
 
     fun onDoNotIncludeNewItemsClick() = viewModelScope.launch {
         val newState = when (widgetData.filteringType) {
-            StatisticsWidgetData.FilterType.FILTER -> StatisticsWidgetData.FilterType.SELECT
-            StatisticsWidgetData.FilterType.SELECT -> StatisticsWidgetData.FilterType.FILTER
+            WidgetDataFilterType.FILTER -> WidgetDataFilterType.SELECT
+            WidgetDataFilterType.SELECT -> WidgetDataFilterType.FILTER
         }
 
         // Revert all ids.
@@ -309,14 +291,6 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun loadTypesViewData(): List<ViewHolderType> {
-        return when (widgetData.chartFilterType) {
-            ChartFilterType.ACTIVITY -> loadRecordTypesViewData()
-            ChartFilterType.CATEGORY -> loadCategoriesViewData()
-            ChartFilterType.RECORD_TAG -> loadTagsViewData()
-        }
-    }
-
     private suspend fun getTypesCache(): List<RecordType> {
         return recordTypesCache ?: run {
             recordTypeInteractor.getAll().also { recordTypesCache = it }
@@ -341,7 +315,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
             typeIds = { getTypesCache().map(RecordType::id).toSet() },
             categoryIds = { getCategoriesCache().map(Category::id).toSet() },
             tagIds = { getTagsCache().map(RecordTag::id).toSet() },
-        )
+        ).toList()
     }
 
     private fun updateRecordTypesViewData() = viewModelScope.launch {
@@ -403,7 +377,7 @@ class WidgetStatisticsSettingsViewModel @Inject constructor(
     }
 
     private fun loadDoNotIncludeNewItems(): Boolean {
-        return widgetData.filteringType == StatisticsWidgetData.FilterType.SELECT
+        return widgetData.filteringType == WidgetDataFilterType.SELECT
     }
 
     companion object {
