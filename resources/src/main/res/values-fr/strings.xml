@@ -122,14 +122,14 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Étiquettes archivées</string>
-    <string name="change_record_tag_default_hint">Étiquette par défaut</string>
+    <string name="change_record_tag_default_hint">Étiquette par défaut pour</string>
     <string name="change_record_tag_type_general_hint">Peut être attribué aux enregistrements de n\'importe quelle activité</string>
     <string name="change_record_tag_type_typed_hint">Ne peut être attribuée qu\'aux enregistrements d\'une activité spécifique</string>
     <string name="change_record_tag_select_activity_hint">Utiliser la couleur et l\'icône d\'une activité</string>
-    <string name="change_record_tag_default_types_hint">L\'étiquette serait attribuée par défaut lors du démarrage d\'un enregistrement pour les activités sélectionnées</string>
-    <string name="change_record_type_value_type_field">Information complémentaire</string>
+    <string name="change_record_tag_default_types_hint">L\'étiquette serait attribuée par défaut lors du démarrage d\'un enregistrement pour les activités es</string>
+    <string name="change_record_type_value_type_field">Saisir une information complémentaire</string>
     <string name="change_record_type_value_type_hint">Renseignez une information lorsque cette étiquette est attribuée à un enregistrement. Utile pour suivre le nombre de pas ou de pages lues, l\'humeur (en utilisant un émoticon comme unité), etc.</string>
-    <string name="change_record_type_value_suffix">Unité (affichée après la donnée)</string>
+    <string name="change_record_type_value_suffix">Unité (affichée après la donnée saisie)</string>
     <string name="change_record_type_value_selection_hint">Information</string>
 
     <!--  Change record  -->
@@ -201,7 +201,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_record_type_additional_hint">Supplémentaire</string>
     <string name="change_record_type_default_duration">Durée par défaut</string>
     <string name="change_record_type_default_duration_hint">Les activités ayant une durée par défaut sont enregistrées immédiatement.</string>
-    <string name="change_record_type_goal_time_description">Une notification sera affichée lorsque l\'objectif sera atteint</string>
+    <string name="change_record_type_goal_time_description">Une notification s'affichera lorsque l\'objectif sera atteint</string>
     <string name="change_record_type_duplicate_hint">Créera une copie de cette activité</string>
     <string name="change_record_type_session_goal_time">Session</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
@@ -214,7 +214,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_record_type_less_fields">Moins</string>
 
     <!--  Complex rules  -->
-    <string name="complex_rules_hint">Permet la mise en place fine de certains paramètres</string>
+    <string name="complex_rules_hint">Automatisez des actions pour certaines activités</string>
     <string name="complex_rules_disable">Désactiver</string>
     <string name="complex_rules_enable">Activer</string>
 
@@ -270,8 +270,8 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="csv_export_settings_filename_default">Par défaut</string>
     <string name="csv_export_settings_hint">Sélectionnez la période ou exportez tous les enregistrements</string>
 
-    <string name="schedule_exact_alarms">Pour permettre les alarmes, autorisez l\'application dans les paramètres système</string>
-    <string name="post_notifications">Pour afficher les notifications, autorisez l\'application dans les paramètres système</string>
+    <string name="schedule_exact_alarms">Pour permettre les alarmes, autorisez cette application dans les paramètres système</string>
+    <string name="post_notifications">Pour afficher les notifications, autorisez cette application dans les paramètres système</string>
     <string name="schedule_exact_alarms_open_settings">Ouvrir</string>
 
     <string name="default_types_selection_title">Sélectionnez les activités à chronométrer</string>
@@ -315,7 +315,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_sort_by_name">Par nom</string>
     <string name="settings_sort_by_color">Par couleur</string>
     <string name="settings_sort_manually">Manuellement</string>
-    <string name="settings_sort_activity">Trier par activité</string>
+    <string name="settings_sort_activity">Par activité</string>
     <string name="settings_first_day_of_week">Premier jour de la semaine</string>
     <string name="settings_show_repeat_button">Afficher le bouton Répéter sur l\'écran principal</string>
     <string name="settings_repeat_button_type">Mode</string>
@@ -333,7 +333,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_widget_transparency">Transparence de l\'arrière-plan du widget</string>
     <string name="settings_show_activity_filters">Afficher les filtres d\'activité sur l\'écran principal</string>
     <string name="settings_allow_multiple_activity_filters">Autoriser plusieurs filtres d\'activité</string>
-    <string name="settings_allow_multiple_activity_filters_hint">S\'il est désactivé, la sélection d\'un filtre désactivera les autres filtres d\'activité.</string>
+    <string name="settings_allow_multiple_activity_filters_hint">Si désactivé, la sélection d\'un filtre annulera les autres filtres.</string>
     <string name="settings_show_categories_as_predefined_filters">Afficher les catégories comme filtres prédéfinis</string>
     <string name="settings_enable_pomodoro_mode">Afficher le bouton Pomodoro sur l\'écran principal</string>
     <string name="settings_show_goals_separately">Afficher les objectifs dans un onglet séparé</string>
@@ -348,21 +348,21 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_show_notifications_controls_hint">Permet également de démarrer un enregistrement depuis l\'écran de verrouillage.</string>
     <string name="settings_show_notification_even_with_no_timers">Afficher même si aucun enregistrement n\'est en cours</string>
     <string name="settings_keep_statistics_range">Mémoriser la période de statistiques</string>
-    <string name="settings_keep_statistics_range_hint">Si activé, les statistiques détaillées seront ouvertes pour la même période que celle sélectionnée dans les statistiques.</string>
+    <string name="settings_keep_statistics_range_hint">Si activé, les statistiques détaillées seront affichées pour la même période que celle sélectionnée pour les statistiques.</string>
     <string name="settings_retroactive_tracking_mode">Activer les enregistrements à postériori</string>
     <string name="settings_retroactive_tracking_mode_hint">Lors de la sélection d\'une activité : créer un enregistrement dans le passé (avec pour début : l\'enregistrement précédent et pour fin : maintenant) plutôt que de démarrer un enregistrement à partir de maintenant.</string>
     <string name="settings_retroactive_multitasking_hint">Le multi-tâches est activé. Au démarrage d\'une nouvelle activité, les enregistrement en cours ne seront pas arrêtés.</string>
     <string name="settings_start_of_day">Décaler l\'heure de début de journée</string>
     <string name="settings_start_of_day_hint">Le début de journée sera décalé de la durée indiquée, plus tôt ou plus tard selon le signe.</string>
     <string name="settings_start_of_day_hint_value">Aujourd\'hui commence à %s</string>
-    <string name="settings_inactivity_reminder">Afficher un rappel en cas d\'inactivité</string>
+    <string name="settings_inactivity_reminder">Afficher un rappel d\'inactivité</string>
     <string name="settings_inactivity_reminder_hint">Afficher une notification après la durée indiquée si aucun aucun enregistrement n\'est en cours.</string>
     <string name="settings_inactivity_reminder_recurrent">Répéter</string>
     <string name="settings_activity_reminder">Afficher un rappel d\'activité</string>
     <string name="settings_activity_reminder_hint">Afficher une notification après la durée indiquée si des enregistrements sont en cours.</string>
     <string name="settings_do_not_disturb">Ne pas déranger</string>
     <string name="settings_notifications_system_settings">Paramètres système</string>
-    <string name="settings_notifications_system_settings_hint">Son, vibreur, badge d\'application, verrouillage ...</string>
+    <string name="settings_notifications_system_settings_hint">Son, vibreur, badge d\'application, écran de verrouillage ...</string>
     <string name="settings_ignore_short_records">Ignorer les enregistrements courts</string>
     <string name="settings_ignore_short_records_hint">Ne pas enregistrer les activités qui sont plus courtes que la durée indiquée.</string>
     <string name="settings_inactivity_reminder_disabled">Désactivé</string>
@@ -373,14 +373,14 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_use_military_time">Utiliser le format 24 heures</string>
     <string name="settings_use_monthday_time">Utiliser le format de date Mois/Jour</string>
     <string name="settings_duration_format">Format de durée</string>
-    <string name="settings_duration_format_proportional">Proportionnel</string>
+    <string name="settings_duration_format_proportional">Décimal</string>
     <string name="settings_show_seconds">Afficher les secondes</string>
     <string name="settings_keep_screen_on">Conserver l\'écran allumé</string>
-    <string name="settings_customize_options_menu">Personnaliser le menu des options</string>
+    <string name="settings_customize_options_menu">Personnaliser les menus</string>
     <string name="settings_detailed_statistics">Statistiques détaillées</string>
     <string name="settings_start_timer_by_long_click">Démarrer et arrêter les enregistrements par appui long</string>
     <string name="settings_change_card_size">Modifier la taille des cartes d\'activité</string>
-    <string name="settings_archive">Archiver</string>
+    <string name="settings_archive">Archives</string>
     <string name="settings_data_edit">Modifier les données</string>
     <string name="settings_complex_rules">Règles complexes</string>
     <string name="settings_activity_suggestions">Suggestion d\'activités</string>
@@ -395,7 +395,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_rate">Donnez votre avis</string>
     <string name="settings_rate_description">Évaluez l\'application et laissez un avis.</string>
     <string name="settings_support_development">Soutenez le développement de l\'application</string>
-    <string name="settings_support_development_hint">Ne donne accès à aucun contenu ou service numérique supplémentaire.</string>
+    <string name="settings_support_development_hint">Ne donne accès à aucun contenu ou service supplémentaire.</string>
     <string name="settings_feedback">Contactez nous</string>
     <string name="settings_feedback_description">Vous souhaitez faire une suggestion ? Vous avez détecté une anomalie ? Vous souhaitez nous contacter ? Écrivez-nous !</string>
     <string name="settings_version">Version</string>
@@ -410,7 +410,7 @@ Quelques exemples d\'événements :<br/>
 - Démarrage d\'une application<br/>
 - Détection d\'une balise NFC<br/>
 - Arrivée dans un lieu<br/>
-- Horaire de la journée<br/>
+- Heure dans la journée<br/>
 - Connexion Bluetooth ou Wifi.<br/>
 <br/>
 Pour fonctionner, ces applications doivent être en mesure d\'envoyer des messages \"intent\" ou \"broadcast intent\" avec les paramètres suivants :<br/>
@@ -426,7 +426,7 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application SimpleTimeTracker env
     <string name="settings_automated_tracking_available_actions">Actions disponibles</string>
     <string name="settings_automated_tracking_available_events">Événements disponibles</string>
     <string name="settings_automated_tracking_extras_description">Description</string>
-    <string name="settings_automated_tracking_extra_name">le nom de l\'activité qui doit être démarrée ou arrêtée.</string>
+    <string name="settings_automated_tracking_extra_name">le nom de l\'activité à démarrer ou arrêter.</string>
     <string name="settings_automated_tracking_extra_tag">le nom d\'une étiquette d\'enregistrement. Ou une liste de noms d\'étiquettes séparés par des virgules.</string>
     <string name="settings_automated_tracking_extra_time">format \"aaaa-MM-jj HH:mm:ss\" ou horodatage UTC.</string>
     <string name="settings_automated_tracking_find_record_mode">indique l\'enregistrement à modifier.</string>
@@ -435,7 +435,7 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application SimpleTimeTracker env
     <string name="settings_automated_tracking_goal_type">Type d\'objectif.</string>
     <string name="settings_automated_tracking_goal_value">Valeur de l\'objectif, durée en secondes ou nombre d\'enregistrements.</string>
 
-    <string name="settings_save_backup">Enregistrer la sauvegarde</string>
+    <string name="settings_save_backup">Effectuer une sauvegarde</string>
     <string name="settings_save_description">Avant de créer une sauvegarde, assurez-vous que la dernière version de l\'application est installée pour éviter tout conflit.</string>
     <string name="settings_automatic_backup">Activer la sauvegarde automatique</string>
     <string name="settings_automatic_export">Activer l\'export automatique de la feuille de calcul</string>
@@ -464,7 +464,7 @@ Le fichier CSV doit contenir les colonnes suivantes séparées par des virgules 
 <br/>
 <br/>
 Exemple :<br/>
-\"Lecture\",2026-12-31 09:45:00,2026-12-31 10:55:35,\"Commentaire, icic le commentaire\"
+\"Lecture\",2026-12-31 09:45:00,2026-12-31 10:55:35,\"Ici le commentaire\"
     ]]></string>
     <string name="settings_export_ics">Export ICS</string>
     <string name="settings_export_warning">Ce fichier ne peut pas être utilisé comme sauvegarde.</string>
@@ -488,7 +488,7 @@ Exemple :<br/>
 
     <!--  Backup options  -->
     <string name="backup_options_import">Importer</string>
-    <string name="backup_options_save_without_records">Enregistrer la sauvegarde sans enregistrements</string>
+    <string name="backup_options_save_without_records">Effectuer une sauvegarde sans enregistrements</string>
     <string name="backup_options_save_without_records_hint">Peut être utilisé pour partager la configuration.</string>
     <string name="backup_options_full_restore">Restauration complète</string>
     <string name="backup_options_full_restore_hint">Restaure les données et les paramètres. Nécessite le redémarrage de l\'application.</string>
