@@ -10,9 +10,9 @@
     <string name="day_of_week_sunday">Dim</string>
 
     <string name="activity_hint">Activités</string>
-    <string name="category_hint">Catégorie(s)</string>
+    <string name="category_hint">Catégories</string>
     <string name="record_tag_hint">Étiquettes d\'enregistrement</string>
-    <string name="record_tag_hint_short">Étiquette(s)</string>
+    <string name="record_tag_hint_short">Étiquettes</string>
     <string name="nothing_selected">Aucun élément sélectionné</string>
     <string name="something_selected">Sélectionné</string>
     <string name="select_all">Tout sélectionner</string>
@@ -67,7 +67,7 @@
     <string name="minutes">Minutes</string>
 
     <string name="untracked_time_name">Aucune activité définie</string>
-    <string name="uncategorized_time_name">Sans catégorie</string>
+    <string name="uncategorized_time_name">Aucune catégorie</string>
     <string name="multitask_time_name">Multi-tâches</string>
     <string name="record_types_empty">Aucune activité</string>
     <string name="record_tag_selection_hint">Sélectionnez une étiquette pour l\'enregistrement</string>
@@ -118,7 +118,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_category_color_hint">Couleur</string>
     <string name="change_category_types_hint">Activités</string>
     <string name="change_category_save">Enregistrer</string>
-    <string name="change_category_message_choose_name">Saisissez le nom</string>
+    <string name="change_category_message_choose_name">Renseignez un nom</string>
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Étiquettes archivées</string>
@@ -135,7 +135,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <!--  Change record  -->
     <string name="change_record_message_choose_type">Sélectionnez une activité</string>
     <string name="change_record_type_field">Activité</string>
-    <string name="change_record_tag_field">Étiquette(s)</string>
+    <string name="change_record_tag_field">Étiquettes</string>
     <string name="change_record_comment_field">Commentaire</string>
     <string name="change_record_comment_hint">Saisissez un commentaire pour cet enregistrement</string>
     <string name="change_record_actions_hint">Actions</string>
@@ -284,9 +284,9 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro sera démarré automatiquement pour les activités sélectionnées.</string>
 
     <!--  Records all  -->
-    <string name="records_all_sort_order">Trier les enregistrements</string>
-    <string name="records_all_sort_time_started">Par heure de début</string>
-    <string name="records_all_sort_duration">Par durée</string>
+    <string name="records_all_sort_order">Trier par</string>
+    <string name="records_all_sort_time_started">Heure de début</string>
+    <string name="records_all_sort_duration">Durée</string>
 
     <!--  Running records  -->
     <string name="running_records_types_empty">Pour commencer, ajoutez les activités que vous souhaitez enregistrer. Appuyez sur le bouton \'%s\' pour créer une activité personnalisée ou sur \'%s\' pour créer une activité à partir d\'un modèle.</string>
@@ -297,7 +297,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="running_records_empty_hint">Appuyez longuement sur une activité pour la modifier</string>
     <string name="running_records_empty_hint_inverted">Appuyez pour modifier</string>
     <string name="running_records_add_type">Nouveau</string>
-    <string name="running_records_add_filter">Ajouter un filtre</string>
+    <string name="running_records_add_filter">Créer un filtre</string>
     <string name="running_records_add_default">Modèle</string>
     <string name="running_records_repeat">Répéter</string>
     <string name="running_records_repeat_no_prev_record">Aucun enregistrement précédent à répéter</string>
@@ -539,7 +539,7 @@ Exemple :<br/>
     <string name="statistics_detail_data_split_pie_chart">Secteurs</string>
     <string name="statistics_detail_data_split_bar_chart">Colonnes</string>
     <string name="statistics_detail_day_split_hint">Répartition</string>
-    <string name="statistics_detail_duration_split_hint">Répartition de la durée des enregistrements</string>
+    <string name="statistics_detail_duration_split_hint">Répartition des enregistrements par durée</string>
     <string name="statistics_detail_next_activities_hint">Activités suivantes</string>
     <string name="statistics_detail_multitasking_activities_hint">Classement multi-tâches</string>
     <string name="statistics_detail_goals_hint">Avance ou retard par rapport à l\'objectif</string>
@@ -613,8 +613,8 @@ Exemple :<br/>
     <string name="records_filter_duplications">Duplications</string>
     <string name="records_filter_select_tags">Sélectionnez les étiquettes</string>
     <string name="records_filter_manually_filtered">Filtrée</string>
-    <string name="records_filter_no_comment">Aucun commentaire</string>
-    <string name="records_filter_any_comment">Avez-vous des commentaires</string>
+    <string name="records_filter_no_comment">Sans commentaire</string>
+    <string name="records_filter_any_comment">Avec commentaire</string>
     <string name="records_filter_select">Sélectionner</string>
     <string name="records_filter_exclude">Exclure</string>
     <string name="records_filter_exclude_other">Exclure les autres</string>
