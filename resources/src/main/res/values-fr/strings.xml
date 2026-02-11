@@ -208,7 +208,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
     <string name="change_record_type_goal_duration">Durée</string>
-    <string name="change_record_type_goal_count">Compteur</string>
+    <string name="change_record_type_goal_count">Nombre</string>
     <string name="change_record_type_delete_alert">Supprimer ?</string>
     <string name="change_record_type_more_fields">Plus</string>
     <string name="change_record_type_less_fields">Moins</string>
@@ -505,7 +505,7 @@ Exemple :<br/>
     <!--  Statistics detail  -->
     <string name="statistics_detail_chart_hourly">par heure</string>
     <string name="statistics_detail_chart_daily">par jour</string>
-    <string name="statistics_detail_chart_weekly">par semaines</string>
+    <string name="statistics_detail_chart_weekly">par semaine</string>
     <string name="statistics_detail_chart_monthly">par mois</string>
     <string name="statistics_detail_chart_yearly">par an</string>
     <string name="statistics_detail_length_ten">10</string>
@@ -515,9 +515,9 @@ Exemple :<br/>
     <string name="statistics_detail_legend_hour_suffix">h</string>
     <string name="statistics_detail_chart_split">Détaillé par activité</string>
 
-    <string name="statistics_detail_range_averages_title">Moyenne sur la période : %s</string>
-    <string name="statistics_detail_range_averages">Sur toute la période</string>
-    <string name="statistics_detail_range_averages_non_empty">En ignorant les périodes sans enregistrement</string>
+    <string name="statistics_detail_range_averages_title">Moyenne : %s</string>
+    <string name="statistics_detail_range_averages">Sur tous les éléments de la période</string>
+    <string name="statistics_detail_range_averages_non_empty">Uniquement sur les éléments de la période ayant un enregistrement</string>
 
     <string name="statistics_detail_total_duration">Total</string>
     <string name="statistics_detail_record_length">Durée des enregistrements</string>
