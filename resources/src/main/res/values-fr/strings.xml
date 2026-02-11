@@ -540,7 +540,7 @@ Exemple :<br/>
     <string name="statistics_detail_data_split_hint">Répartition</string>
     <string name="statistics_detail_data_split_pie_chart">Secteurs</string>
     <string name="statistics_detail_data_split_bar_chart">Colonnes</string>
-    <string name="statistics_detail_day_split_hint">Répartition des enregistrements sur la journée</string>
+    <string name="statistics_detail_day_split_hint">Répartition des enregistrements quotidiens</string>
     <string name="statistics_detail_duration_split_hint">Répartition des enregistrements par durée</string>
     <string name="statistics_detail_next_activities_hint">Activités suivantes</string>
     <string name="statistics_detail_multitasking_activities_hint">Classement multi-tâches</string>
