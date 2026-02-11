@@ -89,7 +89,7 @@
     <string name="statistics_total_tracked">Durée totale enregistrée</string>
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Appuyez sur une carte pour afficher les statistiques détaillées</string>
-    <string name="statistics_daily_calendar_hint">Frise chronologique de la journée</string>
+    <string name="statistics_daily_calendar_hint">Frise de la journée</string>
     <string name="no_statistics_exist">Les statistiques s\'afficheront ici</string>
 
     <!--  Goals  -->
@@ -126,7 +126,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_record_tag_type_general_hint">Peut être attribué aux enregistrements de n\'importe quelle activité</string>
     <string name="change_record_tag_type_typed_hint">Ne peut être attribuée qu\'aux enregistrements d\'une activité spécifique</string>
     <string name="change_record_tag_select_activity_hint">Utiliser la couleur et l\'icône d\'une activité</string>
-    <string name="change_record_tag_default_types_hint">L\'étiquette serait attribuée par défaut lors du démarrage d\'un enregistrement pour les activités es</string>
+    <string name="change_record_tag_default_types_hint">L\'étiquette serait attribuée par défaut lors du démarrage d\'un enregistrement pour les activités sélectionnées</string>
     <string name="change_record_type_value_type_field">Saisir une information complémentaire</string>
     <string name="change_record_type_value_type_hint">Renseignez une information lorsque cette étiquette est attribuée à un enregistrement. Utile pour suivre le nombre de pas ou de pages lues, l\'humeur (en utilisant un émoticon comme unité), etc.</string>
     <string name="change_record_type_value_suffix">Unité (affichée après la donnée saisie)</string>
