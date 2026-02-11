@@ -110,7 +110,7 @@ Les <b>Catégories</b> permettent de regrouper des activités similaires. Par ex
 Cela vous permet de mesurer le temps que vous passez globalement sur toutes vos activités Sportives ou de Détente.<br><br>
 Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrement. Par exemple :<br><br>
 • Pour un enregistrement de l\'activité <custom-color-3>Lecture</custom-color-3>, ajoutez une ou plusieurs étiquettes comme <custom-color-3>Arsène Lupin</custom-color-3> ou <custom-color-3>Harry Potter</custom-color-3> afin de suivre le temps passé sur chaque livre.<br><br>
-• Pour un enregistrement de l\'activité <custom-color-10>Travail</custom-color-10>, ajoutez une ou plusieurs étiquettes comme <custom-color-10>Bureau</custom-color-10> et <custom-color-10>Domicile</custom-color-10> pour différencier où le travail a été effectué.<br>
+• Pour un enregistrement de l\'activité <custom-color-10>Travail</custom-color-10>, ajoutez une ou plusieurs étiquettes comme <custom-color-10>Bureau</custom-color-10> et <custom-color-10>Domicile</custom-color-10> pour dférencier où le travail a été effectué.<br>
     ]]></string>
 
     <!--  Change category  -->
@@ -124,7 +124,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_record_tag_archived">Étiquettes archivées</string>
     <string name="change_record_tag_default_hint">Étiquette par défaut pour</string>
     <string name="change_record_tag_type_general_hint">Peut être attribué aux enregistrements de n\'importe quelle activité</string>
-    <string name="change_record_tag_type_typed_hint">Ne peut être attribuée qu\'aux enregistrements d\'une activité spécifique</string>
+    <string name="change_record_tag_type_typed_hint">Ne peut être attribuée qu\'aux enregistrements d\'une activité spécique</string>
     <string name="change_record_tag_select_activity_hint">Utiliser la couleur et l\'icône d\'une activité</string>
     <string name="change_record_tag_default_types_hint">L\'étiquette serait attribuée par défaut lors du démarrage d\'un enregistrement pour les activités es</string>
     <string name="change_record_type_value_type_field">Saisir une information complémentaire</string>
@@ -157,16 +157,16 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_record_duplicate">Dupliquer</string>
     <string name="change_record_duplicate_hint">Créer une copie de l\'enregistrement</string>
     <string name="change_record_move">Déplacer</string>
-    <string name="change_record_move_hint">Modifier l\'heure de début en conservant la durée</string>
+    <string name="change_record_move_hint">Modier l\'heure de début en conservant la durée</string>
     <string name="change_record_merge">Fusionner</string>
     <string name="change_record_merge_hint">Ajouter cet enregistrement à l\'enregistrement précédent</string>
     <string name="change_record_multiselect">Multi sélection</string>
     <string name="change_record_multiselect_hint">Sélectionnez plusieurs enregistrements puis ré-ouvrez le menu Actions</string>
-    <string name="change_record_adjust">Modifier</string>
+    <string name="change_record_adjust">Modier</string>
     <string name="change_record_shortcut">Raccourci</string>
     <string name="change_record_shortcut_hint">Créer un raccourci dans l\'onglet principal avec des étiquettes et un commentaire pour y accéder plus rapidement</string>
-    <string name="change_record_change_prev_record">Modifier également l\'heure de l\'enregistrement précédent</string>
-    <string name="change_record_change_adjacent_records">Modifier également l\'heure des enregistrements adjacents</string>
+    <string name="change_record_change_prev_record">Modier également l\'heure de l\'enregistrement précédent</string>
+    <string name="change_record_change_adjacent_records">Modier également l\'heure des enregistrements adjacents</string>
     <string name="change_record_change_prev">Précédent</string>
     <string name="change_record_change_next">Suivant</string>
     <string name="change_record_change_overlapped">Chevauchement</string>
@@ -196,7 +196,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_record_type_note_hint">Note</string>
     <string name="change_record_type_categories_empty">Aucune catégorie définie</string>
     <string name="change_record_type_goal_time_disabled">Désactivé</string>
-    <string name="change_record_type_goal_time_hint">Objectif</string>
+    <string name="change_record_type_goal_time_hint">Objectifs</string>
     <string name="change_record_type_limit_time_hint">Limite</string>
     <string name="change_record_type_additional_hint">Supplémentaire</string>
     <string name="change_record_type_default_duration">Durée par défaut</string>
@@ -276,7 +276,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="post_notifications">Pour afficher les notifications, autorisez cette application dans les paramètres système</string>
     <string name="schedule_exact_alarms_open_settings">Ouvrir</string>
 
-    <string name="default_types_selection_title">Sélectionnez les activités à chronométrer</string>
+    <string name="default_types_selection_title">Sélectionnez les activités à mesurer</string>
     <string name="default_types_selection_hide">Ne plus afficher</string>
 
     <string name="record_tag_selection_exclude_activities_title">Exclure des activités</string>
@@ -646,7 +646,7 @@ Exemple :<br/>
     <string name="emojiGroupFood">Nourriture et Boisson</string>
     <string name="emojiGroupTravel">Voyage &amp; Endroits</string>
     <string name="emojiGroupActivities">Activités</string>
-    <string name="emojiGroupObjects">Objets</string>
+    <string name="emojiGroups">Objets</string>
     <string name="emojiGroupSymbols">Symboles</string>
     <string name="emojiGroupFlags">Drapeaux</string>
 
@@ -669,7 +669,7 @@ Exemple :<br/>
     <string name="imageGroupToggle">Basculer</string>
 
     <!--  Shortcuts  -->
-    <string name="shortcut_navigation_timers">Chronomètres</string>
+    <string name="shortcut_navigation_timers">Activités</string>
     <string name="shortcut_navigation_records">Enregistrements</string>
     <string name="shortcut_navigation_statistics">Statistiques</string>
     <string name="shortcut_navigation_settings">Paramètres</string>
