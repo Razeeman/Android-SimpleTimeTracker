@@ -110,7 +110,7 @@ Les <b>Catégories</b> permettent de regrouper des activités similaires. Par ex
 Cela vous permet de mesurer le temps que vous passez globalement sur toutes vos activités Sportives ou de Détente.<br><br>
 Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrement. Par exemple :<br><br>
 • Pour un enregistrement de l\'activité <custom-color-3>Lecture</custom-color-3>, ajoutez une ou plusieurs étiquettes comme <custom-color-3>Arsène Lupin</custom-color-3> ou <custom-color-3>Harry Potter</custom-color-3> afin de suivre le temps passé sur chaque livre.<br><br>
-• Pour un enregistrement de l\'activité <custom-color-10>Travail</custom-color-10>, ajoutez une ou plusieurs étiquettes comme <custom-color-10>Bureau</custom-color-10> et <custom-color-10>Domicile</custom-color-10> pour dférencier où le travail a été effectué.<br>
+• Pour un enregistrement de l\'activité <custom-color-10>Travail</custom-color-10>, ajoutez une ou plusieurs étiquettes comme <custom-color-10>Bureau</custom-color-10> et <custom-color-10>Domicile</custom-color-10> pour différencier où le travail a été effectué.<br>
     ]]></string>
 
     <!--  Change category  -->
@@ -124,7 +124,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_record_tag_archived">Étiquettes archivées</string>
     <string name="change_record_tag_default_hint">Étiquette par défaut pour</string>
     <string name="change_record_tag_type_general_hint">Peut être attribué aux enregistrements de n\'importe quelle activité</string>
-    <string name="change_record_tag_type_typed_hint">Ne peut être attribuée qu\'aux enregistrements d\'une activité spécique</string>
+    <string name="change_record_tag_type_typed_hint">Ne peut être attribuée qu\'aux enregistrements d\'une activité spécifique</string>
     <string name="change_record_tag_select_activity_hint">Utiliser la couleur et l\'icône d\'une activité</string>
     <string name="change_record_tag_default_types_hint">L\'étiquette serait attribuée par défaut lors du démarrage d\'un enregistrement pour les activités es</string>
     <string name="change_record_type_value_type_field">Saisir une information complémentaire</string>
@@ -157,16 +157,16 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_record_duplicate">Dupliquer</string>
     <string name="change_record_duplicate_hint">Créer une copie de l\'enregistrement</string>
     <string name="change_record_move">Déplacer</string>
-    <string name="change_record_move_hint">Modier l\'heure de début en conservant la durée</string>
+    <string name="change_record_move_hint">Modifier l\'heure de début en conservant la durée</string>
     <string name="change_record_merge">Fusionner</string>
     <string name="change_record_merge_hint">Ajouter cet enregistrement à l\'enregistrement précédent</string>
     <string name="change_record_multiselect">Multi sélection</string>
     <string name="change_record_multiselect_hint">Sélectionnez plusieurs enregistrements puis ré-ouvrez le menu Actions</string>
-    <string name="change_record_adjust">Modier</string>
+    <string name="change_record_adjust">Modifier</string>
     <string name="change_record_shortcut">Raccourci</string>
     <string name="change_record_shortcut_hint">Créer un raccourci dans l\'onglet principal avec des étiquettes et un commentaire pour y accéder plus rapidement</string>
-    <string name="change_record_change_prev_record">Modier également l\'heure de l\'enregistrement précédent</string>
-    <string name="change_record_change_adjacent_records">Modier également l\'heure des enregistrements adjacents</string>
+    <string name="change_record_change_prev_record">Modifier également l\'heure de l\'enregistrement précédent</string>
+    <string name="change_record_change_adjacent_records">Modifier également l\'heure des enregistrements adjacents</string>
     <string name="change_record_change_prev">Précédent</string>
     <string name="change_record_change_next">Suivant</string>
     <string name="change_record_change_overlapped">Chevauchement</string>
@@ -437,7 +437,7 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application SimpleTimeTracker env
     <string name="settings_automated_tracking_goal_type">Type d\'objectif.</string>
     <string name="settings_automated_tracking_goal_value">Valeur de l\'objectif, durée en secondes ou nombre d\'enregistrements.</string>
 
-    <string name="settings_save_backup">Faire une sauvegarde</string>
+    <string name="settings_save_backup">Effectuer une sauvegarde</string>
     <string name="settings_save_description">Avant de créer une sauvegarde, assurez-vous que la dernière version de l\'application est installée pour éviter tout conflit.</string>
     <string name="settings_automatic_backup">Activer la sauvegarde automatique</string>
     <string name="settings_automatic_export">Activer l\'export automatique de la feuille de calcul</string>
@@ -490,7 +490,7 @@ Exemple :<br/>
 
     <!--  Backup options  -->
     <string name="backup_options_import">Importer</string>
-    <string name="backup_options_save_without_records">Faire une sauvegarde sans enregistrements</string>
+    <string name="backup_options_save_without_records">Effectuer une sauvegarde sans enregistrements</string>
     <string name="backup_options_save_without_records_hint">Peut être utilisé pour partager la configuration.</string>
     <string name="backup_options_full_restore">Restauration complète</string>
     <string name="backup_options_full_restore_hint">Restaure les données et les paramètres. Nécessite le redémarrage de l\'application.</string>
@@ -533,7 +533,7 @@ Exemple :<br/>
     <string name="statistics_detail_streaks_current">Séries en cours</string>
     <string name="statistics_detail_streaks_completion">Avancement</string>
     <string name="statistics_detail_streaks_completion_percentage">Pourcentage</string>
-    <string name="statistics_detail_streaks_completion_count">Quantité</string>
+    <string name="statistics_detail_streaks_completion_count">Nombre</string>
     <string name="statistics_detail_streaks_latest">Dernière</string>
     <string name="statistics_detail_streaks_any">Toute durée</string>
     <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
@@ -646,7 +646,7 @@ Exemple :<br/>
     <string name="emojiGroupFood">Nourriture et Boisson</string>
     <string name="emojiGroupTravel">Voyage &amp; Endroits</string>
     <string name="emojiGroupActivities">Activités</string>
-    <string name="emojiGroups">Objets</string>
+    <string name="emojiGroupObjects">Objets</string>
     <string name="emojiGroupSymbols">Symboles</string>
     <string name="emojiGroupFlags">Drapeaux</string>
 
