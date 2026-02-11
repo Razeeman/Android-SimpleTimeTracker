@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterTyp
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.record.model.RecordsFilter
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
@@ -36,6 +37,7 @@ class StatisticsDetailNavigationInteractor @Inject constructor(
         transitionName: String,
         filterType: ChartFilterType,
         shift: Int,
+        overrideStatisticsRange: RangeLength?,
         sharedElements: Map<Any, String>,
         itemId: Long,
         itemName: String,
@@ -49,7 +51,7 @@ class StatisticsDetailNavigationInteractor @Inject constructor(
                     filterType = filterType,
                     selectedId = itemId,
                 ).let(::listOf).map(RecordsFilter::toParams),
-                range = getStatisticsDetailRangeInteractor.execute(),
+                range = getStatisticsDetailRangeInteractor.execute(overrideStatisticsRange),
                 shift = shift,
                 preview = StatisticsDetailParams.Preview(
                     name = itemName,
@@ -64,6 +66,7 @@ class StatisticsDetailNavigationInteractor @Inject constructor(
     suspend fun navigateByGoal(
         goalId: Long,
         shift: Int,
+        range: RangeLength?,
     ) {
         val goal = recordTypeGoalInteractor.get(goalId) ?: return
         val isDarkTheme = prefsInteractor.getDarkMode()
@@ -75,6 +78,7 @@ class StatisticsDetailNavigationInteractor @Inject constructor(
                     transitionName = "",
                     filterType = ChartFilterType.ACTIVITY,
                     shift = shift,
+                    overrideStatisticsRange = range,
                     sharedElements = emptyMap(),
                     itemId = type.id,
                     itemName = type.name,
@@ -91,6 +95,7 @@ class StatisticsDetailNavigationInteractor @Inject constructor(
                     transitionName = "",
                     filterType = ChartFilterType.CATEGORY,
                     shift = shift,
+                    overrideStatisticsRange = range,
                     sharedElements = emptyMap(),
                     itemId = category.id,
                     itemName = category.name,
@@ -108,6 +113,7 @@ class StatisticsDetailNavigationInteractor @Inject constructor(
                     transitionName = "",
                     filterType = ChartFilterType.RECORD_TAG,
                     shift = shift,
+                    overrideStatisticsRange = range,
                     sharedElements = emptyMap(),
                     itemId = tag.id,
                     itemName = tag.name,

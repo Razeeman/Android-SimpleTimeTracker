@@ -217,6 +217,7 @@ Lokhu kukuvumela ukuthi ubone isikhathi osichitha emisebenzini esebenzayo nezing
     <string name="complex_rules_hint">Ivumela ukusetshenziswa okunembile kwezinye izilungiselelo</string>
     <string name="complex_rules_disable">Khubaza</string>
     <string name="complex_rules_enable">Vumela</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Kwedlule kuphela</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Isenzo</string>
@@ -225,6 +226,7 @@ Lokhu kukuvumela ukuthi ubone isikhathi osichitha emisebenzini esebenzayo nezing
     <string name="change_complex_conditions_title">Izimo</string>
     <string name="change_complex_starting_activity">Umsebenzi wokuqala</string>
     <string name="change_complex_previous_activity">Umsebenzi owedlule</string>
+    <string name="change_complex_disallow_only_previous">Misa imisebenzi ekhethiwe kuphela</string>
     <string name="change_complex_rule_removed">Umthetho ususiwe</string>
     <string name="change_complex_rule_choose_action">Khetha isenzo</string>
     <string name="change_complex_rule_choose_condition">Khetha izimo</string>

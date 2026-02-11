@@ -31,6 +31,17 @@
         android:textStyle="bold"
         tools:text="Some really long tag name" />
 
+    <ImageView
+        android:id="@+id/ivNotificationTagSelectionCheck"
+        android:layout_width="@dimen/notification_icon_half_size"
+        android:layout_height="@dimen/notification_icon_half_size"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:visibility="gone"
+        tools:background="@drawable/spinner_check_mark"
+        tools:ignore="ContentDescription"
+        tools:visibility="visible" />
+
     <Button
         android:id="@+id/btnNotificationTag"
         android:layout_width="match_parent"

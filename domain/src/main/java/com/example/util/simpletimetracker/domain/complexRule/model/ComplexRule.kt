@@ -6,6 +6,7 @@ data class ComplexRule(
     val id: Long = 0L,
     val disabled: Boolean,
     val action: Action,
+    val actionDisallowOnlyPrevious: Boolean,
     val actionAssignTagIds: Set<Long>,
     val conditionStartingTypeIds: Set<Long>,
     val conditionCurrentTypeIds: Set<Long>,

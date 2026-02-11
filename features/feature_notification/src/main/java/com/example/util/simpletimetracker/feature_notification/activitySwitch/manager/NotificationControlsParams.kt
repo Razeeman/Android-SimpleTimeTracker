@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_notification.activitySwitch.manager
 
+import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
@@ -10,9 +11,11 @@ sealed interface NotificationControlsParams {
         val typesShift: Int,
         val tagsShift: Int,
         val controlIconColor: Int,
+        val isMultipleTagAvailable: Boolean,
         val selectedTypeId: Long?,
-        val selectedTagId: Long?,
-        val selectedTagValue: String?,
+        val selectedTags: List<RecordBase.Tag> = emptyList(),
+        val editingTagId: Long? = null,
+        val editingTagValueInput: String? = null,
         val viewState: ViewState,
     ) : NotificationControlsParams
 
@@ -56,6 +59,7 @@ sealed interface NotificationControlsParams {
             val id: Long,
             val text: String,
             val color: Int,
+            val isSelected: Boolean,
         ) : Tag
 
         data object Empty : Tag

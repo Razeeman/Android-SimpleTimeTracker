@@ -185,6 +185,7 @@ class ChangeCategoryViewModel @Inject constructor(
             transitionName = "",
             filterType = ChartFilterType.CATEGORY,
             shift = 0,
+            overrideStatisticsRange = null,
             sharedElements = emptyMap(),
             itemId = categoryId,
             itemName = preview.name,

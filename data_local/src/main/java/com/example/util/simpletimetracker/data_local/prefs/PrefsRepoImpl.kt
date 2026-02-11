@@ -359,6 +359,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES, emptySet(),
     )
 
+    override var closeAfterOneTagExcludeActivities: Set<String> by prefs.delegate(
+        KEY_CLOSE_AFTER_ONE_TAG_EXCLUDE_ACTIVITIES, emptySet(),
+    )
+
     override var showCommentInput: Boolean by prefs.delegate(
         KEY_SHOW_COMMENT_INPUT, false,
     )
@@ -777,6 +781,7 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_START_TIMER_BY_LONG_CLICK = "startTimerByLongClick"
         const val KEY_SHOW_RECORD_TAG_SELECTION = "showRecordTagSelection"
         const val KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES = "showRecordTagSelectionExcludeActivities"
+        const val KEY_CLOSE_AFTER_ONE_TAG_EXCLUDE_ACTIVITIES = "closeAfterOneTagExcludeActivities"
         const val KEY_SHOW_COMMENT_INPUT = "showCommentInput"
         const val KEY_SHOW_COMMENT_INPUT_EXCLUDE_ACTIVITIES = "showCommentInputExcludeActivities"
         const val KEY_AUTOSTART_POMODORO_ACTIVITIES = "autostartPomodoroActivities"

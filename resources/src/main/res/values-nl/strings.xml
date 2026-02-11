@@ -217,6 +217,7 @@ Dit stelt je in staat om te zien hoeveel tijd je in totaal besteedt aan producti
     <string name="complex_rules_hint">Maakt een meer verfijnde toepassing van sommige instellingen mogelijk</string>
     <string name="complex_rules_disable">Uitzetten</string>
     <string name="complex_rules_enable">Inschakelen</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Alleen vorige</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Actie</string>
@@ -225,6 +226,7 @@ Dit stelt je in staat om te zien hoeveel tijd je in totaal besteedt aan producti
     <string name="change_complex_conditions_title">Voorwaarden</string>
     <string name="change_complex_starting_activity">De startactiviteit</string>
     <string name="change_complex_previous_activity">Vorige activiteit</string>
+    <string name="change_complex_disallow_only_previous">Stop alleen geselecteerde activiteiten</string>
     <string name="change_complex_rule_removed">Regel verwijderd</string>
     <string name="change_complex_rule_choose_action">Kies actie</string>
     <string name="change_complex_rule_choose_condition">Kies voorwaarden</string>

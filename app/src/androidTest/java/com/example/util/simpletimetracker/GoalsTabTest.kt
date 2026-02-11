@@ -2,9 +2,11 @@ package com.example.util.simpletimetracker
 
 import android.view.View
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.contrib.PickerActions.setDate
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
+import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -22,12 +24,16 @@ import com.example.util.simpletimetracker.GoalsTestUtils.getMonthlyDurationGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getSessionDurationGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyCountGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyDurationGoal
+import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.recordType.extension.value
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
-import com.example.util.simpletimetracker.feature_change_record.R
+import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
+import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomDatePicker
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
+import com.example.util.simpletimetracker.utils.clickOnCurrentDate
+import com.example.util.simpletimetracker.utils.clickOnCurrentSelectedDate
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
@@ -39,6 +45,7 @@ import com.example.util.simpletimetracker.utils.tryAction
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,6 +55,8 @@ import com.example.util.simpletimetracker.feature_change_record_type.R as change
 import com.example.util.simpletimetracker.feature_goals.R as goalsR
 import com.example.util.simpletimetracker.feature_main.R as mainR
 import com.example.util.simpletimetracker.feature_statistics_detail.R as featureStatisticsDetailR
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -347,6 +356,103 @@ class GoalsTabTest : BaseUiTest() {
     }
 
     @Test
+    fun dateSelection() {
+        val typeName = "typeName"
+
+        // Add data
+        testUtils.addActivity(
+            name = typeName,
+            goals = listOf(
+                getDailyDurationGoal(durationInSeconds),
+                getMonthlyDurationGoal(2 * durationInSeconds),
+            ),
+        )
+
+        val goalHint = getString(coreR.string.change_record_type_goal_time_hint).lowercase()
+        val dailyGoalValue = "$goalHint - 10$minuteString"
+        val monthlyGoalValue = "$goalHint - 20$minuteString"
+
+        val startOfDayShift = runBlocking { prefsInteractor.getStartOfDayShift() }
+        val firstDayOfWeek = runBlocking { prefsInteractor.getFirstDayOfWeek() }
+
+        fun getRangeTitle(shift: Int, goalRange: RecordTypeGoal.Range): String {
+            return getRangeTitle(shift, goalRange, startOfDayShift, firstDayOfWeek)
+        }
+
+        val firstDayCalendar = Calendar.getInstance().apply {
+            set(Calendar.DAY_OF_MONTH, 1)
+            set(Calendar.HOUR_OF_DAY, 12)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val firstDay = firstDayCalendar.timeInMillis
+        val prevDay = Calendar.getInstance().apply {
+            timeInMillis = firstDay
+            add(Calendar.DATE, -1)
+        }.timeInMillis
+
+        val shiftToFirstDay = timeMapper.toTimestampShift(
+            toTime = firstDay,
+            range = RangeLength.Day,
+            firstDayOfWeek = firstDayOfWeek,
+        ).toInt()
+
+        val todayTitle = getRangeTitle(shift = shiftToFirstDay, goalRange = RecordTypeGoal.Range.Daily)
+        val prevTitle = getRangeTitle(shift = shiftToFirstDay - 1, goalRange = RecordTypeGoal.Range.Daily)
+        val todayMonthTitle = getRangeTitle(shift = 0, goalRange = RecordTypeGoal.Range.Monthly)
+        val prevMonthTitle = getRangeTitle(shift = -1, goalRange = RecordTypeGoal.Range.Monthly)
+
+        testUtils.addRecord(
+            typeName = typeName,
+            timeStarted = firstDay,
+            timeEnded = firstDay + TimeUnit.MINUTES.toMillis(1),
+        )
+        testUtils.addRecord(
+            typeName = typeName,
+            timeStarted = prevDay,
+            timeEnded = prevDay + TimeUnit.MINUTES.toMillis(2),
+        )
+
+        // Open goals
+        NavUtils.openGoalsScreen()
+        clickOnCurrentSelectedDate()
+        onView(withClassName(equalTo(CustomDatePicker::class.java.name))).perform(
+            setDate(
+                firstDayCalendar.get(Calendar.YEAR),
+                firstDayCalendar.get(Calendar.MONTH) + 1,
+                firstDayCalendar.get(Calendar.DAY_OF_MONTH),
+            ),
+        )
+        clickOnViewWithId(R.id.btnDateTimeDialogPositive)
+
+        // Check first day
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(withId(baseR.id.tvHintItemText), withText(todayTitle)),
+            )
+        }
+        checkViewIsDisplayed(
+            allOf(withId(baseR.id.tvHintItemText), withText(todayMonthTitle)),
+        )
+        checkStatisticsGoal(typeName, "1$minuteString", dailyGoalValue)
+        checkStatisticsGoal(typeName, "1$minuteString", monthlyGoalValue)
+
+        // Check prev day
+        clickOnCurrentDate(shiftToFirstDay - 1)
+        tryAction {
+            checkViewIsDisplayed(
+                allOf(withId(baseR.id.tvHintItemText), withText(prevTitle)),
+            )
+        }
+        checkViewIsDisplayed(
+            allOf(withId(baseR.id.tvHintItemText), withText(prevMonthTitle)),
+        )
+        checkStatisticsGoal(typeName, "2$minuteString", dailyGoalValue)
+        checkStatisticsGoal(typeName, "2$minuteString", monthlyGoalValue)
+    }
+
+    @Test
     fun goalNavigation() {
         val typeName = "typeName"
 
@@ -386,5 +492,19 @@ class GoalsTabTest : BaseUiTest() {
         )
 
         tryAction { scrollRecyclerToView(goalsR.id.rvGoalsList, allOf(matchers)) }
+    }
+
+    private fun getRangeTitle(
+        shift: Int,
+        goalRange: RecordTypeGoal.Range,
+        startOfDayShift: Long,
+        firstDayOfWeek: DayOfWeek,
+    ): String {
+        return when (goalRange) {
+            is RecordTypeGoal.Range.Session -> ""
+            is RecordTypeGoal.Range.Daily -> timeMapper.toDayDateTitle(shift, startOfDayShift)
+            is RecordTypeGoal.Range.Weekly -> timeMapper.toWeekDateTitle(shift, startOfDayShift, firstDayOfWeek)
+            is RecordTypeGoal.Range.Monthly -> timeMapper.toMonthDateTitle(shift, startOfDayShift)
+        }
     }
 }

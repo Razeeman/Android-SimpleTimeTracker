@@ -217,6 +217,7 @@
     <string name="complex_rules_hint">Позволяет более точно настроить применение некоторых настроек</string>
     <string name="complex_rules_disable">Отключить</string>
     <string name="complex_rules_enable">Включить</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Только предыдущие</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Действие</string>
@@ -225,6 +226,7 @@
     <string name="change_complex_conditions_title">Условия</string>
     <string name="change_complex_starting_activity">Начальная активность</string>
     <string name="change_complex_previous_activity">Предыдущая активность</string>
+    <string name="change_complex_disallow_only_previous">Остановить только выбранные активности</string>
     <string name="change_complex_rule_removed">Правило удалено</string>
     <string name="change_complex_rule_choose_action">Выберите действие</string>
     <string name="change_complex_rule_choose_condition">Выберите условия</string>

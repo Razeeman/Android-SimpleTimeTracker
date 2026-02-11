@@ -217,6 +217,7 @@
     <string name="complex_rules_hint">يسمح بتطبيق أكثر دقة لبعض الإعدادات</string>
     <string name="complex_rules_disable">إبطال</string>
     <string name="complex_rules_enable">يُمكَِن</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">السابق فقط</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">فعل</string>
@@ -225,6 +226,7 @@
     <string name="change_complex_conditions_title">شروط</string>
     <string name="change_complex_starting_activity">نشاط البداية</string>
     <string name="change_complex_previous_activity">النشاط السابق</string>
+    <string name="change_complex_disallow_only_previous">إيقاف الأنشطة المحددة فقط</string>
     <string name="change_complex_rule_removed">تمت إزالة القاعدة</string>
     <string name="change_complex_rule_choose_action">اختر الإجراء</string>
     <string name="change_complex_rule_choose_condition">اختر الشروط</string>

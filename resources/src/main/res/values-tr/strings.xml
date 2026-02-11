@@ -217,6 +217,7 @@ Bu, genel olarak verimli ve verimsiz aktivitelere ne kadar zaman harcadığını
     <string name="complex_rules_hint">Bazı ayarların daha ince ayarlı uygulanmasına olanak tanır</string>
     <string name="complex_rules_disable">Devre dışı bırakmak</string>
     <string name="complex_rules_enable">Olanak vermek</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Yalnızca önceki</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Aksiyon</string>
@@ -225,6 +226,7 @@ Bu, genel olarak verimli ve verimsiz aktivitelere ne kadar zaman harcadığını
     <string name="change_complex_conditions_title">Koşullar</string>
     <string name="change_complex_starting_activity">Başlangıç etkinliği</string>
     <string name="change_complex_previous_activity">Önceki etkinlik</string>
+    <string name="change_complex_disallow_only_previous">Sadece seçili aktiviteleri durdur</string>
     <string name="change_complex_rule_removed">Kural kaldırıldı</string>
     <string name="change_complex_rule_choose_action">Eylem seçin</string>
     <string name="change_complex_rule_choose_condition">Koşulları seçin</string>

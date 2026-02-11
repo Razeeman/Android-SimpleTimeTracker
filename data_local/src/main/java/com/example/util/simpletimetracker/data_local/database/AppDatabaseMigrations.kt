@@ -38,6 +38,7 @@ class AppDatabaseMigrations {
                 migration_27_28,
                 migration_28_29,
                 migration_29_30,
+                migration_30_31,
             )
 
         private val migration_1_2 = object : Migration(1, 2) {
@@ -387,6 +388,14 @@ class AppDatabaseMigrations {
                 database.execSQL("DROP TABLE recordTypeGoals")
                 // Change the table name to the correct one
                 database.execSQL("ALTER TABLE recordTypeGoals_new RENAME TO recordTypeGoals")
+            }
+        }
+
+        private val migration_30_31 = object : Migration(30, 31) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE complexRules ADD COLUMN actionDisallowOnlyPrevious INTEGER NOT NULL DEFAULT 0",
+                )
             }
         }
     }

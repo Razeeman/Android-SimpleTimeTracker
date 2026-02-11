@@ -217,6 +217,7 @@
     <string name="complex_rules_hint">允許對某些設定進行更精細的調整</string>
     <string name="complex_rules_disable">停用</string>
     <string name="complex_rules_enable">使能夠</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">僅前一個</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">行動</string>
@@ -225,6 +226,7 @@
     <string name="change_complex_conditions_title">狀況</string>
     <string name="change_complex_starting_activity">起始活動</string>
     <string name="change_complex_previous_activity">之前的活動</string>
+    <string name="change_complex_disallow_only_previous">僅停止所選活動</string>
     <string name="change_complex_rule_removed">規則已刪除</string>
     <string name="change_complex_rule_choose_action">選擇行動</string>
     <string name="change_complex_rule_choose_condition">選擇條件</string>

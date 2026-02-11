@@ -49,7 +49,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvWidgetGridNewItems" />
 
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnWidgetGridSettingsShowAll"
         style="@style/AppButton"

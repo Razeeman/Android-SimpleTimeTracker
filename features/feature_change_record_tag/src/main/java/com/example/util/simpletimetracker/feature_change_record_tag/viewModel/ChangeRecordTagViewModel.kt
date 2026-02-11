@@ -309,6 +309,7 @@ class ChangeRecordTagViewModel @Inject constructor(
             transitionName = "",
             filterType = ChartFilterType.RECORD_TAG,
             shift = 0,
+            overrideStatisticsRange = null,
             sharedElements = emptyMap(),
             itemId = recordTagId,
             itemName = preview.name,

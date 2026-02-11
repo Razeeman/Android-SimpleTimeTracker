@@ -11,6 +11,7 @@ data class WearSettings(
     val apiVersion: String,
     val allowMultitasking: Boolean,
     val recordTagSelectionCloseAfterOne: Boolean,
+    val closeAfterOneTagExcludeActivities: Set<Long>,
     val enableRepeatButton: Boolean,
     val retroactiveTrackingMode: Boolean,
     val startOfDayShift: Long,

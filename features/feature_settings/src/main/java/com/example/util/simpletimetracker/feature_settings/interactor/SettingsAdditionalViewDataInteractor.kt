@@ -76,13 +76,18 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
                 isButtonVisible = showRecordTagSelection,
             )
             if (showRecordTagSelection) {
-                result += SettingsCheckboxViewData(
-                    block = SettingsBlock.AdditionalCloseAfterOneTag,
-                    title = resourceRepo.getString(R.string.settings_show_record_tag_close_hint),
-                    subtitle = "",
-                    isChecked = prefsInteractor.getRecordTagSelectionCloseAfterOne(),
-                    bottomSpaceIsVisible = true,
-                    dividerIsVisible = true,
+                val closeAfterOne = prefsInteractor.getRecordTagSelectionCloseAfterOne()
+                result += SettingsCheckboxWithButtonViewData(
+                    data = SettingsCheckboxViewData(
+                        block = SettingsBlock.AdditionalCloseAfterOneTag,
+                        title = resourceRepo.getString(R.string.settings_show_record_tag_close_hint),
+                        subtitle = "",
+                        isChecked = closeAfterOne,
+                        bottomSpaceIsVisible = true,
+                        dividerIsVisible = true,
+                    ),
+                    buttonBlock = SettingsBlock.AdditionalCloseAfterOneTagExcludeActivities,
+                    isButtonVisible = closeAfterOne,
                 )
             }
 

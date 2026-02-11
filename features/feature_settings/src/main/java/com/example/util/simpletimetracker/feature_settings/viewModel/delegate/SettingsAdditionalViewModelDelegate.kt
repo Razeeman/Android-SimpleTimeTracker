@@ -66,6 +66,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             SettingsBlock.AdditionalAutomatedTracking -> onAutomatedTrackingHelpClick()
             SettingsBlock.AdditionalShowTagSelection -> onShowRecordTagSelectionClicked()
             SettingsBlock.AdditionalCloseAfterOneTag -> onRecordTagSelectionCloseClicked()
+            SettingsBlock.AdditionalCloseAfterOneTagExcludeActivities -> onCloseAfterOneTagExcludeActivitiesClicked()
             SettingsBlock.AdditionalTagSelectionExcludeActivities -> onRecordTagSelectionExcludeActivitiesClicked()
             SettingsBlock.AdditionalShowCommentInput -> onShowCommentInputClicked()
             SettingsBlock.AdditionalCommentInputExcludeActivities -> onCommentInputExcludeActivitiesClicked()
@@ -224,6 +225,23 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         ).let(router::navigate)
     }
 
+    private fun onCloseAfterOneTagExcludeActivitiesClicked() = delegateScope.launch {
+        TypesSelectionDialogParams(
+            tag = SettingsViewModel.CLOSE_AFTER_ONE_TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION,
+            title = resourceRepo.getString(
+                R.string.record_tag_selection_exclude_activities_title,
+            ),
+            subtitle = "",
+            type = TypesSelectionDialogParams.Type.Activity,
+            selectedTypeIds = prefsInteractor.getCloseAfterOneTagExcludeActivities(),
+            selectedTagValues = emptyList(),
+            isMultiSelectAvailable = true,
+            idsShouldBeVisible = emptyList(),
+            showHints = true,
+            allowTagValueSelection = false,
+        ).let(router::navigate)
+    }
+
     private fun onShowCommentInputClicked() = delegateScope.launch {
         delegateScope.launch {
             val newValue = !prefsInteractor.getShowCommentInput()
@@ -335,6 +353,9 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             }
             SettingsViewModel.COMMENT_EXCLUDE_ACTIVITIES_TYPES_SELECTION -> {
                 prefsInteractor.setCommentInputExcludeActivities(typeIds)
+            }
+            SettingsViewModel.CLOSE_AFTER_ONE_TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION -> {
+                prefsInteractor.setCloseAfterOneTagExcludeActivities(typeIds)
             }
         }
     }

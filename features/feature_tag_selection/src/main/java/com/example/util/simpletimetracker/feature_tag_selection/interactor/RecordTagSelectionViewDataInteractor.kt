@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_tag_selection.interactor
 import com.example.util.simpletimetracker.core.interactor.RecordCommentSearchViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.commentField.CommentFieldViewData
@@ -15,7 +14,6 @@ import javax.inject.Inject
 
 class RecordTagSelectionViewDataInteractor @Inject constructor(
     private val resourceRepo: ResourceRepo,
-    private val prefsInteractor: PrefsInteractor,
     private val recordTagViewDataInteractor: RecordTagViewDataInteractor,
     private val recordCommentSearchViewDataInteractor: RecordCommentSearchViewDataInteractor,
 ) {
@@ -24,11 +22,11 @@ class RecordTagSelectionViewDataInteractor @Inject constructor(
         extra: RecordTagSelectionParams,
         selectedTags: List<RecordBase.Tag>,
         showAllTags: Boolean,
+        multipleChoiceAvailable: Boolean,
         comment: String,
         fromCommentChange: Boolean,
     ): List<ViewHolderType> {
         val typeId = extra.typeId
-        val closeAfterOneTagSelected = prefsInteractor.getRecordTagSelectionCloseAfterOne()
         val shouldShowCommentSelection = RecordTagSelectionParams.Field.Comment in extra.fields
         val shouldShowTagSelection = RecordTagSelectionParams.Field.Tags in extra.fields
 
@@ -77,7 +75,7 @@ class RecordTagSelectionViewDataInteractor @Inject constructor(
                 selectedTags = selectedTags,
                 typeIds = listOf(typeId),
                 showAllTags = showAllTags,
-                multipleChoiceAvailable = !closeAfterOneTagSelected,
+                multipleChoiceAvailable = multipleChoiceAvailable,
                 showAddButton = false,
                 showArchived = false,
                 showUntaggedButton = true,

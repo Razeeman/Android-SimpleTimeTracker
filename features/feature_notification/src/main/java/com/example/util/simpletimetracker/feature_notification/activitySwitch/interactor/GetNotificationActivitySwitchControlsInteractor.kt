@@ -4,18 +4,22 @@ import com.example.util.simpletimetracker.core.interactor.CompleteTypesStateInte
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
+import com.example.util.simpletimetracker.core.mapper.RecordTagValueMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.REPEAT_BUTTON_ITEM_ID
+import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordTag.interactor.GetSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.R
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.APPLY_TAGS_ID
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.TAGS_LIST_SIZE
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.TYPES_LIST_SIZE
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.UNTAGGED_TAG_ID
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsParams
 import com.example.util.simpletimetracker.feature_notification.core.TAG_VALUE_DECIMAL_DELIMITER
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
@@ -28,6 +32,7 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val resourceRepo: ResourceRepo,
     private val recordTagViewDataMapper: RecordTagViewDataMapper,
+    private val recordTagValueMapper: RecordTagValueMapper,
     private val completeTypesStateInteractor: CompleteTypesStateInteractor,
     private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
     private val recordTagInteractor: RecordTagInteractor,
@@ -39,19 +44,21 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         types: List<RecordType>,
         suggestions: List<RecordType>,
         showRepeatButton: Boolean,
+        isMultipleTagAvailable: Boolean,
         typesShift: Int,
         tagsShift: Int,
         selectedTypeId: Long?,
-        selectedTagId: Long?,
-        selectedTagValue: String?,
+        selectedTags: List<RecordBase.Tag>,
+        editingTagId: Long?,
+        editingTagValueInput: String?,
         goals: Map<Long, List<RecordTypeGoal>>,
         allDailyCurrents: Map<Long, GetCurrentRecordsDurationInteractor.Result>,
     ): NotificationControlsParams {
-        val viewState = if (selectedTagId != null && selectedTagId != 0L) {
+        val viewState = if (editingTagId != null) {
             mapTagSelectionViewState(
                 isDarkTheme = isDarkTheme,
-                currentValueString = selectedTagValue,
-                valueSuffix = recordTagInteractor.get(selectedTagId)
+                currentValueString = editingTagValueInput,
+                valueSuffix = recordTagInteractor.get(editingTagId)
                     ?.valueSuffix.orEmpty(),
             )
         } else {
@@ -61,8 +68,10 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
                 types = types,
                 suggestions = suggestions,
                 showRepeatButton = showRepeatButton,
+                showTagSaveButton = isMultipleTagAvailable,
                 typesShift = typesShift,
                 selectedTypeId = selectedTypeId,
+                selectedTags = selectedTags,
                 goals = goals,
                 allDailyCurrents = allDailyCurrents,
             )
@@ -72,9 +81,11 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
             typesShift = typesShift,
             tagsShift = tagsShift,
             controlIconColor = colorMapper.toInactiveColor(isDarkTheme),
+            isMultipleTagAvailable = isMultipleTagAvailable,
             selectedTypeId = selectedTypeId,
-            selectedTagId = selectedTagId,
-            selectedTagValue = selectedTagValue,
+            selectedTags = selectedTags,
+            editingTagId = editingTagId,
+            editingTagValueInput = editingTagValueInput,
             viewState = viewState,
         )
     }
@@ -85,8 +96,10 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         types: List<RecordType>,
         suggestions: List<RecordType>,
         showRepeatButton: Boolean,
-        typesShift: Int = 0,
-        selectedTypeId: Long? = null,
+        showTagSaveButton: Boolean,
+        typesShift: Int,
+        selectedTypeId: Long?,
+        selectedTags: List<RecordBase.Tag>,
         goals: Map<Long, List<RecordTypeGoal>>,
         allDailyCurrents: Map<Long, GetCurrentRecordsDurationInteractor.Result>,
     ): NotificationControlsParams.ViewState {
@@ -98,6 +111,8 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         }
 
         val typesMap = types.associateBy { it.id }
+
+        val selectedTagsMap = selectedTags.associateBy { it.tagId }
 
         val suggestionsViewData = suggestions.map { type ->
             mapType(
@@ -137,16 +152,16 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
                 mapTag(
                     tag = tag,
                     typesMap = typesMap,
+                    selectedTagsMap = selectedTagsMap,
                     isDarkTheme = isDarkTheme,
                 )
             }
-            .let {
-                if (it.isNotEmpty()) {
+            .takeUnless { it.isEmpty() }
+            ?.let {
+                mapApplyTags(isDarkTheme).takeIf { showTagSaveButton }.orEmpty() +
                     mapUntagged(isDarkTheme) + it
-                } else {
-                    it
-                }
             }
+            .orEmpty()
 
         val allTypesViewData = populateWithEmpty(
             data = suggestionsViewData + repeatButtonViewData + typesViewData,
@@ -275,15 +290,22 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
     private fun mapTag(
         tag: RecordTag,
         typesMap: Map<Long, RecordType>,
+        selectedTagsMap: Map<Long, RecordBase.Tag>,
         isDarkTheme: Boolean,
     ): NotificationControlsParams.Tag {
         return NotificationControlsParams.Tag.Present(
             id = tag.id,
-            text = tag.name,
+            text = selectedTagsMap[tag.id]?.numericValue?.let { value ->
+                recordTagValueMapper.mapTagValue(
+                    value = value,
+                    valueSuffix = tag.valueSuffix,
+                )
+            } ?: tag.name,
             color = recordTagViewDataMapper.mapColor(
                 tag = tag,
                 types = typesMap,
             ).let { colorMapper.mapToColorInt(it, isDarkTheme) },
+            isSelected = tag.id in selectedTagsMap.keys,
         )
     }
 
@@ -291,9 +313,21 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         isDarkTheme: Boolean,
     ): List<NotificationControlsParams.Tag> {
         return NotificationControlsParams.Tag.Present(
-            id = 0L,
+            id = UNTAGGED_TAG_ID,
             text = R.string.change_record_untagged.let(resourceRepo::getString),
             color = colorMapper.toUntrackedColor(isDarkTheme),
+            isSelected = false,
+        ).let(::listOf)
+    }
+
+    private fun mapApplyTags(
+        isDarkTheme: Boolean,
+    ): List<NotificationControlsParams.Tag> {
+        return NotificationControlsParams.Tag.Present(
+            id = APPLY_TAGS_ID,
+            text = R.string.change_record_save.let(resourceRepo::getString),
+            color = resourceRepo.getThemedAttr(R.attr.appActiveColor, isDarkTheme),
+            isSelected = false,
         ).let(::listOf)
     }
 

@@ -41,6 +41,7 @@ class GoalsViewDataMapper @Inject constructor(
     fun mapGoalsState(
         goalsState: ChangeRecordTypeGoalsState,
         isDarkTheme: Boolean,
+        firstDayOfWeek: DayOfWeek,
     ): ChangeRecordTypeGoalsViewData {
         val selectedCount = listOf(
             goalsState.session,
@@ -73,6 +74,7 @@ class GoalsViewDataMapper @Inject constructor(
                 goal = goalsState.daily.type,
                 selectedDaysOfWeek = goalsState.daysOfWeek,
                 isDarkTheme = isDarkTheme,
+                firstDayOfWeek = firstDayOfWeek,
             ),
         )
     }
@@ -106,8 +108,8 @@ class GoalsViewDataMapper @Inject constructor(
         val position = goalTypeList.indexOf(goalViewData)
             .takeUnless { it == -1 }.orZero()
         val value = when (goal) {
-            is RecordTypeGoal.Type.Duration -> toDurationGoalText(goal.value.orZero())
-            is RecordTypeGoal.Type.Count -> goal.value.orZero().toString()
+            is RecordTypeGoal.Type.Duration -> toDurationGoalText(goal.value)
+            is RecordTypeGoal.Type.Count -> goal.value.takeUnless { it == 0L }?.toString().orEmpty()
         }
         val items = goalTypeList.map {
             when (it) {
@@ -159,12 +161,14 @@ class GoalsViewDataMapper @Inject constructor(
         goal: RecordTypeGoal.Type,
         selectedDaysOfWeek: Set<DayOfWeek>,
         isDarkTheme: Boolean,
+        firstDayOfWeek: DayOfWeek,
     ): List<ViewHolderType> {
         if (goal.value == 0L) return emptyList()
 
         return dayOfWeekViewDataMapper.mapViewData(
             selectedDaysOfWeek = selectedDaysOfWeek,
             isDarkTheme = isDarkTheme,
+            firstDayOfWeek = firstDayOfWeek,
             width = DayOfWeekViewData.Width.MatchParent,
             paddingHorizontalDp = 2,
         )

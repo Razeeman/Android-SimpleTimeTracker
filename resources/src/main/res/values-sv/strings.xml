@@ -217,6 +217,7 @@ Detta gör att du kan se hur mycket tid du spenderar på produktiva kontra icke-
     <string name="complex_rules_hint">Möjliggör mer finjusterad tillämpning av vissa inställningar</string>
     <string name="complex_rules_disable">Inaktivera</string>
     <string name="complex_rules_enable">Gör det möjligt</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Endast föregående</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Handling</string>
@@ -225,6 +226,7 @@ Detta gör att du kan se hur mycket tid du spenderar på produktiva kontra icke-
     <string name="change_complex_conditions_title">Betingelser</string>
     <string name="change_complex_starting_activity">Startaktiviteten</string>
     <string name="change_complex_previous_activity">Tidigare aktivitet</string>
+    <string name="change_complex_disallow_only_previous">Stoppa endast valda aktiviteter</string>
     <string name="change_complex_rule_removed">Regel borttagen</string>
     <string name="change_complex_rule_choose_action">Välj åtgärd</string>
     <string name="change_complex_rule_choose_condition">Välj villkor</string>

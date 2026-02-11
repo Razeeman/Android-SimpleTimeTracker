@@ -218,6 +218,7 @@ class SettingsViewModel @Inject constructor(
         const val AUTO_EXPORT_TRIGGER_TIME_DIALOG_TAG = "auto_export_trigger_time_dialog_tag"
         const val TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION = "tag_exclude_activities_types_selection"
         const val COMMENT_EXCLUDE_ACTIVITIES_TYPES_SELECTION = "comment_exclude_activities_types_selection"
+        const val CLOSE_AFTER_ONE_TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION = "close_after_one_exclude_activities"
         const val SELECT_ACTIVITIES_TO_AUTOSTART_POMODORO = "select_activities_to_autostart_pomodoro"
     }
 }

@@ -25,6 +25,7 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_ENDED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_STARTED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_ICON
+import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.activity.controller.NotificationActivityBroadcastController
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationActivitySwitchManager.Companion.ACTION_NOTIFICATION_SWITCH_CANCEL
@@ -46,10 +47,13 @@ import com.example.util.simpletimetracker.feature_notification.goalTime.controll
 import com.example.util.simpletimetracker.feature_notification.inactivity.controller.NotificationInactivityBroadcastController
 import com.example.util.simpletimetracker.feature_notification.pomodoro.controller.NotificationPomodoroBroadcastController
 import com.example.util.simpletimetracker.feature_notification.recordType.controller.NotificationTypeBroadcastController
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_EDITING_TAG_ID
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_EDITING_TAG_VALUE_INPUT
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_MULTIPLE_TAG_AVAILABLE
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_SELECTED_TAGS
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_SELECTED_TYPE_ID
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TAGS_SHIFT
-import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TAG_ID
-import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TAG_VALUE
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_CLICKED_TAG_ID
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TYPES_SHIFT
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TYPE_ID
 import com.example.util.simpletimetracker.feature_notification.external.NotificationExternalBroadcastController
@@ -265,48 +269,68 @@ class NotificationReceiver : BroadcastReceiver() {
                 val from = intent.getIntExtra(ARGS_CONTROLS_FROM, 0)
                 val typeId = intent.getLongExtra(ARGS_TYPE_ID, 0)
                 val selectedTypeId = intent.getLongExtra(ARGS_SELECTED_TYPE_ID, 0)
-                val tagId = intent.getLongExtra(ARGS_TAG_ID, 0)
-                val tagValue = intent.getStringExtra(ARGS_TAG_VALUE)
                 val typesShift = intent.getIntExtra(ARGS_TYPES_SHIFT, 0)
                 val tagsShift = intent.getIntExtra(ARGS_TAGS_SHIFT, 0)
+                val selectedTags = intent.getSelectedTags()
+                val editingTagId = intent.getEditingTagId()
+                val editingTagValueInput = intent.getEditingTagValueInput()
+                val isMultipleTagAvailable = intent.getBooleanExtra(ARGS_MULTIPLE_TAG_AVAILABLE, false)
                 typeController.onRequestUpdate(
                     from = from,
                     typeId = typeId,
                     selectedTypeId = selectedTypeId,
-                    selectedTagId = tagId,
-                    selectedTagValue = tagValue,
+                    selectedTags = selectedTags,
+                    editingTagId = editingTagId,
+                    editingTagValueInput = editingTagValueInput,
                     typesShift = typesShift,
                     tagsShift = tagsShift,
+                    isMultipleTagAvailable = isMultipleTagAvailable,
                 )
             }
             ACTION_NOTIFICATION_CONTROLS_TAG_CLICK -> {
                 val from = intent.getIntExtra(ARGS_CONTROLS_FROM, 0)
                 val typeId = intent.getLongExtra(ARGS_TYPE_ID, 0)
                 val selectedTypeId = intent.getLongExtra(ARGS_SELECTED_TYPE_ID, 0)
-                val tagId = intent.getLongExtra(ARGS_TAG_ID, 0)
                 val typesShift = intent.getIntExtra(ARGS_TYPES_SHIFT, 0)
+                val tagsShift = intent.getIntExtra(ARGS_TAGS_SHIFT, 0)
+                val tagId = intent.getLongExtra(ARGS_CLICKED_TAG_ID, 0)
+                val selectedTags = intent.getSelectedTags()
+                val editingTagId = intent.getEditingTagId()
+                val editingTagValueInput = intent.getEditingTagValueInput()
+                val isMultipleTagAvailable = intent.getBooleanExtra(ARGS_MULTIPLE_TAG_AVAILABLE, false)
                 typeController.onActionTagClick(
                     from = from,
                     typeId = typeId,
                     selectedTypeId = selectedTypeId,
                     tagId = tagId,
                     typesShift = typesShift,
+                    tagsShift = tagsShift,
+                    selectedTags = selectedTags,
+                    editingTagId = editingTagId,
+                    editingTagValueInput = editingTagValueInput,
+                    isMultipleTagAvailable = isMultipleTagAvailable,
                 )
             }
             ACTION_NOTIFICATION_CONTROLS_TAG_VALUE_SAVE -> {
                 val from = intent.getIntExtra(ARGS_CONTROLS_FROM, 0)
                 val typeId = intent.getLongExtra(ARGS_TYPE_ID, 0)
                 val selectedTypeId = intent.getLongExtra(ARGS_SELECTED_TYPE_ID, 0)
-                val tagId = intent.getLongExtra(ARGS_TAG_ID, 0)
-                val tagValue = intent.getStringExtra(ARGS_TAG_VALUE)
                 val typesShift = intent.getIntExtra(ARGS_TYPES_SHIFT, 0)
+                val tagsShift = intent.getIntExtra(ARGS_TAGS_SHIFT, 0)
+                val selectedTags = intent.getSelectedTags()
+                val editingTagId = intent.getEditingTagId() ?: return
+                val editingTagValueInput = intent.getEditingTagValueInput()
+                val isMultipleTagAvailable = intent.getBooleanExtra(ARGS_MULTIPLE_TAG_AVAILABLE, false)
                 typeController.onActionTagValueSave(
                     from = from,
                     typeId = typeId,
                     selectedTypeId = selectedTypeId,
-                    tagId = tagId,
-                    tagValue = tagValue,
+                    tagId = editingTagId,
+                    tagValue = editingTagValueInput,
                     typesShift = typesShift,
+                    tagsShift = tagsShift,
+                    selectedTags = selectedTags,
+                    isMultipleTagAvailable = isMultipleTagAvailable,
                 )
             }
             ACTION_NOTIFICATION_TYPE_CANCEL -> {
@@ -334,6 +358,34 @@ class NotificationReceiver : BroadcastReceiver() {
         automaticBackupController.onBootCompleted()
         automaticExportController.onBootCompleted()
         pomodoroController.onBootCompleted()
+    }
+
+    private fun Intent.getSelectedTags(): List<RecordBase.Tag> {
+        val raw = getStringExtra(ARGS_SELECTED_TAGS)
+        if (raw.isNullOrEmpty()) return emptyList()
+        return raw.split(';').mapNotNull { segment ->
+            val parts = segment.split('=', limit = 2)
+            val tagId = parts.getOrNull(0)
+                ?.takeIf(String::isNotBlank)
+                ?.toLongOrNull() ?: return@mapNotNull null
+            val numericValue = parts.getOrNull(1)
+                ?.takeIf(String::isNotBlank)
+                ?.toDoubleOrNull()
+            RecordBase.Tag(
+                tagId = tagId,
+                numericValue = numericValue,
+            )
+        }
+    }
+
+    private fun Intent.getEditingTagId(): Long? {
+        if (!hasExtra(ARGS_EDITING_TAG_ID)) return null
+        return getLongExtra(ARGS_EDITING_TAG_ID, 0L).takeIf { it != 0L }
+    }
+
+    private fun Intent.getEditingTagValueInput(): String? {
+        if (!hasExtra(ARGS_EDITING_TAG_VALUE_INPUT)) return null
+        return getStringExtra(ARGS_EDITING_TAG_VALUE_INPUT)
     }
 
     private fun String.splitTagNames(): List<String> {

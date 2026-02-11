@@ -217,6 +217,7 @@ I <b>tag</b> ti permettono di aggiungere maggiori dettagli a un\'attività speci
     <string name="complex_rules_hint">Consente un\'applicazione più precisa di alcune impostazioni</string>
     <string name="complex_rules_disable">Disattivare</string>
     <string name="complex_rules_enable">Abilitare</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Solo precedente</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Azione</string>
@@ -225,6 +226,7 @@ I <b>tag</b> ti permettono di aggiungere maggiori dettagli a un\'attività speci
     <string name="change_complex_conditions_title">Condizioni</string>
     <string name="change_complex_starting_activity">L\'attività iniziale</string>
     <string name="change_complex_previous_activity">Attività precedente</string>
+    <string name="change_complex_disallow_only_previous">Interrompi solo le attività selezionate</string>
     <string name="change_complex_rule_removed">Regola rimossa</string>
     <string name="change_complex_rule_choose_action">Scegli un\'azione</string>
     <string name="change_complex_rule_choose_condition">Scegli le condizioni</string>

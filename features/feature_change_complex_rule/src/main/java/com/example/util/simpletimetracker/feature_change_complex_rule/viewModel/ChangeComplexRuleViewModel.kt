@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.feature_change_complex_rule.mapper.Cha
 import com.example.util.simpletimetracker.feature_change_complex_rule.viewData.ChangeComplexRuleActionChooserViewData
 import com.example.util.simpletimetracker.feature_change_complex_rule.viewData.ChangeComplexRuleChooserState
 import com.example.util.simpletimetracker.feature_change_complex_rule.viewData.ChangeComplexRuleTypesChooserViewData
+import com.example.util.simpletimetracker.feature_change_complex_rule.viewData.ChangeComplexRuleDisallowOnlyPreviousState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeComplexRuleParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
@@ -45,6 +46,7 @@ class ChangeComplexRuleViewModel @Inject constructor(
     val startingTypesViewData: LiveData<ChangeComplexRuleTypesChooserViewData> = MutableLiveData()
     val currentTypesViewData: LiveData<ChangeComplexRuleTypesChooserViewData> = MutableLiveData()
     val daysOfWeekViewData: LiveData<ChangeComplexRuleTypesChooserViewData> = MutableLiveData()
+    val disallowOnlyPreviousState: LiveData<ChangeComplexRuleDisallowOnlyPreviousState> = MutableLiveData()
     val chooserState: LiveData<ViewChooserStateDelegate.States> = MutableLiveData(
         ViewChooserStateDelegate.States(
             current = ChangeComplexRuleChooserState.Closed,
@@ -66,6 +68,7 @@ class ChangeComplexRuleViewModel @Inject constructor(
     private var originalCurrentTypeIds: Set<Long> = emptySet()
     private var newDaysOfWeek: Set<DayOfWeek> = emptySet()
     private var newDisabled: Boolean = false
+    private var newDisallowOnlyPrevious: Boolean = false
 
     fun initialize() = viewModelScope.launch {
         if (initialized) return@launch
@@ -74,6 +77,7 @@ class ChangeComplexRuleViewModel @Inject constructor(
         updateStartingTypesViewData()
         updateCurrentTypesViewData()
         updateDaysOfWeekViewData()
+        updateDisallowOnlyPreviousState()
         initialized = true
     }
 
@@ -137,6 +141,11 @@ class ChangeComplexRuleViewModel @Inject constructor(
     fun onDayOfWeekClick(data: DayOfWeekViewData) {
         newDaysOfWeek = newDaysOfWeek.toMutableSet().apply { addOrRemove(data.dayOfWeek) }
         updateDaysOfWeekViewData()
+    }
+
+    fun onDisallowOnlyPreviousClick() {
+        newDisallowOnlyPrevious = !newDisallowOnlyPrevious
+        updateDisallowOnlyPreviousState()
     }
 
     fun onDataSelected(dataIds: List<Long>, tag: String?) {
@@ -205,6 +214,7 @@ class ChangeComplexRuleViewModel @Inject constructor(
             id = ruleId,
             disabled = newDisabled,
             action = action,
+            actionDisallowOnlyPrevious = newDisallowOnlyPrevious,
             actionAssignTagIds = newAssignTagIds,
             conditionStartingTypeIds = newStartingTypeIds,
             conditionCurrentTypeIds = newCurrentTypeIds,
@@ -246,11 +256,13 @@ class ChangeComplexRuleViewModel @Inject constructor(
         originalCurrentTypeIds = rule.conditionCurrentTypeIds
         newDaysOfWeek = rule.conditionDaysOfWeek
         newDisabled = rule.disabled
+        newDisallowOnlyPrevious = rule.actionDisallowOnlyPrevious
     }
 
     private fun updateActionViewData() = viewModelScope.launch {
         val data = loadActionViewData()
         actionViewData.set(data)
+        updateDisallowOnlyPreviousState()
     }
 
     private fun loadActionViewData(): ChangeComplexRuleActionChooserViewData {
@@ -275,6 +287,7 @@ class ChangeComplexRuleViewModel @Inject constructor(
     private fun updateCurrentTypesViewData() = viewModelScope.launch {
         val data = loadCurrentTypesViewData()
         currentTypesViewData.set(data)
+        updateDisallowOnlyPreviousState()
     }
 
     private suspend fun loadCurrentTypesViewData(): ChangeComplexRuleTypesChooserViewData {
@@ -297,6 +310,24 @@ class ChangeComplexRuleViewModel @Inject constructor(
 
     private fun showMessage(stringResId: Int) {
         snackBarMessageNavigationInteractor.showMessage(stringResId)
+    }
+
+    private fun updateDisallowOnlyPreviousState() {
+        val isDisallowAction = newAction is ComplexRule.Action.DisallowMultitasking
+        val hasPreviousSelection = newCurrentTypeIds.isNotEmpty()
+        val isEnabled = isDisallowAction && hasPreviousSelection
+
+        if (!isEnabled) {
+            newDisallowOnlyPrevious = false
+        }
+
+        disallowOnlyPreviousState.set(
+            ChangeComplexRuleDisallowOnlyPreviousState(
+                visible = isDisallowAction,
+                checked = newDisallowOnlyPrevious,
+                enabled = isEnabled,
+            ),
+        )
     }
 
     companion object {

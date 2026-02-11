@@ -98,6 +98,7 @@ class StatisticsViewModel @Inject constructor(
             transitionName = item.transitionName.orEmpty(),
             filterType = prefsInteractor.getChartFilterType(),
             shift = getShift(),
+            overrideStatisticsRange = null,
             sharedElements = sharedElements,
             itemId = item.id,
             itemName = item.name,
@@ -110,6 +111,7 @@ class StatisticsViewModel @Inject constructor(
         statisticsDetailNavigationInteractor.navigateByGoal(
             goalId = item.id,
             shift = getShift(),
+            range = null,
         )
     }
 

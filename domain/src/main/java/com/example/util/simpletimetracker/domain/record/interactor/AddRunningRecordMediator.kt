@@ -11,10 +11,13 @@ import com.example.util.simpletimetracker.domain.notifications.interactor.Update
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.base.ResultContainer
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
+import com.example.util.simpletimetracker.domain.base.SuspendLazy
+import com.example.util.simpletimetracker.domain.base.suspendLazy
 import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.model.RecordDataSelectionDialogResult
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
+import kotlinx.coroutines.coroutineScope
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -72,7 +75,7 @@ class AddRunningRecordMediator @Inject constructor(
         timeStarted: StartTime = StartTime.TakeCurrent,
         updateNotificationSwitch: Boolean = true,
         checkDefaultDuration: Boolean = true,
-    ) {
+    ) = coroutineScope {
         val currentTime = currentTimestampProvider.get()
         val actualTimeStarted = when (timeStarted) {
             is StartTime.Current -> timeStarted.currentTimeStampMs
@@ -80,13 +83,8 @@ class AddRunningRecordMediator @Inject constructor(
             is StartTime.Timestamp -> timeStarted.timestampMs
         }.coerceAtMost(currentTime)
         val retroactiveTrackingMode = prefsInteractor.getRetroactiveTrackingMode()
-        val actualPrevRecords = if (
-            retroactiveTrackingMode ||
-            complexRuleProcessActionInteractor.hasRules()
-        ) {
+        val actualPrevRecords = suspendLazy {
             recordInteractor.getAllPrev(actualTimeStarted)
-        } else {
-            emptyList()
         }
         val rulesResult = if (
             retroactiveTrackingMode &&
@@ -95,6 +93,7 @@ class AddRunningRecordMediator @Inject constructor(
             // No need to check rules on merge.
             ComplexRuleProcessActionInteractor.Result(
                 isMultitaskingAllowed = ResultContainer.Undefined,
+                disallowOnlyPreviousTypeIds = emptySet(),
                 tagsIds = emptySet(),
             )
         } else {
@@ -110,6 +109,7 @@ class AddRunningRecordMediator @Inject constructor(
         processMultitasking(
             typeId = typeId,
             isMultitaskingAllowed = isMultitaskingAllowed,
+            disallowOnlyPreviousTypeIds = rulesResult.disallowOnlyPreviousTypeIds,
             splitTime = when (timeStarted) {
                 is StartTime.Current -> timeStarted.currentTimeStampMs
                 is StartTime.TakeCurrent -> currentTime
@@ -182,7 +182,7 @@ class AddRunningRecordMediator @Inject constructor(
 
     private suspend fun addRetroactiveModeInternal(
         params: StartParams,
-        prevRecords: List<Record>,
+        prevRecords: SuspendLazy<List<Record>>,
     ) {
         val type = recordTypeInteractor.get(params.typeId) ?: return
 
@@ -245,7 +245,7 @@ class AddRunningRecordMediator @Inject constructor(
 
     private suspend fun addRecordRetroactively(
         params: StartParams,
-        prevRecords: List<Record>,
+        prevRecords: SuspendLazy<List<Record>>,
     ) {
         val prevRecord = getPrevRecordToMergeWith(params.typeId, prevRecords)
         val sameTags = prevRecord?.tags.orEmpty().sortedBy { it.tagId } == params.tags.sortedBy { it.tagId }
@@ -263,7 +263,7 @@ class AddRunningRecordMediator @Inject constructor(
                     ?: prevRecord.tags,
             )
         } else {
-            val newTimeStarted = prevRecords.firstOrNull()?.timeEnded
+            val newTimeStarted = prevRecords().firstOrNull()?.timeEnded
                 ?: (params.timeStarted - TimeUnit.MINUTES.toMillis(5))
             Record(
                 id = 0L, // Creates new record.
@@ -280,10 +280,10 @@ class AddRunningRecordMediator @Inject constructor(
         )
     }
 
-    private suspend fun processRules(
+    suspend fun processRules(
         typeId: Long,
         timeStarted: Long,
-        prevRecords: List<Record>,
+        prevRecords: SuspendLazy<List<Record>>,
     ): ComplexRuleProcessActionInteractor.Result {
         // If no rules - no need to check them.
         return if (complexRuleProcessActionInteractor.hasRules()) {
@@ -295,7 +295,7 @@ class AddRunningRecordMediator @Inject constructor(
                 hasAnyRunningTimersOnTimeStarted
 
             // If no current records - check closest previous.
-            val records = if (takeCurrentRecords) currentRecords else prevRecords
+            val records = if (takeCurrentRecords) currentRecords else prevRecords()
 
             val currentTypeIds = records
                 .map { it.typeIds }
@@ -310,6 +310,7 @@ class AddRunningRecordMediator @Inject constructor(
         } else {
             ComplexRuleProcessActionInteractor.Result(
                 isMultitaskingAllowed = ResultContainer.Undefined,
+                disallowOnlyPreviousTypeIds = emptySet(),
                 tagsIds = emptySet(),
             )
         }
@@ -318,13 +319,22 @@ class AddRunningRecordMediator @Inject constructor(
     private suspend fun processMultitasking(
         typeId: Long,
         isMultitaskingAllowed: Boolean,
+        disallowOnlyPreviousTypeIds: Set<Long>,
         splitTime: Long,
     ) {
         // Stop running records if multitasking is disabled.
         if (!isMultitaskingAllowed) {
             // Widgets will update on adding.
-            runningRecordInteractor.getAll()
+            val runningRecords = runningRecordInteractor.getAll()
                 .filter { it.id != typeId }
+            val recordsToStop = if (disallowOnlyPreviousTypeIds.isNotEmpty()) {
+                runningRecords.filter { record ->
+                    record.typeIds.any { it in disallowOnlyPreviousTypeIds }
+                }
+            } else {
+                runningRecords
+            }
+            recordsToStop
                 .forEach {
                     removeRunningRecordMediator.removeWithRecordAdd(
                         runningRecord = it,
@@ -338,7 +348,7 @@ class AddRunningRecordMediator @Inject constructor(
 
     private suspend fun processRetroactiveMultitasking(
         params: StartParams,
-        prevRecords: List<Record>,
+        prevRecords: SuspendLazy<List<Record>>,
     ) {
         if (!params.isMultitaskingAllowed) return
 
@@ -346,7 +356,7 @@ class AddRunningRecordMediator @Inject constructor(
         val mergedRecord = getPrevRecordToMergeWith(params.typeId, prevRecords)
 
         // Extend prev records to current time.
-        prevRecords.filter {
+        prevRecords().filter {
             // Skip record that would be merge.
             it.id != mergedRecord?.id
         }.filter {
@@ -380,11 +390,11 @@ class AddRunningRecordMediator @Inject constructor(
         return result.distinctBy { it.tagId }
     }
 
-    private fun getPrevRecordToMergeWith(
+    private suspend fun getPrevRecordToMergeWith(
         typeId: Long,
-        prevRecords: List<Record>,
+        prevRecords: SuspendLazy<List<Record>>,
     ): Record? {
-        return prevRecords.firstOrNull { it.typeId == typeId }
+        return prevRecords().firstOrNull { it.typeId == typeId }
     }
 
     private data class StartParams(

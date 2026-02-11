@@ -73,9 +73,9 @@ object DateSelectorViewDelegate {
     fun <T : ViewBinding> initUx(
         fragment: BaseFragment<T>,
         binding: DateSelectorLayoutBinding,
-        onRecordAddClick: () -> Unit,
-        onOptionsClick: () -> Unit,
-        onOptionsLongClick: () -> Unit,
+        onRecordAddClick: () -> Unit = {},
+        onOptionsClick: () -> Unit = {},
+        onOptionsLongClick: () -> Unit = {},
     ) = with(fragment) {
         binding.btnRecordsContainerAdd.setOnClick(throttle(onRecordAddClick))
         binding.btnRecordsContainerOptions.setOnClick(throttle(onOptionsClick))

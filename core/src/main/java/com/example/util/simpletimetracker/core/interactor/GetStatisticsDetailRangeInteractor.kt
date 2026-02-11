@@ -10,15 +10,13 @@ class GetStatisticsDetailRangeInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
 ) {
 
-    suspend fun execute(): RangeLengthParams {
-        return getRangeLength().toParams()
-    }
-
-    private suspend fun getRangeLength(): RangeLength {
+    suspend fun execute(
+        overrideStatisticsRange: RangeLength? = null,
+    ): RangeLengthParams {
         return if (prefsInteractor.getKeepStatisticsRange()) {
-            prefsInteractor.getStatisticsRange()
+            overrideStatisticsRange ?: prefsInteractor.getStatisticsRange()
         } else {
             prefsInteractor.getStatisticsDetailRange()
-        }
+        }.toParams()
     }
 }

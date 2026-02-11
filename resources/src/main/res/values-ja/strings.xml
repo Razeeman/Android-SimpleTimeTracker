@@ -217,6 +217,7 @@
     <string name="complex_rules_hint">一部の設定をより細かく適用できるようになります</string>
     <string name="complex_rules_disable">無効にする</string>
     <string name="complex_rules_enable">有効にする</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">前のみ</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">アクション</string>
@@ -225,6 +226,7 @@
     <string name="change_complex_conditions_title">条件</string>
     <string name="change_complex_starting_activity">始まりのアクティビティ</string>
     <string name="change_complex_previous_activity">以前の活動</string>
+    <string name="change_complex_disallow_only_previous">選択したアクティビティのみ停止</string>
     <string name="change_complex_rule_removed">ルールが削除されました</string>
     <string name="change_complex_rule_choose_action">アクションを選択してください</string>
     <string name="change_complex_rule_choose_condition">条件を選択してください</string>

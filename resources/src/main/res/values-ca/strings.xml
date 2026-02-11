@@ -217,6 +217,7 @@ Això et permet veure quant de temps dediques a activitats productives versus no
     <string name="complex_rules_hint">Permet una aplicació més afinada d\'alguns paràmetres</string>
     <string name="complex_rules_disable">Desactivar</string>
     <string name="complex_rules_enable">Activa</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Només l\'anterior</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Acció</string>
@@ -225,6 +226,7 @@ Això et permet veure quant de temps dediques a activitats productives versus no
     <string name="change_complex_conditions_title">Condicions</string>
     <string name="change_complex_starting_activity">L\'activitat inicial</string>
     <string name="change_complex_previous_activity">Activitat prèvia</string>
+    <string name="change_complex_disallow_only_previous">Només atura les activitats seleccionades</string>
     <string name="change_complex_rule_removed">Regla eliminada</string>
     <string name="change_complex_rule_choose_action">Trieu l\'acció</string>
     <string name="change_complex_rule_choose_condition">Trieu condicions</string>

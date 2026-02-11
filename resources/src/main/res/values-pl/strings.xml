@@ -217,6 +217,7 @@ Pozwala to zobaczyć, ile czasu spędzasz na produktywnych i nieproduktywnych ak
     <string name="complex_rules_hint">Umożliwia bardziej precyzyjne zastosowanie niektórych ustawień</string>
     <string name="complex_rules_disable">Wyłączyć</string>
     <string name="complex_rules_enable">Włączać</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Tylko poprzednie</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Działanie</string>
@@ -225,6 +226,7 @@ Pozwala to zobaczyć, ile czasu spędzasz na produktywnych i nieproduktywnych ak
     <string name="change_complex_conditions_title">Warunki</string>
     <string name="change_complex_starting_activity">Aktywność początkowa</string>
     <string name="change_complex_previous_activity">Poprzednia aktywność</string>
+    <string name="change_complex_disallow_only_previous">Zatrzymaj tylko wybrane aktywności</string>
     <string name="change_complex_rule_removed">Reguła usunięta</string>
     <string name="change_complex_rule_choose_action">Wybrać działanie</string>
     <string name="change_complex_rule_choose_condition">Wybierz warunki</string>

@@ -50,6 +50,7 @@ import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Compani
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_POMODORO_LONG_BREAK_TIME
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_POMODORO_PERIODS_UNTIL_LONG_BREAK
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE
+import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_CLOSE_AFTER_ONE_TAG_EXCLUDE_ACTIVITIES
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_RECORD_TYPES_FILTERED_ON_CHART
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_RECORD_TYPES_FILTERED_ON_LIST
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_REPEAT_BUTTON_TYPE
@@ -228,6 +229,7 @@ class BackupPrefsRepo @Inject constructor(
             PrefsProcessor(KEY_START_TIMER_BY_LONG_CLICK, ::startTimerByLongClick),
             PrefsProcessor(KEY_SHOW_RECORD_TAG_SELECTION, ::showRecordTagSelection),
             PrefsProcessor(KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE, ::recordTagSelectionCloseAfterOne),
+            PrefsProcessor(KEY_CLOSE_AFTER_ONE_TAG_EXCLUDE_ACTIVITIES, ::closeAfterOneTagExcludeActivities),
             PrefsProcessor(KEY_SHOW_RECORD_TAG_SELECTION_EXCLUDE_ACTIVITIES, ::recordTagSelectionExcludeActivities),
             PrefsProcessor(KEY_SHOW_COMMENT_INPUT, ::showCommentInput),
             PrefsProcessor(KEY_SHOW_COMMENT_INPUT_EXCLUDE_ACTIVITIES, ::commentInputExcludeActivities),

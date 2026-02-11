@@ -48,8 +48,10 @@ class NotificationActivitySwitchInteractorImpl @Inject constructor(
         typesShift: Int,
         tagsShift: Int,
         selectedTypeId: Long,
-        selectedTagId: Long,
-        selectedTagValue: String?,
+        selectedTags: List<RecordBase.Tag>,
+        editingTagId: Long?,
+        editingTagValueInput: String?,
+        isMultipleTagAvailable: Boolean,
     ) {
         val shouldShow = prefsInteractor.getShowNotifications() &&
             prefsInteractor.getShowNotificationEvenWithNoTimers() &&
@@ -60,8 +62,10 @@ class NotificationActivitySwitchInteractorImpl @Inject constructor(
                 typesShift = typesShift,
                 tagsShift = tagsShift,
                 selectedTypeId = selectedTypeId,
-                selectedTagId = selectedTagId,
-                selectedTagValue = selectedTagValue,
+                selectedTags = selectedTags,
+                editingTagId = editingTagId,
+                editingTagValueInput = editingTagValueInput,
+                isMultipleTagAvailable = isMultipleTagAvailable,
             )
         } else {
             cancel()
@@ -72,8 +76,10 @@ class NotificationActivitySwitchInteractorImpl @Inject constructor(
         typesShift: Int,
         tagsShift: Int,
         selectedTypeId: Long,
-        selectedTagId: Long,
-        selectedTagValue: String?,
+        selectedTags: List<RecordBase.Tag>,
+        editingTagId: Long?,
+        editingTagValueInput: String?,
+        isMultipleTagAvailable: Boolean,
     ) {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val showRepeatButton = prefsInteractor.getEnableRepeatButton()
@@ -172,11 +178,13 @@ class NotificationActivitySwitchInteractorImpl @Inject constructor(
             types = recordTypes.values.toList(),
             suggestions = suggestions,
             showRepeatButton = showRepeatButton,
+            isMultipleTagAvailable = isMultipleTagAvailable,
             typesShift = typesShift,
             tagsShift = tagsShift,
             selectedTypeId = selectedTypeId,
-            selectedTagId = selectedTagId,
-            selectedTagValue = selectedTagValue,
+            selectedTags = selectedTags,
+            editingTagId = editingTagId,
+            editingTagValueInput = editingTagValueInput,
             goals = goals,
             allDailyCurrents = allDailyCurrents,
         )

@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import android.view.ViewParent
 import com.google.android.material.appbar.AppBarLayout
 
-internal fun View.collapseAllAppBarsInParent() {
+internal fun View.changeAllAppBarsInParent(expanded: Boolean) {
     findViewsInParent(AppBarLayout::class.java)
-        .forEach { it.setExpanded(false) }
+        .forEach { it.setExpanded(expanded) }
 }
 
 internal fun <T> View.findViewsInParent(

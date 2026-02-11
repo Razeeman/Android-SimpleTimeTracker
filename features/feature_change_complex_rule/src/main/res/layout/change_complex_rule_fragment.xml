@@ -332,19 +332,55 @@
         tools:listitem="@layout/item_record_type_layout"
         tools:visibility="gone" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvChangeComplexRuleCurrentTypes"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerChangeComplexRuleCurrentTypes"
         style="@style/EditScreenContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:overScrollMode="never"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/dividerChangeComplexRuleButton"
         app:layout_constraintTop_toBottomOf="@id/containerChangeActivityFilterMain"
-        tools:itemCount="3"
-        tools:listitem="@layout/item_record_type_layout"
-        tools:visibility="gone" />
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChangeComplexRuleOnlyPrevious"
+            style="@style/SettingsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/change_complex_disallow_only_previous"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toStartOf="@id/checkboxChangeComplexRuleOnlyPrevious"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.example.util.simpletimetracker.feature_views.DividerView
+            android:id="@+id/dividerChangeComplexRuleOnlyPrevious"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvChangeComplexRuleOnlyPrevious" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkboxChangeComplexRuleOnlyPrevious"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/tvChangeComplexRuleOnlyPrevious"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvChangeComplexRuleOnlyPrevious"
+            tools:checked="true" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChangeComplexRuleCurrentTypes"
+            style="@style/EditScreenContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dividerChangeComplexRuleOnlyPrevious"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_record_type_layout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChangeComplexRuleDaysOfWeek"
@@ -359,7 +395,7 @@
         app:layout_constraintTop_toBottomOf="@id/containerChangeActivityFilterMain"
         tools:itemCount="3"
         tools:listitem="@layout/item_day_of_week"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <View
         android:id="@+id/dividerChangeComplexRuleButton"

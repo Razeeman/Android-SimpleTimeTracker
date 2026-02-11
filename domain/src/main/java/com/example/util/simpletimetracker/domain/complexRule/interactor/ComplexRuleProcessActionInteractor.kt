@@ -39,11 +39,19 @@ class ComplexRuleProcessActionInteractor @Inject constructor(
             else -> ResultContainer.Undefined
         }
 
+        val disallowOnlyPreviousTypeIds = rulesThatDisallow
+            .filter { it.actionDisallowOnlyPrevious }
+            .map { it.conditionCurrentTypeIds }
+            .flatten().toSet()
+            .takeUnless { rulesThatDisallow.any { !it.actionDisallowOnlyPrevious } }
+            .orEmpty()
+
         val additionalTags = assignTagRules.map { it.actionAssignTagIds }
             .flatten().toSet()
 
         return Result(
             isMultitaskingAllowed = isMultitaskingAllowed,
+            disallowOnlyPreviousTypeIds = disallowOnlyPreviousTypeIds,
             tagsIds = additionalTags,
         )
     }
@@ -72,6 +80,7 @@ class ComplexRuleProcessActionInteractor @Inject constructor(
 
     data class Result(
         val isMultitaskingAllowed: ResultContainer<Boolean>,
+        val disallowOnlyPreviousTypeIds: Set<Long>,
         val tagsIds: Set<Long>,
     )
 }

@@ -272,6 +272,34 @@ class OptionsListCustomizationTest : BaseUiTest() {
         pressBack()
     }
 
+    @Test
+    fun allOptionsHidden() {
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsDisplay()
+        scrollSettingsRecyclerToText(coreR.string.settings_customize_options_menu)
+        clickOnSettingsRecyclerText(coreR.string.settings_customize_options_menu)
+        clickOnViewWithText(R.string.shortcut_navigation_records)
+
+        listOf(
+            R.string.records_switch_to_calendar,
+            R.string.chart_filter_hint,
+            R.string.message_action_share,
+            R.string.range_select_day,
+            R.string.range_back_to_today,
+        ).forEach {
+            checkCheckboxIsChecked(customizeOptionCheckboxMatcher(it))
+            clickOnCustomizeOptionCheckbox(it)
+            checkCheckboxIsNotChecked(customizeOptionCheckboxMatcher(it))
+        }
+
+        pressBack()
+
+        NavUtils.openRecordsScreen()
+        checkViewDoesNotExist(
+            allOf(withId(R.id.btnRecordsContainerOptions), isCompletelyDisplayed()),
+        )
+    }
+
     private fun clickOnCustomizeOptionCheckbox(@StringRes textId: Int) {
         clickOnView(customizeOptionCheckboxMatcher(textId))
     }

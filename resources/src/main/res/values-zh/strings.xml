@@ -217,6 +217,7 @@
     <string name="complex_rules_hint">允许对某些设置进行更精细的调整</string>
     <string name="complex_rules_disable">禁用</string>
     <string name="complex_rules_enable">启用</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">仅前一个</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">执行操作</string>
@@ -225,6 +226,7 @@
     <string name="change_complex_conditions_title">条件</string>
     <string name="change_complex_starting_activity">现在开始的活动</string>
     <string name="change_complex_previous_activity">先前活动</string>
+    <string name="change_complex_disallow_only_previous">仅停止所选活动</string>
     <string name="change_complex_rule_removed">规则已删除</string>
     <string name="change_complex_rule_choose_action">选择操作</string>
     <string name="change_complex_rule_choose_condition">选择条件</string>

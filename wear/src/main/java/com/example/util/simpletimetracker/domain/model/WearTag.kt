@@ -9,4 +9,5 @@ data class WearTag(
     val id: Long,
     val name: String,
     val color: Long,
+    val preselected: Boolean,
 )

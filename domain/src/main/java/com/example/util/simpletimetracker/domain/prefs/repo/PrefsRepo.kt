@@ -153,6 +153,8 @@ interface PrefsRepo {
 
     var recordTagSelectionExcludeActivities: Set<String>
 
+    var closeAfterOneTagExcludeActivities: Set<String>
+
     var showCommentInput: Boolean
 
     var commentInputExcludeActivities: Set<String>

@@ -4,6 +4,7 @@ import android.text.SpannableStringBuilder
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.mapper.GoalViewDataMapper
+import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
@@ -16,6 +17,8 @@ import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
+import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.recordType.extension.toRangeLength
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.HintBigViewData
@@ -35,9 +38,36 @@ class GoalsViewDataInteractor @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper,
     private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
+    private val rangeViewDataMapper: RangeViewDataMapper,
 ) {
 
-    suspend fun getViewData(): List<ViewHolderType> = withContext(Dispatchers.Default) {
+    suspend fun getRangeShift(
+        dayShift: Int,
+        goalRange: RecordTypeGoal.Range,
+    ): Int {
+        return when (goalRange) {
+            is RecordTypeGoal.Range.Session -> return 0 // Not possible here.
+            is RecordTypeGoal.Range.Daily -> dayShift
+            is RecordTypeGoal.Range.Weekly,
+            is RecordTypeGoal.Range.Monthly,
+            -> {
+                val startOfDayShift = prefsInteractor.getStartOfDayShift()
+                val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+                timeMapper.toTimestampShift(
+                    toTime = timeMapper.toDayDateTimestamp(
+                        daysFromToday = dayShift,
+                        startOfDayShift = startOfDayShift,
+                    ),
+                    range = goalRange.toRangeLength() ?: return 0,
+                    firstDayOfWeek = firstDayOfWeek,
+                ).toInt()
+            }
+        }
+    }
+
+    suspend fun getViewData(
+        dayShift: Int,
+    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val durationFormat = prefsInteractor.getDurationFormat()
         val showSeconds = prefsInteractor.getShowSeconds()
@@ -71,19 +101,16 @@ class GoalsViewDataInteractor @Inject constructor(
                     is RecordTypeGoal.Range.Monthly -> 3
                 }
             }
-            .mapNotNull {
-                when (it) {
-                    // No point in statistics for session goals.
-                    is RecordTypeGoal.Range.Session -> return@mapNotNull null
-                    is RecordTypeGoal.Range.Daily -> RangeLength.Day
-                    is RecordTypeGoal.Range.Weekly -> RangeLength.Week
-                    is RecordTypeGoal.Range.Monthly -> RangeLength.Month
-                }
+            .filter {
+                // No point in statistics for session goals.
+                it !is RecordTypeGoal.Range.Session
             }
-            .map { rangeLength ->
+            .mapNotNull { goalRange ->
+                val rangeLength = goalRange.toRangeLength() ?: return@mapNotNull null
+                val shiftForRange = getRangeShift(dayShift, goalRange)
                 val range = timeMapper.getRangeStartAndEnd(
                     rangeLength = rangeLength,
-                    shift = 0,
+                    shift = shiftForRange,
                     firstDayOfWeek = firstDayOfWeek,
                     startOfDayShift = startOfDayShift,
                 )
@@ -96,6 +123,9 @@ class GoalsViewDataInteractor @Inject constructor(
                     types = types,
                     rangeLength = rangeLength,
                     range = range,
+                    shift = shiftForRange,
+                    firstDayOfWeek = firstDayOfWeek,
+                    startOfDayShift = startOfDayShift,
                     typeDataHolders = typeDataHolders,
                     categoryDataHolders = categoryDataHolders,
                     tagDataHolders = tagDataHolders,
@@ -117,6 +147,9 @@ class GoalsViewDataInteractor @Inject constructor(
         types: Map<Long, RecordType>,
         rangeLength: RangeLength,
         range: Range,
+        shift: Int,
+        firstDayOfWeek: DayOfWeek,
+        startOfDayShift: Long,
         typeDataHolders: Map<Long, StatisticsDataHolder>,
         categoryDataHolders: Map<Long, StatisticsDataHolder>,
         tagDataHolders: Map<Long, StatisticsDataHolder>,
@@ -154,12 +187,12 @@ class GoalsViewDataInteractor @Inject constructor(
         }.sortedBy { it.goal.percent }
 
         if (items.isNotEmpty()) {
-            val title = when (rangeLength) {
-                is RangeLength.Day -> R.string.title_today
-                is RangeLength.Week -> R.string.title_this_week
-                is RangeLength.Month -> R.string.title_this_month
-                else -> return emptyList()
-            }.let(resourceRepo::getString)
+            val title = rangeViewDataMapper.mapToShareTitle(
+                rangeLength = rangeLength,
+                position = shift,
+                startOfDayShift = startOfDayShift,
+                firstDayOfWeek = firstDayOfWeek,
+            )
             HintViewData(title).let(result::add)
 
             result.addAll(items)

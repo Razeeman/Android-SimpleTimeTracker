@@ -845,6 +845,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         val result: MutableList<ViewHolderType> = mutableListOf()
         val selectedDays = filters.getDaysOfWeek()
         val isDarkTheme = prefsInteractor.getDarkMode()
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
 
         result += EmptySpaceViewData(
             id = 1,
@@ -854,6 +855,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
         result += dayOfWeekViewDataMapper.mapViewData(
             selectedDaysOfWeek = selectedDays,
             isDarkTheme = isDarkTheme,
+            firstDayOfWeek = firstDayOfWeek,
             width = DayOfWeekViewData.Width.WrapContent,
             paddingHorizontalDp = 16,
         )

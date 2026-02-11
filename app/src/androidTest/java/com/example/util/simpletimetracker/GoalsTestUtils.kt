@@ -139,18 +139,18 @@ object GoalsTestUtils {
         goal: String,
     ) {
         allOf(
-            isDescendantOfA(withId(baseR.id.viewStatisticsGoalItem)),
-            hasSibling(withText(typeName)),
-            withId(R.id.tvStatisticsGoalItemCurrent),
-            withSubstring(current),
-            isCompletelyDisplayed(),
-        ).let(::checkViewIsDisplayed)
-
-        allOf(
-            isDescendantOfA(withId(baseR.id.viewStatisticsGoalItem)),
-            hasSibling(withText(typeName)),
-            withId(R.id.tvStatisticsGoalItemGoal),
-            withText(goal),
+            withId(baseR.id.viewStatisticsGoalItem),
+            hasDescendant(withText(typeName)),
+            hasDescendant(
+                allOf(
+                    withId(R.id.tvStatisticsGoalItemCurrent), withSubstring(current),
+                ),
+            ),
+            hasDescendant(
+                allOf(
+                    withId(R.id.tvStatisticsGoalItemGoal), withText(goal),
+                ),
+            ),
             isCompletelyDisplayed(),
         ).let(::checkViewIsDisplayed)
     }

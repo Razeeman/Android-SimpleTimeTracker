@@ -217,6 +217,7 @@
     <string name="complex_rules_hint">اجازه می دهد تا برای اعمال دقیق تر تنظیمات برخی از تنظیمات</string>
     <string name="complex_rules_disable">غیر فعال کردن</string>
     <string name="complex_rules_enable">فعال کردن</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">فقط قبلی</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">عمل</string>
@@ -225,6 +226,7 @@
     <string name="change_complex_conditions_title">شرایط</string>
     <string name="change_complex_starting_activity">شروع فعالیت</string>
     <string name="change_complex_previous_activity">فعالیت قبلی</string>
+    <string name="change_complex_disallow_only_previous">فقط فعالیت‌های انتخاب‌شده را متوقف کنید</string>
     <string name="change_complex_rule_removed">قانون حذف شد</string>
     <string name="change_complex_rule_choose_action">اقدام را انتخاب کنید</string>
     <string name="change_complex_rule_choose_condition">شرایط را انتخاب کنید</string>

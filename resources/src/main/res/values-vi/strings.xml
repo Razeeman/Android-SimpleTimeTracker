@@ -217,6 +217,7 @@
     <string name="complex_rules_hint">Cho phép ứng dụng tinh chỉnh hơn của một số cài đặt</string>
     <string name="complex_rules_disable">Vô hiệu hóa</string>
     <string name="complex_rules_enable">Cho phép</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Chỉ trước</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Hoạt động</string>
@@ -225,6 +226,7 @@
     <string name="change_complex_conditions_title">Điều kiện</string>
     <string name="change_complex_starting_activity">Hoạt động khởi đầu</string>
     <string name="change_complex_previous_activity">Hoạt động trước</string>
+    <string name="change_complex_disallow_only_previous">Chỉ dừng các hoạt động đã chọn</string>
     <string name="change_complex_rule_removed">Đã xóa quy tắc</string>
     <string name="change_complex_rule_choose_action">Chọn hành động</string>
     <string name="change_complex_rule_choose_condition">Chọn điều kiện</string>

@@ -17,6 +17,9 @@ data class ComplexRuleDBO(
     @ColumnInfo(name = "actionType")
     val action: Long,
 
+    @ColumnInfo(name = "actionDisallowOnlyPrevious")
+    val actionDisallowOnlyPrevious: Boolean,
+
     // Longs stored in string comma separated
     @ColumnInfo(name = "actionSetTagIds")
     val actionSetTagIds: String,

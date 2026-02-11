@@ -628,9 +628,11 @@ class BackupRepoImpl @Inject constructor(
         }.toString()
         val daysOfWeekString = daysOfWeekDataLocalMapper
             .mapDaysOfWeek(complexRule.conditionDaysOfWeek)
+        val disallowOnlyPreviousString = (if (complexRule.actionDisallowOnlyPrevious) 1 else 0)
+            .toString()
 
         return String.format(
-            "$ROW_COMPLEX_RULE\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+            "$ROW_COMPLEX_RULE\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
             complexRule.id.toString(),
             (if (complexRule.disabled) 1 else 0).toString(),
             actionString,
@@ -638,6 +640,7 @@ class BackupRepoImpl @Inject constructor(
             complexRule.conditionStartingTypeIds.joinToString(separator = ","),
             complexRule.conditionCurrentTypeIds.joinToString(separator = ","),
             daysOfWeekString,
+            disallowOnlyPreviousString,
         )
     }
 
@@ -948,6 +951,7 @@ class BackupRepoImpl @Inject constructor(
                 2L -> ComplexRule.Action.AssignTag
                 else -> ComplexRule.Action.AllowMultitasking
             },
+            actionDisallowOnlyPrevious = parts.getOrNull(8)?.toIntOrNull() == 1,
             actionAssignTagIds = parts.getOrNull(4)?.split(",")
                 ?.mapNotNull { it.toLongOrNull() }.orEmpty().toSet(),
             conditionStartingTypeIds = parts.getOrNull(5)?.split(",")

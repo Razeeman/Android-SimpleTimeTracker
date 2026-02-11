@@ -191,9 +191,7 @@ class ActivitiesViewModel @Inject constructor(
     private fun isUpdateRequired(
         settings: Result<WearSettings>,
     ): Boolean {
-        // TODO could incorrectly show connection error if settings DTO would change structure.
-        //  Better add separate api call just to get a version,
-        //  or on error parse simpler settings DTO with just api version.
+        // Either apiVersion field has changed or it is a connection error.
         if (settings.isFailure) return false
         val wearApiVersion = BuildConfig.WEAR_API_VERSION
         val phoneApiVersion = settings.getOrNull()?.apiVersion

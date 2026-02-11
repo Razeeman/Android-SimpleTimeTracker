@@ -46,7 +46,10 @@ class ComplexRulesViewDataInteractor @Inject constructor(
             if (shouldAddHints) {
                 val anyAction = group.firstOrNull()?.action
                 if (anyAction != null) {
-                    val hint = complexRuleViewDataMapper.mapActionTitle(anyAction)
+                    val hint = complexRuleViewDataMapper.mapActionTitle(
+                        action = anyAction,
+                        disallowOnlyPrevious = false,
+                    )
                     result += HintViewData(hint)
                 }
             }

@@ -30,6 +30,7 @@ import com.example.util.simpletimetracker.feature_change_complex_rule.viewData.C
 import com.example.util.simpletimetracker.feature_change_complex_rule.viewData.ChangeComplexRuleChooserState.DayOfWeek
 import com.example.util.simpletimetracker.feature_change_complex_rule.viewData.ChangeComplexRuleChooserState.StartingTypes
 import com.example.util.simpletimetracker.feature_change_complex_rule.viewData.ChangeComplexRuleTypesChooserViewData
+import com.example.util.simpletimetracker.feature_change_complex_rule.viewData.ChangeComplexRuleDisallowOnlyPreviousState
 import com.example.util.simpletimetracker.feature_change_complex_rule.viewModel.ChangeComplexRuleViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
@@ -122,6 +123,7 @@ class ChangeComplexRuleFragment :
         fieldChangeComplexRuleStartingTypes.setOnClick(viewModel::onStartingTypesChooserClick)
         fieldChangeComplexRuleCurrentTypes.setOnClick(viewModel::onCurrentTypesChooserClick)
         fieldChangeComplexRuleDaysOfWeek.setOnClick(viewModel::onDaysOfWeekChooserClick)
+        checkboxChangeComplexRuleOnlyPrevious.setOnClick(viewModel::onDisallowOnlyPreviousClick)
         btnChangeComplexRuleSave.setOnClick(viewModel::onSaveClick)
         btnChangeComplexRuleDelete.setOnClick(viewModel::onDeleteClick)
         addOnBackPressedListener(action = viewModel::onBackPressed)
@@ -137,6 +139,7 @@ class ChangeComplexRuleFragment :
             startingTypesViewData.observe(::updateStartingTypes)
             currentTypesViewData.observe(::updateCurrentTypes)
             daysOfWeekViewData.observe(::updateDaysOfWeek)
+            disallowOnlyPreviousState.observe(::updateDisallowOnlyPreviousState)
             chooserState.observe(::updateChooserState)
             initialize()
         }
@@ -167,7 +170,7 @@ class ChangeComplexRuleFragment :
         )
         ViewChooserStateDelegate.updateChooser<CurrentTypes>(
             state = state,
-            chooserData = rvChangeComplexRuleCurrentTypes,
+            chooserData = containerChangeComplexRuleCurrentTypes,
             chooserView = fieldChangeComplexRuleCurrentTypes,
             chooserArrow = arrowChangeComplexRuleCurrentTypes,
         )
@@ -224,6 +227,16 @@ class ChangeComplexRuleFragment :
         dayOfWeekAdapter.replace(data.viewData)
         layoutChangeComplexRuleDaysOfWeekPreview.isVisible = data.selectedCount > 0
         tvChangeComplexRuleDaysOfWeekPreview.text = data.selectedCount.toString()
+    }
+
+    private fun updateDisallowOnlyPreviousState(
+        state: ChangeComplexRuleDisallowOnlyPreviousState,
+    ) = with(binding) {
+        checkboxChangeComplexRuleOnlyPrevious.isVisible = state.visible
+        tvChangeComplexRuleOnlyPrevious.isVisible = state.visible
+        dividerChangeComplexRuleOnlyPrevious.isVisible = state.visible
+        checkboxChangeComplexRuleOnlyPrevious.isChecked = state.checked
+        checkboxChangeComplexRuleOnlyPrevious.isEnabled = state.enabled
     }
 
     companion object {

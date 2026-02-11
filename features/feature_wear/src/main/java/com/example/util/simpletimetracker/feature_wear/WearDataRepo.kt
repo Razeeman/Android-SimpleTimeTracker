@@ -5,6 +5,7 @@
  */
 package com.example.util.simpletimetracker.feature_wear
 
+import com.example.util.simpletimetracker.core.interactor.LoadPreselectedTagsInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -63,6 +64,7 @@ class WearDataRepo @Inject constructor(
     private val addRunningRecordMediator: Lazy<AddRunningRecordMediator>,
     private val recordRepeatInteractor: Lazy<RecordRepeatInteractor>,
     private val updateExternalViewsInteractor: Lazy<UpdateExternalViewsInteractor>,
+    private val loadPreselectedTagsInteractor: Lazy<LoadPreselectedTagsInteractor>,
     private val router: Router,
     private val timeMapper: TimeMapper,
     private val widgetInteractor: WidgetInteractor,
@@ -187,12 +189,14 @@ class WearDataRepo @Inject constructor(
 
     override suspend fun queryTagsForActivity(activityId: Long): List<WearTagDTO> {
         val types = recordTypeInteractor.getAll().associateBy { it.id }
+        val preselectedTagIds = loadPreselectedTagsInteractor.get().execute(activityId)
         return getSelectableTagsInteractor.execute(activityId)
             .filterNot { it.archived }
             .map {
                 wearDataLocalMapper.map(
                     recordTag = it,
                     types = types,
+                    preselectedTagIds = preselectedTagIds,
                 )
             }
     }
@@ -226,6 +230,7 @@ class WearDataRepo @Inject constructor(
             apiVersion = applicationDataProvider.getWearApiVersion(),
             allowMultitasking = prefsInteractor.getAllowMultitasking(),
             recordTagSelectionCloseAfterOne = prefsInteractor.getRecordTagSelectionCloseAfterOne(),
+            closeAfterOneTagExcludeActivities = prefsInteractor.getCloseAfterOneTagExcludeActivities(),
             enableRepeatButton = prefsInteractor.getEnableRepeatButton(),
             retroactiveTrackingMode = prefsInteractor.getRetroactiveTrackingMode(),
             startOfDayShift = prefsInteractor.getStartOfDayShift(),

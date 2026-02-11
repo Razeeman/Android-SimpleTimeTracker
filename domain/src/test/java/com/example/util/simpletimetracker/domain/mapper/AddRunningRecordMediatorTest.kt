@@ -358,6 +358,7 @@ class AddRunningRecordMediatorTest {
         `when`(complexRuleProcessActionInteractor.processRules(any(), any(), any())).thenReturn(
             ComplexRuleProcessActionInteractor.Result(
                 isMultitaskingAllowed = ResultContainer.Defined(true),
+                disallowOnlyPreviousTypeIds = emptySet(),
                 tagsIds = emptySet(),
             ),
         )
@@ -395,6 +396,7 @@ class AddRunningRecordMediatorTest {
         `when`(complexRuleProcessActionInteractor.processRules(any(), any(), any())).thenReturn(
             ComplexRuleProcessActionInteractor.Result(
                 isMultitaskingAllowed = ResultContainer.Defined(false),
+                disallowOnlyPreviousTypeIds = emptySet(),
                 tagsIds = emptySet(),
             ),
         )
@@ -424,6 +426,50 @@ class AddRunningRecordMediatorTest {
     }
 
     @Test
+    fun rulesDisallowOnlyPreviousStopsSubset(): Unit = runBlocking {
+        // Given
+        `when`(prefsInteractor.getAllowMultitasking()).thenReturn(true)
+        `when`(complexRuleProcessActionInteractor.hasRules()).thenReturn(true)
+        `when`(runningRecordInteractor.getAll()).thenReturn(runningRecords)
+        `when`(complexRuleProcessActionInteractor.processRules(any(), any(), any())).thenReturn(
+            ComplexRuleProcessActionInteractor.Result(
+                isMultitaskingAllowed = ResultContainer.Defined(false),
+                disallowOnlyPreviousTypeIds = setOf(typeId2),
+                tagsIds = emptySet(),
+            ),
+        )
+
+        // When
+        subject.startTimer(
+            typeId = typeId,
+            tags = listOf(tag(tagId)),
+            comment = "comment",
+            timeStarted = AddRunningRecordMediator.StartTime.TakeCurrent,
+            updateNotificationSwitch = true,
+            checkDefaultDuration = true,
+        )
+
+        // Than
+        verify(complexRuleProcessActionInteractor).processRules(
+            timeStarted = eq(value = currentTime),
+            startingTypeId = eq(typeId),
+            currentTypeIds = eq(setOf(typeId2, typeId3)),
+        )
+        verify(removeRunningRecordMediator).removeWithRecordAdd(
+            runningRecord = eq(runningRecords[0]),
+            updateWidgets = eq(false),
+            updateNotificationSwitch = eq(false),
+            timeEnded = eq(currentTime),
+        )
+        verify(removeRunningRecordMediator, never()).removeWithRecordAdd(
+            runningRecord = eq(runningRecords[1]),
+            updateWidgets = any(),
+            updateNotificationSwitch = any(),
+            timeEnded = anyOrNull(),
+        )
+    }
+
+    @Test
     fun rulesTags(): Unit = runBlocking {
         // Given
         `when`(complexRuleProcessActionInteractor.hasRules()).thenReturn(true)
@@ -431,6 +477,7 @@ class AddRunningRecordMediatorTest {
         `when`(complexRuleProcessActionInteractor.processRules(any(), any(), any())).thenReturn(
             ComplexRuleProcessActionInteractor.Result(
                 isMultitaskingAllowed = ResultContainer.Undefined,
+                disallowOnlyPreviousTypeIds = emptySet(),
                 tagsIds = setOf(tagId2),
             ),
         )
@@ -489,6 +536,7 @@ class AddRunningRecordMediatorTest {
         `when`(complexRuleProcessActionInteractor.processRules(any(), any(), any())).thenReturn(
             ComplexRuleProcessActionInteractor.Result(
                 isMultitaskingAllowed = ResultContainer.Undefined,
+                disallowOnlyPreviousTypeIds = emptySet(),
                 tagsIds = emptySet(),
             ),
         )
@@ -540,6 +588,7 @@ class AddRunningRecordMediatorTest {
         `when`(complexRuleProcessActionInteractor.processRules(any(), any(), any())).thenReturn(
             ComplexRuleProcessActionInteractor.Result(
                 isMultitaskingAllowed = ResultContainer.Undefined,
+                disallowOnlyPreviousTypeIds = emptySet(),
                 tagsIds = emptySet(),
             ),
         )

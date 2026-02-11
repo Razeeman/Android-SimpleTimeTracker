@@ -217,6 +217,7 @@ This allows you to see how much time you\'re spending on productive versus unpro
     <string name="complex_rules_hint">Allows for more fine tuned application of some settings</string>
     <string name="complex_rules_disable">Disable</string>
     <string name="complex_rules_enable">Enable</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Only previous</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Action</string>
@@ -225,6 +226,7 @@ This allows you to see how much time you\'re spending on productive versus unpro
     <string name="change_complex_conditions_title">Conditions</string>
     <string name="change_complex_starting_activity">Starting activity</string>
     <string name="change_complex_previous_activity">Previous activity</string>
+    <string name="change_complex_disallow_only_previous">Only stop selected activities</string>
     <string name="change_complex_rule_removed">Rule removed</string>
     <string name="change_complex_rule_choose_action">Choose action</string>
     <string name="change_complex_rule_choose_condition">Choose conditions</string>

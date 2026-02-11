@@ -14,7 +14,7 @@
     <string name="record_tag_hint">Étiquettes d\'enregistrement</string>
     <string name="record_tag_hint_short">Étiquettes</string>
     <string name="nothing_selected">Aucun élément sélectionné</string>
-    <string name="something_selected">Sélectionné</string>
+    <string name="something_selected">Sélectionné :</string>
     <string name="select_all">Tout sélectionner</string>
     <string name="select_nothing">Effacer la sélection</string>
     <string name="no_data">Aucun enregistrement</string>
@@ -217,6 +217,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="complex_rules_hint">Automatisez des actions pour certaines activités</string>
     <string name="complex_rules_disable">Désactiver</string>
     <string name="complex_rules_enable">Activer</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Seulement précédent</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Action</string>
@@ -225,6 +226,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_complex_conditions_title">Conditions</string>
     <string name="change_complex_starting_activity">Activité qui démarre</string>
     <string name="change_complex_previous_activity">Activité précédente</string>
+    <string name="change_complex_disallow_only_previous">Arrêter uniquement les activités sélectionnées</string>
     <string name="change_complex_rule_removed">Règle supprimée</string>
     <string name="change_complex_rule_choose_action">Sélectionnez une action</string>
     <string name="change_complex_rule_choose_condition">Indiquez les conditions</string>

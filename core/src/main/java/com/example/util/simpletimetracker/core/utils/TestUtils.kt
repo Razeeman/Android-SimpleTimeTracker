@@ -323,6 +323,7 @@ class TestUtils @Inject constructor(
 
     fun addComplexRule(
         action: ComplexRule.Action,
+        actionDisallowOnlyPrevious: Boolean = false,
         assignTagNames: List<String> = emptyList(),
         startingTypeNames: List<String> = emptyList(),
         currentTypeNames: List<String> = emptyList(),
@@ -337,6 +338,7 @@ class TestUtils @Inject constructor(
         val data = ComplexRule(
             disabled = false,
             action = action,
+            actionDisallowOnlyPrevious = actionDisallowOnlyPrevious,
             actionAssignTagIds = assignTagIds,
             conditionStartingTypeIds = getTypeIds(availableTypes, startingTypeNames),
             conditionCurrentTypeIds = getTypeIds(availableTypes, currentTypeNames),

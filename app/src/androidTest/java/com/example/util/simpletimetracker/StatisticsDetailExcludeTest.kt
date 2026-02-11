@@ -12,10 +12,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
 import com.example.util.simpletimetracker.feature_base_adapter.recordTypeSuggestion.RecordTypeSuggestionViewData
+import com.example.util.simpletimetracker.feature_change_record_type.R
+import com.example.util.simpletimetracker.feature_records_filter.viewData.CategoryFilteredType
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.Direction
 import com.example.util.simpletimetracker.utils.NavUtils
+import com.example.util.simpletimetracker.utils.NavUtils.fixToCurrentDate
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.drag
@@ -210,6 +213,7 @@ class StatisticsDetailExcludeTest : BaseUiTest() {
         clickOnView(
             allOf(
                 withId(baseR.id.viewCategoryItem),
+                withTag(CategoryFilteredType),
                 hasDescendant(withText(category2)),
             ),
         )
@@ -331,6 +335,7 @@ class StatisticsDetailExcludeTest : BaseUiTest() {
         // Check default
         NavUtils.openFilter()
         Thread.sleep(1000)
+        clickOnView(withSubstring(getString(R.string.records_filter_exclude)))
         clickOnView(
             allOf(
                 isDescendantOfA(withId(baseR.id.viewCategoryItem)),
@@ -385,6 +390,7 @@ class StatisticsDetailExcludeTest : BaseUiTest() {
     private fun openStats() {
         NavUtils.openStatisticsScreen()
         tryAction { clickOnView(allOf(withText(R.string.statistics_total_tracked), isCompletelyDisplayed())) }
+        fixToCurrentDate()
     }
 
     private fun checkDefault() {

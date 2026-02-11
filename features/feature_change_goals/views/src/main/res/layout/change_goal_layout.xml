@@ -145,7 +145,7 @@
                 style="@style/ChangeItemNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:paddingVertical="0dp"
                 tools:text="10" />
 

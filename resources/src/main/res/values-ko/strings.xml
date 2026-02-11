@@ -217,6 +217,7 @@
     <string name="complex_rules_hint">일부 설정을 보다 세밀하게 적용할 수 있습니다.</string>
     <string name="complex_rules_disable">장애를 입히다</string>
     <string name="complex_rules_enable">할 수 있게 하다</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">이전만</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">행동</string>
@@ -225,6 +226,7 @@
     <string name="change_complex_conditions_title">정황</string>
     <string name="change_complex_starting_activity">시작 활동</string>
     <string name="change_complex_previous_activity">이전 활동</string>
+    <string name="change_complex_disallow_only_previous">선택한 활동만 중지</string>
     <string name="change_complex_rule_removed">규칙이 삭제되었습니다.</string>
     <string name="change_complex_rule_choose_action">작업 선택</string>
     <string name="change_complex_rule_choose_condition">조건을 선택하세요</string>

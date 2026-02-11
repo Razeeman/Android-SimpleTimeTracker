@@ -91,6 +91,9 @@ class RecordTypeInteractor @Inject constructor(
         prefsInteractor.getRecordTagSelectionExcludeActivities().toMutableList()
             .apply { remove(id) }
             .let { prefsInteractor.setRecordTagSelectionExcludeActivities(it) }
+        prefsInteractor.getCloseAfterOneTagExcludeActivities().toMutableList()
+            .apply { remove(id) }
+            .let { prefsInteractor.setCloseAfterOneTagExcludeActivities(it) }
         prefsInteractor.getCommentInputExcludeActivities().toMutableList()
             .apply { remove(id) }
             .let { prefsInteractor.setCommentInputExcludeActivities(it) }

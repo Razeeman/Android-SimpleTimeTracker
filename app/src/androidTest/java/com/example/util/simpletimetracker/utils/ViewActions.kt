@@ -222,7 +222,7 @@ fun collapseToolbar(): ViewAction = object : ViewAction {
         isDisplayed()
 
     override fun perform(uiController: UiController?, view: View?) {
-        view?.collapseAllAppBarsInParent()
+        view?.changeAllAppBarsInParent(expanded = false)
     }
 }
 

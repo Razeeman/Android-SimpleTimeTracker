@@ -120,17 +120,6 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnDurationPickerSave"
-            style="@style/AppButtonActive"
-            android:layout_width="0dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:text="@string/duration_dialog_save"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnDurationPickerDisable"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDurationPickerDisable"
             style="@style/AppButton"
             android:layout_width="0dp"
@@ -138,8 +127,19 @@
             android:layout_marginEnd="4dp"
             android:text="@string/duration_dialog_disable"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnDurationPickerSave" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnDurationPickerSave" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDurationPickerSave"
+            style="@style/AppButtonActive"
+            android:layout_width="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:text="@string/duration_dialog_save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnDurationPickerDisable"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

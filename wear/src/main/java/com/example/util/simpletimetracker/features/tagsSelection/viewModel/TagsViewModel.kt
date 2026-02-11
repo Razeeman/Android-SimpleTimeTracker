@@ -7,6 +7,7 @@ package com.example.util.simpletimetracker.features.tagsSelection.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.ShouldCloseAfterOneTagInteractor
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.removeIf
@@ -35,6 +36,7 @@ class TagsViewModel @Inject constructor(
     private val startActivityMediator: StartActivityMediator,
     private val tagsViewDataMapper: TagsViewDataMapper,
     private val tagValueSelectedInteractor: TagValueSelectedInteractor,
+    private val shouldCloseAfterOneTagInteractor: ShouldCloseAfterOneTagInteractor,
 ) : ViewModel() {
 
     val state: StateFlow<TagListState> get() = _state.asStateFlow()
@@ -51,6 +53,7 @@ class TagsViewModel @Inject constructor(
     private var tags: List<WearTag> = emptyList()
     private var selectedTags: List<WearRecordTag> = emptyList()
     private var settings: WearSettings? = null
+    private var isMultipleChoiceAvailable: Boolean = true
 
     // TODO switch to savedStateHandle
     fun init(activityId: Long) {
@@ -65,7 +68,7 @@ class TagsViewModel @Inject constructor(
         when (buttonType) {
             is TagListState.Item.ButtonType.Untagged -> {
                 selectedTags = emptyList()
-                if (settings?.recordTagSelectionCloseAfterOne.orFalse()) {
+                if (!isMultipleChoiceAvailable) {
                     val loadingState = TagsLoadingState.LoadingButton(buttonType)
                     startActivity(loadingState)
                 } else {
@@ -120,6 +123,13 @@ class TagsViewModel @Inject constructor(
         if (settingsResult != null && tagsResult != null) {
             settings = settingsResult
             tags = tagsResult
+            selectedTags = tags.filter { it.preselected }.map { WearRecordTag(it.id, null) }
+            val shouldCloseAfterOne = shouldCloseAfterOneTagInteractor.execute(
+                typeId = activityId,
+                closeAfterOne = settings?.recordTagSelectionCloseAfterOne.orFalse(),
+                excludedActivities = settings?.closeAfterOneTagExcludeActivities.orEmpty(),
+            )
+            isMultipleChoiceAvailable = selectedTags.isNotEmpty() || !shouldCloseAfterOne
             _state.value = mapState()
         } else {
             showError()
@@ -127,7 +137,7 @@ class TagsViewModel @Inject constructor(
     }
 
     private suspend fun onTagSelected(tagId: Long) {
-        if (settings?.recordTagSelectionCloseAfterOne.orFalse()) {
+        if (!isMultipleChoiceAvailable) {
             val loadingState = TagsLoadingState.LoadingTag(tagId)
             startActivity(loadingState)
         } else {
@@ -176,8 +186,8 @@ class TagsViewModel @Inject constructor(
         return tagsViewDataMapper.mapState(
             tags = tags,
             selectedTags = selectedTags,
-            settings = settings,
             loadingState = loadingState,
+            multipleChoiceAvailable = isMultipleChoiceAvailable,
         )
     }
 

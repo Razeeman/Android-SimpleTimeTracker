@@ -217,6 +217,7 @@ Ini memungkinkan Anda melihat berapa banyak waktu yang dihabiskan untuk aktivita
     <string name="complex_rules_hint">Memungkinkan penerapan beberapa pengaturan yang lebih baik</string>
     <string name="complex_rules_disable">Cacat</string>
     <string name="complex_rules_enable">Memungkinkan</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Hanya sebelumnya</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Tindakan</string>
@@ -225,6 +226,7 @@ Ini memungkinkan Anda melihat berapa banyak waktu yang dihabiskan untuk aktivita
     <string name="change_complex_conditions_title">Kondisi</string>
     <string name="change_complex_starting_activity">Kegiatan awal</string>
     <string name="change_complex_previous_activity">Aktivitas sebelumnya</string>
+    <string name="change_complex_disallow_only_previous">Hanya hentikan aktivitas yang dipilih</string>
     <string name="change_complex_rule_removed">Aturan dihapus</string>
     <string name="change_complex_rule_choose_action">Pilih tindakan</string>
     <string name="change_complex_rule_choose_condition">Pilih kondisi</string>

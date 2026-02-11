@@ -1,0 +1,6 @@
+- Add goals to tags
+- Add customization of options menu on tabs
+- Add widget for grid of activities
+- Add option and intent to trigger automatic backup and export
+- Add option to stop only previous for disallow multitasking rule
+- General bug fixes and improvements

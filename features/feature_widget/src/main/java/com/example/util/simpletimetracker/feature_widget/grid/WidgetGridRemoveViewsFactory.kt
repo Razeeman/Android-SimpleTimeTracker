@@ -45,7 +45,7 @@ import com.example.util.simpletimetracker.feature_widget.grid.WidgetGridProvider
 import com.example.util.simpletimetracker.feature_widget.grid.WidgetGridProvider.Companion.TYPE_ID_EXTRA
 import com.example.util.simpletimetracker.feature_widget.utils.setRecordTypeTimers
 import javax.inject.Inject
-import kotlin.math.ceil
+import kotlin.math.round
 
 class WidgetGridRemoveViewsFactory @Inject constructor(
     private val resourceRepo: ResourceRepo,
@@ -202,7 +202,6 @@ class WidgetGridRemoveViewsFactory @Inject constructor(
 
     // TODO WIDGET:
     // TODO add settings activity to select number of cards
-    // TODO add settings to filter some activities
     // TODO add settings for padding between cards?
     // TODO add repeat
     private fun getView(
@@ -343,13 +342,14 @@ class WidgetGridRemoveViewsFactory @Inject constructor(
     ): GridSize {
         val cardWidth = getDefaultWidth(context)
         val cardHeight = getDefaultHeight(context)
+        val cardPadding = 2 * context.resources.getDimensionPixelSize(R.dimen.grid_widget_padding)
 
         if (widgetSize == null) return GridSize(columnCount = 2, rowCount = 2)
 
         return GridSize(
-            columnCount = ceil(widgetSize.width.toFloat() / cardWidth)
+            columnCount = round(widgetSize.width.toFloat() / (cardWidth + cardPadding))
                 .toInt().coerceAtLeast(1),
-            rowCount = ceil(widgetSize.height.toFloat() / cardHeight)
+            rowCount = round(widgetSize.height.toFloat() / (cardHeight + cardPadding))
                 .toInt().coerceAtLeast(1),
         )
     }

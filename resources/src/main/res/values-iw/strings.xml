@@ -217,6 +217,7 @@
     <string name="complex_rules_hint">מאפשר יישום מכוונן יותר של כמה הגדרות</string>
     <string name="complex_rules_disable">השבת</string>
     <string name="complex_rules_enable">אפשר</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">רק הקודם</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">פעולה</string>
@@ -225,6 +226,7 @@
     <string name="change_complex_conditions_title">תנאים</string>
     <string name="change_complex_starting_activity">פעילות התחלתית</string>
     <string name="change_complex_previous_activity">פעילות קודמת</string>
+    <string name="change_complex_disallow_only_previous">עצור רק פעילויות שנבחרו</string>
     <string name="change_complex_rule_removed">כלל הוסר</string>
     <string name="change_complex_rule_choose_action">בחר פעולה</string>
     <string name="change_complex_rule_choose_condition">בחר תנאים</string>

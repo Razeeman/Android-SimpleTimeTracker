@@ -217,6 +217,7 @@ Acest lucru îți permite să vezi cât timp petreci în activități productive
     <string name="complex_rules_hint">Permite o modificare fină a unor setări</string>
     <string name="complex_rules_disable">Dezactivează</string>
     <string name="complex_rules_enable">Activează</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Doar anteriorul</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Acțiune</string>
@@ -225,6 +226,7 @@ Acest lucru îți permite să vezi cât timp petreci în activități productive
     <string name="change_complex_conditions_title">Condiții</string>
     <string name="change_complex_starting_activity">Activitatea de inceput</string>
     <string name="change_complex_previous_activity">Activitatea anterioară</string>
+    <string name="change_complex_disallow_only_previous">Oprește doar activitățile selectate</string>
     <string name="change_complex_rule_removed">Regulă stearsă</string>
     <string name="change_complex_rule_choose_action">Alege ațiunea</string>
     <string name="change_complex_rule_choose_condition">Alege condițiile</string>

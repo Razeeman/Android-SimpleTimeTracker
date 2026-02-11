@@ -106,7 +106,10 @@ class ComplexRuleViewDataMapper @Inject constructor(
         }
         val result = mutableListOf<ViewHolderType>()
         result += ComplexRuleElementTitleViewData(
-            text = mapActionTitle(action),
+            text = mapActionTitle(
+                action = action,
+                disallowOnlyPrevious = rule.actionDisallowOnlyPrevious,
+            ),
         )
         result += data.map {
             ListElementViewData(
@@ -151,8 +154,9 @@ class ComplexRuleViewDataMapper @Inject constructor(
 
     fun mapActionTitle(
         action: ComplexRule.Action,
+        disallowOnlyPrevious: Boolean,
     ): String {
-        return when (action) {
+        val title = when (action) {
             is ComplexRule.Action.AllowMultitasking ->
                 R.string.settings_allow_multitasking
             is ComplexRule.Action.DisallowMultitasking ->
@@ -160,6 +164,13 @@ class ComplexRuleViewDataMapper @Inject constructor(
             is ComplexRule.Action.AssignTag ->
                 R.string.change_complex_action_assign_tag
         }.let(resourceRepo::getString)
+
+        if (action is ComplexRule.Action.DisallowMultitasking && disallowOnlyPrevious) {
+            val detail = resourceRepo.getString(R.string.complex_rules_action_disallow_only_previous_detail)
+            return "$title ($detail)"
+        }
+
+        return title
     }
 
     private fun mapTypes(

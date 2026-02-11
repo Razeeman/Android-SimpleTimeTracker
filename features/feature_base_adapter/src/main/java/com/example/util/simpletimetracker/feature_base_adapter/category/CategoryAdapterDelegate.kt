@@ -22,6 +22,8 @@ fun createCategoryAdapterDelegate(
     with(binding.viewCategoryItem) {
         item as ViewData
 
+        tag = item.type
+
         val transitionName = when (item) {
             is ViewData.Category -> TransitionNames.CATEGORY
             is ViewData.Record -> TransitionNames.RECORD_TAG

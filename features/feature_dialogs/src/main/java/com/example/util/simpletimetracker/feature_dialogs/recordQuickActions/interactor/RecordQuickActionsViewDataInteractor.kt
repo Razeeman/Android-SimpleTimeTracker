@@ -417,7 +417,7 @@ class RecordQuickActionsViewDataInteractor @Inject constructor(
             resourceRepo.getQuantityString(
                 R.plurals.statistics_detail_times_tracked,
                 recordsSelectedCount,
-            ),
+            ).lowercase(),
         )
         val text = resourceRepo.getString(
             R.string.separator_template,

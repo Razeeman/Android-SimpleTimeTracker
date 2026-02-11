@@ -266,6 +266,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             transitionName = "",
             filterType = ChartFilterType.ACTIVITY,
             shift = 0,
+            overrideStatisticsRange = null,
             sharedElements = emptyMap(),
             itemId = recordTypeId,
             itemName = preview.name,

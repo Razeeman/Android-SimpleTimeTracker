@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.favourite.repo.FavouriteIconRep
 import com.example.util.simpletimetracker.domain.record.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.record.repo.RunningRecordRepo
 import com.example.util.simpletimetracker.domain.recordShortcut.repo.RecordShortcutRepo
+import com.example.util.simpletimetracker.domain.recordTag.repo.RecordShortcutToRecordTagRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTagRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTypeToDefaultTagRepo
@@ -43,6 +44,7 @@ class ClearDataInteractor @Inject constructor(
     private val complexRuleRepo: ComplexRuleRepo,
     private val durationSuggestionRepo: DurationSuggestionRepo,
     private val favouriteRecordsFilterRepo: FavouriteRecordsFilterRepo,
+    private val recordShortcutToRecordTagRepo: RecordShortcutToRecordTagRepo,
 ) {
 
     suspend fun execute() {
@@ -66,5 +68,6 @@ class ClearDataInteractor @Inject constructor(
         complexRuleRepo.clear()
         durationSuggestionRepo.clear()
         favouriteRecordsFilterRepo.clear()
+        recordShortcutToRecordTagRepo.clear()
     }
 }

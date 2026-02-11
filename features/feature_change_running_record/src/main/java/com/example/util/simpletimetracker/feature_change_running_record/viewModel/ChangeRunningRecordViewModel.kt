@@ -131,6 +131,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             transitionName = "",
             filterType = ChartFilterType.ACTIVITY,
             shift = 0,
+            overrideStatisticsRange = null,
             sharedElements = emptyMap(),
             itemId = newTypeId,
             itemName = preview.name,

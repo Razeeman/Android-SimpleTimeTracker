@@ -3,9 +3,10 @@ package com.example.util.simpletimetracker.feature_tag_selection.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.ShouldCloseAfterOneTagInteractor
 import com.example.util.simpletimetracker.core.base.BaseViewModel
-import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.core.interactor.LoadPreselectedTagsInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordCommentSearchViewDataInteractor
 import com.example.util.simpletimetracker.core.viewData.CommentFilterTypeViewData
 import com.example.util.simpletimetracker.domain.extension.addOrRemove
@@ -36,6 +37,8 @@ class RecordTagSelectionViewModel @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val addTagToTypeIfNotExistMediator: AddTagToTypeIfNotExistMediator,
     private val needTagValueSelectionInteractor: NeedTagValueSelectionInteractor,
+    private val shouldCloseAfterOneTagInteractor: ShouldCloseAfterOneTagInteractor,
+    private val loadPreselectedTagsInteractor: LoadPreselectedTagsInteractor,
     private val recordCommentSearchViewDataInteractor: RecordCommentSearchViewDataInteractor,
 ) : BaseViewModel() {
 
@@ -51,12 +54,14 @@ class RecordTagSelectionViewModel @Inject constructor(
             initial
         }
     }
-    val saveButtonVisibility: LiveData<Boolean> by lazySuspend { loadButtonVisibility() }
+    val saveButtonVisibility: LiveData<Boolean> = MutableLiveData()
     val saveClicked: LiveData<Unit> = MutableLiveData()
 
     private var newComment: String = ""
     private var newTags: List<RecordBase.Tag> = emptyList()
+    private var initialDataLoaded: Boolean = false
     private var searchLoadJob: Job? = null
+    private var isMultipleChoiceAvailable: Boolean = true
 
     // Keep in mind that tags would be added to new types only if show all was selected before,
     // for optimisation reasons, to not call on every save.
@@ -135,11 +140,7 @@ class RecordTagSelectionViewModel @Inject constructor(
     }
 
     private suspend fun onTagSelected() {
-        if (prefsInteractor.getRecordTagSelectionCloseAfterOne()) {
-            saveClicked()
-        } else {
-            updateViewData()
-        }
+        if (isMultipleChoiceAvailable) updateViewData() else saveClicked()
     }
 
     private suspend fun saveClicked() {
@@ -157,13 +158,35 @@ class RecordTagSelectionViewModel @Inject constructor(
         saveClicked.set(Unit)
     }
 
-    private suspend fun loadButtonVisibility(): Boolean {
-        val closeAfterOneTag = prefsInteractor.getRecordTagSelectionCloseAfterOne()
+    // TODO TAG add check retroactive mode to loaded preselected tags?
+    // TODO TAG ability to deselect preselected tags
+    private suspend fun initializeData() {
+        if (initialDataLoaded) return
+        val initialIds = loadPreselectedTagsInteractor.execute(extra.typeId)
+        if (initialIds.isNotEmpty()) {
+            newTags = initialIds.map { RecordBase.Tag(tagId = it, numericValue = null) }
+        }
+        val shouldCloseAfterOne = shouldCloseAfterOneTagInteractor.execute(
+            typeId = extra.typeId,
+            closeAfterOne = prefsInteractor.getRecordTagSelectionCloseAfterOne(),
+            excludedActivities = prefsInteractor.getCloseAfterOneTagExcludeActivities().toSet(),
+        )
+        // If there are preselected tags - ignore setting.
+        isMultipleChoiceAvailable = newTags.isNotEmpty() || !shouldCloseAfterOne
+        updateButtonVisibility()
+        initialDataLoaded = true
+    }
+
+    private fun updateButtonVisibility() {
+        saveButtonVisibility.set(loadButtonVisibility())
+    }
+
+    private fun loadButtonVisibility(): Boolean {
         val showTags = RecordTagSelectionParams.Field.Tags in extra.fields
         val showCommentInput = RecordTagSelectionParams.Field.Comment in extra.fields
 
         return when {
-            showTags -> !closeAfterOneTag
+            showTags -> isMultipleChoiceAvailable
             showCommentInput -> true
             else -> false
         }
@@ -182,10 +205,13 @@ class RecordTagSelectionViewModel @Inject constructor(
     private suspend fun loadViewData(
         fromCommentChange: Boolean,
     ): List<ViewHolderType> {
+        initializeData()
+
         return viewDataInteractor.getViewData(
             extra = extra,
             selectedTags = newTags,
             showAllTags = showAllTags,
+            multipleChoiceAvailable = isMultipleChoiceAvailable,
             comment = newComment,
             fromCommentChange = fromCommentChange,
         )

@@ -1856,6 +1856,51 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
+    fun recordTagSelectionCloseExcludeActivities() {
+        val name1 = "TypeName1"
+        val name2 = "TypeName2"
+        val tag1 = "TagName1"
+        val tag2 = "TagName2"
+
+        // Add data
+        testUtils.addActivity(name1)
+        testUtils.addActivity(name2)
+        testUtils.addRecordTag(tag1)
+        testUtils.addRecordTag(tag2)
+
+        // Change setting
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
+        scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_selection)
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_record_tag_selection)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_selection))
+
+        scrollSettingsRecyclerToText(coreR.string.settings_show_record_tag_close_hint)
+        checkViewIsDisplayed(withText(coreR.string.settings_show_record_tag_close_hint))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_show_record_tag_close_hint)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_show_record_tag_close_hint))
+
+        // Exclude one
+        clickOnSettingsButtonBesideText(coreR.string.settings_show_record_tag_close_hint)
+        Thread.sleep(1000)
+        clickOnViewWithText(name1)
+        clickOnViewWithText(coreR.string.duration_dialog_save)
+
+        // Excluded entry should not close after one tag
+        NavUtils.openRunningRecordsScreen()
+        clickOnViewWithText(name1)
+        clickOnView(withText(tag1))
+        tryAction { checkViewIsDisplayed(withText(tag2)) }
+        pressBack()
+
+        // Not excluded should close after one tag
+        clickOnViewWithText(name2)
+        checkViewIsNotDisplayed(withText(R.string.duration_dialog_save))
+        clickOnView(withText(tag1))
+        tryAction { checkViewDoesNotExist(withText(tag2)) }
+    }
+
+    @Test
     fun recordTagSelectionFromOtherActivity() {
         val type1 = "Type1"
         val type2 = "Type2"

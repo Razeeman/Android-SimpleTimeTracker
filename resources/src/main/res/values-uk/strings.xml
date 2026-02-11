@@ -217,6 +217,7 @@
     <string name="complex_rules_hint">Дозволяє більш точно налаштувати застосування деяких параметрів</string>
     <string name="complex_rules_disable">Вимкнути</string>
     <string name="complex_rules_enable">Увімкнути</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Лише попереднє</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Дія</string>
@@ -225,6 +226,7 @@
     <string name="change_complex_conditions_title">Умови</string>
     <string name="change_complex_starting_activity">Активність, що починається</string>
     <string name="change_complex_previous_activity">Попередня активність</string>
+    <string name="change_complex_disallow_only_previous">Зупинити лише вибрані дії</string>
     <string name="change_complex_rule_removed">Правило видалено</string>
     <string name="change_complex_rule_choose_action">Виберіть дію</string>
     <string name="change_complex_rule_choose_condition">Виберіть умови</string>

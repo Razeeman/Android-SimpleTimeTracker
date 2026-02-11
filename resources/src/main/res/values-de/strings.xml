@@ -217,6 +217,7 @@ Dies ermöglicht es dir, zu sehen, wie viel Zeit du insgesamt für produktive ve
     <string name="complex_rules_hint">Ermöglicht eine genauere Anwendung einiger Einstellungen</string>
     <string name="complex_rules_disable">Deaktivieren</string>
     <string name="complex_rules_enable">Aktivieren</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Nur vorherige</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Aktion</string>
@@ -225,6 +226,7 @@ Dies ermöglicht es dir, zu sehen, wie viel Zeit du insgesamt für produktive ve
     <string name="change_complex_conditions_title">Bedingungen</string>
     <string name="change_complex_starting_activity">Die Startaktivität</string>
     <string name="change_complex_previous_activity">Vorherige Aktivität</string>
+    <string name="change_complex_disallow_only_previous">Nur ausgewählte Aktivitäten stoppen</string>
     <string name="change_complex_rule_removed">Regel entfernt</string>
     <string name="change_complex_rule_choose_action">Aktion wählen</string>
     <string name="change_complex_rule_choose_condition">Wählen Sie Bedingungen</string>

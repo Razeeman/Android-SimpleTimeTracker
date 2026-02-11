@@ -217,6 +217,7 @@ Esto te permite ver cuánto tiempo estás dedicando a actividades productivas fr
     <string name="complex_rules_hint">Permite una aplicación más precisa de algunas configuraciones</string>
     <string name="complex_rules_disable">Desactivar</string>
     <string name="complex_rules_enable">Permitir</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Solo anterior</string>
 
     <!--  Change complex rules  -->
     <string name="change_complex_actions_title">Acción</string>
@@ -225,6 +226,7 @@ Esto te permite ver cuánto tiempo estás dedicando a actividades productivas fr
     <string name="change_complex_conditions_title">Condiciones</string>
     <string name="change_complex_starting_activity">La actividad inicial</string>
     <string name="change_complex_previous_activity">Actividad previa</string>
+    <string name="change_complex_disallow_only_previous">Solo detener actividades seleccionadas</string>
     <string name="change_complex_rule_removed">Regla eliminada</string>
     <string name="change_complex_rule_choose_action">Elige Acción</string>
     <string name="change_complex_rule_choose_condition">Elige condiciones</string>

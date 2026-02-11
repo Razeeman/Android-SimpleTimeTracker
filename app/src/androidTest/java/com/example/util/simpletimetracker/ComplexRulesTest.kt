@@ -395,6 +395,41 @@ class ComplexRulesTest : BaseUiTest() {
     }
 
     @Test
+    fun actionDisallowMultitaskingOnlyPreviousTypes() {
+        val startingType = "startingType"
+        val previousType = "previousType"
+        val otherType = "otherType"
+
+        // Add data
+        runBlocking { prefsInteractor.setAllowMultitasking(true) }
+        testUtils.addActivity(startingType)
+        testUtils.addActivity(previousType)
+        testUtils.addActivity(otherType)
+        Thread.sleep(1000)
+
+        testUtils.addComplexRule(
+            action = ComplexRule.Action.DisallowMultitasking,
+            actionDisallowOnlyPrevious = true,
+            startingTypeNames = listOf(startingType),
+            currentTypeNames = listOf(previousType),
+        )
+
+        // Check
+        clickOnViewWithText(previousType)
+        clickOnViewWithText(otherType)
+        checkRunningRecord(previousType)
+        checkRunningRecord(otherType)
+        clickOnViewWithText(startingType)
+
+        checkNoRunningRecord(previousType)
+        checkRunningRecord(otherType)
+        checkRunningRecord(startingType)
+
+        stopRunningRecord(otherType)
+        stopRunningRecord(startingType)
+    }
+
+    @Test
     fun assignTags() {
         val check1 = "check1"
         val check2 = "check2"

@@ -269,9 +269,13 @@ class GoalsViewModelDelegateImpl @Inject constructor(
     }
 
     private suspend fun loadGoalsViewData(): ChangeRecordTypeGoalsViewData {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
+
         return goalsViewDataMapper.mapGoalsState(
             goalsState = newGoalsState,
-            isDarkTheme = prefsInteractor.getDarkMode(),
+            isDarkTheme = isDarkTheme,
+            firstDayOfWeek = firstDayOfWeek,
         )
     }
 

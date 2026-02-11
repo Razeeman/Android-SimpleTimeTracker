@@ -751,6 +751,16 @@ class PrefsInteractor @Inject constructor(
             .map(Long::toString).toSet()
     }
 
+    suspend fun getCloseAfterOneTagExcludeActivities(): List<Long> = withContext(Dispatchers.IO) {
+        prefsRepo.closeAfterOneTagExcludeActivities
+            .mapNotNull(String::toLongOrNull)
+    }
+
+    suspend fun setCloseAfterOneTagExcludeActivities(value: List<Long>) = withContext(Dispatchers.IO) {
+        prefsRepo.closeAfterOneTagExcludeActivities = value
+            .map(Long::toString).toSet()
+    }
+
     suspend fun getShowCommentInput(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.showCommentInput
     }
