@@ -490,7 +490,7 @@ Exemple :<br/>
 
     <!--  Backup options  -->
     <string name="backup_options_import">Importer</string>
-    <string name="backup_options_save_without_records">Effectuer une sauvegarde sans enregistrements</string>
+    <string name="backup_options_save_without_records">Effectuer une sauvegarde sans les enregistrements</string>
     <string name="backup_options_save_without_records_hint">Peut être utilisé pour partager la configuration.</string>
     <string name="backup_options_full_restore">Restauration complète</string>
     <string name="backup_options_full_restore_hint">Restaure les données et les paramètres. Nécessite le redémarrage de l\'application.</string>
