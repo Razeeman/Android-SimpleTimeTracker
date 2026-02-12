@@ -37,12 +37,12 @@
     <string name="range_month">Mois</string>
     <string name="range_year">Année</string>
     <string name="range_overall">Tout</string>
-    <string name="range_custom">Période personnalisée</string>
+    <string name="range_custom">Plage personnalisée</string>
     <string name="range_select_day">Aller à une date</string>
     <string name="range_select_week">Sélectionner une semaine</string>
     <string name="range_select_month">Sélectionner un mois</string>
     <string name="range_select_year">Sélectionner une année</string>
-    <string name="range_select_range">Sélectionner une période</string>
+    <string name="range_select_range">Sélectionner une plage</string>
     <string name="range_back_to_today">Aujourd\'hui</string>
 
     <plurals name="range_last">
@@ -88,7 +88,7 @@
     <!--  Statistics  -->
     <string name="statistics_total_tracked">Durée totale enregistrée</string>
     <string name="statistics_total_tracked_short">Total</string>
-    <string name="statistics_hint">Appuyez sur une carte pour afficher les statistiques détaillées</string>
+    <string name="statistics_hint">Appuyez sur une activité pour afficher les statistiques détaillées</string>
     <string name="statistics_daily_calendar_hint">Frise de la journée</string>
     <string name="no_statistics_exist">Les statistiques s\'afficheront ici</string>
 
@@ -270,7 +270,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
 
     <string name="csv_export_settings_filename_hint">Nom de fichier personnalisé</string>
     <string name="csv_export_settings_filename_default">Par défaut</string>
-    <string name="csv_export_settings_hint">Sélectionnez la période ou exportez tous les enregistrements</string>
+    <string name="csv_export_settings_hint">Sélectionnez une plage ou exportez tous les enregistrements</string>
 
     <string name="schedule_exact_alarms">Pour permettre les alarmes, autorisez cette application dans les paramètres système</string>
     <string name="post_notifications">Pour afficher les notifications, autorisez cette application dans les paramètres système</string>
@@ -327,7 +327,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_show_untracked_time_statistics">Afficher les temps non enregistrés dans les statistiques</string>
     <string name="settings_ignore_short_untracked">Ignorer les temps courts non enregistrés</string>
     <string name="settings_ignore_short_untracked_hint">Ne pas afficher les temps non enregistrés inférieurs à la durée indiquée.</string>
-    <string name="settings_untracked_range">Période de suivi des temps non enregistrés</string>
+    <string name="settings_untracked_range">Plage de suivi des temps non enregistrés</string>
     <string name="settings_untracked_range_hint">Afficher le temps non suivi uniquement dans la plage sélectionnée.</string>
     <string name="settings_show_records_calendar">Afficher les enregistrements sous forme de calendrier</string>
     <string name="settings_reverse_order_in_calendar">Inverser l\'ordre des enregistrements</string>
@@ -516,15 +516,15 @@ Exemple :<br/>
     <string name="statistics_detail_chart_split">Détaillé par activité</string>
 
     <string name="statistics_detail_range_averages_title">Moyenne : %s</string>
-    <string name="statistics_detail_range_averages">Sur tous les éléments de la période</string>
-    <string name="statistics_detail_range_averages_non_empty">Uniquement sur les éléments de la période ayant un enregistrement</string>
+    <string name="statistics_detail_range_averages">Sur tous les éléments de la plage</string>
+    <string name="statistics_detail_range_averages_non_empty">Uniquement sur les éléments de la plage ayant un enregistrement</string>
 
     <string name="statistics_detail_total_duration">Total</string>
     <string name="statistics_detail_record_length">Durée des enregistrements</string>
     <string name="statistics_detail_shortest_record">Le plus court</string>
     <string name="statistics_detail_average_record">En moyenne</string>
     <string name="statistics_detail_longest_record">Le plus long</string>
-    <string name="statistics_detail_record_time">Horaires des enregistrements</string>
+    <string name="statistics_detail_record_time">Étendue des enregistrements</string>
     <string name="statistics_detail_first_record">Premier</string>
     <string name="statistics_detail_last_record">Dernier</string>
     <string name="statistics_detail_time_since">Il y a</string>
