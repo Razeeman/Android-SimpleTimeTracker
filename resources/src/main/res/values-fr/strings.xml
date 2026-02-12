@@ -326,7 +326,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_show_untracked_time">Afficher les temps non enregistrés dans la liste des enregistrements</string>
     <string name="settings_show_untracked_time_statistics">Afficher les temps non enregistrés dans les statistiques</string>
     <string name="settings_ignore_short_untracked">Ignorer les temps courts non enregistrés</string>
-    <string name="settings_ignore_short_untracked_hint">Ne pas afficher les temps non enregistrés s\'ils sont plus courts que la durée indiquée.</string>
+    <string name="settings_ignore_short_untracked_hint">Ne pas afficher les temps non enregistrés inférieurs à la durée indiquée.</string>
     <string name="settings_untracked_range">Période de suivi des temps non enregistrés</string>
     <string name="settings_untracked_range_hint">Afficher le temps non suivi uniquement dans la plage sélectionnée.</string>
     <string name="settings_show_records_calendar">Afficher les enregistrements sous forme de calendrier</string>
@@ -366,7 +366,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_notifications_system_settings">Paramètres système</string>
     <string name="settings_notifications_system_settings_hint">Son, vibreur, badge d\'application, écran de verrouillage ...</string>
     <string name="settings_ignore_short_records">Ignorer les enregistrements courts</string>
-    <string name="settings_ignore_short_records_hint">Ne pas enregistrer les activités qui sont plus courtes que la durée indiquée.</string>
+    <string name="settings_ignore_short_records_hint">Ne pas enregistrer les activités inférieures à la durée indiquée.</string>
     <string name="settings_inactivity_reminder_disabled">Désactivé</string>
     <string name="settings_dark_mode">Mode sombre</string>
     <string name="settings_dark_mode_system">Système</string>
