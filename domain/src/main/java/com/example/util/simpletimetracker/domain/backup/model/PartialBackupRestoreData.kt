@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.domain.complexRule.model.ComplexRule
 import com.example.util.simpletimetracker.domain.favourite.model.FavouriteColor
 import com.example.util.simpletimetracker.domain.favourite.model.FavouriteComment
 import com.example.util.simpletimetracker.domain.favourite.model.FavouriteIcon
+import com.example.util.simpletimetracker.domain.favourite.model.RecordTypeToFavouriteComment
 import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.recordShortcut.model.RecordShortcut
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordShortcutToRecordTag
@@ -32,6 +33,7 @@ data class PartialBackupRestoreData(
     val typeToDefaultTag: List<Holder<RecordTypeToDefaultTag>>,
     val activityFilters: Map<Long, Holder<ActivityFilter>>,
     val favouriteComments: Map<Long, Holder<FavouriteComment>>,
+    val typeToFavouriteComment: List<Holder<RecordTypeToFavouriteComment>>,
     val favouriteColors: Map<Long, Holder<FavouriteColor>>,
     val favouriteIcon: Map<Long, Holder<FavouriteIcon>>,
     val goals: Map<Long, Holder<RecordTypeGoal>>,

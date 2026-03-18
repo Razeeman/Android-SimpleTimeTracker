@@ -31,9 +31,11 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.favourite.model.FavouriteColor
 import com.example.util.simpletimetracker.domain.favourite.model.FavouriteComment
 import com.example.util.simpletimetracker.domain.favourite.model.FavouriteIcon
+import com.example.util.simpletimetracker.domain.favourite.model.RecordTypeToFavouriteComment
 import com.example.util.simpletimetracker.domain.favourite.repo.FavouriteColorRepo
 import com.example.util.simpletimetracker.domain.favourite.repo.FavouriteCommentRepo
 import com.example.util.simpletimetracker.domain.favourite.repo.FavouriteIconRepo
+import com.example.util.simpletimetracker.domain.favourite.repo.RecordTypeToFavouriteCommentRepo
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
@@ -86,6 +88,7 @@ class BackupRepoImpl @Inject constructor(
     private val activityFilterRepo: ActivityFilterRepo,
     private val activitySuggestionRepo: ActivitySuggestionRepo,
     private val favouriteCommentRepo: FavouriteCommentRepo,
+    private val recordTypeToFavouriteCommentRepo: RecordTypeToFavouriteCommentRepo,
     private val favouriteColorRepo: FavouriteColorRepo,
     private val favouriteIconRepo: FavouriteIconRepo,
     private val recordTypeGoalRepo: RecordTypeGoalRepo,
@@ -162,6 +165,9 @@ class BackupRepoImpl @Inject constructor(
                 fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
             favouriteCommentRepo.getAll().forEach {
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+            }
+            recordTypeToFavouriteCommentRepo.getAll().forEach {
                 fileOutputStream?.write(it.let(::toBackupString).toByteArray())
             }
             favouriteColorRepo.getAll().forEach {
@@ -243,6 +249,7 @@ class BackupRepoImpl @Inject constructor(
                 typeToDefaultTag = recordTypeToDefaultTagRepo::add,
                 activityFilters = activityFilterRepo::add,
                 favouriteComments = favouriteCommentRepo::add,
+                typeToFavouriteComment = recordTypeToFavouriteCommentRepo::add,
                 favouriteColors = favouriteColorRepo::add,
                 favouriteIcon = favouriteIconRepo::add,
                 goals = recordTypeGoalRepo::add,
@@ -371,6 +378,12 @@ class BackupRepoImpl @Inject constructor(
                     ROW_FAVOURITE_COMMENT -> {
                         favouriteCommentFromBackupString(parts)?.let {
                             dataHandler.favouriteComments.invoke(it)
+                        }
+                    }
+
+                    ROW_TYPE_TO_FAVOURITE_COMMENT -> {
+                        typeToFavouriteCommentFromBackupString(parts).let {
+                            dataHandler.typeToFavouriteComment.invoke(it)
                         }
                     }
 
@@ -572,6 +585,14 @@ class BackupRepoImpl @Inject constructor(
             "$ROW_FAVOURITE_COMMENT\t%s\t%s\n",
             favouriteComment.id.toString(),
             favouriteComment.comment.cleanTabs().replaceNewline(),
+        )
+    }
+
+    private fun toBackupString(typeToTag: RecordTypeToFavouriteComment): String {
+        return String.format(
+            "$ROW_TYPE_TO_FAVOURITE_COMMENT\t%s\t%s\n",
+            typeToTag.recordTypeId.toString(),
+            typeToTag.commentId.toString(),
         )
     }
 
@@ -894,6 +915,13 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
+    private fun typeToFavouriteCommentFromBackupString(parts: List<String>): RecordTypeToFavouriteComment {
+        return RecordTypeToFavouriteComment(
+            recordTypeId = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            commentId = parts.getOrNull(2)?.toLongOrNull().orZero(),
+        )
+    }
+
     private fun favouriteColorFromBackupString(parts: List<String>): FavouriteColor? {
         return FavouriteColor(
             id = parts.getOrNull(1)?.toLongOrNull().orZero(),
@@ -1072,6 +1100,7 @@ class BackupRepoImpl @Inject constructor(
         val typeToDefaultTag: suspend (RecordTypeToDefaultTag) -> Unit,
         val activityFilters: suspend (ActivityFilter) -> Unit,
         val favouriteComments: suspend (FavouriteComment) -> Unit,
+        val typeToFavouriteComment: suspend (RecordTypeToFavouriteComment) -> Unit,
         val favouriteColors: suspend (FavouriteColor) -> Unit,
         val favouriteIcon: suspend (FavouriteIcon) -> Unit,
         val goals: suspend (RecordTypeGoal) -> Unit,
@@ -1097,6 +1126,7 @@ class BackupRepoImpl @Inject constructor(
         private const val ROW_ACTIVITY_FILTER = "activityFilter"
         private const val ROW_ACTIVITY_SUGGESTION = "activitySuggestion"
         private const val ROW_FAVOURITE_COMMENT = "favouriteComment"
+        private const val ROW_TYPE_TO_FAVOURITE_COMMENT = "typeToFavouriteComment"
         private const val ROW_FAVOURITE_COLOR = "favouriteColor"
         private const val ROW_FAVOURITE_ICON = "favouriteIcon"
         private const val ROW_RECORD_TYPE_GOAL = "recordTypeGoal"
