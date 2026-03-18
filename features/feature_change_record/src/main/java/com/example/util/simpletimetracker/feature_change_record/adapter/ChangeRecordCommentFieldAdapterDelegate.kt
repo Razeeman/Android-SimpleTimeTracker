@@ -8,12 +8,14 @@ import androidx.core.widget.doAfterTextChanged
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordCommentFieldViewData as ViewData
 import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordCommentFieldItemBinding as Binding
 
 fun createChangeRecordCommentFieldAdapterDelegate(
     afterTextChange: (String) -> Unit,
     onFavouriteClick: () -> Unit,
+    onFavouriteLongClick: () -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->
@@ -32,6 +34,7 @@ fun createChangeRecordCommentFieldAdapterDelegate(
             ColorStateList.valueOf(item.iconColor),
         )
         btnChangeRecordFavouriteComment.setOnClick { onFavouriteClick() }
+        btnChangeRecordFavouriteComment.setOnLongClick { onFavouriteLongClick() }
 
         etChangeRecordCommentField.removeTextChangedListener(textWatcher)
         textWatcher = etChangeRecordCommentField.doAfterTextChanged { afterTextChange(it.toString()) }

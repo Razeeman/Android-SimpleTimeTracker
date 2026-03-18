@@ -98,6 +98,7 @@ class ChangeRecordCore(
             createChangeRecordCommentFieldAdapterDelegate(
                 afterTextChange = viewModel::onCommentChange,
                 onFavouriteClick = viewModel::onFavouriteCommentClick,
+                onFavouriteLongClick = viewModel::onFavouriteCommentLongClick,
             ),
             createRecordCommentAdapterDelegate(
                 onItemClick = viewModel::onCommentClick,

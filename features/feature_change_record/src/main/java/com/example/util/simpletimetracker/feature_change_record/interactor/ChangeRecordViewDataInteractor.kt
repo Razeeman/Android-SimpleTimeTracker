@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.view.timeAdjustment.TimeAdjustmentView
 import com.example.util.simpletimetracker.domain.favourite.interactor.FavouriteCommentInteractor
+import com.example.util.simpletimetracker.domain.favourite.interactor.RecordTypeToFavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
@@ -23,6 +24,7 @@ class ChangeRecordViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val favouriteCommentInteractor: FavouriteCommentInteractor,
+    private val recordTypeToFavouriteCommentInteractor: RecordTypeToFavouriteCommentInteractor,
     private val changeRecordViewDataMapper: ChangeRecordViewDataMapper,
     private val resourceRepo: ResourceRepo,
     private val timeMapper: TimeMapper,
@@ -62,7 +64,18 @@ class ChangeRecordViewDataInteractor @Inject constructor(
     ): List<ViewHolderType> {
         val items = mutableListOf<ViewHolderType>()
         val isDarkTheme = prefsInteractor.getDarkMode()
-        val isFavourite = favouriteCommentInteractor.get(comment) != null
+
+        val favouriteComment = favouriteCommentInteractor.get(comment)
+        val isFavourite = if (favouriteComment == null) false else {
+            val (included, excluded) = recordTypeToFavouriteCommentInteractor.getAll()
+                .partition { it.recordTypeId == typeId }
+            val includedComments = included.map { it.commentId }
+            val excludedComments = excluded.map { it.commentId }
+            (
+                includedComments.contains(favouriteComment.id) ||
+                !excludedComments.contains(favouriteComment.id)
+            )
+        }
 
         ChangeRecordCommentFieldViewData(
             // Only one at the time.

@@ -16,7 +16,9 @@ import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.domain.extension.dropSeconds
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.favourite.interactor.FavouriteCommentInteractor
+import com.example.util.simpletimetracker.domain.favourite.interactor.RecordTypeToFavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.favourite.model.FavouriteComment
+import com.example.util.simpletimetracker.domain.favourite.model.RecordTypeToFavouriteComment
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.record.model.Record
@@ -70,6 +72,7 @@ abstract class ChangeRecordBaseViewModel(
     private val recordTagInteractor: RecordTagInteractor,
     private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
     private val favouriteCommentInteractor: FavouriteCommentInteractor,
+    private val recordTypeToFavouriteCommentInteractor: RecordTypeToFavouriteCommentInteractor,
     private val changeRecordActionsDelegate: ChangeRecordActionsDelegateImpl,
     private val needTagValueSelectionInteractor: NeedTagValueSelectionInteractor,
     private val recordCommentSearchViewDataInteractor: RecordCommentSearchViewDataInteractor,
@@ -424,6 +427,25 @@ abstract class ChangeRecordBaseViewModel(
                     val new = FavouriteComment(comment = newComment)
                     favouriteCommentInteractor.add(new)
                 }
+            updateCommentsViewData()
+        }
+    }
+
+    fun onFavouriteCommentLongClick() {
+        if (newComment.isEmpty()) return
+
+        viewModelScope.launch {
+            val favouriteCommentId = favouriteCommentInteractor.get(newComment)?.id
+                ?: run {
+                    val new = FavouriteComment(comment = newComment)
+                    favouriteCommentInteractor.add(new)
+                }
+            val recordTypes = recordTypeToFavouriteCommentInteractor.getTypes(favouriteCommentId)
+            if (recordTypes.contains(newTypeId)) {
+                recordTypeToFavouriteCommentInteractor.removeTypes(favouriteCommentId, listOf(newTypeId))
+            } else {
+                recordTypeToFavouriteCommentInteractor.addTypes(favouriteCommentId, listOf(newTypeId))
+            }
             updateCommentsViewData()
         }
     }

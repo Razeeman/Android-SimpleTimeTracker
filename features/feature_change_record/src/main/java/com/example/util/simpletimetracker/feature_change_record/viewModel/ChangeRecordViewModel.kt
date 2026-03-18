@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.domain.base.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.record.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.favourite.interactor.FavouriteCommentInteractor
+import com.example.util.simpletimetracker.domain.favourite.interactor.RecordTypeToFavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTypeToTagInteractor
@@ -47,6 +48,7 @@ class ChangeRecordViewModel @Inject constructor(
     recordTagInteractor: RecordTagInteractor,
     recordTypeToTagInteractor: RecordTypeToTagInteractor,
     favouriteCommentInteractor: FavouriteCommentInteractor,
+    recordTypeToFavouriteCommentInteractor: RecordTypeToFavouriteCommentInteractor,
     needTagValueSelectionInteractor: NeedTagValueSelectionInteractor,
     recordCommentSearchViewDataInteractor: RecordCommentSearchViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -69,6 +71,7 @@ class ChangeRecordViewModel @Inject constructor(
     recordTagInteractor = recordTagInteractor,
     recordTypeToTagInteractor = recordTypeToTagInteractor,
     favouriteCommentInteractor = favouriteCommentInteractor,
+    recordTypeToFavouriteCommentInteractor = recordTypeToFavouriteCommentInteractor,
     changeRecordActionsDelegate = changeRecordActionsDelegate,
     needTagValueSelectionInteractor = needTagValueSelectionInteractor,
     recordCommentSearchViewDataInteractor = recordCommentSearchViewDataInteractor,

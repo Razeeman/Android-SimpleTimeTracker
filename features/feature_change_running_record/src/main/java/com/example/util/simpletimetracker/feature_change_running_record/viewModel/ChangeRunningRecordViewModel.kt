@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.record.interactor.AddRunningRecordMediator
 import com.example.util.simpletimetracker.domain.favourite.interactor.FavouriteCommentInteractor
+import com.example.util.simpletimetracker.domain.favourite.interactor.RecordTypeToFavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTypeToTagInteractor
@@ -57,6 +58,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     recordTagInteractor: RecordTagInteractor,
     recordTypeToTagInteractor: RecordTypeToTagInteractor,
     favouriteCommentInteractor: FavouriteCommentInteractor,
+    recordTypeToFavouriteCommentInteractor: RecordTypeToFavouriteCommentInteractor,
     snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
     needTagValueSelectionInteractor: NeedTagValueSelectionInteractor,
     recordCommentSearchViewDataInteractor: RecordCommentSearchViewDataInteractor,
@@ -81,6 +83,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     recordTagInteractor = recordTagInteractor,
     recordTypeToTagInteractor = recordTypeToTagInteractor,
     favouriteCommentInteractor = favouriteCommentInteractor,
+    recordTypeToFavouriteCommentInteractor = recordTypeToFavouriteCommentInteractor,
     changeRecordActionsDelegate = changeRecordActionsDelegate,
     needTagValueSelectionInteractor = needTagValueSelectionInteractor,
     recordCommentSearchViewDataInteractor = recordCommentSearchViewDataInteractor,
