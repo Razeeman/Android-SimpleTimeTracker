@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.data_local.complexRule.ComplexRuleRepo
 import com.example.util.simpletimetracker.data_local.favourite.FavouriteColorRepoImpl
 import com.example.util.simpletimetracker.data_local.favourite.FavouriteCommentRepoImpl
 import com.example.util.simpletimetracker.data_local.favourite.FavouriteIconRepoImpl
+import com.example.util.simpletimetracker.data_local.favourite.RecordTypeToFavouriteCommentRepoImpl
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl
 import com.example.util.simpletimetracker.data_local.record.RecordRepoImpl
 import com.example.util.simpletimetracker.data_local.record.RunningRecordRepoImpl
@@ -34,6 +35,7 @@ import com.example.util.simpletimetracker.domain.complexRule.repo.ComplexRuleRep
 import com.example.util.simpletimetracker.domain.favourite.repo.FavouriteColorRepo
 import com.example.util.simpletimetracker.domain.favourite.repo.FavouriteCommentRepo
 import com.example.util.simpletimetracker.domain.favourite.repo.FavouriteIconRepo
+import com.example.util.simpletimetracker.domain.favourite.repo.RecordTypeToFavouriteCommentRepo
 import com.example.util.simpletimetracker.domain.prefs.repo.PrefsRepo
 import com.example.util.simpletimetracker.domain.record.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTagRepo
@@ -143,6 +145,10 @@ interface DataLocalModuleBinds {
     @Binds
     @Singleton
     fun bindFavouriteCommentRepo(impl: FavouriteCommentRepoImpl): FavouriteCommentRepo
+
+    @Binds
+    @Singleton
+    fun bindRecordTagToFavouriteCommentRepo(impl: RecordTypeToFavouriteCommentRepoImpl): RecordTypeToFavouriteCommentRepo
 
     @Binds
     @Singleton

@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.data_local.complexRule.ComplexRulesDao
 import com.example.util.simpletimetracker.data_local.favourite.FavouriteColorDao
 import com.example.util.simpletimetracker.data_local.favourite.FavouriteCommentDao
 import com.example.util.simpletimetracker.data_local.favourite.FavouriteIconDao
+import com.example.util.simpletimetracker.data_local.favourite.RecordTypeToFavouriteCommentDao
 import com.example.util.simpletimetracker.data_local.record.RecordDao
 import com.example.util.simpletimetracker.data_local.recordTag.RecordTagDao
 import com.example.util.simpletimetracker.data_local.recordTag.RecordToRecordTagDao
@@ -146,6 +147,12 @@ class DataLocalModule {
     @Singleton
     fun getFavouriteCommentDao(database: AppDatabase): FavouriteCommentDao {
         return database.favouriteCommentDao()
+    }
+
+    @Provides
+    @Singleton
+    fun getRecordTypeToFavouriteCommentDao(database: AppDatabase): RecordTypeToFavouriteCommentDao {
+        return database.recordTypeToFavouriteCommentDao()
     }
 
     @Provides
