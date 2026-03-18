@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.CommentFilterTypeViewData
 import com.example.util.simpletimetracker.domain.base.CommentFilterType
 import com.example.util.simpletimetracker.domain.favourite.interactor.FavouriteCommentInteractor
+import com.example.util.simpletimetracker.domain.favourite.interactor.RecordTypeToFavouriteCommentInteractor
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
@@ -24,6 +25,7 @@ class RecordCommentSearchViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordInteractor: RecordInteractor,
     private val favouriteCommentInteractor: FavouriteCommentInteractor,
+    private val recordTypeToFavouriteCommentInteractor: RecordTypeToFavouriteCommentInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
 ) {
 
@@ -35,7 +37,7 @@ class RecordCommentSearchViewDataInteractor @Inject constructor(
         val result = mutableListOf<ViewHolderType>()
 
         val similar = getSimilarData(comment)
-        val favourite = getFavouriteData()
+        val favourite = getFavouriteData(typeId)
         val last = getLastCommentsData(typeId)
 
         val filters = getFilters(
@@ -121,8 +123,15 @@ class RecordCommentSearchViewDataInteractor @Inject constructor(
         }
     }
 
-    private suspend fun getFavouriteData(): List<ViewHolderType> {
+    private suspend fun getFavouriteData(
+        typeId: Long,
+    ): List<ViewHolderType> {
+        val (included, excluded) = recordTypeToFavouriteCommentInteractor.getAll()
+            .partition { it.recordTypeId == typeId }
+        val includedComments = included.map { it.commentId }
+        val excludedComments = excluded.map { it.commentId }
         return favouriteCommentInteractor.getAll()
+            .filter { includedComments.contains(it.id) || !excludedComments.contains(it.id) }
             .map { RecordCommentViewData.Favourite(it.comment) }
     }
 
