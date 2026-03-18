@@ -40,6 +40,7 @@ class AppDatabaseMigrations {
                 migration_29_30,
                 migration_30_31,
                 migration_31_32,
+                migration_32_33,
             )
 
         private val migration_1_2 = object : Migration(1, 2) {
@@ -404,6 +405,14 @@ class AppDatabaseMigrations {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
                     "ALTER TABLE complexRules ADD COLUMN actionSetTagValues TEXT NOT NULL DEFAULT ''",
+                )
+            }
+        }
+
+        private val migration_32_33 = object : Migration(32, 33) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `recordTypeToFavouriteComment` (`record_type_id` INTEGER NOT NULL, `comment_id` INTEGER NOT NULL, PRIMARY KEY(`record_type_id`, `comment_id`))",
                 )
             }
         }
