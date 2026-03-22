@@ -126,12 +126,8 @@ class RecordCommentSearchViewDataInteractor @Inject constructor(
     private suspend fun getFavouriteData(
         typeId: Long,
     ): List<ViewHolderType> {
-        val (included, excluded) = recordTypeToFavouriteCommentInteractor.getAll()
-            .partition { it.recordTypeId == typeId }
-        val includedComments = included.map { it.commentId }
-        val excludedComments = excluded.map { it.commentId }
-        return favouriteCommentInteractor.getAll()
-            .filter { includedComments.contains(it.id) || !excludedComments.contains(it.id) }
+        val comments = favouriteCommentInteractor.getAll()
+        return recordTypeToFavouriteCommentInteractor.filterFavourites(typeId, comments)
             .map { RecordCommentViewData.Favourite(it.comment) }
     }
 

@@ -66,16 +66,9 @@ class ChangeRecordViewDataInteractor @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         val favouriteComment = favouriteCommentInteractor.get(comment)
-        val isFavourite = if (favouriteComment == null) false else {
-            val (included, excluded) = recordTypeToFavouriteCommentInteractor.getAll()
-                .partition { it.recordTypeId == typeId }
-            val includedComments = included.map { it.commentId }
-            val excludedComments = excluded.map { it.commentId }
-            (
-                includedComments.contains(favouriteComment.id) ||
-                !excludedComments.contains(favouriteComment.id)
-            )
-        }
+        val isFavourite = if (favouriteComment == null) false else
+            recordTypeToFavouriteCommentInteractor
+                .filterFavourites(typeId, listOf(favouriteComment)).isNotEmpty()
 
         ChangeRecordCommentFieldViewData(
             // Only one at the time.
