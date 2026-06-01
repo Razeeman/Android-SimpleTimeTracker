@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Time Tracker - Web</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #fafafa;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-tertiary: #999999;
+            --border-color: #e0e0e0;
+            --success: #4caf50;
+            --error: #f44336;
+            --warning: #ff9800;
+            --info: #2196f3;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-tertiary: #242424;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-tertiary: #808080;
+            --border-color: #404040;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-secondary);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 32px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-connected { background: var(--success); }
+        .status-disconnected { background: var(--error); animation: none; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Server Input */
+        .server-config {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--info);
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--info);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #388e3c;
+        }
+
+        .btn-danger {
+            background: var(--error);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-primary);
+        }
+
+        .theme-toggle {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+        }
+
+        .tab.active {
+            color: var(--info);
+            border-bottom-color: var(--info);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Running Activities */
+        .running-section {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe9a0 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--warning);
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
+        }
+
+        [data-theme="dark"] .running-section {
+            background: linear-gradient(135deg, #3d3419 0%, #4a3f1a 100%);
+        }
+
+        .running-section h2 {
+            color: #856404;
+            margin-bottom: 15px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        [data-theme="dark"] .running-section h2 {
+            color: #ffc107;
+        }
+
+        .running-activity {
+            background: var(--bg-secondary);
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px var(--shadow);
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .activity-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .activity-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-icon {
+            font-size: 24px;
+        }
+
+        .activity-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .timer {
+            font-size: 32px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: var(--warning);
+            letter-spacing: 2px;
+        }
+
+        .tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .tag {
+            padding: 4px 12px;
+            background: var(--bg-tertiary);
+            border-radius: 16px;
+            font-size: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Activity Grid */
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .activity-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--activity-color);
+        }
+
+        .activity-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+
+        .activity-card.running {
+            border-color: var(--success);
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(76, 175, 80, 0.1) 100%);
+        }
+
+        .activity-card.running::after {
+            content: '▶';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 20px;
+            color: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        .activity-status {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 12px;
+        }
+
+        .activity-status.running {
+            color: var(--success);
+        }
+
+        .activity-status.stopped {
+            color: var(--text-tertiary);
+        }
+
+        /* Statistics */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-duration {
+            color: var(--text-tertiary);
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        /* Recent Records */
+        .records-list {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .record-item {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .record-item:last-child {
+            border-bottom: none;
+        }
+
+        .record-duration {
+            font-weight: 600;
+            color: var(--info);
+        }
+
+        .record-time {
+            color: var(--text-tertiary);
+            font-size: 13px;
+        }
+
+        /* Suggestions */
+        .suggestions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .suggestion-chip {
+            padding: 10px 20px;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .suggestion-chip:hover {
+            background: var(--info);
+            color: white;
+            border-color: var(--info);
+            transform: translateY(-2px);
+        }
+
+        /* Loading & Error States */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--info);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            color: #c62828;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--error);
+        }
+
+        [data-theme="dark"] .error {
+            background: linear-gradient(135deg, #3d1a1a 0%, #4a1f1f 100%);
+            color: #ef5350;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .activity-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .running-activity {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .timer {
+                font-size: 24px;
+            }
+        }
+
+        /* Utilities */
+        .hidden {
+            display: none !important;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .flex-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <div class="logo">⏱️</div>
+            <div>
+                <h1>Simple Time Tracker</h1>
+                <div style="color: var(--text-secondary); font-size: 14px;">Web Interface</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="connection-status">
+                <div class="status-dot status-disconnected" id="statusDot"></div>
+                <span id="connectionStatus">Disconnected</span>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                <span id="themeIcon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Server Configuration -->
+    <div class="server-config">
+        <div class="input-group">
+            <input type="text" id="serverUrl" placeholder="http://192.168.1.X:8080" />
+            <button class="btn-primary" onclick="connectToServer()">
+                🔗 Connect
+            </button>
+            <button class="btn-secondary" onclick="loadAllData()">
+                🔄 Refresh
+            </button>
+            <button class="btn-success" onclick="repeatLastActivity()">
+                ↩️ Repeat Last
+            </button>
+        </div>
+    </div>
+
+    <!-- Error Display -->
+    <div id="error" class="error hidden"></div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab active" data-tab="activities" onclick="switchTab('activities')">
+            📋 Activities
+        </button>
+        <button class="tab" data-tab="running" onclick="switchTab('running')">
+            ▶️ Running
+        </button>
+        <button class="tab" data-tab="history" onclick="switchTab('history')">
+            📊 History
+        </button>
+        <button class="tab" data-tab="stats" onclick="switchTab('stats')">
+            📈 Statistics
+        </button>
+    </div>
+
+    <!-- Tab: Activities -->
+    <div id="tab-activities" class="tab-content active">
+        <div id="suggestions" class="suggestions hidden"></div>
+        <div id="loading-activities" class="loading">
+            <div class="spinner"></div>
+            <p>Loading activities...</p>
+        </div>
+        <div id="activities" class="activity-grid"></div>
+    </div>
+
+    <!-- Tab: Running -->
+    <div id="tab-running" class="tab-content">
+        <div id="loading-running" class="loading">
+            <div class="spinner"></div>
+            <p>Loading running activities...</p>
+        </div>
+        <div id="runningSection" class="hidden">
+            <div class="running-section">
+                <h2>⏯️ Currently Running</h2>
+                <div id="runningActivities"></div>
+            </div>
+        </div>
+        <div id="empty-running" class="empty-state hidden">
+            <div class="empty-state-icon">😴</div>
+            <h3>No activities running</h3>
+            <p>Start tracking time by clicking on an activity</p>
+        </div>
+    </div>
+
+    <!-- Tab: History -->
+    <div id="tab-history" class="tab-content">
+        <div id="loading-history" class="loading">
+            <div class="spinner"></div>
+            <p>Loading recent records...</p>
+        </div>
+        <div id="history" class="records-list"></div>
+    </div>
+
+    <!-- Tab: Statistics -->
+    <div id="tab-stats" class="tab-content">
+        <div id="loading-stats" class="loading">
+            <div class="spinner"></div>
+            <p>Loading statistics...</p>
+        </div>
+        <h3 class="mb-20">📊 Today's Activity</h3>
+        <div id="stats" class="stats-grid"></div>
+    </div>
+</div>
+
+<script>
+    // Configuration
+    let serverUrl = localStorage.getItem('serverUrl') || '';
+    let updateInterval = null;
+    let currentTab = 'activities';
+
+    // Initialize
+    document.getElementById('serverUrl').value = serverUrl;
+    if (serverUrl) {
+        connectToServer();
+    }
+
+    // Apply saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon();
+
+    // Theme Toggle
+    function toggleTheme() {
+        const current = document.documentElement.getAttribute('data-theme');
+        const newTheme = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon();
+    }
+
+    function updateThemeIcon() {
+        const theme = document.documentElement.getAttribute('data-theme');
+        document.getElementById('themeIcon').textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    // Tab Switching
+    function switchTab(tabName) {
+        currentTab = tabName;
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.tab === tabName);
+        });
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.toggle('active', content.id === `tab-${tabName}`);
+        });
+
+        if (tabName === 'stats') {
+            loadStatistics();
+        }
+    }
+
+    // Server Connection
+    function connectToServer() {
+        serverUrl = document.getElementById('serverUrl').value.trim();
+        if (!serverUrl) {
+            showError('Please enter a server URL');
+            return;
+        }
+
+        localStorage.setItem('serverUrl', serverUrl);
+        hideError();
+        updateConnectionStatus(true, 'Connecting...');
+
+        loadAllData();
+
+        // Auto-refresh every 2 seconds
+        if (updateInterval) clearInterval(updateInterval);
+        updateInterval = setInterval(() => {
+            if (currentTab === 'activities' || currentTab === 'running') {
+                loadActivities(false);
+                loadRunningActivities(false);
+            }
+        }, 2000);
+    }
+
+    function updateConnectionStatus(connected, text) {
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('connectionStatus');
+
+        statusDot.className = 'status-dot ' + (connected ? 'status-connected' : 'status-disconnected');
+        statusText.textContent = text || (connected ? 'Connected' : 'Disconnected');
+    }
+
+    // Load All Data
+    async function loadAllData() {
+        await Promise.all([
+            loadActivities(true),
+            loadRunningActivities(true),
+            loadRecentRecords()
+        ]);
+    }
+
+    // Load Activities
+    async function loadActivities(showLoading = true) {
+        try {
+            if (showLoading) {
+                document.getElementById('loading-activities').classList.remove('hidden');
+            }
+
+            const response = await fetch(`${serverUrl}/api/activities`);
+            if (!response.ok) throw new Error('Failed to fetch activities');
+
+            const activities = await response.json();
+            const container = document.getElementById('activities');
+            const loadingEl = document.getElementById('loading-activities');
+
+            loadingEl.classList.add('hidden');
+            container.innerHTML = '';
+
+            if (activities.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <div class="empty-state-icon">📝</div>
+                        <h3>No activities yet</h3>
+                        <p>Create activities in the mobile app first</p>
+                    </div>
+                `;
+                return;
+            }
+
+            activities.forEach(activity => {
+                const card = document.createElement('div');
+                card.className = `activity-card ${activity.isRunning ? 'running' : ''}`;
+                card.style.setProperty('--activity-color', intToRgb(activity.color));
+                card.onclick = () => toggleActivity(activity.id, activity.isRunning);
+
+                card.innerHTML = `
+                    <div class="activity-icon">${activity.icon || '⏱️'}</div>
+                    <div class="activity-name">${escapeHtml(activity.name)}</div>
+                    <div class="activity-status ${activity.isRunning ? 'running' : 'stopped'}">
+                        ${activity.isRunning ? '● Running' : '○ Stopped'}
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            updateConnectionStatus(true, 'Connected');
+
+            // Load suggestions
+            loadSuggestions();
+
+        } catch (error) {
+            console.error('Error loading activities:', error);
+            document.getElementById('loading-activities').classList.add('hidden');
+            showError(`Failed to load activities: ${error.message}`);
+            updateConnectionStatus(false, 'Connection error');
+        }
+    }
+
+    // Load Running Activities
+    async function loadRunningActivities(showLoading = true) {
+        try {
+            if (showLoading) {
+                document.getElementById('loading-running').classList.remove('hidden');
+            }
+
+            const response = await fetch(`${serverUrl}/api/running`);
+            if (!response.ok) throw new Error('Failed to fetch running activities');
+
+            const running = await response.json();
+            const section = document.getElementById('runningSection');
+            const container = document.getElementById('runningActivities');
+            const emptyState = document.getElementById('empty-running');
+            const loadingEl = document.getElementById('loading-running');
+
+            loadingEl.classList.add('hidden');
+
+            if (running.length === 0) {
+                section.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            section.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            container.innerHTML = '';
+
+            running.forEach(activity => {
+                const div = document.createElement('div');
+                div.className = 'running-activity';
+
+                const duration = Date.now() - activity.timeStarted;
+                const tags = activity.tags || [];
+
+                div.innerHTML = `
+                    <div class="activity-info">
+                        <div class="activity-name">
+                            <span class="activity-icon">▶️</span>
+                            <strong>${escapeHtml(activity.name)}</strong>
+                        </div>
+                        <div class="activity-meta">
+                            <span>⏰ Started: ${formatTime(activity.timeStarted)}</span>
+                            <span>📅 ${formatDate(activity.timeStarted)}</span>
+                        </div>
+                        ${tags.length > 0 ? `
+                            <div class="tags">
+                                ${tags.map(tag => `
+                                    <span class="tag">
+                                        🏷️ ${escapeHtml(tag.name)}
+                                        ${tag.numericValue !== null ? `: ${tag.numericValue}${tag.valueSuffix || ''}` : ''}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="timer" id="timer-${activity.id}">${formatDuration(duration)}</div>
+                    <button class="btn-danger" onclick="stopActivity(${activity.id})">
+                        ⏹️ Stop
+                    </button>
+                `;
+
+                container.appendChild(div);
+                updateTimer(activity.id, activity.timeStarted);
+            });
+
+        } catch (error) {
+            console.error('Error loading running activities:', error);
+            document.getElementById('loading-running').classList.add('hidden');
+        }
+    }
+
+    // Load Recent Records
+    async function loadRecentRecords() {
+        try {
+            document.getElementById('loading-history').classList.remove('hidden');
+
+            const response = await fetch(`${serverUrl}/api/running`);
+            if (!response.ok) throw new Error('Failed to fetch');
+
+            const data = await response.json();
+            // Note: The API returns last records in the current state
+            // We'll display them here
+
+            const container = document.getElementById('history');
+            const loadingEl = document.getElementById('loading-history');
+
+            loadingEl.classList.add('hidden');
+            container.innerHTML = '<h3 style="margin-bottom: 15px;">📜 Recent Activity</h3>';
+
+            if (!data || data.length === 0) {
+                container.innerHTML += `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <h3>No recent records</h3>
+                        <p>Start tracking to see your activity history</p>
+                    </div>
+                `;
+                return;
+            }
+
+            data.forEach(activity => {
+                const duration = Date.now() - activity.timeStarted;
+                const item = document.createElement('div');
+                item.className = 'record-item';
+                item.innerHTML = `
+                    <div>
+                        <div class="activity-name">
+                            <span class="activity-icon">📌</span>
+                            ${escapeHtml(activity.name)}
+                        </div>
+                        <div class="record-time">${formatDateTime(activity.timeStarted)}</div>
+                    </div>
+                    <div class="record-duration">${formatDuration(duration)}</div>
+                `;
+                container.appendChild(item);
+            });
+
+        } catch (error) {
+            console.error('Error loading recent records:', error);
+            document.getElementById('loading-history').classList.add('hidden');
+        }
+    }
+
+    // Load Statistics
+    async function loadStatistics() {
+        try {
+            document.getElementById('loading-stats').classList.remove('hidden');
+
+            // For now, we'll calculate from running activities
+            // In a full implementation, you'd call the statistics endpoint
+            const response = await fetch(`${serverUrl}/api/activities`);
+            if (!response.ok) throw new Error('Failed to fetch');
+
+            const activities = await response.json();
+            const runningResponse = await fetch(`${serverUrl}/api/running`);
+            const running = await runningResponse.json();
+
+            const container = document.getElementById('stats');
+            const loadingEl = document.getElementById('loading-stats');
+
+            loadingEl.classList.add('hidden');
+            container.innerHTML = '';
+
+            // Calculate stats
+            const totalActivities = activities.length;
+            const activeActivities = running.length;
+            const totalDuration = running.reduce((sum, a) => sum + (Date.now() - a.timeStarted), 0);
+
+            const stats = [
+                { label: 'Total Activities', value: totalActivities, icon: '📋' },
+                { label: 'Running Now', value: activeActivities, icon: '▶️' },
+                { label: 'Total Time Today', value: formatDuration(totalDuration), icon: '⏱️' },
+                { label: 'Average Duration', value: activeActivities > 0 ? formatDuration(totalDuration / activeActivities) : '0:00:00', icon: '📊' }
+            ];
+
+            stats.forEach(stat => {
+                const card = document.createElement('div');
+                card.className = 'stat-card';
+                card.innerHTML = `
+                    <div style="font-size: 32px;">${stat.icon}</div>
+                    <div class="stat-label">${stat.label}</div>
+                    <div class="stat-value">${stat.value}</div>
+                `;
+                container.appendChild(card);
+            });
+
+        } catch (error) {
+            console.error('Error loading statistics:', error);
+            document.getElementById('loading-stats').classList.add('hidden');
+        }
+    }
+
+    // Load Suggestions
+    async function loadSuggestions() {
+        try {
+            const response = await fetch(`${serverUrl}/api/running`);
+            if (!response.ok) return;
+
+            const data = await response.json();
+            // Note: Full API would return suggestionIds
+            // For now we'll skip this feature
+
+        } catch (error) {
+            console.error('Error loading suggestions:', error);
+        }
+    }
+
+    // Toggle Activity
+    async function toggleActivity(id, isRunning) {
+        try {
+            const endpoint = isRunning ? 'stop' : 'start';
+            const response = await fetch(`${serverUrl}/api/${endpoint}/${id}`, {
+                method: 'POST'
+            });
+
+            if (!response.ok) throw new Error(`Failed to ${endpoint} activity`);
+
+            // Immediate update
+            await loadActivities(false);
+            await loadRunningActivities(false);
+
+        } catch (error) {
+            console.error('Error toggling activity:', error);
+            showError(`Failed to ${isRunning ? 'stop' : 'start'} activity: ${error.message}`);
+        }
+    }
+
+    // Stop Activity
+    async function stopActivity(id) {
+        await toggleActivity(id, true);
+    }
+
+    // Repeat Last Activity
+    async function repeatLastActivity() {
+        try {
+            const response = await fetch(`${serverUrl}/api/repeat`, {
+                method: 'POST'
+            });
+
+            if (!response.ok) throw new Error('Failed to repeat');
+
+            showSuccess('✅ Repeated last activity');
+            await loadActivities(false);
+            await loadRunningActivities(false);
+
+        } catch (error) {
+            console.error('Error repeating activity:', error);
+            showError('❌ Could not repeat last activity');
+        }
+    }
+
+    // Timer Updates
+    function updateTimer(activityId, timeStarted) {
+        const timerElement = document.getElementById(`timer-${activityId}`);
+        if (!timerElement) return;
+
+        function update() {
+            const duration = Date.now() - timeStarted;
+            timerElement.textContent = formatDuration(duration);
+        }
+
+        update();
+        setInterval(update, 1000);
+    }
+
+    // Utility Functions
+    function formatDuration(ms) {
+        const seconds = Math.floor(ms / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+
+        const h = hours;
+        const m = minutes % 60;
+        const s = seconds % 60;
+
+        return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function formatTime(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function formatDate(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+    }
+
+    function formatDateTime(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleString([], {
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
+    function intToRgb(colorInt) {
+        const r = (colorInt >> 16) & 0xFF;
+        const g = (colorInt >> 8) & 0xFF;
+        const b = colorInt & 0xFF;
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function showError(message) {
+        const errorDiv = document.getElementById('error');
+        errorDiv.innerHTML = `<strong>⚠️ Error:</strong> ${message}`;
+        errorDiv.classList.remove('hidden');
+        setTimeout(() => errorDiv.classList.add('hidden'), 5000);
+    }
+
+    function hideError() {
+        document.getElementById('error').classList.add('hidden');
+    }
+
+    function showSuccess(message) {
+        const errorDiv = document.getElementById('error');
+        errorDiv.innerHTML = `<strong style="color: var(--success);">${message}</strong>`;
+        errorDiv.style.background = 'linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%)';
+        errorDiv.style.borderLeft = '5px solid var(--success)';
+        errorDiv.classList.remove('hidden');
+        setTimeout(() => {
+            errorDiv.classList.add('hidden');
+            errorDiv.style.background = '';
+            errorDiv.style.borderLeft = '';
+        }, 3000);
+    }
+</script>
+</body>
+</html>

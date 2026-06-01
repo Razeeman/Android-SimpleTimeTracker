@@ -134,12 +134,14 @@ dependencies {
     implementation(project(":feature_change_goals"))
     implementation(project(":feature_change_goals:api"))
     implementation(project(":feature_change_goals:views"))
+    implementation(project(":wear_api"))
     "playImplementation"(project(":feature_wear"))
 
     implementation(libs.androidx.room)
     implementation(libs.ktx.navigationFragment)
     implementation(libs.ktx.navigationUi)
     implementation(libs.google.dagger)
+    implementation(libs.nanohttpd)
 
     ksp(libs.kapt.dagger)
     kspAndroidTest(libs.kapt.dagger)
