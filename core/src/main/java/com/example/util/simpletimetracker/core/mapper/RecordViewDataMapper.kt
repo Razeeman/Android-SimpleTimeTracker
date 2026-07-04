@@ -30,7 +30,7 @@ class RecordViewDataMapper @Inject constructor(
 
     fun map(
         record: Record,
-        recordType: RecordType,
+        recordType: RecordType?,
         recordTags: List<RecordTag>,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
@@ -43,7 +43,8 @@ class RecordViewDataMapper @Inject constructor(
             id = record.id,
             timeStartedTimestamp = record.timeStarted,
             timeEndedTimestamp = record.timeEnded,
-            name = recordType.name,
+            name = recordType?.name
+                ?: resourceRepo.getString(R.string.untracked_time_name),
             tagName = recordTagFullNameMapper.getFullName(
                 tags = recordTags.filter { it.id in tagIds },
                 tagData = record.tags,
@@ -67,11 +68,15 @@ class RecordViewDataMapper @Inject constructor(
                 forceSeconds = showSeconds,
                 durationFormat = durationFormat,
             ),
-            iconId = iconMapper.mapIcon(recordType.icon),
-            color = colorMapper.mapToColorInt(
-                color = recordType.color,
-                isDarkTheme = isDarkTheme,
-            ),
+            iconId = recordType?.icon?.let {
+                iconMapper.mapIcon(it)
+            } ?: RecordTypeIcon.Image(R.drawable.unknown),
+            color = recordType?.color?.let {
+                colorMapper.mapToColorInt(
+                    color = it,
+                    isDarkTheme = isDarkTheme,
+                )
+            } ?: colorMapper.toUntrackedColor(isDarkTheme),
             comment = record.comment,
         )
     }

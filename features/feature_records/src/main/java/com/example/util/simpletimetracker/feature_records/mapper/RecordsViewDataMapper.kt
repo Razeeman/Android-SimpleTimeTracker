@@ -30,7 +30,7 @@ class RecordsViewDataMapper @Inject constructor(
 
     fun map(
         record: Record,
-        recordType: RecordType,
+        recordType: RecordType?,
         recordTags: List<RecordTag>,
         range: Range,
         isDarkTheme: Boolean,

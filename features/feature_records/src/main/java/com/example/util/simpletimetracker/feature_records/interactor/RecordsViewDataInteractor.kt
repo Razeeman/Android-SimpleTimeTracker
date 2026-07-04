@@ -315,10 +315,10 @@ class RecordsViewDataInteractor @Inject constructor(
         showSeconds: Boolean,
     ): List<RecordHolder> {
         val trackedRecordsData = records
-            .mapNotNull { record ->
+            .map { record ->
                 recordsViewDataMapper.map(
                     record = record,
-                    recordType = recordTypes[record.typeId] ?: return@mapNotNull null,
+                    recordType = recordTypes[record.typeId],
                     recordTags = recordTags,
                     range = range,
                     isDarkTheme = isDarkTheme,
