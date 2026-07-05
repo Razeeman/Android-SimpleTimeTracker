@@ -356,7 +356,7 @@ abstract class ChangeRecordBaseViewModel(
             SPLIT_AFTER_TYPE_SELECTION -> {
                 val selectedTypeId = dataIds.firstOrNull() ?: return
                 if (selectedTypeId != newTypeId) {
-                    newSplitBeforeTypeId = newTypeId
+                    if (newSplitBeforeTypeId == null) newSplitBeforeTypeId = newTypeId
                     onMainTypeSelected(selectedTypeId)
                 }
             }
