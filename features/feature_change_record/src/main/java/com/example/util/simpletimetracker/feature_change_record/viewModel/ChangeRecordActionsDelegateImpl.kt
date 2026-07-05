@@ -138,18 +138,21 @@ class ChangeRecordActionsDelegateImpl @Inject constructor(
     private suspend fun onSplitClick() {
         onRecordChangeButtonClick(
             onProceed = delegateHolder.splitDelegate::onSplitClickDelegate,
+            checkSplitTypeSelected = true,
         )
     }
 
     private suspend fun onRecordChangeButtonClick(
         onProceed: suspend () -> Unit,
         checkTypeSelected: Boolean = true,
+        checkSplitTypeSelected: Boolean = false,
         delayBlock: Boolean = false,
     ) {
         bridge?.send(
             ChangeRecordDelegateBridge.Action.OnRecordChangeButtonClick(
                 onProceed = onProceed,
                 checkTypeSelected = checkTypeSelected,
+                checkSplitTypeSelected = checkSplitTypeSelected,
                 delayBlock = delayBlock,
             ),
         )

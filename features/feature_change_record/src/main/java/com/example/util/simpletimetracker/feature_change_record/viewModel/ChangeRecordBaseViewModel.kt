@@ -578,13 +578,16 @@ abstract class ChangeRecordBaseViewModel(
     private fun onRecordChangeButtonClick(
         onProceed: suspend () -> Unit,
         checkTypeSelected: Boolean = true,
+        checkSplitTypeSelected: Boolean = false,
         delayBlock: Boolean = false,
     ) {
-        if (checkTypeSelected) {
-            if (newTypeId == 0L) {
-                showMessage(R.string.change_record_message_choose_type)
-                return
-            }
+        if (checkTypeSelected && newTypeId == 0L) {
+            showMessage(R.string.change_record_message_choose_type)
+            return
+        }
+        if (checkSplitTypeSelected && (newSplitBeforeTypeId ?: newTypeId) == 0L) {
+            showMessage(R.string.change_record_message_choose_type)
+            return
         }
         viewModelScope.launch {
             val canProceed = saveButtonEnabled.value.orFalse()
@@ -864,6 +867,7 @@ abstract class ChangeRecordBaseViewModel(
                         this@ChangeRecordBaseViewModel.onRecordChangeButtonClick(
                             onProceed = action.onProceed,
                             checkTypeSelected = action.checkTypeSelected,
+                            checkSplitTypeSelected = action.checkSplitTypeSelected,
                             delayBlock = action.delayBlock,
                         )
                     }
@@ -886,7 +890,7 @@ abstract class ChangeRecordBaseViewModel(
                     ),
                     splitParams = ViewDataParams.SplitParams(
                         newTimeSplit = newTimeSplit,
-                        newBeforeTypeId = newSplitBeforeTypeId,
+                        newBeforeTypeId = newSplitBeforeTypeId ?: newTypeId,
                         splitPreviewTimeEnded = previewTimeEnded,
                         showTimeEndedOnSplitPreview = showTimeEndedOnSplitPreview,
                         originalTypeId = originalTypeId,

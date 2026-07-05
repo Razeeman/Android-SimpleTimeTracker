@@ -56,7 +56,6 @@ class ChangeRecordActionsSplitDelegate @Inject constructor(
         val firstTypeId = params.splitParams.newBeforeTypeId
         val newBeforeTags = when (firstTypeId) {
             // Override type not selected - use same tags.
-            null -> params.baseParams.newTags
             // Override same as new type - use same tags.
             params.baseParams.newTypeId -> params.baseParams.newTags
             // Override same as original - use original tags.
@@ -67,7 +66,7 @@ class ChangeRecordActionsSplitDelegate @Inject constructor(
 
         Record(
             id = 0L, // Zero id creates new record
-            typeId = firstTypeId ?: params.baseParams.newTypeId,
+            typeId = firstTypeId,
             timeStarted = params.baseParams.newTimeStarted,
             timeEnded = params.splitParams.newTimeSplit,
             comment = params.baseParams.newComment,
@@ -82,7 +81,7 @@ class ChangeRecordActionsSplitDelegate @Inject constructor(
         val params = bridge?.getParams()
             ?: return emptyList()
         val newTimeSplit = params.splitParams.newTimeSplit
-        val firstTypeId = params.splitParams.newBeforeTypeId ?: params.baseParams.newTypeId
+        val firstTypeId = params.splitParams.newBeforeTypeId
         val secondTypeId = params.baseParams.newTypeId
         val newTimeStarted = params.baseParams.newTimeStarted
         val newTimeEnded = params.splitParams.splitPreviewTimeEnded
