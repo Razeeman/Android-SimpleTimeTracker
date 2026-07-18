@@ -60,7 +60,7 @@ class WidgetStatisticsViewDataInteractor @Inject constructor(
             filterType = filterType,
             filteredIds = filteredIds,
             range = range,
-            accountForSeconds = true,
+            forceSeconds = false,
         )
         val chart = statisticsChartViewDataInteractor.getChart(
             filterType = filterType,

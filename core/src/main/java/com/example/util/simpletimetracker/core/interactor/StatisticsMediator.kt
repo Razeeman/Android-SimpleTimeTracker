@@ -33,10 +33,10 @@ class StatisticsMediator @Inject constructor(
         filterType: ChartFilterType,
         filteredIds: List<Long>,
         range: Range,
-        accountForSeconds: Boolean,
+        forceSeconds: Boolean,
     ): List<Statistics> {
         val showUntracked = prefsInteractor.getShowUntrackedInStatistics()
-        val showSeconds = accountForSeconds && prefsInteractor.getShowSeconds()
+        val showSeconds = forceSeconds || prefsInteractor.getShowSeconds()
 
         return getFromRange(
             filterType = filterType,

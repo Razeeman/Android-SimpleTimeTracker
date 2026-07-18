@@ -183,7 +183,7 @@ class StatisticsDetailDataDistributionInteractor @Inject constructor(
         }.let {
             statisticsInteractor.getStatisticsData(
                 allRecords = it,
-                showSeconds = false,
+                showSeconds = true, // All detailed statistics accounts for seconds.
             )
         }
     }
