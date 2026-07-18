@@ -39,6 +39,20 @@ class RecordInteractor @Inject constructor(
         return recordRepo.get(id)
     }
 
+    suspend fun searchSimilarComments(
+        text: String,
+        limit: Int,
+    ): List<String> {
+        return recordRepo.searchSimilarComments(text, limit)
+    }
+
+    suspend fun getRecentComments(
+        typeId: Long,
+        limit: Int,
+    ): List<String> {
+        return recordRepo.getRecentComments(typeId, limit)
+    }
+
     suspend fun getPrev(
         timeStarted: Long,
         ignoreTypeIds: List<Long> = emptyList(),

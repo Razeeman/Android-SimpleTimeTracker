@@ -15,6 +15,10 @@ interface RecordRepo {
 
     suspend fun searchComment(text: String): List<Record>
 
+    suspend fun searchSimilarComments(text: String, limit: Int): List<String>
+
+    suspend fun getRecentComments(typeId: Long, limit: Int): List<String>
+
     suspend fun searchByTypeWithComment(typeIds: Set<Long>, text: String): List<Record>
 
     suspend fun searchAnyComments(): List<Record>

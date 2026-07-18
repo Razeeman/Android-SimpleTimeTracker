@@ -10,8 +10,6 @@ import com.example.util.simpletimetracker.domain.favourite.interactor.FavouriteC
 import com.example.util.simpletimetracker.domain.favourite.interactor.FilterFavouriteCommentsInteractor
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor
-import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor.GetParam
-import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.emptySpace.EmptySpaceViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
@@ -28,7 +26,6 @@ class RecordCommentSearchViewDataInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val favouriteCommentInteractor: FavouriteCommentInteractor,
     private val filterFavouriteCommentsInteractor: FilterFavouriteCommentsInteractor,
-    private val runningRecordInteractor: RunningRecordInteractor,
 ) {
 
     suspend fun getViewData(
@@ -133,14 +130,10 @@ class RecordCommentSearchViewDataInteractor @Inject constructor(
         comment: String,
     ): List<ViewHolderType> {
         return if (comment.isNotEmpty()) {
-            recordInteractor.getWithParams(GetParam.Comment(comment))
-                .sortedByDescending { it.timeStarted }
-                .distinctBy { it.comment }
-                .take(SIMILAR_COMMENTS_TO_SHOW)
-                .mapNotNull {
-                    if (it.comment == comment) return@mapNotNull null
-                    RecordCommentViewData.Last(it.comment)
-                }
+            recordInteractor.searchSimilarComments(
+                text = comment,
+                limit = SIMILAR_COMMENTS_TO_SHOW,
+            ).map(RecordCommentViewData::Similar)
         } else {
             emptyList()
         }
@@ -157,19 +150,10 @@ class RecordCommentSearchViewDataInteractor @Inject constructor(
     private suspend fun getLastCommentsData(
         typeId: Long,
     ): List<ViewHolderType> {
-        data class Data(val timeStarted: Long, val comment: String)
-
-        val records = recordInteractor.getWithParams(GetParam.TypeWithAnyComment(setOf(typeId)))
-            .map { Data(it.timeStarted, it.comment) }
-        val runningRecords = runningRecordInteractor.getAll()
-            .filter { it.id == typeId && it.comment.isNotEmpty() }
-            .map { Data(it.timeStarted, it.comment) }
-
-        return (records + runningRecords)
-            .sortedByDescending { it.timeStarted }
-            .distinctBy { it.comment }
-            .take(LAST_COMMENTS_TO_SHOW)
-            .map { RecordCommentViewData.Last(it.comment) }
+        return recordInteractor.getRecentComments(
+            typeId = typeId,
+            limit = LAST_COMMENTS_TO_SHOW,
+        ).map(RecordCommentViewData::Last)
     }
 
     private fun mapFilterViewData(

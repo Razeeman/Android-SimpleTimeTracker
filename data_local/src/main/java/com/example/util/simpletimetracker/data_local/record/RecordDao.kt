@@ -29,6 +29,29 @@ interface RecordDao {
     @Query("SELECT * FROM records WHERE instr(lower(comment), lower(:text)) > 0")
     suspend fun searchComment(text: String): List<RecordWithRecordTagsDBO>
 
+    @Query(
+        "SELECT comment FROM records " +
+            "WHERE instr(lower(comment), lower(:text)) > 0 AND comment != :text " +
+            "GROUP BY comment " +
+            "ORDER BY MAX(time_started) DESC " +
+            "LIMIT :limit",
+    )
+    suspend fun searchSimilarComments(text: String, limit: Int): List<String>
+
+    @Query(
+        "SELECT comment FROM (" +
+            "SELECT comment, time_started FROM records " +
+            "WHERE type_id = :typeId AND comment != \"\" " +
+            "UNION ALL " +
+            "SELECT comment, time_started FROM runningRecords " +
+            "WHERE id = :typeId AND comment != \"\"" +
+            ") " +
+            "GROUP BY comment " +
+            "ORDER BY MAX(time_started) DESC " +
+            "LIMIT :limit",
+    )
+    suspend fun getRecentComments(typeId: Long, limit: Int): List<String>
+
     @Transaction
     @Query("SELECT * FROM records WHERE type_id IN (:typesIds) AND instr(lower(comment), lower(:text)) > 0")
     suspend fun searchByTypeWithComment(typesIds: Set<Long>, text: String): List<RecordWithRecordTagsDBO>

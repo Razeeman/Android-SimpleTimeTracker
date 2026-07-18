@@ -55,6 +55,22 @@ class RecordRepoImpl @Inject constructor(
         recordDao.searchComment(text).map(::mapItem)
     }
 
+    override suspend fun searchSimilarComments(
+        text: String,
+        limit: Int,
+    ): List<String> = withContext(Dispatchers.IO) {
+        logDataAccess("searchSimilarComments")
+        recordDao.searchSimilarComments(text, limit)
+    }
+
+    override suspend fun getRecentComments(
+        typeId: Long,
+        limit: Int,
+    ): List<String> = withContext(Dispatchers.IO) {
+        logDataAccess("getRecentComments")
+        recordDao.getRecentComments(typeId, limit)
+    }
+
     override suspend fun searchByTypeWithComment(
         typeIds: Set<Long>,
         text: String,

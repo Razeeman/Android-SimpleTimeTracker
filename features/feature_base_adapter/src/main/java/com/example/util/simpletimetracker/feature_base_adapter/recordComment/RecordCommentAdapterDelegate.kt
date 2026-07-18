@@ -27,6 +27,13 @@ sealed class RecordCommentViewData : ViewHolderType {
 
     override fun getUniqueId(): Long = text.hashCode().toLong()
 
+    data class Similar(
+        override val text: String,
+    ) : ViewData() {
+
+        override fun isValidType(other: ViewHolderType): Boolean = other is Similar
+    }
+
     data class Last(
         override val text: String,
     ) : ViewData() {
