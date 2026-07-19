@@ -251,6 +251,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_SHOW_GOALS_SEPARATELY, false,
     )
 
+    override var hideFinishedGoals: Boolean by prefs.delegate(
+        KEY_HIDE_FINISHED_GOALS, false,
+    )
+
     override var allowMultitasking: Boolean by prefs.delegate(
         KEY_ALLOW_MULTITASKING, true,
     )
@@ -771,6 +775,7 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_SHOW_CATEGORIES_AS_PREDEFINED_FILTERS = "showCategoriesAsPredefinedFilters"
         const val KEY_SELECTED_PREDEFINED_FILTERS = "selectedPredefinedFilters"
         const val KEY_SHOW_GOALS_SEPARATELY = "showGoalsSeparately"
+        const val KEY_HIDE_FINISHED_GOALS = "hideFinishedGoals"
         const val KEY_ALLOW_MULTITASKING = "allowMultitasking"
         const val KEY_SHOW_NOTIFICATIONS = "showNotifications"
         const val KEY_SHOW_NOTIFICATIONS_CONTROLS = "showNotificationsControls"

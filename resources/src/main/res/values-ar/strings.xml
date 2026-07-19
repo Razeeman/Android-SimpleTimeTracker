@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">ستظهر الأهداف هنا</string>
+    <string name="all_goals_finished">اكتملت جميع الأهداف</string>
+    <string name="hide_finished_goals">إخفاء الأهداف المكتملة</string>
     <string name="goal_add_hint">قم بتحرير النشاط أو الفئة لتعيين هدف له</string>
 
     <!--  Categories  -->

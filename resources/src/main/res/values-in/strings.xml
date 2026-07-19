@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">Tujuan akan ditampilkan di sini</string>
+    <string name="all_goals_finished">Semua target telah selesai</string>
+    <string name="hide_finished_goals">Sembunyikan target yang selesai</string>
     <string name="goal_add_hint">Edit aktivitas atau kategori untuk menetapkan tujuan</string>
 
     <!--  Categories  -->

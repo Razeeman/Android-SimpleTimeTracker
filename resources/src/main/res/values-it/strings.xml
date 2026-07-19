@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">Gli obiettivi verranno mostrati qui</string>
+    <string name="all_goals_finished">Tutti gli obiettivi sono completati</string>
+    <string name="hide_finished_goals">Nascondi gli obiettivi completati</string>
     <string name="goal_add_hint">Modifica l\'attività o la categoria per assegnarle un obiettivo</string>
 
     <!--  Categories  -->

@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">ここに目標が表示されます</string>
+    <string name="all_goals_finished">すべての目標が完了しました</string>
+    <string name="hide_finished_goals">完了した目標を非表示</string>
     <string name="goal_add_hint">アクティビティまたはカテゴリを編集して目標を割り当てます</string>
 
     <!--  Categories  -->

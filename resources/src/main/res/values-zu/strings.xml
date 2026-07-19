@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">Izinhloso zizoboniswa lapha</string>
+    <string name="all_goals_finished">Yonke imigomo isiqediwe</string>
+    <string name="hide_finished_goals">Fihla imigomo eqediwe</string>
     <string name="goal_add_hint">Hlela umsebenzi noma isigaba ukuze unikeze inhloso</string>
 
     <!--  Categories  -->

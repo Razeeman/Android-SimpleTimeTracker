@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">Цілі будуть показані тут</string>
+    <string name="all_goals_finished">Усі цілі завершено</string>
+    <string name="hide_finished_goals">Приховати завершені цілі</string>
     <string name="goal_add_hint">Відредагуйте активність або категорію, щоб призначити їй ціль</string>
 
     <!--  Categories  -->

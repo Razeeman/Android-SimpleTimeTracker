@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">اهداف در اینجا نمایش داده می‌شوند</string>
+    <string name="all_goals_finished">همهٔ اهداف تکمیل شده‌اند</string>
+    <string name="hide_finished_goals">مخفی کردن اهداف تکمیل‌شده</string>
     <string name="goal_add_hint">فعالیت یا دسته‌بندی را ویرایش کنید تا هدفی به آن اختصاص دهید</string>
 
     <!--  Categories  -->

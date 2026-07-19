@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">Os obxectivos amosaranse aquí</string>
+    <string name="all_goals_finished">Todos os obxectivos están completados</string>
+    <string name="hide_finished_goals">Agochar os obxectivos completados</string>
     <string name="goal_add_hint">Edita a actividade ou categoría para asignarlle un obxectivo</string>
 
     <!--  Categories  -->

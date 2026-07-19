@@ -30,6 +30,7 @@ import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Compani
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_FILE_EXPORT_RANGE_CUSTOM_START
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_FILE_EXPORT_RANGE_LAST_DAYS
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_FIRST_DAY_OF_WEEK
+import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_HIDE_FINISHED_GOALS
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_ICS_EXPORT_CUSTOM_FILENAME
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_IGNORE_SHORT_RECORDS_DURATION
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_IGNORE_SHORT_UNTRACKED_DURATION
@@ -207,6 +208,7 @@ class BackupPrefsRepo @Inject constructor(
             PrefsProcessor(KEY_POMODORO_PERIODS_UNTIL_LONG_BREAK, ::pomodoroPeriodsUntilLongBreak),
             PrefsProcessor(KEY_POMODORO_SHOW_MORE_CONTROLS, ::pomodoroShowMoreControls),
             PrefsProcessor(KEY_SHOW_GOALS_SEPARATELY, ::showGoalsSeparately),
+            PrefsProcessor(KEY_HIDE_FINISHED_GOALS, ::hideFinishedGoals),
             PrefsProcessor(KEY_ALLOW_MULTITASKING, ::allowMultitasking),
             PrefsProcessor(KEY_SHOW_NOTIFICATIONS, ::showNotifications),
             PrefsProcessor(KEY_SHOW_NOTIFICATIONS_CONTROLS, ::showNotificationsControls),

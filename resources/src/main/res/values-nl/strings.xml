@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">Doelen worden hier weergegeven</string>
+    <string name="all_goals_finished">Alle doelen zijn voltooid</string>
+    <string name="hide_finished_goals">Voltooide doelen verbergen</string>
     <string name="goal_add_hint">Bewerk activiteit of categorie om een doel toe te wijzen</string>
 
     <!--  Categories  -->

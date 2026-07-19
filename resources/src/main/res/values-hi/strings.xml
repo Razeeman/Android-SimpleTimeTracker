@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">लक्ष्य यहाँ दिखाए जाएंगे</string>
+    <string name="all_goals_finished">सभी लक्ष्य पूरे हो चुके हैं</string>
+    <string name="hide_finished_goals">पूर्ण किए गए लक्ष्य छिपाएँ</string>
     <string name="goal_add_hint">लक्ष्य सौंपने के लिए गतिविधि या श्रेणी संपादित करें</string>
 
     <!--  Categories  -->

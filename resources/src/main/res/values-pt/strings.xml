@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">As metas serão exibidas aqui</string>
+    <string name="all_goals_finished">Todas as metas foram concluídas</string>
+    <string name="hide_finished_goals">Ocultar metas concluídas</string>
     <string name="goal_add_hint">Edite a atividade ou categoria para atribuir uma meta</string>
 
     <!--  Categories  -->

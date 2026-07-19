@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">இலக்குகள் இங்கே காட்டப்படும்</string>
+    <string name="all_goals_finished">அனைத்து இலக்குகளும் முடிக்கப்பட்டுள்ளன</string>
+    <string name="hide_finished_goals">முடிக்கப்பட்ட இலக்குகளை மறை</string>
     <string name="goal_add_hint">செயல்பாடு அல்லது வகைக்கு இலக்கை ஒதுக்க அதைத் திருத்தவும்</string>
 
     <!--  Categories  -->

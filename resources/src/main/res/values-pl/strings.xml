@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">Cele zostaną wyświetlone tutaj</string>
+    <string name="all_goals_finished">Wszystkie cele zostały ukończone</string>
+    <string name="hide_finished_goals">Ukryj ukończone cele</string>
     <string name="goal_add_hint">Edytuj aktywność lub kategorię, aby przypisać cel</string>
 
     <!--  Categories  -->

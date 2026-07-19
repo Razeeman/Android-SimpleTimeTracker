@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">목표가 여기에 표시됩니다</string>
+    <string name="all_goals_finished">모든 목표를 완료했습니다</string>
+    <string name="hide_finished_goals">완료된 목표 숨기기</string>
     <string name="goal_add_hint">활동이나 카테고리를 편집하여 목표를 할당하세요</string>
 
     <!--  Categories  -->

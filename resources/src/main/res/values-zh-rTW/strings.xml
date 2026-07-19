@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">目標將顯示在此處</string>
+    <string name="all_goals_finished">所有目標皆已完成</string>
+    <string name="hide_finished_goals">隱藏已完成的目標</string>
     <string name="goal_add_hint">編輯活動或類別以分配目標</string>
 
     <!--  Categories  -->

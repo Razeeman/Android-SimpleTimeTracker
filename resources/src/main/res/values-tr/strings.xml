@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">Hedefler burada gösterilecektir</string>
+    <string name="all_goals_finished">Tüm hedefler tamamlandı</string>
+    <string name="hide_finished_goals">Tamamlanan hedefleri gizle</string>
     <string name="goal_add_hint">Hedef atamak için etkinliği veya kategoriyi düzenleyin</string>
 
     <!--  Categories  -->

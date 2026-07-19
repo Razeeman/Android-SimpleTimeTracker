@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">Målen kommer att visas här</string>
+    <string name="all_goals_finished">Alla mål är slutförda</string>
+    <string name="hide_finished_goals">Dölj slutförda mål</string>
     <string name="goal_add_hint">Redigera aktivitet eller kategori för att tilldela mål</string>
 
     <!--  Categories  -->

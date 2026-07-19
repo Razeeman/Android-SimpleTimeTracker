@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">Mục tiêu sẽ được hiển thị ở đây</string>
+    <string name="all_goals_finished">Tất cả mục tiêu đã hoàn thành</string>
+    <string name="hide_finished_goals">Ẩn các mục tiêu đã hoàn thành</string>
     <string name="goal_add_hint">Chỉnh sửa hoạt động hoặc danh mục để gán mục tiêu</string>
 
     <!--  Categories  -->

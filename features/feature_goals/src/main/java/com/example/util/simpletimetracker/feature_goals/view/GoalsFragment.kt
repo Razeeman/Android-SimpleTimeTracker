@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.feature_dialogs.api.DateTimeDialogListener
+import com.example.util.simpletimetracker.feature_dialogs.api.OptionsListDialogListener
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
@@ -18,11 +19,15 @@ import com.example.util.simpletimetracker.feature_base_adapter.statisticsGoal.cr
 import com.example.util.simpletimetracker.feature_date_selection.api.viewDelegate.DateSelectorViewDelegateProvider
 import com.example.util.simpletimetracker.feature_goals.databinding.GoalsFragmentBinding as Binding
 import com.example.util.simpletimetracker.feature_goals.viewModel.GoalsViewModel
+import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class GoalsFragment : BaseFragment<Binding>(), DateTimeDialogListener {
+class GoalsFragment :
+    BaseFragment<Binding>(),
+    DateTimeDialogListener,
+    OptionsListDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -74,7 +79,9 @@ class GoalsFragment : BaseFragment<Binding>(), DateTimeDialogListener {
     }
 
     override fun initUx() {
-        dateSelectorViewDelegate.initUx()
+        dateSelectorViewDelegate.initUx(
+            onOptionsClick = viewModel::onOptionsClick,
+        )
     }
 
     override fun initViewModel() = with(binding) {
@@ -104,6 +111,10 @@ class GoalsFragment : BaseFragment<Binding>(), DateTimeDialogListener {
 
     override fun onDateTimeSet(timestamp: Long, tag: String?) {
         viewModel.onDateTimeSet(timestamp, tag)
+    }
+
+    override fun onOptionsItemClick(id: OptionsListParams.Item.Id) {
+        viewModel.onOptionsItemClick(id)
     }
 
     private fun updateInsetConfiguration(isNavBatAtTheBottom: Boolean) {

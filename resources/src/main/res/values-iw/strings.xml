@@ -96,6 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">המטרות יוצגו כאן</string>
+    <string name="all_goals_finished">כל היעדים הושלמו</string>
+    <string name="hide_finished_goals">הסתר יעדים שהושלמו</string>
     <string name="goal_add_hint">ערוך פעילות או קטגוריה כדי להקצות לה מטרה</string>
 
     <!--  Categories  -->

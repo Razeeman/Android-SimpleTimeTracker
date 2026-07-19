@@ -23,6 +23,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.HintBigViewData
 import com.example.util.simpletimetracker.feature_goals.R
+import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import com.example.util.simpletimetracker.feature_views.extension.setForegroundSpan
 import com.example.util.simpletimetracker.feature_views.extension.toSpannableString
 import kotlinx.coroutines.Dispatchers
@@ -73,6 +74,7 @@ class GoalsViewDataInteractor @Inject constructor(
         val showSeconds = prefsInteractor.getShowSeconds()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
+        val hideFinishedGoals = prefsInteractor.getHideFinishedGoals()
         val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val goals = recordTypeGoalInteractor.getAll()
 
@@ -132,14 +134,17 @@ class GoalsViewDataInteractor @Inject constructor(
                     isDarkTheme = isDarkTheme,
                     durationFormat = durationFormat,
                     showSeconds = showSeconds,
+                    hideFinishedGoals = hideFinishedGoals,
                 )
             }
             .toList()
 
-        return@withContext items
-            .flatten()
-            .takeUnless { it.isEmpty() }
-            ?: mapToEmpty()
+        val visibleItems = items.flatMap(RangeViewData::items)
+        return@withContext when {
+            visibleItems.isNotEmpty() -> visibleItems
+            items.any(RangeViewData::hasHiddenFinishedGoals) -> mapToAllFinished()
+            else -> mapToEmpty()
+        }
     }
 
     private suspend fun getViewDataForRange(
@@ -156,10 +161,11 @@ class GoalsViewDataInteractor @Inject constructor(
         isDarkTheme: Boolean,
         durationFormat: DurationFormat,
         showSeconds: Boolean,
-    ): List<ViewHolderType> {
+        hideFinishedGoals: Boolean,
+    ): RangeViewData {
         val result = mutableListOf<ViewHolderType>()
 
-        val items = listOf(
+        val allItems = listOf(
             ChartFilterType.ACTIVITY,
             ChartFilterType.CATEGORY,
             ChartFilterType.RECORD_TAG,
@@ -187,6 +193,14 @@ class GoalsViewDataInteractor @Inject constructor(
             )
         }.sortedBy { it.goal.percent }
 
+        val items = if (hideFinishedGoals) {
+            allItems.filterNot {
+                it.goal.goalState == GoalCheckmarkView.CheckState.GOAL_REACHED
+            }
+        } else {
+            allItems
+        }
+
         if (items.isNotEmpty()) {
             val title = rangeViewDataMapper.mapToShareTitle(
                 rangeLength = rangeLength,
@@ -199,7 +213,10 @@ class GoalsViewDataInteractor @Inject constructor(
             result.addAll(items)
         }
 
-        return result
+        return RangeViewData(
+            items = result,
+            hasHiddenFinishedGoals = items.size < allItems.size,
+        )
     }
 
     private fun mapToEmpty(): List<ViewHolderType> {
@@ -219,4 +236,17 @@ class GoalsViewDataInteractor @Inject constructor(
             closeIconVisible = false,
         ).let(::listOf)
     }
+
+    private fun mapToAllFinished(): List<ViewHolderType> {
+        return HintBigViewData(
+            text = resourceRepo.getString(R.string.all_goals_finished),
+            infoIconVisible = false,
+            closeIconVisible = false,
+        ).let(::listOf)
+    }
+
+    private data class RangeViewData(
+        val items: List<ViewHolderType>,
+        val hasHiddenFinishedGoals: Boolean,
+    )
 }
