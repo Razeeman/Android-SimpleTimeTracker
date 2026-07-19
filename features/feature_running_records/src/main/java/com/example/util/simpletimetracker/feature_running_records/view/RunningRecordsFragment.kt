@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.core.utils.updateRunningRecordPreview
 import com.example.util.simpletimetracker.core.viewData.RecordTypeSuggestionType
 import com.example.util.simpletimetracker.domain.record.interactor.UpdateRunningRecordsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.createActivityFilterAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.activityFilter.createActivityFilterAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.commentField.createCommentFieldAdapterDelegate
@@ -63,6 +64,8 @@ class RunningRecordsFragment :
     private val mainTabsViewModel: MainTabsViewModel by activityViewModels(
         factoryProducer = { mainTabsViewModelFactory },
     )
+
+    private var pendingRunningRecords: List<ViewHolderType>? = null
 
     private val runningRecordsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
@@ -143,14 +146,18 @@ class RunningRecordsFragment :
         // opening another screen and returning back.
         // Solution. Set to true only on scroll, return back to false on scroll stop
         // and onPause (navigation).
+        // Solution 2. Delay adapter update while scrolling, update after, keep setHasFixedSize(false).
         rvRunningRecordsList.addOnScrollListenerAdapter { _, newState ->
-            rvRunningRecordsList.setHasFixedSize(newState != RecyclerView.SCROLL_STATE_IDLE)
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                pendingRunningRecords?.let(runningRecordsAdapter::replace)
+                pendingRunningRecords = null
+            }
         }
     }
 
     override fun initViewModel() {
         with(viewModel) {
-            runningRecords.observe(runningRecordsAdapter::replace)
+            runningRecords.observe(::onRunningRecordsUpdate)
             resetScreen.observe { resetScreen() }
             previewUpdate.observe(::onPreviewUpdate)
         }
@@ -166,7 +173,6 @@ class RunningRecordsFragment :
 
     override fun onPause() {
         super.onPause()
-        binding.rvRunningRecordsList.setHasFixedSize(false)
         viewModel.onHidden()
     }
 
@@ -181,6 +187,14 @@ class RunningRecordsFragment :
     private fun resetScreen() = with(binding) {
         rvRunningRecordsList.smoothScrollToPosition(0)
         mainTabsViewModel.onHandled()
+    }
+
+    private fun onRunningRecordsUpdate(items: List<ViewHolderType>) {
+        if (binding.rvRunningRecordsList.scrollState == RecyclerView.SCROLL_STATE_IDLE) {
+            runningRecordsAdapter.replace(items)
+        } else {
+            pendingRunningRecords = items
+        }
     }
 
     private fun onPreviewUpdate(update: UpdateRunningRecordsInteractor.Update) {
