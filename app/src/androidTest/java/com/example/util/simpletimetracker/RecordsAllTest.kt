@@ -313,7 +313,7 @@ class RecordsAllTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         clickOnView(allOf(withText(name1), isCompletelyDisplayed()))
         tryAction { clickOnCurrentDate() }
-        clickOnViewWithText(coreR.string.range_overall)
+        tryAction { clickOnViewWithText(coreR.string.range_overall) }
         scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
         clickOnStatDetailRecycler(withPluralText(coreR.plurals.statistics_detail_times_tracked, 1))
 

@@ -47,15 +47,18 @@ class StatisticsDetailFilterTest : BaseUiTest() {
     fun filterByType() {
         val name1 = "TypeName1"
         val name2 = "TypeName2"
+        val name3 = "TypeName3"
 
         // Add activity
         testUtils.addActivity(name1)
         testUtils.addActivity(name2)
+        testUtils.addActivity(name3)
 
         // Add records
         testUtils.addRecord(name1)
         testUtils.addRecord(name2)
         testUtils.addRecord(name2)
+        testUtils.addRecord(name3)
 
         // Check
         NavUtils.openStatisticsScreen()
@@ -75,7 +78,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         NavUtils.openFilter()
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewRecordTypeItem)), withText(name2)))
         pressBack()
-        checkRecordsCard(0)
+        checkRecordsCard(4)
 
         NavUtils.openFilter()
         clickOnView(withSubstring(getString(coreR.string.activity_hint)))
@@ -90,7 +93,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
             subtype = RecordsFilterSelectionButtonType.Subtype.SelectNone,
         )
         pressBack()
-        checkRecordsCard(0)
+        checkRecordsCard(4)
 
         NavUtils.openFilter()
         clickOnView(withSubstring(getString(coreR.string.activity_hint)))
@@ -99,7 +102,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
             subtype = RecordsFilterSelectionButtonType.Subtype.SelectAll,
         )
         pressBack()
-        checkRecordsCard(3)
+        checkRecordsCard(4)
     }
 
     @Test
@@ -150,7 +153,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         clickOnInnerCategoryFilter()
         clickOnView(allOf(isDescendantOfA(withId(baseR.id.viewCategoryItem)), withText(categoryName2)))
         pressBack()
-        checkRecordsCard(0)
+        checkRecordsCard(6)
 
         NavUtils.openFilter()
         clickOnView(withSubstring(getString(coreR.string.activity_hint)))
@@ -174,7 +177,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
             subtype = RecordsFilterSelectionButtonType.Subtype.SelectNone,
         )
         pressBack()
-        checkRecordsCard(0)
+        checkRecordsCard(6)
 
         NavUtils.openFilter()
         clickOnView(withSubstring(getString(coreR.string.activity_hint)))
@@ -426,7 +429,7 @@ class StatisticsDetailFilterTest : BaseUiTest() {
             subtype = RecordsFilterSelectionButtonType.Subtype.SelectNone,
         )
         pressBack()
-        checkRecordsCard(0)
+        checkRecordsCard(7)
 
         NavUtils.openFilter()
         clickOnView(withSubstring(getString(R.string.record_tag_hint)))

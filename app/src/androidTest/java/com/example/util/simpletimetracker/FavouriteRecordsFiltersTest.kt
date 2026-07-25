@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker
 import android.view.View
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
 import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -474,7 +475,7 @@ class FavouriteRecordsFiltersTest : BaseUiTest() {
         ).check(isCompletelyBelow(withText(R.string.records_filter_filter_not_available)))
         onView(
             allOf(getFavouriteFilterMatchers(getString(R.string.date_time_dialog_date))),
-        ).check(isCompletelyBelow(withText(R.string.records_filter_filter_not_available)))
+        ).check(isCompletelyAbove(withText(R.string.records_filter_filter_not_available)))
     }
 
     @Test

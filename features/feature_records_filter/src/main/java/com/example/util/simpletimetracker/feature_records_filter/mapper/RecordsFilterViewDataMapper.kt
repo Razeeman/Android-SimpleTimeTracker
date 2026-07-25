@@ -47,7 +47,9 @@ class RecordsFilterViewDataMapper @Inject constructor(
     fun mapInitialFilter(
         filters: List<RecordsFilter>,
     ): RecordFilterType? {
-        return filters.firstOrNull()?.let(::mapToViewData)
+        // Date is selected last.
+        return filters.minByOrNull { it is RecordsFilter.Date }
+            ?.let(::mapToViewData)
     }
 
     fun mapRecordsCount(
