@@ -139,7 +139,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             shift = 0,
             overrideStatisticsRange = null,
             sharedElements = emptyMap(),
-            itemId = newTypeId,
+            itemId = recordState.newTypeId,
             itemName = preview.name,
             itemIcon = preview.iconId,
             itemColor = preview.color,
@@ -154,17 +154,17 @@ class ChangeRunningRecordViewModel @Inject constructor(
             typeId = extra.id,
             updateWidgets = false,
             updateNotificationSwitch = false,
-            checkPomodoroStop = extra.id != newTypeId,
+            checkPomodoroStop = extra.id != recordState.newTypeId,
         )
         addRunningRecordMediator.addAfterChange(
-            typeId = newTypeId,
-            timeStarted = newTimeStarted,
+            typeId = recordState.newTypeId,
+            timeStarted = recordState.newTimeStarted,
             comment = commentSelectionViewModelDelegate.newComment,
-            tags = newTags,
+            tags = recordState.newTags,
         )
         addTagToTypeIfNotExistMediator.execute(
-            typeId = newTypeId,
-            tagIds = newTags.map(RecordBase.Tag::tagId),
+            typeId = recordState.newTypeId,
+            tagIds = recordState.newTags.map(RecordBase.Tag::tagId),
         )
         doAfter()
         sendPreviewUpdate(fullUpdate = true)
@@ -199,8 +199,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
     override suspend fun onTimeEndedChanged() = Unit
 
     override suspend fun onTimeStartedChanged() {
-        if (newTimeStarted > System.currentTimeMillis()) {
-            newTimeStarted = System.currentTimeMillis()
+        if (recordState.newTimeStarted > System.currentTimeMillis()) {
+            updateState { newTimeStarted = System.currentTimeMillis() }
 
             SnackBarParams(
                 message = resourceRepo.getString(R.string.cannot_be_in_the_future),
@@ -217,24 +217,27 @@ class ChangeRunningRecordViewModel @Inject constructor(
     override suspend fun initializePreviewViewData() {
         if (extra.id != 0L) {
             runningRecordInteractor.get(extra.id)?.let { record ->
-                newTypeId = record.id.orZero()
-                newTimeStarted = record.timeStarted
-                newTimeEnded = System.currentTimeMillis()
+                updateState {
+                    newTypeId = record.id.orZero()
+                    newTimeStarted = record.timeStarted
+                    newTimeEnded = System.currentTimeMillis()
+                    newTags = record.tags.toMutableList()
+                }
                 commentSelectionViewModelDelegate.newComment = record.comment
-                newTags = record.tags.toMutableList()
             }
             afterInitializePreviewViewData()
         }
     }
 
     private suspend fun loadPreviewViewData(): ChangeRunningRecordViewData {
-        if (newTypeId == 0L) initializePreviewViewData()
+        if (recordState.newTypeId == 0L) initializePreviewViewData()
 
+        // TODO BASE move to extension
         val record = RunningRecord(
-            id = newTypeId,
-            timeStarted = newTimeStarted,
+            id = recordState.newTypeId,
+            timeStarted = recordState.newTimeStarted,
             comment = commentSelectionViewModelDelegate.newComment,
-            tags = newTags,
+            tags = recordState.newTags,
         )
 
         return changeRunningRecordViewDataInteractor.getPreviewViewData(

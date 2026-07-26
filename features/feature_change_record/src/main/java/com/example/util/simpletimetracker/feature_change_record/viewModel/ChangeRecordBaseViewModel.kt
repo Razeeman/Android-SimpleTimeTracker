@@ -43,6 +43,8 @@ import com.example.util.simpletimetracker.feature_change_record.viewModel.base.C
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge.Action
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge.ViewDataParams
+import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorState
+import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorStateBuilder
 import com.example.util.simpletimetracker.feature_change_record.viewModel.delegates.ChangeRecordActionsMoveDelegate
 import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewModelDelegate
 import com.example.util.simpletimetracker.navigation.Router
@@ -109,20 +111,7 @@ abstract class ChangeRecordBaseViewModel(
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(config.isDeleteButtonVisible) }
     val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(config.isStatisticsButtonVisible) }
 
-    // Record data start
-    protected var newTypeId: Long = 0
-    protected var newTimeEnded: Long = 0
-    protected var newTimeStarted: Long = 0
-    protected var newTimeSplit: Long = 0
-    protected var newSplitBeforeTypeId: Long? = null
-    protected var newTags: List<RecordBase.Tag> = emptyList()
-    protected var originalRecordId: Long = 0
-    protected var originalTypeId: Long = 0
-    protected var originalTags: List<RecordBase.Tag> = emptyList()
-    protected var originalTimeStarted: Long = 0
-    protected var originalTimeEnded: Long = 0
-    // Record data end
-
+    protected var recordState = ChangeRecordEditorState()
     protected var dateTimeState = ChangeRecordDateTimeFieldsState(
         start = ChangeRecordDateTimeFieldsState.State.DateTime,
         end = ChangeRecordDateTimeFieldsState.State.DateTime,
@@ -163,12 +152,13 @@ abstract class ChangeRecordBaseViewModel(
     abstract fun afterHidden()
 
     protected fun afterInitializePreviewViewData() {
-        newTimeSplit = newTimeStarted
-
-        originalTypeId = newTypeId
-        originalTags = newTags.toList() // Creates a copy.
-        originalTimeStarted = newTimeStarted
-        originalTimeEnded = newTimeEnded
+        updateState {
+            newTimeSplit = newTimeStarted
+            originalTypeId = newTypeId
+            originalTags = newTags.toList() // Creates a copy.
+            originalTimeStarted = newTimeStarted
+            originalTimeEnded = newTimeEnded
+        }
         commentSelectionViewModelDelegate.updateCommentsViewData()
         // Don't wait for the completion.
         viewModelScope.launch { initializeActions() }
@@ -177,7 +167,9 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract suspend fun onTimeStartedChanged()
 
     protected suspend fun afterTimeStartedChanged() {
-        if (newTimeStarted > newTimeSplit) newTimeSplit = newTimeStarted
+        if (recordState.newTimeStarted > recordState.newTimeSplit) {
+            updateState { newTimeSplit = newTimeStarted }
+        }
         updatePreview()
         updateActionsData()
     }
@@ -185,7 +177,9 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract suspend fun onTimeEndedChanged()
 
     protected suspend fun afterTimeEndedChanged() {
-        if (newTimeEnded < newTimeSplit) newTimeSplit = newTimeEnded
+        if (recordState.newTimeEnded < recordState.newTimeSplit) {
+            updateState { newTimeSplit = newTimeEnded }
+        }
         updatePreview()
         updateActionsData()
     }
@@ -226,11 +220,11 @@ abstract class ChangeRecordBaseViewModel(
         when (dateTimeState.start) {
             is ChangeRecordDateTimeFieldsState.State.DateTime -> onTimeClick(
                 tag = tag,
-                timestamp = newTimeStarted,
+                timestamp = recordState.newTimeStarted,
             )
             is ChangeRecordDateTimeFieldsState.State.Duration -> onDurationClick(
                 tag = tag,
-                durationMillis = previewTimeEnded - newTimeStarted,
+                durationMillis = previewTimeEnded - recordState.newTimeStarted,
             )
         }
     }
@@ -240,11 +234,11 @@ abstract class ChangeRecordBaseViewModel(
         when (dateTimeState.end) {
             is ChangeRecordDateTimeFieldsState.State.DateTime -> onTimeClick(
                 tag = tag,
-                timestamp = newTimeEnded,
+                timestamp = recordState.newTimeEnded,
             )
             is ChangeRecordDateTimeFieldsState.State.Duration -> onDurationClick(
                 tag = tag,
-                durationMillis = previewTimeEnded - newTimeStarted,
+                durationMillis = previewTimeEnded - recordState.newTimeStarted,
             )
         }
     }
@@ -331,7 +325,7 @@ abstract class ChangeRecordBaseViewModel(
             when (item) {
                 is CategoryViewData.Record.Tagged -> {
                     val needValueSelection = needTagValueSelectionInteractor.execute(
-                        selectedTagIds = newTags.map { it.tagId },
+                        selectedTagIds = recordState.newTags.map { it.tagId },
                         clickedTagId = item.id,
                     )
                     if (needValueSelection) {
@@ -340,11 +334,11 @@ abstract class ChangeRecordBaseViewModel(
                             tagId = item.id,
                         ).let(router::navigate)
                     } else {
-                        newTags = newTags.addOrRemove(item.id)
+                        updateState { newTags = newTags.addOrRemove(item.id) }
                     }
                 }
                 is CategoryViewData.Record.Untagged -> {
-                    newTags = emptyList()
+                    updateState { newTags = emptyList() }
                 }
                 else -> return@launch
             }
@@ -359,10 +353,12 @@ abstract class ChangeRecordBaseViewModel(
     ) {
         if (params.tag != CHANGE_RECORD_TAG_VALUE_SELECTION) return
         viewModelScope.launch {
-            newTags = newTags + RecordBase.Tag(
-                tagId = params.tagId,
-                numericValue = value,
-            )
+            updateState {
+                newTags = newTags + RecordBase.Tag(
+                    tagId = params.tagId,
+                    numericValue = value,
+                )
+            }
             updatePreview()
             updateCategoriesViewData()
         }
@@ -375,13 +371,15 @@ abstract class ChangeRecordBaseViewModel(
         when (tag) {
             SPLIT_BEFORE_TYPE_SELECTION -> {
                 val selectedTypeId = dataIds.firstOrNull() ?: return
-                newSplitBeforeTypeId = selectedTypeId
+                updateState { newSplitBeforeTypeId = selectedTypeId }
                 updateActionsData()
             }
             SPLIT_AFTER_TYPE_SELECTION -> {
                 val selectedTypeId = dataIds.firstOrNull() ?: return
-                if (selectedTypeId != newTypeId) {
-                    if (newSplitBeforeTypeId == null) newSplitBeforeTypeId = newTypeId
+                if (selectedTypeId != recordState.newTypeId) {
+                    if (recordState.newSplitBeforeTypeId == null) {
+                        updateState { newSplitBeforeTypeId = newTypeId }
+                    }
                     onMainTypeSelected(selectedTypeId)
                 }
             }
@@ -413,7 +411,7 @@ abstract class ChangeRecordBaseViewModel(
     fun onCategorySpecialClick(viewData: CategoryAddViewData) {
         when (viewData.type) {
             is CategoryAddViewData.Type.AddTag -> {
-                val preselectedTypeId: Long? = newTypeId.takeUnless { it == 0L }
+                val preselectedTypeId: Long? = recordState.newTypeId.takeUnless { it == 0L }
                 router.navigate(
                     data = getChangeCategoryParams(
                         ChangeTagData.New(preselectedTypeId),
@@ -455,29 +453,32 @@ abstract class ChangeRecordBaseViewModel(
 
             when (tag) {
                 TIME_STARTED_TAG -> {
-                    if (coercedTimestamp != newTimeStarted) {
-                        newTimeStarted = coercedTimestamp
+                    if (coercedTimestamp != recordState.newTimeStarted) {
+                        updateState { newTimeStarted = coercedTimestamp }
                         onTimeStartedChanged()
                     }
                 }
                 TIME_ENDED_TAG -> {
-                    if (coercedTimestamp != newTimeEnded) {
-                        newTimeEnded = coercedTimestamp
+                    if (coercedTimestamp != recordState.newTimeEnded) {
+                        updateState { newTimeEnded = coercedTimestamp }
                         onTimeEndedChanged()
                     }
                 }
                 TIME_SPLIT_TAG -> {
-                    if (coercedTimestamp != newTimeSplit) {
-                        newTimeSplit = coercedTimestamp
+                    if (coercedTimestamp != recordState.newTimeSplit) {
+                        updateState { newTimeSplit = coercedTimestamp }
                         onTimeSplitChanged()
                     }
                 }
                 ChangeRecordActionsMoveDelegate.MOVE_TIME_STARTED_TAG -> {
                     onRecordChangeButtonClick(
                         onProceed = {
-                            val currentDuration = (newTimeEnded - newTimeStarted).coerceAtLeast(0)
-                            newTimeStarted = timestamp
-                            newTimeEnded = newTimeStarted + currentDuration
+                            val currentDuration = (recordState.newTimeEnded - recordState.newTimeStarted)
+                                .coerceAtLeast(0)
+                            updateState {
+                                newTimeStarted = timestamp
+                                newTimeEnded = newTimeStarted + currentDuration
+                            }
                             onSaveClickDelegate()
                         },
                     )
@@ -490,11 +491,11 @@ abstract class ChangeRecordBaseViewModel(
         viewModelScope.launch {
             when (tag) {
                 TIME_STARTED_TAG -> {
-                    newTimeStarted = previewTimeEnded - durationSeconds * 1000
+                    updateState { newTimeStarted = previewTimeEnded - durationSeconds * 1000 }
                     onTimeStartedChanged()
                 }
                 TIME_ENDED_TAG -> {
-                    newTimeEnded = newTimeStarted + durationSeconds * 1000
+                    updateState { newTimeEnded = newTimeStarted + durationSeconds * 1000 }
                     onTimeEndedChanged()
                 }
             }
@@ -540,7 +541,7 @@ abstract class ChangeRecordBaseViewModel(
         } else {
             viewModelScope.launch {
                 // Send only if not changed and update only time.
-                if (newTimeStarted == originalTimeStarted) {
+                if (recordState.newTimeStarted == recordState.originalTimeStarted) {
                     sendPreviewUpdate(fullUpdate = false)
                 }
                 router.back()
@@ -551,7 +552,7 @@ abstract class ChangeRecordBaseViewModel(
     private suspend fun openTagSelectionIfNeeded() {
         // If type has any record tags - open tag selection
         val tags = recordTagInteractor.getAll().associateBy { it.id }
-        val tagsForThisType = recordTypeToTagInteractor.getTags(newTypeId)
+        val tagsForThisType = recordTypeToTagInteractor.getTags(recordState.newTypeId)
             .mapNotNull(tags::get)
             .filterNot { it.archived }
 
@@ -576,27 +577,27 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     private fun onTimeSplitClick() {
-        onTimeClick(tag = TIME_SPLIT_TAG, timestamp = newTimeSplit)
+        onTimeClick(tag = TIME_SPLIT_TAG, timestamp = recordState.newTimeSplit)
     }
 
     private fun onAdjustTimeSplitItemClick(viewData: TimeAdjustmentView.ViewData) {
         when (viewData) {
             is TimeAdjustmentView.ViewData.Now -> {
-                newTimeSplit = System.currentTimeMillis()
+                updateState { newTimeSplit = System.currentTimeMillis() }
                 onTimeSplitChanged()
             }
             is TimeAdjustmentView.ViewData.Zero -> {
                 // Do nothing, shouldn't be there.
             }
             is TimeAdjustmentView.ViewData.Adjust -> {
-                newTimeSplit += TimeUnit.MINUTES.toMillis(viewData.value)
+                updateState { newTimeSplit += TimeUnit.MINUTES.toMillis(viewData.value) }
                 onTimeSplitChanged()
             }
         }
     }
 
     private fun onSliderSplitValueChanged(value: Float) {
-        newTimeSplit = newTimeStarted + TimeUnit.SECONDS.toMillis(value.toLong())
+        updateState { newTimeSplit = newTimeStarted + TimeUnit.SECONDS.toMillis(value.toLong()) }
         onTimeSplitChanged()
     }
 
@@ -606,11 +607,13 @@ abstract class ChangeRecordBaseViewModel(
         checkSplitTypeSelected: Boolean = false,
         delayBlock: Boolean = false,
     ) {
-        if (checkTypeSelected && newTypeId == 0L) {
+        if (checkTypeSelected && recordState.newTypeId == 0L) {
             showMessage(R.string.change_record_message_choose_type)
             return
         }
-        if (checkSplitTypeSelected && (newSplitBeforeTypeId ?: newTypeId) == 0L) {
+        if (checkSplitTypeSelected &&
+            (recordState.newSplitBeforeTypeId ?: recordState.newTypeId) == 0L
+        ) {
             showMessage(R.string.change_record_message_choose_type)
             return
         }
@@ -763,11 +766,11 @@ abstract class ChangeRecordBaseViewModel(
     ) {
         when (state) {
             TimeAdjustmentState.TIME_STARTED -> {
-                newTimeStarted = System.currentTimeMillis()
+                updateState { newTimeStarted = System.currentTimeMillis() }
                 onTimeStartedChanged()
             }
             TimeAdjustmentState.TIME_ENDED -> {
-                newTimeEnded = System.currentTimeMillis()
+                updateState { newTimeEnded = System.currentTimeMillis() }
                 onTimeEndedChanged()
             }
             else -> {
@@ -781,11 +784,11 @@ abstract class ChangeRecordBaseViewModel(
     ) {
         when (state) {
             TimeAdjustmentState.TIME_STARTED -> {
-                newTimeStarted = previewTimeEnded
+                updateState { newTimeStarted = previewTimeEnded }
                 onTimeStartedChanged()
             }
             TimeAdjustmentState.TIME_ENDED -> {
-                newTimeEnded = newTimeStarted
+                updateState { newTimeEnded = newTimeStarted }
                 onTimeEndedChanged()
             }
             else -> {
@@ -802,10 +805,10 @@ abstract class ChangeRecordBaseViewModel(
         when (state) {
             TimeAdjustmentState.TIME_STARTED -> {
                 when (dateTimeState.start) {
-                    is ChangeRecordDateTimeFieldsState.State.DateTime -> {
+                    is ChangeRecordDateTimeFieldsState.State.DateTime -> updateState {
                         newTimeStarted += shift
                     }
-                    is ChangeRecordDateTimeFieldsState.State.Duration -> {
+                    is ChangeRecordDateTimeFieldsState.State.Duration -> updateState {
                         newTimeStarted = (newTimeStarted - shift).coerceAtMost(previewTimeEnded)
                     }
                 }
@@ -813,10 +816,10 @@ abstract class ChangeRecordBaseViewModel(
             }
             TimeAdjustmentState.TIME_ENDED -> {
                 when (dateTimeState.end) {
-                    is ChangeRecordDateTimeFieldsState.State.DateTime -> {
+                    is ChangeRecordDateTimeFieldsState.State.DateTime -> updateState {
                         newTimeEnded += shift
                     }
-                    is ChangeRecordDateTimeFieldsState.State.Duration -> {
+                    is ChangeRecordDateTimeFieldsState.State.Duration -> updateState {
                         newTimeEnded = (previewTimeEnded + shift).coerceAtLeast(newTimeStarted)
                     }
                 }
@@ -829,7 +832,7 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     private fun onTimeSplitChanged() {
-        newTimeSplit = newTimeSplit.coerceIn(newTimeStarted..previewTimeEnded)
+        updateState { newTimeSplit = newTimeSplit.coerceIn(newTimeStarted..previewTimeEnded) }
         updateActionsData()
     }
 
@@ -850,9 +853,11 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     private fun onMainTypeSelected(typeId: Long) {
-        if (typeId == newTypeId) return
-        newTypeId = typeId
-        newTags = emptyList()
+        if (typeId == recordState.newTypeId) return
+        updateState {
+            newTypeId = typeId
+            newTags = emptyList()
+        }
         viewModelScope.launch {
             updatePreview()
             updateCategoriesViewData()
@@ -861,10 +866,18 @@ abstract class ChangeRecordBaseViewModel(
         updateActionsData()
     }
 
+    protected fun updateState(
+        block: ChangeRecordEditorStateBuilder.() -> Unit,
+    ) {
+        val builder = ChangeRecordEditorStateBuilder(recordState)
+        builder.apply { block() }
+        recordState = builder.build()
+    }
+
     private fun getCommentSelectionDelegateParent(): CommentSelectionViewModelDelegate.Parent {
         return object : CommentSelectionViewModelDelegate.Parent {
             override fun getParams(): CommentSelectionViewModelDelegate.Parent.Params =
-                CommentSelectionViewModelDelegate.Parent.Params(recordTypeId = newTypeId)
+                CommentSelectionViewModelDelegate.Parent.Params(recordTypeId = recordState.newTypeId)
 
             override suspend fun onCommentClick() = updatePreview()
             override fun onCommentChange(): Unit = viewModelScope.launch { updatePreview() }.let {}
@@ -885,7 +898,7 @@ abstract class ChangeRecordBaseViewModel(
                         this@ChangeRecordBaseViewModel.showMessage(action.messageResId)
                     }
                     is Action.OnSplitComplete -> {
-                        newTimeStarted = newTimeSplit
+                        updateState { newTimeStarted = newTimeSplit }
                         this@ChangeRecordBaseViewModel.onSaveClickDelegate()
                     }
                     is Action.OnRecordChangeButtonClick -> {
@@ -906,20 +919,20 @@ abstract class ChangeRecordBaseViewModel(
             override fun getParams(): ViewDataParams {
                 return ViewDataParams(
                     baseParams = ViewDataParams.BaseParams(
-                        newTypeId = newTypeId,
-                        newTimeStarted = newTimeStarted,
-                        newTimeEnded = newTimeEnded,
+                        newTypeId = recordState.newTypeId,
+                        newTimeStarted = recordState.newTimeStarted,
+                        newTimeEnded = recordState.newTimeEnded,
                         newComment = commentSelectionViewModelDelegate.newComment,
-                        newTags = newTags,
+                        newTags = recordState.newTags,
                         isButtonEnabled = saveButtonEnabled.value.orFalse(),
                     ),
                     splitParams = ViewDataParams.SplitParams(
-                        newTimeSplit = newTimeSplit,
-                        newBeforeTypeId = newSplitBeforeTypeId ?: newTypeId,
+                        newTimeSplit = recordState.newTimeSplit,
+                        newBeforeTypeId = recordState.newSplitBeforeTypeId ?: recordState.newTypeId,
                         splitPreviewTimeEnded = previewTimeEnded,
                         showTimeEndedOnSplitPreview = config.showTimeEndedOnSplitPreview,
-                        originalTypeId = originalTypeId,
-                        originalTags = originalTags,
+                        originalTypeId = recordState.originalTypeId,
+                        originalTags = recordState.originalTags,
                     ),
                     duplicateParams = ViewDataParams.DuplicateParams(
                         isAvailable = config.isDuplicateActionAvailable,
@@ -929,16 +942,16 @@ abstract class ChangeRecordBaseViewModel(
                         isAvailable = config.isAdditionalActionsAvailable,
                     ),
                     continueParams = ViewDataParams.ContinueParams(
-                        originalRecordId = originalRecordId,
+                        originalRecordId = recordState.originalRecordId,
                         isAvailable = config.isAdditionalActionsAvailable,
                     ),
                     repeatParams = ViewDataParams.RepeatParams(
                         isAvailable = config.isAdditionalActionsAvailable,
                     ),
                     adjustParams = ViewDataParams.AdjustParams(
-                        originalRecordId = originalRecordId,
-                        originalTypeId = originalTypeId,
-                        originalTimeStarted = originalTimeStarted,
+                        originalRecordId = recordState.originalRecordId,
+                        originalTypeId = recordState.originalTypeId,
+                        originalTimeStarted = recordState.originalTimeStarted,
                         adjustNextRecordAvailable = config.adjustNextRecordAvailable,
                         adjustPreviewTimeEnded = adjustPreviewTimeEnded,
                         adjustPreviewOriginalTimeEnded = adjustPreviewOriginalTimeEnded,
@@ -963,7 +976,7 @@ abstract class ChangeRecordBaseViewModel(
     }
 
     private suspend fun initializePrevRecord() {
-        prevRecord = recordInteractor.getPrev(timeStarted = originalTimeStarted)
+        prevRecord = recordInteractor.getPrev(timeStarted = recordState.originalTimeStarted)
     }
 
     private suspend fun loadTypesViewData(): List<ViewHolderType> {
@@ -981,8 +994,8 @@ abstract class ChangeRecordBaseViewModel(
         fromSearchChange: Boolean,
     ): ChangeRecordTagsViewData {
         return recordTagViewDataInteractor.getViewData(
-            selectedTags = newTags,
-            typeIds = listOf(newTypeId),
+            selectedTags = recordState.newTags,
+            typeIds = listOf(recordState.newTypeId),
             multipleChoiceAvailable = true,
             showBigEmptyHint = true,
             showHint = true,
@@ -993,7 +1006,7 @@ abstract class ChangeRecordBaseViewModel(
                 RecordTagViewDataInteractor.Button.ADD,
                 RecordTagViewDataInteractor.Button.ALL_TAGS,
                 RecordTagViewDataInteractor.Button.SEARCH,
-                RecordTagViewDataInteractor.Button.UNTAGGED.takeIf { newTags.isNotEmpty() },
+                RecordTagViewDataInteractor.Button.UNTAGGED.takeIf { recordState.newTags.isNotEmpty() },
             ),
         ).let {
             ChangeRecordTagsViewData(

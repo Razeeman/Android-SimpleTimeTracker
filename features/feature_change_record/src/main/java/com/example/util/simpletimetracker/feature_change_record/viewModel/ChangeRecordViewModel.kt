@@ -95,10 +95,10 @@ class ChangeRecordViewModel @Inject constructor(
         isDeleteButtonVisible = recordId.orZero() != 0L,
         isStatisticsButtonVisible = extra is ChangeRecordParams.Tracked || extra is ChangeRecordParams.Untracked,
     )
-    override val mergeAvailable: Boolean get() = extra is ChangeRecordParams.Untracked && newTypeId == 0L
-    override val previewTimeEnded: Long get() = newTimeEnded
-    override val adjustPreviewTimeEnded: Long get() = newTimeEnded
-    override val adjustPreviewOriginalTimeEnded: Long get() = originalTimeEnded
+    override val mergeAvailable: Boolean get() = extra is ChangeRecordParams.Untracked && recordState.newTypeId == 0L
+    override val previewTimeEnded: Long get() = recordState.newTimeEnded
+    override val adjustPreviewTimeEnded: Long get() = recordState.newTimeEnded
+    override val adjustPreviewOriginalTimeEnded: Long get() = recordState.originalTimeEnded
 
     val record: LiveData<ChangeRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordViewData>().let { initial ->
@@ -122,7 +122,7 @@ class ChangeRecordViewModel @Inject constructor(
 
     override fun onStatisticsClick() = viewModelScope.launch {
         val itemId = when {
-            newTypeId != 0L -> newTypeId
+            recordState.newTypeId != 0L -> recordState.newTypeId
             extra is ChangeRecordParams.Untracked -> UNTRACKED_ITEM_ID
             else -> return@launch
         }
@@ -146,25 +146,26 @@ class ChangeRecordViewModel @Inject constructor(
     ) {
         // Zero id creates new record
         val id = recordId.orZero()
+        // TODO BASE move to extension
         Record(
             id = id,
-            typeId = newTypeId,
-            timeStarted = newTimeStarted,
-            timeEnded = newTimeEnded,
+            typeId = recordState.newTypeId,
+            timeStarted = recordState.newTimeStarted,
+            timeEnded = recordState.newTimeEnded,
             comment = commentSelectionViewModelDelegate.newComment,
-            tags = newTags,
+            tags = recordState.newTags,
         ).let {
             addRecordMediator.add(it)
         }
         addTagToTypeIfNotExistMediator.execute(
-            typeId = newTypeId,
-            tagIds = newTags.map(RecordBase.Tag::tagId),
+            typeId = recordState.newTypeId,
+            tagIds = recordState.newTags.map(RecordBase.Tag::tagId),
         )
-        if (newTypeId != originalTypeId) {
-            externalViewsInteractor.onRecordChangeType(listOf(originalTypeId))
+        if (recordState.newTypeId != recordState.originalTypeId) {
+            externalViewsInteractor.onRecordChangeType(listOf(recordState.originalTypeId))
         }
-        val newTagIds = newTags.map(RecordBase.Tag::tagId)
-        val removedTagIds = originalTags.map { it.tagId }.filter { it !in newTagIds }
+        val newTagIds = recordState.newTags.map(RecordBase.Tag::tagId)
+        val removedTagIds = recordState.originalTags.map { it.tagId }.filter { it !in newTagIds }
         if (removedTagIds.isNotEmpty()) {
             externalViewsInteractor.onRecordChangeTags(removedTagIds)
         }
@@ -180,12 +181,16 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     override suspend fun onTimeEndedChanged() {
-        if (newTimeEnded < newTimeStarted) newTimeStarted = newTimeEnded
+        if (recordState.newTimeEnded < recordState.newTimeStarted) {
+            updateState { newTimeStarted = newTimeEnded }
+        }
         afterTimeEndedChanged()
     }
 
     override suspend fun onTimeStartedChanged() {
-        if (newTimeStarted > newTimeEnded) newTimeEnded = newTimeStarted
+        if (recordState.newTimeStarted > recordState.newTimeEnded) {
+            updateState { newTimeEnded = newTimeStarted }
+        }
         afterTimeStartedChanged()
     }
 
@@ -204,7 +209,10 @@ class ChangeRecordViewModel @Inject constructor(
         return timeMapper.toTimestampShifted(daysFromToday, RangeLength.Day)
     }
 
-    private suspend fun getInitialTimeStarted(daysFromToday: Int): Long {
+    private suspend fun getInitialTimeStarted(
+        newTimeEnded: Long,
+        daysFromToday: Int,
+    ): Long {
         val default = newTimeEnded - ONE_HOUR
 
         return if (daysFromToday == 0) {
@@ -222,34 +230,43 @@ class ChangeRecordViewModel @Inject constructor(
         when (extra) {
             is ChangeRecordParams.Tracked -> {
                 recordInteractor.get(recordId.orZero())?.let { record ->
-                    newTypeId = record.typeId.orZero()
-                    newTimeStarted = record.timeStarted
-                    newTimeEnded = record.timeEnded
+                    updateState {
+                        newTypeId = record.typeId.orZero()
+                        newTimeStarted = record.timeStarted
+                        newTimeEnded = record.timeEnded
+                        newTags = record.tags
+                    }
                     commentSelectionViewModelDelegate.newComment = record.comment
-                    newTags = record.tags
                 }
             }
             is ChangeRecordParams.Untracked -> {
-                newTimeStarted = extra.timeStarted
-                newTimeEnded = extra.timeEnded
+                updateState {
+                    newTimeStarted = extra.timeStarted
+                    newTimeEnded = extra.timeEnded
+                }
             }
             is ChangeRecordParams.New -> {
                 val daysFromToday = extra.daysFromToday
-                newTimeEnded = getInitialTimeEnded(daysFromToday)
-                newTimeStarted = getInitialTimeStarted(daysFromToday)
+                val newTimeEnded = getInitialTimeEnded(daysFromToday)
+                val newTimeStarted = getInitialTimeStarted(newTimeEnded, daysFromToday)
+                updateState {
+                    this.newTimeEnded = newTimeEnded
+                    this.newTimeStarted = newTimeStarted
+                }
             }
         }
-        originalRecordId = recordId.orZero()
+        updateState { originalRecordId = recordId.orZero() }
         afterInitializePreviewViewData()
     }
 
     private suspend fun loadPreviewViewData(): ChangeRecordViewData {
+        // TODO BASE move to extension
         val record = Record(
-            typeId = newTypeId,
-            timeStarted = newTimeStarted,
-            timeEnded = newTimeEnded,
+            typeId = recordState.newTypeId,
+            timeStarted = recordState.newTimeStarted,
+            timeEnded = recordState.newTimeEnded,
             comment = commentSelectionViewModelDelegate.newComment,
-            tags = newTags,
+            tags = recordState.newTags,
         )
 
         return changeRecordViewDataInteractor.getPreviewViewData(
