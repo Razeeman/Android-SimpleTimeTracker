@@ -23,7 +23,6 @@ import com.example.util.simpletimetracker.feature_change_running_record.viewMode
 import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewDelegateProvider
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView.CheckState
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
@@ -79,10 +78,8 @@ class ChangeRunningRecordFragment :
         }
     }
 
-    override fun initUx() = with(binding) {
+    override fun initUx(): Unit = with(binding) {
         core.initUx(this@ChangeRunningRecordFragment, layoutChangeRunningRecordCore)
-        layoutChangeRunningRecordCore.btnChangeRecordStatistics.setOnClick(viewModel::onStatisticsClick)
-        layoutChangeRunningRecordCore.btnChangeRecordDelete.setOnClick(viewModel::onDeleteClick)
     }
 
     override fun initViewModel() = with(binding) {

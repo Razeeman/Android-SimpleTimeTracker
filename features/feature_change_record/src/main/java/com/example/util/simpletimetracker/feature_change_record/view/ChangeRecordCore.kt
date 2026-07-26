@@ -160,6 +160,8 @@ class ChangeRecordCore(
         containerChangeRecordTimeStartedAdjust.listener = viewModel::onAdjustTimeStartedItemClick
         containerChangeRecordTimeEndedAdjust.listener = viewModel::onAdjustTimeEndedItemClick
         btnChangeRecordSave.setOnClick(viewModel::onSaveClick)
+        binding.btnChangeRecordStatistics.setOnClick(viewModel::onStatisticsClick)
+        binding.btnChangeRecordDelete.setOnClick(viewModel::onDeleteClick)
         fragment.addOnBackPressedListener(action = viewModel::onBackPressed)
     }
 

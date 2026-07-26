@@ -30,6 +30,7 @@ import com.example.util.simpletimetracker.domain.recordTag.interactor.NeedTagVal
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
+import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordConfig
 import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewModelDelegate
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
@@ -110,18 +111,16 @@ class ChangeRecordViewModel @Inject constructor(
     }
     val removeRecordId: LiveData<Long> = SingleLiveEvent()
 
-    fun onVisible() {
-        viewModelScope.launch {
-            updateCategoriesViewData()
-        }
-    }
+    override fun afterVisible() = Unit
 
-    fun onDeleteClick() {
+    override fun afterHidden() = Unit
+
+    override fun onDeleteClick() {
         recordId?.let { removeRecordId.set(it) }
         router.back()
     }
 
-    fun onStatisticsClick() = viewModelScope.launch {
+    override fun onStatisticsClick() = viewModelScope.launch {
         val itemId = when {
             newTypeId != 0L -> newTypeId
             extra is ChangeRecordParams.Untracked -> UNTRACKED_ITEM_ID
@@ -174,20 +173,20 @@ class ChangeRecordViewModel @Inject constructor(
         router.back()
     }
 
+    override suspend fun sendPreviewUpdate(fullUpdate: Boolean) = Unit
+
     override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
         return ChangeRecordTagFromChangeRecordParams(data)
     }
 
     override suspend fun onTimeEndedChanged() {
         if (newTimeEnded < newTimeStarted) newTimeStarted = newTimeEnded
-        if (newTimeEnded < newTimeSplit) newTimeSplit = newTimeEnded
-        super.onTimeEndedChanged()
+        afterTimeEndedChanged()
     }
 
     override suspend fun onTimeStartedChanged() {
         if (newTimeStarted > newTimeEnded) newTimeEnded = newTimeStarted
-        if (newTimeStarted > newTimeSplit) newTimeSplit = newTimeStarted
-        super.onTimeStartedChanged()
+        afterTimeStartedChanged()
     }
 
     private suspend fun warmupCache(actualShift: Int) {
@@ -240,13 +239,8 @@ class ChangeRecordViewModel @Inject constructor(
                 newTimeStarted = getInitialTimeStarted(daysFromToday)
             }
         }
-        newTimeSplit = newTimeStarted
         originalRecordId = recordId.orZero()
-        originalTypeId = newTypeId
-        originalTags = newTags.toList() // Creates a copy.
-        originalTimeStarted = newTimeStarted
-        originalTimeEnded = newTimeEnded
-        super.initializePreviewViewData()
+        afterInitializePreviewViewData()
     }
 
     private suspend fun loadPreviewViewData(): ChangeRecordViewData {

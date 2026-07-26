@@ -39,6 +39,7 @@ import com.example.util.simpletimetracker.feature_change_record.model.ChangeReco
 import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTagsViewData
+import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordConfig
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge.Action
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge.ViewDataParams
@@ -108,6 +109,7 @@ abstract class ChangeRecordBaseViewModel(
     val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(config.isDeleteButtonVisible) }
     val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(config.isStatisticsButtonVisible) }
 
+    // Record data start
     protected var newTypeId: Long = 0
     protected var newTimeEnded: Long = 0
     protected var newTimeStarted: Long = 0
@@ -119,15 +121,13 @@ abstract class ChangeRecordBaseViewModel(
     protected var originalTags: List<RecordBase.Tag> = emptyList()
     protected var originalTimeStarted: Long = 0
     protected var originalTimeEnded: Long = 0
+    // Record data end
+
     protected var dateTimeState = ChangeRecordDateTimeFieldsState(
         start = ChangeRecordDateTimeFieldsState.State.DateTime,
         end = ChangeRecordDateTimeFieldsState.State.DateTime,
     )
 
-    protected abstract suspend fun updatePreview()
-    protected abstract fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen
-    protected abstract suspend fun onSaveClickDelegate(doAfter: suspend () -> Unit = {})
-    protected open suspend fun sendPreviewUpdate(fullUpdate: Boolean) {}
     protected abstract val config: ChangeRecordConfig
     protected abstract val mergeAvailable: Boolean
     protected abstract val previewTimeEnded: Long
@@ -152,24 +152,57 @@ abstract class ChangeRecordBaseViewModel(
         super.onCleared()
     }
 
-    protected open suspend fun initializePreviewViewData() {
+    protected abstract suspend fun updatePreview()
+    protected abstract fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen
+    protected abstract suspend fun onSaveClickDelegate(doAfter: suspend () -> Unit = {})
+    protected abstract suspend fun sendPreviewUpdate(fullUpdate: Boolean)
+    protected abstract suspend fun initializePreviewViewData()
+    abstract fun onDeleteClick()
+    abstract fun onStatisticsClick(): Any // TODO remove Any
+    abstract fun afterVisible()
+    abstract fun afterHidden()
+
+    protected fun afterInitializePreviewViewData() {
+        newTimeSplit = newTimeStarted
+
+        originalTypeId = newTypeId
+        originalTags = newTags.toList() // Creates a copy.
+        originalTimeStarted = newTimeStarted
+        originalTimeEnded = newTimeEnded
         commentSelectionViewModelDelegate.updateCommentsViewData()
         // Don't wait for the completion.
         viewModelScope.launch { initializeActions() }
     }
 
-    protected open suspend fun onTimeStartedChanged() {
+    protected abstract suspend fun onTimeStartedChanged()
+
+    protected suspend fun afterTimeStartedChanged() {
+        if (newTimeStarted > newTimeSplit) newTimeSplit = newTimeStarted
         updatePreview()
         updateActionsData()
     }
 
-    protected open suspend fun onTimeEndedChanged() {
+    protected abstract suspend fun onTimeEndedChanged()
+
+    protected suspend fun afterTimeEndedChanged() {
+        if (newTimeEnded < newTimeSplit) newTimeSplit = newTimeEnded
         updatePreview()
         updateActionsData()
     }
 
     protected fun updateActionsData() {
         changeRecordActionsDelegate.updateData()
+    }
+
+    fun onVisible() {
+        viewModelScope.launch {
+            updateCategoriesViewData()
+        }
+        afterVisible()
+    }
+
+    fun onHidden() {
+        afterHidden()
     }
 
     fun onTypeChooserClick() {

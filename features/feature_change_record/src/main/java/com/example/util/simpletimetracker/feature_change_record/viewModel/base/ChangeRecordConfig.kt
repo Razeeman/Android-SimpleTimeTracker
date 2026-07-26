@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_change_record.viewModel
+package com.example.util.simpletimetracker.feature_change_record.viewModel.base
 
 data class ChangeRecordConfig(
     val forceSecondsInDurationDialog: Boolean,

@@ -23,7 +23,6 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordViewModel
 import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewDelegateProvider
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordsFromScreen
@@ -85,10 +84,8 @@ class ChangeRecordFragment :
         }
     }
 
-    override fun initUx() = with(binding) {
+    override fun initUx(): Unit = with(binding) {
         core.initUx(this@ChangeRecordFragment, layoutChangeRecordCore)
-        layoutChangeRecordCore.btnChangeRecordStatistics.setOnClick(viewModel::onStatisticsClick)
-        layoutChangeRecordCore.btnChangeRecordDelete.setOnClick(viewModel::onDeleteClick)
     }
 
     override fun initViewModel() = with(binding) {

@@ -28,7 +28,7 @@ import com.example.util.simpletimetracker.feature_change_record.interactor.Chang
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordActionsDelegateImpl
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
-import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordConfig
+import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordConfig
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_running_record.mapper.ChangeRunningRecordMapper
@@ -121,7 +121,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
 
     private var timerJob: Job? = null
 
-    fun onDeleteClick() {
+    override fun onDeleteClick() {
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             removeRunningRecordMediator.remove(extra.id)
@@ -130,7 +130,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
-    fun onStatisticsClick() = viewModelScope.launch {
+    override fun onStatisticsClick() = viewModelScope.launch {
         val preview = record.value?.recordPreview ?: return@launch
 
         statisticsDetailNavigationInteractor.navigate(
@@ -184,20 +184,19 @@ class ChangeRunningRecordViewModel @Inject constructor(
         return ChangeRecordTagFromChangeRunningRecordParams(data)
     }
 
-    fun onVisible() {
-        viewModelScope.launch {
-            updateCategoriesViewData()
-        }
+    override fun afterVisible() {
         startUpdate()
     }
 
-    fun onHidden() {
+    override fun afterHidden() {
         stopUpdate()
     }
 
     fun onMessageShown() {
         message.set(null)
     }
+
+    override suspend fun onTimeEndedChanged() = Unit
 
     override suspend fun onTimeStartedChanged() {
         if (newTimeStarted > System.currentTimeMillis()) {
@@ -208,8 +207,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
                 duration = SnackBarParams.Duration.Short,
             ).let(message::set)
         }
-        if (newTimeStarted > newTimeSplit) newTimeSplit = newTimeStarted
-        super.onTimeStartedChanged()
+        afterTimeStartedChanged()
     }
 
     override suspend fun updatePreview() {
@@ -225,12 +223,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
                 commentSelectionViewModelDelegate.newComment = record.comment
                 newTags = record.tags.toMutableList()
             }
-            newTimeSplit = newTimeStarted
-            originalTypeId = newTypeId
-            originalTags = newTags.toList() // Creates a copy.
-            originalTimeStarted = newTimeStarted
-            originalTimeEnded = newTimeEnded
-            super.initializePreviewViewData()
+            afterInitializePreviewViewData()
         }
     }
 
