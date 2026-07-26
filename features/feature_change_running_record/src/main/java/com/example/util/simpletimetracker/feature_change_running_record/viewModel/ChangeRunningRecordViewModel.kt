@@ -28,6 +28,7 @@ import com.example.util.simpletimetracker.feature_change_record.interactor.Chang
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordActionsDelegateImpl
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
+import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordConfig
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_running_record.mapper.ChangeRunningRecordMapper
@@ -46,6 +47,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.Boolean
 
 @HiltViewModel
 class ChangeRunningRecordViewModel @Inject constructor(
@@ -90,19 +92,21 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private val extra: ChangeRunningRecordParams = savedStateHandle[ARGS_PARAMS]
         ?: ChangeRunningRecordParams.Empty
 
-    override val forceSecondsInDurationDialog: Boolean = true
+    override val config: ChangeRecordConfig = ChangeRecordConfig(
+        forceSecondsInDurationDialog = true,
+        showTimeEndedOnSplitPreview = false,
+        showTimeEndedOnAdjustPreview = false,
+        adjustNextRecordAvailable = false,
+        isTimeEndedAvailable = false,
+        isAdditionalActionsAvailable = false,
+        isDuplicateActionAvailable = true,
+        isDeleteButtonVisible = true,
+        isStatisticsButtonVisible = true,
+    )
     override val mergeAvailable: Boolean = false
     override val previewTimeEnded: Long get() = System.currentTimeMillis()
-    override val showTimeEndedOnSplitPreview: Boolean = false
-    override val adjustNextRecordAvailable: Boolean = false
     override val adjustPreviewTimeEnded: Long get() = System.currentTimeMillis()
     override val adjustPreviewOriginalTimeEnded: Long get() = System.currentTimeMillis()
-    override val showTimeEndedOnAdjustPreview: Boolean = false
-    override val isTimeEndedAvailable: Boolean = false
-    override val isAdditionalActionsAvailable: Boolean = false
-    override val isDuplicateActionAvailable: Boolean = true
-    override val isDeleteButtonVisible: Boolean = true
-    override val isStatisticsButtonVisible: Boolean = true
 
     val record: LiveData<ChangeRunningRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRunningRecordViewData>().let { initial ->

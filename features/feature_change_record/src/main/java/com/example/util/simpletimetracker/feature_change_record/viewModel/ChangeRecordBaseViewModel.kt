@@ -104,9 +104,9 @@ abstract class ChangeRecordBaseViewModel(
     val actionsViewData: LiveData<List<ViewHolderType>> by changeRecordActionsDelegate::actionsViewData
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
-    val timeEndedVisibility: LiveData<Boolean> by lazy { MutableLiveData(isTimeEndedAvailable) }
-    val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(isDeleteButtonVisible) }
-    val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(isStatisticsButtonVisible) }
+    val timeEndedVisibility: LiveData<Boolean> by lazy { MutableLiveData(config.isTimeEndedAvailable) }
+    val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(config.isDeleteButtonVisible) }
+    val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(config.isStatisticsButtonVisible) }
 
     protected var newTypeId: Long = 0
     protected var newTimeEnded: Long = 0
@@ -128,19 +128,11 @@ abstract class ChangeRecordBaseViewModel(
     protected abstract fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen
     protected abstract suspend fun onSaveClickDelegate(doAfter: suspend () -> Unit = {})
     protected open suspend fun sendPreviewUpdate(fullUpdate: Boolean) {}
-    protected abstract val forceSecondsInDurationDialog: Boolean
+    protected abstract val config: ChangeRecordConfig
     protected abstract val mergeAvailable: Boolean
     protected abstract val previewTimeEnded: Long
-    protected abstract val showTimeEndedOnSplitPreview: Boolean
     protected abstract val adjustPreviewTimeEnded: Long
     protected abstract val adjustPreviewOriginalTimeEnded: Long
-    protected abstract val showTimeEndedOnAdjustPreview: Boolean
-    protected abstract val adjustNextRecordAvailable: Boolean
-    protected abstract val isTimeEndedAvailable: Boolean
-    protected abstract val isAdditionalActionsAvailable: Boolean
-    protected abstract val isDuplicateActionAvailable: Boolean
-    protected abstract val isDeleteButtonVisible: Boolean
-    protected abstract val isStatisticsButtonVisible: Boolean
 
     private var prevRecord: Record? = null
     private var tagSearchJob: Job? = null
@@ -655,7 +647,7 @@ abstract class ChangeRecordBaseViewModel(
                     duration = durationMillis / 1000,
                 ),
                 hideDisableButton = true,
-                showSeconds = forceSecondsInDurationDialog || showSeconds,
+                showSeconds = config.forceSecondsInDurationDialog || showSeconds,
             ),
         )
     }
@@ -892,33 +884,33 @@ abstract class ChangeRecordBaseViewModel(
                         newTimeSplit = newTimeSplit,
                         newBeforeTypeId = newSplitBeforeTypeId ?: newTypeId,
                         splitPreviewTimeEnded = previewTimeEnded,
-                        showTimeEndedOnSplitPreview = showTimeEndedOnSplitPreview,
+                        showTimeEndedOnSplitPreview = config.showTimeEndedOnSplitPreview,
                         originalTypeId = originalTypeId,
                         originalTags = originalTags,
                     ),
                     duplicateParams = ViewDataParams.DuplicateParams(
-                        isAvailable = isDuplicateActionAvailable,
+                        isAvailable = config.isDuplicateActionAvailable,
                         newTimeEnded = previewTimeEnded,
                     ),
                     moveParams = ViewDataParams.MoveParams(
-                        isAvailable = isAdditionalActionsAvailable,
+                        isAvailable = config.isAdditionalActionsAvailable,
                     ),
                     continueParams = ViewDataParams.ContinueParams(
                         originalRecordId = originalRecordId,
-                        isAvailable = isAdditionalActionsAvailable,
+                        isAvailable = config.isAdditionalActionsAvailable,
                     ),
                     repeatParams = ViewDataParams.RepeatParams(
-                        isAvailable = isAdditionalActionsAvailable,
+                        isAvailable = config.isAdditionalActionsAvailable,
                     ),
                     adjustParams = ViewDataParams.AdjustParams(
                         originalRecordId = originalRecordId,
                         originalTypeId = originalTypeId,
                         originalTimeStarted = originalTimeStarted,
-                        adjustNextRecordAvailable = adjustNextRecordAvailable,
+                        adjustNextRecordAvailable = config.adjustNextRecordAvailable,
                         adjustPreviewTimeEnded = adjustPreviewTimeEnded,
                         adjustPreviewOriginalTimeEnded = adjustPreviewOriginalTimeEnded,
-                        showTimeEndedOnAdjustPreview = showTimeEndedOnAdjustPreview,
-                        isTimeEndedAvailable = isTimeEndedAvailable,
+                        showTimeEndedOnAdjustPreview = config.showTimeEndedOnAdjustPreview,
+                        isTimeEndedAvailable = config.isTimeEndedAvailable,
                     ),
                     mergeParams = ViewDataParams.MergeParams(
                         mergeAvailable = mergeAvailable,

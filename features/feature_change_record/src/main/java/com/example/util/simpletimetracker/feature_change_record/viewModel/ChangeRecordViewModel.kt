@@ -40,6 +40,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.Boolean
 
 @HiltViewModel
 class ChangeRecordViewModel @Inject constructor(
@@ -82,20 +83,21 @@ class ChangeRecordViewModel @Inject constructor(
         ?: ChangeRecordParams.New(0)
     private val recordId: Long? = (extra as? ChangeRecordParams.Tracked)?.id
 
-    override val forceSecondsInDurationDialog: Boolean = false
+    override val config: ChangeRecordConfig = ChangeRecordConfig(
+        forceSecondsInDurationDialog = false,
+        showTimeEndedOnSplitPreview = true,
+        showTimeEndedOnAdjustPreview = true,
+        adjustNextRecordAvailable = true,
+        isTimeEndedAvailable = true,
+        isAdditionalActionsAvailable = true,
+        isDuplicateActionAvailable = true,
+        isDeleteButtonVisible = recordId.orZero() != 0L,
+        isStatisticsButtonVisible = extra is ChangeRecordParams.Tracked || extra is ChangeRecordParams.Untracked,
+    )
     override val mergeAvailable: Boolean get() = extra is ChangeRecordParams.Untracked && newTypeId == 0L
     override val previewTimeEnded: Long get() = newTimeEnded
-    override val showTimeEndedOnSplitPreview: Boolean = true
     override val adjustPreviewTimeEnded: Long get() = newTimeEnded
     override val adjustPreviewOriginalTimeEnded: Long get() = originalTimeEnded
-    override val showTimeEndedOnAdjustPreview: Boolean = true
-    override val adjustNextRecordAvailable: Boolean = true
-    override val isTimeEndedAvailable: Boolean = true
-    override val isAdditionalActionsAvailable: Boolean = true
-    override val isDuplicateActionAvailable: Boolean = true
-    override val isDeleteButtonVisible: Boolean = recordId.orZero() != 0L
-    override val isStatisticsButtonVisible: Boolean = extra is ChangeRecordParams.Tracked ||
-        extra is ChangeRecordParams.Untracked
 
     val record: LiveData<ChangeRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordViewData>().let { initial ->
@@ -229,11 +231,11 @@ class ChangeRecordViewModel @Inject constructor(
                 }
             }
             is ChangeRecordParams.Untracked -> {
-                newTimeStarted = (extra as ChangeRecordParams.Untracked).timeStarted
-                newTimeEnded = (extra as ChangeRecordParams.Untracked).timeEnded
+                newTimeStarted = extra.timeStarted
+                newTimeEnded = extra.timeEnded
             }
             is ChangeRecordParams.New -> {
-                val daysFromToday = (extra as ChangeRecordParams.New).daysFromToday
+                val daysFromToday = extra.daysFromToday
                 newTimeEnded = getInitialTimeEnded(daysFromToday)
                 newTimeStarted = getInitialTimeStarted(daysFromToday)
             }
