@@ -80,22 +80,22 @@ class ChangeRecordViewModel @Inject constructor(
 
     private val extra: ChangeRecordParams = savedStateHandle[ARGS_PARAMS]
         ?: ChangeRecordParams.New(0)
+    private val recordId: Long? = (extra as? ChangeRecordParams.Tracked)?.id
 
-    override val forceSecondsInDurationDialog: Boolean get() = false
+    override val forceSecondsInDurationDialog: Boolean = false
     override val mergeAvailable: Boolean get() = extra is ChangeRecordParams.Untracked && newTypeId == 0L
     override val previewTimeEnded: Long get() = newTimeEnded
-    override val showTimeEndedOnSplitPreview: Boolean get() = true
+    override val showTimeEndedOnSplitPreview: Boolean = true
     override val adjustPreviewTimeEnded: Long get() = newTimeEnded
     override val adjustPreviewOriginalTimeEnded: Long get() = originalTimeEnded
-    override val showTimeEndedOnAdjustPreview: Boolean get() = true
-    override val adjustNextRecordAvailable: Boolean get() = true
-    override val isTimeEndedAvailable: Boolean get() = true
-    override val isAdditionalActionsAvailable: Boolean get() = true
-    override val isDuplicateActionAvailable: Boolean get() = true
-    override val isDeleteButtonVisible: Boolean get() = recordId.orZero() != 0L
-    override val isStatisticsButtonVisible: Boolean
-        get() = extra is ChangeRecordParams.Tracked ||
-            extra is ChangeRecordParams.Untracked
+    override val showTimeEndedOnAdjustPreview: Boolean = true
+    override val adjustNextRecordAvailable: Boolean = true
+    override val isTimeEndedAvailable: Boolean = true
+    override val isAdditionalActionsAvailable: Boolean = true
+    override val isDuplicateActionAvailable: Boolean = true
+    override val isDeleteButtonVisible: Boolean = recordId.orZero() != 0L
+    override val isStatisticsButtonVisible: Boolean = extra is ChangeRecordParams.Tracked ||
+        extra is ChangeRecordParams.Untracked
 
     val record: LiveData<ChangeRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordViewData>().let { initial ->
@@ -107,8 +107,6 @@ class ChangeRecordViewModel @Inject constructor(
         }
     }
     val removeRecordId: LiveData<Long> = SingleLiveEvent()
-
-    private val recordId: Long? get() = (extra as? ChangeRecordParams.Tracked)?.id
 
     fun onVisible() {
         viewModelScope.launch {

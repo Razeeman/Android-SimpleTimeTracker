@@ -90,19 +90,19 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private val extra: ChangeRunningRecordParams = savedStateHandle[ARGS_PARAMS]
         ?: ChangeRunningRecordParams.Empty
 
-    override val forceSecondsInDurationDialog: Boolean get() = true
+    override val forceSecondsInDurationDialog: Boolean = true
     override val mergeAvailable: Boolean = false
     override val previewTimeEnded: Long get() = System.currentTimeMillis()
-    override val showTimeEndedOnSplitPreview: Boolean get() = false
-    override val adjustNextRecordAvailable: Boolean get() = false
+    override val showTimeEndedOnSplitPreview: Boolean = false
+    override val adjustNextRecordAvailable: Boolean = false
     override val adjustPreviewTimeEnded: Long get() = System.currentTimeMillis()
     override val adjustPreviewOriginalTimeEnded: Long get() = System.currentTimeMillis()
-    override val showTimeEndedOnAdjustPreview: Boolean get() = false
-    override val isTimeEndedAvailable: Boolean get() = false
-    override val isAdditionalActionsAvailable: Boolean get() = false
-    override val isDuplicateActionAvailable: Boolean get() = true
-    override val isDeleteButtonVisible: Boolean get() = true
-    override val isStatisticsButtonVisible: Boolean get() = true
+    override val showTimeEndedOnAdjustPreview: Boolean = false
+    override val isTimeEndedAvailable: Boolean = false
+    override val isAdditionalActionsAvailable: Boolean = false
+    override val isDuplicateActionAvailable: Boolean = true
+    override val isDeleteButtonVisible: Boolean = true
+    override val isStatisticsButtonVisible: Boolean = true
 
     val record: LiveData<ChangeRunningRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRunningRecordViewData>().let { initial ->
