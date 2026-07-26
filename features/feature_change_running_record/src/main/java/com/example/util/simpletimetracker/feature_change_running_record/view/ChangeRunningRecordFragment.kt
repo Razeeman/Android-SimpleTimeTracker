@@ -59,7 +59,7 @@ class ChangeRunningRecordFragment :
     private val core by lazy { ChangeRecordCore(viewModel, commentDelegateProvider) }
 
     private val params: ChangeRunningRecordParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = ChangeRunningRecordParams.Empty,
+        key = ChangeRunningRecordParams.ARGS_KEY, default = ChangeRunningRecordParams.Empty,
     )
 
     override fun initUi(): Unit = with(binding) {
@@ -86,7 +86,6 @@ class ChangeRunningRecordFragment :
 
     override fun initViewModel() = with(binding) {
         with(viewModel) {
-            extra = params
             record.observe(::updatePreview)
             core.initViewModel(this@ChangeRunningRecordFragment, layoutChangeRunningRecordCore)
 
@@ -212,10 +211,8 @@ class ChangeRunningRecordFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_running_record_params"
-
         fun createBundle(data: ChangeRunningRecordFromScreen): Bundle = Bundle().apply {
-            putParcelable(ARGS_PARAMS, data.params)
+            putParcelable(ChangeRunningRecordParams.ARGS_KEY, data.params)
         }
     }
 }

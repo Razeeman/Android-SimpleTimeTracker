@@ -53,6 +53,8 @@ data class ChangeRunningRecordParams(
     }
 
     companion object {
+        const val ARGS_KEY = "args_running_record_params"
+
         val Empty = ChangeRunningRecordParams(
             transitionName = "",
             id = 0,

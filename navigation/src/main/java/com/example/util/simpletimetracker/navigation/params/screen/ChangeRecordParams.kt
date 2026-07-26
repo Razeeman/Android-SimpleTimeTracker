@@ -51,4 +51,8 @@ sealed class ChangeRecordParams : Parcelable {
         @Parcelize
         object RecordsAll : From()
     }
+
+    companion object {
+        const val ARGS_KEY = "args_change_record_params"
+    }
 }

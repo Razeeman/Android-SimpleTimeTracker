@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_change_running_record.viewMod
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
@@ -47,6 +48,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChangeRunningRecordViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
     recordTagViewDataInteractor: RecordTagViewDataInteractor,
     prefsInteractor: PrefsInteractor,
@@ -84,7 +86,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
     commentSelectionViewModelDelegate = commentSelectionViewModelDelegate,
 ) {
 
-    lateinit var extra: ChangeRunningRecordParams
+    private val extra: ChangeRunningRecordParams = savedStateHandle[ChangeRunningRecordParams.ARGS_KEY]
+        ?: ChangeRunningRecordParams.Empty
 
     override val forceSecondsInDurationDialog: Boolean get() = true
     override val mergeAvailable: Boolean = false

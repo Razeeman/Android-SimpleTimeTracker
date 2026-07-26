@@ -60,7 +60,7 @@ class ChangeRecordFragment :
     private val core by lazy { ChangeRecordCore(viewModel, commentDelegateProvider) }
 
     private val extra: ChangeRecordParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = ChangeRecordParams.New(0),
+        key = ChangeRecordParams.ARGS_KEY, default = ChangeRecordParams.New(0),
     )
 
     override fun initUi(): Unit = with(binding) {
@@ -92,7 +92,6 @@ class ChangeRecordFragment :
 
     override fun initViewModel() = with(binding) {
         with(viewModel) {
-            extra = this@ChangeRecordFragment.extra
             record.observe(::updatePreview)
             removeRecordId.observe {
                 removeRecordViewModel.onDeleteClick(
@@ -215,10 +214,8 @@ class ChangeRecordFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_change_record_params"
-
         fun createBundle(data: ChangeRecordsFromScreen): Bundle = Bundle().apply {
-            putParcelable(ARGS_PARAMS, data.params)
+            putParcelable(ChangeRecordParams.ARGS_KEY, data.params)
         }
     }
 }
