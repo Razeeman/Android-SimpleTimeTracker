@@ -200,7 +200,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
 
     override suspend fun onTimeStartedChanged() {
         if (recordState.newTimeStarted > System.currentTimeMillis()) {
-            updateState { newTimeStarted = System.currentTimeMillis() }
+            recordState.newTimeStarted = System.currentTimeMillis()
 
             SnackBarParams(
                 message = resourceRepo.getString(R.string.cannot_be_in_the_future),
@@ -217,12 +217,10 @@ class ChangeRunningRecordViewModel @Inject constructor(
     override suspend fun initializePreviewViewData() {
         if (extra.id != 0L) {
             runningRecordInteractor.get(extra.id)?.let { record ->
-                updateState {
-                    newTypeId = record.id.orZero()
-                    newTimeStarted = record.timeStarted
-                    newTimeEnded = System.currentTimeMillis()
-                    newTags = record.tags.toMutableList()
-                }
+                recordState.newTypeId = record.id.orZero()
+                recordState.newTimeStarted = record.timeStarted
+                recordState.newTimeEnded = System.currentTimeMillis()
+                recordState.newTags = record.tags.toMutableList()
                 commentSelectionViewModelDelegate.newComment = record.comment
             }
             afterInitializePreviewViewData()

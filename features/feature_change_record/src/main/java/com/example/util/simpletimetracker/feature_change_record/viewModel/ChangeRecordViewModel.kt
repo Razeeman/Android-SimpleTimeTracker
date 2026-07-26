@@ -182,14 +182,14 @@ class ChangeRecordViewModel @Inject constructor(
 
     override suspend fun onTimeEndedChanged() {
         if (recordState.newTimeEnded < recordState.newTimeStarted) {
-            updateState { newTimeStarted = newTimeEnded }
+            recordState.newTimeStarted = recordState.newTimeEnded
         }
         afterTimeEndedChanged()
     }
 
     override suspend fun onTimeStartedChanged() {
         if (recordState.newTimeStarted > recordState.newTimeEnded) {
-            updateState { newTimeEnded = newTimeStarted }
+            recordState.newTimeEnded = recordState.newTimeStarted
         }
         afterTimeStartedChanged()
     }
@@ -230,32 +230,24 @@ class ChangeRecordViewModel @Inject constructor(
         when (extra) {
             is ChangeRecordParams.Tracked -> {
                 recordInteractor.get(recordId.orZero())?.let { record ->
-                    updateState {
-                        newTypeId = record.typeId.orZero()
-                        newTimeStarted = record.timeStarted
-                        newTimeEnded = record.timeEnded
-                        newTags = record.tags
-                    }
+                    recordState.newTypeId = record.typeId.orZero()
+                    recordState.newTimeStarted = record.timeStarted
+                    recordState.newTimeEnded = record.timeEnded
+                    recordState.newTags = record.tags
                     commentSelectionViewModelDelegate.newComment = record.comment
                 }
             }
             is ChangeRecordParams.Untracked -> {
-                updateState {
-                    newTimeStarted = extra.timeStarted
-                    newTimeEnded = extra.timeEnded
-                }
+                recordState.newTimeStarted = extra.timeStarted
+                recordState.newTimeEnded = extra.timeEnded
             }
             is ChangeRecordParams.New -> {
                 val daysFromToday = extra.daysFromToday
-                val newTimeEnded = getInitialTimeEnded(daysFromToday)
-                val newTimeStarted = getInitialTimeStarted(newTimeEnded, daysFromToday)
-                updateState {
-                    this.newTimeEnded = newTimeEnded
-                    this.newTimeStarted = newTimeStarted
-                }
+                recordState.newTimeEnded = getInitialTimeEnded(daysFromToday)
+                recordState.newTimeStarted = getInitialTimeStarted(recordState.newTimeEnded, daysFromToday)
             }
         }
-        updateState { originalRecordId = recordId.orZero() }
+        recordState.originalRecordId = recordId.orZero()
         afterInitializePreviewViewData()
     }
 
