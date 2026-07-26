@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.feature_dialogs.archive.adapter.create
 import com.example.util.simpletimetracker.feature_dialogs.archive.adapter.createArchiveDialogInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.archive.adapter.createArchiveDialogTitleAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.archive.viewModel.ArchiveDialogViewModel
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveDialogParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -101,8 +102,6 @@ class ArchiveDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: ArchiveDialogParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

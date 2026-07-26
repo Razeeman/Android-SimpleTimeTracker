@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.core.provider.ContextProvider
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -33,8 +34,6 @@ class WidgetSingleTagSelectionActivity : BaseActivity<Binding>() {
     }
 
     companion object {
-        const val ARGS_PARAMS = "args_params"
-
         fun getStartIntent(
             context: Context,
             data: RecordTagSelectionParams,

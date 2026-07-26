@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_settings.views.getSettingsAdapterDelegates
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.CustomizeOptionsMenuDialogParams
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.util.simpletimetracker.feature_settings.databinding.CustomizeOptionsMenuDialogFragmentBinding as Binding
@@ -48,8 +49,6 @@ class CustomizeOptionsMenuDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: CustomizeOptionsMenuDialogParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

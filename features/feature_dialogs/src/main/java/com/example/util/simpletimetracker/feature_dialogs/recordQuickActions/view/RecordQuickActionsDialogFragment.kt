@@ -26,6 +26,7 @@ import com.example.util.simpletimetracker.feature_dialogs.recordQuickActions.mod
 import com.example.util.simpletimetracker.feature_dialogs.recordQuickActions.viewModel.RecordQuickActionsViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.setSpanSizeLookup
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordQuickActionsParams
 import dagger.hilt.android.AndroidEntryPoint
@@ -158,7 +159,6 @@ class RecordQuickActionsDialogFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
         private const val SPAN_COUNT = 2
 
         fun createBundle(data: RecordQuickActionsParams): Bundle = Bundle().apply {

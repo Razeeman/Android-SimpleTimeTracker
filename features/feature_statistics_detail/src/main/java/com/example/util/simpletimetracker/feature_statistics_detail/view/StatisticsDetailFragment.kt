@@ -52,6 +52,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.St
 import com.example.util.simpletimetracker.feature_views.ColorUtils
 import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.example.util.simpletimetracker.feature_views.extension.postDelayed
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterResultParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
@@ -292,8 +293,6 @@ class StatisticsDetailFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: StatisticsDetailParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

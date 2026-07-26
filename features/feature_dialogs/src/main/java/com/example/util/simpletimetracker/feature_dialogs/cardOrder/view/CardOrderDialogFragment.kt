@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmpty
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_dialogs.cardOrder.viewModel.CardOrderViewModel
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -95,8 +96,6 @@ class CardOrderDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_card_order_params"
-
         fun createBundle(data: CardOrderDialogParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

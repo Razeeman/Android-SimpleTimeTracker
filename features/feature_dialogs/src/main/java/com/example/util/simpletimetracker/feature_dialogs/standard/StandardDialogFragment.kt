@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.feature_dialogs.api.StandardDialogList
 import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_dialogs.R
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -60,8 +61,6 @@ class StandardDialogFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: StandardDialogParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

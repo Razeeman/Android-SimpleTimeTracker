@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_dialogs.customRangeSelection.viewModel.CustomRangeSelectionViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.CustomRangeSelectionParams
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -77,8 +78,6 @@ class CustomRangeSelectionDialogFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: CustomRangeSelectionParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

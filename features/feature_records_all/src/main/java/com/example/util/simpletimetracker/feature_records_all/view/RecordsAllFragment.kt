@@ -26,6 +26,7 @@ import com.example.util.simpletimetracker.feature_records_all.viewModel.RecordsA
 import com.example.util.simpletimetracker.feature_views.TransitionNames
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -129,8 +130,6 @@ class RecordsAllFragment : BaseFragment<Binding>() {
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: RecordsAllParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

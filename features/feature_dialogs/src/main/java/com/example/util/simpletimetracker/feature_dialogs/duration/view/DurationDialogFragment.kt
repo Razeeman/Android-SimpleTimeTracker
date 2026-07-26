@@ -25,6 +25,7 @@ import com.example.util.simpletimetracker.feature_dialogs.duration.model.Duratio
 import com.example.util.simpletimetracker.feature_dialogs.duration.viewModel.DurationPickerViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.util.simpletimetracker.feature_dialogs.databinding.DurationDialogFragmentBinding as Binding
@@ -140,8 +141,6 @@ class DurationDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: DurationDialogParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.core.manager.KeyboardVisibilityManager
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.navigation.ScreenFactory
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -73,8 +74,6 @@ class RecordTagSelectionDialogFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: RecordTagSelectionParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

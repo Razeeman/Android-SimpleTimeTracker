@@ -32,6 +32,7 @@ import com.example.util.simpletimetracker.feature_change_record.interactor.Chang
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewModelDelegate
 import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromScreen
@@ -77,7 +78,7 @@ class ChangeRecordViewModel @Inject constructor(
     commentSelectionViewModelDelegate = commentSelectionViewModelDelegate,
 ) {
 
-    private val extra: ChangeRecordParams = savedStateHandle[ChangeRecordParams.ARGS_KEY]
+    private val extra: ChangeRecordParams = savedStateHandle[ARGS_PARAMS]
         ?: ChangeRecordParams.New(0)
 
     override val forceSecondsInDurationDialog: Boolean get() = false

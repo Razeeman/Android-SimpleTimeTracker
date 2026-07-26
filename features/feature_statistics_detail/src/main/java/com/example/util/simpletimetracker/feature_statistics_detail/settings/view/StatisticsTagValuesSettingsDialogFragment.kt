@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapt
 import com.example.util.simpletimetracker.feature_settings.views.getSettingsAdapterDelegates
 import com.example.util.simpletimetracker.feature_statistics_detail.settings.dialog.StatisticsTagValuesSettingsDialogListener
 import com.example.util.simpletimetracker.feature_statistics_detail.settings.viewModel.StatisticsTagValuesSettingsViewModel
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsTagValuesSettingsParams
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsTagValuesSettingsFragmentBinding as Binding
@@ -70,8 +71,6 @@ class StatisticsTagValuesSettingsDialogFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: StatisticsTagValuesSettingsParams) = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

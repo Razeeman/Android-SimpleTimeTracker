@@ -43,6 +43,7 @@ import com.example.util.simpletimetracker.feature_change_shortcut.viewModel.Chan
 import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewDelegateProvider
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeShortcutParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagValueSelectionParams
 import com.google.android.flexbox.FlexDirection
@@ -280,8 +281,6 @@ class ChangeShortcutFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_change_shortcut_params"
-
         fun createBundle(data: ChangeShortcutParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

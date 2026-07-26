@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.H
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.model.RGBUpdate
 import com.example.util.simpletimetracker.feature_dialogs.colorSelection.viewModel.ColorSelectionViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.ColorSelectionDialogParams
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
@@ -139,8 +140,6 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: ColorSelectionDialogParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

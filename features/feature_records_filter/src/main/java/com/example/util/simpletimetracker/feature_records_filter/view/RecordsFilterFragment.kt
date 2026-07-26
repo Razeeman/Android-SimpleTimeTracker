@@ -44,6 +44,7 @@ import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFi
 import com.example.util.simpletimetracker.feature_records_filter.viewData.RecordTypeFilteredType
 import com.example.util.simpletimetracker.feature_records_filter.viewModel.RecordsFilterViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -226,8 +227,6 @@ class RecordsFilterFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: RecordsFilterParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

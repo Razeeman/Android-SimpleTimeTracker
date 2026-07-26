@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.feature_change_record.viewModel.Change
 import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewDelegateProvider
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordsFromScreen
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagValueSelectionParams
@@ -60,7 +61,7 @@ class ChangeRecordFragment :
     private val core by lazy { ChangeRecordCore(viewModel, commentDelegateProvider) }
 
     private val extra: ChangeRecordParams by fragmentArgumentDelegate(
-        key = ChangeRecordParams.ARGS_KEY, default = ChangeRecordParams.New(0),
+        key = ARGS_PARAMS, default = ChangeRecordParams.New(0),
     )
 
     override fun initUi(): Unit = with(binding) {
@@ -215,7 +216,7 @@ class ChangeRecordFragment :
 
     companion object {
         fun createBundle(data: ChangeRecordsFromScreen): Bundle = Bundle().apply {
-            putParcelable(ChangeRecordParams.ARGS_KEY, data.params)
+            putParcelable(ARGS_PARAMS, data.params)
         }
     }
 }

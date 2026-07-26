@@ -31,6 +31,7 @@ import com.example.util.simpletimetracker.feature_tag_selection.viewModel.Record
 import com.example.util.simpletimetracker.feature_views.extension.safeUpdateLayoutParams
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagValueSelectionParams
 import com.google.android.flexbox.FlexDirection
@@ -136,8 +137,6 @@ class RecordTagSelectionFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun newInstance(data: RecordTagSelectionParams) = RecordTagSelectionFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(ARGS_PARAMS, data)

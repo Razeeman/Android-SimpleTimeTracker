@@ -28,6 +28,7 @@ import com.example.util.simpletimetracker.feature_settings.partialRestoreSelecti
 import com.example.util.simpletimetracker.feature_settings.partialRestoreSelection.model.PartialRestoreSelectionDialogParams
 import com.example.util.simpletimetracker.feature_settings.partialRestoreSelection.viewModel.PartialRestoreSelectionViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -110,8 +111,6 @@ class PartialRestoreSelectionFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_partial_restore_selection_params"
-
         fun createBundle(data: PartialRestoreSelectionDialogParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

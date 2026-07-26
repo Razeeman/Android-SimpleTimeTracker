@@ -46,6 +46,7 @@ import com.example.util.simpletimetracker.feature_change_goals.views.GoalsViewDe
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromScreen
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.google.android.flexbox.FlexDirection
@@ -346,8 +347,6 @@ class ChangeCategoryFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: ChangeCategoryFromScreen): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data.params)
         }

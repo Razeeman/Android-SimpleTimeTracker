@@ -27,6 +27,7 @@ import com.example.util.simpletimetracker.feature_dialogs.typesSelection.model.T
 import com.example.util.simpletimetracker.feature_dialogs.typesSelection.viewData.TypesSelectionDialogViewData
 import com.example.util.simpletimetracker.feature_dialogs.typesSelection.viewModel.TypesSelectionViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagValueSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import com.google.android.flexbox.FlexDirection
@@ -133,8 +134,6 @@ class TypesSelectionDialogFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_types_selection_params"
-
         fun createBundle(data: TypesSelectionDialogParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

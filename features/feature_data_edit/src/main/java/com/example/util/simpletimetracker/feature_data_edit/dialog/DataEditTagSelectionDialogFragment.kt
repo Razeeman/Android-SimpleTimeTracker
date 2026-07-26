@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAd
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditTagSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagValueSelectionParams
 import com.google.android.flexbox.FlexDirection
@@ -116,8 +117,6 @@ class DataEditTagSelectionDialogFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: DataEditTagSelectionDialogParams) = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

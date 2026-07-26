@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.crea
 import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.viewData.CsvExportSettingsViewData
 import com.example.util.simpletimetracker.feature_dialogs.csvExportSettings.viewModel.CsvExportSettingsViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
 import com.google.android.flexbox.FlexDirection
@@ -108,8 +109,6 @@ class CsvExportSettingsDialogFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: DataExportSettingDialogParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }

@@ -34,6 +34,7 @@ import com.example.util.simpletimetracker.feature_change_complex_rule.viewData.C
 import com.example.util.simpletimetracker.feature_change_complex_rule.viewModel.ChangeComplexRuleViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeComplexRuleParams
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -246,8 +247,6 @@ class ChangeComplexRuleFragment :
     }
 
     companion object {
-        private const val ARGS_PARAMS = "args_params"
-
         fun createBundle(data: ChangeComplexRuleParams): Bundle = Bundle().apply {
             putParcelable(ARGS_PARAMS, data)
         }
