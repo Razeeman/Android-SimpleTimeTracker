@@ -56,7 +56,7 @@ class ChangeRunningRecordFragment :
     private val viewModel: ChangeRunningRecordViewModel by viewModels()
 
     private var typeColorAnimator: ValueAnimator? = null
-    private val core by lazy { ChangeRecordCore(viewModel, commentDelegateProvider) }
+    private val core by lazy { ChangeRecordCore(viewModel.editorDelegate, commentDelegateProvider) }
 
     private val params: ChangeRunningRecordParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChangeRunningRecordParams.Empty,
@@ -108,15 +108,15 @@ class ChangeRunningRecordFragment :
     }
 
     override fun onDateTimeSet(timestamp: Long, tag: String?) {
-        viewModel.onDateTimeSet(timestamp, tag)
+        viewModel.editorDelegate.onDateTimeSet(timestamp, tag)
     }
 
     override fun onDurationSet(durationSeconds: Long, tag: String?) {
-        viewModel.onDurationSet(durationSeconds, tag)
+        viewModel.editorDelegate.onDurationSet(durationSeconds, tag)
     }
 
     override fun onTagValueSelected(params: RecordTagValueSelectionParams, data: Double) {
-        viewModel.onCategoryValueSelected(params, data)
+        viewModel.editorDelegate.onCategoryValueSelected(params, data)
     }
 
     override fun onDataSelected(
@@ -125,7 +125,7 @@ class ChangeRunningRecordFragment :
         tagValues: List<RecordBase.Tag>,
         selectValueOnStartTagIds: List<Long>,
     ) {
-        viewModel.onDataSelected(tag, dataIds)
+        viewModel.editorDelegate.onDataSelected(tag, dataIds)
     }
 
     private fun setPreview() = params.preview?.let { preview ->

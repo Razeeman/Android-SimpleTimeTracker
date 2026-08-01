@@ -16,6 +16,6 @@ data class ChangeRecordEditorMode(
     val initializePreviewViewData: suspend () -> Unit,
     val onDeleteClick: () -> Unit,
     val onStatisticsClick: () -> Unit,
-    val afterVisible: () -> Unit,
-    val afterHidden: () -> Unit,
+    val onTimeStartedChanged: suspend () -> Unit,
+    val onTimeEndedChanged: suspend () -> Unit,
 )

@@ -4,37 +4,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.extension.set
-import com.example.util.simpletimetracker.core.interactor.RecordTagViewDataInteractor
-import com.example.util.simpletimetracker.core.interactor.RecordTypesViewDataInteractor
-import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsDetailNavigationInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.record.interactor.AddRunningRecordMediator
-import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor
-import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.UpdateRunningRecordsInteractor
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
-import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import com.example.util.simpletimetracker.domain.recordTag.interactor.AddTagToTypeIfNotExistMediator
-import com.example.util.simpletimetracker.domain.recordTag.interactor.NeedTagValueSelectionInteractor
-import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
-import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
+import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
-import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordActionsDelegateImpl
-import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
+import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordEditorDelegateImpl
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordConfig
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorMode
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_running_record.mapper.ChangeRunningRecordMapper
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
-import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewModelDelegate
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
@@ -48,21 +38,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.Boolean
 
 @HiltViewModel
 class ChangeRunningRecordViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    recordTypesViewDataInteractor: RecordTypesViewDataInteractor,
-    recordTagViewDataInteractor: RecordTagViewDataInteractor,
-    prefsInteractor: PrefsInteractor,
-    changeRecordViewDataInteractor: ChangeRecordViewDataInteractor,
-    changeRecordActionsDelegate: ChangeRecordActionsDelegateImpl,
-    recordInteractor: RecordInteractor,
-    recordTagInteractor: RecordTagInteractor,
-    recordTypeToTagInteractor: RecordTypeToTagInteractor,
-    snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
-    needTagValueSelectionInteractor: NeedTagValueSelectionInteractor,
+    val editorDelegate: ChangeRecordEditorDelegateImpl,
     private val router: Router,
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
@@ -73,27 +53,12 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private val changeRunningRecordMapper: ChangeRunningRecordMapper,
     private val updateRunningRecordsInteractor: UpdateRunningRecordsInteractor,
     private val addTagToTypeIfNotExistMediator: AddTagToTypeIfNotExistMediator,
-    private val commentSelectionViewModelDelegate: CommentSelectionViewModelDelegate,
-) : ChangeRecordBaseViewModel(
-    router = router,
-    resourceRepo = resourceRepo,
-    snackBarMessageNavigationInteractor = snackBarMessageNavigationInteractor,
-    prefsInteractor = prefsInteractor,
-    recordTypesViewDataInteractor = recordTypesViewDataInteractor,
-    recordTagViewDataInteractor = recordTagViewDataInteractor,
-    changeRecordViewDataInteractor = changeRecordViewDataInteractor,
-    recordInteractor = recordInteractor,
-    recordTagInteractor = recordTagInteractor,
-    recordTypeToTagInteractor = recordTypeToTagInteractor,
-    changeRecordActionsDelegate = changeRecordActionsDelegate,
-    needTagValueSelectionInteractor = needTagValueSelectionInteractor,
-    commentSelectionViewModelDelegate = commentSelectionViewModelDelegate,
-) {
+) : BaseViewModel() {
 
     private val extra: ChangeRunningRecordParams = savedStateHandle[ARGS_PARAMS]
         ?: ChangeRunningRecordParams.Empty
 
-    override val mode: ChangeRecordEditorMode = ChangeRecordEditorMode(
+    private val mode: ChangeRecordEditorMode = ChangeRecordEditorMode(
         config = ChangeRecordConfig(
             forceSecondsInDurationDialog = true,
             showTimeEndedOnSplitPreview = false,
@@ -116,8 +81,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
         initializePreviewViewData = ::initializePreviewViewData,
         onDeleteClick = ::onDeleteClickMode,
         onStatisticsClick = ::onStatisticsClickMode,
-        afterVisible = ::afterVisible,
-        afterHidden = ::afterHidden,
+        onTimeStartedChanged = ::onTimeStartedChanged,
+        onTimeEndedChanged = {},
     )
 
     val record: LiveData<ChangeRunningRecordViewData> by lazy {
@@ -133,11 +98,33 @@ class ChangeRunningRecordViewModel @Inject constructor(
 
     private var timerJob: Job? = null
 
+    init {
+        editorDelegate.attach(mode)
+    }
+
+    override fun onCleared() {
+        editorDelegate.clear()
+        super.onCleared()
+    }
+
+    fun onVisible() {
+        editorDelegate.onVisible()
+        startUpdate()
+    }
+
+    fun onHidden() {
+        stopUpdate()
+    }
+
+    fun onMessageShown() {
+        message.set(null)
+    }
+
     private fun onDeleteClickMode() {
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             removeRunningRecordMediator.remove(extra.id)
-            showMessage(R.string.change_running_record_removed)
+            editorDelegate.showMessage(R.string.change_running_record_removed)
             router.back()
         }
     }
@@ -151,7 +138,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
             shift = 0,
             overrideStatisticsRange = null,
             sharedElements = emptyMap(),
-            itemId = recordState.newTypeId,
+            itemId = editorDelegate.recordState.newTypeId,
             itemName = preview.name,
             itemIcon = preview.iconId,
             itemColor = preview.color,
@@ -161,6 +148,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private suspend fun onSaveClickDelegate(
         doAfter: suspend () -> Unit,
     ) {
+        val recordState = editorDelegate.recordState
         // Widgets will update on adding.
         removeRunningRecordMediator.remove(
             typeId = extra.id,
@@ -171,7 +159,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         addRunningRecordMediator.addAfterChange(
             typeId = recordState.newTypeId,
             timeStarted = recordState.newTimeStarted,
-            comment = commentSelectionViewModelDelegate.newComment,
+            comment = editorDelegate.commentSelectionViewModelDelegate.newComment,
             tags = recordState.newTags,
         )
         addTagToTypeIfNotExistMediator.execute(
@@ -196,21 +184,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
         return ChangeRecordTagFromChangeRunningRecordParams(data)
     }
 
-    private fun afterVisible() {
-        startUpdate()
-    }
-
-    private fun afterHidden() {
-        stopUpdate()
-    }
-
-    fun onMessageShown() {
-        message.set(null)
-    }
-
-    override suspend fun onTimeEndedChanged() = Unit
-
-    override suspend fun onTimeStartedChanged() {
+    private suspend fun onTimeStartedChanged() {
+        val recordState = editorDelegate.recordState
         if (recordState.newTimeStarted > System.currentTimeMillis()) {
             recordState.newTimeStarted = System.currentTimeMillis()
 
@@ -219,7 +194,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
                 duration = SnackBarParams.Duration.Short,
             ).let(message::set)
         }
-        afterTimeStartedChanged()
+        editorDelegate.afterTimeStartedChanged()
     }
 
     private suspend fun updatePreview() {
@@ -227,33 +202,35 @@ class ChangeRunningRecordViewModel @Inject constructor(
     }
 
     private suspend fun initializePreviewViewData() {
+        val recordState = editorDelegate.recordState
         if (extra.id != 0L) {
             runningRecordInteractor.get(extra.id)?.let { record ->
                 recordState.newTypeId = record.id.orZero()
                 recordState.newTimeStarted = record.timeStarted
                 recordState.newTimeEnded = System.currentTimeMillis()
                 recordState.newTags = record.tags.toMutableList()
-                commentSelectionViewModelDelegate.newComment = record.comment
+                editorDelegate.commentSelectionViewModelDelegate.newComment = record.comment
             }
-            afterInitializePreviewViewData()
+            editorDelegate.afterInitializePreviewViewData()
         }
     }
 
     private suspend fun loadPreviewViewData(): ChangeRunningRecordViewData {
+        val recordState = editorDelegate.recordState
         if (recordState.newTypeId == 0L) initializePreviewViewData()
 
         // TODO BASE move to extension
         val record = RunningRecord(
             id = recordState.newTypeId,
             timeStarted = recordState.newTimeStarted,
-            comment = commentSelectionViewModelDelegate.newComment,
+            comment = editorDelegate.commentSelectionViewModelDelegate.newComment,
             tags = recordState.newTags,
         )
 
         return changeRunningRecordViewDataInteractor.getPreviewViewData(
             record = record,
             params = extra,
-            dateTimeFieldState = dateTimeState,
+            dateTimeFieldState = editorDelegate.dateTimeState,
         )
     }
 
@@ -263,8 +240,8 @@ class ChangeRunningRecordViewModel @Inject constructor(
             while (isActive) {
                 updatePreview()
                 // Update split preview only if it is visible
-                if (chooserState.value?.current is ChangeRecordChooserState.State.Action) {
-                    updateActionsData()
+                if (editorDelegate.chooserState.value?.current is ChangeRecordChooserState.State.Action) {
+                    editorDelegate.updateActionsData()
                 }
                 delay(TIMER_UPDATE)
             }
