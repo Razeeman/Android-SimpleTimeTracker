@@ -29,6 +29,7 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordActionsDelegateImpl
 import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordBaseViewModel
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordConfig
+import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorMode
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_running_record.mapper.ChangeRunningRecordMapper
@@ -92,21 +93,32 @@ class ChangeRunningRecordViewModel @Inject constructor(
     private val extra: ChangeRunningRecordParams = savedStateHandle[ARGS_PARAMS]
         ?: ChangeRunningRecordParams.Empty
 
-    override val config: ChangeRecordConfig = ChangeRecordConfig(
-        forceSecondsInDurationDialog = true,
-        showTimeEndedOnSplitPreview = false,
-        showTimeEndedOnAdjustPreview = false,
-        adjustNextRecordAvailable = false,
-        isTimeEndedAvailable = false,
-        isAdditionalActionsAvailable = false,
-        isDuplicateActionAvailable = true,
-        isDeleteButtonVisible = true,
-        isStatisticsButtonVisible = true,
+    override val mode: ChangeRecordEditorMode = ChangeRecordEditorMode(
+        config = ChangeRecordConfig(
+            forceSecondsInDurationDialog = true,
+            showTimeEndedOnSplitPreview = false,
+            showTimeEndedOnAdjustPreview = false,
+            adjustNextRecordAvailable = false,
+            isTimeEndedAvailable = false,
+            isAdditionalActionsAvailable = false,
+            isDuplicateActionAvailable = true,
+            isDeleteButtonVisible = true,
+            isStatisticsButtonVisible = true,
+        ),
+        mergeAvailable = { false },
+        previewTimeEnded = { System.currentTimeMillis() },
+        adjustPreviewTimeEnded = { System.currentTimeMillis() },
+        adjustPreviewOriginalTimeEnded = { System.currentTimeMillis() },
+        updatePreview = ::updatePreview,
+        getChangeCategoryParams = ::getChangeCategoryParams,
+        onSaveClickDelegate = ::onSaveClickDelegate,
+        sendPreviewUpdate = ::sendPreviewUpdate,
+        initializePreviewViewData = ::initializePreviewViewData,
+        onDeleteClick = ::onDeleteClickMode,
+        onStatisticsClick = ::onStatisticsClickMode,
+        afterVisible = ::afterVisible,
+        afterHidden = ::afterHidden,
     )
-    override val mergeAvailable: Boolean = false
-    override val previewTimeEnded: Long get() = System.currentTimeMillis()
-    override val adjustPreviewTimeEnded: Long get() = System.currentTimeMillis()
-    override val adjustPreviewOriginalTimeEnded: Long get() = System.currentTimeMillis()
 
     val record: LiveData<ChangeRunningRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRunningRecordViewData>().let { initial ->
@@ -121,7 +133,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
 
     private var timerJob: Job? = null
 
-    override fun onDeleteClick() {
+    private fun onDeleteClickMode() {
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             removeRunningRecordMediator.remove(extra.id)
@@ -130,7 +142,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         }
     }
 
-    override fun onStatisticsClick() = viewModelScope.launch {
+    private fun onStatisticsClickMode() = viewModelScope.launch {
         val preview = record.value?.recordPreview ?: return@launch
 
         statisticsDetailNavigationInteractor.navigate(
@@ -146,7 +158,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         )
     }
 
-    override suspend fun onSaveClickDelegate(
+    private suspend fun onSaveClickDelegate(
         doAfter: suspend () -> Unit,
     ) {
         // Widgets will update on adding.
@@ -171,7 +183,7 @@ class ChangeRunningRecordViewModel @Inject constructor(
         router.back()
     }
 
-    override suspend fun sendPreviewUpdate(fullUpdate: Boolean) {
+    private suspend fun sendPreviewUpdate(fullUpdate: Boolean) {
         val recordPreview = record.value?.recordPreview ?: return
         val update = changeRunningRecordMapper.map(
             fullUpdate = fullUpdate,
@@ -180,15 +192,15 @@ class ChangeRunningRecordViewModel @Inject constructor(
         updateRunningRecordsInteractor.send(update)
     }
 
-    override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
+    private fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
         return ChangeRecordTagFromChangeRunningRecordParams(data)
     }
 
-    override fun afterVisible() {
+    private fun afterVisible() {
         startUpdate()
     }
 
-    override fun afterHidden() {
+    private fun afterHidden() {
         stopUpdate()
     }
 
@@ -210,11 +222,11 @@ class ChangeRunningRecordViewModel @Inject constructor(
         afterTimeStartedChanged()
     }
 
-    override suspend fun updatePreview() {
+    private suspend fun updatePreview() {
         record.set(loadPreviewViewData())
     }
 
-    override suspend fun initializePreviewViewData() {
+    private suspend fun initializePreviewViewData() {
         if (extra.id != 0L) {
             runningRecordInteractor.get(extra.id)?.let { record ->
                 recordState.newTypeId = record.id.orZero()

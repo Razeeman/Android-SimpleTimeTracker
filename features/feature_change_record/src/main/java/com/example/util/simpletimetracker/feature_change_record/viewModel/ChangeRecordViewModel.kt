@@ -31,6 +31,7 @@ import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagI
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordConfig
+import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorMode
 import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewModelDelegate
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
@@ -84,21 +85,32 @@ class ChangeRecordViewModel @Inject constructor(
         ?: ChangeRecordParams.New(0)
     private val recordId: Long? = (extra as? ChangeRecordParams.Tracked)?.id
 
-    override val config: ChangeRecordConfig = ChangeRecordConfig(
-        forceSecondsInDurationDialog = false,
-        showTimeEndedOnSplitPreview = true,
-        showTimeEndedOnAdjustPreview = true,
-        adjustNextRecordAvailable = true,
-        isTimeEndedAvailable = true,
-        isAdditionalActionsAvailable = true,
-        isDuplicateActionAvailable = true,
-        isDeleteButtonVisible = recordId.orZero() != 0L,
-        isStatisticsButtonVisible = extra is ChangeRecordParams.Tracked || extra is ChangeRecordParams.Untracked,
+    override val mode: ChangeRecordEditorMode = ChangeRecordEditorMode(
+        config = ChangeRecordConfig(
+            forceSecondsInDurationDialog = false,
+            showTimeEndedOnSplitPreview = true,
+            showTimeEndedOnAdjustPreview = true,
+            adjustNextRecordAvailable = true,
+            isTimeEndedAvailable = true,
+            isAdditionalActionsAvailable = true,
+            isDuplicateActionAvailable = true,
+            isDeleteButtonVisible = recordId.orZero() != 0L,
+            isStatisticsButtonVisible = extra is ChangeRecordParams.Tracked || extra is ChangeRecordParams.Untracked,
+        ),
+        mergeAvailable = { extra is ChangeRecordParams.Untracked && recordState.newTypeId == 0L },
+        previewTimeEnded = { recordState.newTimeEnded },
+        adjustPreviewTimeEnded = { recordState.newTimeEnded },
+        adjustPreviewOriginalTimeEnded = { recordState.originalTimeEnded },
+        updatePreview = ::updatePreview,
+        getChangeCategoryParams = ::getChangeCategoryParams,
+        onSaveClickDelegate = ::onSaveClickDelegate,
+        sendPreviewUpdate = {},
+        initializePreviewViewData = ::initializePreviewViewData,
+        onDeleteClick = ::onDeleteClickMode,
+        onStatisticsClick = ::onStatisticsClickMode,
+        afterVisible = {},
+        afterHidden = {},
     )
-    override val mergeAvailable: Boolean get() = extra is ChangeRecordParams.Untracked && recordState.newTypeId == 0L
-    override val previewTimeEnded: Long get() = recordState.newTimeEnded
-    override val adjustPreviewTimeEnded: Long get() = recordState.newTimeEnded
-    override val adjustPreviewOriginalTimeEnded: Long get() = recordState.originalTimeEnded
 
     val record: LiveData<ChangeRecordViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordViewData>().let { initial ->
@@ -111,16 +123,12 @@ class ChangeRecordViewModel @Inject constructor(
     }
     val removeRecordId: LiveData<Long> = SingleLiveEvent()
 
-    override fun afterVisible() = Unit
-
-    override fun afterHidden() = Unit
-
-    override fun onDeleteClick() {
+    private fun onDeleteClickMode() {
         recordId?.let { removeRecordId.set(it) }
         router.back()
     }
 
-    override fun onStatisticsClick() = viewModelScope.launch {
+    private fun onStatisticsClickMode() = viewModelScope.launch {
         val itemId = when {
             recordState.newTypeId != 0L -> recordState.newTypeId
             extra is ChangeRecordParams.Untracked -> UNTRACKED_ITEM_ID
@@ -141,7 +149,7 @@ class ChangeRecordViewModel @Inject constructor(
         )
     }
 
-    override suspend fun onSaveClickDelegate(
+    private suspend fun onSaveClickDelegate(
         doAfter: suspend () -> Unit,
     ) {
         // Zero id creates new record
@@ -174,9 +182,7 @@ class ChangeRecordViewModel @Inject constructor(
         router.back()
     }
 
-    override suspend fun sendPreviewUpdate(fullUpdate: Boolean) = Unit
-
-    override fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
+    private fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen {
         return ChangeRecordTagFromChangeRecordParams(data)
     }
 
@@ -222,11 +228,11 @@ class ChangeRecordViewModel @Inject constructor(
         }
     }
 
-    override suspend fun updatePreview() {
+    private suspend fun updatePreview() {
         record.set(loadPreviewViewData())
     }
 
-    override suspend fun initializePreviewViewData() {
+    private suspend fun initializePreviewViewData() {
         when (extra) {
             is ChangeRecordParams.Tracked -> {
                 recordInteractor.get(recordId.orZero())?.let { record ->

@@ -39,15 +39,14 @@ import com.example.util.simpletimetracker.feature_change_record.model.ChangeReco
 import com.example.util.simpletimetracker.feature_change_record.model.TimeAdjustmentState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTagsViewData
-import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordConfig
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge.Action
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge.ViewDataParams
+import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorMode
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorState
 import com.example.util.simpletimetracker.feature_change_record.viewModel.delegates.ChangeRecordActionsMoveDelegate
 import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewModelDelegate
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromScreen
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
@@ -85,7 +84,7 @@ abstract class ChangeRecordBaseViewModel(
     val categories: LiveData<ChangeRecordTagsViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordTagsViewData>().let { initial ->
             viewModelScope.launch {
-                initializePreviewViewData()
+                mode.initializePreviewViewData()
                 initial.value = loadCategoriesViewData(fromSearchChange = false)
             }
             initial
@@ -106,9 +105,9 @@ abstract class ChangeRecordBaseViewModel(
     val actionsViewData: LiveData<List<ViewHolderType>> by changeRecordActionsDelegate::actionsViewData
     val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
     val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
-    val timeEndedVisibility: LiveData<Boolean> by lazy { MutableLiveData(config.isTimeEndedAvailable) }
-    val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(config.isDeleteButtonVisible) }
-    val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(config.isStatisticsButtonVisible) }
+    val timeEndedVisibility: LiveData<Boolean> by lazy { MutableLiveData(mode.config.isTimeEndedAvailable) }
+    val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(mode.config.isDeleteButtonVisible) }
+    val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(mode.config.isStatisticsButtonVisible) }
 
     protected val recordState = ChangeRecordEditorState()
     protected var dateTimeState = ChangeRecordDateTimeFieldsState(
@@ -116,11 +115,7 @@ abstract class ChangeRecordBaseViewModel(
         end = ChangeRecordDateTimeFieldsState.State.DateTime,
     )
 
-    protected abstract val config: ChangeRecordConfig
-    protected abstract val mergeAvailable: Boolean
-    protected abstract val previewTimeEnded: Long
-    protected abstract val adjustPreviewTimeEnded: Long
-    protected abstract val adjustPreviewOriginalTimeEnded: Long
+    protected abstract val mode: ChangeRecordEditorMode
 
     private var prevRecord: Record? = null
     private var tagSearchJob: Job? = null
@@ -140,15 +135,13 @@ abstract class ChangeRecordBaseViewModel(
         super.onCleared()
     }
 
-    protected abstract suspend fun updatePreview()
-    protected abstract fun getChangeCategoryParams(data: ChangeTagData): ChangeRecordTagFromScreen
-    protected abstract suspend fun onSaveClickDelegate(doAfter: suspend () -> Unit = {})
-    protected abstract suspend fun sendPreviewUpdate(fullUpdate: Boolean)
-    protected abstract suspend fun initializePreviewViewData()
-    abstract fun onDeleteClick()
-    abstract fun onStatisticsClick(): Any // TODO remove Any
-    abstract fun afterVisible()
-    abstract fun afterHidden()
+    fun onDeleteClick() {
+        mode.onDeleteClick()
+    }
+
+    fun onStatisticsClick() {
+        mode.onStatisticsClick()
+    }
 
     protected fun afterInitializePreviewViewData() {
         recordState.newTimeSplit = recordState.newTimeStarted
@@ -167,7 +160,7 @@ abstract class ChangeRecordBaseViewModel(
         if (recordState.newTimeStarted > recordState.newTimeSplit) {
             recordState.newTimeSplit = recordState.newTimeStarted
         }
-        updatePreview()
+        mode.updatePreview()
         updateActionsData()
     }
 
@@ -177,7 +170,7 @@ abstract class ChangeRecordBaseViewModel(
         if (recordState.newTimeEnded < recordState.newTimeSplit) {
             recordState.newTimeSplit = recordState.newTimeEnded
         }
-        updatePreview()
+        mode.updatePreview()
         updateActionsData()
     }
 
@@ -189,11 +182,11 @@ abstract class ChangeRecordBaseViewModel(
         viewModelScope.launch {
             updateCategoriesViewData()
         }
-        afterVisible()
+        mode.afterVisible()
     }
 
     fun onHidden() {
-        afterHidden()
+        mode.afterHidden()
     }
 
     fun onTypeChooserClick() {
@@ -221,7 +214,7 @@ abstract class ChangeRecordBaseViewModel(
             )
             is ChangeRecordDateTimeFieldsState.State.Duration -> onDurationClick(
                 tag = tag,
-                durationMillis = previewTimeEnded - recordState.newTimeStarted,
+                durationMillis = mode.previewTimeEnded() - recordState.newTimeStarted,
             )
         }
     }
@@ -235,7 +228,7 @@ abstract class ChangeRecordBaseViewModel(
             )
             is ChangeRecordDateTimeFieldsState.State.Duration -> onDurationClick(
                 tag = tag,
-                durationMillis = previewTimeEnded - recordState.newTimeStarted,
+                durationMillis = mode.previewTimeEnded() - recordState.newTimeStarted,
             )
         }
     }
@@ -300,7 +293,7 @@ abstract class ChangeRecordBaseViewModel(
 
     fun onSaveClick() {
         onRecordChangeButtonClick(
-            onProceed = ::onSaveClickDelegate,
+            onProceed = { mode.onSaveClickDelegate({}) },
         )
     }
 
@@ -339,7 +332,7 @@ abstract class ChangeRecordBaseViewModel(
                 }
                 else -> return@launch
             }
-            updatePreview()
+            mode.updatePreview()
             updateCategoriesViewData()
         }
     }
@@ -354,7 +347,7 @@ abstract class ChangeRecordBaseViewModel(
                 tagId = params.tagId,
                 numericValue = value,
             )
-            updatePreview()
+            mode.updatePreview()
             updateCategoriesViewData()
         }
     }
@@ -388,7 +381,7 @@ abstract class ChangeRecordBaseViewModel(
         val icon = (item as? CategoryViewData.Record)?.icon?.toParams()
 
         router.navigate(
-            data = getChangeCategoryParams(
+            data = mode.getChangeCategoryParams(
                 ChangeTagData.Change(
                     transitionName = sharedElements.second,
                     id = item.id,
@@ -408,7 +401,7 @@ abstract class ChangeRecordBaseViewModel(
             is CategoryAddViewData.Type.AddTag -> {
                 val preselectedTypeId: Long? = recordState.newTypeId.takeUnless { it == 0L }
                 router.navigate(
-                    data = getChangeCategoryParams(
+                    data = mode.getChangeCategoryParams(
                         ChangeTagData.New(preselectedTypeId),
                     ),
                 )
@@ -472,7 +465,7 @@ abstract class ChangeRecordBaseViewModel(
                                 .coerceAtLeast(0)
                             recordState.newTimeStarted = timestamp
                             recordState.newTimeEnded = recordState.newTimeStarted + currentDuration
-                            onSaveClickDelegate()
+                            mode.onSaveClickDelegate({})
                         },
                     )
                 }
@@ -484,7 +477,7 @@ abstract class ChangeRecordBaseViewModel(
         viewModelScope.launch {
             when (tag) {
                 TIME_STARTED_TAG -> {
-                    recordState.newTimeStarted = previewTimeEnded - durationSeconds * 1000
+                    recordState.newTimeStarted = mode.previewTimeEnded() - durationSeconds * 1000
                     onTimeStartedChanged()
                 }
                 TIME_ENDED_TAG -> {
@@ -535,7 +528,7 @@ abstract class ChangeRecordBaseViewModel(
             viewModelScope.launch {
                 // Send only if not changed and update only time.
                 if (recordState.newTimeStarted == recordState.originalTimeStarted) {
-                    sendPreviewUpdate(fullUpdate = false)
+                    mode.sendPreviewUpdate(false)
                 }
                 router.back()
             }
@@ -676,7 +669,7 @@ abstract class ChangeRecordBaseViewModel(
                     duration = durationMillis / 1000,
                 ),
                 hideDisableButton = true,
-                showSeconds = config.forceSecondsInDurationDialog || showSeconds,
+                showSeconds = mode.config.forceSecondsInDurationDialog || showSeconds,
             ),
         )
     }
@@ -734,7 +727,7 @@ abstract class ChangeRecordBaseViewModel(
             updateTimeAdjustmentItems(field)
         }
 
-        updatePreview()
+        mode.updatePreview()
     }
 
     protected fun showMessage(stringResId: Int) {
@@ -777,7 +770,7 @@ abstract class ChangeRecordBaseViewModel(
     ) {
         when (state) {
             TimeAdjustmentState.TIME_STARTED -> {
-                recordState.newTimeStarted = previewTimeEnded
+                recordState.newTimeStarted = mode.previewTimeEnded()
                 onTimeStartedChanged()
             }
             TimeAdjustmentState.TIME_ENDED -> {
@@ -803,7 +796,7 @@ abstract class ChangeRecordBaseViewModel(
                     }
                     is ChangeRecordDateTimeFieldsState.State.Duration -> {
                         recordState.newTimeStarted = (recordState.newTimeStarted - shift)
-                            .coerceAtMost(previewTimeEnded)
+                            .coerceAtMost(mode.previewTimeEnded())
                     }
                 }
                 onTimeStartedChanged()
@@ -814,7 +807,7 @@ abstract class ChangeRecordBaseViewModel(
                         recordState.newTimeEnded += shift
                     }
                     is ChangeRecordDateTimeFieldsState.State.Duration -> {
-                        recordState.newTimeEnded = (previewTimeEnded + shift)
+                        recordState.newTimeEnded = (mode.previewTimeEnded() + shift)
                             .coerceAtLeast(recordState.newTimeStarted)
                     }
                 }
@@ -828,7 +821,7 @@ abstract class ChangeRecordBaseViewModel(
 
     private fun onTimeSplitChanged() {
         recordState.newTimeSplit = recordState.newTimeSplit
-            .coerceIn(recordState.newTimeStarted..previewTimeEnded)
+            .coerceIn(recordState.newTimeStarted..mode.previewTimeEnded())
         updateActionsData()
     }
 
@@ -853,7 +846,7 @@ abstract class ChangeRecordBaseViewModel(
         recordState.newTypeId = typeId
         recordState.newTags = emptyList()
         viewModelScope.launch {
-            updatePreview()
+            mode.updatePreview()
             updateCategoriesViewData()
         }
         commentSelectionViewModelDelegate.updateCommentsViewData()
@@ -865,8 +858,8 @@ abstract class ChangeRecordBaseViewModel(
             override fun getParams(): CommentSelectionViewModelDelegate.Parent.Params =
                 CommentSelectionViewModelDelegate.Parent.Params(recordTypeId = recordState.newTypeId)
 
-            override suspend fun onCommentClick() = updatePreview()
-            override fun onCommentChange(): Unit = viewModelScope.launch { updatePreview() }.let {}
+            override suspend fun onCommentClick() = mode.updatePreview()
+            override fun onCommentChange(): Unit = viewModelScope.launch { mode.updatePreview() }.let {}
         }
     }
 
@@ -878,14 +871,14 @@ abstract class ChangeRecordBaseViewModel(
                         changeRecordActionsDelegate.updateViewData()
                     }
                     is Action.OnSaveClickDelegate -> {
-                        this@ChangeRecordBaseViewModel.onSaveClickDelegate(action.doAfter)
+                        mode.onSaveClickDelegate(action.doAfter)
                     }
                     is Action.ShowMessage -> {
                         this@ChangeRecordBaseViewModel.showMessage(action.messageResId)
                     }
                     is Action.OnSplitComplete -> {
                         recordState.newTimeStarted = recordState.newTimeSplit
-                        this@ChangeRecordBaseViewModel.onSaveClickDelegate()
+                        mode.onSaveClickDelegate({})
                     }
                     is Action.OnRecordChangeButtonClick -> {
                         this@ChangeRecordBaseViewModel.onRecordChangeButtonClick(
@@ -915,37 +908,37 @@ abstract class ChangeRecordBaseViewModel(
                     splitParams = ViewDataParams.SplitParams(
                         newTimeSplit = recordState.newTimeSplit,
                         newBeforeTypeId = recordState.newSplitBeforeTypeId ?: recordState.newTypeId,
-                        splitPreviewTimeEnded = previewTimeEnded,
-                        showTimeEndedOnSplitPreview = config.showTimeEndedOnSplitPreview,
+                        splitPreviewTimeEnded = mode.previewTimeEnded(),
+                        showTimeEndedOnSplitPreview = mode.config.showTimeEndedOnSplitPreview,
                         originalTypeId = recordState.originalTypeId,
                         originalTags = recordState.originalTags,
                     ),
                     duplicateParams = ViewDataParams.DuplicateParams(
-                        isAvailable = config.isDuplicateActionAvailable,
-                        newTimeEnded = previewTimeEnded,
+                        isAvailable = mode.config.isDuplicateActionAvailable,
+                        newTimeEnded = mode.previewTimeEnded(),
                     ),
                     moveParams = ViewDataParams.MoveParams(
-                        isAvailable = config.isAdditionalActionsAvailable,
+                        isAvailable = mode.config.isAdditionalActionsAvailable,
                     ),
                     continueParams = ViewDataParams.ContinueParams(
                         originalRecordId = recordState.originalRecordId,
-                        isAvailable = config.isAdditionalActionsAvailable,
+                        isAvailable = mode.config.isAdditionalActionsAvailable,
                     ),
                     repeatParams = ViewDataParams.RepeatParams(
-                        isAvailable = config.isAdditionalActionsAvailable,
+                        isAvailable = mode.config.isAdditionalActionsAvailable,
                     ),
                     adjustParams = ViewDataParams.AdjustParams(
                         originalRecordId = recordState.originalRecordId,
                         originalTypeId = recordState.originalTypeId,
                         originalTimeStarted = recordState.originalTimeStarted,
-                        adjustNextRecordAvailable = config.adjustNextRecordAvailable,
-                        adjustPreviewTimeEnded = adjustPreviewTimeEnded,
-                        adjustPreviewOriginalTimeEnded = adjustPreviewOriginalTimeEnded,
-                        showTimeEndedOnAdjustPreview = config.showTimeEndedOnAdjustPreview,
-                        isTimeEndedAvailable = config.isTimeEndedAvailable,
+                        adjustNextRecordAvailable = mode.config.adjustNextRecordAvailable,
+                        adjustPreviewTimeEnded = mode.adjustPreviewTimeEnded(),
+                        adjustPreviewOriginalTimeEnded = mode.adjustPreviewOriginalTimeEnded(),
+                        showTimeEndedOnAdjustPreview = mode.config.showTimeEndedOnAdjustPreview,
+                        isTimeEndedAvailable = mode.config.isTimeEndedAvailable,
                     ),
                     mergeParams = ViewDataParams.MergeParams(
-                        mergeAvailable = mergeAvailable,
+                        mergeAvailable = mode.mergeAvailable(),
                         prevRecord = prevRecord,
                     ),
                     shortcutParams = ViewDataParams.ShortcutParams(
