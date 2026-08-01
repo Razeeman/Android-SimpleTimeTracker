@@ -41,6 +41,7 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge.Action
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge.ViewDataParams
+import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorDelegate
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorMode
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorState
 import com.example.util.simpletimetracker.feature_change_record.viewModel.delegates.ChangeRecordActionsMoveDelegate
@@ -59,7 +60,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ChangeRecordEditorDelegateImpl @Inject constructor(
-    val commentSelectionViewModelDelegate: CommentSelectionViewModelDelegate,
+    override val commentSelectionViewModelDelegate: CommentSelectionViewModelDelegate,
     private val router: Router,
     private val resourceRepo: ResourceRepo,
     private val snackBarMessageNavigationInteractor: SnackBarMessageNavigationInteractor,
@@ -72,15 +73,17 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
     private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
     private val changeRecordActionsDelegate: ChangeRecordActionsDelegateImpl,
     private val needTagValueSelectionInteractor: NeedTagValueSelectionInteractor,
-) : ViewModelDelegate(), CommentSelectionViewModelDelegate by commentSelectionViewModelDelegate {
+) : ChangeRecordEditorDelegate,
+    ViewModelDelegate(),
+    CommentSelectionViewModelDelegate by commentSelectionViewModelDelegate {
 
-    val types: LiveData<List<ViewHolderType>> by lazy {
+    override val types: LiveData<List<ViewHolderType>> by lazy {
         return@lazy MutableLiveData<List<ViewHolderType>>().let { initial ->
             delegateScope.launch { initial.value = loadTypesViewData() }
             initial
         }
     }
-    val categories: LiveData<ChangeRecordTagsViewData> by lazy {
+    override val categories: LiveData<ChangeRecordTagsViewData> by lazy {
         return@lazy MutableLiveData<ChangeRecordTagsViewData>().let { initial ->
             delegateScope.launch {
                 mode.initializePreviewViewData()
@@ -89,33 +92,38 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
             initial
         }
     }
-    val timeStartedAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
+    override val timeStartedAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(loadTimeAdjustmentItems(ChangeRecordDateTimeField.START))
     }
-    val timeEndedAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
+    override val timeEndedAdjustmentItems: LiveData<List<ViewHolderType>> by lazy {
         MutableLiveData(loadTimeAdjustmentItems(ChangeRecordDateTimeField.END))
     }
-    val chooserState: LiveData<ChangeRecordChooserState> = MutableLiveData(
+    override val chooserState: LiveData<ChangeRecordChooserState> = MutableLiveData(
         ChangeRecordChooserState(
             current = ChangeRecordChooserState.State.Closed,
             previous = ChangeRecordChooserState.State.Closed,
         ),
     )
-    val actionsViewData: LiveData<List<ViewHolderType>> by changeRecordActionsDelegate::actionsViewData
-    val saveButtonEnabled: LiveData<Boolean> = MutableLiveData(true)
-    val keyboardVisibility: LiveData<Boolean> = MutableLiveData(false)
-    val timeEndedVisibility: LiveData<Boolean> by lazy { MutableLiveData(mode.config.isTimeEndedAvailable) }
-    val deleteIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(mode.config.isDeleteButtonVisible) }
-    val statsIconVisibility: LiveData<Boolean> by lazy { MutableLiveData(mode.config.isStatisticsButtonVisible) }
+    override val actionsViewData: LiveData<List<ViewHolderType>>
+        by changeRecordActionsDelegate::actionsViewData
+    override val saveButtonEnabled: LiveData<Boolean> =
+        MutableLiveData(true)
+    override val keyboardVisibility: LiveData<Boolean> =
+        MutableLiveData(false)
+    override val timeEndedVisibility: LiveData<Boolean>
+        by lazy { MutableLiveData(mode.config.isTimeEndedAvailable) }
+    override val deleteIconVisibility: LiveData<Boolean>
+        by lazy { MutableLiveData(mode.config.isDeleteButtonVisible) }
+    override val statsIconVisibility: LiveData<Boolean>
+        by lazy { MutableLiveData(mode.config.isStatisticsButtonVisible) }
 
-    val recordState = ChangeRecordEditorState()
-    var dateTimeState = ChangeRecordDateTimeFieldsState(
+    override val recordState = ChangeRecordEditorState()
+    override var dateTimeState = ChangeRecordDateTimeFieldsState(
         start = ChangeRecordDateTimeFieldsState.State.DateTime,
         end = ChangeRecordDateTimeFieldsState.State.DateTime,
     )
 
-    lateinit var mode: ChangeRecordEditorMode
-
+    private lateinit var mode: ChangeRecordEditorMode
     private var prevRecord: Record? = null
     private var tagSearchJob: Job? = null
     private var tagSearchText: String = ""
@@ -129,24 +137,25 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         commentSelectionViewModelDelegate.attach(getCommentSelectionDelegateParent())
     }
 
-    fun attach(mode: ChangeRecordEditorMode) {
+    override fun attach(mode: ChangeRecordEditorMode) {
         this.mode = mode
     }
 
     override fun clear() {
         changeRecordActionsDelegate.clear()
+        // TODO BASE clear comment delegate?
         super.clear()
     }
 
-    fun onDeleteClick() {
+    override fun onDeleteClick() {
         mode.onDeleteClick()
     }
 
-    fun onStatisticsClick() {
+    override fun onStatisticsClick() {
         mode.onStatisticsClick()
     }
 
-    fun afterInitializePreviewViewData() {
+    override fun afterInitializePreviewViewData() {
         recordState.newTimeSplit = recordState.newTimeStarted
         recordState.originalTypeId = recordState.newTypeId
         recordState.originalTags = recordState.newTags.toList() // Creates a copy.
@@ -157,7 +166,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         delegateScope.launch { initializeActions() }
     }
 
-    suspend fun afterTimeStartedChanged() {
+    override suspend fun afterTimeStartedChanged() {
         if (recordState.newTimeStarted > recordState.newTimeSplit) {
             recordState.newTimeSplit = recordState.newTimeStarted
         }
@@ -165,7 +174,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         updateActionsData()
     }
 
-    suspend fun afterTimeEndedChanged() {
+    override suspend fun afterTimeEndedChanged() {
         if (recordState.newTimeEnded < recordState.newTimeSplit) {
             recordState.newTimeSplit = recordState.newTimeEnded
         }
@@ -173,33 +182,33 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         updateActionsData()
     }
 
-    fun updateActionsData() {
+    override fun updateActionsData() {
         changeRecordActionsDelegate.updateData()
     }
 
-    fun onVisible() {
+    override fun onVisible() {
         delegateScope.launch {
             updateCategoriesViewData()
         }
     }
 
-    fun onTypeChooserClick() {
+    override fun onTypeChooserClick() {
         onNewChooserState(ChangeRecordChooserState.State.Activity)
     }
 
-    fun onCategoryChooserClick() {
+    override fun onCategoryChooserClick() {
         onNewChooserState(ChangeRecordChooserState.State.Tag)
     }
 
-    fun onCommentChooserClick() {
+    override fun onCommentChooserClick() {
         onNewChooserState(ChangeRecordChooserState.State.Comment)
     }
 
-    fun onActionChooserClick() {
+    override fun onActionChooserClick() {
         onNewChooserState(ChangeRecordChooserState.State.Action)
     }
 
-    fun onTimeStartedClick() {
+    override fun onTimeStartedClick() {
         val tag = TIME_STARTED_TAG
         when (dateTimeState.start) {
             is ChangeRecordDateTimeFieldsState.State.DateTime -> onTimeClick(
@@ -213,7 +222,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onTimeEndedClick() {
+    override fun onTimeEndedClick() {
         val tag = TIME_ENDED_TAG
         when (dateTimeState.end) {
             is ChangeRecordDateTimeFieldsState.State.DateTime -> onTimeClick(
@@ -227,15 +236,15 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onTimeStartedStateClick() {
+    override fun onTimeStartedStateClick() {
         onTimeStateClick(field = ChangeRecordDateTimeField.START)
     }
 
-    fun onTimeEndedStateClick() {
+    override fun onTimeEndedStateClick() {
         onTimeStateClick(field = ChangeRecordDateTimeField.END)
     }
 
-    fun onItemTimePreviewClick(data: ChangeRecordTimePreviewViewData) {
+    override fun onItemTimePreviewClick(data: ChangeRecordTimePreviewViewData) {
         when (data.block) {
             ChangeRecordActionsBlock.SplitTimePreview ->
                 onTimeSplitClick()
@@ -245,7 +254,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onItemTimeStartedClick(data: ChangeRecordTimeDoublePreviewViewData) {
+    override fun onItemTimeStartedClick(data: ChangeRecordTimeDoublePreviewViewData) {
         when (data.block) {
             ChangeRecordActionsBlock.AdjustTimePreview ->
                 onTimeStartedClick()
@@ -255,7 +264,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onItemTimeEndedClick(data: ChangeRecordTimeDoublePreviewViewData) {
+    override fun onItemTimeEndedClick(data: ChangeRecordTimeDoublePreviewViewData) {
         when (data.block) {
             ChangeRecordActionsBlock.AdjustTimePreview ->
                 onTimeEndedClick()
@@ -265,37 +274,37 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onItemAdjustTimeStartedClick(data: ChangeRecordTimeDoublePreviewViewData) {
+    override fun onItemAdjustTimeStartedClick(data: ChangeRecordTimeDoublePreviewViewData) {
         changeRecordActionsDelegate.onItemAdjustTimeStartedClick(data)
     }
 
-    fun onItemAdjustTimeEndedClick(data: ChangeRecordTimeDoublePreviewViewData) {
+    override fun onItemAdjustTimeEndedClick(data: ChangeRecordTimeDoublePreviewViewData) {
         changeRecordActionsDelegate.onItemAdjustTimeEndedClick(data)
     }
 
-    fun onChangePreviewCheckClick(item: ChangeRecordChangePreviewViewData) {
+    override fun onChangePreviewCheckClick(item: ChangeRecordChangePreviewViewData) {
         changeRecordActionsDelegate.onChangePreviewCheckClick(item)
     }
 
-    fun onChangePreviewBeforeActionClick() {
+    override fun onChangePreviewBeforeActionClick() {
         openSplitTypeSelection(tag = SPLIT_BEFORE_TYPE_SELECTION)
     }
 
-    fun onChangePreviewAfterActionClick() {
+    override fun onChangePreviewAfterActionClick() {
         openSplitTypeSelection(tag = SPLIT_AFTER_TYPE_SELECTION)
     }
 
-    fun onSaveClick() {
+    override fun onSaveClick() {
         onRecordChangeButtonClick(
             onProceed = { mode.onSaveClickDelegate {} },
         )
     }
 
-    fun onItemButtonClick(viewData: ButtonViewData) {
+    override fun onItemButtonClick(viewData: ButtonViewData) {
         changeRecordActionsDelegate.onItemButtonClick(viewData)
     }
 
-    fun onTypeClick(item: RecordTypeViewData) {
+    override fun onTypeClick(item: RecordTypeViewData) {
         delegateScope.launch {
             onMainTypeSelected(item.id)
             // Close type selection after type is selected
@@ -304,7 +313,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onCategoryClick(item: CategoryViewData) {
+    override fun onCategoryClick(item: CategoryViewData) {
         delegateScope.launch {
             when (item) {
                 is CategoryViewData.Record.Tagged -> {
@@ -331,7 +340,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onCategoryValueSelected(
+    override fun onCategoryValueSelected(
         params: RecordTagValueSelectionParams,
         value: Double,
     ) {
@@ -346,7 +355,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onDataSelected(
+    override fun onDataSelected(
         tag: String?,
         dataIds: List<Long>,
     ) {
@@ -371,7 +380,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onCategoryLongClick(item: CategoryViewData, sharedElements: Pair<Any, String>) {
+    override fun onCategoryLongClick(item: CategoryViewData, sharedElements: Pair<Any, String>) {
         val icon = (item as? CategoryViewData.Record)?.icon?.toParams()
 
         router.navigate(
@@ -390,7 +399,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         )
     }
 
-    fun onCategorySpecialClick(viewData: CategoryAddViewData) {
+    override fun onCategorySpecialClick(viewData: CategoryAddViewData) {
         when (viewData.type) {
             is CategoryAddViewData.Type.AddTag -> {
                 val preselectedTypeId: Long? = recordState.newTypeId.takeUnless { it == 0L }
@@ -413,7 +422,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onSearchTextChange(text: String) {
+    override fun onSearchTextChange(text: String) {
         if (text != tagSearchText) {
             tagSearchJob?.cancel()
             tagSearchJob = delegateScope.launch {
@@ -425,7 +434,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onDateTimeSet(timestamp: Long, tag: String?) {
+    override fun onDateTimeSet(timestamp: Long, tag: String?) {
         delegateScope.launch {
             val coercedTimestamp = if (prefsInteractor.getShowSeconds()) {
                 timestamp
@@ -467,7 +476,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onDurationSet(durationSeconds: Long, tag: String?) {
+    override fun onDurationSet(durationSeconds: Long, tag: String?) {
         delegateScope.launch {
             when (tag) {
                 TIME_STARTED_TAG -> {
@@ -482,7 +491,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onTimeAdjustmentClick(
+    override fun onTimeAdjustmentClick(
         data: ChangeRecordTimeAdjustmentViewData,
         viewData: TimeAdjustmentView.ViewData,
     ) {
@@ -497,7 +506,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onSliderValueChanged(viewData: ChangeRecordSliderViewData, value: Float) {
+    override fun onSliderValueChanged(viewData: ChangeRecordSliderViewData, value: Float) {
         when (viewData.block) {
             ChangeRecordActionsBlock.SplitSlider ->
                 onSliderSplitValueChanged(value)
@@ -507,15 +516,15 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
     }
 
-    fun onAdjustTimeStartedItemClick(viewData: TimeAdjustmentView.ViewData) {
+    override fun onAdjustTimeStartedItemClick(viewData: TimeAdjustmentView.ViewData) {
         onAdjustTimeItemClick(TimeAdjustmentState.TIME_STARTED, viewData)
     }
 
-    fun onAdjustTimeEndedItemClick(viewData: TimeAdjustmentView.ViewData) {
+    override fun onAdjustTimeEndedItemClick(viewData: TimeAdjustmentView.ViewData) {
         onAdjustTimeItemClick(TimeAdjustmentState.TIME_ENDED, viewData)
     }
 
-    fun onBackPressed() {
+    override fun onBackPressed() {
         if (chooserState.value?.current !is ChangeRecordChooserState.State.Closed) {
             onNewChooserState(ChangeRecordChooserState.State.Closed)
         } else {
@@ -527,6 +536,10 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
                 router.back()
             }
         }
+    }
+
+    override fun showMessage(stringResId: Int) {
+        snackBarMessageNavigationInteractor.showMessage(stringResId)
     }
 
     private suspend fun openTagSelectionIfNeeded() {
@@ -722,10 +735,6 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
         }
 
         mode.updatePreview()
-    }
-
-    fun showMessage(stringResId: Int) {
-        snackBarMessageNavigationInteractor.showMessage(stringResId)
     }
 
     private fun onAdjustTimeItemClick(

@@ -25,6 +25,7 @@ import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordConfig
+import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorDelegate
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorMode
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
@@ -39,7 +40,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangeRecordViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    val editorDelegate: ChangeRecordEditorDelegateImpl,
+    val editorDelegate: ChangeRecordEditorDelegate,
     private val prefsInteractor: PrefsInteractor,
     private val router: Router,
     private val recordInteractor: RecordInteractor,

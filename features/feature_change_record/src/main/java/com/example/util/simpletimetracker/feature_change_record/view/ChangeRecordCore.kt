@@ -45,7 +45,7 @@ import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeR
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Comment
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Tag
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTagsViewData
-import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordEditorDelegateImpl
+import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorDelegate
 import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewDelegateProvider
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.postDelayed
@@ -60,7 +60,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 
 class ChangeRecordCore(
-    private val viewModel: ChangeRecordEditorDelegateImpl,
+    private val viewModel: ChangeRecordEditorDelegate,
     private val commentDelegateProvider: CommentSelectionViewDelegateProvider,
 ) {
 

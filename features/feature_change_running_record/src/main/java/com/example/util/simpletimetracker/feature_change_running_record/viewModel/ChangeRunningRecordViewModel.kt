@@ -18,8 +18,8 @@ import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import com.example.util.simpletimetracker.domain.recordTag.interactor.AddTagToTypeIfNotExistMediator
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
-import com.example.util.simpletimetracker.feature_change_record.viewModel.ChangeRecordEditorDelegateImpl
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordConfig
+import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorDelegate
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorMode
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
@@ -42,7 +42,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangeRunningRecordViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    val editorDelegate: ChangeRecordEditorDelegateImpl,
+    val editorDelegate: ChangeRecordEditorDelegate,
     private val router: Router,
     private val addRunningRecordMediator: AddRunningRecordMediator,
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
