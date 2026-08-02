@@ -17,10 +17,10 @@ import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import com.example.util.simpletimetracker.domain.recordTag.interactor.AddTagToTypeIfNotExistMediator
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
-import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordConfig
-import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorDelegate
-import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorMode
+import com.example.util.simpletimetracker.feature_change_record.api.ChangeRecordConfig
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordChooserState
+import com.example.util.simpletimetracker.feature_change_record.api.ChangeRecordEditorDelegate
+import com.example.util.simpletimetracker.feature_change_record.api.ChangeRecordEditorMode
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_running_record.mapper.ChangeRunningRecordMapper

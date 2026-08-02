@@ -8,10 +8,10 @@ import com.example.util.simpletimetracker.domain.recordAction.interactor.RecordA
 import com.example.util.simpletimetracker.domain.recordAction.model.RecordQuickAction
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
-import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordChangePreviewViewData
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
-import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordDateTimeFieldsState
+import com.example.util.simpletimetracker.feature_change_record.api.model.ChangeRecordDateTimeFieldsState
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordChangePreviewViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordActionsSubDelegate

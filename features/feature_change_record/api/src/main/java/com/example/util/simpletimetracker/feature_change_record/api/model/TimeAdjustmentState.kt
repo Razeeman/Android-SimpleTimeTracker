@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_change_record.model
+package com.example.util.simpletimetracker.feature_change_record.api.model
 
 enum class TimeAdjustmentState {
     HIDDEN,

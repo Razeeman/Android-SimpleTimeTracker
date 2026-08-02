@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_change_record.viewModel.base
+package com.example.util.simpletimetracker.feature_change_record.api
 
 import androidx.lifecycle.LiveData
 import com.example.util.simpletimetracker.core.base.ScopeHolder
@@ -8,14 +8,15 @@ import com.example.util.simpletimetracker.feature_base_adapter.button.ButtonView
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryAddViewData
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
-import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordChangePreviewViewData
-import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordSliderViewData
-import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordTimeAdjustmentViewData
-import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordTimeDoublePreviewViewData
-import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordTimePreviewViewData
-import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordDateTimeFieldsState
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTagsViewData
+import com.example.util.simpletimetracker.feature_change_record.api.model.ChangeRecordDateTimeFieldsState
+import com.example.util.simpletimetracker.feature_change_record.api.model.ChangeRecordEditorState
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordChangePreviewViewData
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordChooserState
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordSliderViewData
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordTagsViewData
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordTimeAdjustmentViewData
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordTimeDoublePreviewViewData
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordTimePreviewViewData
 import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewModelDelegate
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagValueSelectionParams
 

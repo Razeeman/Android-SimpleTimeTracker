@@ -10,7 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordActionsBlock
+import com.example.util.simpletimetracker.feature_change_record.api.model.ChangeRecordActionsBlock
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -91,7 +91,7 @@ class RecordActionsSplitTest : BaseUiTest() {
         try {
             timePreview = calendar.getMillis(16, 17).formatDateTime()
             checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimePreviewItem), withText(timePreview)))
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             timePreview = calendar.getMillis(16, 16).formatDateTime()
             checkViewIsDisplayed(allOf(withId(changeRecordR.id.tvChangeRecordTimePreviewItem), withText(timePreview)))
         }

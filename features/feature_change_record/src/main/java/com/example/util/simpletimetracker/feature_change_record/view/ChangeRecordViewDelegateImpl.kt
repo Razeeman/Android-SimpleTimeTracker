@@ -37,15 +37,16 @@ import com.example.util.simpletimetracker.feature_change_record.adapter.createCh
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordTimeAdjustmentAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordTimeDoublePreviewAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_record.adapter.createChangeRecordTimePreviewAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordCoreLayoutBinding
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Action
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Activity
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Closed
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Comment
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordChooserState.State.Tag
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordTagsViewData
-import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordEditorDelegate
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordChooserState
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordChooserState.State.Action
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordChooserState.State.Activity
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordChooserState.State.Closed
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordChooserState.State.Comment
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordChooserState.State.Tag
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordTagsViewData
+import com.example.util.simpletimetracker.feature_change_record.api.ChangeRecordEditorDelegate
+import com.example.util.simpletimetracker.feature_change_record.api.databinding.ChangeRecordCoreLayoutBinding
+import com.example.util.simpletimetracker.feature_change_record.api.view.ChangeRecordViewDelegate
 import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewDelegateProvider
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.postDelayed
@@ -59,10 +60,10 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 
-class ChangeRecordCore(
+class ChangeRecordViewDelegateImpl(
     private val viewModel: ChangeRecordEditorDelegate,
     private val commentDelegateProvider: CommentSelectionViewDelegateProvider,
-) {
+) : ChangeRecordViewDelegate {
 
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
@@ -117,9 +118,9 @@ class ChangeRecordCore(
         commentDelegateProvider.provide(viewModel)
     }
 
-    fun initUi(
+    override fun initUi(
         binding: ChangeRecordCoreLayoutBinding,
-    ) = with(binding) {
+    ): Unit = with(binding) {
         val context = binding.root.context
 
         rvChangeRecordType.apply {
@@ -145,10 +146,10 @@ class ChangeRecordCore(
         }
     }
 
-    fun <T : ViewBinding> initUx(
+    override fun <T : ViewBinding> initUx(
         fragment: BaseFragment<T>,
         binding: ChangeRecordCoreLayoutBinding,
-    ) = with(binding) {
+    ): Unit = with(binding) {
         fieldChangeRecordType.setOnClick(viewModel::onTypeChooserClick)
         fieldChangeRecordCategory.setOnClick(viewModel::onCategoryChooserClick)
         fieldChangeRecordComment.setOnClick(viewModel::onCommentChooserClick)
@@ -165,7 +166,7 @@ class ChangeRecordCore(
         fragment.addOnBackPressedListener(action = viewModel::onBackPressed)
     }
 
-    fun <T : ViewBinding> initViewModel(
+    override fun <T : ViewBinding> initViewModel(
         fragment: BaseFragment<T>,
         binding: ChangeRecordCoreLayoutBinding,
     ) = with(viewModel) {
@@ -185,7 +186,7 @@ class ChangeRecordCore(
         }
     }
 
-    fun onSetPreview(
+    override fun onSetPreview(
         binding: ChangeRecordCoreLayoutBinding,
         color: Int,
         iconId: RecordTypeIcon,
@@ -197,7 +198,7 @@ class ChangeRecordCore(
         }
     }
 
-    fun setDateTime(
+    override fun setDateTime(
         state: ChangeRecordDateTimeState,
         dateView: AppCompatTextView,
         timeView: AppCompatTextView,

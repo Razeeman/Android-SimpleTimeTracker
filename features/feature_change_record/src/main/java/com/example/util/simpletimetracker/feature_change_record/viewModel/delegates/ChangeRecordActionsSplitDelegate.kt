@@ -8,21 +8,21 @@ import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.recordAction.model.RecordQuickAction
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
-import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordChangePreviewViewData
-import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordSliderViewData
-import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordTimeAdjustmentViewData
-import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordTimePreviewViewData
+import com.example.util.simpletimetracker.feature_change_record.api.model.ChangeRecordActionsBlock
+import com.example.util.simpletimetracker.feature_change_record.api.model.ChangeRecordDateTimeFieldsState
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordChangePreviewViewData
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordSliderViewData
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordTimeAdjustmentViewData
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordTimePreviewViewData
 import com.example.util.simpletimetracker.feature_change_record.interactor.ChangeRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_record.mapper.ChangeRecordViewDataMapper
-import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordActionsBlock
-import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordDateTimeFieldsState
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordPreview
-import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge
 import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordActionsSubDelegate
+import com.example.util.simpletimetracker.feature_change_record.viewModel.base.ChangeRecordDelegateBridge
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlinx.coroutines.ensureActive
 
 class ChangeRecordActionsSplitDelegate @Inject constructor(
     private val prefsInteractor: PrefsInteractor,

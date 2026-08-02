@@ -12,10 +12,10 @@ import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.button.ButtonViewData
 import com.example.util.simpletimetracker.feature_change_record.R
-import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordActionsBlock
-import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordDateTimeFieldsState
+import com.example.util.simpletimetracker.feature_change_record.api.model.ChangeRecordActionsBlock
+import com.example.util.simpletimetracker.feature_change_record.api.model.ChangeRecordDateTimeFieldsState
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordSimpleViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordQuickActionsButtonViewData
-import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordSimpleViewData
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import javax.inject.Inject
 

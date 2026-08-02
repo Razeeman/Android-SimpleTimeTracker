@@ -16,6 +16,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":feature_change_record:api"))
     implementation(project(":feature_comment_selection:api"))
     implementation(project(":feature_dialogs:api"))
     implementation(libs.google.dagger)

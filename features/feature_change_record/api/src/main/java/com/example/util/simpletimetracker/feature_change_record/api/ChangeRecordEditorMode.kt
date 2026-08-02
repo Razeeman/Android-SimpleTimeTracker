@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_change_record.viewModel.base
+package com.example.util.simpletimetracker.feature_change_record.api
 
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTagFromScreen
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeTagData

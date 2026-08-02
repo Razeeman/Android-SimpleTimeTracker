@@ -1,9 +1,7 @@
 package com.example.util.simpletimetracker.feature_change_record.adapter
 
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_record.model.ChangeRecordActionsBlock
-import com.example.util.simpletimetracker.feature_change_record.adapter.ChangeRecordSliderViewData as ViewData
+import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordSliderViewData as ViewData
 import com.example.util.simpletimetracker.feature_change_record.databinding.ChangeRecordSliderItemBinding as Binding
 
 fun createChangeRecordSliderAdapterDelegate(
@@ -31,17 +29,4 @@ fun createChangeRecordSliderAdapterDelegate(
             if (fromUser) onValueChanged(item, value)
         }
     }
-}
-
-data class ChangeRecordSliderViewData(
-    val block: ChangeRecordActionsBlock,
-    val min: Float,
-    val max: Float,
-    val value: Float,
-) : ViewHolderType {
-
-    override fun getUniqueId(): Long = block.ordinal.toLong()
-
-    override fun isValidType(other: ViewHolderType): Boolean =
-        other is ViewData
 }

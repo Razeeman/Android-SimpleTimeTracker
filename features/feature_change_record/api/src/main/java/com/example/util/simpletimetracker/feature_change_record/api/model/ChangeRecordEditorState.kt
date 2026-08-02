@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_change_record.viewModel.base
+package com.example.util.simpletimetracker.feature_change_record.api.model
 
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 

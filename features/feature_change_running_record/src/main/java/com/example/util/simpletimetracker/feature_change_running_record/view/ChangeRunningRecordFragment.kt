@@ -17,7 +17,7 @@ import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.GoalTimeViewData.Subtype
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
-import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordCore
+import com.example.util.simpletimetracker.feature_change_record.api.view.ChangeRecordViewDelegateProvider
 import com.example.util.simpletimetracker.feature_change_running_record.viewData.ChangeRunningRecordViewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
 import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewDelegateProvider
@@ -53,10 +53,15 @@ class ChangeRunningRecordFragment :
     @Inject
     lateinit var commentDelegateProvider: CommentSelectionViewDelegateProvider
 
+    @Inject
+    lateinit var changeRecordViewDelegateProvider: ChangeRecordViewDelegateProvider
+
     private val viewModel: ChangeRunningRecordViewModel by viewModels()
 
     private var typeColorAnimator: ValueAnimator? = null
-    private val core by lazy { ChangeRecordCore(viewModel.editorDelegate, commentDelegateProvider) }
+    private val core by lazy {
+        changeRecordViewDelegateProvider.provide(viewModel.editorDelegate, commentDelegateProvider)
+    }
 
     private val params: ChangeRunningRecordParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChangeRunningRecordParams.Empty,

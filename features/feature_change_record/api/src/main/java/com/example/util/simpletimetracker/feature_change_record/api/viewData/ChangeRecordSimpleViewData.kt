@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_change_record.viewData
+package com.example.util.simpletimetracker.feature_change_record.api.viewData
 
 import androidx.annotation.ColorInt
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
