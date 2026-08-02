@@ -97,6 +97,11 @@ class ChangeShortcutViewModel @Inject constructor(
         commentSelectionViewModelDelegate.attach(getCommentSelectionDelegateParent())
     }
 
+    override fun onCleared() {
+        commentSelectionViewModelDelegate.clearCommentDelegate()
+        super.onCleared()
+    }
+
     fun initialize() {
         if (initialized) return
         viewModelScope.launch {

@@ -143,7 +143,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
 
     override fun clear() {
         changeRecordActionsDelegate.clear()
-        // TODO BASE clear comment delegate?
+        commentSelectionViewModelDelegate.clearCommentDelegate()
         super.clear()
     }
 

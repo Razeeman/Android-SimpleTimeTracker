@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_change_record.api.ChangeRecord
 import com.example.util.simpletimetracker.feature_change_record.api.viewData.ChangeRecordChooserState
 import com.example.util.simpletimetracker.feature_change_record.api.ChangeRecordEditorDelegate
 import com.example.util.simpletimetracker.feature_change_record.api.ChangeRecordEditorMode
+import com.example.util.simpletimetracker.feature_change_record.api.model.ChangeRecordEditorState
 import com.example.util.simpletimetracker.feature_change_running_record.R
 import com.example.util.simpletimetracker.feature_change_running_record.interactor.ChangeRunningRecordViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_running_record.mapper.ChangeRunningRecordMapper
@@ -197,6 +198,18 @@ class ChangeRunningRecordViewModel @Inject constructor(
         editorDelegate.afterTimeStartedChanged()
     }
 
+    private fun mapRecordModel(
+        comment: String,
+        recordState: ChangeRecordEditorState,
+    ): RunningRecord {
+        return RunningRecord(
+            id = recordState.newTypeId,
+            timeStarted = recordState.newTimeStarted,
+            comment = comment,
+            tags = recordState.newTags,
+        )
+    }
+
     private suspend fun updatePreview() {
         record.set(loadPreviewViewData())
     }
@@ -219,12 +232,9 @@ class ChangeRunningRecordViewModel @Inject constructor(
         val recordState = editorDelegate.recordState
         if (recordState.newTypeId == 0L) initializePreviewViewData()
 
-        // TODO BASE move to extension
-        val record = RunningRecord(
-            id = recordState.newTypeId,
-            timeStarted = recordState.newTimeStarted,
+        val record = mapRecordModel(
             comment = editorDelegate.commentSelectionViewModelDelegate.newComment,
-            tags = recordState.newTags,
+            recordState = recordState,
         )
 
         return changeRunningRecordViewDataInteractor.getPreviewViewData(

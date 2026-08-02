@@ -10,6 +10,7 @@ interface CommentSelectionViewModelDelegate {
     var newComment: String
 
     fun attach(parent: Parent)
+    fun clearCommentDelegate()
     fun updateCommentsViewData(fromCommentChange: Boolean = false)
     fun onCommentChange(comment: String)
     fun onCommentFilterClick(item: FilterViewData)

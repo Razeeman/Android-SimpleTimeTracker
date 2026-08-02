@@ -27,6 +27,7 @@ import com.example.util.simpletimetracker.feature_change_record.interactor.Chang
 import com.example.util.simpletimetracker.feature_change_record.viewData.ChangeRecordViewData
 import com.example.util.simpletimetracker.feature_change_record.api.ChangeRecordEditorDelegate
 import com.example.util.simpletimetracker.feature_change_record.api.ChangeRecordEditorMode
+import com.example.util.simpletimetracker.feature_change_record.api.model.ChangeRecordEditorState
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
@@ -139,15 +140,10 @@ class ChangeRecordViewModel @Inject constructor(
         val recordState = editorDelegate.recordState
         // Zero id creates new record
         val id = recordId.orZero()
-        // TODO BASE move to extension
-        Record(
-            id = id,
-            typeId = recordState.newTypeId,
-            timeStarted = recordState.newTimeStarted,
-            timeEnded = recordState.newTimeEnded,
+        mapRecordModel(
             comment = editorDelegate.commentSelectionViewModelDelegate.newComment,
-            tags = recordState.newTags,
-        ).let {
+            recordState = recordState,
+        ).copy(id = id).let {
             addRecordMediator.add(it)
         }
         addTagToTypeIfNotExistMediator.execute(
@@ -215,6 +211,19 @@ class ChangeRecordViewModel @Inject constructor(
         }
     }
 
+    private fun mapRecordModel(
+        comment: String,
+        recordState: ChangeRecordEditorState,
+    ): Record {
+        return Record(
+            typeId = recordState.newTypeId,
+            timeStarted = recordState.newTimeStarted,
+            timeEnded = recordState.newTimeEnded,
+            comment = comment,
+            tags = recordState.newTags,
+        )
+    }
+
     private suspend fun updatePreview() {
         record.set(loadPreviewViewData())
     }
@@ -246,14 +255,9 @@ class ChangeRecordViewModel @Inject constructor(
     }
 
     private suspend fun loadPreviewViewData(): ChangeRecordViewData {
-        val recordState = editorDelegate.recordState
-        // TODO BASE move to extension
-        val record = Record(
-            typeId = recordState.newTypeId,
-            timeStarted = recordState.newTimeStarted,
-            timeEnded = recordState.newTimeEnded,
+        val record = mapRecordModel(
             comment = editorDelegate.commentSelectionViewModelDelegate.newComment,
-            tags = recordState.newTags,
+            recordState = editorDelegate.recordState,
         )
 
         return changeRecordViewDataInteractor.getPreviewViewData(

@@ -50,6 +50,10 @@ class CommentSelectionViewModelDelegateImpl @Inject constructor(
         this.parent = parent
     }
 
+    override fun clearCommentDelegate() {
+        clear()
+    }
+
     override fun onCommentClick(item: RecordCommentViewData) {
         delegateScope.launch {
             if (item.text == newComment) return@launch
