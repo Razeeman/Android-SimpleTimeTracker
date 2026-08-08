@@ -3,27 +3,27 @@ package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 import android.graphics.Color
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.OneShotValue
+import com.example.util.simpletimetracker.domain.extension.plusAssign
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.ButtonsRowItemViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBarChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailButtonViewData
-import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.ButtonsRowItemViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardDoubleViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailHintViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailNextActivitiesViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailPreviewsViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesCalendarViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailDataDistributionViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGoalsCompositeViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailTagValuesCompositeViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import javax.inject.Inject
 
 class StatisticsDetailContentInteractor @Inject constructor(
@@ -31,7 +31,7 @@ class StatisticsDetailContentInteractor @Inject constructor(
 ) {
 
     fun getContent(
-        previewViewData: StatisticsDetailPreviewCompositeViewData?,
+        data: List<StatisticsDetailViewData<*>>,
         chartViewData: StatisticsDetailChartCompositeViewData?,
         dailyCalendarViewData: List<ViewHolderType>?,
         statsViewData: StatisticsDetailStatsViewData?,
@@ -48,24 +48,14 @@ class StatisticsDetailContentInteractor @Inject constructor(
         dataDistributionViewData: StatisticsDetailDataDistributionViewData?,
         tagValueViewData: StatisticsDetailTagValuesCompositeViewData?,
     ): List<ViewHolderType> {
+        val previewViewData = data.firstOrNull { it.preview != null }?.preview
+
+        fun getPreviewColor(): Int = previewViewData?.previewColor ?: Color.BLACK
+        fun getPreviewColorComparison(): Int = previewViewData?.comparisonPreviewColor ?: Color.BLACK
+
         val result = mutableListOf<ViewHolderType>()
 
-        fun getPreviewColor(): Int {
-            return previewViewData?.previewColor ?: Color.BLACK
-        }
-
-        fun getPreviewColorComparison(): Int {
-            return previewViewData?.comparisonPreviewColor ?: Color.BLACK
-        }
-
-        previewViewData?.let { viewData ->
-            val rest: List<ViewHolderType> = viewData.additionalData + viewData.comparisonData
-            if (rest.isEmpty()) return@let
-            result += StatisticsDetailPreviewsViewData(
-                block = StatisticsDetailBlock.PreviewItems,
-                data = rest,
-            )
-        }
+        result += data.flatMap { it.data }.map { it.item }
 
         chartViewData?.let { viewData ->
             val comparisonChartIsVisible = viewData.showComparison &&
@@ -107,7 +97,7 @@ class StatisticsDetailContentInteractor @Inject constructor(
             }
 
             if (viewData.chartData.visible) {
-                // Update margin top depending if has buttons before.
+                // Update margin top depending on if it has buttons before.
                 val hasButtonsBefore = result.lastOrNull() is ButtonsRowItemViewData
                 val newMarginTopDp = if (hasButtonsBefore) -10 else 4
                 val additionalChartButtonItems = viewData.additionalChartButtonItems.map {

@@ -6,22 +6,23 @@ import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.domain.record.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailPreviewsViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailTotalRecordsSelectedInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreview
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewMoreViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.collections.plus
 
 class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
     private val previewInteractor: StatisticsDetailPreviewInteractor,
     private val totalRecordsSelectedInteractor: StatisticsDetailTotalRecordsSelectedInteractor,
 ) : StatisticsDetailViewModelDelegate, ViewModelDelegate() {
 
-    val viewData: LiveData<StatisticsDetailPreviewCompositeViewData?> by lazySuspend {
+    val viewData: LiveData<StatisticsDetailViewData<*>?> by lazySuspend {
         loadViewData().also { parent?.updateContent() }
     }
 
@@ -47,7 +48,7 @@ class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
         updateViewData()
     }
 
-    private suspend fun loadViewData(): StatisticsDetailPreviewCompositeViewData? {
+    private suspend fun loadViewData(): StatisticsDetailViewData<*>? {
         val parent = parent ?: return null
         val currentFilter = parent.filter
         val filtersWithoutDate = currentFilter.filter { it !is RecordsFilter.Date }
@@ -88,12 +89,24 @@ class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
             .firstOrNull { !it.isFiltered }
             ?.color
 
-        return StatisticsDetailPreviewCompositeViewData(
-            previewColor = previewColor,
-            comparisonPreviewColor = comparisonPreviewColor,
-            mainPreview = mainPreview,
-            additionalData = additionalData,
-            comparisonData = comparisonData,
+        val viewData = (additionalData + comparisonData)
+            .takeIf { it.isNotEmpty() }
+            ?.let {
+                StatisticsDetailPreviewsViewData(
+                    block = StatisticsDetailBlock.PreviewItems,
+                    data = it,
+                )
+            }?.let {
+                StatisticsDetailViewData.Item(it)
+            }
+
+        return StatisticsDetailViewData(
+            preview = StatisticsDetailViewData.Preview(
+                previewColor = previewColor,
+                comparisonPreviewColor = comparisonPreviewColor,
+                mainPreview = mainPreview,
+            ),
+            data = listOfNotNull(viewData),
         )
     }
 }

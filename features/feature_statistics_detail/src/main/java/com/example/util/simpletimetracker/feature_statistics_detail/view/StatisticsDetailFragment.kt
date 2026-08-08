@@ -46,8 +46,8 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.crea
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailSeriesChartAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.api.StatisticsDetailOptionsListItem
 import com.example.util.simpletimetracker.feature_statistics_detail.settings.dialog.StatisticsTagValuesSettingsDialogListener
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
 import com.example.util.simpletimetracker.feature_views.ColorUtils
 import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
@@ -220,17 +220,18 @@ class StatisticsDetailFragment :
             isFiltered = false,
         )
 
-        StatisticsDetailPreviewCompositeViewData(
-            previewColor = preview.color,
-            comparisonPreviewColor = null,
-            mainPreview = preview,
-            additionalData = emptyList(),
-            comparisonData = emptyList(),
+        StatisticsDetailViewData(
+            preview = StatisticsDetailViewData.Preview(
+                previewColor = preview.color,
+                comparisonPreviewColor = null,
+                mainPreview = preview,
+            ),
+            data = emptyList<StatisticsDetailViewData.Item<ViewHolderType>>(),
         ).let(::setPreviewViewData)
     }
 
-    private fun setPreviewViewData(viewData: StatisticsDetailPreviewCompositeViewData?) = with(binding) {
-        val preview = viewData?.mainPreview
+    private fun setPreviewViewData(viewData: StatisticsDetailViewData<*>?) = with(binding) {
+        val preview = viewData?.preview?.mainPreview
 
         if (preview == null) {
             viewStatisticsDetailItem.isVisible = false

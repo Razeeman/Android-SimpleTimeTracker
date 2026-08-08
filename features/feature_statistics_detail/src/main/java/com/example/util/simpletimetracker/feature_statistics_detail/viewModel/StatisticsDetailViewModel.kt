@@ -32,7 +32,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickablePopup
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableTracked
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreview
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailChartViewModelDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailDailyCalendarViewModelDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailDataDistributionViewModelDelegate
@@ -80,7 +80,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     val scrollToTop: LiveData<Unit> = SingleLiveEvent()
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
-    val previewViewData: LiveData<StatisticsDetailPreviewCompositeViewData?> by previewDelegate::viewData
+    val previewViewData: LiveData<StatisticsDetailViewData<*>?> by previewDelegate::viewData
 
     private lateinit var extra: StatisticsDetailParams
     private var scrolledToTop: Boolean = false
@@ -344,8 +344,11 @@ class StatisticsDetailViewModel @Inject constructor(
 
     // TODO move to delegates
     private fun loadContent(): List<ViewHolderType> {
+        val data = listOfNotNull(
+            previewViewData.value,
+        )
         return statisticsDetailContentInteractor.getContent(
-            previewViewData = previewViewData.value,
+            data = data,
             chartViewData = chartDelegate.viewData.value,
             dailyCalendarViewData = dailyCalendarDelegate.viewData.value,
             statsViewData = statsDelegate.viewData.value,

@@ -166,7 +166,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
         if (chartData.visible) {
             items += StatisticsDetailBarChartViewData(
                 block = StatisticsDetailBlock.GoalChartData,
-                singleColor = null,
+                singleColor = null, // Replaced later.
                 marginTopDp = 0,
                 data = chartData,
             )

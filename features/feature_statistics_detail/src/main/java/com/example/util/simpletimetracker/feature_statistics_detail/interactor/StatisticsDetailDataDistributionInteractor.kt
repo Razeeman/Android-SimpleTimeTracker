@@ -258,7 +258,7 @@ class StatisticsDetailDataDistributionInteractor @Inject constructor(
                 ).let { chartData ->
                     StatisticsDetailBarChartViewData(
                         block = StatisticsDetailBlock.DataDistributionBarChart,
-                        singleColor = null,
+                        singleColor = null, // Replaced later.
                         marginTopDp = 0,
                         data = chartData,
                     )
