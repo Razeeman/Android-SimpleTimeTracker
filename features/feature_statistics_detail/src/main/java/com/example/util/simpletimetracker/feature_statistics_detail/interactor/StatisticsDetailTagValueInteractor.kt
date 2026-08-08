@@ -16,7 +16,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartG
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartMode
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartSplitSortMode
-import com.example.util.simpletimetracker.domain.statistics.model.ChartValueMode
+import com.example.util.simpletimetracker.domain.statistics.model.StatisticsDetailTagValueSettings
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailTagValuesCompositeViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -38,10 +38,7 @@ class StatisticsDetailTagValueInteractor @Inject constructor(
         records: List<RecordBase>,
         currentChartGrouping: ChartGrouping,
         currentChartLength: ChartLength,
-        currentChartValueMode: ChartValueMode,
-        multiplyDuration: Boolean,
-        fillEmptyPeriods: Boolean,
-        yAxisZoomed: Boolean,
+        settings: StatisticsDetailTagValueSettings,
         rangeLength: RangeLength,
         rangePosition: Int,
     ): StatisticsDetailTagValuesCompositeViewData = withContext(Dispatchers.Default) {
@@ -56,7 +53,7 @@ class StatisticsDetailTagValueInteractor @Inject constructor(
         val typesOrder = types.map(RecordType::id)
         val chartMode = ChartMode.TAG_VALUE(
             tagId = valuedTag.id,
-            multiplyDuration = multiplyDuration,
+            multiplyDuration = settings.multiplyDuration,
         )
 
         val compositeData = chartInteractor.getChartRangeSelectionData(
@@ -80,8 +77,8 @@ class StatisticsDetailTagValueInteractor @Inject constructor(
             typesMap = typesMap,
             isDarkTheme = isDarkTheme,
             chartMode = chartMode,
-            chartValueMode = currentChartValueMode,
-            multiplyDuration = multiplyDuration,
+            chartValueMode = settings.chartValueMode,
+            multiplyDuration = settings.multiplyDuration,
             splitByActivity = false,
             splitSortMode = ChartSplitSortMode.ACTIVITY_ORDER,
         )
@@ -97,16 +94,16 @@ class StatisticsDetailTagValueInteractor @Inject constructor(
             typesMap = typesMap,
             isDarkTheme = isDarkTheme,
             chartMode = chartMode,
-            chartValueMode = currentChartValueMode,
-            multiplyDuration = multiplyDuration,
+            chartValueMode = settings.chartValueMode,
+            multiplyDuration = settings.multiplyDuration,
             splitSortMode = ChartSplitSortMode.ACTIVITY_ORDER,
         )
-        val preparedPrevData = if (fillEmptyPeriods) {
+        val preparedPrevData = if (settings.fillEmptyPeriods) {
             fillEmptyBarsWithPreviousValueInteractor.invoke(prevData, null)
         } else {
             prevData
         }
-        val preparedData = if (fillEmptyPeriods) {
+        val preparedData = if (settings.fillEmptyPeriods) {
             fillEmptyBarsWithPreviousValueInteractor.invoke(data, preparedPrevData)
         } else {
             data
@@ -121,8 +118,8 @@ class StatisticsDetailTagValueInteractor @Inject constructor(
             availableChartLengths = compositeData.availableChartLengths,
             appliedChartLength = compositeData.appliedChartLength,
             chartMode = chartMode,
-            chartValueMode = currentChartValueMode,
-            yAxisZoomed = yAxisZoomed,
+            chartValueMode = settings.chartValueMode,
+            yAxisZoomed = settings.yAxisZoomed,
             valueSuffix = valuedTag.valueSuffix,
             durationFormat = durationFormat,
             showSeconds = showSeconds,

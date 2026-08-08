@@ -79,14 +79,12 @@ class StatisticsDetailTagValueViewModelDelegate @Inject constructor(
     private suspend fun loadViewData(): StatisticsDetailTagValuesCompositeViewData? {
         val parent = parent ?: return null
         val valuedTag = tagValueInteractor.getSelectedTagWithValueId(parent.filter)
-        if (valuedTag == null) {
-            // Clears data with empty list if switched to other filter.
-            return StatisticsDetailTagValuesCompositeViewData(
+        // Clears data with empty list if switched to other filter.
+            ?: return StatisticsDetailTagValuesCompositeViewData(
                 viewData = emptyList(),
                 appliedChartGrouping = chartGrouping,
                 appliedChartLength = chartLength,
             )
-        }
         val settings = getSettingsForCurrentTag(valuedTag.id)
 
         return tagValueInteractor.getViewData(
@@ -94,11 +92,7 @@ class StatisticsDetailTagValueViewModelDelegate @Inject constructor(
             records = parent.records,
             currentChartGrouping = chartGrouping,
             currentChartLength = chartLength,
-            // TODO pass settings instead of params
-            currentChartValueMode = settings.chartValueMode,
-            multiplyDuration = settings.multiplyDuration,
-            fillEmptyPeriods = settings.fillEmptyPeriods,
-            yAxisZoomed = settings.yAxisZoomed,
+            settings = settings,
             rangeLength = parent.rangeLength,
             rangePosition = parent.rangePosition,
         )
