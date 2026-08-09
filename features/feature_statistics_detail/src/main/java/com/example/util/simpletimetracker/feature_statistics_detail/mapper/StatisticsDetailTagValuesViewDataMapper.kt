@@ -79,7 +79,7 @@ class StatisticsDetailTagValuesViewDataMapper @Inject constructor(
             chartValueMode = chartValueMode,
         )
 
-        if (chartData.visible) {
+        if (chartData != null) {
             val mainHint = resourceRepo.getString(R.string.statistics_detail_tag_values_hint)
             val hint = if (valueSuffix.isEmpty()) {
                 mainHint
@@ -92,7 +92,7 @@ class StatisticsDetailTagValuesViewDataMapper @Inject constructor(
             )
         }
 
-        if (chartData.visible) {
+        if (chartData != null) {
             items += StatisticsDetailBarChartViewData(
                 block = StatisticsDetailBlock.TagValuesChartData,
                 singleColor = null, // Replaced later.
@@ -131,7 +131,7 @@ class StatisticsDetailTagValuesViewDataMapper @Inject constructor(
             )
         }
 
-        if (chartData.visible) {
+        if (chartData != null) {
             items += StatisticsDetailCardViewData(
                 block = StatisticsDetailBlock.TagValuesTotals,
                 title = "",
@@ -200,7 +200,7 @@ class StatisticsDetailTagValuesViewDataMapper @Inject constructor(
     }
 
     private fun getTopMargin(currentItems: List<ViewHolderType>): Int {
-        // Update margin top depending if has buttons before.
+        // Update margin top depending on if it has buttons before.
         val hasButtonsBefore = currentItems.lastOrNull() is ButtonsRowItemViewData
         return if (hasButtonsBefore) -10 else 4
     }

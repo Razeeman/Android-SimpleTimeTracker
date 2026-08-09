@@ -9,7 +9,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.Button
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBarChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
-import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailButtonViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardDoubleViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailHintViewData
@@ -20,6 +19,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailDataDistributionViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGoalsCompositeViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailTagValuesCompositeViewData
@@ -31,8 +31,8 @@ class StatisticsDetailContentInteractor @Inject constructor(
 ) {
 
     fun getContent(
-        data: List<StatisticsDetailViewData<*>>,
-        chartViewData: StatisticsDetailChartCompositeViewData?,
+        previewViewData: StatisticsDetailPreviewCompositeViewData.Preview?,
+        data: List<StatisticsDetailViewData.Item<out ViewHolderType>>,
         dailyCalendarViewData: List<ViewHolderType>?,
         statsViewData: StatisticsDetailStatsViewData?,
         streaksViewData: StatisticsDetailStreaksViewData?,
@@ -48,79 +48,14 @@ class StatisticsDetailContentInteractor @Inject constructor(
         dataDistributionViewData: StatisticsDetailDataDistributionViewData?,
         tagValueViewData: StatisticsDetailTagValuesCompositeViewData?,
     ): List<ViewHolderType> {
-        val previewViewData = data.firstOrNull { it.preview != null }?.preview
-
         fun getPreviewColor(): Int = previewViewData?.previewColor ?: Color.BLACK
         fun getPreviewColorComparison(): Int = previewViewData?.comparisonPreviewColor ?: Color.BLACK
 
         val result = mutableListOf<ViewHolderType>()
 
-        result += data.flatMap { it.data }.map { it.item }
+        result += data.map { it.itemProducer?.invoke(previewViewData) ?: it.item }
 
-        chartViewData?.let { viewData ->
-            val comparisonChartIsVisible = viewData.showComparison &&
-                viewData.chartData.visible &&
-                viewData.compareChartData.visible
-
-            if (viewData.chartData.visible) {
-                result += StatisticsDetailBarChartViewData(
-                    block = StatisticsDetailBlock.ChartData,
-                    singleColor = getPreviewColor(),
-                    marginTopDp = 16,
-                    data = viewData.chartData,
-                )
-            }
-
-            if (viewData.compareChartData.visible && comparisonChartIsVisible) {
-                result += StatisticsDetailBarChartViewData(
-                    block = StatisticsDetailBlock.ChartDataComparison,
-                    singleColor = getPreviewColorComparison(),
-                    marginTopDp = 16,
-                    data = viewData.compareChartData,
-                )
-            }
-
-            if (viewData.chartGroupingVisible) {
-                result += ButtonsRowItemViewData(
-                    block = StatisticsDetailBlock.ChartGrouping,
-                    marginTopDp = 4,
-                    data = viewData.chartGroupingViewData,
-                )
-            }
-
-            if (viewData.chartLengthVisible) {
-                result += ButtonsRowItemViewData(
-                    block = StatisticsDetailBlock.ChartLength,
-                    marginTopDp = -10,
-                    data = viewData.chartLengthViewData,
-                )
-            }
-
-            if (viewData.chartData.visible) {
-                // Update margin top depending on if it has buttons before.
-                val hasButtonsBefore = result.lastOrNull() is ButtonsRowItemViewData
-                val newMarginTopDp = if (hasButtonsBefore) -10 else 4
-                val additionalChartButtonItems = viewData.additionalChartButtonItems.map {
-                    (it as? StatisticsDetailButtonViewData)
-                        ?.copy(marginTopDp = newMarginTopDp) ?: it
-                }
-                result += additionalChartButtonItems
-            }
-
-            val rangeAveragesData = viewData.rangeAverages
-            if (rangeAveragesData.isNotEmpty()) {
-                result += StatisticsDetailCardViewData(
-                    block = StatisticsDetailBlock.RangeAverages,
-                    title = viewData.rangeAveragesTitle,
-                    marginTopDp = 0,
-                    data = rangeAveragesData,
-                )
-            }
-        }
-
-        dailyCalendarViewData?.let {
-            result += it
-        }
+        result += dailyCalendarViewData
 
         statsViewData?.let { viewData ->
             result += StatisticsDetailCardDoubleViewData(
@@ -212,29 +147,25 @@ class StatisticsDetailContentInteractor @Inject constructor(
         }
 
         splitChartViewData?.let { viewData ->
-            if (viewData.visible) {
-                result += StatisticsDetailHintViewData(
-                    block = StatisticsDetailBlock.SplitHint,
-                    text = resourceRepo.getString(R.string.statistics_detail_day_split_hint),
-                )
-                result += StatisticsDetailBarChartViewData(
-                    block = StatisticsDetailBlock.SplitChart,
-                    singleColor = getPreviewColor(),
-                    marginTopDp = 0,
-                    data = viewData,
-                )
-            }
+            result += StatisticsDetailHintViewData(
+                block = StatisticsDetailBlock.SplitHint,
+                text = resourceRepo.getString(R.string.statistics_detail_day_split_hint),
+            )
+            result += StatisticsDetailBarChartViewData(
+                block = StatisticsDetailBlock.SplitChart,
+                singleColor = getPreviewColor(),
+                marginTopDp = 0,
+                data = viewData,
+            )
         }
 
         comparisonSplitChartViewData?.let { viewData ->
-            if (viewData.visible) {
-                result += StatisticsDetailBarChartViewData(
-                    block = StatisticsDetailBlock.SplitChartComparison,
-                    singleColor = getPreviewColorComparison(),
-                    marginTopDp = 0,
-                    data = viewData,
-                )
-            }
+            result += StatisticsDetailBarChartViewData(
+                block = StatisticsDetailBlock.SplitChartComparison,
+                singleColor = getPreviewColorComparison(),
+                marginTopDp = 0,
+                data = viewData,
+            )
         }
 
         splitChartGroupingViewData?.let { viewData ->
@@ -248,29 +179,25 @@ class StatisticsDetailContentInteractor @Inject constructor(
         }
 
         durationSplitChartViewData?.let { viewData ->
-            if (viewData.visible) {
-                result += StatisticsDetailHintViewData(
-                    block = StatisticsDetailBlock.DurationSplitHint,
-                    text = resourceRepo.getString(R.string.statistics_detail_duration_split_hint),
-                )
-                result += StatisticsDetailBarChartViewData(
-                    block = StatisticsDetailBlock.DurationSplitChart,
-                    singleColor = getPreviewColor(),
-                    marginTopDp = 0,
-                    data = viewData,
-                )
-            }
+            result += StatisticsDetailHintViewData(
+                block = StatisticsDetailBlock.DurationSplitHint,
+                text = resourceRepo.getString(R.string.statistics_detail_duration_split_hint),
+            )
+            result += StatisticsDetailBarChartViewData(
+                block = StatisticsDetailBlock.DurationSplitChart,
+                singleColor = getPreviewColor(),
+                marginTopDp = 0,
+                data = viewData,
+            )
         }
 
         comparisonDurationSplitChartViewData?.let { viewData ->
-            if (viewData.visible) {
-                result += StatisticsDetailBarChartViewData(
-                    block = StatisticsDetailBlock.DurationSplitChartComparison,
-                    singleColor = getPreviewColorComparison(),
-                    marginTopDp = 0,
-                    data = viewData,
-                )
-            }
+            result += StatisticsDetailBarChartViewData(
+                block = StatisticsDetailBlock.DurationSplitChartComparison,
+                singleColor = getPreviewColorComparison(),
+                marginTopDp = 0,
+                data = viewData,
+            )
         }
 
         nextActivitiesViewData?.let { viewData ->

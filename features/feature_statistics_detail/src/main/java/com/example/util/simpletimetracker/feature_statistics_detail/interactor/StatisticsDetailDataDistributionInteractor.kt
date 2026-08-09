@@ -292,7 +292,6 @@ class StatisticsDetailDataDistributionInteractor @Inject constructor(
             .let { statisticsDetailViewDataMapper.mapLegendSuffix(it) }
 
         return StatisticsDetailChartViewData(
-            visible = true,
             data = chartData.map { (chart, statistic) ->
                 val value = chart.durations.map { (duration, color) ->
                     statisticsDetailViewDataMapper.formatInterval(duration, isMinutes) to color

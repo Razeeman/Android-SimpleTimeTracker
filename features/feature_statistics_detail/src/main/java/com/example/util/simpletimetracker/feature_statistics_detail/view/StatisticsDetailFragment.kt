@@ -46,6 +46,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.crea
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailSeriesChartAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.api.StatisticsDetailOptionsListItem
 import com.example.util.simpletimetracker.feature_statistics_detail.settings.dialog.StatisticsTagValuesSettingsDialogListener
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
@@ -220,17 +221,17 @@ class StatisticsDetailFragment :
             isFiltered = false,
         )
 
-        StatisticsDetailViewData(
-            preview = StatisticsDetailViewData.Preview(
+        StatisticsDetailPreviewCompositeViewData(
+            data = emptyList<StatisticsDetailViewData.Item<ViewHolderType>>(),
+            preview = StatisticsDetailPreviewCompositeViewData.Preview(
                 previewColor = preview.color,
                 comparisonPreviewColor = null,
                 mainPreview = preview,
             ),
-            data = emptyList<StatisticsDetailViewData.Item<ViewHolderType>>(),
         ).let(::setPreviewViewData)
     }
 
-    private fun setPreviewViewData(viewData: StatisticsDetailViewData<*>?) = with(binding) {
+    private fun setPreviewViewData(viewData: StatisticsDetailPreviewCompositeViewData<*>?) = with(binding) {
         val preview = viewData?.preview?.mainPreview
 
         if (preview == null) {

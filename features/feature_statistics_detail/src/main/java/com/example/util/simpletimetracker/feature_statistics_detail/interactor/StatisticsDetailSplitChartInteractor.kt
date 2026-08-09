@@ -40,7 +40,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         rangeLength: RangeLength,
         rangePosition: Int,
         splitChartGrouping: SplitChartGrouping,
-    ): StatisticsDetailChartViewData = withContext(Dispatchers.Default) {
+    ): StatisticsDetailChartViewData? = withContext(Dispatchers.Default) {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val range = timeMapper.getRangeStartAndEnd(
@@ -55,13 +55,14 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             getDurations(records, range, splitChartGrouping, startOfDayShift)
         }
         val isVisible = (isForComparison && filter.isNotEmpty()) || !isForComparison
+        if (!isVisible) return@withContext null
 
         return@withContext when (splitChartGrouping) {
             SplitChartGrouping.HOURLY ->
-                mapper.mapToHourlyChartViewData(data, isVisible)
+                mapper.mapToHourlyChartViewData(data)
 
             SplitChartGrouping.DAILY ->
-                mapper.mapToDailyChartViewData(data, firstDayOfWeek, isVisible)
+                mapper.mapToDailyChartViewData(data, firstDayOfWeek)
         }
     }
 
@@ -71,7 +72,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
         isForComparison: Boolean,
         rangeLength: RangeLength,
         rangePosition: Int,
-    ): StatisticsDetailChartViewData = withContext(Dispatchers.Default) {
+    ): StatisticsDetailChartViewData? = withContext(Dispatchers.Default) {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val range = timeMapper.getRangeStartAndEnd(
@@ -88,6 +89,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             records.map(RecordBase::toRange)
         }
         val isVisible = (isForComparison && filter.isNotEmpty()) || !isForComparison
+        if (!isVisible) return@withContext null
 
         val minDuration = ranges
             .minByOrNull { it.duration }?.duration.orZero()
@@ -110,7 +112,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             ?: availableSteps.reversed().last()
 
         if (total == 0L || durationSpread == 0L || step == 0L) {
-            return@withContext mapper.mapToDurationsSlipChartViewData(emptyMap(), isVisible)
+            return@withContext mapper.mapToDurationsSlipChartViewData(emptyMap())
         }
 
         val buckets: MutableMap<Range, Long> = mutableMapOf()
@@ -145,7 +147,7 @@ class StatisticsDetailSplitChartInteractor @Inject constructor(
             count * 100f / total
         }
 
-        return@withContext mapper.mapToDurationsSlipChartViewData(data, isVisible)
+        return@withContext mapper.mapToDurationsSlipChartViewData(data)
     }
 
     private suspend fun getDurations(

@@ -156,14 +156,14 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
             showSeconds = showSeconds,
         )
 
-        if (chartData.visible) {
+        if (chartData != null) {
             items += StatisticsDetailHintViewData(
                 block = StatisticsDetailBlock.GoalExcessDeficitHint,
                 text = resourceRepo.getString(R.string.statistics_detail_goals_hint),
             )
         }
 
-        if (chartData.visible) {
+        if (chartData != null) {
             items += StatisticsDetailBarChartViewData(
                 block = StatisticsDetailBlock.GoalChartData,
                 singleColor = null, // Replaced later.
@@ -200,7 +200,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
             )
         }
 
-        if (chartData.visible) {
+        if (chartData != null) {
             items += StatisticsDetailCardViewData(
                 block = StatisticsDetailBlock.GoalTotals,
                 title = "",

@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.Stat
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailTotalRecordsSelectedInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreview
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewMoreViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
@@ -22,7 +23,7 @@ class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
     private val totalRecordsSelectedInteractor: StatisticsDetailTotalRecordsSelectedInteractor,
 ) : StatisticsDetailViewModelDelegate, ViewModelDelegate() {
 
-    val viewData: LiveData<StatisticsDetailViewData<*>?> by lazySuspend {
+    val viewData: LiveData<StatisticsDetailPreviewCompositeViewData<*>?> by lazySuspend {
         loadViewData().also { parent?.updateContent() }
     }
 
@@ -48,7 +49,7 @@ class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
         updateViewData()
     }
 
-    private suspend fun loadViewData(): StatisticsDetailViewData<*>? {
+    private suspend fun loadViewData(): StatisticsDetailPreviewCompositeViewData<*>? {
         val parent = parent ?: return null
         val currentFilter = parent.filter
         val filtersWithoutDate = currentFilter.filter { it !is RecordsFilter.Date }
@@ -100,13 +101,13 @@ class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
                 StatisticsDetailViewData.Item(it)
             }
 
-        return StatisticsDetailViewData(
-            preview = StatisticsDetailViewData.Preview(
+        return StatisticsDetailPreviewCompositeViewData(
+            data = listOfNotNull(viewData),
+            preview = StatisticsDetailPreviewCompositeViewData.Preview(
                 previewColor = previewColor,
                 comparisonPreviewColor = comparisonPreviewColor,
                 mainPreview = mainPreview,
             ),
-            data = listOfNotNull(viewData),
         )
     }
 }
