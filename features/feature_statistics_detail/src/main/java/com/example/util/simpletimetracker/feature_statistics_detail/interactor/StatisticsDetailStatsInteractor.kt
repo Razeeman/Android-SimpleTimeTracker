@@ -4,17 +4,21 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.DurationFormat
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.extension.plusAssign
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardDoubleViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickablePopup
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableTracked
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -33,7 +37,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         showComparison: Boolean,
         rangeLength: RangeLength,
         rangePosition: Int,
-    ): StatisticsDetailStatsViewData = withContext(Dispatchers.Default) {
+    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
@@ -71,7 +75,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         )
     }
 
-    fun getEmptyStatsViewData(): StatisticsDetailStatsViewData {
+    fun getEmptyStatsViewData(): List<ViewHolderType> {
         return mapToStatsViewData(
             totalDuration = "",
             compareTotalDuration = "",
@@ -104,7 +108,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         useMilitaryTime: Boolean,
         durationFormat: DurationFormat,
         showSeconds: Boolean,
-    ): StatisticsDetailStatsViewData {
+    ): List<ViewHolderType> {
         val typesMap = types.associateBy { it.id }
         val recordsSorted = records.sortedBy { it.timeStarted }
         val durations = records.map(RecordBase::duration)
@@ -284,69 +288,87 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         compareLastRecord: String,
         firstRecordClickMessage: String?,
         lastRecordClickMessage: String?,
-    ): StatisticsDetailStatsViewData {
-        return StatisticsDetailStatsViewData(
-            totalDuration = listOf(
-                StatisticsDetailCardInternalViewData(
-                    value = totalDuration,
-                    valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
-                    secondValue = compareTotalDuration,
-                    description = resourceRepo.getString(R.string.statistics_detail_total_duration),
-                    accented = true,
-                    titleTextSizeSp = 22,
-                ),
+    ): List<ViewHolderType> {
+        val totalDuration = listOf(
+            StatisticsDetailCardInternalViewData(
+                value = totalDuration,
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
+                secondValue = compareTotalDuration,
+                description = resourceRepo.getString(R.string.statistics_detail_total_duration),
+                accented = true,
+                titleTextSizeSp = 22,
             ),
-            timesTracked = listOf(
-                StatisticsDetailCardInternalViewData(
-                    value = timesTracked?.toString() ?: "",
-                    valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
-                    secondValue = compareTimesTracked,
-                    description = resourceRepo.getQuantityString(
-                        R.plurals.statistics_detail_times_tracked, timesTracked.orZero(),
-                    ),
-                    icon = timesTrackedIcon,
-                    clickable = StatisticsDetailClickableTracked,
-                    accented = true,
-                    titleTextSizeSp = 22,
+        )
+        val timesTracked = listOf(
+            StatisticsDetailCardInternalViewData(
+                value = timesTracked?.toString() ?: "",
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
+                secondValue = compareTimesTracked,
+                description = resourceRepo.getQuantityString(
+                    R.plurals.statistics_detail_times_tracked, timesTracked.orZero(),
                 ),
+                icon = timesTrackedIcon,
+                clickable = StatisticsDetailClickableTracked,
+                accented = true,
+                titleTextSizeSp = 22,
             ),
-            averageRecord = listOf(
-                StatisticsDetailCardInternalViewData(
-                    value = shortestRecord,
-                    valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
-                    secondValue = compareShortestRecord,
-                    description = resourceRepo.getString(R.string.statistics_detail_shortest_record),
-                    clickable = shortestRecordDate?.let { StatisticsDetailClickablePopup(it) },
-                ),
-                StatisticsDetailCardInternalViewData(
-                    value = averageRecord,
-                    valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
-                    secondValue = compareAverageRecord,
-                    description = resourceRepo.getString(R.string.statistics_detail_average_record),
-                ),
-                StatisticsDetailCardInternalViewData(
-                    value = longestRecord,
-                    valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
-                    secondValue = compareLongestRecord,
-                    description = resourceRepo.getString(R.string.statistics_detail_longest_record),
-                    clickable = longestRecordDate?.let { StatisticsDetailClickablePopup(it) },
-                ),
+        )
+        val averageRecord = listOf(
+            StatisticsDetailCardInternalViewData(
+                value = shortestRecord,
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
+                secondValue = compareShortestRecord,
+                description = resourceRepo.getString(R.string.statistics_detail_shortest_record),
+                clickable = shortestRecordDate?.let { StatisticsDetailClickablePopup(it) },
             ),
-            datesTracked = listOf(
-                StatisticsDetailCardInternalViewData(
-                    value = firstRecord,
-                    valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
-                    secondValue = compareFirstRecord,
-                    description = resourceRepo.getString(R.string.statistics_detail_first_record),
-                    clickable = firstRecordClickMessage?.let { StatisticsDetailClickablePopup(it) },
-                ),
-                StatisticsDetailCardInternalViewData(
-                    value = lastRecord,
-                    valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
-                    secondValue = compareLastRecord,
-                    description = resourceRepo.getString(R.string.statistics_detail_last_record),
-                    clickable = lastRecordClickMessage?.let { StatisticsDetailClickablePopup(it) },
-                ),
+            StatisticsDetailCardInternalViewData(
+                value = averageRecord,
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
+                secondValue = compareAverageRecord,
+                description = resourceRepo.getString(R.string.statistics_detail_average_record),
+            ),
+            StatisticsDetailCardInternalViewData(
+                value = longestRecord,
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
+                secondValue = compareLongestRecord,
+                description = resourceRepo.getString(R.string.statistics_detail_longest_record),
+                clickable = longestRecordDate?.let { StatisticsDetailClickablePopup(it) },
+            ),
+        )
+        val datesTracked = listOf(
+            StatisticsDetailCardInternalViewData(
+                value = firstRecord,
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
+                secondValue = compareFirstRecord,
+                description = resourceRepo.getString(R.string.statistics_detail_first_record),
+                clickable = firstRecordClickMessage?.let { StatisticsDetailClickablePopup(it) },
+            ),
+            StatisticsDetailCardInternalViewData(
+                value = lastRecord,
+                valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
+                secondValue = compareLastRecord,
+                description = resourceRepo.getString(R.string.statistics_detail_last_record),
+                clickable = lastRecordClickMessage?.let { StatisticsDetailClickablePopup(it) },
+            ),
+        )
+
+        return listOf(
+            StatisticsDetailCardDoubleViewData(
+                block = StatisticsDetailBlock.Total,
+                first = totalDuration,
+                second = timesTracked,
+            ),
+            StatisticsDetailCardViewData(
+                block = StatisticsDetailBlock.Average,
+                title = resourceRepo.getString(R.string.statistics_detail_record_length),
+                marginTopDp = 4,
+                data = averageRecord,
+            ),
+            StatisticsDetailCardViewData(
+                block = StatisticsDetailBlock.Dates,
+                title = resourceRepo.getString(R.string.statistics_detail_record_time),
+                marginTopDp = 4,
+                data = datesTracked,
             ),
         )
     }

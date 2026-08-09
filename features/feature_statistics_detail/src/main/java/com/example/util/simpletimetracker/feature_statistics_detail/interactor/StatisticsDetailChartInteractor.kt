@@ -49,13 +49,13 @@ class StatisticsDetailChartInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
 ) {
 
-    // Shouldn't be suspend to avoid blocks jumping on screen open.
+    // Shouldn't be suspended to avoid blocks jumping on screen open.
     fun getEmptyChartViewData(
         currentChartGrouping: ChartGrouping,
         currentChartLength: ChartLength,
         rangeLength: RangeLength,
         rangePosition: Int,
-    ): StatisticsDetailChartCompositeViewData<*> {
+    ): StatisticsDetailChartCompositeViewData {
         val compositeData = getChartRangeSelectionData(
             currentChartGrouping = currentChartGrouping,
             currentChartLength = currentChartLength,
@@ -88,7 +88,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         rangePosition: Int,
         splitByActivity: Boolean,
         splitSortMode: ChartSplitSortMode,
-    ): StatisticsDetailChartCompositeViewData<*> = withContext(Dispatchers.Default) {
+    ): StatisticsDetailChartCompositeViewData = withContext(Dispatchers.Default) {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
         val durationFormat = prefsInteractor.getDurationFormat()

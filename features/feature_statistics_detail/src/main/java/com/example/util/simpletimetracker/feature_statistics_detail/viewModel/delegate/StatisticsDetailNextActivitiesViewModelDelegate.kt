@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailNextActivitiesViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailAdjacentActivitiesInteractor
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,6 +37,13 @@ class StatisticsDetailNextActivitiesViewModelDelegate @Inject constructor(
             filter = parent.filter,
             rangeLength = parent.rangeLength,
             rangePosition = parent.rangePosition,
-        )
+        ).takeIf {
+            it.isNotEmpty()
+        }?.let {
+            StatisticsDetailNextActivitiesViewData(
+                block = StatisticsDetailBlock.NextActivities,
+                data = it,
+            )
+        }.let(::listOfNotNull)
     }
 }

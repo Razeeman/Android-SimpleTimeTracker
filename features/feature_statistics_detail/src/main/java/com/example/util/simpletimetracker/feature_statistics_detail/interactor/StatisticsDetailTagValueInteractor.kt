@@ -17,6 +17,8 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartL
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartMode
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartSplitSortMode
 import com.example.util.simpletimetracker.domain.statistics.model.StatisticsDetailTagValueSettings
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBarChartViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItem
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailTagValuesCompositeViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -124,7 +126,13 @@ class StatisticsDetailTagValueInteractor @Inject constructor(
             durationFormat = durationFormat,
             showSeconds = showSeconds,
             isDarkTheme = isDarkTheme,
-        )
+        ).map {
+            if (it is StatisticsDetailBarChartViewData) {
+                it.mapItem(forComparison = false)
+            } else {
+                it.mapItem()
+            }
+        }
 
         return@withContext StatisticsDetailTagValuesCompositeViewData(
             viewData = chartViewData,

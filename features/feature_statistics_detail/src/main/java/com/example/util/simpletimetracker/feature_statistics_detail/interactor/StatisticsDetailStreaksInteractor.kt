@@ -22,6 +22,9 @@ import com.example.util.simpletimetracker.feature_statistics_detail.customView.S
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.model.StreaksGoal
 import com.example.util.simpletimetracker.domain.statistics.model.StatisticsStreaksType
+import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.ButtonsRowItemViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksGoalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksTypeViewData
@@ -209,7 +212,13 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 name = mapToStreakGoalName(it),
                 isSelected = it == streaksGoal,
             )
-        }
+        }.let {
+            ButtonsRowItemViewData(
+                block = StatisticsDetailBlock.SeriesGoal,
+                marginTopDp = 0,
+                data = it,
+            )
+        }.let(::listOf)
     }
 
     private fun mapToStreakTypeName(streaksType: StatisticsStreaksType): String {
@@ -579,7 +588,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         statsData: IntermediateData,
         compareStatsData: IntermediateData?,
         rangeLength: RangeLength,
-    ): List<StatisticsDetailCardInternalViewData> {
+    ): List<ViewHolderType> {
         fun processLongestStreak(value: Long): String {
             // No point count streak of one day.
             return value.takeUnless { rangeLength is RangeLength.Day }
@@ -612,7 +621,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         compareLongestStreak: String,
         currentStreak: String,
         compareCurrentStreak: String,
-    ): List<StatisticsDetailCardInternalViewData> {
+    ): List<ViewHolderType> {
         return listOf(
             StatisticsDetailCardInternalViewData(
                 value = longestStreak,
@@ -626,7 +635,14 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 secondValue = compareCurrentStreak,
                 description = resourceRepo.getString(R.string.statistics_detail_streaks_current),
             ),
-        )
+        ).let {
+            StatisticsDetailCardViewData(
+                block = StatisticsDetailBlock.Series,
+                title = resourceRepo.getString(R.string.statistics_detail_streaks),
+                marginTopDp = 4,
+                data = it,
+            )
+        }.let(::listOf)
     }
 
     private fun mapCalendarCompletionPercentage(

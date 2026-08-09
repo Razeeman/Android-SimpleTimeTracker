@@ -23,7 +23,7 @@ class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
     private val totalRecordsSelectedInteractor: StatisticsDetailTotalRecordsSelectedInteractor,
 ) : StatisticsDetailViewModelDelegate, ViewModelDelegate() {
 
-    val viewData: LiveData<StatisticsDetailPreviewCompositeViewData<*>?> by lazySuspend {
+    val viewData: LiveData<StatisticsDetailPreviewCompositeViewData?> by lazySuspend {
         loadViewData().also { parent?.updateContent() }
     }
 
@@ -49,7 +49,7 @@ class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
         updateViewData()
     }
 
-    private suspend fun loadViewData(): StatisticsDetailPreviewCompositeViewData<*>? {
+    private suspend fun loadViewData(): StatisticsDetailPreviewCompositeViewData? {
         val parent = parent ?: return null
         val currentFilter = parent.filter
         val filtersWithoutDate = currentFilter.filter { it !is RecordsFilter.Date }
@@ -98,7 +98,7 @@ class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
                     data = it,
                 )
             }?.let {
-                StatisticsDetailViewData.Item(it)
+                StatisticsDetailViewData(it)
             }
 
         return StatisticsDetailPreviewCompositeViewData(

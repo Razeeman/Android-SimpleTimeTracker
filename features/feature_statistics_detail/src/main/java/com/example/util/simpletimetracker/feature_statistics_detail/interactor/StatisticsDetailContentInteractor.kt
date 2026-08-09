@@ -7,22 +7,12 @@ import com.example.util.simpletimetracker.domain.extension.plusAssign
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.ButtonsRowItemViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.R
-import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBarChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
-import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardDoubleViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailHintViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailNextActivitiesViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesCalendarViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesChartViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailDataDistributionViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGoalsCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailTagValuesCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import javax.inject.Inject
 
@@ -32,69 +22,32 @@ class StatisticsDetailContentInteractor @Inject constructor(
 
     fun getContent(
         previewViewData: StatisticsDetailPreviewCompositeViewData.Preview?,
-        data: List<StatisticsDetailViewData.Item<out ViewHolderType>>,
-        dailyCalendarViewData: List<ViewHolderType>?,
-        statsViewData: StatisticsDetailStatsViewData?,
+        data: List<StatisticsDetailViewData<*>>,
         streaksViewData: StatisticsDetailStreaksViewData?,
         streaksGoalViewData: List<ViewHolderType>?,
         streaksTypeViewData: List<ViewHolderType>?,
-        splitChartViewData: StatisticsDetailChartViewData?,
-        comparisonSplitChartViewData: StatisticsDetailChartViewData?,
+        splitChartViewData: List<StatisticsDetailViewData<*>>?,
+        comparisonSplitChartViewData: List<StatisticsDetailViewData<*>>?,
         splitChartGroupingViewData: List<ViewHolderType>?,
-        durationSplitChartViewData: StatisticsDetailChartViewData?,
-        comparisonDurationSplitChartViewData: StatisticsDetailChartViewData?,
+        durationSplitChartViewData: List<StatisticsDetailViewData<*>>?,
+        comparisonDurationSplitChartViewData: List<StatisticsDetailViewData<*>>?,
         nextActivitiesViewData: List<ViewHolderType>?,
-        goalsViewData: StatisticsDetailGoalsCompositeViewData?,
-        dataDistributionViewData: StatisticsDetailDataDistributionViewData?,
-        tagValueViewData: StatisticsDetailTagValuesCompositeViewData?,
+        goalsViewData: List<ViewHolderType>?,
+        dataDistributionViewData: List<ViewHolderType>?,
+        tagValueViewData: List<StatisticsDetailViewData<*>>?,
     ): List<ViewHolderType> {
+        fun List<StatisticsDetailViewData<*>>.mapToItems(): List<ViewHolderType> =
+            this.map { it.itemProducer?.invoke(previewViewData) ?: it.item }
+
         fun getPreviewColor(): Int = previewViewData?.previewColor ?: Color.BLACK
         fun getPreviewColorComparison(): Int = previewViewData?.comparisonPreviewColor ?: Color.BLACK
 
         val result = mutableListOf<ViewHolderType>()
 
-        result += data.map { it.itemProducer?.invoke(previewViewData) ?: it.item }
+        result += data.mapToItems()
 
-        result += dailyCalendarViewData
-
-        statsViewData?.let { viewData ->
-            result += StatisticsDetailCardDoubleViewData(
-                block = StatisticsDetailBlock.Total,
-                first = viewData.totalDuration,
-                second = viewData.timesTracked,
-            )
-            result += StatisticsDetailCardViewData(
-                block = StatisticsDetailBlock.Average,
-                title = resourceRepo.getString(R.string.statistics_detail_record_length),
-                marginTopDp = 4,
-                data = viewData.averageRecord,
-            )
-            result += StatisticsDetailCardViewData(
-                block = StatisticsDetailBlock.Dates,
-                title = resourceRepo.getString(R.string.statistics_detail_record_time),
-                marginTopDp = 4,
-                data = viewData.datesTracked,
-            )
-        }
-
-        streaksViewData?.let { viewData ->
-            result += StatisticsDetailCardViewData(
-                block = StatisticsDetailBlock.Series,
-                title = resourceRepo.getString(R.string.statistics_detail_streaks),
-                marginTopDp = 4,
-                data = viewData.streaks,
-            )
-        }
-
-        streaksGoalViewData?.let { viewData ->
-            if (viewData.isNotEmpty()) {
-                result += ButtonsRowItemViewData(
-                    block = StatisticsDetailBlock.SeriesGoal,
-                    marginTopDp = 0,
-                    data = viewData,
-                )
-            }
-        }
+        result += streaksViewData?.streaks
+        result += streaksGoalViewData
 
         streaksViewData?.let { viewData ->
             if (viewData.showData) {
@@ -146,80 +99,15 @@ class StatisticsDetailContentInteractor @Inject constructor(
             }
         }
 
-        splitChartViewData?.let { viewData ->
-            result += StatisticsDetailHintViewData(
-                block = StatisticsDetailBlock.SplitHint,
-                text = resourceRepo.getString(R.string.statistics_detail_day_split_hint),
-            )
-            result += StatisticsDetailBarChartViewData(
-                block = StatisticsDetailBlock.SplitChart,
-                singleColor = getPreviewColor(),
-                marginTopDp = 0,
-                data = viewData,
-            )
-        }
-
-        comparisonSplitChartViewData?.let { viewData ->
-            result += StatisticsDetailBarChartViewData(
-                block = StatisticsDetailBlock.SplitChartComparison,
-                singleColor = getPreviewColorComparison(),
-                marginTopDp = 0,
-                data = viewData,
-            )
-        }
-
-        splitChartGroupingViewData?.let { viewData ->
-            if (viewData.isNotEmpty()) {
-                result += ButtonsRowItemViewData(
-                    block = StatisticsDetailBlock.SplitChartGrouping,
-                    marginTopDp = 4,
-                    data = viewData,
-                )
-            }
-        }
-
-        durationSplitChartViewData?.let { viewData ->
-            result += StatisticsDetailHintViewData(
-                block = StatisticsDetailBlock.DurationSplitHint,
-                text = resourceRepo.getString(R.string.statistics_detail_duration_split_hint),
-            )
-            result += StatisticsDetailBarChartViewData(
-                block = StatisticsDetailBlock.DurationSplitChart,
-                singleColor = getPreviewColor(),
-                marginTopDp = 0,
-                data = viewData,
-            )
-        }
-
-        comparisonDurationSplitChartViewData?.let { viewData ->
-            result += StatisticsDetailBarChartViewData(
-                block = StatisticsDetailBlock.DurationSplitChartComparison,
-                singleColor = getPreviewColorComparison(),
-                marginTopDp = 0,
-                data = viewData,
-            )
-        }
-
-        nextActivitiesViewData?.let { viewData ->
-            if (viewData.isNotEmpty()) {
-                result += StatisticsDetailNextActivitiesViewData(
-                    block = StatisticsDetailBlock.NextActivities,
-                    data = viewData,
-                )
-            }
-        }
-
-        result += goalsViewData?.viewData.orEmpty()
-
-        result += tagValueViewData?.viewData.orEmpty().map {
-            if (it is StatisticsDetailBarChartViewData) {
-                it.copy(singleColor = getPreviewColor())
-            } else {
-                it
-            }
-        }
-
-        result += dataDistributionViewData?.splitData.orEmpty()
+        result += splitChartViewData?.mapToItems()
+        result += comparisonSplitChartViewData?.mapToItems()
+        result += splitChartGroupingViewData
+        result += durationSplitChartViewData?.mapToItems()
+        result += comparisonDurationSplitChartViewData?.mapToItems()
+        result += nextActivitiesViewData
+        result += goalsViewData
+        result += tagValueViewData?.mapToItems()
+        result += dataDistributionViewData
 
         return result
     }

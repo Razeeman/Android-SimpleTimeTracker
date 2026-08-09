@@ -38,7 +38,7 @@ class StatisticsDetailAdjacentActivitiesInteractor @Inject constructor(
         rangePosition: Int,
     ): List<ViewHolderType> = withContext(Dispatchers.Default) {
         // Show only if one activity is selected.
-        val typeId = getActivityId(filter) ?: return@withContext getEmptyViewData()
+        val typeId = getActivityId(filter) ?: return@withContext emptyList()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
         val actualRecords = getRecords(rangeLength, rangePosition)
@@ -127,10 +127,6 @@ class StatisticsDetailAdjacentActivitiesInteractor @Inject constructor(
         return filter.getTypeIds()
             .takeIf { it.size == 1 }
             ?.firstOrNull()
-    }
-
-    private fun getEmptyViewData(): List<ViewHolderType> {
-        return emptyList()
     }
 
     companion object {

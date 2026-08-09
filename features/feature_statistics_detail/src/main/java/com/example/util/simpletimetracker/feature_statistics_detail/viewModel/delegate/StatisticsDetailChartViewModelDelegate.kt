@@ -20,7 +20,7 @@ class StatisticsDetailChartViewModelDelegate @Inject constructor(
     private val chartInteractor: StatisticsDetailChartInteractor,
 ) : StatisticsDetailViewModelDelegate, ViewModelDelegate() {
 
-    val viewData: LiveData<StatisticsDetailChartCompositeViewData<*>> by lazySuspend {
+    val viewData: LiveData<StatisticsDetailChartCompositeViewData> by lazySuspend {
         loadEmptyViewData().also { parent?.updateContent() }
     }
 
@@ -67,7 +67,7 @@ class StatisticsDetailChartViewModelDelegate @Inject constructor(
         parent?.updateContent()
     }
 
-    private fun loadEmptyViewData(): StatisticsDetailChartCompositeViewData<*>? {
+    private fun loadEmptyViewData(): StatisticsDetailChartCompositeViewData? {
         val parent = parent ?: return null
         return chartInteractor.getEmptyChartViewData(
             currentChartGrouping = chartGrouping,
@@ -77,7 +77,7 @@ class StatisticsDetailChartViewModelDelegate @Inject constructor(
         )
     }
 
-    private suspend fun loadViewData(): StatisticsDetailChartCompositeViewData<*>? {
+    private suspend fun loadViewData(): StatisticsDetailChartCompositeViewData? {
         val parent = parent ?: return null
         return chartInteractor.getChartViewData(
             records = parent.records,

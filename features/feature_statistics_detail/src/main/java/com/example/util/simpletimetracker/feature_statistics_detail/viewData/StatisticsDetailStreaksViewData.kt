@@ -1,10 +1,11 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.viewData
 
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesView
 
 data class StatisticsDetailStreaksViewData(
-    val streaks: List<StatisticsDetailCardInternalViewData>,
+    val streaks: List<ViewHolderType>,
     val showData: Boolean,
     val data: List<SeriesView.ViewData>,
     val showComparison: Boolean,

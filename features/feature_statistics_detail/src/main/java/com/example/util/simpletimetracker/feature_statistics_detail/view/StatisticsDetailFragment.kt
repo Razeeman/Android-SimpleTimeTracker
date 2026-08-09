@@ -222,7 +222,7 @@ class StatisticsDetailFragment :
         )
 
         StatisticsDetailPreviewCompositeViewData(
-            data = emptyList<StatisticsDetailViewData.Item<ViewHolderType>>(),
+            data = emptyList<StatisticsDetailViewData<ViewHolderType>>(),
             preview = StatisticsDetailPreviewCompositeViewData.Preview(
                 previewColor = preview.color,
                 comparisonPreviewColor = null,
@@ -231,7 +231,7 @@ class StatisticsDetailFragment :
         ).let(::setPreviewViewData)
     }
 
-    private fun setPreviewViewData(viewData: StatisticsDetailPreviewCompositeViewData<*>?) = with(binding) {
+    private fun setPreviewViewData(viewData: StatisticsDetailPreviewCompositeViewData?) = with(binding) {
         val preview = viewData?.preview?.mainPreview
 
         if (preview == null) {

@@ -28,6 +28,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.customView.S
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailContentInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.model.DataDistributionMode
 import com.example.util.simpletimetracker.feature_statistics_detail.api.StatisticsDetailOptionsListItem
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItem
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickablePopup
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableTracked
@@ -56,6 +57,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.collections.flatten
 
 @HiltViewModel
 class StatisticsDetailViewModel @Inject constructor(
@@ -80,7 +82,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
     val scrollToTop: LiveData<Unit> = SingleLiveEvent()
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
-    val previewViewData: LiveData<StatisticsDetailPreviewCompositeViewData<*>?> by previewDelegate::viewData
+    val previewViewData: LiveData<StatisticsDetailPreviewCompositeViewData?> by previewDelegate::viewData
 
     private lateinit var extra: StatisticsDetailParams
     private var scrolledToTop: Boolean = false
@@ -345,15 +347,16 @@ class StatisticsDetailViewModel @Inject constructor(
     // TODO move to delegates
     // TODO remove liveData, access simple field instead
     private fun loadContent(): List<ViewHolderType> {
+        // Order of delegates controls blocks ordering.
         val data = listOfNotNull(
             previewViewData.value?.data,
-            chartDelegate.viewData.value?.data
+            chartDelegate.viewData.value?.data,
+            dailyCalendarDelegate.viewData.value?.map { it.mapItem() },
+            statsDelegate.viewData.value?.map { it.mapItem() },
         ).flatten()
         return statisticsDetailContentInteractor.getContent(
             previewViewData = previewViewData.value?.preview,
             data = data,
-            dailyCalendarViewData = dailyCalendarDelegate.viewData.value,
-            statsViewData = statsDelegate.viewData.value,
             streaksViewData = streaksDelegate.streaksViewData.value,
             streaksGoalViewData = streaksDelegate.streaksGoalViewData.value,
             streaksTypeViewData = streaksDelegate.streaksTypeViewData.value,
@@ -363,9 +366,9 @@ class StatisticsDetailViewModel @Inject constructor(
             durationSplitChartViewData = durationSplitDelegate.viewData.value,
             comparisonDurationSplitChartViewData = durationSplitDelegate.comparisonViewData.value,
             nextActivitiesViewData = nextActivitiesDelegate.viewData.value,
-            goalsViewData = goalsDelegate.viewData.value,
-            dataDistributionViewData = dataDistributionDelegate.viewData.value,
-            tagValueViewData = tagValueDelegate.viewData.value,
+            goalsViewData = goalsDelegate.viewData.value?.viewData,
+            dataDistributionViewData = dataDistributionDelegate.viewData.value?.splitData,
+            tagValueViewData = tagValueDelegate.viewData.value?.viewData,
         )
     }
 

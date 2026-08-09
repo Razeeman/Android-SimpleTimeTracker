@@ -45,7 +45,6 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.feature_views.barChart.BarChartView
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import java.util.concurrent.TimeUnit
@@ -305,7 +304,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         durationFormat: DurationFormat,
         showSeconds: Boolean,
         isDarkTheme: Boolean,
-    ): StatisticsDetailChartCompositeViewData<*> {
+    ): StatisticsDetailChartCompositeViewData {
         val chartIsSplitByActivity = splitByActivity && canSplitByActivity
         val chartComparisonIsSplitByActivity = splitByActivity && canComparisonSplitByActivity
 
@@ -429,7 +428,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         ranges: List<ChartBarDataRange>,
         availableChartGroupings: List<ChartGrouping>,
         availableChartLengths: List<ChartLength>,
-    ): StatisticsDetailChartCompositeViewData<*> {
+    ): StatisticsDetailChartCompositeViewData {
         val emptyChart = StatisticsDetailChartViewData(
             data = emptyList(),
             legendSuffix = "",
@@ -483,7 +482,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             // TODO remove duplication
             StatisticsDetailCardViewData(
                 block = StatisticsDetailBlock.RangeAverages,
-                title = "",
+                title = " ",
                 marginTopDp = 0,
                 data = it,
             )
@@ -494,7 +493,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 emptyChart?.mapItem(forComparison = false),
                 chartGroupingViewData?.mapItem(),
                 chartLengthViewData?.mapItem(),
-                rangeAverages?.mapItem()
+                rangeAverages?.mapItem(),
             ),
             appliedChartGrouping = ChartGrouping.DAILY,
             appliedChartLength = ChartLength.TEN,
@@ -580,7 +579,15 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 name = mapToSplitGroupingName(it),
                 isSelected = it == splitChartGrouping,
             )
-        }
+        }.takeIf {
+            it.isNotEmpty()
+        }?.let {
+            ButtonsRowItemViewData(
+                block = StatisticsDetailBlock.SplitChartGrouping,
+                marginTopDp = 4,
+                data = it,
+            )
+        }.let(::listOfNotNull)
     }
 
     fun mapToDurationsSlipChartViewData(
@@ -1004,24 +1011,6 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             },
             iconColor = colorMapper.toIconColor(isDarkTheme = isDarkTheme, isFiltered = isFiltered),
             iconAlpha = colorMapper.toIconAlpha(icon = state.iconId, isFiltered = isFiltered),
-        )
-    }
-
-    private fun ViewHolderType.mapItem(): StatisticsDetailViewData.Item<ViewHolderType> {
-        return StatisticsDetailViewData.Item(
-            item = this,
-        )
-    }
-
-    private fun StatisticsDetailBarChartViewData.mapItem(
-        forComparison: Boolean,
-    ): StatisticsDetailViewData.Item<ViewHolderType> {
-        return StatisticsDetailViewData.Item(
-            item = this,
-            itemProducer = { preview ->
-                val color = if (forComparison) preview?.comparisonPreviewColor else preview?.previewColor
-                this.copy(singleColor = color ?: Color.BLACK)
-            },
         )
     }
 

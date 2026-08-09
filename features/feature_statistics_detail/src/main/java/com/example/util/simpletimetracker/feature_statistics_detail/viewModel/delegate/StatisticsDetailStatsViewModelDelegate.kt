@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailStatsInteractor
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStatsViewData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ class StatisticsDetailStatsViewModelDelegate @Inject constructor(
     private val statsInteractor: StatisticsDetailStatsInteractor,
 ) : StatisticsDetailViewModelDelegate, ViewModelDelegate() {
 
-    val viewData: LiveData<StatisticsDetailStatsViewData?> by lazySuspend {
+    val viewData: LiveData<List<ViewHolderType>> by lazySuspend {
         loadEmptyViewData().also { parent?.updateContent() }
     }
 
@@ -28,12 +28,12 @@ class StatisticsDetailStatsViewModelDelegate @Inject constructor(
         parent?.updateContent()
     }
 
-    private fun loadEmptyViewData(): StatisticsDetailStatsViewData {
+    private fun loadEmptyViewData(): List<ViewHolderType> {
         return statsInteractor.getEmptyStatsViewData()
     }
 
-    private suspend fun loadViewData(): StatisticsDetailStatsViewData? {
-        val parent = parent ?: return null
+    private suspend fun loadViewData(): List<ViewHolderType> {
+        val parent = parent ?: return emptyList()
 
         return statsInteractor.getStatsViewData(
             records = parent.records,
