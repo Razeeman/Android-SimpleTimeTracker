@@ -29,11 +29,13 @@ import com.example.util.simpletimetracker.feature_statistics_detail.interactor.S
 import com.example.util.simpletimetracker.feature_statistics_detail.model.DataDistributionMode
 import com.example.util.simpletimetracker.feature_statistics_detail.api.StatisticsDetailOptionsListItem
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItem
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItems
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickablePopup
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableTracked
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreview
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailChartViewModelDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailDailyCalendarViewModelDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailDataDistributionViewModelDelegate
@@ -325,7 +327,6 @@ class StatisticsDetailViewModel @Inject constructor(
         previewDelegate.updateViewData()
         statsDelegate.updateViewData()
         streaksDelegate.updateStreaksViewData()
-        streaksDelegate.updateStreaksGoalViewData()
         chartDelegate.updateViewData()
         dailyCalendarDelegate.updateViewData()
         splitChartDelegate.updateSplitChartViewData()
@@ -344,31 +345,28 @@ class StatisticsDetailViewModel @Inject constructor(
         checkTopScroll(data)
     }
 
-    // TODO move to delegates
     // TODO remove liveData, access simple field instead
     private fun loadContent(): List<ViewHolderType> {
         // Order of delegates controls blocks ordering.
-        val data = listOfNotNull(
-            previewViewData.value?.data,
+        val data: List<StatisticsDetailViewData<*>> = listOfNotNull(
+            previewDelegate.viewData.value?.data,
             chartDelegate.viewData.value?.data,
-            dailyCalendarDelegate.viewData.value?.map { it.mapItem() },
-            statsDelegate.viewData.value?.map { it.mapItem() },
+            dailyCalendarDelegate.viewData.value?.mapItems(),
+            statsDelegate.viewData.value?.mapItems(),
+            streaksDelegate.streaksViewData.value?.viewData,
+            splitChartDelegate.splitChartViewData.value,
+            splitChartDelegate.comparisonSplitChartViewData.value,
+            splitChartDelegate.splitChartGroupingViewData.value?.mapItems(),
+            durationSplitDelegate.viewData.value,
+            durationSplitDelegate.comparisonViewData.value,
+            nextActivitiesDelegate.viewData.value?.mapItems(),
+            goalsDelegate.viewData.value?.viewData?.mapItems(),
+            tagValueDelegate.viewData.value?.viewData,
+            dataDistributionDelegate.viewData.value?.splitData?.mapItems(),
         ).flatten()
         return statisticsDetailContentInteractor.getContent(
             previewViewData = previewViewData.value?.preview,
             data = data,
-            streaksViewData = streaksDelegate.streaksViewData.value,
-            streaksGoalViewData = streaksDelegate.streaksGoalViewData.value,
-            streaksTypeViewData = streaksDelegate.streaksTypeViewData.value,
-            splitChartViewData = splitChartDelegate.splitChartViewData.value,
-            comparisonSplitChartViewData = splitChartDelegate.comparisonSplitChartViewData.value,
-            splitChartGroupingViewData = splitChartDelegate.splitChartGroupingViewData.value,
-            durationSplitChartViewData = durationSplitDelegate.viewData.value,
-            comparisonDurationSplitChartViewData = durationSplitDelegate.comparisonViewData.value,
-            nextActivitiesViewData = nextActivitiesDelegate.viewData.value,
-            goalsViewData = goalsDelegate.viewData.value?.viewData,
-            dataDistributionViewData = dataDistributionDelegate.viewData.value?.splitData,
-            tagValueViewData = tagValueDelegate.viewData.value?.viewData,
         )
     }
 

@@ -16,14 +16,14 @@ fun createStatisticsDetailSeriesChartAdapterDelegate() = createRecyclerBindingAd
     with(binding.root) {
         item as ViewData
 
-        setBarColor(item.color)
+        item.color?.let(::setBarColor)
         setData(data = item.data, animate = item.animate.getValue().orFalse())
     }
 }
 
 data class StatisticsDetailSeriesChartViewData(
     val block: StatisticsDetailBlock,
-    @ColorInt val color: Int,
+    @ColorInt val color: Int?,
     val data: List<SeriesView.ViewData>,
     val animate: OneShotValue<Boolean>,
 ) : ViewHolderType {

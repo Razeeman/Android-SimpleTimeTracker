@@ -5,11 +5,13 @@ import com.example.util.simpletimetracker.core.extension.shift
 import com.example.util.simpletimetracker.core.extension.shiftTimeStamp
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.base.OneShotValue
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.rotateLeft
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.extension.plusAssign
 import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
@@ -25,10 +27,14 @@ import com.example.util.simpletimetracker.domain.statistics.model.StatisticsStre
 import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.ButtonsRowItemViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesCalendarViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesChartViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItem
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksGoalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksTypeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Calendar
@@ -47,22 +53,12 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
 
     fun getEmptyStreaksViewData(): StatisticsDetailStreaksViewData {
         return StatisticsDetailStreaksViewData(
-            streaks = mapToStatsViewData(
+            viewData = mapToStatsViewData(
                 longestStreak = "",
                 compareLongestStreak = "",
                 currentStreak = "",
                 compareCurrentStreak = "",
-            ),
-            showData = false,
-            data = emptyList(),
-            showComparison = false,
-            compareData = emptyList(),
-            showCalendar = false,
-            calendarRowsCount = 1, // Doesn't matter, calendar is hidden.
-            calendarData = emptyList(),
-            showComparisonCalendar = false,
-            compareCalendarData = emptyList(),
-            completion = emptyList(),
+            ).map { it.mapItem() },
         )
     }
 
@@ -113,28 +109,6 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             null
         }
 
-        val streaksListData = statsData.rangeCurrentData.map {
-            mapStreaksListViewData(
-                data = it,
-                startOfDayShift = startOfDayShift,
-                calendar = calendar,
-            )
-        }
-        val streaksListCompareData = compareStatsData?.rangeCurrentData.orEmpty().map {
-            mapStreaksListViewData(
-                data = it,
-                startOfDayShift = startOfDayShift,
-                calendar = calendar,
-            )
-        }
-
-        val streaksCalendarCanBeShown = statsData.calendarData.size > 1
-        val isCalendarShownInOneRow = isCalendarShownInOneRow(
-            dataSize = statsData.calendarData.size,
-            rangeLength = rangeLength,
-        )
-        val calendarRowsCount = if (isCalendarShownInOneRow) 1 else 7
-
         val streaksCanBeShown = rangeLength !is RangeLength.Day // No point count streak of one day.
 
         val hasDataToShow = streaksCanBeShown &&
@@ -145,33 +119,131 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
 
         val hasData = hasDataToShow || hasComparisonDataToShow
 
+        val streaksListData = if (hasData) {
+            statsData.rangeCurrentData.map {
+                mapStreaksListViewData(
+                    data = it,
+                    startOfDayShift = startOfDayShift,
+                    calendar = calendar,
+                )
+            }
+        } else {
+            emptyList()
+        }
+        val streaksListCompareData = if (showComparison && hasData) {
+            compareStatsData?.rangeCurrentData.orEmpty().map {
+                mapStreaksListViewData(
+                    data = it,
+                    startOfDayShift = startOfDayShift,
+                    calendar = calendar,
+                )
+            }
+        } else {
+            emptyList()
+        }
+
+        val streaksCalendarCanBeShown = statsData.calendarData.size > 1
+        val isCalendarShownInOneRow = isCalendarShownInOneRow(
+            dataSize = statsData.calendarData.size,
+            rangeLength = rangeLength,
+        )
+        val calendarRowsCount = if (isCalendarShownInOneRow) 1 else 7
+
         val streaks = mapToStreaks(
             statsData = statsData,
             compareStatsData = compareStatsData,
             rangeLength = rangeLength,
         )
 
-        val completion = mapCalendarCompletionPercentage(
-            statsData = statsData,
-            compareStatsData = compareStatsData,
-        ).takeIf { streaksCalendarCanBeShown }.orEmpty()
+        val completion = if (streaksCalendarCanBeShown) {
+            mapCalendarCompletionPercentage(
+                statsData = statsData,
+                compareStatsData = compareStatsData,
+            )
+        } else {
+            emptyList()
+        }
+
+        val streakGoalTypeData = mapToStreaksGoalViewData(
+            streaksGoal = streaksGoal,
+            dailyGoal = goal,
+            compareGoalType = compareGoal,
+            rangeLength = rangeLength,
+        )
+
+        val streakTypeData = if (hasData) {
+            ButtonsRowItemViewData(
+                block = StatisticsDetailBlock.SeriesType,
+                marginTopDp = 4,
+                data = mapToStreaksTypeViewData(streaksType),
+            )
+        } else {
+            null
+        }
+
+        val calendarData = if (streaksCalendarCanBeShown) {
+            statsData.calendarData
+        } else {
+            emptyList()
+        }
+
+        val compareCalendarData = if (showComparison && streaksCalendarCanBeShown) {
+            compareStatsData?.calendarData.orEmpty()
+        } else {
+            emptyList()
+        }
+
+        val viewData = mutableListOf<StatisticsDetailViewData<*>>()
+        viewData += streaks.map { it.mapItem() }
+        viewData += streakGoalTypeData.map { it.mapItem() }
+        viewData += streaksListData.takeIf { it.isNotEmpty() }?.let {
+            StatisticsDetailSeriesChartViewData(
+                block = StatisticsDetailBlock.SeriesChart,
+                color = null, // Replaced later.
+                data = it,
+                animate = OneShotValue(true),
+            )
+        }?.mapItem(forComparison = false)
+        viewData += streaksListCompareData.takeIf { it.isNotEmpty() }?.let {
+            StatisticsDetailSeriesChartViewData(
+                block = StatisticsDetailBlock.SeriesChartComparison,
+                color = null, // Replaced later.
+                data = it,
+                animate = OneShotValue(true),
+            )
+        }?.mapItem(forComparison = true)
+        viewData += streakTypeData?.mapItem()
+        viewData += calendarData.takeIf { it.isNotEmpty() }?.let {
+            StatisticsDetailSeriesCalendarViewData(
+                block = StatisticsDetailBlock.SeriesCalendar,
+                color = null, // Replaced later.
+                data = it,
+                rowsCount = calendarRowsCount,
+            )
+        }?.mapItem(forComparison = false)
+        viewData += compareCalendarData.takeIf { it.isNotEmpty() }?.let {
+            StatisticsDetailSeriesCalendarViewData(
+                block = StatisticsDetailBlock.SeriesCalendarComparison,
+                color = null, // Replaced later.
+                data = it,
+                rowsCount = calendarRowsCount,
+            )
+        }?.mapItem(forComparison = true)
+        viewData += completion.takeIf { it.isNotEmpty() }?.let {
+            StatisticsDetailCardViewData(
+                block = StatisticsDetailBlock.SeriesCompletion,
+                title = resourceRepo.getString(R.string.statistics_detail_streaks_completion),
+                marginTopDp = 8,
+                data = it,
+            )
+        }?.mapItem()
 
         return@withContext StatisticsDetailStreaksViewData(
-            streaks = streaks,
-            showData = hasData,
-            data = streaksListData,
-            showComparison = showComparison && hasData,
-            compareData = streaksListCompareData,
-            showCalendar = streaksCalendarCanBeShown,
-            calendarRowsCount = calendarRowsCount,
-            calendarData = statsData.calendarData,
-            showComparisonCalendar = showComparison && streaksCalendarCanBeShown,
-            compareCalendarData = compareStatsData?.calendarData.orEmpty(),
-            completion = completion,
+            viewData = viewData,
         )
     }
 
-    fun mapToStreaksTypeViewData(
+    private fun mapToStreaksTypeViewData(
         streaksType: StatisticsStreaksType,
     ): List<ViewHolderType> {
         val types = listOf(
@@ -188,7 +260,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         }
     }
 
-    fun mapToStreaksGoalViewData(
+    private fun mapToStreaksGoalViewData(
         streaksGoal: StreaksGoal,
         dailyGoal: RecordTypeGoal?,
         compareGoalType: RecordTypeGoal?,
@@ -299,7 +371,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         rangeLength: RangeLength,
         calculateCalendar: Boolean,
     ): IntermediateData {
-        // If doesn't have a goal - count any duration.
+        // If it doesn't have a goal - count any duration.
         val defaultGoalType = RecordTypeGoal.Type.Duration(1)
         val defaultGoalSubtype = RecordTypeGoal.Subtype.Goal
 
