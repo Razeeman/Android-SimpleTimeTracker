@@ -9,11 +9,14 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsSelectableViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailDataDistributionInteractor
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItems
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.model.DataDistributionMode
 import com.example.util.simpletimetracker.feature_statistics_detail.model.DataDistributionGraph
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailDataDistributionModeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailDataDistributionGraphViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailDataDistributionViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,6 +37,10 @@ class StatisticsDetailDataDistributionViewModelDelegate @Inject constructor(
 
     override fun attach(parent: StatisticsDetailViewModelDelegate.Parent) {
         this.parent = parent
+    }
+
+    override fun getViewData(): StatisticsDetailViewData? {
+        return viewData.value?.splitData?.mapItems()?.let(::mapToViewData)
     }
 
     fun onDataDistributionModeClick(viewData: ButtonsRowViewData) {
@@ -100,4 +107,6 @@ class StatisticsDetailDataDistributionViewModelDelegate @Inject constructor(
             animate = animate,
         )
     }
+
+    companion object : StatisticsDetailViewData.Key
 }

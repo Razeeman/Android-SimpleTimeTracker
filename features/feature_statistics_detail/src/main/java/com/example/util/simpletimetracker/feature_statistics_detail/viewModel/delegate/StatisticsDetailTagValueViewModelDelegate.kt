@@ -8,11 +8,13 @@ import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteracto
 import com.example.util.simpletimetracker.domain.statistics.model.StatisticsDetailTagValueSettings
 import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.view.ButtonsRowViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailTagValueInteractor
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailTagValuesCompositeViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsTagValuesSettingsParams
 import kotlinx.coroutines.launch
@@ -35,6 +37,10 @@ class StatisticsDetailTagValueViewModelDelegate @Inject constructor(
 
     override fun attach(parent: StatisticsDetailViewModelDelegate.Parent) {
         this.parent = parent
+    }
+
+    override fun getViewData(): StatisticsDetailViewData? {
+        return viewData.value?.viewData?.let(::mapToViewData)
     }
 
     fun onChartGroupingClick(viewData: ButtonsRowViewData) {
@@ -111,4 +117,6 @@ class StatisticsDetailTagValueViewModelDelegate @Inject constructor(
         prefsInteractor.setStatisticsDetailTagValueSettings(result)
         loadedTagSettings = result
     }
+
+    companion object : StatisticsDetailViewData.Key
 }

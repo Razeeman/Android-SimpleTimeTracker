@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.Stat
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailHintViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailSplitChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItem
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,10 +21,10 @@ class StatisticsDetailDurationSplitViewModelDelegate @Inject constructor(
     private val splitChartInteractor: StatisticsDetailSplitChartInteractor,
 ) : StatisticsDetailViewModelDelegate, ViewModelDelegate() {
 
-    val viewData: LiveData<List<StatisticsDetailViewData<*>>> by lazy {
+    val viewData: LiveData<List<StatisticsDetailViewData.Item<*>>> by lazy {
         return@lazy MutableLiveData()
     }
-    val comparisonViewData: LiveData<List<StatisticsDetailViewData<*>>> by lazy {
+    val comparisonViewData: LiveData<List<StatisticsDetailViewData.Item<*>>> by lazy {
         return@lazy MutableLiveData()
     }
 
@@ -33,13 +34,20 @@ class StatisticsDetailDurationSplitViewModelDelegate @Inject constructor(
         this.parent = parent
     }
 
+    override fun getViewData(): StatisticsDetailViewData? {
+        return listOfNotNull(
+            viewData.value,
+            comparisonViewData.value,
+        ).flatten().let(::mapToViewData)
+    }
+
     fun updateViewData() = delegateScope.launch {
         viewData.set(loadViewData(isForComparison = false))
         comparisonViewData.set(loadViewData(isForComparison = true))
         parent?.updateContent()
     }
 
-    private suspend fun loadViewData(isForComparison: Boolean): List<StatisticsDetailViewData<*>> {
+    private suspend fun loadViewData(isForComparison: Boolean): List<StatisticsDetailViewData.Item<*>> {
         val parent = parent ?: return emptyList()
 
         val viewData = splitChartInteractor.getDurationSplitViewData(
@@ -71,4 +79,6 @@ class StatisticsDetailDurationSplitViewModelDelegate @Inject constructor(
             ).mapItem(forComparison = isForComparison),
         )
     }
+
+    companion object : StatisticsDetailViewData.Key
 }

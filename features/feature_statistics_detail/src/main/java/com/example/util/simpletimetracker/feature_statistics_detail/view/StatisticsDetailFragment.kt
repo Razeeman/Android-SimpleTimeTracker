@@ -45,11 +45,13 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.crea
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailSeriesCalendarAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.createStatisticsDetailSeriesChartAdapterDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.api.StatisticsDetailOptionsListItem
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItems
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.settings.dialog.StatisticsTagValuesSettingsDialogListener
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.StatisticsDetailViewModel
+import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailPreviewViewModelDelegate
 import com.example.util.simpletimetracker.feature_views.ColorUtils
 import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.example.util.simpletimetracker.feature_views.extension.postDelayed
@@ -222,7 +224,9 @@ class StatisticsDetailFragment :
         )
 
         StatisticsDetailPreviewCompositeViewData(
-            data = emptyList<StatisticsDetailViewData<ViewHolderType>>(),
+            data = StatisticsDetailPreviewViewModelDelegate.mapToViewData(
+                items = emptyList<ViewHolderType>().mapItems(),
+            ),
             preview = StatisticsDetailPreviewCompositeViewData.Preview(
                 previewColor = preview.color,
                 comparisonPreviewColor = null,

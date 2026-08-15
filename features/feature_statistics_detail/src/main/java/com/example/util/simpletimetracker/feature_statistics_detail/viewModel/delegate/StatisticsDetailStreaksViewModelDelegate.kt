@@ -14,10 +14,12 @@ import com.example.util.simpletimetracker.domain.record.model.RecordsFilter
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailGetGoalFromFilterInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailStreaksInteractor
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.model.StreaksGoal
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksGoalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksTypeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.PopupParams
 import kotlinx.coroutines.launch
@@ -44,7 +46,11 @@ class StatisticsDetailStreaksViewModelDelegate @Inject constructor(
         this.parent = parent
     }
 
-    fun updateStreaksViewData() = delegateScope.launch {
+    override fun getViewData(): StatisticsDetailViewData? {
+        return streaksViewData.value?.viewData?.let(::mapToViewData)
+    }
+
+    fun updateViewData() = delegateScope.launch {
         streaksViewData.set(loadStreaksViewData())
         parent?.updateContent()
     }
@@ -58,13 +64,13 @@ class StatisticsDetailStreaksViewModelDelegate @Inject constructor(
     fun onStreaksTypeClick(viewData: ButtonsRowViewData) = delegateScope.launch {
         if (viewData !is StatisticsDetailStreaksTypeViewData) return@launch
         prefsInteractor.setStatisticsStreaksType(viewData.type)
-        updateStreaksViewData()
+        updateViewData()
     }
 
     fun onStreaksGoalClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailStreaksGoalViewData) return
         streaksGoal = viewData.type
-        updateStreaksViewData()
+        updateViewData()
     }
 
     fun onStreaksCalendarClick(
@@ -127,4 +133,6 @@ class StatisticsDetailStreaksViewModelDelegate @Inject constructor(
             compareGoal = getCompareDailyGoal(),
         )
     }
+
+    companion object : StatisticsDetailViewData.Key
 }

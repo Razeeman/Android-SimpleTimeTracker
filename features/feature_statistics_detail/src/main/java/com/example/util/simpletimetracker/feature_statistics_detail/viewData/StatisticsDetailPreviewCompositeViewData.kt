@@ -1,7 +1,7 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.viewData
 
 data class StatisticsDetailPreviewCompositeViewData(
-    val data: List<StatisticsDetailViewData<*>>,
+    val data: StatisticsDetailViewData,
     val preview: Preview?,
 ) {
 

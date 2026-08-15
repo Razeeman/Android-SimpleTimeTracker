@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartS
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,6 +33,10 @@ class StatisticsDetailChartViewModelDelegate @Inject constructor(
 
     override fun attach(parent: StatisticsDetailViewModelDelegate.Parent) {
         this.parent = parent
+    }
+
+    override fun getViewData(): StatisticsDetailViewData? {
+        return viewData.value?.data
     }
 
     fun onChartGroupingClick(viewData: ButtonsRowViewData) {
@@ -92,4 +97,6 @@ class StatisticsDetailChartViewModelDelegate @Inject constructor(
             splitSortMode = splitSortMode,
         )
     }
+
+    companion object : StatisticsDetailViewData.Key
 }

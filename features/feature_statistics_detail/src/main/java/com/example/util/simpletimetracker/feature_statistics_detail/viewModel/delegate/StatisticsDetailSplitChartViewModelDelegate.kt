@@ -16,6 +16,8 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.Stat
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailSplitChartInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItem
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItems
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.model.SplitChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
@@ -28,10 +30,10 @@ class StatisticsDetailSplitChartViewModelDelegate @Inject constructor(
     private val mapper: StatisticsDetailViewDataMapper,
 ) : StatisticsDetailViewModelDelegate, ViewModelDelegate() {
 
-    val splitChartViewData: LiveData<List<StatisticsDetailViewData<*>>> by lazy {
+    val splitChartViewData: LiveData<List<StatisticsDetailViewData.Item<*>>> by lazy {
         return@lazy MutableLiveData()
     }
-    val comparisonSplitChartViewData: LiveData<List<StatisticsDetailViewData<*>>> by lazy {
+    val comparisonSplitChartViewData: LiveData<List<StatisticsDetailViewData.Item<*>>> by lazy {
         return@lazy MutableLiveData()
     }
     val splitChartGroupingViewData: LiveData<List<ViewHolderType>> by lazySuspend {
@@ -45,6 +47,14 @@ class StatisticsDetailSplitChartViewModelDelegate @Inject constructor(
         this.parent = parent
     }
 
+    override fun getViewData(): StatisticsDetailViewData {
+        return listOfNotNull(
+            splitChartViewData.value,
+            comparisonSplitChartViewData.value,
+            splitChartGroupingViewData.value?.mapItems(),
+        ).flatten().let(::mapToViewData)
+    }
+
     fun onSplitChartGroupingClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailSplitGroupingViewData) return
         this.splitChartGrouping = viewData.splitChartGrouping
@@ -52,12 +62,17 @@ class StatisticsDetailSplitChartViewModelDelegate @Inject constructor(
         updateSplitChartViewData()
     }
 
-    fun updateSplitChartGroupingViewData() {
+    fun updateViewData() {
+        updateSplitChartViewData()
+        updateSplitChartGroupingViewData()
+    }
+
+    private fun updateSplitChartGroupingViewData() {
         splitChartGroupingViewData.set(loadSplitChartGroupingViewData())
         parent?.updateContent()
     }
 
-    fun updateSplitChartViewData() = delegateScope.launch {
+    private fun updateSplitChartViewData() = delegateScope.launch {
         splitChartViewData.set(loadSplitChartViewData(isForComparison = false))
         comparisonSplitChartViewData.set(loadSplitChartViewData(isForComparison = true))
         parent?.updateContent()
@@ -71,7 +86,7 @@ class StatisticsDetailSplitChartViewModelDelegate @Inject constructor(
         )
     }
 
-    private suspend fun loadSplitChartViewData(isForComparison: Boolean): List<StatisticsDetailViewData<*>> {
+    private suspend fun loadSplitChartViewData(isForComparison: Boolean): List<StatisticsDetailViewData.Item<*>> {
         val parent = parent ?: return emptyList()
 
         val grouping = splitChartGrouping
@@ -108,4 +123,6 @@ class StatisticsDetailSplitChartViewModelDelegate @Inject constructor(
             ).mapItem(forComparison = isForComparison),
         )
     }
+
+    companion object : StatisticsDetailViewData.Key
 }

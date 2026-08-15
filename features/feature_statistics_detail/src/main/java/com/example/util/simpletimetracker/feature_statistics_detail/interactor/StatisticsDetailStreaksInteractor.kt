@@ -30,6 +30,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.Stat
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesCalendarViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItem
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItems
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksGoalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailStreaksTypeViewData
@@ -58,7 +59,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 compareLongestStreak = "",
                 currentStreak = "",
                 compareCurrentStreak = "",
-            ).map { it.mapItem() },
+            ).mapItems(),
         )
     }
 
@@ -193,9 +194,9 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             emptyList()
         }
 
-        val viewData = mutableListOf<StatisticsDetailViewData<*>>()
-        viewData += streaks.map { it.mapItem() }
-        viewData += streakGoalTypeData.map { it.mapItem() }
+        val viewData = mutableListOf<StatisticsDetailViewData.Item<*>>()
+        viewData += streaks.mapItems()
+        viewData += streakGoalTypeData.mapItems()
         viewData += streaksListData.takeIf { it.isNotEmpty() }?.let {
             StatisticsDetailSeriesChartViewData(
                 block = StatisticsDetailBlock.SeriesChart,
@@ -212,7 +213,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 animate = OneShotValue(true),
             )
         }?.mapItem(forComparison = true)
-        viewData += streakTypeData?.mapItem()
+        viewData += listOfNotNull(streakTypeData).mapItems()
         viewData += calendarData.takeIf { it.isNotEmpty() }?.let {
             StatisticsDetailSeriesCalendarViewData(
                 block = StatisticsDetailBlock.SeriesCalendar,

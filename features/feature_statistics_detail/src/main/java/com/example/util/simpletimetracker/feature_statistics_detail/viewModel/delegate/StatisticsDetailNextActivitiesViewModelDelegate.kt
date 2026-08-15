@@ -8,6 +8,9 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailNextActivitiesViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailAdjacentActivitiesInteractor
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItems
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,6 +26,10 @@ class StatisticsDetailNextActivitiesViewModelDelegate @Inject constructor(
 
     override fun attach(parent: StatisticsDetailViewModelDelegate.Parent) {
         this.parent = parent
+    }
+
+    override fun getViewData(): StatisticsDetailViewData? {
+        return viewData.value?.mapItems()?.let(::mapToViewData)
     }
 
     fun updateViewData() = delegateScope.launch {
@@ -46,4 +53,6 @@ class StatisticsDetailNextActivitiesViewModelDelegate @Inject constructor(
             )
         }.let(::listOfNotNull)
     }
+
+    companion object : StatisticsDetailViewData.Key
 }

@@ -23,19 +23,16 @@ import com.example.util.simpletimetracker.feature_date_selection.api.DateSelecto
 import com.example.util.simpletimetracker.feature_date_selection.api.DateSelectorViewModelDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailPreviewsViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.api.StatisticsDetailOptionsListItem
 import com.example.util.simpletimetracker.feature_statistics_detail.api.StatisticsDetailOptionsListMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailContentInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.model.DataDistributionMode
-import com.example.util.simpletimetracker.feature_statistics_detail.api.StatisticsDetailOptionsListItem
-import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItem
-import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItems
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickablePopup
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableTracked
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreview
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
-import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailChartViewModelDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailDailyCalendarViewModelDelegate
 import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailDataDistributionViewModelDelegate
@@ -59,7 +56,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.collections.flatten
 
 @HiltViewModel
 class StatisticsDetailViewModel @Inject constructor(
@@ -326,11 +322,10 @@ class StatisticsDetailViewModel @Inject constructor(
     private fun updateViewData() {
         previewDelegate.updateViewData()
         statsDelegate.updateViewData()
-        streaksDelegate.updateStreaksViewData()
+        streaksDelegate.updateViewData()
         chartDelegate.updateViewData()
         dailyCalendarDelegate.updateViewData()
-        splitChartDelegate.updateSplitChartViewData()
-        splitChartDelegate.updateSplitChartGroupingViewData()
+        splitChartDelegate.updateViewData()
         durationSplitDelegate.updateViewData()
         nextActivitiesDelegate.updateViewData()
         goalsDelegate.updateViewData()
@@ -347,26 +342,9 @@ class StatisticsDetailViewModel @Inject constructor(
 
     // TODO remove liveData, access simple field instead
     private fun loadContent(): List<ViewHolderType> {
-        // Order of delegates controls blocks ordering.
-        val data: List<StatisticsDetailViewData<*>> = listOfNotNull(
-            previewDelegate.viewData.value?.data,
-            chartDelegate.viewData.value?.data,
-            dailyCalendarDelegate.viewData.value?.mapItems(),
-            statsDelegate.viewData.value?.mapItems(),
-            streaksDelegate.streaksViewData.value?.viewData,
-            splitChartDelegate.splitChartViewData.value,
-            splitChartDelegate.comparisonSplitChartViewData.value,
-            splitChartDelegate.splitChartGroupingViewData.value?.mapItems(),
-            durationSplitDelegate.viewData.value,
-            durationSplitDelegate.comparisonViewData.value,
-            nextActivitiesDelegate.viewData.value?.mapItems(),
-            goalsDelegate.viewData.value?.viewData?.mapItems(),
-            tagValueDelegate.viewData.value?.viewData,
-            dataDistributionDelegate.viewData.value?.splitData?.mapItems(),
-        ).flatten()
         return statisticsDetailContentInteractor.getContent(
             previewViewData = previewViewData.value?.preview,
-            data = data,
+            delegates = delegates,
         )
     }
 

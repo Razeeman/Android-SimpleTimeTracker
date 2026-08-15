@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.Stat
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailPreviewsViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailPreviewInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailTotalRecordsSelectedInteractor
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreview
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewMoreViewData
@@ -33,6 +34,10 @@ class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
 
     override fun attach(parent: StatisticsDetailViewModelDelegate.Parent) {
         this.parent = parent
+    }
+
+    override fun getViewData(): StatisticsDetailViewData? {
+        return viewData.value?.data
     }
 
     fun updateViewData() = delegateScope.launch {
@@ -98,11 +103,11 @@ class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
                     data = it,
                 )
             }?.let {
-                StatisticsDetailViewData(it)
+                StatisticsDetailViewData.Item(it)
             }
 
         return StatisticsDetailPreviewCompositeViewData(
-            data = listOfNotNull(viewData),
+            data = mapToViewData(listOfNotNull(viewData)),
             preview = StatisticsDetailPreviewCompositeViewData.Preview(
                 previewColor = previewColor,
                 comparisonPreviewColor = comparisonPreviewColor,
@@ -110,4 +115,6 @@ class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
             ),
         )
     }
+
+    companion object : StatisticsDetailViewData.Key
 }

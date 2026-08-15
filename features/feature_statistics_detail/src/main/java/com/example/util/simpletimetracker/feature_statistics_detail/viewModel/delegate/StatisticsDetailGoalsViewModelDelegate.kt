@@ -6,11 +6,14 @@ import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.view.ButtonsRowViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailGoalsInteractor
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItems
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartLengthViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGoalsCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,6 +31,10 @@ class StatisticsDetailGoalsViewModelDelegate @Inject constructor(
 
     override fun attach(parent: StatisticsDetailViewModelDelegate.Parent) {
         this.parent = parent
+    }
+
+    override fun getViewData(): StatisticsDetailViewData? {
+        return viewData.value?.viewData?.mapItems()?.let(::mapToViewData)
     }
 
     fun onChartGroupingClick(viewData: ButtonsRowViewData) {
@@ -61,4 +68,6 @@ class StatisticsDetailGoalsViewModelDelegate @Inject constructor(
             rangePosition = parent.rangePosition,
         )
     }
+
+    companion object : StatisticsDetailViewData.Key
 }

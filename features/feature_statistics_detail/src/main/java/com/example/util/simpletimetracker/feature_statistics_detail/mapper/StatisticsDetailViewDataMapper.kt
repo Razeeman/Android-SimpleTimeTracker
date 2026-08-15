@@ -45,6 +45,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGroupingViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailSplitGroupingViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.viewModel.delegate.StatisticsDetailChartViewModelDelegate
 import com.example.util.simpletimetracker.feature_views.barChart.BarChartView
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import java.util.concurrent.TimeUnit
@@ -414,11 +415,13 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             (it as? StatisticsDetailButtonViewData)?.copy(marginTopDp = newMarginTopDp) ?: it
         }
 
+        val viewDataItems = listOfNotNull(chartData) +
+            listOfNotNull(compareChartData) +
+            buttons.mapItems() +
+            rangeAverages.mapItems()
+
         return StatisticsDetailChartCompositeViewData(
-            data = listOfNotNull(chartData) +
-                listOfNotNull(compareChartData) +
-                buttons.map { it.mapItem() } +
-                rangeAverages.map { it.mapItem() },
+            data = StatisticsDetailChartViewModelDelegate.mapToViewData(viewDataItems),
             appliedChartGrouping = appliedChartGrouping,
             appliedChartLength = appliedChartLength,
         )
@@ -487,14 +490,15 @@ class StatisticsDetailViewDataMapper @Inject constructor(
                 data = it,
             )
         }
+        val viewDataItems = listOfNotNull(
+            emptyChart?.mapItem(forComparison = false),
+            chartGroupingViewData?.mapItem(),
+            chartLengthViewData?.mapItem(),
+            rangeAverages?.mapItem(),
+        )
 
         return StatisticsDetailChartCompositeViewData(
-            data = listOfNotNull(
-                emptyChart?.mapItem(forComparison = false),
-                chartGroupingViewData?.mapItem(),
-                chartLengthViewData?.mapItem(),
-                rangeAverages?.mapItem(),
-            ),
+            data = StatisticsDetailChartViewModelDelegate.mapToViewData(viewDataItems),
             appliedChartGrouping = ChartGrouping.DAILY,
             appliedChartLength = ChartLength.TEN,
         )
