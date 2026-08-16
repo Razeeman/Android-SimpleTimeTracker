@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.core.utils.PendingIntents
+import com.example.util.simpletimetracker.domain.base.REPEAT_BUTTON_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.ifNull
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
@@ -162,7 +163,11 @@ class NotificationControlsManager @Inject constructor(
                     action = action,
                     requestCode = getRequestCode(
                         from = from,
-                        additionalInfo = RequestCode.AdditionalInfo.TypeId(data.id),
+                        additionalInfo = if (data.id == REPEAT_BUTTON_ITEM_ID) {
+                            RequestCode.AdditionalInfo.Repeat
+                        } else {
+                            RequestCode.AdditionalInfo.TypeId(data.id)
+                        },
                     ),
                     from = from,
                     selectedTags = params.selectedTags,
@@ -267,7 +272,11 @@ class NotificationControlsManager @Inject constructor(
                     action = ACTION_NOTIFICATION_CONTROLS_TAG_CLICK,
                     requestCode = getRequestCode(
                         from = from,
-                        additionalInfo = RequestCode.AdditionalInfo.TypeId(data.id),
+                        additionalInfo = when (data.id) {
+                            APPLY_TAGS_ID -> RequestCode.AdditionalInfo.ApplyTags
+                            UNTAGGED_TAG_ID -> RequestCode.AdditionalInfo.Untagged
+                            else -> RequestCode.AdditionalInfo.TagId(data.id)
+                        },
                     ),
                     from = from,
                     selectedTypeId = params.selectedTypeId,
@@ -634,7 +643,11 @@ class NotificationControlsManager @Inject constructor(
 
         sealed interface AdditionalInfo {
             data class TypeId(val id: Long) : AdditionalInfo
+            data class TagId(val id: Long) : AdditionalInfo
             data class TagValueControls(val id: Long) : AdditionalInfo
+            data object Repeat : AdditionalInfo
+            data object ApplyTags : AdditionalInfo
+            data object Untagged : AdditionalInfo
             data object Nothing : AdditionalInfo
         }
     }
