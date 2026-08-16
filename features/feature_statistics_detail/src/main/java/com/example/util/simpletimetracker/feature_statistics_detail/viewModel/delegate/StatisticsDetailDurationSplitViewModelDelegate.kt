@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.interactor.S
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItem
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,10 +42,12 @@ class StatisticsDetailDurationSplitViewModelDelegate @Inject constructor(
         ).flatten().let(::mapToViewData)
     }
 
-    fun updateViewData() = delegateScope.launch {
-        viewData.set(loadViewData(isForComparison = false))
-        comparisonViewData.set(loadViewData(isForComparison = true))
-        parent?.updateContent()
+    override fun updateViewData(animate: Boolean) {
+        delegateScope.launch {
+            viewData.set(loadViewData(isForComparison = false))
+            comparisonViewData.set(loadViewData(isForComparison = true))
+            parent?.updateContent()
+        }
     }
 
     private suspend fun loadViewData(isForComparison: Boolean): List<StatisticsDetailViewData.Item<*>> {

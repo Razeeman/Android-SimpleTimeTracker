@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.interactor.S
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItems
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.collections.emptyList
@@ -31,10 +32,12 @@ class StatisticsDetailDailyCalendarViewModelDelegate @Inject constructor(
         return viewData.value
     }
 
-    fun updateViewData() = delegateScope.launch {
-        val data = loadViewData()
-        viewData.set(data)
-        parent?.updateContent()
+    override fun updateViewData(animate: Boolean) {
+        delegateScope.launch {
+            val data = loadViewData()
+            viewData.set(data)
+            parent?.updateContent()
+        }
     }
 
     private fun loadEmptyViewData(): StatisticsDetailViewData {

@@ -82,9 +82,7 @@ class StatisticsDetailDataDistributionViewModelDelegate @Inject constructor(
         )
     }
 
-    fun updateViewData(
-        animate: Boolean = true,
-    ) {
+    override fun updateViewData(animate: Boolean) {
         updateViewDataJob?.cancel()
         updateViewDataJob = delegateScope.launch {
             viewData.set(loadViewData(animate))

@@ -62,7 +62,7 @@ class StatisticsDetailSplitChartViewModelDelegate @Inject constructor(
         updateSplitChartViewData()
     }
 
-    fun updateViewData() {
+    override fun updateViewData(animate: Boolean) {
         updateSplitChartViewData()
         updateSplitChartGroupingViewData()
     }

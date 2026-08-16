@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.interactor.S
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItems
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,9 +33,11 @@ class StatisticsDetailNextActivitiesViewModelDelegate @Inject constructor(
         return viewData.value?.mapItems()?.let(::mapToViewData)
     }
 
-    fun updateViewData() = delegateScope.launch {
-        viewData.set(loadViewData())
-        parent?.updateContent()
+    override fun updateViewData(animate: Boolean) {
+        delegateScope.launch {
+            viewData.set(loadViewData())
+            parent?.updateContent()
+        }
     }
 
     private suspend fun loadViewData(): List<ViewHolderType> {

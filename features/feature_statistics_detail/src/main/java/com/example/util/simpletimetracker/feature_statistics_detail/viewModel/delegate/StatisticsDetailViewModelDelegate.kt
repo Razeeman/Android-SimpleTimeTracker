@@ -11,6 +11,7 @@ interface StatisticsDetailViewModelDelegate {
 
     fun attach(parent: Parent)
     fun getViewData(): StatisticsDetailViewData? = null
+    fun updateViewData(animate: Boolean = true) = Unit
 
     interface Parent {
         val extra: StatisticsDetailParams

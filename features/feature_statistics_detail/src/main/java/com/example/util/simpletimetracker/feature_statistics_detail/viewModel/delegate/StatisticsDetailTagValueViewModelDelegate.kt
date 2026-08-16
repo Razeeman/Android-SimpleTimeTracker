@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsTagValuesSettingsParams
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -74,12 +75,14 @@ class StatisticsDetailTagValueViewModelDelegate @Inject constructor(
         )
     }
 
-    fun updateViewData() = delegateScope.launch {
-        val data = loadViewData() ?: return@launch
-        viewData.set(data)
-        chartGrouping = data.appliedChartGrouping
-        chartLength = data.appliedChartLength
-        parent?.updateContent()
+    override fun updateViewData(animate: Boolean) {
+        delegateScope.launch {
+            val data = loadViewData() ?: return@launch
+            viewData.set(data)
+            chartGrouping = data.appliedChartGrouping
+            chartLength = data.appliedChartLength
+            parent?.updateContent()
+        }
     }
 
     private suspend fun loadViewData(): StatisticsDetailTagValuesCompositeViewData? {

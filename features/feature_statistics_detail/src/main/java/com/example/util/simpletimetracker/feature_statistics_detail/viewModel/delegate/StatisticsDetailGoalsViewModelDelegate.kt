@@ -49,12 +49,14 @@ class StatisticsDetailGoalsViewModelDelegate @Inject constructor(
         updateViewData()
     }
 
-    fun updateViewData() = delegateScope.launch {
-        val data = loadViewData() ?: return@launch
-        viewData.set(data)
-        chartGrouping = data.appliedChartGrouping
-        chartLength = data.appliedChartLength
-        parent?.updateContent()
+    override fun updateViewData(animate: Boolean) {
+        delegateScope.launch {
+            val data = loadViewData() ?: return@launch
+            viewData.set(data)
+            chartGrouping = data.appliedChartGrouping
+            chartLength = data.appliedChartLength
+            parent?.updateContent()
+        }
     }
 
     private suspend fun loadViewData(): StatisticsDetailGoalsCompositeViewData? {

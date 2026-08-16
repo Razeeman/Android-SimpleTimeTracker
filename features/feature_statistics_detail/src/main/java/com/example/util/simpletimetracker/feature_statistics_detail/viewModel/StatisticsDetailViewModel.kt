@@ -57,6 +57,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Suppress("CanBeParameter")
 @HiltViewModel
 class StatisticsDetailViewModel @Inject constructor(
     val dateSelectorViewModelDelegate: DateSelectorViewModelDelegate,
@@ -320,17 +321,7 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     private fun updateViewData() {
-        previewDelegate.updateViewData()
-        statsDelegate.updateViewData()
-        streaksDelegate.updateViewData()
-        chartDelegate.updateViewData()
-        dailyCalendarDelegate.updateViewData()
-        splitChartDelegate.updateViewData()
-        durationSplitDelegate.updateViewData()
-        nextActivitiesDelegate.updateViewData()
-        goalsDelegate.updateViewData()
-        dataDistributionDelegate.updateViewData()
-        tagValueDelegate.updateViewData()
+        delegates.forEach { it.updateViewData() }
         dateSelectorViewModelDelegate.updatePosition(rangeDelegate.provideRangePosition())
     }
 

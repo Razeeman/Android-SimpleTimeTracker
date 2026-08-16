@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.viewData.Sta
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewMoreViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -40,9 +41,11 @@ class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
         return viewData.value?.data
     }
 
-    fun updateViewData() = delegateScope.launch {
-        viewData.set(loadViewData())
-        parent?.updateContent()
+    override fun updateViewData(animate: Boolean) {
+        delegateScope.launch {
+            viewData.set(loadViewData())
+            parent?.updateContent()
+        }
     }
 
     fun onPreviewItemClick(item: StatisticsDetailPreview) {
