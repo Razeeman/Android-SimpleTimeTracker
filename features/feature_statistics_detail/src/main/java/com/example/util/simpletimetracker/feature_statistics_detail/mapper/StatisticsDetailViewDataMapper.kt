@@ -318,14 +318,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             showSelectedBarOnStart = true,
             useSingleColor = !chartIsSplitByActivity,
             drawRoundCaps = !chartIsSplitByActivity,
-        )?.let {
-            StatisticsDetailBarChartViewData(
-                block = StatisticsDetailBlock.ChartData,
-                singleColor = null,
-                marginTopDp = 16,
-                data = it,
-            )
-        }?.mapItem(forComparison = false)
+        )?.let(::mapChartDataBlock)?.mapItem(forComparison = false)
         val compareChartData = if (showComparison && chartData != null) {
             mapChartData(
                 data = compareData,
@@ -342,7 +335,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         }?.let {
             StatisticsDetailBarChartViewData(
                 block = StatisticsDetailBlock.ChartDataComparison,
-                singleColor = null,
+                singleColor = null, // Replaced later.
                 marginTopDp = 16,
                 data = it,
             )
@@ -361,38 +354,16 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         ).takeIf {
             it.second.isNotEmpty()
         }?.let { (title, data) ->
-            StatisticsDetailCardViewData(
-                block = StatisticsDetailBlock.RangeAverages,
-                title = title,
-                marginTopDp = 0,
-                data = data,
-            )
+            mapRangeAveragesBlock(title, data)
         }.let(::listOfNotNull)
-        val buttons = mutableListOf<ViewHolderType>()
         val chartGroupingViewData = mapToChartGroupingViewData(
             availableChartGroupings = availableChartGroupings,
             appliedChartGrouping = appliedChartGrouping,
-        ).takeIf {
-            it.size > 1
-        }?.let {
-            ButtonsRowItemViewData(
-                block = StatisticsDetailBlock.ChartGrouping,
-                marginTopDp = 4,
-                data = it,
-            )
-        }
+        ).takeIf { it.size > 1 }?.let(::mapChartGroupingBlock)
         val chartLengthViewData = mapToChartLengthViewData(
             availableChartLengths = availableChartLengths,
             appliedChartLength = appliedChartLength,
-        ).takeIf {
-            it.isNotEmpty()
-        }?.let {
-            ButtonsRowItemViewData(
-                block = StatisticsDetailBlock.ChartLength,
-                marginTopDp = -10,
-                data = it,
-            )
-        }
+        ).takeIf { it.isNotEmpty() }?.let(::mapChartLengthBlock)
         val splitByActivityItems = if (
             chartData != null &&
             (canSplitByActivity || canComparisonSplitByActivity)
@@ -406,6 +377,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             emptyList()
         }
 
+        val buttons = mutableListOf<ViewHolderType>()
         buttons += chartGroupingViewData
         buttons += chartLengthViewData
         // Update margin top depending on if it has buttons before.
@@ -447,31 +419,15 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         ).takeIf {
             ranges.size > 1
         }?.let {
-            // TODO remove duplication
-            StatisticsDetailBarChartViewData(
-                block = StatisticsDetailBlock.ChartData,
-                singleColor = null,
-                marginTopDp = 16,
-                data = it,
-            )
+            mapChartDataBlock(it)
         }
         val chartGroupingViewData = if (availableChartGroupings.size > 1) {
-            // TODO remove duplication
-            ButtonsRowItemViewData(
-                block = StatisticsDetailBlock.ChartGrouping,
-                marginTopDp = 4,
-                data = emptyList(),
-            )
+            mapChartGroupingBlock(emptyList())
         } else {
             null
         }
         val chartLengthViewData = if (availableChartLengths.isNotEmpty()) {
-            // TODO remove duplication
-            ButtonsRowItemViewData(
-                block = StatisticsDetailBlock.ChartLength,
-                marginTopDp = -10,
-                data = emptyList(),
-            )
+            mapChartLengthBlock(emptyList())
         } else {
             null
         }
@@ -482,13 +438,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         }.takeIf {
             it.isNotEmpty()
         }?.let {
-            // TODO remove duplication
-            StatisticsDetailCardViewData(
-                block = StatisticsDetailBlock.RangeAverages,
-                title = " ",
-                marginTopDp = 0,
-                data = it,
-            )
+            mapRangeAveragesBlock(" ", it)
         }
         val viewDataItems = listOfNotNull(
             emptyChart?.mapItem(forComparison = false),
@@ -1015,6 +965,43 @@ class StatisticsDetailViewDataMapper @Inject constructor(
             },
             iconColor = colorMapper.toIconColor(isDarkTheme = isDarkTheme, isFiltered = isFiltered),
             iconAlpha = colorMapper.toIconAlpha(icon = state.iconId, isFiltered = isFiltered),
+        )
+    }
+
+    private fun mapChartDataBlock(data: StatisticsDetailChartViewData): StatisticsDetailBarChartViewData {
+        return StatisticsDetailBarChartViewData(
+            block = StatisticsDetailBlock.ChartData,
+            singleColor = null,
+            marginTopDp = 16, // Replaced later.
+            data = data,
+        )
+    }
+
+    private fun mapChartGroupingBlock(data: List<ViewHolderType>): ButtonsRowItemViewData {
+        return ButtonsRowItemViewData(
+            block = StatisticsDetailBlock.ChartGrouping,
+            marginTopDp = 4,
+            data = data,
+        )
+    }
+
+    private fun mapChartLengthBlock(data: List<ViewHolderType>): ButtonsRowItemViewData {
+        return ButtonsRowItemViewData(
+            block = StatisticsDetailBlock.ChartLength,
+            marginTopDp = -10,
+            data = data,
+        )
+    }
+
+    private fun mapRangeAveragesBlock(
+        title: String,
+        data: List<StatisticsDetailCardInternalViewData>,
+    ): StatisticsDetailCardViewData {
+        return StatisticsDetailCardViewData(
+            block = StatisticsDetailBlock.RangeAverages,
+            title = title,
+            marginTopDp = 0,
+            data = data,
         )
     }
 

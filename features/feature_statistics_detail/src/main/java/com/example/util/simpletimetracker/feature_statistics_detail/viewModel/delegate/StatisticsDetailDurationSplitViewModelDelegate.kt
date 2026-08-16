@@ -13,7 +13,6 @@ import com.example.util.simpletimetracker.feature_statistics_detail.interactor.S
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItem
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailViewData
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
