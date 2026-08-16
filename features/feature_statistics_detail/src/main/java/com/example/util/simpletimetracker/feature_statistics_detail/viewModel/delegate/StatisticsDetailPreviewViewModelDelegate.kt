@@ -47,7 +47,7 @@ class StatisticsDetailPreviewViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onPreviewItemClick(item: StatisticsDetailPreview) {
+    override fun onPreviewItemClick(item: StatisticsDetailPreview) {
         if (item !is StatisticsDetailPreviewMoreViewData) return
         when (item.type) {
             StatisticsDetailPreviewViewData.Type.FILTER -> previewsExpanded = true

@@ -57,25 +57,24 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@Suppress("CanBeParameter")
 @HiltViewModel
 class StatisticsDetailViewModel @Inject constructor(
     val dateSelectorViewModelDelegate: DateSelectorViewModelDelegate,
     private val router: Router,
     private val statisticsDetailContentInteractor: StatisticsDetailContentInteractor,
     private val previewDelegate: StatisticsDetailPreviewViewModelDelegate,
-    private val statsDelegate: StatisticsDetailStatsViewModelDelegate,
-    private val streaksDelegate: StatisticsDetailStreaksViewModelDelegate,
-    private val chartDelegate: StatisticsDetailChartViewModelDelegate,
-    private val splitChartDelegate: StatisticsDetailSplitChartViewModelDelegate,
-    private val nextActivitiesDelegate: StatisticsDetailNextActivitiesViewModelDelegate,
-    private val durationSplitDelegate: StatisticsDetailDurationSplitViewModelDelegate,
+    statsDelegate: StatisticsDetailStatsViewModelDelegate,
+    streaksDelegate: StatisticsDetailStreaksViewModelDelegate,
+    chartDelegate: StatisticsDetailChartViewModelDelegate,
+    splitChartDelegate: StatisticsDetailSplitChartViewModelDelegate,
+    nextActivitiesDelegate: StatisticsDetailNextActivitiesViewModelDelegate,
+    durationSplitDelegate: StatisticsDetailDurationSplitViewModelDelegate,
     private val rangeDelegate: StatisticsDetailRangeViewModelDelegate,
     private val filterDelegate: StatisticsDetailFilterViewModelDelegate,
-    private val dailyCalendarDelegate: StatisticsDetailDailyCalendarViewModelDelegate,
-    private val goalsDelegate: StatisticsDetailGoalsViewModelDelegate,
-    private val dataDistributionDelegate: StatisticsDetailDataDistributionViewModelDelegate,
-    private val tagValueDelegate: StatisticsDetailTagValueViewModelDelegate,
+    dailyCalendarDelegate: StatisticsDetailDailyCalendarViewModelDelegate,
+    goalsDelegate: StatisticsDetailGoalsViewModelDelegate,
+    dataDistributionDelegate: StatisticsDetailDataDistributionViewModelDelegate,
+    tagValueDelegate: StatisticsDetailTagValueViewModelDelegate,
     private val statisticsDetailOptionsListMapper: StatisticsDetailOptionsListMapper,
 ) : BaseViewModel() {
 
@@ -116,14 +115,14 @@ class StatisticsDetailViewModel @Inject constructor(
     fun initialize(extra: StatisticsDetailParams) {
         if (this::extra.isInitialized) return
         this.extra = extra
-        filterDelegate.initialize(extra)
+        delegates.forEach { it.initialize(extra) }
         viewModelScope.launch {
             dateSelectorViewModelDelegate.initialize(rangeDelegate.provideRangePosition())
         }
     }
 
     fun onVisible() {
-        filterDelegate.onVisible()
+        delegates.forEach { it.onVisible() }
         // TODO update only when necessary?
         viewModelScope.launch {
             dateSelectorViewModelDelegate.setup()
@@ -132,58 +131,22 @@ class StatisticsDetailViewModel @Inject constructor(
     }
 
     fun onTypesFilterSelected(result: RecordsFilterResultParams) {
-        filterDelegate.onTypesFilterSelected(result)
+        delegates.forEach { it.onTypesFilterSelected(result) }
     }
 
     fun onTypesFilterDismissed(tag: String) {
-        filterDelegate.onTypesFilterDismissed(tag)
+        delegates.forEach { it.onTypesFilterDismissed(tag) }
     }
 
     fun onButtonsRowClick(
         block: ButtonsRowItemViewData.ButtonsRowId,
         viewData: ButtonsRowViewData,
     ) {
-        when (block) {
-            StatisticsDetailBlock.ChartGrouping ->
-                chartDelegate.onChartGroupingClick(viewData)
-            StatisticsDetailBlock.ChartLength ->
-                chartDelegate.onChartLengthClick(viewData)
-            StatisticsDetailBlock.GoalChartGrouping ->
-                goalsDelegate.onChartGroupingClick(viewData)
-            StatisticsDetailBlock.GoalChartLength ->
-                goalsDelegate.onChartLengthClick(viewData)
-            StatisticsDetailBlock.TagValuesChartGrouping ->
-                tagValueDelegate.onChartGroupingClick(viewData)
-            StatisticsDetailBlock.TagValuesChartLength ->
-                tagValueDelegate.onChartLengthClick(viewData)
-            StatisticsDetailBlock.SeriesGoal ->
-                streaksDelegate.onStreaksGoalClick(viewData)
-            StatisticsDetailBlock.SeriesType ->
-                streaksDelegate.onStreaksTypeClick(viewData)
-            StatisticsDetailBlock.SplitChartGrouping ->
-                splitChartDelegate.onSplitChartGroupingClick(viewData)
-            StatisticsDetailBlock.DataDistributionMode ->
-                dataDistributionDelegate.onDataDistributionModeClick(viewData)
-            StatisticsDetailBlock.DataDistributionGraph ->
-                dataDistributionDelegate.onDataDistributionGraphClick(viewData)
-            else -> {
-                // Do nothing
-            }
-        }
+        delegates.forEach { it.onButtonsRowClick(block, viewData) }
     }
 
     fun onButtonClick(block: StatisticsDetailBlock) {
-        when (block) {
-            StatisticsDetailBlock.ChartSplitByActivity ->
-                chartDelegate.onSplitByActivityClick()
-            StatisticsDetailBlock.ChartSplitByActivitySort ->
-                chartDelegate.onSplitByActivitySortClick()
-            StatisticsDetailBlock.TagValuesSettings ->
-                onTagValuesSettingsClick()
-            else -> {
-                // Do nothing
-            }
-        }
+        delegates.forEach { it.onButtonClick(block) }
     }
 
     fun onCardClick(
@@ -207,38 +170,29 @@ class StatisticsDetailViewModel @Inject constructor(
         item: StatisticsViewData,
         @Suppress("UNUSED_PARAMETER") sharedElements: Map<Any, String>,
     ) {
-        dataDistributionDelegate.onStatisticsItemClick(item)
+        delegates.forEach { it.onStatisticsItemClick(item) }
     }
 
     fun onPreviewItemClick(item: StatisticsDetailPreview) {
-        previewDelegate.onPreviewItemClick(item)
-        filterDelegate.onPreviewItemClick(item)
+        delegates.forEach { it.onPreviewItemClick(item) }
     }
 
     fun onPreviewItemLongClick(item: StatisticsDetailPreview) {
-        filterDelegate.onPreviewItemLongClick(item)
+        delegates.forEach { it.onPreviewItemLongClick(item) }
     }
 
     fun onChartClick(block: StatisticsDetailBlock, barId: Long?) {
-        when (block) {
-            StatisticsDetailBlock.DataDistributionBarChart ->
-                dataDistributionDelegate.onChartClick(barId)
-            StatisticsDetailBlock.DataDistributionPieChart ->
-                dataDistributionDelegate.onChartClick(barId)
-            else -> {
-                // Do nothing
-            }
-        }
+        delegates.forEach { it.onChartClick(block, barId) }
     }
 
     fun onSwipedStart(item: ViewHolderType?) {
         item ?: return
-        dataDistributionDelegate.onStatisticsItemSwipedStart(item)
+        delegates.forEach { it.onSwipedStart(item) }
     }
 
     fun onSwipedEnd(item: ViewHolderType?) {
         item ?: return
-        dataDistributionDelegate.onStatisticsItemSwipedEnd(item)
+        delegates.forEach { it.onSwipedEnd(item) }
     }
 
     fun onOptionsClick() = viewModelScope.launch {
@@ -284,19 +238,12 @@ class StatisticsDetailViewModel @Inject constructor(
         rangeDelegate.onCountSet(count, tag)
     }
 
-    fun onTagValuesSettingsClick() {
-        tagValueDelegate.onTagValuesSettingsClick()
-    }
-
     fun onTagValuesSettingsChanged(result: StatisticsDetailTagValueSettings) {
-        tagValueDelegate.onTagValuesSettingsChanged(result)
+        delegates.forEach { it.onTagValuesSettingsChanged(result) }
     }
 
-    fun onStreaksCalendarClick(
-        viewData: SeriesCalendarView.ViewData,
-        coordinates: Coordinates,
-    ) {
-        streaksDelegate.onStreaksCalendarClick(viewData, coordinates)
+    fun onStreaksCalendarClick(viewData: SeriesCalendarView.ViewData, coordinates: Coordinates) {
+        delegates.forEach { it.onStreaksCalendarClick(viewData, coordinates) }
     }
 
     fun onBackPressed() {
@@ -374,7 +321,7 @@ class StatisticsDetailViewModel @Inject constructor(
 
             override suspend fun onFiltersChanged() {
                 dateSelectorViewModelDelegate.setup()
-                streaksDelegate.onTypesFilterDismissed()
+                delegates.forEach { it.doOnFiltersChanged() }
                 this@StatisticsDetailViewModel.updateViewData()
             }
 

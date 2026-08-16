@@ -6,7 +6,9 @@ import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.statistics.model.StatisticsDetailTagValueSettings
+import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.ButtonsRowItemViewData
 import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.view.ButtonsRowViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailTagValueInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartGrouping
@@ -43,26 +45,45 @@ class StatisticsDetailTagValueViewModelDelegate @Inject constructor(
         return viewData.value?.viewData?.let(::mapToViewData)
     }
 
-    fun onChartGroupingClick(viewData: ButtonsRowViewData) {
+    override fun onButtonsRowClick(
+        block: ButtonsRowItemViewData.ButtonsRowId,
+        viewData: ButtonsRowViewData,
+    ) {
+        when (block) {
+            StatisticsDetailBlock.TagValuesChartGrouping -> onChartGroupingClick(viewData)
+            StatisticsDetailBlock.TagValuesChartLength -> onChartLengthClick(viewData)
+        }
+    }
+
+    override fun onButtonClick(block: StatisticsDetailBlock) {
+        when (block) {
+            StatisticsDetailBlock.TagValuesSettings -> onTagValuesSettingsClick()
+            else -> Unit
+        }
+    }
+
+    private fun onChartGroupingClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailGroupingViewData) return
         this.chartGrouping = viewData.chartGrouping
         updateViewData()
     }
 
-    fun onChartLengthClick(viewData: ButtonsRowViewData) {
+    private fun onChartLengthClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailChartLengthViewData) return
         this.chartLength = viewData.chartLength
         updateViewData()
     }
 
-    fun onTagValuesSettingsChanged(
+    override fun onTagValuesSettingsChanged(
         result: StatisticsDetailTagValueSettings,
-    ) = delegateScope.launch {
-        saveSettingsForSelectedTag(result)
-        updateViewData()
+    ) {
+        delegateScope.launch {
+            saveSettingsForSelectedTag(result)
+            updateViewData()
+        }
     }
 
-    fun onTagValuesSettingsClick() {
+    private fun onTagValuesSettingsClick() {
         router.navigate(
             StatisticsTagValuesSettingsParams(
                 tagId = loadedTagSettings.tagId,

@@ -11,6 +11,8 @@ import com.example.util.simpletimetracker.domain.base.Coordinates
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.record.model.RecordsFilter
+import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.ButtonsRowItemViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailGetGoalFromFilterInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailStreaksInteractor
@@ -57,25 +59,35 @@ class StatisticsDetailStreaksViewModelDelegate @Inject constructor(
         }
     }
 
-    suspend fun onTypesFilterDismissed() {
+    override suspend fun doOnFiltersChanged() {
         val parent = parent ?: return
         dailyGoal = Result.success(getDailyGoalType(parent.filter))
         compareDailyGoal = Result.success(getDailyGoalType(parent.comparisonFilter))
     }
 
-    fun onStreaksTypeClick(viewData: ButtonsRowViewData) = delegateScope.launch {
+    override fun onButtonsRowClick(
+        block: ButtonsRowItemViewData.ButtonsRowId,
+        viewData: ButtonsRowViewData,
+    ) {
+        when (block) {
+            StatisticsDetailBlock.SeriesGoal -> onStreaksGoalClick(viewData)
+            StatisticsDetailBlock.SeriesType -> onStreaksTypeClick(viewData)
+        }
+    }
+
+    private fun onStreaksTypeClick(viewData: ButtonsRowViewData) = delegateScope.launch {
         if (viewData !is StatisticsDetailStreaksTypeViewData) return@launch
         prefsInteractor.setStatisticsStreaksType(viewData.type)
         updateViewData()
     }
 
-    fun onStreaksGoalClick(viewData: ButtonsRowViewData) {
+    private fun onStreaksGoalClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailStreaksGoalViewData) return
         streaksGoal = viewData.type
         updateViewData()
     }
 
-    fun onStreaksCalendarClick(
+    override fun onStreaksCalendarClick(
         viewData: SeriesCalendarView.ViewData,
         coordinates: Coordinates,
     ) {

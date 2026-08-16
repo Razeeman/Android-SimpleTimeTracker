@@ -47,11 +47,11 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
         this.parent = parent
     }
 
-    fun initialize(extra: StatisticsDetailParams) {
+    override fun initialize(extra: StatisticsDetailParams) {
         filter = loadFilter(extra).toMutableList()
     }
 
-    fun onVisible() {
+    override fun onVisible() {
         loadJob?.cancel()
         loadJob = delegateScope.launch {
             delayLoadIfNeeded()
@@ -78,7 +78,7 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
         )
     }
 
-    fun onTypesFilterSelected(result: RecordsFilterResultParams) {
+    override fun onTypesFilterSelected(result: RecordsFilterResultParams) {
         val finalFilters = result.filters
 
         when (result.tag) {
@@ -100,7 +100,7 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
         // Update is on dismiss.
     }
 
-    fun onTypesFilterDismissed(tag: String) {
+    override fun onTypesFilterDismissed(tag: String) {
         if (tag !in listOf(FILTER_TAG, COMPARE_TAG)) return
         onFiltersChanged()
     }
@@ -123,7 +123,7 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
         onFiltersChanged()
     }
 
-    fun onPreviewItemClick(item: StatisticsDetailPreview) {
+    override fun onPreviewItemClick(item: StatisticsDetailPreview) {
         if (item !is StatisticsDetailPreviewViewData) return
         delegateScope.launch {
             val newFilter = recordsFilterExcludeInteractor.exclude(
@@ -142,7 +142,7 @@ class StatisticsDetailFilterViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onPreviewItemLongClick(item: StatisticsDetailPreview) {
+    override fun onPreviewItemLongClick(item: StatisticsDetailPreview) {
         if (item !is StatisticsDetailPreviewViewData) return
         delegateScope.launch {
             val newFilter = recordsFilterExcludeInteractor.excludeOther(

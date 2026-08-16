@@ -6,8 +6,10 @@ import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.view.ButtonsRowViewData
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.ButtonsRowItemViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsSelectableViewData
 import com.example.util.simpletimetracker.feature_base_adapter.statistics.StatisticsViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailDataDistributionInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItems
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
@@ -43,30 +45,51 @@ class StatisticsDetailDataDistributionViewModelDelegate @Inject constructor(
         return viewData.value?.splitData?.mapItems()?.let(::mapToViewData)
     }
 
-    fun onDataDistributionModeClick(viewData: ButtonsRowViewData) {
+    override fun onButtonsRowClick(
+        block: ButtonsRowItemViewData.ButtonsRowId,
+        viewData: ButtonsRowViewData,
+    ) {
+        when (block) {
+            StatisticsDetailBlock.DataDistributionMode -> onDataDistributionModeClick(viewData)
+            StatisticsDetailBlock.DataDistributionGraph -> onDataDistributionGraphClick(viewData)
+        }
+    }
+
+    override fun onChartClick(
+        block: StatisticsDetailBlock,
+        barId: Long?,
+    ) {
+        when (block) {
+            StatisticsDetailBlock.DataDistributionBarChart -> onChartClick(barId)
+            StatisticsDetailBlock.DataDistributionPieChart -> onChartClick(barId)
+            else -> Unit
+        }
+    }
+
+    private fun onDataDistributionModeClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailDataDistributionModeViewData) return
         this.dataDistributionMode = viewData.mode
         selectedItemId = null
         updateViewData()
     }
 
-    fun onDataDistributionGraphClick(viewData: ButtonsRowViewData) {
+    private fun onDataDistributionGraphClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailDataDistributionGraphViewData) return
         this.dataDistributionGraph = viewData.graph
         updateViewData()
     }
 
-    fun onStatisticsItemClick(item: StatisticsViewData) {
+    override fun onStatisticsItemClick(item: StatisticsViewData) {
         selectedItemId = if (selectedItemId == item.id) null else item.id
         updateViewData(animate = false)
     }
 
-    fun onChartClick(barId: Long?) {
+    private fun onChartClick(barId: Long?) {
         selectedItemId = barId
         updateViewData(animate = false)
     }
 
-    fun onStatisticsItemSwipedStart(item: ViewHolderType) {
+    override fun onSwipedStart(item: ViewHolderType) {
         val id = (item as? StatisticsSelectableViewData)?.data?.id ?: return
         parent?.onStatisticsHidden(
             id = id,
@@ -74,7 +97,7 @@ class StatisticsDetailDataDistributionViewModelDelegate @Inject constructor(
         )
     }
 
-    fun onStatisticsItemSwipedEnd(item: ViewHolderType) {
+    override fun onSwipedEnd(item: ViewHolderType) {
         val id = (item as? StatisticsSelectableViewData)?.data?.id ?: return
         parent?.onStatisticsOtherHidden(
             id = id,

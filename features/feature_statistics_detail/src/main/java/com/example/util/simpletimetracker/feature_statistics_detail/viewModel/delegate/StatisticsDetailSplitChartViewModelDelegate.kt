@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.view.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.ButtonsRowItemViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBarChartViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
@@ -55,7 +56,16 @@ class StatisticsDetailSplitChartViewModelDelegate @Inject constructor(
         ).flatten().let(::mapToViewData)
     }
 
-    fun onSplitChartGroupingClick(viewData: ButtonsRowViewData) {
+    override fun onButtonsRowClick(
+        block: ButtonsRowItemViewData.ButtonsRowId,
+        viewData: ButtonsRowViewData,
+    ) {
+        when (block) {
+            StatisticsDetailBlock.SplitChartGrouping -> onSplitChartGroupingClick(viewData)
+        }
+    }
+
+    private fun onSplitChartGroupingClick(viewData: ButtonsRowViewData) {
         if (viewData !is StatisticsDetailSplitGroupingViewData) return
         this.splitChartGrouping = viewData.splitChartGrouping
         updateSplitChartGroupingViewData()
@@ -113,7 +123,7 @@ class StatisticsDetailSplitChartViewModelDelegate @Inject constructor(
             },
             StatisticsDetailBarChartViewData(
                 block = if (isForComparison) {
-                    StatisticsDetailBlock.SplitChart
+                    StatisticsDetailBlock.SplitChartComparison
                 } else {
                     StatisticsDetailBlock.SplitChart
                 },
