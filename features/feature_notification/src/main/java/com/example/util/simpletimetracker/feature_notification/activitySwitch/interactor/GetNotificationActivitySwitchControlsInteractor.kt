@@ -8,7 +8,6 @@ import com.example.util.simpletimetracker.core.mapper.RecordTagValueMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.domain.base.REPEAT_BUTTON_ITEM_ID
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordTag.interactor.GetSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
@@ -16,10 +15,8 @@ import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.R
-import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.APPLY_TAGS_ID
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.TAGS_LIST_SIZE
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.TYPES_LIST_SIZE
-import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.UNTAGGED_TAG_ID
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsParams
 import com.example.util.simpletimetracker.feature_notification.core.TAG_VALUE_DECIMAL_DELIMITER
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
@@ -271,7 +268,7 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         allDailyCurrents: Map<Long, GetCurrentRecordsDurationInteractor.Result>,
     ): NotificationControlsParams.Type.Present {
         return NotificationControlsParams.Type.Present(
-            id = type.id,
+            action = NotificationControlsParams.Type.Action.Select(type.id),
             icon = type.icon.let(iconMapper::mapIcon),
             color = type.color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
             checkState = recordTypeViewDataMapper.mapGoalCheckmark(
@@ -291,7 +288,7 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
             isDarkTheme = isDarkTheme,
         )
         return NotificationControlsParams.Type.Present(
-            id = REPEAT_BUTTON_ITEM_ID,
+            action = NotificationControlsParams.Type.Action.Repeat,
             icon = viewData.iconId,
             color = viewData.color,
             checkState = GoalCheckmarkView.CheckState.HIDDEN,
@@ -306,7 +303,7 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         isDarkTheme: Boolean,
     ): NotificationControlsParams.Tag {
         return NotificationControlsParams.Tag.Present(
-            id = tag.id,
+            action = NotificationControlsParams.Tag.Action.Select(tag.id),
             text = selectedTagsMap[tag.id]?.numericValue?.let { value ->
                 recordTagValueMapper.mapTagValue(
                     value = value,
@@ -325,7 +322,7 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         isDarkTheme: Boolean,
     ): List<NotificationControlsParams.Tag> {
         return NotificationControlsParams.Tag.Present(
-            id = UNTAGGED_TAG_ID,
+            action = NotificationControlsParams.Tag.Action.Clear,
             text = R.string.change_record_untagged.let(resourceRepo::getString),
             color = colorMapper.toUntrackedColor(isDarkTheme),
             isSelected = false,
@@ -336,7 +333,7 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         isDarkTheme: Boolean,
     ): List<NotificationControlsParams.Tag> {
         return NotificationControlsParams.Tag.Present(
-            id = APPLY_TAGS_ID,
+            action = NotificationControlsParams.Tag.Action.Apply,
             text = R.string.change_record_save.let(resourceRepo::getString),
             color = resourceRepo.getThemedAttr(R.attr.appActiveColor, isDarkTheme),
             isSelected = false,

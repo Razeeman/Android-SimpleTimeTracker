@@ -45,7 +45,7 @@ sealed interface NotificationControlsParams {
 
     sealed interface Type {
         data class Present(
-            val id: Long,
+            val action: Action,
             val icon: RecordTypeIcon,
             val color: Int,
             val checkState: GoalCheckmarkView.CheckState,
@@ -53,17 +53,28 @@ sealed interface NotificationControlsParams {
         ) : Type
 
         data object Empty : Type
+
+        sealed interface Action {
+            data class Select(val typeId: Long) : Action
+            data object Repeat : Action
+        }
     }
 
     sealed interface Tag {
         data class Present(
-            val id: Long,
+            val action: Action,
             val text: String,
             val color: Int,
             val isSelected: Boolean,
         ) : Tag
 
         data object Empty : Tag
+
+        sealed interface Action {
+            data class Select(val tagId: Long) : Action
+            data object Apply : Action
+            data object Clear : Action
+        }
     }
 
     sealed interface TagValueControls {

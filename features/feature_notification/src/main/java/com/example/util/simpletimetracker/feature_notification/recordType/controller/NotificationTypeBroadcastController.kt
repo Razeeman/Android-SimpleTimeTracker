@@ -37,6 +37,7 @@ class NotificationTypeBroadcastController @Inject constructor(
         selectedTypeId: Long,
         typesShift: Int,
     ) {
+        if (selectedTypeId <= 0L) return
         safeLaunch {
             activityStartStopFromBroadcastInteractor.onActionTypeClick(
                 from = notificationControlsMapper.mapExtraToFrom(
@@ -45,6 +46,56 @@ class NotificationTypeBroadcastController @Inject constructor(
                 ) ?: return@safeLaunch,
                 selectedTypeId = selectedTypeId,
                 typesShift = typesShift,
+            )
+        }
+    }
+
+    fun onActionRepeat() {
+        safeLaunch {
+            activityStartStopFromBroadcastInteractor.onActionRepeat()
+        }
+    }
+
+    fun onActionApplyTags(
+        from: Int,
+        typeId: Long,
+        selectedTypeId: Long,
+        selectedTags: List<RecordBase.Tag>,
+        typesShift: Int,
+    ) {
+        safeLaunch {
+            activityStartStopFromBroadcastInteractor.onActionApplyTags(
+                from = notificationControlsMapper.mapExtraToFrom(
+                    extra = from,
+                    recordTypeId = typeId,
+                ) ?: return@safeLaunch,
+                selectedTypeId = selectedTypeId,
+                selectedTags = selectedTags,
+                typesShift = typesShift,
+            )
+        }
+    }
+
+    fun onActionClearTags(
+        from: Int,
+        typeId: Long,
+        selectedTypeId: Long,
+        typesShift: Int,
+        tagsShift: Int,
+        isMultipleTagAvailable: Boolean,
+        requiredValueSelectionTagIds: List<Long>,
+    ) {
+        safeLaunch {
+            activityStartStopFromBroadcastInteractor.onActionClearTags(
+                from = notificationControlsMapper.mapExtraToFrom(
+                    extra = from,
+                    recordTypeId = typeId,
+                ) ?: return@safeLaunch,
+                selectedTypeId = selectedTypeId,
+                typesShift = typesShift,
+                tagsShift = tagsShift,
+                isMultipleTagAvailable = isMultipleTagAvailable,
+                requiredValueSelectionTagIds = requiredValueSelectionTagIds,
             )
         }
     }
@@ -60,6 +111,7 @@ class NotificationTypeBroadcastController @Inject constructor(
         isMultipleTagAvailable: Boolean,
         requiredValueSelectionTagIds: List<Long>,
     ) {
+        if (tagId <= 0L) return
         safeLaunch {
             activityStartStopFromBroadcastInteractor.onActionTagClick(
                 from = notificationControlsMapper.mapExtraToFrom(

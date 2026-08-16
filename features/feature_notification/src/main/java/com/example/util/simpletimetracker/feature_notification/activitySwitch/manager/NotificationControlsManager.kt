@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.core.utils.PendingIntents
-import com.example.util.simpletimetracker.domain.base.REPEAT_BUTTON_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.ifNull
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
@@ -136,19 +135,27 @@ class NotificationControlsManager @Inject constructor(
 
         fun addPresentType(data: NotificationControlsParams.Type.Present) {
             val recordTypeId = (from as? From.ActivityNotification)?.recordTypeId
-            val action = when (from) {
-                is From.ActivityNotification -> {
-                    if (data.id == recordTypeId) {
-                        ACTION_NOTIFICATION_CONTROLS_STOP
-                    } else {
-                        ACTION_NOTIFICATION_CONTROLS_TYPE_CLICK
+            val action = when (data.action) {
+                is NotificationControlsParams.Type.Action.Repeat -> {
+                    ACTION_NOTIFICATION_CONTROLS_REPEAT
+                }
+                is NotificationControlsParams.Type.Action.Select -> {
+                    when (from) {
+                        is From.ActivityNotification -> {
+                            if (data.action.typeId == recordTypeId) {
+                                ACTION_NOTIFICATION_CONTROLS_STOP
+                            } else {
+                                ACTION_NOTIFICATION_CONTROLS_TYPE_CLICK
+                            }
+                        }
+                        is From.ActivitySwitch -> {
+                            ACTION_NOTIFICATION_CONTROLS_TYPE_CLICK
+                        }
                     }
                 }
-                is From.ActivitySwitch -> {
-                    ACTION_NOTIFICATION_CONTROLS_TYPE_CLICK
-                }
             }
-            val color = if (recordTypeId == data.id) {
+            val selectedTypeId = (data.action as? NotificationControlsParams.Type.Action.Select)?.typeId
+            val color = if (recordTypeId == selectedTypeId) {
                 viewState.filteredTypeColor
             } else {
                 data.color
@@ -163,10 +170,13 @@ class NotificationControlsManager @Inject constructor(
                     action = action,
                     requestCode = getRequestCode(
                         from = from,
-                        additionalInfo = if (data.id == REPEAT_BUTTON_ITEM_ID) {
-                            RequestCode.AdditionalInfo.Repeat
-                        } else {
-                            RequestCode.AdditionalInfo.TypeId(data.id)
+                        additionalInfo = when (data.action) {
+                            is NotificationControlsParams.Type.Action.Repeat -> {
+                                RequestCode.AdditionalInfo.Repeat
+                            }
+                            is NotificationControlsParams.Type.Action.Select -> {
+                                RequestCode.AdditionalInfo.TypeId(data.action.typeId)
+                            }
                         },
                     ),
                     from = from,
@@ -175,7 +185,7 @@ class NotificationControlsManager @Inject constructor(
                     editingTagValueInput = params.editingTagValueInput,
                     recordTypesShift = params.typesShift,
                     recordTagsShift = params.tagsShift,
-                    selectedTypeId = data.id,
+                    selectedTypeId = selectedTypeId,
                     isMultipleTagAvailable = params.isMultipleTagAvailable,
                     requiredValueSelectionTagIds = params.requiredValueSelectionTagIds,
                 ),
@@ -264,18 +274,29 @@ class NotificationControlsManager @Inject constructor(
         val currentTags = viewState.tags.drop(params.tagsShift).take(TAGS_LIST_SIZE)
 
         fun addPresentType(data: NotificationControlsParams.Tag.Present) {
+            val action = when (data.action) {
+                is NotificationControlsParams.Tag.Action.Select -> ACTION_NOTIFICATION_CONTROLS_TAG_CLICK
+                is NotificationControlsParams.Tag.Action.Apply -> ACTION_NOTIFICATION_CONTROLS_APPLY_TAGS
+                is NotificationControlsParams.Tag.Action.Clear -> ACTION_NOTIFICATION_CONTROLS_CLEAR_TAGS
+            }
             getTagControlView(
                 text = data.text,
                 color = data.color,
                 intent = getPendingSelfIntent(
                     context = context,
-                    action = ACTION_NOTIFICATION_CONTROLS_TAG_CLICK,
+                    action = action,
                     requestCode = getRequestCode(
                         from = from,
-                        additionalInfo = when (data.id) {
-                            APPLY_TAGS_ID -> RequestCode.AdditionalInfo.ApplyTags
-                            UNTAGGED_TAG_ID -> RequestCode.AdditionalInfo.Untagged
-                            else -> RequestCode.AdditionalInfo.TagId(data.id)
+                        additionalInfo = when (data.action) {
+                            is NotificationControlsParams.Tag.Action.Select -> {
+                                RequestCode.AdditionalInfo.TagId(data.action.tagId)
+                            }
+                            is NotificationControlsParams.Tag.Action.Apply -> {
+                                RequestCode.AdditionalInfo.ApplyTags
+                            }
+                            is NotificationControlsParams.Tag.Action.Clear -> {
+                                RequestCode.AdditionalInfo.ClearTags
+                            }
                         },
                     ),
                     from = from,
@@ -285,7 +306,7 @@ class NotificationControlsManager @Inject constructor(
                     editingTagValueInput = params.editingTagValueInput,
                     recordTypesShift = params.typesShift,
                     recordTagsShift = params.tagsShift,
-                    tagId = data.id,
+                    tagId = (data.action as? NotificationControlsParams.Tag.Action.Select)?.tagId,
                     isMultipleTagAvailable = params.isMultipleTagAvailable,
                     requiredValueSelectionTagIds = params.requiredValueSelectionTagIds,
                 ),
@@ -647,7 +668,7 @@ class NotificationControlsManager @Inject constructor(
             data class TagValueControls(val id: Long) : AdditionalInfo
             data object Repeat : AdditionalInfo
             data object ApplyTags : AdditionalInfo
-            data object Untagged : AdditionalInfo
+            data object ClearTags : AdditionalInfo
             data object Nothing : AdditionalInfo
         }
     }
@@ -657,8 +678,14 @@ class NotificationControlsManager @Inject constructor(
             "com.example.util.simpletimetracker.feature_notification.activitySwitch.onStop"
         const val ACTION_NOTIFICATION_CONTROLS_TYPE_CLICK =
             "com.example.util.simpletimetracker.feature_notification.activitySwitch.onTypeClick"
+        const val ACTION_NOTIFICATION_CONTROLS_REPEAT =
+            "com.example.util.simpletimetracker.feature_notification.activitySwitch.onRepeat"
         const val ACTION_NOTIFICATION_CONTROLS_TAG_CLICK =
             "com.example.util.simpletimetracker.feature_notification.activitySwitch.onTagClick"
+        const val ACTION_NOTIFICATION_CONTROLS_APPLY_TAGS =
+            "com.example.util.simpletimetracker.feature_notification.activitySwitch.onApplyTags"
+        const val ACTION_NOTIFICATION_CONTROLS_CLEAR_TAGS =
+            "com.example.util.simpletimetracker.feature_notification.activitySwitch.onClearTags"
 
         const val ACTION_NOTIFICATION_CONTROLS_TYPES_PREV =
             "com.example.util.simpletimetracker.feature_notification.activitySwitch.onTypesPrevClick"
@@ -691,7 +718,5 @@ class NotificationControlsManager @Inject constructor(
 
         const val TYPES_LIST_SIZE = 6
         const val TAGS_LIST_SIZE = 4
-        const val UNTAGGED_TAG_ID = -1L
-        const val APPLY_TAGS_ID = -2L
     }
 }

@@ -29,6 +29,9 @@ import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.activity.controller.NotificationActivityBroadcastController
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationActivitySwitchManager.Companion.ACTION_NOTIFICATION_SWITCH_CANCEL
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_APPLY_TAGS
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_CLEAR_TAGS
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_REPEAT
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_STOP
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TAGS_NEXT
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TAGS_PREV
@@ -257,6 +260,41 @@ class NotificationReceiver : BroadcastReceiver() {
                     typeId = typeId,
                     selectedTypeId = selectedTypeId,
                     typesShift = typesShift,
+                )
+            }
+            ACTION_NOTIFICATION_CONTROLS_REPEAT -> {
+                typeController.onActionRepeat()
+            }
+            ACTION_NOTIFICATION_CONTROLS_APPLY_TAGS -> {
+                val from = intent.getIntExtra(ARGS_CONTROLS_FROM, 0)
+                val typeId = intent.getLongExtra(ARGS_TYPE_ID, 0)
+                val selectedTypeId = intent.getLongExtra(ARGS_SELECTED_TYPE_ID, 0)
+                val selectedTags = intent.getSelectedTags()
+                val typesShift = intent.getIntExtra(ARGS_TYPES_SHIFT, 0)
+                typeController.onActionApplyTags(
+                    from = from,
+                    typeId = typeId,
+                    selectedTypeId = selectedTypeId,
+                    selectedTags = selectedTags,
+                    typesShift = typesShift,
+                )
+            }
+            ACTION_NOTIFICATION_CONTROLS_CLEAR_TAGS -> {
+                val from = intent.getIntExtra(ARGS_CONTROLS_FROM, 0)
+                val typeId = intent.getLongExtra(ARGS_TYPE_ID, 0)
+                val selectedTypeId = intent.getLongExtra(ARGS_SELECTED_TYPE_ID, 0)
+                val typesShift = intent.getIntExtra(ARGS_TYPES_SHIFT, 0)
+                val tagsShift = intent.getIntExtra(ARGS_TAGS_SHIFT, 0)
+                val isMultipleTagAvailable = intent.getBooleanExtra(ARGS_MULTIPLE_TAG_AVAILABLE, false)
+                val requiredValueSelectionTagIds = intent.getRequiredValueSelectionTagIds()
+                typeController.onActionClearTags(
+                    from = from,
+                    typeId = typeId,
+                    selectedTypeId = selectedTypeId,
+                    typesShift = typesShift,
+                    tagsShift = tagsShift,
+                    isMultipleTagAvailable = isMultipleTagAvailable,
+                    requiredValueSelectionTagIds = requiredValueSelectionTagIds,
                 )
             }
             ACTION_NOTIFICATION_CONTROLS_TYPES_PREV,

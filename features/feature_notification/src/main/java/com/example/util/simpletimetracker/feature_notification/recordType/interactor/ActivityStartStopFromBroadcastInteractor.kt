@@ -3,7 +3,6 @@ package com.example.util.simpletimetracker.feature_notification.recordType.inter
 import com.example.util.simpletimetracker.core.interactor.CompleteTypesStateInteractor
 import com.example.util.simpletimetracker.core.interactor.IsMultipleTagChoiceAvailableInteractor
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
-import com.example.util.simpletimetracker.domain.base.REPEAT_BUTTON_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationActivitySwitchInteractor
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationTypeInteractor
@@ -15,8 +14,6 @@ import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordTag.interactor.NeedTagValueSelectionInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager
-import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.APPLY_TAGS_ID
-import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.UNTAGGED_TAG_ID
 import com.example.util.simpletimetracker.feature_notification.core.TAG_VALUE_DECIMAL_DELIMITER
 import com.example.util.simpletimetracker.feature_notification.core.TAG_VALUE_MINUS_SIGN
 import kotlinx.coroutines.delay
@@ -54,11 +51,6 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         selectedTypeId: Long,
         typesShift: Int,
     ) {
-        if (selectedTypeId == REPEAT_BUTTON_ITEM_ID) {
-            recordRepeatInteractor.repeat()
-            return
-        }
-
         val started = addRunningRecordMediator.tryStartTimer(
             typeId = selectedTypeId,
             // Switch controls are updated separately right from here,
@@ -101,6 +93,54 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         }
     }
 
+    suspend fun onActionRepeat() {
+        recordRepeatInteractor.repeat()
+    }
+
+    suspend fun onActionApplyTags(
+        from: NotificationControlsManager.From,
+        selectedTypeId: Long,
+        selectedTags: List<RecordBase.Tag>,
+        typesShift: Int,
+    ) {
+        startFromTagSelection(
+            from = from,
+            selectedTypeId = selectedTypeId,
+            selectedTags = selectedTags,
+            typesShift = typesShift,
+        )
+    }
+
+    suspend fun onActionClearTags(
+        from: NotificationControlsManager.From,
+        selectedTypeId: Long,
+        typesShift: Int,
+        tagsShift: Int,
+        isMultipleTagAvailable: Boolean,
+        requiredValueSelectionTagIds: List<Long>,
+    ) {
+        if (isMultipleTagAvailable) {
+            update(
+                from = from,
+                typesShift = typesShift,
+                tagsShift = tagsShift,
+                selectedTypeId = selectedTypeId,
+                isMultipleTagAvailable = true,
+                selectedTags = emptyList(), // Reset tags.
+                editingTagId = null,
+                editingTagValueInput = null,
+                requiredValueSelectionTagIds = requiredValueSelectionTagIds,
+            )
+        } else {
+            startFromTagSelection(
+                from = from,
+                selectedTypeId = selectedTypeId,
+                selectedTags = emptyList(),
+                typesShift = typesShift,
+            )
+        }
+    }
+
     suspend fun onActionTagClick(
         from: NotificationControlsManager.From,
         selectedTypeId: Long,
@@ -111,39 +151,6 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         isMultipleTagAvailable: Boolean,
         requiredValueSelectionTagIds: List<Long>,
     ) {
-        if (tagId == APPLY_TAGS_ID) {
-            startFromTagSelection(
-                from = from,
-                selectedTypeId = selectedTypeId,
-                selectedTags = selectedTags,
-                typesShift = typesShift,
-            )
-            return
-        }
-        if (tagId == UNTAGGED_TAG_ID) {
-            if (isMultipleTagAvailable) {
-                update(
-                    from = from,
-                    typesShift = typesShift,
-                    tagsShift = tagsShift,
-                    selectedTypeId = selectedTypeId,
-                    isMultipleTagAvailable = true,
-                    selectedTags = emptyList(), // Reset tags.
-                    editingTagId = null,
-                    editingTagValueInput = null,
-                    requiredValueSelectionTagIds = requiredValueSelectionTagIds,
-                )
-            } else {
-                startFromTagSelection(
-                    from = from,
-                    selectedTypeId = selectedTypeId,
-                    selectedTags = emptyList(),
-                    typesShift = typesShift,
-                )
-            }
-            return
-        }
-
         if (!isMultipleTagAvailable && selectedTags.any { it.tagId == tagId }) {
             // Disallow deselection for preselected tags.
             return
