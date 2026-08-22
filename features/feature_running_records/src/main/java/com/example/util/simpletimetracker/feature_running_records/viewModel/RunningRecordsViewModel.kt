@@ -306,6 +306,7 @@ class RunningRecordsViewModel @Inject constructor(
                 timeStarted = item.timeStarted,
                 timeFinished = "",
                 duration = item.timer,
+                durationTotal = "",
                 iconId = item.iconId,
                 color = item.color,
             )

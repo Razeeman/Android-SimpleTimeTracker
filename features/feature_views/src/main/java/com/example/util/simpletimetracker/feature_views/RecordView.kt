@@ -77,6 +77,13 @@ class RecordView @JvmOverloads constructor(
             field = value
         }
 
+    var itemDurationTotal: String = ""
+        set(value) {
+            binding.tvRecordItemTimerTotal.text = value
+            binding.tvRecordItemTimerTotal.visible = value.isNotEmpty()
+            field = value
+        }
+
     var itemComment: String = ""
         set(value) {
             binding.tvRecordItemComment.text = value
@@ -141,6 +148,10 @@ class RecordView @JvmOverloads constructor(
 
                 if (hasValue(R.styleable.RecordView_itemDuration)) {
                     itemDuration = getString(R.styleable.RecordView_itemDuration).orEmpty()
+                }
+
+                if (hasValue(R.styleable.RecordView_itemDurationTotal)) {
+                    itemDurationTotal = getString(R.styleable.RecordView_itemDurationTotal).orEmpty()
                 }
 
                 if (hasValue(R.styleable.RecordView_itemComment)) {

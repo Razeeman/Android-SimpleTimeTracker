@@ -28,6 +28,23 @@ class RecordViewDataMapper @Inject constructor(
     private val recordTagFullNameMapper: RecordTagFullNameMapper,
 ) {
 
+    fun mapDuration(
+        timeStarted: Long,
+        timeEnded: Long,
+        showSeconds: Boolean,
+        durationFormat: DurationFormat,
+    ): String {
+        return timeMapper.formatInterval(
+            interval = durationMapper.map(
+                timeStarted = timeStarted,
+                timeEnded = timeEnded,
+                showSeconds = showSeconds,
+            ),
+            forceSeconds = showSeconds,
+            durationFormat = durationFormat,
+        )
+    }
+
     fun map(
         record: Record,
         recordType: RecordType?,
@@ -59,15 +76,13 @@ class RecordViewDataMapper @Inject constructor(
                 useMilitaryTime = useMilitaryTime,
                 showSeconds = showSeconds,
             ),
-            duration = timeMapper.formatInterval(
-                interval = durationMapper.map(
-                    timeStarted = record.timeStarted,
-                    timeEnded = record.timeEnded,
-                    showSeconds = showSeconds,
-                ),
-                forceSeconds = showSeconds,
+            duration = mapDuration(
+                timeStarted = record.timeStarted,
+                timeEnded = record.timeEnded,
+                showSeconds = showSeconds,
                 durationFormat = durationFormat,
             ),
+            durationTotal = "", // Added later.
             iconId = recordType?.icon?.let {
                 iconMapper.mapIcon(it)
             } ?: RecordTypeIcon.Image(R.drawable.unknown),
@@ -123,15 +138,13 @@ class RecordViewDataMapper @Inject constructor(
                 showSeconds = showSeconds,
             ),
             timeEndedTimestamp = timeEnded,
-            duration = timeMapper.formatInterval(
-                interval = durationMapper.map(
-                    timeStarted = timeStarted,
-                    timeEnded = timeEnded,
-                    showSeconds = showSeconds,
-                ),
-                forceSeconds = showSeconds,
+            duration = mapDuration(
+                timeStarted = timeStarted,
+                timeEnded = timeEnded,
+                showSeconds = showSeconds,
                 durationFormat = durationFormat,
             ),
+            durationTotal = "",
             iconId = RecordTypeIcon.Image(R.drawable.unknown),
             color = colorMapper.toUntrackedColor(isDarkTheme),
         )

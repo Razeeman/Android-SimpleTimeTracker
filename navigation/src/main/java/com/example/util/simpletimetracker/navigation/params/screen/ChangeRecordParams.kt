@@ -39,6 +39,7 @@ sealed class ChangeRecordParams : Parcelable {
         val timeStartedDateTime: ChangeRecordDateTimeStateParams,
         val timeEndedDateTime: ChangeRecordDateTimeStateParams,
         val duration: String,
+        val durationTotal: String,
         val iconId: RecordTypeIconParams,
         @ColorInt val color: Int,
         val comment: String,

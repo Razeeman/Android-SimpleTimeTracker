@@ -825,6 +825,7 @@ class RecordsCalendarView @JvmOverloads constructor(
                         timeStarted = "07:35",
                         timeFinished = "11:58",
                         duration = "5h 23m 3s",
+                        durationTotal = "",
                         iconId = RecordTypeIcon.Image(R.drawable.unknown),
                         color = Color.RED,
                         comment = "Comment $it",

@@ -35,5 +35,6 @@ fun RecordView.bindState(item: ViewData) {
     itemTimeStarted = item.timeStarted
     itemTimeEnded = item.timeFinished
     itemDuration = item.duration
+    itemDurationTotal = item.durationTotal
     itemComment = item.comment
 }

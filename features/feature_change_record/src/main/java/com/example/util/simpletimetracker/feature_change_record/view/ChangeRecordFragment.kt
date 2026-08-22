@@ -157,6 +157,7 @@ class ChangeRecordFragment :
                 timeStarted = preview.timeStarted,
                 timeFinished = preview.timeFinished,
                 duration = preview.duration,
+                durationTotal = preview.durationTotal,
                 iconId = preview.iconId.toViewData(),
                 color = preview.color,
                 comment = preview.comment,
@@ -183,6 +184,7 @@ class ChangeRecordFragment :
             itemTimeStarted = item.recordPreview.timeStarted
             itemTimeEnded = item.recordPreview.timeFinished
             itemDuration = item.recordPreview.duration
+            itemDurationTotal = item.recordPreview.durationTotal
             itemComment = item.recordPreview.comment
 
             if (animated) {

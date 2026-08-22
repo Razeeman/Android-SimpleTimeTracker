@@ -36,7 +36,7 @@
             android:textColor="?appLightTextColor"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/tvRecordItemTimeStarted"
-            app:layout_constraintEnd_toStartOf="@id/tvRecordItemDuration"
+            app:layout_constraintEnd_toStartOf="@id/barrierRecord"
             app:layout_constraintStart_toEndOf="@id/ivRecordItemIcon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Item name" />
@@ -81,10 +81,25 @@
             android:layout_marginEnd="8dp"
             android:textColor="?appLightTextColor"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvRecordItemTimerTotal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
             tools:text="5h 23m 3s" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRecordItemTimerTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:textColor="?appLightTextColor"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvRecordItemDuration"
+            app:layout_goneMarginEnd="8dp"
+            tools:text="(1h 5m 14s)"
+            tools:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRecordItemComment"
@@ -94,11 +109,18 @@
             android:textColor="?appLightTextColor"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvRecordItemDuration"
+            app:layout_constraintEnd_toStartOf="@id/barrierRecord"
             app:layout_constraintStart_toEndOf="@id/ivRecordItemIcon"
             app:layout_constraintTop_toBottomOf="@id/tvRecordItemTimeStarted"
             tools:text="Record comment record comment record comment record comment"
             tools:visibility="visible" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="tvRecordItemDuration, tvRecordItemTimerTotal" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

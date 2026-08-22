@@ -40,7 +40,7 @@ class RecordsViewDataMapper @Inject constructor(
     ): RecordViewData.Tracked {
         val (timeStarted, timeEnded) = clampToRange(record, range)
 
-        return recordViewDataMapper.map(
+        val data = recordViewDataMapper.map(
             record = record.copy(
                 timeStarted = timeStarted,
                 timeEnded = timeEnded,
@@ -49,6 +49,13 @@ class RecordsViewDataMapper @Inject constructor(
             recordTags = recordTags,
             isDarkTheme = isDarkTheme,
             useMilitaryTime = useMilitaryTime,
+            durationFormat = durationFormat,
+            showSeconds = showSeconds,
+        )
+
+        return mapTotalDuration(
+            record = record,
+            data = data,
             durationFormat = durationFormat,
             showSeconds = showSeconds,
         )
@@ -120,5 +127,30 @@ class RecordsViewDataMapper @Inject constructor(
         }
 
         return Range(timeStarted, timeEnded)
+    }
+
+    // TODO support untracked?
+    // TODO support calendar view
+    private fun mapTotalDuration(
+        record: Record,
+        data: RecordViewData.Tracked,
+        durationFormat: DurationFormat,
+        showSeconds: Boolean,
+    ): RecordViewData.Tracked {
+        val originalDuration = recordViewDataMapper.mapDuration(
+            timeStarted = record.timeStarted,
+            timeEnded = record.timeEnded,
+            showSeconds = showSeconds,
+            durationFormat = durationFormat,
+        )
+        val clampedDuration = data.duration
+
+        return if (originalDuration != clampedDuration) {
+            data.copy(
+                durationTotal = "($originalDuration)"
+            )
+        } else {
+            data
+        }
     }
 }

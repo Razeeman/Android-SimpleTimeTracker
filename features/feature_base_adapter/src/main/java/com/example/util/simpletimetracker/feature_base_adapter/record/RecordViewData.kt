@@ -13,6 +13,7 @@ sealed class RecordViewData : ViewHolderType {
     abstract val timeStarted: String
     abstract val timeFinished: String
     abstract val duration: String
+    abstract val durationTotal: String
     abstract val iconId: RecordTypeIcon
     abstract val color: Int
     abstract val comment: String
@@ -26,6 +27,7 @@ sealed class RecordViewData : ViewHolderType {
         override val timeStarted: String,
         override val timeFinished: String,
         override val duration: String,
+        override val durationTotal: String,
         override val iconId: RecordTypeIcon,
         @ColorInt override val color: Int,
         override val comment: String,
@@ -43,6 +45,7 @@ sealed class RecordViewData : ViewHolderType {
         override val timeStarted: String,
         override val timeFinished: String,
         override val duration: String,
+        override val durationTotal: String,
         override val iconId: RecordTypeIcon,
         @ColorInt override val color: Int,
     ) : RecordViewData() {

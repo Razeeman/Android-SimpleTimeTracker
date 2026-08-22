@@ -43,6 +43,7 @@ class GetChangeRecordNavigationParamsInteractor @Inject constructor(
                 durationFormat = durationFormat,
             ).toRecordParams(),
             duration = item.duration,
+            durationTotal = item.durationTotal,
             iconId = item.iconId.toParams(),
             color = item.color,
             comment = item.comment,
