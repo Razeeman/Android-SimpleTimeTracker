@@ -25,7 +25,6 @@ import androidx.wear.compose.foundation.lazy.ScalingLazyListScope
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
-import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.WearActivityIcon
 import com.example.util.simpletimetracker.features.activities.ui.ActivityChip
 import com.example.util.simpletimetracker.features.activities.ui.ActivityChipCompact
@@ -213,7 +212,7 @@ private fun ScalingLazyListScope.renderContentCompact(
         .groupBy { it.index / ACTIVITY_LIST_COMPACT_CHIP_COUNT }
         .map { it.value.map { part -> part.value } }
         .forEach { part ->
-            item(key = part.firstOrNull()?.uniqueId.orZero()) {
+            item(key = part.first().uniqueId) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {

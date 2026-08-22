@@ -50,7 +50,7 @@ data class ActivityChipState(
     val hint: String = "",
 ) {
 
-    val uniqueId: Int = UniqueId(id, type).hashCode()
+    val uniqueId: UniqueId = UniqueId(id, type)
 
     data class UniqueId(
         private val id: Long,
