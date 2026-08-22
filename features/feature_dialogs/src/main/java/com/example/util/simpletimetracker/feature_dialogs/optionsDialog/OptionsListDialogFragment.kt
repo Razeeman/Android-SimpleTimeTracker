@@ -42,7 +42,7 @@ class OptionsListDialogFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context.findListener<OptionsListDialogListener>()
+        listener = context.findListener()
         listener?.onOptionsDialogOpened()
     }
 

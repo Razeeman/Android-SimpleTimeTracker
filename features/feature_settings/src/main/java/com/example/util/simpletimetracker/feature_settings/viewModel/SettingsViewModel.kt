@@ -11,7 +11,7 @@ import com.example.util.simpletimetracker.domain.darkMode.interactor.ThemeChange
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.domain.statistics.interactor.SettingsDataUpdateInteractor
-import com.example.util.simpletimetracker.feature_settings.interactor.SettingsAdvancedOptionsUpdateInteractor
+import com.example.util.simpletimetracker.feature_settings.interactor.SettingsExportViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsAdditionalViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsBackupViewModelDelegate
@@ -47,10 +47,11 @@ class SettingsViewModel @Inject constructor(
     private val contributorsDelegate: SettingsContributorsViewModelDelegate,
     private val settingsDataUpdateInteractor: SettingsDataUpdateInteractor,
     private val themeChangedInteractor: ThemeChangedInteractor,
-    private val settingsAdvancedOptionsUpdateInteractor: SettingsAdvancedOptionsUpdateInteractor,
+    private val settingsExportViewDataInteractor: SettingsExportViewDataInteractor,
 ) : BaseViewModel(), SettingsParent {
 
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
+    val advancedContent: LiveData<List<ViewHolderType>> by lazySuspend { loadAdvancedContent() }
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
     val keepScreenOnCheckbox: LiveData<Boolean> by additionalDelegate::keepScreenOnCheckbox
     val themeChanged: SingleLiveEvent<Boolean> by mainDelegate::themeChanged
@@ -179,7 +180,7 @@ class SettingsViewModel @Inject constructor(
 
     override suspend fun updateContent() {
         content.set(loadContent())
-        settingsAdvancedOptionsUpdateInteractor.send()
+        advancedContent.set(loadAdvancedContent())
     }
 
     private fun subscribeToUpdates() = viewModelScope.launch {
@@ -200,6 +201,10 @@ class SettingsViewModel @Inject constructor(
         result += translatorsDelegate.getViewData()
         result += contributorsDelegate.getViewData()
         return result
+    }
+
+    private suspend fun loadAdvancedContent(): List<ViewHolderType> {
+        return settingsExportViewDataInteractor.executeAdvanced()
     }
 
     companion object {

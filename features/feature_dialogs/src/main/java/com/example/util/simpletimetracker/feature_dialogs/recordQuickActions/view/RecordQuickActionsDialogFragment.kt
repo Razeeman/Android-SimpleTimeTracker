@@ -64,7 +64,7 @@ class RecordQuickActionsDialogFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context.findListener<RecordQuickActionDialogListener>()
+        listener = context.findListener()
     }
 
     override fun initDialog() {

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.feature_dialogs.api.DataExportSettingsDialogListener
@@ -17,6 +18,7 @@ import com.example.util.simpletimetracker.core.sharedViewModel.MainTabsViewModel
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.model.AdvancedOptionsBlockClickListener
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
@@ -121,6 +123,10 @@ class SettingsFragment :
 
     override fun onOptionsItemClick(id: OptionsListParams.Item.Id) {
         viewModel.onOptionsItemClick(id)
+    }
+
+    override fun getAdvancedContent(): LiveData<List<ViewHolderType>> {
+        return viewModel.advancedContent
     }
 
     override fun onAdvancedOptionsBlockClicked(block: SettingsBlock) {

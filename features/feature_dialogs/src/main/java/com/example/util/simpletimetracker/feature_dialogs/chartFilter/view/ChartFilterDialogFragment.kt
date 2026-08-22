@@ -49,17 +49,17 @@ class ChartFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
     private val params: ChartFilterDialogParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChartFilterDialogParams.Empty,
     )
-    private var chartFilterDialogListener: ChartFilterDialogListener? = null
+    private var listener: ChartFilterDialogListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        chartFilterDialogListener = context.findListener<ChartFilterDialogListener>()
-        chartFilterDialogListener?.onChartFilterDialogOpened()
+        listener = context.findListener()
+        listener?.onChartFilterDialogOpened()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        chartFilterDialogListener?.onChartFilterDialogDismissed()
+        listener?.onChartFilterDialogDismissed()
     }
 
     override fun initDialog() {
@@ -103,7 +103,7 @@ class ChartFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     private fun onDataSelected(result: ChartFilterDataSelectionResult) {
-        chartFilterDialogListener?.onChartFilterDataSelected(
+        listener?.onChartFilterDataSelected(
             chartFilterType = result.chartFilterType,
             dataIds = result.dataIds,
         )

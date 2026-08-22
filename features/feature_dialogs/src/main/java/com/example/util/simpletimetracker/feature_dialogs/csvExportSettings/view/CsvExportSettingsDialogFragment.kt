@@ -47,11 +47,11 @@ class CsvExportSettingsDialogFragment :
         key = ARGS_PARAMS, default = DataExportSettingDialogParams.Empty,
     )
 
-    private var dialogListener: DataExportSettingsDialogListener? = null
+    private var listener: DataExportSettingsDialogListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        dialogListener = context.findListener()
+        listener = context.findListener()
     }
 
     override fun initDialog() {
@@ -104,7 +104,7 @@ class CsvExportSettingsDialogFragment :
     private fun onResult(
         params: DataExportSettingsResult,
     ) {
-        dialogListener?.onDataExportSettingsSelected(params)
+        listener?.onDataExportSettingsSelected(params)
         dismiss()
     }
 

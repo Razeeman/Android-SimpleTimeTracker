@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
-import com.example.util.simpletimetracker.core.extension.findListeners
+import com.example.util.simpletimetracker.core.extension.findListener
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
@@ -27,17 +27,17 @@ class ExportOptionsFragment : BaseBottomSheetFragment<SettingsExportOptionsFragm
     private val contentAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             *getSettingsAdapterDelegates(
-                onBlockClicked = viewModel::onBlockClicked,
-                onSpinnerPositionSelected = viewModel::onSpinnerPositionSelected,
+                onBlockClicked = ::onBlockClicked,
+                onSpinnerPositionSelected = ::onSpinnerPositionSelected,
             ).toTypedArray(),
         )
     }
 
-    private var listeners: List<AdvancedOptionsBlockClickListener> = emptyList()
+    private var listener: AdvancedOptionsBlockClickListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listeners = context.findListeners<AdvancedOptionsBlockClickListener>()
+        listener = context.findListener()
     }
 
     override fun initDialog() {
@@ -51,17 +51,15 @@ class ExportOptionsFragment : BaseBottomSheetFragment<SettingsExportOptionsFragm
     }
 
     override fun initViewModel() = with(viewModel) {
-        viewModel.content.observe(contentAdapter::replaceAsNew)
-        blockClicked.observe(this@ExportOptionsFragment::onBlockClicked)
-        spinnerPositionSelected.observe(this@ExportOptionsFragment::onSpinnerPositionSelected)
+        listener?.getAdvancedContent()?.observe(contentAdapter::replaceAsNew)
         dismiss.observe { dismiss() }
     }
 
     private fun onBlockClicked(block: SettingsBlock) {
-        listeners.forEach { it.onAdvancedOptionsBlockClicked(block) }
+        listener?.onAdvancedOptionsBlockClicked(block)
     }
 
-    private fun onSpinnerPositionSelected(data: Pair<SettingsBlock, Int>) {
-        listeners.forEach { it.onAdvancedOptionsSpinnerPositionSelected(data.first, data.second) }
+    private fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
+        listener?.onAdvancedOptionsSpinnerPositionSelected(block, position)
     }
 }

@@ -49,7 +49,7 @@ class StatisticsTagValuesSettingsDialogFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context.findListener<StatisticsTagValuesSettingsDialogListener>()
+        listener = context.findListener()
     }
 
     override fun initUi() = with(binding) {
