@@ -5,12 +5,11 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.feature_dialogs.api.OnTagValueSelectedListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
-import com.example.util.simpletimetracker.core.extension.getAllFragments
+import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
@@ -62,17 +61,7 @@ class DataEditTagSelectionDialogFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        when (context) {
-            is DataEditTagSelectionDialogListener -> {
-                listener = context
-                return
-            }
-            is AppCompatActivity -> {
-                context.getAllFragments()
-                    .firstOrNull { it is DataEditTagSelectionDialogListener && it.isResumed }
-                    ?.let { listener = it as? DataEditTagSelectionDialogListener }
-            }
-        }
+        listener = context.findListeners<DataEditTagSelectionDialogListener>().firstOrNull()
     }
 
     override fun onDismiss(dialog: DialogInterface) {

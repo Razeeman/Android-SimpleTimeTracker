@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
+import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.feature_dialogs.api.DateTimeDialogListener
-import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.feature_views.extension.onTabSelected
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -48,7 +47,7 @@ class DateTimeDialogFragment :
 
     private var timeDialogFragment: TimeDialogFragment? = null
     private var dateDialogFragment: DateDialogFragment? = null
-    private var dateTimeDialogListeners: MutableList<DateTimeDialogListener> = mutableListOf()
+    private var dateTimeDialogListeners: List<DateTimeDialogListener> = emptyList()
     private val params: DateTimeDialogParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = DateTimeDialogParams(),
     )
@@ -57,17 +56,7 @@ class DateTimeDialogFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        when (context) {
-            is DateTimeDialogListener -> {
-                dateTimeDialogListeners.add(context)
-                return
-            }
-            is AppCompatActivity -> {
-                context.getAllFragments().forEach {
-                    (it as? DateTimeDialogListener)?.let(dateTimeDialogListeners::add)
-                }
-            }
-        }
+        dateTimeDialogListeners = context.findListeners<DateTimeDialogListener>()
     }
 
     override fun onCreateView(

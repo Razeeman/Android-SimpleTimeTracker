@@ -5,12 +5,11 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
+import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.feature_dialogs.api.CustomRangeSelectionDialogListener
 import com.example.util.simpletimetracker.feature_dialogs.api.DateTimeDialogListener
-import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
@@ -38,17 +37,7 @@ class CustomRangeSelectionDialogFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        when (context) {
-            is CustomRangeSelectionDialogListener -> {
-                dialogListener = context
-                return
-            }
-            is AppCompatActivity -> {
-                context.getAllFragments()
-                    .firstOrNull { it is CustomRangeSelectionDialogListener && it.isResumed }
-                    ?.let { dialogListener = it as? CustomRangeSelectionDialogListener }
-            }
-        }
+        dialogListener = context.findListeners<CustomRangeSelectionDialogListener>().firstOrNull()
     }
 
     override fun initDialog() {

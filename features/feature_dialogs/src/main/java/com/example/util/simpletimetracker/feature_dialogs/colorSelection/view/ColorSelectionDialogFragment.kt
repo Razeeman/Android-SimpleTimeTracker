@@ -6,12 +6,11 @@ import android.os.Bundle
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
+import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.feature_dialogs.api.ColorSelectionDialogListener
-import com.example.util.simpletimetracker.core.extension.getAllFragments
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
@@ -49,17 +48,7 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        when (context) {
-            is ColorSelectionDialogListener -> {
-                colorSelectionDialogListener = context
-                return
-            }
-            is AppCompatActivity -> {
-                context.getAllFragments()
-                    .firstOrNull { it is ColorSelectionDialogListener && it.isResumed }
-                    ?.let { colorSelectionDialogListener = it as? ColorSelectionDialogListener }
-            }
-        }
+        colorSelectionDialogListener = context.findListeners<ColorSelectionDialogListener>().firstOrNull()
     }
 
     override fun initDialog() {
