@@ -66,7 +66,7 @@ interface ChangeRecordEditorDelegate : ScopeHolder, CommentSelectionViewModelDel
     fun onTypeClick(item: RecordTypeViewData)
     fun onCategoryClick(item: CategoryViewData)
     fun onCategoryValueSelected(params: RecordTagValueSelectionParams, value: Double)
-    fun onDataSelected(tag: String?, dataIds: List<Long>)
+    fun onDataSelected(tag: String, dataIds: List<Long>)
     fun onCategoryLongClick(item: CategoryViewData, sharedElements: Pair<Any, String>)
     fun onCategorySpecialClick(viewData: CategoryAddViewData)
     fun onSearchTextChange(text: String)

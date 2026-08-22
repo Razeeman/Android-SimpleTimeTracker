@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.feature_dialogs.api.OptionsListDialogListener
-import com.example.util.simpletimetracker.core.extension.findListener
+import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
@@ -38,12 +38,12 @@ class OptionsListDialogFragment :
     private val params: OptionsListParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = OptionsListParams.Empty,
     )
-    private var listener: OptionsListDialogListener? = null
+    private var listeners: List<OptionsListDialogListener> = emptyList()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context.findListener()
-        listener?.onOptionsDialogOpened()
+        listeners = context.findListeners()
+        listeners.forEach { it.onOptionsDialogOpened() }
     }
 
     override fun initDialog() {
@@ -52,7 +52,7 @@ class OptionsListDialogFragment :
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        listener?.onOptionsDialogClosed()
+        listeners.forEach { it.onOptionsDialogClosed() }
     }
 
     override fun initUi(): Unit = with(binding) {
@@ -71,7 +71,7 @@ class OptionsListDialogFragment :
     private fun onItemClick(item: OptionsListViewData) {
         fun onClick(item: OptionsListViewData) {
             val id = (item.id as? OptionsListItemId)?.id ?: return
-            listener?.onOptionsItemClick(id)
+            listeners.forEach { it.onOptionsItemClick(id) }
         }
         router.back()
         item.let(throttle(::onClick))

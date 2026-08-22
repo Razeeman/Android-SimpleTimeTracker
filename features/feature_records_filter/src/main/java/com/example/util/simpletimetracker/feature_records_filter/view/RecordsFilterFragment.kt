@@ -15,7 +15,7 @@ import com.example.util.simpletimetracker.feature_dialogs.api.DurationDialogList
 import com.example.util.simpletimetracker.feature_dialogs.api.RecordsFilterListener
 import com.example.util.simpletimetracker.feature_dialogs.api.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
-import com.example.util.simpletimetracker.core.extension.findListener
+import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
@@ -131,7 +131,7 @@ class RecordsFilterFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context.findListener()
+        listener = context.findListeners<RecordsFilterListener>().firstOrNull()
     }
 
     override fun initDialog() {

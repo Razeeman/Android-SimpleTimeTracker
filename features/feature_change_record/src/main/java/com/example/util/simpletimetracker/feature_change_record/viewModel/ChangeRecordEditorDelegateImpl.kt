@@ -356,7 +356,7 @@ class ChangeRecordEditorDelegateImpl @Inject constructor(
     }
 
     override fun onDataSelected(
-        tag: String?,
+        tag: String,
         dataIds: List<Long>,
     ) {
         when (tag) {

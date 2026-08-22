@@ -232,7 +232,7 @@ class RecordsViewModel @Inject constructor(
     }
 
     fun onNeedUpdate() {
-        updateRecords()
+        if (isVisible) updateRecords()
     }
 
     fun onTabReselected(tab: NavigationTab?) {
@@ -249,6 +249,7 @@ class RecordsViewModel @Inject constructor(
         chartFilterType: ChartFilterType,
         dataIds: List<Long>,
     ) = viewModelScope.launch {
+        if (!isVisible) return@launch
         prefsInteractor.setListFilterType(chartFilterType)
         when (chartFilterType) {
             ChartFilterType.ACTIVITY -> prefsInteractor.setFilteredTypesOnList(dataIds)

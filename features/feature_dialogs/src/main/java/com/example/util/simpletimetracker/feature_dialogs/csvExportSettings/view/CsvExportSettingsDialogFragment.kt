@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.feature_dialogs.api.DataExportSettingsDialogListener
 import com.example.util.simpletimetracker.feature_dialogs.api.DateTimeDialogListener
-import com.example.util.simpletimetracker.core.extension.findListener
+import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
@@ -51,7 +51,7 @@ class CsvExportSettingsDialogFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context.findListener()
+        listener = context.findListeners<DataExportSettingsDialogListener>().firstOrNull()
     }
 
     override fun initDialog() {

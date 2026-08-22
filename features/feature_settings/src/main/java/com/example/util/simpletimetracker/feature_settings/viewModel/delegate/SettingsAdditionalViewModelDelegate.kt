@@ -102,7 +102,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         onDurationDisabledDelegate(tag)
     }
 
-    fun onTypesSelected(typeIds: List<Long>, tag: String?) {
+    fun onTypesSelected(typeIds: List<Long>, tag: String) {
         onTypesSelectedDelegate(typeIds, tag)
     }
 
@@ -349,7 +349,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    private fun onTypesSelectedDelegate(typeIds: List<Long>, tag: String?) = delegateScope.launch {
+    private fun onTypesSelectedDelegate(typeIds: List<Long>, tag: String) = delegateScope.launch {
         when (tag) {
             SettingsViewModel.TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION -> {
                 prefsInteractor.setRecordTagSelectionExcludeActivities(typeIds)

@@ -11,7 +11,7 @@ import com.example.util.simpletimetracker.feature_dialogs.api.OnTagValueSelected
 import com.example.util.simpletimetracker.feature_dialogs.api.TypesSelectionDialogListener
 import com.example.util.simpletimetracker.feature_dialogs.api.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
-import com.example.util.simpletimetracker.core.extension.findListener
+import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.extension.observeOnce
 import com.example.util.simpletimetracker.core.extension.setFullScreen
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
@@ -61,11 +61,11 @@ class TypesSelectionDialogFragment :
     private val extra: TypesSelectionDialogParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = TypesSelectionDialogParams.Empty,
     )
-    private var listener: TypesSelectionDialogListener? = null
+    private var listeners: List<TypesSelectionDialogListener> = emptyList()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context.findListener()
+        listeners = context.findListeners()
     }
 
     override fun initDialog() {
@@ -124,12 +124,14 @@ class TypesSelectionDialogFragment :
     }
 
     private fun onDataSelected(result: TypesSelectionResult) {
-        listener?.onDataSelected(
-            tag = extra.tag,
-            dataIds = result.dataIds,
-            tagValues = result.tagValues,
-            selectValueOnStartTagIds = result.selectValueOnStartTagIds,
-        )
+        listeners.forEach {
+            it.onDataSelected(
+                tag = extra.tag,
+                dataIds = result.dataIds,
+                tagValues = result.tagValues,
+                selectValueOnStartTagIds = result.selectValueOnStartTagIds,
+            )
+        }
         dismiss()
     }
 

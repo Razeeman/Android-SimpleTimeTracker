@@ -242,7 +242,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         ).let(router::navigate)
     }
 
-    fun onTypesSelected(typeIds: List<Long>, tag: String?) = viewModelScope.launch {
+    fun onTypesSelected(typeIds: List<Long>, tag: String) = viewModelScope.launch {
         if (tag != TYPE_SELECTION_TAG) return@launch
 
         val typeId = typeIds.firstOrNull() ?: return@launch

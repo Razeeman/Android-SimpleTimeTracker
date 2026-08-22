@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
-import com.example.util.simpletimetracker.core.extension.findListener
+import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
@@ -49,7 +49,7 @@ class StatisticsTagValuesSettingsDialogFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context.findListener()
+        listener = context.findListeners<StatisticsTagValuesSettingsDialogListener>().firstOrNull()
     }
 
     override fun initUi() = with(binding) {

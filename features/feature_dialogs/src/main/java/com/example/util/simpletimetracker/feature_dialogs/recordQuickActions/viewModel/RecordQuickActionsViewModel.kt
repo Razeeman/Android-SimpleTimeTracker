@@ -348,7 +348,7 @@ class RecordQuickActionsViewModel @Inject constructor(
     }
 
     fun onTypesSelected(
-        tag: String?,
+        tag: String,
         dataIds: List<Long>,
         tagValues: List<RecordBase.Tag>,
     ) = viewModelScope.launch {

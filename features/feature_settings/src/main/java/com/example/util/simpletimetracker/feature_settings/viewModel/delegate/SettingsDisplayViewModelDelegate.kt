@@ -115,7 +115,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         onDateTimeSetDelegate(timestamp, tag)
     }
 
-    fun onTypesSelected(typeIds: List<Long>, tag: String?) {
+    fun onTypesSelected(typeIds: List<Long>, tag: String) {
         onTypesSelectedDelegate(typeIds, tag)
     }
 
@@ -341,7 +341,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         ).let(router::navigate)
     }
 
-    private fun onTypesSelectedDelegate(typeIds: List<Long>, tag: String?) = delegateScope.launch {
+    private fun onTypesSelectedDelegate(typeIds: List<Long>, tag: String) = delegateScope.launch {
         when (tag) {
             SettingsViewModel.SELECT_ACTIVITIES_TO_AUTOSTART_POMODORO -> {
                 prefsInteractor.setAutostartPomodoroActivities(typeIds)

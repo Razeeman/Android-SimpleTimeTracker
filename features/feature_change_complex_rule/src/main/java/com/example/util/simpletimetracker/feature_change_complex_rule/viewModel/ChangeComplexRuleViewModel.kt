@@ -162,7 +162,7 @@ class ChangeComplexRuleViewModel @Inject constructor(
     fun onDataSelected(
         dataIds: List<Long>,
         tagValues: List<RecordBase.Tag>,
-        tag: String?,
+        tag: String,
         selectValueOnStartTagIds: List<Long>,
     ) {
         when (tag) {

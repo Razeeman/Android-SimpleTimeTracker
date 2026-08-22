@@ -13,7 +13,7 @@ import com.example.util.simpletimetracker.core.di.BaseViewModelFactory
 import com.example.util.simpletimetracker.feature_dialogs.api.DateTimeDialogListener
 import com.example.util.simpletimetracker.feature_dialogs.api.RecordQuickActionDialogListener
 import com.example.util.simpletimetracker.feature_dialogs.api.TypesSelectionDialogListener
-import com.example.util.simpletimetracker.core.extension.findListener
+import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.sharedViewModel.RemoveRecordViewModel
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
@@ -60,11 +60,11 @@ class RecordQuickActionsDialogFragment :
     private val params: RecordQuickActionsParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = RecordQuickActionsParams.Empty,
     )
-    private var listener: RecordQuickActionDialogListener? = null
+    private var listeners: List<RecordQuickActionDialogListener> = emptyList()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context.findListener()
+        listeners = context.findListeners()
     }
 
     override fun initDialog() {
@@ -99,7 +99,7 @@ class RecordQuickActionsDialogFragment :
     }
 
     override fun onDataSelected(
-        tag: String?,
+        tag: String,
         dataIds: List<Long>,
         tagValues: List<RecordBase.Tag>,
         selectValueOnStartTagIds: List<Long>,
@@ -143,7 +143,7 @@ class RecordQuickActionsDialogFragment :
     }
 
     private fun onActionComplete() {
-        listener?.onActionComplete()
+        listeners.forEach { it.onActionComplete() }
     }
 
     private fun setIconsSpanSize(

@@ -125,6 +125,7 @@ class StatisticsViewModel @Inject constructor(
         chartFilterType: ChartFilterType,
         dataIds: List<Long>,
     ) = viewModelScope.launch {
+        if (!isVisible) return@launch
         prefsInteractor.setChartFilterType(chartFilterType)
         when (chartFilterType) {
             ChartFilterType.ACTIVITY -> prefsInteractor.setFilteredTypes(dataIds)
@@ -134,12 +135,14 @@ class StatisticsViewModel @Inject constructor(
     }
 
     fun onFilterClosed() {
+        if (!isVisible) return
         updateStatistics()
         isChartFilterOpened = false
         updateAnimateChartParticles()
     }
 
     fun onFilterOpened() {
+        if (!isVisible) return
         isChartFilterOpened = true
         updateAnimateChartParticles()
     }

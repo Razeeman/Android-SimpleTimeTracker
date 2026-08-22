@@ -43,7 +43,7 @@ class ActivitySuggestionsViewModel @Inject constructor(
     private var selectingSuggestionsForTypeId: Long = 0L
     private var loadJob: Job? = null
 
-    fun onTypesSelected(typeIds: List<Long>, tag: String?) {
+    fun onTypesSelected(typeIds: List<Long>, tag: String) {
         when (tag) {
             ACTIVITY_SUGGESTIONS_TYPE_SELECTION_TAG -> {
                 onNewTypesSelected(

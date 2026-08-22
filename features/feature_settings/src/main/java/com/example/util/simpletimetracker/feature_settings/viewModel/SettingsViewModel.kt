@@ -136,7 +136,7 @@ class SettingsViewModel @Inject constructor(
 
     fun onTypesSelected(
         typeIds: List<Long>,
-        tag: String?,
+        tag: String,
     ) {
         displayDelegate.onTypesSelected(typeIds, tag)
         additionalDelegate.onTypesSelected(typeIds, tag)

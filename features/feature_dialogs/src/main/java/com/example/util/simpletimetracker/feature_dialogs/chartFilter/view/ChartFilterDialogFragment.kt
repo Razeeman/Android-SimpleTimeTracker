@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import com.example.util.simpletimetracker.core.base.BaseBottomSheetFragment
 import com.example.util.simpletimetracker.feature_dialogs.api.ChartFilterDialogListener
 import com.example.util.simpletimetracker.core.extension.blockContentScroll
-import com.example.util.simpletimetracker.core.extension.findListener
+import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.core.utils.fragmentArgumentDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
@@ -49,17 +49,18 @@ class ChartFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
     private val params: ChartFilterDialogParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS, default = ChartFilterDialogParams.Empty,
     )
-    private var listener: ChartFilterDialogListener? = null
+    private var listeners: List<ChartFilterDialogListener> = emptyList()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context.findListener()
-        listener?.onChartFilterDialogOpened()
+        listeners = context.findListeners()
+        // TODO will not work on screen rotated, same in other dialogs.
+        listeners.forEach { it.onChartFilterDialogOpened() }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        listener?.onChartFilterDialogDismissed()
+        listeners.forEach { it.onChartFilterDialogDismissed() }
     }
 
     override fun initDialog() {
@@ -103,10 +104,12 @@ class ChartFilterDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     private fun onDataSelected(result: ChartFilterDataSelectionResult) {
-        listener?.onChartFilterDataSelected(
-            chartFilterType = result.chartFilterType,
-            dataIds = result.dataIds,
-        )
+        listeners.forEach {
+            it.onChartFilterDataSelected(
+                chartFilterType = result.chartFilterType,
+                dataIds = result.dataIds,
+            )
+        }
     }
 
     companion object {

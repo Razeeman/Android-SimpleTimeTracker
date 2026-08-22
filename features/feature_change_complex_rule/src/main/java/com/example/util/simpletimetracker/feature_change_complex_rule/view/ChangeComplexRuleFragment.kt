@@ -147,7 +147,7 @@ class ChangeComplexRuleFragment :
     }
 
     override fun onDataSelected(
-        tag: String?,
+        tag: String,
         dataIds: List<Long>,
         tagValues: List<RecordBase.Tag>,
         selectValueOnStartTagIds: List<Long>,

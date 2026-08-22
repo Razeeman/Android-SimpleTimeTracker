@@ -149,7 +149,7 @@ class CategoriesViewModel @Inject constructor(
         selectedTypeIds = allTypeIds.filter { it !in dataIds }
     }
 
-    fun onDataSelected(dataIds: List<Long>, tag: String?) {
+    fun onDataSelected(dataIds: List<Long>, tag: String) {
         if (tag != CATEGORIES_TYPE_SELECTION_TAG) return
         selectedTypeIds = dataIds
         updateCategories()
