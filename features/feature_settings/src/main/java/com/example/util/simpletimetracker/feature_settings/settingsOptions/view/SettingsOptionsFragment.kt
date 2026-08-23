@@ -65,7 +65,7 @@ class SettingsOptionsFragment : BaseBottomSheetFragment<SettingsOptionsFragmentB
         listener?.onOptionsSpinnerPositionSelected(block, position)
     }
 
-    private fun onDayOfWeekClicked(data: DayOfWeekViewData) {
-        listener?.onOptionsDayOfWeekClicked(data)
+    private fun onDayOfWeekClicked(block: SettingsBlock, data: DayOfWeekViewData) {
+        listener?.onOptionsDayOfWeekClicked(block, data)
     }
 }

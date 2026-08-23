@@ -21,6 +21,7 @@ fun createSettingsRangeAdapterDelegate(
         tvItemSettingsStart.text = item.start
         tvItemSettingsEnd.text = item.end
 
+        spaceItemSettingsBottom.visible = item.bottomSpaceIsVisible
         viewItemSettingsDivider.visible = item.dividerIsVisible
 
         tvItemSettingsStart.setOnClick { onClick(item.blockStart) }
@@ -34,6 +35,7 @@ data class SettingsRangeViewData(
     val title: String,
     val start: String,
     val end: String,
+    val bottomSpaceIsVisible: Boolean = true,
     val dividerIsVisible: Boolean = true,
 ) : ViewHolderType {
 

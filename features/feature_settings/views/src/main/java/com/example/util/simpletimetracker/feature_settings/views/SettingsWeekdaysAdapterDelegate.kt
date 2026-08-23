@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBin
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.createDayOfWeekAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
+import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -15,20 +16,23 @@ import com.example.util.simpletimetracker.feature_settings.views.SettingsWeekday
 import com.example.util.simpletimetracker.feature_settings.views.databinding.ItemSettingsWeekdaysBinding as Binding
 
 fun createSettingsWeekdaysAdapterDelegate(
-    onDayOfWeekClick: (DayOfWeekViewData) -> Unit,
+    onDayOfWeekClick: (SettingsBlock, DayOfWeekViewData) -> Unit,
 ) = createRecyclerBindingAdapterDelegate<ViewData, Binding>(
     Binding::inflate,
 ) { binding, item, _ ->
 
-    fun createAdapter(): BaseRecyclerAdapter {
+    fun createAdapter(
+        onClick: (DayOfWeekViewData) -> Unit,
+    ): BaseRecyclerAdapter {
         return BaseRecyclerAdapter(
-            createDayOfWeekAdapterDelegate(onDayOfWeekClick),
+            createDayOfWeekAdapterDelegate(onClick = { onClick(it) }),
         )
     }
 
     fun bindRecycler(
         recyclerView: RecyclerView,
-        items: List<DayOfWeekViewData>,
+        viewData: ViewData,
+        onClick: (DayOfWeekViewData) -> Unit,
     ) {
         recyclerView.itemAnimator = null
         recyclerView.layoutManager = FlexboxLayoutManager(binding.root.context).apply {
@@ -36,15 +40,32 @@ fun createSettingsWeekdaysAdapterDelegate(
             justifyContent = JustifyContent.CENTER
             flexWrap = FlexWrap.NOWRAP
         }
-        val adapter = recyclerView.adapter ?: createAdapter().also { recyclerView.adapter = it }
-        (adapter as? BaseRecyclerAdapter)?.replace(items)
+        val adapter = recyclerView.adapter ?: createAdapter(onClick).also { recyclerView.adapter = it }
+        (adapter as? BaseRecyclerAdapter)?.replace(viewData.items)
     }
 
     with(binding) {
         item as ViewData
         tvItemSettingsTitle.text = item.title
-        tvItemSettingsSubtitle.text = item.subtitle
-        bindRecycler(rvItemSettingsWeekdays, item.items)
+        // TODO add extension bindOptional
+        if (item.subtitle.isEmpty()) {
+            tvItemSettingsSubtitle.visible = false
+        } else {
+            tvItemSettingsSubtitle.text = item.subtitle
+            tvItemSettingsSubtitle.visible = true
+        }
+        // Needed for tests and for clicks receiving correct block after bind / rebind.
+        rvItemSettingsWeekdays.tag = item.block
+        bindRecycler(
+            recyclerView = rvItemSettingsWeekdays,
+            viewData = item,
+            onClick = { dayOfWeek ->
+                // Need actual bound block, because adapter will be created only once
+                // and not recreated on rebind.
+                val currentlyBoundBlock = rvItemSettingsWeekdays.tag as? SettingsBlock
+                currentlyBoundBlock?.let { block -> onDayOfWeekClick(block, dayOfWeek) }
+            },
+        )
     }
 }
 

@@ -149,8 +149,14 @@ class SettingsViewModel @Inject constructor(
         displayDelegate.onOptionsItemClick(id)
     }
 
-    fun onUntrackedDayOfWeekClicked(data: DayOfWeekViewData) {
-        displayDelegate.onUntrackedDayOfWeekClicked(data)
+    fun onDayOfWeekClicked(block: SettingsBlock, data: DayOfWeekViewData) {
+        when (block) {
+            SettingsBlock.DisplayUntrackedDaysOfWeek -> displayDelegate.onUntrackedDayOfWeekClicked(data)
+            SettingsBlock.NotificationsInactivityDaysOfWeek,
+            SettingsBlock.NotificationsActivityDaysOfWeek,
+            -> notificationsDelegate.onDayOfWeekClicked(block, data)
+            else -> Unit
+        }
     }
 
     fun onTabReselected(tab: NavigationTab?) {

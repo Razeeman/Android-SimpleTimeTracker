@@ -337,7 +337,6 @@
     <string name="settings_show_untracked_time_statistics">הצג זמן ללא מעקב בסטטיסטיקה</string>
     <string name="settings_ignore_short_untracked">התעלם מזמן קצר ללא מעקב</string>
     <string name="settings_ignore_short_untracked_hint">אל תציג זמן ללא מעקב אשר קצר מהזמן שצוין.</string>
-    <string name="settings_untracked_days">ימים ללא מעקב</string>
     <string name="settings_untracked_days_hint">יש לחשב זמן ללא מעקב רק בימים שנבחרו.</string>
     <string name="settings_untracked_range">טווח ללא מעקב</string>
     <string name="settings_untracked_range_hint">הצגת זמן לא מנוטר רק בטווח שנבחר.</string>
@@ -372,6 +371,7 @@
     <string name="settings_inactivity_reminder">הצג תזכורת חוסר פעילות</string>
     <string name="settings_inactivity_reminder_hint">הצג התראה לאחר הזמן שצוין אם אין טיימרים פועלים.</string>
     <string name="settings_inactivity_reminder_recurrent">חוזרת</string>
+    <string name="settings_reminder_active_days">ימים פעילים</string>
     <string name="settings_activity_reminder">הצג תזכורת פעילות</string>
     <string name="settings_activity_reminder_hint">הצג התראה לאחר הזמן שצוין אם טיימרים פועלים.</string>
     <string name="settings_do_not_disturb">נא לא להפריע</string>

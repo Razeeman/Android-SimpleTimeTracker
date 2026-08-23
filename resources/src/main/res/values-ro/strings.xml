@@ -337,7 +337,6 @@ Acest lucru îți permite să vezi cât timp petreci în activități productive
     <string name="settings_show_untracked_time_statistics">Arată timpul neurmărit în statistici</string>
     <string name="settings_ignore_short_untracked">Ignoră timpul scurt neurmărit</string>
     <string name="settings_ignore_short_untracked_hint">Nu arăta timpul neurmărit care este mai scurt decât timpul specificat.</string>
-    <string name="settings_untracked_days">Zile fără urmărire</string>
     <string name="settings_untracked_days_hint">Calculează timpul fără urmărire numai în zilele selectate.</string>
     <string name="settings_untracked_range">Interval neurmărit</string>
     <string name="settings_untracked_range_hint">Afișează timpul neînregistrat doar în intervalul selectat.</string>
@@ -372,6 +371,7 @@ Acest lucru îți permite să vezi cât timp petreci în activități productive
     <string name="settings_inactivity_reminder">Arată memento de inactivitate</string>
     <string name="settings_inactivity_reminder_hint">Arată notificare după intervalul specificat dacă nu este nici un cronometru activ.</string>
     <string name="settings_inactivity_reminder_recurrent">Recurent</string>
+    <string name="settings_reminder_active_days">Zile active</string>
     <string name="settings_activity_reminder">Arată memento de activitate</string>
     <string name="settings_activity_reminder_hint">Arată notificare după intervalul specificat dacă sunt cronometre active.</string>
     <string name="settings_do_not_disturb">Nu deranja</string>

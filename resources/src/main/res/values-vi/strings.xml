@@ -337,7 +337,6 @@
     <string name="settings_show_untracked_time_statistics">Hiển thị thời gian không được theo dõi trong thống kê</string>
     <string name="settings_ignore_short_untracked">Bỏ qua thời gian ngắn không được theo dõi</string>
     <string name="settings_ignore_short_untracked_hint">Không hiển thị thời gian không được theo dõi ngắn hơn thời gian đã chỉ định.</string>
-    <string name="settings_untracked_days">Ngày không theo dõi</string>
     <string name="settings_untracked_days_hint">Chỉ tính thời gian không được theo dõi vào những ngày đã chọn.</string>
     <string name="settings_untracked_range">Phạm vi không bị theo dõi</string>
     <string name="settings_untracked_range_hint">Chỉ hiển thị thời gian chưa được theo dõi trong phạm vi đã chọn.</string>
@@ -372,6 +371,7 @@
     <string name="settings_inactivity_reminder">Hiển thị lời nhắc không hoạt động</string>
     <string name="settings_inactivity_reminder_hint">Hiển thị thông báo sau thời gian được chỉ định nếu không có đồng hồ hẹn giờ nào đang chạy.</string>
     <string name="settings_inactivity_reminder_recurrent">Định kỳ</string>
+    <string name="settings_reminder_active_days">Ngày hoạt động</string>
     <string name="settings_activity_reminder">Hiển thị lời nhắc hoạt động</string>
     <string name="settings_activity_reminder_hint">Hiển thị thông báo sau thời gian được chỉ định nếu bộ hẹn giờ đang chạy.</string>
     <string name="settings_do_not_disturb">Đừng làm phiền</string>

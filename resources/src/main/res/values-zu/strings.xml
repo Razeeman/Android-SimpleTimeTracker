@@ -337,7 +337,6 @@ Lokhu kukuvumela ukuthi ubone isikhathi osichitha emisebenzini esebenzayo nezing
     <string name="settings_show_untracked_time_statistics">Bonisa isikhathi esingalandelwanga kuzibalo</string>
     <string name="settings_ignore_short_untracked">Yeka isikhathi esifushane esingalandelwanga</string>
     <string name="settings_ignore_short_untracked_hint">Ungabonisi isikhathi esingalandelwanga esifushane kune esibekiwe.</string>
-    <string name="settings_untracked_days">Izinsuku ezingalandelwanga</string>
     <string name="settings_untracked_days_hint">Bala isikhathi esingalandelwanga kuphela ngezinsuku ezikhethiwe.</string>
     <string name="settings_untracked_range">Ibanga elingalandelwanga</string>
     <string name="settings_untracked_range_hint">Bonisa isikhathi esingalandelwanga kuphela phakathi kobubanzi obukhethiwe.</string>
@@ -372,6 +371,7 @@ Lokhu kukuvumela ukuthi ubone isikhathi osichitha emisebenzini esebenzayo nezing
     <string name="settings_inactivity_reminder">Bonisa isikhumbuzi sokungasebenzi</string>
     <string name="settings_inactivity_reminder_hint">Bonisa isaziso uma amathayima engasebenzi isikhathi esithile.</string>
     <string name="settings_inactivity_reminder_recurrent">Phindaphinda</string>
+    <string name="settings_reminder_active_days">Izinsuku ezisebenzayo</string>
     <string name="settings_activity_reminder">Bonisa isikhumbuzi somsebenzi</string>
     <string name="settings_activity_reminder_hint">Bonisa isaziso uma amathayima eqhubeka isikhathi eside.</string>
     <string name="settings_do_not_disturb">Ungaphazamisi</string>

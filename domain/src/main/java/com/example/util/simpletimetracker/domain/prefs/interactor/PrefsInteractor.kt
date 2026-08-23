@@ -575,6 +575,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.inactivityReminderRecurrent = isRecurrent
     }
 
+    suspend fun getInactivityReminderDaysOfWeek(): Set<DayOfWeek> = withContext(Dispatchers.IO) {
+        daysOfWeekDataLocalMapper.mapDaysOfWeek(prefsRepo.inactivityReminderDaysOfWeek)
+    }
+
+    suspend fun setInactivityReminderDaysOfWeek(daysOfWeek: Set<DayOfWeek>) = withContext(Dispatchers.IO) {
+        prefsRepo.inactivityReminderDaysOfWeek = daysOfWeekDataLocalMapper.mapDaysOfWeek(daysOfWeek)
+    }
+
     suspend fun getInactivityReminderDoNotDisturbStart(): Long = withContext(Dispatchers.IO) {
         prefsRepo.inactivityReminderDoNotDisturbStart
     }
@@ -605,6 +613,14 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun setActivityReminderRecurrent(isRecurrent: Boolean) = withContext(Dispatchers.IO) {
         prefsRepo.activityReminderRecurrent = isRecurrent
+    }
+
+    suspend fun getActivityReminderDaysOfWeek(): Set<DayOfWeek> = withContext(Dispatchers.IO) {
+        daysOfWeekDataLocalMapper.mapDaysOfWeek(prefsRepo.activityReminderDaysOfWeek)
+    }
+
+    suspend fun setActivityReminderDaysOfWeek(daysOfWeek: Set<DayOfWeek>) = withContext(Dispatchers.IO) {
+        prefsRepo.activityReminderDaysOfWeek = daysOfWeekDataLocalMapper.mapDaysOfWeek(daysOfWeek)
     }
 
     suspend fun getActivityReminderDoNotDisturbStart(): Long = withContext(Dispatchers.IO) {

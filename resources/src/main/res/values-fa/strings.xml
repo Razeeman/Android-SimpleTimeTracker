@@ -337,7 +337,6 @@
     <string name="settings_show_untracked_time_statistics">نمایش زمان پیگیری نشده در آمار</string>
     <string name="settings_ignore_short_untracked">چشم پوشی از زمان کوتاه اندازه گیری نشده</string>
     <string name="settings_ignore_short_untracked_hint">زمان اندازه گیری نشده که از زمان معین کوتاه تر است را نمایش نده</string>
-    <string name="settings_untracked_days">روزهای بدون ردیابی</string>
     <string name="settings_untracked_days_hint">زمان بدون ردیابی را فقط در روزهای انتخاب‌شده محاسبه کنید.</string>
     <string name="settings_untracked_range">محدوده اندازه گیری نشده</string>
     <string name="settings_untracked_range_hint">نمایش زمان ثبت‌نشده فقط در بازهٔ انتخاب‌شده.</string>
@@ -372,6 +371,7 @@
     <string name="settings_inactivity_reminder">نمایش یادآور بی فعالیتی</string>
     <string name="settings_inactivity_reminder_hint">اگر تایمری در حال اجرا نیست بعد از زمان معین اعلانی نمایش داده شود</string>
     <string name="settings_inactivity_reminder_recurrent">مکرر</string>
+    <string name="settings_reminder_active_days">روزهای فعال</string>
     <string name="settings_activity_reminder">یادآور فعالیت را نمایش بده</string>
     <string name="settings_activity_reminder_hint">وقتی تایمری در حال اجراست اعلانی را بعد از زمان معین نشان بده</string>
     <string name="settings_do_not_disturb">مزاحم نشوید</string>

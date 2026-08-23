@@ -442,7 +442,7 @@ class SettingsTest : BaseUiTest() {
             if (expandDisplay) NavUtils.openSettingsDisplay()
             scrollSettingsRecyclerToText(coreR.string.untracked_time_name)
             clickOnSettingsRecyclerText(coreR.string.untracked_time_name)
-            checkViewIsDisplayed(withText(coreR.string.settings_untracked_days))
+            checkViewIsDisplayed(withText(coreR.string.settings_reminder_active_days))
         }
 
         // Check all days selected

@@ -32,6 +32,7 @@ class NotificationActivityInteractorImpl @Inject constructor(
                     timestamp = it,
                     dndStart = prefsInteractor.getActivityReminderDoNotDisturbStart(),
                     dndEnd = prefsInteractor.getActivityReminderDoNotDisturbEnd(),
+                    activeDaysOfWeek = prefsInteractor.getActivityReminderDaysOfWeek(),
                 )
             }
             ?.let(scheduler::schedule)

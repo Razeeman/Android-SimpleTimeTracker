@@ -1,8 +1,11 @@
 package com.example.util.simpletimetracker.feature_settings.interactor
 
+import com.example.util.simpletimetracker.core.mapper.DayOfWeekViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
@@ -14,12 +17,14 @@ import com.example.util.simpletimetracker.feature_settings.views.SettingsRangeVi
 import com.example.util.simpletimetracker.feature_settings.views.SettingsSelectorViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsTextViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsTopViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsWeekdaysViewData
 import javax.inject.Inject
 
 class SettingsNotificationsViewDataInteractor @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val settingsMapper: SettingsMapper,
     private val prefsInteractor: PrefsInteractor,
+    private val dayOfWeekViewDataMapper: DayOfWeekViewDataMapper,
 ) {
 
     suspend fun execute(
@@ -98,6 +103,16 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
                     title = resourceRepo.getString(R.string.settings_do_not_disturb),
                     start = loadInactivityReminderDndStartViewData(),
                     end = loadInactivityReminderDndEndViewData(),
+                    bottomSpaceIsVisible = false,
+                    dividerIsVisible = false,
+                )
+                result += SettingsWeekdaysViewData(
+                    block = SettingsBlock.NotificationsInactivityDaysOfWeek,
+                    title = resourceRepo.getString(R.string.settings_reminder_active_days),
+                    subtitle = "",
+                    items = loadReminderDaysOfWeekViewData(
+                        selectedDaysOfWeek = prefsInteractor.getInactivityReminderDaysOfWeek(),
+                    ),
                 )
             }
 
@@ -125,6 +140,16 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
                     title = resourceRepo.getString(R.string.settings_do_not_disturb),
                     start = loadActivityReminderDndStartViewData(),
                     end = loadActivityReminderDndEndViewData(),
+                    bottomSpaceIsVisible = false,
+                    dividerIsVisible = false,
+                )
+                result += SettingsWeekdaysViewData(
+                    block = SettingsBlock.NotificationsActivityDaysOfWeek,
+                    title = resourceRepo.getString(R.string.settings_reminder_active_days),
+                    subtitle = "",
+                    items = loadReminderDaysOfWeekViewData(
+                        selectedDaysOfWeek = prefsInteractor.getActivityReminderDaysOfWeek(),
+                    ),
                 )
             }
 
@@ -175,5 +200,17 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
         val shift = prefsInteractor.getActivityReminderDoNotDisturbEnd()
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         return settingsMapper.toStartOfDayText(shift, useMilitaryTime)
+    }
+
+    private suspend fun loadReminderDaysOfWeekViewData(
+        selectedDaysOfWeek: Set<DayOfWeek>,
+    ): List<DayOfWeekViewData> {
+        return dayOfWeekViewDataMapper.mapViewData(
+            selectedDaysOfWeek = selectedDaysOfWeek,
+            isDarkTheme = prefsInteractor.getDarkMode(),
+            firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
+            width = DayOfWeekViewData.Width.MatchParent,
+            paddingHorizontalDp = 4,
+        )
     }
 }

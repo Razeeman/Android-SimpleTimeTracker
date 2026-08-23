@@ -59,6 +59,7 @@ class SettingsFragment :
                 onBlockClicked = viewModel::onBlockClicked,
                 onBlockClickedThrottled = throttle(viewModel::onBlockClicked),
                 onSpinnerPositionSelected = viewModel::onSpinnerPositionSelected,
+                onDayOfWeekClick = viewModel::onDayOfWeekClicked,
             ).toTypedArray(),
         )
     }
@@ -138,8 +139,8 @@ class SettingsFragment :
         viewModel.onSpinnerPositionSelected(block, position)
     }
 
-    override fun onOptionsDayOfWeekClicked(data: DayOfWeekViewData) {
-        viewModel.onUntrackedDayOfWeekClicked(data)
+    override fun onOptionsDayOfWeekClicked(block: SettingsBlock, data: DayOfWeekViewData) {
+        viewModel.onDayOfWeekClicked(block, data)
     }
 
     private fun setKeepScreenOn(keepScreenOn: Boolean) {

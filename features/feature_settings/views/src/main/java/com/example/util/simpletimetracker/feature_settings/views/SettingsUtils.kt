@@ -25,7 +25,7 @@ fun getSettingsAdapterDelegates(
     onBlockClicked: (SettingsBlock) -> Unit,
     onBlockClickedThrottled: (SettingsBlock) -> Unit = onBlockClicked,
     onSpinnerPositionSelected: (SettingsBlock, Int) -> Unit,
-    onDayOfWeekClick: (DayOfWeekViewData) -> Unit = {},
+    onDayOfWeekClick: (SettingsBlock, DayOfWeekViewData) -> Unit = { _, _ -> },
 ): List<RecyclerAdapterDelegate> {
     return listOf(
         createSettingsTopAdapterDelegate(),

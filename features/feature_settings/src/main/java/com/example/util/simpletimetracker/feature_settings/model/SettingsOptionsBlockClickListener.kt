@@ -9,5 +9,5 @@ interface SettingsOptionsBlockClickListener {
     fun getOptionsContent(): LiveData<List<ViewHolderType>>
     fun onOptionsBlockClicked(block: SettingsBlock)
     fun onOptionsSpinnerPositionSelected(block: SettingsBlock, position: Int)
-    fun onOptionsDayOfWeekClicked(data: DayOfWeekViewData)
+    fun onOptionsDayOfWeekClicked(block: SettingsBlock, data: DayOfWeekViewData)
 }

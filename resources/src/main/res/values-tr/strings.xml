@@ -337,7 +337,6 @@ Bu, genel olarak verimli ve verimsiz aktivitelere ne kadar zaman harcadığını
     <string name="settings_show_untracked_time_statistics">İstatistiklerde takipsiz zamanı göster</string>
     <string name="settings_ignore_short_untracked">Takip edilmeyen kısa süreyi yoksay</string>
     <string name="settings_ignore_short_untracked_hint">Belirtilen süreden daha kısa olan izlenmeyen süreyi gösterme.</string>
-    <string name="settings_untracked_days">Takip edilmeyen günler</string>
     <string name="settings_untracked_days_hint">Takip edilmeyen süreyi yalnızca seçilen günlerde hesapla.</string>
     <string name="settings_untracked_range">Izlenmeyen aralık</string>
     <string name="settings_untracked_range_hint">Takip edilmeyen zamanı yalnızca seçilen aralıkta göster.</string>
@@ -372,6 +371,7 @@ Bu, genel olarak verimli ve verimsiz aktivitelere ne kadar zaman harcadığını
     <string name="settings_inactivity_reminder">İnaktivite hatırlatıcısı göster</string>
     <string name="settings_inactivity_reminder_hint">Eğer herhangi bir zamanlayıcı çalışmıyorsa belirtilen süre sonunda bildirim göster.</string>
     <string name="settings_inactivity_reminder_recurrent">Tekrarlayan</string>
+    <string name="settings_reminder_active_days">Etkin günler</string>
     <string name="settings_activity_reminder">Etkinlik hatırlatıcısını göster</string>
     <string name="settings_activity_reminder_hint">Zamanlayıcılar çalışıyorsa, belirtilen süreden sonra bildirim göster.</string>
     <string name="settings_do_not_disturb">Rahatsız etme</string>

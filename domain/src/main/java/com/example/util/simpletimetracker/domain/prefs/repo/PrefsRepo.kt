@@ -113,6 +113,8 @@ interface PrefsRepo {
 
     var inactivityReminderRecurrent: Boolean
 
+    var inactivityReminderDaysOfWeek: String
+
     var inactivityReminderDoNotDisturbStart: Long // in milliseconds
 
     var inactivityReminderDoNotDisturbEnd: Long // in milliseconds
@@ -120,6 +122,8 @@ interface PrefsRepo {
     var activityReminderDuration: Long // in seconds
 
     var activityReminderRecurrent: Boolean
+
+    var activityReminderDaysOfWeek: String
 
     var activityReminderDoNotDisturbStart: Long // in milliseconds
 

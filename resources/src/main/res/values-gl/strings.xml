@@ -337,7 +337,6 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="settings_show_untracked_time_statistics">Mostrar o tempo non rexistrado nas estatísticas</string>
     <string name="settings_ignore_short_untracked">Ignorar tempo curto sen seguimento</string>
     <string name="settings_ignore_short_untracked_hint">Non amosar un tempo sen seguimento que sexa máis curto ca o tempo especificado.</string>
-    <string name="settings_untracked_days">Días sen seguimento</string>
     <string name="settings_untracked_days_hint">Contar o tempo sen seguimento só nos días seleccionados.</string>
     <string name="settings_untracked_range">Intervalo sen seguimento</string>
     <string name="settings_untracked_range_hint">Amosar o tempo sen seguimento só dentro do intervalo escollido.</string>
@@ -372,6 +371,7 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="settings_inactivity_reminder">Amosar recordatorio de inactividade</string>
     <string name="settings_inactivity_reminder_hint">Amosar unha notificación se non se iniciou ningún temporizador tras o tempo especificado.</string>
     <string name="settings_inactivity_reminder_recurrent">Recurrente</string>
+    <string name="settings_reminder_active_days">Días activos</string>
     <string name="settings_activity_reminder">Amosar recordatorio de actividade</string>
     <string name="settings_activity_reminder_hint">Amosar notificación despois do tempo especificado se os temporizadores están en execución.</string>
     <string name="settings_do_not_disturb">Non molestar</string>

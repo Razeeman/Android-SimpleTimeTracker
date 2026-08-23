@@ -337,7 +337,6 @@
     <string name="settings_show_untracked_time_statistics">Показувати невідстежений час у статистиці</string>
     <string name="settings_ignore_short_untracked">Ігнорувати короткий невідстежуваний час</string>
     <string name="settings_ignore_short_untracked_hint">Не показувати невідстежуваний час, який коротший за вказаний час.</string>
-    <string name="settings_untracked_days">Дні без відстеження</string>
     <string name="settings_untracked_days_hint">Враховувати невідстежений час лише у вибрані дні.</string>
     <string name="settings_untracked_range">Невідстежуваний діапазон</string>
     <string name="settings_untracked_range_hint">Показувати невідстежений час лише в межах вибраного діапазону.</string>
@@ -372,6 +371,7 @@
     <string name="settings_inactivity_reminder">Показувати нагадування про бездіяльність</string>
     <string name="settings_inactivity_reminder_hint">Показувати сповіщення через вказаний час, якщо таймери не запущені.</string>
     <string name="settings_inactivity_reminder_recurrent">Рецидивуючий</string>
+    <string name="settings_reminder_active_days">Активні дні</string>
     <string name="settings_activity_reminder">Показати нагадування про активність</string>
     <string name="settings_activity_reminder_hint">Показувати сповіщення після вказаного часу, якщо таймери запущено.</string>
     <string name="settings_do_not_disturb">Не турбувати</string>

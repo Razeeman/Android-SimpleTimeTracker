@@ -337,7 +337,6 @@ I <b>tag</b> ti permettono di aggiungere maggiori dettagli a un\'attività speci
     <string name="settings_show_untracked_time_statistics">Mostra tempo non tracciato nelle statistiche</string>
     <string name="settings_ignore_short_untracked">Ignora il breve tempo non tracciato</string>
     <string name="settings_ignore_short_untracked_hint">Non mostrare il tempo non tracciato che è più breve del tempo specificato.</string>
-    <string name="settings_untracked_days">Giorni non tracciati</string>
     <string name="settings_untracked_days_hint">Conta il tempo non tracciato solo nei giorni selezionati.</string>
     <string name="settings_untracked_range">Gamma non tracciata</string>
     <string name="settings_untracked_range_hint">Mostra il tempo non tracciato solo nell\'intervallo selezionato.</string>
@@ -372,6 +371,7 @@ I <b>tag</b> ti permettono di aggiungere maggiori dettagli a un\'attività speci
     <string name="settings_inactivity_reminder">Mostra avviso per inattività</string>
     <string name="settings_inactivity_reminder_hint">Mostra una notifica dopo un certo tempo se non ci sono timer in esecuzione.</string>
     <string name="settings_inactivity_reminder_recurrent">Ricorrente</string>
+    <string name="settings_reminder_active_days">Giorni attivi</string>
     <string name="settings_activity_reminder">Mostra avviso per attività</string>
     <string name="settings_activity_reminder_hint">Mostra la notifica dopo l\'ora specificata se i timer sono in esecuzione.</string>
     <string name="settings_do_not_disturb">Non disturbare</string>

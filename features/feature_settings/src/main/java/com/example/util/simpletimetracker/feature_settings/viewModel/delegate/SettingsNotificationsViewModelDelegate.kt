@@ -3,12 +3,15 @@ package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermissionInteractor
 import com.example.util.simpletimetracker.core.interactor.CheckNotificationsPermissionInteractor
+import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationActivityInteractor
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationInactivityInteractor
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.notifications.interactor.UpdateExternalViewsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsNotificationsViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
@@ -75,6 +78,24 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
 
     fun onDateTimeSet(timestamp: Long, tag: String?) {
         onDateTimeSetDelegate(timestamp, tag)
+    }
+
+    fun onDayOfWeekClicked(block: SettingsBlock, data: DayOfWeekViewData) {
+        when (block) {
+            SettingsBlock.NotificationsInactivityDaysOfWeek -> updateReminderDaysOfWeek(
+                dayOfWeek = data.dayOfWeek,
+                getDaysOfWeek = prefsInteractor::getInactivityReminderDaysOfWeek,
+                setDaysOfWeek = prefsInteractor::setInactivityReminderDaysOfWeek,
+                reschedule = externalViewsInteractor::onInactivityReminderChange,
+            )
+            SettingsBlock.NotificationsActivityDaysOfWeek -> updateReminderDaysOfWeek(
+                dayOfWeek = data.dayOfWeek,
+                getDaysOfWeek = prefsInteractor::getActivityReminderDaysOfWeek,
+                setDaysOfWeek = prefsInteractor::setActivityReminderDaysOfWeek,
+                reschedule = externalViewsInteractor::onActivityReminderChange,
+            )
+            else -> Unit
+        }
     }
 
     fun collapse() {
@@ -284,5 +305,21 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
 
     private fun onSystemSettingsClicked() {
         router.execute(OpenSystemSettings.Notifications)
+    }
+
+    private fun updateReminderDaysOfWeek(
+        dayOfWeek: DayOfWeek,
+        getDaysOfWeek: suspend () -> Set<DayOfWeek>,
+        setDaysOfWeek: suspend (Set<DayOfWeek>) -> Unit,
+        reschedule: suspend () -> Unit,
+    ) = delegateScope.launch {
+        val selectedDays = getDaysOfWeek().toMutableSet()
+        // Disallow deselecting all days.
+        if (dayOfWeek in selectedDays && selectedDays.size == 1) return@launch
+
+        selectedDays.addOrRemove(dayOfWeek)
+        setDaysOfWeek(selectedDays)
+        parent?.updateContent()
+        reschedule()
     }
 }

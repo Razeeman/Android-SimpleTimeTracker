@@ -337,7 +337,6 @@ Isso permite ver quanto tempo você está gastando em atividades produtivas vers
     <string name="settings_show_untracked_time_statistics">Mostrar tempo não rastreado nas estatísticas</string>
     <string name="settings_ignore_short_untracked">Ignorar tempo curto não rastreado</string>
     <string name="settings_ignore_short_untracked_hint">Não mostre o tempo não rastreado que seja menor do que o tempo especificado.</string>
-    <string name="settings_untracked_days">Dias sem rastreamento</string>
     <string name="settings_untracked_days_hint">Contar o tempo sem rastreamento apenas nos dias selecionados.</string>
     <string name="settings_untracked_range">Faixa não rastreada</string>
     <string name="settings_untracked_range_hint">Mostrar o tempo não rastreado apenas dentro do intervalo selecionado.</string>
@@ -372,6 +371,7 @@ Isso permite ver quanto tempo você está gastando em atividades produtivas vers
     <string name="settings_inactivity_reminder">Mostrar lembrete de inatividade</string>
     <string name="settings_inactivity_reminder_hint">Mostrar notificação após o tempo especificado se nenhum timer estiver em execução.</string>
     <string name="settings_inactivity_reminder_recurrent">Recorrente</string>
+    <string name="settings_reminder_active_days">Dias ativos</string>
     <string name="settings_activity_reminder">Mostrar lembrete de atividade</string>
     <string name="settings_activity_reminder_hint">Mostrar notificação após o tempo especificado se os cronômetros estiverem em execução.</string>
     <string name="settings_do_not_disturb">Não perturbe</string>

@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.feature_notification.core
 
+import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -9,6 +11,35 @@ class GetDoNotDisturbHandledScheduleInteractor @Inject constructor(
 ) {
 
     fun execute(
+        timestamp: Long,
+        dndStart: Long,
+        dndEnd: Long,
+        activeDaysOfWeek: Set<DayOfWeek>,
+    ): Long? {
+        if (activeDaysOfWeek.isEmpty()) return null
+
+        val dndHandledTimestamp = applyDoNotDisturb(timestamp, dndStart, dndEnd)
+        val candidateDayOfWeek = Calendar.getInstance()
+            .apply { timeInMillis = dndHandledTimestamp }
+            .getDayOfWeek()
+
+        if (candidateDayOfWeek in activeDaysOfWeek) return dndHandledTimestamp
+
+        val nextSelectedDay = Calendar.getInstance().apply {
+            timeInMillis = dndHandledTimestamp
+            setToStartOfDay()
+        }
+        repeat(7) {
+            nextSelectedDay.add(Calendar.DATE, 1)
+            if (nextSelectedDay.getDayOfWeek() in activeDaysOfWeek) {
+                return applyDoNotDisturb(nextSelectedDay.timeInMillis, dndStart, dndEnd)
+            }
+        }
+
+        return null
+    }
+
+    private fun applyDoNotDisturb(
         timestamp: Long,
         dndStart: Long,
         dndEnd: Long,
@@ -35,5 +66,9 @@ class GetDoNotDisturbHandledScheduleInteractor @Inject constructor(
         }
 
         return timestamp
+    }
+
+    private fun Calendar.getDayOfWeek(): DayOfWeek {
+        return timeMapper.toDayOfWeek(this.get(Calendar.DAY_OF_WEEK))
     }
 }

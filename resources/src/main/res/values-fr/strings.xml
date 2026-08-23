@@ -337,7 +337,6 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_show_untracked_time_statistics">Afficher les temps non enregistrés dans les statistiques</string>
     <string name="settings_ignore_short_untracked">Ignorer les temps courts non enregistrés</string>
     <string name="settings_ignore_short_untracked_hint">Ne pas afficher les temps non enregistrés s\'ils sont plus courts que la durée indiquée.</string>
-    <string name="settings_untracked_days">Jours sans suivi</string>
     <string name="settings_untracked_days_hint">Compter le temps non suivi uniquement les jours sélectionnés.</string>
     <string name="settings_untracked_range">Période de suivi des temps non enregistrés</string>
     <string name="settings_untracked_range_hint">Afficher le temps non suivi uniquement dans la plage sélectionnée.</string>
@@ -372,6 +371,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_inactivity_reminder">Afficher un rappel en cas d\'inactivité</string>
     <string name="settings_inactivity_reminder_hint">Afficher une notification après la durée indiquée si aucun aucun enregistrement n\'est en cours.</string>
     <string name="settings_inactivity_reminder_recurrent">Répéter</string>
+    <string name="settings_reminder_active_days">Jours actifs</string>
     <string name="settings_activity_reminder">Afficher un rappel d\'activité</string>
     <string name="settings_activity_reminder_hint">Afficher une notification après la durée indiquée si des enregistrements sont en cours.</string>
     <string name="settings_do_not_disturb">Ne pas déranger</string>

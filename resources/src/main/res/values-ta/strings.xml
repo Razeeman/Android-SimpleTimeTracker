@@ -337,7 +337,6 @@
     <string name="settings_show_untracked_time_statistics">புள்ளிவிவரங்களில் கண்காணிக்கப்படாத நேரத்தைக் காட்டு</string>
     <string name="settings_ignore_short_untracked">குறுகிய கண்காணிக்கப்படாத நேரத்தைப் புறக்கணி</string>
     <string name="settings_ignore_short_untracked_hint">குறிப்பிட்ட நேரத்தைவிடக் குறைவான கண்காணிக்கப்படாத நேரத்தைக் காட்டாதே.</string>
-    <string name="settings_untracked_days">கண்காணிக்கப்படாத நாட்கள்</string>
     <string name="settings_untracked_days_hint">தேர்ந்தெடுக்கப்பட்ட நாட்களில் மட்டும் கண்காணிக்கப்படாத நேரத்தைக் கணக்கிடவும்.</string>
     <string name="settings_untracked_range">கண்காணிக்கப்படாத வரம்பு</string>
     <string name="settings_untracked_range_hint">தேர்ந்தெடுக்கப்பட்ட வரம்பிற்குள் மட்டும் கண்காணிக்கப்படாத நேரத்தைக் காட்டு.</string>
@@ -372,6 +371,7 @@
     <string name="settings_inactivity_reminder">செயலற்ற நிலை நினைவூட்டலைக் காட்டு</string>
     <string name="settings_inactivity_reminder_hint">டைமர்கள் எதுவும் இயங்கவில்லை எனில், குறிப்பிட்ட நேரத்துக்குப் பிறகு அறிவிப்பைக் காட்டு.</string>
     <string name="settings_inactivity_reminder_recurrent">திரும்பத் திரும்ப</string>
+    <string name="settings_reminder_active_days">செயலில் உள்ள நாட்கள்</string>
     <string name="settings_activity_reminder">செயல்பாட்டு நினைவூட்டலைக் காட்டு</string>
     <string name="settings_activity_reminder_hint">டைமர்கள் இயங்கினால், குறிப்பிட்ட நேரத்துக்குப் பிறகு அறிவிப்பைக் காட்டு.</string>
     <string name="settings_do_not_disturb">தொந்தரவு செய்ய வேண்டாம்</string>

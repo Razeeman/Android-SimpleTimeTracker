@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.data_local.backup
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_ACTIVITY_REMINDER_DND_END
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_ACTIVITY_REMINDER_DND_START
+import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_ACTIVITY_REMINDER_DAYS_OF_WEEK
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_ACTIVITY_REMINDER_DURATION
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_ACTIVITY_REMINDER_RECURRENT
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_ALLOW_MULTIPLE_ACTIVITY_FILTERS
@@ -36,6 +37,7 @@ import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Compani
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_IGNORE_SHORT_UNTRACKED_DURATION
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_INACTIVITY_REMINDER_DND_END
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_INACTIVITY_REMINDER_DND_START
+import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_INACTIVITY_REMINDER_DAYS_OF_WEEK
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_INACTIVITY_REMINDER_DURATION
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_INACTIVITY_REMINDER_RECURRENT
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_IS_ACTIVITY_FILTERS_COLLAPSED
@@ -216,10 +218,12 @@ class BackupPrefsRepo @Inject constructor(
             PrefsProcessor(KEY_SHOW_NOTIFICATION_EVEN_WITH_NO_TIMERS, ::showNotificationEvenWithNoTimers),
             PrefsProcessor(KEY_INACTIVITY_REMINDER_DURATION, ::inactivityReminderDuration),
             PrefsProcessor(KEY_INACTIVITY_REMINDER_RECURRENT, ::inactivityReminderRecurrent),
+            PrefsProcessor(KEY_INACTIVITY_REMINDER_DAYS_OF_WEEK, ::inactivityReminderDaysOfWeek),
             PrefsProcessor(KEY_INACTIVITY_REMINDER_DND_START, ::inactivityReminderDoNotDisturbStart),
             PrefsProcessor(KEY_INACTIVITY_REMINDER_DND_END, ::inactivityReminderDoNotDisturbEnd),
             PrefsProcessor(KEY_ACTIVITY_REMINDER_DURATION, ::activityReminderDuration),
             PrefsProcessor(KEY_ACTIVITY_REMINDER_RECURRENT, ::activityReminderRecurrent),
+            PrefsProcessor(KEY_ACTIVITY_REMINDER_DAYS_OF_WEEK, ::activityReminderDaysOfWeek),
             PrefsProcessor(KEY_ACTIVITY_REMINDER_DND_START, ::activityReminderDoNotDisturbStart),
             PrefsProcessor(KEY_ACTIVITY_REMINDER_DND_END, ::activityReminderDoNotDisturbEnd),
             PrefsProcessor(KEY_IGNORE_SHORT_RECORDS_DURATION, ::ignoreShortRecordsDuration),

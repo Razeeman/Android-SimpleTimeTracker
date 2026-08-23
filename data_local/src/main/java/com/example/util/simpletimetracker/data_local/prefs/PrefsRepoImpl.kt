@@ -279,6 +279,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_INACTIVITY_REMINDER_RECURRENT, false,
     )
 
+    override var inactivityReminderDaysOfWeek: String by prefs.delegate(
+        KEY_INACTIVITY_REMINDER_DAYS_OF_WEEK, "",
+    )
+
     override var inactivityReminderDoNotDisturbStart: Long by prefs.delegate(
         KEY_INACTIVITY_REMINDER_DND_START, DO_NOT_DISTURB_PERIOD_START,
     )
@@ -293,6 +297,10 @@ class PrefsRepoImpl @Inject constructor(
 
     override var activityReminderRecurrent: Boolean by prefs.delegate(
         KEY_ACTIVITY_REMINDER_RECURRENT, false,
+    )
+
+    override var activityReminderDaysOfWeek: String by prefs.delegate(
+        KEY_ACTIVITY_REMINDER_DAYS_OF_WEEK, "",
     )
 
     override var activityReminderDoNotDisturbStart: Long by prefs.delegate(
@@ -786,10 +794,12 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_SHOW_NOTIFICATION_EVEN_WITH_NO_TIMERS = "showNotificationEvenWithNoTimers"
         const val KEY_INACTIVITY_REMINDER_DURATION = "inactivityReminderDuration"
         const val KEY_INACTIVITY_REMINDER_RECURRENT = "inactivityReminderRecurrent"
+        const val KEY_INACTIVITY_REMINDER_DAYS_OF_WEEK = "inactivityReminderDaysOfWeek"
         const val KEY_INACTIVITY_REMINDER_DND_START = "inactivityReminderDndStart"
         const val KEY_INACTIVITY_REMINDER_DND_END = "inactivityReminderDndEnd"
         const val KEY_ACTIVITY_REMINDER_DURATION = "activityReminderDuration"
         const val KEY_ACTIVITY_REMINDER_RECURRENT = "activityReminderRecurrent"
+        const val KEY_ACTIVITY_REMINDER_DAYS_OF_WEEK = "activityReminderDaysOfWeek"
         const val KEY_ACTIVITY_REMINDER_DND_START = "activityReminderDndStart"
         const val KEY_ACTIVITY_REMINDER_DND_END = "activityReminderDndEnd"
         const val KEY_IGNORE_SHORT_RECORDS_DURATION = "ignoreShortRecordsDuration"

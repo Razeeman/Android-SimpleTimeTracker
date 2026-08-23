@@ -281,7 +281,7 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
         )
         result += SettingsWeekdaysViewData(
             block = SettingsBlock.DisplayUntrackedDaysOfWeek,
-            title = resourceRepo.getString(R.string.settings_untracked_days),
+            title = resourceRepo.getString(R.string.settings_reminder_active_days),
             subtitle = resourceRepo.getString(R.string.settings_untracked_days_hint),
             items = dayOfWeekViewDataMapper.mapViewData(
                 selectedDaysOfWeek = prefsInteractor.getUntrackedDaysOfWeek(),

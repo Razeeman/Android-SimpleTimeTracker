@@ -337,7 +337,6 @@
     <string name="settings_show_untracked_time_statistics">在统计中显示未追踪的时间</string>
     <string name="settings_ignore_short_untracked">忽略短的未追踪时间</string>
     <string name="settings_ignore_short_untracked_hint">不要显示比指定时间短的未追踪时间</string>
-    <string name="settings_untracked_days">未跟踪日期</string>
     <string name="settings_untracked_days_hint">仅计算所选日期中的未跟踪时间。</string>
     <string name="settings_untracked_range">未追踪范围</string>
     <string name="settings_untracked_range_hint">仅在所选时间范围内显示未记录的时间。</string>
@@ -372,6 +371,7 @@
     <string name="settings_inactivity_reminder">显示无活动提醒</string>
     <string name="settings_inactivity_reminder_hint">如果没有追踪中的活动，则在指定时间后显示通知</string>
     <string name="settings_inactivity_reminder_recurrent">持续提醒</string>
+    <string name="settings_reminder_active_days">启用日期</string>
     <string name="settings_activity_reminder">显示活动提醒</string>
     <string name="settings_activity_reminder_hint">如果计时器正在运行，则在指定时间后显示通知</string>
     <string name="settings_do_not_disturb">请勿打扰</string>

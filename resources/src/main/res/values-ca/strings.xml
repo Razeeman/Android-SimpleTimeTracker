@@ -337,7 +337,6 @@ Això et permet veure quant de temps dediques a activitats productives versus no
     <string name="settings_show_untracked_time_statistics">Mostra el temps no enregistrat a les estadístiques</string>
     <string name="settings_ignore_short_untracked">Ignora el temps curt sense seguiment</string>
     <string name="settings_ignore_short_untracked_hint">No mostris temps sense seguiment que sigui més curt que el temps especificat.</string>
-    <string name="settings_untracked_days">Dies sense seguiment</string>
     <string name="settings_untracked_days_hint">Compta el temps sense seguiment només els dies seleccionats.</string>
     <string name="settings_untracked_range">Interval sense seguiment</string>
     <string name="settings_untracked_range_hint">Mostra el temps no registrat només dins de l\'interval seleccionat.</string>
@@ -372,6 +371,7 @@ Això et permet veure quant de temps dediques a activitats productives versus no
     <string name="settings_inactivity_reminder">Mostra recordatori d\'inactivitat</string>
     <string name="settings_inactivity_reminder_hint">Mostra una notificació després d\'un cert temps sense cap activitat.</string>
     <string name="settings_inactivity_reminder_recurrent">Recurrent</string>
+    <string name="settings_reminder_active_days">Dies actius</string>
     <string name="settings_activity_reminder">Mostra el recordatori d\'activitat</string>
     <string name="settings_activity_reminder_hint">Mostra la notificació després de l\'hora especificada si els temporitzadors s\'estan executant.</string>
     <string name="settings_do_not_disturb">No molesteu</string>

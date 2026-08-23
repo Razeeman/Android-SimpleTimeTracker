@@ -337,7 +337,6 @@
     <string name="settings_show_untracked_time_statistics">追跡されていない時間を統計で表示する</string>
     <string name="settings_ignore_short_untracked">追跡されていない短い時間を無視する</string>
     <string name="settings_ignore_short_untracked_hint">指定された時間より短い未追跡時間を表示しません。</string>
-    <string name="settings_untracked_days">未記録の対象日</string>
     <string name="settings_untracked_days_hint">選択した日のみ未記録時間を計算します。</string>
     <string name="settings_untracked_range">追跡されていない範囲</string>
     <string name="settings_untracked_range_hint">選択した範囲内のみ未記録の時間を表示します。</string>
@@ -372,6 +371,7 @@
     <string name="settings_inactivity_reminder">非アクティブ時のリマインダーを表示</string>
     <string name="settings_inactivity_reminder_hint">タイマーが作動していない場合、指定時間後に通知を表示する。</string>
     <string name="settings_inactivity_reminder_recurrent">繰り返す</string>
+    <string name="settings_reminder_active_days">有効な曜日</string>
     <string name="settings_activity_reminder">アクティビティリマインダーを表示</string>
     <string name="settings_activity_reminder_hint">タイマーが実行されている場合、指定した時間後に通知を表示します。</string>
     <string name="settings_do_not_disturb">邪魔しないでください</string>
