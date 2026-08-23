@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
@@ -11,7 +12,6 @@ import com.example.util.simpletimetracker.domain.darkMode.interactor.ThemeChange
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.domain.statistics.interactor.SettingsDataUpdateInteractor
-import com.example.util.simpletimetracker.feature_settings.interactor.SettingsExportViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsAdditionalViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsBackupViewModelDelegate
@@ -28,6 +28,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.DataExportSet
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
+import com.example.util.simpletimetracker.navigation.params.screen.SettingsOptionsParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -47,14 +48,15 @@ class SettingsViewModel @Inject constructor(
     private val contributorsDelegate: SettingsContributorsViewModelDelegate,
     private val settingsDataUpdateInteractor: SettingsDataUpdateInteractor,
     private val themeChangedInteractor: ThemeChangedInteractor,
-    private val settingsExportViewDataInteractor: SettingsExportViewDataInteractor,
 ) : BaseViewModel(), SettingsParent {
 
     val content: LiveData<List<ViewHolderType>> by lazySuspend { loadContent() }
-    val advancedContent: LiveData<List<ViewHolderType>> by lazySuspend { loadAdvancedContent() }
+    val optionsContent: LiveData<List<ViewHolderType>> = MutableLiveData()
     val resetScreen: SingleLiveEvent<Unit> = SingleLiveEvent()
     val keepScreenOnCheckbox: LiveData<Boolean> by additionalDelegate::keepScreenOnCheckbox
     val themeChanged: SingleLiveEvent<Boolean> by mainDelegate::themeChanged
+
+    private var activeOptionsContent: OptionsContent? = null
 
     init {
         mainDelegate.init(this)
@@ -180,7 +182,21 @@ class SettingsViewModel @Inject constructor(
 
     override suspend fun updateContent() {
         content.set(loadContent())
-        advancedContent.set(loadAdvancedContent())
+        activeOptionsContent?.let { optionsContent.set(loadOptionsContent(it)) }
+    }
+
+    override suspend fun openExportOptions() {
+        openOptions(OptionsContent.ExportAdvanced)
+    }
+
+    override suspend fun openUntrackedOptions() {
+        openOptions(OptionsContent.DisplayUntracked)
+    }
+
+    private suspend fun openOptions(content: OptionsContent) {
+        activeOptionsContent = content
+        optionsContent.set(loadOptionsContent(content))
+        router.navigate(SettingsOptionsParams)
     }
 
     private fun subscribeToUpdates() = viewModelScope.launch {
@@ -189,6 +205,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    // TODO add interface to delegates getViewData / clear / getAdvancedViewData etc
     private suspend fun loadContent(): List<ViewHolderType> {
         val result = mutableListOf<ViewHolderType>()
         result += mainDelegate.getViewData()
@@ -203,8 +220,16 @@ class SettingsViewModel @Inject constructor(
         return result
     }
 
-    private suspend fun loadAdvancedContent(): List<ViewHolderType> {
-        return settingsExportViewDataInteractor.executeAdvanced()
+    private suspend fun loadOptionsContent(content: OptionsContent): List<ViewHolderType> {
+        return when (content) {
+            OptionsContent.ExportAdvanced -> exportDelegate.getAdvancedViewData()
+            OptionsContent.DisplayUntracked -> displayDelegate.getUntrackedViewData()
+        }
+    }
+
+    private enum class OptionsContent {
+        ExportAdvanced,
+        DisplayUntracked,
     }
 
     companion object {

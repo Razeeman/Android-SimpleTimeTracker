@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SettingsAdvancedOptionsUpdateInteractor @Inject constructor() {
+class SettingsOptionsUpdateInteractor @Inject constructor() {
 
     val dismiss: SharedFlow<Unit> get() = _dismiss.asSharedFlow()
 

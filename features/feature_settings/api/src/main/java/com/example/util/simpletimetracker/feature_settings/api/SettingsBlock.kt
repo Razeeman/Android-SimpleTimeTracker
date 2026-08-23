@@ -35,7 +35,7 @@ enum class SettingsBlock {
 
     DisplayTop,
     DisplayCollapse,
-    DisplayUntrackedHint,
+    DisplayUntrackedOptions,
     DisplayUntrackedInRecords,
     DisplayUntrackedInStatistics,
     DisplayUntrackedIgnoreShort,

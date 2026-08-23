@@ -55,9 +55,14 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         )
     }
 
+    suspend fun getUntrackedViewData(): List<ViewHolderType> {
+        return settingsDisplayViewDataInteractor.executeUntrackedOptions()
+    }
+
     fun onBlockClicked(block: SettingsBlock) {
         when (block) {
             SettingsBlock.DisplayCollapse -> onCollapseClick()
+            SettingsBlock.DisplayUntrackedOptions -> onUntrackedOptionsClick()
             SettingsBlock.DisplayUntrackedIgnoreShort -> onIgnoreShortUntrackedClicked()
             SettingsBlock.DisplayUntrackedRangeStart -> onUntrackedRangeStartClicked()
             SettingsBlock.DisplayUntrackedRangeEnd -> onUntrackedRangeEndClicked()
@@ -130,6 +135,10 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
     private fun onCollapseClick() = delegateScope.launch {
         isCollapsed = isCollapsed.flip()
         parent?.updateContent()
+    }
+
+    private fun onUntrackedOptionsClick() = delegateScope.launch {
+        parent?.openUntrackedOptions()
     }
 
     private fun onDaysInCalendarSelected(position: Int) {

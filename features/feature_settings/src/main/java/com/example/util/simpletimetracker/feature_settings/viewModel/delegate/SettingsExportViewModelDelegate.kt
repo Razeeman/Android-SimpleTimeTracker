@@ -5,21 +5,18 @@ import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_settings.interactor.SettingsAdvancedOptionsUpdateInteractor
+import com.example.util.simpletimetracker.feature_settings.interactor.SettingsOptionsUpdateInteractor
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsExportViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
-import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.screen.ExportOptionsParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SettingsExportViewModelDelegate @Inject constructor(
-    private val router: Router,
     private val settingsExportViewDataInteractor: SettingsExportViewDataInteractor,
     private val settingsMapper: SettingsMapper,
     private val prefsInteractor: PrefsInteractor,
     private val settingsFileWorkDelegate: SettingsFileWorkDelegate,
-    private val settingsAdvancedOptionsUpdateInteractor: SettingsAdvancedOptionsUpdateInteractor,
+    private val settingsOptionsUpdateInteractor: SettingsOptionsUpdateInteractor,
 ) : ViewModelDelegate() {
 
     private var parent: SettingsParent? = null
@@ -33,6 +30,10 @@ class SettingsExportViewModelDelegate @Inject constructor(
         return settingsExportViewDataInteractor.execute(
             isCollapsed = isCollapsed,
         )
+    }
+
+    suspend fun getAdvancedViewData(): List<ViewHolderType> {
+        return settingsExportViewDataInteractor.executeAdvanced()
     }
 
     fun onBlockClicked(block: SettingsBlock) {
@@ -60,12 +61,12 @@ class SettingsExportViewModelDelegate @Inject constructor(
     }
 
     private fun onTriggerAutoExportClick() = delegateScope.launch {
-        settingsAdvancedOptionsUpdateInteractor.sendDismiss()
+        settingsOptionsUpdateInteractor.sendDismiss()
         settingsFileWorkDelegate.onTriggerAutoExportClick()
     }
 
-    private fun onCustomizeClick() {
-        router.navigate(ExportOptionsParams)
+    private fun onCustomizeClick() = delegateScope.launch {
+        parent?.openExportOptions()
     }
 
     private fun onCollapseClick() = delegateScope.launch {

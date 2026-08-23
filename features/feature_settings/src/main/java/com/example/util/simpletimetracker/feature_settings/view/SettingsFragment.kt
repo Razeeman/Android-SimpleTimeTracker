@@ -20,7 +20,7 @@ import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
-import com.example.util.simpletimetracker.feature_settings.model.AdvancedOptionsBlockClickListener
+import com.example.util.simpletimetracker.feature_settings.model.SettingsOptionsBlockClickListener
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.feature_settings.views.getSettingsAdapterDelegates
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
@@ -38,7 +38,7 @@ class SettingsFragment :
     DataExportSettingsDialogListener,
     TypesSelectionDialogListener,
     OptionsListDialogListener,
-    AdvancedOptionsBlockClickListener {
+    SettingsOptionsBlockClickListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -125,15 +125,15 @@ class SettingsFragment :
         viewModel.onOptionsItemClick(id)
     }
 
-    override fun getAdvancedContent(): LiveData<List<ViewHolderType>> {
-        return viewModel.advancedContent
+    override fun getOptionsContent(): LiveData<List<ViewHolderType>> {
+        return viewModel.optionsContent
     }
 
-    override fun onAdvancedOptionsBlockClicked(block: SettingsBlock) {
+    override fun onOptionsBlockClicked(block: SettingsBlock) {
         viewModel.onBlockClicked(block)
     }
 
-    override fun onAdvancedOptionsSpinnerPositionSelected(block: SettingsBlock, position: Int) {
+    override fun onOptionsSpinnerPositionSelected(block: SettingsBlock, position: Int) {
         viewModel.onSpinnerPositionSelected(block, position)
     }
 

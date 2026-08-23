@@ -17,7 +17,7 @@
         android:tint="?appContrastColor" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvExportOptionsContent"
+        android:id="@+id/rvSettingsOptionsContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"

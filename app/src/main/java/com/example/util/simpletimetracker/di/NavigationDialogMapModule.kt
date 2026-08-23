@@ -43,7 +43,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.DebugMenuDial
 import com.example.util.simpletimetracker.navigation.params.screen.DefaultTypesSelectionDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.EmojiSelectionDialogParams
-import com.example.util.simpletimetracker.navigation.params.screen.ExportOptionsParams
 import com.example.util.simpletimetracker.navigation.params.screen.HelpDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
 import com.example.util.simpletimetracker.navigation.params.screen.PartialRestoreParams
@@ -54,6 +53,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.RecordTagValu
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsTagValuesSettingsParams
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.SettingsOptionsParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import dagger.Module
 import dagger.Provides
@@ -337,10 +337,10 @@ class NavigationDialogMapModule {
 
     @IntoMap
     @Provides
-    @ScreenKey(ExportOptionsParams::class)
-    fun exportOptionsDialogFragment(): NavigationData {
+    @ScreenKey(SettingsOptionsParams::class)
+    fun settingsOptionsDialogFragment(): NavigationData {
         return NavigationData(
-            R.id.exportOptionsDialogFragment,
+            R.id.settingsOptionsDialogFragment,
             BundleCreator.empty(),
         )
     }

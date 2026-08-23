@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 
-interface AdvancedOptionsBlockClickListener {
-    fun getAdvancedContent(): LiveData<List<ViewHolderType>>
-    fun onAdvancedOptionsBlockClicked(block: SettingsBlock)
-    fun onAdvancedOptionsSpinnerPositionSelected(block: SettingsBlock, position: Int)
+interface SettingsOptionsBlockClickListener {
+    fun getOptionsContent(): LiveData<List<ViewHolderType>>
+    fun onOptionsBlockClicked(block: SettingsBlock)
+    fun onOptionsSpinnerPositionSelected(block: SettingsBlock, position: Int)
 }

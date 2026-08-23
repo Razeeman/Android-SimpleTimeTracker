@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_settings.exportOptions.view
+package com.example.util.simpletimetracker.feature_settings.settingsOptions.view
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,19 +10,19 @@ import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
-import com.example.util.simpletimetracker.feature_settings.databinding.SettingsExportOptionsFragmentBinding
-import com.example.util.simpletimetracker.feature_settings.exportOptions.viewModel.ExportOptionsViewModel
-import com.example.util.simpletimetracker.feature_settings.model.AdvancedOptionsBlockClickListener
+import com.example.util.simpletimetracker.feature_settings.databinding.SettingsOptionsFragmentBinding
+import com.example.util.simpletimetracker.feature_settings.model.SettingsOptionsBlockClickListener
+import com.example.util.simpletimetracker.feature_settings.settingsOptions.viewModel.SettingsOptionsViewModel
 import com.example.util.simpletimetracker.feature_settings.views.getSettingsAdapterDelegates
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ExportOptionsFragment : BaseBottomSheetFragment<SettingsExportOptionsFragmentBinding>() {
+class SettingsOptionsFragment : BaseBottomSheetFragment<SettingsOptionsFragmentBinding>() {
 
-    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> SettingsExportOptionsFragmentBinding =
-        SettingsExportOptionsFragmentBinding::inflate
+    override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> SettingsOptionsFragmentBinding =
+        SettingsOptionsFragmentBinding::inflate
 
-    private val viewModel: ExportOptionsViewModel by viewModels()
+    private val viewModel: SettingsOptionsViewModel by viewModels()
 
     private val contentAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
@@ -33,33 +33,33 @@ class ExportOptionsFragment : BaseBottomSheetFragment<SettingsExportOptionsFragm
         )
     }
 
-    private var listener: AdvancedOptionsBlockClickListener? = null
+    private var listener: SettingsOptionsBlockClickListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context.findListeners<AdvancedOptionsBlockClickListener>().firstOrNull()
+        listener = context.findListeners<SettingsOptionsBlockClickListener>().firstOrNull()
     }
 
     override fun initDialog() {
         setSkipCollapsed()
-        blockContentScroll(binding.rvExportOptionsContent)
+        blockContentScroll(binding.rvSettingsOptionsContent)
     }
 
     override fun initUi() = with(binding) {
-        rvExportOptionsContent.adapter = contentAdapter
-        rvExportOptionsContent.itemAnimator = null
+        rvSettingsOptionsContent.adapter = contentAdapter
+        rvSettingsOptionsContent.itemAnimator = null
     }
 
     override fun initViewModel() = with(viewModel) {
-        listener?.getAdvancedContent()?.observe(contentAdapter::replaceAsNew)
+        listener?.getOptionsContent()?.observe(contentAdapter::replaceAsNew)
         dismiss.observe { dismiss() }
     }
 
     private fun onBlockClicked(block: SettingsBlock) {
-        listener?.onAdvancedOptionsBlockClicked(block)
+        listener?.onOptionsBlockClicked(block)
     }
 
     private fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
-        listener?.onAdvancedOptionsSpinnerPositionSelected(block, position)
+        listener?.onOptionsSpinnerPositionSelected(block, position)
     }
 }

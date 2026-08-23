@@ -8,5 +8,9 @@ interface SettingsParent {
         useMilitaryTime: Boolean,
     )
 
+    suspend fun openExportOptions()
+
+    suspend fun openUntrackedOptions()
+
     suspend fun updateContent()
 }

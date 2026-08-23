@@ -54,45 +54,10 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
         )
 
         if (!isCollapsed) {
-            result += SettingsHintViewData(
-                block = SettingsBlock.DisplayUntrackedHint,
-                text = resourceRepo.getString(R.string.change_record_untracked_time_hint),
-                dividerIsVisible = false,
-                bottomSpaceIsVisible = false,
-            )
-            result += SettingsCheckboxViewData(
-                block = SettingsBlock.DisplayUntrackedInRecords,
-                title = resourceRepo.getString(R.string.settings_show_untracked_time),
-                subtitle = "",
-                isChecked = prefsInteractor.getShowUntrackedInRecords(),
-                bottomSpaceIsVisible = false,
-                dividerIsVisible = false,
-            )
-            result += SettingsCheckboxViewData(
-                block = SettingsBlock.DisplayUntrackedInStatistics,
-                title = resourceRepo.getString(R.string.settings_show_untracked_time_statistics),
-                subtitle = "",
-                isChecked = prefsInteractor.getShowUntrackedInStatistics(),
-                bottomSpaceIsVisible = false,
-                dividerIsVisible = false,
-            )
-            result += SettingsSelectorViewData(
-                block = SettingsBlock.DisplayUntrackedIgnoreShort,
-                title = resourceRepo.getString(R.string.settings_ignore_short_untracked),
-                subtitle = resourceRepo.getString(R.string.settings_ignore_short_untracked_hint),
-                selectedValue = loadIgnoreShortUntrackedViewData(),
-                bottomSpaceIsVisible = false,
-                dividerIsVisible = false,
-            )
-            val untrackedRangeViewData = loadUntrackedRangeViewData()
-            result += SettingsCheckboxWithRangeViewData(
-                blockCheckbox = SettingsBlock.DisplayUntrackedRangeCheckbox,
-                blockStart = SettingsBlock.DisplayUntrackedRangeStart,
-                blockEnd = SettingsBlock.DisplayUntrackedRangeEnd,
-                title = resourceRepo.getString(R.string.settings_untracked_range),
-                subtitle = resourceRepo.getString(R.string.settings_untracked_range_hint),
-                isChecked = untrackedRangeViewData is RangeViewData.Enabled,
-                range = untrackedRangeViewData,
+            result += SettingsTextViewData(
+                block = SettingsBlock.DisplayUntrackedOptions,
+                title = resourceRepo.getString(R.string.untracked_time_name),
+                subtitle = resourceRepo.getString(R.string.change_record_untracked_time_hint),
             )
             val showRecordsCalendar = prefsInteractor.getShowRecordsCalendar()
             result += SettingsCheckboxViewData(
@@ -274,6 +239,41 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
 
         result += SettingsBottomViewData(
             block = SettingsBlock.DisplayBottom,
+        )
+
+        return result
+    }
+
+    suspend fun executeUntrackedOptions(): List<ViewHolderType> {
+        val result = mutableListOf<ViewHolderType>()
+
+        result += SettingsCheckboxViewData(
+            block = SettingsBlock.DisplayUntrackedInRecords,
+            title = resourceRepo.getString(R.string.settings_show_untracked_time),
+            subtitle = "",
+            isChecked = prefsInteractor.getShowUntrackedInRecords(),
+        )
+        result += SettingsCheckboxViewData(
+            block = SettingsBlock.DisplayUntrackedInStatistics,
+            title = resourceRepo.getString(R.string.settings_show_untracked_time_statistics),
+            subtitle = "",
+            isChecked = prefsInteractor.getShowUntrackedInStatistics(),
+        )
+        result += SettingsSelectorViewData(
+            block = SettingsBlock.DisplayUntrackedIgnoreShort,
+            title = resourceRepo.getString(R.string.settings_ignore_short_untracked),
+            subtitle = resourceRepo.getString(R.string.settings_ignore_short_untracked_hint),
+            selectedValue = loadIgnoreShortUntrackedViewData(),
+        )
+        val untrackedRangeViewData = loadUntrackedRangeViewData()
+        result += SettingsCheckboxWithRangeViewData(
+            blockCheckbox = SettingsBlock.DisplayUntrackedRangeCheckbox,
+            blockStart = SettingsBlock.DisplayUntrackedRangeStart,
+            blockEnd = SettingsBlock.DisplayUntrackedRangeEnd,
+            title = resourceRepo.getString(R.string.settings_untracked_range),
+            subtitle = resourceRepo.getString(R.string.settings_untracked_range_hint),
+            isChecked = untrackedRangeViewData is RangeViewData.Enabled,
+            range = untrackedRangeViewData,
         )
 
         return result
