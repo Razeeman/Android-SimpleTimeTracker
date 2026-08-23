@@ -33,9 +33,9 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     private val viewModel: ColorSelectionViewModel by viewModels()
 
     private val params: ColorSelectionDialogParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = ColorSelectionDialogParams(),
+        key = ARGS_PARAMS, default = ColorSelectionDialogParams.Empty,
     )
-    private var colorSelectionDialogListener: ColorSelectionDialogListener? = null
+    private var listeners: List<ColorSelectionDialogListener> = emptyList()
 
     // TODO do better?
     private var textWatcherHex: TextWatcher? = null
@@ -48,7 +48,7 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        colorSelectionDialogListener = context.findListeners<ColorSelectionDialogListener>().firstOrNull()
+        listeners = context.findListeners()
     }
 
     override fun initDialog() {
@@ -124,7 +124,7 @@ class ColorSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     private fun onColorSelected(colorInt: Int) {
-        colorSelectionDialogListener?.onColorSelected(colorInt)
+        listeners.forEach { it.onColorSelected(tag = params.tag, colorInt = colorInt) }
         dismiss()
     }
 

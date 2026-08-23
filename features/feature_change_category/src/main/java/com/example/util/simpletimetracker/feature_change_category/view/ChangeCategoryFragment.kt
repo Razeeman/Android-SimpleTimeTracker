@@ -200,8 +200,8 @@ class ChangeCategoryFragment :
         super.onDestroy()
     }
 
-    override fun onColorSelected(colorInt: Int) {
-        viewModel.onCustomColorSelected(colorInt)
+    override fun onColorSelected(tag: String, colorInt: Int) {
+        viewModel.onCustomColorSelected(tag = tag, colorInt = colorInt)
     }
 
     override fun onDurationSet(durationSeconds: Long, tag: String?) {

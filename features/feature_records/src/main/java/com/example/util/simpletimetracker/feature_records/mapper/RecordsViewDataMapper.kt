@@ -147,7 +147,7 @@ class RecordsViewDataMapper @Inject constructor(
 
         return if (originalDuration != clampedDuration) {
             data.copy(
-                durationTotal = "($originalDuration)"
+                durationTotal = "($originalDuration)",
             )
         } else {
             data

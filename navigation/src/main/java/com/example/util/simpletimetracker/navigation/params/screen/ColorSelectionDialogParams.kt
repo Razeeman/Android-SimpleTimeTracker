@@ -7,5 +7,14 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ColorSelectionDialogParams(
-    @ColorInt val preselectedColor: Int = Color.RED,
-) : ScreenParams, Parcelable
+    val tag: String,
+    @ColorInt val preselectedColor: Int,
+) : ScreenParams, Parcelable {
+
+    companion object {
+        val Empty = ColorSelectionDialogParams(
+            tag = "",
+            preselectedColor = Color.RED,
+        )
+    }
+}

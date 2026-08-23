@@ -15,9 +15,10 @@ interface ColorSelectionViewModelDelegate {
     fun onColorClick(item: ColorViewData)
     fun onColorPaletteClick()
     fun onColorFavouriteClick()
-    fun onCustomColorSelected(colorInt: Int)
+    fun onCustomColorSelected(tag: String, colorInt: Int)
 
     interface Parent {
+        fun getDialogTag(): String
         suspend fun update()
         fun onColorSelected() = Unit
         suspend fun isColorSelectedCheck(): Boolean = true

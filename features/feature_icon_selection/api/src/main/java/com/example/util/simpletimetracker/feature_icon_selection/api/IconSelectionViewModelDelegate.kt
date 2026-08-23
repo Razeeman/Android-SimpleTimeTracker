@@ -33,10 +33,11 @@ interface IconSelectionViewModelDelegate {
     fun onIconImageSearch(search: String)
     fun onEmojiClick(item: EmojiViewData)
     fun onIconTextChange(text: String)
-    fun onEmojiSelected(emojiText: String)
+    fun onEmojiSelected(tag: String, emojiText: String)
     fun onScrolled()
 
     interface Parent {
+        fun getDialogTag(): String
         fun keyboardVisibility(isVisible: Boolean)
         suspend fun update()
         fun onIconSelected() = Unit

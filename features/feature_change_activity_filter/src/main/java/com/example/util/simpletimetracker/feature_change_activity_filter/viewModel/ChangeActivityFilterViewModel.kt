@@ -243,6 +243,8 @@ class ChangeActivityFilterViewModel @Inject constructor(
 
     private fun getColorSelectionDelegateParent(): ColorSelectionViewModelDelegate.Parent {
         return object : ColorSelectionViewModelDelegate.Parent {
+            override fun getDialogTag(): String = COLOR_SELECTION_DIALOG_TAG
+
             override suspend fun update() {
                 updateActivityFilterPreview()
             }
@@ -293,5 +295,9 @@ class ChangeActivityFilterViewModel @Inject constructor(
 
     private fun showMessage(stringResId: Int) {
         snackBarMessageNavigationInteractor.showMessage(stringResId)
+    }
+
+    companion object {
+        private const val COLOR_SELECTION_DIALOG_TAG = "change_activity_filter_selection_dialog_tag"
     }
 }

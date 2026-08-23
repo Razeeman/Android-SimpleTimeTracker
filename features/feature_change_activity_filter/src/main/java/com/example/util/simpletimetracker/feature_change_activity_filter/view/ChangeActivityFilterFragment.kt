@@ -150,8 +150,8 @@ class ChangeActivityFilterFragment :
         super.onDestroy()
     }
 
-    override fun onColorSelected(colorInt: Int) {
-        viewModel.onCustomColorSelected(colorInt)
+    override fun onColorSelected(tag: String, colorInt: Int) {
+        viewModel.onCustomColorSelected(tag = tag, colorInt = colorInt)
     }
 
     private fun updateUi(item: ActivityFilterViewData) = with(binding) {

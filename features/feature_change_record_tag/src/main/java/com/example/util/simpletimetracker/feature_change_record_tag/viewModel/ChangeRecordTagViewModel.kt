@@ -496,6 +496,8 @@ class ChangeRecordTagViewModel @Inject constructor(
 
     private fun getColorSelectionDelegateParent(): ColorSelectionViewModelDelegate.Parent {
         return object : ColorSelectionViewModelDelegate.Parent {
+            override fun getDialogTag(): String = COLOR_SELECTION_DIALOG_TAG
+
             override suspend fun update() {
                 updatePreview()
                 updateIconColorSourceSelected()
@@ -512,17 +514,15 @@ class ChangeRecordTagViewModel @Inject constructor(
                 newIconColorSource = 0
             }
 
-            override suspend fun isColorSelectedCheck(): Boolean {
-                return newIconColorSource == 0L
-            }
+            override suspend fun isColorSelectedCheck(): Boolean = newIconColorSource == 0L
         }
     }
 
     private fun getIconSelectionDelegateParent(): IconSelectionViewModelDelegate.Parent {
         return object : IconSelectionViewModelDelegate.Parent {
-            override fun keyboardVisibility(isVisible: Boolean) {
-                keyboardVisibility.set(isVisible)
-            }
+            override fun getDialogTag(): String = ICON_SELECTION_DIALOG_TAG
+
+            override fun keyboardVisibility(isVisible: Boolean) = keyboardVisibility.set(isVisible)
 
             override suspend fun update() {
                 updatePreview()
@@ -539,9 +539,7 @@ class ChangeRecordTagViewModel @Inject constructor(
                 newIconColorSource = 0
             }
 
-            override fun getColor(): AppColor {
-                return colorSelectionViewModelDelegate.newColor
-            }
+            override fun getColor(): AppColor = colorSelectionViewModelDelegate.newColor
         }
     }
 
@@ -631,5 +629,7 @@ class ChangeRecordTagViewModel @Inject constructor(
     companion object {
         private const val TYPE_SELECTION_TAG = "types_selection_tag"
         private const val DELETE_ALERT_DIALOG_TAG = "delete_alert_dialog_tag"
+        private const val COLOR_SELECTION_DIALOG_TAG = "change_record_tag_color_selection_dialog_tag"
+        private const val ICON_SELECTION_DIALOG_TAG = "change_record_tag_icon_selection_dialog_tag"
     }
 }

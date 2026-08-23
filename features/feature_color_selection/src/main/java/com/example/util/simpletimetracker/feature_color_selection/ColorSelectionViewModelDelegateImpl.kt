@@ -54,14 +54,20 @@ class ColorSelectionViewModelDelegateImpl @Inject constructor(
     override fun onColorClick(item: ColorViewData) {
         delegateScope.launch {
             when (item.type) {
-                is ColorViewData.Type.Base -> onBaseColorSelected(item.colorId.toInt())
-                is ColorViewData.Type.Favourite -> onCustomColorSelected(item.colorInt)
+                is ColorViewData.Type.Base -> onBaseColorSelected(
+                    colorId = item.colorId.toInt(),
+                )
+                is ColorViewData.Type.Favourite -> onCustomColorSelected(
+                    tag = parent?.getDialogTag().orEmpty(),
+                    colorInt = item.colorInt,
+                )
             }
         }
     }
 
     override fun onColorPaletteClick() {
         ColorSelectionDialogParams(
+            tag = parent?.getDialogTag() ?: return,
             preselectedColor = colorMapper.mapToColorInt(
                 color = newColor,
                 isDarkTheme = false, // Pass original, not darkened color.
@@ -98,7 +104,8 @@ class ColorSelectionViewModelDelegateImpl @Inject constructor(
         }
     }
 
-    override fun onCustomColorSelected(colorInt: Int) {
+    override fun onCustomColorSelected(tag: String, colorInt: Int) {
+        if (tag != parent?.getDialogTag()) return
         delegateScope.launch {
             if (colorInt.toString() != newColor.colorInt) {
                 newColor = AppColor(colorId = 0, colorInt = colorInt.toString())

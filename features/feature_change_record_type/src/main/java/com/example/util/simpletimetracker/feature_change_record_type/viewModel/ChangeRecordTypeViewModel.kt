@@ -422,6 +422,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private fun getColorSelectionDelegateParent(): ColorSelectionViewModelDelegate.Parent {
         return object : ColorSelectionViewModelDelegate.Parent {
+            override fun getDialogTag(): String = COLOR_SELECTION_DIALOG_TAG
             override suspend fun update() {
                 updateRecordPreviewViewData()
                 iconSelectionViewModelDelegateImpl.updateIconViewData()
@@ -431,17 +432,10 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private fun getIconSelectionDelegateParent(): IconSelectionViewModelDelegate.Parent {
         return object : IconSelectionViewModelDelegate.Parent {
-            override fun keyboardVisibility(isVisible: Boolean) {
-                keyboardVisibility.set(isVisible)
-            }
-
-            override suspend fun update() {
-                updateRecordPreviewViewData()
-            }
-
-            override fun getColor(): AppColor {
-                return colorSelectionViewModelDelegate.newColor
-            }
+            override fun getDialogTag(): String = ICON_SELECTION_DIALOG_TAG
+            override fun keyboardVisibility(isVisible: Boolean) = keyboardVisibility.set(isVisible)
+            override suspend fun update() = updateRecordPreviewViewData()
+            override fun getColor(): AppColor = colorSelectionViewModelDelegate.newColor
         }
     }
 
@@ -507,5 +501,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
     companion object {
         private const val DELETE_ALERT_DIALOG_TAG = "delete_alert_dialog_tag"
         private const val DEFAULT_DURATION_DIALOG_TAG = "default_duration_dialog_tag"
+        private const val COLOR_SELECTION_DIALOG_TAG = "change_record_type_color_selection_dialog_tag"
+        private const val ICON_SELECTION_DIALOG_TAG = "change_record_type_icon_selection_dialog_tag"
     }
 }

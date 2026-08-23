@@ -2,5 +2,5 @@ package com.example.util.simpletimetracker.feature_dialogs.api
 
 interface ColorSelectionDialogListener {
 
-    fun onColorSelected(colorInt: Int)
+    fun onColorSelected(tag: String, colorInt: Int)
 }

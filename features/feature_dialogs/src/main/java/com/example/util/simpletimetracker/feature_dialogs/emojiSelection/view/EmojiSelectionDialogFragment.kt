@@ -39,13 +39,13 @@ class EmojiSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     private val params: EmojiSelectionDialogParams by fragmentArgumentDelegate(
-        key = ARGS_PARAMS, default = EmojiSelectionDialogParams(),
+        key = ARGS_PARAMS, default = EmojiSelectionDialogParams.Empty,
     )
-    private var emojiSelectionDialogListener: EmojiSelectionDialogListener? = null
+    private var listeners: List<EmojiSelectionDialogListener> = emptyList()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        emojiSelectionDialogListener = context.findListeners<EmojiSelectionDialogListener>().firstOrNull()
+        listeners = context.findListeners()
     }
 
     override fun initDialog() {
@@ -70,7 +70,7 @@ class EmojiSelectionDialogFragment : BaseBottomSheetFragment<Binding>() {
     }
 
     private fun onEmojiSelected(emojiText: String) {
-        emojiSelectionDialogListener?.onEmojiSelected(emojiText)
+        listeners.forEach { it.onEmojiSelected(tag = params.tag, emojiText = emojiText) }
         dismiss()
     }
 

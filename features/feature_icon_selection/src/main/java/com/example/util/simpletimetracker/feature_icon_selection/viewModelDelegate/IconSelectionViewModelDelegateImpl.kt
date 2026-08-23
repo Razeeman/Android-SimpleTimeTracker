@@ -228,7 +228,8 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
         }
     }
 
-    override fun onEmojiSelected(emojiText: String) {
+    override fun onEmojiSelected(tag: String, emojiText: String) {
+        if (tag != parent?.getDialogTag()) return
         delegateScope.launch {
             if (emojiText != newIcon) {
                 newIcon = emojiText
@@ -245,6 +246,7 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
     private fun openEmojiSelectionDialog(item: EmojiViewData) {
         val parent = parent ?: return
         val params = iconSelectionMapper.mapEmojiSelectionParams(
+            tag = parent.getDialogTag(),
             color = parent.getColor(),
             emojiCodes = item.emojiCodes,
         )

@@ -249,10 +249,12 @@ class IconSelectionMapper @Inject constructor(
     }
 
     fun mapEmojiSelectionParams(
+        tag: String,
         color: AppColor,
         emojiCodes: String,
     ): EmojiSelectionDialogParams {
         return EmojiSelectionDialogParams(
+            tag = tag,
             color = EmojiSelectionDialogParams.Color(
                 colorId = color.colorId,
                 colorInt = color.colorInt,

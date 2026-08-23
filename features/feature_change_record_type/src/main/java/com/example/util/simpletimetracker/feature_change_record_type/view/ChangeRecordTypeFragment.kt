@@ -281,12 +281,12 @@ class ChangeRecordTypeFragment :
         viewModel.onDurationDisabled(tag)
     }
 
-    override fun onEmojiSelected(emojiText: String) {
-        viewModel.onEmojiSelected(emojiText)
+    override fun onEmojiSelected(tag: String, emojiText: String) {
+        viewModel.onEmojiSelected(tag = tag, emojiText = emojiText)
     }
 
-    override fun onColorSelected(colorInt: Int) {
-        viewModel.onCustomColorSelected(colorInt)
+    override fun onColorSelected(tag: String, colorInt: Int) {
+        viewModel.onCustomColorSelected(tag = tag, colorInt = colorInt)
     }
 
     override fun onPositiveClick(tag: String?, data: Any?) {

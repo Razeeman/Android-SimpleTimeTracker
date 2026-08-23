@@ -5,13 +5,22 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class EmojiSelectionDialogParams(
-    val color: Color = Color(colorId = 0, colorInt = ""),
-    val emojiCodes: List<String> = emptyList(),
+    val tag: String,
+    val color: Color,
+    val emojiCodes: List<String>,
 ) : Parcelable, ScreenParams {
 
     @Parcelize
     data class Color(
-        val colorId: Int = 0,
-        val colorInt: String = "",
+        val colorId: Int,
+        val colorInt: String,
     ) : Parcelable
+
+    companion object {
+        val Empty = EmojiSelectionDialogParams(
+            tag = "",
+            color = Color(colorId = 0, colorInt = ""),
+            emojiCodes = emptyList(),
+        )
+    }
 }
