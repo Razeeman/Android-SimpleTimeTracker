@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_settings.views.SettingsSelectorViewData as ViewData
 import com.example.util.simpletimetracker.feature_settings.views.databinding.ItemSettingsSelectorBinding as Binding
@@ -48,12 +49,7 @@ fun selectorAdapterBindDelegate(
     onClick: (SettingsBlock) -> Unit,
 ) {
     title.text = item.title
-    if (item.subtitle.isEmpty()) {
-        subtitle.visible = false
-    } else {
-        subtitle.text = item.subtitle
-        subtitle.visible = true
-    }
+    subtitle.setTextOptional(item.subtitle)
     value.text = item.selectedValue
     space.visible = item.bottomSpaceIsVisible
     divider.visible = item.dividerIsVisible

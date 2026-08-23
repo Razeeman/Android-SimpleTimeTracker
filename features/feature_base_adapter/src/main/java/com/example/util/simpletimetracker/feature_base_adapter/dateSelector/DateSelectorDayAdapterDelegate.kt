@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.feature_views.extension.pxToDp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_views.extension.setOnLongClick
 import com.example.util.simpletimetracker.feature_views.extension.setRounded
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.example.util.simpletimetracker.feature_base_adapter.dateSelector.DateSelectorDayViewData as ViewData
 import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemDateDaySelectorBinding as Binding
 
@@ -63,8 +64,7 @@ internal fun setAdditionalHint(
     dayMonth: ViewData.DayMonth,
     additionalText: TextView,
 ) {
-    additionalText.text = dayMonth.additionalHint
-    additionalText.isVisible = dayMonth.additionalHint.isNotEmpty()
+    additionalText.setTextOptional(dayMonth.additionalHint)
 }
 
 internal fun setDayMoth(
@@ -73,8 +73,7 @@ internal fun setDayMoth(
     bottomText: TextView,
     increasedTextSize: Boolean,
 ) {
-    topText.text = dayMonth.topText
-    topText.isVisible = dayMonth.topText.isNotEmpty()
+    topText.setTextOptional(dayMonth.topText)
     bottomText.text = dayMonth.bottomText
 
     topText.setTextSize(

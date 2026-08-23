@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_settings.views.SettingsCheckboxViewData as ViewData
 import com.example.util.simpletimetracker.feature_settings.views.databinding.ItemSettingsCheckboxBinding as Binding
@@ -48,18 +49,8 @@ fun checkboxAdapterBindDelegate(
     onClick: (block: SettingsBlock) -> Unit,
 ) {
     title.text = item.title
-
-    if (item.subtitle.isEmpty()) {
-        subtitle.visible = false
-    } else {
-        subtitle.text = item.subtitle
-        subtitle.visible = true
-    }
-
-    if (checkbox.isChecked != item.isChecked) {
-        checkbox.isChecked = item.isChecked
-    }
-
+    subtitle.setTextOptional(item.subtitle)
+    if (checkbox.isChecked != item.isChecked) checkbox.isChecked = item.isChecked
     spaceTop.visible = item.topSpaceIsVisible
     spaceBottom.visible = item.bottomSpaceIsVisible
     divider.visible = item.dividerIsVisible

@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.feature_views.extension.toSpannableStr
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import androidx.core.content.withStyledAttributes
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 
 class RecordView @JvmOverloads constructor(
     context: Context,
@@ -57,16 +58,14 @@ class RecordView @JvmOverloads constructor(
 
     var itemTimeStarted: String = ""
         set(value) {
-            binding.tvRecordItemTimeStarted.text = value
-            binding.tvRecordItemTimeStarted.visible = value.isNotEmpty()
+            binding.tvRecordItemTimeStarted.setTextOptional(value)
             field = value
             updateSeparatorVisibility()
         }
 
     var itemTimeEnded: String = ""
         set(value) {
-            binding.tvRecordItemTimeFinished.text = value
-            binding.tvRecordItemTimeFinished.visible = value.isNotEmpty()
+            binding.tvRecordItemTimeFinished.setTextOptional(value)
             field = value
             updateSeparatorVisibility()
         }
@@ -79,15 +78,13 @@ class RecordView @JvmOverloads constructor(
 
     var itemDurationTotal: String = ""
         set(value) {
-            binding.tvRecordItemTimerTotal.text = value
-            binding.tvRecordItemTimerTotal.visible = value.isNotEmpty()
+            binding.tvRecordItemTimerTotal.setTextOptional(value)
             field = value
         }
 
     var itemComment: String = ""
         set(value) {
-            binding.tvRecordItemComment.text = value
-            binding.tvRecordItemComment.visible = value.isNotEmpty()
+            binding.tvRecordItemComment.setTextOptional(value)
             field = value
         }
 

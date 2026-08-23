@@ -4,6 +4,7 @@ import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_base_adapter.R
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.example.util.simpletimetracker.feature_views.databinding.ItemFilterLayoutBinding as Binding
 import com.example.util.simpletimetracker.feature_base_adapter.recordFilter.FilterViewData as ViewData
 
@@ -18,8 +19,7 @@ fun createFilterAdapterDelegate(
         item as ViewData
 
         containerFilter.setCardBackgroundColor(item.color)
-        tvFilterItemName.isVisible = item.name.isNotEmpty()
-        tvFilterItemName.text = item.name
+        tvFilterItemName.setTextOptional(item.name)
         ivFilterItemButton.isVisible = item.isBtnVisible
         ivFilterItemButton.setImageResource(item.customBtnIconResId ?: R.drawable.ic_remove)
         cardFilterBackground.isVisible = item.selected

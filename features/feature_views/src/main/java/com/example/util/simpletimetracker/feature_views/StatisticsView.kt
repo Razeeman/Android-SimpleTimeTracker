@@ -14,6 +14,7 @@ import androidx.core.content.withStyledAttributes
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 
 class StatisticsView @JvmOverloads constructor(
     context: Context,
@@ -54,8 +55,7 @@ class StatisticsView @JvmOverloads constructor(
 
     var itemDuration: String = ""
         set(value) {
-            binding.tvStatisticsItemDuration.text = value
-            binding.tvStatisticsItemDuration.isVisible = value.isNotEmpty()
+            binding.tvStatisticsItemDuration.setTextOptional(value)
             field = value
         }
 

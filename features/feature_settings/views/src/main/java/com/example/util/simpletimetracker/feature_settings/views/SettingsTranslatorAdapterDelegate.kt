@@ -1,8 +1,8 @@
 package com.example.util.simpletimetracker.feature_settings.views
 
-import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.example.util.simpletimetracker.feature_settings.views.SettingsTranslatorViewData as ViewData
 import com.example.util.simpletimetracker.feature_settings.views.databinding.ItemSettingsTranslatorBinding as Binding
 
@@ -14,8 +14,7 @@ fun createSettingsTranslatorAdapterDelegate() = createRecyclerBindingAdapterDele
         item as ViewData
 
         tvItemSettingsTranslators.text = item.translator
-        tvItemSettingsTranslatorsLanguage.isVisible = !item.language.isNullOrBlank()
-        tvItemSettingsTranslatorsLanguage.text = item.language
+        tvItemSettingsTranslatorsLanguage.setTextOptional(item.language)
     }
 }
 

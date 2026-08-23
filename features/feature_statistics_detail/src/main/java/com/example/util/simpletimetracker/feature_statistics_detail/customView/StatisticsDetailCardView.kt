@@ -13,7 +13,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.crea
 import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailCardViewBinding
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_views.extension.layoutInflater
-import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxItemDecoration
@@ -34,8 +34,7 @@ class StatisticsDetailCardView @JvmOverloads constructor(
     var listener: (StatisticsDetailCardInternalViewData.ClickableType, Coordinates) -> Unit = { _, _ -> }
     var itemsDescription: String = ""
         set(value) {
-            binding.tvStatisticsDetailCardDescription.text = value
-            binding.tvStatisticsDetailCardDescription.visible = value.isNotEmpty()
+            binding.tvStatisticsDetailCardDescription.setTextOptional(value)
             field = value
         }
     var items: List<StatisticsDetailCardInternalViewData> = emptyList()

@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.example.util.simpletimetracker.feature_statistics_detail.R
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailCardInternalItemBinding as Binding
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData as ViewData
@@ -55,8 +56,7 @@ fun createStatisticsDetailCardInternalAdapterDelegate(
             }
         }
 
-        tvStatisticsDetailCardSecondValue.visible = item.secondValue.isNotEmpty()
-        tvStatisticsDetailCardSecondValue.text = item.secondValue
+        tvStatisticsDetailCardSecondValue.setTextOptional(item.secondValue)
         tvStatisticsDetailCardSecondValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, item.subtitleTextSizeSp.toFloat())
 
         tvStatisticsDetailCardDescription.text = item.description

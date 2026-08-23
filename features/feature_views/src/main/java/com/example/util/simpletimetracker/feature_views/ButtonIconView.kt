@@ -10,6 +10,7 @@ import androidx.core.view.updateLayoutParams
 import com.example.util.simpletimetracker.feature_views.databinding.ButtonIconViewLayoutBinding
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.layoutInflater
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 
 class ButtonIconView @JvmOverloads constructor(
     context: Context,
@@ -38,8 +39,7 @@ class ButtonIconView @JvmOverloads constructor(
     var buttonIconText: String = ""
         set(value) {
             field = value
-            binding.tvButtonIcon.isVisible = value.isNotEmpty()
-            binding.tvButtonIcon.text = value
+            binding.tvButtonIcon.setTextOptional(value)
         }
 
     var buttonIconVisible: Boolean = true

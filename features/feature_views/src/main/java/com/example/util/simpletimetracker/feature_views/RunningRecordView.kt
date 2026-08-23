@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.feature_views.databinding.RecordRunningViewLayoutBinding
 import com.example.util.simpletimetracker.feature_views.extension.layoutInflater
 import com.example.util.simpletimetracker.feature_views.extension.setForegroundSpan
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.example.util.simpletimetracker.feature_views.extension.toSpannableString
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
@@ -73,15 +74,13 @@ class RunningRecordView @JvmOverloads constructor(
 
     var itemTimerTotal: String = ""
         set(value) {
-            binding.tvRunningRecordItemTimerTotal.text = value
-            binding.tvRunningRecordItemTimerTotal.visible = value.isNotEmpty()
+            binding.tvRunningRecordItemTimerTotal.setTextOptional(value)
             field = value
         }
 
     var itemGoalTime: String = ""
         set(value) {
-            binding.tvRunningRecordItemGoalTime.text = value
-            binding.tvRunningRecordItemGoalTime.visible = value.isNotEmpty()
+            binding.tvRunningRecordItemGoalTime.setTextOptional(value)
             field = value
         }
 
@@ -93,8 +92,7 @@ class RunningRecordView @JvmOverloads constructor(
 
     var itemComment: String = ""
         set(value) {
-            binding.tvRunningRecordItemComment.text = value
-            binding.tvRunningRecordItemComment.visible = value.isNotEmpty()
+            binding.tvRunningRecordItemComment.setTextOptional(value)
             field = value
         }
 

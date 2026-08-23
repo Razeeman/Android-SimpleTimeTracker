@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBin
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.createDayOfWeekAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
-import com.example.util.simpletimetracker.feature_views.extension.visible
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -47,13 +47,7 @@ fun createSettingsWeekdaysAdapterDelegate(
     with(binding) {
         item as ViewData
         tvItemSettingsTitle.text = item.title
-        // TODO add extension bindOptional
-        if (item.subtitle.isEmpty()) {
-            tvItemSettingsSubtitle.visible = false
-        } else {
-            tvItemSettingsSubtitle.text = item.subtitle
-            tvItemSettingsSubtitle.visible = true
-        }
+        tvItemSettingsSubtitle.setTextOptional(item.subtitle)
         // Needed for tests and for clicks receiving correct block after bind / rebind.
         rvItemSettingsWeekdays.tag = item.block
         bindRecycler(

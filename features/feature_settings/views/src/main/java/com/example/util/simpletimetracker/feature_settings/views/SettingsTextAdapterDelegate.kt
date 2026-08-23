@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_settings.views.SettingsTextViewData as ViewData
 import com.example.util.simpletimetracker.feature_settings.views.databinding.ItemSettingsTextBinding as Binding
@@ -46,21 +47,11 @@ fun textAdapterBindDelegate(
     onClick: (block: SettingsBlock) -> Unit,
 ) {
     title.text = item.title
-    if (item.subtitle.isEmpty()) {
-        subtitle.visible = false
-    } else {
-        subtitle.text = item.subtitle
-        item.subtitleColor.getColor(subtitle.context).let(subtitle::setTextColor)
-        subtitle.visible = true
-    }
+    subtitle.setTextOptional(item.subtitle)
+    item.subtitleColor.getColor(subtitle.context).let(subtitle::setTextColor)
     if (hint != null) {
-        if (item.hint.isEmpty()) {
-            hint.visible = false
-        } else {
-            hint.text = item.hint
-            item.hintColor.getColor(hint.context).let(hint::setTextColor)
-            hint.visible = true
-        }
+        hint.setTextOptional(item.hint)
+        item.hintColor.getColor(hint.context).let(hint::setTextColor)
     }
     spaceTop.visible = item.topSpaceIsVisible
     spaceBottom.visible = item.bottomSpaceIsVisible

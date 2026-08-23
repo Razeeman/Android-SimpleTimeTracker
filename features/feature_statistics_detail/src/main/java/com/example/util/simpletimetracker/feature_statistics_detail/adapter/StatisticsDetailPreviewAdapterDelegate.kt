@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBin
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreview
 import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
 import com.example.util.simpletimetracker.feature_views.extension.setOnLongClickWith
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_statistics_detail.databinding.StatisticsDetailPreviewItemBinding as Binding
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData as ViewData
@@ -19,9 +20,7 @@ fun createStatisticsPreviewAdapterDelegate(
         item as ViewData
 
         layoutStatisticsDetailPreviewItem.setCardBackgroundColor(item.color)
-        tvStatisticsDetailPreviewItemName.visible = item.name.isNotEmpty()
-        item.name.takeIf { it.isNotEmpty() }
-            ?.let(tvStatisticsDetailPreviewItemName::setText)
+        tvStatisticsDetailPreviewItemName.setTextOptional(item.name)
         ivStatisticsDetailPreviewItemIcon.visible = item.iconId != null
         item.iconId?.let(ivStatisticsDetailPreviewItemIcon::itemIcon::set)
         item.iconColor?.let(ivStatisticsDetailPreviewItemIcon::itemIconColor::set)

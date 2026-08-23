@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_views.databinding.RecordSimpleViewLayoutBinding
 import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.example.util.simpletimetracker.feature_views.extension.layoutInflater
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 class RecordSimpleView @JvmOverloads constructor(
@@ -54,14 +55,8 @@ class RecordSimpleView @JvmOverloads constructor(
 
     var itemTimeEnded: String = ""
         set(value) {
-            if (value.isEmpty()) {
-                binding.tvRecordSimpleItemTimeEnded.isVisible = false
-                binding.tvRecordSimpleItemTimeDivider.isVisible = false
-            } else {
-                binding.tvRecordSimpleItemTimeEnded.isVisible = true
-                binding.tvRecordSimpleItemTimeDivider.isVisible = true
-                binding.tvRecordSimpleItemTimeEnded.text = value
-            }
+            binding.tvRecordSimpleItemTimeEnded.setTextOptional(value)
+            binding.tvRecordSimpleItemTimeDivider.isVisible = value.isNotEmpty()
             field = value
         }
 

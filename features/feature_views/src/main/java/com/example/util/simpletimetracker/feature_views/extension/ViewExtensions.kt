@@ -19,13 +19,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import androidx.core.graphics.createBitmap
+import androidx.core.view.isVisible
 
 var View.visible: Boolean
     set(value) {
         visibility = if (value) View.VISIBLE else View.GONE
     }
     get() {
-        return visibility == View.VISIBLE
+        return isVisible
     }
 
 val View.layoutInflater: LayoutInflater
@@ -223,6 +224,15 @@ inline fun <reified T : ViewGroup.LayoutParams> View.safeUpdateLayoutParams(
 fun View.showKeyboard() {
     requestFocus()
     context.getSystemService<InputMethodManager>()?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+}
+
+fun TextView.setTextOptional(text: String?) {
+    if (text.isNullOrBlank()) {
+        this.visible = false
+    } else {
+        this.text = text
+        this.visible = true
+    }
 }
 
 @Suppress("SameParameterValue")

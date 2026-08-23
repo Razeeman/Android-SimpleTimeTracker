@@ -27,6 +27,7 @@ import com.example.util.simpletimetracker.feature_dialogs.typesSelection.model.T
 import com.example.util.simpletimetracker.feature_dialogs.typesSelection.viewData.TypesSelectionDialogViewData
 import com.example.util.simpletimetracker.feature_dialogs.typesSelection.viewModel.TypesSelectionViewModel
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagValueSelectionParams
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
@@ -112,14 +113,9 @@ class TypesSelectionDialogFragment :
     }
 
     private fun updateViewState(data: TypesSelectionDialogViewData) = with(binding) {
-        tvTypesSelectionDialogTitle.text = data.title
-        tvTypesSelectionDialogTitle.isVisible = data.title.isNotEmpty()
-
-        tvTypesSelectionDialogSubtitle.text = data.subtitle
-        tvTypesSelectionDialogSubtitle.isVisible = data.subtitle.isNotEmpty()
-
-        viewTypesSelectionDialogDivider.isVisible =
-            data.title.isNotEmpty() || data.subtitle.isNotEmpty()
+        tvTypesSelectionDialogTitle.setTextOptional(data.title)
+        tvTypesSelectionDialogSubtitle.setTextOptional(data.subtitle)
+        viewTypesSelectionDialogDivider.isVisible = data.title.isNotEmpty() || data.subtitle.isNotEmpty()
         containerTypesSelectionButtons.isVisible = data.isButtonsVisible
     }
 
