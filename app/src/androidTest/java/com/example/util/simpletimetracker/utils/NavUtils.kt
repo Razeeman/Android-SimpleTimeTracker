@@ -70,6 +70,11 @@ object NavUtils {
         clickOnSettingsRecyclerText(coreR.string.settings_display_title)
     }
 
+    fun openSettingsUntrackedOptions() {
+        scrollSettingsRecyclerToText(coreR.string.untracked_time_name)
+        clickOnSettingsRecyclerText(coreR.string.untracked_time_name)
+    }
+
     fun openSettingsAdditional() {
         scrollSettingsRecyclerToText(coreR.string.settings_additional_title)
         clickOnSettingsRecyclerText(coreR.string.settings_additional_title)

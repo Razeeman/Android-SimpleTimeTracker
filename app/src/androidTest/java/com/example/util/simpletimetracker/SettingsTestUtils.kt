@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerViewH
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.unconstrainedClickOnView
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.anyOf
 import org.hamcrest.Matcher
 import com.example.util.simpletimetracker.feature_settings.R as settingsR
 
@@ -25,6 +26,11 @@ fun scrollSettingsRecyclerToText(@StringRes id: Int) {
 
 fun scrollSettingsRecyclerToText(text: String) {
     scrollSettingsRecyclerToView(hasDescendant(withText(text)))
+}
+
+fun scrollSettingsOptionsRecyclerToText(@StringRes id: Int) {
+    onView(withId(settingsR.id.rvSettingsOptionsContent))
+        .perform(scrollTo<BaseRecyclerViewHolder>(hasDescendant(withText(id))))
 }
 
 // Click
@@ -162,13 +168,20 @@ private fun scrollSettingsRecyclerToView(matcher: Matcher<View>) {
 }
 
 private fun clickOnSettingsRecyclerItem(matcher: Matcher<View>) {
-    clickOnView(allOf(isDescendantOfA(withId(settingsR.id.rvSettingsContent)), matcher))
+    clickOnView(allOf(isDescendantOfA(settingsRecyclerMatcher()), matcher))
 }
 
 private fun settingsViewBesideTextMatcher(@StringRes id: Int, matcher: Matcher<View>): Matcher<View> {
     return allOf(
-        isDescendantOfA(withId(settingsR.id.rvSettingsContent)),
+        isDescendantOfA(settingsRecyclerMatcher()),
         hasSibling(withText(id)),
         matcher,
+    )
+}
+
+private fun settingsRecyclerMatcher(): Matcher<View> {
+    return anyOf(
+        withId(settingsR.id.rvSettingsContent),
+        withId(settingsR.id.rvSettingsOptionsContent),
     )
 }
