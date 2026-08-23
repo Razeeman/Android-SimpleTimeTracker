@@ -12,5 +12,9 @@ interface SettingsParent {
 
     suspend fun openUntrackedOptions()
 
+    suspend fun openInactivityReminderOptions()
+
+    suspend fun openActivityReminderOptions()
+
     suspend fun updateContent()
 }

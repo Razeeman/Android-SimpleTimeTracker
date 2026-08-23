@@ -8,13 +8,16 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
+import com.example.util.simpletimetracker.feature_settings.mapper.ReminderSummaryMapper
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.views.SettingsBottomViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsCheckboxViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsCollapseViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsDurationViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsHintViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsRangeViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsSelectorViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsSelectorWithButtonViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsTextViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsTopViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsWeekdaysViewData
@@ -23,6 +26,7 @@ import javax.inject.Inject
 class SettingsNotificationsViewDataInteractor @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val settingsMapper: SettingsMapper,
+    private val reminderSummaryMapper: ReminderSummaryMapper,
     private val prefsInteractor: PrefsInteractor,
     private val dayOfWeekViewDataMapper: DayOfWeekViewDataMapper,
 ) {
@@ -80,75 +84,63 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
             }
 
             val inactivityViewData = loadInactivityReminderViewData()
-            result += SettingsSelectorViewData(
-                block = SettingsBlock.NotificationsInactivity,
-                title = resourceRepo.getString(R.string.settings_inactivity_reminder),
-                subtitle = resourceRepo.getString(R.string.settings_inactivity_reminder_hint),
-                selectedValue = inactivityViewData.text,
-                bottomSpaceIsVisible = !inactivityViewData.enabled,
-                dividerIsVisible = !inactivityViewData.enabled,
+            result += SettingsSelectorWithButtonViewData(
+                data = SettingsSelectorViewData(
+                    block = SettingsBlock.NotificationsInactivity,
+                    title = resourceRepo.getString(R.string.settings_inactivity_reminder),
+                    subtitle = resourceRepo.getString(R.string.settings_inactivity_reminder_hint),
+                    selectedValue = inactivityViewData.text,
+                    bottomSpaceIsVisible = !inactivityViewData.enabled,
+                    dividerIsVisible = !inactivityViewData.enabled,
+                ),
+                buttonBlock = SettingsBlock.NotificationsInactivityOptions,
+                buttonContent = if (inactivityViewData.enabled) {
+                    SettingsSelectorWithButtonViewData.Button.Icon(R.drawable.ic_settings)
+                } else {
+                    null
+                },
             )
             if (inactivityViewData.enabled) {
-                result += SettingsCheckboxViewData(
-                    block = SettingsBlock.NotificationsInactivityRecurrent,
-                    title = resourceRepo.getString(R.string.settings_inactivity_reminder_recurrent),
-                    subtitle = "",
-                    isChecked = prefsInteractor.getInactivityReminderRecurrent(),
-                    bottomSpaceIsVisible = false,
-                    dividerIsVisible = false,
-                )
-                result += SettingsRangeViewData(
-                    blockStart = SettingsBlock.NotificationsInactivityDoNotDisturbStart,
-                    blockEnd = SettingsBlock.NotificationsInactivityDoNotDisturbEnd,
-                    title = resourceRepo.getString(R.string.settings_do_not_disturb),
-                    start = loadInactivityReminderDndStartViewData(),
-                    end = loadInactivityReminderDndEndViewData(),
-                    bottomSpaceIsVisible = false,
-                    dividerIsVisible = false,
-                )
-                result += SettingsWeekdaysViewData(
-                    block = SettingsBlock.NotificationsInactivityDaysOfWeek,
-                    title = resourceRepo.getString(R.string.settings_reminder_active_days),
-                    subtitle = "",
-                    items = loadReminderDaysOfWeekViewData(
+                result += SettingsHintViewData(
+                    block = SettingsBlock.NotificationsInactivityOptionsHint,
+                    text = reminderSummaryMapper.map(
+                        isRecurrent = prefsInteractor.getInactivityReminderRecurrent(),
+                        doNotDisturbStart = prefsInteractor.getInactivityReminderDoNotDisturbStart(),
+                        doNotDisturbEnd = prefsInteractor.getInactivityReminderDoNotDisturbEnd(),
                         selectedDaysOfWeek = prefsInteractor.getInactivityReminderDaysOfWeek(),
+                        firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
+                        useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
                     ),
                 )
             }
 
             val activityViewData = loadActivityReminderViewData()
-            result += SettingsSelectorViewData(
-                block = SettingsBlock.NotificationsActivity,
-                title = resourceRepo.getString(R.string.settings_activity_reminder),
-                subtitle = resourceRepo.getString(R.string.settings_activity_reminder_hint),
-                selectedValue = activityViewData.text,
-                bottomSpaceIsVisible = !activityViewData.enabled,
-                dividerIsVisible = !activityViewData.enabled,
+            result += SettingsSelectorWithButtonViewData(
+                data = SettingsSelectorViewData(
+                    block = SettingsBlock.NotificationsActivity,
+                    title = resourceRepo.getString(R.string.settings_activity_reminder),
+                    subtitle = resourceRepo.getString(R.string.settings_activity_reminder_hint),
+                    selectedValue = activityViewData.text,
+                    bottomSpaceIsVisible = !activityViewData.enabled,
+                    dividerIsVisible = !activityViewData.enabled,
+                ),
+                buttonBlock = SettingsBlock.NotificationsActivityOptions,
+                buttonContent = if (activityViewData.enabled) {
+                    SettingsSelectorWithButtonViewData.Button.Icon(R.drawable.ic_settings)
+                } else {
+                    null
+                },
             )
             if (activityViewData.enabled) {
-                result += SettingsCheckboxViewData(
-                    block = SettingsBlock.NotificationsActivityRecurrent,
-                    title = resourceRepo.getString(R.string.settings_inactivity_reminder_recurrent),
-                    subtitle = "",
-                    isChecked = prefsInteractor.getActivityReminderRecurrent(),
-                    bottomSpaceIsVisible = false,
-                    dividerIsVisible = false,
-                )
-                result += SettingsRangeViewData(
-                    blockStart = SettingsBlock.NotificationsActivityDoNotDisturbStart,
-                    blockEnd = SettingsBlock.NotificationsActivityDoNotDisturbEnd,
-                    title = resourceRepo.getString(R.string.settings_do_not_disturb),
-                    start = loadActivityReminderDndStartViewData(),
-                    end = loadActivityReminderDndEndViewData(),
-                    bottomSpaceIsVisible = false,
-                    dividerIsVisible = false,
-                )
-                result += SettingsWeekdaysViewData(
-                    block = SettingsBlock.NotificationsActivityDaysOfWeek,
-                    title = resourceRepo.getString(R.string.settings_reminder_active_days),
-                    subtitle = "",
-                    items = loadReminderDaysOfWeekViewData(
+                result += SettingsHintViewData(
+                    block = SettingsBlock.NotificationsActivityOptionsHint,
+                    text = reminderSummaryMapper.map(
+                        isRecurrent = prefsInteractor.getActivityReminderRecurrent(),
+                        doNotDisturbStart = prefsInteractor.getActivityReminderDoNotDisturbStart(),
+                        doNotDisturbEnd = prefsInteractor.getActivityReminderDoNotDisturbEnd(),
                         selectedDaysOfWeek = prefsInteractor.getActivityReminderDaysOfWeek(),
+                        firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
+                        useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
                     ),
                 )
             }
@@ -163,6 +155,62 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
 
         result += SettingsBottomViewData(
             block = SettingsBlock.NotificationsBottom,
+        )
+
+        return result
+    }
+
+    suspend fun getInactivityReminderOptionsViewData(): List<ViewHolderType> {
+        val result = mutableListOf<ViewHolderType>()
+
+        result += SettingsCheckboxViewData(
+            block = SettingsBlock.NotificationsInactivityRecurrent,
+            title = resourceRepo.getString(R.string.settings_inactivity_reminder_recurrent),
+            subtitle = "",
+            isChecked = prefsInteractor.getInactivityReminderRecurrent(),
+        )
+        result += SettingsRangeViewData(
+            blockStart = SettingsBlock.NotificationsInactivityDoNotDisturbStart,
+            blockEnd = SettingsBlock.NotificationsInactivityDoNotDisturbEnd,
+            title = resourceRepo.getString(R.string.settings_do_not_disturb),
+            start = loadInactivityReminderDndStartViewData(),
+            end = loadInactivityReminderDndEndViewData(),
+        )
+        result += SettingsWeekdaysViewData(
+            block = SettingsBlock.NotificationsInactivityDaysOfWeek,
+            title = resourceRepo.getString(R.string.settings_reminder_active_days),
+            subtitle = "",
+            items = loadReminderDaysOfWeekViewData(
+                selectedDaysOfWeek = prefsInteractor.getInactivityReminderDaysOfWeek(),
+            ),
+        )
+
+        return result
+    }
+
+    suspend fun getActivityReminderOptionsViewData(): List<ViewHolderType> {
+        val result = mutableListOf<ViewHolderType>()
+
+        result += SettingsCheckboxViewData(
+            block = SettingsBlock.NotificationsActivityRecurrent,
+            title = resourceRepo.getString(R.string.settings_inactivity_reminder_recurrent),
+            subtitle = "",
+            isChecked = prefsInteractor.getActivityReminderRecurrent(),
+        )
+        result += SettingsRangeViewData(
+            blockStart = SettingsBlock.NotificationsActivityDoNotDisturbStart,
+            blockEnd = SettingsBlock.NotificationsActivityDoNotDisturbEnd,
+            title = resourceRepo.getString(R.string.settings_do_not_disturb),
+            start = loadActivityReminderDndStartViewData(),
+            end = loadActivityReminderDndEndViewData(),
+        )
+        result += SettingsWeekdaysViewData(
+            block = SettingsBlock.NotificationsActivityDaysOfWeek,
+            title = resourceRepo.getString(R.string.settings_reminder_active_days),
+            subtitle = "",
+            items = loadReminderDaysOfWeekViewData(
+                selectedDaysOfWeek = prefsInteractor.getActivityReminderDaysOfWeek(),
+            ),
         )
 
         return result

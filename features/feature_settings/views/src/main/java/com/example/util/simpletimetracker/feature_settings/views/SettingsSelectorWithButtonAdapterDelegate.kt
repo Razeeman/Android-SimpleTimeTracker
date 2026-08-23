@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_settings.views
 
+import androidx.annotation.DrawableRes
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
@@ -29,8 +30,18 @@ fun createSettingsSelectorWithButtonAdapterDelegate(
             onClick = onClick,
         )
 
-        btnItemSettings.visible = item.isButtonVisible
-        tvItemSettingsSelectorButton.text = item.buttonText
+        btnItemSettings.visible = item.buttonContent != null
+        tvItemSettingsSelectorButton.visible = item.buttonContent is ViewData.Button.Text
+        ivItemSettingsSelectorButton.visible = item.buttonContent is ViewData.Button.Icon
+        when (val content = item.buttonContent) {
+            is ViewData.Button.Text -> {
+                tvItemSettingsSelectorButton.text = content.text
+            }
+            is ViewData.Button.Icon -> {
+                ivItemSettingsSelectorButton.setImageResource(content.drawableResId)
+            }
+            null -> Unit
+        }
         btnItemSettings.setOnClick { onClick(item.buttonBlock) }
     }
 }
@@ -38,11 +49,15 @@ fun createSettingsSelectorWithButtonAdapterDelegate(
 data class SettingsSelectorWithButtonViewData(
     val data: SettingsSelectorViewData,
     val buttonBlock: SettingsBlock,
-    val isButtonVisible: Boolean,
-    val buttonText: String,
+    val buttonContent: Button?,
 ) : ViewHolderType {
 
     override fun getUniqueId(): Long = data.block.ordinal.toLong()
 
     override fun isValidType(other: ViewHolderType): Boolean = other is ViewData
+
+    sealed interface Button {
+        data class Text(val text: String) : Button
+        data class Icon(@DrawableRes val drawableResId: Int) : Button
+    }
 }

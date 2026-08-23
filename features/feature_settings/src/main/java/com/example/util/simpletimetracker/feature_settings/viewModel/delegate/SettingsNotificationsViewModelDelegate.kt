@@ -47,11 +47,21 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         )
     }
 
+    suspend fun getInactivityReminderOptionsViewData(): List<ViewHolderType> {
+        return settingsNotificationsViewDataInteractor.getInactivityReminderOptionsViewData()
+    }
+
+    suspend fun getActivityReminderOptionsViewData(): List<ViewHolderType> {
+        return settingsNotificationsViewDataInteractor.getActivityReminderOptionsViewData()
+    }
+
     fun onBlockClicked(block: SettingsBlock) {
         when (block) {
             SettingsBlock.NotificationsCollapse -> onCollapseClick()
             SettingsBlock.NotificationsInactivity -> onInactivityReminderClicked()
+            SettingsBlock.NotificationsInactivityOptions -> onInactivityReminderOptionsClicked()
             SettingsBlock.NotificationsActivity -> onActivityReminderClicked()
+            SettingsBlock.NotificationsActivityOptions -> onActivityReminderOptionsClicked()
             SettingsBlock.NotificationsInactivityDoNotDisturbStart -> onInactivityReminderDoNotDisturbStartClicked()
             SettingsBlock.NotificationsInactivityDoNotDisturbEnd -> onInactivityReminderDoNotDisturbEndClicked()
             SettingsBlock.NotificationsActivityDoNotDisturbStart -> onActivityReminderDoNotDisturbStartClicked()
@@ -163,6 +173,10 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
+    private fun onInactivityReminderOptionsClicked() = delegateScope.launch {
+        parent?.openInactivityReminderOptions()
+    }
+
     private fun onInactivityReminderRecurrentClicked() {
         delegateScope.launch {
             val newValue = !prefsInteractor.getInactivityReminderRecurrent()
@@ -207,6 +221,10 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         } else {
             checkNotificationsPermissionInteractor.execute(onEnabled = ::openDialog)
         }
+    }
+
+    private fun onActivityReminderOptionsClicked() = delegateScope.launch {
+        parent?.openActivityReminderOptions()
     }
 
     private fun onActivityReminderRecurrentClicked() {

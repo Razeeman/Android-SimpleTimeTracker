@@ -204,6 +204,14 @@ class SettingsViewModel @Inject constructor(
         openOptions(OptionsContent.DisplayUntracked)
     }
 
+    override suspend fun openInactivityReminderOptions() {
+        openOptions(OptionsContent.InactivityReminder)
+    }
+
+    override suspend fun openActivityReminderOptions() {
+        openOptions(OptionsContent.ActivityReminder)
+    }
+
     private suspend fun openOptions(content: OptionsContent) {
         activeOptionsContent = content
         optionsContent.set(loadOptionsContent(content))
@@ -235,12 +243,16 @@ class SettingsViewModel @Inject constructor(
         return when (content) {
             OptionsContent.ExportAdvanced -> exportDelegate.getAdvancedViewData()
             OptionsContent.DisplayUntracked -> displayDelegate.getUntrackedViewData()
+            OptionsContent.InactivityReminder -> notificationsDelegate.getInactivityReminderOptionsViewData()
+            OptionsContent.ActivityReminder -> notificationsDelegate.getActivityReminderOptionsViewData()
         }
     }
 
     private enum class OptionsContent {
         ExportAdvanced,
         DisplayUntracked,
+        InactivityReminder,
+        ActivityReminder,
     }
 
     companion object {

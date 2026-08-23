@@ -71,6 +71,16 @@
             android:textStyle="bold"
             tools:text="+" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivItemSettingsSelectorButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:src="@drawable/ic_settings"
+            android:tint="?appInactiveColor"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
     </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.LinearLayoutCompat

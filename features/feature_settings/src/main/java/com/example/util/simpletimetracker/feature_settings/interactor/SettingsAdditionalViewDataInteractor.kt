@@ -163,8 +163,11 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
                     dividerIsVisible = false,
                 ),
                 buttonBlock = SettingsBlock.AdditionalShiftStartOfDayButton,
-                isButtonVisible = startOfDayViewData.startOfDaySign.isNotEmpty(),
-                buttonText = startOfDayViewData.startOfDaySign,
+                buttonContent = if (startOfDayViewData.startOfDaySign.isNotEmpty()) {
+                    SettingsSelectorWithButtonViewData.Button.Text(text = startOfDayViewData.startOfDaySign)
+                } else {
+                    null
+                },
             )
             result += SettingsHintViewData(
                 block = SettingsBlock.AdditionalShiftStartOfDayHint,
