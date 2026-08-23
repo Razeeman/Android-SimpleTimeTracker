@@ -337,6 +337,8 @@
     <string name="settings_show_untracked_time_statistics">आँकड़ों में ट्रैक न किया गया समय दिखाएँ</string>
     <string name="settings_ignore_short_untracked">कम अनट्रैक समय पर ध्यान न दें</string>
     <string name="settings_ignore_short_untracked_hint">अनट्रैक समय न दिखाएं जो निर्दिष्ट समय से कम हो।</string>
+    <string name="settings_untracked_days">बिना ट्रैकिंग वाले दिन</string>
+    <string name="settings_untracked_days_hint">बिना ट्रैकिंग वाला समय केवल चुने गए दिनों में गिनें।</string>
     <string name="settings_untracked_range">अनट्रैक रेंज</string>
     <string name="settings_untracked_range_hint">केवल चयनित समय सीमा के भीतर अनट्रैक किया गया समय दिखाएँ।</string>
     <string name="settings_show_records_calendar">कैलेंडर दृश्य में रिकॉर्ड दिखाएं</string>

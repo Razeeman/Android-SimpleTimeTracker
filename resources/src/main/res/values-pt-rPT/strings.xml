@@ -337,6 +337,8 @@ Isto permite-lhe ver quanto tempo está a gastar em atividades produtivas versus
     <string name="settings_show_untracked_time_statistics">Mostrar tempo não registado nas estatísticas</string>
     <string name="settings_ignore_short_untracked">Ignorar tempo curto não registado</string>
     <string name="settings_ignore_short_untracked_hint">Não mostrar o tempo não registado que seja menor que o tempo especificado.</string>
+    <string name="settings_untracked_days">Dias sem registo</string>
+    <string name="settings_untracked_days_hint">Contar o tempo sem registo apenas nos dias selecionados.</string>
     <string name="settings_untracked_range">Período não registado</string>
     <string name="settings_untracked_range_hint">Mostrar o tempo não rastreado apenas dentro do intervalo selecionado.</string>
     <string name="settings_show_records_calendar">Mostrar registos na visualização de calendário</string>

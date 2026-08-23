@@ -22,4 +22,5 @@ dependencies {
     implementation(libs.androidx.constraintLayout)
     implementation(libs.androidx.cardView)
     implementation(libs.androidx.material)
+    implementation(libs.google.flexBox)
 }

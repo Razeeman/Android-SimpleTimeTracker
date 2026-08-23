@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.domain.base.DurationFormat
 import com.example.util.simpletimetracker.domain.fileExport.ExportDateTimeFormat
 import com.example.util.simpletimetracker.domain.darkMode.interactor.IsSystemInDarkModeInteractor
 import com.example.util.simpletimetracker.domain.darkMode.model.DarkMode
+import com.example.util.simpletimetracker.domain.daysOfWeek.mapper.DaysOfWeekDataLocalMapper
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DaysInCalendar
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -31,6 +32,7 @@ class PrefsInteractor @Inject constructor(
     private val prefsRepo: PrefsRepo,
     private val isSystemInDarkModeInteractor: IsSystemInDarkModeInteractor,
     private val isExportFormatAvailableInteractor: IsExportFormatAvailableInteractor,
+    private val daysOfWeekDataLocalMapper: DaysOfWeekDataLocalMapper,
 ) {
 
     suspend fun getFilteredTypesOnList(): List<Long> = withContext(Dispatchers.IO) {
@@ -635,6 +637,14 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun setIgnoreShortUntrackedDuration(duration: Long) = withContext(Dispatchers.IO) {
         prefsRepo.ignoreShortUntrackedDuration = duration
+    }
+
+    suspend fun getUntrackedDaysOfWeek(): Set<DayOfWeek> = withContext(Dispatchers.IO) {
+        daysOfWeekDataLocalMapper.mapDaysOfWeek(prefsRepo.untrackedDaysOfWeek)
+    }
+
+    suspend fun setUntrackedDaysOfWeek(daysOfWeek: Set<DayOfWeek>) = withContext(Dispatchers.IO) {
+        prefsRepo.untrackedDaysOfWeek = daysOfWeekDataLocalMapper.mapDaysOfWeek(daysOfWeek)
     }
 
     suspend fun getUntrackedRangeEnabled(): Boolean = withContext(Dispatchers.IO) {

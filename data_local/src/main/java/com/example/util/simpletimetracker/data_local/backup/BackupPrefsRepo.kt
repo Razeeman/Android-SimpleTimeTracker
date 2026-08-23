@@ -98,6 +98,7 @@ import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Compani
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_START_TIMER_BY_LONG_CLICK
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_POMODORO_SHOW_MORE_CONTROLS
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_TYPE_ADDITIONAL_FIELDS_SHOWN
+import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_UNTRACKED_DAYS_OF_WEEK
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_UNTRACKED_RANGE_ENABLED
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_UNTRACKED_RANGE_END
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_UNTRACKED_RANGE_START
@@ -223,6 +224,7 @@ class BackupPrefsRepo @Inject constructor(
             PrefsProcessor(KEY_ACTIVITY_REMINDER_DND_END, ::activityReminderDoNotDisturbEnd),
             PrefsProcessor(KEY_IGNORE_SHORT_RECORDS_DURATION, ::ignoreShortRecordsDuration),
             PrefsProcessor(KEY_IGNORE_SHORT_UNTRACKED_DURATION, ::ignoreShortUntrackedDuration),
+            PrefsProcessor(KEY_UNTRACKED_DAYS_OF_WEEK, ::untrackedDaysOfWeek),
             PrefsProcessor(KEY_UNTRACKED_RANGE_ENABLED, ::untrackedRangeEnabled),
             PrefsProcessor(KEY_UNTRACKED_RANGE_START, ::untrackedRangeStart),
             PrefsProcessor(KEY_UNTRACKED_RANGE_END, ::untrackedRangeEnd),

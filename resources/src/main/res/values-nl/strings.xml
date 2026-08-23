@@ -337,6 +337,8 @@ Dit stelt je in staat om te zien hoeveel tijd je in totaal besteedt aan producti
     <string name="settings_show_untracked_time_statistics">Toon niet-gevolgde tijd in statistieken</string>
     <string name="settings_ignore_short_untracked">Negeer korte niet-gevolgde tijd</string>
     <string name="settings_ignore_short_untracked_hint">Laat geen niet-gevolgde tijd zien die korter is dan de opgegeven tijd.</string>
+    <string name="settings_untracked_days">Niet-bijgehouden dagen</string>
+    <string name="settings_untracked_days_hint">Tel niet-bijgehouden tijd alleen op de geselecteerde dagen.</string>
     <string name="settings_untracked_range">Ongevolgd bereik</string>
     <string name="settings_untracked_range_hint">Toon niet-bijgehouden tijd alleen binnen het geselecteerde bereik.</string>
     <string name="settings_show_records_calendar">Toon records in kalenderweergave</string>

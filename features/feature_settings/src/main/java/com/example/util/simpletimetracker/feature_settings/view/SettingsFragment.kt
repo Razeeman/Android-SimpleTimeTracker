@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.model.SettingsOptionsBlockClickListener
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
@@ -135,6 +136,10 @@ class SettingsFragment :
 
     override fun onOptionsSpinnerPositionSelected(block: SettingsBlock, position: Int) {
         viewModel.onSpinnerPositionSelected(block, position)
+    }
+
+    override fun onOptionsDayOfWeekClicked(data: DayOfWeekViewData) {
+        viewModel.onUntrackedDayOfWeekClicked(data)
     }
 
     private fun setKeepScreenOn(keepScreenOn: Boolean) {

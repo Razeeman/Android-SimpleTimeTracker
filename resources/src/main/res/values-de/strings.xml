@@ -337,6 +337,8 @@ Dies ermöglicht es dir, zu sehen, wie viel Zeit du insgesamt für produktive ve
     <string name="settings_show_untracked_time_statistics">Nicht verfolgte Zeit in Statistik anzeigen</string>
     <string name="settings_ignore_short_untracked">Ignorieren Sie kurze, nicht verfolgte Zeit</string>
     <string name="settings_ignore_short_untracked_hint">Nicht verfolgte Zeit, die kürzer als die angegebene Zeit ist, wird nicht angezeigt.</string>
+    <string name="settings_untracked_days">Nicht erfasste Tage</string>
+    <string name="settings_untracked_days_hint">Nicht erfasste Zeit nur an den ausgewählten Tagen berücksichtigen.</string>
     <string name="settings_untracked_range">Unverfolgter Bereich</string>
     <string name="settings_untracked_range_hint">Nicht erfasste Zeit nur innerhalb des ausgewählten Zeitraums anzeigen.</string>
     <string name="settings_show_records_calendar">Datensätze in der Kalenderansicht anzeigen</string>

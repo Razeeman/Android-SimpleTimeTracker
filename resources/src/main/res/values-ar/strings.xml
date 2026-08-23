@@ -337,6 +337,8 @@
     <string name="settings_show_untracked_time_statistics">إظهار الوقت الذي لم يتم تعقبه في الإحصائيات</string>
     <string name="settings_ignore_short_untracked">تجاهل الوقت القصير غير المتعقب</string>
     <string name="settings_ignore_short_untracked_hint">لا تعرض الوقت غير المتعقب والذي يكون أقصر من الوقت المحدد.</string>
+    <string name="settings_untracked_days">أيام الوقت غير المتتبَّع</string>
+    <string name="settings_untracked_days_hint">احتسب الوقت غير المتتبَّع في الأيام المحددة فقط.</string>
     <string name="settings_untracked_range">النظاق الزمني لغير المتعقب</string>
     <string name="settings_untracked_range_hint">عرض الوقت غير المتتبع فقط ضمن النطاق المحدد.</string>
     <string name="settings_show_records_calendar">إظهار المتتبعات في عرض تقويم</string>

@@ -337,6 +337,8 @@
     <string name="settings_show_untracked_time_statistics">نمایش زمان پیگیری نشده در آمار</string>
     <string name="settings_ignore_short_untracked">چشم پوشی از زمان کوتاه اندازه گیری نشده</string>
     <string name="settings_ignore_short_untracked_hint">زمان اندازه گیری نشده که از زمان معین کوتاه تر است را نمایش نده</string>
+    <string name="settings_untracked_days">روزهای بدون ردیابی</string>
+    <string name="settings_untracked_days_hint">زمان بدون ردیابی را فقط در روزهای انتخاب‌شده محاسبه کنید.</string>
     <string name="settings_untracked_range">محدوده اندازه گیری نشده</string>
     <string name="settings_untracked_range_hint">نمایش زمان ثبت‌نشده فقط در بازهٔ انتخاب‌شده.</string>
     <string name="settings_show_records_calendar">نمایش تاریخچه ها در نمای تقویم</string>

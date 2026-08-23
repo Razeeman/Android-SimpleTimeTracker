@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.notifications.interactor.Update
 import com.example.util.simpletimetracker.domain.record.interactor.UpdateRunningRecordsInteractor
 import com.example.util.simpletimetracker.domain.recordTag.model.CardTagOrder
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.api.SettingsOrderChangeInteractor
@@ -126,6 +127,15 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
 
     fun onOptionsItemClick(id: OptionsListParams.Item.Id) {
         onOptionsItemClickDelegate(id)
+    }
+
+    fun onUntrackedDayOfWeekClicked(data: DayOfWeekViewData) {
+        delegateScope.launch {
+            val selectedDays = prefsInteractor.getUntrackedDaysOfWeek().toMutableSet()
+            if (!selectedDays.add(data.dayOfWeek)) selectedDays.remove(data.dayOfWeek)
+            prefsInteractor.setUntrackedDaysOfWeek(selectedDays)
+            parent?.updateContent()
+        }
     }
 
     fun collapse() {

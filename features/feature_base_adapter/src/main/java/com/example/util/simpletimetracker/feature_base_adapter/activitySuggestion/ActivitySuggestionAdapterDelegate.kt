@@ -37,8 +37,7 @@ fun createActivitySuggestionAdapterDelegate(
             justifyContent = JustifyContent.FLEX_START
             flexWrap = FlexWrap.WRAP
         }
-        val adapter: RecyclerView.Adapter<*> = recyclerView.adapter
-            ?: createAdapter().also { recyclerView.adapter = it }
+        val adapter = recyclerView.adapter ?: createAdapter().also { recyclerView.adapter = it }
         (adapter as? BaseRecyclerAdapter)?.replace(items)
     }
 

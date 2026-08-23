@@ -38,6 +38,7 @@ enum class SettingsBlock {
     DisplayUntrackedOptions,
     DisplayUntrackedInRecords,
     DisplayUntrackedInStatistics,
+    DisplayUntrackedDaysOfWeek,
     DisplayUntrackedIgnoreShort,
     DisplayUntrackedRangeCheckbox,
     DisplayUntrackedRangeStart,

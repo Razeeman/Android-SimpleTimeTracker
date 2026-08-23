@@ -337,6 +337,8 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="settings_show_untracked_time_statistics">Mostrar o tempo non rexistrado nas estatísticas</string>
     <string name="settings_ignore_short_untracked">Ignorar tempo curto sen seguimento</string>
     <string name="settings_ignore_short_untracked_hint">Non amosar un tempo sen seguimento que sexa máis curto ca o tempo especificado.</string>
+    <string name="settings_untracked_days">Días sen seguimento</string>
+    <string name="settings_untracked_days_hint">Contar o tempo sen seguimento só nos días seleccionados.</string>
     <string name="settings_untracked_range">Intervalo sen seguimento</string>
     <string name="settings_untracked_range_hint">Amosar o tempo sen seguimento só dentro do intervalo escollido.</string>
     <string name="settings_show_records_calendar">Amosar rexistros na vista de calendario</string>

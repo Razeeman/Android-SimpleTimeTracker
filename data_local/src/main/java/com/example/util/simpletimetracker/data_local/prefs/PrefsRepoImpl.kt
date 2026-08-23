@@ -311,6 +311,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_IGNORE_SHORT_UNTRACKED_DURATION, 60, // 0 is for disabled
     )
 
+    override var untrackedDaysOfWeek: String by prefs.delegate(
+        KEY_UNTRACKED_DAYS_OF_WEEK, "",
+    )
+
     override var untrackedRangeEnabled: Boolean by prefs.delegate(
         KEY_UNTRACKED_RANGE_ENABLED, false,
     )
@@ -790,6 +794,7 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_ACTIVITY_REMINDER_DND_END = "activityReminderDndEnd"
         const val KEY_IGNORE_SHORT_RECORDS_DURATION = "ignoreShortRecordsDuration"
         const val KEY_IGNORE_SHORT_UNTRACKED_DURATION = "ignoreShortUntrackedDuration"
+        const val KEY_UNTRACKED_DAYS_OF_WEEK = "untrackedDaysOfWeek"
         const val KEY_UNTRACKED_RANGE_ENABLED = "untrackedRangeEnabled"
         const val KEY_UNTRACKED_RANGE_START = "untrackedRangeStart"
         const val KEY_UNTRACKED_RANGE_END = "untrackedRangeEnd"

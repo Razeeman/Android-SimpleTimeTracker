@@ -337,6 +337,8 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_show_untracked_time_statistics">Afficher les temps non enregistrés dans les statistiques</string>
     <string name="settings_ignore_short_untracked">Ignorer les temps courts non enregistrés</string>
     <string name="settings_ignore_short_untracked_hint">Ne pas afficher les temps non enregistrés s\'ils sont plus courts que la durée indiquée.</string>
+    <string name="settings_untracked_days">Jours sans suivi</string>
+    <string name="settings_untracked_days_hint">Compter le temps non suivi uniquement les jours sélectionnés.</string>
     <string name="settings_untracked_range">Période de suivi des temps non enregistrés</string>
     <string name="settings_untracked_range_hint">Afficher le temps non suivi uniquement dans la plage sélectionnée.</string>
     <string name="settings_show_records_calendar">Afficher les enregistrements sous forme de calendrier</string>

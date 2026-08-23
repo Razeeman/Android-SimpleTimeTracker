@@ -129,6 +129,8 @@ interface PrefsRepo {
 
     var ignoreShortUntrackedDuration: Long // in seconds
 
+    var untrackedDaysOfWeek: String
+
     var untrackedRangeEnabled: Boolean
 
     var untrackedRangeStart: Long // in milliseconds

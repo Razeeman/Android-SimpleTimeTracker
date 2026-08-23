@@ -337,6 +337,8 @@ Esto te permite ver cuánto tiempo estás dedicando a actividades productivas fr
     <string name="settings_show_untracked_time_statistics">Mostrar el tiempo no registrado en las estadísticas</string>
     <string name="settings_ignore_short_untracked">Ignorar tiempo corto sin seguimiento</string>
     <string name="settings_ignore_short_untracked_hint">No muestre un tiempo sin seguimiento que sea más corto que el tiempo especificado.</string>
+    <string name="settings_untracked_days">Días sin seguimiento</string>
+    <string name="settings_untracked_days_hint">Contar el tiempo sin seguimiento solo en los días seleccionados.</string>
     <string name="settings_untracked_range">Rango sin seguimiento</string>
     <string name="settings_untracked_range_hint">Mostrar el tiempo sin seguimiento solo dentro del rango seleccionado.</string>
     <string name="settings_show_records_calendar">Mostrar registros en la vista de calendario</string>

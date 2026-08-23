@@ -5,6 +5,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.example.util.simpletimetracker.feature_base_adapter.RecyclerAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 
@@ -24,6 +25,7 @@ fun getSettingsAdapterDelegates(
     onBlockClicked: (SettingsBlock) -> Unit,
     onBlockClickedThrottled: (SettingsBlock) -> Unit = onBlockClicked,
     onSpinnerPositionSelected: (SettingsBlock, Int) -> Unit,
+    onDayOfWeekClick: (DayOfWeekViewData) -> Unit = {},
 ): List<RecyclerAdapterDelegate> {
     return listOf(
         createSettingsTopAdapterDelegate(),
@@ -37,6 +39,7 @@ fun getSettingsAdapterDelegates(
         createSettingsCheckboxWithButtonAdapterDelegate(onBlockClicked),
         createSettingsCheckboxWithRangeAdapterDelegate(onBlockClicked),
         createSettingsCheckboxWithIconAdapterDelegate(onBlockClicked),
+        createSettingsWeekdaysAdapterDelegate(onDayOfWeekClick),
         createSettingsCollapseAdapterDelegate(onBlockClicked),
         createSettingsSelectorAdapterDelegate(onBlockClicked),
         createSettingsSelectorWithButtonAdapterDelegate(onBlockClicked),

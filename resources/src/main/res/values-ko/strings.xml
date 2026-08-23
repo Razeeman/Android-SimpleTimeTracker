@@ -337,6 +337,8 @@
     <string name="settings_show_untracked_time_statistics">기록되지 않은 시간 통계에서 보기</string>
     <string name="settings_ignore_short_untracked">짧은 기록되지 않은 시간 무시</string>
     <string name="settings_ignore_short_untracked_hint">특정 시간보다 짧은 기록을 무시합니다.</string>
+    <string name="settings_untracked_days">미추적 요일</string>
+    <string name="settings_untracked_days_hint">선택한 요일에만 미추적 시간을 계산합니다.</string>
     <string name="settings_untracked_range">기록 제외 시간</string>
     <string name="settings_untracked_range_hint">선택한 범위 내에서만 추적되지 않은 시간을 표시합니다.</string>
     <string name="settings_show_records_calendar">기록을 캘린더 형식으로 보기</string>

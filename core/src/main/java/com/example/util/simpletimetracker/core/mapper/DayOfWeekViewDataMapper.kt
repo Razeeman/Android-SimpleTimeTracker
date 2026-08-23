@@ -16,7 +16,7 @@ class DayOfWeekViewDataMapper @Inject constructor(
         firstDayOfWeek: DayOfWeek,
         width: DayOfWeekViewData.Width,
         paddingHorizontalDp: Int,
-    ): List<ViewHolderType> {
+    ): List<DayOfWeekViewData> {
         return timeMapper.getWeekOrder(firstDayOfWeek).map {
             val selected = it in selectedDaysOfWeek
             DayOfWeekViewData(

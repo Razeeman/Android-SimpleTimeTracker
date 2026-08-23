@@ -337,6 +337,8 @@ Detta gör att du kan se hur mycket tid du spenderar på produktiva kontra icke-
     <string name="settings_show_untracked_time_statistics">Visa okategoriserad tid i statistiken</string>
     <string name="settings_ignore_short_untracked">Ignorera kort ospårad tid</string>
     <string name="settings_ignore_short_untracked_hint">Visa inte ospårad tid som är kortare än den angivna tiden.</string>
+    <string name="settings_untracked_days">Dagar utan spårning</string>
+    <string name="settings_untracked_days_hint">Räkna ospårad tid endast på de valda dagarna.</string>
     <string name="settings_untracked_range">Ospårad räckvidd</string>
     <string name="settings_untracked_range_hint">Visa ospårad tid endast inom det valda intervallet.</string>
     <string name="settings_show_records_calendar">Visa händelser i kalendervy</string>

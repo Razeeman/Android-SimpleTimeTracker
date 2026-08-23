@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.extension.blockContentScroll
 import com.example.util.simpletimetracker.core.extension.findListeners
 import com.example.util.simpletimetracker.core.extension.setSkipCollapsed
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.databinding.SettingsOptionsFragmentBinding
 import com.example.util.simpletimetracker.feature_settings.model.SettingsOptionsBlockClickListener
@@ -29,6 +30,7 @@ class SettingsOptionsFragment : BaseBottomSheetFragment<SettingsOptionsFragmentB
             *getSettingsAdapterDelegates(
                 onBlockClicked = ::onBlockClicked,
                 onSpinnerPositionSelected = ::onSpinnerPositionSelected,
+                onDayOfWeekClick = ::onDayOfWeekClicked,
             ).toTypedArray(),
         )
     }
@@ -61,5 +63,9 @@ class SettingsOptionsFragment : BaseBottomSheetFragment<SettingsOptionsFragmentB
 
     private fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
         listener?.onOptionsSpinnerPositionSelected(block, position)
+    }
+
+    private fun onDayOfWeekClicked(data: DayOfWeekViewData) {
+        listener?.onOptionsDayOfWeekClicked(data)
     }
 }

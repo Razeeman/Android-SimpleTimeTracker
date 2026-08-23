@@ -337,6 +337,8 @@ Pozwala to zobaczyć, ile czasu spędzasz na produktywnych i nieproduktywnych ak
     <string name="settings_show_untracked_time_statistics">Pokaż nieśledzony czas w statystykach</string>
     <string name="settings_ignore_short_untracked">Ignoruj krótki czas braku śledzenia</string>
     <string name="settings_ignore_short_untracked_hint">Nie pokazuj nieśledzonego czasu, który jest krótszy od wskazanego.</string>
+    <string name="settings_untracked_days">Dni bez śledzenia</string>
+    <string name="settings_untracked_days_hint">Uwzględniaj czas bez śledzenia tylko w wybrane dni.</string>
     <string name="settings_untracked_range">Zakres dla czasu nieśledzonego</string>
     <string name="settings_untracked_range_hint">Pokazuj czas nieśledzony tylko w wybranym zakresie.</string>
     <string name="settings_show_records_calendar">Pokaż rekordy w widoku kalendarza</string>

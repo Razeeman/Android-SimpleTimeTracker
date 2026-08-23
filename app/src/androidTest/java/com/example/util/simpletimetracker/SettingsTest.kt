@@ -7,6 +7,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyLeftOf
 import androidx.test.espresso.contrib.PickerActions.setDate
 import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -55,6 +56,7 @@ import com.example.util.simpletimetracker.utils.longClickOnVisibleView
 import com.example.util.simpletimetracker.utils.recyclerItemCount
 import com.example.util.simpletimetracker.utils.tryAction
 import com.example.util.simpletimetracker.utils.typeTextIntoView
+import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withPluralText
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -75,6 +77,7 @@ import com.example.util.simpletimetracker.feature_change_record_type.R as change
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 import com.example.util.simpletimetracker.feature_records.R as recordsR
 import com.example.util.simpletimetracker.feature_statistics_detail.R as statisticsDetailR
+import com.example.util.simpletimetracker.feature_settings.views.R as settingsViewsR
 import com.example.util.simpletimetracker.feature_tag_selection.R as tagSelectionR
 
 @HiltAndroidTest
@@ -384,6 +387,99 @@ class SettingsTest : BaseUiTest() {
             timeStart = startPreview,
             timeEnd = startOfDay.toTimePreview(),
         )
+    }
+
+    @Test
+    fun untrackedDaysOfWeek() {
+        val name = "name"
+        val orderedDays = listOf(
+            DayOfWeek.MONDAY,
+            DayOfWeek.TUESDAY,
+            DayOfWeek.WEDNESDAY,
+            DayOfWeek.THURSDAY,
+            DayOfWeek.FRIDAY,
+            DayOfWeek.SATURDAY,
+            DayOfWeek.SUNDAY,
+        )
+        testUtils.setFirstDayOfWeek(DayOfWeek.MONDAY)
+        val previousDayStart = calendar.apply {
+            timeInMillis = System.currentTimeMillis()
+            add(Calendar.DAY_OF_MONTH, -1)
+            setToStartOfDay()
+        }.timeInMillis
+        val dayToDisable = timeMapper.getDayOfWeek(
+            timestamp = previousDayStart,
+            calendar = calendar,
+            startOfDayShift = 0,
+        )
+
+        // Add data
+        testUtils.addActivity(name)
+        val before = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(10)
+        testUtils.addRecord(name, timeStarted = before, timeEnded = before)
+
+        fun dayMatcher(dayOfWeek: DayOfWeek): Matcher<View> {
+            return allOf(
+                withId(baseR.id.btnDayOfWeekItem),
+                withText(timeMapper.toShortDayOfWeekName(dayOfWeek)),
+                isDescendantOfA(withId(settingsViewsR.id.rvItemSettingsWeekdays)),
+            )
+        }
+
+        fun checkDayColor(dayOfWeek: DayOfWeek, colorResId: Int) {
+            checkViewIsDisplayed(
+                allOf(
+                    withId(baseR.id.containerDayOfWeekItem),
+                    isDescendantOfA(withId(settingsViewsR.id.rvItemSettingsWeekdays)),
+                    hasDescendant(withCardColor(colorResId)),
+                    hasDescendant(withText(timeMapper.toShortDayOfWeekName(dayOfWeek))),
+                ),
+            )
+        }
+
+        fun openUntrackedOptions(expandDisplay: Boolean) {
+            NavUtils.openSettingsScreen()
+            if (expandDisplay) NavUtils.openSettingsDisplay()
+            scrollSettingsRecyclerToText(coreR.string.untracked_time_name)
+            clickOnSettingsRecyclerText(coreR.string.untracked_time_name)
+            checkViewIsDisplayed(withText(coreR.string.settings_untracked_days))
+        }
+
+        // Check all days selected
+        NavUtils.openRecordsScreen()
+        clickOnPrevDate()
+        checkRecord(
+            nameResId = coreR.string.untracked_time_name,
+            timeStart = previousDayStart.toTimePreview(),
+            timeEnd = previousDayStart.toTimePreview(),
+        )
+
+        openUntrackedOptions(expandDisplay = true)
+        orderedDays.forEach { checkDayColor(it, coreR.color.colorActive) }
+        orderedDays.zipWithNext().forEach { (first, second) ->
+            onView(dayMatcher(first)).check(isCompletelyLeftOf(dayMatcher(second)))
+        }
+
+        clickOnView(dayMatcher(dayToDisable))
+        checkDayColor(dayToDisable, coreR.color.colorInactive)
+
+        pressBack()
+        NavUtils.openRecordsScreen()
+        checkViewDoesNotExist(
+            allOf(
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(coreR.string.untracked_time_name)),
+                isCompletelyDisplayed(),
+            ),
+        )
+
+        openUntrackedOptions(expandDisplay = false)
+        checkDayColor(dayToDisable, coreR.color.colorInactive)
+
+        pressBack()
+        activityScenarioRule.scenario.recreate()
+        openUntrackedOptions(expandDisplay = true)
+        checkDayColor(dayToDisable, coreR.color.colorInactive)
     }
 
     @Test

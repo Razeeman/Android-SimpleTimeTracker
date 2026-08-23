@@ -337,6 +337,8 @@
     <string name="settings_show_untracked_time_statistics">הצג זמן ללא מעקב בסטטיסטיקה</string>
     <string name="settings_ignore_short_untracked">התעלם מזמן קצר ללא מעקב</string>
     <string name="settings_ignore_short_untracked_hint">אל תציג זמן ללא מעקב אשר קצר מהזמן שצוין.</string>
+    <string name="settings_untracked_days">ימים ללא מעקב</string>
+    <string name="settings_untracked_days_hint">יש לחשב זמן ללא מעקב רק בימים שנבחרו.</string>
     <string name="settings_untracked_range">טווח ללא מעקב</string>
     <string name="settings_untracked_range_hint">הצגת זמן לא מנוטר רק בטווח שנבחר.</string>
     <string name="settings_show_records_calendar">הצג רשומות בתצוגת לוח שנה</string>

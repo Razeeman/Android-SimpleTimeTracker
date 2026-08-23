@@ -337,6 +337,8 @@ Lokhu kukuvumela ukuthi ubone isikhathi osichitha emisebenzini esebenzayo nezing
     <string name="settings_show_untracked_time_statistics">Bonisa isikhathi esingalandelwanga kuzibalo</string>
     <string name="settings_ignore_short_untracked">Yeka isikhathi esifushane esingalandelwanga</string>
     <string name="settings_ignore_short_untracked_hint">Ungabonisi isikhathi esingalandelwanga esifushane kune esibekiwe.</string>
+    <string name="settings_untracked_days">Izinsuku ezingalandelwanga</string>
+    <string name="settings_untracked_days_hint">Bala isikhathi esingalandelwanga kuphela ngezinsuku ezikhethiwe.</string>
     <string name="settings_untracked_range">Ibanga elingalandelwanga</string>
     <string name="settings_untracked_range_hint">Bonisa isikhathi esingalandelwanga kuphela phakathi kobubanzi obukhethiwe.</string>
     <string name="settings_show_records_calendar">Bonisa amarekhodi kubuka wekhalenda</string>

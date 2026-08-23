@@ -337,6 +337,8 @@ Ini memungkinkan Anda melihat berapa banyak waktu yang dihabiskan untuk aktivita
     <string name="settings_show_untracked_time_statistics">Tampilkan waktu tak terlacak dalam statistik</string>
     <string name="settings_ignore_short_untracked">Abaikan waktu singkat yang tidak terlacak</string>
     <string name="settings_ignore_short_untracked_hint">Jangan tampilkan waktu yang tidak terlacak yang lebih pendek dari waktu yang ditentukan.</string>
+    <string name="settings_untracked_days">Hari tanpa pelacakan</string>
+    <string name="settings_untracked_days_hint">Hitung waktu tanpa pelacakan hanya pada hari yang dipilih.</string>
     <string name="settings_untracked_range">Rentang yang tidak terlacak</string>
     <string name="settings_untracked_range_hint">Tampilkan waktu yang tidak terlacak hanya dalam rentang yang dipilih.</string>
     <string name="settings_show_records_calendar">Tampilkan rekor dalam tampilan kalender</string>

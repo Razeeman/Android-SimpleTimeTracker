@@ -337,6 +337,8 @@
     <string name="settings_show_untracked_time_statistics">在統計中顯示未跟踪的時間</string>
     <string name="settings_ignore_short_untracked">忽略短的未跟踪時間</string>
     <string name="settings_ignore_short_untracked_hint">不要顯示比指定時間短的未跟踪時間。</string>
+    <string name="settings_untracked_days">未追蹤日期</string>
+    <string name="settings_untracked_days_hint">僅計算所選日期中的未追蹤時間。</string>
     <string name="settings_untracked_range">未追踪範圍</string>
     <string name="settings_untracked_range_hint">僅在所選時間範圍內顯示未記錄的時間。</string>
     <string name="settings_show_records_calendar">顯示月曆檢視紀錄</string>

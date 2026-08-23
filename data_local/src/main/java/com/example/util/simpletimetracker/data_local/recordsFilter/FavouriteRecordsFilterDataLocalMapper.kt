@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.data_local.recordsFilter
 
-import com.example.util.simpletimetracker.data_local.daysOfWeek.DaysOfWeekDataLocalMapper
+import com.example.util.simpletimetracker.domain.daysOfWeek.mapper.DaysOfWeekDataLocalMapper
 import com.example.util.simpletimetracker.domain.record.model.FavouriteRecordsFilter
 import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.record.model.RecordsFilter

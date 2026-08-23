@@ -7,7 +7,7 @@ import androidx.core.net.toUri
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.data_local.complexRule.ComplexRuleTagValuesMapper
-import com.example.util.simpletimetracker.data_local.daysOfWeek.DaysOfWeekDataLocalMapper
+import com.example.util.simpletimetracker.domain.daysOfWeek.mapper.DaysOfWeekDataLocalMapper
 import com.example.util.simpletimetracker.data_local.recordShortcut.RecordShortcutDataLocalMapper
 import com.example.util.simpletimetracker.data_local.recordsFilter.FavouriteRecordsFilterDBO
 import com.example.util.simpletimetracker.data_local.recordsFilter.FavouriteRecordsFilterDao

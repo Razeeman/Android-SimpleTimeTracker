@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.darkMode.interactor.ThemeChangedInteractor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.domain.statistics.interactor.SettingsDataUpdateInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
@@ -146,6 +147,10 @@ class SettingsViewModel @Inject constructor(
 
     fun onOptionsItemClick(id: OptionsListParams.Item.Id) {
         displayDelegate.onOptionsItemClick(id)
+    }
+
+    fun onUntrackedDayOfWeekClicked(data: DayOfWeekViewData) {
+        displayDelegate.onUntrackedDayOfWeekClicked(data)
     }
 
     fun onTabReselected(tab: NavigationTab?) {
