@@ -130,6 +130,7 @@
     │   ├── feature_records                   # One of main tabs, records list.
     │   ├── feature_records_all               # Screen showing all records.
     │   ├── feature_records_filter            # Dialog for records filters.
+    │   ├── feature_reminders                 # Screen showing the reminder list.
     │   ├── feature_running_records           # One of main tabs, timers.
     │   ├── feature_settings                  # One of main tabs, settings.
     │   ├── feature_shortcuts                 # Screen for all shortcuts.

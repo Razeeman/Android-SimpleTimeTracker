@@ -689,6 +689,12 @@
     <string name="shortcut_navigation_statistics">புள்ளிவிவரங்கள்</string>
     <string name="shortcut_navigation_settings">அமைப்புகள்</string>
 
+    <!--  Reminders  -->
+    <string name="reminders_schedule_daily">தினமும்</string>
+    <string name="reminders_schedule_one_time">ஒரு முறை</string>
+    <string name="reminders_schedule_monthly">மாதந்தோறும்</string>
+    <string name="reminders_condition_activity_not_tracked">இன்று செயல்பாடு கண்காணிக்கப்படாதபோது</string>
+
     <!--  Wear  -->
     <string name="wear_loading_error">உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்</string>
     <string name="wear_open_on_phone">தொலைபேசியில் திற</string>

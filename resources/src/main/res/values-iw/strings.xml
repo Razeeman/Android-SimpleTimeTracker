@@ -689,6 +689,12 @@
     <string name="shortcut_navigation_statistics">סטטיסטיקה</string>
     <string name="shortcut_navigation_settings">הגדרות</string>
 
+    <!--  Reminders  -->
+    <string name="reminders_schedule_daily">יומי</string>
+    <string name="reminders_schedule_one_time">פעם אחת</string>
+    <string name="reminders_schedule_monthly">חודשי</string>
+    <string name="reminders_condition_activity_not_tracked">כאשר הפעילות לא תועדה היום</string>
+
     <!--  Wear  -->
     <string name="wear_loading_error">בדוק את החיבור שלך ונסה שוב</string>
     <string name="wear_open_on_phone">פתח בטלפון</string>

@@ -689,6 +689,12 @@
     <string name="shortcut_navigation_statistics">Статистика</string>
     <string name="shortcut_navigation_settings">Налаштування</string>
 
+    <!--  Reminders  -->
+    <string name="reminders_schedule_daily">Щодня</string>
+    <string name="reminders_schedule_one_time">Один раз</string>
+    <string name="reminders_schedule_monthly">Щомісяця</string>
+    <string name="reminders_condition_activity_not_tracked">Якщо активність сьогодні не відстежувалася</string>
+
     <!--  Wear  -->
     <string name="wear_loading_error">Перевірте підключення та повторіть спробу</string>
     <string name="wear_open_on_phone">Відкрити на телефоні</string>

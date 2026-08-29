@@ -377,6 +377,8 @@ This allows you to see how much time you\'re spending on productive versus unpro
     <string name="settings_do_not_disturb">Do not disturb</string>
     <string name="settings_notifications_system_settings">System settings</string>
     <string name="settings_notifications_system_settings_hint">Sound, vibration, flash and other</string>
+    <string name="settings_reminders_title">Reminders</string>
+    <string name="settings_reminders_hint">Manage scheduled reminders</string>
     <string name="settings_ignore_short_records">Ignore short records</string>
     <string name="settings_ignore_short_records_hint">Do not track activities that are shorter than the specified time.</string>
     <string name="settings_inactivity_reminder_disabled">Disabled</string>
@@ -688,6 +690,12 @@ Example:<br/>
     <string name="shortcut_navigation_records">Records</string>
     <string name="shortcut_navigation_statistics">Statistics</string>
     <string name="shortcut_navigation_settings">Settings</string>
+
+    <!--  Reminders  -->
+    <string name="reminders_schedule_daily">Daily</string>
+    <string name="reminders_schedule_one_time">Once</string>
+    <string name="reminders_schedule_monthly">Monthly</string>
+    <string name="reminders_condition_activity_not_tracked">When activity is not tracked today</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Check your connection and try again</string>

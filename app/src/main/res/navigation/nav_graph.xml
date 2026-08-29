@@ -54,6 +54,14 @@
         app:popExitAnim="@anim/slide_out_right" />
 
     <action
+        android:id="@+id/action_to_remindersFragment"
+        app:destination="@id/remindersFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+
+    <action
         android:id="@+id/action_to_changeShortcutFragment"
         app:destination="@id/changeShortcutFragment"
         app:enterAnim="@anim/slide_in_right"
@@ -254,6 +262,11 @@
         android:name="com.example.util.simpletimetracker.feature_shortcuts.view.ShortcutsFragment"
         android:label="ShortcutsFragment"
         tools:layout="@layout/shortcuts_fragment" />
+    <fragment
+        android:id="@+id/remindersFragment"
+        android:name="com.example.util.simpletimetracker.feature_reminders.view.RemindersFragment"
+        android:label="RemindersFragment"
+        tools:layout="@layout/reminders_fragment" />
     <fragment
         android:id="@+id/changeShortcutFragment"
         android:name="com.example.util.simpletimetracker.feature_change_shortcut.view.ChangeShortcutFragment"

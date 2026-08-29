@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_notification.scheduledReminder.utils
+package com.example.util.simpletimetracker.domain.scheduledReminder.interactor
 
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
@@ -168,7 +168,7 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
         return null
     }
 
-    private fun resolveLocalDateTime(
+    fun resolveLocalDateTime(
         date: LocalDate,
         timeOfDayMillis: Long,
         timeZone: TimeZone,

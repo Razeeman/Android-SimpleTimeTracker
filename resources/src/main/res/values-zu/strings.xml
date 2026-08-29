@@ -689,6 +689,12 @@ Isibonelo:<br/>
     <string name="shortcut_navigation_statistics">Izibalo</string>
     <string name="shortcut_navigation_settings">Izilungiselelo</string>
 
+    <!--  Reminders  -->
+    <string name="reminders_schedule_daily">Nsuku zonke</string>
+    <string name="reminders_schedule_one_time">Kanye</string>
+    <string name="reminders_schedule_monthly">Nyanga zonke</string>
+    <string name="reminders_condition_activity_not_tracked">Uma umsebenzi ungakalandelelwa namuhla</string>
+
     <!--  Wear  -->
     <string name="wear_loading_error">Hlola ukuxhumeka kwakho bese uzama futhi</string>
     <string name="wear_open_on_phone">Vula ephonini</string>

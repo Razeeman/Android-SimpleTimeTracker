@@ -65,6 +65,11 @@ object NavUtils {
         clickOnSettingsRecyclerText(coreR.string.settings_notification_title)
     }
 
+    fun openRemindersScreen() {
+        scrollSettingsRecyclerToText(coreR.string.settings_reminders_title)
+        clickOnSettingsRecyclerText(coreR.string.settings_reminders_title)
+    }
+
     fun openSettingsDisplay() {
         scrollSettingsRecyclerToText(coreR.string.settings_display_title)
         clickOnSettingsRecyclerText(coreR.string.settings_display_title)

@@ -689,6 +689,12 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="shortcut_navigation_statistics">Статистика</string>
     <string name="shortcut_navigation_settings">Настройки</string>
 
+    <!--  Reminders  -->
+    <string name="reminders_schedule_daily">Ежедневно</string>
+    <string name="reminders_schedule_one_time">Один раз</string>
+    <string name="reminders_schedule_monthly">Ежемесячно</string>
+    <string name="reminders_condition_activity_not_tracked">Если активность сегодня не отслеживалась</string>
+
     <!--  Wear  -->
     <string name="wear_loading_error">Проверьте подключение и повторите попытку.</string>
     <string name="wear_open_on_phone">Открыть на телефоне</string>

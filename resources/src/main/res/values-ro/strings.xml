@@ -689,6 +689,12 @@ Examplu:<br/>
     <string name="shortcut_navigation_statistics">Statistică</string>
     <string name="shortcut_navigation_settings">Setări</string>
 
+    <!--  Reminders  -->
+    <string name="reminders_schedule_daily">Zilnic</string>
+    <string name="reminders_schedule_one_time">O singură dată</string>
+    <string name="reminders_schedule_monthly">Lunar</string>
+    <string name="reminders_condition_activity_not_tracked">Când activitatea nu a fost înregistrată astăzi</string>
+
     <!--  Wear  -->
     <string name="wear_loading_error">Verifică conexiunea și încearcă din nou</string>
     <string name="wear_open_on_phone">Deschide pe telefon</string>

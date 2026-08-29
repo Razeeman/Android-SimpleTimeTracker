@@ -2,12 +2,13 @@ package com.example.util.simpletimetracker.feature_notification.scheduledReminde
 
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
 import com.example.util.simpletimetracker.domain.notifications.interactor.ScheduledReminderNotificationInteractor
+import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderOccurrenceCalculator
+import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledRemindersDataUpdateInteractor
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
 import com.example.util.simpletimetracker.domain.scheduledReminder.repo.ScheduledReminderRepo
-import com.example.util.simpletimetracker.feature_notification.scheduledReminder.utils.ScheduledReminderConditionEvaluator
 import com.example.util.simpletimetracker.feature_notification.scheduledReminder.manager.ScheduledReminderNotificationManager
-import com.example.util.simpletimetracker.feature_notification.scheduledReminder.utils.ScheduledReminderOccurrenceCalculator
 import com.example.util.simpletimetracker.feature_notification.scheduledReminder.scheduler.ScheduledReminderAlarmScheduler
+import com.example.util.simpletimetracker.feature_notification.scheduledReminder.utils.ScheduledReminderConditionEvaluator
 import java.util.TimeZone
 import javax.inject.Inject
 
@@ -18,6 +19,7 @@ class ScheduledReminderNotificationInteractorImpl @Inject constructor(
     private val scheduler: ScheduledReminderAlarmScheduler,
     private val manager: ScheduledReminderNotificationManager,
     private val currentTimestampProvider: CurrentTimestampProvider,
+    private val scheduledRemindersDataUpdateInteractor: ScheduledRemindersDataUpdateInteractor,
 ) : ScheduledReminderNotificationInteractor {
 
     override suspend fun schedule(reminderId: Long) {
@@ -80,6 +82,7 @@ class ScheduledReminderNotificationInteractorImpl @Inject constructor(
             is ScheduledReminder.Schedule.OneTime -> {
                 scheduler.cancel(reminder.id)
                 repo.setEnabled(id = reminder.id, enabled = false)
+                scheduledRemindersDataUpdateInteractor.send()
             }
             is ScheduledReminder.Schedule.Weekly,
             is ScheduledReminder.Schedule.Monthly,

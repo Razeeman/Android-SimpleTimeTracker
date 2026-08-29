@@ -689,6 +689,12 @@ Ví dụ:<br/>
     <string name="shortcut_navigation_statistics">Thống kê</string>
     <string name="shortcut_navigation_settings">Thiết đặt</string>
 
+    <!--  Reminders  -->
+    <string name="reminders_schedule_daily">Hàng ngày</string>
+    <string name="reminders_schedule_one_time">Một lần</string>
+    <string name="reminders_schedule_monthly">Hàng tháng</string>
+    <string name="reminders_condition_activity_not_tracked">Khi hoạt động chưa được theo dõi hôm nay</string>
+
     <!--  Wear  -->
     <string name="wear_loading_error">Kiểm tra kết nối của bạn và thử lại</string>
     <string name="wear_open_on_phone">Mở trên điện thoại</string>

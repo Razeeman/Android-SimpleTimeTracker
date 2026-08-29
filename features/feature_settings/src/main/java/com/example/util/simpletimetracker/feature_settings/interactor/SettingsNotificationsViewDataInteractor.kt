@@ -146,6 +146,13 @@ class SettingsNotificationsViewDataInteractor @Inject constructor(
             }
 
             result += SettingsTextViewData(
+                block = SettingsBlock.NotificationsReminders,
+                title = resourceRepo.getString(R.string.settings_reminders_title),
+                subtitle = resourceRepo.getString(R.string.settings_reminders_hint),
+                dividerIsVisible = true,
+            )
+
+            result += SettingsTextViewData(
                 block = SettingsBlock.NotificationsSystemSettings,
                 title = resourceRepo.getString(R.string.settings_notifications_system_settings),
                 subtitle = resourceRepo.getString(R.string.settings_notifications_system_settings_hint),

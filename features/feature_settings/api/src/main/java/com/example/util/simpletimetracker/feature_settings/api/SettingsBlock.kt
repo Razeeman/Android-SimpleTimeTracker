@@ -36,6 +36,7 @@ enum class SettingsBlock {
     NotificationsActivityDaysOfWeek,
     NotificationsActivityDoNotDisturbStart,
     NotificationsActivityDoNotDisturbEnd,
+    NotificationsReminders,
     NotificationsSystemSettings,
     NotificationsBottom,
 

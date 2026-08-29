@@ -689,6 +689,12 @@ csv 文件必须包含以逗号分隔的这些列：<br/>
     <string name="shortcut_navigation_statistics">统计数据</string>
     <string name="shortcut_navigation_settings">设置</string>
 
+    <!--  Reminders  -->
+    <string name="reminders_schedule_daily">每天</string>
+    <string name="reminders_schedule_one_time">仅一次</string>
+    <string name="reminders_schedule_monthly">每月</string>
+    <string name="reminders_condition_activity_not_tracked">当今天尚未记录该活动时</string>
+
     <!--  Wear  -->
     <string name="wear_loading_error">检查您的连接并重试</string>
     <string name="wear_open_on_phone">在手机上打开</string>

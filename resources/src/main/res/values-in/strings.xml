@@ -689,6 +689,12 @@ Contoh:<br/>
     <string name="shortcut_navigation_statistics">Statistik</string>
     <string name="shortcut_navigation_settings">Pengaturan</string>
 
+    <!--  Reminders  -->
+    <string name="reminders_schedule_daily">Harian</string>
+    <string name="reminders_schedule_one_time">Sekali</string>
+    <string name="reminders_schedule_monthly">Bulanan</string>
+    <string name="reminders_condition_activity_not_tracked">Saat aktivitas belum dilacak hari ini</string>
+
     <!--  Wear  -->
     <string name="wear_loading_error">Periksa koneksi Anda dan coba lagi</string>
     <string name="wear_open_on_phone">Buka di ponsel</string>

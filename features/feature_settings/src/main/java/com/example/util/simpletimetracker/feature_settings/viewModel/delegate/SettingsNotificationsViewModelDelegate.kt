@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_settings.model.SettingsDialogT
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.action.OpenSystemSettings
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.RemindersParams
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -70,6 +71,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
             SettingsBlock.NotificationsInactivityOptions -> onInactivityReminderOptionsClicked()
             SettingsBlock.NotificationsActivity -> onActivityReminderClicked()
             SettingsBlock.NotificationsActivityOptions -> onActivityReminderOptionsClicked()
+            SettingsBlock.NotificationsReminders -> router.navigate(RemindersParams)
             SettingsBlock.NotificationsInactivityDoNotDisturbStart -> onInactivityReminderDoNotDisturbStartClicked()
             SettingsBlock.NotificationsInactivityDoNotDisturbEnd -> onInactivityReminderDoNotDisturbEndClicked()
             SettingsBlock.NotificationsActivityDoNotDisturbStart -> onActivityReminderDoNotDisturbStartClicked()

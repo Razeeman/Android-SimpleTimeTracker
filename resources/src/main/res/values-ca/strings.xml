@@ -689,6 +689,12 @@ Exemple:<br/>
     <string name="shortcut_navigation_statistics">Estadístiques</string>
     <string name="shortcut_navigation_settings">Configuració</string>
 
+    <!--  Reminders  -->
+    <string name="reminders_schedule_daily">Diàriament</string>
+    <string name="reminders_schedule_one_time">Una vegada</string>
+    <string name="reminders_schedule_monthly">Mensualment</string>
+    <string name="reminders_condition_activity_not_tracked">Quan l\'activitat no s\'ha registrat avui</string>
+
     <!--  Wear  -->
     <string name="wear_loading_error">Comprova la teva connexió i torna-ho a provar</string>
     <string name="wear_open_on_phone">Obre al telèfon</string>

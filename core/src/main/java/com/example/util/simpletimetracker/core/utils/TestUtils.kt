@@ -38,6 +38,8 @@ import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import com.example.util.simpletimetracker.domain.recordShortcut.interactor.RecordShortcutInteractor
 import com.example.util.simpletimetracker.domain.recordShortcut.model.RecordShortcut
+import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderInteractor
+import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTagValueType
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
@@ -60,6 +62,7 @@ class TestUtils @Inject constructor(
     private val complexRuleInteractor: ComplexRuleInteractor,
     val activitySuggestionInteractor: ActivitySuggestionInteractor,
     private val recordShortcutInteractor: RecordShortcutInteractor,
+    private val scheduledReminderInteractor: ScheduledReminderInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val iconImageMapper: IconImageMapper,
     private val clearDataInteractor: ClearDataInteractor,
@@ -406,6 +409,14 @@ class TestUtils @Inject constructor(
         )
 
         recordShortcutInteractor.add(data)
+    }
+
+    fun addScheduledReminder(reminder: ScheduledReminder): Long = runBlocking {
+        scheduledReminderInteractor.save(reminder)
+    }
+
+    fun getScheduledReminder(id: Long): ScheduledReminder? = runBlocking {
+        scheduledReminderInteractor.get(id)
     }
 
     suspend fun getRunningRecords(): List<RunningRecord> {

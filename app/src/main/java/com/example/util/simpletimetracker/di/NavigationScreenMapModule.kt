@@ -35,6 +35,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ComplexRulesP
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
 import com.example.util.simpletimetracker.navigation.params.screen.PomodoroParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsAllParams
+import com.example.util.simpletimetracker.navigation.params.screen.RemindersParams
 import com.example.util.simpletimetracker.navigation.params.screen.StatisticsDetailParams
 import dagger.Module
 import dagger.Provides
@@ -202,6 +203,16 @@ class NavigationScreenMapModule {
     fun shortcuts(): NavigationData {
         return NavigationData(
             R.id.action_to_shortcutsFragment,
+            BundleCreator.empty(),
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(RemindersParams::class)
+    fun reminders(): NavigationData {
+        return NavigationData(
+            R.id.action_to_remindersFragment,
             BundleCreator.empty(),
         )
     }

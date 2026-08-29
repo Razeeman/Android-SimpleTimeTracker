@@ -18,6 +18,4 @@ dependencies {
     implementation(project(":core"))
     implementation(libs.google.dagger)
     ksp(libs.kapt.dagger)
-
-    testImplementation(libs.test.junit)
 }

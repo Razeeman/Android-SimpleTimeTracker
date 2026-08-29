@@ -689,6 +689,12 @@
     <string name="shortcut_navigation_statistics">آمار ها</string>
     <string name="shortcut_navigation_settings">تنظیمات</string>
 
+    <!--  Reminders  -->
+    <string name="reminders_schedule_daily">روزانه</string>
+    <string name="reminders_schedule_one_time">یک‌بار</string>
+    <string name="reminders_schedule_monthly">ماهانه</string>
+    <string name="reminders_condition_activity_not_tracked">وقتی فعالیت امروز ثبت نشده باشد</string>
+
     <!--  Wear  -->
     <string name="wear_loading_error">اتصال خود را بررسی کنید و دوباره امتحان کنید</string>
     <string name="wear_open_on_phone">روی گوشی باز کنید</string>

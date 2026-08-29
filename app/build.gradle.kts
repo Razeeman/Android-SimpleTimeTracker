@@ -131,6 +131,7 @@ dependencies {
     implementation(project(":feature_complex_rules"))
     implementation(project(":feature_suggestions"))
     implementation(project(":feature_shortcuts"))
+    implementation(project(":feature_reminders"))
     implementation(project(":feature_change_shortcut"))
     implementation(project(":feature_change_complex_rule"))
     implementation(project(":feature_change_goals"))

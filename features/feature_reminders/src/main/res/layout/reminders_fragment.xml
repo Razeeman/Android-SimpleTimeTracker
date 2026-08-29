@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRemindersTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:text="@string/settings_reminders_title"
+        android:textColor="?appTextPrimaryColor"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRemindersHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:gravity="center"
+        android:text="@string/settings_reminders_hint"
+        android:textColor="?appTextHintColor"
+        app:layout_constraintTop_toBottomOf="@id/tvRemindersTitle" />
+
+    <com.example.util.simpletimetracker.feature_views.DividerFullView
+        android:id="@+id/dividerReminders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvRemindersHint" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRemindersList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingTop="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dividerReminders"
+        tools:listitem="@layout/item_reminder_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
