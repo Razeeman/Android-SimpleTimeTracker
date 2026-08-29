@@ -31,6 +31,15 @@ class ScheduledReminderInteractor @Inject constructor(
         if (enabled) notificationInteractor.schedule(id)
     }
 
+    suspend fun disableByTypeId(activityId: Long) {
+        repo.getAll()
+            .filter { reminder ->
+                val activityCondition = reminder.condition as? ScheduledReminder.Condition.ActivityNotTrackedToday
+                reminder.enabled && activityCondition?.activityId == activityId
+            }
+            .forEach { setEnabled(it.id, enabled = false) }
+    }
+
     suspend fun remove(id: Long) {
         notificationInteractor.cancel(id)
         repo.remove(id)

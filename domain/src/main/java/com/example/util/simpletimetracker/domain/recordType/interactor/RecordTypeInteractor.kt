@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.domain.recordShortcut.repo.RecordShort
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordShortcutToRecordTagRepo
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.repo.RecordTypeRepo
+import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderInteractor
 import javax.inject.Inject
 
 class RecordTypeInteractor @Inject constructor(
@@ -37,6 +38,7 @@ class RecordTypeInteractor @Inject constructor(
     private val activitySuggestionInteractor: ActivitySuggestionInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val sortCardsInteractor: SortCardsInteractor,
+    private val scheduledReminderInteractor: ScheduledReminderInteractor,
 ) {
 
     suspend fun getAll(cardOrder: CardOrder? = null): List<RecordType> {
@@ -116,6 +118,7 @@ class RecordTypeInteractor @Inject constructor(
         complexRuleInteractor.removeTypeId(id)
         activityFilterInteractor.removeTypeId(id)
         activitySuggestionInteractor.removeTypeId(id)
+        scheduledReminderInteractor.disableByTypeId(id)
         recordTypeRepo.remove(id)
     }
 

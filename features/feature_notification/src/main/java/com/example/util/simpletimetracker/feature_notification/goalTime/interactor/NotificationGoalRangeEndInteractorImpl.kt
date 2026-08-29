@@ -55,7 +55,7 @@ class NotificationGoalRangeEndInteractorImpl @Inject constructor(
 
         rangeEndScheduler.schedule(
             timestamp = forRange.timeEnded,
-            goalRange = RecordTypeGoal.Range.Daily,
+            goalRange = range,
         )
     }
 }

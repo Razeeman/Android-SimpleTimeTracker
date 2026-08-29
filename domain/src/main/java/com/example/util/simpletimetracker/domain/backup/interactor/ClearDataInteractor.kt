@@ -10,6 +10,9 @@ import com.example.util.simpletimetracker.domain.favourite.repo.FavouriteColorRe
 import com.example.util.simpletimetracker.domain.favourite.repo.FavouriteCommentRepo
 import com.example.util.simpletimetracker.domain.favourite.repo.FavouriteIconRepo
 import com.example.util.simpletimetracker.domain.favourite.repo.RecordTypeToFavouriteCommentRepo
+import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationGoalRangeEndInteractor
+import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationGoalTimeInteractor
+import com.example.util.simpletimetracker.domain.notifications.interactor.ScheduledReminderNotificationInteractor
 import com.example.util.simpletimetracker.domain.record.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.record.repo.RunningRecordRepo
 import com.example.util.simpletimetracker.domain.recordShortcut.repo.RecordShortcutRepo
@@ -49,9 +52,20 @@ class ClearDataInteractor @Inject constructor(
     private val recordShortcutToRecordTagRepo: RecordShortcutToRecordTagRepo,
     private val recordTypeToFavouriteCommentRepo: RecordTypeToFavouriteCommentRepo,
     private val scheduledReminderRepo: ScheduledReminderRepo,
+    private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val notificationGoalRangeEndInteractor: NotificationGoalRangeEndInteractor,
+    private val scheduledReminderNotificationInteractor: ScheduledReminderNotificationInteractor,
 ) {
 
     suspend fun execute() {
+        // Cancel reminders.
+        recordTypeGoalRepo.getAll().map { it.idData }.distinct()
+            .forEach(notificationGoalTimeInteractor::cancel)
+        notificationGoalRangeEndInteractor.cancel()
+        scheduledReminderRepo.getAll().map { it.id }
+            .forEach(scheduledReminderNotificationInteractor::cancel)
+
+        // Clear data.
         recordTypeRepo.clear()
         recordRepo.clear()
         recordShortcutRepo.clear()
