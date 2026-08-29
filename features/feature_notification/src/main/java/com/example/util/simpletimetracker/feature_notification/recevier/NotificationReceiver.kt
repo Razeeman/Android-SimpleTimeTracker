@@ -65,6 +65,8 @@ import com.example.util.simpletimetracker.feature_notification.recordType.manage
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPE_STOP
 import com.example.util.simpletimetracker.feature_notification.scheduledReminder.controller.ScheduledReminderController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -101,7 +103,10 @@ class NotificationReceiver : BroadcastReceiver() {
         val action = intent?.action
         if (context == null || intent == null || action == null) return
 
-        // TODO call goAsync for everything?
+        goAsync { handleIntent(intent, action) }
+    }
+
+    private suspend fun handleIntent(intent: Intent, action: String) {
         when (action) {
             ACTION_SCHEDULED_REMINDER -> {
                 val reminderId = intent.getLongExtra(EXTRA_SCHEDULED_REMINDER_ID, 0L)
@@ -171,16 +176,22 @@ class NotificationReceiver : BroadcastReceiver() {
             }
             ACTION_AUTOMATIC_BACKUP,
             ACTION_EXTERNAL_AUTOMATIC_BACKUP,
-            -> goAsync(
-                finally = { automaticBackupController.onFinished() },
-                block = { automaticBackupController.onReminder() },
-            )
+            -> {
+                try {
+                    automaticBackupController.onReminder()
+                } finally {
+                    automaticBackupController.onFinished()
+                }
+            }
             ACTION_AUTOMATIC_EXPORT,
             ACTION_EXTERNAL_AUTOMATIC_EXPORT,
-            -> goAsync(
-                finally = { automaticExportController.onFinished() },
-                block = { automaticExportController.onReminder() },
-            )
+            -> {
+                try {
+                    automaticExportController.onReminder()
+                } finally {
+                    automaticExportController.onFinished()
+                }
+            }
             ACTION_EXTERNAL_START_ACTIVITY -> {
                 val name = intent.getStringExtra(EXTRA_ACTIVITY_NAME)
                 val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
@@ -397,21 +408,21 @@ class NotificationReceiver : BroadcastReceiver() {
             Intent.ACTION_BOOT_COMPLETED,
             ACTION_QUICK_BOOT_POWER_ON,
             ACTION_HTC_QUICK_BOOT_POWER_ON,
-            -> {
+            -> supervisorScope {
                 // TODO remove controllers?
-                inactivityController.onBootCompleted()
-                activityController.onBootCompleted()
-                goalTimeController.onBootCompleted()
-                typeController.onBootCompleted()
-                automaticBackupController.onBootCompleted()
-                automaticExportController.onBootCompleted()
-                pomodoroController.onBootCompleted()
-                scheduledReminderController.rescheduleAll()
+                launch { inactivityController.onBootCompleted() }
+                launch { activityController.onBootCompleted() }
+                launch { goalTimeController.onBootCompleted() }
+                launch { typeController.onBootCompleted() }
+                launch { automaticBackupController.onBootCompleted() }
+                launch { automaticExportController.onBootCompleted() }
+                launch { pomodoroController.onBootCompleted() }
+                launch { scheduledReminderController.onBootCompleted() }
             }
-            AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED -> {
-                goalTimeController.onExactAlarmPermissionStateChanged()
-                pomodoroController.onExactAlarmPermissionStateChanged()
-                scheduledReminderController.rescheduleAll()
+            AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED -> supervisorScope {
+                launch { goalTimeController.onExactAlarmPermissionStateChanged() }
+                launch { pomodoroController.onExactAlarmPermissionStateChanged() }
+                launch { scheduledReminderController.onExactAlarmPermissionStateChanged() }
             }
             Intent.ACTION_MY_PACKAGE_REPLACED,
             Intent.ACTION_TIME_CHANGED,

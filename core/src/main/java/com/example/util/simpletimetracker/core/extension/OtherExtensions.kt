@@ -41,7 +41,6 @@ inline fun <T, R> T.allowVmViolations(block: T.() -> R): R {
 }
 
 fun BroadcastReceiver.goAsync(
-    finally: () -> Unit,
     block: suspend () -> Unit,
 ) {
     val result = goAsync()
@@ -49,7 +48,6 @@ fun BroadcastReceiver.goAsync(
         try {
             block()
         } finally {
-            finally()
             // Always call finish(), even if the coroutineScope was cancelled
             result.finish()
         }

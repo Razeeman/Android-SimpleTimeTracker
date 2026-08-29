@@ -1,8 +1,5 @@
 package com.example.util.simpletimetracker.feature_notification.external
 
-import com.example.util.simpletimetracker.core.extension.allowDiskRead
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
@@ -15,13 +12,13 @@ class NotificationExternalBroadcastController @Inject constructor(
 
     private val mutex = Mutex()
 
-    fun onActionExternalActivityStart(
+    suspend fun onActionExternalActivityStart(
         name: String?,
         comment: String?,
         tagNames: List<String>,
         timeStarted: String?,
-    ) = allowDiskRead { MainScope() }.launch {
-        name ?: return@launch
+    ) {
+        name ?: return
         mutex.withLock {
             externalBroadcastInteractor.onActionActivityStart(
                 name = name,
@@ -32,11 +29,11 @@ class NotificationExternalBroadcastController @Inject constructor(
         }
     }
 
-    fun onActionExternalActivityStop(
+    suspend fun onActionExternalActivityStop(
         name: String?,
         timeEnded: String?,
-    ) = allowDiskRead { MainScope() }.launch {
-        name ?: return@launch
+    ) {
+        name ?: return
         mutex.withLock {
             externalBroadcastInteractor.onActionActivityStopByName(
                 name = name,
@@ -45,28 +42,28 @@ class NotificationExternalBroadcastController @Inject constructor(
         }
     }
 
-    fun onActionExternalActivityStopAll() = allowDiskRead { MainScope() }.launch {
+    suspend fun onActionExternalActivityStopAll() {
         mutex.withLock {
             externalBroadcastInteractor.onActionActivityStopAll()
         }
     }
 
-    fun onActionExternalActivityStopShortest() = allowDiskRead { MainScope() }.launch {
+    suspend fun onActionExternalActivityStopShortest() {
         mutex.withLock {
             externalBroadcastInteractor.onActionActivityStopShortest()
         }
     }
 
-    fun onActionExternalActivityStopLongest() = allowDiskRead { MainScope() }.launch {
+    suspend fun onActionExternalActivityStopLongest() {
         mutex.withLock {
             externalBroadcastInteractor.onActionActivityStopLongest()
         }
     }
 
-    fun onActionExternalActivityRestart(
+    suspend fun onActionExternalActivityRestart(
         comment: String?,
         tagNames: List<String>,
-    ) = allowDiskRead { MainScope() }.launch {
+    ) {
         mutex.withLock {
             externalBroadcastInteractor.onActionActivityRestart(
                 comment = comment, tagNames = tagNames,
@@ -74,16 +71,16 @@ class NotificationExternalBroadcastController @Inject constructor(
         }
     }
 
-    fun onActionExternalRecordAdd(
+    suspend fun onActionExternalRecordAdd(
         name: String?,
         timeStarted: String?,
         timeEnded: String?,
         comment: String?,
         tagNames: List<String>,
-    ) = allowDiskRead { MainScope() }.launch {
-        name ?: return@launch
-        timeStarted ?: return@launch
-        timeEnded ?: return@launch
+    ) {
+        name ?: return
+        timeStarted ?: return
+        timeEnded ?: return
         mutex.withLock {
             externalBroadcastInteractor.onRecordAdd(
                 name = name,
@@ -95,12 +92,12 @@ class NotificationExternalBroadcastController @Inject constructor(
         }
     }
 
-    fun onActionExternalRecordChange(
+    suspend fun onActionExternalRecordChange(
         findMode: String?,
         name: String?,
         comment: String?,
         commentMode: String?,
-    ) = allowDiskRead { MainScope() }.launch {
+    ) {
         mutex.withLock {
             externalBroadcastInteractor.onRecordChange(
                 findModeData = findMode,
@@ -111,10 +108,10 @@ class NotificationExternalBroadcastController @Inject constructor(
         }
     }
 
-    fun onActionExternalRecordTagAdd(
+    suspend fun onActionExternalRecordTagAdd(
         name: String?,
         icon: String?,
-    ) = allowDiskRead { MainScope() }.launch {
+    ) {
         mutex.withLock {
             externalBroadcastInteractor.onRecordTagAdd(
                 name = name,
