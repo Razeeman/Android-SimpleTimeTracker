@@ -42,6 +42,7 @@ class AppDatabaseMigrations {
                 migration_31_32,
                 migration_32_33,
                 migration_33_34,
+                migration_34_35,
             )
 
         private val migration_1_2 = object : Migration(1, 2) {
@@ -425,6 +426,14 @@ class AppDatabaseMigrations {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
                     "CREATE TABLE IF NOT EXISTS `recordTypeToFavouriteComment` (`record_type_id` INTEGER NOT NULL, `comment_id` INTEGER NOT NULL, PRIMARY KEY(`record_type_id`, `comment_id`))",
+                )
+            }
+        }
+
+        private val migration_34_35 = object : Migration(34, 35) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `scheduledReminders` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `enabled` INTEGER NOT NULL, `text` TEXT NOT NULL, `schedule_type` INTEGER NOT NULL, `time_of_day_millis` INTEGER NOT NULL, `weekdays` TEXT, `one_time_local_epoch_day` INTEGER, `monthly_day_of_month` INTEGER, `condition_type` INTEGER NOT NULL, `activity_id` INTEGER)",
                 )
             }
         }

@@ -46,6 +46,8 @@ import com.example.util.simpletimetracker.data_local.recordType.RecordTypeGoalDB
 import com.example.util.simpletimetracker.data_local.recordType.RecordTypeGoalDao
 import com.example.util.simpletimetracker.data_local.recordsFilter.FavouriteRecordsFilterDBO
 import com.example.util.simpletimetracker.data_local.recordsFilter.FavouriteRecordsFilterDao
+import com.example.util.simpletimetracker.data_local.scheduledReminder.ScheduledReminderDBO
+import com.example.util.simpletimetracker.data_local.scheduledReminder.ScheduledReminderDao
 
 @Database(
     entities = [
@@ -72,8 +74,9 @@ import com.example.util.simpletimetracker.data_local.recordsFilter.FavouriteReco
         RecordShortcutDBO::class,
         FavouriteRecordsFilterDBO.MainDBO::class,
         FavouriteRecordsFilterDBO.FilterDBO::class,
+        ScheduledReminderDBO::class,
     ],
-    version = 34,
+    version = 35,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -121,6 +124,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun recordShortcutDao(): RecordShortcutDao
 
     abstract fun favouriteRecordsFilterDao(): FavouriteRecordsFilterDao
+
+    abstract fun scheduledReminderDao(): ScheduledReminderDao
 
     companion object {
         const val DATABASE_NAME = "simpleTimeTrackerDB"

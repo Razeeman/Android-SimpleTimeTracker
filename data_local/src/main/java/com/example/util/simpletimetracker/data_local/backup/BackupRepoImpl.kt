@@ -11,6 +11,8 @@ import com.example.util.simpletimetracker.domain.daysOfWeek.mapper.DaysOfWeekDat
 import com.example.util.simpletimetracker.data_local.recordShortcut.RecordShortcutDataLocalMapper
 import com.example.util.simpletimetracker.data_local.recordsFilter.FavouriteRecordsFilterDBO
 import com.example.util.simpletimetracker.data_local.recordsFilter.FavouriteRecordsFilterDao
+import com.example.util.simpletimetracker.data_local.scheduledReminder.ScheduledReminderDBO
+import com.example.util.simpletimetracker.data_local.scheduledReminder.ScheduledReminderDataLocalMapper
 import com.example.util.simpletimetracker.domain.activityFilter.model.ActivityFilter
 import com.example.util.simpletimetracker.domain.activityFilter.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.activitySuggestion.model.ActivitySuggestion
@@ -58,6 +60,8 @@ import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.recordType.repo.RecordTypeGoalRepo
 import com.example.util.simpletimetracker.domain.recordType.repo.RecordTypeRepo
+import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
+import com.example.util.simpletimetracker.domain.scheduledReminder.repo.ScheduledReminderRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -69,6 +73,7 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.text.orEmpty
 
 /**
  * Do not change backup parts order, always add new to the end.
@@ -103,6 +108,8 @@ class BackupRepoImpl @Inject constructor(
     private val backupPrefsRepo: BackupPrefsRepo,
     private val complexRuleTagValuesMapper: ComplexRuleTagValuesMapper,
     private val recordShortcutDataLocalMapper: RecordShortcutDataLocalMapper,
+    private val scheduledReminderRepo: ScheduledReminderRepo,
+    private val scheduledReminderDataLocalMapper: ScheduledReminderDataLocalMapper,
 ) : BackupRepo {
 
     override suspend fun saveBackupFile(
@@ -193,6 +200,9 @@ class BackupRepoImpl @Inject constructor(
                     fileOutputStream?.write(filter.let(::toBackupString).toByteArray())
                 }
             }
+            scheduledReminderRepo.getAll().forEach {
+                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+            }
             backupPrefsRepo.saveToBackupString().let {
                 fileOutputStream?.write(it.toByteArray())
             }
@@ -260,6 +270,7 @@ class BackupRepoImpl @Inject constructor(
                 favRecordsFilters = favouriteRecordsFilterDao::insertMain,
                 favRecordsFilter = favouriteRecordsFilterDao::insertFilter,
                 settings = { if (restoreSettings) backupPrefsRepo.restoreFromBackupString(it) },
+                scheduledReminders = scheduledReminderRepo::add,
             ),
         )
     }
@@ -428,6 +439,12 @@ class BackupRepoImpl @Inject constructor(
                     ROW_FAV_RECORD_FILTER -> {
                         favRecordsFilterFromBackupString(parts).let {
                             dataHandler.favRecordsFilter.invoke(it)
+                        }
+                    }
+
+                    ROW_SCHEDULED_REMINDER -> {
+                        scheduledReminderFromBackupString(parts).let {
+                            dataHandler.scheduledReminders.invoke(it)
                         }
                     }
 
@@ -724,6 +741,24 @@ class BackupRepoImpl @Inject constructor(
             data.rangeLength?.position?.toString().orEmpty(),
             data.daysOfWeek.orEmpty(),
         )
+    }
+
+    // TODO use joinToString(separator = "\t", postfix = "\n") in other places.
+    private fun toBackupString(data: ScheduledReminder): String {
+        val dbo = scheduledReminderDataLocalMapper.map(data)
+        return listOf(
+            ROW_SCHEDULED_REMINDER,
+            dbo.id.toString(),
+            if (dbo.enabled) "1" else "0",
+            dbo.text.cleanTabs().replaceNewline(),
+            dbo.scheduleType.toString(),
+            dbo.timeOfDayMillis.toString(),
+            dbo.weekdays.orEmpty(),
+            dbo.oneTimeDate?.toString().orEmpty(),
+            dbo.monthlyDayOfMonth?.toString().orEmpty(),
+            dbo.conditionType.toString(),
+            dbo.activityId?.toString().orEmpty(),
+        ).joinToString(separator = "\t", postfix = "\n")
     }
 
     private fun recordTypeFromBackupString(parts: List<String>): Pair<RecordType, List<RecordTypeGoal>> {
@@ -1083,6 +1118,23 @@ class BackupRepoImpl @Inject constructor(
         )
     }
 
+    private fun scheduledReminderFromBackupString(parts: List<String>): ScheduledReminder {
+        val dbo = ScheduledReminderDBO(
+            id = parts.getOrNull(1)?.toLongOrNull().orZero(),
+            enabled = parts.getOrNull(2)?.toIntOrNull() == 1,
+            text = parts.getOrNull(3).orEmpty().restoreNewline(),
+            scheduleType = parts.getOrNull(4)?.toIntOrNull().orZero(),
+            timeOfDayMillis = parts.getOrNull(5)?.toLongOrNull().orZero(),
+            weekdays = parts.getOrNull(6)?.takeUnless(String::isEmpty),
+            oneTimeDate = parts.getOrNull(7)?.toLongOrNull(),
+            monthlyDayOfMonth = parts.getOrNull(8)?.toIntOrNull(),
+            conditionType = parts.getOrNull(9)?.toIntOrNull().orZero(),
+            activityId = parts.getOrNull(10)?.toLongOrNull(),
+        )
+        // TODO use data local mappers in other places? Avoids mapping duplication.
+        return scheduledReminderDataLocalMapper.map(dbo)
+    }
+
     fun migrateTags(
         types: List<RecordType>,
         data: List<Pair<RecordTag, Long>>,
@@ -1137,6 +1189,7 @@ class BackupRepoImpl @Inject constructor(
         val favRecordsFilters: suspend (FavouriteRecordsFilterDBO.MainDBO) -> Unit,
         val favRecordsFilter: suspend (FavouriteRecordsFilterDBO.FilterDBO) -> Unit,
         val settings: suspend (List<String>) -> Unit,
+        val scheduledReminders: suspend (ScheduledReminder) -> Unit = {},
     )
 
     companion object {
@@ -1161,5 +1214,6 @@ class BackupRepoImpl @Inject constructor(
         private const val ROW_COMPLEX_RULE = "complexRule"
         private const val ROW_FAV_RECORD_FILTERS = "favRecordsFilters"
         private const val ROW_FAV_RECORD_FILTER = "favRecordsFilter"
+        private const val ROW_SCHEDULED_REMINDER = "scheduledReminder"
     }
 }

@@ -28,6 +28,7 @@ import com.example.util.simpletimetracker.data_local.recordShortcut.RecordShortc
 import com.example.util.simpletimetracker.data_local.recordTag.RecordShortcutToRecordTagRepoImpl
 import com.example.util.simpletimetracker.data_local.recordsFilter.FavouriteRecordsFilterRepoImpl
 import com.example.util.simpletimetracker.data_local.sharing.SharingRepoImpl
+import com.example.util.simpletimetracker.data_local.scheduledReminder.ScheduledReminderRepoImpl
 import com.example.util.simpletimetracker.domain.activityFilter.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.activitySuggestion.repo.ActivitySuggestionRepo
 import com.example.util.simpletimetracker.domain.category.repo.CategoryRepo
@@ -56,6 +57,7 @@ import com.example.util.simpletimetracker.domain.recordShortcut.repo.RecordShort
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordShortcutToRecordTagRepo
 import com.example.util.simpletimetracker.domain.recordsFilter.repo.FavouriteRecordsFilterRepo
 import com.example.util.simpletimetracker.domain.sharing.SharingRepo
+import com.example.util.simpletimetracker.domain.scheduledReminder.repo.ScheduledReminderRepo
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -177,4 +179,8 @@ interface DataLocalModuleBinds {
     @Binds
     @Singleton
     fun bindFavouriteRecordsFilterRepo(impl: FavouriteRecordsFilterRepoImpl): FavouriteRecordsFilterRepo
+
+    @Binds
+    @Singleton
+    fun bindScheduledReminderRepo(impl: ScheduledReminderRepoImpl): ScheduledReminderRepo
 }

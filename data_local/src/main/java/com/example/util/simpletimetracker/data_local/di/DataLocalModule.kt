@@ -28,6 +28,7 @@ import com.example.util.simpletimetracker.data_local.recordShortcut.RecordShortc
 import com.example.util.simpletimetracker.data_local.recordTag.RecordShortcutToRecordTagDao
 import com.example.util.simpletimetracker.data_local.recordTag.RunningRecordToRecordTagDao
 import com.example.util.simpletimetracker.data_local.recordsFilter.FavouriteRecordsFilterDao
+import com.example.util.simpletimetracker.data_local.scheduledReminder.ScheduledReminderDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -195,5 +196,11 @@ class DataLocalModule {
     @Singleton
     fun getFavouriteRecordsFilterDao(database: AppDatabase): FavouriteRecordsFilterDao {
         return database.favouriteRecordsFilterDao()
+    }
+
+    @Provides
+    @Singleton
+    fun getScheduledReminderDao(database: AppDatabase): ScheduledReminderDao {
+        return database.scheduledReminderDao()
     }
 }

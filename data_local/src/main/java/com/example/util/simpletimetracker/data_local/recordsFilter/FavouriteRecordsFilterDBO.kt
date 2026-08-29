@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.Relation
-import com.example.util.simpletimetracker.data_local.recordType.RecordTypeDBO
+import com.example.util.simpletimetracker.data_local.recordType.RecordTypeGoalDBO
 
 data class FavouriteRecordsFilterDBO(
     @Embedded
@@ -75,7 +75,7 @@ data class FavouriteRecordsFilterDBO(
         val rangeLength: RangeLengthDBO?,
 
         /**
-         * How data is stored - see [RecordTypeDBO].
+         * How data is stored - see [RecordTypeGoalDBO].
          */
         @ColumnInfo(name = "daysOfWeek")
         val daysOfWeek: String?,
