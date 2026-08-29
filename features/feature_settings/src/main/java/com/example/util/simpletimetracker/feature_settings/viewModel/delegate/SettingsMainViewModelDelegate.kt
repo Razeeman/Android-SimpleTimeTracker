@@ -23,21 +23,24 @@ class SettingsMainViewModelDelegate @Inject constructor(
     private val settingsMapper: SettingsMapper,
     private val onSettingChangedInteractor: OnSettingChangedInteractor,
     private val settingsMainViewDataInteractor: SettingsMainViewDataInteractor,
-) : ViewModelDelegate() {
+) : SettingsDelegate, ViewModelDelegate() {
 
     val themeChanged: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     private var parent: SettingsParent? = null
 
-    fun init(parent: SettingsParent) {
+    override fun init(parent: SettingsParent) {
         this.parent = parent
     }
 
-    suspend fun getViewData(): List<ViewHolderType> {
-        return settingsMainViewDataInteractor.execute()
+    override suspend fun getViewData(): SettingsDelegate.ViewData {
+        return SettingsDelegate.ViewData(
+            key = Companion,
+            data = settingsMainViewDataInteractor.execute(),
+        )
     }
 
-    fun onBlockClicked(block: SettingsBlock) {
+    override fun onBlockClicked(block: SettingsBlock) {
         when (block) {
             SettingsBlock.Categories -> onEditCategoriesClick()
             SettingsBlock.Archive -> onArchiveClick()
@@ -48,7 +51,7 @@ class SettingsMainViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
+    override fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
         when (block) {
             SettingsBlock.DarkMode -> onDarkModeSelected(position)
             SettingsBlock.Language -> onLanguageSelected(position)
@@ -95,4 +98,6 @@ class SettingsMainViewModelDelegate @Inject constructor(
             router.restartApp()
         }
     }
+
+    companion object : SettingsDelegate.Key
 }

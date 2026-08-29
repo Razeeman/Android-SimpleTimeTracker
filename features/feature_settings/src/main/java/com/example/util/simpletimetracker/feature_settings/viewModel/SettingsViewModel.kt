@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.util.simpletimetracker.core.base.BaseViewModel
 import com.example.util.simpletimetracker.core.base.SingleLiveEvent
+import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.model.NavigationTab
@@ -14,9 +15,11 @@ import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWe
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.domain.statistics.interactor.SettingsDataUpdateInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
+import com.example.util.simpletimetracker.feature_settings.model.OptionsContent
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsAdditionalViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsBackupViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsContributorsViewModelDelegate
+import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsDisplayViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsExportViewModelDelegate
 import com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsMainViewModelDelegate
@@ -36,17 +39,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val mainDelegate: SettingsMainViewModelDelegate,
-    private val displayDelegate: SettingsDisplayViewModelDelegate,
+    ratingDelegate: SettingsRatingViewModelDelegate,
+    notificationsDelegate: SettingsNotificationsViewModelDelegate,
+    displayDelegate: SettingsDisplayViewModelDelegate,
+    additionalDelegate: SettingsAdditionalViewModelDelegate,
+    mainDelegate: SettingsMainViewModelDelegate,
+    backupDelegate: SettingsBackupViewModelDelegate,
+    exportDelegate: SettingsExportViewModelDelegate,
+    translatorsDelegate: SettingsTranslatorsViewModelDelegate,
+    contributorsDelegate: SettingsContributorsViewModelDelegate,
     private val router: Router,
     private val settingsMapper: SettingsMapper,
-    private val ratingDelegate: SettingsRatingViewModelDelegate,
-    private val notificationsDelegate: SettingsNotificationsViewModelDelegate,
-    private val additionalDelegate: SettingsAdditionalViewModelDelegate,
-    private val backupDelegate: SettingsBackupViewModelDelegate,
-    private val exportDelegate: SettingsExportViewModelDelegate,
-    private val translatorsDelegate: SettingsTranslatorsViewModelDelegate,
-    private val contributorsDelegate: SettingsContributorsViewModelDelegate,
     private val settingsDataUpdateInteractor: SettingsDataUpdateInteractor,
     private val themeChangedInteractor: ThemeChangedInteractor,
 ) : BaseViewModel(), SettingsParent {
@@ -57,28 +60,30 @@ class SettingsViewModel @Inject constructor(
     val keepScreenOnCheckbox: LiveData<Boolean> by additionalDelegate::keepScreenOnCheckbox
     val themeChanged: SingleLiveEvent<Boolean> by mainDelegate::themeChanged
 
+    private val delegates: List<SettingsDelegate> = listOf(
+        mainDelegate,
+        ratingDelegate,
+        notificationsDelegate,
+        displayDelegate,
+        additionalDelegate,
+        backupDelegate,
+        exportDelegate,
+        translatorsDelegate,
+        contributorsDelegate,
+    )
+
     private var activeOptionsContent: OptionsContent? = null
 
     init {
-        mainDelegate.init(this)
-        notificationsDelegate.init(this)
-        displayDelegate.init(this)
+        delegates.forEach { it.init(this) }
         additionalDelegate.init(this)
         backupDelegate.init(this)
         exportDelegate.init(this)
-        ratingDelegate.init(this)
         subscribeToUpdates()
     }
 
     override fun onCleared() {
-        mainDelegate.clear()
-        notificationsDelegate.clear()
-        displayDelegate.clear()
-        additionalDelegate.clear()
-        ratingDelegate.clear()
-        translatorsDelegate.clear()
-        backupDelegate.clear()
-        exportDelegate.clear()
+        delegates.forEach { (it as? ViewModelDelegate)?.clear() }
         super.onCleared()
     }
 
@@ -91,72 +96,47 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onHidden() {
-        ratingDelegate.onHidden()
+        delegates.forEach { it.onHidden() }
     }
 
     fun onBlockClicked(block: SettingsBlock) {
-        mainDelegate.onBlockClicked(block)
-        notificationsDelegate.onBlockClicked(block)
-        displayDelegate.onBlockClicked(block)
-        additionalDelegate.onBlockClicked(block)
-        backupDelegate.onBlockClicked(block)
-        exportDelegate.onBlockClicked(block)
-        ratingDelegate.onBlockClicked(block)
+        delegates.forEach { it.onBlockClicked(block) }
     }
 
     fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
-        displayDelegate.onSpinnerPositionSelected(block, position)
-        additionalDelegate.onSpinnerPositionSelected(block, position)
-        mainDelegate.onSpinnerPositionSelected(block, position)
-        exportDelegate.onSpinnerPositionSelected(block, position)
+        delegates.forEach { it.onSpinnerPositionSelected(block, position) }
     }
 
     fun onPositiveClick(tag: String?) {
-        backupDelegate.onPositiveClick(tag)
+        delegates.forEach { it.onPositiveClick(tag) }
     }
 
     fun onDurationSet(tag: String?, duration: Long) {
-        notificationsDelegate.onDurationSet(tag, duration)
-        displayDelegate.onDurationSet(tag, duration)
-        additionalDelegate.onDurationSet(tag, duration)
+        delegates.forEach { it.onDurationSet(tag, duration) }
     }
 
     fun onDurationDisabled(tag: String?) {
-        notificationsDelegate.onDurationDisabled(tag)
-        displayDelegate.onDurationDisabled(tag)
-        additionalDelegate.onDurationDisabled(tag)
+        delegates.forEach { it.onDurationDisabled(tag) }
     }
 
     fun onDateTimeSet(timestamp: Long, tag: String?) {
-        notificationsDelegate.onDateTimeSet(timestamp, tag)
-        displayDelegate.onDateTimeSet(timestamp, tag)
-        backupDelegate.onDateTimeSet(timestamp, tag)
+        delegates.forEach { it.onDateTimeSet(timestamp, tag) }
     }
 
     fun onDataExportSettingsSelected(data: DataExportSettingsResult) {
-        backupDelegate.onDataExportSettingsSelected(data)
+        delegates.forEach { it.onDataExportSettingsSelected(data) }
     }
 
-    fun onTypesSelected(
-        typeIds: List<Long>,
-        tag: String,
-    ) {
-        displayDelegate.onTypesSelected(typeIds, tag)
-        additionalDelegate.onTypesSelected(typeIds, tag)
+    fun onTypesSelected(typeIds: List<Long>, tag: String) {
+        delegates.forEach { it.onTypesSelected(typeIds, tag) }
     }
 
     fun onOptionsItemClick(id: OptionsListParams.Item.Id) {
-        displayDelegate.onOptionsItemClick(id)
+        delegates.forEach { it.onOptionsItemClick(id) }
     }
 
     fun onDayOfWeekClicked(block: SettingsBlock, data: DayOfWeekViewData) {
-        when (block) {
-            SettingsBlock.DisplayUntrackedDaysOfWeek -> displayDelegate.onUntrackedDayOfWeekClicked(data)
-            SettingsBlock.NotificationsInactivityDaysOfWeek,
-            SettingsBlock.NotificationsActivityDaysOfWeek,
-            -> notificationsDelegate.onDayOfWeekClicked(block, data)
-            else -> Unit
-        }
+        delegates.forEach { it.onDayOfWeekClicked(block, data) }
     }
 
     fun onTabReselected(tab: NavigationTab?) {
@@ -166,11 +146,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onResetScreen() = viewModelScope.launch {
-        notificationsDelegate.collapse()
-        displayDelegate.collapse()
-        additionalDelegate.collapse()
-        backupDelegate.collapse()
-        exportDelegate.collapse()
+        delegates.forEach { it.collapse() }
         updateContent()
     }
 
@@ -193,29 +169,15 @@ class SettingsViewModel @Inject constructor(
 
     override suspend fun updateContent() {
         content.set(loadContent())
-        activeOptionsContent?.let { optionsContent.set(loadOptionsContent(it)) }
+        optionsContent.set(loadOptionsContent())
     }
 
-    override suspend fun openExportOptions() {
-        openOptions(OptionsContent.ExportAdvanced)
-    }
-
-    override suspend fun openUntrackedOptions() {
-        openOptions(OptionsContent.DisplayUntracked)
-    }
-
-    override suspend fun openInactivityReminderOptions() {
-        openOptions(OptionsContent.InactivityReminder)
-    }
-
-    override suspend fun openActivityReminderOptions() {
-        openOptions(OptionsContent.ActivityReminder)
-    }
-
-    private suspend fun openOptions(content: OptionsContent) {
-        activeOptionsContent = content
-        optionsContent.set(loadOptionsContent(content))
-        router.navigate(SettingsOptionsParams)
+    override fun openOptions(content: OptionsContent) {
+        viewModelScope.launch {
+            activeOptionsContent = content
+            optionsContent.set(loadOptionsContent())
+            router.navigate(SettingsOptionsParams)
+        }
     }
 
     private fun subscribeToUpdates() = viewModelScope.launch {
@@ -224,35 +186,25 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    // TODO add interface to delegates getViewData / clear / getAdvancedViewData etc
     private suspend fun loadContent(): List<ViewHolderType> {
-        val result = mutableListOf<ViewHolderType>()
-        result += mainDelegate.getViewData()
-        result += ratingDelegate.getViewData()
-        result += notificationsDelegate.getViewData()
-        result += displayDelegate.getViewData()
-        result += additionalDelegate.getViewData()
-        result += backupDelegate.getViewData()
-        result += exportDelegate.getViewData()
-        result += translatorsDelegate.getViewData()
-        result += contributorsDelegate.getViewData()
-        return result
+        val order: List<SettingsDelegate.Key> = listOf(
+            SettingsMainViewModelDelegate,
+            SettingsRatingViewModelDelegate,
+            SettingsNotificationsViewModelDelegate,
+            SettingsDisplayViewModelDelegate,
+            SettingsAdditionalViewModelDelegate,
+            SettingsBackupViewModelDelegate,
+            SettingsExportViewModelDelegate,
+            SettingsTranslatorsViewModelDelegate,
+            SettingsContributorsViewModelDelegate,
+        )
+        val viewData = delegates.map { it.getViewData() }.associateBy { it.key }
+        return order.mapNotNull { key -> viewData[key]?.data }.flatten()
     }
 
-    private suspend fun loadOptionsContent(content: OptionsContent): List<ViewHolderType> {
-        return when (content) {
-            OptionsContent.ExportAdvanced -> exportDelegate.getAdvancedViewData()
-            OptionsContent.DisplayUntracked -> displayDelegate.getUntrackedViewData()
-            OptionsContent.InactivityReminder -> notificationsDelegate.getInactivityReminderOptionsViewData()
-            OptionsContent.ActivityReminder -> notificationsDelegate.getActivityReminderOptionsViewData()
-        }
-    }
-
-    private enum class OptionsContent {
-        ExportAdvanced,
-        DisplayUntracked,
-        InactivityReminder,
-        ActivityReminder,
+    private suspend fun loadOptionsContent(): List<ViewHolderType> {
+        val content = activeOptionsContent ?: return emptyList()
+        return delegates.map { it.getSheetViewData(content) }.firstOrNull { !it.isNullOrEmpty() }.orEmpty()
     }
 
     companion object {

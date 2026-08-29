@@ -7,9 +7,14 @@ import javax.inject.Inject
 
 class SettingsTranslatorsViewModelDelegate @Inject constructor(
     private val settingsTranslatorsViewDataInteractor: SettingsTranslatorsViewDataInteractor,
-) : ViewModelDelegate() {
+) : SettingsDelegate, ViewModelDelegate() {
 
-    fun getViewData(): List<ViewHolderType> {
-        return settingsTranslatorsViewDataInteractor.execute()
+    override suspend fun getViewData(): SettingsDelegate.ViewData {
+        return SettingsDelegate.ViewData(
+            key = Companion,
+            data = settingsTranslatorsViewDataInteractor.execute(),
+        )
     }
+
+    companion object : SettingsDelegate.Key
 }

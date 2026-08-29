@@ -38,7 +38,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
     private val onSettingChangedInteractor: OnSettingChangedInteractor,
     private val externalViewsInteractor: UpdateExternalViewsInteractor,
     private val recordsContainerUpdateInteractor: RecordsContainerUpdateInteractor,
-) : ViewModelDelegate() {
+) : SettingsDelegate, ViewModelDelegate() {
 
     val keepScreenOnCheckbox: LiveData<Boolean>
         by lazySuspend { prefsInteractor.getKeepScreenOn() }
@@ -46,17 +46,18 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
     private var parent: SettingsParent? = null
     private var isCollapsed: Boolean = true
 
-    fun init(parent: SettingsParent) {
+    override fun init(parent: SettingsParent) {
         this.parent = parent
     }
 
-    suspend fun getViewData(): List<ViewHolderType> {
-        return settingsAdditionalViewDataInteractor.execute(
-            isCollapsed = isCollapsed,
+    override suspend fun getViewData(): SettingsDelegate.ViewData {
+        return SettingsDelegate.ViewData(
+            key = Companion,
+            data = settingsAdditionalViewDataInteractor.execute(isCollapsed = isCollapsed),
         )
     }
 
-    fun onBlockClicked(block: SettingsBlock) {
+    override fun onBlockClicked(block: SettingsBlock) {
         when (block) {
             SettingsBlock.AdditionalCollapse -> onCollapseClick()
             SettingsBlock.AdditionalIgnoreShort -> onIgnoreShortRecordsClicked()
@@ -84,7 +85,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
+    override fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
         when (block) {
             SettingsBlock.DisplayRepeatButtonMode -> onRepeatButtonSelected(position)
             SettingsBlock.AdditionalFirstDayOfWeek -> onFirstDayOfWeekSelected(position)
@@ -94,19 +95,19 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDurationSet(tag: String?, duration: Long) {
+    override fun onDurationSet(tag: String?, duration: Long) {
         onDurationSetDelegate(tag, duration)
     }
 
-    fun onDurationDisabled(tag: String?) {
+    override fun onDurationDisabled(tag: String?) {
         onDurationDisabledDelegate(tag)
     }
 
-    fun onTypesSelected(typeIds: List<Long>, tag: String) {
+    override fun onTypesSelected(typeIds: List<Long>, tag: String) {
         onTypesSelectedDelegate(typeIds, tag)
     }
 
-    fun collapse() {
+    override fun collapse() {
         isCollapsed = true
     }
 
@@ -362,4 +363,6 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             }
         }
     }
+
+    companion object : SettingsDelegate.Key
 }

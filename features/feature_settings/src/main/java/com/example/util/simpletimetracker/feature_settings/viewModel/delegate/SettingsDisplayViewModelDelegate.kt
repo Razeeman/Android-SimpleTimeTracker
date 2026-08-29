@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 
+import com.example.util.simpletimetracker.core.base.Throttler
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.flip
@@ -19,6 +20,7 @@ import com.example.util.simpletimetracker.feature_settings.api.SettingsOrderChan
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsDisplayViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.model.CustomizeOptionsMenuListItem
+import com.example.util.simpletimetracker.feature_settings.model.OptionsContent
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
@@ -41,26 +43,30 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
     private val recordsContainerUpdateInteractor: RecordsContainerUpdateInteractor,
     private val updateRunningRecordsInteractor: UpdateRunningRecordsInteractor,
     private val settingsOrderChangeInteractor: SettingsOrderChangeInteractor,
-) : ViewModelDelegate() {
+) : SettingsDelegate, ViewModelDelegate() {
 
     private var parent: SettingsParent? = null
     private var isCollapsed: Boolean = true
 
-    fun init(parent: SettingsParent) {
+    override fun init(parent: SettingsParent) {
         this.parent = parent
     }
 
-    suspend fun getViewData(): List<ViewHolderType> {
-        return settingsDisplayViewDataInteractor.execute(
-            isCollapsed = isCollapsed,
+    override suspend fun getViewData(): SettingsDelegate.ViewData {
+        return SettingsDelegate.ViewData(
+            key = Companion,
+            data = settingsDisplayViewDataInteractor.execute(isCollapsed = isCollapsed),
         )
     }
 
-    suspend fun getUntrackedViewData(): List<ViewHolderType> {
-        return settingsDisplayViewDataInteractor.executeUntrackedOptions()
+    override suspend fun getSheetViewData(content: OptionsContent): List<ViewHolderType>? {
+        return when (content) {
+            OptionsContent.DisplayUntracked ->  settingsDisplayViewDataInteractor.executeUntrackedOptions()
+            else -> null
+        }
     }
 
-    fun onBlockClicked(block: SettingsBlock) {
+    override fun onBlockClicked(block: SettingsBlock) {
         when (block) {
             SettingsBlock.DisplayCollapse -> onCollapseClick()
             SettingsBlock.DisplayUntrackedOptions -> onUntrackedOptionsClick()
@@ -95,7 +101,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
+    override fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
         when (block) {
             SettingsBlock.DisplayDaysInCalendar -> onDaysInCalendarSelected(position)
             SettingsBlock.DisplayWidgetBackground -> onWidgetTransparencySelected(position)
@@ -109,27 +115,28 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDurationSet(tag: String?, duration: Long) {
+    override fun onDurationSet(tag: String?, duration: Long) {
         onDurationSetDelegate(tag, duration)
     }
 
-    fun onDurationDisabled(tag: String?) {
+    override fun onDurationDisabled(tag: String?) {
         onDurationDisabledDelegate(tag)
     }
 
-    fun onDateTimeSet(timestamp: Long, tag: String?) {
+    override fun onDateTimeSet(timestamp: Long, tag: String?) {
         onDateTimeSetDelegate(timestamp, tag)
     }
 
-    fun onTypesSelected(typeIds: List<Long>, tag: String) {
+    override fun onTypesSelected(typeIds: List<Long>, tag: String) {
         onTypesSelectedDelegate(typeIds, tag)
     }
 
-    fun onOptionsItemClick(id: OptionsListParams.Item.Id) {
+    override fun onOptionsItemClick(id: OptionsListParams.Item.Id) {
         onOptionsItemClickDelegate(id)
     }
 
-    fun onUntrackedDayOfWeekClicked(data: DayOfWeekViewData) {
+    override fun onDayOfWeekClicked(block: SettingsBlock, data: DayOfWeekViewData) {
+        if (block != SettingsBlock.DisplayUntrackedDaysOfWeek) return
         delegateScope.launch {
             val selectedDays = prefsInteractor.getUntrackedDaysOfWeek().toMutableSet()
             if (!selectedDays.add(data.dayOfWeek)) selectedDays.remove(data.dayOfWeek)
@@ -138,7 +145,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         }
     }
 
-    fun collapse() {
+    override fun collapse() {
         isCollapsed = true
     }
 
@@ -147,8 +154,8 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
         parent?.updateContent()
     }
 
-    private fun onUntrackedOptionsClick() = delegateScope.launch {
-        parent?.openUntrackedOptions()
+    private fun onUntrackedOptionsClick() {
+        parent?.openOptions(OptionsContent.DisplayUntracked)
     }
 
     private fun onDaysInCalendarSelected(position: Int) {
@@ -490,4 +497,6 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             parent?.updateContent()
         }
     }
+
+    companion object : SettingsDelegate.Key
 }

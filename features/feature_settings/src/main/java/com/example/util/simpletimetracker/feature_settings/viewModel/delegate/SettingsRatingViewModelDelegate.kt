@@ -21,25 +21,28 @@ class SettingsRatingViewModelDelegate @Inject constructor(
     private val resourceRepo: ResourceRepo,
     private val applicationDataProvider: ApplicationDataProvider,
     private val settingsRatingViewDataInteractor: SettingsRatingViewDataInteractor,
-) : ViewModelDelegate() {
+) : SettingsDelegate, ViewModelDelegate() {
 
     private var parent: SettingsParent? = null
     private var debugUnlocked = false
     private var debugClicksCount: Int = 0
 
-    fun init(parent: SettingsParent) {
+    override fun init(parent: SettingsParent) {
         this.parent = parent
     }
 
-    fun onHidden() {
+    override fun onHidden() {
         debugClicksCount = 0
     }
 
-    fun getViewData(): List<ViewHolderType> {
-        return settingsRatingViewDataInteractor.execute(debugUnlocked)
+    override suspend fun getViewData(): SettingsDelegate.ViewData {
+        return SettingsDelegate.ViewData(
+            key = Companion,
+            data = settingsRatingViewDataInteractor.execute(debugUnlocked),
+        )
     }
 
-    fun onBlockClicked(block: SettingsBlock) {
+    override fun onBlockClicked(block: SettingsBlock) {
         when (block) {
             SettingsBlock.RateUs -> onRateClick()
             SettingsBlock.SupportDevelopment -> onSupportDevelopmentClick()
@@ -92,7 +95,7 @@ class SettingsRatingViewModelDelegate @Inject constructor(
         router.show(params)
     }
 
-    companion object {
+    companion object : SettingsDelegate.Key {
         private const val DEBUG_CLICKS_TO_UNLOCK = 5
     }
 }

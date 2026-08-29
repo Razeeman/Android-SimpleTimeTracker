@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 
+import com.example.util.simpletimetracker.feature_settings.model.OptionsContent
+
 interface SettingsParent {
 
     fun openDateTimeDialog(
@@ -8,13 +10,7 @@ interface SettingsParent {
         useMilitaryTime: Boolean,
     )
 
-    suspend fun openExportOptions()
-
-    suspend fun openUntrackedOptions()
-
-    suspend fun openInactivityReminderOptions()
-
-    suspend fun openActivityReminderOptions()
+    fun openOptions(content: OptionsContent)
 
     suspend fun updateContent()
 }

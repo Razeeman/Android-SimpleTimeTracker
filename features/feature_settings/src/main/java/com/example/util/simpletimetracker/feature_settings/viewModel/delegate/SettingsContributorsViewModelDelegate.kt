@@ -7,9 +7,14 @@ import javax.inject.Inject
 
 class SettingsContributorsViewModelDelegate @Inject constructor(
     private val settingsContributorsViewDataInteractor: SettingsContributorsViewDataInteractor,
-) : ViewModelDelegate() {
+) : SettingsDelegate, ViewModelDelegate() {
 
-    fun getViewData(): List<ViewHolderType> {
-        return settingsContributorsViewDataInteractor.execute()
+    override suspend fun getViewData(): SettingsDelegate.ViewData {
+        return SettingsDelegate.ViewData(
+            key = Companion,
+            data = settingsContributorsViewDataInteractor.execute(),
+        )
     }
+
+    companion object : SettingsDelegate.Key
 }

@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWe
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsNotificationsViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
+import com.example.util.simpletimetracker.feature_settings.model.OptionsContent
 import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.action.OpenSystemSettings
@@ -32,30 +33,35 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
     private val checkNotificationsPermissionInteractor: CheckNotificationsPermissionInteractor,
     private val settingsNotificationsViewDataInteractor: SettingsNotificationsViewDataInteractor,
     private val externalViewsInteractor: UpdateExternalViewsInteractor,
-) : ViewModelDelegate() {
+) : SettingsDelegate, ViewModelDelegate() {
 
     private var parent: SettingsParent? = null
     private var isCollapsed: Boolean = true
 
-    fun init(parent: SettingsParent) {
+    override fun init(parent: SettingsParent) {
         this.parent = parent
     }
 
-    suspend fun getViewData(): List<ViewHolderType> {
-        return settingsNotificationsViewDataInteractor.execute(
-            isCollapsed = isCollapsed,
+    override suspend fun getViewData(): SettingsDelegate.ViewData {
+        return SettingsDelegate.ViewData(
+            key = Companion,
+            data = settingsNotificationsViewDataInteractor.execute(isCollapsed = isCollapsed),
         )
     }
 
-    suspend fun getInactivityReminderOptionsViewData(): List<ViewHolderType> {
-        return settingsNotificationsViewDataInteractor.getInactivityReminderOptionsViewData()
+    override suspend fun getSheetViewData(content: OptionsContent): List<ViewHolderType>? {
+        return when (content) {
+            OptionsContent.InactivityReminder -> {
+                settingsNotificationsViewDataInteractor.getInactivityReminderOptionsViewData()
+            }
+            OptionsContent.ActivityReminder -> {
+                settingsNotificationsViewDataInteractor.getActivityReminderOptionsViewData()
+            }
+            else -> null
+        }
     }
 
-    suspend fun getActivityReminderOptionsViewData(): List<ViewHolderType> {
-        return settingsNotificationsViewDataInteractor.getActivityReminderOptionsViewData()
-    }
-
-    fun onBlockClicked(block: SettingsBlock) {
+    override fun onBlockClicked(block: SettingsBlock) {
         when (block) {
             SettingsBlock.NotificationsCollapse -> onCollapseClick()
             SettingsBlock.NotificationsInactivity -> onInactivityReminderClicked()
@@ -78,19 +84,19 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDurationSet(tag: String?, duration: Long) {
+    override fun onDurationSet(tag: String?, duration: Long) {
         onDurationSetDelegate(tag, duration)
     }
 
-    fun onDurationDisabled(tag: String?) {
+    override fun onDurationDisabled(tag: String?) {
         onDurationDisabledDelegate(tag)
     }
 
-    fun onDateTimeSet(timestamp: Long, tag: String?) {
+    override fun onDateTimeSet(timestamp: Long, tag: String?) {
         onDateTimeSetDelegate(timestamp, tag)
     }
 
-    fun onDayOfWeekClicked(block: SettingsBlock, data: DayOfWeekViewData) {
+    override fun onDayOfWeekClicked(block: SettingsBlock, data: DayOfWeekViewData) {
         when (block) {
             SettingsBlock.NotificationsInactivityDaysOfWeek -> updateReminderDaysOfWeek(
                 dayOfWeek = data.dayOfWeek,
@@ -108,7 +114,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    fun collapse() {
+    override fun collapse() {
         isCollapsed = true
     }
 
@@ -173,8 +179,8 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    private fun onInactivityReminderOptionsClicked() = delegateScope.launch {
-        parent?.openInactivityReminderOptions()
+    private fun onInactivityReminderOptionsClicked() {
+        parent?.openOptions(OptionsContent.InactivityReminder)
     }
 
     private fun onInactivityReminderRecurrentClicked() {
@@ -223,8 +229,8 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         }
     }
 
-    private fun onActivityReminderOptionsClicked() = delegateScope.launch {
-        parent?.openActivityReminderOptions()
+    private fun onActivityReminderOptionsClicked() {
+        parent?.openOptions(OptionsContent.ActivityReminder)
     }
 
     private fun onActivityReminderRecurrentClicked() {
@@ -340,4 +346,6 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
         parent?.updateContent()
         reschedule()
     }
+
+    companion object : SettingsDelegate.Key
 }

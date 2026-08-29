@@ -6,7 +6,6 @@ import com.example.util.simpletimetracker.domain.backup.interactor.AutomaticExpo
 import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.backup.model.BackupOptionsData
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsOptionsUpdateInteractor
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsBackupViewDataInteractor
@@ -28,22 +27,23 @@ class SettingsBackupViewModelDelegate @Inject constructor(
     private val automaticBackupInteractor: AutomaticBackupInteractor,
     private val automaticExportInteractor: AutomaticExportInteractor,
     private val settingsOptionsUpdateInteractor: SettingsOptionsUpdateInteractor,
-) : ViewModelDelegate() {
+) : SettingsDelegate, ViewModelDelegate() {
 
     private var parent: SettingsParent? = null
     private var isCollapsed: Boolean = true
 
-    fun init(parent: SettingsParent) {
+    override fun init(parent: SettingsParent) {
         this.parent = parent
     }
 
-    suspend fun getViewData(): List<ViewHolderType> {
-        return settingsBackupViewDataInteractor.execute(
-            isCollapsed = isCollapsed,
+    override suspend fun getViewData(): SettingsDelegate.ViewData {
+        return SettingsDelegate.ViewData(
+            key = Companion,
+            data = settingsBackupViewDataInteractor.execute(isCollapsed = isCollapsed),
         )
     }
 
-    fun onBlockClicked(block: SettingsBlock) {
+    override fun onBlockClicked(block: SettingsBlock) {
         when (block) {
             SettingsBlock.BackupCollapse ->
                 onCollapseClick()
@@ -84,11 +84,11 @@ class SettingsBackupViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDateTimeSet(timestamp: Long, tag: String?) {
+    override fun onDateTimeSet(timestamp: Long, tag: String?) {
         onDateTimeSetDelegate(timestamp, tag)
     }
 
-    fun onPositiveClick(tag: String?) {
+    override fun onPositiveClick(tag: String?) {
         when (tag) {
             BACKUP_RESTORE_DIALOG_TAG -> {
                 settingsFileWorkDelegate.onRestoreConfirmed()
@@ -100,14 +100,14 @@ class SettingsBackupViewModelDelegate @Inject constructor(
         }
     }
 
-    fun onDataExportSettingsSelected(data: DataExportSettingsResult) {
+    override fun onDataExportSettingsSelected(data: DataExportSettingsResult) {
         when (data.tag) {
             CSV_EXPORT_DIALOG_TAG -> settingsFileWorkDelegate.onCsvExport(data)
             ICS_EXPORT_DIALOG_TAG -> settingsFileWorkDelegate.onIcsExport(data)
         }
     }
 
-    fun collapse() {
+    override fun collapse() {
         isCollapsed = true
     }
 
@@ -157,7 +157,7 @@ class SettingsBackupViewModelDelegate @Inject constructor(
         parent?.updateContent()
     }
 
-    companion object {
+    companion object : SettingsDelegate.Key {
         private const val CSV_EXPORT_DIALOG_TAG = "csv_export_dialog_tag"
         private const val ICS_EXPORT_DIALOG_TAG = "ics_export_dialog_tag"
         private const val BACKUP_RESTORE_DIALOG_TAG = "backup_restore_dialog_tag"
