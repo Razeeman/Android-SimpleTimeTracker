@@ -1,7 +1,9 @@
 package com.example.util.simpletimetracker
 
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
@@ -14,14 +16,17 @@ import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
+import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
+import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,13 +34,86 @@ import java.util.Calendar
 import java.util.SimpleTimeZone
 import java.util.concurrent.TimeUnit
 import com.example.util.simpletimetracker.feature_reminders.R as remindersR
+import com.example.util.simpletimetracker.feature_change_reminder.R as changeReminderR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class RemindersTest : BaseUiTest() {
 
     @Test
-    fun settingsNavigationAndEmptyState() {
+    fun change() {
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsNotifications()
+        NavUtils.openRemindersScreen()
+
+        clickOnView(withText(R.string.running_records_add_type))
+        checkViewIsDisplayed(withId(changeReminderR.id.containerChangeReminderWeekdays))
+        checkViewIsDisplayed(withId(changeReminderR.id.containerChangeReminderCondition))
+        checkViewIsNotDisplayed(withId(changeReminderR.id.btnChangeReminderDelete))
+
+        selectSpinnerItem(
+            fieldId = changeReminderR.id.fieldChangeReminderCondition,
+            itemTextResId = R.string.reminders_condition_activity_not_tracked,
+        )
+        checkViewIsDisplayed(withId(dialogsR.id.rvTypesSelectionContainer))
+        pressBack()
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeReminderR.id.tvChangeReminderCondition),
+                withText(R.string.change_reminder_condition_always),
+            ),
+        )
+        checkViewIsNotDisplayed(withId(changeReminderR.id.btnChangeReminderActivity))
+
+        selectSpinnerItem(
+            fieldId = changeReminderR.id.fieldChangeReminderSchedule,
+            itemTextResId = R.string.reminders_schedule_one_time,
+        )
+        checkViewIsDisplayed(withId(changeReminderR.id.tvChangeReminderDate))
+        checkViewIsNotDisplayed(withId(changeReminderR.id.containerChangeReminderWeekdays))
+        checkViewIsNotDisplayed(withId(changeReminderR.id.containerChangeReminderCondition))
+
+        selectSpinnerItem(
+            fieldId = changeReminderR.id.fieldChangeReminderSchedule,
+            itemTextResId = R.string.reminders_schedule_monthly,
+        )
+        checkViewIsDisplayed(withId(changeReminderR.id.containerChangeReminderDayOfMonth))
+        checkViewIsNotDisplayed(withId(changeReminderR.id.tvChangeReminderDate))
+
+        clickOnView(withId(changeReminderR.id.btnChangeReminderSave))
+        checkViewIsDisplayed(withText(R.string.change_reminder_message_required))
+
+        val message = "A monthly reminder"
+        typeTextIntoView(changeReminderR.id.etChangeReminderMessage, message)
+        clickOnView(withId(changeReminderR.id.btnChangeReminderSave))
+
+        checkViewIsDisplayed(withText(message))
+        val disableButton = allOf(
+            withId(remindersR.id.btnReminderEnabled),
+            isDescendantOfA(
+                allOf(
+                    withId(remindersR.id.containerReminder),
+                    hasDescendant(withText(message)),
+                ),
+            ),
+        )
+        clickOnView(disableButton)
+        checkViewIsDisplayed(
+            allOf(
+                withText(R.string.complex_rules_enable),
+                isDescendantOfA(disableButton),
+            ),
+        )
+        clickOnView(withText(message))
+        checkViewIsDisplayed(withId(changeReminderR.id.btnChangeReminderDelete))
+        checkViewIsDisplayed(allOf(withId(changeReminderR.id.etChangeReminderMessage), withText(message)))
+        clickOnView(withId(changeReminderR.id.btnChangeReminderDelete))
+        checkViewDoesNotExist(withText(message))
+    }
+
+    @Test
+    fun empty() {
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsNotifications()
         NavUtils.openRemindersScreen()
@@ -46,7 +124,7 @@ class RemindersTest : BaseUiTest() {
     }
 
     @Test
-    fun populatedStateSortingSummariesToggleAndRefresh() {
+    fun list() {
         runBlocking { prefsInteractor.setUseMilitaryTimeFormat(true) }
         val activityName = "Walking"
         testUtils.addActivity(name = activityName, icon = firstIcon, color = firstColor)
@@ -193,6 +271,11 @@ class RemindersTest : BaseUiTest() {
             schedule = schedule,
             condition = condition,
         )
+    }
+
+    private fun selectSpinnerItem(fieldId: Int, itemTextResId: Int) {
+        clickOnView(withId(fieldId))
+        onData(equalTo(getString(itemTextResId))).perform(click())
     }
 
     private fun hours(value: Long): Long {

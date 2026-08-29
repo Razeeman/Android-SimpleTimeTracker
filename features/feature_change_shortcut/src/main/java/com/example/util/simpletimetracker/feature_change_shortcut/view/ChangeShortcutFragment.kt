@@ -27,6 +27,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.R
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.emptySpace.createEmptySpaceAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
@@ -72,6 +73,7 @@ class ChangeShortcutFragment :
 
     private val typesAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createEmptyAdapterDelegate(),
             createRecordTypeAdapterDelegate(viewModel::onTypeClick),
         )
     }
@@ -80,6 +82,7 @@ class ChangeShortcutFragment :
             createDividerAdapterDelegate(),
             createInfoAdapterDelegate(),
             createHintAdapterDelegate(),
+            createEmptyAdapterDelegate(),
             createEmptySpaceAdapterDelegate(),
             createCategoryAdapterDelegate(
                 onClick = viewModel::onTagClick,

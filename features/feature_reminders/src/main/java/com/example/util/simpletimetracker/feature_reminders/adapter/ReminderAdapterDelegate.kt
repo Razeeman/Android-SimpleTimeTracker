@@ -19,6 +19,7 @@ fun createReminderAdapterDelegate(
         tvReminderText.text = item.text
         tvReminderSchedule.text = item.scheduleSummary
         tvReminderCondition.setTextOptional(item.conditionSummary)
+        containerReminder.setCardBackgroundColor(item.backgroundColor)
         btnReminderEnabled.setCardBackgroundColor(item.enabledButtonColor)
         tvReminderEnabled.text = item.enabledButtonText
 

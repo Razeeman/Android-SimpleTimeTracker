@@ -377,6 +377,8 @@
     <string name="settings_do_not_disturb">عدم اﻹزعاج</string>
     <string name="settings_notifications_system_settings">اعدادات النظام</string>
     <string name="settings_notifications_system_settings_hint">الصوت والاهتزاز والفلاش وغيرها</string>
+    <string name="settings_reminders_title">التذكيرات</string>
+    <string name="settings_reminders_hint">إدارة التذكيرات المجدولة</string>
     <string name="settings_ignore_short_records">تجاهل التتبعات القصيرة</string>
     <string name="settings_ignore_short_records_hint">لا تتبع الأنشطة اﻷقصر من الوقت المحدد.</string>
     <string name="settings_inactivity_reminder_disabled">غير مفعل</string>
@@ -691,9 +693,21 @@
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">يوميًا</string>
+    <string name="reminders_schedule_weekly">أسبوعيًا</string>
     <string name="reminders_schedule_one_time">مرة واحدة</string>
     <string name="reminders_schedule_monthly">شهريًا</string>
     <string name="reminders_condition_activity_not_tracked">عندما لا يتم تتبع النشاط اليوم</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">الرسالة</string>
+    <string name="change_reminder_schedule">الجدول</string>
+    <string name="change_reminder_day_of_month">يوم من الشهر</string>
+    <string name="change_reminder_condition">شرط العرض</string>
+    <string name="change_reminder_condition_always">دائمًا</string>
+    <string name="change_reminder_message_prefill">لا تنسَ القيام بـ %s.</string>
+    <string name="change_reminder_message_required">أدخل رسالة التذكير</string>
+    <string name="change_reminder_future_required">اختر وقتًا في المستقبل</string>
+    <string name="change_reminder_removed">تمت إزالة التذكير</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">تحقق من اتصالك وحاول مرة أخرى</string>

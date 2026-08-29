@@ -377,6 +377,8 @@
     <string name="settings_do_not_disturb">தொந்தரவு செய்ய வேண்டாம்</string>
     <string name="settings_notifications_system_settings">கணினி அமைப்புகள்</string>
     <string name="settings_notifications_system_settings_hint">ஒலி, அதிர்வு, ஃபிளாஷ் மற்றும் பிற</string>
+    <string name="settings_reminders_title">நினைவூட்டல்கள்</string>
+    <string name="settings_reminders_hint">திட்டமிடப்பட்ட நினைவூட்டல்களை நிர்வகிக்கவும்</string>
     <string name="settings_ignore_short_records">குறுகிய பதிவுகளைப் புறக்கணி</string>
     <string name="settings_ignore_short_records_hint">குறிப்பிட்ட நேரத்தைவிடக் குறுகிய செயல்பாடுகளைக் கண்காணிக்காதே.</string>
     <string name="settings_inactivity_reminder_disabled">முடக்கப்பட்டது</string>
@@ -691,9 +693,21 @@
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">தினமும்</string>
+    <string name="reminders_schedule_weekly">வாரந்தோறும்</string>
     <string name="reminders_schedule_one_time">ஒரு முறை</string>
     <string name="reminders_schedule_monthly">மாதந்தோறும்</string>
     <string name="reminders_condition_activity_not_tracked">இன்று செயல்பாடு கண்காணிக்கப்படாதபோது</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">செய்தி</string>
+    <string name="change_reminder_schedule">அட்டவணை</string>
+    <string name="change_reminder_day_of_month">மாதத்தின் நாள்</string>
+    <string name="change_reminder_condition">காட்சி நிபந்தனை</string>
+    <string name="change_reminder_condition_always">எப்போதும்</string>
+    <string name="change_reminder_message_prefill">%s செய்ய மறக்காதீர்கள்.</string>
+    <string name="change_reminder_message_required">நினைவூட்டல் செய்தியை உள்ளிடவும்</string>
+    <string name="change_reminder_future_required">எதிர்கால நேரத்தைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="change_reminder_removed">நினைவூட்டல் அகற்றப்பட்டது</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்</string>

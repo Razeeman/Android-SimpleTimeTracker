@@ -377,6 +377,8 @@ Pozwala to zobaczyć, ile czasu spędzasz na produktywnych i nieproduktywnych ak
     <string name="settings_do_not_disturb">Nie przeszkadzać</string>
     <string name="settings_notifications_system_settings">Ustawienia systemowe</string>
     <string name="settings_notifications_system_settings_hint">Dźwięk, wibracje, lampa błyskowa i inne</string>
+    <string name="settings_reminders_title">Przypomnienia</string>
+    <string name="settings_reminders_hint">Zarządzaj zaplanowanymi przypomnieniami</string>
     <string name="settings_ignore_short_records">Ignoruj krótkie rekordy</string>
     <string name="settings_ignore_short_records_hint">Nie śledź aktywności krótszych niż podany czas.</string>
     <string name="settings_inactivity_reminder_disabled">Wyłączony</string>
@@ -691,9 +693,21 @@ Przykład:<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Codziennie</string>
+    <string name="reminders_schedule_weekly">Co tydzień</string>
     <string name="reminders_schedule_one_time">Jednorazowo</string>
     <string name="reminders_schedule_monthly">Co miesiąc</string>
     <string name="reminders_condition_activity_not_tracked">Gdy aktywność nie została dziś zarejestrowana</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Wiadomość</string>
+    <string name="change_reminder_schedule">Harmonogram</string>
+    <string name="change_reminder_day_of_month">Dzień miesiąca</string>
+    <string name="change_reminder_condition">Warunek wyświetlania</string>
+    <string name="change_reminder_condition_always">Zawsze</string>
+    <string name="change_reminder_message_prefill">Nie zapomnij zrobić %s.</string>
+    <string name="change_reminder_message_required">Wpisz wiadomość przypomnienia</string>
+    <string name="change_reminder_future_required">Wybierz czas w przyszłości</string>
+    <string name="change_reminder_removed">Przypomnienie usunięte</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Sprawdź połączenie i spróbuj ponownie</string>

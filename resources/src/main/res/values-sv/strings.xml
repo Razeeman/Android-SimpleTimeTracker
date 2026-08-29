@@ -377,6 +377,8 @@ Detta gör att du kan se hur mycket tid du spenderar på produktiva kontra icke-
     <string name="settings_do_not_disturb">Stör inte</string>
     <string name="settings_notifications_system_settings">Systeminställningar</string>
     <string name="settings_notifications_system_settings_hint">Ljud, vibrationer, blixt och annat</string>
+    <string name="settings_reminders_title">Påminnelser</string>
+    <string name="settings_reminders_hint">Hantera schemalagda påminnelser</string>
     <string name="settings_ignore_short_records">Ignorera kortvariga händelser</string>
     <string name="settings_ignore_short_records_hint">Ignorera händelser som är kortare än den angivna tidslängden.</string>
     <string name="settings_inactivity_reminder_disabled">Inaktiverad</string>
@@ -691,9 +693,21 @@ Exempel:<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Dagligen</string>
+    <string name="reminders_schedule_weekly">Varje vecka</string>
     <string name="reminders_schedule_one_time">En gång</string>
     <string name="reminders_schedule_monthly">Månadsvis</string>
     <string name="reminders_condition_activity_not_tracked">När aktiviteten inte har spårats idag</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Meddelande</string>
+    <string name="change_reminder_schedule">Schema</string>
+    <string name="change_reminder_day_of_month">Dag i månaden</string>
+    <string name="change_reminder_condition">Visningsvillkor</string>
+    <string name="change_reminder_condition_always">Alltid</string>
+    <string name="change_reminder_message_prefill">Glöm inte att göra %s.</string>
+    <string name="change_reminder_message_required">Ange ett påminnelsemeddelande</string>
+    <string name="change_reminder_future_required">Välj en tid i framtiden</string>
+    <string name="change_reminder_removed">Påminnelsen har tagits bort</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Kontrollera din anslutning och försök igen</string>

@@ -11,22 +11,23 @@ data class ScheduledReminder(
 ) {
 
     sealed interface Schedule {
+        val timeOfDayMillis: Long
 
         data class Weekly(
             val daysOfWeek: Set<DayOfWeek>,
-            val timeOfDayMillis: Long,
+            override val timeOfDayMillis: Long,
         ) : Schedule
 
         // Store the one-time date as a local epoch day rather than an instant
         // so it retains its selected calendar date across time-zone changes.
         data class OneTime(
             val oneTimeDate: Long,
-            val timeOfDayMillis: Long,
+            override val timeOfDayMillis: Long,
         ) : Schedule
 
         data class Monthly(
             val dayOfMonth: Int,
-            val timeOfDayMillis: Long,
+            override val timeOfDayMillis: Long,
         ) : Schedule
     }
 

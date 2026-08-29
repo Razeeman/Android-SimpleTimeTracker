@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.domain.scheduledReminder.interactor
 
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
+import java.time.DateTimeException
 import java.time.DayOfWeek as JavaDayOfWeek
 import java.time.Instant
 import java.time.LocalDate
@@ -56,7 +57,7 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
             is ScheduledReminder.Schedule.OneTime -> {
                 if (!isValidTime(schedule.timeOfDayMillis)) return false
                 resolveLocalDateTime(
-                    date = LocalDate.ofEpochDay(schedule.oneTimeDate),
+                    dateEpochDay = schedule.oneTimeDate,
                     timeOfDayMillis = schedule.timeOfDayMillis,
                     timeZone = timeZone,
                 ) == expectedOccurrenceTimestamp
@@ -89,7 +90,7 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
             val dayOfWeek = dateCursor.dayOfWeek.toDomainDayOfWeek()
             if (dayOfWeek in schedule.daysOfWeek) {
                 val timestamp = resolveLocalDateTime(
-                    date = dateCursor,
+                    dateEpochDay = dateCursor.toEpochDay(),
                     timeOfDayMillis = schedule.timeOfDayMillis,
                     timeZone = timeZone,
                 )
@@ -116,10 +117,11 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
         if (!isValidTime(schedule.timeOfDayMillis)) return null
 
         val expectedTimestamp = resolveLocalDateTime(
-            date = LocalDate.ofEpochDay(schedule.oneTimeDate),
+            dateEpochDay = schedule.oneTimeDate,
             timeOfDayMillis = schedule.timeOfDayMillis,
             timeZone = timeZone,
         )
+        if (expectedTimestamp == 0L) return null
 
         return when {
             expectedTimestamp > nowTimestamp -> Occurrence(
@@ -151,7 +153,7 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
                 schedule.dayOfMonth.coerceAtMost(monthCursor.lengthOfMonth()),
             )
             val timestamp = resolveLocalDateTime(
-                date = date,
+                dateEpochDay = date.toEpochDay(),
                 timeOfDayMillis = schedule.timeOfDayMillis,
                 timeZone = timeZone,
             )
@@ -169,19 +171,28 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
     }
 
     fun resolveLocalDateTime(
-        date: LocalDate,
+        dateEpochDay: Long,
         timeOfDayMillis: Long,
         timeZone: TimeZone,
     ): Long {
-        val time = LocalTime.ofNanoOfDay(TimeUnit.MILLISECONDS.toNanos(timeOfDayMillis))
+        if (!isValidTime(timeOfDayMillis)) return 0L
 
-        // atZone moves times in a DST gap forward by the gap.
-        // Select the earlier instant when the local time occurs twice during an overlap.
-        return date.atTime(time)
-            .atZone(timeZone.toZoneId())
-            .withEarlierOffsetAtOverlap()
-            .toInstant()
-            .toEpochMilli()
+        return try {
+            val date = LocalDate.ofEpochDay(dateEpochDay)
+            val time = LocalTime.ofNanoOfDay(TimeUnit.MILLISECONDS.toNanos(timeOfDayMillis))
+
+            // atZone moves times in a DST gap forward by the gap.
+            // Select the earlier instant when the local time occurs twice during an overlap.
+            date.atTime(time)
+                .atZone(timeZone.toZoneId())
+                .withEarlierOffsetAtOverlap()
+                .toInstant()
+                .toEpochMilli()
+        } catch (_: DateTimeException) {
+            0L
+        } catch (_: ArithmeticException) {
+            0L
+        }
     }
 
     private fun Long.toLocalDate(timeZone: TimeZone): LocalDate {

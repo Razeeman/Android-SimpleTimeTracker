@@ -377,6 +377,8 @@
     <string name="settings_do_not_disturb">مزاحم نشوید</string>
     <string name="settings_notifications_system_settings">تنظیمات سیستم</string>
     <string name="settings_notifications_system_settings_hint">صدا، لرزش، فلاش و غیره</string>
+    <string name="settings_reminders_title">یادآورها</string>
+    <string name="settings_reminders_hint">مدیریت یادآورهای زمان‌بندی‌شده</string>
     <string name="settings_ignore_short_records">چشم پوشی از تاریخچه های کوتاه</string>
     <string name="settings_ignore_short_records_hint">فعالیت هایی که از زمان معین شده کوتاه تر هستند را اندازه گیری نکن</string>
     <string name="settings_inactivity_reminder_disabled">غیر فعال</string>
@@ -691,9 +693,21 @@
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">روزانه</string>
+    <string name="reminders_schedule_weekly">هفتگی</string>
     <string name="reminders_schedule_one_time">یک‌بار</string>
     <string name="reminders_schedule_monthly">ماهانه</string>
     <string name="reminders_condition_activity_not_tracked">وقتی فعالیت امروز ثبت نشده باشد</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">پیام</string>
+    <string name="change_reminder_schedule">زمان‌بندی</string>
+    <string name="change_reminder_day_of_month">روز ماه</string>
+    <string name="change_reminder_condition">شرط نمایش</string>
+    <string name="change_reminder_condition_always">همیشه</string>
+    <string name="change_reminder_message_prefill">انجام %s را فراموش نکنید.</string>
+    <string name="change_reminder_message_required">پیام یادآوری را وارد کنید</string>
+    <string name="change_reminder_future_required">زمانی در آینده انتخاب کنید</string>
+    <string name="change_reminder_removed">یادآوری حذف شد</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">اتصال خود را بررسی کنید و دوباره امتحان کنید</string>

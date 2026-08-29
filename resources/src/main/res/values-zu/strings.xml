@@ -377,6 +377,8 @@ Lokhu kukuvumela ukuthi ubone isikhathi osichitha emisebenzini esebenzayo nezing
     <string name="settings_do_not_disturb">Ungaphazamisi</string>
     <string name="settings_notifications_system_settings">Izilungiselelo zesistimu</string>
     <string name="settings_notifications_system_settings_hint">Umsindo, ukudlidliza, ukukhanya nokunye</string>
+    <string name="settings_reminders_title">Izikhumbuzi</string>
+    <string name="settings_reminders_hint">Phatha izikhumbuzi ezihleliwe</string>
     <string name="settings_ignore_short_records">Yeka amarekhodi amafushane</string>
     <string name="settings_ignore_short_records_hint">Ungalandeli imisebenzi emifushane kune isikhathi esibekiwe.</string>
     <string name="settings_inactivity_reminder_disabled">Khubaziwe</string>
@@ -691,9 +693,21 @@ Isibonelo:<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Nsuku zonke</string>
+    <string name="reminders_schedule_weekly">Masonto onke</string>
     <string name="reminders_schedule_one_time">Kanye</string>
     <string name="reminders_schedule_monthly">Nyanga zonke</string>
     <string name="reminders_condition_activity_not_tracked">Uma umsebenzi ungakalandelelwa namuhla</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Umlayezo</string>
+    <string name="change_reminder_schedule">Ishejuli</string>
+    <string name="change_reminder_day_of_month">Usuku lwenyanga</string>
+    <string name="change_reminder_condition">Umbandela wokubonisa</string>
+    <string name="change_reminder_condition_always">Njalo</string>
+    <string name="change_reminder_message_prefill">Ungakhohlwa ukwenza %s.</string>
+    <string name="change_reminder_message_required">Faka umlayezo wesikhumbuzi</string>
+    <string name="change_reminder_future_required">Khetha isikhathi esizayo</string>
+    <string name="change_reminder_removed">Isikhumbuzi sisusiwe</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Hlola ukuxhumeka kwakho bese uzama futhi</string>

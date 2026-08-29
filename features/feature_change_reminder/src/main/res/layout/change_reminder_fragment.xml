@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollChangeReminder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/dividerChangeReminderButton"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.example.util.simpletimetracker.feature_views.ButtonIconView
+                android:id="@+id/btnChangeReminderDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/edit_screen_button_margin_horizontal"
+                android:layout_marginEnd="@dimen/edit_screen_button_margin_horizontal"
+                android:visibility="gone"
+                app:itemButtonIconRes="@drawable/delete"
+                app:itemButtonIconText="@string/archive_dialog_delete"
+                tools:visibility="visible" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutChangeReminderMessage"
+                style="@style/ChangeItemInputField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
+                android:layout_marginTop="8dp"
+                android:hint="@string/change_reminder_message">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etChangeReminderMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:maxLines="4" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/InputFieldCardText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="12dp"
+                android:text="@string/change_reminder_schedule"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fieldChangeReminderSchedule"
+                style="@style/InputFieldCard"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                android:layout_marginTop="3dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?appInputFieldBorder">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvChangeReminderSchedule"
+                        style="@style/InputFieldCardText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        app:layout_constraintEnd_toStartOf="@id/arrowChangeReminderSchedule"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="@string/reminders_schedule_weekly" />
+
+                    <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+                        android:id="@+id/spinnerChangeReminderSchedule"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/arrowChangeReminderSchedule"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:src="?appArrow"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerChangeReminderDateTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/fieldChangeReminderDateTime"
+                    style="@style/InputFieldCard"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_field_height"
+                    android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?appInputFieldBorder">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeReminderDate"
+                            style="@style/EditScreenField"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:fontFamily="sans-serif-condensed"
+                            android:foreground="?selectableItemBackground"
+                            android:gravity="center|end"
+                            android:textColor="?colorAccent"
+                            android:textSize="18sp"
+                            android:visibility="gone"
+                            app:autoSizeMaxTextSize="18sp"
+                            app:autoSizeMinTextSize="1sp"
+                            app:autoSizeTextType="uniform"
+                            app:layout_constraintEnd_toStartOf="@id/tvChangeReminderTime"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:text="Aug 26 2026"
+                            tools:visibility="visible" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeReminderTime"
+                            style="@style/EditScreenField"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:fontFamily="sans-serif-condensed"
+                            android:foreground="?selectableItemBackground"
+                            android:gravity="center|start"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            app:autoSizeMaxTextSize="28sp"
+                            app:autoSizeMinTextSize="1sp"
+                            app:autoSizeTextType="uniform"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tvChangeReminderDate"
+                            tools:text="09:00" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvChangeReminderFirstHint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginStart="@dimen/edit_screen_field_margin_horizontal"
+                    android:background="?appBackgroundColor"
+                    android:labelFor="@id/tvChangeReminderDate"
+                    android:paddingHorizontal="6dp"
+                    android:text="@string/date_time_dialog_date"
+                    android:textColor="?appTextHintColor"
+                    android:textSize="11sp"
+                    android:translationY="-5dp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@id/fieldChangeReminderDateTime"
+                    app:layout_constraintTop_toTopOf="@id/fieldChangeReminderDateTime"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvChangeReminderSecondHint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginEnd="@dimen/edit_screen_field_margin_horizontal"
+                    android:background="?appBackgroundColor"
+                    android:labelFor="@id/tvChangeReminderTime"
+                    android:paddingHorizontal="6dp"
+                    android:text="@string/date_time_dialog_time"
+                    android:textColor="?appTextHintColor"
+                    android:textSize="11sp"
+                    android:translationY="-4dp"
+                    app:layout_constraintEnd_toEndOf="@id/fieldChangeReminderDateTime"
+                    app:layout_constraintTop_toTopOf="@id/fieldChangeReminderDateTime" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/containerChangeReminderWeekdays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/InputFieldCardText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:paddingHorizontal="12dp"
+                    android:text="@string/settings_reminder_active_days"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvChangeReminderDays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                    android:layout_marginTop="3dp"
+                    android:overScrollMode="never"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/item_day_of_week" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/containerChangeReminderDayOfMonth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/fieldChangeReminderDayOfMonth"
+                    style="@style/InputFieldCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/input_field_height"
+                    android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?appInputFieldBorder">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeReminderDayOfMonthHint"
+                            style="@style/InputFieldCardText"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@string/change_reminder_day_of_month"
+                            app:layout_constraintEnd_toStartOf="@id/tvChangeReminderDayOfMonth"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeReminderDayOfMonth"
+                            style="@style/InputFieldCardText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            app:layout_constraintEnd_toStartOf="@id/arrowChangeReminderDayOfMonth"
+                            tools:text="15" />
+
+                        <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+                            android:id="@+id/spinnerChangeReminderDayOfMonth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="invisible"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/arrowChangeReminderDayOfMonth"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:src="?appArrow"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/containerChangeReminderCondition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/InputFieldCardText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:paddingHorizontal="12dp"
+                    android:text="@string/change_reminder_condition"
+                    android:textStyle="bold" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/fieldChangeReminderCondition"
+                    style="@style/InputFieldCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/input_field_height"
+                    android:layout_marginHorizontal="@dimen/edit_screen_field_margin_horizontal"
+                    android:layout_marginTop="3dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?appInputFieldBorder">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeReminderCondition"
+                            style="@style/InputFieldCardText"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            app:layout_constraintEnd_toStartOf="@id/arrowChangeReminderCondition"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:text="@string/change_reminder_condition_always" />
+
+                        <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+                            android:id="@+id/spinnerChangeReminderCondition"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:visibility="invisible"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/arrowChangeReminderCondition"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:src="?appArrow"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnChangeReminderActivity"
+                    style="@style/AppButton"
+                    android:layout_width="match_parent"
+                    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
+                    android:text="@string/change_record_message_choose_type"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.example.util.simpletimetracker.feature_views.DividerFullView
+        android:id="@+id/dividerChangeReminderButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/btnChangeReminderSave" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnChangeReminderSave"
+        style="@style/AppButtonActive"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal"
+        android:text="@string/change_activity_filter_save"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

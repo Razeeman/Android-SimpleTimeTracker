@@ -377,6 +377,8 @@
     <string name="settings_do_not_disturb">परेशान मत करो</string>
     <string name="settings_notifications_system_settings">प्रणाली व्यवस्था</string>
     <string name="settings_notifications_system_settings_hint">ध्वनि, कंपन, फ्लैश और अन्य</string>
+    <string name="settings_reminders_title">रिमाइंडर</string>
+    <string name="settings_reminders_hint">शेड्यूल किए गए रिमाइंडर प्रबंधित करें</string>
     <string name="settings_ignore_short_records">छोटे रिकॉर्ड को अनदेखा करें</string>
     <string name="settings_ignore_short_records_hint">उन गतिविधियों को ट्रैक न करें जो निर्दिष्ट समय से कम हैं।</string>
     <string name="settings_inactivity_reminder_disabled">अक्षम</string>
@@ -691,9 +693,21 @@ csv फ़ाइल में कॉमा से अलग किए गए य
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">रोज़ाना</string>
+    <string name="reminders_schedule_weekly">साप्ताहिक</string>
     <string name="reminders_schedule_one_time">एक बार</string>
     <string name="reminders_schedule_monthly">मासिक</string>
     <string name="reminders_condition_activity_not_tracked">जब आज गतिविधि ट्रैक नहीं की गई हो</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">संदेश</string>
+    <string name="change_reminder_schedule">शेड्यूल</string>
+    <string name="change_reminder_day_of_month">महीने का दिन</string>
+    <string name="change_reminder_condition">दिखाने की शर्त</string>
+    <string name="change_reminder_condition_always">हमेशा</string>
+    <string name="change_reminder_message_prefill">%s करना न भूलें।</string>
+    <string name="change_reminder_message_required">रिमाइंडर संदेश दर्ज करें</string>
+    <string name="change_reminder_future_required">भविष्य का समय चुनें</string>
+    <string name="change_reminder_removed">रिमाइंडर हटा दिया गया</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">अपना कनेक्शन जांचें और पुनः प्रयास करें</string>

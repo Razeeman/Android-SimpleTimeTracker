@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_dialogs.typesSelection.view
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -110,6 +111,10 @@ class TypesSelectionDialogFragment :
 
     override fun onNegativeClick(tag: String?, data: Any?) {
         viewModel.onNegativeClick(tag, data)
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
     }
 
     private fun updateViewState(data: TypesSelectionDialogViewData) = with(binding) {

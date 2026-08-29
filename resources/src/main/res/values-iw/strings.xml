@@ -377,6 +377,8 @@
     <string name="settings_do_not_disturb">נא לא להפריע</string>
     <string name="settings_notifications_system_settings">הגדרות מערכת</string>
     <string name="settings_notifications_system_settings_hint">קול, רטט, הבזק ועוד</string>
+    <string name="settings_reminders_title">תזכורות</string>
+    <string name="settings_reminders_hint">ניהול תזכורות מתוזמנות</string>
     <string name="settings_ignore_short_records">התעלם מרשומות קצרות</string>
     <string name="settings_ignore_short_records_hint">אל תעקוב אחר פעילויות הקצרות מהזמן שצוין.</string>
     <string name="settings_inactivity_reminder_disabled">מושבת</string>
@@ -691,9 +693,21 @@
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">יומי</string>
+    <string name="reminders_schedule_weekly">שבועי</string>
     <string name="reminders_schedule_one_time">פעם אחת</string>
     <string name="reminders_schedule_monthly">חודשי</string>
     <string name="reminders_condition_activity_not_tracked">כאשר הפעילות לא תועדה היום</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">הודעה</string>
+    <string name="change_reminder_schedule">תזמון</string>
+    <string name="change_reminder_day_of_month">יום בחודש</string>
+    <string name="change_reminder_condition">תנאי תצוגה</string>
+    <string name="change_reminder_condition_always">תמיד</string>
+    <string name="change_reminder_message_prefill">לא לשכוח לבצע %s.</string>
+    <string name="change_reminder_message_required">יש להזין הודעת תזכורת</string>
+    <string name="change_reminder_future_required">יש לבחור זמן בעתיד</string>
+    <string name="change_reminder_removed">התזכורת הוסרה</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">בדוק את החיבור שלך ונסה שוב</string>

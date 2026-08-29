@@ -377,6 +377,8 @@
     <string name="settings_do_not_disturb">請勿打擾</string>
     <string name="settings_notifications_system_settings">系統設定</string>
     <string name="settings_notifications_system_settings_hint">聲音、振動、閃光等</string>
+    <string name="settings_reminders_title">提醒</string>
+    <string name="settings_reminders_hint">管理排定的提醒</string>
     <string name="settings_ignore_short_records">忽略短時間</string>
     <string name="settings_ignore_short_records_hint">短於指定時間，不要追蹤活動</string>
     <string name="settings_inactivity_reminder_disabled">已關閉</string>
@@ -691,9 +693,21 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">每天</string>
+    <string name="reminders_schedule_weekly">每週</string>
     <string name="reminders_schedule_one_time">僅一次</string>
     <string name="reminders_schedule_monthly">每月</string>
     <string name="reminders_condition_activity_not_tracked">當今天尚未記錄此活動時</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">訊息</string>
+    <string name="change_reminder_schedule">排程</string>
+    <string name="change_reminder_day_of_month">每月日期</string>
+    <string name="change_reminder_condition">顯示條件</string>
+    <string name="change_reminder_condition_always">一律</string>
+    <string name="change_reminder_message_prefill">別忘了進行 %s。</string>
+    <string name="change_reminder_message_required">請輸入提醒訊息</string>
+    <string name="change_reminder_future_required">請選擇未來的時間</string>
+    <string name="change_reminder_removed">提醒已移除</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">檢查您的連線並重試</string>

@@ -59,6 +59,11 @@ class ReminderViewDataMapper @Inject constructor(
                 activity = activity,
             ),
             enabled = reminder.enabled,
+            backgroundColor = if (reminder.enabled) {
+                colorMapper.toActiveColor(isDarkTheme)
+            } else {
+                colorMapper.toInactiveColor(isDarkTheme)
+            },
             enabledButtonColor = if (reminder.enabled) {
                 colorMapper.toInactiveColor(isDarkTheme)
             } else {
@@ -103,7 +108,7 @@ class ReminderViewDataMapper @Inject constructor(
             }
             is ScheduledReminder.Schedule.OneTime -> {
                 val timestamp = resolve(
-                    date = LocalDate.ofEpochDay(schedule.oneTimeDate),
+                    dateEpochDay = schedule.oneTimeDate,
                     timeOfDayMillis = schedule.timeOfDayMillis,
                     timeZone = timeZone,
                 )
@@ -147,7 +152,7 @@ class ReminderViewDataMapper @Inject constructor(
         timeZone: TimeZone,
     ): String {
         val timestamp = resolve(
-            date = LocalDate.now(timeZone.toZoneId()),
+            dateEpochDay = LocalDate.now(timeZone.toZoneId()).toEpochDay(),
             timeOfDayMillis = timeOfDayMillis,
             timeZone = timeZone,
         )
@@ -158,11 +163,11 @@ class ReminderViewDataMapper @Inject constructor(
         )
     }
 
-    private fun resolve(date: LocalDate, timeOfDayMillis: Long, timeZone: TimeZone): Long {
+    private fun resolve(dateEpochDay: Long, timeOfDayMillis: Long, timeZone: TimeZone): Long {
         val timeOfDayMillis = timeOfDayMillis.coerceIn(0, TimeUnit.DAYS.toMillis(1) - 1)
 
         return scheduledReminderOccurrenceCalculator.resolveLocalDateTime(
-            date = date,
+            dateEpochDay = dateEpochDay,
             timeOfDayMillis = timeOfDayMillis,
             timeZone = timeZone,
         )

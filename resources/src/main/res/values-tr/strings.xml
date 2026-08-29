@@ -377,6 +377,8 @@ Bu, genel olarak verimli ve verimsiz aktivitelere ne kadar zaman harcadığını
     <string name="settings_do_not_disturb">Rahatsız etme</string>
     <string name="settings_notifications_system_settings">Sistem ayarları</string>
     <string name="settings_notifications_system_settings_hint">Ses, titreşim, flaş ve diğer</string>
+    <string name="settings_reminders_title">Hatırlatıcılar</string>
+    <string name="settings_reminders_hint">Planlanmış hatırlatıcıları yönet</string>
     <string name="settings_ignore_short_records">Kısa kayıtları yoksay</string>
     <string name="settings_ignore_short_records_hint">Belirtilen süreden daha kısa olan kayıtları yoksay.</string>
     <string name="settings_inactivity_reminder_disabled">Devre dışı</string>
@@ -691,9 +693,21 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Günlük</string>
+    <string name="reminders_schedule_weekly">Haftalık</string>
     <string name="reminders_schedule_one_time">Bir kez</string>
     <string name="reminders_schedule_monthly">Aylık</string>
     <string name="reminders_condition_activity_not_tracked">Etkinlik bugün takip edilmediğinde</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Mesaj</string>
+    <string name="change_reminder_schedule">Program</string>
+    <string name="change_reminder_day_of_month">Ayın günü</string>
+    <string name="change_reminder_condition">Görüntüleme koşulu</string>
+    <string name="change_reminder_condition_always">Her zaman</string>
+    <string name="change_reminder_message_prefill">%s yapmayı unutmayın.</string>
+    <string name="change_reminder_message_required">Bir hatırlatıcı mesajı girin</string>
+    <string name="change_reminder_future_required">Gelecekte bir zaman seçin</string>
+    <string name="change_reminder_removed">Hatırlatıcı kaldırıldı</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Bağlantınızı kontrol edip tekrar deneyin</string>

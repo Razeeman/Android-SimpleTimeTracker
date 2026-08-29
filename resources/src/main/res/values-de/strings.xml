@@ -377,6 +377,8 @@ Dies ermöglicht es dir, zu sehen, wie viel Zeit du insgesamt für produktive ve
     <string name="settings_do_not_disturb">Bitte nicht stören</string>
     <string name="settings_notifications_system_settings">Systemeinstellungen</string>
     <string name="settings_notifications_system_settings_hint">Ton, Vibration, Blitz und andere</string>
+    <string name="settings_reminders_title">Erinnerungen</string>
+    <string name="settings_reminders_hint">Geplante Erinnerungen verwalten</string>
     <string name="settings_ignore_short_records">Ignorieren Sie kurze Aufzeichnungen</string>
     <string name="settings_ignore_short_records_hint">Verfolgen Sie keine Aktivitäten, die kürzer als die angegebene Zeit sind.</string>
     <string name="settings_inactivity_reminder_disabled">Deaktiviert</string>
@@ -691,9 +693,21 @@ Beispiel:<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Täglich</string>
+    <string name="reminders_schedule_weekly">Wöchentlich</string>
     <string name="reminders_schedule_one_time">Einmal</string>
     <string name="reminders_schedule_monthly">Monatlich</string>
     <string name="reminders_condition_activity_not_tracked">Wenn die Aktivität heute nicht erfasst wurde</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Nachricht</string>
+    <string name="change_reminder_schedule">Zeitplan</string>
+    <string name="change_reminder_day_of_month">Tag des Monats</string>
+    <string name="change_reminder_condition">Anzeigebedingung</string>
+    <string name="change_reminder_condition_always">Immer</string>
+    <string name="change_reminder_message_prefill">Vergiss nicht, %s zu erledigen.</string>
+    <string name="change_reminder_message_required">Gib eine Erinnerungsnachricht ein</string>
+    <string name="change_reminder_future_required">Wähle einen Zeitpunkt in der Zukunft</string>
+    <string name="change_reminder_removed">Erinnerung entfernt</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut</string>

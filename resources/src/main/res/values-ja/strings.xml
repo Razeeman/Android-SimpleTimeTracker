@@ -377,6 +377,8 @@
     <string name="settings_do_not_disturb">邪魔しないでください</string>
     <string name="settings_notifications_system_settings">システム設定</string>
     <string name="settings_notifications_system_settings_hint">音、振動、フラッシュなど</string>
+    <string name="settings_reminders_title">リマインダー</string>
+    <string name="settings_reminders_hint">予定されたリマインダーを管理</string>
     <string name="settings_ignore_short_records">短い記録は無視</string>
     <string name="settings_ignore_short_records_hint">指定された時間より短いアクティビティは計測しません。</string>
     <string name="settings_inactivity_reminder_disabled">未設定</string>
@@ -691,9 +693,21 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">毎日</string>
+    <string name="reminders_schedule_weekly">毎週</string>
     <string name="reminders_schedule_one_time">1回のみ</string>
     <string name="reminders_schedule_monthly">毎月</string>
     <string name="reminders_condition_activity_not_tracked">今日アクティビティが記録されていないとき</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">メッセージ</string>
+    <string name="change_reminder_schedule">スケジュール</string>
+    <string name="change_reminder_day_of_month">日付</string>
+    <string name="change_reminder_condition">表示条件</string>
+    <string name="change_reminder_condition_always">常に</string>
+    <string name="change_reminder_message_prefill">%sを忘れずに。</string>
+    <string name="change_reminder_message_required">リマインダーのメッセージを入力してください</string>
+    <string name="change_reminder_future_required">未来の時刻を選択してください</string>
+    <string name="change_reminder_removed">リマインダーを削除しました</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">接続を確認して再試行してください</string>

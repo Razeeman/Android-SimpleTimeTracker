@@ -377,6 +377,8 @@ Isto permite-lhe ver quanto tempo está a gastar em atividades produtivas versus
     <string name="settings_do_not_disturb">Não perturbar</string>
     <string name="settings_notifications_system_settings">Definições de sistema</string>
     <string name="settings_notifications_system_settings_hint">Sons, vibração, lanterna e outros</string>
+    <string name="settings_reminders_title">Lembretes</string>
+    <string name="settings_reminders_hint">Gerir lembretes agendados</string>
     <string name="settings_ignore_short_records">Ignorar registos curtos</string>
     <string name="settings_ignore_short_records_hint">Não registar atividades mais curtas que o tempo especificado.</string>
     <string name="settings_inactivity_reminder_disabled">Desativado</string>
@@ -691,9 +693,21 @@ Exemplo:<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Diariamente</string>
+    <string name="reminders_schedule_weekly">Semanalmente</string>
     <string name="reminders_schedule_one_time">Uma vez</string>
     <string name="reminders_schedule_monthly">Mensalmente</string>
     <string name="reminders_condition_activity_not_tracked">Quando a atividade não tiver sido registada hoje</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Mensagem</string>
+    <string name="change_reminder_schedule">Agendamento</string>
+    <string name="change_reminder_day_of_month">Dia do mês</string>
+    <string name="change_reminder_condition">Condição de apresentação</string>
+    <string name="change_reminder_condition_always">Sempre</string>
+    <string name="change_reminder_message_prefill">Não se esqueça de fazer %s.</string>
+    <string name="change_reminder_message_required">Introduza uma mensagem de lembrete</string>
+    <string name="change_reminder_future_required">Selecione uma hora futura</string>
+    <string name="change_reminder_removed">Lembrete removido</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Verifique sua conexão e tente novamente</string>

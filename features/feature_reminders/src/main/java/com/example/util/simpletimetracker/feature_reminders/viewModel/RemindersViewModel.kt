@@ -15,6 +15,8 @@ import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderView
 import com.example.util.simpletimetracker.feature_reminders.interactor.RemindersViewDataInteractor
 import com.example.util.simpletimetracker.feature_reminders.viewData.ReminderViewData
 import com.example.util.simpletimetracker.feature_reminders.viewData.RemindersButtonViewData
+import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeReminderParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -22,6 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RemindersViewModel @Inject constructor(
+    private val router: Router,
     private val scheduledReminderInteractor: ScheduledReminderInteractor,
     private val remindersViewDataInteractor: RemindersViewDataInteractor,
     private val checkNotificationsPermissionInteractor: CheckNotificationsPermissionInteractor,
@@ -44,13 +47,12 @@ class RemindersViewModel @Inject constructor(
     }
 
     fun onAddClick(item: ButtonViewData) {
-        if (item.id is RemindersButtonViewData) {
-            // TODO add
-        }
+        if (item.id !is RemindersButtonViewData) return
+        router.navigate(ChangeReminderParams.New)
     }
 
     fun onReminderClick(item: ReminderViewData) {
-        // TODO change
+        router.navigate(ChangeReminderParams.Change(item.id))
     }
 
     fun onEnabledClick(item: ReminderViewData) {

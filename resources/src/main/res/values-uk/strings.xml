@@ -377,6 +377,8 @@
     <string name="settings_do_not_disturb">Не турбувати</string>
     <string name="settings_notifications_system_settings">Налаштування системи</string>
     <string name="settings_notifications_system_settings_hint">Звук, вібрація, спалах та інше</string>
+    <string name="settings_reminders_title">Нагадування</string>
+    <string name="settings_reminders_hint">Керування запланованими нагадуваннями</string>
     <string name="settings_ignore_short_records">Ігнорувати короткі записи</string>
     <string name="settings_ignore_short_records_hint">Не відстежувати дії, які коротші за вказаний час.</string>
     <string name="settings_inactivity_reminder_disabled">Вимкнено</string>
@@ -691,9 +693,21 @@
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Щодня</string>
+    <string name="reminders_schedule_weekly">Щотижня</string>
     <string name="reminders_schedule_one_time">Один раз</string>
     <string name="reminders_schedule_monthly">Щомісяця</string>
     <string name="reminders_condition_activity_not_tracked">Якщо активність сьогодні не відстежувалася</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Повідомлення</string>
+    <string name="change_reminder_schedule">Розклад</string>
+    <string name="change_reminder_day_of_month">День місяця</string>
+    <string name="change_reminder_condition">Умова показу</string>
+    <string name="change_reminder_condition_always">Завжди</string>
+    <string name="change_reminder_message_prefill">Не забудьте виконати %s.</string>
+    <string name="change_reminder_message_required">Введіть текст нагадування</string>
+    <string name="change_reminder_future_required">Виберіть час у майбутньому</string>
+    <string name="change_reminder_removed">Нагадування видалено</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Перевірте підключення та повторіть спробу</string>

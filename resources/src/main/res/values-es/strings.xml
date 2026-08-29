@@ -377,6 +377,8 @@ Esto te permite ver cuánto tiempo estás dedicando a actividades productivas fr
     <string name="settings_do_not_disturb">No molestar</string>
     <string name="settings_notifications_system_settings">Ajustes del sistema</string>
     <string name="settings_notifications_system_settings_hint">Sonido, vibración, flash y otros</string>
+    <string name="settings_reminders_title">Recordatorios</string>
+    <string name="settings_reminders_hint">Gestionar recordatorios programados</string>
     <string name="settings_ignore_short_records">Ignorar registros cortos</string>
     <string name="settings_ignore_short_records_hint">No rastree actividades que sean más cortas que el tiempo especificado.</string>
     <string name="settings_inactivity_reminder_disabled">Deshabilitado</string>
@@ -691,9 +693,21 @@ Ejemplo:<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Diariamente</string>
+    <string name="reminders_schedule_weekly">Semanalmente</string>
     <string name="reminders_schedule_one_time">Una vez</string>
     <string name="reminders_schedule_monthly">Mensualmente</string>
     <string name="reminders_condition_activity_not_tracked">Cuando la actividad no se haya registrado hoy</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Mensaje</string>
+    <string name="change_reminder_schedule">Programación</string>
+    <string name="change_reminder_day_of_month">Día del mes</string>
+    <string name="change_reminder_condition">Condición de visualización</string>
+    <string name="change_reminder_condition_always">Siempre</string>
+    <string name="change_reminder_message_prefill">No olvides hacer %s.</string>
+    <string name="change_reminder_message_required">Introduce un mensaje de recordatorio</string>
+    <string name="change_reminder_future_required">Selecciona una hora futura</string>
+    <string name="change_reminder_removed">Recordatorio eliminado</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Comprueba tu conexión y vuelve a intentarlo.</string>

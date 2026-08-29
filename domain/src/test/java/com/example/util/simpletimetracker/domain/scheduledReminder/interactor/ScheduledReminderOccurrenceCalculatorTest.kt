@@ -3,6 +3,8 @@ package com.example.util.simpletimetracker.domain.scheduledReminder.interactor
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Test
 import java.time.Instant
 import java.time.LocalDate
@@ -100,6 +102,50 @@ class ScheduledReminderOccurrenceCalculatorTest {
                 expectedOccurrenceTimestamp = expectedTimestamp,
             ),
             actual,
+        )
+    }
+
+    @Test
+    fun `invalid one-time date does not throw while calculating occurrence`() {
+        val schedule = ScheduledReminder.Schedule.OneTime(
+            oneTimeDate = Long.MAX_VALUE,
+            timeOfDayMillis = timeOfDayMillis(hour = 9),
+        )
+
+        assertNull(
+            subject.calculateNext(
+                schedule = schedule,
+                nowTimestamp = timestamp("2025-01-01T00:00:00Z"),
+                timeZone = TimeZone.getTimeZone("UTC"),
+                catchUpOverdueOneTime = false,
+            ),
+        )
+        assertFalse(
+            subject.matchesExpectedOccurrence(
+                schedule = schedule,
+                expectedOccurrenceTimestamp = timestamp("2025-01-02T09:00:00Z"),
+                timeZone = TimeZone.getTimeZone("UTC"),
+            ),
+        )
+    }
+
+    @Test
+    fun `resolver returns zero for invalid inputs`() {
+        assertEquals(
+            0L,
+            subject.resolveLocalDateTime(
+                dateEpochDay = Long.MAX_VALUE,
+                timeOfDayMillis = timeOfDayMillis(hour = 9),
+                timeZone = TimeZone.getTimeZone("UTC"),
+            ),
+        )
+        assertEquals(
+            0L,
+            subject.resolveLocalDateTime(
+                dateEpochDay = LocalDate.of(2025, 1, 1).toEpochDay(),
+                timeOfDayMillis = TimeUnit.DAYS.toMillis(1),
+                timeZone = TimeZone.getTimeZone("UTC"),
+            ),
         )
     }
 

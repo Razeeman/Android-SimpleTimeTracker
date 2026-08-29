@@ -376,7 +376,9 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_activity_reminder_hint">Afficher une notification après la durée indiquée si des enregistrements sont en cours.</string>
     <string name="settings_do_not_disturb">Ne pas déranger</string>
     <string name="settings_notifications_system_settings">Paramètres système</string>
-    <string name="settings_notifications_system_settings_hint">Son, vibreur, badge d\'application, verrouillage ...</string>
+    <string name="settings_notifications_system_settings_hint">Son, vibreur, badge d\'application, verrouillage …</string>
+    <string name="settings_reminders_title">Rappels</string>
+    <string name="settings_reminders_hint">Gérer les rappels programmés</string>
     <string name="settings_ignore_short_records">Ignorer les enregistrements courts</string>
     <string name="settings_ignore_short_records_hint">Ne pas enregistrer les activités qui sont plus courtes que la durée indiquée.</string>
     <string name="settings_inactivity_reminder_disabled">Désactivé</string>
@@ -691,9 +693,21 @@ Exemple :<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Tous les jours</string>
+    <string name="reminders_schedule_weekly">Chaque semaine</string>
     <string name="reminders_schedule_one_time">Une fois</string>
     <string name="reminders_schedule_monthly">Tous les mois</string>
     <string name="reminders_condition_activity_not_tracked">Lorsque l\'activité n\'a pas été suivie aujourd\'hui</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Message</string>
+    <string name="change_reminder_schedule">Planification</string>
+    <string name="change_reminder_day_of_month">Jour du mois</string>
+    <string name="change_reminder_condition">Condition d\'affichage</string>
+    <string name="change_reminder_condition_always">Toujours</string>
+    <string name="change_reminder_message_prefill">N\'oubliez pas de faire %s.</string>
+    <string name="change_reminder_message_required">Saisissez un message de rappel</string>
+    <string name="change_reminder_future_required">Sélectionnez une heure future</string>
+    <string name="change_reminder_removed">Rappel supprimé</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Vérifiez votre connexion et réessayez</string>

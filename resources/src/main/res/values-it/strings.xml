@@ -377,6 +377,8 @@ I <b>tag</b> ti permettono di aggiungere maggiori dettagli a un\'attività speci
     <string name="settings_do_not_disturb">Non disturbare</string>
     <string name="settings_notifications_system_settings">Impostazioni di sistema</string>
     <string name="settings_notifications_system_settings_hint">Suono, vibrazione, flash e altro</string>
+    <string name="settings_reminders_title">Promemoria</string>
+    <string name="settings_reminders_hint">Gestisci i promemoria programmati</string>
     <string name="settings_ignore_short_records">Ignora i record brevi</string>
     <string name="settings_ignore_short_records_hint">Non tenere traccia delle attività più brevi del tempo specificato.</string>
     <string name="settings_inactivity_reminder_disabled">Disabilitato</string>
@@ -691,9 +693,21 @@ Esempio:<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Giornalmente</string>
+    <string name="reminders_schedule_weekly">Settimanale</string>
     <string name="reminders_schedule_one_time">Una volta</string>
     <string name="reminders_schedule_monthly">Mensilmente</string>
     <string name="reminders_condition_activity_not_tracked">Quando l\'attività non è stata registrata oggi</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Messaggio</string>
+    <string name="change_reminder_schedule">Programmazione</string>
+    <string name="change_reminder_day_of_month">Giorno del mese</string>
+    <string name="change_reminder_condition">Condizione di visualizzazione</string>
+    <string name="change_reminder_condition_always">Sempre</string>
+    <string name="change_reminder_message_prefill">Non dimenticare di fare %s.</string>
+    <string name="change_reminder_message_required">Inserisci un messaggio di promemoria</string>
+    <string name="change_reminder_future_required">Seleziona un orario futuro</string>
+    <string name="change_reminder_removed">Promemoria rimosso</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Controlla la connessione e riprova</string>

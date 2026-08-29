@@ -7,11 +7,11 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="4dp"
     android:foreground="?selectableItemBackground"
-    app:cardBackgroundColor="?appCardBackgroundColor"
     app:cardCornerRadius="@dimen/record_type_card_corner_radius"
     app:cardElevation="@dimen/record_type_card_elevation"
     app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="true"
+    tools:cardBackgroundColor="?appActiveColor">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:textColor="?appTextPrimaryColor"
+            android:textColor="?appLightTextColor"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/btnReminderEnabled"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="2dp"
-            android:textColor="?appTextHintColor"
+            android:textColor="?appLightTextColor"
             app:layout_constraintEnd_toStartOf="@id/btnReminderEnabled"
             app:layout_constraintStart_toEndOf="@id/cardReminderActivityIcon"
             app:layout_constraintTop_toBottomOf="@id/tvReminderText"
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="2dp"
-            android:textColor="?appTextHintColor"
+            android:textColor="?appLightTextColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnReminderEnabled"
             app:layout_constraintStart_toEndOf="@id/cardReminderActivityIcon"

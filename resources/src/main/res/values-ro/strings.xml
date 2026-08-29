@@ -377,6 +377,8 @@ Acest lucru îți permite să vezi cât timp petreci în activități productive
     <string name="settings_do_not_disturb">Nu deranja</string>
     <string name="settings_notifications_system_settings">Setări de sistem</string>
     <string name="settings_notifications_system_settings_hint">Sunet, vibrație, flash și altele</string>
+    <string name="settings_reminders_title">Mementouri</string>
+    <string name="settings_reminders_hint">Gestionează mementourile programate</string>
     <string name="settings_ignore_short_records">Ignoră înregistrările scurte</string>
     <string name="settings_ignore_short_records_hint">Nu urmări activități care sunt mai scurte decât timpul specificat.</string>
     <string name="settings_inactivity_reminder_disabled">Dezactivează</string>
@@ -691,9 +693,21 @@ Examplu:<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Zilnic</string>
+    <string name="reminders_schedule_weekly">Săptămânal</string>
     <string name="reminders_schedule_one_time">O singură dată</string>
     <string name="reminders_schedule_monthly">Lunar</string>
     <string name="reminders_condition_activity_not_tracked">Când activitatea nu a fost înregistrată astăzi</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Mesaj</string>
+    <string name="change_reminder_schedule">Programare</string>
+    <string name="change_reminder_day_of_month">Ziua lunii</string>
+    <string name="change_reminder_condition">Condiție de afișare</string>
+    <string name="change_reminder_condition_always">Întotdeauna</string>
+    <string name="change_reminder_message_prefill">Nu uita să faci %s.</string>
+    <string name="change_reminder_message_required">Introdu un mesaj pentru memento</string>
+    <string name="change_reminder_future_required">Selectează o oră din viitor</string>
+    <string name="change_reminder_removed">Memento eliminat</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Verifică conexiunea și încearcă din nou</string>

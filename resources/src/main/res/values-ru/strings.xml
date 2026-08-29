@@ -377,6 +377,8 @@
     <string name="settings_do_not_disturb">Не беспокоить</string>
     <string name="settings_notifications_system_settings">Настройки системы</string>
     <string name="settings_notifications_system_settings_hint">Звук, вибрация, вспышка и прочее</string>
+    <string name="settings_reminders_title">Напоминания</string>
+    <string name="settings_reminders_hint">Управление запланированными напоминаниями</string>
     <string name="settings_ignore_short_records">Игнорировать короткие записи</string>
     <string name="settings_ignore_short_records_hint">Не отслеживать активности, которые короче указанного времени.</string>
     <string name="settings_inactivity_reminder_disabled">Выкл.</string>
@@ -691,9 +693,21 @@ CSV-файл должен содержать следующие столбцы, 
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Ежедневно</string>
+    <string name="reminders_schedule_weekly">Еженедельно</string>
     <string name="reminders_schedule_one_time">Один раз</string>
     <string name="reminders_schedule_monthly">Ежемесячно</string>
     <string name="reminders_condition_activity_not_tracked">Если активность сегодня не отслеживалась</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Сообщение</string>
+    <string name="change_reminder_schedule">Расписание</string>
+    <string name="change_reminder_day_of_month">День месяца</string>
+    <string name="change_reminder_condition">Условие показа</string>
+    <string name="change_reminder_condition_always">Всегда</string>
+    <string name="change_reminder_message_prefill">Не забудьте выполнить %s.</string>
+    <string name="change_reminder_message_required">Введите текст напоминания</string>
+    <string name="change_reminder_future_required">Выберите время в будущем</string>
+    <string name="change_reminder_removed">Напоминание удалено</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Проверьте подключение и повторите попытку.</string>

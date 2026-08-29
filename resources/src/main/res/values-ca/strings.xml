@@ -377,6 +377,8 @@ Això et permet veure quant de temps dediques a activitats productives versus no
     <string name="settings_do_not_disturb">No molesteu</string>
     <string name="settings_notifications_system_settings">Ajustos del sistema</string>
     <string name="settings_notifications_system_settings_hint">So, vibració, flaix i altres</string>
+    <string name="settings_reminders_title">Recordatoris</string>
+    <string name="settings_reminders_hint">Gestiona els recordatoris programats</string>
     <string name="settings_ignore_short_records">Ignora els enregistraments curts</string>
     <string name="settings_ignore_short_records_hint">No enregistra les activitats més curtes que el temps especificat.</string>
     <string name="settings_inactivity_reminder_disabled">Desactivat</string>
@@ -691,9 +693,21 @@ Exemple:<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Diàriament</string>
+    <string name="reminders_schedule_weekly">Setmanalment</string>
     <string name="reminders_schedule_one_time">Una vegada</string>
     <string name="reminders_schedule_monthly">Mensualment</string>
     <string name="reminders_condition_activity_not_tracked">Quan l\'activitat no s\'ha registrat avui</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Missatge</string>
+    <string name="change_reminder_schedule">Programació</string>
+    <string name="change_reminder_day_of_month">Dia del mes</string>
+    <string name="change_reminder_condition">Condició de visualització</string>
+    <string name="change_reminder_condition_always">Sempre</string>
+    <string name="change_reminder_message_prefill">No t\'oblidis de fer %s.</string>
+    <string name="change_reminder_message_required">Introdueix un missatge de recordatori</string>
+    <string name="change_reminder_future_required">Selecciona una hora futura</string>
+    <string name="change_reminder_removed">Recordatori eliminat</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Comprova la teva connexió i torna-ho a provar</string>

@@ -377,6 +377,8 @@
     <string name="settings_do_not_disturb">Đừng làm phiền</string>
     <string name="settings_notifications_system_settings">Cài đặt hệ thống</string>
     <string name="settings_notifications_system_settings_hint">Âm thanh, độ rung, đèn flash và các tính năng khác</string>
+    <string name="settings_reminders_title">Lời nhắc</string>
+    <string name="settings_reminders_hint">Quản lý lời nhắc đã lên lịch</string>
     <string name="settings_ignore_short_records">Bỏ qua các bản ghi ngắn</string>
     <string name="settings_ignore_short_records_hint">Không theo dõi các hoạt động ngắn hơn thời gian quy định.</string>
     <string name="settings_inactivity_reminder_disabled">Đã tắt</string>
@@ -691,9 +693,21 @@ Ví dụ:<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Hàng ngày</string>
+    <string name="reminders_schedule_weekly">Hàng tuần</string>
     <string name="reminders_schedule_one_time">Một lần</string>
     <string name="reminders_schedule_monthly">Hàng tháng</string>
     <string name="reminders_condition_activity_not_tracked">Khi hoạt động chưa được theo dõi hôm nay</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Tin nhắn</string>
+    <string name="change_reminder_schedule">Lịch</string>
+    <string name="change_reminder_day_of_month">Ngày trong tháng</string>
+    <string name="change_reminder_condition">Điều kiện hiển thị</string>
+    <string name="change_reminder_condition_always">Luôn luôn</string>
+    <string name="change_reminder_message_prefill">Đừng quên thực hiện %s.</string>
+    <string name="change_reminder_message_required">Nhập nội dung nhắc nhở</string>
+    <string name="change_reminder_future_required">Chọn thời gian trong tương lai</string>
+    <string name="change_reminder_removed">Đã xóa lời nhắc</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Kiểm tra kết nối của bạn và thử lại</string>

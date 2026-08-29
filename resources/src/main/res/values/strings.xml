@@ -693,9 +693,21 @@ Example:<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Daily</string>
+    <string name="reminders_schedule_weekly">Weekly</string>
     <string name="reminders_schedule_one_time">Once</string>
     <string name="reminders_schedule_monthly">Monthly</string>
     <string name="reminders_condition_activity_not_tracked">When activity is not tracked today</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Message</string>
+    <string name="change_reminder_schedule">Schedule</string>
+    <string name="change_reminder_day_of_month">Day of month</string>
+    <string name="change_reminder_condition">Display condition</string>
+    <string name="change_reminder_condition_always">Always</string>
+    <string name="change_reminder_message_prefill">Don\'t forget to do %s.</string>
+    <string name="change_reminder_message_required">Enter a reminder message</string>
+    <string name="change_reminder_future_required">Select a time in the future</string>
+    <string name="change_reminder_removed">Reminder removed</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Check your connection and try again</string>

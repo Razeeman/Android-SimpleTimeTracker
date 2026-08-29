@@ -115,6 +115,7 @@
     │   ├── feature_change_record             # Edit record screen.
     │   ├── feature_change_record_tag         # Edit tag screen.
     │   ├── feature_change_record_type        # Edit type screen.
+    │   ├── feature_change_reminder           # Edit reminder screen.
     │   ├── feature_change_running_record     # Edit timer screen.
     │   ├── feature_change_shortcut           # Edit shortcut screen.
     │   ├── feature_color_selection           # Delegate for color selection.

@@ -377,6 +377,8 @@ Dit stelt je in staat om te zien hoeveel tijd je in totaal besteedt aan producti
     <string name="settings_do_not_disturb">Niet storen</string>
     <string name="settings_notifications_system_settings">Systeem instellingen</string>
     <string name="settings_notifications_system_settings_hint">Geluid, trillingen, flits en andere</string>
+    <string name="settings_reminders_title">Herinneringen</string>
+    <string name="settings_reminders_hint">Geplande herinneringen beheren</string>
     <string name="settings_ignore_short_records">Negeer korte records</string>
     <string name="settings_ignore_short_records_hint">Houd geen activiteiten bij die korter zijn dan de opgegeven tijd.</string>
     <string name="settings_inactivity_reminder_disabled">Uitgeschakeld</string>
@@ -691,9 +693,21 @@ Voorbeeld:<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Dagelijks</string>
+    <string name="reminders_schedule_weekly">Wekelijks</string>
     <string name="reminders_schedule_one_time">Eenmalig</string>
     <string name="reminders_schedule_monthly">Maandelijks</string>
     <string name="reminders_condition_activity_not_tracked">Wanneer de activiteit vandaag niet is bijgehouden</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Bericht</string>
+    <string name="change_reminder_schedule">Schema</string>
+    <string name="change_reminder_day_of_month">Dag van de maand</string>
+    <string name="change_reminder_condition">Weergavevoorwaarde</string>
+    <string name="change_reminder_condition_always">Altijd</string>
+    <string name="change_reminder_message_prefill">Vergeet niet om %s te doen.</string>
+    <string name="change_reminder_message_required">Voer een herinneringsbericht in</string>
+    <string name="change_reminder_future_required">Selecteer een tijdstip in de toekomst</string>
+    <string name="change_reminder_removed">Herinnering verwijderd</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Controleer uw verbinding en probeer het opnieuw</string>

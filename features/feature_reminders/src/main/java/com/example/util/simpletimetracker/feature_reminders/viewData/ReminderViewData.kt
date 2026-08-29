@@ -10,6 +10,7 @@ data class ReminderViewData(
     val scheduleSummary: String,
     val conditionSummary: String,
     val enabled: Boolean,
+    @ColorInt val backgroundColor: Int,
     @ColorInt val enabledButtonColor: Int,
     val enabledButtonText: String,
     val activityIcon: RecordTypeIcon?,

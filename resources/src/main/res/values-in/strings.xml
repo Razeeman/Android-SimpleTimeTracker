@@ -377,6 +377,8 @@ Ini memungkinkan Anda melihat berapa banyak waktu yang dihabiskan untuk aktivita
     <string name="settings_do_not_disturb">Jangan jangan ganggu</string>
     <string name="settings_notifications_system_settings">Pengaturan sistem</string>
     <string name="settings_notifications_system_settings_hint">Suara, getaran, flash dan lainnya</string>
+    <string name="settings_reminders_title">Pengingat</string>
+    <string name="settings_reminders_hint">Kelola pengingat terjadwal</string>
     <string name="settings_ignore_short_records">Abaikan rekor pendek</string>
     <string name="settings_ignore_short_records_hint">Jangan melacak aktivitas yang lebih pendek dari waktu yang ditentukan.</string>
     <string name="settings_inactivity_reminder_disabled">Dinonaktifkan</string>
@@ -691,9 +693,21 @@ Contoh:<br/>
 
     <!--  Reminders  -->
     <string name="reminders_schedule_daily">Harian</string>
+    <string name="reminders_schedule_weekly">Mingguan</string>
     <string name="reminders_schedule_one_time">Sekali</string>
     <string name="reminders_schedule_monthly">Bulanan</string>
     <string name="reminders_condition_activity_not_tracked">Saat aktivitas belum dilacak hari ini</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Pesan</string>
+    <string name="change_reminder_schedule">Jadwal</string>
+    <string name="change_reminder_day_of_month">Tanggal dalam bulan</string>
+    <string name="change_reminder_condition">Kondisi tampilan</string>
+    <string name="change_reminder_condition_always">Selalu</string>
+    <string name="change_reminder_message_prefill">Jangan lupa melakukan %s.</string>
+    <string name="change_reminder_message_required">Masukkan pesan pengingat</string>
+    <string name="change_reminder_future_required">Pilih waktu di masa mendatang</string>
+    <string name="change_reminder_removed">Pengingat dihapus</string>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Periksa koneksi Anda dan coba lagi</string>
