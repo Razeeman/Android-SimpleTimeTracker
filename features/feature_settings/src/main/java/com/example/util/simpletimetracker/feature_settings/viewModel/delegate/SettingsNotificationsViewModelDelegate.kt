@@ -14,9 +14,10 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsNotificationsViewDataInteractor
+import com.example.util.simpletimetracker.feature_settings.interactor.SettingsOpenDateTimeDialogRouter
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.model.OptionsContent
-import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
+import com.example.util.simpletimetracker.feature_settings.model.SettingsDialogTags
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.action.OpenSystemSettings
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
@@ -33,6 +34,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
     private val checkNotificationsPermissionInteractor: CheckNotificationsPermissionInteractor,
     private val settingsNotificationsViewDataInteractor: SettingsNotificationsViewDataInteractor,
     private val externalViewsInteractor: UpdateExternalViewsInteractor,
+    private val settingsOpenDateTimeDialogRouter: SettingsOpenDateTimeDialogRouter,
 ) : SettingsDelegate, ViewModelDelegate() {
 
     private var parent: SettingsParent? = null
@@ -165,7 +167,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
 
         fun openDialog() {
             DurationDialogParams(
-                tag = SettingsViewModel.INACTIVITY_DURATION_DIALOG_TAG,
+                tag = SettingsDialogTags.INACTIVITY_DURATION_DIALOG_TAG,
                 value = DurationDialogParams.Value.DurationSeconds(duration),
             ).let(router::navigate)
         }
@@ -194,8 +196,8 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
 
     private fun onInactivityReminderDoNotDisturbStartClicked() {
         delegateScope.launch {
-            parent?.openDateTimeDialog(
-                tag = SettingsViewModel.INACTIVITY_REMINDER_DND_START_DIALOG_TAG,
+            settingsOpenDateTimeDialogRouter.openDateTimeDialog(
+                tag = SettingsDialogTags.INACTIVITY_REMINDER_DND_START_DIALOG_TAG,
                 timestamp = prefsInteractor.getInactivityReminderDoNotDisturbStart(),
                 useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
             )
@@ -204,8 +206,8 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
 
     private fun onInactivityReminderDoNotDisturbEndClicked() {
         delegateScope.launch {
-            parent?.openDateTimeDialog(
-                tag = SettingsViewModel.INACTIVITY_REMINDER_DND_END_DIALOG_TAG,
+            settingsOpenDateTimeDialogRouter.openDateTimeDialog(
+                tag = SettingsDialogTags.INACTIVITY_REMINDER_DND_END_DIALOG_TAG,
                 timestamp = prefsInteractor.getInactivityReminderDoNotDisturbEnd(),
                 useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
             )
@@ -217,7 +219,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
 
         fun openDialog() {
             DurationDialogParams(
-                tag = SettingsViewModel.ACTIVITY_DURATION_DIALOG_TAG,
+                tag = SettingsDialogTags.ACTIVITY_DURATION_DIALOG_TAG,
                 value = DurationDialogParams.Value.DurationSeconds(duration),
             ).let(router::navigate)
         }
@@ -244,8 +246,8 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
 
     private fun onActivityReminderDoNotDisturbStartClicked() {
         delegateScope.launch {
-            parent?.openDateTimeDialog(
-                tag = SettingsViewModel.ACTIVITY_REMINDER_DND_START_DIALOG_TAG,
+            settingsOpenDateTimeDialogRouter.openDateTimeDialog(
+                tag = SettingsDialogTags.ACTIVITY_REMINDER_DND_START_DIALOG_TAG,
                 timestamp = prefsInteractor.getActivityReminderDoNotDisturbStart(),
                 useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
             )
@@ -254,8 +256,8 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
 
     private fun onActivityReminderDoNotDisturbEndClicked() {
         delegateScope.launch {
-            parent?.openDateTimeDialog(
-                tag = SettingsViewModel.ACTIVITY_REMINDER_DND_END_DIALOG_TAG,
+            settingsOpenDateTimeDialogRouter.openDateTimeDialog(
+                tag = SettingsDialogTags.ACTIVITY_REMINDER_DND_END_DIALOG_TAG,
                 timestamp = prefsInteractor.getActivityReminderDoNotDisturbEnd(),
                 useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
             )
@@ -264,13 +266,13 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
 
     private fun onDurationSetDelegate(tag: String?, duration: Long) {
         when (tag) {
-            SettingsViewModel.INACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
+            SettingsDialogTags.INACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setInactivityReminderDuration(duration)
                 parent?.updateContent()
                 externalViewsInteractor.onInactivityReminderChange()
                 checkExactAlarmPermissionInteractor.execute()
             }
-            SettingsViewModel.ACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
+            SettingsDialogTags.ACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setActivityReminderDuration(duration)
                 parent?.updateContent()
                 externalViewsInteractor.onActivityReminderChange()
@@ -281,13 +283,13 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
 
     private fun onDurationDisabledDelegate(tag: String?) {
         when (tag) {
-            SettingsViewModel.INACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
+            SettingsDialogTags.INACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setInactivityReminderDuration(0)
                 parent?.updateContent()
                 notificationInactivityInteractor.cancel()
             }
 
-            SettingsViewModel.ACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
+            SettingsDialogTags.ACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setActivityReminderDuration(0)
                 parent?.updateContent()
                 notificationActivityInteractor.cancel()
@@ -297,28 +299,28 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
 
     private fun onDateTimeSetDelegate(timestamp: Long, tag: String?) = delegateScope.launch {
         when (tag) {
-            SettingsViewModel.INACTIVITY_REMINDER_DND_START_DIALOG_TAG -> {
+            SettingsDialogTags.INACTIVITY_REMINDER_DND_START_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setInactivityReminderDoNotDisturbStart(newValue)
                 parent?.updateContent()
                 externalViewsInteractor.onInactivityReminderChange()
             }
 
-            SettingsViewModel.INACTIVITY_REMINDER_DND_END_DIALOG_TAG -> {
+            SettingsDialogTags.INACTIVITY_REMINDER_DND_END_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setInactivityReminderDoNotDisturbEnd(newValue)
                 parent?.updateContent()
                 externalViewsInteractor.onInactivityReminderChange()
             }
 
-            SettingsViewModel.ACTIVITY_REMINDER_DND_START_DIALOG_TAG -> {
+            SettingsDialogTags.ACTIVITY_REMINDER_DND_START_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setActivityReminderDoNotDisturbStart(newValue)
                 parent?.updateContent()
                 externalViewsInteractor.onActivityReminderChange()
             }
 
-            SettingsViewModel.ACTIVITY_REMINDER_DND_END_DIALOG_TAG -> {
+            SettingsDialogTags.ACTIVITY_REMINDER_DND_END_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setActivityReminderDoNotDisturbEnd(newValue)
                 parent?.updateContent()

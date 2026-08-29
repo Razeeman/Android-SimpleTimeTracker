@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_settings.viewModel.delegate
 
-import com.example.util.simpletimetracker.core.base.Throttler
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.extension.flip
@@ -18,10 +17,11 @@ import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.api.SettingsOrderChangeInteractor
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsDisplayViewDataInteractor
+import com.example.util.simpletimetracker.feature_settings.interactor.SettingsOpenDateTimeDialogRouter
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
 import com.example.util.simpletimetracker.feature_settings.model.CustomizeOptionsMenuListItem
 import com.example.util.simpletimetracker.feature_settings.model.OptionsContent
-import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
+import com.example.util.simpletimetracker.feature_settings.model.SettingsDialogTags
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardSizeDialogParams
@@ -43,6 +43,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
     private val recordsContainerUpdateInteractor: RecordsContainerUpdateInteractor,
     private val updateRunningRecordsInteractor: UpdateRunningRecordsInteractor,
     private val settingsOrderChangeInteractor: SettingsOrderChangeInteractor,
+    private val settingsOpenDateTimeDialogRouter: SettingsOpenDateTimeDialogRouter,
 ) : SettingsDelegate, ViewModelDelegate() {
 
     private var parent: SettingsParent? = null
@@ -61,7 +62,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
 
     override suspend fun getSheetViewData(content: OptionsContent): List<ViewHolderType>? {
         return when (content) {
-            OptionsContent.DisplayUntracked ->  settingsDisplayViewDataInteractor.executeUntrackedOptions()
+            OptionsContent.DisplayUntracked -> settingsDisplayViewDataInteractor.executeUntrackedOptions()
             else -> null
         }
     }
@@ -243,7 +244,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
     private fun onIgnoreShortUntrackedClicked() {
         delegateScope.launch {
             DurationDialogParams(
-                tag = SettingsViewModel.IGNORE_SHORT_UNTRACKED_DIALOG_TAG,
+                tag = SettingsDialogTags.IGNORE_SHORT_UNTRACKED_DIALOG_TAG,
                 value = DurationDialogParams.Value.DurationSeconds(
                     duration = prefsInteractor.getIgnoreShortUntrackedDuration(),
                 ),
@@ -261,8 +262,8 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
 
     private fun onUntrackedRangeStartClicked() {
         delegateScope.launch {
-            parent?.openDateTimeDialog(
-                tag = SettingsViewModel.UNTRACKED_RANGE_START_DIALOG_TAG,
+            settingsOpenDateTimeDialogRouter.openDateTimeDialog(
+                tag = SettingsDialogTags.UNTRACKED_RANGE_START_DIALOG_TAG,
                 timestamp = prefsInteractor.getUntrackedRangeStart(),
                 useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
             )
@@ -271,8 +272,8 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
 
     private fun onUntrackedRangeEndClicked() {
         delegateScope.launch {
-            parent?.openDateTimeDialog(
-                tag = SettingsViewModel.UNTRACKED_RANGE_END_DIALOG_TAG,
+            settingsOpenDateTimeDialogRouter.openDateTimeDialog(
+                tag = SettingsDialogTags.UNTRACKED_RANGE_END_DIALOG_TAG,
                 timestamp = prefsInteractor.getUntrackedRangeEnd(),
                 useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
             )
@@ -349,7 +350,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
 
     private fun onPomodoroModeActivitiesClicked() = delegateScope.launch {
         TypesSelectionDialogParams(
-            tag = SettingsViewModel.SELECT_ACTIVITIES_TO_AUTOSTART_POMODORO,
+            tag = SettingsDialogTags.SELECT_ACTIVITIES_TO_AUTOSTART_POMODORO,
             title = resourceRepo.getString(
                 R.string.select_activities_to_autostart_pomodoro_title,
             ),
@@ -369,7 +370,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
 
     private fun onTypesSelectedDelegate(typeIds: List<Long>, tag: String) = delegateScope.launch {
         when (tag) {
-            SettingsViewModel.SELECT_ACTIVITIES_TO_AUTOSTART_POMODORO -> {
+            SettingsDialogTags.SELECT_ACTIVITIES_TO_AUTOSTART_POMODORO -> {
                 prefsInteractor.setAutostartPomodoroActivities(typeIds)
             }
         }
@@ -457,7 +458,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
 
     private fun onDurationSetDelegate(tag: String?, duration: Long) {
         when (tag) {
-            SettingsViewModel.IGNORE_SHORT_UNTRACKED_DIALOG_TAG -> delegateScope.launch {
+            SettingsDialogTags.IGNORE_SHORT_UNTRACKED_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setIgnoreShortUntrackedDuration(duration)
                 parent?.updateContent()
             }
@@ -466,7 +467,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
 
     private fun onDurationDisabledDelegate(tag: String?) {
         when (tag) {
-            SettingsViewModel.IGNORE_SHORT_UNTRACKED_DIALOG_TAG -> delegateScope.launch {
+            SettingsDialogTags.IGNORE_SHORT_UNTRACKED_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setIgnoreShortUntrackedDuration(0)
                 parent?.updateContent()
             }
@@ -475,13 +476,13 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
 
     private fun onDateTimeSetDelegate(timestamp: Long, tag: String?) = delegateScope.launch {
         when (tag) {
-            SettingsViewModel.UNTRACKED_RANGE_START_DIALOG_TAG -> {
+            SettingsDialogTags.UNTRACKED_RANGE_START_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setUntrackedRangeStart(newValue)
                 parent?.updateContent()
             }
 
-            SettingsViewModel.UNTRACKED_RANGE_END_DIALOG_TAG -> {
+            SettingsDialogTags.UNTRACKED_RANGE_END_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setUntrackedRangeEnd(newValue)
                 parent?.updateContent()

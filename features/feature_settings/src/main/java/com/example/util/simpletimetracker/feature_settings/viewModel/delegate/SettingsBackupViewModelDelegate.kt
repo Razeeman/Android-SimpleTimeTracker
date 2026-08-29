@@ -9,8 +9,9 @@ import com.example.util.simpletimetracker.domain.backup.model.BackupOptionsData
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsOptionsUpdateInteractor
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsBackupViewDataInteractor
+import com.example.util.simpletimetracker.feature_settings.interactor.SettingsOpenDateTimeDialogRouter
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
-import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
+import com.example.util.simpletimetracker.feature_settings.model.SettingsDialogTags
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.BackupOptionsParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataExportSettingsResult
@@ -27,6 +28,7 @@ class SettingsBackupViewModelDelegate @Inject constructor(
     private val automaticBackupInteractor: AutomaticBackupInteractor,
     private val automaticExportInteractor: AutomaticExportInteractor,
     private val settingsOptionsUpdateInteractor: SettingsOptionsUpdateInteractor,
+    private val settingsOpenDateTimeDialogRouter: SettingsOpenDateTimeDialogRouter,
 ) : SettingsDelegate, ViewModelDelegate() {
 
     private var parent: SettingsParent? = null
@@ -113,8 +115,8 @@ class SettingsBackupViewModelDelegate @Inject constructor(
 
     private fun onAutoBackupTriggerTimeClicked() {
         delegateScope.launch {
-            parent?.openDateTimeDialog(
-                tag = SettingsViewModel.AUTO_BACKUP_TRIGGER_TIME_DIALOG_TAG,
+            settingsOpenDateTimeDialogRouter.openDateTimeDialog(
+                tag = SettingsDialogTags.AUTO_BACKUP_TRIGGER_TIME_DIALOG_TAG,
                 timestamp = prefsInteractor.getAutomaticBackupTriggerTime(),
                 useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
             )
@@ -123,8 +125,8 @@ class SettingsBackupViewModelDelegate @Inject constructor(
 
     private fun onAutoExportTriggerTimeClicked() {
         delegateScope.launch {
-            parent?.openDateTimeDialog(
-                tag = SettingsViewModel.AUTO_EXPORT_TRIGGER_TIME_DIALOG_TAG,
+            settingsOpenDateTimeDialogRouter.openDateTimeDialog(
+                tag = SettingsDialogTags.AUTO_EXPORT_TRIGGER_TIME_DIALOG_TAG,
                 timestamp = prefsInteractor.getAutomaticExportTriggerTime(),
                 useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
             )
@@ -133,13 +135,13 @@ class SettingsBackupViewModelDelegate @Inject constructor(
 
     private fun onDateTimeSetDelegate(timestamp: Long, tag: String?) = delegateScope.launch {
         when (tag) {
-            SettingsViewModel.AUTO_BACKUP_TRIGGER_TIME_DIALOG_TAG -> {
+            SettingsDialogTags.AUTO_BACKUP_TRIGGER_TIME_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setAutomaticBackupTriggerTime(newValue)
                 automaticBackupInteractor.schedule()
                 parent?.updateContent()
             }
-            SettingsViewModel.AUTO_EXPORT_TRIGGER_TIME_DIALOG_TAG -> {
+            SettingsDialogTags.AUTO_EXPORT_TRIGGER_TIME_DIALOG_TAG -> {
                 val newValue = settingsMapper.toStartOfDayShift(timestamp, wasPositive = true)
                 prefsInteractor.setAutomaticExportTriggerTime(newValue)
                 automaticExportInteractor.schedule()

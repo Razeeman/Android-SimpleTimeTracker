@@ -9,14 +9,13 @@ import com.example.util.simpletimetracker.domain.extension.flip
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.notifications.interactor.UpdateExternalViewsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RecordsContainerUpdateInteractor
-import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.api.OnSettingChangedInteractor
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.interactor.SettingsAdditionalViewDataInteractor
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsAutomatedTrackingMapper
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
-import com.example.util.simpletimetracker.feature_settings.viewModel.SettingsViewModel
+import com.example.util.simpletimetracker.feature_settings.model.SettingsDialogTags
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ActivitySuggestionsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ShortcutsParams
@@ -139,7 +138,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
     private fun onStartOfDayClicked() {
         delegateScope.launch {
             DurationDialogParams(
-                tag = SettingsViewModel.START_OF_DAY_DIALOG_TAG,
+                tag = SettingsDialogTags.START_OF_DAY_DIALOG_TAG,
                 value = DurationDialogParams.Value.DurationSeconds(
                     duration = abs(prefsInteractor.getStartOfDayShift()) / 1000,
                 ),
@@ -178,7 +177,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
     private fun onIgnoreShortRecordsClicked() {
         delegateScope.launch {
             DurationDialogParams(
-                tag = SettingsViewModel.IGNORE_SHORT_RECORDS_DIALOG_TAG,
+                tag = SettingsDialogTags.IGNORE_SHORT_RECORDS_DIALOG_TAG,
                 value = DurationDialogParams.Value.DurationSeconds(
                     duration = prefsInteractor.getIgnoreShortRecordsDuration(),
                 ),
@@ -205,7 +204,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
 
     private fun onRecordTagSelectionExcludeActivitiesClicked() = delegateScope.launch {
         TypesSelectionDialogParams(
-            tag = SettingsViewModel.TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION,
+            tag = SettingsDialogTags.TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION,
             title = resourceRepo.getString(
                 R.string.record_tag_selection_exclude_activities_title,
             ),
@@ -225,7 +224,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
 
     private fun onCloseAfterOneTagExcludeActivitiesClicked() = delegateScope.launch {
         TypesSelectionDialogParams(
-            tag = SettingsViewModel.CLOSE_AFTER_ONE_TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION,
+            tag = SettingsDialogTags.CLOSE_AFTER_ONE_TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION,
             title = resourceRepo.getString(
                 R.string.record_tag_selection_exclude_activities_title,
             ),
@@ -251,7 +250,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
 
     private fun onCommentInputExcludeActivitiesClicked() = delegateScope.launch {
         TypesSelectionDialogParams(
-            tag = SettingsViewModel.COMMENT_EXCLUDE_ACTIVITIES_TYPES_SELECTION,
+            tag = SettingsDialogTags.COMMENT_EXCLUDE_ACTIVITIES_TYPES_SELECTION,
             title = resourceRepo.getString(
                 R.string.record_tag_selection_exclude_activities_title,
             ),
@@ -320,11 +319,11 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
 
     private fun onDurationSetDelegate(tag: String?, duration: Long) = delegateScope.launch {
         when (tag) {
-            SettingsViewModel.IGNORE_SHORT_RECORDS_DIALOG_TAG -> {
+            SettingsDialogTags.IGNORE_SHORT_RECORDS_DIALOG_TAG -> {
                 prefsInteractor.setIgnoreShortRecordsDuration(duration)
                 parent?.updateContent()
             }
-            SettingsViewModel.START_OF_DAY_DIALOG_TAG -> {
+            SettingsDialogTags.START_OF_DAY_DIALOG_TAG -> {
                 val wasPositive = prefsInteractor.getStartOfDayShift() >= 0
                 val newValue = if (wasPositive) duration else duration * -1
                 prefsInteractor.setStartOfDayShift(newValue * 1000)
@@ -337,11 +336,11 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
 
     private fun onDurationDisabledDelegate(tag: String?) = delegateScope.launch {
         when (tag) {
-            SettingsViewModel.IGNORE_SHORT_RECORDS_DIALOG_TAG -> {
+            SettingsDialogTags.IGNORE_SHORT_RECORDS_DIALOG_TAG -> {
                 prefsInteractor.setIgnoreShortRecordsDuration(0)
                 parent?.updateContent()
             }
-            SettingsViewModel.START_OF_DAY_DIALOG_TAG -> {
+            SettingsDialogTags.START_OF_DAY_DIALOG_TAG -> {
                 prefsInteractor.setStartOfDayShift(0)
                 externalViewsInteractor.onStartOfDayChange()
                 parent?.updateContent()
@@ -352,13 +351,13 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
 
     private fun onTypesSelectedDelegate(typeIds: List<Long>, tag: String) = delegateScope.launch {
         when (tag) {
-            SettingsViewModel.TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION -> {
+            SettingsDialogTags.TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION -> {
                 prefsInteractor.setRecordTagSelectionExcludeActivities(typeIds)
             }
-            SettingsViewModel.COMMENT_EXCLUDE_ACTIVITIES_TYPES_SELECTION -> {
+            SettingsDialogTags.COMMENT_EXCLUDE_ACTIVITIES_TYPES_SELECTION -> {
                 prefsInteractor.setCommentInputExcludeActivities(typeIds)
             }
-            SettingsViewModel.CLOSE_AFTER_ONE_TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION -> {
+            SettingsDialogTags.CLOSE_AFTER_ONE_TAG_EXCLUDE_ACTIVITIES_TYPES_SELECTION -> {
                 prefsInteractor.setCloseAfterOneTagExcludeActivities(typeIds)
             }
         }
