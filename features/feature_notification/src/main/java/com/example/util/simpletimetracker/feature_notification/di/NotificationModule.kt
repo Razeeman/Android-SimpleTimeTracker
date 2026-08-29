@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.notifications.interactor.Notifi
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationGoalCountInteractor
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationGoalRangeEndInteractor
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationTypeInteractor
+import com.example.util.simpletimetracker.domain.notifications.interactor.ScheduledReminderNotificationInteractor
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationActivitySwitchInteractor
 import com.example.util.simpletimetracker.domain.pomodoro.interactor.PomodoroCycleNotificationInteractor
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.interactor.AutomaticBackupInteractorImpl
@@ -26,6 +27,7 @@ import com.example.util.simpletimetracker.feature_notification.goalTime.interact
 import com.example.util.simpletimetracker.feature_notification.pomodoro.interactor.PomodoroCycleNotificationInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.external.ActivityStartedStoppedBroadcastInteractorImpl
 import com.example.util.simpletimetracker.feature_notification.recordType.interactor.NotificationTypeInteractorImpl
+import com.example.util.simpletimetracker.feature_notification.scheduledReminder.interactor.ScheduledReminderNotificationInteractorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -76,4 +78,7 @@ interface NotificationModule {
     @Binds
     @Singleton
     fun bindAutomaticExportRepo(impl: AutomaticExportRepoImpl): AutomaticExportRepo
+
+    @Binds
+    fun bindScheduledReminderNotificationInteractor(impl: ScheduledReminderNotificationInteractorImpl): ScheduledReminderNotificationInteractor
 }

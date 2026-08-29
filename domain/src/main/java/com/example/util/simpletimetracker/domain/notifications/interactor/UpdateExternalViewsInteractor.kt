@@ -17,6 +17,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val notificationActivityInteractor: NotificationActivityInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val scheduledReminderNotificationInteractor: ScheduledReminderNotificationInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val wearInteractor: WearInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -430,6 +431,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
             Update.NotificationWithControls,
             Update.GoalReschedule(),
             Update.GoalTagReschedule(),
+            Update.ScheduledReminderReschedule,
             Update.WidgetSingleTypes,
             Update.WidgetUniversal,
             Update.WidgetGrid,
@@ -538,6 +540,9 @@ class UpdateExternalViewsInteractor @Inject constructor(
             is Update.InactivityReminderReschedule -> {
                 notificationInactivityInteractor.checkAndSchedule()
             }
+            is Update.ScheduledReminderReschedule -> {
+                scheduledReminderNotificationInteractor.rescheduleAll()
+            }
         }
     }
 
@@ -560,5 +565,6 @@ class UpdateExternalViewsInteractor @Inject constructor(
         data object ActivityReminderReschedule : Update
         data object InactivityReminderCancel : Update
         data object InactivityReminderReschedule : Update
+        data object ScheduledReminderReschedule : Update
     }
 }

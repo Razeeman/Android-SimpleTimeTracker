@@ -14,6 +14,11 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <!--For HTC devices-->
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
 
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_START_ACTIVITY" />
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_STOP_ACTIVITY" />
@@ -26,8 +31,6 @@
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_CREATE_TAG" />
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_EXTERNAL_AUTOMATIC_BACKUP" />
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_EXTERNAL_AUTOMATIC_EXPORT" />
-
-                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
             </intent-filter>
         </receiver>
 

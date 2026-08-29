@@ -44,10 +44,6 @@ android {
         }
     }
 
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-    }
-
     buildFeatures {
         compose = true
         viewBinding = true
@@ -72,7 +68,6 @@ dependencies {
     implementation(libs.google.dagger)
     implementation(libs.wear.complications)
     implementation(libs.wear.wearOngoing)
-    coreLibraryDesugaring(libs.google.desugaring)
     implementation(libs.compose.activity)
     implementation(libs.compose.ui)
     implementation(libs.compose.uiToolingPreview)

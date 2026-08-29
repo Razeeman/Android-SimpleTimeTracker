@@ -63,6 +63,7 @@ import com.example.util.simpletimetracker.feature_notification.activitySwitch.ma
 import com.example.util.simpletimetracker.feature_notification.external.NotificationExternalBroadcastController
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPE_CANCEL
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPE_STOP
+import com.example.util.simpletimetracker.feature_notification.scheduledReminder.controller.ScheduledReminderController
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -93,11 +94,22 @@ class NotificationReceiver : BroadcastReceiver() {
     @Inject
     lateinit var externalController: NotificationExternalBroadcastController
 
+    @Inject
+    lateinit var scheduledReminderController: ScheduledReminderController
+
     override fun onReceive(context: Context?, intent: Intent?) {
         val action = intent?.action
         if (context == null || intent == null || action == null) return
 
         when (action) {
+            ACTION_SCHEDULED_REMINDER -> {
+                val reminderId = intent.getLongExtra(EXTRA_SCHEDULED_REMINDER_ID, 0L)
+                val expectedTimestamp = intent.getLongExtra(EXTRA_SCHEDULED_REMINDER_EXPECTED_TIMESTAMP, 0)
+                scheduledReminderController.onReminderFired(
+                    reminderId = reminderId,
+                    expectedOccurrenceTimestamp = expectedTimestamp,
+                )
+            }
             ACTION_INACTIVITY_REMINDER -> {
                 inactivityController.onInactivityReminder()
             }
@@ -381,24 +393,34 @@ class NotificationReceiver : BroadcastReceiver() {
             ACTION_NOTIFICATION_SWITCH_CANCEL -> {
                 typeController.onActivitySwitchCancel()
             }
-            Intent.ACTION_BOOT_COMPLETED -> {
-                onBootCompleted()
+            Intent.ACTION_BOOT_COMPLETED,
+            ACTION_QUICK_BOOT_POWER_ON,
+            ACTION_HTC_QUICK_BOOT_POWER_ON,
+            -> {
+                // TODO remove controllers?
+                inactivityController.onBootCompleted()
+                activityController.onBootCompleted()
+                goalTimeController.onBootCompleted()
+                typeController.onBootCompleted()
+                automaticBackupController.onBootCompleted()
+                automaticExportController.onBootCompleted()
+                pomodoroController.onBootCompleted()
+                scheduledReminderController.rescheduleAll()
             }
             AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED -> {
                 goalTimeController.onExactAlarmPermissionStateChanged()
                 pomodoroController.onExactAlarmPermissionStateChanged()
+                scheduledReminderController.rescheduleAll()
+            }
+            Intent.ACTION_MY_PACKAGE_REPLACED,
+            Intent.ACTION_TIME_CHANGED,
+            Intent.ACTION_DATE_CHANGED,
+            Intent.ACTION_TIMEZONE_CHANGED,
+            -> {
+                // TODO update tabs to recalculate record views and stats?
+                scheduledReminderController.rescheduleAll()
             }
         }
-    }
-
-    private fun onBootCompleted() {
-        inactivityController.onBootCompleted()
-        activityController.onBootCompleted()
-        goalTimeController.onBootCompleted()
-        typeController.onBootCompleted()
-        automaticBackupController.onBootCompleted()
-        automaticExportController.onBootCompleted()
-        pomodoroController.onBootCompleted()
     }
 
     private fun Intent.getSelectedTags(): List<RecordBase.Tag> {
@@ -478,6 +500,11 @@ class NotificationReceiver : BroadcastReceiver() {
             "com.razeeman.util.simpletimetracker.ACTION_AUTOMATIC_BACKUP"
         const val ACTION_AUTOMATIC_EXPORT =
             "com.razeeman.util.simpletimetracker.ACTION_AUTOMATIC_EXPORT"
+        const val ACTION_SCHEDULED_REMINDER =
+            "com.razeeman.util.simpletimetracker.ACTION_SCHEDULED_REMINDER"
+
+        const val ACTION_QUICK_BOOT_POWER_ON = "android.intent.action.QUICKBOOT_POWERON"
+        const val ACTION_HTC_QUICK_BOOT_POWER_ON = "com.htc.intent.action.QUICKBOOT_POWERON"
 
         const val EXTRA_GOAL_TIME_TYPE_ID =
             "extra_goal_time_type_id"
@@ -487,5 +514,9 @@ class NotificationReceiver : BroadcastReceiver() {
             "extra_goal_time_tag_id"
         const val EXTRA_POMODORO_CYCLE_TYPE =
             "extra_pomodoro_cycle_type"
+        const val EXTRA_SCHEDULED_REMINDER_ID =
+            "extra_scheduled_reminder_id"
+        const val EXTRA_SCHEDULED_REMINDER_EXPECTED_TIMESTAMP =
+            "extra_scheduled_reminder_expected_timestamp"
     }
 }

@@ -26,7 +26,7 @@ class BackupInteractor @Inject constructor(
         params: BackupOptionsData.Restore,
     ): ResultCode {
         val resultCode = backupRepo.restoreBackupFile(uriString, params)
-        doAfterRestore()
+        if (resultCode is ResultCode.Success) doAfterRestore()
         return resultCode
     }
 
@@ -34,7 +34,7 @@ class BackupInteractor @Inject constructor(
         params: BackupOptionsData.Custom,
     ): ResultCode {
         val resultCode = backupPartialRepo.partialRestoreBackupFile(params)
-        doAfterRestore()
+        if (resultCode is ResultCode.Success) doAfterRestore()
         return resultCode
     }
 
