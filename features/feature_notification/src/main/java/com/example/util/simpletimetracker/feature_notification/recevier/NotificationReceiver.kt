@@ -101,6 +101,7 @@ class NotificationReceiver : BroadcastReceiver() {
         val action = intent?.action
         if (context == null || intent == null || action == null) return
 
+        // TODO call goAsync for everything?
         when (action) {
             ACTION_SCHEDULED_REMINDER -> {
                 val reminderId = intent.getLongExtra(EXTRA_SCHEDULED_REMINDER_ID, 0L)

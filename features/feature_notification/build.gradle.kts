@@ -20,5 +20,4 @@ dependencies {
     ksp(libs.kapt.dagger)
 
     testImplementation(libs.test.junit)
-    testImplementation(libs.test.mockito)
 }

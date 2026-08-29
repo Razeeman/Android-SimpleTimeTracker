@@ -463,10 +463,13 @@ class UpdateExternalViewsInteractor @Inject constructor(
     }
 
     // Update everything except goals.
+    // TODO Goals and Pomodoro need equivalent exact alarm revocation recovery.
+    //  Persist the last observed permission state and fully recover them only when it changes.
     suspend fun onAppStart() {
         runUpdates(
             Update.NotificationTypes,
             Update.NotificationWithControls,
+            Update.ScheduledReminderReschedule,
             Update.WidgetSingleTypes,
             Update.WidgetUniversal,
             Update.WidgetGrid,

@@ -1,33 +1,17 @@
 package com.example.util.simpletimetracker.feature_notification.scheduledReminder.utils
 
-import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
 import java.time.Instant
 import java.time.LocalDate
-import java.util.Calendar
 import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
 class ScheduledReminderOccurrenceCalculatorTest {
 
-    private val timeMapper: TimeMapper = Mockito.mock(TimeMapper::class.java)
-    private val subject = ScheduledReminderOccurrenceCalculator(timeMapper)
-
-    @Before
-    fun setUp() {
-        Mockito.`when`(timeMapper.toDayOfWeek(Calendar.SUNDAY)).thenReturn(DayOfWeek.SUNDAY)
-        Mockito.`when`(timeMapper.toDayOfWeek(Calendar.MONDAY)).thenReturn(DayOfWeek.MONDAY)
-        Mockito.`when`(timeMapper.toDayOfWeek(Calendar.TUESDAY)).thenReturn(DayOfWeek.TUESDAY)
-        Mockito.`when`(timeMapper.toDayOfWeek(Calendar.WEDNESDAY)).thenReturn(DayOfWeek.WEDNESDAY)
-        Mockito.`when`(timeMapper.toDayOfWeek(Calendar.THURSDAY)).thenReturn(DayOfWeek.THURSDAY)
-        Mockito.`when`(timeMapper.toDayOfWeek(Calendar.FRIDAY)).thenReturn(DayOfWeek.FRIDAY)
-        Mockito.`when`(timeMapper.toDayOfWeek(Calendar.SATURDAY)).thenReturn(DayOfWeek.SATURDAY)
-    }
+    private val subject = ScheduledReminderOccurrenceCalculator()
 
     @Test
     fun `one-time reminder in DST gap is moved forward by the gap`() {
