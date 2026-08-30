@@ -51,6 +51,7 @@ class StatisticsContainerViewModel @Inject constructor(
 
     init {
         dateSelectorViewModelDelegate.attach(getDateSelectorDelegateParent())
+        subscribeToUpdates()
     }
 
     fun initialize() {
@@ -154,6 +155,15 @@ class StatisticsContainerViewModel @Inject constructor(
     fun onOptionsDialogClosed() {
         viewModelScope.launch {
             statisticsUpdateInteractor.sendOptionsVisible(isVisible = false)
+        }
+    }
+
+    private fun subscribeToUpdates() {
+        viewModelScope.launch {
+            statisticsUpdateInteractor.dateTimeChanged.collect {
+                dateSelectorViewModelDelegate.setup()
+                dateSelectorViewModelDelegate.updatePosition(currentPosition)
+            }
         }
     }
 

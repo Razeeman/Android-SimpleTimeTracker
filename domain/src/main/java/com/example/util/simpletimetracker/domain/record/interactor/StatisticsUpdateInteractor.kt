@@ -11,6 +11,12 @@ import javax.inject.Singleton
 @Singleton
 class StatisticsUpdateInteractor @Inject constructor() {
 
+    val dateTimeChanged: SharedFlow<Unit> get() = _dateTimeChanged.asSharedFlow()
+    private val _dateTimeChanged = MutableSharedFlow<Unit>(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+    )
+
     val shareClicked: SharedFlow<Unit> get() = _shareClicked.asSharedFlow()
     private val _shareClicked = MutableSharedFlow<Unit>(
         extraBufferCapacity = 1,
@@ -34,6 +40,10 @@ class StatisticsUpdateInteractor @Inject constructor() {
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
+
+    suspend fun sendDateTimeChanged() {
+        _dateTimeChanged.emit(Unit)
+    }
 
     suspend fun sendShareClicked() {
         _shareClicked.emit(Unit)

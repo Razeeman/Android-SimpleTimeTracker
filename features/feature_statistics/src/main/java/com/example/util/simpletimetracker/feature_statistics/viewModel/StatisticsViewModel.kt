@@ -171,6 +171,9 @@ class StatisticsViewModel @Inject constructor(
             statisticsUpdateInteractor.rangeChanged.collect { if (isVisible) updateStatistics() }
         }
         viewModelScope.launch {
+            statisticsUpdateInteractor.dateTimeChanged.collect { if (isVisible) updateStatistics() }
+        }
+        viewModelScope.launch {
             statisticsUpdateInteractor.optionsVisible.collect {
                 isOptionsListOpened = it
                 updateAnimateChartParticles()

@@ -25,6 +25,9 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_ENDED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_STARTED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_ICON
+import com.example.util.simpletimetracker.domain.record.interactor.RecordsContainerUpdateInteractor
+import com.example.util.simpletimetracker.domain.record.interactor.RecordsUpdateInteractor
+import com.example.util.simpletimetracker.domain.record.interactor.StatisticsUpdateInteractor
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.activity.controller.NotificationActivityBroadcastController
@@ -98,6 +101,15 @@ class NotificationReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var scheduledReminderController: ScheduledReminderController
+
+    @Inject
+    lateinit var recordsUpdateInteractor: RecordsUpdateInteractor
+
+    @Inject
+    lateinit var recordsContainerUpdateInteractor: RecordsContainerUpdateInteractor
+
+    @Inject
+    lateinit var statisticsUpdateInteractor: StatisticsUpdateInteractor
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val action = intent?.action
@@ -424,13 +436,17 @@ class NotificationReceiver : BroadcastReceiver() {
                 launch { pomodoroController.onExactAlarmPermissionStateChanged() }
                 launch { scheduledReminderController.onExactAlarmPermissionStateChanged() }
             }
-            Intent.ACTION_MY_PACKAGE_REPLACED,
+            Intent.ACTION_MY_PACKAGE_REPLACED -> {
+                scheduledReminderController.rescheduleAll()
+            }
             Intent.ACTION_TIME_CHANGED,
             Intent.ACTION_DATE_CHANGED,
             Intent.ACTION_TIMEZONE_CHANGED,
-            -> {
-                // TODO update tabs to recalculate record views and stats?
-                scheduledReminderController.rescheduleAll()
+            -> supervisorScope {
+                launch { scheduledReminderController.rescheduleAll() }
+                launch { recordsUpdateInteractor.send() }
+                launch { recordsContainerUpdateInteractor.sendDateSelectorUpdate() }
+                launch { statisticsUpdateInteractor.sendDateTimeChanged() }
             }
         }
     }
