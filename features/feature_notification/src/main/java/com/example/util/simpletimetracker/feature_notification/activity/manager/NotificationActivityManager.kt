@@ -15,9 +15,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
-import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.utils.PendingIntents
-import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
 import com.example.util.simpletimetracker.navigation.Router
@@ -28,7 +26,6 @@ import javax.inject.Singleton
 @Singleton
 class NotificationActivityManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val colorMapper: ColorMapper,
     private val router: Router,
 ) {
 
@@ -44,11 +41,11 @@ class NotificationActivityManager @Inject constructor(
     fun show(params: NotificationActivityParams) {
         val notification: Notification = buildNotification(params)
         createAndroidNotificationChannel()
-        notificationManager.notify(NOTIFICATION_TAG, NOTIFICATION_ID, notification)
+        notificationManager.notify(notificationTag(params.activityId), NOTIFICATION_ID, notification)
     }
 
-    fun hide() {
-        notificationManager.cancel(NOTIFICATION_TAG, NOTIFICATION_ID)
+    fun hide(activityId: Long) {
+        notificationManager.cancel(notificationTag(activityId), NOTIFICATION_ID)
     }
 
     private fun buildNotification(params: NotificationActivityParams): Notification {
@@ -89,11 +86,13 @@ class NotificationActivityManager @Inject constructor(
     }
 
     private fun prepareView(params: NotificationActivityParams): RemoteViews {
-        val iconBitmap = iconView.apply {
-            itemIcon = RecordTypeIcon.Image(R.drawable.unknown)
-            itemColor = colorMapper.toUntrackedColor(params.isDarkTheme)
-            measureExactly(iconSize)
-        }.getBitmapFromView()
+        val iconBitmap = synchronized(iconView) {
+            iconView.apply {
+                itemIcon = params.icon
+                itemColor = params.color
+                measureExactly(iconSize)
+            }.getBitmapFromView()
+        }
 
         return RemoteViews(context.packageName, R.layout.notification_inactivity_layout).apply {
             setImageViewBitmap(R.id.ivNotificationInactivityIcon, iconBitmap)
@@ -106,7 +105,10 @@ class NotificationActivityManager @Inject constructor(
         private const val NOTIFICATIONS_CHANNEL_ID = "ACTIVITY"
         private const val NOTIFICATIONS_CHANNEL_NAME = "Activity"
 
-        private const val NOTIFICATION_TAG = "activity_tag"
         private const val NOTIFICATION_ID = 0
+
+        fun notificationTag(activityId: Long): String {
+            return "activity_reminder_$activityId"
+        }
     }
 }

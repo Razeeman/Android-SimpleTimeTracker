@@ -132,7 +132,14 @@ class NotificationReceiver : BroadcastReceiver() {
                 inactivityController.onInactivityReminder()
             }
             ACTION_ACTIVITY_REMINDER -> {
-                activityController.onActivityReminder()
+                val activityId = intent.getLongExtra(EXTRA_ACTIVITY_REMINDER_ACTIVITY_ID, 0L)
+                val expectedTimerStart = intent.getLongExtra(EXTRA_ACTIVITY_REMINDER_START, 0L)
+                val expectedTriggerTimestamp = intent.getLongExtra(EXTRA_ACTIVITY_REMINDER_TRIGGER, 0L)
+                activityController.onActivityReminder(
+                    activityId = activityId,
+                    expectedTimerStart = expectedTimerStart,
+                    expectedTriggerTimestamp = expectedTriggerTimestamp,
+                )
             }
             ACTION_POMODORO_REMINDER -> {
                 val cycleType = intent.getLongExtra(EXTRA_POMODORO_CYCLE_TYPE, 0)
@@ -436,14 +443,15 @@ class NotificationReceiver : BroadcastReceiver() {
                 launch { pomodoroController.onExactAlarmPermissionStateChanged() }
                 launch { scheduledReminderController.onExactAlarmPermissionStateChanged() }
             }
-            Intent.ACTION_MY_PACKAGE_REPLACED -> {
-                scheduledReminderController.rescheduleAll()
+            Intent.ACTION_MY_PACKAGE_REPLACED -> supervisorScope {
+                launch { activityController.onPackageReplaced() }
+                launch { scheduledReminderController.onPackageReplaced() }
             }
             Intent.ACTION_TIME_CHANGED,
             Intent.ACTION_DATE_CHANGED,
             Intent.ACTION_TIMEZONE_CHANGED,
             -> supervisorScope {
-                launch { scheduledReminderController.rescheduleAll() }
+                launch { scheduledReminderController.onDateTimeChanged() }
                 launch { recordsUpdateInteractor.send() }
                 launch { recordsContainerUpdateInteractor.sendDateSelectorUpdate() }
                 launch { statisticsUpdateInteractor.sendDateTimeChanged() }
@@ -546,5 +554,11 @@ class NotificationReceiver : BroadcastReceiver() {
             "extra_scheduled_reminder_id"
         const val EXTRA_SCHEDULED_REMINDER_EXPECTED_TIMESTAMP =
             "extra_scheduled_reminder_expected_timestamp"
+        const val EXTRA_ACTIVITY_REMINDER_ACTIVITY_ID =
+            "extra_activity_reminder_activity_id"
+        const val EXTRA_ACTIVITY_REMINDER_START =
+            "extra_activity_reminder_start"
+        const val EXTRA_ACTIVITY_REMINDER_TRIGGER =
+            "extra_activity_reminder_trigger"
     }
 }

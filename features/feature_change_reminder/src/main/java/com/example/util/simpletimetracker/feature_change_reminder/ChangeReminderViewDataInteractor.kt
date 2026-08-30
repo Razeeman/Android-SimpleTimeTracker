@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.mapper.DayOfWeekViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
+import com.example.util.simpletimetracker.domain.extension.toLocalDateTime
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderOccurrenceCalculator
@@ -13,7 +14,6 @@ import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeRe
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ScheduleType
 import com.example.util.simpletimetracker.feature_change_reminder.viewData.ChangeReminderViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
-import java.time.Instant
 import java.util.TimeZone
 import javax.inject.Inject
 
@@ -52,8 +52,7 @@ class ChangeReminderViewDataInteractor @Inject constructor(
             timeOfDayMillis = editor.timeOfDayMillis,
             timeZone = timeZone,
         ).takeUnless { it == 0L } ?: currentTimestamp
-        val today = Instant.ofEpochMilli(currentTimestamp)
-            .atZone(timeZone.toZoneId()).toLocalDate()
+        val today = currentTimestamp.toLocalDateTime(timeZone).toLocalDate()
         val timeTimestamp = occurrenceCalculator.resolveLocalDateTime(
             dateEpochDay = today.toEpochDay(),
             timeOfDayMillis = editor.timeOfDayMillis,

@@ -1,17 +1,18 @@
 package com.example.util.simpletimetracker.domain.scheduledReminder.interactor
 
 import com.example.util.simpletimetracker.domain.extension.isValidTimeOfDay
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.toDomainDayOfWeek
+import com.example.util.simpletimetracker.domain.extension.toLocalDateTime
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
-import java.time.DateTimeException
-import java.time.Instant
+import com.example.util.simpletimetracker.domain.utils.LocalDateMapper
 import java.time.LocalDate
-import java.time.LocalTime
 import java.util.TimeZone
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class ScheduledReminderOccurrenceCalculator @Inject constructor() {
+class ScheduledReminderOccurrenceCalculator @Inject constructor(
+    private val localDateMapper: LocalDateMapper,
+) {
 
     /**
      * @param catchUpOverdueOneTime true - fire a missed one-time reminder immediately instead of dropping it as expired.
@@ -84,7 +85,7 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
         if (schedule.daysOfWeek.isEmpty()) return null
         if (!schedule.timeOfDayMillis.isValidTimeOfDay()) return null
 
-        var dateCursor = nowTimestamp.toLocalDate(timeZone)
+        var dateCursor = nowTimestamp.toLocalDateTime(timeZone).toLocalDate()
 
         // Include the same weekday next week in case today is selected but its time has passed.
         repeat(DAYS_IN_WEEK + 1) {
@@ -146,7 +147,7 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
         if (schedule.dayOfMonth !in 1..31) return null
         if (!schedule.timeOfDayMillis.isValidTimeOfDay()) return null
 
-        var monthCursor = nowTimestamp.toLocalDate(timeZone).withDayOfMonth(1)
+        var monthCursor = nowTimestamp.toLocalDateTime(timeZone).toLocalDate().withDayOfMonth(1)
 
         // Check the current and following month. Since the day is clamped to the last valid day,
         // one of them always contains the next occurrence.
@@ -177,28 +178,15 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
         timeOfDayMillis: Long,
         timeZone: TimeZone,
     ): Long {
-        if (!timeOfDayMillis.isValidTimeOfDay()) return 0L
+        val date = runCatching {
+            LocalDate.ofEpochDay(dateEpochDay)
+        }.getOrNull() ?: return 0L
 
-        return try {
-            val date = LocalDate.ofEpochDay(dateEpochDay)
-            val time = LocalTime.ofNanoOfDay(TimeUnit.MILLISECONDS.toNanos(timeOfDayMillis))
-
-            // atZone moves times in a DST gap forward by the gap.
-            // Select the earlier instant when the local time occurs twice during an overlap.
-            date.atTime(time)
-                .atZone(timeZone.toZoneId())
-                .withEarlierOffsetAtOverlap()
-                .toInstant()
-                .toEpochMilli()
-        } catch (_: DateTimeException) {
-            0L
-        } catch (_: ArithmeticException) {
-            0L
-        }
-    }
-
-    private fun Long.toLocalDate(timeZone: TimeZone): LocalDate {
-        return Instant.ofEpochMilli(this).atZone(timeZone.toZoneId()).toLocalDate()
+        return localDateMapper.resolveDateTime(
+            date = date,
+            timeOfDayMillis = timeOfDayMillis,
+            timeZone = timeZone,
+        ).orZero()
     }
 
     data class Occurrence(

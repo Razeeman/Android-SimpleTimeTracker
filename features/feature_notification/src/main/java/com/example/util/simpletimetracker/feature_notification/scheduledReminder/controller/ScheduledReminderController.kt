@@ -26,7 +26,15 @@ class ScheduledReminderController @Inject constructor(
         rescheduleAll()
     }
 
-    suspend fun rescheduleAll() {
+    suspend fun onPackageReplaced() {
+        rescheduleAll()
+    }
+
+    suspend fun onDateTimeChanged() {
+        rescheduleAll()
+    }
+
+    private suspend fun rescheduleAll() {
         scheduledReminderInteractor.rescheduleAll()
     }
 }

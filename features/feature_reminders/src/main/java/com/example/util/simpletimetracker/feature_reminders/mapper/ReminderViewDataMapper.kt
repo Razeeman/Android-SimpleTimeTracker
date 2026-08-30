@@ -43,7 +43,6 @@ class ReminderViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         firstDayOfWeek: DayOfWeek,
-        timeZone: TimeZone,
     ): ReminderViewData {
         return ReminderViewData(
             id = reminder.id,
@@ -52,7 +51,6 @@ class ReminderViewDataMapper @Inject constructor(
                 schedule = reminder.schedule,
                 useMilitaryTime = useMilitaryTime,
                 firstDayOfWeek = firstDayOfWeek,
-                timeZone = timeZone,
             ),
             conditionSummary = mapCondition(
                 condition = reminder.condition,
@@ -87,14 +85,12 @@ class ReminderViewDataMapper @Inject constructor(
         schedule: ScheduledReminder.Schedule,
         useMilitaryTime: Boolean,
         firstDayOfWeek: DayOfWeek,
-        timeZone: TimeZone,
     ): String {
         return when (schedule) {
             is ScheduledReminder.Schedule.Weekly -> {
                 val time = formatTime(
                     timeOfDayMillis = schedule.timeOfDayMillis,
                     useMilitaryTime = useMilitaryTime,
-                    timeZone = timeZone,
                 )
                 if (schedule.daysOfWeek.size == DayOfWeek.entries.size) {
                     val hint = resourceRepo.getString(R.string.reminders_schedule_daily)
@@ -110,7 +106,6 @@ class ReminderViewDataMapper @Inject constructor(
                 val timestamp = resolve(
                     dateEpochDay = schedule.oneTimeDate,
                     timeOfDayMillis = schedule.timeOfDayMillis,
-                    timeZone = timeZone,
                 )
                 val dateTime = timeMapper.formatDateTimeYear(
                     time = timestamp,
@@ -123,7 +118,6 @@ class ReminderViewDataMapper @Inject constructor(
                 val time = formatTime(
                     timeOfDayMillis = schedule.timeOfDayMillis,
                     useMilitaryTime = useMilitaryTime,
-                    timeZone = timeZone,
                 )
                 val hint = resourceRepo.getString(R.string.reminders_schedule_monthly)
                 "$hint ${schedule.dayOfMonth} $time"
@@ -149,12 +143,10 @@ class ReminderViewDataMapper @Inject constructor(
     private fun formatTime(
         timeOfDayMillis: Long,
         useMilitaryTime: Boolean,
-        timeZone: TimeZone,
     ): String {
         val timestamp = resolve(
-            dateEpochDay = LocalDate.now(timeZone.toZoneId()).toEpochDay(),
+            dateEpochDay = LocalDate.now(TimeZone.getDefault().toZoneId()).toEpochDay(),
             timeOfDayMillis = timeOfDayMillis,
-            timeZone = timeZone,
         )
         return timeMapper.formatTime(
             time = timestamp,
@@ -163,13 +155,13 @@ class ReminderViewDataMapper @Inject constructor(
         )
     }
 
-    private fun resolve(dateEpochDay: Long, timeOfDayMillis: Long, timeZone: TimeZone): Long {
+    private fun resolve(dateEpochDay: Long, timeOfDayMillis: Long): Long {
         val timeOfDayMillis = timeOfDayMillis.coerceIn(0, TimeUnit.DAYS.toMillis(1) - 1)
 
         return scheduledReminderOccurrenceCalculator.resolveLocalDateTime(
             dateEpochDay = dateEpochDay,
             timeOfDayMillis = timeOfDayMillis,
-            timeZone = timeZone,
+            timeZone = TimeZone.getDefault(),
         )
     }
 }

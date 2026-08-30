@@ -43,8 +43,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
             Update.Wear.takeIf { !fromArchive || getRetroactiveTrackingMode() },
             Update.NotificationTypes.takeIf { !fromArchive },
             Update.NotificationWithControls.takeIf { !fromArchive },
-            Update.ActivityReminderCancel,
-            Update.ActivityReminderReschedule,
+            Update.ActivityReminderCancel(typeId),
         )
     }
 
@@ -115,10 +114,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
             Update.NotificationTypeHide(typeId),
             Update.NotificationWithControls.takeIf { updateNotificationSwitch },
             Update.InactivityReminderReschedule,
-            Update.ActivityReminderCancel.takeIf {
-                // Cancel if no activity tracked.
-                runningRecordIds.isEmpty()
-            },
+            Update.ActivityReminderCancel(typeId),
             Update.GoalReschedule(runningRecordIds + typeId),
             Update.GoalTagReschedule(fullTagIds).takeIf { fullTagIds.isNotEmpty() },
             Update.WidgetSingleTypes.takeIf { updateWidgets },
@@ -138,10 +134,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
             Update.NotificationType(listOf(typeId)),
             Update.NotificationWithControls.takeIf { updateNotificationSwitch },
             Update.InactivityReminderCancel,
-            Update.ActivityReminderReschedule.takeIf {
-                // Schedule only on first activity start.
-                runningRecordInteractor.getAll().size == 1
-            },
+            Update.ActivityReminderReschedule(typeId),
             Update.GoalReschedule(listOf(typeId)),
             Update.GoalTagReschedule(tagIds).takeIf { tagIds.isNotEmpty() },
             Update.WidgetSingleTypes,
@@ -388,8 +381,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
 
     suspend fun onActivityReminderChange() {
         runUpdates(
-            Update.ActivityReminderCancel,
-            Update.ActivityReminderReschedule,
+            Update.ActivityReminderReschedule(),
         )
     }
 
@@ -534,10 +526,11 @@ class UpdateExternalViewsInteractor @Inject constructor(
                 notificationGoalTimeInteractor.cancel(update.idData)
             }
             is Update.ActivityReminderCancel -> {
-                notificationActivityInteractor.cancel()
+                notificationActivityInteractor.cancel(update.activityId)
             }
             is Update.ActivityReminderReschedule -> {
-                notificationActivityInteractor.checkAndSchedule()
+                update.activityId?.let { notificationActivityInteractor.reschedule(it) }
+                    ?: notificationActivityInteractor.rescheduleAll()
             }
             is Update.InactivityReminderCancel -> {
                 notificationInactivityInteractor.cancel()
@@ -566,8 +559,8 @@ class UpdateExternalViewsInteractor @Inject constructor(
         data class GoalReschedule(val typeIds: List<Long> = emptyList()) : Update
         data class GoalTagReschedule(val tagIds: List<Long> = emptyList()) : Update
         data class GoalCancel(val idData: RecordTypeGoal.IdData) : Update
-        data object ActivityReminderCancel : Update
-        data object ActivityReminderReschedule : Update
+        data class ActivityReminderCancel(val activityId: Long) : Update
+        data class ActivityReminderReschedule(val activityId: Long? = null) : Update
         data object InactivityReminderCancel : Update
         data object InactivityReminderReschedule : Update
         data object ScheduledReminderReschedule : Update

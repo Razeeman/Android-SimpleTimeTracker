@@ -2,9 +2,17 @@ package com.example.util.simpletimetracker.domain.notifications.interactor
 
 interface NotificationActivityInteractor {
 
-    suspend fun checkAndSchedule()
+    suspend fun rescheduleAll()
 
-    fun cancel()
+    suspend fun reschedule(activityId: Long)
 
-    suspend fun show()
+    suspend fun cancel(activityId: Long)
+
+    suspend fun cancelAll()
+
+    suspend fun onReminderFired(
+        activityId: Long,
+        expectedTimerStart: Long,
+        expectedTriggerTimestamp: Long,
+    )
 }

@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.domain.scheduledReminder.interactor
 
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
+import com.example.util.simpletimetracker.domain.utils.LocalDateMapper
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -13,7 +14,9 @@ import java.util.concurrent.TimeUnit
 
 class ScheduledReminderOccurrenceCalculatorTest {
 
-    private val subject = ScheduledReminderOccurrenceCalculator()
+    private val subject = ScheduledReminderOccurrenceCalculator(
+        localDateMapper = LocalDateMapper(),
+    )
 
     @Test
     fun `one-time reminder in DST gap is moved forward by the gap`() {

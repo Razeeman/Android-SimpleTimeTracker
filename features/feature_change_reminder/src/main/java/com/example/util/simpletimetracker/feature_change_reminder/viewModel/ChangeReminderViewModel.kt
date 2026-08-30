@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.core.interactor.CheckNotificationsPerm
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
+import com.example.util.simpletimetracker.domain.extension.toLocalDateTime
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
@@ -35,7 +36,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectio
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.time.Instant
 import java.time.LocalTime
 import java.util.TimeZone
 import java.util.concurrent.TimeUnit
@@ -138,8 +138,7 @@ class ChangeReminderViewModel @Inject constructor(
 
     fun onTimeClick() = viewModelScope.launch {
         val timeZone = TimeZone.getDefault()
-        val today = Instant.ofEpochMilli(currentTimestampProvider.get())
-            .atZone(timeZone.toZoneId()).toLocalDate()
+        val today = currentTimestampProvider.get().toLocalDateTime(timeZone).toLocalDate()
         val timestamp = occurrenceCalculator.resolveLocalDateTime(
             dateEpochDay = today.toEpochDay(),
             timeOfDayMillis = editor.timeOfDayMillis,
@@ -156,7 +155,7 @@ class ChangeReminderViewModel @Inject constructor(
     }
 
     fun onDateTimeSet(timestamp: Long, tag: String?) {
-        val dateTime = Instant.ofEpochMilli(timestamp).atZone(TimeZone.getDefault().toZoneId())
+        val dateTime = timestamp.toLocalDateTime(TimeZone.getDefault())
         when (tag) {
             DATE_TAG -> editor.oneTimeDate = dateTime.toLocalDate().toEpochDay()
             TIME_TAG -> editor.timeOfDayMillis = dateTime.toLocalTime().toMillisOfDay()

@@ -27,10 +27,9 @@ class RemindersViewDataInteractor @Inject constructor(
         val useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val activities = recordTypeInteractor.getAll().associateBy(RecordType::id)
-        val timeZone = TimeZone.getDefault()
         val reminders = getReminders(
             nowTimestamp = currentTimestampProvider.get(),
-            timeZone = timeZone,
+            timeZone = TimeZone.getDefault(),
         )
 
         val result = mutableListOf<ViewHolderType>()
@@ -44,7 +43,6 @@ class RemindersViewDataInteractor @Inject constructor(
                 isDarkTheme = isDarkTheme,
                 useMilitaryTime = useMilitaryTime,
                 firstDayOfWeek = firstDayOfWeek,
-                timeZone = timeZone,
             )
         }
         result += reminderViewDataMapper.mapAddItem(isDarkTheme)
@@ -63,8 +61,8 @@ class RemindersViewDataInteractor @Inject constructor(
                     scheduledReminderOccurrenceCalculator.calculateNext(
                         schedule = it.schedule,
                         nowTimestamp = nowTimestamp,
-                        timeZone = timeZone,
                         catchUpOverdueOneTime = true,
+                        timeZone = timeZone,
                     )?.triggerTimestamp ?: Long.MAX_VALUE
                 } else {
                     Long.MAX_VALUE

@@ -294,7 +294,7 @@ class SettingsNotificationsViewModelDelegate @Inject constructor(
             SettingsDialogTags.ACTIVITY_DURATION_DIALOG_TAG -> delegateScope.launch {
                 prefsInteractor.setActivityReminderDuration(0)
                 parent?.updateContent()
-                notificationActivityInteractor.cancel()
+                notificationActivityInteractor.rescheduleAll()
             }
         }
     }

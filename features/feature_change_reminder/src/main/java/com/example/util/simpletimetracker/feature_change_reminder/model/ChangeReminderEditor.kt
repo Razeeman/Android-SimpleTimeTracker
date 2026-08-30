@@ -2,10 +2,10 @@ package com.example.util.simpletimetracker.feature_change_reminder.model
 
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.extension.addOrRemove
+import com.example.util.simpletimetracker.domain.extension.toLocalDateTime
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderOccurrenceCalculator
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
-import java.time.Instant
 import java.time.LocalDate
 import java.util.TimeZone
 import java.util.concurrent.TimeUnit
@@ -124,8 +124,9 @@ class ChangeReminderEditor private constructor(
         const val DAYS_IN_MONTH = 31
 
         private fun getTomorrow(nowTimestamp: Long): LocalDate {
-            return Instant.ofEpochMilli(nowTimestamp)
-                .atZone(TimeZone.getDefault().toZoneId()).toLocalDate()
+            return nowTimestamp
+                .toLocalDateTime(TimeZone.getDefault())
+                .toLocalDate()
                 .plusDays(1)
         }
 
