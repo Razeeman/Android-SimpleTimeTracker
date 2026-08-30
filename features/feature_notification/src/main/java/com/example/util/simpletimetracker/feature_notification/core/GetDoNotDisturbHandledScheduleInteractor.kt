@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_notification.core
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.extension.isValidTimeOfDay
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -10,13 +11,19 @@ class GetDoNotDisturbHandledScheduleInteractor @Inject constructor(
     private val timeMapper: TimeMapper,
 ) {
 
+    // TODO fix DST offest, use new date api.
     fun execute(
-        timestamp: Long,
+        reminderDurationSeconds: Long,
         dndStart: Long,
         dndEnd: Long,
         activeDaysOfWeek: Set<DayOfWeek>,
+        nowTimestamp: Long,
     ): Long? {
+        if (reminderDurationSeconds <= 0L) return null
         if (activeDaysOfWeek.isEmpty()) return null
+        if (!dndStart.isValidTimeOfDay() || !dndEnd.isValidTimeOfDay()) return null
+
+        val timestamp = reminderDurationSeconds * 1000L + nowTimestamp
 
         val dndHandledTimestamp = applyDoNotDisturb(timestamp, dndStart, dndEnd)
         val candidateDayOfWeek = Calendar.getInstance()

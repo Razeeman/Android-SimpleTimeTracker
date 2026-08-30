@@ -43,6 +43,8 @@ class UpdateExternalViewsInteractor @Inject constructor(
             Update.Wear.takeIf { !fromArchive || getRetroactiveTrackingMode() },
             Update.NotificationTypes.takeIf { !fromArchive },
             Update.NotificationWithControls.takeIf { !fromArchive },
+            Update.ActivityReminderCancel,
+            Update.ActivityReminderReschedule,
         )
     }
 

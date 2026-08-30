@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.domain.recordType.interactor
 
 import com.example.util.simpletimetracker.domain.activityFilter.interactor.ActivityFilterInteractor
+import com.example.util.simpletimetracker.domain.activityReminder.repo.ActivityReminderOverrideRepo
 import com.example.util.simpletimetracker.domain.activitySuggestion.interactor.ActivitySuggestionInteractor
 import com.example.util.simpletimetracker.domain.record.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTagRepo
@@ -39,6 +40,7 @@ class RecordTypeInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val sortCardsInteractor: SortCardsInteractor,
     private val scheduledReminderInteractor: ScheduledReminderInteractor,
+    private val activityReminderOverrideRepo: ActivityReminderOverrideRepo,
 ) {
 
     suspend fun getAll(cardOrder: CardOrder? = null): List<RecordType> {
@@ -119,6 +121,7 @@ class RecordTypeInteractor @Inject constructor(
         activityFilterInteractor.removeTypeId(id)
         activitySuggestionInteractor.removeTypeId(id)
         scheduledReminderInteractor.disableByTypeId(id)
+        activityReminderOverrideRepo.remove(id)
         recordTypeRepo.remove(id)
     }
 

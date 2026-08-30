@@ -24,15 +24,14 @@ class NotificationActivityInteractorImpl @Inject constructor(
 
     override suspend fun checkAndSchedule() {
         prefsInteractor.getActivityReminderDuration()
-            .takeIf { it > 0 }
-            ?.takeIf { runningRecordInteractor.getAll().isNotEmpty() }
-            ?.let { it * 1000L + System.currentTimeMillis() }
+            .takeIf { runningRecordInteractor.getAll().isNotEmpty() }
             ?.let {
                 getDoNotDisturbHandledScheduleInteractor.execute(
-                    timestamp = it,
+                    reminderDurationSeconds = it,
                     dndStart = prefsInteractor.getActivityReminderDoNotDisturbStart(),
                     dndEnd = prefsInteractor.getActivityReminderDoNotDisturbEnd(),
                     activeDaysOfWeek = prefsInteractor.getActivityReminderDaysOfWeek(),
+                    nowTimestamp = System.currentTimeMillis(),
                 )
             }
             ?.let(scheduler::schedule)

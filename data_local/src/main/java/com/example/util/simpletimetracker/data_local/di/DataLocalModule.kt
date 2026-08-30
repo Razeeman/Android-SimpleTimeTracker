@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.data_local.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import com.example.util.simpletimetracker.data_local.activityReminder.ActivityReminderOverrideDao
 import com.example.util.simpletimetracker.core.extension.allowDiskWrite
 import com.example.util.simpletimetracker.data_local.activityFilter.ActivityFilterDao
 import com.example.util.simpletimetracker.data_local.activitySuggestion.ActivitySuggestionDao
@@ -202,5 +203,11 @@ class DataLocalModule {
     @Singleton
     fun getScheduledReminderDao(database: AppDatabase): ScheduledReminderDao {
         return database.scheduledReminderDao()
+    }
+
+    @Provides
+    @Singleton
+    fun getActivityReminderOverrideDao(database: AppDatabase): ActivityReminderOverrideDao {
+        return database.activityReminderOverrideDao()
     }
 }

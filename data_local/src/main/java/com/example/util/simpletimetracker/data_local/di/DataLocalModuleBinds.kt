@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.data_local.di
 
 import com.example.util.simpletimetracker.data_local.activityFilter.ActivityFilterRepoImpl
 import com.example.util.simpletimetracker.data_local.activitySuggestion.ActivitySuggestionRepoImpl
+import com.example.util.simpletimetracker.data_local.activityReminder.ActivityReminderOverrideRepoImpl
 import com.example.util.simpletimetracker.data_local.category.CategoryRepoImpl
 import com.example.util.simpletimetracker.data_local.category.RecordTypeCategoryRepoImpl
 import com.example.util.simpletimetracker.data_local.complexRule.ComplexRuleRepoImpl
@@ -31,6 +32,7 @@ import com.example.util.simpletimetracker.data_local.sharing.SharingRepoImpl
 import com.example.util.simpletimetracker.data_local.scheduledReminder.ScheduledReminderRepoImpl
 import com.example.util.simpletimetracker.domain.activityFilter.repo.ActivityFilterRepo
 import com.example.util.simpletimetracker.domain.activitySuggestion.repo.ActivitySuggestionRepo
+import com.example.util.simpletimetracker.domain.activityReminder.repo.ActivityReminderOverrideRepo
 import com.example.util.simpletimetracker.domain.category.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.complexRule.repo.ComplexRuleRepo
 import com.example.util.simpletimetracker.domain.favourite.repo.FavouriteColorRepo
@@ -183,4 +185,8 @@ interface DataLocalModuleBinds {
     @Binds
     @Singleton
     fun bindScheduledReminderRepo(impl: ScheduledReminderRepoImpl): ScheduledReminderRepo
+
+    @Binds
+    @Singleton
+    fun bindActivityReminderOverrideRepo(impl: ActivityReminderOverrideRepoImpl): ActivityReminderOverrideRepo
 }

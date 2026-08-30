@@ -2,6 +2,9 @@ package com.example.util.simpletimetracker.data_local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.example.util.simpletimetracker.data_local.activityReminder.ActivityReminderOverrideDBO
+import com.example.util.simpletimetracker.data_local.activityReminder.ActivityReminderOverrideDao
+import com.example.util.simpletimetracker.data_local.activityReminder.ActivityReminderRuleDBO
 import com.example.util.simpletimetracker.data_local.activityFilter.ActivityFilterDBO
 import com.example.util.simpletimetracker.data_local.activityFilter.ActivityFilterDao
 import com.example.util.simpletimetracker.data_local.activitySuggestion.ActivitySuggestionDBO
@@ -75,8 +78,10 @@ import com.example.util.simpletimetracker.data_local.scheduledReminder.Scheduled
         FavouriteRecordsFilterDBO.MainDBO::class,
         FavouriteRecordsFilterDBO.FilterDBO::class,
         ScheduledReminderDBO::class,
+        ActivityReminderOverrideDBO::class,
+        ActivityReminderRuleDBO::class,
     ],
-    version = 35,
+    version = 36,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -126,6 +131,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun favouriteRecordsFilterDao(): FavouriteRecordsFilterDao
 
     abstract fun scheduledReminderDao(): ScheduledReminderDao
+
+    abstract fun activityReminderOverrideDao(): ActivityReminderOverrideDao
 
     companion object {
         const val DATABASE_NAME = "simpleTimeTrackerDB"

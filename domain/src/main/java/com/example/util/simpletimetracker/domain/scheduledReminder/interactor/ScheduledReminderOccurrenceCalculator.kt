@@ -1,9 +1,9 @@
 package com.example.util.simpletimetracker.domain.scheduledReminder.interactor
 
-import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.extension.isValidTimeOfDay
+import com.example.util.simpletimetracker.domain.extension.toDomainDayOfWeek
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
 import java.time.DateTimeException
-import java.time.DayOfWeek as JavaDayOfWeek
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
@@ -55,7 +55,7 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
 
         return when (schedule) {
             is ScheduledReminder.Schedule.OneTime -> {
-                if (!isValidTime(schedule.timeOfDayMillis)) return false
+                if (!schedule.timeOfDayMillis.isValidTimeOfDay()) return false
                 resolveLocalDateTime(
                     dateEpochDay = schedule.oneTimeDate,
                     timeOfDayMillis = schedule.timeOfDayMillis,
@@ -81,7 +81,8 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
         nowTimestamp: Long,
         timeZone: TimeZone,
     ): Occurrence? {
-        if (schedule.daysOfWeek.isEmpty() || !isValidTime(schedule.timeOfDayMillis)) return null
+        if (schedule.daysOfWeek.isEmpty()) return null
+        if (!schedule.timeOfDayMillis.isValidTimeOfDay()) return null
 
         var dateCursor = nowTimestamp.toLocalDate(timeZone)
 
@@ -114,7 +115,7 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
         timeZone: TimeZone,
         catchUpOverdue: Boolean,
     ): Occurrence? {
-        if (!isValidTime(schedule.timeOfDayMillis)) return null
+        if (!schedule.timeOfDayMillis.isValidTimeOfDay()) return null
 
         val expectedTimestamp = resolveLocalDateTime(
             dateEpochDay = schedule.oneTimeDate,
@@ -142,7 +143,8 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
         nowTimestamp: Long,
         timeZone: TimeZone,
     ): Occurrence? {
-        if (schedule.dayOfMonth !in 1..31 || !isValidTime(schedule.timeOfDayMillis)) return null
+        if (schedule.dayOfMonth !in 1..31) return null
+        if (!schedule.timeOfDayMillis.isValidTimeOfDay()) return null
 
         var monthCursor = nowTimestamp.toLocalDate(timeZone).withDayOfMonth(1)
 
@@ -175,7 +177,7 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
         timeOfDayMillis: Long,
         timeZone: TimeZone,
     ): Long {
-        if (!isValidTime(timeOfDayMillis)) return 0L
+        if (!timeOfDayMillis.isValidTimeOfDay()) return 0L
 
         return try {
             val date = LocalDate.ofEpochDay(dateEpochDay)
@@ -197,22 +199,6 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor() {
 
     private fun Long.toLocalDate(timeZone: TimeZone): LocalDate {
         return Instant.ofEpochMilli(this).atZone(timeZone.toZoneId()).toLocalDate()
-    }
-
-    private fun JavaDayOfWeek.toDomainDayOfWeek(): DayOfWeek {
-        return when (this) {
-            JavaDayOfWeek.MONDAY -> DayOfWeek.MONDAY
-            JavaDayOfWeek.TUESDAY -> DayOfWeek.TUESDAY
-            JavaDayOfWeek.WEDNESDAY -> DayOfWeek.WEDNESDAY
-            JavaDayOfWeek.THURSDAY -> DayOfWeek.THURSDAY
-            JavaDayOfWeek.FRIDAY -> DayOfWeek.FRIDAY
-            JavaDayOfWeek.SATURDAY -> DayOfWeek.SATURDAY
-            JavaDayOfWeek.SUNDAY -> DayOfWeek.SUNDAY
-        }
-    }
-
-    private fun isValidTime(timeOfDayMillis: Long): Boolean {
-        return timeOfDayMillis in 0 until TimeUnit.DAYS.toMillis(1)
     }
 
     data class Occurrence(
