@@ -280,7 +280,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             val addedId = saveRecordType()
             saveCategories(addedId)
             goalsViewModelDelegate.saveGoals(RecordTypeGoal.IdData.Type(addedId))
-            externalViewsInteractor.onTypeAddOrChange(recordTypeId)
+            externalViewsInteractor.onTypeAddOrChange(addedId)
             keyboardVisibility.set(false)
             router.back()
         }

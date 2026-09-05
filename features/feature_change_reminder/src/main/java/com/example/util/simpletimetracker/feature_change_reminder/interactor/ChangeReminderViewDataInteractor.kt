@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_change_reminder
+package com.example.util.simpletimetracker.feature_change_reminder.interactor
 
 import com.example.util.simpletimetracker.core.mapper.DayOfWeekViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteracto
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderOccurrenceCalculator
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
+import com.example.util.simpletimetracker.feature_change_reminder.R
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ConditionType
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ScheduleType

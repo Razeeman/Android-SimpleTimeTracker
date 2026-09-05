@@ -697,9 +697,11 @@ Examplu:<br/>
     <string name="reminders_schedule_one_time">O singură dată</string>
     <string name="reminders_schedule_monthly">Lunar</string>
     <string name="reminders_condition_activity_not_tracked">Când activitatea nu a fost înregistrată astăzi</string>
+    <string name="activity_reminder_mode">Mod memento</string>
     <string name="activity_reminder_mode_disabled">Dezactivat</string>
     <string name="activity_reminder_mode_custom">Personalizat</string>
     <string name="activity_reminder_disabled_summary">Mementourile sunt dezactivate pentru această activitate</string>
+    <string name="activity_reminder_positive_duration_required">Setează o durată a mementoului mai mare decât zero</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">Mesaj</string>

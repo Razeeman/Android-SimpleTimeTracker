@@ -697,9 +697,11 @@ Example:<br/>
     <string name="reminders_schedule_one_time">Once</string>
     <string name="reminders_schedule_monthly">Monthly</string>
     <string name="reminders_condition_activity_not_tracked">When activity is not tracked today</string>
+    <string name="activity_reminder_mode">Reminder mode</string>
     <string name="activity_reminder_mode_disabled">Disabled</string>
     <string name="activity_reminder_mode_custom">Custom</string>
     <string name="activity_reminder_disabled_summary">Reminders are suppressed for this activity</string>
+    <string name="activity_reminder_positive_duration_required">Set a reminder duration greater than zero</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">Message</string>

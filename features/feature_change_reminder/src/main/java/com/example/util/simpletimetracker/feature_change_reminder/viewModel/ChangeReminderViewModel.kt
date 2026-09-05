@@ -20,8 +20,8 @@ import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.Sc
 import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledRemindersDataUpdateInteractor
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
-import com.example.util.simpletimetracker.feature_change_reminder.ChangeReminderViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_reminder.R
+import com.example.util.simpletimetracker.feature_change_reminder.interactor.ChangeReminderViewDataInteractor
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ConditionType
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ValidationError

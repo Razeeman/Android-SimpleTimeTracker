@@ -697,9 +697,11 @@ Ejemplo:<br/>
     <string name="reminders_schedule_one_time">Una vez</string>
     <string name="reminders_schedule_monthly">Mensualmente</string>
     <string name="reminders_condition_activity_not_tracked">Cuando la actividad no se haya registrado hoy</string>
+    <string name="activity_reminder_mode">Modo de recordatorio</string>
     <string name="activity_reminder_mode_disabled">Desactivado</string>
     <string name="activity_reminder_mode_custom">Personalizado</string>
     <string name="activity_reminder_disabled_summary">Los recordatorios están desactivados para esta actividad</string>
+    <string name="activity_reminder_positive_duration_required">Establece una duración del recordatorio mayor que cero</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">Mensaje</string>

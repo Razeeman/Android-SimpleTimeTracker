@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_reminders.interactor
 
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
-import com.example.util.simpletimetracker.domain.activityReminder.model.ActivityReminderOverride
 import com.example.util.simpletimetracker.domain.activityReminder.repo.ActivityReminderOverrideRepo
 import com.example.util.simpletimetracker.domain.extension.plusAssign
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
@@ -17,6 +16,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.feature_base_adapter.header.HeaderViewData
 import com.example.util.simpletimetracker.feature_reminders.R
 import com.example.util.simpletimetracker.feature_reminders.viewData.RemindersHeader
+import com.example.util.simpletimetracker.feature_reminders.viewData.RemindersButtonViewData
 import java.util.TimeZone
 import javax.inject.Inject
 
@@ -51,8 +51,8 @@ class RemindersViewDataInteractor @Inject constructor(
             section = RemindersHeader.Activity,
             text = resourceRepo.getString(R.string.notification_activity_title),
         )
-        result += activities.mapNotNull { (activityId, activity) ->
-            val override = activityReminderOverrides[activityId] ?: return@mapNotNull null
+        result += activityList.mapNotNull { activity ->
+            val override = activityReminderOverrides[activity.id] ?: return@mapNotNull null
             activityReminderViewDataMapper.map(
                 activity = activity,
                 override = override,
@@ -61,6 +61,10 @@ class RemindersViewDataInteractor @Inject constructor(
                 firstDayOfWeek = firstDayOfWeek,
             )
         }
+        result += reminderViewDataMapper.mapAddItem(
+            id = RemindersButtonViewData.ACTIVITY,
+            isDarkTheme = isDarkTheme,
+        )
         result += HeaderViewData(
             section = RemindersHeader.Scheduled,
             text = resourceRepo.getString(R.string.settings_reminders_title),
@@ -76,7 +80,10 @@ class RemindersViewDataInteractor @Inject constructor(
                 firstDayOfWeek = firstDayOfWeek,
             )
         }
-        result += reminderViewDataMapper.mapAddItem(isDarkTheme)
+        result += reminderViewDataMapper.mapAddItem(
+            id = RemindersButtonViewData.SCHEDULED,
+            isDarkTheme = isDarkTheme,
+        )
 
         return result
     }

@@ -697,9 +697,11 @@
     <string name="reminders_schedule_one_time">یک‌بار</string>
     <string name="reminders_schedule_monthly">ماهانه</string>
     <string name="reminders_condition_activity_not_tracked">وقتی فعالیت امروز ثبت نشده باشد</string>
+    <string name="activity_reminder_mode">حالت یادآوری</string>
     <string name="activity_reminder_mode_disabled">غیرفعال</string>
     <string name="activity_reminder_mode_custom">سفارشی</string>
     <string name="activity_reminder_disabled_summary">یادآورها برای این فعالیت غیرفعال هستند</string>
+    <string name="activity_reminder_positive_duration_required">مدت یادآوری را بیشتر از صفر تنظیم کنید</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">پیام</string>

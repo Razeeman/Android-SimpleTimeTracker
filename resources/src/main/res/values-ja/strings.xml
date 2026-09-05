@@ -697,9 +697,11 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <string name="reminders_schedule_one_time">1回のみ</string>
     <string name="reminders_schedule_monthly">毎月</string>
     <string name="reminders_condition_activity_not_tracked">今日アクティビティが記録されていないとき</string>
+    <string name="activity_reminder_mode">リマインダーモード</string>
     <string name="activity_reminder_mode_disabled">無効</string>
     <string name="activity_reminder_mode_custom">カスタム</string>
     <string name="activity_reminder_disabled_summary">このアクティビティのリマインダーは無効です</string>
+    <string name="activity_reminder_positive_duration_required">リマインダーの時間を 0 より大きく設定してください</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">メッセージ</string>

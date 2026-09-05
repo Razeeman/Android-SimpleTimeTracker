@@ -43,6 +43,11 @@ class UpdateExternalViewsInteractor @Inject constructor(
             Update.Wear.takeIf { !fromArchive || getRetroactiveTrackingMode() },
             Update.NotificationTypes.takeIf { !fromArchive },
             Update.NotificationWithControls.takeIf { !fromArchive },
+        )
+    }
+
+    suspend fun onTypeRemoveBefore(typeId: Long) {
+        runUpdates(
             Update.ActivityReminderCancel(typeId),
         )
     }
@@ -60,6 +65,8 @@ class UpdateExternalViewsInteractor @Inject constructor(
         typeId: Long,
     ) {
         runUpdates(
+            Update.ActivityReminderCancel(typeId),
+            Update.ActivityReminderReschedule(typeId),
             Update.NotificationTypes,
             Update.NotificationWithControls,
             Update.GoalReschedule(listOf(typeId)), // Goals changed, or categories assigned changed.
@@ -421,6 +428,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
     // Update everything.
     suspend fun onBackupRestore() {
         runUpdates(
+            Update.ActivityReminderRecover,
             Update.NotificationTypes,
             Update.NotificationWithControls,
             Update.GoalReschedule(),
@@ -461,6 +469,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
     //  Persist the last observed permission state and fully recover them only when it changes.
     suspend fun onAppStart() {
         runUpdates(
+            Update.ActivityReminderRecover,
             Update.NotificationTypes,
             Update.NotificationWithControls,
             Update.ScheduledReminderReschedule,
@@ -532,6 +541,9 @@ class UpdateExternalViewsInteractor @Inject constructor(
                 update.activityId?.let { notificationActivityInteractor.reschedule(it) }
                     ?: notificationActivityInteractor.rescheduleAll()
             }
+            is Update.ActivityReminderRecover -> {
+                notificationActivityInteractor.rescheduleRecurrent()
+            }
             is Update.InactivityReminderCancel -> {
                 notificationInactivityInteractor.cancel()
             }
@@ -561,6 +573,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
         data class GoalCancel(val idData: RecordTypeGoal.IdData) : Update
         data class ActivityReminderCancel(val activityId: Long) : Update
         data class ActivityReminderReschedule(val activityId: Long? = null) : Update
+        data object ActivityReminderRecover : Update
         data object InactivityReminderCancel : Update
         data object InactivityReminderReschedule : Update
         data object ScheduledReminderReschedule : Update

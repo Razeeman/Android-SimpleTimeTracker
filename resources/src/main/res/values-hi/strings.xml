@@ -697,9 +697,11 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="reminders_schedule_one_time">एक बार</string>
     <string name="reminders_schedule_monthly">मासिक</string>
     <string name="reminders_condition_activity_not_tracked">जब आज गतिविधि ट्रैक नहीं की गई हो</string>
+    <string name="activity_reminder_mode">रिमाइंडर मोड</string>
     <string name="activity_reminder_mode_disabled">बंद</string>
     <string name="activity_reminder_mode_custom">कस्टम</string>
     <string name="activity_reminder_disabled_summary">इस गतिविधि के लिए रिमाइंडर बंद हैं</string>
+    <string name="activity_reminder_positive_duration_required">रिमाइंडर की अवधि शून्य से अधिक सेट करें</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">संदेश</string>

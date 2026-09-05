@@ -26,9 +26,12 @@ class ReminderViewDataMapper @Inject constructor(
     private val scheduledReminderOccurrenceCalculator: ScheduledReminderOccurrenceCalculator,
 ) {
 
-    fun mapAddItem(isDarkTheme: Boolean): ButtonViewData {
+    fun mapAddItem(
+        id: RemindersButtonViewData,
+        isDarkTheme: Boolean,
+    ): ButtonViewData {
         return ButtonViewData(
-            id = RemindersButtonViewData,
+            id = id,
             text = resourceRepo.getString(R.string.running_records_add_type),
             icon = ButtonViewData.Icon.Hidden,
             backgroundColor = resourceRepo.getThemedAttr(coreR.attr.appInactiveColor, isDarkTheme),

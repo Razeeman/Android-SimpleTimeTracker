@@ -697,9 +697,11 @@
     <string name="reminders_schedule_one_time">Один раз</string>
     <string name="reminders_schedule_monthly">Щомісяця</string>
     <string name="reminders_condition_activity_not_tracked">Якщо активність сьогодні не відстежувалася</string>
+    <string name="activity_reminder_mode">Режим нагадування</string>
     <string name="activity_reminder_mode_disabled">Вимкнено</string>
     <string name="activity_reminder_mode_custom">Власні налаштування</string>
     <string name="activity_reminder_disabled_summary">Нагадування для цієї активності вимкнено</string>
+    <string name="activity_reminder_positive_duration_required">Установіть тривалість нагадування більше нуля</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">Повідомлення</string>

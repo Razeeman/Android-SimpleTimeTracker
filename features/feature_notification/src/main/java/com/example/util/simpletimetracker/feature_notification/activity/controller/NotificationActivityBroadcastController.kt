@@ -20,10 +20,22 @@ class NotificationActivityBroadcastController @Inject constructor(
     }
 
     suspend fun onBootCompleted() {
-        notificationActivityInteractor.rescheduleAll()
+        rescheduleRecurrent()
+    }
+
+    suspend fun onExactAlarmPermissionStateChanged() {
+        rescheduleRecurrent()
     }
 
     suspend fun onPackageReplaced() {
-        notificationActivityInteractor.rescheduleAll()
+        rescheduleRecurrent()
+    }
+
+    suspend fun onDateTimeChanged() {
+        rescheduleRecurrent()
+    }
+
+    private suspend fun rescheduleRecurrent() {
+        notificationActivityInteractor.rescheduleRecurrent()
     }
 }

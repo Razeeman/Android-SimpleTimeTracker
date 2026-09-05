@@ -697,9 +697,11 @@
     <string name="reminders_schedule_one_time">ஒரு முறை</string>
     <string name="reminders_schedule_monthly">மாதந்தோறும்</string>
     <string name="reminders_condition_activity_not_tracked">இன்று செயல்பாடு கண்காணிக்கப்படாதபோது</string>
+    <string name="activity_reminder_mode">நினைவூட்டல் பயன்முறை</string>
     <string name="activity_reminder_mode_disabled">முடக்கப்பட்டது</string>
     <string name="activity_reminder_mode_custom">தனிப்பயன்</string>
     <string name="activity_reminder_disabled_summary">இந்தச் செயல்பாட்டிற்கான நினைவூட்டல்கள் முடக்கப்பட்டுள்ளன</string>
+    <string name="activity_reminder_positive_duration_required">நினைவூட்டல் கால அளவை பூஜ்ஜியத்தை விட அதிகமாக அமைக்கவும்</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">செய்தி</string>

@@ -697,9 +697,11 @@ Isibonelo:<br/>
     <string name="reminders_schedule_one_time">Kanye</string>
     <string name="reminders_schedule_monthly">Nyanga zonke</string>
     <string name="reminders_condition_activity_not_tracked">Uma umsebenzi ungakalandelelwa namuhla</string>
+    <string name="activity_reminder_mode">Imodi yesikhumbuzi</string>
     <string name="activity_reminder_mode_disabled">Kukhutshaziwe</string>
     <string name="activity_reminder_mode_custom">Ngokwezifiso</string>
     <string name="activity_reminder_disabled_summary">Izikhumbuzi zikhutshaziwe kulo msebenzi</string>
+    <string name="activity_reminder_positive_duration_required">Setha ubude besikhumbuzi obungaphezu kuka-zero</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">Umlayezo</string>

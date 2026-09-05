@@ -15,6 +15,8 @@ data class TypesSelectionDialogParams(
     val isMultiSelectAvailable: Boolean,
     // Allows showing items that are archived but was selected earlier.
     val idsShouldBeVisible: List<Long>,
+    // Allows excluding certain ids from showing.
+    val excludedTypeIds: List<Long> = emptyList(),
     val showHints: Boolean,
     val allowTagValueSelection: Boolean,
     val allowSelectTagValueOnStart: Boolean = false,

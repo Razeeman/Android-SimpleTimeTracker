@@ -52,18 +52,31 @@ class NotificationActivityInteractorImpl @Inject constructor(
         scheduler.cancelLegacyAlarm()
 
         val runningRecords = runningRecordInteractor.getAll()
-        val runningIds = runningRecords.map(RunningRecord::id).toSet()
-        val knownIds = listOf(
-            recordTypeInteractor.getAll().map(RecordType::id),
-            activityReminderOverrideRepo.getAll().map(ActivityReminderOverride::activityId),
-            runningIds,
-        ).flatten().toSet()
-
-        knownIds.filterNot { it in runningIds }.forEach { cancel(it) }
+        cancelNotRunning(runningRecords)
 
         runningRecords.forEach { runningRecord ->
             withActivityLock(runningRecord.id) {
                 rescheduleLocked(
+                    runningRecord = runningRecord,
+                    nowTimestamp = currentTimestampProvider.get(),
+                )
+            }
+        }
+    }
+
+    // Lifecycle recovery must not replay one-shot reminders. Any existing
+    // alarm is left alone on app start and naturally absent after reboot,
+    // restore/clear, permission revocation, or package replacement.
+    override suspend fun rescheduleRecurrent() {
+        scheduler.cancelLegacyAlarm()
+
+        val runningRecords = runningRecordInteractor.getAll()
+        cancelNotRunning(runningRecords)
+
+        runningRecords.forEach { runningRecord ->
+            withActivityLock(runningRecord.id) {
+                val rule = ruleResolver.resolve(runningRecord.id)
+                if (rule?.recurrent == true) rescheduleLocked(
                     runningRecord = runningRecord,
                     nowTimestamp = currentTimestampProvider.get(),
                 )
@@ -197,6 +210,17 @@ class NotificationActivityInteractorImpl @Inject constructor(
     private fun cancelLocked(activityId: Long) {
         scheduler.cancel(activityId)
         manager.hide(activityId)
+    }
+
+    private suspend fun cancelNotRunning(runningRecords: List<RunningRecord>) {
+        val runningIds = runningRecords.map(RunningRecord::id).toSet()
+        val knownIds = listOf(
+            recordTypeInteractor.getAll().map(RecordType::id),
+            activityReminderOverrideRepo.getAll().map(ActivityReminderOverride::activityId),
+            runningIds,
+        ).flatten().toSet()
+
+        knownIds.filterNot { it in runningIds }.forEach { cancel(it) }
     }
 
     private suspend fun <T> withActivityLock(

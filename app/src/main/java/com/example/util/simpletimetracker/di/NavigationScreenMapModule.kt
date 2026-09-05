@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.feature_change_activity_filter.view.ChangeActivityFilterFragment
 import com.example.util.simpletimetracker.feature_change_category.view.ChangeCategoryFragment
 import com.example.util.simpletimetracker.feature_change_complex_rule.view.ChangeComplexRuleFragment
+import com.example.util.simpletimetracker.feature_change_reminder.view.ChangeActivityReminderFragment
 import com.example.util.simpletimetracker.feature_change_reminder.view.ChangeReminderFragment
 import com.example.util.simpletimetracker.feature_change_record.view.ChangeRecordFragment
 import com.example.util.simpletimetracker.feature_change_record_tag.view.ChangeRecordTagFragment
@@ -19,6 +20,7 @@ import com.example.util.simpletimetracker.navigation.params.screen.ActivitySugge
 import com.example.util.simpletimetracker.navigation.params.screen.ShortcutsParams
 import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
 import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityReminderParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityFilterParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromChangeActivityParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeCategoryFromTagsParams
@@ -236,6 +238,26 @@ class NavigationScreenMapModule {
         return NavigationData(
             R.id.action_to_changeReminderFragment,
             bundleCreatorDelegate(ChangeReminderFragment::createBundle),
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(ChangeActivityReminderParams.Change::class)
+    fun changeActivityReminderChange(): NavigationData {
+        return NavigationData(
+            R.id.action_to_changeActivityReminderFragment,
+            bundleCreatorDelegate(ChangeActivityReminderFragment::createBundle),
+        )
+    }
+
+    @IntoMap
+    @Provides
+    @ScreenKey(ChangeActivityReminderParams.New::class)
+    fun changeActivityReminderNew(): NavigationData {
+        return NavigationData(
+            R.id.action_to_changeActivityReminderFragment,
+            bundleCreatorDelegate(ChangeActivityReminderFragment::createBundle),
         )
     }
 

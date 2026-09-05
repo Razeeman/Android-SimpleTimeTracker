@@ -4,6 +4,11 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class ChangeActivityReminderParams(
-    val activityId: Long,
-) : ScreenParams, Parcelable
+sealed interface ChangeActivityReminderParams : ScreenParams, Parcelable {
+
+    @Parcelize
+    data class Change(val activityId: Long) : ChangeActivityReminderParams
+
+    @Parcelize
+    data object New : ChangeActivityReminderParams
+}

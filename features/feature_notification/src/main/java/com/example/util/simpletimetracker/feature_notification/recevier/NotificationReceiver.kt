@@ -439,6 +439,7 @@ class NotificationReceiver : BroadcastReceiver() {
                 launch { scheduledReminderController.onBootCompleted() }
             }
             AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED -> supervisorScope {
+                launch { activityController.onExactAlarmPermissionStateChanged() }
                 launch { goalTimeController.onExactAlarmPermissionStateChanged() }
                 launch { pomodoroController.onExactAlarmPermissionStateChanged() }
                 launch { scheduledReminderController.onExactAlarmPermissionStateChanged() }
@@ -451,6 +452,7 @@ class NotificationReceiver : BroadcastReceiver() {
             Intent.ACTION_DATE_CHANGED,
             Intent.ACTION_TIMEZONE_CHANGED,
             -> supervisorScope {
+                launch { activityController.onDateTimeChanged() }
                 launch { scheduledReminderController.onDateTimeChanged() }
                 launch { recordsUpdateInteractor.send() }
                 launch { recordsContainerUpdateInteractor.sendDateSelectorUpdate() }

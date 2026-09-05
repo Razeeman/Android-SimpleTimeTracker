@@ -12,8 +12,15 @@ class RemoveRecordTypeMediator @Inject constructor(
         typeId: Long,
         fromArchive: Boolean,
     ) {
+        doBeforeRemove(typeId)
         recordTypeInteractor.remove(typeId)
         doAfterRemove(typeId, fromArchive)
+    }
+
+    private suspend fun doBeforeRemove(
+        typeId: Long,
+    ) {
+        externalViewsInteractor.onTypeRemoveBefore(typeId)
     }
 
     private suspend fun doAfterRemove(

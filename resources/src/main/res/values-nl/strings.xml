@@ -697,9 +697,11 @@ Voorbeeld:<br/>
     <string name="reminders_schedule_one_time">Eenmalig</string>
     <string name="reminders_schedule_monthly">Maandelijks</string>
     <string name="reminders_condition_activity_not_tracked">Wanneer de activiteit vandaag niet is bijgehouden</string>
+    <string name="activity_reminder_mode">Herinneringsmodus</string>
     <string name="activity_reminder_mode_disabled">Uitgeschakeld</string>
     <string name="activity_reminder_mode_custom">Aangepast</string>
     <string name="activity_reminder_disabled_summary">Herinneringen zijn uitgeschakeld voor deze activiteit</string>
+    <string name="activity_reminder_positive_duration_required">Stel een herinneringsduur groter dan nul in</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">Bericht</string>

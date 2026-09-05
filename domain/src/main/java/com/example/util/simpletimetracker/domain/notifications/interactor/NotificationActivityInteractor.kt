@@ -4,6 +4,8 @@ interface NotificationActivityInteractor {
 
     suspend fun rescheduleAll()
 
+    suspend fun rescheduleRecurrent()
+
     suspend fun reschedule(activityId: Long)
 
     suspend fun cancel(activityId: Long)

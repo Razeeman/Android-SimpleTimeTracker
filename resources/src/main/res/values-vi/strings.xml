@@ -697,9 +697,11 @@ Ví dụ:<br/>
     <string name="reminders_schedule_one_time">Một lần</string>
     <string name="reminders_schedule_monthly">Hàng tháng</string>
     <string name="reminders_condition_activity_not_tracked">Khi hoạt động chưa được theo dõi hôm nay</string>
+    <string name="activity_reminder_mode">Chế độ nhắc nhở</string>
     <string name="activity_reminder_mode_disabled">Đã tắt</string>
     <string name="activity_reminder_mode_custom">Tùy chỉnh</string>
     <string name="activity_reminder_disabled_summary">Lời nhắc đã bị tắt cho hoạt động này</string>
+    <string name="activity_reminder_positive_duration_required">Đặt thời lượng nhắc nhở lớn hơn 0</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">Tin nhắn</string>

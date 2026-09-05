@@ -61,8 +61,15 @@ class RemindersViewModel @Inject constructor(
     }
 
     fun onAddClick(item: ButtonViewData) {
-        if (item.id !is RemindersButtonViewData) return
-        router.navigate(ChangeReminderParams.New)
+        when (item.id) {
+            RemindersButtonViewData.ACTIVITY -> {
+                router.navigate(ChangeActivityReminderParams.New)
+            }
+            RemindersButtonViewData.SCHEDULED -> {
+                router.navigate(ChangeReminderParams.New)
+            }
+            else -> Unit
+        }
     }
 
     fun onReminderClick(item: ReminderViewData) {
@@ -70,7 +77,7 @@ class RemindersViewModel @Inject constructor(
     }
 
     fun onActivityReminderClick(item: ActivityReminderViewData) {
-        router.navigate(ChangeActivityReminderParams(item.activityId))
+        router.navigate(ChangeActivityReminderParams.Change(item.activityId))
     }
 
     fun onEnabledClick(item: ReminderViewData) {

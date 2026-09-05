@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.feature_reminders.adapter
 
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClickWith
-import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.example.util.simpletimetracker.feature_reminders.databinding.ItemActivityReminderLayoutBinding as Binding
 import com.example.util.simpletimetracker.feature_reminders.viewData.ActivityReminderViewData as ViewData
 
