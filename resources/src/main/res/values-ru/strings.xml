@@ -697,6 +697,9 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="reminders_schedule_one_time">Один раз</string>
     <string name="reminders_schedule_monthly">Ежемесячно</string>
     <string name="reminders_condition_activity_not_tracked">Если активность сегодня не отслеживалась</string>
+    <string name="activity_reminder_mode_disabled">Отключено</string>
+    <string name="activity_reminder_mode_custom">Настраиваемый</string>
+    <string name="activity_reminder_disabled_summary">Напоминания для этой активности отключены</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">Сообщение</string>

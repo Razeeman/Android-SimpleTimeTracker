@@ -697,6 +697,9 @@
     <string name="reminders_schedule_one_time">פעם אחת</string>
     <string name="reminders_schedule_monthly">חודשי</string>
     <string name="reminders_condition_activity_not_tracked">כאשר הפעילות לא תועדה היום</string>
+    <string name="activity_reminder_mode_disabled">מושבת</string>
+    <string name="activity_reminder_mode_custom">מותאם אישית</string>
+    <string name="activity_reminder_disabled_summary">התזכורות מושבתות עבור פעילות זו</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">הודעה</string>

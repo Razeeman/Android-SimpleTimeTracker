@@ -697,6 +697,9 @@ Exempel:<br/>
     <string name="reminders_schedule_one_time">En gång</string>
     <string name="reminders_schedule_monthly">Månadsvis</string>
     <string name="reminders_condition_activity_not_tracked">När aktiviteten inte har spårats idag</string>
+    <string name="activity_reminder_mode_disabled">Inaktiverad</string>
+    <string name="activity_reminder_mode_custom">Anpassad</string>
+    <string name="activity_reminder_disabled_summary">Påminnelser är inaktiverade för den här aktiviteten</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">Meddelande</string>

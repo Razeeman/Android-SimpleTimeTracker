@@ -8,8 +8,10 @@ import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.button.createButtonAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.header.createHeaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.loader.createLoaderAdapterDelegate
 import com.example.util.simpletimetracker.feature_reminders.adapter.createReminderAdapterDelegate
+import com.example.util.simpletimetracker.feature_reminders.adapter.createActivityReminderAdapterDelegate
 import com.example.util.simpletimetracker.feature_reminders.viewModel.RemindersViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.util.simpletimetracker.feature_reminders.databinding.RemindersFragmentBinding as Binding
@@ -28,6 +30,10 @@ class RemindersFragment : BaseFragment<Binding>() {
     private val remindersAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
             createLoaderAdapterDelegate(),
+            createHeaderAdapterDelegate(),
+            createActivityReminderAdapterDelegate(
+                onItemClick = throttle(viewModel::onActivityReminderClick),
+            ),
             createButtonAdapterDelegate(
                 onClick = throttle(viewModel::onAddClick),
             ),

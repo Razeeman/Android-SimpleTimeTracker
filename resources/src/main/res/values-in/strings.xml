@@ -697,6 +697,9 @@ Contoh:<br/>
     <string name="reminders_schedule_one_time">Sekali</string>
     <string name="reminders_schedule_monthly">Bulanan</string>
     <string name="reminders_condition_activity_not_tracked">Saat aktivitas belum dilacak hari ini</string>
+    <string name="activity_reminder_mode_disabled">Dinonaktifkan</string>
+    <string name="activity_reminder_mode_custom">Kustom</string>
+    <string name="activity_reminder_disabled_summary">Pengingat dinonaktifkan untuk aktivitas ini</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">Pesan</string>

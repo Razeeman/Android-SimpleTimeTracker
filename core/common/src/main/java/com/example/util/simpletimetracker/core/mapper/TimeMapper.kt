@@ -735,6 +735,36 @@ class TimeMapper @Inject constructor(
         )
     }
 
+    fun formatDays(
+        firstDayOfWeek: DayOfWeek,
+        selectedDaysOfWeek: Set<DayOfWeek>,
+    ): String {
+        if (selectedDaysOfWeek.containsAll(DayOfWeek.entries)) return ""
+
+        val daysInOrder = getWeekOrder(firstDayOfWeek).map { dayOfWeek ->
+            dayOfWeek to toShortDayOfWeekName(dayOfWeek)
+        }
+
+        val runs = mutableListOf<MutableList<Pair<DayOfWeek, String>>>()
+
+        daysInOrder.forEach { day ->
+            if (day.first in selectedDaysOfWeek) {
+                runs.lastOrNull()?.add(day) ?: runs.add(mutableListOf(day))
+            } else if (runs.lastOrNull()?.isNotEmpty() == true) {
+                runs.add(mutableListOf())
+            }
+        }
+
+        return runs
+            .filter { it.isNotEmpty() }
+            .joinToString(separator = " ") { run ->
+                when (run.size) {
+                    1 -> run.first().second
+                    else -> "${run.first().second}-${run.last().second}"
+                }
+            }
+    }
+
     private fun isFirstWeekOfNextYear(calendar: Calendar): Boolean {
         return calendar.get(Calendar.WEEK_OF_YEAR) == 1 &&
             calendar.get(Calendar.MONTH) == calendar.getActualMaximum(Calendar.MONTH)

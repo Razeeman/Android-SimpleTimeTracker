@@ -697,6 +697,9 @@
     <string name="reminders_schedule_one_time">مرة واحدة</string>
     <string name="reminders_schedule_monthly">شهريًا</string>
     <string name="reminders_condition_activity_not_tracked">عندما لا يتم تتبع النشاط اليوم</string>
+    <string name="activity_reminder_mode_disabled">معطّل</string>
+    <string name="activity_reminder_mode_custom">مخصّص</string>
+    <string name="activity_reminder_disabled_summary">تم تعطيل التذكيرات لهذا النشاط</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">الرسالة</string>

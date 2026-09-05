@@ -697,6 +697,9 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="reminders_schedule_one_time">Bir kez</string>
     <string name="reminders_schedule_monthly">Aylık</string>
     <string name="reminders_condition_activity_not_tracked">Etkinlik bugün takip edilmediğinde</string>
+    <string name="activity_reminder_mode_disabled">Devre dışı</string>
+    <string name="activity_reminder_mode_custom">Özel</string>
+    <string name="activity_reminder_disabled_summary">Bu etkinlik için hatırlatıcılar devre dışı bırakıldı</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">Mesaj</string>

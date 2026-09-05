@@ -697,6 +697,9 @@ csv 文件必须包含以逗号分隔的这些列：<br/>
     <string name="reminders_schedule_one_time">仅一次</string>
     <string name="reminders_schedule_monthly">每月</string>
     <string name="reminders_condition_activity_not_tracked">当今天尚未记录该活动时</string>
+    <string name="activity_reminder_mode_disabled">已停用</string>
+    <string name="activity_reminder_mode_custom">自定义</string>
+    <string name="activity_reminder_disabled_summary">此活动的提醒已停用</string>
 
     <!--  Change reminders  -->
     <string name="change_reminder_message">消息</string>

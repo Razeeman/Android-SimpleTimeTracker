@@ -94,12 +94,12 @@ class ReminderViewDataMapper @Inject constructor(
                 )
                 if (schedule.daysOfWeek.size == DayOfWeek.entries.size) {
                     val hint = resourceRepo.getString(R.string.reminders_schedule_daily)
-                    "$hint $time"
+                    listOf(hint, time)
                 } else {
                     val days = timeMapper.getWeekOrder(firstDayOfWeek)
                         .filter(schedule.daysOfWeek::contains)
                         .joinToString(separator = ", ", transform = timeMapper::toShortDayOfWeekName)
-                    "$days $time"
+                    listOf(days, time)
                 }
             }
             is ScheduledReminder.Schedule.OneTime -> {
@@ -112,7 +112,7 @@ class ReminderViewDataMapper @Inject constructor(
                     useMilitaryTime = useMilitaryTime,
                 )
                 val hint = resourceRepo.getString(R.string.reminders_schedule_one_time)
-                "$hint $dateTime"
+                listOf(hint, dateTime)
             }
             is ScheduledReminder.Schedule.Monthly -> {
                 val time = formatTime(
@@ -120,9 +120,9 @@ class ReminderViewDataMapper @Inject constructor(
                     useMilitaryTime = useMilitaryTime,
                 )
                 val hint = resourceRepo.getString(R.string.reminders_schedule_monthly)
-                "$hint ${schedule.dayOfMonth} $time"
+                listOf(hint, schedule.dayOfMonth, time)
             }
-        }
+        }.joinToString(separator = " · ")
     }
 
     private fun mapCondition(

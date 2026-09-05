@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.interactor.CheckExactAlarmPermiss
 import com.example.util.simpletimetracker.core.interactor.CheckNotificationsPermissionInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
+import com.example.util.simpletimetracker.domain.activityReminder.interactor.ActivityRemindersDataUpdateInteractor
 import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderInteractor
 import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderOccurrenceCalculator
 import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledRemindersDataUpdateInteractor
@@ -18,10 +19,12 @@ import com.example.util.simpletimetracker.feature_base_adapter.button.ButtonView
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_reminders.interactor.RemindersViewDataInteractor
 import com.example.util.simpletimetracker.feature_reminders.viewData.ReminderViewData
+import com.example.util.simpletimetracker.feature_reminders.viewData.ActivityReminderViewData
 import com.example.util.simpletimetracker.feature_reminders.viewData.RemindersButtonViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeReminderParams
+import com.example.util.simpletimetracker.navigation.params.screen.ChangeActivityReminderParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -40,6 +43,7 @@ class RemindersViewModel @Inject constructor(
     private val scheduledRemindersDataUpdateInteractor: ScheduledRemindersDataUpdateInteractor,
     private val currentTimestampProvider: CurrentTimestampProvider,
     private val occurrenceCalculator: ScheduledReminderOccurrenceCalculator,
+    private val activityRemindersDataUpdateInteractor: ActivityRemindersDataUpdateInteractor,
 ) : BaseViewModel() {
 
     val viewData: LiveData<List<ViewHolderType>> by lazySuspend {
@@ -63,6 +67,10 @@ class RemindersViewModel @Inject constructor(
 
     fun onReminderClick(item: ReminderViewData) {
         router.navigate(ChangeReminderParams.Change(item.id))
+    }
+
+    fun onActivityReminderClick(item: ActivityReminderViewData) {
+        router.navigate(ChangeActivityReminderParams(item.activityId))
     }
 
     fun onEnabledClick(item: ReminderViewData) {
@@ -115,6 +123,11 @@ class RemindersViewModel @Inject constructor(
     private fun subscribeToUpdates() {
         viewModelScope.launch {
             scheduledRemindersDataUpdateInteractor.dataUpdated.collect {
+                updateViewData()
+            }
+        }
+        viewModelScope.launch {
+            activityRemindersDataUpdateInteractor.dataUpdated.collect {
                 updateViewData()
             }
         }
