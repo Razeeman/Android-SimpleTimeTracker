@@ -25,6 +25,8 @@ class UpdateExternalViewsInteractor @Inject constructor(
 
     // Also removes running records and records.
     // Categories are affected.
+    // Activity reminder is not called intentionally, because it is called from running record remove
+    // which is called just before this type remove call.
     suspend fun onTypeRemove(
         typeId: Long,
         fromArchive: Boolean,
@@ -46,12 +48,6 @@ class UpdateExternalViewsInteractor @Inject constructor(
         )
     }
 
-    suspend fun onTypeRemoveBefore(typeId: Long) {
-        runUpdates(
-            Update.ActivityReminderCancel(typeId),
-        )
-    }
-
     suspend fun onTypeArchive() {
         runUpdates(
             Update.NotificationTypes,
@@ -65,11 +61,13 @@ class UpdateExternalViewsInteractor @Inject constructor(
         typeId: Long,
     ) {
         runUpdates(
-            Update.ActivityReminderCancel(typeId),
-            Update.ActivityReminderReschedule(typeId),
+            // Not called in order to avoid reminder duration timer reset on type change,
+            // can cause invalid icon shown, but acceptable.
+            // Update.ActivityReminderReschedule(typeId),
             Update.NotificationTypes,
             Update.NotificationWithControls,
-            Update.GoalReschedule(listOf(typeId)), // Goals changed, or categories assigned changed.
+            // Goals changed, or categories assigned changed.
+            Update.GoalReschedule(listOf(typeId)),
             Update.WidgetSingleTypes,
             Update.WidgetUniversal,
             Update.WidgetGrid,
@@ -113,15 +111,15 @@ class UpdateExternalViewsInteractor @Inject constructor(
     ) {
         val runningRecords = runningRecordInteractor.getAll()
         val runningRecordIds = runningRecords.map(RunningRecord::id)
-        val runningRecordTagIds = runningRecords.map(RunningRecord::tags)
-            .flatten().map(RecordBase.Tag::tagId)
+        val runningRecordTagIds = runningRecords.flatMap(RunningRecord::tags)
+            .map(RecordBase.Tag::tagId)
         val fullTagIds = runningRecordTagIds + tagIds
 
         runUpdates(
             Update.NotificationTypeHide(typeId),
             Update.NotificationWithControls.takeIf { updateNotificationSwitch },
             Update.InactivityReminderReschedule,
-            Update.ActivityReminderCancel(typeId),
+            Update.ActivityReminderStopped(typeId),
             Update.GoalReschedule(runningRecordIds + typeId),
             Update.GoalTagReschedule(fullTagIds).takeIf { fullTagIds.isNotEmpty() },
             Update.WidgetSingleTypes.takeIf { updateWidgets },
@@ -141,7 +139,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
             Update.NotificationType(listOf(typeId)),
             Update.NotificationWithControls.takeIf { updateNotificationSwitch },
             Update.InactivityReminderCancel,
-            Update.ActivityReminderReschedule(typeId),
+            Update.ActivityReminderStarted(typeId),
             Update.GoalReschedule(listOf(typeId)),
             Update.GoalTagReschedule(tagIds).takeIf { tagIds.isNotEmpty() },
             Update.WidgetSingleTypes,
@@ -388,7 +386,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
 
     suspend fun onActivityReminderChange() {
         runUpdates(
-            Update.ActivityReminderReschedule(),
+            Update.ActivityReminderRescheduleDefault,
         )
     }
 
@@ -428,7 +426,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
     // Update everything.
     suspend fun onBackupRestore() {
         runUpdates(
-            Update.ActivityReminderRecover,
+            Update.ActivityReminderRescheduleRecurrent,
             Update.NotificationTypes,
             Update.NotificationWithControls,
             Update.GoalReschedule(),
@@ -464,12 +462,13 @@ class UpdateExternalViewsInteractor @Inject constructor(
         )
     }
 
-    // Update everything except goals.
+    // Update everything except goals (consuming).
+    // Reminders rescheduled in order to handle exact alarm permission being revoked.
     // TODO Goals and Pomodoro need equivalent exact alarm revocation recovery.
     //  Persist the last observed permission state and fully recover them only when it changes.
     suspend fun onAppStart() {
         runUpdates(
-            Update.ActivityReminderRecover,
+            Update.ActivityReminderRescheduleRecurrent,
             Update.NotificationTypes,
             Update.NotificationWithControls,
             Update.ScheduledReminderReschedule,
@@ -534,14 +533,16 @@ class UpdateExternalViewsInteractor @Inject constructor(
             is Update.GoalCancel -> {
                 notificationGoalTimeInteractor.cancel(update.idData)
             }
-            is Update.ActivityReminderCancel -> {
-                notificationActivityInteractor.cancel(update.activityId)
+            is Update.ActivityReminderStarted -> {
+                notificationActivityInteractor.onActivityStarted(update.activityId)
             }
-            is Update.ActivityReminderReschedule -> {
-                update.activityId?.let { notificationActivityInteractor.reschedule(it) }
-                    ?: notificationActivityInteractor.rescheduleAll()
+            is Update.ActivityReminderStopped -> {
+                notificationActivityInteractor.onActivityStopped(update.activityId)
             }
-            is Update.ActivityReminderRecover -> {
+            is Update.ActivityReminderRescheduleDefault -> {
+                notificationActivityInteractor.rescheduleDefault()
+            }
+            is Update.ActivityReminderRescheduleRecurrent -> {
                 notificationActivityInteractor.rescheduleRecurrent()
             }
             is Update.InactivityReminderCancel -> {
@@ -571,9 +572,10 @@ class UpdateExternalViewsInteractor @Inject constructor(
         data class GoalReschedule(val typeIds: List<Long> = emptyList()) : Update
         data class GoalTagReschedule(val tagIds: List<Long> = emptyList()) : Update
         data class GoalCancel(val idData: RecordTypeGoal.IdData) : Update
-        data class ActivityReminderCancel(val activityId: Long) : Update
-        data class ActivityReminderReschedule(val activityId: Long? = null) : Update
-        data object ActivityReminderRecover : Update
+        data class ActivityReminderStarted(val activityId: Long) : Update
+        data class ActivityReminderStopped(val activityId: Long) : Update
+        data object ActivityReminderRescheduleDefault : Update
+        data object ActivityReminderRescheduleRecurrent : Update
         data object InactivityReminderCancel : Update
         data object InactivityReminderReschedule : Update
         data object ScheduledReminderReschedule : Update

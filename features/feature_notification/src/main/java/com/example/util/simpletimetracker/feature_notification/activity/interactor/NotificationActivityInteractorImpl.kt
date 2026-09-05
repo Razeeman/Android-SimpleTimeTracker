@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
 import com.example.util.simpletimetracker.domain.extension.toDomainDayOfWeek
 import com.example.util.simpletimetracker.domain.extension.toLocalDateTime
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationActivityInteractor
+import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationActivityInteractor.Companion.SHARED_REMINDER_ID
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
@@ -20,6 +21,7 @@ import com.example.util.simpletimetracker.feature_notification.activity.manager.
 import com.example.util.simpletimetracker.feature_notification.activity.manager.NotificationActivityParams
 import com.example.util.simpletimetracker.feature_notification.activity.scheduler.NotificationActivityScheduler
 import com.example.util.simpletimetracker.feature_notification.core.GetDoNotDisturbHandledScheduleInteractor
+import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import java.util.TimeZone
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -42,124 +44,270 @@ class NotificationActivityInteractorImpl @Inject constructor(
     private val colorMapper: ColorMapper,
 ) : NotificationActivityInteractor {
 
-    // Serializes notification work for each activity ID. It prevents races between operations such as:
-    // - an alarm firing while the timer is being stopped,
-    // - a rule change rescheduling while an old alarm is delivered,
-    // - two concurrent reschedules installing conflicting alarms.
-    private val activityLocks = mutableMapOf<Long, Mutex>()
+    // Membership changes and alarm delivery must observe one consistent inherited group.
+    private val reminderMutex = Mutex()
 
-    override suspend fun rescheduleAll() {
-        scheduler.cancelLegacyAlarm()
-
-        val runningRecords = runningRecordInteractor.getAll()
-        cancelNotRunning(runningRecords)
-
-        runningRecords.forEach { runningRecord ->
-            withActivityLock(runningRecord.id) {
-                rescheduleLocked(
+    override suspend fun onActivityStarted(activityId: Long) = reminderMutex.withLock {
+        val runningRecord = runningRecordInteractor.get(activityId) ?: return@withLock
+        when (val mode = activityReminderOverrideRepo.get(activityId)?.mode) {
+            null -> {
+                cancelActivitySpecific(activityId)
+                val inheritedRecords = getInheritedRunningRecords()
+                // Schedule only on first activity start.
+                if (inheritedRecords.size == 1) {
+                    rescheduleShared(
+                        inheritedRecords = inheritedRecords,
+                        nowTimestamp = currentTimestampProvider.get(),
+                    )
+                }
+            }
+            is ActivityReminderOverride.Mode.Custom -> {
+                rescheduleCustom(
                     runningRecord = runningRecord,
+                    rule = mode.rule,
                     nowTimestamp = currentTimestampProvider.get(),
                 )
+            }
+            is ActivityReminderOverride.Mode.Disabled -> {
+                cancelActivitySpecific(activityId)
             }
         }
     }
 
-    // Lifecycle recovery must not replay one-shot reminders. Any existing
-    // alarm is left alone on app start and naturally absent after reboot,
-    // restore/clear, permission revocation, or package replacement.
-    override suspend fun rescheduleRecurrent() {
-        scheduler.cancelLegacyAlarm()
-
-        val runningRecords = runningRecordInteractor.getAll()
-        cancelNotRunning(runningRecords)
-
-        runningRecords.forEach { runningRecord ->
-            withActivityLock(runningRecord.id) {
-                val rule = ruleResolver.resolve(runningRecord.id)
-                if (rule?.recurrent == true) rescheduleLocked(
-                    runningRecord = runningRecord,
-                    nowTimestamp = currentTimestampProvider.get(),
-                )
-            }
+    override suspend fun onActivityStopped(activityId: Long) = reminderMutex.withLock {
+        cancelActivitySpecific(activityId)
+        // Custom and disabled activities cannot change the shared group when they stop.
+        if (activityReminderOverrideRepo.get(activityId) == null &&
+            // Cancel if no activity tracked.
+            getInheritedRunningRecords().isEmpty()
+        ) {
+            cancelShared()
         }
     }
 
-    override suspend fun reschedule(activityId: Long) = withActivityLock(activityId) {
+    override suspend fun onReminderOverrideChanged(
+        activityId: Long,
+        wasInherited: Boolean,
+    ) = reminderMutex.withLock {
         val runningRecord = runningRecordInteractor.get(activityId)
-        if (runningRecord == null) {
-            cancelLocked(activityId)
-        } else {
-            rescheduleLocked(
+        val currentMode = activityReminderOverrideRepo.get(activityId)?.mode
+        val isInherited = currentMode == null
+
+        cancelActivitySpecific(activityId)
+        if (runningRecord != null && currentMode is ActivityReminderOverride.Mode.Custom) {
+            rescheduleCustom(
                 runningRecord = runningRecord,
+                rule = currentMode.rule,
+                nowTimestamp = currentTimestampProvider.get(),
+            )
+        }
+
+        // Activity was changed from global to custom settings or vice versa.
+        if (wasInherited == isInherited || runningRecord == null) return@withLock
+        val inheritedRecords = getInheritedRunningRecords()
+        when {
+            // Was global, now custom - cancel old reminder, there will be new one with new settings.
+            wasInherited && inheritedRecords.isEmpty() -> cancelShared()
+            // Was custom, now global - reschedule with new settings.
+            isInherited && inheritedRecords.size == 1 -> rescheduleShared(
+                inheritedRecords = inheritedRecords,
                 nowTimestamp = currentTimestampProvider.get(),
             )
         }
     }
 
-    override suspend fun cancel(activityId: Long) = withActivityLock(activityId) {
-        cancelLocked(activityId)
+    override suspend fun rescheduleDefault() = reminderMutex.withLock {
+        scheduler.cancelLegacyAlarm()
+
+        // Global setting changes affect only activities that inherit the default rule.
+        // Custom reminders keep their existing schedule and cadence.
+        cancelShared()
+        val inheritedRecords = getInheritedRunningRecords()
+        if (inheritedRecords.isNotEmpty()) {
+            rescheduleShared(
+                inheritedRecords = inheritedRecords,
+                nowTimestamp = currentTimestampProvider.get(),
+            )
+        }
     }
 
-    override suspend fun cancelAll() {
+    // Lifecycle recovery must not replay one-shot reminders. Any existing alarm is left alone
+    // on app start and naturally absent after reboot, restore, or package replacement.
+    override suspend fun rescheduleRecurrent() = reminderMutex.withLock {
+        scheduler.cancelLegacyAlarm()
+
+        val runningRecords = runningRecordInteractor.getAll()
+        val runningIds = runningRecords.map(RunningRecord::id).toSet()
+        val overrides = activityReminderOverrideRepo.getAll()
+            .associateBy(ActivityReminderOverride::activityId)
+        cancelNotRunning(runningIds, overrides.keys)
+
+        // Custom recurrent.
+        runningRecords.forEach { runningRecord ->
+            when (val mode = overrides[runningRecord.id]?.mode) {
+                null -> cancelActivitySpecific(runningRecord.id)
+                is ActivityReminderOverride.Mode.Disabled -> {
+                    cancelActivitySpecific(runningRecord.id)
+                }
+                is ActivityReminderOverride.Mode.Custom -> if (mode.rule.recurrent) {
+                    rescheduleCustom(
+                        runningRecord = runningRecord,
+                        rule = mode.rule,
+                        nowTimestamp = currentTimestampProvider.get(),
+                    )
+                }
+            }
+        }
+
+        // Global recurrent.
+        val inheritedRecords = runningRecords.filter { it.id !in overrides }
+        val defaultRule = ruleResolver.resolveDefault()
+        when {
+            inheritedRecords.isEmpty() || defaultRule == null -> cancelShared()
+            defaultRule.recurrent -> rescheduleShared(
+                inheritedRecords = inheritedRecords,
+                nowTimestamp = currentTimestampProvider.get(),
+            )
+            else -> Unit
+        }
+    }
+
+    override suspend fun cancelAll() = reminderMutex.withLock {
         scheduler.cancelLegacyAlarm()
         val ids = listOf(
             recordTypeInteractor.getAll().map(RecordType::id),
             activityReminderOverrideRepo.getAll().map(ActivityReminderOverride::activityId),
             runningRecordInteractor.getAll().map(RunningRecord::id),
         ).flatten().toSet()
-        ids.forEach { cancel(it) }
+        ids.forEach(::cancelActivitySpecific)
+        cancelShared()
     }
 
     override suspend fun onReminderFired(
         activityId: Long,
         expectedTimerStart: Long,
         expectedTriggerTimestamp: Long,
-    ) = withActivityLock(activityId) {
-        if (expectedTriggerTimestamp <= 0L) return@withActivityLock
+    ) = reminderMutex.withLock {
+        if (expectedTriggerTimestamp <= 0L) return@withLock
+        if (activityId == SHARED_REMINDER_ID) {
+            onSharedReminderFired(
+                expectedTimerStart = expectedTimerStart,
+                expectedTriggerTimestamp = expectedTriggerTimestamp,
+            )
+        } else {
+            onCustomReminderFired(
+                activityId = activityId,
+                expectedTimerStart = expectedTimerStart,
+                expectedTriggerTimestamp = expectedTriggerTimestamp,
+            )
+        }
+    }
+
+    private suspend fun onCustomReminderFired(
+        activityId: Long,
+        expectedTimerStart: Long,
+        expectedTriggerTimestamp: Long,
+    ) {
+        val isDarkTheme = prefsInteractor.getDarkMode()
         val runningRecord = runningRecordInteractor.get(activityId)
         val recordType = recordTypeInteractor.get(activityId)
-        val rule = ruleResolver.resolve(activityId)
+        // Old activity-specific alarms must not fall back to the global rule.
+        val rule = (activityReminderOverrideRepo.get(activityId)?.mode as?
+            ActivityReminderOverride.Mode.Custom)?.rule
         if (
             runningRecord == null ||
             recordType == null ||
             rule == null ||
             runningRecord.timeStarted != expectedTimerStart
         ) {
-            cancelLocked(activityId)
-            return@withActivityLock
+            cancelActivitySpecific(activityId)
+            return
         }
 
+        onReminderFiredInternal(
+            activityId = activityId,
+            timerStartTimestamp = runningRecord.timeStarted,
+            expectedTriggerTimestamp = expectedTriggerTimestamp,
+            rule = rule,
+            subtitle = {
+                resourceRepo.getString(
+                    R.string.notification_activity_text,
+                    recordType.name,
+                )
+            },
+            icon = iconMapper.mapIcon(recordType.icon),
+            color = colorMapper.mapToColorInt(recordType.color, isDarkTheme),
+        )
+    }
+
+    private suspend fun onSharedReminderFired(
+        expectedTimerStart: Long,
+        expectedTriggerTimestamp: Long,
+    ) {
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        val inheritedRecords = getInheritedRunningRecords()
+        val rule = ruleResolver.resolveDefault()
+        if (inheritedRecords.isEmpty() || rule == null) {
+            cancelShared()
+            return
+        }
+
+        onReminderFiredInternal(
+            activityId = SHARED_REMINDER_ID,
+            timerStartTimestamp = expectedTimerStart,
+            expectedTriggerTimestamp = expectedTriggerTimestamp,
+            rule = rule,
+            subtitle = {
+                val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
+                val activityNames = inheritedRecords.mapNotNull { recordTypes[it.id]?.name }
+                resourceRepo.getString(
+                    R.string.notification_activity_text,
+                    activityNames.joinToString(separator = ", "),
+                )
+            },
+            icon = RecordTypeIcon.Image(R.drawable.unknown),
+            color = colorMapper.toUntrackedColor(isDarkTheme),
+        )
+    }
+
+    private suspend fun onReminderFiredInternal(
+        activityId: Long,
+        timerStartTimestamp: Long,
+        expectedTriggerTimestamp: Long,
+        rule: ActivityReminderOverride.Rule,
+        subtitle: suspend () -> String,
+        icon: RecordTypeIcon,
+        color: Int,
+    ) {
+        // In case clock was changed just when broadcast is handled, rare but would lose reminder.
         val nowTimestamp = currentTimestampProvider.get()
         if (nowTimestamp < expectedTriggerTimestamp) {
             scheduler.schedule(
                 activityId = activityId,
-                timerStartTimestamp = runningRecord.timeStarted,
+                timerStartTimestamp = timerStartTimestamp,
                 triggerTimestamp = expectedTriggerTimestamp,
             )
-            return@withActivityLock
+            return
         }
 
-        // Check in case date was changed due to system settings change.
         val currentDayOfWeek = nowTimestamp
             .toLocalDateTime(TimeZone.getDefault())
             .dayOfWeek.toDomainDayOfWeek()
+        // Check that the day is still correct, time could be changed just when broadcast is handled.
         if (currentDayOfWeek in rule.applicableDaysOfWeek) {
-            val isDarkTheme = prefsInteractor.getDarkMode()
             NotificationActivityParams(
                 activityId = activityId,
                 title = resourceRepo.getString(R.string.notification_activity_title),
-                subtitle = resourceRepo.getString(
-                    R.string.notification_activity_text,
-                    recordType.name,
-                ),
-                icon = iconMapper.mapIcon(recordType.icon),
-                color = colorMapper.mapToColorInt(recordType.color, isDarkTheme),
+                subtitle = subtitle(),
+                icon = icon,
+                color = color,
             ).let(manager::show)
         }
 
         if (rule.recurrent) {
-            scheduleNextLocked(
-                runningRecord = runningRecord,
+            scheduleNext(
+                reminderId = activityId,
+                timerStartTimestamp = timerStartTimestamp,
                 schedulingTimestamp = nowTimestamp,
                 rule = rule,
             )
@@ -168,31 +316,50 @@ class NotificationActivityInteractorImpl @Inject constructor(
         }
     }
 
-    private suspend fun rescheduleLocked(
+    private suspend fun rescheduleCustom(
         runningRecord: RunningRecord,
+        rule: ActivityReminderOverride.Rule,
         nowTimestamp: Long,
     ) {
         val activityId = runningRecord.id
         scheduler.cancel(activityId)
-        val rule = ruleResolver.resolve(activityId)
-        val recordTypeExists = recordTypeInteractor.get(activityId) != null
-        if (rule == null || !recordTypeExists) {
+        if (recordTypeInteractor.get(activityId) == null) {
             manager.hide(activityId)
             return
         }
-        scheduleNextLocked(
-            runningRecord = runningRecord,
+        scheduleNext(
+            reminderId = activityId,
+            timerStartTimestamp = runningRecord.timeStarted,
             schedulingTimestamp = nowTimestamp,
             rule = rule,
         )
     }
 
-    private fun scheduleNextLocked(
-        runningRecord: RunningRecord,
+    private suspend fun rescheduleShared(
+        inheritedRecords: List<RunningRecord>,
+        nowTimestamp: Long,
+    ) {
+        scheduler.cancel(SHARED_REMINDER_ID)
+        val resolvedRule = ruleResolver.resolveDefault()
+        if (resolvedRule == null) {
+            manager.hide(SHARED_REMINDER_ID)
+            return
+        }
+        scheduleNext(
+            reminderId = SHARED_REMINDER_ID,
+            timerStartTimestamp = inheritedRecords.minOf(RunningRecord::timeStarted),
+            schedulingTimestamp = nowTimestamp,
+            rule = resolvedRule,
+        )
+    }
+
+    private fun scheduleNext(
+        reminderId: Long,
+        timerStartTimestamp: Long,
         schedulingTimestamp: Long,
         rule: ActivityReminderOverride.Rule,
     ) {
-        scheduler.cancel(runningRecord.id)
+        scheduler.cancel(reminderId)
         val triggerTimestamp = getDoNotDisturbHandledScheduleInteractor.execute(
             reminderDurationSeconds = rule.durationSeconds,
             dndStart = rule.doNotDisturbStartMillis,
@@ -201,36 +368,34 @@ class NotificationActivityInteractorImpl @Inject constructor(
             nowTimestamp = schedulingTimestamp,
         ) ?: return
         scheduler.schedule(
-            activityId = runningRecord.id,
-            timerStartTimestamp = runningRecord.timeStarted,
+            activityId = reminderId,
+            timerStartTimestamp = timerStartTimestamp,
             triggerTimestamp = triggerTimestamp,
         )
     }
 
-    private fun cancelLocked(activityId: Long) {
+    private fun cancelActivitySpecific(activityId: Long) {
         scheduler.cancel(activityId)
         manager.hide(activityId)
     }
 
-    private suspend fun cancelNotRunning(runningRecords: List<RunningRecord>) {
-        val runningIds = runningRecords.map(RunningRecord::id).toSet()
-        val knownIds = listOf(
-            recordTypeInteractor.getAll().map(RecordType::id),
-            activityReminderOverrideRepo.getAll().map(ActivityReminderOverride::activityId),
-            runningIds,
-        ).flatten().toSet()
-
-        knownIds.filterNot { it in runningIds }.forEach { cancel(it) }
+    private fun cancelShared() {
+        scheduler.cancel(SHARED_REMINDER_ID)
+        manager.hide(SHARED_REMINDER_ID)
     }
 
-    private suspend fun <T> withActivityLock(
-        activityId: Long,
-        action: suspend () -> T,
+    private suspend fun getInheritedRunningRecords(): List<RunningRecord> {
+        val overriddenIds = activityReminderOverrideRepo.getAll()
+            .map(ActivityReminderOverride::activityId)
+            .toSet()
+        return runningRecordInteractor.getAll().filter { it.id !in overriddenIds }
+    }
+
+    private suspend fun cancelNotRunning(
+        runningIds: Set<Long>,
+        overrideIds: Set<Long>,
     ) {
-        if (activityId <= 0L) return
-        val mutex = synchronized(activityLocks) {
-            activityLocks.getOrPut(activityId) { Mutex() }
-        }
-        return mutex.withLock { action() }
+        val knownIds = recordTypeInteractor.getAll().map(RecordType::id).toSet() + overrideIds
+        knownIds.filterNot { it in runningIds }.forEach(::cancelActivitySpecific)
     }
 }

@@ -199,10 +199,13 @@ class ChangeActivityReminderViewModel @Inject constructor(
         controlsEnabled = false
         updateViewData()
         viewModelScope.launch {
-            notificationActivityInteractor.cancel(activityId)
+            val wasInherited = activityReminderOverrideInteractor.get(activityId) == null
             activityReminderOverrideInteractor.remove(activityId)
             activityRemindersDataUpdateInteractor.send()
-            notificationActivityInteractor.reschedule(activityId)
+            notificationActivityInteractor.onReminderOverrideChanged(
+                activityId = activityId,
+                wasInherited = wasInherited,
+            )
             snackBarMessageNavigationInteractor.showMessage(R.string.change_reminder_removed)
             router.back()
         }
@@ -213,10 +216,13 @@ class ChangeActivityReminderViewModel @Inject constructor(
         val activityId = activity?.id ?: return@launch
         val data = editor.toOverride(activityId)
 
-        notificationActivityInteractor.cancel(activityId)
+        val wasInherited = activityReminderOverrideInteractor.get(activityId) == null
         activityReminderOverrideInteractor.save(data)
         activityRemindersDataUpdateInteractor.send()
-        notificationActivityInteractor.reschedule(activityId)
+        notificationActivityInteractor.onReminderOverrideChanged(
+            activityId = activityId,
+            wasInherited = wasInherited,
+        )
         if (requestExactAlarmPermission) checkExactAlarmPermissionInteractor.execute()
         router.back()
     }

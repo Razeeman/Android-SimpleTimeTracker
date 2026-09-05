@@ -35,7 +35,7 @@ class NotificationActivityScheduler @Inject constructor(
 
     fun cancel(activityId: Long) {
         alarmManagerController.cancelSchedule(
-            getPendingIntent(
+            pendingIntent = getPendingIntent(
                 activityId = activityId,
                 timerStartTimestamp = 0L,
                 triggerTimestamp = 0L,
