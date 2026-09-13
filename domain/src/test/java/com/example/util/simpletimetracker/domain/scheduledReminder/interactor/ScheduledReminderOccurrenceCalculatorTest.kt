@@ -20,7 +20,7 @@ class ScheduledReminderOccurrenceCalculatorTest {
         localDateMapper = localDateMapper,
         getDoNotDisturbHandledScheduleInteractor = GetDoNotDisturbHandledScheduleInteractor(
             localDateMapper = localDateMapper,
-        )
+        ),
     )
 
     @Test
