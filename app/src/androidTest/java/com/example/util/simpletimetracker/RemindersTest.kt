@@ -168,7 +168,6 @@ class RemindersTest : BaseUiTest() {
                 withText(R.string.settings_reminders_title),
             ),
         )
-        checkViewDoesNotExist(withId(remindersR.id.containerActivityReminder))
         checkViewDoesNotExist(withId(remindersR.id.containerReminder))
     }
 
@@ -239,7 +238,7 @@ class RemindersTest : BaseUiTest() {
         ).joinToString(separator = " · ")
         checkViewIsDisplayed(
             allOf(
-                withId(remindersR.id.containerActivityReminder),
+                withId(remindersR.id.containerReminder),
                 hasDescendant(withText(activityName)),
                 hasDescendant(withText(R.string.activity_reminder_mode_custom)),
                 hasDescendant(withText(customSummary)),
@@ -248,7 +247,7 @@ class RemindersTest : BaseUiTest() {
 
         clickOnView(
             allOf(
-                withId(remindersR.id.containerActivityReminder),
+                withId(remindersR.id.containerReminder),
                 hasDescendant(withText(activityName)),
             ),
         )
@@ -269,7 +268,7 @@ class RemindersTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             allOf(
-                withId(remindersR.id.containerActivityReminder),
+                withId(remindersR.id.containerReminder),
                 hasDescendant(withText(activityName)),
                 hasDescendant(withText(R.string.activity_reminder_mode_disabled)),
                 hasDescendant(withText(R.string.activity_reminder_disabled_summary)),
@@ -278,7 +277,7 @@ class RemindersTest : BaseUiTest() {
 
         clickOnView(
             allOf(
-                withId(remindersR.id.containerActivityReminder),
+                withId(remindersR.id.containerReminder),
                 hasDescendant(withText(activityName)),
             ),
         )
@@ -325,7 +324,7 @@ class RemindersTest : BaseUiTest() {
         NavUtils.openRemindersScreen()
 
         val disabledReminder = allOf(
-            withId(remindersR.id.containerActivityReminder),
+            withId(remindersR.id.containerReminder),
             hasDescendant(withText(disabledName)),
             hasDescendant(withText(R.string.activity_reminder_mode_disabled)),
             hasDescendant(withText(R.string.activity_reminder_disabled_summary)),
@@ -340,7 +339,7 @@ class RemindersTest : BaseUiTest() {
             "22:00-08:00",
         ).joinToString(separator = " · ")
         val customReminder = allOf(
-            withId(remindersR.id.containerActivityReminder),
+            withId(remindersR.id.containerReminder),
             hasDescendant(withText(customName)),
             hasDescendant(withText(R.string.activity_reminder_mode_custom)),
             hasDescendant(withText(customSummary)),
@@ -401,11 +400,11 @@ class RemindersTest : BaseUiTest() {
         NavUtils.openSettingsNotifications()
         NavUtils.openRemindersScreen()
 
+        onView(withText("Weekly walk")).check(isCompletelyAbove(withText("Earlier")))
         onView(withText("Earlier")).check(isCompletelyAbove(withText("Later")))
-        onView(withText("Later")).check(isCompletelyAbove(withText("Weekly walk")))
         checkViewIsNotDisplayed(
             allOf(
-                withId(remindersR.id.tvReminderCondition),
+                withId(remindersR.id.tvReminderSummary),
                 isDescendantOfA(
                     allOf(
                         withId(remindersR.id.containerReminder),

@@ -25,6 +25,17 @@ fun String.toSpannableString(): SpannableString {
     return SpannableString(this)
 }
 
+fun Iterable<CharSequence>.joinToSpannable(
+    separator: CharSequence = "",
+): SpannableStringBuilder {
+    val builder = SpannableStringBuilder()
+    this.forEachIndexed { index, element ->
+        if (index > 0) builder.append(separator)
+        builder.append(element)
+    }
+    return builder
+}
+
 fun SpannableString.setSpan(
     start: Int = 0,
     length: Int = this.length,

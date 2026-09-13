@@ -16,18 +16,22 @@ fun createReminderAdapterDelegate(
     item as ViewData
 
     with(binding) {
-        tvReminderText.text = item.text
-        tvReminderSchedule.text = item.scheduleSummary
-        tvReminderCondition.setTextOptional(item.conditionSummary)
+        tvReminderTitle.text = item.title
+        tvReminderSubtitle.text = item.subtitle
+        tvReminderSummary.setTextOptional(item.summary)
         containerReminder.setCardBackgroundColor(item.backgroundColor)
-        btnReminderEnabled.setCardBackgroundColor(item.enabledButtonColor)
-        tvReminderEnabled.text = item.enabledButtonText
 
-        cardReminderActivityIcon.isVisible = item.activityIcon != null
-        item.activityIcon?.let {
-            cardReminderActivityIcon.setCardBackgroundColor(item.activityColor)
-            iconReminderActivity.itemIcon = it
-            iconReminderActivity.itemIconColor = item.activityIconColor
+        btnReminderEnabled.isVisible = item.button != null
+        item.button?.let {
+            btnReminderEnabled.setCardBackgroundColor(it.enabledButtonColor)
+            tvReminderEnabled.text = it.enabledButtonText
+        }
+
+        cardReminderIcon.isVisible = item.icon != null
+        item.icon?.let {
+            cardReminderIcon.setCardBackgroundColor(item.iconBackgroundColor)
+            iconReminder.itemIcon = it
+            iconReminder.itemIconColor = item.iconColor
         }
 
         containerReminder.setOnClickWith(item, onItemClick)

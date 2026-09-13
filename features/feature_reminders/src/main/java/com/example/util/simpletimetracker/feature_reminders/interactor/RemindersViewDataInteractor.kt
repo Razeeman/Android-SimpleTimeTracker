@@ -1,13 +1,11 @@
 package com.example.util.simpletimetracker.feature_reminders.interactor
 
-import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
 import com.example.util.simpletimetracker.domain.activityReminder.repo.ActivityReminderOverrideRepo
 import com.example.util.simpletimetracker.domain.extension.plusAssign
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderInteractor
-import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderOccurrenceCalculator
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_reminders.mapper.ReminderViewDataMapper
@@ -17,15 +15,12 @@ import com.example.util.simpletimetracker.feature_base_adapter.header.HeaderView
 import com.example.util.simpletimetracker.feature_reminders.R
 import com.example.util.simpletimetracker.feature_reminders.viewData.RemindersHeader
 import com.example.util.simpletimetracker.feature_reminders.viewData.RemindersButtonViewData
-import java.util.TimeZone
 import javax.inject.Inject
 
 class RemindersViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
     private val scheduledReminderInteractor: ScheduledReminderInteractor,
-    private val currentTimestampProvider: CurrentTimestampProvider,
-    private val scheduledReminderOccurrenceCalculator: ScheduledReminderOccurrenceCalculator,
     private val reminderViewDataMapper: ReminderViewDataMapper,
     private val activityReminderOverrideRepo: ActivityReminderOverrideRepo,
     private val activityReminderViewDataMapper: ActivityReminderViewDataMapper,
@@ -40,10 +35,7 @@ class RemindersViewDataInteractor @Inject constructor(
         val activities = activityList.associateBy(RecordType::id)
         val activityReminderOverrides = activityReminderOverrideRepo.getAll()
             .associateBy { it.activityId }
-        val reminders = getReminders(
-            nowTimestamp = currentTimestampProvider.get(),
-            timeZone = TimeZone.getDefault(),
-        )
+        val reminders = getReminders()
 
         val activityReminders = mutableListOf<ViewHolderType>()
         activityReminders += HeaderViewData(
@@ -89,28 +81,39 @@ class RemindersViewDataInteractor @Inject constructor(
 
         return listOf(
             scheduledReminders,
-            activityReminders
+            activityReminders,
         ).flatten()
     }
 
-    private suspend fun getReminders(
-        nowTimestamp: Long,
-        timeZone: TimeZone,
-    ): List<ScheduledReminder> {
+    private suspend fun getReminders(): List<ScheduledReminder> {
         val comparator = compareBy(
-            { if (it.enabled) 0 else 1 },
             {
-                if (it.enabled) {
-                    scheduledReminderOccurrenceCalculator.calculateNext(
-                        schedule = it.schedule,
-                        nowTimestamp = nowTimestamp,
-                        catchUpOverdueOneTime = true,
-                        timeZone = timeZone,
-                    )?.triggerTimestamp ?: Long.MAX_VALUE
-                } else {
-                    Long.MAX_VALUE
+                when (it.schedule) {
+                    is ScheduledReminder.Schedule.Hourly -> 0L
+                    is ScheduledReminder.Schedule.Weekly -> 1L
+                    is ScheduledReminder.Schedule.Monthly -> 2L
+                    is ScheduledReminder.Schedule.OneTime -> 3L
                 }
             },
+            {
+                when (val schedule = it.schedule) {
+                    is ScheduledReminder.Schedule.Hourly,
+                    -> schedule.intervalSeconds
+                    is ScheduledReminder.Schedule.Weekly,
+                    -> it.schedule.timeOfDayMillis
+                    is ScheduledReminder.Schedule.OneTime,
+                    -> schedule.oneTimeDate
+                    is ScheduledReminder.Schedule.Monthly,
+                    -> schedule.dayOfMonth
+                }
+            },
+            {
+                when (val schedule = it.schedule) {
+                    is ScheduledReminder.Schedule.Hourly -> schedule.startDate
+                    else -> schedule.timeOfDayMillis
+                }
+            },
+            { it.schedule.timeOfDayMillis },
             ScheduledReminder::id,
         )
         return scheduledReminderInteractor.getAll().sortedWith(comparator)

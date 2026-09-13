@@ -164,6 +164,8 @@ class ShortcutsTest : BaseUiTest() {
         val categoriesShortcutName = getString(coreR.string.categories_title)
         val archiveShortcutName = getString(coreR.string.settings_archive)
         val dataEditShortcutName = getString(coreR.string.settings_data_edit)
+        val shortcutsShortcutName = getString(coreR.string.change_record_shortcut)
+        val remindersShortcutName = getString(coreR.string.settings_reminders_title)
 
         // Add data
         runBlocking {
@@ -176,6 +178,8 @@ class ShortcutsTest : BaseUiTest() {
         testUtils.addSettingShortcut(RecordShortcut.SettingAction.Categories)
         testUtils.addSettingShortcut(RecordShortcut.SettingAction.Archive)
         testUtils.addSettingShortcut(RecordShortcut.SettingAction.DataEdit)
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Shortcuts)
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Reminders)
         Thread.sleep(1000)
 
         // Check shortcuts
@@ -185,6 +189,8 @@ class ShortcutsTest : BaseUiTest() {
             checkSettingShortcut(name = categoriesShortcutName, isEnabled = false)
             checkSettingShortcut(name = archiveShortcutName, isEnabled = false)
             checkSettingShortcut(name = dataEditShortcutName, isEnabled = false)
+            checkSettingShortcut(name = shortcutsShortcutName, isEnabled = false)
+            checkSettingShortcut(name = remindersShortcutName, isEnabled = false)
         }
 
         // Multitasking
@@ -218,6 +224,20 @@ class ShortcutsTest : BaseUiTest() {
         clickOnView(allOf(withText(dataEditShortcutName), isCompletelyDisplayed()))
         tryAction {
             checkViewIsDisplayed(withText(coreR.string.data_edit_select_records))
+        }
+        pressBack()
+
+        // Shortcuts
+        clickOnView(allOf(withText(shortcutsShortcutName), isCompletelyDisplayed()))
+        tryAction {
+            checkViewIsDisplayed(withText(coreR.string.change_record_shortcut_hint))
+        }
+        pressBack()
+
+        // Reminders
+        clickOnView(allOf(withText(remindersShortcutName), isCompletelyDisplayed()))
+        tryAction {
+            checkViewIsDisplayed(withText(coreR.string.settings_reminders_hint))
         }
         pressBack()
     }
