@@ -469,9 +469,9 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application SimpleTimeTracker env
     <string name="settings_import_csv_help"><![CDATA[
 Le fichier CSV doit contenir les colonnes suivantes séparées par des virgules :<br/>
 <br/>
-- Nom de l\'activité (entre double guillemets)<br/>
-- Heure de début d\'enregistrement (au format : aaaa-MM-jj HH:mm:ss)<br/>
-- Heure de fin d\'enregistrement (au format : aaaa-MM-jj HH:mm:ss)<br/>
+- Nom de l'activité (entre double guillemets)<br/>
+- Heure de début d'enregistrement (au format : aaaa-MM-jj HH:mm:ss)<br/>
+- Heure de fin d'enregistrement (au format : aaaa-MM-jj HH:mm:ss)<br/>
 - Commentaire (entre double guillemets).<br/>
 <br/>
 <br/>
