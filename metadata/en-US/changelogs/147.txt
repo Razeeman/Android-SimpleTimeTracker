@@ -1,0 +1,5 @@
+- Add custom reminders with different schedules
+- Add ability to customize activity reminders per activity
+- Add active day selection for activity, inactivity reminders, untracked time
+- Show total duration for records spanning multiple days
+- General bug fixes and improvements
