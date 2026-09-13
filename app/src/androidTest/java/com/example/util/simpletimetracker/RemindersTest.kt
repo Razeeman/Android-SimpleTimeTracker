@@ -18,13 +18,14 @@ import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.domain.activityReminder.model.ActivityReminderOverride
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
-import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerViewHolder
+import com.example.util.simpletimetracker.feature_reminders.viewData.RemindersButtonViewData
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnView
+import com.example.util.simpletimetracker.utils.clickOnVisibleView
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.typeTextIntoView
 import com.example.util.simpletimetracker.utils.withTag
@@ -54,11 +55,16 @@ class RemindersTest : BaseUiTest() {
         NavUtils.openSettingsNotifications()
         NavUtils.openRemindersScreen()
 
-        clickReminderListItem(position = 3)
-        checkViewIsDisplayed(withId(changeReminderR.id.containerChangeReminderWeekdays))
-        checkViewIsDisplayed(withId(changeReminderR.id.containerChangeReminderCondition))
+        clickOnView(withTag(RemindersButtonViewData.SCHEDULED))
+        checkViewIsNotDisplayed(withId(changeReminderR.id.containerChangeReminderWeekdays))
+        checkViewIsNotDisplayed(withId(changeReminderR.id.containerChangeReminderCondition))
+        checkViewIsNotDisplayed(withId(changeReminderR.id.containerChangeReminderHourly))
         checkViewIsNotDisplayed(withId(changeReminderR.id.btnChangeReminderDelete))
 
+        selectSpinnerItem(
+            fieldId = changeReminderR.id.fieldChangeReminderSchedule,
+            itemTextResId = R.string.reminders_schedule_weekly,
+        )
         selectSpinnerItem(
             fieldId = changeReminderR.id.fieldChangeReminderCondition,
             itemTextResId = R.string.reminders_condition_activity_not_tracked,
@@ -78,7 +84,18 @@ class RemindersTest : BaseUiTest() {
             itemTextResId = R.string.reminders_schedule_one_time,
         )
         checkViewIsDisplayed(withId(changeReminderR.id.tvChangeReminderDate))
+        checkViewIsNotDisplayed(withId(changeReminderR.id.containerChangeReminderHourly))
         checkViewIsNotDisplayed(withId(changeReminderR.id.containerChangeReminderWeekdays))
+        checkViewIsNotDisplayed(withId(changeReminderR.id.containerChangeReminderCondition))
+
+        selectSpinnerItem(
+            fieldId = changeReminderR.id.fieldChangeReminderSchedule,
+            itemTextResId = R.string.reminders_schedule_hourly,
+        )
+        checkViewIsDisplayed(withId(changeReminderR.id.containerChangeReminderHourly))
+        checkViewIsDisplayed(withId(changeReminderR.id.tvChangeReminderDate))
+        checkViewIsDisplayed(withId(changeReminderR.id.containerChangeReminderWeekdays))
+        checkViewIsNotDisplayed(withId(changeReminderR.id.containerChangeReminderDayOfMonth))
         checkViewIsNotDisplayed(withId(changeReminderR.id.containerChangeReminderCondition))
 
         selectSpinnerItem(
@@ -86,6 +103,7 @@ class RemindersTest : BaseUiTest() {
             itemTextResId = R.string.reminders_schedule_monthly,
         )
         checkViewIsDisplayed(withId(changeReminderR.id.containerChangeReminderDayOfMonth))
+        checkViewIsNotDisplayed(withId(changeReminderR.id.containerChangeReminderHourly))
         checkViewIsNotDisplayed(withId(changeReminderR.id.tvChangeReminderDate))
 
         clickOnView(withId(changeReminderR.id.btnChangeReminderSave))
@@ -150,7 +168,6 @@ class RemindersTest : BaseUiTest() {
                 withText(R.string.settings_reminders_title),
             ),
         )
-        checkViewDoesNotExist(withId(remindersR.id.containerActivityReminder))
         checkViewDoesNotExist(withId(remindersR.id.containerReminder))
     }
 
@@ -167,7 +184,7 @@ class RemindersTest : BaseUiTest() {
         NavUtils.openSettingsNotifications()
         NavUtils.openRemindersScreen()
 
-        clickReminderListItem(position = 1)
+        clickOnVisibleView(withTag(RemindersButtonViewData.ACTIVITY))
         checkViewIsDisplayed(withId(changeReminderR.id.containerActivityReminderCustom))
         checkViewIsNotDisplayed(withId(changeReminderR.id.btnActivityReminderDelete))
         checkViewIsDisplayed(
@@ -221,7 +238,7 @@ class RemindersTest : BaseUiTest() {
         ).joinToString(separator = " · ")
         checkViewIsDisplayed(
             allOf(
-                withId(remindersR.id.containerActivityReminder),
+                withId(remindersR.id.containerReminder),
                 hasDescendant(withText(activityName)),
                 hasDescendant(withText(R.string.activity_reminder_mode_custom)),
                 hasDescendant(withText(customSummary)),
@@ -230,7 +247,7 @@ class RemindersTest : BaseUiTest() {
 
         clickOnView(
             allOf(
-                withId(remindersR.id.containerActivityReminder),
+                withId(remindersR.id.containerReminder),
                 hasDescendant(withText(activityName)),
             ),
         )
@@ -251,7 +268,7 @@ class RemindersTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             allOf(
-                withId(remindersR.id.containerActivityReminder),
+                withId(remindersR.id.containerReminder),
                 hasDescendant(withText(activityName)),
                 hasDescendant(withText(R.string.activity_reminder_mode_disabled)),
                 hasDescendant(withText(R.string.activity_reminder_disabled_summary)),
@@ -260,7 +277,7 @@ class RemindersTest : BaseUiTest() {
 
         clickOnView(
             allOf(
-                withId(remindersR.id.containerActivityReminder),
+                withId(remindersR.id.containerReminder),
                 hasDescendant(withText(activityName)),
             ),
         )
@@ -307,7 +324,7 @@ class RemindersTest : BaseUiTest() {
         NavUtils.openRemindersScreen()
 
         val disabledReminder = allOf(
-            withId(remindersR.id.containerActivityReminder),
+            withId(remindersR.id.containerReminder),
             hasDescendant(withText(disabledName)),
             hasDescendant(withText(R.string.activity_reminder_mode_disabled)),
             hasDescendant(withText(R.string.activity_reminder_disabled_summary)),
@@ -322,7 +339,7 @@ class RemindersTest : BaseUiTest() {
             "22:00-08:00",
         ).joinToString(separator = " · ")
         val customReminder = allOf(
-            withId(remindersR.id.containerActivityReminder),
+            withId(remindersR.id.containerReminder),
             hasDescendant(withText(customName)),
             hasDescendant(withText(R.string.activity_reminder_mode_custom)),
             hasDescendant(withText(customSummary)),
@@ -341,7 +358,7 @@ class RemindersTest : BaseUiTest() {
         val activityId = runBlocking {
             testUtils.recordTypeInteractor.getAll().first { it.name == activityName }.id
         }
-        val tomorrow = calendar.apply {
+        val tomorrow = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
             add(Calendar.DAY_OF_MONTH, 1)
             setToStartOfDay()
@@ -383,11 +400,11 @@ class RemindersTest : BaseUiTest() {
         NavUtils.openSettingsNotifications()
         NavUtils.openRemindersScreen()
 
+        onView(withText("Weekly walk")).check(isCompletelyAbove(withText("Earlier")))
         onView(withText("Earlier")).check(isCompletelyAbove(withText("Later")))
-        onView(withText("Later")).check(isCompletelyAbove(withText("Weekly walk")))
         checkViewIsNotDisplayed(
             allOf(
-                withId(remindersR.id.tvReminderCondition),
+                withId(remindersR.id.tvReminderSummary),
                 isDescendantOfA(
                     allOf(
                         withId(remindersR.id.containerReminder),
@@ -456,6 +473,20 @@ class RemindersTest : BaseUiTest() {
                 schedule = ScheduledReminder.Schedule.Monthly(dayOfMonth = 31, timeOfDayMillis = hours(11)),
             ),
         )
+        testUtils.addScheduledReminder(
+            reminder(
+                text = "Hourly refresh",
+                enabled = false,
+                schedule = ScheduledReminder.Schedule.Hourly(
+                    intervalSeconds = TimeUnit.HOURS.toSeconds(2),
+                    startDate = tomorrowEpochDay,
+                    daysOfWeek = setOf(DayOfWeek.MONDAY),
+                    doNotDisturbStartMillis = hours(22),
+                    doNotDisturbEndMillis = hours(8),
+                    timeOfDayMillis = hours(12),
+                ),
+            ),
+        )
         pressBack()
         NavUtils.openRemindersScreen()
         scrollRecyclerToView(
@@ -466,11 +497,27 @@ class RemindersTest : BaseUiTest() {
         checkViewIsDisplayed(
             withText("${getString(R.string.reminders_schedule_monthly)} · 31 · ${formatTime(hours(11))}"),
         )
-    }
-
-    private fun clickReminderListItem(position: Int) {
-        onView(withId(remindersR.id.rvRemindersList))
-            .perform(actionOnItemAtPosition<BaseRecyclerViewHolder>(position, click()))
+        scrollRecyclerToView(
+            remindersR.id.rvRemindersList,
+            hasDescendant(withText("Hourly refresh")),
+        )
+        checkViewIsDisplayed(withText("Hourly refresh"))
+        val hourlyStartTimestamp = tomorrow.apply {
+            set(Calendar.HOUR_OF_DAY, 12)
+        }.timeInMillis
+        val hourlyStart = getString(
+            R.string.separator_template,
+            getString(R.string.change_record_date_time_start),
+            hourlyStartTimestamp.formatDateTime(),
+        )
+        val hourlySummary = listOf(
+            getString(R.string.reminders_schedule_hourly),
+            "2h",
+            hourlyStart,
+            timeMapper.toShortDayOfWeekName(DayOfWeek.MONDAY),
+            "22:00-08:00",
+        ).joinToString(separator = " · ")
+        checkViewIsDisplayed(withText(hourlySummary))
     }
 
     private fun reminder(

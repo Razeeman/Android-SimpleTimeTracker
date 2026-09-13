@@ -21,6 +21,7 @@ fun createButtonAdapterDelegate(
     with(binding) {
         item as ViewData
 
+        root.tag = item.id
         root.setMargins(
             start = item.marginHorizontalDp,
             end = item.marginHorizontalDp,

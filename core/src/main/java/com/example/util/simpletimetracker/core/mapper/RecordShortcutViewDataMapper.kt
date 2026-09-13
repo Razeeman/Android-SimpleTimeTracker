@@ -60,6 +60,8 @@ class RecordShortcutViewDataMapper @Inject constructor(
             RecordShortcut.SettingAction.Archive -> R.string.settings_archive
             RecordShortcut.SettingAction.DataEdit -> R.string.settings_data_edit
             RecordShortcut.SettingAction.SortActivities -> R.string.settings_sort_activity
+            RecordShortcut.SettingAction.Shortcuts -> R.string.change_record_shortcut
+            RecordShortcut.SettingAction.Reminders -> R.string.settings_reminders_title
         }.let(resourceRepo::getString)
     }
 

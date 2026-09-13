@@ -16,10 +16,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipToPadding="false"
         android:padding="12dp">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardReminderActivityIcon"
+            android:id="@+id/cardReminderIcon"
             android:layout_width="44dp"
             android:layout_height="44dp"
             app:cardCornerRadius="22dp"
@@ -29,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.example.util.simpletimetracker.feature_views.IconView
-                android:id="@+id/iconReminderActivity"
+                android:id="@+id/iconReminder"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center" />
@@ -37,54 +38,61 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvReminderText"
+            android:id="@+id/tvReminderTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:textColor="?appLightTextColor"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/btnReminderEnabled"
-            app:layout_constraintStart_toEndOf="@id/cardReminderActivityIcon"
+            app:layout_constraintStart_toEndOf="@id/cardReminderIcon"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Remember to stretch" />
+            app:layout_goneMarginEnd="0dp"
+            tools:text="Reminder title" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvReminderSchedule"
+            android:id="@+id/tvReminderSubtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="2dp"
             android:textColor="?appLightTextColor"
-            app:layout_constraintEnd_toStartOf="@id/btnReminderEnabled"
-            app:layout_constraintStart_toEndOf="@id/cardReminderActivityIcon"
-            app:layout_constraintTop_toBottomOf="@id/tvReminderText"
-            tools:text="Mon, Wed · 09:00" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cardReminderIcon"
+            app:layout_constraintTop_toBottomOf="@id/tvReminderTitle"
+            app:layout_goneMarginEnd="0dp"
+            tools:text="Reminder subtitle" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvReminderCondition"
+            android:id="@+id/tvReminderSummary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="2dp"
             android:textColor="?appLightTextColor"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnReminderEnabled"
-            app:layout_constraintStart_toEndOf="@id/cardReminderActivityIcon"
-            app:layout_constraintTop_toBottomOf="@id/tvReminderSchedule"
-            tools:text="When activity is not tracked today" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cardReminderIcon"
+            app:layout_constraintTop_toBottomOf="@id/tvReminderSubtitle"
+            app:layout_goneMarginEnd="0dp"
+            tools:text="Summary" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/btnReminderEnabled"
             style="@style/SettingsCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-6dp"
+            android:layout_marginEnd="-6dp"
             android:foreground="?selectableItemBackground"
+            android:visibility="gone"
             app:cardUseCompatPadding="false"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:cardBackgroundColor="?appInactiveColor">
+            tools:cardBackgroundColor="?appInactiveColor"
+            tools:visibility="visible">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvReminderEnabled"

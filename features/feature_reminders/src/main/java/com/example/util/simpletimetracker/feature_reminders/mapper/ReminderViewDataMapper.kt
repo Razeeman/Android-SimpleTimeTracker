@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.domain.utils.LocalDateMapper
 import com.example.util.simpletimetracker.feature_base_adapter.button.ButtonViewData
 import com.example.util.simpletimetracker.feature_reminders.viewData.ReminderViewData
 import com.example.util.simpletimetracker.feature_reminders.viewData.RemindersButtonViewData
+import com.example.util.simpletimetracker.feature_views.extension.joinToSpannable
 import java.time.LocalDate
 import java.util.TimeZone
 import javax.inject.Inject
@@ -26,7 +27,6 @@ class ReminderViewDataMapper @Inject constructor(
     private val colorMapper: ColorMapper,
     private val localDateMapper: LocalDateMapper,
     private val changeReminderViewDataMapper: ChangeReminderViewDataMapper,
-    private val remindersCommonViewDataMapper: RemindersCommonViewDataMapper,
 ) {
 
     fun mapAddItem(
@@ -52,13 +52,15 @@ class ReminderViewDataMapper @Inject constructor(
     ): ReminderViewData {
         return ReminderViewData(
             id = reminder.id,
-            text = reminder.text,
-            scheduleSummary = mapSchedule(
+            type = ReminderViewData.Type.ScheduledReminder,
+            title = reminder.text,
+            subtitle = mapSchedule(
                 schedule = reminder.schedule,
                 useMilitaryTime = useMilitaryTime,
                 firstDayOfWeek = firstDayOfWeek,
+                isDarkTheme = isDarkTheme,
             ),
-            conditionSummary = mapCondition(
+            summary = mapCondition(
                 condition = reminder.condition,
                 activity = activity,
             ),
@@ -68,22 +70,24 @@ class ReminderViewDataMapper @Inject constructor(
             } else {
                 colorMapper.toInactiveColor(isDarkTheme)
             },
-            enabledButtonColor = if (reminder.enabled) {
-                colorMapper.toInactiveColor(isDarkTheme)
-            } else {
-                colorMapper.toActiveColor(isDarkTheme)
-            },
-            enabledButtonText = if (reminder.enabled) {
-                R.string.complex_rules_disable
-            } else {
-                R.string.complex_rules_enable
-            }.let(resourceRepo::getString),
-            activityIcon = activity?.icon
+            icon = activity?.icon
                 ?.let(iconMapper::mapIcon),
-            activityColor = activity?.color
+            iconBackgroundColor = activity?.color
                 ?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
                 ?: colorMapper.toInactiveColor(isDarkTheme),
-            activityIconColor = colorMapper.toIconColor(isDarkTheme),
+            iconColor = colorMapper.toIconColor(isDarkTheme),
+            button = ReminderViewData.Button(
+                enabledButtonColor = if (reminder.enabled) {
+                    colorMapper.toInactiveColor(isDarkTheme)
+                } else {
+                    colorMapper.toActiveColor(isDarkTheme)
+                },
+                enabledButtonText = if (reminder.enabled) {
+                    R.string.complex_rules_disable
+                } else {
+                    R.string.complex_rules_enable
+                }.let(resourceRepo::getString),
+            ),
         )
     }
 
@@ -91,8 +95,10 @@ class ReminderViewDataMapper @Inject constructor(
         schedule: ScheduledReminder.Schedule,
         useMilitaryTime: Boolean,
         firstDayOfWeek: DayOfWeek,
-    ): String {
-        return when (schedule) {
+        isDarkTheme: Boolean,
+    ): CharSequence {
+        // Specified type prevents accidental nulls.
+        val hints: List<CharSequence> = when (schedule) {
             is ScheduledReminder.Schedule.Weekly -> {
                 val time = formatTime(
                     timeOfDayMillis = schedule.timeOfDayMillis,
@@ -103,7 +109,7 @@ class ReminderViewDataMapper @Inject constructor(
                     selectedDaysOfWeek = schedule.daysOfWeek,
                 ).takeIf(String::isNotEmpty)
                     ?: resourceRepo.getString(R.string.reminders_schedule_daily)
-                listOf(days, time)
+                listOfNotNull(days, time)
             }
             is ScheduledReminder.Schedule.OneTime -> {
                 val timestamp = resolve(
@@ -115,7 +121,7 @@ class ReminderViewDataMapper @Inject constructor(
                     useMilitaryTime = useMilitaryTime,
                 )
                 val hint = resourceRepo.getString(R.string.reminders_schedule_one_time)
-                listOf(hint, dateTime)
+                listOfNotNull(hint, dateTime)
             }
             is ScheduledReminder.Schedule.Monthly -> {
                 val time = formatTime(
@@ -123,7 +129,7 @@ class ReminderViewDataMapper @Inject constructor(
                     useMilitaryTime = useMilitaryTime,
                 )
                 val hint = resourceRepo.getString(R.string.reminders_schedule_monthly)
-                listOf(hint, schedule.dayOfMonth, time)
+                listOfNotNull(hint, schedule.dayOfMonth.toString(), time)
             }
             is ScheduledReminder.Schedule.Hourly -> {
                 val hint = resourceRepo.getString(R.string.reminders_schedule_hourly)
@@ -146,20 +152,22 @@ class ReminderViewDataMapper @Inject constructor(
                     selectedDaysOfWeek = schedule.daysOfWeek,
                 ).takeIf(String::isNotEmpty)
                     ?: resourceRepo.getString(R.string.reminders_schedule_daily)
-                val dnd = remindersCommonViewDataMapper.mapDndHint(
+                val dnd = changeReminderViewDataMapper.mapDndHint(
                     doNotDisturbStartMillis = schedule.doNotDisturbStartMillis,
                     doNotDisturbEndMillis = schedule.doNotDisturbEndMillis,
                     useMilitaryTime = useMilitaryTime,
+                    iconColor = resourceRepo.getThemedAttr(R.attr.appLightTextColor, isDarkTheme),
                 )
-                listOf(hint, interval, start, days, dnd)
+                listOfNotNull(hint, interval, start, days, dnd)
             }
-        }.joinToString(separator = " · ")
+        }
+        return hints.joinToSpannable(separator = " · ")
     }
 
     private fun mapCondition(
         condition: ScheduledReminder.Condition,
         activity: RecordType?,
-    ): String {
+    ): CharSequence {
         return when (condition) {
             is ScheduledReminder.Condition.Always -> ""
             is ScheduledReminder.Condition.ActivityNotTrackedToday -> {

@@ -19,7 +19,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.button.ButtonView
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_reminders.interactor.RemindersViewDataInteractor
 import com.example.util.simpletimetracker.feature_reminders.viewData.ReminderViewData
-import com.example.util.simpletimetracker.feature_reminders.viewData.ActivityReminderViewData
 import com.example.util.simpletimetracker.feature_reminders.viewData.RemindersButtonViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
@@ -73,11 +72,14 @@ class RemindersViewModel @Inject constructor(
     }
 
     fun onReminderClick(item: ReminderViewData) {
-        router.navigate(ChangeReminderParams.Change(item.id))
-    }
-
-    fun onActivityReminderClick(item: ActivityReminderViewData) {
-        router.navigate(ChangeActivityReminderParams.Change(item.activityId))
+        when (item.type) {
+            is ReminderViewData.Type.ScheduledReminder -> {
+                router.navigate(ChangeReminderParams.Change(item.id))
+            }
+            ReminderViewData.Type.ActivityReminder -> {
+                router.navigate(ChangeActivityReminderParams.Change(item.id))
+            }
+        }
     }
 
     fun onEnabledClick(item: ReminderViewData) {

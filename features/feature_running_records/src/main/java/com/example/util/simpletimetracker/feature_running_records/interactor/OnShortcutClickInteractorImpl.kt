@@ -16,6 +16,8 @@ import com.example.util.simpletimetracker.navigation.params.screen.ArchiveParams
 import com.example.util.simpletimetracker.navigation.params.screen.CardOrderDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.CategoriesParams
 import com.example.util.simpletimetracker.navigation.params.screen.DataEditParams
+import com.example.util.simpletimetracker.navigation.params.screen.RemindersParams
+import com.example.util.simpletimetracker.navigation.params.screen.ShortcutsParams
 import javax.inject.Inject
 
 class OnShortcutClickInteractorImpl @Inject constructor(
@@ -88,6 +90,12 @@ class OnShortcutClickInteractorImpl @Inject constructor(
             }
             RecordShortcut.SettingAction.SortActivities -> {
                 // Not used, click on spinner should work instead.
+            }
+            RecordShortcut.SettingAction.Shortcuts -> {
+                router.navigate(ShortcutsParams)
+            }
+            RecordShortcut.SettingAction.Reminders -> {
+                router.navigate(RemindersParams)
             }
         }
     }

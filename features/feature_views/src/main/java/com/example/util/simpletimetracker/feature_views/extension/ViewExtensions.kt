@@ -226,7 +226,7 @@ fun View.showKeyboard() {
     context.getSystemService<InputMethodManager>()?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
 }
 
-fun TextView.setTextOptional(text: String?) {
+fun TextView.setTextOptional(text: CharSequence?) {
     if (text.isNullOrBlank()) {
         this.visible = false
     } else {

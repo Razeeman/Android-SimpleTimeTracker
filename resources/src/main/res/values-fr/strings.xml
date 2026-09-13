@@ -210,7 +210,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_record_type_default_duration_hint">Les activités ayant une durée par défaut sont enregistrées immédiatement.</string>
     <string name="change_record_type_goal_time_description">Une notification sera affichée lorsque l\'objectif sera atteint</string>
     <string name="change_record_type_duplicate_hint">Créera une copie de cette activité</string>
-    <string name="change_record_type_session_goal_time">Session</string>
+    <string name="change_record_type_session_goal_time">Enregistrement</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
     <string name="change_record_type_weekly_goal_time">@string/range_week</string>
     <string name="change_record_type_monthly_goal_time">@string/range_month</string>
@@ -538,7 +538,7 @@ Exemple :<br/>
     <string name="statistics_detail_shortest_record">Le plus court</string>
     <string name="statistics_detail_average_record">En moyenne</string>
     <string name="statistics_detail_longest_record">Le plus long</string>
-    <string name="statistics_detail_record_time">Horaires des enregistrements</string>
+    <string name="statistics_detail_record_time">Étendue des enregistrements</string>
     <string name="statistics_detail_first_record">Premier</string>
     <string name="statistics_detail_last_record">Dernier</string>
     <string name="statistics_detail_record_span">Période</string>

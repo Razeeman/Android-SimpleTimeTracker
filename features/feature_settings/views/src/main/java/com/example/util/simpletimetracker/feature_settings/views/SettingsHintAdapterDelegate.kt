@@ -25,7 +25,7 @@ fun createSettingsHintAdapterDelegate() = createRecyclerBindingAdapterDelegate<V
 
 data class SettingsHintViewData(
     val block: SettingsBlock,
-    val text: String,
+    val text: CharSequence,
     val textColor: SettingsTextColor = SettingsTextColor.Default,
     val topSpaceIsVisible: Boolean = true,
     val dividerIsVisible: Boolean = true,

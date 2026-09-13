@@ -51,10 +51,12 @@ class RecordShortcutInteractor @Inject constructor(
         return listOf(
             RecordShortcut.SettingAction.Multitasking,
             RecordShortcut.SettingAction.RetroactiveMode,
+            RecordShortcut.SettingAction.SortActivities,
+            RecordShortcut.SettingAction.Shortcuts,
             RecordShortcut.SettingAction.Categories,
             RecordShortcut.SettingAction.Archive,
             RecordShortcut.SettingAction.DataEdit,
-            RecordShortcut.SettingAction.SortActivities,
+            RecordShortcut.SettingAction.Reminders,
         )
     }
 

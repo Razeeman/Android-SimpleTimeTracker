@@ -37,5 +37,7 @@ data class RecordShortcut(
         Archive,
         DataEdit,
         SortActivities,
+        Shortcuts,
+        Reminders,
     }
 }

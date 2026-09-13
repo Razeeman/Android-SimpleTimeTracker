@@ -22,6 +22,8 @@ class IsSettingShortcutEnabledInteractor @Inject constructor(
             RecordShortcut.SettingAction.Archive,
             RecordShortcut.SettingAction.DataEdit,
             RecordShortcut.SettingAction.SortActivities,
+            RecordShortcut.SettingAction.Shortcuts,
+            RecordShortcut.SettingAction.Reminders,
             -> false
         }
     }
