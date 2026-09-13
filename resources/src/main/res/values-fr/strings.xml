@@ -220,7 +220,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_record_type_less_fields">Moins</string>
 
     <!--  Complex rules  -->
-    <string name="complex_rules_hint">Automatisez des actions pour certaines activités</string>
+    <string name="complex_rules_hint">Créez des actions automatiques dans l'application</string>
     <string name="complex_rules_disable">Désactiver</string>
     <string name="complex_rules_enable">Activer</string>
     <string name="complex_rules_action_disallow_only_previous_detail">Seulement précédent</string>
@@ -394,7 +394,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_change_card_size">Modifier la taille des cartes d\'activité</string>
     <string name="settings_archive">Archives</string>
     <string name="settings_data_edit">Modifier les données</string>
-    <string name="settings_complex_rules">Règles complexes</string>
+    <string name="settings_complex_rules">Règles avancées</string>
     <string name="settings_activity_suggestions">Suggestion d\'activités</string>
     <string name="settings_edit_categories">Gérer les catégories et les étiquettes</string>
     <string name="settings_edit_categories_hint">Attribuez des catégories aux activités et des étiquettes aux enregistrements.</string>
