@@ -90,7 +90,7 @@
     <!--  Statistics  -->
     <string name="statistics_total_tracked">Durée totale enregistrée</string>
     <string name="statistics_total_tracked_short">Total</string>
-    <string name="statistics_hint">Appuyez sur l'un des éléments ci-dessus pour afficher les statistiques détaillées</string>
+    <string name="statistics_hint">Appuyez sur l\'un des éléments ci-dessus pour afficher les statistiques détaillées</string>
     <string name="statistics_daily_calendar_hint">Frise de la journée</string>
     <string name="no_statistics_exist">Les statistiques s\'afficheront ici</string>
 
@@ -220,7 +220,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_record_type_less_fields">Moins</string>
 
     <!--  Complex rules  -->
-    <string name="complex_rules_hint">Créez des actions automatiques dans l'application</string>
+    <string name="complex_rules_hint">Créez des actions automatiques dans l\'application</string>
     <string name="complex_rules_disable">Désactiver</string>
     <string name="complex_rules_enable">Activer</string>
     <string name="complex_rules_action_disallow_only_previous_detail">Seulement précédent</string>
