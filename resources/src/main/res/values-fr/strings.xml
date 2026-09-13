@@ -476,7 +476,7 @@ Le fichier CSV doit contenir les colonnes suivantes séparées par des virgules 
 <br/>
 <br/>
 Exemple :<br/>
-\"Lecture\",2026-12-31 09:45:00,2026-12-31 10:55:35,\"Ceci est un commentaire.\"
+\"Lecture\",2026-12-31 09:45:00,2026-12-31 10:55:35,\"Ceci est un commentaire, c'est un exemple.\"
     ]]></string>
     <string name="settings_export_ics">Export ICS</string>
     <string name="settings_export_warning">Ce fichier ne peut pas être utilisé comme sauvegarde.</string>
