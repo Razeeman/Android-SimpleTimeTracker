@@ -61,6 +61,9 @@ class CsvRepoImpl @Inject constructor(
             fileOutputStream = fileDescriptor?.fileDescriptor
                 ?.let(::FileOutputStream)?.buffered()
 
+            // Write UTF-8 BOM so Excel can detect the CSV encoding correctly.
+            fileOutputStream?.write(UTF8_BOM)
+
             // Write csv header
             fileOutputStream?.write(CSV_HEADER.toByteArray())
 
@@ -176,20 +179,22 @@ class CsvRepoImpl @Inject constructor(
                                 note = "",
                             )
                             val newTypeId = recordTypeRepo.add(newType)
-                            newType.copy(id = newTypeId).let(newAddedTypes::add)
+                            newAddedTypes.add(newType.copy(id = newTypeId))
                             newTypeId
                         }
-                    val record = Record(
-                        typeId = typeId,
-                        timeStarted = timeStarted,
-                        timeEnded = timeEnded,
-                        comment = comment,
-                        tags = emptyList(),
+                    recordRepo.add(
+                        Record(
+                            typeId = typeId,
+                            timeStarted = timeStarted,
+                            timeEnded = timeEnded,
+                            comment = comment,
+                            tags = emptyList(),
+                        ),
                     )
-                    recordRepo.add(record)
                     addedRecords++
                 }
             }
+
             val messageText = resourceRepo.getString(R.string.message_import_complete)
             val messageHint = resourceRepo.getString(R.string.message_import_complete_hint, addedRecords)
             ResultCode.Success("$messageText\n$messageHint")
@@ -279,6 +284,7 @@ class CsvRepoImpl @Inject constructor(
 
     companion object {
         private const val QUOTE = "\""
+        private val UTF8_BOM = byteArrayOf(0xEF.toByte(), 0xBB.toByte(), 0xBF.toByte())
         private const val CSV_HEADER =
             "activity name,time started,time ended,comment,categories,record tags,duration,duration minutes\n"
     }
