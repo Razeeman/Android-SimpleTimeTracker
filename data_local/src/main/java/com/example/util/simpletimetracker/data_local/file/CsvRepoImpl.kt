@@ -179,22 +179,20 @@ class CsvRepoImpl @Inject constructor(
                                 note = "",
                             )
                             val newTypeId = recordTypeRepo.add(newType)
-                            newAddedTypes.add(newType.copy(id = newTypeId))
+                            newType.copy(id = newTypeId).let(newAddedTypes::add)
                             newTypeId
                         }
-                    recordRepo.add(
-                        Record(
-                            typeId = typeId,
-                            timeStarted = timeStarted,
-                            timeEnded = timeEnded,
-                            comment = comment,
-                            tags = emptyList(),
-                        ),
+                    val record = Record(
+                        typeId = typeId,
+                        timeStarted = timeStarted,
+                        timeEnded = timeEnded,
+                        comment = comment,
+                        tags = emptyList(),
                     )
+                    recordRepo.add(record)
                     addedRecords++
                 }
             }
-
             val messageText = resourceRepo.getString(R.string.message_import_complete)
             val messageHint = resourceRepo.getString(R.string.message_import_complete_hint, addedRecords)
             ResultCode.Success("$messageText\n$messageHint")
