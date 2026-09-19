@@ -32,17 +32,32 @@ class ScheduledReminderInteractor @Inject constructor(
     }
 
     suspend fun disableByTypeId(activityId: Long) {
-        repo.getAll()
-            .filter { reminder ->
-                val activityCondition = reminder.condition as? ScheduledReminder.Condition.ActivityNotTrackedToday
-                reminder.enabled && activityCondition?.activityId == activityId
-            }
-            .forEach { setEnabled(it.id, enabled = false) }
+        disableByTarget(ScheduledReminder.Condition.Target.Activity(activityId))
+    }
+
+    suspend fun disableByCategoryId(categoryId: Long) {
+        disableByTarget(ScheduledReminder.Condition.Target.Category(categoryId))
+    }
+
+    suspend fun disableByTagId(tagId: Long) {
+        disableByTarget(ScheduledReminder.Condition.Target.Tag(tagId))
     }
 
     suspend fun remove(id: Long) {
         notificationInteractor.cancel(id)
         repo.remove(id)
+    }
+
+    private suspend fun disableByTarget(
+        target: ScheduledReminder.Condition.Target,
+    ) {
+        repo.getAll()
+            .filter { reminder ->
+                val condition = reminder.condition as? ScheduledReminder.Condition.RecordsNotTrackedToday
+                val eventTarget = (reminder.schedule as? ScheduledReminder.Schedule.ActivityEvent)?.target
+                reminder.enabled && (condition?.target == target || eventTarget == target)
+            }
+            .forEach { setEnabled(it.id, enabled = false) }
     }
 
     suspend fun clear() {

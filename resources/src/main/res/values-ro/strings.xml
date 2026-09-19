@@ -697,7 +697,9 @@ Examplu:<br/>
     <string name="reminders_schedule_one_time">O singură dată</string>
     <string name="reminders_schedule_monthly">Lunar</string>
     <string name="reminders_schedule_hourly">La fiecare oră</string>
-    <string name="reminders_condition_activity_not_tracked">Când activitatea nu a fost înregistrată astăzi</string>
+    <string name="reminders_schedule_record_started">Când pornește cronometrul</string>
+    <string name="reminders_schedule_record_stopped">Când se oprește cronometrul</string>
+    <string name="reminders_condition_records_not_tracked">Nicio înregistrare urmărită astăzi</string>
     <string name="activity_reminders_hint">Suprascrie setarea globală a mementoului de activitate</string>
     <string name="activity_reminder_mode">Mod memento</string>
     <string name="activity_reminder_mode_disabled">Dezactivat</string>

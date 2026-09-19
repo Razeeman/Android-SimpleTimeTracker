@@ -1,7 +1,9 @@
 package com.example.util.simpletimetracker.feature_notification.scheduledReminder.interactor
 
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
+import com.example.util.simpletimetracker.domain.category.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.notifications.interactor.ScheduledReminderNotificationInteractor
+import com.example.util.simpletimetracker.domain.record.model.RecordTimerEvent
 import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderOccurrenceCalculator
 import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledRemindersDataUpdateInteractor
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
@@ -20,11 +22,13 @@ class ScheduledReminderNotificationInteractorImpl @Inject constructor(
     private val manager: ScheduledReminderNotificationManager,
     private val currentTimestampProvider: CurrentTimestampProvider,
     private val scheduledRemindersDataUpdateInteractor: ScheduledRemindersDataUpdateInteractor,
+    private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
 ) : ScheduledReminderNotificationInteractor {
 
     override suspend fun schedule(reminderId: Long) {
         scheduler.cancel(reminderId)
         val reminder = repo.get(reminderId)?.takeIf { it.enabled } ?: return
+        if (reminder.schedule is ScheduledReminder.Schedule.ActivityEvent) return
 
         val occurrence = occurrenceCalculator.calculateNext(
             schedule = reminder.schedule,
@@ -88,6 +92,28 @@ class ScheduledReminderNotificationInteractorImpl @Inject constructor(
             is ScheduledReminder.Schedule.Monthly,
             is ScheduledReminder.Schedule.Hourly,
             -> schedule(reminder.id)
+            is ScheduledReminder.Schedule.ActivityEvent -> Unit
         }
+    }
+
+    override suspend fun onActivityLifecycleEvent(
+        event: RecordTimerEvent,
+        activityId: Long,
+        tagIds: List<Long>,
+    ) {
+        val categoryIds = recordTypeCategoryInteractor.getCategories(activityId)
+        repo.getAll()
+            .asSequence()
+            .filter(ScheduledReminder::enabled)
+            .filter { reminder ->
+                val schedule = reminder.schedule as? ScheduledReminder.Schedule.ActivityEvent
+                    ?: return@filter false
+                schedule.event == event && when (val target = schedule.target) {
+                    is ScheduledReminder.Condition.Target.Activity -> target.id == activityId
+                    is ScheduledReminder.Condition.Target.Category -> target.id in categoryIds
+                    is ScheduledReminder.Condition.Target.Tag -> target.id in tagIds
+                }
+            }
+            .forEach { manager.show(reminderId = it.id, text = it.text) }
     }
 }

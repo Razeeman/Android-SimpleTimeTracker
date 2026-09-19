@@ -86,7 +86,7 @@ class ActivityReminderViewDataMapper @Inject constructor(
             doNotDisturbStartMillis = rule.doNotDisturbStartMillis,
             doNotDisturbEndMillis = rule.doNotDisturbEndMillis,
             useMilitaryTime = useMilitaryTime,
-            iconColor = resourceRepo.getThemedAttr(R.attr.appLightTextColor, isDarkTheme)
+            iconColor = resourceRepo.getThemedAttr(R.attr.appLightTextColor, isDarkTheme),
         )
 
         return listOfNotNull(

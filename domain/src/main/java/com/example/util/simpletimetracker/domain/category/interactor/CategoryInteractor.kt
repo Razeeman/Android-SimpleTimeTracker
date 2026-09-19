@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.domain.recordType.model.CardOrder
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.SortCardsInteractor
+import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderInteractor
 import javax.inject.Inject
 
 class CategoryInteractor @Inject constructor(
@@ -15,6 +16,7 @@ class CategoryInteractor @Inject constructor(
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val sortCardsInteractor: SortCardsInteractor,
+    private val scheduledReminderInteractor: ScheduledReminderInteractor,
 ) {
 
     suspend fun getAll(cardOrder: CardOrder? = null): List<Category> {
@@ -49,6 +51,7 @@ class CategoryInteractor @Inject constructor(
             .let { prefsInteractor.setSelectedPredefinedFilters(it) }
         recordTypeCategoryRepo.removeAll(id)
         recordTypeGoalInteractor.removeByCategory(id)
+        scheduledReminderInteractor.disableByCategoryId(id)
         categoryRepo.remove(id)
     }
 

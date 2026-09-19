@@ -4,6 +4,7 @@ import com.example.util.simpletimetracker.core.mapper.CategoryViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.CommonViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.category.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.recordTag.interactor.GetSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
@@ -20,6 +21,7 @@ import javax.inject.Inject
 
 class TypesSelectionViewDataInteractor @Inject constructor(
     private val recordTagInteractor: RecordTagInteractor,
+    private val categoryInteractor: CategoryInteractor,
     private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
     private val recordTypeViewDataMapper: RecordTypeViewDataMapper,
     private val categoryViewDataMapper: CategoryViewDataMapper,
@@ -38,6 +40,10 @@ class TypesSelectionViewDataInteractor @Inject constructor(
                     (!it.hidden || it.id in extra.idsShouldBeVisible) &&
                         it.id !in extra.excludedTypeIds
                 }.map(TypesSelectionCacheHolder::Type)
+            }
+            is TypesSelectionDialogParams.Type.Category -> {
+                categoryInteractor.getAll()
+                    .map(TypesSelectionCacheHolder::CategoryItem)
             }
             is TypesSelectionDialogParams.Type.Tag -> {
                 val tags = when (extraType) {
@@ -79,6 +85,12 @@ class TypesSelectionViewDataInteractor @Inject constructor(
                         isComplete = false,
                     )
                 }
+                is TypesSelectionCacheHolder.CategoryItem -> {
+                    categoryViewDataMapper.mapCategory(
+                        category = type.data,
+                        isDarkTheme = isDarkTheme,
+                    )
+                }
                 is TypesSelectionCacheHolder.Tag -> {
                     categoryViewDataMapper.mapRecordTagWithValue(
                         tag = type.data,
@@ -104,6 +116,8 @@ class TypesSelectionViewDataInteractor @Inject constructor(
             val message = when (extra.type) {
                 is TypesSelectionDialogParams.Type.Activity ->
                     R.string.record_types_empty
+                is TypesSelectionDialogParams.Type.Category ->
+                    R.string.chart_filter_categories_empty
                 is TypesSelectionDialogParams.Type.Tag ->
                     R.string.chart_filter_categories_empty
             }.let(resourceRepo::getString)

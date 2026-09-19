@@ -81,7 +81,7 @@ import com.example.util.simpletimetracker.data_local.scheduledReminder.Scheduled
         ActivityReminderOverrideDBO::class,
         ActivityReminderRuleDBO::class,
     ],
-    version = 37,
+    version = 38,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {

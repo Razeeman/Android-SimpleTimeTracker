@@ -11,10 +11,11 @@ import com.example.util.simpletimetracker.core.interactor.CheckNotificationsPerm
 import com.example.util.simpletimetracker.core.interactor.SnackBarMessageNavigationInteractor
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
+import com.example.util.simpletimetracker.domain.category.interactor.CategoryInteractor
 import com.example.util.simpletimetracker.domain.extension.toLocalDateTime
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderInteractor
 import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledRemindersDataUpdateInteractor
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
@@ -26,6 +27,7 @@ import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeRe
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ConditionType
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ValidationError
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ValidationResult
+import com.example.util.simpletimetracker.feature_change_reminder.utils.isActivityEvent
 import com.example.util.simpletimetracker.feature_change_reminder.viewData.ChangeReminderViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
@@ -33,6 +35,8 @@ import com.example.util.simpletimetracker.navigation.params.screen.ChangeReminde
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.screen.DurationDialogParams
+import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
+import com.example.util.simpletimetracker.navigation.params.screen.ReminderConditionTargetType
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -49,6 +53,8 @@ class ChangeReminderViewModel @Inject constructor(
     private val scheduledReminderInteractor: ScheduledReminderInteractor,
     private val scheduledRemindersDataUpdateInteractor: ScheduledRemindersDataUpdateInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val categoryInteractor: CategoryInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val currentTimestampProvider: CurrentTimestampProvider,
     private val localDateMapper: LocalDateMapper,
@@ -68,7 +74,8 @@ class ChangeReminderViewModel @Inject constructor(
         nowTimestamp = currentTimestampProvider.get(),
     )
     private var updateJob: Job? = null
-    private var selectedActivity: RecordType? = null
+    private var selectedTargetName: String? = null
+    private var pendingScheduleType: ChangeReminderEditor.ScheduleType? = null
     private var controlsEnabled = true
 
     init {
@@ -87,24 +94,42 @@ class ChangeReminderViewModel @Inject constructor(
     fun onScheduleSelected(position: Int) {
         val type = changeReminderViewDataInteractor.mapSchedule(position) ?: return
         if (type == editor.scheduleType) return
-        editor.selectSchedule(type)
-        selectedActivity = null
-        updateViewData()
+        if (type.isActivityEvent()) {
+            pendingScheduleType = type
+            openTargetTypeSelection()
+            updateViewData()
+        } else {
+            pendingScheduleType = null
+            editor.selectSchedule(type)
+            if (editor.conditionTarget == null) selectedTargetName = null
+            updateViewData()
+        }
     }
 
     fun onConditionSelected(position: Int) {
         val type = changeReminderViewDataInteractor.mapCondition(position) ?: return
-        if (type == editor.conditionType) return
         when (type) {
             ConditionType.ALWAYS -> {
+                if (type == editor.conditionType) return
                 editor.selectCondition(type)
-                selectedActivity = null
+                selectedTargetName = null
             }
             ConditionType.NOT_TRACKED -> {
-                openActivitySelection()
+                pendingScheduleType = null
+                openTargetTypeSelection()
             }
         }
         updateViewData()
+    }
+
+    fun onConditionTargetClick() {
+        if (editor.conditionType != ConditionType.NOT_TRACKED &&
+            !editor.scheduleType.isActivityEvent()
+        ) {
+            return
+        }
+        pendingScheduleType = null
+        openTargetTypeSelection()
     }
 
     fun onDayClick(data: DayOfWeekViewData) {
@@ -190,34 +215,71 @@ class ChangeReminderViewModel @Inject constructor(
         openTimeDialog(DND_END_TAG, editor.doNotDisturbEndMillis)
     }
 
-    fun onActivityClick() {
-        openActivitySelection()
-    }
-
-    private fun openActivitySelection() {
+    fun onTargetTypeSelected(type: ReminderConditionTargetType) {
+        val currentTarget = editor.conditionTarget
+        val (tag, title, selectionType) = when (type) {
+            ReminderConditionTargetType.Activity -> Triple(
+                ACTIVITY_TAG,
+                R.string.activity_hint,
+                TypesSelectionDialogParams.Type.Activity,
+            )
+            ReminderConditionTargetType.Category -> Triple(
+                CATEGORY_TAG,
+                R.string.category_hint,
+                TypesSelectionDialogParams.Type.Category,
+            )
+            ReminderConditionTargetType.Tag -> Triple(
+                TAG_TAG,
+                R.string.record_tag_hint,
+                TypesSelectionDialogParams.Type.Tag.All,
+            )
+        }
+        val selectedId = when {
+            type is ReminderConditionTargetType.Activity &&
+                currentTarget is ScheduledReminder.Condition.Target.Activity -> currentTarget.id
+            type is ReminderConditionTargetType.Category &&
+                currentTarget is ScheduledReminder.Condition.Target.Category -> currentTarget.id
+            type is ReminderConditionTargetType.Tag &&
+                currentTarget is ScheduledReminder.Condition.Target.Tag -> currentTarget.id
+            else -> null
+        }
         TypesSelectionDialogParams(
-            tag = ACTIVITY_TAG,
-            title = resourceRepo.getString(R.string.change_record_message_choose_type),
+            tag = tag,
+            title = resourceRepo.getString(title),
             subtitle = "",
-            type = TypesSelectionDialogParams.Type.Activity,
-            selectedTypeIds = listOfNotNull(editor.activityId),
+            type = selectionType,
+            selectedTypeIds = listOfNotNull(selectedId),
             selectedTagValues = emptyList(),
             selectedTagValueOnStart = emptyList(),
             isMultiSelectAvailable = false,
-            idsShouldBeVisible = listOfNotNull(editor.activityId),
+            idsShouldBeVisible = listOfNotNull(selectedId),
             showHints = false,
             allowTagValueSelection = false,
         ).let(router::navigate)
     }
 
-    fun onActivitySelected(tag: String, ids: List<Long>) = viewModelScope.launch {
-        if (tag != ACTIVITY_TAG) return@launch
-        val activity = ids.firstOrNull()?.let { recordTypeInteractor.get(it) } ?: return@launch
-        selectedActivity = activity
-        editor.selectCondition(ConditionType.NOT_TRACKED)
-        editor.selectActivity(
-            type = activity,
-            prefill = { resourceRepo.getString(R.string.change_reminder_message_prefill, it) },
+    fun onTargetSelected(tag: String, ids: List<Long>) = viewModelScope.launch {
+        val id = ids.firstOrNull() ?: return@launch
+        val targetAndName = when (tag) {
+            ACTIVITY_TAG -> ScheduledReminder.Condition.Target.Activity(id)
+            CATEGORY_TAG -> ScheduledReminder.Condition.Target.Category(id)
+            TAG_TAG -> ScheduledReminder.Condition.Target.Tag(id)
+            else -> null
+        }?.let {
+            val name = loadTargetName(it) ?: return@let null
+            it to name
+        } ?: return@launch
+        pendingScheduleType?.let(editor::selectSchedule)
+        pendingScheduleType = null
+        selectedTargetName = targetAndName.second
+        editor.selectTarget(
+            target = targetAndName.first,
+            prefill = {
+                resourceRepo.getString(
+                    R.string.change_reminder_message_prefill,
+                    targetAndName.second,
+                )
+            },
         )
         updateViewData()
     }
@@ -262,7 +324,9 @@ class ChangeReminderViewModel @Inject constructor(
     private fun persist(reminder: ScheduledReminder) = viewModelScope.launch {
         scheduledReminderInteractor.save(reminder)
         scheduledRemindersDataUpdateInteractor.send()
-        if (reminder.enabled) checkExactAlarmPermissionInteractor.execute()
+        if (reminder.enabled && reminder.schedule !is ScheduledReminder.Schedule.ActivityEvent) {
+            checkExactAlarmPermissionInteractor.execute()
+        }
         router.back()
     }
 
@@ -271,6 +335,7 @@ class ChangeReminderViewModel @Inject constructor(
             ValidationError.MESSAGE_REQUIRED -> R.string.change_reminder_message_required
             ValidationError.FUTURE_REQUIRED -> R.string.change_reminder_future_required
             ValidationError.INTERVAL_REQUIRED -> R.string.change_reminder_interval_required
+            ValidationError.TARGET_REQUIRED -> R.string.change_record_message_choose_type
         }
         snackBarMessageNavigationInteractor.showMessage(stringRes)
     }
@@ -298,6 +363,35 @@ class ChangeReminderViewModel @Inject constructor(
         )
     }
 
+    private fun openTargetTypeSelection() {
+        val items = listOf(
+            ReminderConditionTargetType.Activity to R.string.activity_hint,
+            ReminderConditionTargetType.Category to R.string.category_hint,
+            ReminderConditionTargetType.Tag to R.string.record_tag_hint,
+        ).map { (id, textRes) ->
+            OptionsListParams.Item(
+                id = id,
+                text = resourceRepo.getString(textRes),
+                icon = null,
+            )
+        }
+        router.navigate(OptionsListParams(items))
+    }
+
+    private suspend fun loadTargetName(
+        target: ScheduledReminder.Condition.Target?,
+    ): String? {
+        return when (target) {
+            is ScheduledReminder.Condition.Target.Activity ->
+                recordTypeInteractor.get(target.id)?.name
+            is ScheduledReminder.Condition.Target.Category ->
+                categoryInteractor.get(target.id)?.name
+            is ScheduledReminder.Condition.Target.Tag ->
+                recordTagInteractor.get(target.id)?.name
+            null -> null
+        }
+    }
+
     private suspend fun initializeData() {
         val reminder = (extra as? ChangeReminderParams.Change)
             ?.let { scheduledReminderInteractor.get(it.id) }
@@ -310,8 +404,10 @@ class ChangeReminderViewModel @Inject constructor(
         } else {
             ChangeReminderEditor.new(currentTimestampProvider.get())
         }
-        selectedActivity = editor.activityId?.let { recordTypeInteractor.get(it) }
-        if (editor.conditionType == ConditionType.NOT_TRACKED && selectedActivity == null) {
+        selectedTargetName = loadTargetName(editor.conditionTarget)
+        if (editor.scheduleType.isActivityEvent() && selectedTargetName == null) {
+            editor.clearTarget()
+        } else if (editor.conditionType == ConditionType.NOT_TRACKED && selectedTargetName == null) {
             editor.selectCondition(ConditionType.ALWAYS)
         }
     }
@@ -326,7 +422,7 @@ class ChangeReminderViewModel @Inject constructor(
     private suspend fun loadViewData(): ChangeReminderViewData {
         return changeReminderViewDataInteractor.getViewData(
             editor = editor,
-            selectedActivity = selectedActivity,
+            selectedTargetName = selectedTargetName,
             controlsEnabled = controlsEnabled,
         )
     }
@@ -338,5 +434,7 @@ class ChangeReminderViewModel @Inject constructor(
         const val DND_START_TAG = "change_reminder_dnd_start"
         const val DND_END_TAG = "change_reminder_dnd_end"
         const val ACTIVITY_TAG = "change_reminder_activity"
+        const val CATEGORY_TAG = "change_reminder_category"
+        const val TAG_TAG = "change_reminder_tag"
     }
 }

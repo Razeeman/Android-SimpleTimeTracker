@@ -21,6 +21,8 @@ data class ScheduledReminderDBO(
     // ome time 1
     // monthly 2
     // hourly 3
+    // activity started 4
+    // activity stopped 5
     @ColumnInfo(name = "schedule_type")
     val scheduleType: Int,
 
@@ -49,10 +51,16 @@ data class ScheduledReminderDBO(
     val doNotDisturbEndMillis: Long?,
 
     // always 0
-    // activity mot tracked 1
+    // records not tracked 1
     @ColumnInfo(name = "condition_type")
     val conditionType: Int,
 
-    @ColumnInfo(name = "activity_id")
-    val activityId: Long?,
+    @ColumnInfo(name = "target_id")
+    val targetId: Long?,
+
+    // activity 0
+    // category 1
+    // tag 2
+    @ColumnInfo(name = "target_type")
+    val targetType: Int,
 )

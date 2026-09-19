@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTyp
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.SortCardsInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
+import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderInteractor
 import javax.inject.Inject
 
 class RecordTagInteractor @Inject constructor(
@@ -30,6 +31,7 @@ class RecordTagInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val sortCardsInteractor: SortCardsInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
+    private val scheduledReminderInteractor: ScheduledReminderInteractor,
 ) {
 
     suspend fun isEmpty(): Boolean {
@@ -96,6 +98,7 @@ class RecordTagInteractor @Inject constructor(
         recordTypeToDefaultTagRepo.removeAll(id)
         recordTypeGoalInteractor.removeByTag(id)
         complexRuleInteractor.removeTagId(id)
+        scheduledReminderInteractor.disableByTagId(id)
     }
 
     fun getActivityOrderProvider(

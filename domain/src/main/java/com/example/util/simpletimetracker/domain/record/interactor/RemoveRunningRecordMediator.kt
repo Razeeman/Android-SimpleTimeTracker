@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.domain.pomodoro.interactor.PomodoroSto
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.notifications.interactor.UpdateExternalViewsInteractor
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
+import com.example.util.simpletimetracker.domain.record.model.RecordTimerEvent
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -31,7 +32,8 @@ class RemoveRunningRecordMediator @Inject constructor(
         val duration = TimeUnit.MILLISECONDS
             .toSeconds(recordTimeEnded - runningRecord.timeStarted)
 
-        if (duration > durationToIgnore || durationToIgnore == 0L) {
+        val recordWasSaved = duration > durationToIgnore || durationToIgnore == 0L
+        if (recordWasSaved) {
             // No need to update widgets and notification because it will be done in running record remove.
             recordInteractor.addFromRunning(
                 runningRecord = runningRecord,
@@ -48,6 +50,7 @@ class RemoveRunningRecordMediator @Inject constructor(
             typeId = runningRecord.id,
             updateWidgets = updateWidgets,
             updateNotificationSwitch = updateNotificationSwitch,
+            lifecycleEvent = RecordTimerEvent.STOPPED.takeIf { recordWasSaved },
         )
     }
 
@@ -56,6 +59,7 @@ class RemoveRunningRecordMediator @Inject constructor(
         updateWidgets: Boolean = true,
         updateNotificationSwitch: Boolean = true,
         checkPomodoroStop: Boolean = true,
+        lifecycleEvent: RecordTimerEvent? = null,
     ) {
         val runningRecord = runningRecordInteractor.get(typeId)
         runningRecordInteractor.remove(typeId)
@@ -64,6 +68,7 @@ class RemoveRunningRecordMediator @Inject constructor(
             tagIds = runningRecord?.tags.orEmpty().map(RecordBase.Tag::tagId),
             updateWidgets = updateWidgets,
             updateNotificationSwitch = updateNotificationSwitch,
+            lifecycleEvent = lifecycleEvent,
         )
         if (checkPomodoroStop) pomodoroStopInteractor.checkAndStop(typeId)
     }

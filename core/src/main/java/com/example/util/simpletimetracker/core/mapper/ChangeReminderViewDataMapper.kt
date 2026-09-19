@@ -24,6 +24,8 @@ class ChangeReminderViewDataMapper @Inject constructor(
     ): SpannableString? {
         if (doNotDisturbStartMillis == doNotDisturbEndMillis) return null
 
+        val imageTag = resourceRepo.getString(R.string.image_tag)
+
         fun formatTime(
             timeOfDayMillis: Long,
         ): String {
@@ -46,12 +48,12 @@ class ChangeReminderViewDataMapper @Inject constructor(
             ?.apply { setTint(iconColor) }
 
         return hint
-            .let { IMAGE_TAG + it }
+            .let { imageTag + it }
             .toSpannableString()
             .apply {
                 setImageSpan(
-                    start = indexOf(IMAGE_TAG),
-                    length = IMAGE_TAG.length,
+                    start = indexOf(imageTag),
+                    length = imageTag.length,
                     drawable = icon ?: return@apply,
                     sizeDp = 16,
                     isCentered = true,
@@ -75,9 +77,5 @@ class ChangeReminderViewDataMapper @Inject constructor(
             useMilitaryTime = useMilitaryTime,
             showSeconds = false,
         )
-    }
-
-    companion object {
-        private const val IMAGE_TAG = "[IMAGE_TAG]"
     }
 }

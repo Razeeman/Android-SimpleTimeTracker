@@ -697,7 +697,9 @@ Ejemplo:<br/>
     <string name="reminders_schedule_one_time">Una vez</string>
     <string name="reminders_schedule_monthly">Mensualmente</string>
     <string name="reminders_schedule_hourly">Cada hora</string>
-    <string name="reminders_condition_activity_not_tracked">Cuando la actividad no se haya registrado hoy</string>
+    <string name="reminders_schedule_record_started">Cuando se inicia el temporizador</string>
+    <string name="reminders_schedule_record_stopped">Cuando se detiene el temporizador</string>
+    <string name="reminders_condition_records_not_tracked">Hoy no se ha realizado el seguimiento de ningún registro</string>
     <string name="activity_reminders_hint">Anula la configuración global del recordatorio de actividad</string>
     <string name="activity_reminder_mode">Modo de recordatorio</string>
     <string name="activity_reminder_mode_disabled">Desactivado</string>

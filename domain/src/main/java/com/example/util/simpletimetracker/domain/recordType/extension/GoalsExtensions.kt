@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 
 fun Range.toRangeLength(): RangeLength? {
     return when (this) {
-        is Range.Session -> return null
+        is Range.Session -> null
         is Range.Daily -> RangeLength.Day
         is Range.Weekly -> RangeLength.Week
         is Range.Monthly -> RangeLength.Month

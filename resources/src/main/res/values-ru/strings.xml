@@ -697,7 +697,9 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="reminders_schedule_one_time">Один раз</string>
     <string name="reminders_schedule_monthly">Ежемесячно</string>
     <string name="reminders_schedule_hourly">Каждый час</string>
-    <string name="reminders_condition_activity_not_tracked">Если активность сегодня не отслеживалась</string>
+    <string name="reminders_schedule_record_started">При запуске таймера</string>
+    <string name="reminders_schedule_record_stopped">При остановке таймера</string>
+    <string name="reminders_condition_records_not_tracked">Сегодня записи не отслеживались</string>
     <string name="activity_reminders_hint">Переопределяет общую настройку напоминаний об активности</string>
     <string name="activity_reminder_mode">Режим напоминания</string>
     <string name="activity_reminder_mode_disabled">Отключено</string>

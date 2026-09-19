@@ -697,7 +697,9 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="reminders_schedule_one_time">एक बार</string>
     <string name="reminders_schedule_monthly">मासिक</string>
     <string name="reminders_schedule_hourly">हर घंटे</string>
-    <string name="reminders_condition_activity_not_tracked">जब आज गतिविधि ट्रैक नहीं की गई हो</string>
+    <string name="reminders_schedule_record_started">टाइमर शुरू होने पर</string>
+    <string name="reminders_schedule_record_stopped">टाइमर रुकने पर</string>
+    <string name="reminders_condition_records_not_tracked">आज कोई रिकॉर्ड ट्रैक नहीं किया गया</string>
     <string name="activity_reminders_hint">वैश्विक गतिविधि अनुस्मारक सेटिंग को ओवरराइड करता है</string>
     <string name="activity_reminder_mode">रिमाइंडर मोड</string>
     <string name="activity_reminder_mode_disabled">बंद</string>

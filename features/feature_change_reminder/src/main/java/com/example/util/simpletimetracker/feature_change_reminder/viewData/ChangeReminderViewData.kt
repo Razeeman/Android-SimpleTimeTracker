@@ -11,6 +11,7 @@ data class ChangeReminderViewData(
     val scheduleSelectedPosition: Int,
     val conditionItems: List<CustomSpinner.CustomSpinnerItem>,
     val conditionSelectedPosition: Int,
+    val conditionText: String,
     val daysOfWeek: List<DayOfWeekViewData>,
     val dateText: String,
     val dayOfMonthItems: List<CustomSpinner.CustomSpinnerItem>,
@@ -20,7 +21,6 @@ data class ChangeReminderViewData(
     val doNotDisturbStartText: String,
     val doNotDisturbEndText: String,
     val conditionType: ChangeReminderEditor.ConditionType,
-    val activityName: String,
     val deleteVisible: Boolean,
     val controlsEnabled: Boolean,
 )

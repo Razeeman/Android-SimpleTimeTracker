@@ -6,7 +6,6 @@ import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -51,6 +50,9 @@ class RemindersTest : BaseUiTest() {
 
     @Test
     fun change() {
+        val activityName = "Reading"
+        testUtils.addActivity(name = activityName)
+
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsNotifications()
         NavUtils.openRemindersScreen()
@@ -67,8 +69,9 @@ class RemindersTest : BaseUiTest() {
         )
         selectSpinnerItem(
             fieldId = changeReminderR.id.fieldChangeReminderCondition,
-            itemTextResId = R.string.reminders_condition_activity_not_tracked,
+            itemTextResId = R.string.reminders_condition_records_not_tracked,
         )
+        clickOnView(withText(R.string.activity_hint))
         checkViewIsDisplayed(withId(dialogsR.id.rvTypesSelectionContainer))
         pressBack()
         checkViewIsDisplayed(
@@ -78,6 +81,33 @@ class RemindersTest : BaseUiTest() {
             ),
         )
         checkViewIsNotDisplayed(withId(changeReminderR.id.btnChangeReminderActivity))
+
+        selectSpinnerItem(
+            fieldId = changeReminderR.id.fieldChangeReminderCondition,
+            itemTextResId = R.string.reminders_condition_records_not_tracked,
+        )
+        clickOnView(withText(R.string.activity_hint))
+        clickOnView(
+            allOf(
+                withText(activityName),
+                isDescendantOfA(withId(dialogsR.id.rvTypesSelectionContainer)),
+            ),
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeReminderR.id.tvChangeReminderCondition),
+                withText(R.string.reminders_condition_records_not_tracked),
+            ),
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeReminderR.id.btnChangeReminderActivity),
+                withText("${getString(R.string.activity_hint)} · $activityName"),
+            ),
+        )
+        clickOnView(withId(changeReminderR.id.btnChangeReminderActivity))
+        checkViewIsDisplayed(withText(R.string.category_hint))
+        pressBack()
 
         selectSpinnerItem(
             fieldId = changeReminderR.id.fieldChangeReminderSchedule,
@@ -105,6 +135,52 @@ class RemindersTest : BaseUiTest() {
         checkViewIsDisplayed(withId(changeReminderR.id.containerChangeReminderDayOfMonth))
         checkViewIsNotDisplayed(withId(changeReminderR.id.containerChangeReminderHourly))
         checkViewIsNotDisplayed(withId(changeReminderR.id.tvChangeReminderDate))
+
+        // Schedule is changed to an activity event only after its target is selected.
+        selectSpinnerItem(
+            fieldId = changeReminderR.id.fieldChangeReminderSchedule,
+            itemTextResId = R.string.reminders_schedule_record_started,
+        )
+        checkViewIsDisplayed(withText(R.string.activity_hint))
+        pressBack()
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeReminderR.id.tvChangeReminderSchedule),
+                withText(R.string.reminders_schedule_monthly),
+            ),
+        )
+
+        selectSpinnerItem(
+            fieldId = changeReminderR.id.fieldChangeReminderSchedule,
+            itemTextResId = R.string.reminders_schedule_record_started,
+        )
+        clickOnView(withText(R.string.activity_hint))
+        clickOnView(
+            allOf(
+                withText(activityName),
+                isDescendantOfA(withId(dialogsR.id.rvTypesSelectionContainer)),
+            ),
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeReminderR.id.tvChangeReminderSchedule),
+                withText(R.string.reminders_schedule_record_started),
+            ),
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeReminderR.id.btnChangeReminderActivity),
+                withText("${getString(R.string.activity_hint)} · $activityName"),
+            ),
+        )
+        clickOnView(withId(changeReminderR.id.btnChangeReminderActivity))
+        checkViewIsDisplayed(withText(R.string.category_hint))
+        pressBack()
+
+        selectSpinnerItem(
+            fieldId = changeReminderR.id.fieldChangeReminderSchedule,
+            itemTextResId = R.string.reminders_schedule_monthly,
+        )
 
         clickOnView(withId(changeReminderR.id.btnChangeReminderSave))
         checkViewIsDisplayed(withText(R.string.change_reminder_message_required))
@@ -234,7 +310,7 @@ class RemindersTest : BaseUiTest() {
         val customSummary = listOf(
             "1s",
             getString(R.string.reminders_schedule_one_time),
-            "00:00-08:00",
+            "${getString(R.string.image_tag)}00:00-08:00",
         ).joinToString(separator = " · ")
         checkViewIsDisplayed(
             allOf(
@@ -336,7 +412,7 @@ class RemindersTest : BaseUiTest() {
             "1m",
             getString(R.string.settings_inactivity_reminder_recurrent),
             "Mon",
-            "22:00-08:00",
+            "${getString(R.string.image_tag)}22:00-08:00",
         ).joinToString(separator = " · ")
         val customReminder = allOf(
             withId(remindersR.id.containerReminder),
@@ -392,7 +468,9 @@ class RemindersTest : BaseUiTest() {
                     daysOfWeek = setOf(DayOfWeek.MONDAY),
                     timeOfDayMillis = hours(10),
                 ),
-                condition = ScheduledReminder.Condition.ActivityNotTrackedToday(activityId),
+                condition = ScheduledReminder.Condition.RecordsNotTrackedToday(
+                    ScheduledReminder.Condition.Target.Activity(activityId),
+                ),
             ),
         )
 
@@ -424,7 +502,11 @@ class RemindersTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             withText(
-                "${getString(R.string.reminders_condition_activity_not_tracked)} ($activityName)",
+                listOf(
+                    getString(R.string.reminders_condition_records_not_tracked),
+                    getString(R.string.activity_hint),
+                    activityName,
+                ).joinToString(" · "),
             ),
         )
         checkViewIsDisplayed(
@@ -515,7 +597,7 @@ class RemindersTest : BaseUiTest() {
             "2h",
             hourlyStart,
             timeMapper.toShortDayOfWeekName(DayOfWeek.MONDAY),
-            "22:00-08:00",
+            "${getString(R.string.image_tag)}22:00-08:00",
         ).joinToString(separator = " · ")
         checkViewIsDisplayed(withText(hourlySummary))
     }

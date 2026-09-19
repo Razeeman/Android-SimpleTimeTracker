@@ -416,8 +416,10 @@ class RunningRecordsViewModel @Inject constructor(
     }
 
     private suspend fun onShortcutStart(item: RecordShortcutViewData) {
-        onShortcutClickInteractor.execute(item)
-        updateRunningRecords()
+        when (onShortcutClickInteractor.execute(item)) {
+            OnShortcutClickInteractor.ExecuteResult.DataChanged -> updateRunningRecords()
+            OnShortcutClickInteractor.ExecuteResult.Navigation -> delayDataLoad = true
+        }
     }
 
     private fun onShortcutEdit(

@@ -61,6 +61,9 @@ class CsvRepoImpl @Inject constructor(
             fileOutputStream = fileDescriptor?.fileDescriptor
                 ?.let(::FileOutputStream)?.buffered()
 
+            // Write UTF-8 BOM so Excel can detect the CSV encoding correctly.
+            fileOutputStream?.write(UTF8_BOM)
+
             // Write csv header
             fileOutputStream?.write(CSV_HEADER.toByteArray())
 
@@ -279,6 +282,7 @@ class CsvRepoImpl @Inject constructor(
 
     companion object {
         private const val QUOTE = "\""
+        private val UTF8_BOM = byteArrayOf(0xEF.toByte(), 0xBB.toByte(), 0xBF.toByte())
         private const val CSV_HEADER =
             "activity name,time started,time ended,comment,categories,record tags,duration,duration minutes\n"
     }

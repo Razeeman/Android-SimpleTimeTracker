@@ -26,6 +26,9 @@ data class TypesSelectionDialogParams(
         @Parcelize
         data object Activity : Type
 
+        @Parcelize
+        data object Category : Type
+
         sealed interface Tag : Type {
             @Parcelize
             data object All : Tag

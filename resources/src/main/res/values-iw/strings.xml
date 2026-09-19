@@ -697,7 +697,9 @@
     <string name="reminders_schedule_one_time">פעם אחת</string>
     <string name="reminders_schedule_monthly">חודשי</string>
     <string name="reminders_schedule_hourly">מדי שעה</string>
-    <string name="reminders_condition_activity_not_tracked">כאשר הפעילות לא תועדה היום</string>
+    <string name="reminders_schedule_record_started">כשהטיימר מתחיל</string>
+    <string name="reminders_schedule_record_stopped">כשהטיימר נעצר</string>
+    <string name="reminders_condition_records_not_tracked">לא בוצע מעקב אחר רשומות היום</string>
     <string name="activity_reminders_hint">עוקף את ההגדרה הכללית של תזכורת הפעילות</string>
     <string name="activity_reminder_mode">מצב תזכורת</string>
     <string name="activity_reminder_mode_disabled">מושבת</string>

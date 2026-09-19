@@ -61,6 +61,8 @@ class RecordsViewModel @Inject constructor(
     private val themeChangedInteractor: ThemeChangedInteractor,
 ) : BaseViewModel() {
 
+    override var delayDataLoad: Boolean = false
+
     var extra: RecordsExtra? = null
 
     val isCalendarView: LiveData<Boolean> = MutableLiveData()
@@ -117,6 +119,7 @@ class RecordsViewModel @Inject constructor(
             sharedElements = sharedElements,
         )
         throttle {
+            if (sharedElements == null) delayDataLoad = true
             router.navigate(
                 data = ChangeRunningRecordFromMainParams(params),
                 sharedElements = sharedElements?.let(::mapOf).orEmpty(),
@@ -145,6 +148,7 @@ class RecordsViewModel @Inject constructor(
             sharedElements = sharedElements,
         )
         throttle {
+            if (sharedElements == null) delayDataLoad = true
             router.navigate(
                 data = ChangeRecordFromMainParams(params),
                 sharedElements = sharedElements?.let(::mapOf).orEmpty(),
@@ -349,11 +353,12 @@ class RecordsViewModel @Inject constructor(
 
     private fun startUpdate() {
         timerJob?.cancel()
-        if (shift != 0) {
-            updateRecords()
-            return
-        }
         timerJob = viewModelScope.launch {
+            delayLoad()
+            if (shift != 0) {
+                updateRecords()
+                return@launch
+            }
             while (isActive) {
                 updateRecords()
                 delay(TIMER_UPDATE)

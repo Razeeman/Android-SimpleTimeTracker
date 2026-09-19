@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.pomodoro.interactor.PomodoroSta
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.record.model.RecordDataSelectionDialogResult
+import com.example.util.simpletimetracker.domain.record.model.RecordTimerEvent
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTypeToDefaultTagInteractor
@@ -312,6 +313,26 @@ class AddRunningRecordMediatorTest {
             typeId = typeId,
             tagIds = emptyList(),
             updateNotificationSwitch = true,
+            lifecycleEvent = RecordTimerEvent.STARTED,
+        )
+    }
+
+    @Test
+    fun addAfterChangeDoesNotEmitLifecycleEvent(): Unit = runBlocking {
+        // When
+        subject.addAfterChange(
+            typeId = typeId,
+            timeStarted = currentTime,
+            comment = "comment",
+            tags = listOf(tag(tagId)),
+        )
+
+        // Then
+        verify(updateExternalViewsInteractor).onRunningRecordAdd(
+            typeId = typeId,
+            tagIds = listOf(tagId),
+            updateNotificationSwitch = true,
+            lifecycleEvent = null,
         )
     }
 

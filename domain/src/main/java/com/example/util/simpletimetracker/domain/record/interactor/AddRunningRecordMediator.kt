@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteracto
 import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.model.RecordDataSelectionDialogResult
+import com.example.util.simpletimetracker.domain.record.model.RecordTimerEvent
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
@@ -123,6 +124,7 @@ class AddRunningRecordMediator @Inject constructor(
             timeStarted = actualTimeStarted,
             updateNotificationSwitch = updateNotificationSwitch,
             isMultitaskingAllowed = isMultitaskingAllowed,
+            emitLifecycleEvent = !retroactiveTrackingMode,
         )
         if (retroactiveTrackingMode) {
             addRetroactiveModeInternal(startParams, actualPrevRecords)
@@ -153,6 +155,9 @@ class AddRunningRecordMediator @Inject constructor(
                 tags = tags,
                 updateNotificationSwitch = true,
                 isMultitaskingAllowed = true,
+                // Changing the activity keeps the same timer running and must not
+                // trigger activity event reminders for a new timer start.
+                emitLifecycleEvent = false,
             ),
             checkDefaultDuration = false,
         )
@@ -211,6 +216,7 @@ class AddRunningRecordMediator @Inject constructor(
                 typeId = params.typeId,
                 tagIds = params.tags.map(RecordBase.Tag::tagId),
                 updateNotificationSwitch = params.updateNotificationSwitch,
+                lifecycleEvent = RecordTimerEvent.STARTED.takeIf { params.emitLifecycleEvent },
             )
         }
     }
@@ -337,6 +343,7 @@ class AddRunningRecordMediator @Inject constructor(
         val tags: List<RecordBase.Tag>,
         val updateNotificationSwitch: Boolean,
         val isMultitaskingAllowed: Boolean,
+        val emitLifecycleEvent: Boolean,
     )
 
     sealed interface StartTime {

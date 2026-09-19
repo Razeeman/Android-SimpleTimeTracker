@@ -45,6 +45,7 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor(
                 nowTimestamp = nowTimestamp,
                 timeZone = timeZone,
             )
+            is ScheduledReminder.Schedule.ActivityEvent -> null
         }
     }
 
@@ -80,6 +81,7 @@ class ScheduledReminderOccurrenceCalculator @Inject constructor(
                 timeZone = timeZone,
                 catchUpOverdueOneTime = false,
             )?.expectedOccurrenceTimestamp == expectedOccurrenceTimestamp
+            is ScheduledReminder.Schedule.ActivityEvent -> false
         }
     }
 

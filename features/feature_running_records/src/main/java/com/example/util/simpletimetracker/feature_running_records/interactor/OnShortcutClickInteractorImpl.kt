@@ -30,10 +30,14 @@ class OnShortcutClickInteractorImpl @Inject constructor(
     private val settingsOrderChangeInteractor: SettingsOrderChangeInteractor,
 ) : OnShortcutClickInteractor {
 
-    override suspend fun execute(data: RecordShortcutViewData) {
-        val shortcut = recordShortcutInteractor.get(data.id) ?: return
-        when (val target = shortcut.target) {
-            is RecordShortcut.Target.Record -> executeRecordAction(target)
+    override suspend fun execute(data: RecordShortcutViewData): OnShortcutClickInteractor.ExecuteResult {
+        val shortcut = recordShortcutInteractor.get(data.id)
+            ?: return OnShortcutClickInteractor.ExecuteResult.DataChanged
+        return when (val target = shortcut.target) {
+            is RecordShortcut.Target.Record -> {
+                executeRecordAction(target)
+                OnShortcutClickInteractor.ExecuteResult.DataChanged
+            }
             is RecordShortcut.Target.Setting -> executeSettingAction(target)
         }
     }
@@ -66,36 +70,46 @@ class OnShortcutClickInteractorImpl @Inject constructor(
         )
     }
 
-    private suspend fun executeSettingAction(target: RecordShortcut.Target.Setting) {
+    private suspend fun executeSettingAction(
+        target: RecordShortcut.Target.Setting,
+    ): OnShortcutClickInteractor.ExecuteResult {
         val action = target.action
-        when (action) {
+        return when (action) {
             RecordShortcut.SettingAction.Multitasking -> {
                 val newValue = !prefsInteractor.getAllowMultitasking()
                 prefsInteractor.setAllowMultitasking(newValue)
                 onSettingChangedInteractor.onAllowMultitaskingChange()
+                OnShortcutClickInteractor.ExecuteResult.DataChanged
             }
             RecordShortcut.SettingAction.RetroactiveMode -> {
                 val newValue = !prefsInteractor.getRetroactiveTrackingMode()
                 prefsInteractor.setRetroactiveTrackingMode(newValue)
                 onSettingChangedInteractor.onRetroactiveTrackingModeChange()
+                OnShortcutClickInteractor.ExecuteResult.DataChanged
             }
             RecordShortcut.SettingAction.Categories -> {
                 router.navigate(CategoriesParams)
+                OnShortcutClickInteractor.ExecuteResult.Navigation
             }
             RecordShortcut.SettingAction.Archive -> {
                 router.navigate(ArchiveParams)
+                OnShortcutClickInteractor.ExecuteResult.Navigation
             }
             RecordShortcut.SettingAction.DataEdit -> {
                 router.navigate(DataEditParams)
+                OnShortcutClickInteractor.ExecuteResult.Navigation
             }
             RecordShortcut.SettingAction.SortActivities -> {
                 // Not used, click on spinner should work instead.
+                OnShortcutClickInteractor.ExecuteResult.DataChanged
             }
             RecordShortcut.SettingAction.Shortcuts -> {
                 router.navigate(ShortcutsParams)
+                OnShortcutClickInteractor.ExecuteResult.Navigation
             }
             RecordShortcut.SettingAction.Reminders -> {
                 router.navigate(RemindersParams)
+                OnShortcutClickInteractor.ExecuteResult.Navigation
             }
         }
     }
