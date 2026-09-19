@@ -27,6 +27,7 @@ import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeRe
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ConditionType
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ValidationError
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ValidationResult
+import com.example.util.simpletimetracker.feature_change_reminder.utils.isActivityEvent
 import com.example.util.simpletimetracker.feature_change_reminder.viewData.ChangeReminderViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
@@ -74,6 +75,7 @@ class ChangeReminderViewModel @Inject constructor(
     )
     private var updateJob: Job? = null
     private var selectedTargetName: String? = null
+    private var pendingScheduleType: ChangeReminderEditor.ScheduleType? = null
     private var controlsEnabled = true
 
     init {
@@ -92,9 +94,16 @@ class ChangeReminderViewModel @Inject constructor(
     fun onScheduleSelected(position: Int) {
         val type = changeReminderViewDataInteractor.mapSchedule(position) ?: return
         if (type == editor.scheduleType) return
-        editor.selectSchedule(type)
-        selectedTargetName = null
-        updateViewData()
+        if (type.isActivityEvent()) {
+            pendingScheduleType = type
+            openTargetTypeSelection()
+            updateViewData()
+        } else {
+            pendingScheduleType = null
+            editor.selectSchedule(type)
+            if (editor.conditionTarget == null) selectedTargetName = null
+            updateViewData()
+        }
     }
 
     fun onConditionSelected(position: Int) {
@@ -106,6 +115,7 @@ class ChangeReminderViewModel @Inject constructor(
                 selectedTargetName = null
             }
             ConditionType.NOT_TRACKED -> {
+                pendingScheduleType = null
                 openTargetTypeSelection()
             }
         }
@@ -113,7 +123,12 @@ class ChangeReminderViewModel @Inject constructor(
     }
 
     fun onConditionTargetClick() {
-        if (editor.conditionType != ConditionType.NOT_TRACKED) return
+        if (editor.conditionType != ConditionType.NOT_TRACKED &&
+            !editor.scheduleType.isActivityEvent()
+        ) {
+            return
+        }
+        pendingScheduleType = null
         openTargetTypeSelection()
     }
 
@@ -254,6 +269,8 @@ class ChangeReminderViewModel @Inject constructor(
             val name = loadTargetName(it) ?: return@let null
             it to name
         } ?: return@launch
+        pendingScheduleType?.let(editor::selectSchedule)
+        pendingScheduleType = null
         selectedTargetName = targetAndName.second
         editor.selectTarget(
             target = targetAndName.first,
@@ -307,7 +324,9 @@ class ChangeReminderViewModel @Inject constructor(
     private fun persist(reminder: ScheduledReminder) = viewModelScope.launch {
         scheduledReminderInteractor.save(reminder)
         scheduledRemindersDataUpdateInteractor.send()
-        if (reminder.enabled) checkExactAlarmPermissionInteractor.execute()
+        if (reminder.enabled && reminder.schedule !is ScheduledReminder.Schedule.ActivityEvent) {
+            checkExactAlarmPermissionInteractor.execute()
+        }
         router.back()
     }
 
@@ -316,6 +335,7 @@ class ChangeReminderViewModel @Inject constructor(
             ValidationError.MESSAGE_REQUIRED -> R.string.change_reminder_message_required
             ValidationError.FUTURE_REQUIRED -> R.string.change_reminder_future_required
             ValidationError.INTERVAL_REQUIRED -> R.string.change_reminder_interval_required
+            ValidationError.TARGET_REQUIRED -> R.string.change_record_message_choose_type
         }
         snackBarMessageNavigationInteractor.showMessage(stringRes)
     }
@@ -385,7 +405,9 @@ class ChangeReminderViewModel @Inject constructor(
             ChangeReminderEditor.new(currentTimestampProvider.get())
         }
         selectedTargetName = loadTargetName(editor.conditionTarget)
-        if (editor.conditionType == ConditionType.NOT_TRACKED && selectedTargetName == null) {
+        if (editor.scheduleType.isActivityEvent() && selectedTargetName == null) {
+            editor.clearTarget()
+        } else if (editor.conditionType == ConditionType.NOT_TRACKED && selectedTargetName == null) {
             editor.selectCondition(ConditionType.ALWAYS)
         }
     }

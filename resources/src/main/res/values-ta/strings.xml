@@ -697,6 +697,8 @@
     <string name="reminders_schedule_one_time">ஒரு முறை</string>
     <string name="reminders_schedule_monthly">மாதந்தோறும்</string>
     <string name="reminders_schedule_hourly">ஒவ்வொரு மணிநேரமும்</string>
+    <string name="reminders_schedule_record_started">டைமர் தொடங்கும்போது</string>
+    <string name="reminders_schedule_record_stopped">டைமர் நிறுத்தப்படும்போது</string>
     <string name="reminders_condition_records_not_tracked">இன்று எந்தப் பதிவுகளும் கண்காணிக்கப்படவில்லை</string>
     <string name="activity_reminders_hint">உலகளாவிய செயல்பாட்டு நினைவூட்டல் அமைப்பை மீறும்</string>
     <string name="activity_reminder_mode">நினைவூட்டல் பயன்முறை</string>

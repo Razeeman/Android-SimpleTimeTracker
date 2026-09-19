@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.feature_change_reminder.R
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ConditionType
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ScheduleType
+import com.example.util.simpletimetracker.feature_change_reminder.utils.isActivityEvent
 import com.example.util.simpletimetracker.feature_change_reminder.viewData.ChangeReminderViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import java.util.TimeZone
@@ -36,6 +37,8 @@ class ChangeReminderViewDataInteractor @Inject constructor(
         ScheduleType.HOURLY,
         ScheduleType.WEEKLY,
         ScheduleType.MONTHLY,
+        ScheduleType.ACTIVITY_STARTED,
+        ScheduleType.ACTIVITY_STOPPED,
     )
 
     private val conditionTypes = listOf(
@@ -62,7 +65,6 @@ class ChangeReminderViewDataInteractor @Inject constructor(
             timeOfDayMillis = editor.timeOfDayMillis,
             timeZone = timeZone,
         ) ?: currentTimestamp
-        val conditionText = mapConditionText(editor, selectedTargetName)
 
         return ChangeReminderViewData(
             message = editor.message,
@@ -72,7 +74,7 @@ class ChangeReminderViewDataInteractor @Inject constructor(
             daysOfWeek = mapDaysItems(editor),
             conditionItems = mapConditionItems(),
             conditionSelectedPosition = conditionTypes.indexOf(editor.conditionType),
-            conditionText = conditionText,
+            conditionText = mapConditionText(editor, selectedTargetName),
             dateText = timeMapper.formatDateYear(dateTimestamp),
             dayOfMonthItems = mapDayOfMonthItems(),
             dayOfMonthSelectedPosition = daysOfMonth.indexOf(editor.dayOfMonth),
@@ -119,6 +121,8 @@ class ChangeReminderViewDataInteractor @Inject constructor(
                 ScheduleType.ONE_TIME -> R.string.reminders_schedule_one_time
                 ScheduleType.MONTHLY -> R.string.reminders_schedule_monthly
                 ScheduleType.HOURLY -> R.string.reminders_schedule_hourly
+                ScheduleType.ACTIVITY_STARTED -> R.string.reminders_schedule_record_started
+                ScheduleType.ACTIVITY_STOPPED -> R.string.reminders_schedule_record_stopped
             }
             CustomSpinner.CustomSpinnerTextItem(resourceRepo.getString(textRes))
         }
@@ -138,6 +142,9 @@ class ChangeReminderViewDataInteractor @Inject constructor(
         editor: ChangeReminderEditor,
         selectedTargetName: String?,
     ): String {
+        if (editor.scheduleType.isActivityEvent() && selectedTargetName == null) {
+            return resourceRepo.getString(R.string.change_record_message_choose_type)
+        }
         if (editor.conditionType == ConditionType.ALWAYS || selectedTargetName == null) {
             return resourceRepo.getString(R.string.change_reminder_condition_always)
         }

@@ -697,6 +697,8 @@ Ví dụ:<br/>
     <string name="reminders_schedule_one_time">Một lần</string>
     <string name="reminders_schedule_monthly">Hàng tháng</string>
     <string name="reminders_schedule_hourly">Hàng giờ</string>
+    <string name="reminders_schedule_record_started">Khi đồng hồ hẹn giờ bắt đầu</string>
+    <string name="reminders_schedule_record_stopped">Khi đồng hồ hẹn giờ dừng</string>
     <string name="reminders_condition_records_not_tracked">Hôm nay không có bản ghi nào được theo dõi</string>
     <string name="activity_reminders_hint">Ghi đè cài đặt lời nhắc hoạt động chung</string>
     <string name="activity_reminder_mode">Chế độ nhắc nhở</string>

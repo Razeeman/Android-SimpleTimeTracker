@@ -136,6 +136,52 @@ class RemindersTest : BaseUiTest() {
         checkViewIsNotDisplayed(withId(changeReminderR.id.containerChangeReminderHourly))
         checkViewIsNotDisplayed(withId(changeReminderR.id.tvChangeReminderDate))
 
+        // Schedule is changed to an activity event only after its target is selected.
+        selectSpinnerItem(
+            fieldId = changeReminderR.id.fieldChangeReminderSchedule,
+            itemTextResId = R.string.reminders_schedule_record_started,
+        )
+        checkViewIsDisplayed(withText(R.string.activity_hint))
+        pressBack()
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeReminderR.id.tvChangeReminderSchedule),
+                withText(R.string.reminders_schedule_monthly),
+            ),
+        )
+
+        selectSpinnerItem(
+            fieldId = changeReminderR.id.fieldChangeReminderSchedule,
+            itemTextResId = R.string.reminders_schedule_record_started,
+        )
+        clickOnView(withText(R.string.activity_hint))
+        clickOnView(
+            allOf(
+                withText(activityName),
+                isDescendantOfA(withId(dialogsR.id.rvTypesSelectionContainer)),
+            ),
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeReminderR.id.tvChangeReminderSchedule),
+                withText(R.string.reminders_schedule_record_started),
+            ),
+        )
+        checkViewIsDisplayed(
+            allOf(
+                withId(changeReminderR.id.btnChangeReminderActivity),
+                withText("${getString(R.string.activity_hint)} · $activityName"),
+            ),
+        )
+        clickOnView(withId(changeReminderR.id.btnChangeReminderActivity))
+        checkViewIsDisplayed(withText(R.string.category_hint))
+        pressBack()
+
+        selectSpinnerItem(
+            fieldId = changeReminderR.id.fieldChangeReminderSchedule,
+            itemTextResId = R.string.reminders_schedule_monthly,
+        )
+
         clickOnView(withId(changeReminderR.id.btnChangeReminderSave))
         checkViewIsDisplayed(withText(R.string.change_reminder_message_required))
 

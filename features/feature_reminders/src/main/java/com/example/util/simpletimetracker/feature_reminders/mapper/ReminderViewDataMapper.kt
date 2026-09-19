@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.color.model.AppColor
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.record.model.RecordTimerEvent
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
 import com.example.util.simpletimetracker.domain.utils.LocalDateMapper
 import com.example.util.simpletimetracker.feature_base_adapter.button.ButtonViewData
@@ -61,6 +62,7 @@ class ReminderViewDataMapper @Inject constructor(
                 useMilitaryTime = useMilitaryTime,
                 firstDayOfWeek = firstDayOfWeek,
                 isDarkTheme = isDarkTheme,
+                targetName = targetName,
             ),
             summary = mapCondition(
                 condition = reminder.condition,
@@ -98,6 +100,7 @@ class ReminderViewDataMapper @Inject constructor(
         useMilitaryTime: Boolean,
         firstDayOfWeek: DayOfWeek,
         isDarkTheme: Boolean,
+        targetName: String?,
     ): CharSequence {
         // Specified type prevents accidental nulls.
         val hints: List<CharSequence> = when (schedule) {
@@ -161,6 +164,22 @@ class ReminderViewDataMapper @Inject constructor(
                     iconColor = resourceRepo.getThemedAttr(R.attr.appLightTextColor, isDarkTheme),
                 )
                 listOfNotNull(hint, interval, start, days, dnd)
+            }
+            is ScheduledReminder.Schedule.ActivityEvent -> {
+                val event = when (schedule.event) {
+                    RecordTimerEvent.STARTED -> R.string.reminders_schedule_record_started
+                    RecordTimerEvent.STOPPED -> R.string.reminders_schedule_record_stopped
+                }
+                val type = when (schedule.target) {
+                    is ScheduledReminder.Condition.Target.Activity -> R.string.activity_hint
+                    is ScheduledReminder.Condition.Target.Category -> R.string.category_hint
+                    is ScheduledReminder.Condition.Target.Tag -> R.string.record_tag_hint
+                }
+                listOf(
+                    resourceRepo.getString(event),
+                    resourceRepo.getString(type),
+                    targetName ?: resourceRepo.getString(R.string.no_data),
+                )
             }
         }
         return hints.joinToSpannable(separator = " · ")

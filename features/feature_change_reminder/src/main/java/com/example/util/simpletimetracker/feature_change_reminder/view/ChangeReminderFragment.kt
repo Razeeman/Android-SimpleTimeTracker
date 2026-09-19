@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.feature_change_reminder.R
 import com.example.util.simpletimetracker.feature_change_reminder.databinding.ChangeReminderFragmentBinding as Binding
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ConditionType
 import com.example.util.simpletimetracker.feature_change_reminder.model.ChangeReminderEditor.ScheduleType
+import com.example.util.simpletimetracker.feature_change_reminder.utils.isActivityEvent
 import com.example.util.simpletimetracker.feature_change_reminder.viewData.ChangeReminderViewData
 import com.example.util.simpletimetracker.feature_change_reminder.viewModel.ChangeReminderViewModel
 import com.example.util.simpletimetracker.feature_dialogs.api.DateTimeDialogListener
@@ -130,15 +131,18 @@ class ChangeReminderFragment :
             .getOrNull(data.scheduleSelectedPosition)?.text.orEmpty()
 
         // Condition
-        containerChangeReminderCondition.isVisible = data.scheduleType == ScheduleType.WEEKLY
+        val isActivityEvent = data.scheduleType.isActivityEvent()
+        containerChangeReminderCondition.isVisible = data.scheduleType == ScheduleType.WEEKLY || isActivityEvent
+        tvChangeReminderConditionHint.isVisible = data.scheduleType == ScheduleType.WEEKLY
         spinnerChangeReminderCondition.setData(
             items = data.conditionItems,
             selectedPosition = data.conditionSelectedPosition,
         )
         tvChangeReminderCondition.text = data.conditionItems
             .getOrNull(data.conditionSelectedPosition)?.text.orEmpty()
+        fieldChangeReminderCondition.isVisible = !isActivityEvent
         btnChangeReminderActivity.text = data.conditionText
-        btnChangeReminderActivity.isVisible = data.conditionType == ConditionType.NOT_TRACKED
+        btnChangeReminderActivity.isVisible = data.conditionType == ConditionType.NOT_TRACKED || isActivityEvent
 
         // Days of week
         containerChangeReminderWeekdays.isVisible = data.scheduleType == ScheduleType.WEEKLY ||
@@ -148,6 +152,7 @@ class ChangeReminderFragment :
         // Date and time
         val hasDate = data.scheduleType == ScheduleType.ONE_TIME ||
             data.scheduleType == ScheduleType.HOURLY
+        containerChangeReminderDateTime.isVisible = !isActivityEvent
         tvChangeReminderDate.isVisible = hasDate
 
         tvChangeReminderDate.text = data.dateText

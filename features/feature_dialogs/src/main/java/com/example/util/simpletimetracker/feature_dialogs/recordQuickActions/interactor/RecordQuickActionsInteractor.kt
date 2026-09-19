@@ -204,6 +204,7 @@ class RecordQuickActionsInteractor @Inject constructor(
                 typeId = oldRecord.id,
                 tagIds = (oldRecord.tags + newTags).map(RecordBase.Tag::tagId).distinct(),
                 updateNotificationSwitch = true,
+                lifecycleEvent = null,
             )
         }
     }

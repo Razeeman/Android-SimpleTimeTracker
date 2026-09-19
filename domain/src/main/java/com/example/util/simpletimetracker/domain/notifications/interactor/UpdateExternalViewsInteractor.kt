@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.domain.widget.model.WidgetType
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
+import com.example.util.simpletimetracker.domain.record.model.RecordTimerEvent
 import com.example.util.simpletimetracker.domain.widget.interactor.WidgetInteractor
 import javax.inject.Inject
 
@@ -116,6 +117,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
         tagIds: List<Long>,
         updateWidgets: Boolean,
         updateNotificationSwitch: Boolean,
+        lifecycleEvent: RecordTimerEvent?,
     ) {
         val runningRecords = runningRecordInteractor.getAll()
         val runningRecordIds = runningRecords.map(RunningRecord::id)
@@ -135,6 +137,13 @@ class UpdateExternalViewsInteractor @Inject constructor(
             Update.WidgetGrid.takeIf { updateWidgets },
             Update.WidgetStatistics.takeIf { updateWidgets },
             Update.Wear.takeIf { updateWidgets },
+            lifecycleEvent?.let {
+                Update.ScheduledReminderLifecycleEvent(
+                    typeId = typeId,
+                    tagIds = tagIds,
+                    event = lifecycleEvent,
+                )
+            },
         )
     }
 
@@ -142,6 +151,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
         typeId: Long,
         tagIds: List<Long>,
         updateNotificationSwitch: Boolean,
+        lifecycleEvent: RecordTimerEvent?,
     ) {
         runUpdates(
             Update.NotificationType(listOf(typeId)),
@@ -155,6 +165,13 @@ class UpdateExternalViewsInteractor @Inject constructor(
             Update.WidgetGrid,
             Update.WidgetStatistics,
             Update.Wear,
+            lifecycleEvent?.let {
+                Update.ScheduledReminderLifecycleEvent(
+                    typeId = typeId,
+                    tagIds = tagIds,
+                    event = lifecycleEvent,
+                )
+            },
         )
     }
 
@@ -560,6 +577,13 @@ class UpdateExternalViewsInteractor @Inject constructor(
             is Update.ScheduledReminderReschedule -> {
                 scheduledReminderNotificationInteractor.rescheduleAll()
             }
+            is Update.ScheduledReminderLifecycleEvent -> {
+                scheduledReminderNotificationInteractor.onActivityLifecycleEvent(
+                    event = update.event,
+                    activityId = update.typeId,
+                    tagIds = update.tagIds,
+                )
+            }
         }
     }
 
@@ -584,5 +608,10 @@ class UpdateExternalViewsInteractor @Inject constructor(
         data object InactivityReminderCancel : Update
         data object InactivityReminderReschedule : Update
         data object ScheduledReminderReschedule : Update
+        data class ScheduledReminderLifecycleEvent(
+            val typeId: Long,
+            val tagIds: List<Long>,
+            val event: RecordTimerEvent,
+        ) : Update
     }
 }

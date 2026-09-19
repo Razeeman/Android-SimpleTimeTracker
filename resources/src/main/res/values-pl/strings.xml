@@ -697,6 +697,8 @@ Przykład:<br/>
     <string name="reminders_schedule_one_time">Jednorazowo</string>
     <string name="reminders_schedule_monthly">Co miesiąc</string>
     <string name="reminders_schedule_hourly">Co godzinę</string>
+    <string name="reminders_schedule_record_started">Gdy timer się uruchamia</string>
+    <string name="reminders_schedule_record_stopped">Gdy timer się zatrzymuje</string>
     <string name="reminders_condition_records_not_tracked">Nie śledzono dziś żadnych zapisów</string>
     <string name="activity_reminders_hint">Zastępuje globalne ustawienie przypomnienia o aktywności</string>
     <string name="activity_reminder_mode">Tryb przypomnienia</string>

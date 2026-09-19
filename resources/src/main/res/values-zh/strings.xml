@@ -697,6 +697,8 @@ csv 文件必须包含以逗号分隔的这些列：<br/>
     <string name="reminders_schedule_one_time">仅一次</string>
     <string name="reminders_schedule_monthly">每月</string>
     <string name="reminders_schedule_hourly">每小时</string>
+    <string name="reminders_schedule_record_started">计时器启动时</string>
+    <string name="reminders_schedule_record_stopped">计时器停止时</string>
     <string name="reminders_condition_records_not_tracked">今天没有追踪任何记录</string>
     <string name="activity_reminders_hint">覆盖全局活动提醒设置</string>
     <string name="activity_reminder_mode">提醒模式</string>

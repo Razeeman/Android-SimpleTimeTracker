@@ -697,6 +697,8 @@ Exempel:<br/>
     <string name="reminders_schedule_one_time">En gång</string>
     <string name="reminders_schedule_monthly">Månadsvis</string>
     <string name="reminders_schedule_hourly">Varje timme</string>
+    <string name="reminders_schedule_record_started">När timern startar</string>
+    <string name="reminders_schedule_record_stopped">När timern stannar</string>
     <string name="reminders_condition_records_not_tracked">Inga poster spårades idag</string>
     <string name="activity_reminders_hint">Åsidosätter den globala inställningen för aktivitetspåminnelser</string>
     <string name="activity_reminder_mode">Påminnelseläge</string>

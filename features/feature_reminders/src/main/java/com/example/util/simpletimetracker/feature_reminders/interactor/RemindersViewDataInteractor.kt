@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.feature_reminders.mapper.ReminderViewD
 import com.example.util.simpletimetracker.feature_reminders.mapper.ActivityReminderViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.color.model.AppColor
+import com.example.util.simpletimetracker.domain.record.model.RecordTimerEvent
 import com.example.util.simpletimetracker.feature_base_adapter.header.HeaderViewData
 import com.example.util.simpletimetracker.feature_reminders.R
 import com.example.util.simpletimetracker.feature_reminders.viewData.RemindersHeader
@@ -75,7 +76,8 @@ class RemindersViewDataInteractor @Inject constructor(
             text = resourceRepo.getString(R.string.settings_reminders_title),
         )
         scheduledReminders += reminders.map { reminder ->
-            val target = (reminder.condition as? ScheduledReminder.Condition.RecordsNotTrackedToday)?.target
+            val target = (reminder.schedule as? ScheduledReminder.Schedule.ActivityEvent)?.target
+                ?: (reminder.condition as? ScheduledReminder.Condition.RecordsNotTrackedToday)?.target
             val targetName: String?
             val targetIcon: String?
             val targetColor: AppColor?
@@ -130,11 +132,15 @@ class RemindersViewDataInteractor @Inject constructor(
     private suspend fun getReminders(): List<ScheduledReminder> {
         val comparator = compareBy(
             {
-                when (it.schedule) {
+                when (val schedule = it.schedule) {
                     is ScheduledReminder.Schedule.Hourly -> 0L
                     is ScheduledReminder.Schedule.Weekly -> 1L
                     is ScheduledReminder.Schedule.Monthly -> 2L
                     is ScheduledReminder.Schedule.OneTime -> 3L
+                    is ScheduledReminder.Schedule.ActivityEvent -> when (schedule.event) {
+                        RecordTimerEvent.STARTED -> 4L
+                        RecordTimerEvent.STOPPED -> 5L
+                    }
                 }
             },
             {
@@ -142,20 +148,32 @@ class RemindersViewDataInteractor @Inject constructor(
                     is ScheduledReminder.Schedule.Hourly,
                     -> schedule.intervalSeconds
                     is ScheduledReminder.Schedule.Weekly,
-                    -> it.schedule.timeOfDayMillis
+                    -> schedule.timeOfDayMillis
                     is ScheduledReminder.Schedule.OneTime,
                     -> schedule.oneTimeDate
                     is ScheduledReminder.Schedule.Monthly,
                     -> schedule.dayOfMonth
+                    is ScheduledReminder.Schedule.ActivityEvent -> 0L
                 }
             },
             {
                 when (val schedule = it.schedule) {
                     is ScheduledReminder.Schedule.Hourly -> schedule.startDate
-                    else -> schedule.timeOfDayMillis
+                    is ScheduledReminder.Schedule.Weekly -> schedule.timeOfDayMillis
+                    is ScheduledReminder.Schedule.OneTime -> schedule.timeOfDayMillis
+                    is ScheduledReminder.Schedule.Monthly -> schedule.timeOfDayMillis
+                    is ScheduledReminder.Schedule.ActivityEvent -> 0L
                 }
             },
-            { it.schedule.timeOfDayMillis },
+            {
+                when (val schedule = it.schedule) {
+                    is ScheduledReminder.Schedule.Hourly -> schedule.timeOfDayMillis
+                    is ScheduledReminder.Schedule.Weekly -> schedule.timeOfDayMillis
+                    is ScheduledReminder.Schedule.OneTime -> schedule.timeOfDayMillis
+                    is ScheduledReminder.Schedule.Monthly -> schedule.timeOfDayMillis
+                    is ScheduledReminder.Schedule.ActivityEvent -> 0L
+                }
+            },
             ScheduledReminder::id,
         )
         return scheduledReminderInteractor.getAll().sortedWith(comparator)

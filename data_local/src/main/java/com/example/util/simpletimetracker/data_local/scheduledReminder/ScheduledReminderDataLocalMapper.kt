@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.data_local.scheduledReminder
 
 import com.example.util.simpletimetracker.domain.daysOfWeek.mapper.DaysOfWeekDataLocalMapper
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.record.model.RecordTimerEvent
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
 import javax.inject.Inject
 
@@ -10,6 +11,16 @@ class ScheduledReminderDataLocalMapper @Inject constructor(
 ) {
 
     fun map(dbo: ScheduledReminderDBO): ScheduledReminder {
+        val target = dbo.targetId
+            ?.takeIf { it != 0L }
+            ?.let { targetId ->
+                when (dbo.targetType) {
+                    TARGET_ACTIVITY -> ScheduledReminder.Condition.Target.Activity(targetId)
+                    TARGET_CATEGORY -> ScheduledReminder.Condition.Target.Category(targetId)
+                    TARGET_TAG -> ScheduledReminder.Condition.Target.Tag(targetId)
+                    else -> null
+                }
+            }
         val schedule: ScheduledReminder.Schedule = when (dbo.scheduleType) {
             SCHEDULE_WEEKLY -> ScheduledReminder.Schedule.Weekly(
                 daysOfWeek = dbo.weekdays?.let(daysOfWeekDataLocalMapper::mapDaysOfWeek).orEmpty(),
@@ -31,6 +42,14 @@ class ScheduledReminderDataLocalMapper @Inject constructor(
                 doNotDisturbStartMillis = dbo.doNotDisturbStartMillis.orZero(),
                 doNotDisturbEndMillis = dbo.doNotDisturbEndMillis.orZero(),
             )
+            SCHEDULE_ACTIVITY_STARTED -> ScheduledReminder.Schedule.ActivityEvent(
+                event = RecordTimerEvent.STARTED,
+                target = target ?: ScheduledReminder.Condition.Target.Activity(0L),
+            )
+            SCHEDULE_ACTIVITY_STOPPED -> ScheduledReminder.Schedule.ActivityEvent(
+                event = RecordTimerEvent.STOPPED,
+                target = target ?: ScheduledReminder.Condition.Target.Activity(0L),
+            )
             else -> ScheduledReminder.Schedule.Weekly(
                 daysOfWeek = emptySet(),
                 timeOfDayMillis = dbo.timeOfDayMillis,
@@ -40,12 +59,6 @@ class ScheduledReminderDataLocalMapper @Inject constructor(
         val condition: ScheduledReminder.Condition = when (dbo.conditionType) {
             CONDITION_ALWAYS -> ScheduledReminder.Condition.Always
             CONDITION_RECORDS_NOT_TRACKED -> if (dbo.targetId != null && dbo.targetId != 0L) {
-                val target = when (dbo.targetType) {
-                    TARGET_ACTIVITY -> ScheduledReminder.Condition.Target.Activity(dbo.targetId)
-                    TARGET_CATEGORY -> ScheduledReminder.Condition.Target.Category(dbo.targetId)
-                    TARGET_TAG -> ScheduledReminder.Condition.Target.Tag(dbo.targetId)
-                    else -> null
-                }
                 target?.let(ScheduledReminder.Condition::RecordsNotTrackedToday)
                     ?: ScheduledReminder.Condition.Always
             } else {
@@ -114,6 +127,19 @@ class ScheduledReminderDataLocalMapper @Inject constructor(
                 hourlyDoNotDisturbStartMillis = schedule.doNotDisturbStartMillis
                 hourlyDoNotDisturbEndMillis = schedule.doNotDisturbEndMillis
             }
+            is ScheduledReminder.Schedule.ActivityEvent -> {
+                scheduleType = when (schedule.event) {
+                    RecordTimerEvent.STARTED -> SCHEDULE_ACTIVITY_STARTED
+                    RecordTimerEvent.STOPPED -> SCHEDULE_ACTIVITY_STOPPED
+                }
+                timeOfDayMillis = 0L
+                weekdays = null
+                oneTimeDate = null
+                monthlyDayOfMonth = null
+                hourlyIntervalSeconds = null
+                hourlyDoNotDisturbStartMillis = null
+                hourlyDoNotDisturbEndMillis = null
+            }
         }
 
         val conditionType: Int
@@ -122,17 +148,14 @@ class ScheduledReminderDataLocalMapper @Inject constructor(
         when (val condition = domain.condition) {
             is ScheduledReminder.Condition.Always -> {
                 conditionType = CONDITION_ALWAYS
-                targetId = null
-                targetType = TARGET_ACTIVITY
+                val eventTarget = (domain.schedule as? ScheduledReminder.Schedule.ActivityEvent)?.target
+                targetId = eventTarget?.id
+                targetType = mapTargetType(eventTarget)
             }
             is ScheduledReminder.Condition.RecordsNotTrackedToday -> {
                 conditionType = CONDITION_RECORDS_NOT_TRACKED
                 targetId = condition.target.id
-                targetType = when (condition.target) {
-                    is ScheduledReminder.Condition.Target.Activity -> TARGET_ACTIVITY
-                    is ScheduledReminder.Condition.Target.Category -> TARGET_CATEGORY
-                    is ScheduledReminder.Condition.Target.Tag -> TARGET_TAG
-                }
+                targetType = mapTargetType(condition.target)
             }
         }
 
@@ -154,11 +177,21 @@ class ScheduledReminderDataLocalMapper @Inject constructor(
         )
     }
 
+    private fun mapTargetType(target: ScheduledReminder.Condition.Target?): Int {
+        return when (target) {
+            is ScheduledReminder.Condition.Target.Activity, null -> TARGET_ACTIVITY
+            is ScheduledReminder.Condition.Target.Category -> TARGET_CATEGORY
+            is ScheduledReminder.Condition.Target.Tag -> TARGET_TAG
+        }
+    }
+
     companion object {
         internal const val SCHEDULE_WEEKLY = 0
         internal const val SCHEDULE_ONE_TIME = 1
         internal const val SCHEDULE_MONTHLY = 2
         internal const val SCHEDULE_HOURLY = 3
+        internal const val SCHEDULE_ACTIVITY_STARTED = 4
+        internal const val SCHEDULE_ACTIVITY_STOPPED = 5
 
         internal const val CONDITION_ALWAYS = 0
         internal const val CONDITION_RECORDS_NOT_TRACKED = 1

@@ -697,6 +697,8 @@
     <string name="reminders_schedule_one_time">مرة واحدة</string>
     <string name="reminders_schedule_monthly">شهريًا</string>
     <string name="reminders_schedule_hourly">كل ساعة</string>
+    <string name="reminders_schedule_record_started">عند بدء المؤقت</string>
+    <string name="reminders_schedule_record_stopped">عند توقف المؤقت</string>
     <string name="reminders_condition_records_not_tracked">لم يتم تعقب أي سجلات اليوم</string>
     <string name="activity_reminders_hint">يتجاوز إعداد تذكير النشاط العام</string>
     <string name="activity_reminder_mode">وضع التذكير</string>

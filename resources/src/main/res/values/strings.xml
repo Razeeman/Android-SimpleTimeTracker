@@ -697,6 +697,8 @@ Example:<br/>
     <string name="reminders_schedule_one_time">Once</string>
     <string name="reminders_schedule_monthly">Monthly</string>
     <string name="reminders_schedule_hourly">Hourly</string>
+    <string name="reminders_schedule_record_started">When timer starts</string>
+    <string name="reminders_schedule_record_stopped">When timer stops</string>
     <string name="reminders_condition_records_not_tracked">Records not tracked today</string>
     <string name="activity_reminders_hint">Overrides the global activity reminder setting</string>
     <string name="activity_reminder_mode">Reminder mode</string>

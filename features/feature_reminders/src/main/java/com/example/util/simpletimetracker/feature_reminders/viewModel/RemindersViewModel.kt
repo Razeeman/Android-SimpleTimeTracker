@@ -91,10 +91,12 @@ class RemindersViewModel @Inject constructor(
                     showMessage(coreR.string.change_reminder_future_required)
                     return@launch
                 }
+                val requiresExactAlarm = scheduledReminderInteractor.get(item.id)?.schedule !is
+                    ScheduledReminder.Schedule.ActivityEvent
                 checkNotificationsPermissionInteractor.execute(
                     onEnabled = {
                         setEnabled(id = item.id, enabled = true)
-                        checkExactAlarmPermissionInteractor.execute()
+                        if (requiresExactAlarm) checkExactAlarmPermissionInteractor.execute()
                     },
                     onDisabled = ::updateViewData,
                 )

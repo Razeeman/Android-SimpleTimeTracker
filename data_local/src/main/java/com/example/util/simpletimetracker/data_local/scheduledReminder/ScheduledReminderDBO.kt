@@ -21,6 +21,8 @@ data class ScheduledReminderDBO(
     // ome time 1
     // monthly 2
     // hourly 3
+    // activity started 4
+    // activity stopped 5
     @ColumnInfo(name = "schedule_type")
     val scheduleType: Int,
 

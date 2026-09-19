@@ -53,9 +53,9 @@ class ScheduledReminderInteractor @Inject constructor(
     ) {
         repo.getAll()
             .filter { reminder ->
-                val condition = reminder.condition as?
-                    ScheduledReminder.Condition.RecordsNotTrackedToday
-                reminder.enabled && condition?.target == target
+                val condition = reminder.condition as? ScheduledReminder.Condition.RecordsNotTrackedToday
+                val eventTarget = (reminder.schedule as? ScheduledReminder.Schedule.ActivityEvent)?.target
+                reminder.enabled && (condition?.target == target || eventTarget == target)
             }
             .forEach { setEnabled(it.id, enabled = false) }
     }

@@ -697,6 +697,8 @@
     <string name="reminders_schedule_one_time">Один раз</string>
     <string name="reminders_schedule_monthly">Щомісяця</string>
     <string name="reminders_schedule_hourly">Щогодини</string>
+    <string name="reminders_schedule_record_started">Під час запуску таймера</string>
+    <string name="reminders_schedule_record_stopped">Під час зупинки таймера</string>
     <string name="reminders_condition_records_not_tracked">Сьогодні записи не відстежувалися</string>
     <string name="activity_reminders_hint">Перевизначає загальне налаштування нагадувань про активність</string>
     <string name="activity_reminder_mode">Режим нагадування</string>
