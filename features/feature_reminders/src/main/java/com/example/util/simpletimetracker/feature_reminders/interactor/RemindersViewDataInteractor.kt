@@ -130,8 +130,8 @@ class RemindersViewDataInteractor @Inject constructor(
     }
 
     private suspend fun getReminders(): List<ScheduledReminder> {
-        val comparator = compareBy(
-            {
+        return scheduledReminderInteractor.getAll().sortedWith(
+            compareBy<ScheduledReminder> {
                 when (val schedule = it.schedule) {
                     is ScheduledReminder.Schedule.Hourly -> 0L
                     is ScheduledReminder.Schedule.Weekly -> 1L
@@ -142,40 +142,35 @@ class RemindersViewDataInteractor @Inject constructor(
                         RecordTimerEvent.STOPPED -> 5L
                     }
                 }
-            },
-            {
-                when (val schedule = it.schedule) {
-                    is ScheduledReminder.Schedule.Hourly,
-                    -> schedule.intervalSeconds
-                    is ScheduledReminder.Schedule.Weekly,
-                    -> schedule.timeOfDayMillis
-                    is ScheduledReminder.Schedule.OneTime,
-                    -> schedule.oneTimeDate
-                    is ScheduledReminder.Schedule.Monthly,
-                    -> schedule.dayOfMonth
-                    is ScheduledReminder.Schedule.ActivityEvent -> 0L
+            }.thenComparator { first, second ->
+                when (val schedule = first.schedule) {
+                    is ScheduledReminder.Schedule.Hourly -> compareValuesBy(
+                        schedule,
+                        second.schedule as? ScheduledReminder.Schedule.Hourly,
+                        { it?.intervalSeconds },
+                        { it?.startDate },
+                        { it?.timeOfDayMillis },
+                    )
+                    is ScheduledReminder.Schedule.Weekly -> compareValuesBy(
+                        schedule,
+                        second.schedule as? ScheduledReminder.Schedule.Weekly,
+                        { it?.timeOfDayMillis },
+                    )
+                    is ScheduledReminder.Schedule.Monthly -> compareValuesBy(
+                        schedule,
+                        second.schedule as? ScheduledReminder.Schedule.Monthly,
+                        { it?.dayOfMonth },
+                        { it?.timeOfDayMillis },
+                    )
+                    is ScheduledReminder.Schedule.OneTime -> compareValuesBy(
+                        schedule,
+                        second.schedule as? ScheduledReminder.Schedule.OneTime,
+                        { it?.oneTimeDate },
+                        { it?.timeOfDayMillis },
+                    )
+                    is ScheduledReminder.Schedule.ActivityEvent -> 0
                 }
-            },
-            {
-                when (val schedule = it.schedule) {
-                    is ScheduledReminder.Schedule.Hourly -> schedule.startDate
-                    is ScheduledReminder.Schedule.Weekly -> schedule.timeOfDayMillis
-                    is ScheduledReminder.Schedule.OneTime -> schedule.timeOfDayMillis
-                    is ScheduledReminder.Schedule.Monthly -> schedule.timeOfDayMillis
-                    is ScheduledReminder.Schedule.ActivityEvent -> 0L
-                }
-            },
-            {
-                when (val schedule = it.schedule) {
-                    is ScheduledReminder.Schedule.Hourly -> schedule.timeOfDayMillis
-                    is ScheduledReminder.Schedule.Weekly -> schedule.timeOfDayMillis
-                    is ScheduledReminder.Schedule.OneTime -> schedule.timeOfDayMillis
-                    is ScheduledReminder.Schedule.Monthly -> schedule.timeOfDayMillis
-                    is ScheduledReminder.Schedule.ActivityEvent -> 0L
-                }
-            },
-            ScheduledReminder::id,
+            }.thenBy(ScheduledReminder::id),
         )
-        return scheduledReminderInteractor.getAll().sortedWith(comparator)
     }
 }

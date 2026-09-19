@@ -145,7 +145,9 @@ class ChangeReminderViewDataInteractor @Inject constructor(
         if (editor.scheduleType.isActivityEvent() && selectedTargetName == null) {
             return resourceRepo.getString(R.string.change_record_message_choose_type)
         }
-        if (editor.conditionType == ConditionType.ALWAYS || selectedTargetName == null) {
+        if (!editor.scheduleType.isActivityEvent() &&
+            (editor.conditionType == ConditionType.ALWAYS || selectedTargetName == null)
+        ) {
             return resourceRepo.getString(R.string.change_reminder_condition_always)
         }
         val targetType = when (editor.conditionTarget) {
