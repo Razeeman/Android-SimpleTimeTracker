@@ -697,7 +697,7 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="reminders_schedule_one_time">Bir kez</string>
     <string name="reminders_schedule_monthly">Aylık</string>
     <string name="reminders_schedule_hourly">Saatlik</string>
-    <string name="reminders_condition_activity_not_tracked">Etkinlik bugün takip edilmediğinde</string>
+    <string name="reminders_condition_records_not_tracked">Bugün hiçbir kayıt takip edilmedi</string>
     <string name="activity_reminders_hint">Genel etkinlik hatırlatıcısı ayarını geçersiz kılar</string>
     <string name="activity_reminder_mode">Hatırlatıcı modu</string>
     <string name="activity_reminder_mode_disabled">Devre dışı</string>

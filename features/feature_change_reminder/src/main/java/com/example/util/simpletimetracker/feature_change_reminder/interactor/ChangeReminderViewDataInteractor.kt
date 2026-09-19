@@ -7,7 +7,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
 import com.example.util.simpletimetracker.domain.extension.toLocalDateTime
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.recordType.model.RecordType
+import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
 import com.example.util.simpletimetracker.domain.utils.LocalDateMapper
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_change_reminder.R
@@ -45,7 +45,7 @@ class ChangeReminderViewDataInteractor @Inject constructor(
 
     suspend fun getViewData(
         editor: ChangeReminderEditor,
-        selectedActivity: RecordType?,
+        selectedTargetName: String?,
         controlsEnabled: Boolean,
     ): ChangeReminderViewData {
         val timeZone = TimeZone.getDefault()
@@ -62,8 +62,7 @@ class ChangeReminderViewDataInteractor @Inject constructor(
             timeOfDayMillis = editor.timeOfDayMillis,
             timeZone = timeZone,
         ) ?: currentTimestamp
-        val activityName = selectedActivity?.name
-            ?: resourceRepo.getString(R.string.change_record_message_choose_type)
+        val conditionText = mapConditionText(editor, selectedTargetName)
 
         return ChangeReminderViewData(
             message = editor.message,
@@ -73,6 +72,7 @@ class ChangeReminderViewDataInteractor @Inject constructor(
             daysOfWeek = mapDaysItems(editor),
             conditionItems = mapConditionItems(),
             conditionSelectedPosition = conditionTypes.indexOf(editor.conditionType),
+            conditionText = conditionText,
             dateText = timeMapper.formatDateYear(dateTimestamp),
             dayOfMonthItems = mapDayOfMonthItems(),
             dayOfMonthSelectedPosition = daysOfMonth.indexOf(editor.dayOfMonth),
@@ -95,7 +95,6 @@ class ChangeReminderViewDataInteractor @Inject constructor(
                 timeZone = timeZone,
             ),
             conditionType = editor.conditionType,
-            activityName = activityName,
             deleteVisible = editor.id != 0L,
             controlsEnabled = controlsEnabled,
         )
@@ -129,10 +128,29 @@ class ChangeReminderViewDataInteractor @Inject constructor(
         return conditionTypes.map {
             val textRes = when (it) {
                 ConditionType.ALWAYS -> R.string.change_reminder_condition_always
-                ConditionType.NOT_TRACKED -> R.string.reminders_condition_activity_not_tracked
+                ConditionType.NOT_TRACKED -> R.string.reminders_condition_records_not_tracked
             }
             CustomSpinner.CustomSpinnerTextItem(resourceRepo.getString(textRes))
         }
+    }
+
+    private fun mapConditionText(
+        editor: ChangeReminderEditor,
+        selectedTargetName: String?,
+    ): String {
+        if (editor.conditionType == ConditionType.ALWAYS || selectedTargetName == null) {
+            return resourceRepo.getString(R.string.change_reminder_condition_always)
+        }
+        val targetType = when (editor.conditionTarget) {
+            is ScheduledReminder.Condition.Target.Activity -> R.string.activity_hint
+            is ScheduledReminder.Condition.Target.Category -> R.string.category_hint
+            is ScheduledReminder.Condition.Target.Tag -> R.string.record_tag_hint
+            null -> return resourceRepo.getString(R.string.change_reminder_condition_always)
+        }
+        return listOf(
+            resourceRepo.getString(targetType),
+            selectedTargetName,
+        ).joinToString(separator = " · ")
     }
 
     private suspend fun mapDaysItems(

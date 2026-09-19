@@ -1,16 +1,22 @@
 package com.example.util.simpletimetracker.feature_reminders.interactor
 
+import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
 import com.example.util.simpletimetracker.domain.activityReminder.repo.ActivityReminderOverrideRepo
 import com.example.util.simpletimetracker.domain.extension.plusAssign
+import com.example.util.simpletimetracker.domain.category.interactor.CategoryInteractor
+import com.example.util.simpletimetracker.domain.category.model.Category
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
+import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
 import com.example.util.simpletimetracker.domain.scheduledReminder.interactor.ScheduledReminderInteractor
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_reminders.mapper.ReminderViewDataMapper
 import com.example.util.simpletimetracker.feature_reminders.mapper.ActivityReminderViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.color.model.AppColor
 import com.example.util.simpletimetracker.feature_base_adapter.header.HeaderViewData
 import com.example.util.simpletimetracker.feature_reminders.R
 import com.example.util.simpletimetracker.feature_reminders.viewData.RemindersHeader
@@ -20,11 +26,14 @@ import javax.inject.Inject
 class RemindersViewDataInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val categoryInteractor: CategoryInteractor,
+    private val recordTagInteractor: RecordTagInteractor,
     private val scheduledReminderInteractor: ScheduledReminderInteractor,
     private val reminderViewDataMapper: ReminderViewDataMapper,
     private val activityReminderOverrideRepo: ActivityReminderOverrideRepo,
     private val activityReminderViewDataMapper: ActivityReminderViewDataMapper,
     private val resourceRepo: ResourceRepo,
+    private val recordTagViewDataMapper: RecordTagViewDataMapper,
 ) {
 
     suspend fun getViewData(): List<ViewHolderType> {
@@ -33,6 +42,8 @@ class RemindersViewDataInteractor @Inject constructor(
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val activityList = recordTypeInteractor.getAll()
         val activities = activityList.associateBy(RecordType::id)
+        val categories = categoryInteractor.getAll().associateBy(Category::id)
+        val tags = recordTagInteractor.getAll().associateBy(RecordTag::id)
         val activityReminderOverrides = activityReminderOverrideRepo.getAll()
             .associateBy { it.activityId }
         val reminders = getReminders()
@@ -64,11 +75,42 @@ class RemindersViewDataInteractor @Inject constructor(
             text = resourceRepo.getString(R.string.settings_reminders_title),
         )
         scheduledReminders += reminders.map { reminder ->
-            val activityId = (reminder.condition as? ScheduledReminder.Condition.ActivityNotTrackedToday)
-                ?.activityId
+            val target = (reminder.condition as? ScheduledReminder.Condition.RecordsNotTrackedToday)?.target
+            val targetName: String?
+            val targetIcon: String?
+            val targetColor: AppColor?
+            when (target) {
+                is ScheduledReminder.Condition.Target.Activity -> {
+                    val data = activities[target.id]
+                    targetName = data?.name
+                    targetIcon = data?.icon
+                    targetColor = data?.color
+                }
+                is ScheduledReminder.Condition.Target.Category -> {
+                    val data = categories[target.id]
+                    targetName = data?.name
+                    targetIcon = " " // TODO hack to show empty icon
+                    targetColor = data?.color
+                }
+                is ScheduledReminder.Condition.Target.Tag -> {
+                    val data = tags[target.id]
+                    targetName = data?.name
+                    targetIcon = data
+                        ?.let { recordTagViewDataMapper.mapIcon(it, activities) }
+                    targetColor = data
+                        ?.let { recordTagViewDataMapper.mapColor(it, activities) }
+                }
+                null -> {
+                    targetName = null
+                    targetIcon = null
+                    targetColor = null
+                }
+            }
             reminderViewDataMapper.map(
                 reminder = reminder,
-                activity = activityId?.let(activities::get),
+                icon = targetIcon,
+                color = targetColor,
+                targetName = targetName,
                 isDarkTheme = isDarkTheme,
                 useMilitaryTime = useMilitaryTime,
                 firstDayOfWeek = firstDayOfWeek,

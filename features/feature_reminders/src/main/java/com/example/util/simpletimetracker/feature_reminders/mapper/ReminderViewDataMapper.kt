@@ -6,9 +6,9 @@ import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.color.model.AppColor
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
 import com.example.util.simpletimetracker.domain.utils.LocalDateMapper
 import com.example.util.simpletimetracker.feature_base_adapter.button.ButtonViewData
@@ -45,7 +45,9 @@ class ReminderViewDataMapper @Inject constructor(
 
     fun map(
         reminder: ScheduledReminder,
-        activity: RecordType?,
+        icon: String?,
+        color: AppColor?,
+        targetName: String?,
         isDarkTheme: Boolean,
         useMilitaryTime: Boolean,
         firstDayOfWeek: DayOfWeek,
@@ -62,7 +64,7 @@ class ReminderViewDataMapper @Inject constructor(
             ),
             summary = mapCondition(
                 condition = reminder.condition,
-                activity = activity,
+                targetName = targetName,
             ),
             enabled = reminder.enabled,
             backgroundColor = if (reminder.enabled) {
@@ -70,9 +72,9 @@ class ReminderViewDataMapper @Inject constructor(
             } else {
                 colorMapper.toInactiveColor(isDarkTheme)
             },
-            icon = activity?.icon
+            icon = icon
                 ?.let(iconMapper::mapIcon),
-            iconBackgroundColor = activity?.color
+            iconBackgroundColor = color
                 ?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
                 ?: colorMapper.toInactiveColor(isDarkTheme),
             iconColor = colorMapper.toIconColor(isDarkTheme),
@@ -166,15 +168,24 @@ class ReminderViewDataMapper @Inject constructor(
 
     private fun mapCondition(
         condition: ScheduledReminder.Condition,
-        activity: RecordType?,
+        targetName: String?,
     ): CharSequence {
         return when (condition) {
             is ScheduledReminder.Condition.Always -> ""
-            is ScheduledReminder.Condition.ActivityNotTrackedToday -> {
-                val activityName = activity?.name
-                    ?: resourceRepo.getString(R.string.no_data)
-                val hint = resourceRepo.getString(R.string.reminders_condition_activity_not_tracked)
-                "$hint ($activityName)"
+            is ScheduledReminder.Condition.RecordsNotTrackedToday -> {
+                val type = when (condition.target) {
+                    is ScheduledReminder.Condition.Target.Activity ->
+                        R.string.activity_hint
+                    is ScheduledReminder.Condition.Target.Category ->
+                        R.string.category_hint
+                    is ScheduledReminder.Condition.Target.Tag ->
+                        R.string.record_tag_hint
+                }
+                listOf(
+                    resourceRepo.getString(R.string.reminders_condition_records_not_tracked),
+                    resourceRepo.getString(type),
+                    targetName ?: resourceRepo.getString(R.string.no_data),
+                ).joinToString(separator = " · ")
             }
         }
     }

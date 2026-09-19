@@ -45,6 +45,7 @@ class AppDatabaseMigrations {
                 migration_34_35,
                 migration_35_36,
                 migration_36_37,
+                migration_37_38,
             )
 
         private val migration_1_2 = object : Migration(1, 2) {
@@ -464,6 +465,23 @@ class AppDatabaseMigrations {
                 )
                 database.execSQL(
                     "ALTER TABLE scheduledReminders ADD COLUMN dnd_end_millis INTEGER",
+                )
+            }
+        }
+
+        private val migration_37_38 = object : Migration(37, 38) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE `scheduledReminders_new` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `enabled` INTEGER NOT NULL, `text` TEXT NOT NULL, `schedule_type` INTEGER NOT NULL, `time_of_day_millis` INTEGER NOT NULL, `weekdays` TEXT, `one_time_local_epoch_day` INTEGER, `monthly_day_of_month` INTEGER, `interval_seconds` INTEGER, `dnd_start_millis` INTEGER, `dnd_end_millis` INTEGER, `condition_type` INTEGER NOT NULL, `target_id` INTEGER, `target_type` INTEGER NOT NULL)",
+                )
+                database.execSQL(
+                    "INSERT INTO scheduledReminders_new (id, enabled, text, schedule_type, time_of_day_millis, weekdays, one_time_local_epoch_day, monthly_day_of_month, interval_seconds, dnd_start_millis, dnd_end_millis, condition_type, target_id, target_type) SELECT id, enabled, text, schedule_type, time_of_day_millis, weekdays, one_time_local_epoch_day, monthly_day_of_month, interval_seconds, dnd_start_millis, dnd_end_millis, condition_type, activity_id, 0 FROM scheduledReminders",
+                )
+                database.execSQL(
+                    "DROP TABLE scheduledReminders",
+                )
+                database.execSQL(
+                    "ALTER TABLE scheduledReminders_new RENAME TO scheduledReminders",
                 )
             }
         }

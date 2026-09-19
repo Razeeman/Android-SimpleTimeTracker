@@ -39,8 +39,15 @@ class ScheduledReminderDataLocalMapper @Inject constructor(
 
         val condition: ScheduledReminder.Condition = when (dbo.conditionType) {
             CONDITION_ALWAYS -> ScheduledReminder.Condition.Always
-            CONDITION_ACTIVITY_NOT_TRACKED -> if (dbo.activityId != null && dbo.activityId != 0L) {
-                ScheduledReminder.Condition.ActivityNotTrackedToday(activityId = dbo.activityId)
+            CONDITION_RECORDS_NOT_TRACKED -> if (dbo.targetId != null && dbo.targetId != 0L) {
+                val target = when (dbo.targetType) {
+                    TARGET_ACTIVITY -> ScheduledReminder.Condition.Target.Activity(dbo.targetId)
+                    TARGET_CATEGORY -> ScheduledReminder.Condition.Target.Category(dbo.targetId)
+                    TARGET_TAG -> ScheduledReminder.Condition.Target.Tag(dbo.targetId)
+                    else -> null
+                }
+                target?.let(ScheduledReminder.Condition::RecordsNotTrackedToday)
+                    ?: ScheduledReminder.Condition.Always
             } else {
                 ScheduledReminder.Condition.Always
             }
@@ -110,15 +117,22 @@ class ScheduledReminderDataLocalMapper @Inject constructor(
         }
 
         val conditionType: Int
-        val activityId: Long?
+        val targetId: Long?
+        val targetType: Int
         when (val condition = domain.condition) {
             is ScheduledReminder.Condition.Always -> {
                 conditionType = CONDITION_ALWAYS
-                activityId = null
+                targetId = null
+                targetType = TARGET_ACTIVITY
             }
-            is ScheduledReminder.Condition.ActivityNotTrackedToday -> {
-                conditionType = CONDITION_ACTIVITY_NOT_TRACKED
-                activityId = condition.activityId
+            is ScheduledReminder.Condition.RecordsNotTrackedToday -> {
+                conditionType = CONDITION_RECORDS_NOT_TRACKED
+                targetId = condition.target.id
+                targetType = when (condition.target) {
+                    is ScheduledReminder.Condition.Target.Activity -> TARGET_ACTIVITY
+                    is ScheduledReminder.Condition.Target.Category -> TARGET_CATEGORY
+                    is ScheduledReminder.Condition.Target.Tag -> TARGET_TAG
+                }
             }
         }
 
@@ -135,7 +149,8 @@ class ScheduledReminderDataLocalMapper @Inject constructor(
             doNotDisturbStartMillis = hourlyDoNotDisturbStartMillis,
             doNotDisturbEndMillis = hourlyDoNotDisturbEndMillis,
             conditionType = conditionType,
-            activityId = activityId,
+            targetId = targetId,
+            targetType = targetType,
         )
     }
 
@@ -146,6 +161,10 @@ class ScheduledReminderDataLocalMapper @Inject constructor(
         internal const val SCHEDULE_HOURLY = 3
 
         internal const val CONDITION_ALWAYS = 0
-        internal const val CONDITION_ACTIVITY_NOT_TRACKED = 1
+        internal const val CONDITION_RECORDS_NOT_TRACKED = 1
+
+        internal const val TARGET_ACTIVITY = 0
+        internal const val TARGET_CATEGORY = 1
+        internal const val TARGET_TAG = 2
     }
 }

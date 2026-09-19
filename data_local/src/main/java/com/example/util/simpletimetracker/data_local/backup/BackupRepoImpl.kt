@@ -784,10 +784,11 @@ class BackupRepoImpl @Inject constructor(
             dbo.date?.toString().orEmpty(),
             dbo.monthlyDayOfMonth?.toString().orEmpty(),
             dbo.conditionType.toString(),
-            dbo.activityId?.toString().orEmpty(),
+            dbo.targetId?.toString().orEmpty(),
             dbo.intervalSeconds?.toString().orEmpty(),
             dbo.doNotDisturbStartMillis?.toString().orEmpty(),
             dbo.doNotDisturbEndMillis?.toString().orEmpty(),
+            dbo.targetType.toString(),
         ).joinToString(separator = "\t", postfix = "\n")
     }
 
@@ -1187,10 +1188,11 @@ class BackupRepoImpl @Inject constructor(
             date = parts.getOrNull(7)?.toLongOrNull(),
             monthlyDayOfMonth = parts.getOrNull(8)?.toIntOrNull(),
             conditionType = parts.getOrNull(9)?.toIntOrNull().orZero(),
-            activityId = parts.getOrNull(10)?.toLongOrNull(),
+            targetId = parts.getOrNull(10)?.toLongOrNull(),
             intervalSeconds = parts.getOrNull(11)?.toLongOrNull(),
             doNotDisturbStartMillis = parts.getOrNull(12)?.toLongOrNull(),
             doNotDisturbEndMillis = parts.getOrNull(13)?.toLongOrNull(),
+            targetType = parts.getOrNull(14)?.toIntOrNull().orZero(),
         )
         // TODO use data local mappers in other places? Avoids mapping duplication.
         return scheduledReminderDataLocalMapper.map(dbo)

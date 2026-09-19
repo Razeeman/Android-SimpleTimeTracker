@@ -697,7 +697,7 @@
     <string name="reminders_schedule_one_time">یک‌بار</string>
     <string name="reminders_schedule_monthly">ماهانه</string>
     <string name="reminders_schedule_hourly">ساعتی</string>
-    <string name="reminders_condition_activity_not_tracked">وقتی فعالیت امروز ثبت نشده باشد</string>
+    <string name="reminders_condition_records_not_tracked">امروز هیچ رکوردی ردیابی نشده است</string>
     <string name="activity_reminders_hint">تنظیم سراسری یادآور فعالیت را لغو می‌کند</string>
     <string name="activity_reminder_mode">حالت یادآوری</string>
     <string name="activity_reminder_mode_disabled">غیرفعال</string>

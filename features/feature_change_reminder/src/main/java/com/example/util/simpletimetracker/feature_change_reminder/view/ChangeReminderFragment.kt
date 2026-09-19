@@ -20,10 +20,13 @@ import com.example.util.simpletimetracker.feature_change_reminder.viewData.Chang
 import com.example.util.simpletimetracker.feature_change_reminder.viewModel.ChangeReminderViewModel
 import com.example.util.simpletimetracker.feature_dialogs.api.DateTimeDialogListener
 import com.example.util.simpletimetracker.feature_dialogs.api.DurationDialogListener
+import com.example.util.simpletimetracker.feature_dialogs.api.OptionsListDialogListener
 import com.example.util.simpletimetracker.feature_dialogs.api.TypesSelectionDialogListener
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeReminderParams
+import com.example.util.simpletimetracker.navigation.params.screen.OptionsListParams
+import com.example.util.simpletimetracker.navigation.params.screen.ReminderConditionTargetType
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -35,7 +38,8 @@ class ChangeReminderFragment :
     BaseFragment<Binding>(),
     DurationDialogListener,
     DateTimeDialogListener,
-    TypesSelectionDialogListener {
+    TypesSelectionDialogListener,
+    OptionsListDialogListener {
 
     override val inflater: (LayoutInflater, ViewGroup?, Boolean) -> Binding =
         Binding::inflate
@@ -76,7 +80,7 @@ class ChangeReminderFragment :
         fieldChangeReminderInterval.setOnClick(viewModel::onIntervalClick)
         tvChangeReminderDndStart.setOnClick(viewModel::onDoNotDisturbStartClick)
         tvChangeReminderDndEnd.setOnClick(viewModel::onDoNotDisturbEndClick)
-        btnChangeReminderActivity.setOnClick(viewModel::onActivityClick)
+        btnChangeReminderActivity.setOnClick(viewModel::onConditionTargetClick)
         btnChangeReminderSave.setOnClick(viewModel::onSaveClick)
         btnChangeReminderDelete.setOnClick(viewModel::onDeleteClick)
     }
@@ -99,7 +103,11 @@ class ChangeReminderFragment :
         tagValues: List<RecordBase.Tag>,
         selectValueOnStartTagIds: List<Long>,
     ) {
-        viewModel.onActivitySelected(tag, dataIds)
+        viewModel.onTargetSelected(tag, dataIds)
+    }
+
+    override fun onOptionsItemClick(id: OptionsListParams.Item.Id) {
+        (id as? ReminderConditionTargetType)?.let(viewModel::onTargetTypeSelected)
     }
 
     // TODO switch to recycler
@@ -129,6 +137,8 @@ class ChangeReminderFragment :
         )
         tvChangeReminderCondition.text = data.conditionItems
             .getOrNull(data.conditionSelectedPosition)?.text.orEmpty()
+        btnChangeReminderActivity.text = data.conditionText
+        btnChangeReminderActivity.isVisible = data.conditionType == ConditionType.NOT_TRACKED
 
         // Days of week
         containerChangeReminderWeekdays.isVisible = data.scheduleType == ScheduleType.WEEKLY ||
@@ -142,7 +152,6 @@ class ChangeReminderFragment :
 
         tvChangeReminderDate.text = data.dateText
         tvChangeReminderTime.text = data.timeText
-        btnChangeReminderActivity.text = data.activityName
 
         tvChangeReminderDate.gravity = Gravity.CENTER_VERTICAL or Gravity.END
         tvChangeReminderTime.gravity = if (hasDate) {
@@ -179,10 +188,6 @@ class ChangeReminderFragment :
         )
         tvChangeReminderDayOfMonth.text = data.dayOfMonthItems
             .getOrNull(data.dayOfMonthSelectedPosition)?.text.orEmpty()
-
-        // Activity
-        btnChangeReminderActivity.isVisible = data.scheduleType == ScheduleType.WEEKLY &&
-            data.conditionType == ConditionType.NOT_TRACKED
 
         // Controls
         etChangeReminderMessage.isEnabled = data.controlsEnabled

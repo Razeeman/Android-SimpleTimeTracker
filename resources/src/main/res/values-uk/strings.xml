@@ -697,7 +697,7 @@
     <string name="reminders_schedule_one_time">Один раз</string>
     <string name="reminders_schedule_monthly">Щомісяця</string>
     <string name="reminders_schedule_hourly">Щогодини</string>
-    <string name="reminders_condition_activity_not_tracked">Якщо активність сьогодні не відстежувалася</string>
+    <string name="reminders_condition_records_not_tracked">Сьогодні записи не відстежувалися</string>
     <string name="activity_reminders_hint">Перевизначає загальне налаштування нагадувань про активність</string>
     <string name="activity_reminder_mode">Режим нагадування</string>
     <string name="activity_reminder_mode_disabled">Вимкнено</string>

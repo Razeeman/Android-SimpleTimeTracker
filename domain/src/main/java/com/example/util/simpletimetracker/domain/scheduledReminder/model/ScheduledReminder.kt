@@ -42,6 +42,17 @@ data class ScheduledReminder(
 
     sealed interface Condition {
         data object Always : Condition
-        data class ActivityNotTrackedToday(val activityId: Long) : Condition
+
+        data class RecordsNotTrackedToday(
+            val target: Target,
+        ) : Condition
+
+        sealed interface Target {
+            val id: Long
+
+            data class Activity(override val id: Long) : Target
+            data class Category(override val id: Long) : Target
+            data class Tag(override val id: Long) : Target
+        }
     }
 }

@@ -4,7 +4,6 @@ import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.extension.addOrRemove
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.toLocalDateTime
-import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.scheduledReminder.model.ScheduledReminder
 import com.example.util.simpletimetracker.domain.utils.LocalDateMapper
 import java.time.LocalDate
@@ -25,7 +24,7 @@ class ChangeReminderEditor private constructor(
     var doNotDisturbStartMillis: Long,
     var doNotDisturbEndMillis: Long,
     var conditionType: ConditionType,
-    var activityId: Long?,
+    var conditionTarget: ScheduledReminder.Condition.Target?,
 ) {
 
     fun onMessageChanged(value: String) {
@@ -36,27 +35,31 @@ class ChangeReminderEditor private constructor(
     fun selectSchedule(type: ScheduleType) {
         scheduleType = type
         conditionType = ConditionType.ALWAYS
-        activityId = null
+        conditionTarget = null
     }
 
     fun selectCondition(type: ConditionType) {
         if (scheduleType != ScheduleType.WEEKLY) {
             conditionType = ConditionType.ALWAYS
-            activityId = null
+            conditionTarget = null
             return
         }
         conditionType = type
-        if (type == ConditionType.ALWAYS) activityId = null
+        if (type == ConditionType.ALWAYS) conditionTarget = null
     }
 
     fun toggleDay(day: DayOfWeek) {
         daysOfWeek = daysOfWeek.addOrRemove(day)
     }
 
-    fun selectActivity(type: RecordType, prefill: (String) -> String) {
-        activityId = type.id
+    fun selectTarget(
+        target: ScheduledReminder.Condition.Target,
+        prefill: () -> String,
+    ) {
+        conditionType = ConditionType.NOT_TRACKED
+        conditionTarget = target
         if (!messageTouched || message.isBlank()) {
-            message = prefill(type.name)
+            message = prefill()
             messageTouched = false
         }
     }
@@ -111,8 +114,8 @@ class ChangeReminderEditor private constructor(
         val condition = when {
             scheduleType != ScheduleType.WEEKLY -> ScheduledReminder.Condition.Always
             conditionType == ConditionType.NOT_TRACKED -> {
-                activityId
-                    ?.let { ScheduledReminder.Condition.ActivityNotTrackedToday(it) }
+                conditionTarget
+                    ?.let { ScheduledReminder.Condition.RecordsNotTrackedToday(it) }
                     ?: ScheduledReminder.Condition.Always
             }
             else -> ScheduledReminder.Condition.Always
@@ -170,7 +173,7 @@ class ChangeReminderEditor private constructor(
                 doNotDisturbStartMillis = 0L,
                 doNotDisturbEndMillis = TimeUnit.HOURS.toMillis(8),
                 conditionType = ConditionType.ALWAYS,
-                activityId = null,
+                conditionTarget = null,
             )
         }
 
@@ -209,7 +212,7 @@ class ChangeReminderEditor private constructor(
                     doNotDisturbEndMillis = schedule.doNotDisturbEndMillis
                 }
             }
-            val condition = reminder.condition as? ScheduledReminder.Condition.ActivityNotTrackedToday
+            val condition = reminder.condition as? ScheduledReminder.Condition.RecordsNotTrackedToday
             return ChangeReminderEditor(
                 id = reminder.id,
                 enabled = reminder.enabled,
@@ -228,7 +231,7 @@ class ChangeReminderEditor private constructor(
                 } else {
                     ConditionType.NOT_TRACKED
                 },
-                activityId = condition?.activityId,
+                conditionTarget = condition?.target,
             )
         }
     }
