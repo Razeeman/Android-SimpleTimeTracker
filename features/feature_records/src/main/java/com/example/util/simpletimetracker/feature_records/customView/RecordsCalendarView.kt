@@ -24,6 +24,7 @@ import androidx.core.content.withStyledAttributes
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.withTranslation
 import com.example.util.simpletimetracker.core.utils.CalendarIntersectionCalculator
+import com.example.util.simpletimetracker.core.utils.DELAY_DATA_LOAD_MS
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
@@ -101,6 +102,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private val hourInMillis = TimeUnit.HOURS.toMillis(1)
     private var selectedRecord: RecordsCalendarViewData.Point.Data? = null
     private var selectedRecordColor: Int = 0
+    private var resetSelectedRecordRunnable: Runnable? = null
     private var isMilitary: Boolean = false
 
     // Hour number to full hour text, ex. 03 to 03:00 / 03 to 03 am
@@ -122,6 +124,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var shouldDrawTopLegends: Boolean = false
     private var currentTime: Long? = null
     private var startOfDayShift: Long = 0
+    private var viewData: RecordsCalendarViewData? = null
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
     private var clickListener: (ViewHolderType) -> Unit = {}
     private var longClickListener: (ViewHolderType) -> Unit = {}
@@ -258,6 +261,8 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     fun setData(viewData: RecordsCalendarViewData) {
+        if (this.viewData == viewData) return
+        this.viewData = viewData
         currentTime = viewData.currentTime
         startOfDayShift = viewData.startOfDayShift
         reverseOrder = viewData.reverseOrder
@@ -920,19 +925,30 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     private fun onEventClick(event: MotionEvent) {
-        onClick(event)?.value?.let(clickListener)
+        val selected = findDataPoint(x = event.x, y = event.y)
+            ?.point?.data ?: return
+        resetSelectedRecordRunnable?.let(::removeCallbacks)
+        selectedRecord = selected
+        selectedRecordColor = getSelectedColor(selected)
+        invalidate()
+        resetSelectedRecordRunnable = Runnable {
+            selectedRecord = null
+            invalidate()
+            resetSelectedRecordRunnable = null
+        }.also {
+            postDelayed(it, DELAY_DATA_LOAD_MS)
+        }
+        clickListener(selected.value)
     }
 
     private fun onEventLongClick(event: MotionEvent) {
-        onClick(event)?.value?.let(longClickListener)
-    }
-
-    private fun onClick(event: MotionEvent): RecordsCalendarViewData.Point.Data? {
         val selected = findDataPoint(x = event.x, y = event.y)
-            ?.point?.data
+            ?.point?.data ?: return
+        resetSelectedRecordRunnable?.let(::removeCallbacks)
+        resetSelectedRecordRunnable = null
         selectedRecord = selected
-        if (selected != null) animateSelectedRecord(selected)
-        return selected
+        animateSelectedRecord(selected)
+        longClickListener(selected.value)
     }
 
     private fun onEventScaleStart() {
@@ -1002,7 +1018,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         x: Float,
         y: Float,
     ): Data? {
-        return data.map(Column::data).flatten().firstOrNull {
+        return data.flatMap(Column::data).firstOrNull {
             it.boxLeft < x && it.boxTop < y && it.boxRight > x && it.boxBottom > y
         }
     }
@@ -1028,10 +1044,7 @@ class RecordsCalendarView @JvmOverloads constructor(
         selectedRecord: RecordsCalendarViewData.Point.Data,
     ) {
         val from = selectedRecord.color
-        val to = ColorUtils.normalizeLightness(
-            color = selectedRecord.color,
-            factor = 0.2f,
-        )
+        val to = getSelectedColor(selectedRecord)
         val animator = ValueAnimator.ofObject(ArgbEvaluator(), from, to)
 
         animator.duration = CLICK_ANIMATION_DURATION_MS
@@ -1043,6 +1056,13 @@ class RecordsCalendarView @JvmOverloads constructor(
             invalidate()
         }
         animator.start()
+    }
+
+    private fun getSelectedColor(data: RecordsCalendarViewData.Point.Data): Int {
+        return ColorUtils.normalizeLightness(
+            color = data.color,
+            factor = 0.2f,
+        )
     }
 
     private fun calculateHoursData() {
@@ -1082,13 +1102,13 @@ class RecordsCalendarView @JvmOverloads constructor(
         layout(0, 0, measuredWidth, measuredHeight)
     }
 
-    private inner class Column(
+    private class Column(
         val legend: String,
         val highlighted: Boolean,
         val data: List<Data>,
     )
 
-    private inner class Data(
+    private class Data(
         val point: RecordsCalendarViewData.Point,
         val drawable: Drawable? = null,
         // Set after the fact.
