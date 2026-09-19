@@ -3,17 +3,19 @@
 
     <string-array name="contributors">
         <item>\@thehale Joseph Hale</item>
-        <item>\@gyrraf</item>
         <item>\@Terrance</item>
         <item>\@kantahrek</item>
-        <item>\@Zolax9</item>
-        <item>\@rec0de</item>
-        <item>\@bahalbach Ben Halbach</item>
-        <item>\@JohnVeness John Veness</item>
+        <item>\@gyrraf</item>
         <item>\@preethamrn</item>
+        <item>\@rec0de</item>
+        <item>\@Chris-Peralta Chris Peralta</item>
+        <item>\@Space-FuCheng</item>
+        <item>\@bahalbach Ben Halbach</item>
+        <item>\@Zolax9</item>
         <item>\@Poussinou</item>
         <item>\@IlyaBizyaev Ilya Bizyaev</item>
-        <item>\@Chris-Peralta Chris Peralta</item>
+        <item>\@joshinils</item>
+        <item>\@JohnVeness John Veness</item>
     </string-array>
 
 </resources>
