@@ -121,27 +121,15 @@ class RunningRecordViewDataMapper @Inject constructor(
         goalsVisible: Boolean,
         durationFormat: DurationFormat,
     ): GoalTimeViewData {
-        fun getSessionGoal() = goalViewDataMapper.mapForTimer(
-            goal = goals.getSession().getLongest(),
+        // TODO GOAL show several goals
+        val goal = goals.getDaily().ifEmpty { goals.getSession() }.getLongest()
+
+        return goalViewDataMapper.mapForTimer(
+            goal = goal,
             currentDuration = currentDuration,
             dailyCurrent = dailyCurrent,
             goalsVisible = goalsVisible,
             durationFormat = durationFormat,
         )
-
-        fun getDailyGoal(): GoalTimeViewData {
-            return goalViewDataMapper.mapForTimer(
-                goal = goals.getDaily().getLongest(),
-                currentDuration = currentDuration,
-                dailyCurrent = dailyCurrent,
-                goalsVisible = goalsVisible,
-                durationFormat = durationFormat,
-            )
-        }
-
-        return when {
-            goals.getDaily().isNotEmpty() -> getDailyGoal()
-            else -> getSessionGoal()
-        }
     }
 }

@@ -175,21 +175,20 @@ class WidgetSingleProvider : AppWidgetProvider() {
                 )
             } else {
                 val recordType = recordTypeInteractor.get(recordTypeId)
-                val goal = filterGoalsByDayOfWeekInteractor
-                    .execute(recordTypeGoalInteractor.getByType(recordTypeId))
-                    .getDaily()
-                    .getLongest()
-                val dailyCurrent = if (goal != null) {
-                    getCurrentRecordsDurationInteractor.getDailyCurrent(
-                        typeId = recordTypeId,
-                        runningRecord = runningRecord,
-                    )
-                } else {
-                    null
-                }
                 val checkState = if (recordType != null) {
+                    val goals = filterGoalsByDayOfWeekInteractor
+                        .execute(recordTypeGoalInteractor.getByType(recordTypeId))
+                    val dailyGoals = goals.getDaily()
+                    val dailyCurrent = if (dailyGoals.isNotEmpty()) {
+                        getCurrentRecordsDurationInteractor.getDailyCurrent(
+                            typeId = recordTypeId,
+                            runningRecord = runningRecord,
+                        )
+                    } else {
+                        null
+                    }
                     recordTypeViewDataMapper.mapGoalCheckmark(
-                        goal = goal,
+                        goal = dailyGoals.getLongest(),
                         dailyCurrent = dailyCurrent,
                     )
                 } else {
