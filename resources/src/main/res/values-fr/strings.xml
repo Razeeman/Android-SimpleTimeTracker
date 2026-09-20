@@ -128,6 +128,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Étiquettes archivées</string>
     <string name="change_record_tag_default_hint">Étiquette par défaut pour</string>
+    <string name="change_record_tag_type_general">Commun</string>
     <string name="change_record_tag_type_general_hint">Peut être attribué aux enregistrements de n\'importe quelle activité</string>
     <string name="change_record_tag_type_typed_hint">Ne peut être attribuée qu\'aux enregistrements d\'une activité spécifique</string>
     <string name="change_record_tag_select_activity_hint">Utiliser la couleur et l\'icône d\'une activité</string>
@@ -297,6 +298,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="records_all_sort_order">Trier par</string>
     <string name="records_all_sort_time_started">Heure de début</string>
     <string name="records_all_sort_duration">Durée</string>
+    <string name="records_all_days_without_records">Jours sans enregistrements - %s</string>
 
     <!--  Running records  -->
     <string name="running_records_types_empty">Pour commencer, ajoutez les activités que vous souhaitez enregistrer. Appuyez sur le bouton \'%s\' pour créer une activité personnalisée ou sur \'%s\' pour créer une activité à partir d\'un modèle.</string>
@@ -375,6 +377,8 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_do_not_disturb">Ne pas déranger</string>
     <string name="settings_notifications_system_settings">Paramètres système</string>
     <string name="settings_notifications_system_settings_hint">Son, vibreur, badge d\'application, écran de verrouillage ...</string>
+    <string name="settings_reminders_title">Rappels</string>
+    <string name="settings_reminders_hint">Gérer les rappels programmés</string>
     <string name="settings_ignore_short_records">Ignorer les enregistrements courts</string>
     <string name="settings_ignore_short_records_hint">Ne pas enregistrer les activités inférieures à la durée indiquée.</string>
     <string name="settings_inactivity_reminder_disabled">Désactivé</string>
