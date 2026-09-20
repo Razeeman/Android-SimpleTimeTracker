@@ -26,6 +26,12 @@ class GoalsViewDataMapper @Inject constructor(
         ChangeRecordTypeGoalsViewData.Type.Duration,
         ChangeRecordTypeGoalsViewData.Type.Count,
     )
+    private val goalRangeList: List<RecordTypeGoal.Range> = listOf(
+        RecordTypeGoal.Range.Session,
+        RecordTypeGoal.Range.Daily,
+        RecordTypeGoal.Range.Weekly,
+        RecordTypeGoal.Range.Monthly,
+    )
 
     fun toGoalType(position: Int): RecordTypeGoal.Type {
         return when (goalTypeList.getOrNull(position) ?: goalTypeList.first()) {
@@ -38,89 +44,76 @@ class GoalsViewDataMapper @Inject constructor(
         }
     }
 
+    fun toGoalRange(position: Int): RecordTypeGoal.Range {
+        return goalRangeList.getOrNull(position) ?: goalRangeList.first()
+    }
+
     fun mapGoalsState(
         goalsState: ChangeRecordTypeGoalsState,
         isDarkTheme: Boolean,
         firstDayOfWeek: DayOfWeek,
     ): ChangeRecordTypeGoalsViewData {
-        val selectedCount = listOf(
-            goalsState.session,
-            goalsState.daily,
-            goalsState.weekly,
-            goalsState.monthly,
-        ).count {
-            it.type.value > 0
-        }
-
         return ChangeRecordTypeGoalsViewData(
-            selectedCount = selectedCount,
-            session = mapGoalViewData(
-                title = resourceRepo.getString(R.string.change_record_type_session_goal_time),
-                state = goalsState.session,
-            ),
-            daily = mapGoalViewData(
-                title = resourceRepo.getString(R.string.change_record_type_daily_goal_time),
-                state = goalsState.daily,
-            ),
-            weekly = mapGoalViewData(
-                title = resourceRepo.getString(R.string.change_record_type_weekly_goal_time),
-                state = goalsState.weekly,
-            ),
-            monthly = mapGoalViewData(
-                title = resourceRepo.getString(R.string.change_record_type_monthly_goal_time),
-                state = goalsState.monthly,
-            ),
-            daysOfWeek = mapDaysOfWeekViewData(
-                goal = goalsState.daily.type,
-                selectedDaysOfWeek = goalsState.daysOfWeek,
-                isDarkTheme = isDarkTheme,
-                firstDayOfWeek = firstDayOfWeek,
-            ),
+            selectedCount = goalsState.data.count { it.type.value > 0 },
+            goals = goalsState.data.map {
+                mapGoalViewData(
+                    state = it,
+                    isDarkTheme = isDarkTheme,
+                    firstDayOfWeek = firstDayOfWeek,
+                )
+            },
         )
     }
 
     fun getDefaultGoalState(): ChangeRecordTypeGoalsState {
-        return ChangeRecordTypeGoalsState(
-            session = getDefaultGoal(),
-            daily = getDefaultGoal(),
-            weekly = getDefaultGoal(),
-            monthly = getDefaultGoal(),
-            daysOfWeek = DayOfWeek.entries.toSet(),
-        )
+        return ChangeRecordTypeGoalsState(data = emptyList())
     }
 
-    fun getDefaultGoal(): ChangeRecordTypeGoalsState.GoalState {
+    fun getDefaultGoal(key: Long): ChangeRecordTypeGoalsState.GoalState {
         return ChangeRecordTypeGoalsState.GoalState(
+            key = key,
+            id = 0L,
+            range = RecordTypeGoal.Range.Daily,
             type = RecordTypeGoal.Type.Duration(0),
             subtype = RecordTypeGoal.Subtype.Goal,
+            daysOfWeek = DayOfWeek.entries.toSet(),
+            requestScroll = true,
         )
     }
 
     private fun mapGoalViewData(
-        title: String,
         state: ChangeRecordTypeGoalsState.GoalState,
+        isDarkTheme: Boolean,
+        firstDayOfWeek: DayOfWeek,
     ): ChangeRecordTypeGoalsViewData.GoalViewData {
         val goal = state.type
+
         val goalViewData = when (goal) {
             is RecordTypeGoal.Type.Duration -> ChangeRecordTypeGoalsViewData.Type.Duration
             is RecordTypeGoal.Type.Count -> ChangeRecordTypeGoalsViewData.Type.Count
         }
-        val position = goalTypeList.indexOf(goalViewData)
+
+        // Type Duration / Count
+        val availableGoalTypes = if (state.range !is RecordTypeGoal.Range.Session) {
+            goalTypeList
+        } else {
+            // No count goal for session.
+            listOf(ChangeRecordTypeGoalsViewData.Type.Duration)
+        }
+        val typeSelectedPosition = availableGoalTypes.indexOf(goalViewData)
             .takeUnless { it == -1 }.orZero()
         val value = when (goal) {
             is RecordTypeGoal.Type.Duration -> toDurationGoalText(goal.value)
             is RecordTypeGoal.Type.Count -> goal.value.takeUnless { it == 0L }?.toString().orEmpty()
         }
-        val items = goalTypeList.map {
+        val typeItems = availableGoalTypes.map {
             when (it) {
-                is ChangeRecordTypeGoalsViewData.Type.Duration -> {
-                    resourceRepo.getString(R.string.change_record_type_goal_duration)
-                }
-                is ChangeRecordTypeGoalsViewData.Type.Count -> {
-                    resourceRepo.getString(R.string.change_record_type_goal_count)
-                }
-            }
+                is ChangeRecordTypeGoalsViewData.Type.Duration -> R.string.change_record_type_goal_duration
+                is ChangeRecordTypeGoalsViewData.Type.Count -> R.string.change_record_type_goal_count
+            }.let(resourceRepo::getString)
         }.map(CustomSpinner::CustomSpinnerTextItem)
+
+        // Subtype Goal / Limit
         val subtypeItems = listOf(
             RecordTypeGoal.Subtype.Goal,
             RecordTypeGoal.Subtype.Limit,
@@ -139,13 +132,43 @@ class GoalsViewDataMapper @Inject constructor(
             )
         }
 
+        // Range
+        val rangeItems = goalRangeList.map {
+            val name = when (it) {
+                is RecordTypeGoal.Range.Session -> R.string.change_record_type_session_goal_time
+                is RecordTypeGoal.Range.Daily -> R.string.change_record_type_daily_goal_time
+                is RecordTypeGoal.Range.Weekly -> R.string.change_record_type_weekly_goal_time
+                is RecordTypeGoal.Range.Monthly -> R.string.change_record_type_monthly_goal_time
+            }.let(resourceRepo::getString)
+            CustomSpinner.CustomSpinnerTextItem(name)
+        }
+        val rangeSelectedPosition = goalRangeList
+            .indexOfFirst { it::class.java == state.range::class.java }
+            .takeUnless { it == -1 }.orZero()
+
+        // Days
+        val daysOfWeek = if (state.range is RecordTypeGoal.Range.Daily) {
+            mapDaysOfWeekViewData(
+                goal = goal,
+                selectedDaysOfWeek = state.daysOfWeek,
+                isDarkTheme = isDarkTheme,
+                firstDayOfWeek = firstDayOfWeek,
+            )
+        } else {
+            emptyList()
+        }
+
         return ChangeRecordTypeGoalsViewData.GoalViewData(
-            title = title,
-            typeItems = items,
-            typeSelectedPosition = position,
+            key = state.key,
+            rangeItems = rangeItems,
+            rangeSelectedPosition = rangeSelectedPosition,
+            typeItems = typeItems,
+            typeSelectedPosition = typeSelectedPosition,
             type = goalViewData,
             subtypeItems = subtypeItems,
             value = value,
+            daysOfWeek = daysOfWeek,
+            requestScroll = state.requestScroll,
         )
     }
 

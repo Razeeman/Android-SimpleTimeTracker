@@ -86,11 +86,7 @@ class ChangeCategoryFragment :
             createEmptyAdapterDelegate(),
         )
     }
-    private val dailyGoalDayOfWeekAdapter: BaseRecyclerAdapter by lazy {
-        GoalsViewDelegate.getDayOfWeekAdapter(viewModel)
-    }
     private var typeColorAnimator: ValueAnimator? = null
-    private var goalTextWatchers: GoalsViewDelegate.TextWatchers? = null
     private val colorPreviewGradient = GradientDrawable().apply {
         orientation = GradientDrawable.Orientation.LEFT_RIGHT
     }
@@ -130,7 +126,7 @@ class ChangeCategoryFragment :
 
         GoalsViewDelegate.initGoalUi(
             layout = binding.layoutChangeCategoryGoals,
-            dayOfWeekAdapter = dailyGoalDayOfWeekAdapter,
+            viewModel = viewModel,
         )
 
         setOnPreDrawListener {
@@ -181,18 +177,7 @@ class ChangeCategoryFragment :
 
     override fun onResume() {
         super.onResume()
-        goalTextWatchers = GoalsViewDelegate.onResume(
-            layout = binding.layoutChangeCategoryGoals,
-            viewModel = viewModel,
-        )
-    }
-
-    override fun onPause() {
-        GoalsViewDelegate.onPause(
-            layout = binding.layoutChangeCategoryGoals,
-            textWatchers = goalTextWatchers,
-        )
-        super.onPause()
+        GoalsViewDelegate.onResume(viewModel)
     }
 
     override fun onDestroy() {

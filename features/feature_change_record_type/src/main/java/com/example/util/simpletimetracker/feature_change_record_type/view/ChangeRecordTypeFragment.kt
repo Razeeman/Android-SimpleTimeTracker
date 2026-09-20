@@ -118,13 +118,9 @@ class ChangeRecordTypeFragment :
             createEmptyAdapterDelegate(),
         )
     }
-    private val dailyGoalDayOfWeekAdapter: BaseRecyclerAdapter by lazy {
-        GoalsViewDelegate.getDayOfWeekAdapter(viewModel)
-    }
     private var iconsLayoutManager: GridLayoutManager? = null
     private var typeColorAnimator: ValueAnimator? = null
     private var iconTextWatcher: TextWatcher? = null
-    private var goalTextWatchers: GoalsViewDelegate.TextWatchers? = null
     private val colorPreviewGradient = GradientDrawable().apply {
         orientation = GradientDrawable.Orientation.LEFT_RIGHT
     }
@@ -172,7 +168,7 @@ class ChangeRecordTypeFragment :
 
         GoalsViewDelegate.initGoalUi(
             layout = binding.layoutChangeRecordTypeGoals,
-            dayOfWeekAdapter = dailyGoalDayOfWeekAdapter,
+            viewModel = viewModel,
         )
 
         setOnPreDrawListener {
@@ -242,18 +238,7 @@ class ChangeRecordTypeFragment :
     override fun onResume() {
         super.onResume()
         viewModel.onVisible()
-        goalTextWatchers = GoalsViewDelegate.onResume(
-            layout = binding.layoutChangeRecordTypeGoals,
-            viewModel = viewModel,
-        )
-    }
-
-    override fun onPause() {
-        GoalsViewDelegate.onPause(
-            layout = binding.layoutChangeRecordTypeGoals,
-            textWatchers = goalTextWatchers,
-        )
-        super.onPause()
+        GoalsViewDelegate.onResume(viewModel)
     }
 
     override fun onDestroyView() {

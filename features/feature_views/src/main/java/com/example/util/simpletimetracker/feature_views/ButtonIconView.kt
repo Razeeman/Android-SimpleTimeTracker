@@ -66,6 +66,12 @@ class ButtonIconView @JvmOverloads constructor(
             setIconAlignedStart(value)
         }
 
+    var buttonIconContentDescription: String = ""
+        set(value) {
+            field = value
+            binding.ivButtonIcon.contentDescription = value
+        }
+
     init {
         initAttrs(context, attrs, defStyleAttr)
     }
@@ -117,6 +123,12 @@ class ButtonIconView @JvmOverloads constructor(
                 buttonIconAlignedStart = getBoolean(
                     R.styleable.ButtonIconView_itemButtonIconAlignedStart, false,
                 )
+            }
+
+            if (hasValue(R.styleable.ButtonIconView_itemButtonIconContentDescription)) {
+                buttonIconContentDescription = getString(
+                    R.styleable.ButtonIconView_itemButtonIconContentDescription,
+                ).orEmpty()
             }
         }
     }

@@ -6,21 +6,26 @@ import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 
 data class ChangeRecordTypeGoalsViewData(
     val selectedCount: Int,
-    val session: GoalViewData,
-    val daily: GoalViewData,
-    val weekly: GoalViewData,
-    val monthly: GoalViewData,
-    val daysOfWeek: List<ViewHolderType>,
+    val goals: List<GoalViewData>,
 ) {
 
     data class GoalViewData(
-        val title: String,
+        val key: Long,
+        val rangeItems: List<CustomSpinner.CustomSpinnerItem>,
+        val rangeSelectedPosition: Int,
         val typeItems: List<CustomSpinner.CustomSpinnerItem>,
         val typeSelectedPosition: Int,
         val type: Type,
         val subtypeItems: List<ButtonsRowViewData>,
         val value: String,
-    )
+        val daysOfWeek: List<ViewHolderType>,
+        val requestScroll: Boolean,
+    ) : ViewHolderType {
+
+        override fun getUniqueId(): Long = key
+
+        override fun isValidType(other: ViewHolderType): Boolean = other is GoalViewData
+    }
 
     sealed interface Type {
         data object Duration : Type
