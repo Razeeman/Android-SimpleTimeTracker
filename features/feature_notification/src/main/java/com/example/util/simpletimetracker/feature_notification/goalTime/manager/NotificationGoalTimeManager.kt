@@ -14,7 +14,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.core.utils.PendingIntents
-import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
@@ -50,26 +49,18 @@ class NotificationGoalTimeManager @Inject constructor(
         val notification: Notification = buildNotification(params)
         createAndroidNotificationChannel()
         notificationManager.notify(
-            getNotificationTag(params.goalRange),
-            params.idData.value.toInt(),
+            getNotificationTag(params.goalId),
+            NOTIFICATION_ID,
             notification,
         )
     }
 
-    fun hide(
-        idData: RecordTypeGoal.IdData,
-        goalRange: RecordTypeGoal.Range,
-    ) {
-        notificationManager.cancel(getNotificationTag(goalRange), idData.value.toInt())
+    fun hide(goalId: Long) {
+        notificationManager.cancel(getNotificationTag(goalId), NOTIFICATION_ID)
     }
 
-    private fun getNotificationTag(goalRange: RecordTypeGoal.Range): String {
-        return NOTIFICATION_TAG + when (goalRange) {
-            is RecordTypeGoal.Range.Session -> "" // back support for previous versions, keep same tag
-            is RecordTypeGoal.Range.Daily -> "day"
-            is RecordTypeGoal.Range.Weekly -> "week"
-            is RecordTypeGoal.Range.Monthly -> "month"
-        }
+    private fun getNotificationTag(goalId: Long): String {
+        return "goal_time_tag-goal-$goalId"
     }
 
     private fun buildNotification(params: NotificationGoalTimeParams): Notification {
@@ -136,6 +127,6 @@ class NotificationGoalTimeManager @Inject constructor(
         private const val NOTIFICATIONS_CHANNEL_ID = "GOAL_TIME"
         private const val NOTIFICATIONS_CHANNEL_NAME = "Goal time"
 
-        private const val NOTIFICATION_TAG = "goal_time_tag"
+        private const val NOTIFICATION_ID = 0
     }
 }

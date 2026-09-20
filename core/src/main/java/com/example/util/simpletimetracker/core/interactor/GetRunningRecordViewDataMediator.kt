@@ -28,7 +28,10 @@ class GetRunningRecordViewDataMediator @Inject constructor(
         durationFormat: DurationFormat,
         showSeconds: Boolean,
     ): RunningRecordViewData {
-        val dailyCurrent = if ((goals.getDaily() != null && goalsVisible) || totalDurationVisible) {
+        val dailyCurrent = if (
+            (goals.getDaily().isNotEmpty() && goalsVisible) ||
+            totalDurationVisible
+        ) {
             getCurrentRecordsDurationInteractor.getDailyCurrent(typeId = record.id, runningRecord = record)
         } else {
             null

@@ -82,26 +82,28 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         notificationGoalRangeEndInteractor.checkAndReschedule()
     }
 
-    override fun cancel(idData: RecordTypeGoal.IdData) {
-        getAvailableRanges().forEach {
-            scheduler.cancelSchedule(idData, it)
-            manager.hide(idData, it)
+    override suspend fun cancel(idData: RecordTypeGoal.IdData) {
+        val goalIds = when (idData) {
+            is RecordTypeGoal.IdData.Type -> recordTypeGoalInteractor.getByType(idData.value)
+            is RecordTypeGoal.IdData.Category -> recordTypeGoalInteractor.getByCategory(idData.value)
+            is RecordTypeGoal.IdData.Tag -> recordTypeGoalInteractor.getByTag(idData.value)
+        }.map(RecordTypeGoal::id)
+        cancel(goalIds)
+    }
+
+    override fun cancel(goalIds: List<Long>) {
+        goalIds.distinct().forEach {
+            scheduler.cancelSchedule(it)
+            manager.hide(it)
         }
     }
 
-    override suspend fun show(
-        idData: RecordTypeGoal.IdData,
-        goalRange: Range,
-    ) {
-        val params = notificationGoalParamsInteractor.execute(
-            idData = idData,
-            range = goalRange,
-            type = NotificationGoalParamsInteractor.Type.Duration,
-        )
+    override suspend fun show(goal: RecordTypeGoal) {
+        val params = notificationGoalParamsInteractor.execute(goal)
         params?.let(manager::show)
         params?.let {
             activityStartedStoppedBroadcastInteractor.onGoalReached(
-                idData = idData,
+                idData = goal.idData,
                 goalType = it.goalType,
             )
         }
@@ -120,7 +122,6 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         getAvailableRanges().forEach { range ->
             checkType(
                 goalRange = range,
-                idData = RecordTypeGoal.IdData.Type(typeId),
                 goals = goals,
                 runningRecord = runningRecord,
             )
@@ -128,13 +129,6 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
     }
 
     private suspend fun checkAndRescheduleCategory(typeIds: List<Long>) {
-        // Find all category goals.
-        val goals = filterGoalsByDayOfWeekInteractor
-            .execute(recordTypeGoalInteractor.getAllCategoryGoals())
-            .filter { it.type is RecordTypeGoal.Type.Duration }
-
-        if (goals.isEmpty()) return
-
         // Find all categories that hold this types.
         val categories = recordTypeCategoryInteractor.getAll()
             .groupBy(RecordTypeCategory::categoryId)
@@ -145,6 +139,17 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
         // If this types doesn't affect any categories - exit.
         if (categoriesWithThisTypes.isEmpty()) return
 
+        categoriesWithThisTypes.keys.forEach { categoryId ->
+            cancel(RecordTypeGoal.IdData.Category(categoryId))
+        }
+
+        // Find all category duration goals.
+        val goals = filterGoalsByDayOfWeekInteractor
+            .execute(recordTypeGoalInteractor.getAllCategoryGoals())
+            .filter { it.type is RecordTypeGoal.Type.Duration }
+
+        if (goals.isEmpty()) return
+
         // If affected categories doesn't have goals - exit.
         val affectedCategoryGoals = goals
             .filter { it.idData.value in categoriesWithThisTypes.keys }
@@ -152,10 +157,6 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
 
         // For each goal check current results.
         val runningRecords = runningRecordInteractor.getAll()
-
-        categoriesWithThisTypes.keys.forEach { categoryId ->
-            cancel(RecordTypeGoal.IdData.Category(categoryId))
-        }
 
         getAvailableRanges().forEach { range ->
             checkCategory(
@@ -168,15 +169,19 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
     }
 
     private suspend fun checkAndRescheduleTag(tagIds: List<Long>) {
-        // Find all tag goals.
+        // If doesn't affect any tags - exit.
+        if (tagIds.isEmpty()) return
+
+        tagIds.forEach { tagId ->
+            cancel(RecordTypeGoal.IdData.Tag(tagId))
+        }
+
+        // Find all tag duration goals.
         val goals = filterGoalsByDayOfWeekInteractor
             .execute(recordTypeGoalInteractor.getAllTagGoals())
             .filter { it.type is RecordTypeGoal.Type.Duration }
 
         if (goals.isEmpty()) return
-
-        // If doesn't affect any tags - exit.
-        if (tagIds.isEmpty()) return
 
         // If affected tags doesn't have goals - exit.
         val affectedTagGoals = goals
@@ -185,10 +190,6 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
 
         // For each goal check current results.
         val runningRecords = runningRecordInteractor.getAll()
-
-        tagIds.forEach { tagId ->
-            cancel(RecordTypeGoal.IdData.Tag(tagId))
-        }
 
         getAvailableRanges().forEach { range ->
             checkTag(
@@ -202,24 +203,23 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
 
     private suspend fun checkType(
         goalRange: Range,
-        idData: RecordTypeGoal.IdData,
         goals: List<RecordTypeGoal>,
         runningRecord: RunningRecord,
     ) {
         val rangeGoals = filterGoalsFromRange(goalRange, goals)
-        val goal = rangeGoals.firstOrNull()
+        if (rangeGoals.isEmpty()) return
 
-        if (goal != null) {
-            val current = if (goalRange is Range.Session) {
-                System.currentTimeMillis() - runningRecord.timeStarted
-            } else {
-                getCurrentRecordsDurationInteractor.getRangeCurrent(
-                    typeId = runningRecord.id,
-                    runningRecord = runningRecord,
-                    rangeLength = goalRange.toRangeLength() ?: return,
-                ).duration
-            }
+        val current = if (goalRange is Range.Session) {
+            System.currentTimeMillis() - runningRecord.timeStarted
+        } else {
+            getCurrentRecordsDurationInteractor.getRangeCurrent(
+                typeId = runningRecord.id,
+                runningRecord = runningRecord,
+                rangeLength = goalRange.toRangeLength() ?: return,
+            ).duration
+        }
 
+        rangeGoals.forEach { goal ->
             val durationMillisFromNow = goal.getDurationMillisUntilReached(
                 current = current,
                 runningRecordsCount = 1,
@@ -227,8 +227,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             if (durationMillisFromNow != null) {
                 scheduler.schedule(
                     durationMillisFromNow = durationMillisFromNow,
-                    idData = idData,
-                    goalRange = goalRange,
+                    goal = goal,
                 )
             }
         }
@@ -284,8 +283,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             if (durationMillisFromNow != null) {
                 scheduler.schedule(
                     durationMillisFromNow = durationMillisFromNow,
-                    idData = RecordTypeGoal.IdData.Category(categoryId),
-                    goalRange = goalRange,
+                    goal = goal,
                 )
             }
         }
@@ -337,8 +335,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             if (durationMillisFromNow != null) {
                 scheduler.schedule(
                     durationMillisFromNow = durationMillisFromNow,
-                    idData = RecordTypeGoal.IdData.Tag(tagId),
-                    goalRange = goalRange,
+                    goal = goal,
                 )
             }
         }

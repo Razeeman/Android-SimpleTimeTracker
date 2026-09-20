@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.domain.category.interactor.RecordTypeC
 import com.example.util.simpletimetracker.domain.category.model.Category
 import com.example.util.simpletimetracker.domain.notifications.interactor.UpdateExternalViewsInteractor
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
+import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.category.CategoryViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
@@ -48,6 +49,7 @@ class ChangeCategoryViewModel @Inject constructor(
     private val goalsViewModelDelegate: GoalsViewModelDelegate,
     private val statisticsDetailNavigationInteractor: StatisticsDetailNavigationInteractor,
     private val externalViewsInteractor: UpdateExternalViewsInteractor,
+    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
     private val colorSelectionViewModelDelegate: ColorSelectionViewModelDelegate,
 ) : BaseViewModel(),
     GoalsViewModelDelegate by goalsViewModelDelegate,
@@ -167,8 +169,10 @@ class ChangeCategoryViewModel @Inject constructor(
         (deleteButtonEnabled as MutableLiveData).value = false
         viewModelScope.launch {
             if (categoryId != 0L) {
+                val removedGoalIds = recordTypeGoalInteractor.getByCategory(categoryId)
+                    .map(RecordTypeGoal::id)
                 categoryInteractor.remove(categoryId)
-                externalViewsInteractor.onCategoryRemove(categoryId)
+                externalViewsInteractor.onCategoryRemove(categoryId, removedGoalIds)
                 showMessage(R.string.change_category_removed)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
@@ -224,9 +228,14 @@ class ChangeCategoryViewModel @Inject constructor(
             ).let {
                 val addedId = categoryInteractor.add(it)
                 saveTypes(addedId)
-                goalsViewModelDelegate.saveGoals(RecordTypeGoal.IdData.Category(addedId))
+                val removedGoalIds = goalsViewModelDelegate
+                    .saveGoals(RecordTypeGoal.IdData.Category(addedId))
                 val typeIds = (initialTypes + newTypes).distinct()
-                externalViewsInteractor.onCategoryAddOrChange(categoryId = addedId, typeIds = typeIds)
+                externalViewsInteractor.onCategoryAddOrChange(
+                    categoryId = addedId,
+                    typeIds = typeIds,
+                    removedGoalIds = removedGoalIds,
+                )
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }

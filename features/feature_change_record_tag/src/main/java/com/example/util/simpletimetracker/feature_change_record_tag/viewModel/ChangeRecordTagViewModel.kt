@@ -353,8 +353,8 @@ class ChangeRecordTagViewModel @Inject constructor(
                 val addedId = recordTagInteractor.add(it)
                 saveTypes(addedId)
                 saveDefaultTypes(addedId)
-                goalsViewModelDelegate.saveGoals(RecordTypeGoal.IdData.Tag(addedId))
-                externalViewsInteractor.onTagAddOrChange(addedId)
+                val removedGoalIds = goalsViewModelDelegate.saveGoals(RecordTypeGoal.IdData.Tag(addedId))
+                externalViewsInteractor.onTagAddOrChange(addedId, removedGoalIds)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()
             }

@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.record.model.RecordsFilter
+import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor.CompositeChartData
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailGoalsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
@@ -178,6 +179,8 @@ class StatisticsDetailGoalsInteractor @Inject constructor(
         }
     }
 
+    // TODO GOALS show several goals on chart
+    // TODO GOALS show several goals on excess / deficit
     private fun getGoal(
         goals: List<RecordTypeGoal>,
         rangeLength: RangeLength?,
@@ -187,6 +190,6 @@ class StatisticsDetailGoalsInteractor @Inject constructor(
             is RangeLength.Week -> goals.getWeekly()
             is RangeLength.Month -> goals.getMonthly()
             else -> null
-        }
+        }?.getLongest()
     }
 }

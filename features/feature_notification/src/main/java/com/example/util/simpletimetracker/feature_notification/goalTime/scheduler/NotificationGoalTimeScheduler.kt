@@ -3,9 +3,9 @@ package com.example.util.simpletimetracker.feature_notification.goalTime.schedul
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import androidx.core.net.toUri
 import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
-import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal.Range
 import com.example.util.simpletimetracker.feature_notification.core.AlarmManagerController
 import com.example.util.simpletimetracker.feature_notification.recevier.NotificationReceiver
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -18,65 +18,32 @@ class NotificationGoalTimeScheduler @Inject constructor(
 
     fun schedule(
         durationMillisFromNow: Long,
-        idData: RecordTypeGoal.IdData,
-        goalRange: Range,
+        goal: RecordTypeGoal,
     ) {
         val timestamp = System.currentTimeMillis() + durationMillisFromNow
 
         alarmManagerController.scheduleAtTime(
             timestamp = timestamp,
-            pendingIntent = getPendingIntent(idData, goalRange),
+            pendingIntent = getPendingIntent(goal.id),
         )
     }
 
-    fun cancelSchedule(
-        idData: RecordTypeGoal.IdData,
-        goalRange: Range,
-    ) {
+    fun cancelSchedule(goalId: Long) {
         alarmManagerController.cancelSchedule(
-            pendingIntent = getPendingIntent(idData, goalRange),
+            pendingIntent = getPendingIntent(goalId),
         )
     }
 
-    private fun getPendingIntent(
-        idData: RecordTypeGoal.IdData,
-        goalRange: Range,
-    ): PendingIntent {
+    private fun getPendingIntent(goalId: Long): PendingIntent {
         val intent = Intent(context, NotificationReceiver::class.java).apply {
-            when (idData) {
-                is RecordTypeGoal.IdData.Type -> {
-                    action = when (goalRange) {
-                        is Range.Session -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_SESSION
-                        is Range.Daily -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_DAILY
-                        is Range.Weekly -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_WEEKLY
-                        is Range.Monthly -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_MONTHLY
-                    }
-                    putExtra(NotificationReceiver.EXTRA_GOAL_TIME_TYPE_ID, idData.value)
-                }
-                is RecordTypeGoal.IdData.Category -> {
-                    action = when (goalRange) {
-                        is Range.Session -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_CATEGORY_SESSION
-                        is Range.Daily -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_CATEGORY_DAILY
-                        is Range.Weekly -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_CATEGORY_WEEKLY
-                        is Range.Monthly -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_CATEGORY_MONTHLY
-                    }
-                    putExtra(NotificationReceiver.EXTRA_GOAL_TIME_CATEGORY_ID, idData.value)
-                }
-                is RecordTypeGoal.IdData.Tag -> {
-                    action = when (goalRange) {
-                        is Range.Session -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_TAG_SESSION
-                        is Range.Daily -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_TAG_DAILY
-                        is Range.Weekly -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_TAG_WEEKLY
-                        is Range.Monthly -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_TAG_MONTHLY
-                    }
-                    putExtra(NotificationReceiver.EXTRA_GOAL_TIME_TAG_ID, idData.value)
-                }
-            }
+            action = NotificationReceiver.ACTION_GOAL_TIME_REMINDER
+            data = "simpletimetracker://goal-time/$goalId".toUri()
+            putExtra(NotificationReceiver.EXTRA_GOAL_ID, goalId)
         }
 
         return PendingIntent.getBroadcast(
             context,
-            idData.value.toInt(),
+            0,
             intent,
             PendingIntents.getFlags(),
         )

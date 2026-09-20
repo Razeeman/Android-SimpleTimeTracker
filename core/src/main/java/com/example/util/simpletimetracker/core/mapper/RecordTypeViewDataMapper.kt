@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.recordType.extension.isReached
 import com.example.util.simpletimetracker.domain.recordType.extension.value
 import com.example.util.simpletimetracker.domain.color.model.AppColor
+import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -188,7 +189,7 @@ class RecordTypeViewDataMapper @Inject constructor(
         allDailyCurrents: Map<Long, GetCurrentRecordsDurationInteractor.Result>,
     ): GoalCheckmarkView.CheckState {
         return mapGoalCheckmark(
-            goal = goals[type.id].orEmpty().getDaily(),
+            goal = goals[type.id].orEmpty().getDaily().getLongest(),
             dailyCurrent = allDailyCurrents[type.id],
         )
     }

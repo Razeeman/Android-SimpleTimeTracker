@@ -138,8 +138,9 @@ class GoalsViewModelDelegateImpl @Inject constructor(
 
     override suspend fun saveGoals(
         id: RecordTypeGoal.IdData,
-    ) {
+    ): List<Long> {
         val goals = getGoals(id)
+        val removedGoalIds = mutableListOf<Long>()
 
         suspend fun processGoal(
             goalId: Long,
@@ -151,6 +152,7 @@ class GoalsViewModelDelegateImpl @Inject constructor(
             val goalType = state.subtype
             if (type.value == 0L) {
                 recordTypeGoalInteractor.remove(goalId)
+                if (goalId != 0L) removedGoalIds += goalId
             } else {
                 RecordTypeGoal(
                     id = goalId,
@@ -166,29 +168,31 @@ class GoalsViewModelDelegateImpl @Inject constructor(
         }
 
         processGoal(
-            goalId = goals.getSession()?.id.orZero(),
+            goalId = goals.getSession().firstOrNull()?.id.orZero(),
             state = newGoalsState.session,
             goalRange = RecordTypeGoal.Range.Session,
             daysOfWeek = emptySet(),
         )
         processGoal(
-            goalId = goals.getDaily()?.id.orZero(),
+            goalId = goals.getDaily().firstOrNull()?.id.orZero(),
             state = newGoalsState.daily,
             goalRange = RecordTypeGoal.Range.Daily,
             daysOfWeek = newGoalsState.daysOfWeek,
         )
         processGoal(
-            goalId = goals.getWeekly()?.id.orZero(),
+            goalId = goals.getWeekly().firstOrNull()?.id.orZero(),
             state = newGoalsState.weekly,
             goalRange = RecordTypeGoal.Range.Weekly,
             daysOfWeek = emptySet(),
         )
         processGoal(
-            goalId = goals.getMonthly()?.id.orZero(),
+            goalId = goals.getMonthly().firstOrNull()?.id.orZero(),
             state = newGoalsState.monthly,
             goalRange = RecordTypeGoal.Range.Monthly,
             daysOfWeek = emptySet(),
         )
+
+        return removedGoalIds
     }
 
     override suspend fun initialize(
@@ -207,11 +211,11 @@ class GoalsViewModelDelegateImpl @Inject constructor(
         }
 
         newGoalsState = ChangeRecordTypeGoalsState(
-            session = goals.getSession()?.let(::mapState) ?: defaultGoal,
-            daily = goals.getDaily()?.let(::mapState) ?: defaultGoal,
-            weekly = goals.getWeekly()?.let(::mapState) ?: defaultGoal,
-            monthly = goals.getMonthly()?.let(::mapState) ?: defaultGoal,
-            daysOfWeek = goals.getDaily()?.daysOfWeek ?: DayOfWeek.entries.toSet(),
+            session = goals.getSession().firstOrNull()?.let(::mapState) ?: defaultGoal,
+            daily = goals.getDaily().firstOrNull()?.let(::mapState) ?: defaultGoal,
+            weekly = goals.getWeekly().firstOrNull()?.let(::mapState) ?: defaultGoal,
+            monthly = goals.getMonthly().firstOrNull()?.let(::mapState) ?: defaultGoal,
+            daysOfWeek = goals.getDaily().firstOrNull()?.daysOfWeek ?: DayOfWeek.entries.toSet(),
         )
 
         updateGoalsViewData()

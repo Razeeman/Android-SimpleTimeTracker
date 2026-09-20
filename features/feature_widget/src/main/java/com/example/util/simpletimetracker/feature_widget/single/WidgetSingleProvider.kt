@@ -25,6 +25,7 @@ import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteracto
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
+import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.widget.interactor.WidgetInteractor
@@ -174,20 +175,20 @@ class WidgetSingleProvider : AppWidgetProvider() {
                 )
             } else {
                 val recordType = recordTypeInteractor.get(recordTypeId)
-                val goal = filterGoalsByDayOfWeekInteractor
-                    .execute(recordTypeGoalInteractor.getByType(recordTypeId))
-                    .getDaily()
-                val dailyCurrent = if (goal != null) {
-                    getCurrentRecordsDurationInteractor.getDailyCurrent(
-                        typeId = recordTypeId,
-                        runningRecord = runningRecord,
-                    )
-                } else {
-                    null
-                }
                 val checkState = if (recordType != null) {
+                    val goals = filterGoalsByDayOfWeekInteractor
+                        .execute(recordTypeGoalInteractor.getByType(recordTypeId))
+                    val dailyGoals = goals.getDaily()
+                    val dailyCurrent = if (dailyGoals.isNotEmpty()) {
+                        getCurrentRecordsDurationInteractor.getDailyCurrent(
+                            typeId = recordTypeId,
+                            runningRecord = runningRecord,
+                        )
+                    } else {
+                        null
+                    }
                     recordTypeViewDataMapper.mapGoalCheckmark(
-                        goal = goal,
+                        goal = dailyGoals.getLongest(),
                         dailyCurrent = dailyCurrent,
                     )
                 } else {

@@ -8,11 +8,10 @@ interface NotificationGoalTimeInteractor {
 
     suspend fun checkAndRescheduleTags(tagIds: List<Long> = emptyList())
 
-    fun cancel(idData: RecordTypeGoal.IdData)
+    suspend fun cancel(idData: RecordTypeGoal.IdData)
+
+    fun cancel(goalIds: List<Long>)
 
     // TODO move to notification module, also check other interactors.
-    suspend fun show(
-        idData: RecordTypeGoal.IdData,
-        goalRange: RecordTypeGoal.Range,
-    )
+    suspend fun show(goal: RecordTypeGoal)
 }

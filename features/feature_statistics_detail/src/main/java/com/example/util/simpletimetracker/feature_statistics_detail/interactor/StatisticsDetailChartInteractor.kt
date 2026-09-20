@@ -12,13 +12,16 @@ import com.example.util.simpletimetracker.domain.record.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.model.RecordsFilter
-import com.example.util.simpletimetracker.domain.recordType.extension.getDailyDuration
-import com.example.util.simpletimetracker.domain.recordType.extension.getMonthlyDuration
-import com.example.util.simpletimetracker.domain.recordType.extension.getWeeklyDuration
+import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
+import com.example.util.simpletimetracker.domain.recordType.extension.getDurations
+import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
+import com.example.util.simpletimetracker.domain.recordType.extension.getMonthly
+import com.example.util.simpletimetracker.domain.recordType.extension.getWeekly
 import com.example.util.simpletimetracker.domain.recordType.extension.value
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
+import com.example.util.simpletimetracker.domain.statistics.model.ChartValueMode
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics_detail.conts.TAG_VALUE_PRECISION
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
@@ -28,7 +31,6 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartG
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartMode
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartSplitSortMode
-import com.example.util.simpletimetracker.domain.statistics.model.ChartValueMode
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailChartCompositeViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -621,16 +623,18 @@ class StatisticsDetailChartInteractor @Inject constructor(
         ).value * 1000
     }
 
+    // TODO GOALS show several goals on chart
     private fun getGoal(
         goals: List<RecordTypeGoal>,
         appliedChartGrouping: ChartGrouping,
     ): RecordTypeGoal? {
+        val goals = goals.getDurations()
         return when (appliedChartGrouping) {
-            ChartGrouping.DAILY -> goals.getDailyDuration()
-            ChartGrouping.WEEKLY -> goals.getWeeklyDuration()
-            ChartGrouping.MONTHLY -> goals.getMonthlyDuration()
+            ChartGrouping.DAILY -> goals.getDaily()
+            ChartGrouping.WEEKLY -> goals.getWeekly()
+            ChartGrouping.MONTHLY -> goals.getMonthly()
             ChartGrouping.YEARLY -> null
-        }
+        }?.getLongest()
     }
 
     data class CompositeChartData(

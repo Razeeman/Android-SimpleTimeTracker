@@ -19,5 +19,5 @@ interface GoalsViewModelDelegate {
     fun onGoalCountChange(range: RecordTypeGoal.Range, count: String)
     fun onGoalTimeClick(range: RecordTypeGoal.Range)
     fun onDayOfWeekClick(data: DayOfWeekViewData)
-    suspend fun saveGoals(id: RecordTypeGoal.IdData)
+    suspend fun saveGoals(id: RecordTypeGoal.IdData): List<Long>
 }

@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
 import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
+import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.recordType.extension.getSession
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
@@ -120,25 +121,15 @@ class RunningRecordViewDataMapper @Inject constructor(
         goalsVisible: Boolean,
         durationFormat: DurationFormat,
     ): GoalTimeViewData {
-        fun getSessionGoal() = goalViewDataMapper.mapForTimer(
-            goal = goals.getSession(),
+        // TODO GOAL show several goals
+        val goal = goals.getDaily().ifEmpty { goals.getSession() }.getLongest()
+
+        return goalViewDataMapper.mapForTimer(
+            goal = goal,
             currentDuration = currentDuration,
             dailyCurrent = dailyCurrent,
             goalsVisible = goalsVisible,
             durationFormat = durationFormat,
         )
-
-        fun getDailyGoal() = goalViewDataMapper.mapForTimer(
-            goal = goals.getDaily(),
-            currentDuration = currentDuration,
-            dailyCurrent = dailyCurrent,
-            goalsVisible = goalsVisible,
-            durationFormat = durationFormat,
-        )
-
-        return when {
-            goals.getDaily() != null -> getDailyGoal()
-            else -> getSessionGoal()
-        }
     }
 }
