@@ -58,7 +58,6 @@ import com.example.util.simpletimetracker.feature_icon_selection.api.viewDelegat
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
@@ -118,13 +117,9 @@ class ChangeRecordTypeFragment :
             createEmptyAdapterDelegate(),
         )
     }
-    private val dailyGoalDayOfWeekAdapter: BaseRecyclerAdapter by lazy {
-        GoalsViewDelegate.getDayOfWeekAdapter(viewModel)
-    }
     private var iconsLayoutManager: GridLayoutManager? = null
     private var typeColorAnimator: ValueAnimator? = null
     private var iconTextWatcher: TextWatcher? = null
-    private var goalTextWatchers: GoalsViewDelegate.TextWatchers? = null
     private val colorPreviewGradient = GradientDrawable().apply {
         orientation = GradientDrawable.Orientation.LEFT_RIGHT
     }
@@ -172,7 +167,7 @@ class ChangeRecordTypeFragment :
 
         GoalsViewDelegate.initGoalUi(
             layout = binding.layoutChangeRecordTypeGoals,
-            dayOfWeekAdapter = dailyGoalDayOfWeekAdapter,
+            viewModel = viewModel,
         )
 
         setOnPreDrawListener {
@@ -199,10 +194,6 @@ class ChangeRecordTypeFragment :
             layout = containerChangeRecordTypeIcon,
             iconsLayoutManager = iconsLayoutManager,
         )
-        GoalsViewDelegate.initGoalUx(
-            viewModel = viewModel,
-            layout = layoutChangeRecordTypeGoals,
-        )
         addOnBackPressedListener(action = viewModel::onBackPressed)
     }
 
@@ -223,9 +214,6 @@ class ChangeRecordTypeFragment :
             nameErrorMessage.observe(::updateNameErrorMessage)
             additionalState.observe(::updateAdditionalState)
             noteState.observe(::updateNoteState)
-            notificationsHintVisible.observe(
-                layoutChangeRecordTypeGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set,
-            )
             chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()
@@ -242,18 +230,7 @@ class ChangeRecordTypeFragment :
     override fun onResume() {
         super.onResume()
         viewModel.onVisible()
-        goalTextWatchers = GoalsViewDelegate.onResume(
-            layout = binding.layoutChangeRecordTypeGoals,
-            viewModel = viewModel,
-        )
-    }
-
-    override fun onPause() {
-        GoalsViewDelegate.onPause(
-            layout = binding.layoutChangeRecordTypeGoals,
-            textWatchers = goalTextWatchers,
-        )
-        super.onPause()
+        GoalsViewDelegate.onResume(viewModel)
     }
 
     override fun onDestroyView() {

@@ -466,12 +466,13 @@
         tools:listitem="@layout/item_category_layout"
         tools:visibility="gone" />
 
-    <androidx.core.widget.NestedScrollView
+    <FrameLayout
         android:id="@+id/containerChangeRecordTypeGoalTime"
         style="@style/EditScreenContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:paddingTop="8dp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/dividerChangeRecordTypeButton"
         app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTypeMain"
@@ -483,7 +484,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </androidx.core.widget.NestedScrollView>
+    </FrameLayout>
 
     <View
         android:id="@+id/dividerChangeRecordTypeButton"

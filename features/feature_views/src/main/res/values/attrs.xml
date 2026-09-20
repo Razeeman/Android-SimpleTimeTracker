@@ -210,5 +210,6 @@
         <attr name="itemButtonIconRes" format="reference" />
         <attr name="itemButtonIconBackgroundColor" format="color" />
         <attr name="itemButtonIconAlignedStart" format="boolean" />
+        <attr name="itemButtonIconContentDescription" format="string" />
     </declare-styleable>
 </resources>

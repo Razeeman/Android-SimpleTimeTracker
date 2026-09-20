@@ -7,17 +7,20 @@ import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWe
 
 interface GoalsViewModelDelegate {
     val goalsViewData: LiveData<ChangeRecordTypeGoalsViewData>
-    val notificationsHintVisible: LiveData<Boolean>
 
     suspend fun initialize(id: RecordTypeGoal.IdData)
     fun onGoalsVisible()
     fun onNotificationsHintClick()
     fun onGoalDurationSet(tag: String?, duration: Long, anchor: Any)
     fun onGoalDurationDisabled(tag: String?)
-    fun onGoalTypeSelected(range: RecordTypeGoal.Range, position: Int)
-    fun onGoalSubTypeSelected(range: RecordTypeGoal.Range, viewData: ButtonsRowViewData)
-    fun onGoalCountChange(range: RecordTypeGoal.Range, count: String)
-    fun onGoalTimeClick(range: RecordTypeGoal.Range)
-    fun onDayOfWeekClick(data: DayOfWeekViewData)
+    fun onGoalAdd()
+    fun onGoalScrollHandled(key: Long)
+    fun onGoalRemove(key: Long)
+    fun onGoalRangeSelected(key: Long, position: Int)
+    fun onGoalTypeSelected(key: Long, position: Int)
+    fun onGoalSubTypeSelected(key: Long, viewData: ButtonsRowViewData)
+    fun onGoalCountChange(key: Long, count: String)
+    fun onGoalTimeClick(key: Long)
+    fun onDayOfWeekClick(key: Long, data: DayOfWeekViewData)
     suspend fun saveGoals(id: RecordTypeGoal.IdData): List<Long>
 }
