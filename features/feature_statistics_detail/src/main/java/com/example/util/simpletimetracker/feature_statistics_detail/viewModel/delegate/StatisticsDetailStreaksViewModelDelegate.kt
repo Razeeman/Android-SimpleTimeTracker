@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.base.Coordinates
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.record.model.RecordsFilter
+import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.ButtonsRowItemViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
@@ -97,11 +98,12 @@ class StatisticsDetailStreaksViewModelDelegate @Inject constructor(
         ).let(router::show)
     }
 
+    // TODO GOALS select several goals
     private suspend fun getDailyGoalType(
         filters: List<RecordsFilter>,
     ): RecordTypeGoal? {
         return statisticsDetailGetGoalFromFilterInteractor.execute(filters)
-            .getDaily()
+            .getDaily().getLongest()
     }
 
     private suspend fun getDailyGoal(): RecordTypeGoal? {

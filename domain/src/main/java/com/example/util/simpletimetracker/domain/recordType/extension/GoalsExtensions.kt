@@ -16,20 +16,32 @@ fun Range.toRangeLength(): RangeLength? {
     }
 }
 
-fun List<RecordTypeGoal>.getSession(): RecordTypeGoal? {
-    return firstOrNull { it.range is Range.Session }
+fun List<RecordTypeGoal>.getDurations(): List<RecordTypeGoal> {
+    return filter { it.type is Type.Duration }
 }
 
-fun List<RecordTypeGoal>.getDaily(): RecordTypeGoal? {
-    return firstOrNull { it.range is Range.Daily }
+fun List<RecordTypeGoal>.getCounts(): List<RecordTypeGoal> {
+    return filter { it.type is Type.Count }
 }
 
-fun List<RecordTypeGoal>.getWeekly(): RecordTypeGoal? {
-    return firstOrNull { it.range is Range.Weekly }
+fun List<RecordTypeGoal>.getLongest(): RecordTypeGoal? {
+    return getDurations().ifEmpty { getCounts() }.maxByOrNull { it.value }
 }
 
-fun List<RecordTypeGoal>.getMonthly(): RecordTypeGoal? {
-    return firstOrNull { it.range is Range.Monthly }
+fun List<RecordTypeGoal>.getSession(): List<RecordTypeGoal> {
+    return filter { it.range is Range.Session }
+}
+
+fun List<RecordTypeGoal>.getDaily(): List<RecordTypeGoal> {
+    return filter { it.range is Range.Daily }
+}
+
+fun List<RecordTypeGoal>.getWeekly(): List<RecordTypeGoal> {
+    return filter { it.range is Range.Weekly }
+}
+
+fun List<RecordTypeGoal>.getMonthly(): List<RecordTypeGoal> {
+    return filter { it.range is Range.Monthly }
 }
 
 fun List<RecordTypeGoal>.getSessionDuration(): RecordTypeGoal? {
