@@ -7,9 +7,6 @@ import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.activitySuggestion.interactor.GetCurrentActivitySuggestionsInteractor
-import com.example.util.simpletimetracker.domain.recordType.extension.getDailyDuration
-import com.example.util.simpletimetracker.domain.recordType.extension.getSessionDuration
-import com.example.util.simpletimetracker.domain.recordType.extension.hasDailyDuration
 import com.example.util.simpletimetracker.domain.recordType.extension.value
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationTypeInteractor
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
@@ -23,6 +20,10 @@ import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
+import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
+import com.example.util.simpletimetracker.domain.recordType.extension.getDurations
+import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
+import com.example.util.simpletimetracker.domain.recordType.extension.getSession
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.interactor.GetNotificationActivitySwitchControlsInteractor
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsParams
@@ -83,12 +84,10 @@ class NotificationTypeInteractorImpl @Inject constructor(
             goals = recordTypeGoalInteractor.getByType(typeId),
             range = range,
             startOfDayShift = startOfDayShift,
-        )
-        val goalTime = if (thisGoals.hasDailyDuration()) {
-            thisGoals.getDailyDuration()
-        } else {
-            thisGoals.getSessionDuration()
-        }
+        ).getDurations()
+        val goalTime = thisGoals.getDaily()
+            .ifEmpty { thisGoals.getSession() }
+            .getLongest()
         val controls = if (showControls) {
             val runningRecords = runningRecordInteractor.getAll()
             val recordTypes = recordTypeInteractor.getAll().associateBy(RecordType::id)
@@ -210,12 +209,10 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
         runningRecords
             .forEach { runningRecord ->
-                val thisGoals = goals[runningRecord.id].orEmpty()
-                val goalTime = if (thisGoals.hasDailyDuration()) {
-                    thisGoals.getDailyDuration()
-                } else {
-                    thisGoals.getSessionDuration()
-                }
+                val thisGoals = goals[runningRecord.id].orEmpty().getDurations()
+                val goalTime = thisGoals.getDaily()
+                    .ifEmpty { thisGoals.getSession() }
+                    .getLongest()
                 show(
                     recordType = recordTypes[runningRecord.id],
                     goal = goalTime,

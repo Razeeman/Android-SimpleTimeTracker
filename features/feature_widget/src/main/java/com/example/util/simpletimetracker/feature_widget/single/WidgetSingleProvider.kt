@@ -24,9 +24,7 @@ import com.example.util.simpletimetracker.domain.base.REPEAT_BUTTON_ITEM_ID
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.recordType.extension.getCounts
 import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
-import com.example.util.simpletimetracker.domain.recordType.extension.getDurations
 import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor

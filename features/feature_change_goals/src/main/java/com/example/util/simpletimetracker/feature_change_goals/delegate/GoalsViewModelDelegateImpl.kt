@@ -138,8 +138,9 @@ class GoalsViewModelDelegateImpl @Inject constructor(
 
     override suspend fun saveGoals(
         id: RecordTypeGoal.IdData,
-    ) {
+    ): List<Long> {
         val goals = getGoals(id)
+        val removedGoalIds = mutableListOf<Long>()
 
         suspend fun processGoal(
             goalId: Long,
@@ -151,6 +152,7 @@ class GoalsViewModelDelegateImpl @Inject constructor(
             val goalType = state.subtype
             if (type.value == 0L) {
                 recordTypeGoalInteractor.remove(goalId)
+                if (goalId != 0L) removedGoalIds += goalId
             } else {
                 RecordTypeGoal(
                     id = goalId,
@@ -189,6 +191,8 @@ class GoalsViewModelDelegateImpl @Inject constructor(
             goalRange = RecordTypeGoal.Range.Monthly,
             daysOfWeek = emptySet(),
         )
+
+        return removedGoalIds
     }
 
     override suspend fun initialize(

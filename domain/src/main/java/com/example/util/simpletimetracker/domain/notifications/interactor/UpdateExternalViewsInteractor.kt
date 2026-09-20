@@ -33,11 +33,13 @@ class UpdateExternalViewsInteractor @Inject constructor(
     suspend fun onTypeRemove(
         typeId: Long,
         fromArchive: Boolean,
+        removedGoalIds: List<Long>,
     ) {
         val runningRecordIds = runningRecordInteractor.getAll().map(RunningRecord::id)
 
         runUpdates(
-            Update.GoalCancel(listOf(RecordTypeGoal.IdData.Type(typeId))),
+            Update.GoalCancelByIds(removedGoalIds),
+            Update.GoalCancelByOwners(listOf(RecordTypeGoal.IdData.Type(typeId))),
             Update.GoalReschedule(runningRecordIds + typeId),
             Update.GoalTagReschedule(),
             Update.WidgetStatistics,
@@ -64,6 +66,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
         typeId: Long,
         initialCategories: Set<Long>,
         removedCategories: Set<Long>,
+        removedGoalIds: List<Long>,
     ) {
         val remainingTypeIds = removedCategories
             .flatMap { recordTypeCategoryInteractor.getTypes(it) }
@@ -72,7 +75,8 @@ class UpdateExternalViewsInteractor @Inject constructor(
             Update.NotificationTypes,
             Update.NotificationWithControls,
             // Category goals will be rescheduled after this.
-            Update.GoalCancel(initialCategories.map(RecordTypeGoal.IdData::Category)),
+            Update.GoalCancelByIds(removedGoalIds),
+            Update.GoalCancelByOwners(initialCategories.map(RecordTypeGoal.IdData::Category)),
             // Goals changed, or categories assigned changed.
             Update.GoalReschedule((remainingTypeIds + typeId).distinct()),
             Update.WidgetSingleTypes,
@@ -94,9 +98,11 @@ class UpdateExternalViewsInteractor @Inject constructor(
 
     suspend fun onCategoryRemove(
         categoryId: Long,
+        removedGoalIds: List<Long>,
     ) {
         runUpdates(
-            Update.GoalCancel(listOf(RecordTypeGoal.IdData.Category(categoryId))),
+            Update.GoalCancelByIds(removedGoalIds),
+            Update.GoalCancelByOwners(listOf(RecordTypeGoal.IdData.Category(categoryId))),
             Update.WidgetStatistics,
         )
     }
@@ -104,9 +110,11 @@ class UpdateExternalViewsInteractor @Inject constructor(
     suspend fun onCategoryAddOrChange(
         categoryId: Long,
         typeIds: List<Long>,
+        removedGoalIds: List<Long>,
     ) {
         runUpdates(
-            Update.GoalCancel(listOf(RecordTypeGoal.IdData.Category(categoryId))),
+            Update.GoalCancelByIds(removedGoalIds),
+            Update.GoalCancelByOwners(listOf(RecordTypeGoal.IdData.Category(categoryId))),
             Update.GoalReschedule(typeIds), // Goals changed, or activities assigned changed.
             Update.WidgetStatistics,
         )
@@ -259,22 +267,26 @@ class UpdateExternalViewsInteractor @Inject constructor(
     suspend fun onTagRemove(
         tagId: Long,
         fromArchive: Boolean,
+        removedGoalIds: List<Long>,
     ) {
         runUpdates(
             Update.NotificationTypes.takeIf { !fromArchive },
             Update.NotificationWithControls.takeIf { !fromArchive },
-            Update.GoalCancel(listOf(RecordTypeGoal.IdData.Tag(tagId))),
+            Update.GoalCancelByIds(removedGoalIds),
+            Update.GoalCancelByOwners(listOf(RecordTypeGoal.IdData.Tag(tagId))),
             Update.Wear,
         )
     }
 
     suspend fun onTagAddOrChange(
         tagId: Long,
+        removedGoalIds: List<Long>,
     ) {
         runUpdates(
             Update.NotificationTypes,
             Update.NotificationWithControls,
-            Update.GoalCancel(listOf(RecordTypeGoal.IdData.Tag(tagId))),
+            Update.GoalCancelByIds(removedGoalIds),
+            Update.GoalCancelByOwners(listOf(RecordTypeGoal.IdData.Tag(tagId))),
             Update.GoalTagReschedule(listOf(tagId)), // Goals changed.
             Update.Wear,
         )
@@ -556,8 +568,11 @@ class UpdateExternalViewsInteractor @Inject constructor(
             is Update.GoalTagReschedule -> {
                 notificationGoalTimeInteractor.checkAndRescheduleTags(update.tagIds)
             }
-            is Update.GoalCancel -> {
-                update.idData.forEach { notificationGoalTimeInteractor.cancel(it) }
+            is Update.GoalCancelByIds -> {
+                notificationGoalTimeInteractor.cancel(update.goalIds)
+            }
+            is Update.GoalCancelByOwners -> {
+                update.owners.forEach { notificationGoalTimeInteractor.cancel(it) }
             }
             is Update.ActivityReminderStarted -> {
                 notificationActivityInteractor.onActivityStarted(update.activityId)
@@ -601,7 +616,8 @@ class UpdateExternalViewsInteractor @Inject constructor(
         data object Wear : Update
         data class GoalReschedule(val typeIds: List<Long> = emptyList()) : Update
         data class GoalTagReschedule(val tagIds: List<Long> = emptyList()) : Update
-        data class GoalCancel(val idData: List<RecordTypeGoal.IdData>) : Update
+        data class GoalCancelByIds(val goalIds: List<Long>) : Update
+        data class GoalCancelByOwners(val owners: List<RecordTypeGoal.IdData>) : Update
         data class ActivityReminderStarted(val activityId: Long) : Update
         data class ActivityReminderStopped(val activityId: Long) : Update
         data object ActivityReminderRescheduleDefault : Update

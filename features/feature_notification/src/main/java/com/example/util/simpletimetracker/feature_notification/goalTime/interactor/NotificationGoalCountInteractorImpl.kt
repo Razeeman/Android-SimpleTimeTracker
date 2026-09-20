@@ -49,7 +49,6 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
             checkType(
                 goalRange = goalRange,
                 goals = goals,
-                typeId = typeId,
                 runningRecord = runningRecord,
             )
         }
@@ -128,11 +127,10 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
     private suspend fun checkType(
         goalRange: Range,
         goals: List<RecordTypeGoal>,
-        typeId: Long,
         runningRecord: RunningRecord,
     ) {
-        val goal = filterGoalsFromRange(goalRange, goals).firstOrNull()
-        if (goal == null) return
+        val rangeGoals = filterGoalsFromRange(goalRange, goals)
+        if (rangeGoals.isEmpty()) return
 
         val current = getCurrentRecordsDurationInteractor.getRangeCurrent(
             typeId = runningRecord.id,
@@ -140,11 +138,10 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
             rangeLength = goalRange.toRangeLength() ?: return,
         ).count
 
-        if (shouldNotifyOnCountValue(goal, current)) {
-            show(
-                idData = RecordTypeGoal.IdData.Type(typeId),
-                goalRange = goalRange,
-            )
+        rangeGoals.forEach { goal ->
+            if (shouldNotifyOnCountValue(goal, current)) {
+                show(goal)
+            }
         }
     }
 
@@ -167,10 +164,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
             val categoryId = goal.idData.value
             val current = allCurrents[categoryId]?.count.orZero()
             if (shouldNotifyOnCountValue(goal, current)) {
-                show(
-                    idData = RecordTypeGoal.IdData.Category(categoryId),
-                    goalRange = goalRange,
-                )
+                show(goal)
             }
         }
     }
@@ -195,10 +189,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
             val tagId = goal.idData.value
             val current = allCurrents[tagId]?.count.orZero()
             if (shouldNotifyOnCountValue(goal, current)) {
-                show(
-                    idData = RecordTypeGoal.IdData.Tag(tagId),
-                    goalRange = goalRange,
-                )
+                show(goal)
             }
         }
     }
@@ -219,16 +210,12 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         }
     }
 
-    private suspend fun show(idData: RecordTypeGoal.IdData, goalRange: Range) {
-        val params = notificationGoalParamsInteractor.execute(
-            idData = idData,
-            range = goalRange,
-            type = NotificationGoalParamsInteractor.Type.Count,
-        )
+    private suspend fun show(goal: RecordTypeGoal) {
+        val params = notificationGoalParamsInteractor.execute(goal)
         params?.let(manager::show)
         params?.let {
             activityStartedStoppedBroadcastInteractor.onGoalReached(
-                idData = idData,
+                idData = goal.idData,
                 goalType = it.goalType,
             )
         }

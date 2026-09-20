@@ -7,9 +7,7 @@ import com.example.util.simpletimetracker.domain.base.DurationFormat
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
-import com.example.util.simpletimetracker.domain.recordType.extension.getCounts
 import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
-import com.example.util.simpletimetracker.domain.recordType.extension.getDurations
 import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.recordType.extension.getSession
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType

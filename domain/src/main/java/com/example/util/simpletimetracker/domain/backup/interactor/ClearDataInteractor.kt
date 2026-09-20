@@ -65,7 +65,7 @@ class ClearDataInteractor @Inject constructor(
         // Cancel reminders.
         notificationActivityInteractor.cancelAll()
         recordTypeGoalRepo.getAll().map { it.idData }.distinct()
-            .forEach(notificationGoalTimeInteractor::cancel)
+            .forEach { notificationGoalTimeInteractor.cancel(it) }
         notificationGoalRangeEndInteractor.cancel()
         scheduledReminderRepo.getAll().map { it.id }
             .forEach(scheduledReminderNotificationInteractor::cancel)

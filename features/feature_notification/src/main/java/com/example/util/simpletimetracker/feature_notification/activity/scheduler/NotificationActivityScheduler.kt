@@ -44,7 +44,8 @@ class NotificationActivityScheduler @Inject constructor(
     }
 
     // Cancels schedule with old intent data.
-    // TODO remove after several app updates.
+    // TODO remove
+    @Deprecated("remove after several releases")
     fun cancelLegacyAlarm() {
         val intent = Intent(context, NotificationReceiver::class.java).apply {
             action = NotificationReceiver.ACTION_ACTIVITY_REMINDER

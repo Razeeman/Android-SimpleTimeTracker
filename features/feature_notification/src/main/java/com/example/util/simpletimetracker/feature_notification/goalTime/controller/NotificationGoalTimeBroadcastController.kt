@@ -2,21 +2,22 @@ package com.example.util.simpletimetracker.feature_notification.goalTime.control
 
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.notifications.interactor.UpdateExternalViewsInteractor
+import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import javax.inject.Inject
 
 class NotificationGoalTimeBroadcastController @Inject constructor(
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
     private val externalViewsInteractor: UpdateExternalViewsInteractor,
+    private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
 ) {
 
-    suspend fun onGoalTimeReminder(
-        idData: RecordTypeGoal.IdData,
-        goalRange: RecordTypeGoal.Range,
-    ) {
-        notificationGoalTimeInteractor.show(idData, goalRange)
-        if (idData is RecordTypeGoal.IdData.Type) {
-            externalViewsInteractor.onGoalTimeReached(idData.value)
+    suspend fun onGoalTimeReminder(goalId: Long) {
+        val goal = recordTypeGoalInteractor.get(goalId) ?: return
+        if (goal.type !is RecordTypeGoal.Type.Duration) return
+        notificationGoalTimeInteractor.show(goal)
+        (goal.idData as? RecordTypeGoal.IdData.Type)?.let {
+            externalViewsInteractor.onGoalTimeReached(it.value)
         }
     }
 
@@ -33,7 +34,12 @@ class NotificationGoalTimeBroadcastController @Inject constructor(
         reschedule()
     }
 
+    suspend fun onPackageReplaced() {
+        reschedule()
+    }
+
     private suspend fun reschedule() {
         notificationGoalTimeInteractor.checkAndReschedule()
+        notificationGoalTimeInteractor.checkAndRescheduleTags()
     }
 }

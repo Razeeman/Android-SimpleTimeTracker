@@ -44,58 +44,6 @@ fun List<RecordTypeGoal>.getMonthly(): List<RecordTypeGoal> {
     return filter { it.range is Range.Monthly }
 }
 
-fun List<RecordTypeGoal>.getSessionDuration(): RecordTypeGoal? {
-    return firstOrNull {
-        it.range is Range.Session && it.type is Type.Duration
-    }
-}
-
-fun List<RecordTypeGoal>.getDailyDuration(): RecordTypeGoal? {
-    return firstOrNull {
-        it.range is Range.Daily && it.type is Type.Duration
-    }
-}
-
-fun List<RecordTypeGoal>.getWeeklyDuration(): RecordTypeGoal? {
-    return firstOrNull {
-        it.range is Range.Weekly && it.type is Type.Duration
-    }
-}
-
-fun List<RecordTypeGoal>.getMonthlyDuration(): RecordTypeGoal? {
-    return firstOrNull {
-        it.range is Range.Monthly && it.type is Type.Duration
-    }
-}
-
-fun List<RecordTypeGoal>.getSessionCount(): RecordTypeGoal? {
-    return firstOrNull {
-        it.range is Range.Session && it.type is Type.Count
-    }
-}
-
-fun List<RecordTypeGoal>.getDailyCount(): RecordTypeGoal? {
-    return firstOrNull {
-        it.range is Range.Daily && it.type is Type.Count
-    }
-}
-
-fun List<RecordTypeGoal>.getWeeklyCount(): RecordTypeGoal? {
-    return firstOrNull {
-        it.range is Range.Weekly && it.type is Type.Count
-    }
-}
-
-fun List<RecordTypeGoal>.getMonthlyCount(): RecordTypeGoal? {
-    return firstOrNull {
-        it.range is Range.Monthly && it.type is Type.Count
-    }
-}
-
-fun List<RecordTypeGoal>.hasDailyDuration(): Boolean {
-    return getDailyDuration() != null
-}
-
 fun List<RecordTypeGoal>.filterDaysOfWeek(dayOfWeek: DayOfWeek): List<RecordTypeGoal> {
     return filter {
         if (it.range is Range.Daily) dayOfWeek in it.daysOfWeek else true
