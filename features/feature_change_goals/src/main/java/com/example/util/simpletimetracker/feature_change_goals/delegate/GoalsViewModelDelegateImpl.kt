@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_goals.delegate
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.util.simpletimetracker.core.base.ViewModelDelegate
 import com.example.util.simpletimetracker.core.extension.lazySuspend
 import com.example.util.simpletimetracker.core.extension.set
@@ -39,11 +38,9 @@ class GoalsViewModelDelegateImpl @Inject constructor(
     override val goalsViewData: LiveData<ChangeRecordTypeGoalsViewData> by lazySuspend {
         loadGoalsViewData()
     }
-    override val notificationsHintVisible: LiveData<Boolean> by lazy {
-        MutableLiveData(false)
-    }
 
     private var newGoalsState: ChangeRecordTypeGoalsState = goalsViewDataMapper.getDefaultGoalState()
+    private var notificationsHintVisible: Boolean = false
 
     // Unsaved goals all have an id of 0, so negative keys uniquely identify them in the UI.
     private var nextNewGoalKey = -1L
@@ -148,7 +145,10 @@ class GoalsViewModelDelegateImpl @Inject constructor(
     }
 
     override fun onGoalsVisible() {
-        notificationsHintVisible.set(!permissionRepo.areNotificationsEnabled())
+        val visible = !permissionRepo.areNotificationsEnabled()
+        if (notificationsHintVisible == visible) return
+        notificationsHintVisible = visible
+        updateGoalsViewData()
     }
 
     override suspend fun saveGoals(id: RecordTypeGoal.IdData): List<Long> {
@@ -258,6 +258,7 @@ class GoalsViewModelDelegateImpl @Inject constructor(
     private suspend fun loadGoalsViewData(): ChangeRecordTypeGoalsViewData {
         return goalsViewDataMapper.mapGoalsState(
             goalsState = newGoalsState,
+            notificationsHintVisible = notificationsHintVisible,
             isDarkTheme = prefsInteractor.getDarkMode(),
             firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
         )

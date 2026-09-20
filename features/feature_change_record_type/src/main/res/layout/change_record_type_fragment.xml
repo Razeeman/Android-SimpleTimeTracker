@@ -466,7 +466,7 @@
         tools:listitem="@layout/item_category_layout"
         tools:visibility="gone" />
 
-    <androidx.core.widget.NestedScrollView
+    <FrameLayout
         android:id="@+id/containerChangeRecordTypeGoalTime"
         style="@style/EditScreenContainer"
         android:layout_width="match_parent"
@@ -484,7 +484,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </androidx.core.widget.NestedScrollView>
+    </FrameLayout>
 
     <View
         android:id="@+id/dividerChangeRecordTypeButton"

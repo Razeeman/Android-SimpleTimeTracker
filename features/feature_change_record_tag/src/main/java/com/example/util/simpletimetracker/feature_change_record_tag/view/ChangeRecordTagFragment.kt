@@ -232,10 +232,6 @@ class ChangeRecordTagFragment :
             layout = containerChangeRecordTypeIcon,
             iconsLayoutManager = iconsLayoutManager,
         )
-        GoalsViewDelegate.initGoalUx(
-            viewModel = viewModel,
-            layout = layoutChangeRecordTagGoals,
-        )
         addOnBackPressedListener(action = viewModel::onBackPressed)
     }
 
@@ -259,9 +255,6 @@ class ChangeRecordTagFragment :
             chooserState.observe(::updateChooserState)
             nameErrorMessage.observe(::updateNameErrorMessage)
             noteState.observe(::updateNoteState)
-            notificationsHintVisible.observe(
-                layoutChangeRecordTagGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set,
-            )
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTagName) else hideKeyboard()
             }

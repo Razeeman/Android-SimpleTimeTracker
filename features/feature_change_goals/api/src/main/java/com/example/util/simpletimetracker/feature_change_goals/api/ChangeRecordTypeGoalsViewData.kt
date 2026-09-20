@@ -6,7 +6,7 @@ import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 
 data class ChangeRecordTypeGoalsViewData(
     val selectedCount: Int,
-    val goals: List<GoalViewData>,
+    val viewData: List<ViewHolderType>,
 ) {
 
     data class GoalViewData(

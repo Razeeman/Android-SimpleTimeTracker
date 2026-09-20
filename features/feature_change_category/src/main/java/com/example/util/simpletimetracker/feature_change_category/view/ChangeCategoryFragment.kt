@@ -144,10 +144,6 @@ class ChangeCategoryFragment :
         btnChangeCategoryDelete.setOnClick(viewModel::onDeleteClick)
         btnChangeCategoryStatistics.setOnClick(viewModel::onStatisticsClick)
         tvChangeCategoryMoreFields.setOnClick(viewModel::onMoreFieldsClick)
-        GoalsViewDelegate.initGoalUx(
-            viewModel = viewModel,
-            layout = layoutChangeCategoryGoals,
-        )
         addOnBackPressedListener(action = viewModel::onBackPressed)
     }
 
@@ -165,9 +161,6 @@ class ChangeCategoryFragment :
             goalsViewData.observe(::updateGoalsState)
             nameErrorMessage.observe(::updateNameErrorMessage)
             noteState.observe(::updateNoteState)
-            notificationsHintVisible.observe(
-                layoutChangeCategoryGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set,
-            )
             chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeCategoryName) else hideKeyboard()

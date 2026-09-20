@@ -5,7 +5,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapt
 import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordTypeGoalsViewData
 import com.example.util.simpletimetracker.feature_change_goals.api.GoalsViewModelDelegate
 import com.example.util.simpletimetracker.feature_change_goals.views.databinding.ChangeGoalsLayoutBinding
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 
 // TODO GOALS move to api?
 object GoalsViewDelegate {
@@ -14,20 +13,16 @@ object GoalsViewDelegate {
         layout: ChangeGoalsLayoutBinding,
         viewModel: GoalsViewModelDelegate,
     ) = with(layout) {
+        val goalsAdapter = BaseRecyclerAdapter(
+            createGoalsHeaderAdapterDelegate(viewModel::onNotificationsHintClick),
+            createGoalAdapterDelegate(viewModel),
+            createGoalsFooterAdapterDelegate(viewModel::onGoalAdd),
+        )
         rvChangeRecordTypeGoals.apply {
             itemAnimator = null
             layoutManager = LinearLayoutManager(context)
-            adapter = BaseRecyclerAdapter(createGoalAdapterDelegate(viewModel))
+            adapter = goalsAdapter
         }
-    }
-
-    fun initGoalUx(
-        viewModel: GoalsViewModelDelegate,
-        layout: ChangeGoalsLayoutBinding,
-    ) = with(layout) {
-        btnChangeRecordTypeGoalAdd.setOnClick(viewModel::onGoalAdd)
-        containerChangeRecordTypeGoalNotificationsHint
-            .setOnActionClick(viewModel::onNotificationsHintClick)
     }
 
     fun onResume(viewModel: GoalsViewModelDelegate) {
@@ -38,6 +33,6 @@ object GoalsViewDelegate {
         state: ChangeRecordTypeGoalsViewData,
         layout: ChangeGoalsLayoutBinding,
     ) {
-        (layout.rvChangeRecordTypeGoals.adapter as? BaseRecyclerAdapter)?.replace(state.goals)
+        (layout.rvChangeRecordTypeGoals.adapter as? BaseRecyclerAdapter)?.replace(state.viewData)
     }
 }

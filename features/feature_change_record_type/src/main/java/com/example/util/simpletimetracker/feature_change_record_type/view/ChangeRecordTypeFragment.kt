@@ -58,7 +58,6 @@ import com.example.util.simpletimetracker.feature_icon_selection.api.viewDelegat
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
@@ -195,10 +194,6 @@ class ChangeRecordTypeFragment :
             layout = containerChangeRecordTypeIcon,
             iconsLayoutManager = iconsLayoutManager,
         )
-        GoalsViewDelegate.initGoalUx(
-            viewModel = viewModel,
-            layout = layoutChangeRecordTypeGoals,
-        )
         addOnBackPressedListener(action = viewModel::onBackPressed)
     }
 
@@ -219,9 +214,6 @@ class ChangeRecordTypeFragment :
             nameErrorMessage.observe(::updateNameErrorMessage)
             additionalState.observe(::updateAdditionalState)
             noteState.observe(::updateNoteState)
-            notificationsHintVisible.observe(
-                layoutChangeRecordTypeGoals.containerChangeRecordTypeGoalNotificationsHint::visible::set,
-            )
             chooserState.observe(::updateChooserState)
             keyboardVisibility.observe { visible ->
                 if (visible) showKeyboard(etChangeRecordTypeName) else hideKeyboard()

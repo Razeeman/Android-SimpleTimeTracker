@@ -7,7 +7,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWe
 
 interface GoalsViewModelDelegate {
     val goalsViewData: LiveData<ChangeRecordTypeGoalsViewData>
-    val notificationsHintVisible: LiveData<Boolean>
 
     suspend fun initialize(id: RecordTypeGoal.IdData)
     fun onGoalsVisible()
