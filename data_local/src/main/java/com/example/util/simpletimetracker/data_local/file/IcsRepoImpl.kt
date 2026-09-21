@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.data_local.R
 import com.example.util.simpletimetracker.domain.backup.model.ResultCode
 import com.example.util.simpletimetracker.domain.backup.repo.IcsRepo
 import com.example.util.simpletimetracker.domain.category.model.Category
+import com.example.util.simpletimetracker.domain.category.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.category.repo.CategoryRepo
 import com.example.util.simpletimetracker.domain.category.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.record.model.Range
@@ -69,10 +70,10 @@ class IcsRepoImpl @Inject constructor(
 
             val recordTypes = recordTypeRepo.getAll().associateBy { it.id }
             val categories = categoryRepo.getAll().associateBy { it.id }
-            val recordTags = recordTagRepo.getAll()
-            val typeToCategories = recordTypes.map { (id, _) ->
-                id to recordTypeCategoryRepo.getCategoryIdsByType(id).mapNotNull { categories[it] }
-            }.toMap()
+            val recordTags = recordTagRepo.getAll().associateBy { it.id }
+            val typeToCategories = recordTypeCategoryRepo.getAll()
+                .groupBy(RecordTypeCategory::recordTypeId)
+                .mapValues { (_, relations) -> relations.mapNotNull { categories[it.categoryId] } }
 
             // Write data
             val records = if (range != null) {
@@ -83,12 +84,11 @@ class IcsRepoImpl @Inject constructor(
             records
                 .sortedBy { it.timeStarted }
                 .forEach { record ->
-                    val tagIds = record.tags.map(RecordBase.Tag::tagId)
                     toIcsString(
                         record = record,
                         recordType = recordTypes[record.typeId],
                         categories = typeToCategories[record.typeId].orEmpty(),
-                        recordTags = recordTags.filter { it.id in tagIds },
+                        recordTags = record.tags.mapNotNull { recordTags[it.tagId] },
                         recordTagsData = record.tags,
                     )
                         ?.toByteArray()
@@ -108,7 +108,7 @@ class IcsRepoImpl @Inject constructor(
             try {
                 fileOutputStream?.close()
                 fileDescriptor?.close()
-            } catch (e: IOException) {
+            } catch (_: IOException) {
                 // Do nothing
             }
         }

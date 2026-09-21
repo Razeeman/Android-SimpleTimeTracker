@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.domain.recordType.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.backup.repo.CsvRepo
 import com.example.util.simpletimetracker.domain.backup.model.ResultCode
 import com.example.util.simpletimetracker.domain.category.model.Category
+import com.example.util.simpletimetracker.domain.category.model.RecordTypeCategory
 import java.io.BufferedReader
 import java.io.FileOutputStream
 import java.io.IOException
@@ -69,10 +70,10 @@ class CsvRepoImpl @Inject constructor(
 
             val recordTypes = recordTypeRepo.getAll().associateBy { it.id }
             val categories = categoryRepo.getAll().associateBy { it.id }
-            val recordTags = recordTagRepo.getAll()
-            val typeToCategories = recordTypes.map { (id, _) ->
-                id to recordTypeCategoryRepo.getCategoryIdsByType(id).mapNotNull { categories[it] }
-            }.toMap()
+            val recordTags = recordTagRepo.getAll().associateBy { it.id }
+            val typeToCategories = recordTypeCategoryRepo.getAll()
+                .groupBy(RecordTypeCategory::recordTypeId)
+                .mapValues { (_, relations) -> relations.mapNotNull { categories[it.categoryId] } }
 
             // Write data
             val records = if (range != null) {
@@ -83,13 +84,12 @@ class CsvRepoImpl @Inject constructor(
             records
                 .sortedBy { it.timeStarted }
                 .forEach { record ->
-                    val tagIds = record.tags.map(RecordBase.Tag::tagId)
                     toCsvString(
                         dateTimeFormat = dateTimeFormat,
                         record = record,
                         recordType = recordTypes[record.typeId],
                         categories = typeToCategories[record.typeId].orEmpty(),
-                        recordTags = recordTags.filter { it.id in tagIds },
+                        recordTags = record.tags.mapNotNull { recordTags[it.tagId] },
                         recordTagsData = record.tags,
                     )
                         ?.toByteArray()
