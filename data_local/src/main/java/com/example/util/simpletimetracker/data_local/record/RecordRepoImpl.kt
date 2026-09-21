@@ -4,6 +4,7 @@ import androidx.collection.LruCache
 import com.example.util.simpletimetracker.data_local.base.logDataAccess
 import com.example.util.simpletimetracker.data_local.base.withLockedCache
 import com.example.util.simpletimetracker.data_local.recordTag.RecordToRecordTagDataLocalMapper
+import com.example.util.simpletimetracker.data_local.recordTag.RecordToRecordTagDao
 import com.example.util.simpletimetracker.domain.extension.dropMillis
 import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.record.model.Record
@@ -18,6 +19,7 @@ import javax.inject.Singleton
 @Singleton
 class RecordRepoImpl @Inject constructor(
     private val recordDao: RecordDao,
+    private val recordToRecordTagDao: RecordToRecordTagDao,
     private val recordDataLocalMapper: RecordDataLocalMapper,
     private val recordToRecordTagDataLocalMapper: RecordToRecordTagDataLocalMapper,
 ) : RecordRepo {
@@ -234,6 +236,12 @@ class RecordRepoImpl @Inject constructor(
     override suspend fun removeByType(typeId: Long) = mutex.withLockedCache(
         logMessage = "removeByType",
         accessSource = { recordDao.deleteByType(typeId) },
+        afterSourceAccess = { clearCache() },
+    )
+
+    override suspend fun removeTagFromAll(tagId: Long) = mutex.withLockedCache(
+        logMessage = "removeTagFromAll",
+        accessSource = { recordToRecordTagDao.deleteAllByTagId(tagId) },
         afterSourceAccess = { clearCache() },
     )
 

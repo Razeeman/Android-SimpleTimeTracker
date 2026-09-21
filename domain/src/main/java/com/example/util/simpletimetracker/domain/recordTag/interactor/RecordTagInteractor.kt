@@ -3,15 +3,15 @@ package com.example.util.simpletimetracker.domain.recordTag.interactor
 import com.example.util.simpletimetracker.domain.complexRule.interactor.ComplexRuleInteractor
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
+import com.example.util.simpletimetracker.domain.record.repo.RecordRepo
+import com.example.util.simpletimetracker.domain.record.repo.RunningRecordRepo
 import com.example.util.simpletimetracker.domain.recordTag.model.CardTagOrder
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTypeToTag
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordShortcutToRecordTagRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTagRepo
-import com.example.util.simpletimetracker.domain.recordTag.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTypeToDefaultTagRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTypeToTagRepo
-import com.example.util.simpletimetracker.domain.recordTag.repo.RunningRecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.SortCardsInteractor
@@ -21,8 +21,8 @@ import javax.inject.Inject
 
 class RecordTagInteractor @Inject constructor(
     private val repo: RecordTagRepo,
-    private val recordToRecordTagRepo: RecordToRecordTagRepo,
-    private val runningRecordToRecordTagRepo: RunningRecordToRecordTagRepo,
+    private val recordRepo: RecordRepo,
+    private val runningRecordRepo: RunningRecordRepo,
     private val recordShortcutToRecordTagRepo: RecordShortcutToRecordTagRepo,
     private val recordTypeToTagRepo: RecordTypeToTagRepo,
     private val recordTypeToDefaultTagRepo: RecordTypeToDefaultTagRepo,
@@ -91,8 +91,8 @@ class RecordTagInteractor @Inject constructor(
             .apply { remove(id) }
             .let { prefsInteractor.setFilteredTagsOnList(it) }
         repo.remove(id)
-        recordToRecordTagRepo.removeAllByTagId(id)
-        runningRecordToRecordTagRepo.removeAllByTagId(id)
+        recordRepo.removeTagFromAll(id)
+        runningRecordRepo.removeTagFromAll(id)
         recordShortcutToRecordTagRepo.removeAllByTagId(id)
         recordTypeToTagRepo.removeAll(id)
         recordTypeToDefaultTagRepo.removeAll(id)

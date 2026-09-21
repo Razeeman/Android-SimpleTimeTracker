@@ -65,5 +65,7 @@ interface RecordRepo {
 
     suspend fun removeByType(typeId: Long)
 
+    suspend fun removeTagFromAll(tagId: Long)
+
     suspend fun clear()
 }

@@ -9,6 +9,4 @@ interface RecordToRecordTagRepo {
     suspend fun getRecordIdsByTagId(tagId: Long): List<Long>
 
     suspend fun add(recordToRecordTag: RecordToRecordTag)
-
-    suspend fun removeAllByTagId(tagId: Long)
 }

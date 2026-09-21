@@ -13,7 +13,6 @@ import com.example.util.simpletimetracker.data_local.favourite.RecordTypeToFavou
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl
 import com.example.util.simpletimetracker.data_local.record.RecordRepoImpl
 import com.example.util.simpletimetracker.data_local.record.RunningRecordRepoImpl
-import com.example.util.simpletimetracker.data_local.recordTag.RunningRecordToRecordTagRepoImpl
 import com.example.util.simpletimetracker.data_local.recordTag.RecordTagRepoImpl
 import com.example.util.simpletimetracker.data_local.recordTag.RecordToRecordTagRepoImpl
 import com.example.util.simpletimetracker.data_local.recordTag.RecordTypeToDefaultTagRepoImpl
@@ -49,7 +48,6 @@ import com.example.util.simpletimetracker.domain.recordType.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTypeToDefaultTagRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTypeToTagRepo
 import com.example.util.simpletimetracker.domain.record.repo.RunningRecordRepo
-import com.example.util.simpletimetracker.domain.recordTag.repo.RunningRecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.backup.repo.BackupPartialRepo
 import com.example.util.simpletimetracker.domain.backup.repo.BackupRepo
 import com.example.util.simpletimetracker.domain.backup.repo.CsvRepo
@@ -129,10 +127,6 @@ interface DataLocalModuleBinds {
     @Binds
     @Singleton
     fun bindRecordToRecordTagRepo(impl: RecordToRecordTagRepoImpl): RecordToRecordTagRepo
-
-    @Binds
-    @Singleton
-    fun bindRunningRecordToRecordTagRepo(impl: RunningRecordToRecordTagRepoImpl): RunningRecordToRecordTagRepo
 
     @Binds
     @Singleton

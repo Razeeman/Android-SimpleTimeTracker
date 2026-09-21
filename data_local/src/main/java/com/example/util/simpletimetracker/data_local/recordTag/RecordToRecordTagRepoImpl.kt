@@ -35,10 +35,4 @@ class RecordToRecordTagRepoImpl @Inject constructor(
                     dao.insert(listOf(it))
                 }
         }
-
-    override suspend fun removeAllByTagId(tagId: Long) =
-        withContext(Dispatchers.IO) {
-            logDataAccess("remove all by tagId")
-            dao.deleteAllByTagId(tagId)
-        }
 }

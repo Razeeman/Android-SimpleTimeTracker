@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.data_local.record
 import com.example.util.simpletimetracker.data_local.base.logDataAccess
 import com.example.util.simpletimetracker.data_local.base.withLockedCache
 import com.example.util.simpletimetracker.data_local.recordTag.RunningRecordToRecordTagDataLocalMapper
+import com.example.util.simpletimetracker.data_local.recordTag.RunningRecordToRecordTagDao
 import com.example.util.simpletimetracker.domain.extension.dropMillis
 import com.example.util.simpletimetracker.domain.extension.removeIf
 import com.example.util.simpletimetracker.domain.extension.replaceWith
@@ -15,6 +16,7 @@ import javax.inject.Singleton
 @Singleton
 class RunningRecordRepoImpl @Inject constructor(
     private val dao: RunningRecordDao,
+    private val runningRecordToRecordTagDao: RunningRecordToRecordTagDao,
     private val mapper: RunningRecordDataLocalMapper,
     private val runningRecordToRecordTagDataLocalMapper: RunningRecordToRecordTagDataLocalMapper,
 ) : RunningRecordRepo {
@@ -71,6 +73,12 @@ class RunningRecordRepoImpl @Inject constructor(
         logMessage = "remove",
         accessSource = { dao.delete(id) },
         afterSourceAccess = { cache = cache?.removeIf { it.id == id } },
+    )
+
+    override suspend fun removeTagFromAll(tagId: Long) = mutex.withLockedCache(
+        logMessage = "removeTagFromAll",
+        accessSource = { runningRecordToRecordTagDao.deleteAllByTagId(tagId) },
+        afterSourceAccess = { cache = null },
     )
 
     override suspend fun clear() = mutex.withLockedCache(
