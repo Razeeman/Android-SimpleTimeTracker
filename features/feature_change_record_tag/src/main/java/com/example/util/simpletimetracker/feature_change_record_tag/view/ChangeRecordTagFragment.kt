@@ -48,7 +48,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHin
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.createRecordTypeAdapterDelegate
 import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordTypeGoalsViewData
-import com.example.util.simpletimetracker.feature_change_goals.views.GoalsViewDelegate
+import com.example.util.simpletimetracker.feature_change_goals.api.viewDelegate.GoalsViewDelegateProvider
 import com.example.util.simpletimetracker.feature_change_record_tag.R
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.Closed
 import com.example.util.simpletimetracker.feature_change_record_tag.viewData.ChangeRecordTagChooserState.Color
@@ -100,9 +100,15 @@ class ChangeRecordTagFragment :
     @Inject
     lateinit var iconSelectionViewDelegateProvider: IconSelectionViewDelegateProvider
 
+    @Inject
+    lateinit var goalsViewDelegateProvider: GoalsViewDelegateProvider
+
     private val viewModel: ChangeRecordTagViewModel by viewModels()
     private val iconSelectionViewDelegate by lazy {
         iconSelectionViewDelegateProvider.provide(viewModel, binding.containerChangeRecordTypeIcon)
+    }
+    private val goalsViewDelegate by lazy {
+        goalsViewDelegateProvider.provide(viewModel, binding.layoutChangeRecordTagGoals)
     }
 
     private val colorsAdapter: BaseRecyclerAdapter by lazy {
@@ -201,10 +207,7 @@ class ChangeRecordTagFragment :
             adapter = valueStateAdapter
         }
 
-        GoalsViewDelegate.initGoalUi(
-            layout = binding.layoutChangeRecordTagGoals,
-            viewModel = viewModel,
-        )
+        goalsViewDelegate.initUi()
 
         setOnPreDrawListener {
             startPostponedEnterTransition()
@@ -269,7 +272,7 @@ class ChangeRecordTagFragment :
 
     override fun onResume() {
         super.onResume()
-        GoalsViewDelegate.onResume(viewModel)
+        goalsViewDelegate.onResume()
     }
 
     override fun onDestroyView() {
@@ -493,10 +496,7 @@ class ChangeRecordTagFragment :
     }
 
     private fun updateGoalsState(state: ChangeRecordTypeGoalsViewData) = with(binding) {
-        GoalsViewDelegate.updateGoalsState(
-            state = state,
-            layout = layoutChangeRecordTagGoals,
-        )
+        goalsViewDelegate.updateGoalsState(state)
         layoutChangeRecordTagGoalPreview.isVisible = state.selectedCount > 0
         tvChangeRecordTagGoalPreview.text = state.selectedCount.toString()
     }

@@ -42,7 +42,7 @@ import com.example.util.simpletimetracker.feature_change_category.viewData.Chang
 import com.example.util.simpletimetracker.feature_change_category.viewData.ChangeCategoryTypesViewData
 import com.example.util.simpletimetracker.feature_change_category.viewModel.ChangeCategoryViewModel
 import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordTypeGoalsViewData
-import com.example.util.simpletimetracker.feature_change_goals.views.GoalsViewDelegate
+import com.example.util.simpletimetracker.feature_change_goals.api.viewDelegate.GoalsViewDelegateProvider
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.visible
@@ -54,6 +54,7 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import com.example.util.simpletimetracker.feature_change_category.databinding.ChangeCategoryFragmentBinding as Binding
 
 @AndroidEntryPoint
@@ -68,7 +69,13 @@ class ChangeCategoryFragment :
     override var insetConfiguration: InsetConfiguration =
         InsetConfiguration.ApplyToView { binding.root }
 
+    @Inject
+    lateinit var goalsViewDelegateProvider: GoalsViewDelegateProvider
+
     private val viewModel: ChangeCategoryViewModel by viewModels()
+    private val goalsViewDelegate by lazy {
+        goalsViewDelegateProvider.provide(viewModel, binding.layoutChangeCategoryGoals)
+    }
 
     private val colorsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
@@ -124,10 +131,7 @@ class ChangeCategoryFragment :
             adapter = typesAdapter
         }
 
-        GoalsViewDelegate.initGoalUi(
-            layout = binding.layoutChangeCategoryGoals,
-            viewModel = viewModel,
-        )
+        goalsViewDelegate.initUi()
 
         setOnPreDrawListener {
             startPostponedEnterTransition()
@@ -170,7 +174,7 @@ class ChangeCategoryFragment :
 
     override fun onResume() {
         super.onResume()
-        GoalsViewDelegate.onResume(viewModel)
+        goalsViewDelegate.onResume()
     }
 
     override fun onDestroy() {
@@ -291,10 +295,7 @@ class ChangeCategoryFragment :
     }
 
     private fun updateGoalsState(state: ChangeRecordTypeGoalsViewData) = with(binding) {
-        GoalsViewDelegate.updateGoalsState(
-            state = state,
-            layout = layoutChangeCategoryGoals,
-        )
+        goalsViewDelegate.updateGoalsState(state)
         layoutChangeCategoryGoalPreview.isVisible = state.selectedCount > 0
         tvChangeCategoryGoalPreview.text = state.selectedCount.toString()
     }

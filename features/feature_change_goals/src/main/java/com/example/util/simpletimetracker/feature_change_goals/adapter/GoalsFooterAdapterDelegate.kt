@@ -1,10 +1,10 @@
-package com.example.util.simpletimetracker.feature_change_goals.views
+package com.example.util.simpletimetracker.feature_change_goals.adapter
 
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_change_goals.views.GoalsFooterViewData as ViewData
-import com.example.util.simpletimetracker.feature_change_goals.views.databinding.ChangeGoalsFooterItemBinding as Binding
+import com.example.util.simpletimetracker.feature_change_goals.adapter.GoalsFooterViewData as ViewData
+import com.example.util.simpletimetracker.feature_change_goals.databinding.ChangeGoalsFooterItemBinding as Binding
 
 fun createGoalsFooterAdapterDelegate(
     onGoalAdd: () -> Unit,

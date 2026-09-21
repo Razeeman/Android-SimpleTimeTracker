@@ -137,7 +137,6 @@ dependencies {
     implementation(project(":feature_change_complex_rule"))
     implementation(project(":feature_change_goals"))
     implementation(project(":feature_change_goals:api"))
-    implementation(project(":feature_change_goals:views"))
     implementation(project(":feature_color_selection"))
     implementation(project(":feature_color_selection:api"))
     implementation(project(":feature_comment_selection"))

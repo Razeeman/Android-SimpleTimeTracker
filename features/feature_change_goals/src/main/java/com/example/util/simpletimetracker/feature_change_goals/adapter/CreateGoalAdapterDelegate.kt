@@ -1,4 +1,4 @@
-package com.example.util.simpletimetracker.feature_change_goals.views
+package com.example.util.simpletimetracker.feature_change_goals.adapter
 
 import android.graphics.Rect
 import androidx.core.view.isInvisible
@@ -15,7 +15,7 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordTypeGoalsViewData.GoalViewData as ViewData
-import com.example.util.simpletimetracker.feature_change_goals.views.databinding.ChangeGoalLayoutBinding as Binding
+import com.example.util.simpletimetracker.feature_change_goals.databinding.ChangeGoalLayoutBinding as Binding
 
 fun createGoalAdapterDelegate(
     viewModel: GoalsViewModelDelegate,

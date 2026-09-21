@@ -10,11 +10,11 @@ import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.dayOfWeek.DayOfWeekViewData
 import com.example.util.simpletimetracker.feature_change_goals.R
+import com.example.util.simpletimetracker.feature_change_goals.adapter.GoalsFooterViewData
+import com.example.util.simpletimetracker.feature_change_goals.adapter.GoalsHeaderViewData
 import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordTypeGoalsViewData
 import com.example.util.simpletimetracker.feature_change_goals.viewData.ChangeRecordTypeGoalSubtypeViewData
 import com.example.util.simpletimetracker.feature_change_goals.viewData.ChangeRecordTypeGoalsState
-import com.example.util.simpletimetracker.feature_change_goals.views.GoalsFooterViewData
-import com.example.util.simpletimetracker.feature_change_goals.views.GoalsHeaderViewData
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import javax.inject.Inject
 

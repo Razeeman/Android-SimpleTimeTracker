@@ -1,10 +1,10 @@
-package com.example.util.simpletimetracker.feature_change_goals.views
+package com.example.util.simpletimetracker.feature_change_goals.adapter
 
 import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_change_goals.views.GoalsHeaderViewData as ViewData
-import com.example.util.simpletimetracker.feature_change_goals.views.databinding.ChangeGoalsHeaderItemBinding as Binding
+import com.example.util.simpletimetracker.feature_change_goals.adapter.GoalsHeaderViewData as ViewData
+import com.example.util.simpletimetracker.feature_change_goals.databinding.ChangeGoalsHeaderItemBinding as Binding
 
 fun createGoalsHeaderAdapterDelegate(
     onNotificationsHintClick: () -> Unit,
