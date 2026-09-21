@@ -26,4 +26,6 @@ dependencies {
 
     ksp(libs.kapt.room)
     ksp(libs.kapt.dagger)
+
+    testImplementation(libs.test.junit)
 }

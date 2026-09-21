@@ -19,7 +19,6 @@ import com.example.util.simpletimetracker.domain.backup.repo.CsvRepo
 import com.example.util.simpletimetracker.domain.backup.model.ResultCode
 import com.example.util.simpletimetracker.domain.category.model.Category
 import com.example.util.simpletimetracker.domain.category.model.RecordTypeCategory
-import java.io.BufferedReader
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -66,7 +65,7 @@ class CsvRepoImpl @Inject constructor(
             fileOutputStream?.write(UTF8_BOM)
 
             // Write csv header
-            fileOutputStream?.write(CSV_HEADER.toByteArray())
+            fileOutputStream?.write(CSV_HEADER.toByteArray(Charsets.UTF_8))
 
             val recordTypes = recordTypeRepo.getAll().associateBy { it.id }
             val categories = categoryRepo.getAll().associateBy { it.id }
@@ -92,7 +91,7 @@ class CsvRepoImpl @Inject constructor(
                         recordTags = record.tags.mapNotNull { recordTags[it.tagId] },
                         recordTagsData = record.tags,
                     )
-                        ?.toByteArray()
+                        ?.toByteArray(Charsets.UTF_8)
                         ?.let { fileOutputStream?.write(it) }
                 }
 
@@ -116,48 +115,27 @@ class CsvRepoImpl @Inject constructor(
         uriString: String,
     ): ResultCode = withContext(Dispatchers.IO) {
         var inputStream: InputStream? = null
-        var reader: BufferedReader? = null
 
         try {
             val uri = uriString.toUri()
             inputStream = contentResolver.openInputStream(uri)
-            reader = inputStream?.let(::InputStreamReader)?.let(::BufferedReader)
+            val reader = inputStream
+                ?.let { InputStreamReader(it, Charsets.UTF_8) }
+                ?.let(::CsvReader)
 
-            var line = ""
-            var nextPart: String
             var addedRecords = 0L
             val currentTypes = recordTypeRepo.getAll()
             val newAddedTypes = mutableListOf<RecordType>()
 
             // Read data
-            while (reader?.readLine()?.also { line = it } != null) {
-                val typeName: String
-                if (line.startsWith(QUOTE)) {
-                    line = line.removePrefix("\"")
-                    typeName = line.substringBefore(delimiter = QUOTE, missingDelimiterValue = "")
-                    nextPart = line.removePrefix("$typeName$QUOTE,")
-                } else {
-                    typeName = line.substringBefore(delimiter = ",", missingDelimiterValue = "")
-                    nextPart = line.removePrefix("$typeName,")
-                }
-                line = nextPart
+            while (true) {
+                val columns = reader?.readRow() ?: break
+                if (columns.size < IMPORT_COLUMN_COUNT) continue
 
-                val timeStartedString = line.substringBefore(delimiter = ",", missingDelimiterValue = "")
-                val timeStarted = parseDateTime(timeStartedString)
-                line = line.removePrefix("$timeStartedString,")
-
-                val timeEndedString = line.substringBefore(delimiter = ",", missingDelimiterValue = "")
-                val timeEnded = parseDateTime(timeEndedString)
-                line = line.removePrefix("$timeEndedString,")
-
-                val comment: String
-                if (line.startsWith(QUOTE)) {
-                    line = line.removePrefix(QUOTE)
-                    comment = line.substringBefore(delimiter = QUOTE, missingDelimiterValue = "")
-                } else {
-                    // If comment is last column and there is no comma - take whole line.
-                    comment = line.substringBefore(delimiter = ",", missingDelimiterValue = line)
-                }
+                val typeName = columns[0]
+                val timeStarted = parseDateTime(columns[1])
+                val timeEnded = parseDateTime(columns[2])
+                val comment = columns[3]
 
                 if (
                     typeName.isNotEmpty() &&
@@ -202,7 +180,6 @@ class CsvRepoImpl @Inject constructor(
         } finally {
             try {
                 inputStream?.close()
-                reader?.close()
             } catch (_: IOException) {
                 // Do nothing
             }
@@ -218,21 +195,20 @@ class CsvRepoImpl @Inject constructor(
         recordTagsData: List<RecordBase.Tag>,
     ): String? {
         return if (recordType != null) {
-            String.format(
-                "\"%s\",%s,%s,\"%s\",\"%s\",\"%s\",%s,%s\n",
-                recordType.name.cleanText(),
-                formatDateTime(dateTimeFormat, record.timeStarted),
-                formatDateTime(dateTimeFormat, record.timeEnded),
-                record.comment.cleanText(),
-                categories
-                    .joinToString(separator = ", ", transform = { it.name })
-                    .cleanText(),
-                recordTagFullNameMapper.getFullName(
-                    tags = recordTags,
-                    tagData = recordTagsData,
-                ).cleanText(),
-                formatDuration(record.duration),
-                formatDurationMinutes(record.duration),
+            CsvWriter.writeRow(
+                listOf(
+                    recordType.name,
+                    formatDateTime(dateTimeFormat, record.timeStarted),
+                    formatDateTime(dateTimeFormat, record.timeEnded),
+                    record.comment,
+                    categories.joinToString(separator = ", ", transform = { it.name }),
+                    recordTagFullNameMapper.getFullName(
+                        tags = recordTags,
+                        tagData = recordTagsData,
+                    ),
+                    formatDuration(record.duration),
+                    formatDurationMinutes(record.duration),
+                ),
             )
         } else {
             null
@@ -276,14 +252,10 @@ class CsvRepoImpl @Inject constructor(
         return null
     }
 
-    private fun String.cleanText(): String {
-        return this.replace("\"", "\"\"")
-    }
-
     companion object {
-        private const val QUOTE = "\""
+        private const val IMPORT_COLUMN_COUNT = 4
         private val UTF8_BOM = byteArrayOf(0xEF.toByte(), 0xBB.toByte(), 0xBF.toByte())
         private const val CSV_HEADER =
-            "activity name,time started,time ended,comment,categories,record tags,duration,duration minutes\n"
+            "activity name,time started,time ended,comment,categories,record tags,duration,duration minutes\r\n"
     }
 }
