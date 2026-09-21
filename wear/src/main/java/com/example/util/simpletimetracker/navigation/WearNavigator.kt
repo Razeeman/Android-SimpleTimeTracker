@@ -14,10 +14,9 @@ import com.example.util.simpletimetracker.features.statistics.screen.StatisticsS
 import com.example.util.simpletimetracker.features.tagValueSelection.screen.TagValueSelectionScreen
 import com.example.util.simpletimetracker.features.tagsSelection.screen.TagsScreen
 import com.example.util.simpletimetracker.presentation.datePicker.WearDatePicker
+import com.example.util.simpletimetracker.presentation.datePicker.toLocalDate
 import com.example.util.simpletimetracker.presentation.dialog.MessageDialog
 import com.example.util.simpletimetracker.utils.getString
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 @Composable
 fun WearNavigator() {
@@ -87,9 +86,7 @@ fun WearNavigator() {
         }
         composable(WearNavigationRoute.DatePicker) { route, arguments ->
             val timestamp = route.get(arguments) ?: return@composable
-            val date = LocalDateTime
-                .ofEpochSecond(timestamp / 1000, 0, ZoneOffset.UTC)
-                .toLocalDate()
+            val date = timestamp.toLocalDate()
 
             WearDatePicker(
                 date = date,

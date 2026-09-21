@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterTyp
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.features.statistics.mapper.StatisticsViewDataMapper
 import com.example.util.simpletimetracker.features.statistics.screen.StatisticsListState
+import com.example.util.simpletimetracker.presentation.datePicker.toStartOfDayTimestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,7 +27,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.ZoneOffset
 import javax.inject.Inject
 
 @HiltViewModel
@@ -87,7 +87,7 @@ class StatisticsViewModel @Inject constructor(
 
     private fun onDateSelected(date: LocalDate) {
         timeMapper.toTimestampShift(
-            toTime = date.atStartOfDay(ZoneOffset.UTC).toEpochSecond() * 1000,
+            toTime = date.toStartOfDayTimestamp(),
             range = rangeLength,
             firstDayOfWeek = settings?.firstDayOfWeek ?: DayOfWeek.MONDAY,
         ).toInt().let(::changeShift)
