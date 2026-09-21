@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.data_local.recordTag
 
 import com.example.util.simpletimetracker.data_local.base.logDataAccess
-import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordToRecordTag
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordToRecordTagRepo
 import kotlinx.coroutines.Dispatchers
@@ -37,31 +36,9 @@ class RecordToRecordTagRepoImpl @Inject constructor(
                 }
         }
 
-    override suspend fun addRecordTags(recordId: Long, tags: List<RecordBase.Tag>) =
-        withContext(Dispatchers.IO) {
-            logDataAccess("add record tags")
-            tags.map {
-                mapper.map(recordId = recordId, recordTag = it)
-            }.let {
-                dao.insert(it)
-            }
-        }
-
     override suspend fun removeAllByTagId(tagId: Long) =
         withContext(Dispatchers.IO) {
             logDataAccess("remove all by tagId")
             dao.deleteAllByTagId(tagId)
-        }
-
-    override suspend fun removeAllByRecordId(recordId: Long) =
-        withContext(Dispatchers.IO) {
-            logDataAccess("remove all by recordId")
-            dao.deleteAllByRecordId(recordId)
-        }
-
-    override suspend fun clear() =
-        withContext(Dispatchers.IO) {
-            logDataAccess("clear")
-            dao.clear()
         }
 }

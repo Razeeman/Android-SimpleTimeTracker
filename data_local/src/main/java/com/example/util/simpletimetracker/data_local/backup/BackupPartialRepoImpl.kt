@@ -108,6 +108,7 @@ class BackupPartialRepoImpl @Inject constructor(
             val addedId = record.copy(
                 id = 0,
                 typeId = newTypeId,
+                tags = emptyList(),
             ).let { recordRepo.add(it) }
             originalRecordIdToAddedId[originalId] = addedId
         }

@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.data_local.record
 
 import com.example.util.simpletimetracker.data_local.base.logDataAccess
 import com.example.util.simpletimetracker.data_local.base.withLockedCache
+import com.example.util.simpletimetracker.data_local.recordTag.RunningRecordToRecordTagDataLocalMapper
 import com.example.util.simpletimetracker.domain.extension.dropMillis
 import com.example.util.simpletimetracker.domain.extension.removeIf
 import com.example.util.simpletimetracker.domain.extension.replaceWith
@@ -15,6 +16,7 @@ import javax.inject.Singleton
 class RunningRecordRepoImpl @Inject constructor(
     private val dao: RunningRecordDao,
     private val mapper: RunningRecordDataLocalMapper,
+    private val runningRecordToRecordTagDataLocalMapper: RunningRecordToRecordTagDataLocalMapper,
 ) : RunningRecordRepo {
 
     private var cache: List<RunningRecord>? = null
@@ -48,7 +50,14 @@ class RunningRecordRepoImpl @Inject constructor(
 
     override suspend fun add(runningRecord: RunningRecord): Long = mutex.withLockedCache(
         logMessage = "add",
-        accessSource = { dao.insert(runningRecord.let(mapper::map)) },
+        accessSource = {
+            dao.insert(
+                record = runningRecord.let(mapper::map),
+                recordTags = runningRecord.tags.map {
+                    runningRecordToRecordTagDataLocalMapper.map(runningRecord.id, it)
+                },
+            )
+        },
         afterSourceAccess = { id ->
             val new = runningRecord.copy(
                 id = id,

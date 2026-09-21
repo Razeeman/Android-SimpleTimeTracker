@@ -3,9 +3,11 @@ package com.example.util.simpletimetracker.data_local.record
 import androidx.collection.LruCache
 import com.example.util.simpletimetracker.data_local.base.logDataAccess
 import com.example.util.simpletimetracker.data_local.base.withLockedCache
+import com.example.util.simpletimetracker.data_local.recordTag.RecordToRecordTagDataLocalMapper
 import com.example.util.simpletimetracker.domain.extension.dropMillis
 import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.record.model.Record
+import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.repo.RecordRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
@@ -17,6 +19,7 @@ import javax.inject.Singleton
 class RecordRepoImpl @Inject constructor(
     private val recordDao: RecordDao,
     private val recordDataLocalMapper: RecordDataLocalMapper,
+    private val recordToRecordTagDataLocalMapper: RecordToRecordTagDataLocalMapper,
 ) : RecordRepo {
 
     private var getFromRangeCache = LruCache<GetFromRangeKey, List<Record>>(10)
@@ -178,7 +181,12 @@ class RecordRepoImpl @Inject constructor(
     override suspend fun add(record: Record): Long = mutex.withLockedCache(
         logMessage = "add",
         accessSource = {
-            recordDao.insert(record.let(recordDataLocalMapper::map))
+            recordDao.insert(
+                record = record.let(recordDataLocalMapper::map),
+                recordTags = record.tags.map {
+                    recordToRecordTagDataLocalMapper.map(record.id, it)
+                },
+            )
         },
         afterSourceAccess = { clearCache() },
     )
@@ -187,6 +195,7 @@ class RecordRepoImpl @Inject constructor(
         recordId: Long,
         typeId: Long,
         comment: String,
+        tags: List<RecordBase.Tag>,
     ) = mutex.withLockedCache(
         logMessage = "update",
         accessSource = {
@@ -194,6 +203,9 @@ class RecordRepoImpl @Inject constructor(
                 recordId = recordId,
                 typeId = typeId,
                 comment = comment,
+                recordTags = tags.map {
+                    recordToRecordTagDataLocalMapper.map(recordId, it)
+                },
             )
         },
         afterSourceAccess = { clearCache() },

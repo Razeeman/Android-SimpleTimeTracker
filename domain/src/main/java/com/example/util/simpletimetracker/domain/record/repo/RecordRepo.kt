@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.domain.record.repo
 
 import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.record.model.Record
+import com.example.util.simpletimetracker.domain.record.model.RecordBase
 
 interface RecordRepo {
 
@@ -55,6 +56,7 @@ interface RecordRepo {
         recordId: Long,
         typeId: Long,
         comment: String,
+        tags: List<RecordBase.Tag>,
     )
 
     suspend fun updateTimeEnded(recordId: Long, timeEnded: Long)

@@ -19,10 +19,4 @@ interface RecordToRecordTagDao {
 
     @Query("DELETE FROM recordToRecordTag WHERE record_tag_id = :tagId")
     suspend fun deleteAllByTagId(tagId: Long)
-
-    @Query("DELETE FROM recordToRecordTag WHERE record_id = :recordId")
-    suspend fun deleteAllByRecordId(recordId: Long)
-
-    @Query("DELETE FROM recordToRecordTag")
-    suspend fun clear()
 }

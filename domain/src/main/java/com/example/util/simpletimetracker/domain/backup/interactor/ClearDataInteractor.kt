@@ -20,10 +20,8 @@ import com.example.util.simpletimetracker.domain.record.repo.RunningRecordRepo
 import com.example.util.simpletimetracker.domain.recordShortcut.repo.RecordShortcutRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordShortcutToRecordTagRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTagRepo
-import com.example.util.simpletimetracker.domain.recordTag.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTypeToDefaultTagRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTypeToTagRepo
-import com.example.util.simpletimetracker.domain.recordTag.repo.RunningRecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.recordType.repo.RecordTypeGoalRepo
 import com.example.util.simpletimetracker.domain.recordType.repo.RecordTypeRepo
 import com.example.util.simpletimetracker.domain.recordsFilter.repo.FavouriteRecordsFilterRepo
@@ -36,12 +34,10 @@ class ClearDataInteractor @Inject constructor(
     private val recordShortcutRepo: RecordShortcutRepo,
     private val categoryRepo: CategoryRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
-    private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val recordTagRepo: RecordTagRepo,
     private val activityFilterRepo: ActivityFilterRepo,
     private val activitySuggestionRepo: ActivitySuggestionRepo,
     private val runningRecordRepo: RunningRecordRepo,
-    private val runningRecordToRecordTagRepo: RunningRecordToRecordTagRepo,
     private val favouriteCommentRepo: FavouriteCommentRepo,
     private val favouriteColorRepo: FavouriteColorRepo,
     private val recordTypeGoalRepo: RecordTypeGoalRepo,
@@ -77,11 +73,9 @@ class ClearDataInteractor @Inject constructor(
         categoryRepo.clear()
         recordTypeCategoryRepo.clear()
         recordTagRepo.clear()
-        recordToRecordTagRepo.clear()
         activityFilterRepo.clear()
         activitySuggestionRepo.clear()
         runningRecordRepo.clear()
-        runningRecordToRecordTagRepo.clear()
         favouriteCommentRepo.clear()
         favouriteColorRepo.clear()
         recordTypeGoalRepo.clear()
