@@ -2,9 +2,17 @@ package com.example.util.simpletimetracker.data_local.record
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "records")
+@Entity(
+    tableName = "records",
+    indices = [
+        Index(value = ["time_started"]),
+        Index(value = ["time_ended"]),
+        Index(value = ["type_id", "time_ended"]),
+    ],
+)
 data class RecordDBO(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
