@@ -34,11 +34,8 @@ import com.example.util.simpletimetracker.navigation.params.screen.OptionsListPa
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 
 @HiltViewModel
@@ -69,7 +66,7 @@ class CategoriesViewModel @Inject constructor(
     private var navBarHeightDp: Int = 0
     private var selectedTypeIds: List<Long> = emptyList()
     private var searchText: String = ""
-    private val tagIdToRecordCount: ConcurrentHashMap<Long, Int> = ConcurrentHashMap()
+    private var tagIdToRecordCount: Map<Long, Int> = emptyMap()
     private var searchJob: Job? = null
     private var loadJob: Job? = null
 
@@ -235,18 +232,16 @@ class CategoriesViewModel @Inject constructor(
     }
 
     private fun loadRecordsCount() = viewModelScope.launch {
-        tagIdToRecordCount.clear()
-        recordTagInteractor.getAll()
-            .filterNot(RecordTag::archived)
-            .map { tag ->
-                async {
-                    val count = recordToRecordTagInteractor.getRecordIdsByTagId(tag.id).size
-                    tagIdToRecordCount[tag.id] = count
-                    if (prefsInteractor.getIsCategoriesRelationsEnabled()) {
-                        updateCategories()
-                    }
-                }
-            }.awaitAll()
+        val tags = recordTagInteractor.getAll().filterNot(RecordTag::archived)
+        val recordCounts = recordToRecordTagInteractor.getRecordCountsByTag()
+
+        tagIdToRecordCount = tags.associate { tag ->
+            tag.id to recordCounts.getOrDefault(tag.id, 0)
+        }
+
+        if (tags.isNotEmpty() && prefsInteractor.getIsCategoriesRelationsEnabled()) {
+            updateCategories()
+        }
     }
 
     private suspend fun loadCategoriesViewData(): CategoriesViewData {

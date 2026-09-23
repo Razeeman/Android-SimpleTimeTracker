@@ -315,6 +315,8 @@ class BackupRepoImpl @Inject constructor(
             line = reader?.readLine().orEmpty()
             if (line != BACKUP_IDENTIFICATION) return@withContext errorCode
 
+            // Can erase all user data even on faulty backup file,
+            // this is intentional.
             if (clearData) clearDataInteractor.execute()
             if (clearPrefs) prefsInteractor.clear()
 

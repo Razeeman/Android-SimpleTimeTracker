@@ -14,6 +14,12 @@ interface RecordToRecordTagDao {
     @Query("SELECT record_id FROM recordToRecordTag WHERE record_tag_id = :tagId")
     suspend fun getRecordIdsByTagId(tagId: Long): List<Long>
 
+    @Query(
+        "SELECT record_tag_id, COUNT(*) AS record_count " +
+            "FROM recordToRecordTag GROUP BY record_tag_id",
+    )
+    suspend fun getRecordCountsByTag(): List<RecordToRecordTagCountDBO>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(recordToRecordTagDBO: List<RecordToRecordTagDBO>)
 

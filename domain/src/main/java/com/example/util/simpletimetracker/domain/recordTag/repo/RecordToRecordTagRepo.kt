@@ -8,5 +8,7 @@ interface RecordToRecordTagRepo {
 
     suspend fun getRecordIdsByTagId(tagId: Long): List<Long>
 
+    suspend fun getRecordCountsByTag(): Map<Long, Int>
+
     suspend fun add(recordToRecordTag: RecordToRecordTag)
 }

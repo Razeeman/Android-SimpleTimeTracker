@@ -26,6 +26,12 @@ class RecordToRecordTagRepoImpl @Inject constructor(
             dao.getRecordIdsByTagId(tagId)
         }
 
+    override suspend fun getRecordCountsByTag(): Map<Long, Int> =
+        withContext(Dispatchers.IO) {
+            logDataAccess("get record counts by tag")
+            dao.getRecordCountsByTag().associate { it.recordTagId to it.recordCount }
+        }
+
     override suspend fun add(recordToRecordTag: RecordToRecordTag) =
         withContext(Dispatchers.IO) {
             logDataAccess("add")

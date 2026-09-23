@@ -10,4 +10,8 @@ class RecordToRecordTagInteractor @Inject constructor(
     suspend fun getRecordIdsByTagId(tagId: Long): List<Long> {
         return repo.getRecordIdsByTagId(tagId)
     }
+
+    suspend fun getRecordCountsByTag(): Map<Long, Int> {
+        return repo.getRecordCountsByTag()
+    }
 }
