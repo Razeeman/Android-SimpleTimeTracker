@@ -77,6 +77,7 @@ class TagValueSelectionViewModel @Inject constructor(
             .replace(TAG_VALUE_DECIMAL_DELIMITER, '.')
             .replace(TAG_VALUE_MINUS_SIGN, '-')
             .toDoubleOrNull()
+            ?.takeIf { it.isFinite() }
         val result = TagValueSelectedInteractor.Result(
             tagId = tagId ?: return@launch,
             value = actualTagValue,

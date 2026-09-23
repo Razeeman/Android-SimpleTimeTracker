@@ -41,7 +41,8 @@ class ComplexRuleTagValuesMapper @Inject constructor(
                     }
                 }
                 else -> {
-                    val numericValue = parts[1].toDoubleOrNull() ?: return@forEach
+                    val numericValue = parts[1].toDoubleOrNull()
+                        ?.takeIf { it.isFinite() } ?: return@forEach
                     numericValues[tagId] = numericValue
                     tagIdsToSelectValueOnStart.remove(tagId)
                 }

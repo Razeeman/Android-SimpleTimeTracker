@@ -65,7 +65,6 @@ import com.example.util.simpletimetracker.feature_notification.activitySwitch.ma
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_CLICKED_TAG_ID
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TYPES_SHIFT
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TYPE_ID
-import com.example.util.simpletimetracker.feature_notification.external.NotificationExternalBroadcastController
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPE_CANCEL
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPE_STOP
 import com.example.util.simpletimetracker.feature_notification.scheduledReminder.controller.ScheduledReminderController
@@ -99,9 +98,6 @@ class NotificationReceiver : BroadcastReceiver() {
     lateinit var pomodoroController: NotificationPomodoroBroadcastController
 
     @Inject
-    lateinit var externalController: NotificationExternalBroadcastController
-
-    @Inject
     lateinit var scheduledReminderController: ScheduledReminderController
 
     @Inject
@@ -114,9 +110,7 @@ class NotificationReceiver : BroadcastReceiver() {
     lateinit var statisticsUpdateInteractor: StatisticsUpdateInteractor
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        val action = intent?.action
-        if (context == null || intent == null || action == null) return
-
+        val action = intent?.action ?: return
         goAsync { handleIntent(intent, action) }
     }
 
@@ -157,97 +151,19 @@ class NotificationReceiver : BroadcastReceiver() {
             -> {
                 goalTimeController.onRangeEndReminder()
             }
-            ACTION_AUTOMATIC_BACKUP,
-            ACTION_EXTERNAL_AUTOMATIC_BACKUP,
-            -> {
+            ACTION_AUTOMATIC_BACKUP -> {
                 try {
                     automaticBackupController.onReminder()
                 } finally {
                     automaticBackupController.onFinished()
                 }
             }
-            ACTION_AUTOMATIC_EXPORT,
-            ACTION_EXTERNAL_AUTOMATIC_EXPORT,
-            -> {
+            ACTION_AUTOMATIC_EXPORT -> {
                 try {
                     automaticExportController.onReminder()
                 } finally {
                     automaticExportController.onFinished()
                 }
-            }
-            ACTION_EXTERNAL_START_ACTIVITY -> {
-                val name = intent.getStringExtra(EXTRA_ACTIVITY_NAME)
-                val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
-                val tagNames = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
-                    ?.splitTagNames().orEmpty()
-                val timeStarted = intent.getStringExtra(EXTRA_RECORD_TIME_STARTED)
-                externalController.onActionExternalActivityStart(
-                    name = name,
-                    comment = comment,
-                    tagNames = tagNames,
-                    timeStarted = timeStarted,
-                )
-            }
-            ACTION_EXTERNAL_STOP_ACTIVITY -> {
-                val name = intent.getStringExtra(EXTRA_ACTIVITY_NAME)
-                val timeEnded = intent.getStringExtra(EXTRA_RECORD_TIME_ENDED)
-                externalController.onActionExternalActivityStop(
-                    name = name,
-                    timeEnded = timeEnded,
-                )
-            }
-            ACTION_EXTERNAL_STOP_ALL_ACTIVITIES -> {
-                externalController.onActionExternalActivityStopAll()
-            }
-            ACTION_EXTERNAL_STOP_SHORTEST_ACTIVITY -> {
-                externalController.onActionExternalActivityStopShortest()
-            }
-            ACTION_EXTERNAL_STOP_LONGEST_ACTIVITY -> {
-                externalController.onActionExternalActivityStopLongest()
-            }
-            ACTION_EXTERNAL_RESTART_ACTIVITY -> {
-                val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
-                val tagNames = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
-                    ?.splitTagNames().orEmpty()
-                externalController.onActionExternalActivityRestart(
-                    comment = comment,
-                    tagNames = tagNames,
-                )
-            }
-            ACTION_EXTERNAL_ADD_RECORD -> {
-                val name = intent.getStringExtra(EXTRA_ACTIVITY_NAME)
-                val timeStarted = intent.getStringExtra(EXTRA_RECORD_TIME_STARTED)
-                val timeEnded = intent.getStringExtra(EXTRA_RECORD_TIME_ENDED)
-                val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
-                val tagNames = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
-                    ?.splitTagNames().orEmpty()
-                externalController.onActionExternalRecordAdd(
-                    name = name,
-                    timeStarted = timeStarted,
-                    timeEnded = timeEnded,
-                    comment = comment,
-                    tagNames = tagNames,
-                )
-            }
-            ACTION_EXTERNAL_CHANGE_RECORD -> {
-                val findMode = intent.getStringExtra(EXTRA_FIND_RECORD_MODE)
-                val name = intent.getStringExtra(EXTRA_FIND_RECORD_WITH_ACTIVITY_NAME)
-                val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
-                val commentMode = intent.getStringExtra(EXTRA_RECORD_COMMENT_MODE)
-                externalController.onActionExternalRecordChange(
-                    findMode = findMode,
-                    name = name,
-                    comment = comment,
-                    commentMode = commentMode,
-                )
-            }
-            ACTION_EXTERNAL_CREATE_RECORD_TAG -> {
-                val name = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
-                val icon = intent.getStringExtra(EXTRA_RECORD_TYPE_ICON)
-                externalController.onActionExternalRecordTagAdd(
-                    name = name,
-                    icon = icon,
-                )
             }
             ACTION_EXTERNAL_QUERY_ACTIVITIES -> {
                 val answerType = intent.getStringExtra(EXTRA_ANSWER_TYPE)
@@ -445,6 +361,7 @@ class NotificationReceiver : BroadcastReceiver() {
             val numericValue = parts.getOrNull(1)
                 ?.takeIf(String::isNotBlank)
                 ?.toDoubleOrNull()
+                ?.takeIf { it.isFinite() }
             RecordBase.Tag(
                 tagId = tagId,
                 numericValue = numericValue,
@@ -464,10 +381,6 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun Intent.getRequiredValueSelectionTagIds(): List<Long> {
         return getLongArrayExtra(ARGS_REQUIRED_VALUE_SELECTION_TAGS)?.toList().orEmpty()
-    }
-
-    private fun String.splitTagNames(): List<String> {
-        return split(',').map(String::trim)
     }
 
     companion object {

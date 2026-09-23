@@ -211,9 +211,10 @@ class StatisticsDetailChartInteractor @Inject constructor(
             }
         }
 
-        fun multiplyDuration(tagValue: Double, record: RecordBase): Double {
+        fun multiplyDuration(tagValue: Double, record: RecordBase, range: Range): Double {
             return if (multiplyDuration) {
-                val hours: Double = record.duration.toDouble() / TimeUnit.HOURS.toMillis(1)
+                val duration = rangeMapper.clampToRange(record, range).duration
+                val hours: Double = duration.toDouble() / TimeUnit.HOURS.toMillis(1)
                 tagValue.times(hours)
             } else {
                 tagValue
@@ -237,7 +238,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
                             .firstOrNull { it.tagId == chartMode.tagId }
                             ?.numericValue
                             ?.times(TAG_VALUE_PRECISION)
-                            ?.let { multiplyDuration(it, record) }
+                            ?.let { multiplyDuration(it, record, range) }
                     }.takeUnless { it.isEmpty() }
                     when (chartValueMode) {
                         ChartValueMode.TOTAL -> tagsValues?.sum()?.roundToLong()
