@@ -9,7 +9,12 @@ import com.example.util.simpletimetracker.domain.record.model.RecordTimerEvent
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Singleton
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
+// Singleton here is to use one mutex.
+@Singleton
 class RemoveRunningRecordMediator @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
@@ -19,12 +24,17 @@ class RemoveRunningRecordMediator @Inject constructor(
     private val updateExternalViewsInteractor: UpdateExternalViewsInteractor,
 ) {
 
+    private val mutex = Mutex()
+
     suspend fun removeWithRecordAdd(
         runningRecord: RunningRecord,
         updateWidgets: Boolean = true,
         updateNotificationSwitch: Boolean = true,
         timeEnded: Long? = null, // null - take current time.
-    ) {
+    ) = mutex.withLock {
+        val runningRecord = runningRecordInteractor.get(runningRecord.id)
+            ?.takeIf { it.timeStarted == runningRecord.timeStarted }
+            ?: return@withLock
         val recordTimeEnded = timeEnded
             ?.coerceAtLeast(runningRecord.timeStarted)
             ?: System.currentTimeMillis()
@@ -46,7 +56,8 @@ class RemoveRunningRecordMediator @Inject constructor(
             comment = runningRecord.comment,
             timeStarted = runningRecord.timeStarted,
         )
-        remove(
+        removeInternal(
+            runningRecord = runningRecord,
             typeId = runningRecord.id,
             updateWidgets = updateWidgets,
             updateNotificationSwitch = updateNotificationSwitch,
@@ -60,8 +71,26 @@ class RemoveRunningRecordMediator @Inject constructor(
         updateNotificationSwitch: Boolean = true,
         checkPomodoroStop: Boolean = true,
         lifecycleEvent: RecordTimerEvent? = null,
-    ) {
+    ) = mutex.withLock {
         val runningRecord = runningRecordInteractor.get(typeId)
+        removeInternal(
+            runningRecord = runningRecord,
+            typeId = typeId,
+            updateWidgets = updateWidgets,
+            updateNotificationSwitch = updateNotificationSwitch,
+            checkPomodoroStop = checkPomodoroStop,
+            lifecycleEvent = lifecycleEvent,
+        )
+    }
+
+    private suspend fun removeInternal(
+        runningRecord: RunningRecord?,
+        typeId: Long,
+        updateWidgets: Boolean,
+        updateNotificationSwitch: Boolean,
+        checkPomodoroStop: Boolean = true,
+        lifecycleEvent: RecordTimerEvent?,
+    ) {
         runningRecordInteractor.remove(typeId)
         updateExternalViewsInteractor.onRunningRecordRemove(
             typeId = typeId,
