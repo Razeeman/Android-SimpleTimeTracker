@@ -195,12 +195,16 @@ class BackupPartialRepoImpl @Inject constructor(
             ).let { recordTypeToDefaultTagRepo.add(it) }
         }
         params.data.activityFilters.values.getNotExistingValues().forEach { activityFilter ->
-            val newTypeIds = activityFilter.selectedIds
-                .mapNotNull { originalTypeIdToAddedId[it] }
+            val originalIdToAddedId = when (activityFilter.type) {
+                is ActivityFilter.Type.Activity -> originalTypeIdToAddedId
+                is ActivityFilter.Type.Category -> originalCategoryIdToAddedId
+            }
+            val newSelectedIds = activityFilter.selectedIds
+                .mapNotNull { originalIdToAddedId[it] }
                 .toSet()
             activityFilter.copy(
                 id = 0,
-                selectedIds = newTypeIds,
+                selectedIds = newSelectedIds,
             ).let { activityFilterRepo.add(it) }
         }
         params.data.favouriteComments.values.getNotExistingValues().forEach { favComment ->
@@ -251,9 +255,12 @@ class BackupPartialRepoImpl @Inject constructor(
                 .mapNotNull { originalTypeIdToAddedId[it] }.toSet()
             val newAssignTagValues = rule.actionAssignTagValues
                 .mapNotNull { originalTagIdToAddedId[it.tagId]?.let { newId -> it.copy(tagId = newId) } }
+            val newAssignTagValueOnStartIds = rule.actionAssignTagValueOnStartIds
+                .mapNotNull { originalTagIdToAddedId[it] }.toSet()
             rule.copy(
                 id = 0,
                 actionAssignTagValues = newAssignTagValues,
+                actionAssignTagValueOnStartIds = newAssignTagValueOnStartIds,
                 conditionStartingTypeIds = newStartingTypeIds,
                 conditionCurrentTypeIds = newCurrentTypeIds,
             ).takeIf {
@@ -483,15 +490,15 @@ class BackupPartialRepoImpl @Inject constructor(
         }.list
 
         val newActivityFilters = activityFilters.map { item ->
-            val newTypeIds = item.selectedIds.mapNotNull {
-                if (item.type is ActivityFilter.Type.Activity) {
-                    originalTypeIdToExistingId[it]
-                } else {
-                    it
-                }
-            }.toSet()
+            val originalIdToExistingId = when (item.type) {
+                is ActivityFilter.Type.Activity -> originalTypeIdToExistingId
+                is ActivityFilter.Type.Category -> originalCategoryIdToExistingId
+            }
+            val newSelectedIds = item.selectedIds
+                .mapNotNull { originalIdToExistingId[it] }
+                .toSet()
             item.copy(
-                selectedIds = newTypeIds,
+                selectedIds = newSelectedIds,
             )
         }.let {
             mapToHolder(it, activityFiltersCurrent)
@@ -545,8 +552,11 @@ class BackupPartialRepoImpl @Inject constructor(
                 .mapNotNull { originalTypeIdToExistingId[it] }.toSet()
             val newAssignTagValues = item.actionAssignTagValues
                 .mapNotNull { originalTagIdToExistingId[it.tagId]?.let { newId -> it.copy(tagId = newId) } }
+            val newAssignTagValueOnStartIds = item.actionAssignTagValueOnStartIds
+                .mapNotNull { originalTagIdToExistingId[it] }.toSet()
             item.copy(
                 actionAssignTagValues = newAssignTagValues,
+                actionAssignTagValueOnStartIds = newAssignTagValueOnStartIds,
                 conditionStartingTypeIds = newStartingTypeIds,
                 conditionCurrentTypeIds = newCurrentTypeIds,
             ).takeIf {
